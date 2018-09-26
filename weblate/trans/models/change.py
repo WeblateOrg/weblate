@@ -116,15 +116,6 @@ class ChangeQuerySet(models.QuerySet):
             'component__project'
         )
 
-    def for_project(self, project):
-        return self.prefetch().filter(project=project)
-
-    def for_component(self, component):
-        return self.prefetch().filter(component=component)
-
-    def for_translation(self, translation):
-        return self.prefetch().filter(translation=translation)
-
     def last_changes(self, user):
         """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.

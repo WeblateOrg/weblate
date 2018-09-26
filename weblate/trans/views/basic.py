@@ -130,7 +130,7 @@ def show_project(request, project):
         dictionary__project=obj
     ).annotate(Count('dictionary'))
 
-    last_changes = Change.objects.for_project(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
         obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
@@ -184,7 +184,7 @@ def show_project(request, project):
 def show_component(request, project, component):
     obj = get_component(request, project, component)
 
-    last_changes = Change.objects.for_component(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(component=obj)[:10]
 
     # Is user allowed to do automatic translation?
     if request.user.has_perm('translation.auto', obj):
@@ -227,7 +227,7 @@ def show_component(request, project, component):
 def show_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     obj.stats.ensure_all()
-    last_changes = Change.objects.for_translation(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(translation=obj)[:10]
 
     # Get form
     form = get_upload_form(request.user, obj)

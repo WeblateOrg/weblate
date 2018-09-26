@@ -288,7 +288,7 @@ class ProjectViewSet(WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.for_project(obj)
+        queryset = Change.objects.prefetch().filter(project=obj)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
@@ -392,7 +392,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.for_component(obj)
+        queryset = Change.objects.prefetch().filter(component=obj)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
@@ -489,7 +489,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.for_translation(obj)
+        queryset = Change.objects.prefetch().filter(translation=obj)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
