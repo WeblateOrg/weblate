@@ -259,11 +259,13 @@ class MachineTranslation(object):
 
         if not self.is_supported(source, language):
             # Try without country code
-            if '_' in source or '-' in source:
-                source = source.replace('-', '_').split('_')[0]
+            source = source.replace('-', '_')
+            if '_' in source:
+                source = source.split('_')[0]
                 return self.translate(language, text, unit, user, source)
-            if '_' in language or '-' in language:
-                language = language.replace('-', '_').split('_')[0]
+            language = language.replace('-', '_')
+            if '_' in language:
+                language = language.split('_')[0]
                 return self.translate(language, text, unit, user, source)
             return []
 
