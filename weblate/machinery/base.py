@@ -240,7 +240,7 @@ class MachineTranslation(object):
             return True
         return False
 
-    def translate(self, language, text, unit, user):
+    def translate(self, language, text, unit, user, source=None):
         """Return list of machine translations."""
         if text == '':
             return []
@@ -248,20 +248,24 @@ class MachineTranslation(object):
         if self.is_rate_limited():
             return []
 
-        language = self.convert_language(language)
-        source = self.convert_language(
-            unit.translation.component.project.source_language.code
-        )
+        if source is None:
+            language = self.convert_language(language)
+            source = self.convert_language(
+                unit.translation.component.project.source_language.code
+            )
+
+        if source == language:
+            return []
+
         if not self.is_supported(source, language):
             # Try without country code
+            if '_' in source or '-' in source:
+                source = source.replace('-', '_').split('_')[0]
+                return self.translate(language, text, unit, user, source)
             if '_' in language or '-' in language:
                 language = language.replace('-', '_').split('_')[0]
-                if source == language:
-                    return []
-                if not self.is_supported(source, language):
-                    return []
-            else:
-                return []
+                return self.translate(language, text, unit, user, source)
+            return []
 
         cache_key = None
         if self.cache_translations:
