@@ -55,13 +55,12 @@ def get_github_email(access_token):
     """Get real email from GitHub"""
 
     request = Request('https://api.github.com/user/emails')
-    request.timeout = 1.0
     request.add_header('User-Agent', USER_AGENT)
     request.add_header(
         'Authorization',
         'token {0}'.format(access_token)
     )
-    handle = urlopen(request)
+    handle = urlopen(request, timeout=1.0)
     data = json.loads(handle.read().decode('utf-8'))
     email = None
     for entry in data:

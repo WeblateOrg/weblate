@@ -107,11 +107,10 @@ def download_avatar_image(user, size):
     """Download avatar image from remote server."""
     url = avatar_for_email(user.email, size)
     request = Request(url)
-    request.timeout = 0.5
     request.add_header('User-Agent', USER_AGENT)
 
     # Fire request
-    handle = urlopen(request)
+    handle = urlopen(request, timeout=0.5)
 
     # Read and possibly convert response
     return bytes(handle.read())

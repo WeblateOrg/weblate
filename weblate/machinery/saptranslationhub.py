@@ -102,7 +102,6 @@ class SAPTranslationHub(MachineTranslation):
         request = Request(
             translation_url if six.PY3 else translation_url.encode("utf-8")
         )
-        request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT.encode('utf-8'))
         request.add_header('Referer', get_site_url().encode('utf-8'))
         request.add_header('Content-Type', 'application/json; charset=utf-8')
@@ -112,7 +111,7 @@ class SAPTranslationHub(MachineTranslation):
 
         # Read and possibly convert response
         content = urlopen(
-            request, request_data_as_bytes
+            request, request_data_as_bytes, timeout=0.5
         ).read().decode('utf-8')
         # Replace literal \t
         content = content.strip().replace(

@@ -100,7 +100,6 @@ class MachineTranslation(object):
 
         # Create request object with custom headers
         request = Request(url)
-        request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT)
         request.add_header('Referer', get_site_url())
         # Optional authentication
@@ -109,9 +108,9 @@ class MachineTranslation(object):
 
         # Fire request
         if http_post:
-            handle = urlopen(request, params.encode('utf-8'))
+            handle = urlopen(request, params.encode('utf-8'), timeout=5.0)
         else:
-            handle = urlopen(request)
+            handle = urlopen(request, timeout=5.0)
 
         # Read and possibly convert response
         text = handle.read()
