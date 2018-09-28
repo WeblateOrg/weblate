@@ -151,9 +151,10 @@ class TranslationMemory(WhooshIndex):
     @classmethod
     def import_json(cls, fileobj, category=None, origin=None):
         from weblate.memory.tasks import update_memory_task
+        content = fileobj.read()
         try:
-            data = json.load(fileobj)
-        except ValueError:
+            data = json.loads(content.decode('utf-8'))
+        except (ValueError, UnicodeDecodeError):
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}
         fields = cls.SCHEMA().names()
