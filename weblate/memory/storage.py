@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import json
 import os.path
+import sys
 
 from django.utils.encoding import force_text
 from django.utils.translation import pgettext, ugettext as _
@@ -35,6 +36,7 @@ from whoosh import qparser
 from whoosh import query
 
 from weblate.lang.models import Language
+from weblate.utils.errors import report_error
 from weblate.utils.index import WhooshIndex
 from weblate.utils.search import Comparer
 
@@ -154,7 +156,8 @@ class TranslationMemory(WhooshIndex):
         content = fileobj.read()
         try:
             data = json.loads(content.decode('utf-8'))
-        except (ValueError, UnicodeDecodeError):
+        except (ValueError, UnicodeDecodeError) as error:
+            report_error(error, sys.exc_info())
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}
         fields = cls.SCHEMA().names()
@@ -189,7 +192,8 @@ class TranslationMemory(WhooshIndex):
             category = CATEGORY_FILE
         try:
             storage = tmxfile.parsefile(fileobj)
-        except SyntaxError:
+        except SyntaxError as error:
+            report_error(error, sys.exc_info())
             raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
             storage.document.getroot().iterchildren(
