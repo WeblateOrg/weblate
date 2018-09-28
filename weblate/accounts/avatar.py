@@ -110,7 +110,7 @@ def download_avatar_image(user, size):
     request.add_header('User-Agent', USER_AGENT)
 
     # Fire request
-    handle = urlopen(request, timeout=0.5)
+    handle = urlopen(request, timeout=1.0)
 
     # Read and possibly convert response
     return bytes(handle.read())
