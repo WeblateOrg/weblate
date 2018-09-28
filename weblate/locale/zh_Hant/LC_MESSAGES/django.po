@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-28 12:59+0000\n"
-"PO-Revision-Date: 2018-09-14 19:58+0000\n"
+"PO-Revision-Date: 2018-09-29 17:23+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -2298,30 +2298,24 @@ msgid "Unsupported file!"
 msgstr "不支援的檔案！"
 
 #: weblate/memory/storage.py:155
-#, fuzzy
-#| msgid "No valid entries found in the JSON file!"
 msgid "No valid entries found in the uploaded file!"
-msgstr "在 JSON 檔中找不到有效的條目！"
+msgstr "在上傳的檔案中找不到有效的條目！"
 
 #: weblate/memory/storage.py:167
 msgid "Failed to parse JSON file!"
 msgstr "解析 JSON 檔案失敗！"
 
 #: weblate/memory/storage.py:200
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse TMX file!"
-msgstr "解析 JSON 檔案失敗！"
+msgstr "解析 TMX 檔失敗！"
 
 #: weblate/memory/views.py:77
 msgid "Entries deleted."
 msgstr "條目已刪除。"
 
 #: weblate/memory/views.py:92
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Import of strings scheduled."
-msgstr "匯入為需要編輯的字串"
+msgstr "已安排字串的匯入。"
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
@@ -3088,11 +3082,8 @@ msgid "CLI usage example:"
 msgstr "CLI 用法範例："
 
 #: weblate/templates/accounts/profile.html:299
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Accessing Git repositories"
-msgstr "存取儲存庫"
+msgstr "存取 Git 儲存庫"
 
 #: weblate/templates/accounts/profile.html:301
 msgid ""
@@ -5063,17 +5054,15 @@ msgid "Import translation memory"
 msgstr "匯入翻譯記憶"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Import existing translations"
-msgstr "覆蓋現在的翻譯"
+msgstr "匯入既有的翻譯"
 
 #: weblate/templates/memory/index.html:72
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
-msgstr ""
+msgstr "安排將此專案的所有翻譯匯入翻譯記憶中。這在抹除翻譯記憶之後，或是初次設置時很有用處。"
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
@@ -5203,8 +5192,6 @@ msgid "Context"
 msgstr "情境"
 
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#, fuzzy
-#| msgid "Locations"
 msgid "Location"
 msgstr "位置"
 
@@ -5314,11 +5301,8 @@ msgid "Create component"
 msgstr "建立組件"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid ""
-#| "You currently do not have permission to create component in any project."
 msgid "You do not have permission to create components in any projects."
-msgstr "您目前尚未獲得在任何專案中建立組件的存取控制許可。"
+msgstr "您尚未獲得在任何專案中建立組件的許可。"
 
 #: weblate/templates/trans/component_form.html:16
 #: weblate/templates/trans/project_form.html:16
@@ -5356,6 +5340,8 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
+"在變更儲存庫 URL "
+"之後，既有的內容會和新的儲存庫合併。如果只是將儲存庫移動到不同位置去的話，這個動作不會有太大問題。但如果儲存庫的內容有所不同，最好是改為建立新的翻譯組件。"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8137,10 +8123,8 @@ msgid "This email address is not allowed."
 msgstr "不能使用這個電子郵件。"
 
 #: weblate/utils/validators.py:254
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Failed to evaluate plural equation: {}"
-msgstr "翻譯儲存失敗！"
+msgstr "評估複數形等式時失敗：{}"
 
 #: weblate/utils/views.py:195
 #, python-format
