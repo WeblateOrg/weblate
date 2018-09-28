@@ -187,7 +187,10 @@ class TranslationMemory(WhooshIndex):
         from weblate.memory.tasks import update_memory_task
         if category is None:
             category = CATEGORY_FILE
-        storage = tmxfile.parsefile(fileobj)
+        try:
+            storage = tmxfile.parsefile(fileobj)
+        except SyntaxError:
+            raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
             storage.document.getroot().iterchildren(
                 storage.namespaced("header")
