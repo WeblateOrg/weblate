@@ -61,7 +61,3 @@ def report_error(error, exc_info, request=None, extra_data=None, level=None):
         error.__class__.__name__,
         force_text(error).encode('utf-8')
     )
-
-    # Print error when running testsuite
-    if sys.argv[1:2] == ['test']:
-        traceback.print_exc()
