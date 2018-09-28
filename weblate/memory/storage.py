@@ -145,10 +145,16 @@ class TranslationMemory(WhooshIndex):
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
         if extension == '.tmx':
-            return cls.import_tmx(fileobj, langmap, category, origin)
-        if extension == '.json':
-            return cls.import_json(fileobj, category, origin)
-        raise MemoryImportError(_('Unsupported file!'))
+            result = cls.import_tmx(fileobj, langmap, category, origin)
+        elif extension == '.json':
+            result = cls.import_json(fileobj, category, origin)
+        else:
+            raise MemoryImportError(_('Unsupported file!'))
+        if not result:
+            raise MemoryImportError(
+                _('No valid entries found in the uploaded file!')
+            )
+        return result
 
     @classmethod
     def import_json(cls, fileobj, category=None, origin=None):
@@ -180,10 +186,7 @@ class TranslationMemory(WhooshIndex):
             record = {field: entry[field] for field in fields}
             update_memory_task.delay(**record)
             found += 1
-        if not found:
-            raise MemoryImportError(
-                _('No valid entries found in the JSON file!')
-            )
+        return found
 
     @classmethod
     def import_tmx(cls, fileobj, langmap=None, category=None, origin=None):
@@ -204,6 +207,7 @@ class TranslationMemory(WhooshIndex):
         source_language = cls.get_language_code(source_language_code, langmap)
 
         languages = {}
+        found = 0
         for unit in storage.units:
             # Parse translations (translate-toolkit does not care about
             # languages here, it just picks first and second XML elements)
@@ -231,6 +235,8 @@ class TranslationMemory(WhooshIndex):
                     origin=origin,
                     category=category,
                 )
+                found += 1
+        return found
 
     @staticmethod
     def get_filter(user, project, use_shared, use_file):
