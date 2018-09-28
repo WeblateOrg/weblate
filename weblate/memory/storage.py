@@ -161,7 +161,7 @@ class TranslationMemory(WhooshIndex):
         from weblate.memory.tasks import update_memory_task
         content = fileobj.read()
         try:
-            data = json.loads(content.decode('utf-8'))
+            data = json.loads(force_text(content))
         except (ValueError, UnicodeDecodeError) as error:
             report_error(error, sys.exc_info())
             raise MemoryImportError(_('Failed to parse JSON file!'))
