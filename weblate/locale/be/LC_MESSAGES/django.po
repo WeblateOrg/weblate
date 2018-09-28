@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-24 13:44+0000\n"
+"POT-Creation-Date: 2018-09-28 12:59+0000\n"
 "PO-Revision-Date: 2018-08-26 17:25+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -20,7 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.2-dev\n"
 
-#: weblate/accounts/avatar.py:125
+#: weblate/accounts/avatar.py:123
 msgctxt "No known user"
 msgid "None"
 msgstr "Невядомы"
@@ -483,23 +483,23 @@ msgstr "Нельга выкарыстоўваць папярэдні парол�
 msgid "Your password can't match a password you have used in the past."
 msgstr "Ваш пароль не можа супадаць з паролем, які вы выкарыстоўвалі раней."
 
-#: weblate/accounts/pipeline.py:296
+#: weblate/accounts/pipeline.py:295
 msgid "You can not complete password reset while logged in!"
 msgstr "Вы не можаце цалкам скінуць пароль, пакуль знаходзіцеся ў сістэме!"
 
-#: weblate/accounts/pipeline.py:300 weblate/accounts/pipeline.py:324
+#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
 msgid "The registration link has been invalidated."
 msgstr "Спасылка на рэгістрацыю ўжо не дзейная."
 
-#: weblate/accounts/pipeline.py:315
+#: weblate/accounts/pipeline.py:314
 msgid "You can not complete registration while logged in!"
 msgstr "Вы не можаце завяршыць рэгістрацыяю, пакуль знаходзіцеся ў сістэме!"
 
-#: weblate/accounts/pipeline.py:320
+#: weblate/accounts/pipeline.py:319
 msgid "You can confirm your registration only while logged in!"
 msgstr "Вы можаце пацвердзіць вашу рэгістрацыю толькі, калі ўвайдзеце!"
 
-#: weblate/accounts/pipeline.py:457
+#: weblate/accounts/pipeline.py:456
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -2002,7 +2002,7 @@ msgstr "Справа налева"
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:14
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:157 weblate/trans/forms.py:1176
+#: weblate/templates/project.html:163 weblate/trans/forms.py:1176
 #: weblate/trans/models/whiteboard.py:95
 msgid "Language"
 msgstr "Мова"
@@ -2372,51 +2372,57 @@ msgstr ""
 msgid "Confirm deleting all translation memory entries"
 msgstr ""
 
-#: weblate/memory/storage.py:64
+#: weblate/memory/storage.py:66
 #, fuzzy
 #| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Праект"
 
-#: weblate/memory/storage.py:66
+#: weblate/memory/storage.py:68
 #, fuzzy
 #| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Асабістая інфармацыя"
 
-#: weblate/memory/storage.py:68
+#: weblate/memory/storage.py:70
 #, fuzzy
 #| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Падзяліцца"
 
-#: weblate/memory/storage.py:70
+#: weblate/memory/storage.py:72
 #, fuzzy
 #| msgid "File"
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Файл"
 
-#: weblate/memory/storage.py:149
+#: weblate/memory/storage.py:152
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Unsupported file!"
 msgstr "Непадтрымліваемы фармат файла."
 
-#: weblate/memory/storage.py:157
+#: weblate/memory/storage.py:155
+#, fuzzy
+#| msgid "No related strings found in the glossary."
+msgid "No valid entries found in the uploaded file!"
+msgstr "Не знойдзена адпаведных радкоў у гласарыі."
+
+#: weblate/memory/storage.py:167
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
 msgstr "Не ўдалося прачытаць %d трапных файлаў!"
 
-#: weblate/memory/storage.py:181
+#: weblate/memory/storage.py:200
 #, fuzzy
-#| msgid "No related strings found in the glossary."
-msgid "No valid entries found in the JSON file!"
-msgstr "Не знойдзена адпаведных радкоў у гласарыі."
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to parse TMX file!"
+msgstr "Не ўдалося прачытаць %d трапных файлаў!"
 
 #: weblate/memory/views.py:77
 msgid "Entries deleted."
@@ -2469,7 +2475,7 @@ msgid "Source has been removed."
 msgstr "Крыніца была выдалена."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/basic.py:315
+#: weblate/trans/views/basic.py:319
 msgid "Permission Denied"
 msgstr "У доступе адмоўлена"
 
@@ -2487,7 +2493,7 @@ msgid ""
 "However, the following translation projects are available on this server:"
 msgstr "Аднак наступныя перакладніцкія праекты даступныя на серверы:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:302
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:306
 msgid "Page Not Found"
 msgstr "Старонка не знойдзена"
 
@@ -2500,7 +2506,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Праект, што вы шукаеце, не існуе або публічна не даступны."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:334
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:338
 msgid "Internal Server Error"
 msgstr "Унутраная памылка сервера"
 
@@ -2672,7 +2678,7 @@ msgstr "Карыстальнік"
 #: weblate/templates/about/stats.html:23 weblate/templates/language.html:38
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:8
-#: weblate/templates/project.html:105 weblate/templates/project.html:158
+#: weblate/templates/project.html:105 weblate/templates/project.html:164
 #: weblate/templates/translation.html:387
 #: weblate/trans/templatetags/translations.py:542 weblate/utils/state.py:33
 msgid "Translated"
@@ -3018,7 +3024,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Змяніць пароль"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:384
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:388
 #: weblate/trans/views/files.py:79
 msgid "Please fix errors in the form."
 msgstr "Калі ласка, папраўце памылкі ў фармуляры."
@@ -3850,7 +3856,7 @@ msgstr "Інструменты"
 #: weblate/templates/dashboard/user.html:112
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:52 weblate/templates/project.html:46
-#: weblate/templates/project.html:204
+#: weblate/templates/project.html:210
 #: weblate/templates/screenshots/screenshot_detail.html:79
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
 #: weblate/templates/search.html:15 weblate/templates/translate.html:55
@@ -3860,9 +3866,9 @@ msgid "Search"
 msgstr "Пошук"
 
 #: weblate/templates/component.html:54 weblate/templates/component.html:149
-#: weblate/templates/project.html:48 weblate/templates/project.html:213
+#: weblate/templates/project.html:48 weblate/templates/project.html:219
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:63
-#: weblate/templates/translation.html:230 weblate/trans/models/change.py:227
+#: weblate/templates/translation.html:230 weblate/trans/models/change.py:218
 msgid "Search and replace"
 msgstr "Пошук і замена"
 
@@ -3946,7 +3952,7 @@ msgstr "Вам не дастае дазволу пачаць новы перак
 msgid "Please log in to start new translation"
 msgstr "Зайдзіце, калі ласка, каб пачаць новы пераклад "
 
-#: weblate/templates/component.html:151 weblate/templates/project.html:215
+#: weblate/templates/component.html:151 weblate/templates/project.html:221
 #: weblate/templates/translation.html:232
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
@@ -3956,7 +3962,7 @@ msgstr ""
 "падрадка з улікам рэгістра."
 
 #: weblate/templates/component.html:156 weblate/templates/component.html:171
-#: weblate/templates/project.html:220 weblate/templates/project.html:235
+#: weblate/templates/project.html:226 weblate/templates/project.html:241
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:218
 #: weblate/templates/translation.html:237
 #: weblate/templates/translation.html:252
@@ -3964,12 +3970,12 @@ msgstr ""
 msgid "Process"
 msgstr "Працэс"
 
-#: weblate/templates/component.html:164 weblate/templates/project.html:228
-#: weblate/templates/translation.html:245 weblate/trans/models/change.py:234
+#: weblate/templates/component.html:164 weblate/templates/project.html:234
+#: weblate/templates/translation.html:245 weblate/trans/models/change.py:225
 msgid "Mass state change"
 msgstr "Масавая змена стану"
 
-#: weblate/templates/component.html:166 weblate/templates/project.html:230
+#: weblate/templates/component.html:166 weblate/templates/project.html:236
 #: weblate/templates/translation.html:247
 msgid "You can change state of all strings matching given type at once."
 msgstr "Вы можаце адразу змяніць стан усіх радкоў, што адпавядаюць уводу."
@@ -3978,7 +3984,7 @@ msgstr "Вы можаце адразу змяніць стан усіх радк
 msgid "Browse all component changes"
 msgstr "Праглядзець усе змены ў кампаненце"
 
-#: weblate/templates/component.html:189 weblate/templates/project.html:246
+#: weblate/templates/component.html:189 weblate/templates/project.html:252
 #: weblate/templates/translate.html:355 weblate/templates/translate.html:359
 #: weblate/templates/translation.html:319 weblate/trans/forms.py:232
 msgid "Loading…"
@@ -4074,7 +4080,7 @@ msgstr "Базавую мову перакладу нельга рэдагава
 msgid "The translation is using bilingual files."
 msgstr "Пераклад выкарыстоўвае двухмоўныя файлы."
 
-#: weblate/templates/component_info.html:46
+#: weblate/templates/component_info.html:46 weblate/templates/project.html:150
 #: weblate/trans/models/component.py:299
 msgid "Translation license"
 msgstr "Ліцэнзія перакладу"
@@ -4291,7 +4297,7 @@ msgstr "гласарыі"
 
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
-#: weblate/templates/project.html:106 weblate/templates/project.html:159
+#: weblate/templates/project.html:106 weblate/templates/project.html:165
 #: weblate/templates/translation.html:130
 #: weblate/templates/translation.html:376
 msgid "Words"
@@ -5402,15 +5408,15 @@ msgstr "спасылка"
 msgid "There are currently no translation components!"
 msgstr "Іншыя кампаненты перакладу"
 
-#: weblate/templates/project.html:186
+#: weblate/templates/project.html:192
 msgid "There are currently no glossaries defined for this project."
 msgstr "У дадзены момант адсутнічаюць гласарыі для гэтага праекта."
 
-#: weblate/templates/project.html:189
+#: weblate/templates/project.html:195
 msgid "Manage all glossaries"
 msgstr "Кіраваць усімі гласарыямі"
 
-#: weblate/templates/project.html:195
+#: weblate/templates/project.html:201
 msgid "Browse all project changes"
 msgstr "Праглядзець усе змены ў праекце"
 
@@ -5987,7 +5993,7 @@ msgid "Files"
 msgstr "Файлы"
 
 #: weblate/templates/translation.html:60 weblate/templates/translation.html:209
-#: weblate/trans/models/change.py:205
+#: weblate/trans/models/change.py:196
 msgid "Automatic translation"
 msgstr "Аўтаматычны пераклад"
 
@@ -6818,139 +6824,139 @@ msgstr "Стан для ўстанаўлення"
 msgid "I agree with the contributor agreement"
 msgstr "Я згодны з пагадненнем з удзельнікам"
 
-#: weblate/trans/models/change.py:199
+#: weblate/trans/models/change.py:190
 msgid "Resource update"
 msgstr "Абнаўленне рэсурсаў"
 
-#: weblate/trans/models/change.py:200
+#: weblate/trans/models/change.py:191
 msgid "Translation completed"
 msgstr "Пераклад скончаны"
 
-#: weblate/trans/models/change.py:201
+#: weblate/trans/models/change.py:192
 msgid "Translation changed"
 msgstr "Пераклад зменены"
 
-#: weblate/trans/models/change.py:202 weblate/trans/models/component.py:325
+#: weblate/trans/models/change.py:193 weblate/trans/models/component.py:325
 msgid "New translation"
 msgstr "Новы пераклад"
 
-#: weblate/trans/models/change.py:203
+#: weblate/trans/models/change.py:194
 msgid "Comment added"
 msgstr "Каментарый дададзены"
 
-#: weblate/trans/models/change.py:204
+#: weblate/trans/models/change.py:195
 msgid "Suggestion added"
 msgstr "Дададзена прапанова"
 
-#: weblate/trans/models/change.py:206
+#: weblate/trans/models/change.py:197
 msgid "Suggestion accepted"
 msgstr "Прапанова прынятая"
 
-#: weblate/trans/models/change.py:207
+#: weblate/trans/models/change.py:198
 msgid "Translation reverted"
 msgstr "Пераклад вернуты"
 
-#: weblate/trans/models/change.py:208
+#: weblate/trans/models/change.py:199
 msgid "Translation uploaded"
 msgstr "Пераклад загружаны"
 
-#: weblate/trans/models/change.py:209
+#: weblate/trans/models/change.py:200
 msgid "Glossary added"
 msgstr "Дададзена ў гласарый"
 
-#: weblate/trans/models/change.py:210
+#: weblate/trans/models/change.py:201
 msgid "Glossary updated"
 msgstr "Гласарый абноўлены"
 
-#: weblate/trans/models/change.py:211
+#: weblate/trans/models/change.py:202
 msgid "Glossary uploaded"
 msgstr "Гласарый загружаны"
 
-#: weblate/trans/models/change.py:212
+#: weblate/trans/models/change.py:203
 msgid "New source string"
 msgstr "Новы ключ"
 
-#: weblate/trans/models/change.py:213
+#: weblate/trans/models/change.py:204
 msgid "Component locked"
 msgstr "Кампанент заблакаваны"
 
-#: weblate/trans/models/change.py:214
+#: weblate/trans/models/change.py:205
 msgid "Component unlocked"
 msgstr "Кампанент адамкнуты"
 
-#: weblate/trans/models/change.py:215
+#: weblate/trans/models/change.py:206
 msgid "Detected duplicate string"
 msgstr "Знойдзены радок, што паўтараецца двойчы"
 
-#: weblate/trans/models/change.py:216
+#: weblate/trans/models/change.py:207
 msgid "Committed changes"
 msgstr "Змены запісаны"
 
-#: weblate/trans/models/change.py:217
+#: weblate/trans/models/change.py:208
 msgid "Pushed changes"
 msgstr "Змены адасланы"
 
-#: weblate/trans/models/change.py:218
+#: weblate/trans/models/change.py:209
 msgid "Reset repository"
 msgstr "Скінуць рэпазіторый"
 
-#: weblate/trans/models/change.py:219
+#: weblate/trans/models/change.py:210
 msgid "Merged repository"
 msgstr "Аб'яднаны рэпазіторый"
 
-#: weblate/trans/models/change.py:220
+#: weblate/trans/models/change.py:211
 msgid "Rebased repository"
 msgstr "Перамешчаны рэпазіторый"
 
-#: weblate/trans/models/change.py:221
+#: weblate/trans/models/change.py:212
 msgid "Failed merge on repository"
 msgstr "Памылка зліцця рэпазіторыя"
 
-#: weblate/trans/models/change.py:222
+#: weblate/trans/models/change.py:213
 msgid "Failed rebase on repository"
 msgstr "Не ўдалося перамясціць рэпазіторый"
 
-#: weblate/trans/models/change.py:223
+#: weblate/trans/models/change.py:214
 msgid "Failed push on repository"
 msgstr "Не ўдалося заштурхгнуць у рэпазіторый"
 
-#: weblate/trans/models/change.py:224
+#: weblate/trans/models/change.py:215
 msgid "Parse error"
 msgstr "Памылка разбору"
 
-#: weblate/trans/models/change.py:225
+#: weblate/trans/models/change.py:216
 msgid "Removed translation"
 msgstr "Выдалены пераклад"
 
-#: weblate/trans/models/change.py:226
+#: weblate/trans/models/change.py:217
 msgid "Suggestion removed"
 msgstr "Прапанова выдалена"
 
-#: weblate/trans/models/change.py:230
+#: weblate/trans/models/change.py:221
 msgid "Suggestion removed during cleanup"
 msgstr "Прапанова выдаленая падчас ачысткі"
 
-#: weblate/trans/models/change.py:232
+#: weblate/trans/models/change.py:223
 msgid "Source string changed"
 msgstr "Радок-зыходнік зменены"
 
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:224
 msgid "New string added"
 msgstr "Новы радок дададзены"
 
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:226
 msgid "Changed visibility"
 msgstr "Змененая бачнасць"
 
-#: weblate/trans/models/change.py:236
+#: weblate/trans/models/change.py:227
 msgid "Added user"
 msgstr "Даданы карыстальніка"
 
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:228
 msgid "Removed user"
 msgstr "Выдалены карыстальнік"
 
-#: weblate/trans/models/change.py:330
+#: weblate/trans/models/change.py:321
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ад %(time)s над %(translation)s правёў %(user)s"
@@ -8086,7 +8092,7 @@ msgstr ""
 "<a href=\"%(url)s\">Праект перакладу %(project)s</a> на беларускую "
 "ўтрымоўвае %(total)s радкоў на пераклад, з якіх перакладзена %(percent)s%%."
 
-#: weblate/trans/views/basic.py:374
+#: weblate/trans/views/basic.py:378
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запыт на новы пераклад адпраўлены дагляднікам праекта."
