@@ -96,7 +96,6 @@ def get_avatar_image(request, user, size):
             report_error(
                 error, sys.exc_info(), request,
                 extra_data={'avatar': user.username},
-                level='debug',
             )
             return get_fallback_avatar(size)
 
