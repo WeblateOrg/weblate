@@ -318,6 +318,12 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, '1 / 1')
         self.assertContains(response, 'datový tok')
 
+        # Filtering by string
+        response = self.client.get(dict_url, {'term': 'mark'})
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '1 / 1')
+        self.assertContains(response, 'záložka')
+
     def test_get_words(self):
         translation = self.get_translation()
         Dictionary.objects.create(

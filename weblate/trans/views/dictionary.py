@@ -39,7 +39,7 @@ from weblate.lang.models import Language
 from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
-from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
+from weblate.trans.forms import WordForm, DictUploadForm, LetterForm, OneWordForm
 from weblate.utils.views import get_project, import_message
 from weblate.utils.views import get_paginator
 
@@ -310,6 +310,16 @@ def show_dictionary(request, project, lang):
 
     letterform = LetterForm(request.GET)
 
+    searchform = OneWordForm(request.GET)
+
+    if searchform.is_valid() and searchform.cleaned_data['term'] != '':
+        words = words.filter(
+            source__icontains=searchform.cleaned_data['term']
+        )
+        search = searchform.cleaned_data['term']
+    else:
+        search = ''
+
     if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
         words = words.filter(
             source__istartswith=letterform.cleaned_data['letter']
@@ -334,9 +344,13 @@ def show_dictionary(request, project, lang):
             'language': lang,
             'page_obj': words,
             'form': form,
-            'query_string': 'letter={}'.format(letter) if letter else '',
+            'query_string': urlencode({
+                'term': search,
+                'letter': letter
+            }),
             'uploadform': uploadform,
             'letterform': letterform,
+            'searchform': searchform,
             'letter': letter,
             'last_changes': last_changes,
             'last_changes_url': urlencode({
