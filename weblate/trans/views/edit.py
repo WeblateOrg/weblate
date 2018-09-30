@@ -111,7 +111,9 @@ def cleanup_session(session):
         if not key.startswith('search_'):
             continue
         value = session[key]
-        if not isinstance(value, dict) or value['ttl'] < now:
+        if (not isinstance(value, dict) or
+                value['ttl'] < now or
+                'items' not in value):
             del session[key]
 
 
