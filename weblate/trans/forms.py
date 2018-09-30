@@ -672,7 +672,7 @@ class BaseSearchForm(forms.Form):
     def get_search_query(self):
         return None
 
-    def urlencode(self):
+    def items(self):
         items = []
         # Skip checksum and offset as these change
         ignored = set(('checksum', 'offset'))
@@ -707,7 +707,10 @@ class BaseSearchForm(forms.Form):
                 # It should be string here
                 if value:
                     items.append((param, value))
-        return urlencode(items)
+        return items
+
+    def urlencode(self):
+        return urlencode(self.items())
 
     def reset_offset(self):
         """Reset offset to avoid using form as default for new search."""

@@ -67,7 +67,10 @@
 
 <div class="panel-group">
 
-<form action="{{ unit.translation.get_translate_url }}?{{ search_url }}" method="GET">
+<form action="{{ unit.translation.get_translate_url }}" method="GET">
+{% for key, value in search_items %}
+<input type="hidden" name="{{ key }}" value="{{ value }}" />
+{% endfor %}
 <div class="form-group">
 <label class="control-label" for="id-goto-number">{% trans "Jump to position" %}</label>
 <div class="controls">

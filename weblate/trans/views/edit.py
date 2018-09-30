@@ -159,6 +159,7 @@ def search(translation, request):
     store_result = {
         'query': search_query,
         'url': search_url,
+        'items': form.items(),
         'key': session_key,
         'name': force_text(name),
         'ids': unit_ids,
@@ -539,6 +540,7 @@ def translate(request, project, component, lang):
             'others': get_other_units(unit),
             'total': translation.unit_set.all().count(),
             'search_url': search_result['url'],
+            'search_items': search_result['items'],
             'search_query': search_result['query'],
             'offset': offset,
             'filter_name': search_result['name'],
