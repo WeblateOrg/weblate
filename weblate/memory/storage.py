@@ -173,19 +173,20 @@ class TranslationMemory(WhooshIndex):
                 'origin': origin,
             }
         found = 0
-        for entry in data:
-            if not isinstance(entry, dict):
-                continue
-            # Apply overrides
-            entry.update(updates)
-            # Ensure all fields are set
-            for field in fields:
-                if not entry.get(field):
+        if isinstance(data, list):
+            for entry in data:
+                if not isinstance(entry, dict):
                     continue
-            # Ensure there are not extra fields
-            record = {field: entry[field] for field in fields}
-            update_memory_task.delay(**record)
-            found += 1
+                # Apply overrides
+                entry.update(updates)
+                # Ensure all fields are set
+                for field in fields:
+                    if not entry.get(field):
+                        continue
+                # Ensure there are not extra fields
+                record = {field: entry[field] for field in fields}
+                update_memory_task.delay(**record)
+                found += 1
         return found
 
     @classmethod

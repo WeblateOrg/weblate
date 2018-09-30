@@ -80,6 +80,15 @@ class MemoryTest(SimpleTestCase):
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
+    def test_import_empty_json_command(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_memory',
+                get_test_file('memory-empty.json')
+            )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
     def test_dump_command(self):
         add_document()
         output = StringIO()
