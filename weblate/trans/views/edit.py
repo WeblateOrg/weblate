@@ -473,9 +473,7 @@ def translate(request, project, component, lang):
     # Any form submitted?
     if 'skip' in request.POST:
         return redirect(next_unit_url)
-    if (request.method == 'POST' and
-          (not locked or 'delete' in request.POST)):
-
+    if (request.method == 'POST' and (not locked or 'delete' in request.POST)):
         if ('accept' not in request.POST and
                 'accept_edit' not in request.POST and
                 'delete' not in request.POST and
