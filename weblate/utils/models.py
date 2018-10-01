@@ -75,5 +75,5 @@ def update_source(sender, instance, created, **kwargs):
     cache.set(
         'last-content-change-{}'.format(instance.translation.pk),
         instance.pk,
-        30 * 86400
+        180 * 86400
     )
