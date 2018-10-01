@@ -135,7 +135,9 @@ def search(translation, request):
     search_url = form.urlencode()
     session_key = 'search_{0}_{1}'.format(translation.pk, search_url)
 
-    if session_key in request.session and 'offset' in request.GET:
+    if (session_key in request.session and
+            'offset' in request.GET and
+            'items' in request.session[session_key]):
         search_result.update(request.session[session_key])
         return search_result
 
