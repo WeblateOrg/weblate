@@ -39,11 +39,12 @@ flags`); here is a list of flags currently accepted:
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
-    :ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-same`.
+    :ref:`check-c-sharp-format`, :ref:`check-java-format`,
+    :ref:`check-java-messageformat`, :ref:`check-same`.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
 ``ignore-inconsistent``

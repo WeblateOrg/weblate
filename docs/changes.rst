@@ -26,6 +26,7 @@ Released on ? 2018.
 * Built in translation memory now automatically stores transaltions done.
 * Users and projects can import their existing translation memories.
 * Better management of related strings for screenshots.
+* Added support for checking Java MessageFormat.
 
 See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/milestone/36?closed=1>`_
 for detailed list of addressed issues.

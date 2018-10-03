@@ -138,6 +138,21 @@ JAVA_MATCH = re.compile(
     re.VERBOSE
 )
 
+JAVA_MESSAGE_MATCH = re.compile(
+    r'''
+    {                                   # initial {
+        (?P<arg>\d+)                    # variable order
+        \s*
+        (
+        ,\s*(?P<format>[a-z]+)          # format type
+        (,\s*(?P<style>\S+))?            # format style
+        )?
+        \s*
+    }                                   # Ending }
+    ''',
+    re.VERBOSE
+)
+
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
@@ -326,3 +341,38 @@ class JavaFormatCheck(BaseFormatCheck):
 
     def is_position_based(self, string):
         return '$' not in string and string != '%'
+
+
+class JavaMessageFormatCheck(BaseFormatCheck):
+    """Check for Java MessageFormat string"""
+    check_id = 'java_messageformat'
+    name = _('Java MessageFormat')
+    description = _('Java MessageFormat string does not match source')
+    regexp = JAVA_MESSAGE_MATCH
+
+    def is_position_based(self, string):
+        return False
+
+    def should_skip(self, unit):
+        if ('auto-java-messageformat' in unit.all_flags and
+                '{0' in unit.source):
+            return False
+
+        return super(JavaMessageFormatCheck, self).should_skip(unit)
+
+    def cleanup_string(self, text):
+        """No cleanups here"""
+        return text
+
+    def check_format(self, source, target, ignore_missing):
+        """Generic checker for format strings."""
+        if not target or not source:
+            return False
+
+        # Even number of quotes
+        if target.count("'") % 2 != 0:
+            return True
+
+        return super(JavaMessageFormatCheck, self).check_format(
+            source, target, ignore_missing
+        )
