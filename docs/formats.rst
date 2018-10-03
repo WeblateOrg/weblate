@@ -272,7 +272,15 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
+Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format. All of
+them supports storing all Unicode characters, it's just differently encoded. In
+the ISO-8859-1 the Unicode escape sequences are used (eg. ``zkou\u0161ka``),
+all others encode characters directly either in UTF-8 or UTF-16.
+
+.. note::
+
+   Loading of escape sequences will work in UTF-8 mode as well, so please be
+   careful chosing correct charset matching your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
