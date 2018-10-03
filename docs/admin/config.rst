@@ -1146,6 +1146,8 @@ List of file formats available for use, you can usually keep this on default val
 WEBLATE_NEWLINES
 ----------------
 
+.. versionadded:: 3.2
+
 Override how newlines are stored in the translation files. By default Weblate
 stores newlines as Unix (``\n``) as that is what all browsers use. By setting
 this to any string you will change how newlines are stored. While technically
