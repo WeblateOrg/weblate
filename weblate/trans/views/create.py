@@ -36,6 +36,11 @@ class BaseCreateView(CreateView):
         super(BaseCreateView, self).__init__(**kwargs)
         self.has_billing = 'weblate.billing' in settings.INSTALLED_APPS
 
+    def get_form_kwargs(self):
+        kwargs = super(BaseCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 @method_decorator(login_required, name='dispatch')
 class CreateProject(BaseCreateView):

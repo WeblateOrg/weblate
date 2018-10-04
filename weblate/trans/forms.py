@@ -56,7 +56,7 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
-from weblate.trans.util import sort_choices
+from weblate.trans.util import sort_choices, is_repo_link
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
@@ -1333,7 +1333,33 @@ class ReportsForm(forms.Form):
             raise ValidationError({'start_date': msg, 'end_date': msg})
 
 
-class ComponentSettingsForm(forms.ModelForm):
+class SettingsBaseForm(forms.ModelForm):
+    """Component base form."""
+    class Meta(object):
+        model = Component
+        fields = []
+
+    def __init__(self, request, *args, **kwargs):
+        super(SettingsBaseForm, self).__init__(*args, **kwargs)
+        self.request = request
+
+    def clean_repo(self):
+        repo = self.cleaned_data.get('repo')
+        if not repo or not is_repo_link(repo):
+            return repo
+        project, component = repo[10:].split('/', 1)
+        try:
+            obj = Component.objects.get(slug=component, project__slug=project)
+        except Component.DoesNotExist:
+            return repo
+        if not self.request.user.has_perm('component.edit', obj):
+            raise ValidationError(
+                _('You do not have permission to access this component!')
+            )
+        return repo
+
+
+class ComponentSettingsForm(SettingsBaseForm):
     """Component settings form."""
     class Meta(object):
         model = Component
@@ -1370,8 +1396,8 @@ class ComponentSettingsForm(forms.ModelForm):
             'language_regex',
         )
 
-    def __init__(self, *args, **kwargs):
-        super(ComponentSettingsForm, self).__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentSettingsForm, self).__init__(request, *args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -1452,28 +1478,7 @@ class ComponentSettingsForm(forms.ModelForm):
         )
 
 
-class ProjectCreateForm(forms.ModelForm):
-    """Project creation form."""
-    # This is fake field with is either hidden or configured
-    # in the view
-    billing = forms.ModelChoiceField(
-        label=_('Billing'),
-        queryset=User.objects.none(),
-        required=True,
-        empty_label=None,
-    )
-
-    class Meta(object):
-        model = Project
-        fields = ('name', 'slug', 'web', 'mail', 'instructions')
-
-    def __init__(self, *args, **kwargs):
-        super(ProjectCreateForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-
-
-class ComponentCreateForm(forms.ModelForm):
+class ComponentCreateForm(SettingsBaseForm):
     """Component creation form."""
     class Meta(object):
         model = Component
@@ -1483,13 +1488,13 @@ class ComponentCreateForm(forms.ModelForm):
             'license', 'new_lang', 'language_regex',
         ]
 
-    def __init__(self, *args, **kwargs):
-        super(ComponentCreateForm, self).__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentCreateForm, self).__init__(request, *args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
 
 
-class ProjectSettingsForm(forms.ModelForm):
+class ProjectSettingsForm(SettingsBaseForm):
     """Project settings form."""
     class Meta(object):
         model = Project
@@ -1504,11 +1509,32 @@ class ProjectSettingsForm(forms.ModelForm):
             'source_language',
         )
 
-    def __init__(self, *args, **kwargs):
-        super(ProjectSettingsForm, self).__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.disable_csrf = True
+
+
+class ProjectCreateForm(SettingsBaseForm):
+    """Project creation form."""
+    # This is fake field with is either hidden or configured
+    # in the view
+    billing = forms.ModelChoiceField(
+        label=_('Billing'),
+        queryset=User.objects.none(),
+        required=True,
+        empty_label=None,
+    )
+
+    class Meta(object):
+        model = Project
+        fields = ('name', 'slug', 'web', 'mail', 'instructions')
+
+    def __init__(self, request, *args, **kwargs):
+        super(ProjectCreateForm, self).__init__(request, *args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
 
 
 class ProjectAccessForm(forms.ModelForm):

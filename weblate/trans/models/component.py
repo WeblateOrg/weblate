@@ -1276,6 +1276,10 @@ class Component(models.Model, URLMixin, PathMixin):
             msg = _('Unsupported file format: {0}').format(self.file_format)
             raise ValidationError({'file_format': msg})
 
+        # Baild out on failed repo validation
+        if self.repo is None:
+            return
+
         # Validate VCS repo
         try:
             self.sync_git_repo(True)
