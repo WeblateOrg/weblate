@@ -324,6 +324,20 @@ class UnitTest(ModelTestCase):
         unit = Unit.objects.all()[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 
+    def test_newlines(self):
+        request = HttpRequest()
+        request.user = create_test_user()
+        unit = Unit.objects.all()[0]
+        unit.translate(request, 'new\nstring', STATE_TRANSLATED)
+        self.assertEqual(unit.target, 'new\nstring')
+        # New object to clear all_flags cache
+        unit = Unit.objects.all()[0]
+        unit.flags = 'dos-eol'
+        unit.translate(request, 'new\nstring', STATE_TRANSLATED)
+        self.assertEqual(unit.target, 'new\r\nstring')
+        unit.translate(request, 'other\r\nstring', STATE_TRANSLATED)
+        self.assertEqual(unit.target, 'other\r\nstring')
+
 
 class WhiteboardMessageTest(ModelTestCase):
     """Test(s) for WhiteboardMessage model."""

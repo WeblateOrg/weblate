@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from copy import copy
 import functools
+import re
 import sys
 
 from django.conf import settings
@@ -69,6 +70,8 @@ SIMPLE_FILTERS = {
 }
 
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
+
+NEWLINES = re.compile(r'\r\n|\r|\n')
 
 
 class UnitManager(models.Manager):
@@ -953,6 +956,11 @@ class Unit(models.Model, LoggerMixin):
         else:
             self.target = join_plural(new_target)
             not_empty = bool(max(new_target))
+
+        # Newlines fixup
+        if 'dos-eol' in self.all_flags:
+            self.target = NEWLINES.sub('\r\n', self.target)
+
         if not_empty:
             self.state = new_state
         else:

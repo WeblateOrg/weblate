@@ -35,6 +35,8 @@ flags`); here is a list of flags currently accepted:
 
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
+``dos-eol``
+    Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``max-length:N``
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
