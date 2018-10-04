@@ -1141,25 +1141,6 @@ List of file formats available for use, you can usually keep this on default val
 
     :ref:`formats`
 
-.. setting:: WEBLATE_NEWLINES
-
-WEBLATE_NEWLINES
-----------------
-
-Override how newlines are stored in the translation files. By default Weblate
-stores newlines as Unix (``\n``) as that is what all browsers use. By setting
-this to any string you will change how newlines are stored. While technically
-you can use any string here, the only choices which make reasonable sense are
-DOS (``\r\n``) or Mac (``\r``) newlines, for example:
-
-.. code-block:: python
-
-      WEBLATE_NEWLINES = '\r\n'
-
-.. warning::
-
-   This setting only affects saving of translations, parsing is not affected.
-
 .. setting:: WEBLATE_GPG_IDENTITY
 
 WEBLATE_GPG_IDENTITY

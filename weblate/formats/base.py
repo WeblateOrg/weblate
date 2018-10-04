@@ -30,8 +30,6 @@ import tempfile
 
 import six
 
-from django.conf import settings
-
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
@@ -268,17 +266,7 @@ class FileUnit(object):
 
     def set_target(self, target):
         """Set translation unit target."""
-        def fixup_newline(text):
-            return text.replace('\n', settings.WEBLATE_NEWLINES)
-
-        if settings.WEBLATE_NEWLINES:
-            if isinstance(target, list):
-                target = multistring(
-                    [fixup_newline(x) for x in target]
-                )
-            else:
-                target = fixup_newline(target)
-        elif isinstance(target, list):
+        if isinstance(target, list):
             target = multistring(target)
         self.unit.target = target
         # Propagate to value so that is_translated works correctly

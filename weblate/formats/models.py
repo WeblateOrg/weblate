@@ -96,7 +96,6 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.WindowsRCFormat',
         'weblate.formats.external.XlsxFormat',
     )
-    NEWLINES = None
 
     class Meta(object):
         prefix = 'WEBLATE'

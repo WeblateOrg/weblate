@@ -25,7 +25,6 @@ import os.path
 from unittest import TestCase, SkipTest
 
 from django.test import SimpleTestCase
-from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 import translate.__version__
@@ -192,26 +191,17 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
 
         # Read new content
         with open(testfile, 'rb') as handle:
-            newdata = force_text(handle.read())
+            newdata = handle.read()
 
         # Check if content matches
         if edit:
             with self.assertRaises(AssertionError):
-                self.assert_same(newdata, force_text(testdata))
+                self.assert_same(force_text(newdata), force_text(testdata))
         else:
-            self.assert_same(newdata, force_text(testdata))
-
-        return newdata
+            self.assert_same(force_text(newdata), force_text(testdata))
 
     def test_edit(self):
         self.test_save(True)
-
-    def test_newlines(self):
-        # The value we use here is not practical, but used only for tests
-        newline = '__newline__'
-        with override_settings(WEBLATE_NEWLINES=newline):
-            data = self.test_save(True)
-            self.assertIn(newline, data)
 
     def assert_same(self, newdata, testdata):
         """Content aware comparison.
@@ -570,7 +560,4 @@ class WindowsRCFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = None
 
     def test_edit(self):
-        raise SkipTest('Known to be broken')
-
-    def test_newlines(self):
         raise SkipTest('Known to be broken')
