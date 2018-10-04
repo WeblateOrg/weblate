@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-28 12:59+0000\n"
 "PO-Revision-Date: 2018-10-04 06:30+0000\n"
-"Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -732,19 +732,19 @@ msgstr "77 文字または改行文字で改行する"
 
 #: weblate/addons/forms.py:86
 msgid "Only wrap lines at newlines"
-msgstr "改行でのみ折り返す"
+msgstr "改行文字でのみ改行する"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
-msgstr "行を折り返さない"
+msgstr "改行しない"
 
 #: weblate/addons/forms.py:92
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
-"既定では、 gettext は 77 文字を超えた場合や改行の存在で行を折り返します。 --"
-"no-wrap パラメータを指定すると、改行でのみ折り返します。"
+"デフォルトでは、gettext は 77 文字を超えた場合や改行文字で行を改行します。--no-wrap "
+"パラメータを指定すると、改行文字でのみ改行します。"
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -761,7 +761,7 @@ msgstr "翻訳ファイルへのマッチングに使用する正規表現"
 #: weblate/addons/forms.py:128 weblate/trans/forms.py:568
 #: weblate/trans/models/component.py:230
 msgid "File format"
-msgstr "ファイルフォーマット"
+msgstr "ファイル形式"
 
 #: weblate/addons/forms.py:133 weblate/trans/models/component.py:235
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -788,9 +788,7 @@ msgstr "新しい翻訳に対する基本ファイルの定義"
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr ""
-"新しい翻訳を作成する際に使用するファイルのファイル名。 gettext の場合は .pot "
-"ファイルを選択します。"
+msgstr "新しい翻訳の作成に使用するファイルのファイル名。gettext では .pot ファイルを選択します。"
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:401
 msgid "Language filter"
@@ -800,21 +798,19 @@ msgstr "言語フィルタ"
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
-msgstr ""
-"ファイルマスクでスキャンを実施する際、翻訳をフィルタするために使用する正規表"
-"現。"
+msgstr "ファイル マスクをスキャンするときに翻訳をフィルタ処理する正規表現。"
 
 #: weblate/addons/forms.py:168
 msgid "Remove components for non existing files"
-msgstr "存在しないファイルに対するコンポーネントの削除"
+msgstr "存在しないファイルのコンポーネントの削除"
 
 #: weblate/addons/forms.py:172
 msgid "I confirm that the above matches look correct"
-msgstr "上記のマッチングが正しいことを確認済み"
+msgstr "上記の一致が正しいかを確認する"
 
 #: weblate/addons/forms.py:235
 msgid "Please review and confirm matched components."
-msgstr "該当するコンポーネントをご確認ください。"
+msgstr "一致したコンポーネントを確認してください"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -824,7 +820,7 @@ msgstr "統計生成"
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
-msgstr "このアドオンは、翻訳に対する詳細情報ファイルを生成します。"
+msgstr "このアドオンは、翻訳の詳細情報ファイルを生成します。"
 
 #: weblate/addons/gettext.py:55
 msgid "Generate MO files"
@@ -832,8 +828,7 @@ msgstr "MO ファイルの生成"
 
 #: weblate/addons/gettext.py:57
 msgid "Automatically generates MO file for every changed PO file."
-msgstr ""
-"変更された PO ファイルそれぞれに対して、自動的に MO ファイルを生成します。"
+msgstr "変更された PO ファイルごとに自動的に MO ファイルを生成します。"
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -841,7 +836,7 @@ msgstr "LINGUAS ファイルの更新"
 
 #: weblate/addons/gettext.py:74
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "新しい翻訳を追加する際に LINGUAS ファイルを更新します。"
+msgstr "新しい翻訳を追加すると LINGUAS ファイルは更新します。"
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
