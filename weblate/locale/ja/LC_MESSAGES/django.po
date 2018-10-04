@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-28 12:59+0000\n"
-"PO-Revision-Date: 2018-10-04 06:36+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2018-10-04 11:37+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -247,7 +247,7 @@ msgstr "認証しました ({method} ({name}) 。"
 #: weblate/accounts/models.py:70
 #, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "新しいデバイスから認証しました ({method} ({name}) 。"
+msgstr "新しいデバイスから認証しました ({method}:{name}) 。"
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
@@ -810,7 +810,7 @@ msgstr "上記の一致が正しいかを確認する"
 
 #: weblate/addons/forms.py:235
 msgid "Please review and confirm matched components."
-msgstr "一致したコンポーネントを確認してください"
+msgstr "一致したコンポーネントを確認してください。"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2678,7 +2678,7 @@ msgstr "保護"
 
 #: weblate/templates/access_control_description.html:7
 msgid "Publicly visible, only translatable for chosen users"
-msgstr "一般公開するが、翻訳は選ばれたユーザー限定"
+msgstr "一般公開するが、翻訳は選ばれたユーザ限定"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:51
@@ -2687,7 +2687,7 @@ msgstr "プライベート"
 
 #: weblate/templates/access_control_description.html:9
 msgid "Visible and translatable only for chosen users"
-msgstr "指定したユーザのみに閲覧および翻訳を許可する"
+msgstr "表示と翻訳は、選ばれたユーザのみ可能"
 
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:52
@@ -2961,11 +2961,11 @@ msgstr "フォームのエラー箇所を修正してください。"
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:53
 msgid "Preferences"
-msgstr "環境設定"
+msgstr "設定"
 
 #: weblate/templates/accounts/profile.html:25
 msgid "Subscriptions"
-msgstr "通知設定"
+msgstr "通知"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:104
@@ -2996,9 +2996,7 @@ msgid ""
 "Only languages which are currently being translated are listed. If you want "
 "to translate to another language, please request it first on the project you "
 "want to translate."
-msgstr ""
-"現時点で翻訳が存在する言語のみを表示しています。表示されていない言語に翻訳し"
-"たい場合は、プロジェクトに対して翻訳したい言語をリクエストしてください。"
+msgstr "現在、翻訳中の言語のみ表示しています。他の言語に翻訳したい場合は、まずはプロジェクトに要求を出してください。"
 
 #: weblate/templates/accounts/profile.html:46
 #: weblate/templates/accounts/profile.html:59
@@ -3032,9 +3030,7 @@ msgstr "管理しているプロジェクトに対しては、重要な通知を
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
-msgstr ""
-"監視しているプロジェクトはダッシュボードにも表示されます。そのため、ここでは"
-"翻訳に参加したいプロジェクトを選択してください。"
+msgstr "監視中のプロジェクトもダッシュボードに表示するので、翻訳したいプロジェクトをすべて選択してください。"
 
 #: weblate/templates/accounts/profile.html:91
 msgid "Subscription settings"
@@ -3490,7 +3486,7 @@ msgstr "ダッシュボード"
 
 #: weblate/templates/base.html:119 weblate/templates/dashboard/user.html:62
 msgid "Manage watched projects"
-msgstr "監視しているプロジェクトの管理"
+msgstr "監視中のプロジェクトの管理"
 
 #: weblate/templates/base.html:130
 msgid "Administration"
@@ -3538,12 +3534,12 @@ msgstr "ドキュメント"
 
 #: weblate/templates/base.html:164 weblate/templates/footer.html:8
 msgid "Service status"
-msgstr "サービス状態"
+msgstr "サービスの状態"
 
 #: weblate/templates/base.html:180
 #, python-format
 msgid "Logged in as %(user)s"
-msgstr "%(user)s でログイン中"
+msgstr "%(user)s としてログイン中"
 
 #: weblate/templates/base.html:183
 msgid "Billing overview"
@@ -3571,8 +3567,8 @@ msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
-"Weblate は Microsoft Internet Explorer 8 もしくはそれ以前のバージョンには対応"
-"していません。  Firefox, Chome, Edge などの新しいブラウザをお使いください。"
+"Weblate は Microsoft Internet Explorer 8 "
+"もしくはそれ以前のバージョンには対応していません。Firefox・Chome・Edge などの新しいブラウザをお使いください。"
 
 #: weblate/templates/base.html:233 weblate/templates/base.html:240
 msgid "Close"
@@ -3959,7 +3955,7 @@ msgstr "翻訳の改善を行なうための提案機能は無効化されてい
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
-msgstr "指定されたユーザのみが貢献できます。"
+msgstr "選ばれたユーザーのみ貢献できます。"
 
 #: weblate/templates/component_info.html:28
 msgid "Any authenticated user can contribute."
@@ -4058,9 +4054,7 @@ msgstr "校正の概要"
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
-msgstr ""
-"環境設定で言語を選択すると、監視対象のプロジェクト内で選択した言語に対する翻"
-"訳の概要が表示されます。"
+msgstr "設定で言語を選択すると、監視対象のプロジェクト内で選択した言語に対する翻訳の概要が表示されます。"
 
 #: weblate/templates/dashboard/user.html:61
 #: weblate/templates/dashboard/user.html:74
@@ -5600,7 +5594,7 @@ msgstr "permalink のコピー"
 
 #: weblate/templates/translate.html:100
 msgid "Keyboard shortcuts available:"
-msgstr "利用可能なキーボードショートカット:"
+msgstr "利用可能なキーボード ショートカット:"
 
 #: weblate/templates/translate.html:103
 msgid "Unmark review needed flag and save"
@@ -7254,7 +7248,7 @@ msgstr "%d 個の該当ファイルの処理に失敗しました！"
 
 #: weblate/trans/models/component.py:1176
 msgid "Format of base file for new translations was not recognized!"
-msgstr "新しい翻訳の基本ファイルの形式は認識できません！"
+msgstr "新しい翻訳の基本ファイルの形式が認識できませんでした！"
 
 #: weblate/trans/models/component.py:1181
 msgid ""
@@ -7352,9 +7346,7 @@ msgstr "ダッシュボードに表示"
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr ""
-"選択すると、このコンポーネントがダッシュボード内にタブとして表示されるように"
-"なります"
+msgstr "選択すると、このコンポーネント一覧はダッシュボードのタブとして表示します"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
