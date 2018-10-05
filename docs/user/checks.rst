@@ -39,7 +39,7 @@ different languages, so if you think the result is wrong, please report a bug.
    :setting:`CHECK_LIST`, :ref:`custom-checks`
 
 Translation checks
-++++++++++++++++++
+------------------
 
 These are executed on every translation change and help translators to keep
 good quality of translations.
@@ -352,7 +352,7 @@ Java format
     'Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>'_
 
 Java MessageFormat
-++++++++++++++++++
+******************
 
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are {0} apples``                                   |
@@ -466,7 +466,7 @@ This usually means resulting output will look different. In most cases this is
 not desired result from translation, but occasionally it is desired.
 
 Source checks
-+++++++++++++
+-------------
 
 Source checks can help developers to improve quality of source strings.
 
