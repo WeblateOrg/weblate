@@ -162,7 +162,8 @@ class GitRepository(Repository):
             cmd = ['status', '--porcelain']
         else:
             cmd = ['status', '--porcelain', '--', filename]
-        status = self.execute(cmd, needs_lock=False)
+        with self.lock:
+            status = self.execute(cmd)
         return status != ''
 
     def show(self, revision):

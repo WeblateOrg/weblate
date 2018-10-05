@@ -222,7 +222,8 @@ class WeblateViewSet(DownloadViewSet):
                     },
                     request=request
                 )
-                data['status'] = obj.component.repository.status()
+                with obj.component.repository.lock:
+                    data['status'] = obj.component.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
                     component=obj.component,
@@ -236,7 +237,8 @@ class WeblateViewSet(DownloadViewSet):
                     },
                     request=request
                 )
-                data['status'] = obj.repository.status()
+                with obj.component.repository.lock:
+                    data['status'] = obj.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
                     component=obj,

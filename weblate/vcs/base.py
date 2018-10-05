@@ -227,10 +227,7 @@ class Repository(object):
 
     def status(self):
         """Return status of the repository."""
-        return self.execute(
-            self._cmd_status,
-            needs_lock=False
-        )
+        return self.execute(self._cmd_status)
 
     def push(self):
         """Push given branch to remote repository."""
