@@ -192,6 +192,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-angularjs-format:
 .. _check-c-sharp-format:
 .. _check-java-format:
+.. _check-java-messageformat:
 
 Format strings
 ~~~~~~~~~~~~~~
@@ -349,6 +350,22 @@ Java format
 .. seealso::
     
     'Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>'_
+
+Java MessageFormat
+++++++++++++++++++
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are {0} apples``                                   |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `java-messageformat` enables the check unconditionally     |
++------------------------+------------------------------------------------------------+
+|                        | `auto-java-messageformat` enables check only if there is a |
+|                        | format string in the source                                |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+   `Java MessageForamt <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
 
 .. _check-plurals:
 

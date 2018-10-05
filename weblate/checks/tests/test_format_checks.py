@@ -23,10 +23,11 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
-from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
     PerlFormatCheck, CSharpFormatCheck, JavaFormatCheck,
+    JavaMessageFormatCheck,
 )
 
 
@@ -620,5 +621,149 @@ class JavaFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format(
             '%1s string %2d',
             '%2d string %1s',
+            False
+        ))
+
+
+class JavaMessageFormatCheckTest(CheckTestCase):
+    check = JavaMessageFormatCheck()
+
+    def setUp(self):
+        super(JavaMessageFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            'java-messageformat',
+            '{0}string{1}',
+            [(0, 3, u'{0}'), (9, 12, u'{1}')],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format(
+            'strins',
+            'string',
+            False
+        ))
+
+    def test_escaping_no_position(self):
+        self.assertFalse(self.check.check_format(
+            '{{ string }}',
+            'string',
+            False
+        ))
+
+    def test_simple_format(self):
+        self.assertFalse(self.check.check_format(
+            '{0} strins',
+            '{0} string',
+            False
+        ))
+
+    def test_format_with_width(self):
+        self.assertFalse(self.check.check_format(
+            '{0,1} strins',
+            '{0,1} string',
+            False
+        ))
+
+    def test_format_with_flag(self):
+        self.assertFalse(self.check.check_format(
+            '{0:C2} strins',
+            '{0:C2} string',
+            False
+        ))
+
+    def test_full_format(self):
+        self.assertFalse(self.check.check_format(
+            '{0,1:N0} strins',
+            '{0,1:N0} string',
+            False
+        ))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0} strins',
+            'string',
+            False
+        ))
+
+    def test_missing_type_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0,number} strins',
+            'string',
+            False
+        ))
+
+    def test_missing_flag_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0} strins',
+            'string',
+            False
+        ))
+
+    def test_missing_full_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0,number,integer} strins',
+            'string',
+            False
+        ))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0} string',
+            '{1} string',
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            '{0} string',
+            'string',
+            True
+        ))
+
+    def test_escaping_with_position(self):
+        self.assertFalse(self.check.check_format(
+            '{{ 0 }}',
+            'string',
+            False
+        ))
+
+    def test_wrong_attribute_format(self):
+        self.assertTrue(self.check.check_format(
+            '{0} string',
+            '{1} string',
+            False
+        ))
+
+    def test_reordered_format(self):
+        self.assertFalse(self.check.check_format(
+            '{0} string {1}',
+            '{1} string {0}',
+            False
+        ))
+
+    def test_skip(self):
+        unit = MockUnit(source='source')
+        self.assertTrue(self.check.should_skip(unit))
+        unit.flags = 'java-messageformat'
+        self.assertFalse(self.check.should_skip(unit))
+        unit.flags = 'auto-java-messageformat'
+        self.assertTrue(self.check.should_skip(unit))
+        unit.source = '{0}'
+        self.assertFalse(self.check.should_skip(unit))
+
+    def test_quotes(self):
+        self.assertFalse(self.check.check_format(
+            '{0} string {1}',
+            "'{1}' strin''g '{0}'",
+            False
+        ))
+        self.assertTrue(self.check.check_format(
+            '{0} string {1}',
+            "'{1}' strin''g '{0}",
+            False
+        ))
+        self.assertTrue(self.check.check_format(
+            '{0} string {1}',
+            "'{1}' strin'g '{0}'",
             False
         ))
