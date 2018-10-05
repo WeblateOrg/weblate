@@ -549,6 +549,12 @@ Installs addon to set of components.
 You can either define on which project or component to install addon (eg.
 ``weblate/master``) or use ``--all`` to include all existing components.
 
+For example installing :ref:`addon-weblate.gettext.customize` to all components:
+
+.. code-block:: shell
+
+   ./manage.py install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
+
 .. seealso::
 
    :ref:`addons`
