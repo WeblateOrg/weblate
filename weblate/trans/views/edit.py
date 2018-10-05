@@ -363,7 +363,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
                 _('You do not have privilege to accept suggestions!')
             )
             return False
-    elif mode == 'delete':
+    elif mode in ('delete', 'spam'):
         if not user.has_perm('suggestion.delete', suggestion, translation):
             messages.error(
                 request,
@@ -383,7 +383,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
 def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     """Handle suggestion deleting/accepting."""
     sugid = ''
-    params = ('accept', 'accept_edit', 'delete', 'upvote', 'downvote')
+    params = ('accept', 'accept_edit', 'delete', 'spam', 'upvote', 'downvote')
     redirect_url = this_unit_url
     mode = None
 
@@ -414,8 +414,8 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         suggestion.accept(translation, request)
         if 'accept' in request.POST:
             redirect_url = next_unit_url
-    elif 'delete' in request.POST:
-        suggestion.delete_log(request.user)
+    elif 'delete' in request.POST or 'spam' in request.POST:
+        suggestion.delete_log(request.user, is_spam='spam' in request.POST)
     elif 'upvote' in request.POST:
         suggestion.add_vote(translation, request, True)
         redirect_url = next_unit_url
@@ -475,17 +475,19 @@ def translate(request, project, component, lang):
     # Any form submitted?
     if 'skip' in request.POST:
         return redirect(next_unit_url)
-    if (request.method == 'POST' and (not locked or 'delete' in request.POST)):
-        if ('accept' not in request.POST and
+    if request.method == 'POST':
+        if (not locked and
+                'accept' not in request.POST and
                 'accept_edit' not in request.POST and
                 'delete' not in request.POST and
+                'spam' not in request.POST and
                 'upvote' not in request.POST and
                 'downvote' not in request.POST):
             # Handle translation
             response = handle_translate(
                 request, translation, this_unit_url, next_unit_url
             )
-        elif not locked or 'delete' in request.POST:
+        elif not locked or 'delete' in request.POST or 'spam' in request.POST:
             # Handle accepting/deleting suggestions
             response = handle_suggestions(
                 translation, request, this_unit_url, next_unit_url,

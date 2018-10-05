@@ -130,6 +130,7 @@ def weblate_context(request):
         'login_redirect_url': login_redirect_url,
 
         'has_ocr': weblate.screenshots.views.HAS_OCR,
+        'has_antispam': bool(settings.AKISMET_API_KEY),
 
         'subscribed_projects': subscribed_projects,
 

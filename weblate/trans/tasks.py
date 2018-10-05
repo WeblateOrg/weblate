@@ -207,7 +207,7 @@ def cleanup_suggestions():
             if not units.exclude(target=suggestion.target).exists():
                 suggestion.delete_log(
                     anonymous_user,
-                    Change.ACTION_SUGGESTION_CLEANUP
+                    change=Change.ACTION_SUGGESTION_CLEANUP
                 )
                 continue
 
@@ -223,7 +223,7 @@ def cleanup_suggestions():
             if sugs.exists():
                 suggestion.delete_log(
                     anonymous_user,
-                    Change.ACTION_SUGGESTION_CLEANUP
+                    change=Change.ACTION_SUGGESTION_CLEANUP
                 )
 
 

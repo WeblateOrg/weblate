@@ -304,6 +304,9 @@
 {% endif %}
 {% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
 {% if user_can_delete_suggestion %}
+{% if has_antispam %}
+<button type="submit" class="btn btn-danger" name="spam" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Mark as spam" %}</button>
+{% endif %}
 <button type="submit" class="btn btn-danger" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 {% endif %}
 </div>

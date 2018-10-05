@@ -32,7 +32,7 @@ try:
 except ImportError:
     HAS_AKISMET = False
 
-from weblate.utils.antispam import is_spam
+from weblate.utils.antispam import is_spam, report_spam
 
 
 class SpamTest(TestCase):
@@ -44,6 +44,11 @@ class SpamTest(TestCase):
         httpretty.register_uri(
             httpretty.POST,
             'https://key.rest.akismet.com/1.1/comment-check',
+            body=body,
+        )
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://key.rest.akismet.com/1.1/submit-spam',
             body=body,
         )
         httpretty.register_uri(
@@ -65,3 +70,17 @@ class SpamTest(TestCase):
     def test_akismet_nospam(self):
         self.mock_akismet('false')
         self.assertFalse(is_spam('text', HttpRequest()))
+
+    @skipIf(not HAS_AKISMET, "akismet module not installed")
+    @httpretty.activate
+    @override_settings(AKISMET_API_KEY='key')
+    def test_akismet_submit_spam(self):
+        self.mock_akismet('Thanks for making the web a better place.')
+        self.assertIsNone(report_spam('1.2.3.4', 'Agent', 'text'))
+
+    @skipIf(not HAS_AKISMET, "akismet module not installed")
+    @httpretty.activate
+    @override_settings(AKISMET_API_KEY='key')
+    def test_akismet_submit_spam_error(self):
+        self.mock_akismet('false')
+        self.assertIsNone(report_spam('1.2.3.4', 'Agent', 'text'))

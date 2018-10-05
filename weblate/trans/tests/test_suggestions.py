@@ -107,7 +107,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
-    def test_delete(self):
+    def test_delete(self, **kwargs):
         translate_url = reverse('translate', kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
@@ -124,6 +124,7 @@ class SuggestionsTest(ViewTestCase):
             'Hello, world!\n',
             '',
             delete=suggestions[0],
+            **kwargs
         )
         self.assert_redirects_offset(response, translate_url, 1)
 
@@ -132,6 +133,9 @@ class SuggestionsTest(ViewTestCase):
             'pk', flat=True
         )
         self.assertEqual(len(suggestions), 1)
+
+    def test_delete_spam(self):
+        self.test_delete(spam='1')
 
     def test_accept_edit(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)

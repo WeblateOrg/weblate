@@ -31,7 +31,10 @@ from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils import messages
+from weblate.utils.antispam import report_spam
+from weblate.utils.fields import JSONField
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.request import get_ip_address
 
 
 class SuggestionManager(models.Manager):
@@ -57,7 +60,11 @@ class SuggestionManager(models.Manager):
             content_hash=unit.content_hash,
             language=unit.translation.language,
             project=unit.translation.component.project,
-            user=user
+            user=user,
+            userdetails={
+                'address': get_ip_address(request),
+                'agent': request.META.get('HTTP_USER_AGENT', ''),
+            },
         )
 
         # Record in change
@@ -114,6 +121,7 @@ class Suggestion(UnitData, UserDisplayMixin):
         settings.AUTH_USER_MODEL, null=True, blank=True,
         on_delete=models.deletion.CASCADE
     )
+    userdetails = JSONField()
     language = models.ForeignKey(
         Language, on_delete=models.deletion.CASCADE
     )
@@ -165,8 +173,15 @@ class Suggestion(UnitData, UserDisplayMixin):
         if not failure:
             self.delete()
 
-    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE):
+    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE,
+                   is_spam=False):
         """Delete with logging change"""
+        if is_spam and self.userdetails:
+            report_spam(
+                self.userdetails['address'],
+                self.userdetails['agent'],
+                self.target
+            )
         for unit in self.related_units:
             Change.objects.create(
                 unit=unit,

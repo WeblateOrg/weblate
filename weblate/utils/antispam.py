@@ -18,8 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import sys
+
 from django.conf import settings
 
+from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
 from weblate.utils.request import get_ip_address
 
@@ -39,3 +42,22 @@ def is_spam(text, request):
             comment_type='comment'
         )
     return False
+
+
+def report_spam(text, user_ip, user_agent):
+    if not settings.AKISMET_API_KEY:
+        return
+    from akismet import Akismet, ProtocolError
+    akismet = Akismet(
+        settings.AKISMET_API_KEY,
+        get_site_url()
+    )
+    try:
+        akismet.submit_spam(
+            user_ip,
+            user_agent,
+            comment_content=text,
+            comment_type='comment'
+        )
+    except ProtocolError as error:
+        report_error(error, sys.exc_info())
