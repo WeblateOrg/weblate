@@ -334,7 +334,7 @@ C# format
 
 .. seealso::
 
-    'C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>'_
+    `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
     
 Java format
 ***********
@@ -349,7 +349,7 @@ Java format
 
 .. seealso::
     
-    'Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>'_
+    `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
 Java MessageFormat
 ******************
@@ -365,7 +365,7 @@ Java MessageFormat
 
 .. seealso::
 
-   `Java MessageForamt <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+   `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
 
 .. _check-plurals:
 
