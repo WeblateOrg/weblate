@@ -234,8 +234,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.rebase()
 
     def test_status(self):
-        with self.repo.lock:
-            status = self.repo.status()
+        status = self.repo.status()
         # Older git print up-to-date, newer up to date
         self.assertIn(
             "date with 'origin/master'.", status
@@ -434,8 +433,7 @@ class VCSSubversionTest(VCSGitTest):
         self.check_valid_info(info)
 
     def test_status(self):
-        with self.repo.lock:
-            status = self.repo.status()
+        status = self.repo.status()
         self.assertIn('nothing to commit', status)
 
     def test_configure_remote(self):
@@ -516,6 +514,5 @@ class VCSHgTest(VCSGitTest):
         )
 
     def test_status(self):
-        with self.repo.lock:
-            status = self.repo.status()
+        status = self.repo.status()
         self.assertEqual(status, '')

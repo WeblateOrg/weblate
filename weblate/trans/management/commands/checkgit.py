@@ -28,5 +28,4 @@ class Command(WeblateComponentCommand):
         """Show status of git repository in given projects."""
         for component in self.get_components(*args, **options):
             self.stdout.write('{0}:'.format(component))
-            with component.repository.lock:
-                self.stdout.write(component.repository.status())
+            self.stdout.write(component.repository.status())
