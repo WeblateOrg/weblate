@@ -103,10 +103,10 @@ def get_distinct_translations(units):
     return result
 
 
-def translation_percent(translated, total):
+def translation_percent(translated, total, zero_complete=True):
     """Return translation percentage."""
     if total == 0:
-        return 100.0
+        return 100.0 if zero_complete else 0.0
     if total is None:
         return 0.0
     perc = round(1000 * translated / total) / 10.0

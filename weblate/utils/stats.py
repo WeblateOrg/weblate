@@ -117,6 +117,10 @@ class BaseStats(object):
             lookup[item].set_data({})
 
     @cached_property
+    def has_review(self):
+        return True
+
+    @cached_property
     def cache_key(self):
         return 'stats-{}-{}'.format(
             self._object.__class__.__name__,
@@ -186,7 +190,14 @@ class BaseStats(object):
             total = self.all_words
         else:
             total = self.all
-        self.store(item, translation_percent(getattr(self, base), total))
+        self.store(
+            item,
+            translation_percent(
+                getattr(self, base), total,
+                (base == 'approved') if self.has_review
+                else (base == 'translated')
+            )
+        )
 
     def calculate_basic_percents(self):
         """Calculate basic percents."""
@@ -238,6 +249,10 @@ class TranslationStats(BaseStats):
     @property
     def language(self):
         return self._object.language
+
+    @cached_property
+    def has_review(self):
+        return self._object.component.project.enable_review
 
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
@@ -402,6 +417,10 @@ class LanguageStats(BaseStats):
 
 
 class ComponentStats(LanguageStats):
+    @cached_property
+    def has_review(self):
+        return self._object.project.enable_review
+
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate(language=language)
@@ -425,6 +444,10 @@ class ProjectLanguageStats(LanguageStats):
     def __init__(self, obj, lang):
         self.language = lang
         super(ProjectLanguageStats, self).__init__(obj)
+
+    @cached_property
+    def has_review(self):
+        return self._object.enable_review
 
     @cached_property
     def cache_key(self):
@@ -451,6 +474,10 @@ class ProjectLanguageStats(LanguageStats):
 
 class ProjectStats(BaseStats):
     basic_keys = SOURCE_KEYS
+
+    @cached_property
+    def has_review(self):
+        return self._object.enable_review
 
     def invalidate(self, language=None):
         super(ProjectStats, self).invalidate()
