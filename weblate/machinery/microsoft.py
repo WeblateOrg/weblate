@@ -106,7 +106,7 @@ class MicrosoftTranslation(MachineTranslation):
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        return super(MicrosoftCognitiveTranslation, self).convert_language(
+        return super(MicrosoftTranslation, self).convert_language(
             language.replace('_', '-').lower()
         )
 
