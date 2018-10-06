@@ -26,25 +26,6 @@ from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 
-# Map codes used by Baidu to codes used by Weblate
-LANGUAGE_MAP = {
-    'zh_Hans': 'zh',
-    'ja': 'jp',
-    'ko': 'kor',
-    'fr': 'fra',
-    'es': 'spa',
-    'ar': 'ara',
-    'bg': 'bul',
-    'et': 'est',
-    'da': 'dan',
-    'fi': 'fin',
-    'ro': 'rom',
-    'sk': 'slo',
-    'sw': 'swe',
-    'zh_Hant': 'cht',
-    'vi': 'vie',
-}
-
 BAIDU_API = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
 
 
@@ -52,6 +33,25 @@ class BaiduTranslation(MachineTranslation):
     """Baidu API machine translation support."""
     name = 'Baidu'
     max_score = 90
+
+    # Map codes used by Baidu to codes used by Weblate
+    language_map = {
+        'zh_Hans': 'zh',
+        'ja': 'jp',
+        'ko': 'kor',
+        'fr': 'fra',
+        'es': 'spa',
+        'ar': 'ara',
+        'bg': 'bul',
+        'et': 'est',
+        'da': 'dan',
+        'fi': 'fin',
+        'ro': 'rom',
+        'sk': 'slo',
+        'sw': 'swe',
+        'zh_Hant': 'cht',
+        'vi': 'vie',
+    }
 
     def __init__(self):
         """Check configuration."""
@@ -64,13 +64,6 @@ class BaiduTranslation(MachineTranslation):
             raise MissingConfiguration(
                 'Baidu Translate requires app secret'
             )
-
-    def convert_language(self, language):
-        """Convert language to service specific code."""
-        if language in LANGUAGE_MAP:
-            return LANGUAGE_MAP[language]
-
-        return language
 
     def download_languages(self):
         """List of supported languages."""

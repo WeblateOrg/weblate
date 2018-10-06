@@ -26,12 +26,6 @@ from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 
-# Map codes used by Youdao to codes used by Weblate
-LANGUAGE_MAP = {
-    'zh_Hans': 'zh-CHS',
-    'en': 'EN',
-}
-
 YOUDAO_API_ROOT = 'https://openapi.youdao.com/api'
 
 
@@ -39,6 +33,12 @@ class YoudaoTranslation(MachineTranslation):
     """Youdao Zhiyun API machine translation support."""
     name = 'Youdao Zhiyun'
     max_score = 90
+
+    # Map codes used by Youdao to codes used by Weblate
+    language_map = {
+        'zh_Hans': 'zh-CHS',
+        'en': 'EN',
+    }
 
     def __init__(self):
         """Check configuration."""
@@ -51,13 +51,6 @@ class YoudaoTranslation(MachineTranslation):
             raise MissingConfiguration(
                 'Youdao Translate requires app secret'
             )
-
-    def convert_language(self, language):
-        """Convert language to service specific code."""
-        if language in LANGUAGE_MAP:
-            return LANGUAGE_MAP[language]
-
-        return language
 
     def download_languages(self):
         """List of supported languages."""

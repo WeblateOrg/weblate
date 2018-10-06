@@ -57,6 +57,7 @@ class MachineTranslation(object):
     rank_boost = 0
     default_languages = []
     cache_translations = True
+    language_map = {}
 
     @classmethod
     def get_rank(cls):
@@ -168,6 +169,9 @@ class MachineTranslation(object):
 
     def convert_language(self, language):
         """Convert language to service specific code."""
+        if language in self.language_map:
+            return self.language_map[language]
+
         return language
 
     def report_error(self, exc, message):

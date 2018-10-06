@@ -41,6 +41,16 @@ class MicrosoftTranslation(MachineTranslation):
     name = 'Microsoft Translator'
     max_score = 90
 
+    language_map = {
+        'zh-tw': 'zh-CHT',
+        'zh-hant': 'zh-CHT',
+        'zh-cn': 'zh-CHS',
+        'zh-hans': 'zh-CHS',
+        'nb': 'no',
+        'nb-no': 'no',
+        'pt-br': 'pt',
+    }
+
     def __init__(self):
         """Check configuration."""
         super(MicrosoftTranslation, self).__init__()
@@ -96,16 +106,9 @@ class MicrosoftTranslation(MachineTranslation):
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        language = language.replace('_', '-').lower()
-        if language in ('zh-tw', 'zh-hant'):
-            return 'zh-CHT'
-        if language in ('zh-cn', 'zh-hans'):
-            return 'zh-CHS'
-        if language in ('nb', 'nb-no'):
-            return 'no'
-        if language == 'pt-br':
-            return 'pt'
-        return language
+        return super(MicrosoftCognitiveTranslation, self).convert_language(
+            language.replace('_', '-').lower()
+        )
 
     def download_languages(self):
         """Download list of supported languages from a service.
@@ -137,7 +140,7 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
     """Microsoft Cognitive Services Translator API support."""
     name = 'Microsoft Translator'
 
-    LANGUAGE_CONVERTER = {
+    language_map = {
         'zh-hant': 'zh-CHT',
         'zh-hans': 'zh-CHS',
         'zh-tw': 'zh-CHT',
@@ -173,7 +176,6 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
 
         Remove second part of locale in most of cases.
         """
-        language = language.replace('_', '-').lower()
-        if language in self.LANGUAGE_CONVERTER:
-            return self.LANGUAGE_CONVERTER[language]
-        return language.split('-')[0]
+        return super(MicrosoftCognitiveTranslation, self).convert_language(
+            language.replace('_', '-').lower()
+        )
