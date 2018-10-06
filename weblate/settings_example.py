@@ -792,9 +792,12 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
-# Celery worker configuration
+# Celery worker configuration for testing
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
+# Celery worker configuration for production
+# CELERY_TASK_ALWAYS_EAGER = False
+# CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
