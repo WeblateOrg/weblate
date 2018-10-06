@@ -506,7 +506,9 @@ Error reporting
 ~~~~~~~~~~~~~~~
 
 It is recommended to collect errors from the installation in systematic way,
-see :ref:`collecting-errors`. To enable support for Rollbar, set following:
+see :ref:`collecting-errors`. 
+
+To enable support for Rollbar, set following:
 
 .. envvar:: ROLLBAR_KEY
 
@@ -515,6 +517,20 @@ see :ref:`collecting-errors`. To enable support for Rollbar, set following:
 .. envvar:: ROLLBAR_ENVIRONMENT
 
     Your Rollbar environment, defaults to ``production``.
+
+To enable support for Sentry, set following:
+
+.. envvar:: SENTRY_DSN 
+
+    Your Sentry DSN.
+
+.. envvar:: SENTRY_PUBLIC_DSN 
+
+    Your Sentry public DSN.
+
+.. envvar:: SENTRY_ENVIRONMENT
+
+    Your Sentry environment, defaults to ``production``.
 
 Further configuration customization
 +++++++++++++++++++++++++++++++++++
