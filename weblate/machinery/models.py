@@ -74,6 +74,10 @@ class WeblateConf(AppConf):
     YOUDAO_ID = None
     YOUDAO_SECRET = None
 
+    # Netease
+    NETEASE_KEY = None
+    NETEASE_SECRET = None
+
     # List of machine translations
     SERVICES = (
         'weblate.machinery.weblatetm.WeblateTranslation',

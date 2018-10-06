@@ -522,6 +522,7 @@ if not HAVE_SYSLOG:
 #     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
 #     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
 #     'weblate.machinery.mymemory.MyMemoryTranslation',
+#     'weblate.machinery.netease.NeteaseSightTranslation',
 #     'weblate.machinery.tmserver.AmagamaTranslation',
 #     'weblate.machinery.tmserver.TMServerTranslation',
 #     'weblate.machinery.yandex.YandexTranslation',
@@ -561,6 +562,10 @@ MT_BAIDU_SECRET = None
 # Youdao Zhiyun app key and secret
 MT_YOUDAO_ID = None
 MT_YOUDAO_SECRET = None
+
+# Netease Sight (Jianwai) app key and secret
+MT_NETEASE_KEY = None
+MT_NETEASE_SECRET = None
 
 # API key for Yandex Translate API
 MT_YANDEX_KEY = None

@@ -47,6 +47,7 @@ from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.youdao import YoudaoTranslation
+from weblate.machinery.netease import NeteaseSightTranslation, NETEASE_API_ROOT
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.checks.tests.test_checks import MockUnit
@@ -598,6 +599,40 @@ class MachineTranslationTest(TestCase):
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
+
+    @override_settings(MT_NETEASE_KEY='key', MT_NETEASE_SECRET='secret')
+    @httpretty.activate
+    def test_netease(self):
+        machine = self.get_machine(NeteaseSightTranslation)
+        httpretty.register_uri(
+            httpretty.POST,
+            NETEASE_API_ROOT,
+            body=b'''
+            {
+                "success": "true",
+                "relatedObject": {
+                    "content": [
+                        {
+                            "transContent": "hello"
+                        }
+                    ]
+                }
+            }''',
+        )
+        self.assert_translate(machine, lang='zh')
+        self.assert_translate(machine, lang='zh', word='Zkouška')
+
+    @override_settings(MT_NETEASE_KEY='key', MT_NETEASE_SECRET='secret')
+    @httpretty.activate
+    def test_netease_error(self):
+        machine = self.get_machine(NeteaseSightTranslation)
+        httpretty.register_uri(
+            httpretty.POST,
+            NETEASE_API_ROOT,
+            body=b'{"success": "false"}',
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, lang='zh', empty=True)
 
     @override_settings(MT_BAIDU_ID='id', MT_BAIDU_SECRET='secret')
     @httpretty.activate

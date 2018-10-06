@@ -854,6 +854,28 @@ MyMemory user id for private translation memory, use together with :setting:`MT_
    :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
    `MyMemory: API key generator <https://mymemory.translated.net/doc/keygen.php>`_
 
+.. setting:: MT_NETEASE_KEY
+
+MT_NETEASE_KEY
+--------------
+
+App key for Netease Sight API, you can register at https://sight.netease.com/
+
+.. seealso::
+
+   :ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_NETEASE_SECRET
+
+MT_NETEASE_SECRET
+-----------------
+
+App secret for Netease Sight API, you can register at https://sight.netease.com/
+
+.. seealso::
+
+   :ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_TMSERVER
 
 MT_TMSERVER
