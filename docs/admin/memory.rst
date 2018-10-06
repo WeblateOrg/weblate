@@ -26,7 +26,7 @@ Translation memory scopes
 
    The different translation memory scopes are available since Weblate 3.2,
    prior to this release translation memory could be only loaded from file
-   corresponding to the current imported transaltion memory scope.
+   corresponding to the current imported translation memory scope.
 
 The translation memory scopes are there to allow both privacy and sharing of
 translations, depending on the actual desired behavior.

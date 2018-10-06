@@ -23,7 +23,7 @@ Released on October 6th 2018.
 * Added support for error reporting to Sentry.
 * Added support for automated daily update of repositories.
 * Added support for creating projects and components by users.
-* Built in translation memory now automatically stores transaltions done.
+* Built in translation memory now automatically stores translations done.
 * Users and projects can import their existing translation memories.
 * Better management of related strings for screenshots.
 * Added support for checking Java MessageFormat.
