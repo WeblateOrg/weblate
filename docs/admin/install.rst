@@ -700,13 +700,13 @@ useful when debugging or developing):
    celery --app weblate worker --loglevel info --beat
 
 Most likely you will want to run Celery as a daemon and that is covered by
-:doc:`userguide/daemonizing`.
+:doc:`celery:userguide/daemonizing`.
 
 .. seealso::
 
    :doc:`celery:userguide/configuration`,
    :doc:`celery:userguide/workers`,
-   :doc:`userguide/daemonizing`
+   :doc:`celery:userguide/daemonizing`
 
 .. _installation:
 
