@@ -24,6 +24,7 @@ from datetime import timedelta
 from glob import glob
 import os
 from shutil import rmtree
+from time import time
 
 from celery.schedules import crontab
 
@@ -242,8 +243,15 @@ def update_remotes():
 def cleanup_stale_repos():
     prefix = data_dir('vcs')
     vcs_mask = os.path.join(prefix, '*', '*')
+
+    yesterday = time() - 86400
+
     for path in glob(vcs_mask):
         if not os.path.isdir(path):
+            continue
+
+        # Skip recently modified paths
+        if os.path.getmtime(path) > yesterday:
             continue
 
         # Parse path
