@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import sys
-
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
@@ -47,9 +45,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
             request,
             _('Failed to lock the repository, another operation in progress.')
         )
-        report_error(
-            error, sys.exc_info(),
-        )
+        report_error(error)
 
     return redirect_param(obj, '#repository')
 

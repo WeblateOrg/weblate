@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import sys
-
 from django.conf import settings
 
 from weblate.utils.errors import report_error
@@ -60,4 +58,4 @@ def report_spam(text, user_ip, user_agent):
             comment_type='comment'
         )
     except ProtocolError as error:
-        report_error(error, sys.exc_info())
+        report_error(error)

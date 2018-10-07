@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import sys
-
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
@@ -184,7 +182,7 @@ def upload_dictionary(request, project, lang):
                 )
             )
         except Exception as error:
-            report_error(error, sys.exc_info(), request)
+            report_error(error, request)
             messages.error(
                 request, _('File upload has failed: %s') % force_text(error)
             )

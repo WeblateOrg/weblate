@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-import sys
-
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
@@ -123,6 +121,6 @@ def upload_translation(request, project, component, lang):
         messages.error(
             request, _('File content merge failed: %s') % force_text(error)
         )
-        report_error(error, sys.exc_info(), request)
+        report_error(error, request)
 
     return redirect(obj)
