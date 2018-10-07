@@ -35,7 +35,7 @@ fi
 
 if [ "x$1" = "x--tag" ] ; then
     # PyPi archive
-    fakeroot ./setup.py sdist upload
+    fakeroot ./setup.py sdist upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D
     # Create Wheel
     # Skipped for now as it tends to include even files not in dist
     #    fakeroot ./setup.py bdist_wheel --universal upload
