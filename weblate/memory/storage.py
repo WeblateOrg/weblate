@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 import json
 import os.path
-import sys
 
 from django.utils.encoding import force_text
 from django.utils.translation import pgettext, ugettext as _
@@ -163,7 +162,7 @@ class TranslationMemory(WhooshIndex):
         try:
             data = json.loads(force_text(content))
         except (ValueError, UnicodeDecodeError) as error:
-            report_error(error, sys.exc_info())
+            report_error(error)
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}
         fields = cls.SCHEMA().names()
@@ -197,7 +196,7 @@ class TranslationMemory(WhooshIndex):
         try:
             storage = tmxfile.parsefile(fileobj)
         except SyntaxError as error:
-            report_error(error, sys.exc_info())
+            report_error(error)
             raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
             storage.document.getroot().iterchildren(

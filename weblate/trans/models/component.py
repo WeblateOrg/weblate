@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 from copy import copy
 from glob import glob
 import os
-import sys
 import time
 import fnmatch
 import re
@@ -817,7 +816,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
-        report_error(error, sys.exc_info())
+        report_error(error)
         if translation is None:
             filename = self.template
         else:

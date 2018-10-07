@@ -48,7 +48,7 @@ def report_error(error, exc_info, request=None, extra_data=None):
     """
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(
-            exc_info, request, extra_data=extra_data, level='warning'
+            exc_info, request=request, extra_data=extra_data, level='warning'
         )
 
     if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):

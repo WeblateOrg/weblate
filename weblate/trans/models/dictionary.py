@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 import re
-import sys
 
 from django.urls import reverse
 from django.db import models
@@ -141,7 +140,7 @@ class DictionaryManager(models.Manager):
                 try:
                     new_words = [token.text for token in analyzer(text)]
                 except (UnicodeDecodeError, IndexError) as error:
-                    report_error(error, sys.exc_info())
+                    report_error(error)
                 words.update(new_words)
 
         if '' in words:

@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from ssl import CertificateError
-import sys
 import hashlib
 import os.path
 
@@ -94,7 +93,7 @@ def get_avatar_image(request, user, size):
             cache.set(cache_key, image)
         except (IOError, CertificateError) as error:
             report_error(
-                error, sys.exc_info(), request,
+                error, request,
                 extra_data={'avatar': user.username},
             )
             return get_fallback_avatar(size)

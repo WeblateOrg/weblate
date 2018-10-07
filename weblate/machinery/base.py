@@ -24,7 +24,6 @@ from __future__ import unicode_literals
 from hashlib import md5
 import json
 import random
-import sys
 
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
@@ -177,8 +176,7 @@ class MachineTranslation(object):
     def report_error(self, exc, message):
         """Wrapper for handling error situations"""
         report_error(
-            exc, sys.exc_info(),
-            {'mt_url': self.request_url, 'mt_params': self.request_params}
+            exc, {'mt_url': self.request_url, 'mt_params': self.request_params}
         )
         LOGGER.error(
             message,

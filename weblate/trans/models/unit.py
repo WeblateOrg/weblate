@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 from copy import copy
 import functools
 import re
-import sys
 
 from django.conf import settings
 from django.db import models, transaction
@@ -587,7 +586,7 @@ class Unit(models.Model, LoggerMixin):
             except IndexError as error:
                 # This is probably bug in the change data, fallback by using
                 # any change entry
-                report_error(error, sys.exc_info(), request)
+                report_error(error, request)
                 change = self.change_set.all().order_by('-timestamp')[0]
             if change.author_id != request.user.id:
                 self.translation.commit_pending('pending unit', request)

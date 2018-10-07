@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import sys
-
 from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -893,7 +891,7 @@ def social_complete(request, backend):
     except InvalidEmail:
         return redirect_token()
     except AuthMissingParameter as error:
-        report_error(error, sys.exc_info())
+        report_error(error)
         if error.parameter in ('email', 'user', 'expires'):
             return redirect_token()
         if error.parameter in ('state', 'code'):

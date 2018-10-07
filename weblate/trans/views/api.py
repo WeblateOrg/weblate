@@ -23,8 +23,6 @@ from __future__ import absolute_import, unicode_literals
 import csv
 import json
 import re
-import sys
-
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -160,7 +158,7 @@ def vcs_service_hook(request, service):
         service_data = hook_helper(data)
     except Exception as error:
         LOGGER.error('failed to parse service %s data', service)
-        report_error(error, sys.exc_info())
+        report_error(error)
         return HttpResponseBadRequest('Invalid data in json payload!')
 
     # This happens on ping request upon installation
