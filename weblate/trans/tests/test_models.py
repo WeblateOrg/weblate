@@ -21,8 +21,9 @@
 """Test for translation models."""
 
 
-import shutil
 import os
+import shutil
+import tempfile
 
 from django.core.management.color import no_style
 from django.db import connection
@@ -117,15 +118,21 @@ class ProjectTest(RepoTestCase):
     def test_wrong_path(self):
         project = self.create_project()
 
-        with override_settings(DATA_DIR='/weblate-nonexisting:path'):
-            # Invalidate cache
-            project.invalidate_path_cache()
+        # Create temporary file and try to use
+        # it as data directory
+        temp = tempfile.NamedTemporaryFile()
+        try:
+            with override_settings(DATA_DIR=temp.name):
+                # Invalidate cache
+                project.invalidate_path_cache()
 
-            self.assertRaisesMessage(
-                ValidationError,
-                'Could not create project directory',
-                project.full_clean
-            )
+                self.assertRaisesMessage(
+                    ValidationError,
+                    'Could not create project directory',
+                    project.full_clean
+                )
+        finally:
+            temp.close()
 
     def test_acl(self):
         """Test for ACL handling."""
