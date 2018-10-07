@@ -1,6 +1,15 @@
 Changes
 =======
 
+weblate 3.2.1
+------------
+
+Released on ? 2018.
+
+* Document missing dependency on backports.csv on Python 2.7.
+* Fix running tests under root.
+* Improved error handling in gitexport module.
+
 weblate 3.2
 ------------
 
