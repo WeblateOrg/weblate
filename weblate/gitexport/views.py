@@ -105,13 +105,15 @@ def git_export(request, project, component, path):
     HTTP. Performs permission checks and hands over execution to the wrapper.
     """
     # Probably browser access
-    if path == '':
+    if not path:
         return redirect(
             'component',
             project=project,
             component=component,
             permanent=False
         )
+    # Strip possible double path separators
+    path = path.lstrip('/\\')
 
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
