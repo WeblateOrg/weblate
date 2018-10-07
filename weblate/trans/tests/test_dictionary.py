@@ -408,5 +408,5 @@ class DictionaryTest(FixtureTestCase):
             reverse('js-add-glossary', kwargs={'unit_id': unit.pk}),
             {'source': 'source', 'target': 'překlad'}
         )
-        content = json.loads(response.content)
+        content = json.loads(response.content.decode('utf-8'))
         self.assertEqual(content['responseCode'], 200)
