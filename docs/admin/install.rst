@@ -95,6 +95,8 @@ akismet (>= 1.0) (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
 PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
+backports.csv (needed on Python 2.7)
+    https://pypi.org/project/backports.csv/
 jellyfish (>= 0.6.1)
     https://github.com/jamesturk/jellyfish
 openpyxl (>=2.5.0) (for XLSX export/import)
