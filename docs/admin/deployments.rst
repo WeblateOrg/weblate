@@ -36,7 +36,7 @@ this.
 
    .. code-block:: yaml
 
-        version: '2'
+        version: '3'
         services:
           weblate:
             environment:
@@ -81,7 +81,7 @@ a :file:`docker-compose-https.override.yml` file with your settings:
 
 .. code-block:: yaml
 
-    version: '2'
+    version: '3'
     services:
       weblate:
         environment:
