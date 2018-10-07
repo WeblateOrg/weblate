@@ -140,7 +140,7 @@ Installing using Docker
 
    .. code-block:: sh
 
-        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
 #. Start Weblate containers:

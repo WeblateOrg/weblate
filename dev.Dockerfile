@@ -6,7 +6,7 @@ FROM weblate/weblate:edge
 # and WILL perform very poorly in production.
 #
 # For production-ready dockerfile see:
-# https://github.com/WeblateOrg/docker/tree/docker
+# https://github.com/WeblateOrg/docker
 #########
 
 WORKDIR /srv

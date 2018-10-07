@@ -28,7 +28,7 @@ this.
 
    .. code-block:: sh
 
-        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
 2. Create a :file:`docker-compose.override.yml` file with your settings.
