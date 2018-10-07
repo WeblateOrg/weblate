@@ -161,12 +161,12 @@ def run_git_http(request, obj, path):
 
     # Log error
     if output_err:
-        obj.log_error('git-export: query: {0}'.format(force_text(query)))
-        obj.log_error('git-export: stderr: {0}'.format(force_text(output_err)))
         try:
-            raise Exception('Git http backend error')
+            raise Exception('Git http backend error: {}'.format(
+                force_text(output_err).splitlines()[0]
+            ))
         except Exception as error:
-            report_error(error, None, request)
+            report_error(error, request)
 
     # Handle failure
     if retcode:
