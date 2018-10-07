@@ -32,6 +32,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import User
+from weblate.utils.errors import report_error
 from weblate.utils.views import get_component
 
 
@@ -163,6 +164,10 @@ def run_git_http(request, obj, path):
     if output_err:
         obj.log_error('git-export: query: {0}'.format(force_text(query)))
         obj.log_error('git-export: stderr: {0}'.format(force_text(output_err)))
+        try:
+            raise Exception('Git http backend error')
+        except Exception as error:
+            report_error(error, None, request)
 
     # Handle failure
     if retcode:
