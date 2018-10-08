@@ -328,7 +328,20 @@ class PoXliffFormat(XliffFormat):
     loader = PoXliffFile
 
 
-class StringsFormat(FileFormat):
+class PropertiesBaseFormat(FileFormat):
+    @classmethod
+    def is_valid(cls, store):
+        result = super(PropertiesBaseFormat, cls).is_valid(store)
+        if not result:
+            return False
+
+        # Accept emty file, but reject file without a delimiter.
+        # Translate-toolkit happily parses anything into a property
+        # even if there is no delimiter used in the line.
+        return not store.units or store.units[0].delimiter
+
+
+class StringsFormat(PropertiesBaseFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
@@ -348,7 +361,7 @@ class StringsUtf8Format(StringsFormat):
     new_translation = '\n'
 
 
-class PropertiesUtf8Format(FileFormat):
+class PropertiesUtf8Format(PropertiesBaseFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
@@ -383,7 +396,7 @@ class PropertiesFormat(PropertiesUtf8Format):
         return store
 
 
-class JoomlaFormat(FileFormat):
+class JoomlaFormat(PropertiesBaseFormat):
     name = _('Joomla Language File')
     format_id = 'joomla'
     loader = ('properties', 'joomlafile')
