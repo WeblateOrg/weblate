@@ -11,6 +11,7 @@ Released on ? 2018.
 * Improved error handling in gitexport module.
 * Fixed progress reporting for newly added languages.
 * Correctly report Celery worker errors to Sentry.
+* Fixed creating new translations with Qt Linguist.
 
 weblate 3.2
 ------------

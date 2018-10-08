@@ -287,6 +287,14 @@ class TSFormat(FileFormat):
     autoload = ('.ts',)
     unit_class = TSUnit
 
+    @classmethod
+    def untranslate_store(cls, store, language, fuzzy=False):
+        """Remove translations from ttkit store"""
+        # We need to mark all units as fuzzy to get
+        # type="unfinished" on empty strings, which are otherwise
+        # treated as translated same as source
+        super(TSFormat, cls).untranslate_store(store, language, True)
+
 
 class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
