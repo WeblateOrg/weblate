@@ -37,6 +37,7 @@ class YoudaoTranslation(MachineTranslation):
     # Map codes used by Youdao to codes used by Weblate
     language_map = {
         'zh_Hans': 'zh-CHS',
+        'zh': 'zh-CHS',
         'en': 'EN',
     }
 
