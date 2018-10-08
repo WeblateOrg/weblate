@@ -1503,9 +1503,10 @@ class Component(models.Model, URLMixin, PathMixin):
         # can submit again)
         if os.path.exists(fullname):
             if request:
-                Translation.objects.check_sync(
+                translation = Translation.objects.check_sync(
                     self, language, language.code, filename, request=request
                 )
+                translation.invalidate_cache()
                 messages.error(
                     request,
                     _('Translation file already exists!')
@@ -1542,6 +1543,7 @@ class Component(models.Model, URLMixin, PathMixin):
             force=True,
             request=request
         )
+        translation.invalidate_cache()
         return True
 
     def do_lock(self, user, lock=True):

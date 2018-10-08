@@ -9,6 +9,7 @@ Released on ? 2018.
 * Document missing dependency on backports.csv on Python 2.7.
 * Fix running tests under root.
 * Improved error handling in gitexport module.
+* Fixed progress reporting for newly added languages.
 
 weblate 3.2
 ------------
