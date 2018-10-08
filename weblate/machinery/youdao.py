@@ -63,7 +63,10 @@ class YoudaoTranslation(MachineTranslation):
             'ru',
             'pt',
             'es',
-            'vi'
+            'vi',
+            'de',
+            'ar',
+            'id'
         ]
 
     def download_translations(self, source, language, text, unit, user):
