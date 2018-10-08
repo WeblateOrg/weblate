@@ -866,17 +866,17 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
     def new_unit(self, request, key, value):
-        self.commit_pending('new unit', request)
-        Change.objects.create(
-            translation=self,
-            action=Change.ACTION_NEW_UNIT,
-            target=value,
-            user=request.user,
-            author=request.user
-        )
-        self.store.new_unit(key, value)
-        self.component.create_translations(request=request)
         with self.component.repository.lock:
+            self.commit_pending('new unit', request)
+            Change.objects.create(
+                translation=self,
+                action=Change.ACTION_NEW_UNIT,
+                target=value,
+                user=request.user,
+                author=request.user
+            )
+            self.store.new_unit(key, value)
+            self.component.create_translations(request=request)
             self.__git_commit(
                 request.user.get_author_name(),
                 timezone.now()
