@@ -129,7 +129,7 @@ class Fulltext(WhooshIndex):
                 location=force_text(unit.location),
                 target=force_text(unit.target),
                 comment=force_text(unit.comment),
-                language=force_text(unit.translation.language),
+                language=force_text(unit.translation.language.code),
             )
 
     @staticmethod
