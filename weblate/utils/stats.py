@@ -191,17 +191,12 @@ class BaseStats(object):
         else:
             total = self.all
         if self.has_review:
-            completed = {
-                'approved', 'approved_words',
-            }
+            completed = {'approved', 'approved_words'}
         else:
-            completed = {
-                'translated', 'translated_words',
-            }
-        completed.update({'total', 'total_words'})
+            completed = {'translated', 'translated_words'}
         self.store(
             item,
-            translation_percent(getattr(self, base), total,base in completed)
+            translation_percent(getattr(self, base), total, base in completed)
         )
 
     def calculate_basic_percents(self):
