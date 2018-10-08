@@ -10,6 +10,7 @@ Released on ? 2018.
 * Fix running tests under root.
 * Improved error handling in gitexport module.
 * Fixed progress reporting for newly added languages.
+* Correctly report Celery worker errors to Sentry.
 
 weblate 3.2
 ------------

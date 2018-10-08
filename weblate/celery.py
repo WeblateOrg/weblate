@@ -79,6 +79,6 @@ def configure_error_handling(sender, **kargs):
             rollbar.report_exc_info(extra_data=kw)
 
     if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
-        client = Client(settings['RAVEN_CONFIG']['dsn'])
+        client = Client(settings.RAVEN_CONFIG['dsn'])
         register_signal(client, ignore_expected=True)
         register_logger_signal(client, loglevel=logging.INFO)
