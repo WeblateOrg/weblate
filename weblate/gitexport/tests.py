@@ -101,10 +101,17 @@ class GitExportTest(ViewTestCase):
     def git_receive(self, **kwargs):
         return self.client.get(
             self.get_git_url('info/refs'),
-            QUERY_STRING='?service=git-receive-pack',
+            QUERY_STRING='?service=git-upload-pack',
             CONTENT_TYPE='application/x-git-upload-pack-advertisement',
             **kwargs
         )
+
+    def test_reject_push(self):
+        response = self.client.get(
+            self.get_git_url('info/refs'),
+            {'service': 'git-receive-pack'}
+        )
+        self.assertEqual(403, response.status_code)
 
     def test_wrong_auth(self):
         response = self.git_receive(HTTP_AUTHORIZATION='foo')

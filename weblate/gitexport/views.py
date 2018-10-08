@@ -118,6 +118,10 @@ def git_export(request, project, component, path):
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
 
+    # Reject non pull access early
+    if request.GET.get('service', '') not in ('', 'git-upload-pack'):
+        raise PermissionDenied('Only pull is supported')
+
     if auth and not authenticate(request, auth):
         return response_authenticate()
 
