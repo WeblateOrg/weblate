@@ -1355,7 +1355,7 @@ $(function () {
         var $slug = $(this);
         var $form = $slug.parents('form');
         $form.find('input[name="name"]').on('change keypress keydown paste', function () {
-            $slug.val(slugify($(this).val()));
+            $slug.val(slugify($(this).val()).toLowerCase());
         });
 
     });
