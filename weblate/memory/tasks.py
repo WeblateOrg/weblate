@@ -80,10 +80,7 @@ def update_memory(user, unit):
         )
 
 
-@app.task(
-    base=Batches, flush_every=1000, flush_interval=300, bind=True,
-    max_retries=1000
-)
+@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def update_memory_task(self, *args, **kwargs):
     def fixup_strings(data):
         result = {}
@@ -101,8 +98,12 @@ def update_memory_task(self, *args, **kwargs):
         with memory.writer() as writer:
             for item in data:
                 writer.add_document(**fixup_strings(item))
-    except LockError as exc:
-        raise self.retry(exc=exc)
+    except LockError:
+        # Manually handle retries, it doesn't work
+        # with celery-batches
+        sleep(10)
+        for unit in data:
+            update_memory_task.delay(**unit)
 
 
 @app.task

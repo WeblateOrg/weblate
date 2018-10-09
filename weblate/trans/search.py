@@ -23,6 +23,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import functools
+from time import sleep
 
 from celery_batches import Batches
 
@@ -250,10 +251,7 @@ class Fulltext(WhooshIndex):
                     writer.delete_by_term('pk', pk)
 
 
-@app.task(
-    base=Batches, flush_every=1000, flush_interval=300, bind=True,
-    max_retries=1000
-)
+@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def update_fulltext(self, *args, **kwargs):
     unitdata = extract_batch_kwargs(*args, **kwargs)
     fulltext = Fulltext()
@@ -261,14 +259,15 @@ def update_fulltext(self, *args, **kwargs):
     # Update index
     try:
         fulltext.update_index(unitdata)
-    except LockError as exc:
-        raise self.retry(exc=exc)
+    except LockError:
+        # Manually handle retries, it doesn't work
+        # with celery-batches
+        sleep(10)
+        for unit in unitdata:
+            update_fulltext.delay(**unit)
 
 
-@app.task(
-    base=Batches, flush_every=1000, flush_interval=300, bind=True,
-    max_retries=1000
-)
+@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def delete_fulltext(self, *args):
     ids = extract_batch_args(*args)
     fulltext = Fulltext()
@@ -285,5 +284,9 @@ def delete_fulltext(self, *args):
 
     try:
         fulltext.delete_search_units(units, languages)
-    except LockError as exc:
-        raise self.retry(exc=exc)
+    except LockError:
+        # Manually handle retries, it doesn't work
+        # with celery-batches
+        sleep(10)
+        for unit in ids:
+            delete_fulltext.delay(*unit)

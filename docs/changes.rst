@@ -12,6 +12,7 @@ Released on ? 2018.
 * Fixed progress reporting for newly added languages.
 * Correctly report Celery worker errors to Sentry.
 * Fixed creating new translations with Qt Linguist.
+* Fixed occasional fulltext index update failures.
 
 weblate 3.2
 ------------
