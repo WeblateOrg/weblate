@@ -122,7 +122,7 @@ class ComponentTest(RepoTestCase):
         component = self._create_component(
             'po',
             'po/*.po',
-            'po/project.pot'
+            new_base='po/project.pot'
         )
         self.verify_component(component, 3, 'cs', 4, fail=True)
 
@@ -138,7 +138,7 @@ class ComponentTest(RepoTestCase):
         component = self._create_component(
             'auto',
             'po/*.po',
-            'po/project.pot'
+            new_base='po/project.pot'
         )
         self.verify_component(component, 3, 'cs', 4, fail=True)
 
