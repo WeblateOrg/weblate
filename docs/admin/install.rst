@@ -699,7 +699,7 @@ useful when debugging or developing):
 
 .. code-block:: sh
 
-   celery --app weblate worker --loglevel info --beat
+   celery worker --app weblate --loglevel info --beat
 
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`.
