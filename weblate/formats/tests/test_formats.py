@@ -36,7 +36,7 @@ from weblate.formats.ttkit import (
     PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat, JSONFormat,
     JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat, YAMLFormat,
     RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
-    PoXliffFormat,
+    PoXliffFormat, CSVFormat,
 )
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.auto import detect_filename
@@ -44,6 +44,7 @@ from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
 
 TEST_PO = get_test_file('cs.po')
+TEST_CSV = get_test_file('cs-mono.csv')
 TEST_JSON = get_test_file('cs.json')
 TEST_NESTED_JSON = get_test_file('cs-nested.json')
 TEST_WEBEXT_JSON = get_test_file('cs-webext.json')
@@ -561,3 +562,18 @@ class WindowsRCFormatTest(AutoFormatTest):
 
     def test_edit(self):
         raise SkipTest('Known to be broken')
+
+
+class CSVFormatTest(AutoFormatTest):
+    FORMAT = CSVFormat
+    FILE = TEST_CSV
+    MIME = 'text/csv'
+    COUNT = 4
+    EXT = 'csv'
+    MASK = 'csv/*.csv'
+    EXPECTED_PATH = 'csv/cs_CZ.csv'
+    MATCH = 'HELLO'
+    BASE = TEST_CSV
+    FIND = 'HELLO'
+    FIND_MATCH = 'Hello, world!\r\n'
+    NEW_UNIT_MATCH = b'"key","Source string"\r\n'
