@@ -398,7 +398,7 @@ class CommandTest(ViewTestCase):
         call_command('list_addons', stdout=output)
         self.assertIn('msgmerge', output.getvalue())
 
-    def test_install_addon(self):
+    def test_install_not_supported(self):
         output = StringIO()
         call_command(
             'install_addon', '--all',
@@ -410,6 +410,22 @@ class CommandTest(ViewTestCase):
             'Can not install on Test/Test',
             output.getvalue()
         )
+
+    def test_install_no_form(self):
+        output = StringIO()
+        call_command(
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.mo',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Successfully installed on Test/Test',
+            output.getvalue()
+        )
+
+    def test_install_form(self):
+        output = StringIO()
         call_command(
             'install_addon', '--all',
             '--addon', 'weblate.gettext.customize',
@@ -423,6 +439,7 @@ class CommandTest(ViewTestCase):
         )
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {'width': 77})
+        output = StringIO()
         call_command(
             'install_addon', '--all',
             '--addon', 'weblate.gettext.customize',
@@ -436,6 +453,7 @@ class CommandTest(ViewTestCase):
         )
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {'width': 77})
+        output = StringIO()
         call_command(
             'install_addon', '--all', '--update',
             '--addon', 'weblate.gettext.customize',
