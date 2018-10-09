@@ -1431,11 +1431,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def has_template(self):
         """Return true if component is using template for translation"""
         monolingual = self.file_format_cls.monolingual
-        return (
-            (monolingual or monolingual is None) and
-            self.template and
-            not self.template.endswith('.pot')
-        )
+        return ((monolingual or monolingual is None) and self.template)
 
     def load_template_store(self):
         """Load translate-toolkit store for template."""
