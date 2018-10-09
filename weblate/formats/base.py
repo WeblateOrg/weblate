@@ -544,10 +544,10 @@ class FileFormat(object):
         return True
 
     @classmethod
-    def is_valid_base_for_new(cls, base):
+    def is_valid_base_for_new(cls, base, monolingual):
         """Check whether base is valid."""
         if not base:
-            return cls.new_translation is not None
+            return monolingual and cls.new_translation is not None
         try:
             cls.parse_store(base)
             return True

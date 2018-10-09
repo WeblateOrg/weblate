@@ -223,7 +223,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             self.assertEqual(unit.get_target(), self.FIND_MATCH)
 
     def test_add(self):
-        self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
+        self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
         out = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
         self.FORMAT.add_language(
             out,

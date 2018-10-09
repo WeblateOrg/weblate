@@ -13,6 +13,7 @@ Released on ? 2018.
 * Correctly report Celery worker errors to Sentry.
 * Fixed creating new translations with Qt Linguist.
 * Fixed occasional fulltext index update failures.
+* Improved validation when creating new components.
 
 weblate 3.2
 ------------

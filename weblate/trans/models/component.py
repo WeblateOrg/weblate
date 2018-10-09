@@ -1165,11 +1165,16 @@ class Component(models.Model, URLMixin, PathMixin):
                 '\n'.join(errors)
             ))
 
+    def is_valid_base_for_new(self):
+        filename = self.get_new_base_filename()
+        template = self.has_template()
+        return self.file_format_cls.is_valid_base_for_new(filename, template)
+
     def clean_new_lang(self):
         """Validate new language choices."""
         if self.new_lang == 'add':
-            filename = self.get_new_base_filename()
-            if not self.file_format_cls.is_valid_base_for_new(filename):
+            if not self.is_valid_base_for_new():
+                filename = self.get_new_base_filename()
                 if filename:
                     message = _(
                         'Format of base file for new translations '
@@ -1463,11 +1468,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.new_lang != 'add':
             return False
 
-        base_filename = self.get_new_base_filename()
-        if not self.file_format_cls.is_valid_base_for_new(base_filename):
-            return False
-
-        return True
+        return self.is_valid_base_for_new()
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
