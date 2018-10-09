@@ -21,6 +21,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import os.path
+from time import sleep
 
 from celery_batches import Batches
 
