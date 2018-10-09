@@ -402,6 +402,16 @@ class CommandTest(ViewTestCase):
         output = StringIO()
         call_command(
             'install_addon', '--all',
+            '--addon', 'weblate.flags.same_edit',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Can not install on Test/Test',
+            output.getvalue()
+        )
+        call_command(
+            'install_addon', '--all',
             '--addon', 'weblate.gettext.customize',
             '--configuration', '{"width":77}',
             stdout=output,
