@@ -36,6 +36,7 @@ NO_CODE_LANGUAGES = frozenset((
     'en_US', 'en_CA', 'en_AU', 'en_IE', 'en_PH',
     'pt_BR', 'pt_PT',
     'es_AR', 'es_MX', 'es_PR', 'es_US',
+    'ro_MD',
 ))
 
 # List of defaul languages - the ones, where using
