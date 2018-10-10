@@ -204,7 +204,7 @@ def get_versions():
         'translate-toolkit',
         'https://toolkit.translatehouse.org/',
         'translate',
-        '2.3.0',
+        '2.3.1',
     ))
 
     result.append(get_single(

@@ -44,7 +44,7 @@ celery-batches (>= 0.2)
     https://pypi.org/project/celery-batches/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
-translate-toolkit (>= 2.3.0)
+translate-toolkit (>= 2.3.1)
     https://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.org/project/six/

@@ -391,14 +391,10 @@ class PropertiesFormat(PropertiesUtf8Format):
 
     @classmethod
     def fixup(cls, store):
-        """Fixe encoding.
+        """Force encoding.
 
         Java properties need to be iso-8859-1, but
         ttkit converts them to utf-8.
-
-        This will be fixed in translate-toolkit 1.14.0, we could then
-        merge utf-16 and this one as the encoding detection should do
-        the correct magic then.
         """
         store.encoding = 'iso-8859-1'
         return store
@@ -557,11 +553,7 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        # Do we have python 3 compatible csv module?
-        new_csv = six.PY3 or hasattr(csv, 'PY3')
-
-        if new_csv:
-            content = content.decode('utf-8')
+        content = content.decode('utf-8')
 
         fileobj = csv.StringIO(content)
         storefile.close()
@@ -576,10 +568,7 @@ class CSVFormat(FileFormat):
             return store
 
         result = storeclass(fieldnames=['source', 'target'])
-        if new_csv:
-            result.parse(content.encode('utf-8'))
-        else:
-            result.parse(content)
+        result.parse(content.encode('utf-8'))
         return result
 
 

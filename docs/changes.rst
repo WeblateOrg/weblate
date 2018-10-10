@@ -6,6 +6,8 @@ weblate 3.3
 
 Released on ? 2018.
 
+* Increase required translate-toolkit version to 2.3.1.
+
 weblate 3.2.1
 -------------
 
