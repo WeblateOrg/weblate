@@ -1011,6 +1011,11 @@ class CommaSeparatedIntegerField(forms.Field):
             raise ValidationError(_('Invalid integer list!'))
 
 
+class OneWordForm(forms.Form):
+    """Simple one-word form"""
+    term = forms.CharField(label=_('Search'), max_length=30, required=False)
+
+
 class WordForm(forms.Form):
     """Form for adding word to a glossary."""
     source = forms.CharField(label=_('Source'), max_length=190)
