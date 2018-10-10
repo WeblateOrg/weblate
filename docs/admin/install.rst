@@ -78,8 +78,6 @@ user-agents (>= 1.1.0)
     https://github.com/selwin/python-user-agents
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
-Babel (optional for Android resources support)
-    http://babel.pocoo.org/
 phply (optional for PHP support)
     https://github.com/viraptor/phply
 Database backend
@@ -210,7 +208,7 @@ system Python libraries.
         
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYAML Babel pyuca
+        pip install pytz python-bidi PyYAML pyuca
 
 5. Create your settings (in our example it would be in 
    :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
@@ -273,7 +271,7 @@ install them you can use apt-get:
 
     apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil \
-        python-babel git mercurial \
+        git mercurial \
         python-django-compressor python-django-crispy-forms \
         python-djangorestframework python-dateutil python-celery
 
@@ -364,7 +362,7 @@ Most of requirements are available either directly in openSUSE or in
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow \
         python-social-auth-core python-social-auth-app-django \
-        python-babel Git mercurial python-pyuca \
+        Git mercurial python-pyuca \
         python-dateutil python-celery
 
     # Optional for database backend
