@@ -39,7 +39,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import create_test_user, wait_for_celery
+from weblate.trans.tests.utils import create_test_user, wait_for_celery, create_another_user
 from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 
@@ -88,6 +88,9 @@ class ViewTestCase(RepoTestCase):
         # Create user
         self.user = create_test_user()
         group = Group.objects.get(name='Users')
+        self.user.groups.add(group)
+        # Create another user
+        self.anotheruser = create_another_user()
         self.user.groups.add(group)
         # Create project to have some test base
         self.component = self.create_component()
@@ -241,6 +244,9 @@ class ViewTestCase(RepoTestCase):
                 translated, expected_translated
             )
         )
+
+    def log_as_jane(self):
+        self.client.login(username='jane', password='anotherpassword')
 
 
 class FixtureTestCase(ViewTestCase):

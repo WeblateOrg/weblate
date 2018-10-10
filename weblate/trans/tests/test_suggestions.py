@@ -290,3 +290,34 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assert_backend(1)
+
+    def test_vote_when_same_suggestion(self):
+        translate_url = reverse('translate', kwargs=self.kw_translation)
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 0
+        self.component.save()
+
+        # Add the first suggestion as default test-user
+        response = self.add_suggestion_1()
+        suggestion_id = self.get_unit().suggestions[0].pk
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+
+        # Suggestion get vote from the user that makes suggestion
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            1
+        )
+
+        # Add suggestion as second user
+        self.log_as_jane()
+        response = self.add_suggestion_1()
+
+        # When adding the same suggestion, we stay on the same page
+        self.assert_redirects_offset(response, translate_url, 1)
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+
+        # and the suggestion gets an upvote
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            2
+        )
