@@ -1061,6 +1061,16 @@ STATUS_URL
 
 URL where your Weblate instance reports it's status.
 
+.. setting:: SUGGESTION_CLEANUP_DAYS
+
+SUGGESTION_CLEANUP_DAYS
+-----------------------
+
+.. versionadded:: 3.2.1
+
+Automatically delete suggestions after given number of days. Defaults to
+``None`` what means no deletion at all.
+
 .. setting:: TTF_PATH
 
 TTF_PATH

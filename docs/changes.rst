@@ -14,6 +14,7 @@ Released on ? 2018.
 * Fixed creating new translations with Qt Linguist.
 * Fixed occasional fulltext index update failures.
 * Improved validation when creating new components.
+* Added support for cleanup of old suggestions.
 
 weblate 3.2
 ------------

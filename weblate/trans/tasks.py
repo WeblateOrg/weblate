@@ -270,6 +270,14 @@ def cleanup_stale_repos():
             rmtree(path, onerror=remove_readonly)
 
 
+@app.task
+def cleanup_old_suggestions():
+    if not settings.SUGGESTION_CLEANUP_DAYS:
+        return
+    cutoff = timezone.now() - timedelta(days=settings.SUGGESTION_CLEANUP_DAYS)
+    Suggestion.objects.filter(timestamp__lt=cutoff).delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -291,6 +299,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         cleanup_stale_repos.s(),
         name='cleanup-stale-repos',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_old_suggestions.s(),
+        name='cleanup-old-suggestions',
     )
 
     # Following fulltext maintenance tasks should not be
