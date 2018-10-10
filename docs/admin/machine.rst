@@ -224,6 +224,27 @@ To enable this service, add ``weblate.machinery.mymemory.MyMemoryTranslation`` t
     :setting:`MT_MYMEMORY_KEY`,
     `MyMemory website <https://mymemory.translated.net/>`_
 
+.. _netease-translate:
+
+Netease Sight API machine translation
+-------------------------------------
+
+.. versionadded:: 3.3
+
+Machine translation service provided by Netease.
+
+This service uses an API and you need to obtain key and secret from Netease.
+
+To enable this service, add ``weblate.machinery.youdao.NeteaseSightTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_NETEASE_KEY` and
+:setting:`MT_NETEASE_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_NETEASE_KEY`,
+    :setting:`MT_NETEASE_SECRET`
+    `Netease Sight Translation Platform <https://sight.netease.com/>`_
+
 .. _tmserver:
 
 tmserver

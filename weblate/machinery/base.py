@@ -81,14 +81,25 @@ class MachineTranslation(object):
         """Hook for backends to allow add authentication headers to request."""
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False, json_body=False,
                  **kwargs):
         """Perform JSON request."""
+
+        # JSON body requires using POST
+        if json_body:
+            http_post = True
+
         # Encode params
         if kwargs:
-            params = urlencode(kwargs)
+            if json_body:
+                params = json.dumps(kwargs)
+            else:
+                params = urlencode(kwargs)
         else:
-            params = ''
+            if json_body:
+                params = '{}'
+            else:
+                params = ''
 
         # Store for exception handling
         self.request_url = url
