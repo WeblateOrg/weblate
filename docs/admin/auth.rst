@@ -258,6 +258,14 @@ can install it by usual means:
     With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work
     properly for newly created users.
 
+.. note::
+
+   There are some incompatibilities in Python LDAP module 3.1.0 which might
+   prevent you from using that version. If you get error `AttributeError:
+   'module' object has no attribute '_trace_level'
+   <https://github.com/python-ldap/python-ldap/issues/226>`_, downgrading
+   python-ldap to 3.0.0 might help.
+
 Once you have the package installed, you can hook it to Django authentication:
 
 .. code-block:: python
@@ -315,7 +323,7 @@ and provide user to bind for the search. For example:
 
 .. seealso::
 
-    :doc:`ldap:index`
+    :doc:`ldap:index`, :doc:`ldap:authentication`
 
 
 .. _cas-auth:
