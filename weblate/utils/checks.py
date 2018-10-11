@@ -18,9 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 import os.path
+
+from celery.exceptions import TimeoutError
 
 from django.conf import settings
 from django.core.mail import get_connection
@@ -32,6 +34,7 @@ from weblate import settings_example
 from weblate.utils.celery import get_queue_length
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tasks import ping
 
 GOOD_CACHE = frozenset((
     'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
@@ -81,6 +84,27 @@ def check_celery(app_configs, **kwargs):
 -               'is not running or is too slow.',
                 hint=get_doc_url('admin/install', 'celery'),
                 id='weblate.E009',
+            )
+        )
+
+    result = ping.delay()
+    try:
+        result.get(timeout=10)
+    except TimeoutError:
+        errors.append(
+            Critical(
+                'The Celery does not process tasks or is too slow '
+                'in processing them.',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.E019',
+            )
+        )
+    except NotImplementedError:
+        errors.append(
+            Critical(
+                'The Celery is not configured to store results.',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.E020',
             )
         )
 

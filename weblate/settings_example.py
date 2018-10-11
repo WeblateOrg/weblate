@@ -808,6 +808,7 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 # CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # Celery settings, it is not recommended to change these
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
