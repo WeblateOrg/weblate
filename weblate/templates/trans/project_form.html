@@ -13,7 +13,7 @@
 {% show_message "warning" msg %}
 
 {% if has_billing %}
-<a class="btn btn-primary" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+{% include "billing-failure.html" %}
 {% endif %}
 
 {% else %}
