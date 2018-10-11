@@ -76,37 +76,37 @@ def check_celery(app_configs, **kwargs):
                 id='weblate.E005',
             )
         )
+    else:
+        if get_queue_length() > 1000:
+            errors.append(
+                Critical(
+                    'The Celery tasks queue is too long, either the worker '
+    -               'is not running or is too slow.',
+                    hint=get_doc_url('admin/install', 'celery'),
+                    id='weblate.E009',
+                )
+            )
 
-    if get_queue_length() > 1000:
-        errors.append(
-            Critical(
-                'The Celery tasks queue is too long, either the worker '
--               'is not running or is too slow.',
-                hint=get_doc_url('admin/install', 'celery'),
-                id='weblate.E009',
+        result = ping.delay()
+        try:
+            result.get(timeout=10)
+        except TimeoutError:
+            errors.append(
+                Critical(
+                    'The Celery does not process tasks or is too slow '
+                    'in processing them.',
+                    hint=get_doc_url('admin/install', 'celery'),
+                    id='weblate.E019',
+                )
             )
-        )
-
-    result = ping.delay()
-    try:
-        result.get(timeout=10)
-    except TimeoutError:
-        errors.append(
-            Critical(
-                'The Celery does not process tasks or is too slow '
-                'in processing them.',
-                hint=get_doc_url('admin/install', 'celery'),
-                id='weblate.E019',
+        except NotImplementedError:
+            errors.append(
+                Critical(
+                    'The Celery is not configured to store results.',
+                    hint=get_doc_url('admin/install', 'celery'),
+                    id='weblate.E020',
+                )
             )
-        )
-    except NotImplementedError:
-        errors.append(
-            Critical(
-                'The Celery is not configured to store results.',
-                hint=get_doc_url('admin/install', 'celery'),
-                id='weblate.E020',
-            )
-        )
 
     return errors
 
