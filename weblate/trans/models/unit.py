@@ -713,7 +713,12 @@ class Unit(models.Model, LoggerMixin):
         if change_action is not None:
             action = change_action
         elif self.old_unit.state >= STATE_TRANSLATED:
-            action = Change.ACTION_CHANGE
+            if self.state == STATE_APPROVED:
+                action = Change.ACTION_APPROVE
+            elif self.state == STATE_FUZZY:
+                action = Change.ACTION_MARKED_EDIT
+            else:
+                action = Change.ACTION_CHANGE
         else:
             action = Change.ACTION_NEW
 

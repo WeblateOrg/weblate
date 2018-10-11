@@ -185,6 +185,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ACCESS_EDIT = 33
     ACTION_ADD_USER = 34
     ACTION_REMOVE_USER = 35
+    ACTION_APPROVE = 36
+    ACTION_MARKED_EDIT = 37
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -226,6 +228,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_ACCESS_EDIT, ugettext_lazy('Changed visibility')),
         (ACTION_ADD_USER, ugettext_lazy('Added user')),
         (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),
+        (ACTION_APPROVE, ugettext_lazy('Translation approved')),
+        (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
     )
 
     ACTIONS_COMPONENT = frozenset((
