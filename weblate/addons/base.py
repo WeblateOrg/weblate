@@ -47,6 +47,10 @@ class BaseAddon(object):
         return ''
 
     @cached_property
+    def doc_anchor(self):
+        return 'addon-{}'.format(self.name.replace('.', '-'))
+
+    @cached_property
     def has_settings(self):
         return self.settings_form is not None
 
