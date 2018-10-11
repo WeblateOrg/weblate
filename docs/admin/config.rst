@@ -370,6 +370,33 @@ Defaults to ``$BASE_DIR/data``.
     :setting:`BASE_DIR`,
     :doc:`backup`
 
+.. setting:: DEFAULT_ACCESS_CONTROL
+
+DEFAULT_ACCESS_CONTROL
+----------------------
+
+.. versionadded:: 3.3
+
+Choose default access control when creating new project, possible values are currently:
+
+``0``
+   :guilabel:`Public`
+``1``
+   :guilabel:`Protected`
+``100``
+   :guilabel:`Private`
+``200``
+   :guilabel:`Custom`
+
+Use :guilabel:`Custom` if you are going to manage ACL manually and do not want
+to rely on Weblate internal management.
+
+.. seealso::
+
+   :ref:`acl`,
+   :ref:`privileges`
+
+
 .. setting:: DEFAULT_COMMITER_EMAIL
 
 DEFAULT_COMMITER_EMAIL
@@ -397,23 +424,6 @@ Default committer name when creating translation component (see
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
-
-.. setting:: DEFAULT_CUSTOM_ACL
-
-DEFAULT_CUSTOM_ACL
-------------------
-
-.. versionadded:: 3.0
-
-Whether newly created projects should default to :guilabel:`Custom` ACL.
-Use if you are going to manage ACL manually and do not want to rely on Weblate
-internal management.
-
-.. seealso::
-
-   :ref:`acl`,
-   :ref:`privileges`
-
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 

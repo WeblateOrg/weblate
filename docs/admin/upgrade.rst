@@ -107,6 +107,18 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+
+Upgrade from 3.2 to 3.3
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The DEFAULT_CUSTOM_ACL settings was replaced by :setting:`DEFAULT_ACCESS_CONTROL`. If you were using that please update your :file:`settings.py`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

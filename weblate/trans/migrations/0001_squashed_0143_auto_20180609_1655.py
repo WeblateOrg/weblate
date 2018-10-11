@@ -444,7 +444,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='access_control',
-            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=200 if settings.DEFAULT_CUSTOM_ACL else 0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
+            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=settings.DEFAULT_ACCESS_CONTROL, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
         ),
         migrations.AddField(
             model_name='project',

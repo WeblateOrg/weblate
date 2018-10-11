@@ -97,9 +97,7 @@ class Project(models.Model, URLMixin, PathMixin):
         )
     )
     access_control = models.IntegerField(
-        default=(
-            ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC
-        ),
+        default=settings.DEFAULT_ACCESS_CONTROL,
         choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
