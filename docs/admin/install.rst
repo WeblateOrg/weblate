@@ -700,7 +700,27 @@ useful when debugging or developing):
    celery worker --app weblate --loglevel info --beat
 
 Most likely you will want to run Celery as a daemon and that is covered by
-:doc:`celery:userguide/daemonizing`.
+:doc:`celery:userguide/daemonizing`. For the most usual Linux setup using
+systemd you can use example files shipped in the :file:`examples` folder and
+listed below.
+
+Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
+
+.. literalinclude:: ../../examples/celery-weblate.service
+    :language: ini
+    :encoding: utf-8
+
+Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
+
+.. literalinclude:: ../../examples/celery-weblate.conf
+    :language: sh
+    :encoding: utf-8
+
+Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
+
+.. literalinclude:: ../../examples/celery-weblate.logrotate
+    :language: text
+    :encoding: utf-8
 
 .. seealso::
 
