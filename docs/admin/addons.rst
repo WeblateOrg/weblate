@@ -100,7 +100,24 @@ Statistics generator
 --------------------
 
 This addon generates a file containing detailed information about the
-translation.
+translation. You can use Django template in both filename and content, see
+:ref:`markup` for detailed markup description.
+
+For example generating summary file for each translations:
+
+Name of generated file
+   ``locale/{{ language_code }}.json``
+Content
+   .. code-block:: json
+
+      {
+         "language": "{{ language_code }}",
+         "strings": "{{ stats.all }}",
+         "translated": "{{ stats.translated }}",
+         "last_changed": "{{ stats.last_changed }}",
+         "last_author": "{{ stats.last_author }}",
+      }
+
 
 .. seealso::
 
