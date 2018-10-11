@@ -290,6 +290,19 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
+If you can not use direct bind for authentication, you will need to use search
+and provide user to bind for the search. For example:
+
+.. code-block:: python
+
+   import ldap
+   from django_auth_ldap.config import LDAPSearch
+
+   AUTH_LDAP_BIND_DN = ""
+   AUTH_LDAP_BIND_PASSWORD = ""
+   AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
+       ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+
 .. note::
 
     You should remove ``'social_core.backends.email.EmailAuth'`` from the
