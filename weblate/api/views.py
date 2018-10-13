@@ -84,7 +84,7 @@ def get_view_description(view_cls, html=False):
 
     if hasattr(view_cls, 'serializer_class'):
         doc_url = get_doc_url(
-            'api'
+            'api',
             '{0}s'.format(
                 view_cls.serializer_class.Meta.model.__name__.lower()
             )
