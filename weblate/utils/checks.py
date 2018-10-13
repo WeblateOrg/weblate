@@ -89,7 +89,7 @@ def check_celery(app_configs, **kwargs):
 
         result = ping.delay()
         try:
-            result.get(timeout=10)
+            result.get(timeout=10, disable_sync_subtasks=False)
         except TimeoutError:
             errors.append(
                 Critical(
