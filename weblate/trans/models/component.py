@@ -398,7 +398,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     language_regex = RegexField(
         verbose_name=ugettext_lazy('Language filter'),
-        max_length=200,
+        max_length=500,
         default='^[^.]+$',
         help_text=ugettext_lazy(
             'Regular expression which is used to filter '
