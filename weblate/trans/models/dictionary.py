@@ -123,7 +123,7 @@ class DictionaryManager(models.Manager):
         # - language analyzer if available (it is for English)
         analyzers = [
             SimpleAnalyzer(expression=SPLIT_RE, gaps=True),
-            LanguageAnalyzer(source_language.base_code()),
+            LanguageAnalyzer(source_language.base_code),
         ]
 
         # Add ngram analyzer for languages like Chinese or Japanese

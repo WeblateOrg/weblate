@@ -400,18 +400,18 @@ class Language(models.Model):
 
     def save(self, *args, **kwargs):
         """Set default direction for language."""
-        if self.base_code() in data.RTL_LANGS:
+        if self.base_code in data.RTL_LANGS:
             self.direction = 'rtl'
         else:
             self.direction = 'ltr'
         return super(Language, self).save(*args, **kwargs)
 
+    @cached_property
     def base_code(self):
         return self.code.replace('_', '-').split('-')[0]
 
     def uses_ngram(self):
-        code = self.base_code()
-        return code in ('ja', 'zh', 'ko')
+        return self.base_code in ('ja', 'zh', 'ko')
 
     @cached_property
     def plural(self):
