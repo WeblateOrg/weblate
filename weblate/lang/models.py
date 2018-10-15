@@ -52,14 +52,11 @@ PLURAL_TITLE = '''
 '''
 
 
-def get_plural_type(code, pluralequation):
+def get_plural_type(base_code, pluralequation):
     """Get correct plural type for language."""
     # Remove not needed parenthesis
     if pluralequation[-1] == ';':
         pluralequation = pluralequation[:-1]
-
-    # Get base language code
-    base_code = code.replace('_', '-').split('-')[0]
 
     # No plural
     if pluralequation == '0':
@@ -76,7 +73,7 @@ def get_plural_type(code, pluralequation):
 
     # Log error in case of uknown mapping
     LOGGER.error(
-        'Can not guess type of plural for %s: %s', code, pluralequation
+        'Can not guess type of plural for %s: %s', base_code, pluralequation
     )
 
     return data.PLURAL_UNKNOWN
@@ -274,7 +271,7 @@ class LanguageQuerySet(models.QuerySet):
             )
 
             # Get plural type
-            plural_type = get_plural_type(code, pluraleq)
+            plural_type = get_plural_type(lang.base_code, pluraleq)
 
             # Should we update existing?
             if update:
@@ -305,7 +302,7 @@ class LanguageQuerySet(models.QuerySet):
             lang = self.get(code=code)
 
             # Get plural type
-            plural_type = get_plural_type(code, pluraleq)
+            plural_type = get_plural_type(lang.base_code, pluraleq)
 
             plural_data = {
                 'type': plural_type,
@@ -610,7 +607,7 @@ class Plural(models.Model):
             }
 
     def save(self, *args, **kwargs):
-        self.type = get_plural_type(self.language.code, self.equation)
+        self.type = get_plural_type(self.language.base_code, self.equation)
         # Try to calculate based on equation
         if self.type == data.PLURAL_UNKNOWN:
             for equations, plural in data.PLURAL_MAPPINGS:
