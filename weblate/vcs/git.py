@@ -90,7 +90,7 @@ class GitRepository(Repository):
     def set_config(self, path, value):
         """Set entry in local configuration."""
         self.execute(
-            ['config', path, value]
+            ['config', '--replace-all', path, value]
         )
 
     def set_committer(self, name, mail):
