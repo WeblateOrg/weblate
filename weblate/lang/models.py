@@ -269,13 +269,15 @@ class LanguageQuerySet(models.QuerySet):
         """
         # Create Weblate languages
         for code, name, nplurals, pluraleq in languages.LANGUAGES:
-            lang, created = self.get_or_create(code=code)
+            lang, created = self.get_or_create(
+                code=code, defaults={'name': name}
+            )
 
             # Get plural type
             plural_type = get_plural_type(code, pluraleq)
 
             # Should we update existing?
-            if update or created:
+            if update:
                 lang.name = name
                 lang.save()
 
