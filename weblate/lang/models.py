@@ -277,10 +277,6 @@ class LanguageQuerySet(models.QuerySet):
             # Should we update existing?
             if update or created:
                 lang.name = name
-                if code in data.RTL_LANGS:
-                    lang.direction = 'rtl'
-                else:
-                    lang.direction = 'ltr'
                 lang.save()
 
             plural_data = {
@@ -402,12 +398,13 @@ class Language(models.Model):
             'lang="{0}" dir="{1}"'.format(self.code, self.direction)
         )
 
-    def set_direction(self):
+    def save(self, *args, **kwargs):
         """Set default direction for language."""
         if self.code in data.RTL_LANGS:
             self.direction = 'rtl'
         else:
             self.direction = 'ltr'
+        return super(Language, self).save(*args, **kwargs)
 
     def base_code(self):
         return self.code.replace('_', '-').split('-')[0]
