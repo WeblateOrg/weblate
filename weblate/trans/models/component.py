@@ -1224,8 +1224,8 @@ class Component(models.Model, URLMixin, PathMixin):
             if code:
                 lang = Language.objects.auto_get_or_create(
                     code=code
-                ).base_code()
-                if lang != self.project.source_language.base_code():
+                ).base_code
+                if lang != self.project.source_language.base_code:
                     msg = _(
                         'Template language ({0}) does not '
                         'match project source language ({1})!'
