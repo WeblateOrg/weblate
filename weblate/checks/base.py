@@ -32,6 +32,7 @@ class Check(object):
     default_disabled = False
     severity = 'info'
     enable_check_value = False
+    batch_update = False
 
     def get_identifier(self):
         return self.check_id

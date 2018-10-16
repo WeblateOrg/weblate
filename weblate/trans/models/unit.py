@@ -378,6 +378,7 @@ class Unit(models.Model, LoggerMixin):
         """Constructor to initialize some cache properties."""
         super(Unit, self).__init__(*args, **kwargs)
         self.old_unit = copy(self)
+        self.is_batch_update = False
 
     def __str__(self):
         return _('{translation}, string {position}').format(
@@ -429,6 +430,7 @@ class Unit(models.Model, LoggerMixin):
 
     def update_from_unit(self, unit, pos, created, component):
         """Update Unit from ttkit unit."""
+        self.is_batch_update = True
         # Get unit attributes
         location = unit.get_locations()
         flags = unit.get_flags()
@@ -863,7 +865,10 @@ class Unit(models.Model, LoggerMixin):
 
         # Run all target checks
         for check, check_obj in checks_to_run.items():
-            if check_obj.target and check_obj.check_target(src, tgt, self):
+            if self.is_batch_update and check_obj.batch_update:
+                old_checks.discard(check)
+                continue
+            if check_obj.check_target(src, tgt, self):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)

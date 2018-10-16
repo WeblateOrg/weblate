@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 from weblate.checks.base import TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
@@ -74,6 +75,21 @@ class ConsistencyCheck(TargetCheck):
     )
     ignore_untranslated = False
     severity = 'warning'
+    batch_update = True
+
+    def check_target_project(self, project):
+        """Batch check for whole project."""
+        from weblate.trans.models import Unit
+        return Unit.objects.filter(
+            translation__component__project=project,
+            translation__component__allow_translation_propagation=True,
+        ).values(
+            'content_hash', 'translation__language'
+        ).annotate(
+            Count('target', distinct=True)
+        ).filter(
+            target__count__gt=1
+        )
 
     def check_target_unit(self, sources, targets, unit):
         # Do not check consistency if user asked not to have it
