@@ -404,7 +404,7 @@ location from the others :file:`res/values/strings.xml`.
 
 .. seealso::
 
-    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource.html>`_,
+    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
     :doc:`tt:formats/android`
 
 .. note::
