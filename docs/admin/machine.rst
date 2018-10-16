@@ -20,7 +20,7 @@ To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
 
 .. seealso:: 
    
-    `Amagama Translation Memory server <https://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
+    :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
@@ -260,7 +260,7 @@ And configure Weblate to talk to it:
 
     :setting:`MT_TMSERVER`,
     :doc:`tt:commands/tmserver`
-    `Amagama Translation Memory server <https://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
+    :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 
