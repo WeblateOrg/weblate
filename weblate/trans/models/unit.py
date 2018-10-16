@@ -844,11 +844,7 @@ class Unit(models.Model, LoggerMixin):
             # Delete all checks if only message with this source is fuzzy
             if not same_source_exists:
                 return {}, True
-            elif 'inconsistent' in CHECKS:
-                # Consistency check checks across more translations
-                return {'inconsistent': CHECKS['inconsistent']}, False
-        else:
-            return {x: y for x, y in CHECKS.data.items() if y.target}, True
+        return {x: y for x, y in CHECKS.data.items() if y.target}, True
 
     def run_checks(self, same_state=True, same_content=True, is_new=False):
         """Update checks for this unit."""
