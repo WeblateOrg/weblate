@@ -253,14 +253,14 @@ build and publish your documentation for free.
 I will not focus on writing documentation itself, if you need guidance with
 that, just follow instructions on the `Sphinx`_ website. Once you have
 documentation ready, translating it is quite easy as Sphinx comes with support
-for this and it is quite nicely covered in their
-`Internationalization Quick Guide`_.  It's matter of few configuration
-directives and invoking of the ``sphinx-intl`` tool.
+for this and it is quite nicely covered in their :ref:`sphinx:intl`.  It's
+matter of few configuration directives and invoking of the ``sphinx-intl``
+tool.
 
 If you are using Read the Docs service, you can start building translated
-documentation on the Read the Docs. Their `Localization of Documentation`_
-covers pretty much everything you need - creating another project, set its
-language and link it from master project as a translation.
+documentation on the Read the Docs. Their :doc:`rtd:localization` covers pretty
+much everything you need - creating another project, set its language and link
+it from master project as a translation.
 
 Now all you need is translating the documentation content. As Sphinx splits
 the translation files per source file, you might end up with dozen of files,
@@ -334,7 +334,5 @@ Weblate whenever there is new commit, see :ref:`update-vcs` for more details.
 .. _GNU Gettext: https://www.gnu.org/software/gettext/
 .. _Sphinx: http://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org/
-.. _Internationalization Quick Guide: http://www.sphinx-doc.org/en/stable/intl.html#quick-guide
-.. _Localization of Documentation: https://docs.readthedocs.io/en/latest/localization.html
 .. _intltool: https://freedesktop.org/wiki/Software/intltool/
 .. _pybabel: http://babel.pocoo.org/

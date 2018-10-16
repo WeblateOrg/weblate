@@ -199,6 +199,8 @@ intersphinx_mapping = {
     'virtaal': ('https://virtaal.readthedocs.io/en/latest/', None),
     'ldap': ('https://django-auth-ldap.readthedocs.io/en/latest/', None),
     'celery': ('http://docs.celeryproject.org/en/latest/', None),
+    'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
+    'rtd': ('https://docs.readthedocs.io/en/latest/', None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types
