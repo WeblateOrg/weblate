@@ -583,7 +583,7 @@ ENABLE_HTTPS = False
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
-# http://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
+# https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = ENABLE_HTTPS
 
 # Make CSRF cookie HttpOnly, see documentation for more details:
