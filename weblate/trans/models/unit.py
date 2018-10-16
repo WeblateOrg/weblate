@@ -831,6 +831,9 @@ class Unit(models.Model, LoggerMixin):
             # Run only source checks on template, this is done later
             return {}, True
         elif (not same_state or is_new) and self.state < STATE_TRANSLATED:
+            # The consistency check will be run as batch
+            if is_new and self.is_batch_update:
+                return {}, False
             # Check whether there is any message with same source
             same_source_exists = False
             for unit in self.same_source_units:
