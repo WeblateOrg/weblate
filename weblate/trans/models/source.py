@@ -128,7 +128,7 @@ class Source(models.Model):
 
         # Run all source checks
         for check, check_obj in CHECKS.items():
-            if CHECKS[check].source and check_obj.check_source(src, unit):
+            if check_obj.source and check_obj.check_source(src, unit):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
