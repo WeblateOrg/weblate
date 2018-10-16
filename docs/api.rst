@@ -154,7 +154,7 @@ requests per day for anonymous users and 1000 requests per day for authenticated
 users.
 
 Rate limiting can be adjusted in the :file:`settings.py`; see 
-`Throttling in Django REST framework documentation <http://www.django-rest-framework.org/api-guide/throttling/>`_
+`Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
 API Entry Point
