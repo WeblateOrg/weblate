@@ -29,9 +29,8 @@ well.
 Social authentication
 ---------------------
 
-Thanks to `python-social-auth <https://python-social-auth.readthedocs.io/>`_, Weblate
-support authentication using many third party services such as Facebook,
-GitHub, Google or Bitbucket.
+Thanks to :doc:`psa:index`, Weblate support authentication using many third
+party services such as Facebook, GitHub, Google or Bitbucket.
 
 Please check their documentation for generic configuration instructions
 in :doc:`psa:configuration/django`.
