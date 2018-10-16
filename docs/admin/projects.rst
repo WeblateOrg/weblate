@@ -24,6 +24,8 @@ information.
 
     You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
 
+.. _adding-projects:
+
 Adding translation projects and components
 ------------------------------------------
 
@@ -35,8 +37,8 @@ Adding translation projects and components
 
 Based on your permissions, you can be able to create new translation projects
 and componets in Weblate. It is always allowed for superusers and if your
-instance uses billing (eg. like https://hosted.weblate.org/), you can also
-create those based on your plans allowance.
+instance uses billing (eg. like https://hosted.weblate.org/, see
+:ref:`billing`), you can also create those based on your plans allowance.
 
 You can view your current billing plan on separate page:
 
