@@ -276,8 +276,8 @@ class ComponentTest(RepoTestCase):
         component = self.create_link()
         self.verify_component(component, 3, 'cs', 4)
 
-    def test_check_flags(self):
-        """Check flags validation."""
+    def test_flags(self):
+        """Translation flags validation."""
         component = self.create_component()
         component.full_clean()
 

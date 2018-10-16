@@ -23,15 +23,12 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-modules`.
 
 .. _custom-checks:
 
-Customizing checks
-------------------
+Customizing behavior
+--------------------
 
-Fine tuning existing checks
-+++++++++++++++++++++++++++
-
-You can fine tune checks for each source string (in source strings review, see
-:ref:`additional`) or in the :ref:`component` (:guilabel:`Quality checks
-flags`); here is a list of flags currently accepted:
+You can fine tune Weblate behavior (mostly checks) for each source string (in
+source strings review, see :ref:`additional`) or in the :ref:`component`
+(:guilabel:`Translation flags`); here is a list of flags currently accepted:
 
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
@@ -115,7 +112,7 @@ These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
 
 Writing own checks
-++++++++++++++++++
+------------------
 
 Weblate comes with wide range of quality checks (see :ref:`checks`), though
 they might not 100% cover all you want to check. The list of performed checks

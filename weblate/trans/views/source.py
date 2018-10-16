@@ -154,7 +154,7 @@ def edit_context(request, pk):
 @require_POST
 @login_required
 def edit_check_flags(request, pk):
-    """Change source string check flags."""
+    """Change source string flags."""
     source = get_object_or_404(Source, pk=pk)
 
     if not request.user.has_perm('source.edit', source.component):
@@ -165,7 +165,7 @@ def edit_check_flags(request, pk):
         source.check_flags = form.cleaned_data['flags']
         source.save()
     else:
-        messages.error(request, _('Failed to change check flags!'))
+        messages.error(request, _('Failed to change translation flags!'))
     return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 

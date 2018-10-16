@@ -215,8 +215,8 @@ Suggestion voting
     Enable voting for suggestions, see :ref:`voting`.
 Autoaccept suggestions
     Automatically accept voted suggestions, see :ref:`voting`.
-Quality checks flags
-    Additional flags to pass to quality checks, see :ref:`custom-checks`.
+Translation flags
+    Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
 Translation license
     License of this translation.
 License URL
