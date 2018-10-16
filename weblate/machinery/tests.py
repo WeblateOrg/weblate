@@ -40,9 +40,7 @@ from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
-from weblate.machinery.microsoft import (
-    MicrosoftTranslation, MicrosoftCognitiveTranslation,
-)
+from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
@@ -355,30 +353,6 @@ class MachineTranslationTest(TestCase):
         )
         self.assert_translate(machine, 'es')
         self.assert_translate(machine, 'es', word='Zkouška')
-
-    @override_settings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
-    @httpretty.activate
-    def test_microsoft(self):
-        machine = self.get_machine(MicrosoftTranslation)
-        httpretty.register_uri(
-            httpretty.POST,
-            'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
-            body='{"access_token":"TOKEN"}'
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'https://api.microsofttranslator.com/V2/Ajax.svc/'
-            'GetLanguagesForTranslate',
-            body='["en","cs"]'
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            body='"svět"'.encode('utf-8')
-        )
-
-        self.assert_translate(machine)
-        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
     @httpretty.activate

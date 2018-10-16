@@ -792,30 +792,6 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_MICROSOFT_ID
-
-MT_MICROSOFT_ID
----------------
-
-Client ID for Microsoft Translator service.
-
-.. seealso::
-
-   :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
-.. setting:: MT_MICROSOFT_SECRET
-
-MT_MICROSOFT_SECRET
--------------------
-
-Client secret for Microsoft Translator service.
-
-.. seealso::
-
-   :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
 MT_MICROSOFT_COGNITIVE_KEY

@@ -135,31 +135,6 @@ To enable this service, add ``weblate.machinery.google.GoogleTranslation`` to
     :setting:`MT_GOOGLE_KEY`,
     `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
-.. _ms-translate:
-
-Microsoft Translator
---------------------
-
-.. deprecated:: 2.10
-
-.. note::
-
-    This service is deprecated by Microsoft and has been replaced by
-    :ref:`ms-cognitive-translate`.
-
-Machine translation service provided by Microsoft, it's known as Bing Translator as well.
-
-You need to register at Azure market and use Client ID and secret from there.
-
-To enable this service, add ``weblate.machinery.microsoft.MicrosoftTranslation`` to
-:setting:`MT_SERVICES`.
-
-.. seealso::
-
-    :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
-    `Bing Translator <https://www.bing.com/translator/>`_,
-    `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
 .. _ms-cognitive-translate:
 
 Microsoft Cognitive Services Translator
