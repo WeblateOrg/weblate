@@ -122,7 +122,7 @@ class Check(object):
 
     def is_language(self, unit, vals):
         """Detect whether language is in given list, ignores variants."""
-        return unit.translation.language.code.split('_')[0] in vals
+        return unit.translation.language.base_code in vals
 
     def get_doc_url(self):
         """Return link to documentation."""

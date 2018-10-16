@@ -52,7 +52,7 @@ class RemoveZeroSpace(AutoFix):
     name = _('Zero-width space')
 
     def fix_single_target(self, target, source, unit):
-        if unit.translation.language.code.split('_')[0] == 'km':
+        if unit.translation.language.base_code == 'km':
             return target, False
         if '\u200b' not in source and '\u200b' in target:
             return target.replace('\u200b', ''), True

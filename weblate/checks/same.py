@@ -179,7 +179,7 @@ class SameCheck(TargetCheck):
             return True
 
         source_language = unit.translation.component.project.\
-            source_language.code.split('_')[0]
+            source_language.base_code
 
         # Ignore the check for source language,
         # English variants will have most things not translated
