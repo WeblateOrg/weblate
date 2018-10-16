@@ -572,9 +572,7 @@ Running Weblate on OpenShift 2
 
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
-Online (https://www.openshift.com/), OpenShift Enterprise
-(https://enterprise.openshift.com/) and OpenShift Origin
-(https://www.openshift.org/).
+variants (see https://www.openshift.com/ and https://www.okd.io/).
 
 Prerequisites
 +++++++++++++
@@ -591,7 +589,7 @@ Prerequisites
 
    In order to follow the examples given in this documentation you need to have
    the OpenShift Client Tools (RHC) installed:
-   https://developers.openshift.com/en/managing-client-tools.html
+   https://docs.openshift.com/online/cli_reference/get_started_cli.html
 
    While there are other possibilities to create and configure OpenShift
    applications, this documentation is based on the OpenShift Client Tools
