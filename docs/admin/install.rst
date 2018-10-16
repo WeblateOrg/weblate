@@ -1413,7 +1413,7 @@ Rollbar
 +++++++
 
 Weblate has built in support for `Rollbar <https://rollbar.com/>`_. To use
-it it's enough to follow instructions for `Rollbar notifier for Python <https://rollbar.com/docs/notifier/pyrollbar/>`_.
+it it's enough to follow instructions for `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_.
 
 In short, you need to adjust :file:`settings.py`:
 
