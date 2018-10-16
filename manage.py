@@ -20,9 +20,13 @@
 #
 
 import os
+import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
+    default = "weblate.settings"
+    if len(sys.argv) >= 2 and sys.argv[1] == "test":
+        default = "weblate.settings_test"
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", default)
 
     from weblate.runner import main
 
