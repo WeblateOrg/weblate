@@ -378,6 +378,7 @@ class Unit(models.Model, LoggerMixin):
         """Constructor to initialize some cache properties."""
         super(Unit, self).__init__(*args, **kwargs)
         self.old_unit = copy(self)
+        self.is_batch_update = False
 
     def __str__(self):
         return _('{translation}, string {position}').format(
@@ -429,6 +430,7 @@ class Unit(models.Model, LoggerMixin):
 
     def update_from_unit(self, unit, pos, created, component):
         """Update Unit from ttkit unit."""
+        self.is_batch_update = True
         # Get unit attributes
         location = unit.get_locations()
         flags = unit.get_flags()
@@ -829,6 +831,9 @@ class Unit(models.Model, LoggerMixin):
             # Run only source checks on template, this is done later
             return {}, True
         elif (not same_state or is_new) and self.state < STATE_TRANSLATED:
+            # The consistency check will be run as batch
+            if is_new and self.is_batch_update:
+                return {}, False
             # Check whether there is any message with same source
             same_source_exists = False
             for unit in self.same_source_units:
@@ -839,11 +844,7 @@ class Unit(models.Model, LoggerMixin):
             # Delete all checks if only message with this source is fuzzy
             if not same_source_exists:
                 return {}, True
-            elif 'inconsistent' in CHECKS:
-                # Consistency check checks across more translations
-                return {'inconsistent': CHECKS['inconsistent']}, False
-        else:
-            return {x: y for x, y in CHECKS.data.items() if y.target}, True
+        return {x: y for x, y in CHECKS.data.items() if y.target}, True
 
     def run_checks(self, same_state=True, same_content=True, is_new=False):
         """Update checks for this unit."""
@@ -863,7 +864,10 @@ class Unit(models.Model, LoggerMixin):
 
         # Run all target checks
         for check, check_obj in checks_to_run.items():
-            if check_obj.target and check_obj.check_target(src, tgt, self):
+            if self.is_batch_update and check_obj.batch_update:
+                old_checks.discard(check)
+                continue
+            if check_obj.check_target(src, tgt, self):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)

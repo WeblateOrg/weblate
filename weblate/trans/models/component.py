@@ -38,6 +38,8 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.formats import ParseError
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.mixins import URLMixin, PathMixin
@@ -999,6 +1001,9 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     todelete.delete()
 
+        # Run target checks (consistency)
+        self.run_target_checks()
+
         if self.updated_sources:
             self.update_source_checks()
 
@@ -1503,6 +1508,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation = Translation.objects.check_sync(
                     self, language, language.code, filename, request=request
                 )
+                self.run_target_checks()
                 translation.invalidate_cache()
                 messages.error(
                     request,
@@ -1540,6 +1546,7 @@ class Component(models.Model, URLMixin, PathMixin):
             force=True,
             request=request
         )
+        self.run_target_checks()
         translation.invalidate_cache()
         return True
 
@@ -1557,3 +1564,33 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.edit_template or not self.has_template():
             return None
         return self.translation_set.get(filename=self.template)
+
+    def run_target_checks(self):
+        """Run batch executed target checks"""
+        for check, check_obj in CHECKS.items():
+            if not check_obj.target or not check_obj.batch_update:
+                continue
+            self.log_info('running batch check: %s', check)
+            # List of triggered checks
+            data = check_obj.check_target_project(self.project)
+            # Fetch existing check instances
+            existing = set(
+                Check.objects.filter(
+                    project=self.project,
+                    check=check
+                ).values_list(
+                    'pk', flat=True
+                )
+            )
+            # Create new check instances
+            for item in data:
+                instance = Check.objects.get_or_create(
+                    content_hash=item['content_hash'],
+                    project=self.project,
+                    language_id=item['translation__language'],
+                    check=check,
+                    defaults={'ignore': False},
+                )[0]
+                existing.discard(instance.pk)
+            # Remove stale instances
+            Check.objects.filter(pk__in=existing).delete()
