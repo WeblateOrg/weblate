@@ -182,7 +182,7 @@ To enable this service, add ``weblate.machinery.microsoft.MicrosoftCognitiveTran
 .. seealso::
     
     :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
-    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. _ms-terminology:
