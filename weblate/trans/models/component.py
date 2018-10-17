@@ -1474,22 +1474,20 @@ class Component(models.Model, URLMixin, PathMixin):
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
         if not self.can_add_new_language():
-            if request:
-                messages.error(
-                    request,
-                    _('Failed to add new translation file!')
-                )
+            messages.error(
+                request,
+                _('Failed to add new translation file!')
+            )
             return False
 
         format_lang_code = self.file_format_cls.get_language_code(
             language.code
         )
         if re.match(self.language_regex, format_lang_code) is None:
-            if request:
-                messages.error(
-                    request,
-                    _('Given language is filtered by the language filter!')
-                )
+            messages.error(
+                request,
+                _('Given language is filtered by the language filter!')
+            )
             return False
 
         base_filename = self.get_new_base_filename()
@@ -1504,16 +1502,15 @@ class Component(models.Model, URLMixin, PathMixin):
         # the processing of new language can take some time and user
         # can submit again)
         if os.path.exists(fullname):
-            if request:
-                translation = Translation.objects.check_sync(
-                    self, language, language.code, filename, request=request
-                )
-                self.run_target_checks()
-                translation.invalidate_cache()
-                messages.error(
-                    request,
-                    _('Translation file already exists!')
-                )
+            translation = Translation.objects.check_sync(
+                self, language, language.code, filename, request=request
+            )
+            self.run_target_checks()
+            translation.invalidate_cache()
+            messages.error(
+                request,
+                _('Translation file already exists!')
+            )
             return False
 
         self.file_format_cls.add_language(
