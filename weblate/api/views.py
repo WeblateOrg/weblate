@@ -460,8 +460,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             request,
             serializer.validated_data['file'],
             serializer.validated_data['overwrite'],
-            serializer.validated_data['email'] if can_author else None,
-            serializer.validated_data['author'] if can_author else None,
+            serializer.validated_data.get('email', None) if can_author else None,
+            serializer.validated_data.get('author', None) if can_author else None,
         )
 
         return Response(data={
