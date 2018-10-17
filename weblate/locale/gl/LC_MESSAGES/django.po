@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-09 13:55+0000\n"
-"PO-Revision-Date: 2018-10-15 12:27+0000\n"
+"PO-Revision-Date: 2018-10-19 09:29+0000\n"
 "Last-Translator: Iván <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
 "gl/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
 msgid "None"
-msgstr ""
+msgstr "Ningún"
 
 #: weblate/accounts/forms.py:69
 msgid ""
@@ -36,6 +36,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
+"O nome do usuario soamente pode conter letras, números ou os seguintes "
+"caracteres: @ . + - _"
 
 #: weblate/accounts/forms.py:105 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
@@ -53,20 +55,15 @@ msgid "Full name"
 msgstr "Nome completo"
 
 #: weblate/accounts/forms.py:230
-#, fuzzy
-#| msgid "Comments"
 msgid "Component wide notifications"
-msgstr "Comentarios"
+msgstr "Notificacións a nivel compoñentes"
 
 #: weblate/accounts/forms.py:232
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Recibirá as notificacións escollidas a través do correo en todos os seus "
-"idiomas."
+"Recibirás notificacións cada vez que ocorra un acontecemento nos teus "
+"proxectos xestionados."
 
 #: weblate/accounts/forms.py:239
 #, fuzzy
@@ -74,15 +71,12 @@ msgid "Translation notifications"
 msgstr "Traducións"
 
 #: weblate/accounts/forms.py:241
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
 msgstr ""
-"Recibirá as notificacións escollidas a través do correo en todos os seus "
-"idiomas."
+"Só recibirás estas notificacións para as túas traducións das linguas nos "
+"proxectos que xestionas."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
@@ -309,7 +303,7 @@ msgstr "Idioma da interface"
 
 #: weblate/accounts/models.py:293
 msgid "Translated languages"
-msgstr "Idiomas traducidos"
+msgstr "Linguas traducidas"
 
 #: weblate/accounts/models.py:296
 msgid ""
@@ -319,22 +313,23 @@ msgstr ""
 
 #: weblate/accounts/models.py:303
 msgid "Secondary languages"
-msgstr "Segundos idiomas"
+msgstr "Linguas secundarias"
 
 #: weblate/accounts/models.py:305
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Escolla as linguas que entenda, as cadeas nesas linguas amosaranse ademais "
+"da cadea de orixe."
 
 #: weblate/accounts/models.py:316
 msgid "Hide completed translations on the dashboard"
 msgstr ""
 
 #: weblate/accounts/models.py:320
-#, fuzzy
 msgid "Show secondary translations in zen mode"
-msgstr "Buscar nas cadeas de orixe"
+msgstr "Amosar traducións secundarias no modo zen"
 
 #: weblate/accounts/models.py:324
 msgid "Hide source if there is secondary language"
@@ -383,10 +378,8 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:368 weblate/templates/dashboard/user.html:13
-#, fuzzy
-#| msgid "Your translations"
 msgid "Watched translations"
-msgstr "As súas traducións"
+msgstr "Traducións olladas"
 
 #: weblate/accounts/models.py:369 weblate/templates/dashboard/user.html:14
 #, fuzzy
@@ -426,15 +419,16 @@ msgstr "Comentarios"
 
 #: weblate/accounts/models.py:403 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
-#, fuzzy
 msgid "Watched projects"
-msgstr "Todos os subproxectos"
+msgstr "Proxectos ollados"
 
 #: weblate/accounts/models.py:405
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
+"Podes recibir notificacións a proxectos ollados. Istos amósanse por defecto, "
+"no panel de control."
 
 #: weblate/accounts/models.py:412
 msgid "Notification on any translation"
@@ -718,9 +712,8 @@ msgid "This addon executes a script."
 msgstr ""
 
 #: weblate/addons/flags.py:50
-#, fuzzy
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Buscar nas cadeas de orixe"
+msgstr "Marcar novas cadeas de orixe coma «Precisa edición»"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -728,6 +721,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Cando se importa unha nova cadea de orixe dende o VCS, márcase coma precisa "
+"a edición no Weblate. Deste xeito vostede pode sinxelamente filtrar e editar "
+"cadeas de orixe escritas polos desenvolvedores."
 
 #: weblate/addons/flags.py:64
 #, fuzzy
@@ -755,6 +751,11 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
+"Cada vez que se importa unha nova cadea traducíbel dende o sistema VCS e "
+"corresponde a cadeas de orixe, márcase coma precisa de edición no Weblate. "
+"Deste xeito especialmente funcional para os formatos do ficheiro que inclúen "
+"tódalas cadeas incluso se se poden filtrar e edita-las traducións creadas "
+"polos desenvolvedores que non son traducidas."
 
 #: weblate/addons/forms.py:50
 #, fuzzy
@@ -1000,10 +1001,8 @@ msgid "Download changes"
 msgstr "As súas traducións"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Edit component settings"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Editar configuración dos compoñentes"
 
 #: weblate/auth/data.py:40
 #, fuzzy
@@ -1049,16 +1048,12 @@ msgid "Use machine translation services"
 msgstr "Apuntar ao URL das instrucións de tradución"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Edit translation memory"
-msgstr "Resumo de tradución:"
+msgstr "Edita-la lembranza da tradución"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Your translations"
 msgid "Delete translation memory"
-msgstr "As súas traducións"
+msgstr "Elimina-la lembranza da tradución"
 
 #: weblate/auth/data.py:55
 #, fuzzy
@@ -1099,10 +1094,8 @@ msgid "Delete screenshot"
 msgstr "Eliminar esta conta"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Source string:"
 msgid "Edit info on source strings"
-msgstr "Cadea de orixe:"
+msgstr "Editar información das cadeas de orixe"
 
 #: weblate/auth/data.py:66
 #, fuzzy
@@ -1160,22 +1153,16 @@ msgid "Add new string"
 msgstr "Engadir unha nova palabra"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Ignore failing check"
-msgstr "Fallo nas comprobacións"
+msgstr "Ignorar comprobación fallada"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Source string:"
 msgid "Edit strings"
-msgstr "Cadea de orixe:"
+msgstr "Editar cadeas"
 
 #: weblate/auth/data.py:79
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "Sobrescribir cadeas"
+msgstr "Revisar cadeas"
 
 #: weblate/auth/data.py:80
 #, fuzzy
@@ -1184,28 +1171,20 @@ msgid "Edit string when suggestions are enforced"
 msgstr "Cadeas con suxestións (%d)"
 
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Source string:"
 msgid "Edit source strings"
-msgstr "Cadea de orixe:"
+msgstr "Editar cadeas de orixe"
 
 #: weblate/auth/data.py:83
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Define author of translation upload"
-msgstr "Fallou a tradución"
+msgstr "Defini-lo autor da subida da tradución"
 
 #: weblate/auth/data.py:84
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "Sobrescribir as traducións existentes"
+msgstr "Sobrescribir cadeas existentes ó subir"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Your translations"
 msgid "Upload translation strings"
-msgstr "As súas traducións"
+msgstr "Subir cadeas de tradución"
 
 #: weblate/auth/data.py:87
 #, fuzzy
@@ -1288,11 +1267,9 @@ msgid "Manage glossary"
 msgstr "Xestionar todos os correctores"
 
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Your translations"
 msgctxt "Access control role"
 msgid "Manage translation memory"
-msgstr "As súas traducións"
+msgstr "Xestiona-la lembranza da tradución"
 
 #: weblate/auth/data.py:155
 #, fuzzy
@@ -1301,11 +1278,9 @@ msgid "Manage screenshots"
 msgstr "Xestionar todos os correctores"
 
 #: weblate/auth/data.py:159
-#, fuzzy
-#| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Sobrescribir cadeas"
+msgstr "Revisar cadeas"
 
 #: weblate/auth/data.py:163
 #, fuzzy
@@ -1371,7 +1346,7 @@ msgstr ""
 #: weblate/auth/data.py:211
 msgctxt "Per project access control group"
 msgid "Languages"
-msgstr "Idiomas"
+msgstr "Linguas"
 
 #: weblate/auth/data.py:213
 msgctxt "Per project access control group"
@@ -1381,7 +1356,7 @@ msgstr "Glosario"
 #: weblate/auth/data.py:215
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "Memoria"
 
 #: weblate/auth/data.py:217
 #, fuzzy
@@ -1487,10 +1462,8 @@ msgstr "Idioma"
 
 #: weblate/auth/models.py:146 weblate/templates/dashboard/user.html:39
 #: weblate/trans/forms.py:1123
-#, fuzzy
-#| msgid "languages"
 msgid "All languages"
-msgstr "Idiomas"
+msgstr "Tódalas linguas"
 
 #: weblate/auth/models.py:152 weblate/billing/models.py:219
 #: weblate/lang/models.py:369 weblate/lang/views.py:46
@@ -1502,7 +1475,7 @@ msgstr "Idiomas"
 #: weblate/trans/forms.py:860 weblate/trans/forms.py:1144
 #: weblate/trans/forms.py:1603
 msgid "Languages"
-msgstr "Idiomas"
+msgstr "Linguas"
 
 #: weblate/auth/models.py:157
 #, fuzzy
@@ -1651,7 +1624,7 @@ msgstr "Repositorios VCS"
 #: weblate/billing/models.py:196 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
 msgid "Source strings"
-msgstr "Cadeas orixinais"
+msgstr "Cadeas de orixe"
 
 #: weblate/billing/models.py:207 weblate/trans/admin.py:102
 msgid "Source words"
@@ -1659,10 +1632,8 @@ msgstr "Palabras de orixe"
 
 #: weblate/billing/models.py:252 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
-#, fuzzy
-#| msgid "Documentation"
 msgid "Number of strings"
-msgstr "Documentación"
+msgstr "Número de cadeas"
 
 #: weblate/billing/models.py:259
 msgid "N/A"
@@ -1680,16 +1651,12 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/checks/angularjs.py:43
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "AngularJS interpolation string"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Cadea de interpolación do AngularJS"
 
 #: weblate/checks/angularjs.py:44
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "O formato da cadea non casa coa orixe"
+msgstr "A cadea de interpolación do AngularJS, non coincide ca cadea de orixe"
 
 #: weblate/checks/chars.py:35
 msgid "Starting newline"
@@ -1824,17 +1791,15 @@ msgstr "Sen plurais"
 
 #: weblate/checks/consistency.py:30
 msgid "Some plural forms are not translated"
-msgstr "Algunhas formas de plural non están traducidas"
+msgstr "Algúns plurais non están traducidos"
 
 #: weblate/checks/consistency.py:51
 msgid "Same plurals"
 msgstr ""
 
 #: weblate/checks/consistency.py:52
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are translated in the same way"
-msgstr "Algunhas formas de plural non están traducidas"
+msgstr "Algunhas formas plurais tradúcense do mesmo xeito"
 
 #: weblate/checks/consistency.py:71
 msgid "Inconsistent"
@@ -1847,16 +1812,12 @@ msgid "This string has more than one translation in this project"
 msgstr "Esta mensaxe ten máis dunha tradución neste proxecto"
 
 #: weblate/checks/consistency.py:97
-#, fuzzy
-#| msgid "translate"
 msgid "Has been translated"
-msgstr "traducir"
+msgstr "Foi traducido"
 
 #: weblate/checks/consistency.py:99
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has been translated in the past"
-msgstr "Esta mensaxe ten máis dunha tradución neste proxecto"
+msgstr "Esta cadea traduciuse no pasado"
 
 #: weblate/checks/format.py:265
 msgid "Python format"
@@ -2016,10 +1977,8 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
 #: weblate/checks/source.py:66
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Multiple failing checks"
-msgstr "Fallo nas comprobacións"
+msgstr "Varias comprobacións falladas"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
@@ -2030,7 +1989,7 @@ msgstr ""
 #: weblate/templates/progress.html:11 weblate/templates/project.html:51
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:572
 msgid "Failing checks"
-msgstr "Fallo nas comprobacións"
+msgstr "Comprobacións falladas"
 
 #: weblate/formats/auto.py:77
 #, fuzzy
@@ -2095,14 +2054,12 @@ msgid "XLIFF Translation File with PO extensions"
 msgstr "Traducións feitas"
 
 #: weblate/formats/ttkit.py:353
-#, fuzzy
 msgid "OS X Strings"
-msgstr "Todas as cadeas"
+msgstr "Cadeas OS X"
 
 #: weblate/formats/ttkit.py:366
-#, fuzzy
 msgid "OS X Strings (UTF-8)"
-msgstr "Todas as cadeas"
+msgstr "Cadeas OS X (UTF-8)"
 
 #: weblate/formats/ttkit.py:373
 msgid "Java Properties (UTF-8)"
@@ -2123,9 +2080,8 @@ msgid "Joomla Language File"
 msgstr "Idioma"
 
 #: weblate/formats/ttkit.py:417
-#, fuzzy
 msgid "PHP strings"
-msgstr "Todas as cadeas"
+msgstr "Cadeas PHP"
 
 #: weblate/formats/ttkit.py:436
 #, fuzzy
@@ -2182,10 +2138,8 @@ msgid "RC file"
 msgstr ""
 
 #: weblate/lang/apps.py:28
-#, fuzzy
-#| msgid "Used languages"
 msgid "Weblate languages"
-msgstr "Idiomas utilizados"
+msgstr "Linguas do Weblate"
 
 #: weblate/lang/data.py:302 weblate/lang/data.py:306 weblate/lang/data.py:312
 #: weblate/lang/data.py:320 weblate/lang/data.py:324 weblate/lang/data.py:329
@@ -2289,11 +2243,9 @@ msgid "One/few/other (Slavic languages)"
 msgstr ""
 
 #: weblate/lang/models.py:441
-#, fuzzy
-#| msgid "languages"
 msgctxt "Plural type"
 msgid "Arabic languages"
-msgstr "Idiomas"
+msgstr "Linguas árabes"
 
 #: weblate/lang/models.py:445
 msgctxt "Plural type"
@@ -2552,6 +2504,8 @@ msgstr ""
 #: weblate/legal/templates/legal/privacy.html:46
 msgid "Additionally, email is used for notification of watched events"
 msgstr ""
+"Ademais, o correo electrónico emprégase para a notificación dos "
+"acontecementos ollados"
 
 #: weblate/legal/templates/legal/privacy.html:48
 #, fuzzy
@@ -2622,7 +2576,7 @@ msgstr ""
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "Confirma-la eliminación de tódolos rexistros da lembranza da tradución"
 
 #: weblate/memory/storage.py:65
 #, fuzzy
@@ -2677,9 +2631,8 @@ msgid "Entries deleted."
 msgstr ""
 
 #: weblate/memory/views.py:92
-#, fuzzy
 msgid "Import of strings scheduled."
-msgstr "Cadea de orixe:"
+msgstr "Importar coma cadeas programadas."
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
@@ -2704,7 +2657,7 @@ msgstr ""
 
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "Subiuse a captura da pantalla, agora podes asignala ás cadeas de orixe."
 
 #: weblate/screenshots/views.py:106
 msgid "Failed to upload screenshot, please fix errors below."
@@ -2755,11 +2708,10 @@ msgid "The page you are looking for was not found."
 msgstr "A páxina que está a procurar non se atopou."
 
 #: weblate/templates/404.html:19
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "A páxina que está a buscar non se atopou."
+msgstr ""
+"O proxecto que procura non existe ou non está dispoñíbel de xeito público."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:338
 msgid "Internal Server Error"
@@ -2909,10 +2861,8 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:7 weblate/templates/base.html:161
 #: weblate/trans/views/about.py:115
-#, fuzzy
-#| msgid "Used languages"
 msgid "Weblate keys"
-msgstr "Idiomas utilizados"
+msgstr "Chaves ou claves do Weblate"
 
 #: weblate/templates/about/keys.html:20
 msgid "SSH key"
@@ -2995,9 +2945,8 @@ msgid "Screenshots uploaded"
 msgstr "Contexto da tradución"
 
 #: weblate/templates/about/stats.html:90
-#, fuzzy
 msgid "Translatable strings"
-msgstr "Cadeas traducidas:"
+msgstr "Cadeas traducíbeis"
 
 #: weblate/templates/about/stats.html:94
 #, fuzzy
@@ -3007,7 +2956,7 @@ msgstr "Cadeas non traducidas"
 
 #: weblate/templates/about/stats.html:98
 msgid "Used languages"
-msgstr "Idiomas utilizados"
+msgstr "Linguas empregadas"
 
 #: weblate/templates/about/stats.html:102
 msgid "Registered users"
@@ -3025,7 +2974,7 @@ msgstr "Traducións feitas"
 
 #: weblate/templates/about/stats.html:114
 msgid "Failing checks found"
-msgstr "Fallo nas comprobacións"
+msgstr "Atopáronse comprobacións falladas"
 
 #: weblate/templates/about/stats.html:118
 #: weblate/templates/language-project.html:26
@@ -3207,11 +3156,13 @@ msgstr "Corrixa os erros do formulario de rexistro."
 
 #: weblate/templates/accounts/email.html:26
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
-msgstr "Rexistrándose, acepta usar o seu nome e correo nas remisións de Git."
+msgstr ""
+"Ó rexistrarse, compromete o emprego do seu nome e enderezo do correo "
+"electrónico, e que fornece as súas contribucións baixo a licenza definida "
+"por cada proxecto traducido."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:47 weblate/templates/base.html:139
@@ -3232,6 +3183,8 @@ msgstr "Condicións para o aloxamento de balde"
 #: weblate/templates/accounts/hosting.html:37
 msgid "Translated content has to be released under free software license."
 msgstr ""
+"O contido traducido ten que ser publicado baixo unha licenza de software "
+"libre."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid ""
@@ -3381,6 +3334,9 @@ msgid ""
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
+"Hai unha listaxe das linguas que están a ser traducidas actualmente. Se "
+"desexa traducir a outra lingua, por favor solicíteo por primeira vez no "
+"proxecto."
 
 #: weblate/templates/accounts/profile.html:46
 #: weblate/templates/accounts/profile.html:59
@@ -3417,6 +3373,8 @@ msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"Os proxectos ollados tamén aparecen no panel de control, así que escolle "
+"tódolos proxectos que desexas traducir."
 
 #: weblate/templates/accounts/profile.html:91
 #, fuzzy
@@ -3427,14 +3385,11 @@ msgstr "Subscricións"
 #: weblate/templates/accounts/profile.html:94
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
-"Recibirá as notificacións escollidas a través do correo en todos os seus "
-"idiomas."
+"Recibirá as notificacións escollidas polo correo para tódalas súas linguas."
 
 #: weblate/templates/accounts/profile.html:107
-#, fuzzy
-#| msgid "Your name and email will appear as author on Git commits."
 msgid "Your name and email will appear as author on the commits."
-msgstr "O seu nome e correo aparecerán como autor nas remisións a Git."
+msgstr "O seu nome e correo aparecerán coma autor dos seus envíos."
 
 #: weblate/templates/accounts/profile.html:117
 #, fuzzy
@@ -3619,12 +3574,14 @@ msgid "Please read our Terms of Service prior to registration."
 msgstr ""
 
 #: weblate/templates/accounts/register.html:21
-#, fuzzy
 msgid ""
 "By registering you agree to use your name and email in version control "
 "system commits and provide your contribution under license defined by each "
 "translated project."
-msgstr "Rexistrándose, acepta usar o seu nome e correo nas remisións de Git."
+msgstr ""
+"Ó rexistrarse, acepta o emprego do seu nome e enderezo do correo electrónico "
+"nos envíos ó control de versións, e que fornece as súas contribucións baixo "
+"a licenza definida por cada proxecto traducido."
 
 #: weblate/templates/accounts/register.html:37
 msgid "Register using email"
@@ -3815,7 +3772,7 @@ msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr ""
+msgstr "Cadeas dos recursos Android, divididas en varios ficheiros."
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
@@ -3867,16 +3824,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/generate_help.html:11
-#, fuzzy
-#| msgid "translate"
 msgid "Percents translated"
-msgstr "traducir"
+msgstr "Porcentaxes dos traducidos"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Number of translated strings"
-msgstr "Cadeas non traducidas"
+msgstr "Número de cadeas sen traducir"
 
 #: weblate/templates/addons/generate_help.html:17
 #: weblate/trans/models/component.py:111
@@ -3902,13 +3855,11 @@ msgstr "Mudar navigación"
 
 #: weblate/templates/base.html:110 weblate/templates/base.html:200
 msgid "Dashboard"
-msgstr ""
+msgstr "Panel"
 
 #: weblate/templates/base.html:119 weblate/templates/dashboard/user.html:62
-#, fuzzy
-#| msgid "Last name"
 msgid "Manage watched projects"
-msgstr "Segundo apelido"
+msgstr "Xestionar proxectos ollados"
 
 #: weblate/templates/base.html:130
 msgid "Administration"
@@ -3966,10 +3917,9 @@ msgid "Service status"
 msgstr "Estado"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "Accedeu á sesión como %(name)s"
+msgstr "Accedeu á sesión coma %(user)s"
 
 #: weblate/templates/base.html:183
 #, fuzzy
@@ -3980,16 +3930,14 @@ msgstr "Cadea de orixe:"
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
 msgid "Translation memory"
-msgstr "Memoria da tradución"
+msgstr "Lembranza da tradución"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:83
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:73
-#, fuzzy
-#| msgid "Source string:"
 msgid "Settings"
-msgstr "Cadea de orixe:"
+msgstr "Axustes"
 
 #: weblate/templates/base.html:188 weblate/wladmin/sites.py:154
 msgid "Logout"
@@ -4031,15 +3979,12 @@ msgid "Yearly price"
 msgstr ""
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
 msgid "Strings limit"
-msgstr "Iniciar revisión"
+msgstr "Límite de cadeas"
 
 #: weblate/templates/billing/detail.html:20
-#, fuzzy
-#| msgid "Languages"
 msgid "Languages limit"
-msgstr "Idiomas"
+msgstr "Límite de linguas"
 
 #: weblate/templates/billing/detail.html:25
 #, fuzzy
@@ -4134,7 +4079,7 @@ msgstr "Comprobacións"
 #: weblate/templates/component.html:32 weblate/templates/language.html:16
 #: weblate/templates/project.html:28 weblate/templates/translation.html:33
 msgid "Information"
-msgstr "Información"
+msgstr "Informacións"
 
 #: weblate/templates/checks.html:30
 #, fuzzy
@@ -4153,6 +4098,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
+"As verificacións poden axudarlle a identificar traducións problemáticas ou "
+"cadeas de orixe de dificil tradución."
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
@@ -4183,7 +4130,7 @@ msgstr "Traducións"
 #: weblate/templates/component.html:35 weblate/templates/dashboard/user.html:25
 #: weblate/templates/project.html:32 weblate/templates/translation.html:37
 msgid "Insights"
-msgstr ""
+msgstr "Seguemento"
 
 #: weblate/templates/component.html:38 weblate/templates/dashboard/user.html:28
 #: weblate/templates/dictionary.html:39
@@ -4199,7 +4146,7 @@ msgstr "Historial"
 #: weblate/templates/language.html:18 weblate/templates/project.html:36
 #: weblate/templates/translation.html:41
 msgid "Activity"
-msgstr ""
+msgstr "Actividade"
 
 #: weblate/templates/component.html:40 weblate/templates/project.html:37
 #, fuzzy
@@ -4235,16 +4182,14 @@ msgstr "Ferramentas"
 #: weblate/templates/translation.html:34 weblate/templates/translation.html:330
 #: weblate/templates/translation.html:335 weblate/templates/zen.html:38
 msgid "Search"
-msgstr "Buscar"
+msgstr "Procurar"
 
 #: weblate/templates/component.html:54 weblate/templates/component.html:149
 #: weblate/templates/project.html:48 weblate/templates/project.html:219
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:63
 #: weblate/templates/translation.html:230 weblate/trans/models/change.py:218
-#, fuzzy
-#| msgid "Search"
 msgid "Search and replace"
-msgstr "Buscar"
+msgstr "Procurar e substituír"
 
 #: weblate/templates/component.html:56 weblate/templates/project.html:50
 #: weblate/templates/translation.html:58
@@ -4260,9 +4205,8 @@ msgid "Matrix view"
 msgstr "Iniciar revisión"
 
 #: weblate/templates/component.html:58
-#, fuzzy
 msgid "Source strings review"
-msgstr "Cadea de orixe:"
+msgstr "Revisión das cadeas de orixe"
 
 #: weblate/templates/component.html:66 weblate/templates/project.html:58
 #: weblate/templates/translation.html:73
@@ -4298,7 +4242,7 @@ msgstr "Usuarios"
 #: weblate/templates/component.html:90 weblate/templates/project.html:81
 #: weblate/templates/translation.html:88
 msgid "Share"
-msgstr ""
+msgstr "Partillar ou compartir"
 
 #: weblate/templates/component.html:94
 msgid "Share on Facebook!"
@@ -4345,6 +4289,8 @@ msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
+"Pode substituír unha cadea en tódalas cadeas, nunha soa vez. A procura é de "
+"subcadeas e distingue entre maiúsculas e minúsculas."
 
 #: weblate/templates/component.html:156 weblate/templates/component.html:171
 #: weblate/templates/project.html:226 weblate/templates/project.html:241
@@ -4366,6 +4312,7 @@ msgstr "Segundo apelido"
 #: weblate/templates/translation.html:247
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"Pode mudar á vez o estado de tódalas cadeas que coincidan co tipo fornecido."
 
 #: weblate/templates/component.html:182 weblate/templates/js/changes.html:5
 #, fuzzy
@@ -4401,7 +4348,7 @@ msgstr "Repositorio Git:"
 
 #: weblate/templates/component.html:225
 msgid "Reports number of strings and words translated by each translator."
-msgstr ""
+msgstr "Reporta o número das cadeas e palabras traducidas por cada tradutor."
 
 #: weblate/templates/component_info.html:11
 #, fuzzy
@@ -4566,6 +4513,8 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
+"Escolle nas preferencias as linguas que desexas, para ver unha visión xeral "
+"das traducións dispoñíbeis para esas linguas nos teus proxectos ollados."
 
 #: weblate/templates/dashboard/user.html:61
 #: weblate/templates/dashboard/user.html:74
@@ -4801,13 +4750,13 @@ msgid "Hi, and thank you for your interest."
 msgstr "Ola, grazas polo seu interese!"
 
 #: weblate/templates/engage.html:24
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(name)s tradúcese mediante  %(weblate_name_link)s, unha ferramenta web "
-"deseñada para facilitar a tradución quer para desenvolvedores quer para "
+"%(project)s tradúcese empregando %(weblate_name_link)s, unha ferramenta "
+"deseñada para facer máis doada a tradución tanto ós desenvolvedores coma ós "
 "tradutores."
 
 #: weblate/templates/engage.html:30
@@ -4852,7 +4801,7 @@ msgstr ""
 #: weblate/templates/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
-msgstr ""
+msgstr "Creado por %(author)s o %(date)s"
 
 #: weblate/templates/glossary-embed.html:9
 #, fuzzy
@@ -4861,10 +4810,8 @@ msgid "Copy word into translation"
 msgstr "As súas traducións"
 
 #: weblate/templates/glossary-embed.html:16
-#, fuzzy
-#| msgid "No related strings found in dictionary."
 msgid "No related strings found in the glossary."
-msgstr "Non se atoparon cadeas relacionadas no corrector."
+msgstr "Non se atoparon cadeas relacionadas no dicionario."
 
 #: weblate/templates/i18n.html:19
 #, fuzzy
@@ -5259,11 +5206,9 @@ msgstr "Cadea de orixe:"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
-#, fuzzy
-#| msgid "translate"
 msgctxt "Number of untranslated strings"
 msgid "Untranslated"
-msgstr "traducir"
+msgstr "Sen traducir"
 
 #: weblate/templates/list-translations.html:10
 #: weblate/templates/list-translations.html:22
@@ -5305,6 +5250,8 @@ msgstr ""
 #: weblate/templates/translation.html:114
 msgid "This translation is being used as source strings within this component."
 msgstr ""
+"Esta tradución está a ser empregada coma cadeas de orixe dentro deste "
+"compoñente."
 
 #: weblate/templates/list-translations.html:36
 #, fuzzy
@@ -5634,16 +5581,12 @@ msgstr ""
 
 #: weblate/templates/mail/new_language.html:28
 #: weblate/templates/mail/new_language.txt:9
-#, fuzzy
-#| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Idiomas utilizados"
+msgstr "Lingua solicitada:"
 
 #: weblate/templates/mail/new_language.html:39
-#, fuzzy
-#| msgid "Used languages"
 msgid "Requested by:"
-msgstr "Idiomas utilizados"
+msgstr "Solicitada por:"
 
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
@@ -5664,10 +5607,8 @@ msgstr ""
 "\">documentación</a>."
 
 #: weblate/templates/mail/new_language.txt:13
-#, fuzzy
-#| msgid "Used languages"
 msgid "Requesting user:"
-msgstr "Idiomas utilizados"
+msgstr "Usuario solicitante:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, fuzzy, python-format
@@ -5677,17 +5618,10 @@ msgstr "Nova suxestión a %(translation)s"
 
 #: weblate/templates/mail/new_string.html:11
 #: weblate/templates/mail/new_string.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
+#, python-format
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
-msgstr ""
-"Ola,\n"
-"\n"
-"Hai cadeas novas para traducir de %(translation)s en %(site_title)s.\n"
+msgstr "Hai novas cadeas para traducir sobre %(translation)s en %(site_title)s."
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
@@ -5740,9 +5674,8 @@ msgstr ""
 "Hai unha nova tradución de %(translation)s en %(site_title)s.\n"
 
 #: weblate/templates/mail/new_translation.txt:13
-#, fuzzy
 msgid "Previously not translated"
-msgstr "As súas traducións"
+msgstr "Anteriormente sen traducir"
 
 #: weblate/templates/mail/new_translation_subject.txt:3
 #, python-format
@@ -5759,16 +5692,12 @@ msgstr ""
 "Hai unha nova tradución de %(translation)s en %(site_title)s.\n"
 
 #: weblate/templates/mail/parse_error.html:21
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing file"
-msgstr "Fallo nas comprobacións"
+msgstr "Falla o ficheiro"
 
 #: weblate/templates/mail/parse_error.txt:9
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing file:"
-msgstr "Fallo nas comprobacións"
+msgstr "Falla o ficheiro:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, fuzzy, python-format
@@ -5846,10 +5775,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/manage-access.html:94
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Project access control"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Control do acceso ó proxecto"
 
 #: weblate/templates/manage-access.html:101
 #, fuzzy
@@ -5868,26 +5795,20 @@ msgid "matrix"
 msgstr ""
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Idiomas utilizados"
+msgstr "Linguas amosadas"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
 msgstr ""
 
 #: weblate/templates/memory/index.html:22
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory status"
-msgstr "Estado da tradución"
+msgstr "Estado da lembranza da tradución"
 
 #: weblate/templates/memory/index.html:28
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Shared translation memory"
-msgstr "Utilice esta tradución"
+msgstr "Lembranza da tradución partillada ou compartida"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
@@ -5928,10 +5849,8 @@ msgid "Download as TMX"
 msgstr "As súas traducións"
 
 #: weblate/templates/memory/index.html:55
-#, fuzzy
-#| msgid "Not translated"
 msgid "Import translation memory"
-msgstr "Non traducida"
+msgstr "Importar lembranza da tradución"
 
 #: weblate/templates/memory/index.html:70
 #, fuzzy
@@ -5969,10 +5888,8 @@ msgstr ""
 "\">documentación</a>."
 
 #: weblate/templates/new-language.html:27
-#, fuzzy
-#| msgid "Choose languages to which you can translate."
 msgid "Please choose the language you want to translate to."
-msgstr "Escolla os idiomas aos que traducir."
+msgstr "Escolle a lingua á que queres traducir."
 
 #: weblate/templates/new-language.html:29
 msgid ""
@@ -6056,10 +5973,8 @@ msgid "Number of languages"
 msgstr "Documentación"
 
 #: weblate/templates/project_stats.html:21
-#, fuzzy
-#| msgid "Source string:"
 msgid "Number of source strings"
-msgstr "Cadea de orixe:"
+msgstr "Número de cadeas de orixe"
 
 #: weblate/templates/project_stats.html:26
 #, fuzzy
@@ -6072,10 +5987,8 @@ msgid "Please review and confirm the search and replace results."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
-#, fuzzy
-#| msgid "Source string:"
 msgid "Assigned source strings"
-msgstr "Cadea de orixe:"
+msgstr "Cadeas de orixe asignadas"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
@@ -6095,12 +6008,12 @@ msgstr "Acción"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"A captura da pantalla amósase para engadir contexto visual a tódalas cadeas "
+"de orixe listadas."
 
 #: weblate/templates/screenshots/screenshot_detail.html:48
-#, fuzzy
-#| msgid "Source string:"
 msgid "Assign source strings"
-msgstr "Cadea de orixe:"
+msgstr "Asignar cadeas de orixe"
 
 #: weblate/templates/screenshots/screenshot_detail.html:54
 #: weblate/templates/translate.html:152 weblate/templates/translate.html:253
@@ -6121,10 +6034,8 @@ msgid "Loading results…"
 msgstr "A cargar…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:63
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Buscar nas cadeas de orixe"
+msgstr "Por favor, procure embaixo para atopa-la cadea coincidente."
 
 #: weblate/templates/screenshots/screenshot_detail.html:72
 #, fuzzy
@@ -6156,23 +6067,22 @@ msgstr "Subir"
 #: weblate/templates/screenshots/screenshot_detail.html:126
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Ó elimina-la captura da pantalla, a riscará de tódalas cadeas de orixe "
+"asociadas."
 
 #: weblate/templates/screenshots/screenshot_list.html:37
 #: weblate/templates/translation.html:121
 #: weblate/templates/translation.html:375
-#, fuzzy
-#| msgid "Source string:"
 msgid "Strings"
-msgstr "Cadea de orixe:"
+msgstr "Cadeas"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:29
 msgid "No source strings are currently assigned!"
-msgstr ""
+msgstr "Non hai cadeas de orixe actualmente asignadas!"
 
 #: weblate/templates/search.html:43
-#, fuzzy
 msgid "No matching strings found."
-msgstr "Non se atoparon outras cadeas."
+msgstr "Non foron atopadas cadeas que coincidan."
 
 #: weblate/templates/show-contributor-agreement.html:7
 #, fuzzy
@@ -6192,10 +6102,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
-#, fuzzy
-#| msgid "Source string:"
 msgid "source strings"
-msgstr "Cadea de orixe:"
+msgstr "cadeas de orixe"
 
 #: weblate/templates/source-review.html:11
 #, fuzzy
@@ -6212,13 +6120,12 @@ msgid "Comment"
 msgstr "Comentario"
 
 #: weblate/templates/source-review.html:65
-#, fuzzy
 msgid "No matching source strings found."
-msgstr "Non se atoparon outras cadeas."
+msgstr "Non foi atopada ningunha cadea de orixe que coincidira."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:146
 msgid "Strings to check"
-msgstr "Cadeas para revisar"
+msgstr "Cadeas a revisar"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:170
 msgid "Project Information"
@@ -6379,10 +6286,8 @@ msgid "Unmark review needed flag and save"
 msgstr ""
 
 #: weblate/templates/translate.html:107
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings navigation"
-msgstr "Cadeas con suxestións"
+msgstr "Navigación por cadeas"
 
 #: weblate/templates/translate.html:108
 #, fuzzy
@@ -6403,10 +6308,8 @@ msgid "Shows machine translation tab"
 msgstr "Fallou a tradución"
 
 #: weblate/templates/translate.html:111
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Shows nearby strings tab"
-msgstr "Fallou a tradución"
+msgstr "Amosa-la lapela das cadeas pretas"
 
 #: weblate/templates/translate.html:112
 msgid "Shows search tab"
@@ -6468,6 +6371,8 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
+"Só os revisores poden muda-las cadeas aprobadas; engade unha suxestión se "
+"cres que a cadea debería modificarse."
 
 #: weblate/templates/translate.html:208 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -6495,17 +6400,15 @@ msgstr "Suxerir"
 
 #: weblate/templates/translate.html:225
 msgid "Skip"
-msgstr ""
+msgstr "Omitir"
 
 #: weblate/templates/translate.html:231
 msgid "Messages placed around this one"
 msgstr "Mensaxes situadas arredor desta"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Source strings"
 msgid "Nearby strings"
-msgstr "Cadeas de orixe"
+msgstr "Cadeas pretas"
 
 #: weblate/templates/translate.html:236 weblate/templates/translate.html:435
 #, fuzzy
@@ -6594,28 +6497,22 @@ msgid "Mark as spam"
 msgstr ""
 
 #: weblate/templates/translate.html:333
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "Esta mensaxe ten máis dunha tradución neste proxecto"
-msgstr[1] "Esta mensaxe ten máis dunha tradución neste proxecto"
+msgstr[0] "Esta cadea ten o mesmo contexto e a mesma orixe."
+msgstr[1] "Estas cadeas teñen o mesmo contexto e a mesma orixe."
 
 #: weblate/templates/translate.html:341
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "Esta mensaxe ten máis dunha tradución neste proxecto"
-msgstr[1] "Esta mensaxe ten máis dunha tradución neste proxecto"
+msgstr[0] "Esta cadea ten un contexto diferente pero a mesma orixe."
+msgstr[1] "Estas cadeas teñen un contexto diferente pero a mesma orixe."
 
 #: weblate/templates/translate.html:349
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "Esta mensaxe ten máis dunha tradución neste proxecto"
-msgstr[1] "Esta mensaxe ten máis dunha tradución neste proxecto"
+msgstr[0] "Esta cadea ten unha orixe diferente pero o mesmo contexto."
+msgstr[1] "Estas cadeas teñen unhas orixes diferentes pero o mesmo contexto."
 
 #: weblate/templates/translate.html:375
 msgid "Service"
@@ -6697,10 +6594,9 @@ msgid "Download translation file as %(format)s"
 msgstr "As súas traducións"
 
 #: weblate/templates/translation-download.html:14
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "As súas traducións"
+msgstr "Descarregar cadeas que precisan de acción coma %(format)s"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:282
@@ -6744,10 +6640,8 @@ msgstr[0] "hai un minuto"
 msgstr[1] "hai %(count)s minutos"
 
 #: weblate/templates/translation.html:158
-#, fuzzy
-#| msgid "Comments"
 msgid "Other components"
-msgstr "Comentarios"
+msgstr "Outros compoñentes"
 
 #: weblate/templates/translation.html:177
 #: weblate/templates/unit-details.html:26
@@ -6792,16 +6686,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:301
-#, fuzzy
-#| msgid ""
-#| "Uploaded file will be merged with current translation. In case you want "
-#| "to overwrite already translated strings, don't forget to enable it."
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
 msgstr ""
-"O ficheiro cargado fusionarase coa tradución actual. No caso de querer "
-"sobrescribir as cadeas xa traducidas, non esqueza activalo."
+"O ficheiro carregado combinarase ca tradución actual. Se queres sobrescribir "
+"cadeas xa traducidas, non esquezas activa-la opción correspondente."
 
 #: weblate/templates/translation.html:303
 #, fuzzy
@@ -6824,21 +6714,19 @@ msgstr "Iniciar revisión"
 
 #: weblate/templates/translation.html:374
 msgid "Percent"
-msgstr ""
+msgstr "Porcentaxe"
 
 #: weblate/templates/translation.html:381
 msgid "Total"
 msgstr "Total"
 
 #: weblate/templates/translation.html:399
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Fallo nas comprobacións"
+msgstr "Comprobación fallada"
 
 #: weblate/templates/translation.html:414
 msgid "Last activity"
-msgstr ""
+msgstr "Derradeira actividade"
 
 #: weblate/templates/translation.html:418
 #, fuzzy
@@ -6847,10 +6735,8 @@ msgid "Last change"
 msgstr "Segundo apelido"
 
 #: weblate/templates/translation.html:422
-#, fuzzy
-#| msgid "Last name"
 msgid "Last author"
-msgstr "Segundo apelido"
+msgstr "Derradeiro autor"
 
 #: weblate/templates/unit-details.html:5
 #, fuzzy
@@ -6895,14 +6781,16 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
 msgstr ""
+"Podes recibir notificacións a proxectos ollados. Istos amósanse por defecto, "
+"no panel de control."
 
 #: weblate/templates/watch-dropdown.html:6
 msgid "Unwatch"
-msgstr ""
+msgstr "Non ollar"
 
 #: weblate/templates/watch-dropdown.html:10
 msgid "Watch"
-msgstr ""
+msgstr "Ollar"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -7023,9 +6911,8 @@ msgid "Update VCS repository"
 msgstr "Repositorio Git"
 
 #: weblate/trans/admin.py:78
-#, fuzzy
 msgid "Update quality checks"
-msgstr "Fallo nas comprobacións"
+msgstr "Actualizar controis de calidade"
 
 #: weblate/trans/admin.py:94
 #, fuzzy
@@ -7090,76 +6977,59 @@ msgstr "Lista de cambios recentes feitos no Weblate"
 
 #: weblate/trans/filter.py:31
 msgid "All strings"
-msgstr "Todas as cadeas"
+msgstr "Tódalas cadeas"
 
 #: weblate/trans/filter.py:32
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Not translated strings"
-msgstr "Cadeas non traducidas"
+msgstr "Cadeas sen traducir"
 
 #: weblate/trans/filter.py:33
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings needing action"
-msgstr "Cadeas con suxestións"
+msgstr "Cadeas precisando dunha acción"
 
 #: weblate/trans/filter.py:34
-#, fuzzy
 msgid "Translated strings"
-msgstr "Cadeas traducidas:"
+msgstr "Cadeas traducidas"
 
 #: weblate/trans/filter.py:35
-#, fuzzy
 msgid "Strings marked for edit"
-msgstr "Cadea de orixe:"
+msgstr "Cadeas marcadas para edición"
 
 #: weblate/trans/filter.py:36
 msgid "Strings with suggestions"
 msgstr "Cadeas con suxestións"
 
 #: weblate/trans/filter.py:37
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "Cadeas con suxestións"
+msgstr "Cadeas sen suxestións que precisan de acción"
 
 #: weblate/trans/filter.py:38
-#, fuzzy
 msgid "Strings with comments"
-msgstr "Cadeas con suxestións (%d)"
+msgstr "Cadeas con comentarios"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
 msgid "Strings with any failing checks"
-msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
+msgstr "Cadeas cas comprobacións falladas"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved strings"
-msgstr "Cadeas de orixe"
+msgstr "Cadeas aprobadas"
 
 #: weblate/trans/filter.py:43
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
-msgstr "Cadeas con suxestións"
+msgstr "Cadeas aprobadas con suxestións"
 
 #: weblate/trans/filter.py:45
-#, fuzzy
 msgid "Strings waiting for review"
-msgstr "Cadea de orixe:"
+msgstr "Cadeas agardando para revisión"
 
 #: weblate/trans/filter.py:53
-#, fuzzy
 msgid "Strings with any failing source checks"
-msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
+msgstr "Cadeas con calquera comprobación da orixe falladas"
 
 #: weblate/trans/filter.py:54
-#, fuzzy
 msgid "Strings with source comments"
-msgstr "Cadeas con suxestións (%d)"
+msgstr "Cadeas con comentarios de orixe"
 
 #: weblate/trans/forms.py:149
 #, fuzzy
@@ -7207,16 +7077,12 @@ msgstr ""
 "conta (n)."
 
 #: weblate/trans/forms.py:380
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "Cadeas non traducidas"
+msgstr "Cadea traducida desaparecida!"
 
 #: weblate/trans/forms.py:387
-#, fuzzy
-#| msgid "Search"
 msgid "Search filter"
-msgstr "Buscar"
+msgstr "Filtro da procura"
 
 #: weblate/trans/forms.py:392
 msgid "Please choose a valid filter type."
@@ -7233,6 +7099,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
+"A cadeas adoitan marcarse coma «Precisa dunha edición» logo de actualizarse "
+"a cadea de orixe, ou cando márcanse coma tal de xeito manual."
 
 #: weblate/trans/forms.py:450
 #, fuzzy
@@ -7292,9 +7160,8 @@ msgid "Add as translation needing edit"
 msgstr "Utilice esta tradución"
 
 #: weblate/trans/forms.py:592
-#, fuzzy
 msgid "Processing of strings needing edit"
-msgstr "Cadea de orixe:"
+msgstr "Procesamento das cadeas que precisan dunha edición"
 
 #: weblate/trans/forms.py:594
 msgid "Do not import"
@@ -7306,10 +7173,8 @@ msgid "Import as string needing edit"
 msgstr "Cadea de orixe:"
 
 #: weblate/trans/forms.py:596
-#, fuzzy
-#| msgid "Not translated"
 msgid "Import as translated"
-msgstr "Non traducida"
+msgstr "Importar coma traducida"
 
 #: weblate/trans/forms.py:612
 msgid "Overwrite existing translations"
@@ -7331,27 +7196,23 @@ msgstr "Déixeo vadío para usar o usuario conectado neste momento."
 
 #: weblate/trans/forms.py:630
 msgid "Author email"
-msgstr "Correo do autor"
+msgstr "Enderezo de correo do autor"
 
 #: weblate/trans/forms.py:728
 msgid "Query"
 msgstr "Consulta"
 
 #: weblate/trans/forms.py:734
-#, fuzzy
-#| msgid "Search"
 msgid "Search type"
-msgstr "Buscar"
+msgstr "Tipo da procura"
 
 #: weblate/trans/forms.py:737
 msgid "Fulltext"
 msgstr "Texto completo"
 
 #: weblate/trans/forms.py:738
-#, fuzzy
-#| msgid "Source string:"
 msgid "Substring"
-msgstr "Cadea de orixe:"
+msgstr "Subcadea"
 
 #: weblate/trans/forms.py:739
 msgid "Exact match"
@@ -7362,28 +7223,20 @@ msgid "Please choose a valid search type."
 msgstr ""
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Cadeas de orixe"
+msgstr "Cadeas de destino"
 
 #: weblate/trans/forms.py:758
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Cadeas de contexto"
 
 #: weblate/trans/forms.py:763
-#, fuzzy
-#| msgid "Action"
 msgid "Location strings"
-msgstr "Acción"
+msgstr "Cadeas de localización"
 
 #: weblate/trans/forms.py:768
-#, fuzzy
-#| msgid "Bad format string (%s)"
 msgid "Comment strings"
-msgstr "Cadea de formato incorrecto (%s)"
+msgstr "Cadeas de comentarios"
 
 #: weblate/trans/forms.py:775
 #, fuzzy
@@ -7416,22 +7269,19 @@ msgid "Invalid regular expression: {}"
 msgstr "Comentarios"
 
 #: weblate/trans/forms.py:829
-#, fuzzy, python-format
-#| msgid "Search for \"%s\""
+#, python-format
 msgid "Fulltext search for \"%s\""
-msgstr "Buscar \"%s\""
+msgstr "Procura no texto completo de «%s»"
 
 #: weblate/trans/forms.py:831
-#, fuzzy, python-format
-#| msgid "Search in context strings"
+#, python-format
 msgid "Search for exact string \"%s\""
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Procura exacta da cadea «%s»"
 
 #: weblate/trans/forms.py:833
-#, fuzzy, python-format
-#| msgid "Search for \"%s\""
+#, python-format
 msgid "Substring search for \"%s\""
-msgstr "Buscar \"%s\""
+msgstr "Procura nas subcadeas de «%s»"
 
 #: weblate/trans/forms.py:844
 #, python-brace-format
@@ -7554,7 +7404,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1208
 msgid "Higher priority strings are presented to translators earlier."
-msgstr ""
+msgstr "As cadeas de maior prioridade preséntanse antes ós tradutores."
 
 #: weblate/trans/forms.py:1222
 #, fuzzy
@@ -7670,10 +7520,8 @@ msgid "Locations"
 msgstr "Acción"
 
 #: weblate/trans/forms.py:1450
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Version control settings"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Configuración do control de versión"
 
 #: weblate/trans/forms.py:1456
 #, fuzzy
@@ -7693,10 +7541,8 @@ msgid "Search string"
 msgstr "Cadeas de orixe"
 
 #: weblate/trans/forms.py:1573
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Replacement string"
-msgstr "Buscar nas cadeas de contexto"
+msgstr "Substitución da cadea"
 
 #: weblate/trans/forms.py:1618
 #, fuzzy
@@ -8037,13 +7883,12 @@ msgid "Monolingual base language file"
 msgstr ""
 
 #: weblate/trans/models/component.py:206
-#, fuzzy
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
-"Nome do ficheiro do modelo de traducións, que é recomendábel usar para "
-"traducións que almacenan só texto traducido como cadeas de recursos Android"
+"Nome do ficheiro de tradución base que contén tódalas cadeas e a súa orixe; "
+"é recomendado para formatos de tradución monolingua."
 
 #: weblate/trans/models/component.py:212
 msgid "Edit base file"
@@ -8132,9 +7977,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:286
-#, fuzzy
 msgid "Quality checks flags"
-msgstr "Fallo nas comprobacións"
+msgstr "Marcaxes das comprobacións de calidade"
 
 #: weblate/trans/models/component.py:289
 msgid ""
@@ -8585,7 +8429,7 @@ msgstr "Cambios recentes"
 
 #: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
-msgstr ""
+msgstr "Lingua empregada para as cadeas de orixe en tódolos compoñentes"
 
 #: weblate/trans/models/project.py:175
 #, python-format
@@ -8969,10 +8813,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:532
-#, fuzzy
-#| msgid "translate"
 msgid "Not translated"
-msgstr "traducir"
+msgstr "Non traducido"
 
 #: weblate/trans/templatetags/translations.py:559
 #, fuzzy
@@ -8980,10 +8822,8 @@ msgid "Message needs edit"
 msgstr "Comentarios"
 
 #: weblate/trans/templatetags/translations.py:564
-#, fuzzy
-#| msgid "Message is translated"
 msgid "Message is not translated"
-msgstr "A mensaxe está traducida"
+msgstr "Mensaxe non traducida"
 
 #: weblate/trans/templatetags/translations.py:569
 msgid "Message has failing checks"
@@ -8997,7 +8837,7 @@ msgstr "A mensaxe está traducida"
 
 #: weblate/trans/templatetags/translations.py:579
 msgid "Message is translated"
-msgstr "A mensaxe está traducida"
+msgstr "Mensaxe traducida"
 
 #: weblate/trans/templatetags/translations.py:585
 #, fuzzy
@@ -9038,6 +8878,8 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
+"{0} está traducido a {1} linguas empregando o Weblate. Únete á tradución ou "
+"comeza traducindo o teu propio proxecto."
 
 #: weblate/trans/validators.py:31
 msgid "RST text"
@@ -9114,30 +8956,30 @@ msgid "Get involved in {0}!"
 msgstr "Participe en %(project)s!"
 
 #: weblate/trans/views/basic.py:100
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
 "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
 "\">being translated into %(languages)s languages</a>. Overall, these "
 "translations are %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">O proxecto de tradución de %(name)s</a> contén "
-"actualmente %(total)s cadeas de tradución e <a href=\"%(lang_url)s\">está a "
-"se traducir en %(languages)s idiomas</a>. A media desas traducións acada un "
-"%(percent)s%% do total."
+"<a href=\"%(url)s\">O proxecto de tradución para %(project)s</a> actualmente "
+"contén %(total)s cadeas para tradución e <a href=\"%(lang_url)s\">é "
+"traducido a %(languages)s linguas</a>. En xeral, estas traducións están "
+"%(percent)s%% completas."
 
 #. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:109
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"O proxecto de tradución de %(name)s contén actualmente %(total)s cadeas de "
-"tradución e <a href=\"%(url)s\">está a se traducir en %(languages)s idiomas</"
-"a>. A media desas traducións acada un %(percent)s%% do total."
+"<a href=\"%(url)s\">O proxecto de tradución para %(project)s</a> en galego "
+"actualmente contén %(total)s cadeas para traducción e está %(percent)s%% "
+"completo."
 
 #: weblate/trans/views/basic.py:378
 #, fuzzy
@@ -9336,18 +9178,15 @@ msgid "Invalid search string!"
 msgstr "Suxestión incorrecta!"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Automatic translation completed."
 msgid "Automatic translation completed, no strings were updated."
-msgstr "Tradución automática completada."
+msgstr "Tradución de xeito automático completada, sen cadeas a actualizar."
 
 #: weblate/trans/views/edit.py:601
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Tradución automática completada."
-msgstr[1] "Tradución automática completada."
+msgstr[0] "Tradución de xeito automático completada, actualizouse %d cadea."
+msgstr[1] "Tradución de xeito automático completada, actualizáronse %d cadeas."
 
 #: weblate/trans/views/edit.py:633
 msgid "Posted new comment"
@@ -9379,22 +9218,23 @@ msgid "Access denied."
 msgstr ""
 
 #: weblate/trans/views/files.py:107
-#, fuzzy
-#| msgid "Imported %d words from file."
 msgid "No strings were imported from the uploaded file."
-msgstr "Importáronse %d palabras do ficheiro."
+msgstr "Non foron importadas cadeas do ficheiro subido."
 
 #: weblate/trans/views/files.py:110
-#, fuzzy, python-brace-format
-#| msgid "Imported %d words from file."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Importáronse %d palabras do ficheiro."
-msgstr[1] "Importáronse %d palabras do ficheiro."
+msgstr[0] ""
+"Procesouse {0} palabra do ficheiro subido (omitidas: {1}, non atopadas: {2}, "
+"actualizadas: {3})."
+msgstr[1] ""
+"Procesáronse {0} palabras dos ficheiros subidos. (omitidas: {1}, non "
+"atopadas: {2}, actualizadas: {3})."
 
 #: weblate/trans/views/files.py:122
 #, python-format
@@ -9457,23 +9297,20 @@ msgid "Project is now open for translation updates."
 msgstr "O proxecto está agora aberto para actualizacións da tradución."
 
 #: weblate/trans/views/search.py:127
-#, fuzzy
-#| msgid "Automatic translation completed."
 msgid "Search and replace completed, no strings were updated."
-msgstr "Tradución automática completada."
+msgstr "Procurar e substituír completado, sen cadeas a actualizar."
 
 #: weblate/trans/views/search.py:129
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Tradución automática completada."
-msgstr[1] "Tradución automática completada."
+msgstr[0] "Procurar e substituír completado, actualizouse %d cadea."
+msgstr[1] "Procurar e substituír completado, actualizáronse %d cadeas."
 
 #: weblate/trans/views/search.py:205
-#, fuzzy, python-format
+#, python-format
 msgid "Search for %s"
-msgstr "Buscar \"%s\""
+msgstr "Procura de %s"
 
 #: weblate/trans/views/search.py:212
 msgid "Too many search queries, please try again later."
@@ -9486,18 +9323,16 @@ msgid "Invalid search query!"
 msgstr "Suxestión incorrecta!"
 
 #: weblate/trans/views/search.py:264
-#, fuzzy
-#| msgid "Automatic translation completed."
 msgid "Mass state change completed, no strings were updated."
-msgstr "Tradución automática completada."
+msgstr ""
+"Completouse a mudanza do estado masivo, non foi actualizada ningunha cadea."
 
 #: weblate/trans/views/search.py:266
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "Tradución automática completada."
-msgstr[1] "Tradución automática completada."
+msgstr[0] "Mudanza do estado masivo completado, %d cadea actualizada."
+msgstr[1] "Mudanza do estado masivo completado, %d cadeas actualizadas."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 #, fuzzy
@@ -9509,14 +9344,14 @@ msgid "Invalid settings, please check the form for errors!"
 msgstr ""
 
 #: weblate/trans/views/source.py:96
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Buscar nas cadeas de orixe"
+msgstr "Revisar cadeas de orixe en %s"
 
 #: weblate/trans/views/source.py:113
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Cadea de orixe:"
+msgstr "Cadeas de orixe en %s"
 
 #: weblate/trans/views/source.py:132
 #, fuzzy
@@ -9547,6 +9382,8 @@ msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"a traducir %(count)d cadeas a %(languages)d linguas\n"
+"%(percent)d%% completado, axúdanos a mellorar!"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
@@ -9556,6 +9393,8 @@ msgid ""
 "translating %(count)d strings into English\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"a traducir %(count)d cadeas ó galego\n"
+"%(percent)d%% completado, axúdanos a mellorar!"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:339
@@ -9575,10 +9414,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/widgets.py:369
-#, fuzzy
-#| msgid "translate"
 msgid "translated"
-msgstr "traducir"
+msgstr "traducido"
 
 #: weblate/utils/ratelimit.py:107
 msgid "Too many attempts, you have been logged out!"
@@ -9825,10 +9662,8 @@ msgid "Hostname"
 msgstr "Segundo apelido"
 
 #: weblate/wladmin/templates/admin/ssh.html:50
-#, fuzzy
-#| msgid "Search"
 msgid "Key type"
-msgstr "Buscar"
+msgstr "Tipo da chave ou clave"
 
 #: weblate/wladmin/templates/admin/ssh.html:51
 msgid "Fingerprint"
