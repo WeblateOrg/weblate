@@ -1474,16 +1474,16 @@ class Component(models.Model, URLMixin, PathMixin):
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
         if not self.can_add_new_language():
-            messages.error(
-                request,
-                _('Failed to add new translation file!')
-            )
+            messages.error(request, _('Failed to add new translation file!'))
             return False
 
-        format_lang_code = self.file_format_cls.get_language_code(
-            language.code
-        )
-        if re.match(self.language_regex, format_lang_code) is None:
+        file_format = self.file_format_cls
+        # Language code from Weblate
+        code = language.code
+        # Language code used for file
+        format_code = file_format.get_language_code(code)
+
+        if re.match(self.language_regex, format_code) is None:
             messages.error(
                 request,
                 _('Given language is filtered by the language filter!')
@@ -1492,10 +1492,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         base_filename = self.get_new_base_filename()
 
-        filename = self.file_format_cls.get_language_filename(
-            self.filemask,
-            language.code
-        )
+        filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
         # Ignore request if file exists (possibly race condition as
@@ -1503,28 +1500,21 @@ class Component(models.Model, URLMixin, PathMixin):
         # can submit again)
         if os.path.exists(fullname):
             translation = Translation.objects.check_sync(
-                self, language, language.code, filename, request=request
+                self, language, format_code, filename, request=request
             )
             self.run_target_checks()
             translation.invalidate_cache()
-            messages.error(
-                request,
-                _('Translation file already exists!')
-            )
+            messages.error(request, _('Translation file already exists!'))
             return False
 
-        self.file_format_cls.add_language(
-            fullname,
-            language,
-            base_filename
-        )
+        file_format.add_language(fullname, language, base_filename)
 
         translation = Translation.objects.create(
             component=self,
             language=language,
             plural=language.plural,
             filename=filename,
-            language_code=language.code,
+            language_code=format_code,
         )
         if send_signal:
             translation_post_add.send(
