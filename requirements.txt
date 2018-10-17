@@ -23,3 +23,6 @@ jellyfish>=0.6.1
 openpyxl>=2.5.0
 celery>=4.0
 celery-batches>=0.2
+# This is workaround for dependency issues between
+# recent urllib3, requests and botocore
+urllib3<1.24
