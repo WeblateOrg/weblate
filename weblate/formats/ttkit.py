@@ -464,7 +464,7 @@ class AndroidFormat(FileFormat):
             return 'zh-rCN'
         if code == 'zh_Hant':
             return 'zh-rTW'
-        return code.replace('_', '-r')
+        return code.replace('-', '_').replace('_', '-r')
 
 
 class JSONFormat(FileFormat):
