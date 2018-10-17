@@ -19,24 +19,14 @@
 #
 
 from django.contrib import admin
-from django.forms.models import ModelForm
 
 from weblate.wladmin.models import WeblateModelAdmin
-from weblate.lang.models import Plural
-
-
-class AlwaysChangedModelForm(ModelForm):
-    def has_changed(self, *args, **kwargs):
-        if self.instance.pk is None:
-            return True
-        return super(AlwaysChangedModelForm, self).has_changed(*args, **kwargs)
+from weblate.lang.models import Plural, Language
 
 
 class PluralAdmin(admin.TabularInline):
     model = Plural
     extra = 0
-    min_num = 1
-    form = AlwaysChangedModelForm
 
 
 class LanguageAdmin(WeblateModelAdmin):
@@ -44,3 +34,28 @@ class LanguageAdmin(WeblateModelAdmin):
     search_fields = ['name', 'code']
     list_filter = ('direction',)
     inlines = [PluralAdmin]
+
+    def save_related(self, request, form, formsets, change):
+        super(LanguageAdmin, self).save_related(
+            request, form, formsets, change
+        )
+        lang = form.instance
+
+        if lang.plural_set.exists():
+            return
+
+        # Automatically create plurals if language does not have one
+        try:
+            baselang = Language.objects.get(code=lang.base_code)
+            baseplural = baselang.plural
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=baseplural.number,
+                equation=baseplural.equation,
+            )
+        except Language.DoesNotExist:
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=2,
+                equation='n != 1',
+            )
