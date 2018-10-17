@@ -1140,6 +1140,20 @@ update individual repositories; see
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
+.. http:post:: /hooks/pagure/
+
+    Special hook for handling Pagure notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`pagure-setup`
+            For instruction on setting up Bitbucket integration
+        https://docs.pagure.org/pagure/usage/using_webhooks.html
+            Generic information about Bitbucket Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
 .. _exports:
 
 Exports

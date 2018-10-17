@@ -691,7 +691,7 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
-        r'^hooks/(?P<service>github|gitlab|bitbucket)/$',
+        r'^hooks/(?P<service>github|gitlab|bitbucket|pagure)/$',
         weblate.trans.views.api.vcs_service_hook,
         name='webhook',
     ),

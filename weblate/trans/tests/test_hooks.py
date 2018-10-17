@@ -456,6 +456,64 @@ BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 }
 '''
 
+PAGURE_PAYLOAD = '''
+{
+    "i": 17,
+    "msg": {
+        "agent": "nijel",
+        "authors": [
+            {
+                "fullname": "Michal \u010ciha\u0159",
+                "name": "nijel"
+            }
+        ],
+        "branch": "master",
+        "end_commit": "4d0f02a0282c5fcd10a396624d3f6b950dc16296",
+        "forced": false,
+        "pagure_instance": "https://pagure.io/",
+        "project_fullname": "nijel-test",
+        "repo": {
+            "access_groups": {
+                "admin": [],
+                "commit": [],
+                "ticket": []
+            },
+            "access_users": {
+                "admin": [],
+                "commit": [],
+                "owner": [
+                    "nijel"
+                ],
+                "ticket": []
+            },
+            "close_status": [],
+            "custom_keys": [],
+            "date_created": "1539762879",
+            "date_modified": "1539763111",
+            "description": "Test",
+            "fullname": "nijel-test",
+            "id": 5075,
+            "milestones": {},
+            "name": "nijel-test",
+            "namespace": null,
+            "parent": null,
+            "priorities": {},
+            "tags": [],
+            "url_path": "nijel-test",
+            "user": {
+                "fullname": "Michal \u010ciha\u0159",
+                "name": "nijel"
+            }
+        },
+        "start_commit": "4d0f02a0282c5fcd10a396624d3f6b950dc16296",
+        "total_commits": 1
+    },
+    "msg_id": "2018-8eb272b9-e33b-42f6-af06-fce41a5494de",
+    "timestamp": 1539763221,
+    "topic": "git.receive"
+}
+'''
+
 
 class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
@@ -718,4 +776,23 @@ class HooksViewTest(ViewTestCase):
             response,
             'Invalid data in json payload!',
             status_code=400
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_pagure(self):
+        response = self.client.post(
+            reverse('webhook', kwargs={'service': 'pagure'}),
+            {'payload': PAGURE_PAYLOAD}
+        )
+        self.assertContains(response, 'No matching repositories found!')
+
+        # missing data
+        response = self.client.post(
+            reverse('webhook', kwargs={'service': 'gitlab'}), '{"msg": ""}',
+            content_type="application/json"
+        )
+        self.assertContains(
+            response,
+            'Hook working',
+            status_code=200
         )
