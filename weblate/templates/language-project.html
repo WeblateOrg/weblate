@@ -14,6 +14,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=language.code project=project.slug %}" data-monthly="{% url 'monthly_activity' lang=language.code project=project.slug %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
@@ -21,7 +22,6 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
