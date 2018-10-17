@@ -74,6 +74,12 @@ GITHUB_REPOS = (
     'git@github.com:%(owner)s/%(slug)s.git',
 )
 
+PAGURE_REPOS = (
+    'https://{server}/{project}',
+    'https://{server}/{project}.git',
+    'ssh://git@{server}/{project}.git',
+)
+
 HOOK_HANDLERS = {}
 
 
@@ -359,6 +365,30 @@ def gitlab_hook_helper(data):
         'repos': repos,
         'branch': branch,
         'full_name': ssh_url.split(':', 1)[1],
+    }
+
+
+@register_hook
+def pagure_hook_helper(data):
+    """API to handle commit hooks from Pagure."""
+    # Ignore non known events
+    if 'msg' not in data or data.get('topic') != 'git.receive':
+        return None
+
+    server = urlparse(data['msg']['pagure_instance']).hostname
+    project = data['msg']['project_fullname']
+
+    repos = [
+        repo.format(server=server, project=project)
+        for repo in PAGURE_REPOS
+    ]
+
+    return {
+        'service_long_name': 'Pagure',
+        'repo_url': repos[0],
+        'repos': repos,
+        'branch': data['msg']['branch'],
+        'full_name': project,
     }
 
 

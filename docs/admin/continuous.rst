@@ -170,6 +170,24 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
    
    :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
 
+.. _pagure-setup:
+
+Automatically receiving changes from Pagure
++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.3
+
+Weblate has support for Pagure hooks, all you need to do is add project web hook
+with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
+example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
+:guilabel:`Activate Web-hooks` under :guilabel:`Project options`:
+
+.. image:: ../images/pagure-webhook.png
+
+.. seealso:: 
+   
+   :http:post:`/hooks/pagure/`, :ref:`hosted-push`
+
 .. _push-changes:
 
 Pushing changes

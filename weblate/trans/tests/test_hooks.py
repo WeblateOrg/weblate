@@ -456,6 +456,64 @@ BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 }
 '''
 
+PAGURE_PAYLOAD = '''
+{
+    "i": 17,
+    "msg": {
+        "agent": "nijel",
+        "authors": [
+            {
+                "fullname": "Michal \u010ciha\u0159",
+                "name": "nijel"
+            }
+        ],
+        "branch": "master",
+        "end_commit": "4d0f02a0282c5fcd10a396624d3f6b950dc16296",
+        "forced": false,
+        "pagure_instance": "https://pagure.io/",
+        "project_fullname": "nijel-test",
+        "repo": {
+            "access_groups": {
+                "admin": [],
+                "commit": [],
+                "ticket": []
+            },
+            "access_users": {
+                "admin": [],
+                "commit": [],
+                "owner": [
+                    "nijel"
+                ],
+                "ticket": []
+            },
+            "close_status": [],
+            "custom_keys": [],
+            "date_created": "1539762879",
+            "date_modified": "1539763111",
+            "description": "Test",
+            "fullname": "nijel-test",
+            "id": 5075,
+            "milestones": {},
+            "name": "nijel-test",
+            "namespace": null,
+            "parent": null,
+            "priorities": {},
+            "tags": [],
+            "url_path": "nijel-test",
+            "user": {
+                "fullname": "Michal \u010ciha\u0159",
+                "name": "nijel"
+            }
+        },
+        "start_commit": "4d0f02a0282c5fcd10a396624d3f6b950dc16296",
+        "total_commits": 1
+    },
+    "msg_id": "2018-8eb272b9-e33b-42f6-af06-fce41a5494de",
+    "timestamp": 1539763221,
+    "topic": "git.receive"
+}
+'''
+
 
 class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
@@ -478,7 +536,7 @@ class HooksViewTest(ViewTestCase):
         self.component.repo = 'git://github.com/defunkt/github.git'
         self.component.save()
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'Update triggered')
@@ -489,7 +547,7 @@ class HooksViewTest(ViewTestCase):
         self.component.repo = 'git://github.com/defunkt/github.git'
         self.component.save()
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_NEW_PAYLOAD}
         )
         self.assertContains(response, 'Update triggered')
@@ -497,7 +555,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_ping(self):
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': '{"zen": "Approachable is better than simple."}'}
         )
         self.assertContains(response, 'Hook working')
@@ -508,7 +566,7 @@ class HooksViewTest(ViewTestCase):
         self.component.repo = 'https://user:pwd@github.com/defunkt/github.git'
         self.component.save()
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'Update triggered')
@@ -521,7 +579,7 @@ class HooksViewTest(ViewTestCase):
         self.project.enable_hooks = False
         self.project.save()
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -529,7 +587,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github(self):
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -537,7 +595,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_gitlab(self):
         response = self.client.post(
-            reverse('hook-gitlab'), GITLAB_PAYLOAD,
+            reverse('webhook', kwargs={'service': 'gitlab'}), GITLAB_PAYLOAD,
             content_type="application/json"
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -545,7 +603,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_ping(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             HTTP_X_EVENT_KEY='diagnostics:ping',
         )
         self.assertContains(response, 'Hook working')
@@ -553,7 +611,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_git(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -561,7 +619,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_HG}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -569,7 +627,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg_no_commit(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -577,7 +635,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_webhook(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -585,7 +643,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hosted(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_HOSTED}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -593,7 +651,7 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_webhook_closed(self):
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK_CLOSED}
         )
         self.assertContains(response, 'No matching repositories found!')
@@ -604,17 +662,17 @@ class HooksViewTest(ViewTestCase):
         self.assert_disabled()
 
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertEqual(response.status_code, 405)
         response = self.client.post(
-            reverse('hook-gitlab'), GITLAB_PAYLOAD,
+            reverse('webhook', kwargs={'service': 'gitlab'}), GITLAB_PAYLOAD,
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 405)
         response = self.client.post(
-            reverse('hook-bitbucket'),
+            reverse('webhook', kwargs={'service': 'bitbucket'}),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
         self.assertEqual(response.status_code, 405)
@@ -639,7 +697,7 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with github."""
         # missing
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
         )
         self.assertContains(
             response,
@@ -648,7 +706,7 @@ class HooksViewTest(ViewTestCase):
         )
         # wrong
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': 'XX'},
         )
         self.assertContains(
@@ -658,7 +716,7 @@ class HooksViewTest(ViewTestCase):
         )
         # missing data
         response = self.client.post(
-            reverse('hook-github'),
+            reverse('webhook', kwargs={'service': 'github'}),
             {'payload': '{}'},
         )
         self.assertContains(
@@ -672,7 +730,7 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(
-            reverse('hook-gitlab'),
+            reverse('webhook', kwargs={'service': 'gitlab'}),
         )
         self.assertContains(
             response,
@@ -681,7 +739,7 @@ class HooksViewTest(ViewTestCase):
         )
         # missing content-type header
         response = self.client.post(
-            reverse('hook-gitlab'),
+            reverse('webhook', kwargs={'service': 'gitlab'}),
             {'payload': 'anything'}
         )
         self.assertContains(
@@ -691,7 +749,7 @@ class HooksViewTest(ViewTestCase):
         )
         # wrong
         response = self.client.post(
-            reverse('hook-gitlab'), 'xx',
+            reverse('webhook', kwargs={'service': 'gitlab'}), 'xx',
             content_type="application/json"
         )
         self.assertContains(
@@ -701,7 +759,7 @@ class HooksViewTest(ViewTestCase):
         )
         # missing params
         response = self.client.post(
-            reverse('hook-gitlab'), '{"other":42}',
+            reverse('webhook', kwargs={'service': 'gitlab'}), '{"other":42}',
             content_type="application/json"
         )
         self.assertContains(
@@ -711,11 +769,30 @@ class HooksViewTest(ViewTestCase):
         )
         # missing data
         response = self.client.post(
-            reverse('hook-gitlab'), '{}',
+            reverse('webhook', kwargs={'service': 'gitlab'}), '{}',
             content_type="application/json"
         )
         self.assertContains(
             response,
             'Invalid data in json payload!',
             status_code=400
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_pagure(self):
+        response = self.client.post(
+            reverse('webhook', kwargs={'service': 'pagure'}),
+            {'payload': PAGURE_PAYLOAD}
+        )
+        self.assertContains(response, 'No matching repositories found!')
+
+        # missing data
+        response = self.client.post(
+            reverse('webhook', kwargs={'service': 'gitlab'}), '{"msg": ""}',
+            content_type="application/json"
+        )
+        self.assertContains(
+            response,
+            'Hook working',
+            status_code=200
         )
