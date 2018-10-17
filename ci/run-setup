@@ -16,6 +16,9 @@ check
 run_coverage ./setup.py sdist
 check
 
+twine check dist/*
+check
+
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
 BIN_DIR=`find $INSTALL_DIR -name 'bin' -type d`
 
