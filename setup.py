@@ -53,9 +53,10 @@ setup(
     url='https://weblate.org/',
     download_url='https://weblate.org/download/',
     project_urls={
-        'Bug Tracker': 'https://github.com/WeblateOrg/weblate/issues',
+        'Issue Tracker': 'https://github.com/WeblateOrg/weblate/issues',
         'Documentation': 'https://docs.weblate.org/',
         'Source Code': 'https://github.com/WeblateOrg/weblate',
+        'Twitter': 'https://twitter.com/WeblateOrg',
     },
     author='Michal Čihař',
     author_email='michal@cihar.com',
