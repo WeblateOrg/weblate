@@ -691,19 +691,9 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
-        r'^hooks/github/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'github'},
-        name='hook-github',
-    ),
-    url(
-        r'^hooks/gitlab/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'gitlab'},
-        name='hook-gitlab',
-    ),
-    url(
-        r'^hooks/bitbucket/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'bitbucket'},
-        name='hook-bitbucket',
+        r'^hooks/(?P<service>github|gitlab|bitbucket)/$',
+        weblate.trans.views.api.vcs_service_hook,
+        name='webhook',
     ),
 
     # Stats exports
