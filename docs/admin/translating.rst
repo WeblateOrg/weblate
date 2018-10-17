@@ -82,12 +82,17 @@ You can change string priority, strings with higher priority are offered first
 for translation. This can be useful for prioritizing translation of strings
 which are seen first by users or are otherwise important.
 
-Quaity check flags
-++++++++++++++++++
+Translation flags
++++++++++++++++++
 
 .. versionadded:: 2.4
 
-Default set of quality check flags is determined from the translation
+.. versionchanged:: 3.3
+
+      Previously this was called :guilabel:`Quaity checks flags`, but as it no
+      longer configures only checks, the name was changed to be more generic.
+
+Default set of traslation flags is determined from the translation
 :ref:`component` and the translation file. However, you might want to customize
 this per source string and you have the option here.
 

@@ -285,7 +285,7 @@ class Component(models.Model, URLMixin, PathMixin):
         validators=[validate_autoaccept],
     )
     check_flags = models.TextField(
-        verbose_name=ugettext_lazy('Quality checks flags'),
+        verbose_name=ugettext_lazy('Translation flags'),
         default='',
         help_text=ugettext_lazy(
             'Additional comma-separated flags to influence quality checks, '

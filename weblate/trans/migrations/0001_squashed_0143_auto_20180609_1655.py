@@ -127,7 +127,7 @@ class Migration(migrations.Migration):
                 ('enable_suggestions', models.BooleanField(default=True, help_text='Whether to allow translation suggestions at all.', verbose_name='Enable suggestions')),
                 ('suggestion_voting', models.BooleanField(default=False, help_text='Whether users can vote for suggestions.', verbose_name='Suggestion voting')),
                 ('suggestion_autoaccept', models.PositiveSmallIntegerField(default=0, help_text='Automatically accept suggestions with this number of votes, use 0 to disable.', validators=[weblate.trans.validators.validate_autoaccept], verbose_name='Autoaccept suggestions')),
-                ('check_flags', models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Quality checks flags')),
+                ('check_flags', models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Translation flags')),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Project', verbose_name='Project')),
             ],
             options={
