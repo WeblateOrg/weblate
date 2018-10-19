@@ -414,7 +414,7 @@ class Language(models.Model):
 
     @cached_property
     def plural(self):
-        return self.plural_set.get(source=Plural.SOURCE_DEFAULT)
+        return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
 
 
 @python_2_unicode_compatible
