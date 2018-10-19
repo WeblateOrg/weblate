@@ -77,6 +77,11 @@ with open('scripts/language-data/languages.csv', 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=';')
     LANGUAGES = list(reader)
 
+# Read aliases
+with open("scripts/language-data/aliases.csv", "r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
+    ALIASES = [alias for alias in reader if alias[0] != "#"]
+
 # Read extra plurals
 with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=';')
@@ -108,6 +113,11 @@ with open('weblate/langdata/languages.py', 'w') as output:
             row[3],
         ))
     output.write(')\n')
+    output.write('# Language aliases\n')
+    output.write('ALIASES = {\n')
+    for row in ALIASES:
+        output.write("    '{}': '{}',\n".format(*row))
+    output.write('}\n')
 
 # Generate same check blacklist
 words = set()

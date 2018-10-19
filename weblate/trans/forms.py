@@ -46,7 +46,7 @@ from django.db.models import Q
 from weblate.auth.models import User
 
 from weblate.formats.exporters import EXPORTERS
-from weblate.lang.data import LOCALE_ALIASES
+from weblate.langdata.languages  import ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
@@ -1164,15 +1164,15 @@ class NewLanguageOwnerForm(forms.Form):
             translation__component=self.component
         )
         for code in self.cleaned_data['lang']:
-            if code not in LOCALE_ALIASES:
+            if code not in ALIASES:
                 continue
-            if existing.filter(code=LOCALE_ALIASES[code]).exists():
+            if existing.filter(code=ALIASES[code]).exists():
                 raise ValidationError(
                     _(
                         'Similar translation '
                         'already exists in the project ({0})!'
                     ).format(
-                        LOCALE_ALIASES[code]
+                        _ALIASES[code]
                     )
                 )
         return self.cleaned_data['lang']

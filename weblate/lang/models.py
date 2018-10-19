@@ -139,8 +139,8 @@ class LanguageQuerySet(models.QuerySet):
             code.replace('_r', '_')
         )
         for newcode in codes:
-            if newcode in data.LOCALE_ALIASES:
-                newcode = data.LOCALE_ALIASES[newcode]
+            if newcode in languages.ALIASES:
+                newcode = languages.ALIASES[newcode]
                 ret = self.try_get(code=newcode)
                 if ret is not None:
                     return ret
