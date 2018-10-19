@@ -119,6 +119,7 @@ LANGUAGES = (
     ('es', _('Spanish'), 2, 'n != 1'),
     ('es_AR', _('Spanish (Argentina)'), 2, 'n != 1'),
     ('es_CL', _('Spanish (Chile)'), 2, 'n != 1'),
+    ('es_DO', _('Spanish (Dominican Republic)'), 2, 'n != 1'),
     ('es_EC', _('Spanish (Ecuador)'), 2, 'n != 1'),
     ('es_MX', _('Spanish (Mexico)'), 2, 'n != 1'),
     ('es_PE', _('Spanish (Peru)'), 2, 'n != 1'),
