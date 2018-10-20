@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-19 12:50+0000\n"
+"PO-Revision-Date: 2018-10-20 09:13+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -4867,7 +4867,7 @@ msgstr "Mots"
 #: weblate/templates/list-translations.html:23
 msgctxt "Number of strings needing review"
 msgid "Review"
-msgstr "A vérifier"
+msgstr "À vérifier"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -5679,10 +5679,8 @@ msgid "Create project"
 msgstr "Créer un projet"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "Vous n’avez actuellement pas le droit de créer un projet."
+msgstr "Vous n’avez actuellement pas le droit de créer des projets."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -5992,11 +5990,11 @@ msgstr "Glossaire"
 
 #: weblate/templates/translate.html:473
 msgid "Add word to glossary"
-msgstr "Ajouter le mot au glossaire"
+msgstr "Ajouter un mot au glossaire"
 
 #: weblate/templates/translate.html:494
 msgid "Source information"
-msgstr "Information sur la source"
+msgstr "Informations sur la source"
 
 #: weblate/templates/translate.html:526
 msgid "No context currently associated!"
@@ -6752,22 +6750,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Les chaînes prioritaires sont proposées aux traducteurs en premier."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Fichier de traduction"
+msgstr "Marques de traduction"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Veuillez entrer une liste (séparée par des virgules) des indicateurs de "
-"contrôle, consultez la <a href=\"{url}\"> documentation</a> pour plus de "
+"Veuillez saisir une liste (séparée par des virgules) de marques de "
+"traduction. Consultez la <a href=\"{url}\"> documentation</a> pour plus de "
 "détails."
 
 #: weblate/trans/forms.py:1252
@@ -7038,16 +7031,12 @@ msgid "Removed user"
 msgstr "L’utilisateur a été supprimé"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Processus de traduction"
+msgstr "Traduction approuvée"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Chaînes à vérifier"
+msgstr "Marquer comme À vérifier"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -8111,13 +8100,11 @@ msgstr "Texte XML"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "Fin de lignes DOS"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Apostrophes dans le MessageFormat Java"
+msgstr "Détecter automatiquement le MessageFormat Java"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8550,10 +8537,8 @@ msgid "Failed to change a context!"
 msgstr "Échec de modification d’un contexte !"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Erreur lors de l’ajout du fichier de traduction !"
+msgstr "Échec lors de la modification des marques de traduction !"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
