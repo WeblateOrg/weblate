@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-15 02:45+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2018-10-20 10:53+0000\n"
+"Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -2600,16 +2600,11 @@ msgid "Commit signing"
 msgstr "コミットへの署名"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
-msgstr ""
-"Weblate では、全てのコミットに対して GPG 鍵 %(gpg_key_id)s の署名を付与してい"
-"ます。下記に公開鍵を示します。"
+msgstr "Weblate が作成した全てのコミットには、 GPG 鍵 %(gpg_key_id)s の署名を付与しています。下記に公開鍵を示します。"
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3620,7 +3615,7 @@ msgstr "課金状態の確認"
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
-msgstr ""
+msgstr "通知設定が失われているか、課金の期日が過去になっているか、制限を超えたことによって発生している可能性があります。"
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5560,8 +5555,6 @@ msgid "Create project"
 msgstr "プロジェクトの作成"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
 msgstr "現時点ではプロジェクトを作成する権限がありません。"
 
@@ -6620,22 +6613,16 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "翻訳者に対しては、高い優先順位を設定した文字列を先に提示します。"
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "翻訳ファイル"
+msgstr "翻訳フラグ"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"チェックフラグをカンマ区切りの一覧で指定してください。詳しくは <a href="
-"\"{url}\">ドキュメンテーション</a> をお読みください。"
+"翻訳フラグをカンマ区切りの一覧で指定してください。詳しくは <a href=\"{url}\">ドキュメンテーション</a> をお読みください。"
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6903,16 +6890,12 @@ msgid "Removed user"
 msgstr "ユーザの削除"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "翻訳の処理"
+msgstr "翻訳の承認"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "要編集としてマークされている文字列"
+msgstr "要編集としてマーク"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7933,13 +7916,11 @@ msgstr "XML テキスト"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "DOS 形式の改行"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Java MessageFormat のアポストロフィの扱い"
+msgstr "Java MessageFormat の自動検出"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8353,10 +8334,8 @@ msgid "Failed to change a context!"
 msgstr "コンテキストの変更に失敗しました！"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "新しい翻訳ファイルの追加に失敗しました！"
+msgstr "翻訳フラグの変更に失敗しました！"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
