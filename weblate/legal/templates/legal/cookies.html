@@ -32,7 +32,12 @@
 <ul>
 <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
 <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
+{% if piwik_site_id and piwik_url %}
 <li>{% trans "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track settings in your browser." %}</li>
+{% endif %}
+{% if google_analytics_id %}
+<li>{% trans "We use Google Analytics to analyze traffic on our website." %}</li>
+{% endif %}
 </ul>
 
 </div>
