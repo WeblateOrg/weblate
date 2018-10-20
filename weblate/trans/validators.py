@@ -63,4 +63,4 @@ def validate_check_flags(val):
         name = flag.split(':')[0]
         if name in EXTRA_FLAGS or name in IGNORE_CHECK_FLAGS:
             continue
-        raise ValidationError(_('Invalid check flag: "%s"') % flag)
+        raise ValidationError(_('Invalid translation flag: "%s"') % flag)

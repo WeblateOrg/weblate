@@ -290,14 +290,14 @@ class ComponentTest(RepoTestCase):
         component.check_flags = 'nonsense'
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid check flag: "nonsense"',
+            'Invalid translation flag: "nonsense"',
             component.full_clean
         )
 
         component.check_flags = 'rst-text,ignore-nonsense'
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid check flag: "ignore-nonsense"',
+            'Invalid translation flag: "ignore-nonsense"',
             component.full_clean
         )
 
