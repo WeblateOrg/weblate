@@ -1,6 +1,20 @@
 Changes
 =======
 
+weblate 3.2.2
+-------------
+
+Released on October 20th 2018.
+
+* Remove no longer needed Babel dependency.
+* Updated langauge definitions.
+* Improve documentation for addons, LDAP and Celery.
+* Fixed enabling new dos-eol and auto-java-messageformat flags.
+* Fixed running setup.py test from PyPI package.
+* Improved plurals handling.
+* Fixed translation upload API failure in some corner cases.
+* Fixed updating Git configuration in case it was changed manually.
+
 weblate 3.2.1
 -------------
 
