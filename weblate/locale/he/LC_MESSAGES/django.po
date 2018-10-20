@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-15 15:30+0000\n"
+"PO-Revision-Date: 2018-10-20 10:53+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -2544,16 +2544,12 @@ msgid "Commit signing"
 msgstr "חתימה על הגשות"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"מערכת Weblate חותמת את כל ההגשות במפתח GPG‏ %(gpg_key_id)s, ניתן לצפות במפתח "
-"הציבורי להלן."
+"כל ההגשות מצד Weblate חתומות במפתח GPG‏ %(gpg_key_id)s, בו ניתן לצפות להלן."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3534,6 +3530,8 @@ msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
 msgstr ""
+"יתכן שבעיה זו קרתה עקב מינוי חסר או שחלק מאמצעי החיוב שלך פגו או חרגו "
+"מהמסגרת."
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5423,10 +5421,8 @@ msgid "Create project"
 msgstr "יצירת מיזם"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "אין לך הרשאות ליצור מיזם כרגע."
+msgstr "אין לך הרשאות ליצור מיזמים כרגע."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -6477,22 +6473,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "מחרוזות עם עדיפות גבוהה יותר מוצעות למתרגמים מוקדם יותר."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "קובץ תרגום"
+msgstr "דגלוני תרגום"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"נא להזין רשימה מופרדת בפסיקים של דגלוני בדיקה, ניתן לעיין ב<a href="
-"\"{url}\">תיעוד</a> לקבלת פרטים נוספים."
+"נא להזין רשימה מופרדת בפסיקים של דגלוני תרגום, ניתן לעיין ב<a href=\"{url}\""
+">תיעוד</a> לקבלת פרטים נוספים."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6757,16 +6748,12 @@ msgid "Removed user"
 msgstr "משתמש הוסר"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "תהליך תרגום"
+msgstr "תרגום אושר"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "מחרוזות שסומנו כטעונות שיפור"
+msgstr "סומנה כטעונת שיפור"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7799,13 +7786,11 @@ msgstr "טקסט XML"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "סיומת שורה של DOS"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "מירכאות בודדות ב־Java MessageFormat"
+msgstr "זיהוי אוטומטי של Java MessageFormat"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8232,10 +8217,8 @@ msgid "Failed to change a context!"
 msgstr "שינוי ההקשר נכשל!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "הוספת קובץ תרגום חדש נכשלה!"
+msgstr "שינוי דגלוני התרגום נכשל!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
