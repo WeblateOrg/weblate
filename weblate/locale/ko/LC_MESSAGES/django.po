@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-20 05:05+0000\n"
+"PO-Revision-Date: 2018-10-20 10:53+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -2552,16 +2552,12 @@ msgid "Commit signing"
 msgstr "서명하기"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate가 GPG 키 %(gpg_key_id)s 에 의한 모든 커밋에 서명하면, 아래 공개 키를 "
-"보실 수 있습니다."
+"모든 커밋을 Weblate가 GPG 키 %(gpg_key_id)s 로 서명하면, 아래에서 그에 맞는 공개 키를 찾으실 수 있습니다."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3538,13 +3534,13 @@ msgstr "닫기"
 
 #: weblate/templates/billing-failure.html:7
 msgid "Check your billing status"
-msgstr ""
+msgstr "결제 상태 확인"
 
 #: weblate/templates/billing-failure.html:8
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
-msgstr ""
+msgstr "이는 가입이 누락되거나 청구서가 만기일 또는 한도를 초과한 경우에 발생할 수 있습니다."
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -3608,32 +3604,28 @@ msgid "Not available"
 msgstr "사용 불가"
 
 #: weblate/templates/billing/detail.html:76
-#, fuzzy
-#| msgid "No words found!"
 msgid "No invoices found!"
-msgstr "단어를 찾을 수 없습니다!"
+msgstr "청구서를 찾을 수 없습니다!"
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
 msgid "Billing"
-msgstr ""
+msgstr "결제"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "현재 유효한 결제가 없습니다."
 
 #. Translators: Number of projects/repositories/strings used in billing when there is no limit
 #: weblate/templates/billing/used.html:6
-#, fuzzy, python-format
-#| msgid "Suggested by %(user)s"
+#, python-format
 msgid "Used %(used)s"
-msgstr "%(user)s 님에 의해 제안됨"
+msgstr "%(used)s 사용됨"
 
 #. Translators: Number of projects/repositories/strings used in billing from given limit
 #: weblate/templates/billing/used.html:9
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
-msgstr "%(position)s / %(total)s"
+msgstr "%(total)s 의 %(used)s 사용됨"
 
 #: weblate/templates/check.html:6 weblate/templates/check_component.html:6
 #: weblate/templates/check_project.html:6 weblate/templates/checks.html:6
@@ -3663,10 +3655,6 @@ msgid "Information"
 msgstr "정보"
 
 #: weblate/templates/checks.html:30
-#, fuzzy
-#| msgid ""
-#| "Customizable quality checks will help you in improving quality of "
-#| "translations."
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
