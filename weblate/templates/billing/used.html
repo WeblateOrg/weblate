@@ -2,8 +2,10 @@
 
 <td>
 {% if total == 0 %}
+{% comment %}Translators: Number of projects/repositories/strings used in billing when there is no limit{% endcomment %}
 {% blocktrans %}Used {{ used }}{% endblocktrans %}
 {% else %}
+{% comment %}Translators: Number of projects/repositories/strings used in billing from given limit{% endcomment %}
 {% blocktrans %}Used {{ used }} of {{ total }}{% endblocktrans %}
 {% endif %}
 </td>
