@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-20 15:53+0000\n"
+"PO-Revision-Date: 2018-10-20 19:34+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
 "\n"
@@ -1693,7 +1693,7 @@ msgstr "Formátovací řetězec Java v překladu neodpovídá zdroji"
 
 #: weblate/checks/format.py:349
 msgid "Java MessageFormat"
-msgstr "Formát Java zpráv"
+msgstr "Formátovací řetězec Java zpráv"
 
 #: weblate/checks/format.py:350
 msgid "Java MessageFormat string does not match source"
@@ -2593,16 +2593,13 @@ msgid "Commit signing"
 msgstr "Podepisování zápisů"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate podepisuje všechny zápisy GPG klíčem %(gpg_key_id)s, veřejný klíč je "
-"zobrazen níže."
+"Weblate podepisuje všechny zápisy GPG klíčem %(gpg_key_id)s, jemuž "
+"odpovídající veřejný klíč je zobrazen níže."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3605,6 +3602,8 @@ msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
 msgstr ""
+"Toto může být způsobeno chybějícím předplatným nebo je některé vaše "
+"předplatné po splatnosti nebo překročilo limity."
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5535,8 +5534,6 @@ msgid "Create project"
 msgstr "Vytvořit projekt"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
 msgstr "V tuto chvíli nemáte oprávnění pro vytváření projektů."
 
@@ -6197,7 +6194,7 @@ msgstr "Řídící znaky"
 
 #: weblate/trans/autofixes/custom.py:49
 msgid "Apostrophes in Java MessageFormat"
-msgstr "Apostrofy ve formát Java zpráv"
+msgstr "Apostrofy ve formátovacím řetězeci Java zpráv"
 
 #: weblate/trans/autofixes/whitespace.py:35
 msgid "Trailing and leading whitespace"
@@ -6601,22 +6598,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Řetězce vyšší priority jsou překladatelům předkládány jako první."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Soubor s překladem"
+msgstr "Příznaky překladu"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Prosím zadejte značky kontrol oddělené čárkou, více informací naleznete v <a "
-"href=\"{url}\">dokumentaci</a>."
+"Prosím zadejte příznaky překladu oddělené čárkou, více informací naleznete v "
+"<a href=\"{url}\">dokumentaci</a>."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6886,16 +6878,12 @@ msgid "Removed user"
 msgstr "Uživatel odebrán"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Proces překladu"
+msgstr "Překlad schválen"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Řetězce označené pro úpravu"
+msgstr "Označené pro úpravu"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7936,13 +7924,11 @@ msgstr "XML text"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "Konce řádek jako v DOSu"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Apostrofy ve formát Java zpráv"
+msgstr "Automaticky rozpoznat formátovací řetězec Java zpráv"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -7959,7 +7945,7 @@ msgstr ""
 #: weblate/trans/validators.py:66
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr "Chybná značka pro kontroly: „%s“"
+msgstr "Chybná příznak pro kontroly: „%s“"
 
 #: weblate/trans/views/about.py:40
 msgid "About"
@@ -8372,10 +8358,8 @@ msgid "Failed to change a context!"
 msgstr "Nepodařilo se změnit souvislosti!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Nepodařilo se přidat překlad!"
+msgstr "Nepodařilo se změnit příznaky překladu!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format

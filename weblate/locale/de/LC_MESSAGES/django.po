@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-20 15:53+0000\n"
+"PO-Revision-Date: 2018-10-20 19:34+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -1764,16 +1764,12 @@ msgid "Java format string does not match source"
 msgstr "Java-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/format.py:349
-#, fuzzy
-#| msgid "Java format"
 msgid "Java MessageFormat"
-msgstr "Java-Format"
+msgstr "Java-MessageFormat"
 
 #: weblate/checks/format.py:350
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java MessageFormat string does not match source"
-msgstr "Java-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
+msgstr "Java-MessageFormat-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -2699,16 +2695,14 @@ msgid "Commit signing"
 msgstr "Commitsignatur"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate signiert alle Commits mit dem GPG-Schlüssel %(gpg_key_id)s, Sie "
-"können den öffentlichen Schlüssel unten sehen."
+"Alle von Weblate vorgenommenen Commits werden mit dem GPG-Schlüssel "
+"%(gpg_key_id)s signiert, für den der entsprechende öffentliche Schlüssel "
+"unten aufgeführt ist."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -5736,10 +5730,8 @@ msgid "Create project"
 msgstr "Projekt erstellen"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "Sie haben derzeit keine Berechtigung zum Anlegen eines Projekts."
+msgstr "Sie haben derzeit keine Berechtigung zum Anlegen von Projekten."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -6822,22 +6814,17 @@ msgstr ""
 "Zeichenketten mit höherer Priorität werden Übersetzern zuerst angeboten."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Übersetzungsdatei"
+msgstr "Übersetzungsflags"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Bitte geben Sie eine kommagetrennte Liste von Prüfungs-Markierungen ein, "
-"weitere Informationen finden Sie in der <a href=\"{url}\">Dokumentation</a>."
+"Bitte geben Sie eine kommagetrennte Liste von Übersetzungsflags ein, weitere "
+"Informationen finden Sie in der <a href=\"{url}\">Dokumentation</a>."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6900,11 +6887,9 @@ msgid "Starting date has to be before ending date!"
 msgstr "Das Startdatum muss vor dem Enddatum liegen!"
 
 #: weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "You do not have permission to access this component!"
 msgstr ""
-"Sie haben keine Berechtigung zum Anlegen von Komponenten in einem Projekt."
+"Sie haben keine Berechtigung auf Komponenten in einem Projekt zuzugreifen!"
 
 #: weblate/trans/forms.py:1411
 msgid "Basic"
@@ -7110,16 +7095,12 @@ msgid "Removed user"
 msgstr "Benutzer gelöscht"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Übersetzungsrichtlinien"
+msgstr "Übersetzung genehmigt"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Zur Bearbeitung markierte Zeichenketten"
+msgstr "Zur Bearbeitung markiert"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -8179,10 +8160,8 @@ msgid "DOS end of lines"
 msgstr "DOS Zeilenende"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Java format"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Java-Format"
+msgstr "Automatisches Erkennen von Java MessageFormat"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8622,10 +8601,8 @@ msgid "Failed to change a context!"
 msgstr "Fehler beim Ändern eines Kontexts!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Fehler beim Hinzufügen der neuen Übersetzungsdatei!"
+msgstr "Fehler beim Ändern der Übersetzungsflags!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
