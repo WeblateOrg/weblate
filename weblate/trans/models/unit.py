@@ -436,6 +436,7 @@ class Unit(models.Model, LoggerMixin):
         flags = unit.get_flags()
         target = unit.get_target()
         source = unit.get_source()
+        context = unit.get_context()
         comment = unit.get_comments()
         state = self.get_unit_state(unit, created)
         previous_source = unit.get_previous_source()
@@ -461,7 +462,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
-        same_source = source == self.source
+        same_source = (source == self.source and context == self.context)
         same_state = (state == self.state and not created)
 
         # Check if we actually need to change anything
@@ -491,6 +492,7 @@ class Unit(models.Model, LoggerMixin):
         self.source = source
         self.target = target
         self.state = state
+        self.context = context
         self.comment = comment
         self.content_hash = content_hash
         self.previous_source = previous_source
