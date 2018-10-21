@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-09 19:27+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2018-10-22 08:43+0000\n"
+"Last-Translator: mesnevi <shams@airpost.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -2606,16 +2606,13 @@ msgid "Commit signing"
 msgstr "Подпись фиксации"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate подписывает все фиксации с помощью ключа GPG %(gpg_key_id)s, который "
-"можно просмотреть ниже."
+"Weblate подписывает все коммиты ключом GPG %(gpg_key_id)s, который можно "
+"просмотреть ниже."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3630,6 +3627,8 @@ msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
 msgstr ""
+"Такое может случиться, если подписка закончилась или отсутствует, а также "
+"если какие-то из выставленных счетов просрочены, или превышены лимиты."
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5559,10 +5558,8 @@ msgid "Create project"
 msgstr "Создать проект"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "У вас нет прав для создания проекта."
+msgstr "У вас нет прав для создания проектов."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -6628,22 +6625,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Переводчикам вначале предлагаются строки с большим приоритетом."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Файл перевода"
+msgstr "Флаги перевода"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Введите разделенный запятыми список отметок — смотрите детальное описание в "
-"<a href=\"{url}\">документации</a>."
+"Введите разделенный запятыми список флагов перевода — смотрите детальное "
+"описание в <a href=\"{url}\">документации</a>."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6912,16 +6904,12 @@ msgid "Removed user"
 msgstr "Пользователь удален"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Процесс перевода"
+msgstr "Перевод одобрен"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Строки, отмеченные для редактуры"
+msgstr "Строки, отмеченные для правки"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7975,13 +7963,11 @@ msgstr "XML текст"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "Символы возврата каретки и перевода строки (DOS)"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Апострофы в Java MessageFormat"
+msgstr "Автоматическое распознавание Java MessageFormat"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8408,10 +8394,8 @@ msgid "Failed to change a context!"
 msgstr "Не удалось изменить контекст!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Не удалось добавить файл перевода!"
+msgstr "Не удалось изменить флаг перевода!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
