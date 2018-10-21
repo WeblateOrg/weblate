@@ -9,7 +9,7 @@
 
   {% with billing.plan as plan %}
   <table class="table">
-  <tr><th>{% trans "Current plan" %}</th><td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.trial_expiry %}{% blocktrans with expires=billing.trial_expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td><td><a href="https://weblate.org/hosting/" class="btn btn-default btn-xs pull-right flip">{% trans "See other plans" %}</a></td></tr>
+  <tr><th>{% trans "Current plan" %}</th><td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td><td><a href="https://weblate.org/hosting/" class="btn btn-default btn-xs pull-right flip">{% trans "See other plans" %}</a></td></tr>
   <tr><th>{% trans "Monthly price" %}</th><td>{{ plan.price }} EUR</td><td></td></tr>
   <tr><th>{% trans "Yearly price" %}</th><td>{{ plan.yearly_price }} EUR</td><td></td></tr>
   <tr><th>{% trans "Strings limit" %}</th>

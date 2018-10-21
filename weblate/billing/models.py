@@ -112,7 +112,7 @@ class Billing(models.Model):
         default=STATE_ACTIVE,
         verbose_name=_('Billing state'),
     )
-    trial_expiry = models.DateTimeField(
+    expiry = models.DateTimeField(
         blank=True, null=True, default=None,
         verbose_name=_('Trial expiry date'),
     )
@@ -238,11 +238,11 @@ class Billing(models.Model):
             )
         )
 
-    def check_trial_expiry(self):
+    def check_expiry(self):
         return (
             self.state == Billing.STATE_TRIAL and
-            self.trial_expiry and
-            self.trial_expiry < timezone.now()
+            self.expiry and
+            self.expiry < timezone.now()
         )
 
     def unit_count(self):
@@ -293,13 +293,13 @@ class Billing(models.Model):
         )
         modified = False
 
-        if self.check_trial_expiry():
+        if self.check_expiry():
             self.state = Billing.STATE_EXPIRED
-            self.trial_expiry = None
+            self.expiry = None
             modified = True
 
-        if self.state != Billing.STATE_TRIAL and self.trial_expiry:
-            self.trial_expiry = None
+        if self.state != Billing.STATE_TRIAL and self.expiry:
+            self.expiry = None
             modified = True
 
         if self.in_limits != in_limits or self.paid != paid:
