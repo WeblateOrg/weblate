@@ -22,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='invoice',
             name='payment',
-            field=weblate.utils.fields.JSONField(default='', editable=False),
+            field=weblate.utils.fields.JSONField(editable=False),
         ),
     ]
