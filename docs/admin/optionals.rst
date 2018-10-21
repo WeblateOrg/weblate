@@ -112,12 +112,23 @@ Legal
 .. versionadded:: 2.15
 
 Legal module is used on `Hosted Weblate <https://weblate.org/hosting/>`_
-and is used to provide required legal documents.
+and is used to provide required legal documents. It comes with blank documents
+and you are expected to provide following templates with the documents:
+
+:file:`legal/documents/tos.html`
+   Terms of service document
+:file:`legal/documents/privacy.html`
+   Privacy policy document
+:file:`legal/documents/summary.html`
+   Short overview of terms of service and privacy policy
 
 .. note::
 
-    The module ships legal documents for the Hosted Weblate service. You are
-    required to adjust the templates to match your use case.
+    You can find legal documents for the Hosted Weblate service in separate Git repository
+    <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/templates/legal/documents>.
+
+    Most likely these will not be directly usable for you, but you might want
+    to use them as a starting point and adjust them to match your use case.
 
 Installation
 ++++++++++++
