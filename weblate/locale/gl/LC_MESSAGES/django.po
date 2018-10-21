@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-20 15:53+0000\n"
+"PO-Revision-Date: 2018-10-21 09:09+0000\n"
 "Last-Translator: Iván <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
 "gl/>\n"
@@ -63,7 +63,7 @@ msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
 "Recibirás notificacións cada vez que ocorra un acontecemento nos teus "
-"proxectos xestionados."
+"proxectos observados."
 
 #: weblate/accounts/forms.py:239
 #, fuzzy
@@ -76,7 +76,7 @@ msgid ""
 "your watched projects."
 msgstr ""
 "Só recibirás estas notificacións para as túas traducións das linguas nos "
-"proxectos que xestionas."
+"teus proxectos observados."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
@@ -384,7 +384,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:368 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
-msgstr "Traducións olladas"
+msgstr "Traducións observadas"
 
 #: weblate/accounts/models.py:369 weblate/templates/dashboard/user.html:14
 #, fuzzy
@@ -425,15 +425,15 @@ msgstr "Comentarios"
 #: weblate/accounts/models.py:403 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
 msgid "Watched projects"
-msgstr "Proxectos ollados"
+msgstr "Proxectos observados"
 
 #: weblate/accounts/models.py:405
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
-"Podes recibir notificacións a proxectos ollados. Istos amósanse por defecto, "
-"no panel de control."
+"Podes recibir notificacións sobre proxectos observados. Istos amósanse por "
+"defecto, no panel de control."
 
 #: weblate/accounts/models.py:412
 msgid "Notification on any translation"
@@ -1048,10 +1048,8 @@ msgid "Upload glossary entries"
 msgstr "Importar o corrector"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Point to translation instructions URL"
 msgid "Use machine translation services"
-msgstr "Apuntar ao URL das instrucións de tradución"
+msgstr "Empregar servizos da tradución de xeito automático"
 
 #: weblate/auth/data.py:52
 msgid "Edit translation memory"
@@ -1653,7 +1651,7 @@ msgstr "Nova liña"
 
 #: weblate/checks/chars.py:47
 msgid "Source and translation do not both end with a newline"
-msgstr "Orixe e tradución non terminan ambas cunha nova liña"
+msgstr "Orixe e tradución non rematan ambas cunha nova liña"
 
 #: weblate/checks/chars.py:57
 #, fuzzy
@@ -1671,7 +1669,7 @@ msgstr "Espazo final"
 
 #: weblate/checks/chars.py:87
 msgid "Source and translation do not both end with a space"
-msgstr "Orixe e tradución non terminan ambas cun espazo"
+msgstr "Orixe e tradución non rematan ambas cun espazo"
 
 #: weblate/checks/chars.py:118
 msgid "Trailing stop"
@@ -1679,7 +1677,7 @@ msgstr "Espazo final"
 
 #: weblate/checks/chars.py:119
 msgid "Source and translation do not both end with a full stop"
-msgstr "Orixe e tradución non terminan ambos cun punto final"
+msgstr "Orixe e tradución non rematan ambas cun punto final"
 
 #: weblate/checks/chars.py:163
 msgid "Trailing colon"
@@ -1690,8 +1688,8 @@ msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
-"Orixe e tradución non terminan ambas cunha coma ou a coma non está "
-"correctamente espazada"
+"Orixe e tradución non rematan ambas cunha vírgula ou a vírgula non está "
+"espazada de xeito correcto"
 
 #: weblate/checks/chars.py:218
 msgid "Trailing question"
@@ -1702,8 +1700,8 @@ msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
-"Orixe e tradución non terminan ambas cun signo de interrogación ou non está "
-"correctamente espazado"
+"Orixe e tradución non rematan ambas cun signo de interrogación ou non está  "
+"espazado de xeito correcto"
 
 #: weblate/checks/chars.py:273
 msgid "Trailing exclamation"
@@ -1714,8 +1712,8 @@ msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
-"Orixe e tradución non terminan ambas cun signo de admiración ou non está "
-"correctamente espazado"
+"Orixe e tradución non rematan ambas cun signo de admiración ou non está  "
+"espazado de xeito correcto"
 
 #: weblate/checks/chars.py:314 weblate/trans/autofixes/chars.py:40
 #, fuzzy
@@ -1723,9 +1721,8 @@ msgid "Trailing ellipsis"
 msgstr "Nova liña"
 
 #: weblate/checks/chars.py:315
-#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Orixe e tradución non terminan ambas cunha nova liña"
+msgstr "Orixe e tradución non rematan ambas cuns puntos suspensivos"
 
 #: weblate/checks/chars.py:331
 msgid "Mismatched \\n"
@@ -1761,10 +1758,8 @@ msgid "Trailing semicolon"
 msgstr "Coma final"
 
 #: weblate/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Orixe e tradución non terminan ambas cunha nova liña"
+msgstr "Orixe e tradución non rematan ambas cun punto e vírgula"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -2460,42 +2455,43 @@ msgstr ""
 #: weblate/legal/templates/legal/privacy.html:39
 msgid "We process only Personal Data User provides us by using our service:"
 msgstr ""
+"Só procesamos os datos persoais que o usuario fornécenos ó emprega-lo noso "
+"servizo:"
 
 #: weblate/legal/templates/legal/privacy.html:44
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "Nome de usuario ou correo electrónico"
+msgstr "Nome e enderezo do correo electrónico"
 
 #: weblate/legal/templates/legal/privacy.html:45
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "Istos empréganse para identificarlle nas confirmacións VCS"
 
 #: weblate/legal/templates/legal/privacy.html:46
 msgid "Additionally, email is used for notification of watched events"
 msgstr ""
 "Ademais, o correo electrónico emprégase para a notificación dos "
-"acontecementos ollados"
+"acontecementos observados"
 
 #: weblate/legal/templates/legal/privacy.html:48
-#, fuzzy
-#| msgid "Password changed"
 msgid "Password in hashed form"
-msgstr "Contrasinal cambiado"
+msgstr "Contrasinal en forma de 'hash'"
 
 #: weblate/legal/templates/legal/privacy.html:49
 msgid "Used to authenticate user if configured"
-msgstr ""
+msgstr "Emprégase para autenticar ó usuario se está configurado"
 
 #: weblate/legal/templates/legal/privacy.html:51
 msgid "IP address and browser name"
-msgstr ""
+msgstr "Enderezo IP e nome do navigador"
 
 #: weblate/legal/templates/legal/privacy.html:52
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
 msgstr ""
+"Istos rexístranse no caso de mudanzas importantes na súa conta (por exemplo, "
+"mudado do contrasinal) para permiti-lo diagnóstico no caso de que a súa "
+"conta sexa roubada"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -3340,7 +3336,7 @@ msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
-"Os proxectos ollados tamén aparecen no panel de control, así que escolle "
+"Os proxectos observados tamén aparecen no panel de control, así que escolle "
 "tódolos proxectos que desexas traducir."
 
 #: weblate/templates/accounts/profile.html:91
@@ -3828,7 +3824,7 @@ msgstr "Panel"
 
 #: weblate/templates/base.html:119 weblate/templates/dashboard/user.html:62
 msgid "Manage watched projects"
-msgstr "Xestionar proxectos ollados"
+msgstr "Xestionar proxectos observados"
 
 #: weblate/templates/base.html:130
 msgid "Administration"
@@ -4083,10 +4079,8 @@ msgstr ""
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
 #: weblate/trans/forms.py:933 weblate/trans/models/component.py:433
-#, fuzzy
-#| msgid "Comments"
 msgid "Components"
-msgstr "Comentarios"
+msgstr "Compoñentes"
 
 #: weblate/templates/component-list.html:28
 #, fuzzy
@@ -4468,8 +4462,9 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"Escolle nas preferencias as linguas que desexas, para ver unha visión xeral "
-"das traducións dispoñíbeis para esas linguas nos teus proxectos ollados."
+"Escolle nas preferencias as linguas que desexas, para ollar unha visión "
+"xeral das traducións dispoñíbeis para esas linguas nos teus proxectos "
+"observados."
 
 #: weblate/templates/dashboard/user.html:61
 #: weblate/templates/dashboard/user.html:74
@@ -4596,7 +4591,7 @@ msgstr ""
 #: weblate/templates/dictionaries.html:7 weblate/templates/dictionary.html:9
 #: weblate/templates/edit_dictionary.html:8
 msgid "glossaries"
-msgstr ""
+msgstr "glosarios"
 
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
@@ -5050,7 +5045,7 @@ msgstr "Cambios recentes"
 
 #: weblate/templates/language.html:19 weblate/templates/project.html:30
 msgid "Glossaries"
-msgstr ""
+msgstr "Glosarios"
 
 #: weblate/templates/language.html:72
 #, fuzzy, python-format
@@ -5066,7 +5061,7 @@ msgstr "Plural"
 
 #: weblate/templates/language.html:119
 msgid "There are no glossaries defined for this language."
-msgstr ""
+msgstr "Non hai glosarios definidos para esta lingua."
 
 #: weblate/templates/last-changes-content.html:11
 #, fuzzy
@@ -5850,12 +5845,11 @@ msgstr "Contexto da tradución"
 
 #: weblate/templates/project.html:192
 msgid "There are currently no glossaries defined for this project."
-msgstr ""
+msgstr "Non se atopan glosarios definidos para este proxecto actualmente."
 
 #: weblate/templates/project.html:195
-#, fuzzy
 msgid "Manage all glossaries"
-msgstr "Xestionar todos os correctores"
+msgstr "Xestionar tódolos glosarios"
 
 #: weblate/templates/project.html:201
 #, fuzzy
@@ -6210,10 +6204,8 @@ msgid "Focus comment editor"
 msgstr "As súas traducións"
 
 #: weblate/templates/translate.html:110
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Shows machine translation tab"
-msgstr "Fallou a tradución"
+msgstr "Amosa-la lapela da tradución de xeito automático"
 
 #: weblate/templates/translate.html:111
 msgid "Shows nearby strings tab"
@@ -6330,16 +6322,12 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: weblate/templates/translate.html:242
-#, fuzzy
-#| msgid "Point to translation instructions URL"
 msgid "Machine translation suggestions"
-msgstr "Apuntar ao URL das instrucións de tradución"
+msgstr "Suxestións da tradución de xeito automático"
 
 #: weblate/templates/translate.html:242 weblate/trans/forms.py:928
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Machine translation"
-msgstr "Fallou a tradución"
+msgstr "Tradución de xeito automático"
 
 #: weblate/templates/translate.html:244
 #, fuzzy
@@ -6575,6 +6563,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"A tradución a través da tradución de xeito automático emprega motores "
+"activos de tradución automática para obte-las mellores traducións posíbeis e "
+"aplicaas neste proxecto."
 
 #: weblate/templates/translation.html:267
 msgid ""
@@ -6676,16 +6667,16 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
 msgstr ""
-"Podes recibir notificacións a proxectos ollados. Istos amósanse por defecto, "
-"no panel de control."
+"Podes recibir notificacións sobre proxectos observados. Istos amósanse por "
+"defecto, no panel de control."
 
 #: weblate/templates/watch-dropdown.html:6
 msgid "Unwatch"
-msgstr "Non ollar"
+msgstr "Non observar"
 
 #: weblate/templates/watch-dropdown.html:10
 msgid "Watch"
-msgstr "Ollar"
+msgstr "Observar"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -6772,7 +6763,7 @@ msgstr ""
 
 #: weblate/templates/zen-units.html:73 weblate/trans/views/edit.py:459
 msgid "The translation has come to an end."
-msgstr "A tradución rematou."
+msgstr "A tradución chegou ó seu remate."
 
 #: weblate/templates/zen.html:15
 msgid "zen"
@@ -7022,10 +7013,8 @@ msgid "Translation text too long!"
 msgstr "Estado da tradución"
 
 #: weblate/trans/forms.py:583 weblate/trans/forms.py:1049
-#, fuzzy
-#| msgid "Merge file header"
 msgid "Merge method"
-msgstr "Cabeceira do ficheiro de fusión"
+msgstr "Procedemento do fusionado"
 
 #: weblate/trans/forms.py:585
 #, fuzzy
@@ -7191,10 +7180,8 @@ msgid "Other translation components"
 msgstr "Contexto da tradución"
 
 #: weblate/trans/forms.py:938
-#, fuzzy
-#| msgid "Point to translation instructions URL"
 msgid "Machine translation engines"
-msgstr "Apuntar ao URL das instrucións de tradución"
+msgstr "Motores da tradución de xeito automático"
 
 #: weblate/trans/forms.py:943
 msgid "Score threshold"
@@ -7212,27 +7199,24 @@ msgid "Invalid integer list!"
 msgstr "Suxestión incorrecta!"
 
 #: weblate/trans/forms.py:1044
-#, fuzzy
 msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
 msgstr ""
-"Pode enviar calquera formato que sexa compatíbel co Translate Toolkit, por "
-"exemplo ficheiros csv ou po."
+"Pode subir calquera formato aceptado polo \"Translate Toolkit\" (incluíndo "
+"ficheiros TBX, CSV ou gettext PO)."
 
 #: weblate/trans/forms.py:1051
 msgid "Keep current"
-msgstr ""
+msgstr "Manter actual"
 
 #: weblate/trans/forms.py:1052
 msgid "Overwrite existing"
-msgstr "Sobrescribir os existentes"
+msgstr "Sobrescribi-los existentes"
 
 #: weblate/trans/forms.py:1053
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Add as other translation"
-msgstr "Utilice esta tradución"
+msgstr "Engadir coma outra tradución"
 
 #: weblate/trans/forms.py:1062 weblate/trans/forms.py:1280
 msgid "Starting date"
