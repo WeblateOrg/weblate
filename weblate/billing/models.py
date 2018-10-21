@@ -74,8 +74,10 @@ class BillingQuerySet(models.QuerySet):
     def get_valid(self):
         return self.filter(
             Q(in_limits=True) &
-            ((Q(state=Billing.STATE_ACTIVE) & Q(paid=True)) |
-            Q(state=Billing.STATE_TRIAL))
+            (
+                (Q(state=Billing.STATE_ACTIVE) & Q(paid=True)) |
+                Q(state=Billing.STATE_TRIAL)
+            )
         )
 
     def for_user(self, user):
@@ -84,11 +86,15 @@ class BillingQuerySet(models.QuerySet):
             Q(owners=user)
         )
 
+
 @python_2_unicode_compatible
 class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_EXPIRED = 2
+    STATE_NEW = 3
+
+    EXPIRING_STATES = (STATE_TRIAL, STATE_NEW)
 
     plan = models.ForeignKey(
         Plan,
@@ -108,6 +114,7 @@ class Billing(models.Model):
             (STATE_ACTIVE, _('Active')),
             (STATE_TRIAL, _('Trial')),
             (STATE_EXPIRED, _('Expired')),
+            (STATE_NEW, _('Not activated')),
         ),
         default=STATE_ACTIVE,
         verbose_name=_('Billing state'),
@@ -134,7 +141,7 @@ class Billing(models.Model):
         projects = self.projects.all()
         owners = self.owners.all()
         if projects:
-            base =  ', '.join([str(x) for x in projects])
+            base = ', '.join([str(x) for x in projects])
         elif owners:
             base = ', '.join([x.get_author_name(False) for x in owners])
         else:
@@ -240,7 +247,7 @@ class Billing(models.Model):
 
     def check_expiry(self):
         return (
-            self.state == Billing.STATE_TRIAL and
+            self.state in Billing.EXPIRING_STATES and
             self.expiry and
             self.expiry < timezone.now()
         )
@@ -298,7 +305,7 @@ class Billing(models.Model):
             self.expiry = None
             modified = True
 
-        if self.state != Billing.STATE_TRIAL and self.expiry:
+        if self.state not in Billing.EXPIRING_STATES and self.expiry:
             self.expiry = None
             modified = True
 
