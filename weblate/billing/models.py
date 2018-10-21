@@ -34,6 +34,7 @@ from django.utils import timezone
 from weblate.auth.models import User
 from weblate.trans.models import Project, Component, Change, Unit
 from weblate.lang.models import Language
+from weblate.utils.fields import JSONField
 
 
 @python_2_unicode_compatible
@@ -134,6 +135,9 @@ class Billing(models.Model):
         verbose_name=_('In limits'),
         editable=False,
     )
+    # Payment detailed information, used for integration
+    # with payment processor
+    payment = JSONField(editable=False)
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
@@ -348,6 +352,9 @@ class Invoice(models.Model):
     )
     ref = models.CharField(blank=True, max_length=50)
     note = models.TextField(blank=True)
+    # Payment detailed information, used for integration
+    # with payment processor
+    payment = JSONField(editable=False)
 
     class Meta(object):
         ordering = ['billing', '-start']
