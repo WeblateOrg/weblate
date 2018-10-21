@@ -648,17 +648,20 @@ def setup_project_groups(sender, instance, **kwargs):
                 group.save()
         except Group.DoesNotExist:
             # Create new group
-            group = Group.objects.create(
+            group, created = Group.objects.get_or_create(
                 internal=True,
                 name=name,
-                project_selection=SELECTION_MANUAL,
-                language_selection=SELECTION_ALL,
+                defaults={
+                    'project_selection': SELECTION_MANUAL,
+                    'language_selection': SELECTION_ALL,
+                }
             )
-            group.projects.add(instance)
-            group.roles.set(
-                Role.objects.filter(name=ACL_GROUPS[group_name]),
-                clear=True
-            )
+            if created:
+                group.projects.add(instance)
+                group.roles.set(
+                    Role.objects.filter(name=ACL_GROUPS[group_name]),
+                    clear=True
+                )
         handled.add(group.pk)
 
     # Remove stale groups
