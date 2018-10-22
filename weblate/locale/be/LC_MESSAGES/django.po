@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-06 11:11+0000\n"
+"PO-Revision-Date: 2018-10-23 05:18+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -15,9 +15,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1705,16 +1705,12 @@ msgid "Java format string does not match source"
 msgstr "Радок фарматавання Java не адпавядае ключу"
 
 #: weblate/checks/format.py:349
-#, fuzzy
-#| msgid "Java format"
 msgid "Java MessageFormat"
-msgstr "Фармат Java"
+msgstr "Фармат Java Message"
 
 #: weblate/checks/format.py:350
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java MessageFormat string does not match source"
-msgstr "Радок фарматавання Java не адпавядае ключу"
+msgstr "Радок фарматавання Java Message не адпавядае ключу"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -2618,16 +2614,13 @@ msgid "Commit signing"
 msgstr "Подпіс фіксацыі"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate падпісвае ўсе фіксацыі GPG-ключом %(gpg_key_id)s, які можна пабачыць "
-"ніжэй."
+"Усе фіксацыі, зробленыя Weblate, будуць падпісаныя GPG-ключом %(gpg_key_id)"
+"s, публічную частку якога можна пабачыць ніжэй."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3637,6 +3630,8 @@ msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
 msgstr ""
+"Гэта можа быць выклікана адсутнасцю падпіскі або пратэрміноўкай некаторых з "
+"вашых рахункаў або перавышэньнем абмежаванняў."
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5566,10 +5561,8 @@ msgid "Create project"
 msgstr "Стварыць праект"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "Вам не дастае правоў, каб стварыць праект."
+msgstr "Вам не дастае правоў, каб ствараць праекты."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -5828,7 +5821,7 @@ msgstr "Ужыць і правіць"
 
 #: weblate/templates/translate.html:308
 msgid "Mark as spam"
-msgstr ""
+msgstr "Адзначыць як спам"
 
 #: weblate/templates/translate.html:333
 msgid "Following string has same context and same source."
@@ -6226,7 +6219,7 @@ msgstr "Сімвалы кіравання"
 
 #: weblate/trans/autofixes/custom.py:49
 msgid "Apostrophes in Java MessageFormat"
-msgstr ""
+msgstr "Апострафы ў Java MessageFormat"
 
 #: weblate/trans/autofixes/whitespace.py:35
 msgid "Trailing and leading whitespace"
@@ -6630,22 +6623,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Перакладнікам спачатку прапануюцца радкі з вялікім прыярытэтам."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Файл перакладу"
+msgstr "Сцяжкі перакладу"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Калі ласка, увядзіце праз коску спіс індыкатараў праверкі. Чытайце ў "
-"раздзеле <a href=\"{url}\">дакументацыя</a> больш падрабязней."
+"Калі ласка, увядзіце праз коску спіс сцяжкоў перакладу. Чытайце ў раздзеле <"
+"a href=\"{url}\">дакументацыя</a> больш падрабязней."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6708,10 +6696,8 @@ msgid "Starting date has to be before ending date!"
 msgstr "Пачатковая дата павінна быць перад датай заканчэння!"
 
 #: weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "You do not have permission to access this component!"
-msgstr "Вам не дастае правоў ствараць кампаненты ні ў якім праекце."
+msgstr "Вам не дастае правоў для доступу да гэтага кампанента!"
 
 #: weblate/trans/forms.py:1411
 msgid "Basic"
@@ -6915,16 +6901,12 @@ msgid "Removed user"
 msgstr "Выдалены карыстальнік"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Працэс перакладу"
+msgstr "Пераклад ухвалены"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Радкі, якія маюць патрэбу ў рэдагаванні"
+msgstr "Адзначаны для рэдагавання"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7973,13 +7955,11 @@ msgstr "XML-тэкст"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "Канцы радкоў DOS"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Java format"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Фармат Java"
+msgstr "Аўтаматычна вызначаць Java MessageFormat"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8405,10 +8385,8 @@ msgid "Failed to change a context!"
 msgstr "Не атрымалася змяніць кантэкст!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Не ўдалося дадаць новы файл перакладу!"
+msgstr "Не ўдалося зьмяніць сцяжкі перакладу!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
