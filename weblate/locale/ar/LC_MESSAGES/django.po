@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-22 08:43+0000\n"
+"PO-Revision-Date: 2018-10-22 18:29+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
 ">\n"
@@ -435,16 +435,12 @@ msgid "Notification on new language request"
 msgstr "إشعار على طلب ترجمة للغة جديدة"
 
 #: weblate/accounts/models.py:482
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
-msgstr "قائمة العناصر يجب أن تحدد حين الإستخدام إفتراضياً."
+msgstr "يجب اختيار المكون مِن القائمة لاستخدامه افتراضيا."
 
 #: weblate/accounts/models.py:488
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "قائمة العناصر يجب أن لا تكون محددة حين عدم إستعمالها."
+msgstr "لا يمكن اختيار المكون مِن القائمة إن لم يكن مُستخدَمًا."
 
 #: weblate/accounts/models.py:543
 msgid ""
@@ -779,7 +775,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"اسم الملف المستخدَم لإنشاء ترجمات جديدة. مثلا لـ gettext استخدم ملف ..pot"
+"اسم الملف المستخدَم لإنشاء ترجمات جديدة. مثلا لـ gettext استخدم ملف .pot."
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:402
 msgid "Language filter"
@@ -1662,16 +1658,12 @@ msgid "Java format string does not match source"
 msgstr "صيغة سلسلة الجافا لا تطابق المصدر"
 
 #: weblate/checks/format.py:349
-#, fuzzy
-#| msgid "Java format"
 msgid "Java MessageFormat"
-msgstr "صيغة الجافا"
+msgstr "صيغة جافا MessageFormat"
 
 #: weblate/checks/format.py:350
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java MessageFormat string does not match source"
-msgstr "صيغة سلسلة الجافا لا تطابق المصدر"
+msgstr "صيغة سلسلة الجافا MessageFormat لا تطابق السلسلة المصدرية"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -2237,10 +2229,8 @@ msgid "Password in hashed form"
 msgstr "كلمة المرور في شكل مجزأ"
 
 #: weblate/legal/templates/legal/privacy.html:49
-#, fuzzy
-#| msgid "Any authenticated users can contribute."
 msgid "Used to authenticate user if configured"
-msgstr "أي مستخدم موثق يمكنه المساهمة."
+msgstr "يُستخدم لمصادقة المستخدم إن تم إعداده"
 
 #: weblate/legal/templates/legal/privacy.html:51
 msgid "IP address and browser name"
@@ -2333,30 +2323,24 @@ msgid "Unsupported file!"
 msgstr "الملف غير مدعوم!"
 
 #: weblate/memory/storage.py:154
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the uploaded file!"
-msgstr "لا سلاسل مشابهة موجودة في القاموس."
+msgstr "لم يتم العثور على إدخالات صالحة في الملف الذي تم إرساله!"
 
 #: weblate/memory/storage.py:166
 msgid "Failed to parse JSON file!"
 msgstr ""
 
 #: weblate/memory/storage.py:200
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to parse TMX file!"
-msgstr "فشلت عملية إضافة ملف ترجمة جديد !"
+msgstr "فشلت عملية تحليل ملف ذاكرة الترجمة TMX!"
 
 #: weblate/memory/views.py:77
 msgid "Entries deleted."
 msgstr "تم حذف الإدخالات."
 
 #: weblate/memory/views.py:92
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Import of strings scheduled."
-msgstr "إستيراد كسلسلة تحتاج التحقق"
+msgstr "بُرمِجت عملية استيراد السلاسل."
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
@@ -7307,7 +7291,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:65
 msgid "Name used in URLs and filenames."
-msgstr ""
+msgstr "الاسم المستخدم في عناوين URL وأسماء الملفات."
 
 #: weblate/trans/models/project.py:69
 msgid "Main website of translated project."
@@ -7354,7 +7338,7 @@ msgstr "التحكم في الدخول"
 #: weblate/trans/models/project.py:104
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
-msgstr ""
+msgstr "كيفيه تقييد الوصول إلى هذا المشروع مفصل في الدليل."
 
 #: weblate/trans/models/project.py:109
 msgid "Enable reviews"
@@ -7362,15 +7346,15 @@ msgstr "تمكين المراجَعات"
 
 #: weblate/trans/models/project.py:112
 msgid "Requires dedicated reviewers to approve translations."
-msgstr ""
+msgstr "يتطلب مراجعين مخصصين للموافقة علي الترجمات."
 
 #: weblate/trans/models/project.py:116
 msgid "Enable hooks"
-msgstr ""
+msgstr "تمكين السنانير"
 
 #: weblate/trans/models/project.py:119
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr ""
+msgstr "ما إذا كان سيتم السماح بتحديث هذا المستودع بواسطة الخطافات عن بُعد."
 
 #: weblate/trans/models/project.py:124
 msgid "Source language"
@@ -7408,7 +7392,7 @@ msgstr "{translation}، السلسلة {position}"
 
 #: weblate/trans/models/whiteboard.py:70
 msgid "Render as HTML"
-msgstr ""
+msgstr "عرضه كـ أتش تي أم أل"
 
 #: weblate/trans/models/whiteboard.py:72
 msgid ""
@@ -7458,7 +7442,7 @@ msgstr ""
 
 #: weblate/trans/specialchars.py:34
 msgid "Insert tab character"
-msgstr ""
+msgstr "إدراج حرف علامة التبويب"
 
 #: weblate/trans/specialchars.py:35
 msgid "Insert new line"
@@ -7466,7 +7450,7 @@ msgstr "إدراج سطر جديد"
 
 #: weblate/trans/specialchars.py:36
 msgid "Insert horizontal ellipsis"
-msgstr ""
+msgstr "إدراج علامة القطع الأفقية"
 
 #: weblate/trans/specialchars.py:455
 #, python-brace-format
@@ -7480,11 +7464,11 @@ msgstr "إدراج حرف {0}"
 
 #: weblate/trans/specialchars.py:476
 msgid "Opening double quote"
-msgstr ""
+msgstr "مزدوجة اقتباس مفتوحة"
 
 #: weblate/trans/specialchars.py:477
 msgid "Closing double quote"
-msgstr ""
+msgstr "مزدوجة اقتباس مغلوقة"
 
 #: weblate/trans/specialchars.py:478
 msgid "Opening single quote"
@@ -7540,11 +7524,11 @@ msgstr "للمزيد من المعلومات عن Weblate"
 
 #: weblate/trans/templatetags/translations.py:77
 msgid "Good configuration"
-msgstr ""
+msgstr "إعداد جيد"
 
 #: weblate/trans/templatetags/translations.py:78
 msgid "Bad configuration"
-msgstr ""
+msgstr "خطأ في الإعداد"
 
 #: weblate/trans/templatetags/translations.py:79
 msgid "Possible configuration"
@@ -7552,15 +7536,15 @@ msgstr ""
 
 #: weblate/trans/templatetags/translations.py:114
 msgid "Tab character"
-msgstr ""
+msgstr "رمز علامة التبويب"
 
 #: weblate/trans/templatetags/translations.py:183
 msgid "New line"
-msgstr ""
+msgstr "سطر جديد"
 
 #: weblate/trans/templatetags/translations.py:344
 msgid "a year ago"
-msgstr ""
+msgstr "منذ سنة"
 
 #: weblate/trans/templatetags/translations.py:346
 #, python-format
@@ -7571,7 +7555,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:351
 msgid "a month ago"
-msgstr ""
+msgstr "منذ شهر"
 
 #: weblate/trans/templatetags/translations.py:353
 #, python-format
@@ -7589,11 +7573,11 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:362
 msgid "a week ago"
-msgstr ""
+msgstr "منذ أسبوع"
 
 #: weblate/trans/templatetags/translations.py:364
 msgid "yesterday"
-msgstr ""
+msgstr "البارحة"
 
 #: weblate/trans/templatetags/translations.py:366
 #, python-format
@@ -7605,11 +7589,11 @@ msgstr[1] ""
 #: weblate/trans/templatetags/translations.py:369
 #: weblate/trans/templatetags/translations.py:428
 msgid "now"
-msgstr ""
+msgstr "الآن"
 
 #: weblate/trans/templatetags/translations.py:372
 msgid "a second ago"
-msgstr ""
+msgstr "منذ ثانية"
 
 #: weblate/trans/templatetags/translations.py:374
 #, python-format
@@ -7620,7 +7604,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:379
 msgid "a minute ago"
-msgstr ""
+msgstr "منذ دقيقة"
 
 #: weblate/trans/templatetags/translations.py:381
 #, python-format
@@ -7631,7 +7615,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:386
 msgid "an hour ago"
-msgstr ""
+msgstr "منذ ساعة"
 
 #: weblate/trans/templatetags/translations.py:388
 #, python-format
@@ -7642,7 +7626,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:403
 msgid "a year from now"
-msgstr ""
+msgstr "قبل عام من الآن"
 
 #: weblate/trans/templatetags/translations.py:405
 #, python-format
@@ -7653,7 +7637,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:410
 msgid "a month from now"
-msgstr ""
+msgstr "قبل شهر من الآن"
 
 #: weblate/trans/templatetags/translations.py:412
 #, python-format
@@ -7671,11 +7655,11 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:421
 msgid "tomorrow"
-msgstr ""
+msgstr "غدًا"
 
 #: weblate/trans/templatetags/translations.py:423
 msgid "a week from now"
-msgstr ""
+msgstr "بعد أسبوع من الآن"
 
 #: weblate/trans/templatetags/translations.py:425
 #, python-format
@@ -7723,7 +7707,7 @@ msgstr "ليست مترجَمة"
 
 #: weblate/trans/templatetags/translations.py:559
 msgid "Message needs edit"
-msgstr ""
+msgstr "رسالة تحتاج إلى تحرير"
 
 #: weblate/trans/templatetags/translations.py:564
 msgid "Message is not translated"
@@ -7735,7 +7719,7 @@ msgstr ""
 
 #: weblate/trans/templatetags/translations.py:574
 msgid "Message is approved"
-msgstr ""
+msgstr "تمت الموافقة علي الرسالة"
 
 #: weblate/trans/templatetags/translations.py:579
 msgid "Message is translated"
@@ -7760,7 +7744,7 @@ msgstr ""
 
 #: weblate/trans/util.py:54
 msgid "Medium"
-msgstr ""
+msgstr "متوسطة"
 
 #: weblate/trans/util.py:55
 msgid "Low"
@@ -7826,7 +7810,7 @@ msgstr "إحصائيات ويب لايت"
 
 #: weblate/trans/views/acl.py:82
 msgid "Invalid parameters!"
-msgstr ""
+msgstr "معلمات غير صالحة!"
 
 #: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:162
 msgid "You can not remove last owner!"
@@ -7965,7 +7949,7 @@ msgstr "معاجم المفردات"
 
 #: weblate/trans/views/dictionary.py:177
 msgid "No words to import found in file."
-msgstr ""
+msgstr "لم يتم العثور علي كلمات للاستيراد مِن الملف."
 
 #: weblate/trans/views/dictionary.py:179
 #, python-format
@@ -8052,7 +8036,7 @@ msgstr "سلسلة البحث غير صالحة !"
 
 #: weblate/trans/views/edit.py:599
 msgid "Automatic translation completed, no strings were updated."
-msgstr ""
+msgstr "اكتملت الترجمة الآلية ، ولم يتم تحديث إية سلاسل."
 
 #: weblate/trans/views/edit.py:601
 #, python-format
@@ -8091,7 +8075,7 @@ msgstr "الدخول محظور."
 
 #: weblate/trans/views/files.py:107
 msgid "No strings were imported from the uploaded file."
-msgstr ""
+msgstr "لم يتم استيراد إية سلاسل من الملف الذي تم تحميله."
 
 #: weblate/trans/views/files.py:110
 #, python-brace-format
@@ -8259,6 +8243,8 @@ msgid ""
 "translating %(count)d strings into English\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"ترحمة %(count)d سلسلة إلى الإنجليزية\n"
+"أنجِزَت منها %(percent)d%%، ساعدنا في تحسينها!"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:339
@@ -8278,6 +8264,8 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+"الترجمة الإنجليزية\n"
+"اكتملت منها %(percent)d%%"
 
 #: weblate/trans/widgets.py:369
 msgid "translated"
@@ -8319,7 +8307,7 @@ msgstr "الصورة كبيرة جداً، يرجى تقليص حجمها أو �
 #: weblate/utils/validators.py:169
 #, python-format
 msgid "Bad format string (%s)"
-msgstr ""
+msgstr "تنسيق غير صحيح للسلسلة  (%s)"
 
 #: weblate/utils/validators.py:183
 msgid "The editor link lacks URL scheme!"
@@ -8391,7 +8379,7 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:173
 msgid "Failed to fetch public key for a host!"
-msgstr ""
+msgstr "فشل في جلب المفتاح العمومي للمضيف!"
 
 #: weblate/vcs/ssh.py:181 weblate/vcs/ssh.py:186
 #, python-format
@@ -8499,7 +8487,7 @@ msgstr ""
 
 #: weblate/wladmin/templates/admin/ssh.html:42
 msgid "Known host keys"
-msgstr ""
+msgstr "مفاتيح المضيف المعروفة"
 
 #: weblate/wladmin/templates/admin/ssh.html:49
 msgid "Hostname"
