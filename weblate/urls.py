@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.conf.urls import include, url
 from django.conf import settings
 from django.views.decorators.cache import cache_page
@@ -89,7 +91,7 @@ handler404 = weblate.trans.views.basic.not_found
 
 handler500 = weblate.trans.views.basic.server_error
 
-urlpatterns = [
+real_patterns = [
     url(
         r'^$',
         weblate.trans.views.dashboard.home,
@@ -1082,7 +1084,7 @@ urlpatterns = [
 if 'weblate.billing' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.billing.views
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^invoice/(?P<pk>[0-9]+)/download/$',
             weblate.billing.views.download_invoice,
@@ -1098,7 +1100,7 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
 if 'weblate.gitexport' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.gitexport.views
-    urlpatterns += [
+    real_patterns += [
         # Redirect clone from the Weblate project URL
         url(
             r'^projects/' + COMPONENT +
@@ -1137,7 +1139,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
 if 'weblate.legal' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.legal.views
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^legal/',
             include(('weblate.legal.urls', 'weblate.legal'), namespace='legal')
@@ -1145,7 +1147,7 @@ if 'weblate.legal' in settings.INSTALLED_APPS:
     ]
 
 if settings.DEBUG:
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^media/(?P<path>.*)$',
             django.views.static.serve,
@@ -1156,6 +1158,17 @@ if settings.DEBUG:
 if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import debug_toolbar
-    urlpatterns += [
+    real_patterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
+
+
+def get_url_prefix():
+    if not settings.URL_PREFIX:
+        return ''
+    return re.escape(settings.URL_PREFIX.strip('/')) + '/'
+
+
+urlpatterns = [
+    url(get_url_prefix(), include(real_patterns))
+]
