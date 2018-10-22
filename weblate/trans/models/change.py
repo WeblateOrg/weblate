@@ -264,6 +264,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REPLACE,
         ACTION_NEW_UNIT,
         ACTION_MASS_STATE,
+        ACTION_APPROVE,
+        ACTION_MARKED_EDIT,
     ))
 
     ACTIONS_REPOSITORY = frozenset((
