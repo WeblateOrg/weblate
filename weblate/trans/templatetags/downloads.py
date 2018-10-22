@@ -41,16 +41,9 @@ def translation_download_link(context, todo=False):
 
 
 def link_text(context):
-    template = '''
-        {% load i18n %}
-
-        {% blocktrans with project.component_format_names as format %}
-        '''
+    text = ""
+    blocktrans(project.component_format_names)
     exporter = context.get('exporter')
-    template += "Original" if exporter == None  else exporter['name']
-    
-    template += '''
-        {% endblocktrans %}
-    '''
+    text += "Original" if exporter == None  else exporter['name']
 
     return Template(template).render(context)
