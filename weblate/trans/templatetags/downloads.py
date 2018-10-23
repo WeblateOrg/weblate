@@ -1,5 +1,6 @@
 from django import template
 from django.template import Template
+from django.utils.translation import gettext as _
 
 register = template.Library()
 
@@ -41,9 +42,6 @@ def translation_download_link(context, todo=False):
 
 
 def link_text(context):
-    text = ""
-    blocktrans(project.component_format_names)
     exporter = context.get('exporter')
-    text += "Original" if exporter == None  else exporter['name']
 
-    return Template(template).render(context)
+    return _("Original" if exporter == None  else exporter['name'])
