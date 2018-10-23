@@ -17,12 +17,15 @@ All translation components need to be available as VCS repositories and are
 organized as project/component structure.
 
 Weblate supports wide range of translation formats (both bilingual and
-monolingua) supported by translate toolkit, see :ref:`formats` for more
+monolingual) supported by translate toolkit, see :ref:`formats` for more
 information.
 
 .. note::
 
-    You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
+    You can share cloned VCS repositories using :ref:`internal-urls`. Using
+    shared repositories feature is highly recommended when you have many
+    components that use the same VCS. It will improve performance and use less
+    disk space.
 
 .. _adding-projects:
 
@@ -36,7 +39,7 @@ Adding translation projects and components
    :ref:`admin-interface`.
 
 Based on your permissions, you can be able to create new translation projects
-and componets in Weblate. It is always allowed for superusers and if your
+and components in Weblate. It is always allowed for superusers and if your
 instance uses billing (eg. like https://hosted.weblate.org/, see
 :ref:`billing`), you can also create those based on your plans allowance.
 
@@ -44,7 +47,7 @@ You can view your current billing plan on separate page:
 
 .. image:: ../images/user-billing.png
 
-The project creation can be intiated from there or using menu in navigation
+The project creation can be initiated from there or using menu in navigation
 bar. All you need to do then is to fill in basic information about the
 translation project:
 
@@ -294,7 +297,7 @@ There are following variables available in the templates:
 ``{{ url }}``
     Translation URL
 ``{{ stats }}``
-    Translation stats, this has futher attributes, see below for examples.
+    Translation stats, this has further attributes, see below for examples.
 ``{{ stats.all }}``
     Total strings count
 ``{{ stats.fuzzy }}``
@@ -324,7 +327,7 @@ You can use conditions:
 
     {% if stats.translated_percent > 80 %}Well translated!{% endif %}
 
-There is addtional tag available to replace chars:
+There is additional tag available to replace chars:
 
 .. code-block:: django
 
@@ -400,7 +403,7 @@ For using the addon, you need to first create component for one translation
 file (choose the one that is least likely to be renamed or removed in future)
 and install the addon on this component.
 
-For the management commans, you need to create a project which will contain all
+For the management commands, you need to create a project which will contain all
 components and then it's just a matter of running :djadmin:`import_project` or
 :djadmin:`import_json`.
 
