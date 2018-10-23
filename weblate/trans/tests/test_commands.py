@@ -30,6 +30,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Translation, Component, Suggestion, Source
 from weblate.trans.search import Fulltext
 from weblate.runner import main
@@ -386,15 +387,11 @@ class CleanupCommandTest(RepoTestCase):
             Fulltext.FAKE = orig_fake
 
 
-class CheckGitTest(RepoTestCase):
+class CheckGitTest(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand
     based commands."""
     command_name = 'checkgit'
     expected_string = 'On branch master'
-
-    def setUp(self):
-        super(CheckGitTest, self).setUp()
-        self.create_component()
 
     def do_test(self, *args, **kwargs):
         output = StringIO()
@@ -442,6 +439,18 @@ class CheckGitTest(RepoTestCase):
 class CommitPendingTest(CheckGitTest):
     command_name = 'commit_pending'
     expected_string = ''
+
+    def test_age(self):
+        self.do_test('test', '--age', '1')
+
+
+class CommitPendingChangesTest(CommitPendingTest):
+    def setUp(self):
+        super(CommitPendingChangesTest, self).setUp()
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
 
 
 class CommitGitTest(CheckGitTest):

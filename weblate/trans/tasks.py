@@ -87,6 +87,8 @@ def commit_pending(hours=None, pks=None, logger=None):
             age = timezone.now() - timedelta(
                 hours=translation.component.commit_pending_age
             )
+        else:
+            age = timezone.now() - timedelta(hours=hours)
 
         last_change = translation.stats.last_changed
         if not last_change:
