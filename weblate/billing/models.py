@@ -51,6 +51,7 @@ class Plan(models.Model):
     limit_projects = models.IntegerField(default=0)
     display_limit_projects = models.IntegerField(default=0)
     change_access_control = models.BooleanField(default=True)
+    public = models.BooleanField(default=False)
 
     class Meta(object):
         ordering = ['price']
