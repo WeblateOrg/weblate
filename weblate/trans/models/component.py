@@ -64,7 +64,8 @@ from weblate.trans.validators import (
 )
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.utils.validators import validate_repoweb, validate_render
+from weblate.utils.render import validate_render
+from weblate.utils.validators import validate_repoweb
 
 
 NEW_LANG_CHOICES = (

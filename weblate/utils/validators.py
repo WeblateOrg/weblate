@@ -33,8 +33,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
 
-from weblate.utils.render import render_template
-
 
 USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
 
@@ -213,16 +211,6 @@ def validate_file_extension(value):
     if ext.lower() in FORBIDDEN_EXTENSIONS:
         raise ValidationError(_('Unsupported file format.'))
     return value
-
-
-def validate_render(value, **kwargs):
-    """Validates rendered template."""
-    try:
-        render_template(value, **kwargs)
-    except Exception as err:
-        raise ValidationError(
-            _('Failed to render template: {}').format(err)
-        )
 
 
 def validate_username(value):

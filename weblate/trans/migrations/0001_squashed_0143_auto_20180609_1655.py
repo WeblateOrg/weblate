@@ -12,6 +12,7 @@ import weblate.trans.fields
 import weblate.trans.mixins
 import weblate.trans.validators
 import weblate.utils.fields
+import weblate.utils.render
 import weblate.utils.validators
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.formats.models import FILE_FORMATS
@@ -280,7 +281,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AddField(
             model_name='component',
@@ -378,12 +379,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when adding translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='component',

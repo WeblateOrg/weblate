@@ -1162,6 +1162,17 @@ if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
+if 'wlhosted' in settings.INSTALLED_APPS:
+    # pylint: disable=wrong-import-position
+    from wlhosted.views import CreateBillingView
+    real_patterns += [
+        url(
+            r'^create/billing/$',
+            CreateBillingView.as_view(),
+            name='create-billing',
+        ),
+    ]
+
 
 def get_url_prefix():
     if not settings.URL_PREFIX:

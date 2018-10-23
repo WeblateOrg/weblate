@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.core.exceptions import ValidationError
 from django.template import Template, Context, Engine
 from django.utils.translation import override
 from weblate.utils.site import get_site_url
@@ -58,4 +59,14 @@ def render_template(template, translation=None, **kwargs):
             engine=RestrictedEngine(),
         ).render(
             Context(context, autoescape=False),
+        )
+
+
+def validate_render(value, **kwargs):
+    """Validates rendered template."""
+    try:
+        render_template(value, **kwargs)
+    except Exception as err:
+        raise ValidationError(
+            _('Failed to render template: {}').format(err)
         )
