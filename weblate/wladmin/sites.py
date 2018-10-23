@@ -78,6 +78,12 @@ class WeblateAdminSite(AdminSite):
     site_title = _('Weblate administration')
     index_template = 'admin/weblate-index.html'
 
+    @property
+    def site_url(self):
+        if settings.URL_PREFIX:
+            return settings.URL_PREFIX
+        return '/'
+
     def discover(self):
         """Manual discovery."""
         # Accounts
