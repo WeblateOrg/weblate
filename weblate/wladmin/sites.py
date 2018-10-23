@@ -137,6 +137,14 @@ class WeblateAdminSite(AdminSite):
             from weblate.legal.models import Agreement
             self.register(Agreement, AgreementAdmin)
 
+        # Hosted
+        if 'wlhosted' in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from wlhosted.admin import CustomerAdmin, PaymentAdmin
+            from wlhosted.models import Customer, Payment
+            self.register(Customer, CustomerAdmin)
+            self.register(Payment, PaymentAdmin)
+
         # Python Social Auth
         self.register(UserSocialAuth, UserSocialAuthOption)
         self.register(Nonce, NonceOption)
