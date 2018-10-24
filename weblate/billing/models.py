@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from django.conf import settings
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.db import models
@@ -66,6 +67,14 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def vat_price(self):
+        return round(self.price * settings.VAT_RATE, 2)
+
+    @property
+    def vat_yearly_price(self):
+        return round(self.yearly_price * settings.VAT_RATE, 2)
 
 
 class BillingManager(models.Manager):
