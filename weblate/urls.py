@@ -1164,7 +1164,7 @@ if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
 
 if 'wlhosted' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
     # pylint: disable=wrong-import-position
-    from wlhosted.views import CreateBillingView
+    from wlhosted.integrations.views import CreateBillingView
     real_patterns += [
         url(
             r'^create/billing/$',
