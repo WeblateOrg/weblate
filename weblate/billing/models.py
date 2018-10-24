@@ -146,7 +146,7 @@ class Billing(models.Model):
     )
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False)
+    payment = JSONField(editable=False, default={})
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
@@ -363,7 +363,7 @@ class Invoice(models.Model):
     note = models.TextField(blank=True)
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False)
+    payment = JSONField(editable=False, default={})
 
     class Meta(object):
         ordering = ['billing', '-start']
