@@ -140,8 +140,8 @@ class WeblateAdminSite(AdminSite):
         # Hosted
         if 'wlhosted' in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
-            from wlhosted.admin import CustomerAdmin, PaymentAdmin
-            from wlhosted.models import Customer, Payment
+            from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
+            from wlhosted.payments.models import Customer, Payment
             self.register(Customer, CustomerAdmin)
             self.register(Payment, PaymentAdmin)
 
