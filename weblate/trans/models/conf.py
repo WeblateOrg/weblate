@@ -190,6 +190,7 @@ class WeblateConf(AppConf):
 
     # Billing
     INVOICE_PATH = ''
+    BILLING_ADMIN = True
 
     # Rate limiting
     IP_BEHIND_REVERSE_PROXY = False
