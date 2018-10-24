@@ -37,6 +37,12 @@ from weblate.lang.models import Language
 from weblate.utils.fields import JSONField
 
 
+class PlanQuerySet(models.QuerySet):
+    def public(self):
+        """List of public paid plans which are available."""
+        return self.filter(public=True, price__gt=0).order_by('price')
+
+
 @python_2_unicode_compatible
 class Plan(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -52,6 +58,8 @@ class Plan(models.Model):
     display_limit_projects = models.IntegerField(default=0)
     change_access_control = models.BooleanField(default=True)
     public = models.BooleanField(default=False)
+
+    objects = PlanQuerySet.as_manager()
 
     class Meta(object):
         ordering = ['price']
