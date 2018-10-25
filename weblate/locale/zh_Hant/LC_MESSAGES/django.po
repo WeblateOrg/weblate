@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-09 19:26+0000\n"
+"PO-Revision-Date: 2018-10-25 07:04+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -2518,16 +2518,11 @@ msgid "Commit signing"
 msgstr "提交簽署"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
-msgstr ""
-"Weblate 採用  GPG 金鑰 %(gpg_key_id)s 簽署所有提交動作。您可以在下方檢視公"
-"鑰。"
+msgstr "Weblate 採用  GPG 金鑰 %(gpg_key_id)s 簽署所有提交動作，您可以在下方查看對應的公鑰。"
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3487,7 +3482,7 @@ msgstr "檢查您的帳單狀態"
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
-msgstr ""
+msgstr "這可能是因為訂閱紀錄遺失，或您的記帳資料因到期或超過上限而失效。"
 
 #: weblate/templates/billing/detail.html:12
 msgid "Current plan"
@@ -5352,8 +5347,6 @@ msgid "Create project"
 msgstr "建立專案"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
 msgstr "您目前尚未獲得建立專案的存取控制許可。"
 
@@ -6386,22 +6379,15 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "較高優先度的字串會優先呈現給翻譯者。"
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "翻譯檔"
+msgstr "翻譯旗標"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
-msgstr ""
-"請輸入以逗號分隔的查核旗標列表，請參考 <a href=\"{url}\">文件</a>瞭解詳細資"
-"訊。"
+msgstr "請輸入以逗號分隔的翻譯旗標列表，請參考 <a href=\"{url}\">文件</a>瞭解詳細資訊。"
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6666,16 +6652,12 @@ msgid "Removed user"
 msgstr "移除了使用者"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "翻譯程序"
+msgstr "翻譯已核可"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "有標需編輯的字串"
+msgstr "標記為需要編輯"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7645,13 +7627,11 @@ msgstr "XML 文字"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "DOS 列尾記號"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Java MessageFormat 中的撇號 '"
+msgstr "自動偵測 Java MessageFormat"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8057,10 +8037,8 @@ msgid "Failed to change a context!"
 msgstr "情境更動失敗！"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "無法新增翻譯檔！"
+msgstr "無法變更翻譯旗標！"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
