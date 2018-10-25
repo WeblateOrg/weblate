@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-20 10:53+0000\n"
+"PO-Revision-Date: 2018-10-25 15:58+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb/>\n"
@@ -2607,8 +2607,8 @@ msgid ""
 "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, for "
 "which the corresponding public key is found below."
 msgstr ""
-"Weblate signerer alle innsendelser med GPG-nøkkelen %(gpg_key_id)s, du kan "
-"vise den offentlige nøkkelen nedenfor."
+"Alle innsendelser gjort av Weblate signeres med GPG-nøkkelen %(gpg_key_id)s. "
+"Tilknyttet nøkkel vises nedenfor."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -5550,10 +5550,8 @@ msgid "Create project"
 msgstr "Opprett prosjekt"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "Du har for tiden ikke rettigheter til å opprette prosjekt."
+msgstr "Du har for tiden ikke rettigheter til å opprette prosjekter."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -6613,22 +6611,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Strenger med høyere prioritet presenteres for oversettere tidligere."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:288
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Oversettelsesfil"
+msgstr "Oversettelsflagg"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Angi en kommaseparert liste med kontrollflagg, se <a href="
-"\"{url}\">dokumentasjon</a> for flere detaljer."
+"Angi en kommaseparert liste over oversettelsesflagg, se <a href=\"{url}\""
+">dokumentasjon</a> for flere detaljer."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6896,16 +6889,12 @@ msgid "Removed user"
 msgstr "Fjernet bruker"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Oversettelsesprosess"
+msgstr "Oversettelse godkjent"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Strenger merket for redigering"
+msgstr "Merket for redigering"
 
 #: weblate/trans/models/change.py:325
 #, python-format
@@ -7943,10 +7932,8 @@ msgid "DOS end of lines"
 msgstr "DOS-linjeslutt"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Apostrofer i Java-meldingsformat"
+msgstr "Oppdag Java-meldingsformat automatisk"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8369,10 +8356,8 @@ msgid "Failed to change a context!"
 msgstr "Klarte ikke å endre bindeleddsinformasjon!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Klarte ikke å legge til ny oversettelsesfil!"
+msgstr "Klarte ikke å endre oversettelsesflagg!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
