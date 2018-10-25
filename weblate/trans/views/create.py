@@ -99,7 +99,7 @@ class CreateProject(BaseCreateView):
             pks = set()
             for billing in billings:
                 limit = billing.plan.display_limit_projects
-                if limit and billing.count_projects() < limit:
+                if limit == 0 or billing.count_projects() < limit:
                     pks.add(billing.pk)
             self.billings = Billing.objects.filter(pk__in=pks)
         return super(CreateProject, self).dispatch(request, *args, **kwargs)
