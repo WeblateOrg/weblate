@@ -103,7 +103,7 @@ class BillingQuerySet(models.QuerySet):
         return self.filter(
             Q(projects__in=user.projects_with_perm('billing.view')) |
             Q(owners=user)
-        )
+        ).order_by('state')
 
 
 @python_2_unicode_compatible
@@ -343,6 +343,9 @@ class Billing(models.Model):
         if not kwargs.pop('skip_limits', False) and self.pk:
             self.check_limits(save=False)
         super(Billing, self).save(*args, **kwargs)
+
+    def is_active(self):
+        return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
 
 
 @python_2_unicode_compatible

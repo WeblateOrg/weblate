@@ -35,7 +35,9 @@
   {% empty %}
   {% trans "No projects currently assigned!" as msg %}
   {% show_message "warning" msg %}
+{% if billing.is_active %}
   <a class="btn btn-primary billing-add-project" href="{% url 'create-project' %}?billing={{ billing.pk }}">{% trans "Add new translation project" %}</a>
+{% endif %}
   {% endfor %}
   </div></td>
   </tr>

@@ -5,8 +5,27 @@
 
 <div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Billing plan" %}</h4></div>
+  <div class="panel-heading">
+  {% if billing.payment.recurring %}
+  <span class="pull-right flip badge">{% trans "Recurring payment" %}</span>
+  {% endif %}
+  <h4 class="panel-title">{% trans "Billing plan" %}</h4>
+  </div>
   {% include "billing/status.html" %}
+{% if billing.is_active %}
+  <div class="panel-footer">
+  <form method="post" action="{% url 'billing' %}">
+  {% csrf_token %}
+  {% if billing.payment.recurring %}
+  <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">{% trans "Disable recurring payment" %}</button>
+  {% endif %}
+  {% if not billing.projects.exists %}
+  <button type="submit" name="terminate" value="{{ billing.pk }}" class="btn btn-danger">{% trans "Terminate billing" %}</button>
+  {% else %}
+  <span>{% trans "To terminate billing you have to remove all projects first." %}</span>
+  {% endif %}
+  </div>
+{% endif %}
 </div>
 </div>
 
