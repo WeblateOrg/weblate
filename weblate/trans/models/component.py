@@ -949,7 +949,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.updated_sources = {}
 
     def create_translations(self, force=False, langs=None, request=None,
-                            changed_template=False):
+                            changed_template=False, skip_checks=False):
         """Load translations from VCS."""
         self.needs_cleanup = False
         self.updated_sources = {}
@@ -1002,19 +1002,23 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     todelete.delete()
 
-        # Run target checks (consistency)
-        self.run_target_checks()
-
         if self.updated_sources:
             self.update_source_checks()
 
         # Process linked repos
-        for component in self.get_linked_childs():
+        childs = self.get_linked_childs()
+        for pos, component in enumerate(childs):
             self.log_info(
-                'updating linked project %s',
-                component
+                'updating linked project %s [%d/%d]',
+                component, pos, len(childs),
             )
-            component.create_translations(force, langs, request=request)
+            component.create_translations(
+                force, langs, request=request, skip_checks=True
+            )
+
+        # Run target checks (consistency)
+        if not skip_checks:
+            self.run_target_checks()
 
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
