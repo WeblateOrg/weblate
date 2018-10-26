@@ -727,6 +727,20 @@ Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
     :language: text
     :encoding: utf-8
 
+Weblate comes with built in setup for scheduled tasks. You can however define
+additional tasks in :file:`settings.py`, for example:
+
+.. code-block:: python
+
+   CELERY_BEAT_SCHEDULE = {
+       # Unconditionally commit all changes every 2 minutes
+       'commit': {
+           'task': 'weblate.trans.tasks.commit_pending',
+           'kwargs': {'hours': 0},
+           'schedule': 120,
+        }
+   }
+
 .. seealso::
 
    :doc:`celery:userguide/configuration`,
