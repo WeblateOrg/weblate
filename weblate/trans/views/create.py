@@ -71,7 +71,8 @@ class CreateProject(BaseCreateView):
         result = super(CreateProject, self).form_valid(form)
         if self.has_billing and form.cleaned_data['billing']:
             form.cleaned_data['billing'].projects.add(self.object)
-        self.object.add_user(self.request.user, '@Administration')
+        if not self.request.user.is_superuser:
+            self.object.add_user(self.request.user, '@Administration')
         return result
 
     def can_create(self):
