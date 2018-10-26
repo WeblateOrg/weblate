@@ -316,7 +316,7 @@ Weblate Translation Memory
 
 .. versionadded:: 2.20
 
-The :ref:`translation-memory` can use used as source for machine translation
+The :ref:`translation-memory` can be used as source for machine translation
 suggestions as well.
 
 To enable these services, add ``weblate.memory.machine.WeblateMemory`` to
