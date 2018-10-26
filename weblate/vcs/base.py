@@ -102,8 +102,8 @@ class Repository(object):
         if not local:
             # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
-        if not self.is_valid():
-            self.init()
+            if not self.is_valid():
+                self.init()
 
     @classmethod
     def log(cls, message):
