@@ -80,9 +80,6 @@ def commit_pending(hours=None, pks=None, logger=None):
         translations = Translation.objects.filter(pk__in=pks)
 
     for translation in translations.prefetch():
-        if not translation.repo_needs_commit():
-            continue
-
         if hours is None:
             age = timezone.now() - timedelta(
                 hours=translation.component.commit_pending_age
@@ -96,10 +93,14 @@ def commit_pending(hours=None, pks=None, logger=None):
         if last_change > age:
             continue
 
-        if logger:
-            logger('Committing {0}'.format(translation))
+        with translation.component.repository.lock:
+            if not translation.repo_needs_commit():
+                continue
 
-        perform_commit.delay(translation.pk, 'commit_pending', None)
+            if logger:
+                logger('Committing {0}'.format(translation))
+
+            perform_commit.delay(translation.pk, 'commit_pending', None)
 
 
 @app.task
