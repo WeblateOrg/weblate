@@ -68,39 +68,40 @@ def perform_load(pk, *args):
 
 @app.task
 def perform_commit(pk, *args):
-    translation = Translation.objects.get(pk=pk)
-    translation.commit_pending(*args)
+    component = Component.objects.get(pk=pk)
+    component.commit_pending(*args)
 
 
 @app.task
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
-        translations = Translation.objects.all()
+        components = Component.objects.all()
     else:
-        translations = Translation.objects.filter(pk__in=pks)
+        components = Component.objects.filter(
+            translation__pk__in=pks
+        ).distinct()
 
-    for translation in translations.prefetch():
+    for component in components.prefetch():
         if hours is None:
             age = timezone.now() - timedelta(
-                hours=translation.component.commit_pending_age
+                hours=component.commit_pending_age
             )
         else:
             age = timezone.now() - timedelta(hours=hours)
 
-        last_change = translation.stats.last_changed
+        last_change = component.stats.last_changed
         if not last_change:
             continue
         if last_change > age:
             continue
 
-        with translation.component.repository.lock:
-            if not translation.repo_needs_commit():
-                continue
+        if not component.repo_needs_commit():
+            continue
 
-            if logger:
-                logger('Committing {0}'.format(translation))
+        if logger:
+            logger('Committing {0}'.format(component))
 
-            perform_commit.delay(translation.pk, 'commit_pending', None)
+        perform_commit.delay(component.pk, 'commit_pending', None)
 
 
 @app.task
