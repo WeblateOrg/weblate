@@ -1003,6 +1003,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     todelete.delete()
 
         if self.updated_sources:
+            self.log_info('running source checks')
             self.update_source_checks()
 
         # Process linked repos
