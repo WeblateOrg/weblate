@@ -29,6 +29,7 @@ from weblate.utils.checks import (
 )
 from weblate.utils.fonts import check_fonts
 from weblate.utils.requirements import check_requirements
+from weblate.utils.template_hacks import monkey_patch_translate
 
 
 class UtilsConfig(AppConfig):
@@ -48,3 +49,5 @@ class UtilsConfig(AppConfig):
         register(check_settings, deploy=True)
         register(check_templates, deploy=True)
         register(check_site, deploy=True)
+
+        monkey_patch_translate()
