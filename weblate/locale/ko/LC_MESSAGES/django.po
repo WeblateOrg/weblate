@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-28 09:34+0000\n"
+"PO-Revision-Date: 2018-10-28 14:19+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -5016,17 +5016,14 @@ msgid "Parse error in %(component)s"
 msgstr "%(component)s에서 구문 분석 오류가 발생함"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr "%(site_title)s에서 Weblate 암호를 다시 설정하려는 요청이 있었습니다."
+msgstr "%(site_title)s에서 Weblate 암호를 제거하려는 요청이 있었습니다."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "%(site_title)s에 등록됨"
+msgstr "%(site_title)s의 계정 삭제"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -5056,7 +5053,7 @@ msgstr "제거"
 msgid ""
 "The user will be removed from the project once all user permissions are "
 "removed."
-msgstr ""
+msgstr "모든 사용자 권한이 제거되면 프로젝트에서 사용자는 제거됩니다."
 
 #: weblate/templates/manage-access.html:65
 msgid "Add new user"
@@ -5066,101 +5063,76 @@ msgstr "새로운 사용자 추가"
 msgid ""
 "The user management in Weblate is disabled, you can change permissions in "
 "the Django admin interface."
-msgstr ""
+msgstr "Weblate에서 사용자 관리가 비활성화 되어 있습니다, Django 관리자 인터페이스에서 권한을 변경할 수 있습니다."
 
 #: weblate/templates/manage-access.html:94
-#, fuzzy
-#| msgid "Version control"
 msgid "Project access control"
-msgstr "버전 관리"
+msgstr "프로젝트 액세스 관리"
 
 #: weblate/templates/manage-access.html:101
-#, fuzzy
-#| msgid "changes"
 msgid "Change"
-msgstr "변경사항"
+msgstr "변경 사항"
 
 #: weblate/templates/manage-access.html:103
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "제안을 수락 할 권한이 없습니다!"
+msgstr "프로젝트 액세스 관리를 변경할 권한이 없습니다."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
-msgstr ""
+msgstr "매트릭스"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "사용된 언어"
+msgstr "표시된 언어"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "선택"
 
 #: weblate/templates/memory/index.html:22
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory status"
-msgstr "번역 현황"
+msgstr "번역 메모리 상태"
 
 #: weblate/templates/memory/index.html:28
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Shared translation memory"
-msgstr "이 번역을 사용"
+msgstr "공유된 번역 메모리"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
-msgstr ""
+msgstr "사용할 수 있음"
 
 #: weblate/templates/memory/index.html:30
 msgid "disabled"
-msgstr ""
+msgstr "사용할 수 없음"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "%(project)s 에 대한 %(language)s 사전"
+msgstr "%(project)s 에 대한 항목 수"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy
-#| msgid "New source string"
 msgid "Number of your entries"
-msgstr "새로운 원본 문자열"
+msgstr "당신의 항목 수"
 
 #: weblate/templates/memory/index.html:41
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Total number of entries"
-msgstr "문자열의 갯수"
+msgstr "총 항목 수"
 
 #: weblate/templates/memory/index.html:46
-#, fuzzy
-#| msgid "Download changes"
 msgid "Download as JSON"
-msgstr "다운로드 변경"
+msgstr "JSON으로 다운로드"
 
 #: weblate/templates/memory/index.html:47
-#, fuzzy
-#| msgid "Good translations"
 msgid "Download as TMX"
-msgstr "평판이 좋은 번역"
+msgstr "TMX로 다운로드"
 
 #: weblate/templates/memory/index.html:55
-#, fuzzy
-#| msgid "Not translated"
 msgid "Import translation memory"
-msgstr "미번역"
+msgstr "번역 메모리 내보내기"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Import existing translations"
-msgstr "기존 번역 덮어쓰기"
+msgstr "기존 번역 내보내기"
 
 #: weblate/templates/memory/index.html:72
 msgid ""
@@ -5168,39 +5140,31 @@ msgid ""
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
+"이 프로젝트 내의 모든 기존 번역을 번역 메모리로 가져오도록 예약합니다. 이것은 메모리를 지우거나 초기 설정을 한 후에 유용합니다."
 
 #: weblate/templates/memory/index.html:86
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Wipe translation memory"
-msgstr "번역 역사 저장"
+msgstr "번역 메모리 지우기"
 
 #: weblate/templates/memory/index.html:91
 msgid "Wipe"
-msgstr ""
+msgstr "지우기"
 
 #: weblate/templates/new-language.html:25
-#, fuzzy
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "Information on how to start translating into another language is to be found "
 "in the translator instructions."
-msgstr ""
-"이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
+msgstr "다른 언어로 번역을 시작하는 방법에 관한 정보는 번역 설명서에서 찾을 수 있습니다."
 
 #: weblate/templates/new-language.html:27
-#, fuzzy
-#| msgid "Please choose the language into which you would like to translate."
 msgid "Please choose the language you want to translate to."
-msgstr "번역하려는 언어를 선택하십시오."
+msgstr "번역할 언어를 선택하십시오."
 
 #: weblate/templates/new-language.html:29
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
-msgstr ""
+msgstr "프로젝트 관리자는 이 요청을 통보받아, 언어를 수동으로 추가하라는 메세지를 표시합니다."
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
@@ -5216,31 +5180,25 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:85 weblate/templates/translation.html:92
-#, fuzzy
-#| msgid "Share on Facebook!"
 msgid "Share on Facebook"
-msgstr "페이스북에서 공유하기!"
+msgstr "페이스북에서 공유하기"
 
 #: weblate/templates/project.html:86
-#, fuzzy
-#| msgid "Tweet this translation!"
 msgid "Tweet this translation"
-msgstr "이 번역을 트윗하기!"
+msgstr "이 번역을 트윗하기"
 
 #: weblate/templates/project.html:113
 #, python-format
 msgid "Repository for this component is linked to %(target)s"
-msgstr ""
+msgstr "이 컴포넌트의 저장소는 %(target)s에 연결됨"
 
 #: weblate/templates/project.html:113
 msgid "link"
-msgstr ""
+msgstr "연결"
 
 #: weblate/templates/project.html:122
-#, fuzzy
-#| msgid "Translation comment"
 msgid "There are currently no translation components!"
-msgstr "번역 댓글"
+msgstr "현재 번역 컴포넌트가 없습니다!"
 
 #: weblate/templates/project.html:192
 msgid "There are currently no glossaries defined for this project."
@@ -5251,10 +5209,8 @@ msgid "Manage all glossaries"
 msgstr "모든 용어집 관리"
 
 #: weblate/templates/project.html:201
-#, fuzzy
-#| msgid "Browse changes"
 msgid "Browse all project changes"
-msgstr "변경 사항 찾아보기"
+msgstr "모든 프로젝트 변경 사항 찾아보기"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5265,28 +5221,20 @@ msgid "Instructions for translators"
 msgstr "번역자에 대한 지침"
 
 #: weblate/templates/project_stats.html:9
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Number of words"
-msgstr "복수를 위한 문서화."
+msgstr "단어의 수"
 
 #: weblate/templates/project_stats.html:15
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Number of languages"
-msgstr "복수를 위한 문서화."
+msgstr "언어의 수"
 
 #: weblate/templates/project_stats.html:21
-#, fuzzy
-#| msgid "New source string"
 msgid "Number of source strings"
-msgstr "새로운 원본 문자열"
+msgstr "원본 문자열의 수"
 
 #: weblate/templates/project_stats.html:26
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Number of source words"
-msgstr "복수를 위한 문서화."
+msgstr "원본 단어의 수"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
