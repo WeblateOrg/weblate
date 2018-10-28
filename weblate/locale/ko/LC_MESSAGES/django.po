@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-20 05:13+0000\n"
-"PO-Revision-Date: 2018-10-27 17:21+0000\n"
+"PO-Revision-Date: 2018-10-28 09:29+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -4715,22 +4715,20 @@ msgstr "IP 주소:"
 
 #: weblate/templates/mail/account_activity.html:25
 #: weblate/templates/mail/account_activity.txt:10
-#, fuzzy
-#| msgid "User comments"
 msgid "User agent:"
-msgstr "사용자 댓글"
+msgstr "사용자 에이전트:"
 
 #: weblate/templates/mail/account_activity.html:28
 #: weblate/templates/mail/account_activity.txt:12
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
-msgstr ""
+msgstr "이 변경을 요청하지 않은 경우, 다음 양식을 사용하여 최대한 빨리 알려주시기 바랍니다:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "%(site_title)s 에서의 계정 활동"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -4775,13 +4773,10 @@ msgstr "구독 설정 변경"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s."
-msgstr "%(site_title)s에서 %(translation)s에 번역에 대한 변경사항이 있습니다."
+msgstr "%(site_title)s 에서 %(translation)s 에 대한 번역이 변경되었습니다."
 
 #: weblate/templates/mail/changed_translation.html:18
 #: weblate/templates/mail/changed_translation.txt:5
@@ -4835,10 +4830,9 @@ msgstr "%(translation_url)s에서 번역할 수 있습니다"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "%(site_title)s에서 %(subproject)s에 병합이 실패했습니다."
+msgstr "%(site_title)s에서 %(component)s에 병합이 실패했습니다."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4865,17 +4859,15 @@ msgid "Repository status:"
 msgstr "저장소 상태:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "%(subproject)s에서 병합이 실패하였습니다"
+msgstr "%(component)s에서 병합 실패"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "%(site_title)s 에서 %(subproject)s에 대한 새로운 댓글이 있습니다."
+msgstr "%(site_title)s에서 %(component)s에 대한 새로운 댓글이 있습니다."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4883,28 +4875,22 @@ msgid "Comment:"
 msgstr "주석:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "%(subproject)s에 새로운 댓글이 있습니다"
+msgstr "%(component)s에 새로운 댓글"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
-msgstr ""
+msgstr "좋은 소식,"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "User %(username)s has just made a first contribution on %(translation)s "
-#| "at %(site_title)s."
+#, python-format
 msgid ""
 "The user %(username)s has just made a first contribution to %(translation)s "
 "at %(site_title)s."
-msgstr ""
-"사용자 %(username)s 님이 %(site_title)s에서 %(translation)s에 대한 첫번째 참"
-"여를 하셨습니다."
+msgstr "사용자 %(username)s 님이 %(site_title)s에서 %(translation)s에 첫 번째 기여를 하셨습니다."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -4913,10 +4899,7 @@ msgstr "%(translation)s의 새로운 참여자"
 
 #: weblate/templates/mail/new_language.html:11
 #: weblate/templates/mail/new_language.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(translation)s at "
 "%(site_title)s."
@@ -4926,18 +4909,13 @@ msgstr "%(site_title)s에서 %(translation)s 의 새로운 언어를 요청하�
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
-msgstr ""
+msgstr "VCS에 언어 파일을 추가하십시오, Weblate는 다음 업데이트 시 자동으로 검색합니다."
 
 #: weblate/templates/mail/new_language.html:20
-#, fuzzy
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "More information on adding new language files is to be found in the "
 "documentation."
-msgstr ""
-"이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
+msgstr "새 언어 파일을 추가하는 것에 대한 세부 정보는 문서에서 찾을 수 있습니다."
 
 #: weblate/templates/mail/new_language.html:28
 #: weblate/templates/mail/new_language.txt:9
@@ -4945,27 +4923,20 @@ msgid "Requested language:"
 msgstr "요청된 언어:"
 
 #: weblate/templates/mail/new_language.html:39
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested by:"
-msgstr "요청된 언어:"
+msgstr "요청됨:"
 
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
-msgstr ""
+msgstr "VCS에 언어 파일을 추가하십시오. Weblate는 다음 업데이트에서 자동으로 검색합니다."
 
 #: weblate/templates/mail/new_language.txt:7
-#, fuzzy
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "More information on adding new language files is available in the "
 "documentation:"
-msgstr ""
-"이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
+msgstr "새 언어 파일을 추가하는 것에 대한 세부 정보는 문서에서 찾을 수 있습니다:"
 
 #: weblate/templates/mail/new_language.txt:13
 msgid "Requesting user:"
@@ -4978,14 +4949,10 @@ msgstr "%(translation)s 로 새로운 번역 언어 요청"
 
 #: weblate/templates/mail/new_string.html:11
 #: weblate/templates/mail/new_string.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there are new strings to translate on %(translation)s at %(site_title)s."
+#, python-format
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
-msgstr ""
-"%(site_title)s 에서 %(translation)s 에 번역할 수있는 새로운 문자열이 있습니"
-"다."
+msgstr "%(site_title)s 에서 %(translation)s 에 번역할 수있는 새로운 문자열이 있습니다."
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
@@ -4994,14 +4961,10 @@ msgstr "%(translation)s의 번역을 할 수 있는 새로운 문자열"
 
 #: weblate/templates/mail/new_suggestion.html:11
 #: weblate/templates/mail/new_suggestion.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr ""
-"%(site_title)s 에서 %(translation)s에 평가할 수 있는 새로운 제안이 있습니다."
+msgstr "%(site_title)s 에서 %(translation)s에 평가할 수 있는 새로운 제안이 있습니다."
 
 #: weblate/templates/mail/new_suggestion.html:28
 #: weblate/templates/mail/new_suggestion.txt:9
@@ -5020,9 +4983,7 @@ msgstr "%(translation)s에서 새로운 제안"
 
 #: weblate/templates/mail/new_translation.html:11
 #: weblate/templates/mail/new_translation.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
+#, python-format
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
 msgstr "%(site_title)s에서 %(translation)s 의 새로운 번역이 있습니다."
 
@@ -5037,10 +4998,9 @@ msgstr "%(translation)s에서 새로운 번역"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "%(site_title)s에서 %(subproject)s에 병합이 실패했습니다."
+msgstr "%(site_title)s에서 %(subproject)s에 구문 분석 오류가 발생했습니다."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
