@@ -82,7 +82,7 @@ def get_view_description(view_cls, html=False):
     description = view_cls.__doc__ or ''
     description = formatting.dedent(smart_text(description))
 
-    if hasattr(view_cls, 'serializer_class'):
+    if hasattr(getattr(view_cls, 'serializer_class', 'None'), 'Meta'):
         doc_url = get_doc_url(
             'api',
             '{0}s'.format(
