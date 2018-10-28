@@ -363,6 +363,16 @@ especially:
 * :ref:`production-database`
 * :ref:`production-debug`
 
+Check resource limits
++++++++++++++++++++++
+
+If you are importing huge translations or repositories, you might be hit by
+resource limits of your server.
+
+* check amount of free memory, having translation files by system will greatly improve performance
+* disk operations might be bottleneck if there is lot of strings to process - the disk is pushed by both Weblate and database
+* additional CPU cores might help to improve performance of background tasks (see :ref:`celery`)
+
 Disable not needed checks
 +++++++++++++++++++++++++
 
