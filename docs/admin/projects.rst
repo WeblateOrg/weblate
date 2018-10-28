@@ -350,24 +350,6 @@ Fetching VCS repository and importing translations to Weblate can be a lengthy
 process depending on size of your translations. Here are some tips to improve
 this situation:
 
-Clone Git repository in advance
-+++++++++++++++++++++++++++++++
-
-You can put in place a Git repository which will be used by Weblate. The
-repositories are stored in :file:`vcs` directory in path defined by
-:setting:`DATA_DIR` in :file:`settings.py` in :file:`<project>/<component>`
-directories.
-
-This can be especially useful if you already have local clone of this
-repository and you can use ``--reference`` option while cloning:
-
-.. code-block:: sh
-
-    git clone \
-        --reference /path/to/checkout \
-        https://github.com/WeblateOrg/weblate.git \
-        weblate/repos/project/component
-
 Optimize configuration
 ++++++++++++++++++++++
 
