@@ -32,6 +32,23 @@ CSP_TEMPLATE = (
 )
 
 
+class ProxyMiddleware(object):
+    """Middleware that sets Content-Security-Policy"""
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        proxy = None
+        if settings.IP_BEHIND_REVERSE_PROXY:
+            proxy = request.META.get(settings.IP_PROXY_HEADER)
+        if proxy:
+            # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
+            address = proxy.split(', ')[settings.IP_PROXY_OFFSET].strip()
+            request.META['REMOTE_ADDR'] = address
+
+        return self.get_response(request)
+
+
 class SecurityMiddleware(object):
     """Middleware that sets Content-Security-Policy"""
     def __init__(self, get_response=None):
