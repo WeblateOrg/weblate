@@ -208,10 +208,10 @@ class ChangesCSVView(ChangesView):
     paginate_by = None
 
     def get(self, request, *args, **kwargs):
-        object_list = self.get_queryset()
+        object_list = self.get_queryset()[:2000]
 
         # Do reasonable ACL check for global
-        acl_obj = self.project
+        acl_obj = self.translation or self.component or self.project
         if not acl_obj:
             for change in object_list:
                 if change.component:
@@ -232,7 +232,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in object_list[:2000]:
+        for change in object_list:
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),
