@@ -117,6 +117,7 @@ Notable configuration or dependencies changes:
 
 * The DEFAULT_CUSTOM_ACL settings was replaced by :setting:`DEFAULT_ACCESS_CONTROL`. If you were using that please update your :file:`settings.py`.
 * Increase required translate-toolkit version to 2.3.1.
+* Increase required social auth module versions (2.0.0 for social-auth-core and 3.0.0 for social-auth-app-django).
 * The CELERY_RESULT_BACKEND should be now configured unless you are using eager mode, see :doc:`celery:userguide/configuration`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`

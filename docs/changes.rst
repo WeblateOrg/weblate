@@ -7,6 +7,7 @@ weblate 3.3
 Released on ? 2018.
 
 * Increase required translate-toolkit version to 2.3.1.
+* Increase required social auth module versions.
 * Add Netease Sight translate service.
 * Add support for Pagure webhooks.
 * Improved performance when processing linked components.

@@ -62,3 +62,9 @@ class WeblateStrategy(DjangoStrategy):
         if self.request:
             self.request.__dict__['_current_scheme_host'] = get_site_url()
         return super(WeblateStrategy, self).build_absolute_uri(path)
+
+    def clean_partial_pipeline(self, token):
+        # The cleanup somehow breaks our partial pipelines, simply skip
+        # it for now
+        # See https://github.com/python-social-auth/social-core/issues/287
+        return

@@ -683,8 +683,7 @@ class RegistrationTest(BaseRegistrationTest):
             response = self.client.get(
                 reverse('social:complete', args=('github',)),
                 {
-                    'state': query['state'][0],
-                    'redirect_state': return_query['redirect_state'][0],
+                    'state': query['state'][0] or return_query['state'][0],
                     'code': 'XXX'
                 },
                 follow=True
