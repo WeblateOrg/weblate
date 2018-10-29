@@ -309,14 +309,20 @@ function processMachineTranslation(data) {
 
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
+            /* Standard worflow */
             $('#id_fuzzy').prop('checked', true);
+            /* Review workflow */
+            $('.translation-form input[name="review"][value="10"]').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
+            /* Standard worflow */
             $('#id_fuzzy').prop('checked', false);
+            /* Review workflow */
+            $('.translation-form input[name="review"][value="20"]').prop('checked', true);
             submitForm({target:$('.translation-editor')});
         });
 

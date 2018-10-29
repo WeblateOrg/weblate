@@ -12,6 +12,7 @@ Released on ? 2018.
 * Improved performance when processing linked components.
 * Fixed error in some API calls.
 * Fixed usage of URL_PREFIX.
+* Fixed machine translation interaction with review workflow.
 
 weblate 3.2.2
 -------------
