@@ -10,6 +10,7 @@ Released on ? 2018.
 * Add Netease Sight translate service.
 * Add support for Pagure webhooks.
 * Improved performance when processing linked components.
+* Fixed error in some API calls.
 
 weblate 3.2.2
 -------------
