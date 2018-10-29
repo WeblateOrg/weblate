@@ -169,7 +169,7 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
         user.set_unusable_password()
         user.save(update_fields=['password'])
         # Remove partial pipeline, we do not need it
-        strategy.clean_partial_pipeline(current_partial.token)
+        strategy.really_clean_partial_pipeline(current_partial.token)
         # Store user ID
         strategy.request.session['perform_reset'] = user.pk
         # Set short session expiry
@@ -187,7 +187,7 @@ def remove_account(strategy, backend, user, social, details, weblate_action,
             user is not None and
             weblate_action == 'remove'):
         # Remove partial pipeline, we do not need it
-        strategy.clean_partial_pipeline(current_partial.token)
+        strategy.really_clean_partial_pipeline(current_partial.token)
         # Set short session expiry
         strategy.request.session.set_expiry(90)
         strategy.request.session['remove_confirm'] = True

@@ -68,3 +68,6 @@ class WeblateStrategy(DjangoStrategy):
         # it for now
         # See https://github.com/python-social-auth/social-core/issues/287
         return
+
+    def really_clean_partial_pipeline(self, token):
+        super(WeblateStrategy, self).clean_partial_pipeline(token)
