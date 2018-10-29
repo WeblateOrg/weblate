@@ -11,6 +11,7 @@ Released on ? 2018.
 * Add support for Pagure webhooks.
 * Improved performance when processing linked components.
 * Fixed error in some API calls.
+* Fixed usage of URL_PREFIX.
 
 weblate 3.2.2
 -------------
