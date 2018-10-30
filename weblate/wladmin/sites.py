@@ -170,7 +170,7 @@ class WeblateAdminSite(AdminSite):
 
     def each_context(self, request):
         result = super(WeblateAdminSite, self).each_context(request)
-        empty = [_('Object listing disabled')]
+        empty = [_('Object listing turned off')]
         result['empty_selectable_objects_list'] = [empty]
         result['empty_objects_list'] = empty
         result['configuration_errors'] = ConfigurationError.objects.filter(
