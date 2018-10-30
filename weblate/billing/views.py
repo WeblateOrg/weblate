@@ -92,7 +92,7 @@ def handle_post(request, billings):
 
 @login_required
 def overview(request):
-    billings = Billing.objects.for_user(request.user).distinct()
+    billings = Billing.objects.for_user(request.user)
     if request.method == 'POST':
         handle_post(request, billings)
         return redirect('billing')

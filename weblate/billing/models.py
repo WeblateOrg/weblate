@@ -103,7 +103,7 @@ class BillingQuerySet(models.QuerySet):
         return self.filter(
             Q(projects__in=user.projects_with_perm('billing.view')) |
             Q(owners=user)
-        ).order_by('state')
+        ).distinct().order_by('state')
 
 
 @python_2_unicode_compatible

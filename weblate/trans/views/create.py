@@ -94,9 +94,7 @@ class CreateProject(BaseCreateView):
     def dispatch(self, request, *args, **kwargs):
         if self.has_billing:
             from weblate.billing.models import Billing
-            billings = Billing.objects.get_valid().for_user(
-                request.user
-            ).distinct()
+            billings = Billing.objects.get_valid().for_user(request.user)
             pks = set()
             for billing in billings:
                 limit = billing.plan.display_limit_projects
