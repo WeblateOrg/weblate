@@ -109,7 +109,7 @@ class UsernameField(forms.CharField):
         super(UsernameField, self).__init__(*args, **kwargs)
 
     def clean(self, value):
-        """Username validation, requires unique name."""
+        """Username validation, requires a unique name."""
         if value is None:
             return None
         if value is not None:
@@ -480,7 +480,7 @@ class CaptchaForm(forms.Form):
         ) % self.captcha.display
 
     def clean_captcha(self):
-        """Validation for captcha."""
+        """Validation for CAPTCHA."""
         if (self.fresh or
                 not self.captcha.validate(self.cleaned_data['captcha'])):
             self.generate_captcha()
@@ -512,7 +512,7 @@ class PasswordConfirmForm(EmptyConfirmForm):
     password = PasswordField(
         label=_("Current password"),
         help_text=_(
-            'Keep the field empty if you have not yet set your password.'
+            'Leave empty if you have not yet set a password.'
         ),
         required=False,
     )
