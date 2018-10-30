@@ -22,7 +22,7 @@
   {% endwith %}
   </tr>
   <tr><th>{% trans "Last invoice" %}</th>
-  <td>{{ billing.last_invoice }}</td></tr>
+  <td colspan="2">{{ billing.last_invoice }}</td></tr>
   <tr><th>{% trans "Projects limit" %}</th>
   {% with plan.limit_projects as max and plan.display_limit_projects as total and billing.projects.count as used %}
   {% include "billing/used.html" %}
