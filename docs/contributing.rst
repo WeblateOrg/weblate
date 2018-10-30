@@ -138,7 +138,7 @@ Starting with our codebase
 --------------------------
 
 If you are looking for some bugs which should be good for starting with our
-codebase, you can find them labelled with :guilabel:` `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ ` tag:
+codebase, you can find them labelled with :guilabel:`good first issue` <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ tag:
 
 If you have Docker and docker-compose installed you can spin up the development
 environment simply by running:
