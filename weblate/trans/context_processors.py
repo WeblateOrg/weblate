@@ -46,6 +46,8 @@ CONTEXT_SETTINGS = [
     'ENABLE_HOOKS',
     'REGISTRATION_OPEN',
     'STATUS_URL',
+    # Hosted Weblate integration
+    'PAYMENT_ENABLED',
 ]
 
 CONTEXT_APPS = ['billing', 'legal', 'gitexport']
@@ -70,7 +72,7 @@ def add_error_logging_context(context):
 
 def add_settings_context(context):
     for name in CONTEXT_SETTINGS:
-        context[name.lower()] = getattr(settings, name)
+        context[name.lower()] = getattr(settings, name, None)
 
 
 def add_optional_context(context):
