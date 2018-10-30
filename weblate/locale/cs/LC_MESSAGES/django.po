@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-30 14:16+0000\n"
-"PO-Revision-Date: 2018-10-20 19:34+0000\n"
+"PO-Revision-Date: 2018-10-30 20:24+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -148,8 +148,6 @@ msgid "Current password"
 msgstr "Stávající heslo"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
 msgstr "Pokud nemáte nastavené heslo, kolonku nevyplňujte."
 
@@ -943,7 +941,7 @@ msgstr "Důležitá data"
 
 #: weblate/auth/data.py:35
 msgid "View billing information"
-msgstr "Zobrazit vyúčtování"
+msgstr "Zobrazit předplatné"
 
 #: weblate/auth/data.py:37
 msgid "Download changes"
@@ -1181,7 +1179,7 @@ msgstr "Správa"
 #: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Billing"
-msgstr "Účtování"
+msgstr "Předplatné"
 
 #: weblate/auth/data.py:179
 msgctxt "Access control group"
@@ -1256,7 +1254,7 @@ msgstr "Správa"
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Billing"
-msgstr "Účtování"
+msgstr "Předplatné"
 
 #: weblate/auth/models.py:68
 msgid "Permission"
@@ -1402,7 +1400,7 @@ msgstr "Vlastníci"
 
 #: weblate/billing/models.py:121 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
-msgstr "Hostovací balíček"
+msgstr "Balíček předplatného"
 
 #: weblate/billing/models.py:125
 msgid "Billed projects"
@@ -1410,7 +1408,7 @@ msgstr "Vyfakturované projekty"
 
 #: weblate/billing/models.py:129
 msgid "Billing owners"
-msgstr "Vlastníci fakturace"
+msgstr "Vlastníci předplatného"
 
 #: weblate/billing/models.py:133
 msgid "Active"
@@ -1425,14 +1423,12 @@ msgid "Expired"
 msgstr "Ukončené"
 
 #: weblate/billing/models.py:136
-#, fuzzy
-#| msgid "Not translated"
 msgid "Not activated"
-msgstr "Nepřeloženo"
+msgstr "Není aktivovaný"
 
 #: weblate/billing/models.py:139
 msgid "Billing state"
-msgstr "Stav vyúčtování"
+msgstr "Stav předplatného"
 
 #: weblate/billing/models.py:143
 msgid "Trial expiry date"
@@ -2212,7 +2208,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "We use Google Analytics to analyze traffic on our website."
-msgstr ""
+msgstr "Používáme Google Analytics pro analýzu provozu na našich stránkách."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2523,10 +2519,7 @@ msgid "Commit signing"
 msgstr "Podepisování zápisů"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
@@ -3495,7 +3488,7 @@ msgstr "Přihlášeni jako %(user)s"
 
 #: weblate/templates/base.html:183
 msgid "Billing overview"
-msgstr "Přehled fakturace"
+msgstr "Přehled předplatného"
 
 #: weblate/templates/base.html:185 weblate/templates/component.html:77
 #: weblate/templates/memory/index.html:10
@@ -3528,7 +3521,7 @@ msgstr "Zavřít"
 
 #: weblate/templates/billing-failure.html:7
 msgid "Check your billing status"
-msgstr "Zkontrolovat stav fakturace"
+msgstr "Zkontrolovat stav předplatného"
 
 #: weblate/templates/billing-failure.html:8
 msgid ""
@@ -3540,25 +3533,23 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Opakující se platba"
 
 #: weblate/templates/billing/detail.html:20
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "Změnit"
+msgstr "Změnit balíček"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Disable recurring payment"
-msgstr ""
+msgstr "Vypnout opakování platby"
 
 #: weblate/templates/billing/detail.html:27
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "To ukončení předplatného musíte nejdříve odstranit všechny projekty."
 
 #: weblate/templates/billing/detail.html:30
 msgid "Terminate billing"
-msgstr ""
+msgstr "Ukončit předplatné"
 
 #: weblate/templates/billing/detail.html:38
 msgid "Invoices"
@@ -3586,17 +3577,15 @@ msgstr "Nebyly nalezeny žádné faktury!"
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
 msgid "Billing"
-msgstr "Účtování"
+msgstr "Předplatné"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr "V tuto chvíli nemáte aktivní žádné fakturace."
+msgstr "V tuto chvíli nemáte aktivní žádné předplatné."
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Zobrazit hostovací balíčky"
+msgstr "Zakoupit nové předplatné"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -7904,10 +7893,9 @@ msgstr ""
 "svému návrhu jeden hlas."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Chybná příznak pro kontroly: „%s“"
+msgstr "Chybná příznak pro překlad: „%s“"
 
 #: weblate/trans/views/about.py:40
 msgid "About"
