@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-30 14:16+0000\n"
-"PO-Revision-Date: 2018-10-23 05:18+0000\n"
+"PO-Revision-Date: 2018-10-30 20:24+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -150,10 +150,8 @@ msgid "Current password"
 msgstr "Поточний пароль"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr "Збережіть поле порожнім, якщо не хочете задавати пароль."
+msgstr "Залиште поле порожнім, якщо не хочете задавати пароль."
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -1436,10 +1434,8 @@ msgid "Expired"
 msgstr "Закінчений"
 
 #: weblate/billing/models.py:136
-#, fuzzy
-#| msgid "Not translated"
 msgid "Not activated"
-msgstr "Не перекладено"
+msgstr "Не активовано"
 
 #: weblate/billing/models.py:139
 msgid "Billing state"
@@ -2232,6 +2228,7 @@ msgstr ""
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "We use Google Analytics to analyze traffic on our website."
 msgstr ""
+"Ми використовуємо Google Analytics для аналізу трафіку на нашому веб-сайті."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2550,10 +2547,7 @@ msgid "Commit signing"
 msgstr "Підписування запису"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
@@ -3578,25 +3572,23 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Регулярність платежів"
 
 #: weblate/templates/billing/detail.html:20
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "Зміна"
+msgstr "Змінити план"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Disable recurring payment"
-msgstr ""
+msgstr "Вимкнути повторення платежів"
 
 #: weblate/templates/billing/detail.html:27
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "Щоб припинити план, потрібно вилучити спершу усі проекти."
 
 #: weblate/templates/billing/detail.html:30
 msgid "Terminate billing"
-msgstr ""
+msgstr "Припинити план"
 
 #: weblate/templates/billing/detail.html:38
 msgid "Invoices"
@@ -3631,10 +3623,8 @@ msgid "You currently do not have any billings active."
 msgstr "У вас немає поточних платежів."
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Переглянути тарифні плани хостингу"
+msgstr "Купити новий план хостингу"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -7949,10 +7939,9 @@ msgstr ""
 "позаяк кожен користувач відразу ж голосує за власну пропозицію."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Хибна перевірка прапорця: \"%s\""
+msgstr "Хибний прапорець перекладу: \"%s\""
 
 #: weblate/trans/views/about.py:40
 msgid "About"
