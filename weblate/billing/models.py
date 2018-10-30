@@ -247,23 +247,25 @@ class Billing(models.Model):
         )
     display_languages.short_description = _('Languages')
 
-    def check_in_limits(self):
+    def check_in_limits(self, plan=None):
+        if plan is None:
+            plan = self.plan
         return (
             (
-                self.plan.limit_repositories == 0 or
-                self.count_repositories() <= self.plan.limit_repositories
+                plan.limit_repositories == 0 or
+                self.count_repositories() <= plan.limit_repositories
             ) and
             (
-                self.plan.limit_projects == 0 or
-                self.count_projects() <= self.plan.limit_projects
+                plan.limit_projects == 0 or
+                self.count_projects() <= plan.limit_projects
             ) and
             (
-                self.plan.limit_strings == 0 or
-                self.count_strings() <= self.plan.limit_strings
+                plan.limit_strings == 0 or
+                self.count_strings() <= plan.limit_strings
             ) and
             (
-                self.plan.limit_languages == 0 or
-                self.count_languages() <= self.plan.limit_languages
+                plan.limit_languages == 0 or
+                self.count_languages() <= plan.limit_languages
             )
         )
 
@@ -288,24 +290,26 @@ class Billing(models.Model):
             return _('N/A')
     last_invoice.short_description = _('Last invoice')
 
-    def in_display_limits(self):
+    def in_display_limits(self, plan=None):
+        if plan is None:
+            plan = self.plan
         return (
             (
-                self.plan.display_limit_repositories == 0 or
+                plan.display_limit_repositories == 0 or
                 self.count_repositories() <=
-                self.plan.display_limit_repositories
+                plan.display_limit_repositories
             ) and
             (
-                self.plan.display_limit_projects == 0 or
-                self.count_projects() <= self.plan.display_limit_projects
+                plan.display_limit_projects == 0 or
+                self.count_projects() <= plan.display_limit_projects
             ) and
             (
-                self.plan.display_limit_strings == 0 or
-                self.count_strings() <= self.plan.display_limit_strings
+                plan.display_limit_strings == 0 or
+                self.count_strings() <= plan.display_limit_strings
             ) and
             (
-                self.plan.display_limit_languages == 0 or
-                self.count_languages() <= self.plan.display_limit_languages
+                plan.display_limit_languages == 0 or
+                self.count_languages() <= plan.display_limit_languages
             )
         )
     in_display_limits.boolean = True
