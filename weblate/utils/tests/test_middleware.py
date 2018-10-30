@@ -21,31 +21,35 @@
 from unittest import TestCase
 
 from django.http.request import HttpRequest
+from django.test.utils import override_settings
 
-from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.middleware import ProxyMiddleware
 
 
-class RequestTest(TestCase):
-    def test_get_ip(self):
+class ProxyTest(TestCase):
+    def get_response(self, request):
+        self.assertEqual(request.META['REMOTE_ADDR'], '1.2.3.4')
+        return 'response'
+
+    @override_settings(
+        IP_BEHIND_REVERSE_PROXY=False,
+        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
+        IP_PROXY_OFFSET=0
+    )
+    def test_direct(self):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
-        self.assertEqual(
-            get_ip_address(request),
-            '1.2.3.4'
-        )
+        middleware = ProxyMiddleware(self.get_response)
+        self.assertEqual(middleware(request), 'response')
 
-    def test_agent(self):
+    @override_settings(
+        IP_BEHIND_REVERSE_PROXY=True,
+        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
+        IP_PROXY_OFFSET=0
+    )
+    def test_proxy(self):
         request = HttpRequest()
-        request.META['HTTP_USER_AGENT'] = 'agent'
-        self.assertEqual(
-            get_user_agent(request),
-            'Other / Other / Other'
-        )
-
-    def test_agent_long(self):
-        request = HttpRequest()
-        request.META['HTTP_USER_AGENT'] = 'agent ' * 200
-        self.assertLess(
-            len(get_user_agent(request)),
-            200
-        )
+        request.META['REMOTE_ADDR'] = '7.8.9.0'
+        request.META['HTTP_X_FORWARDED_FOR'] = '1.2.3.4'
+        middleware = ProxyMiddleware(self.get_response)
+        self.assertEqual(middleware(request), 'response')
