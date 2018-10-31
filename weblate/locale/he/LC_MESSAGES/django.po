@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-30 14:16+0000\n"
-"PO-Revision-Date: 2018-10-20 10:53+0000\n"
+"PO-Revision-Date: 2018-10-31 14:20+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -143,10 +143,8 @@ msgid "Current password"
 msgstr "ססמה נוכחית"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr "יש להשאיר את השדה ריק אם עדיין לא הגדרת את הססמה שלך."
+msgstr "יש להשאיר ריק אם טרם הגדרת ססמה."
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -1368,8 +1366,6 @@ msgid "Automatic group assignments"
 msgstr "הקצאת קבוצות אוטומטיות"
 
 #: weblate/billing/admin.py:58
-#, fuzzy
-#| msgid "Owner"
 msgid "Owners"
 msgstr "בעלים"
 
@@ -1398,10 +1394,8 @@ msgid "Expired"
 msgstr "פגה"
 
 #: weblate/billing/models.py:136
-#, fuzzy
-#| msgid "Not translated"
 msgid "Not activated"
-msgstr "לא מתורגמת"
+msgstr "לא פעיל"
 
 #: weblate/billing/models.py:139
 msgid "Billing state"
@@ -2181,7 +2175,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "We use Google Analytics to analyze traffic on our website."
-msgstr ""
+msgstr "אנו משתמשים ב־Google Analytics כדי לנתח תעבורה באתר שלנו."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2483,15 +2477,12 @@ msgid "Commit signing"
 msgstr "חתימה על הגשות"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"כל ההגשות מצד Weblate חתומות במפתח GPG‏ %(gpg_key_id)s, בו ניתן לצפות להלן."
+"כל ההגשות עם Weblate חתומות במפתח GPG‏ %(gpg_key_id)s, בו ניתן לצפות להלן."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3477,25 +3468,23 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "תשלום מחזורי"
 
 #: weblate/templates/billing/detail.html:20
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "שינוי"
+msgstr "החלפת תכנית"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Disable recurring payment"
-msgstr ""
+msgstr "השבתת תשלום מחזורי"
 
 #: weblate/templates/billing/detail.html:27
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "כדי לקטוע חיוב עליך להסיר את כל המיזמים תחילה."
 
 #: weblate/templates/billing/detail.html:30
 msgid "Terminate billing"
-msgstr ""
+msgstr "קטיעת חיוב"
 
 #: weblate/templates/billing/detail.html:38
 msgid "Invoices"
@@ -3530,10 +3519,8 @@ msgid "You currently do not have any billings active."
 msgstr "אין לך מסלולי חיוב פעילים כרגע."
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "הצגת תכניות אירוח"
+msgstr "רכישת תכנית אירוח חדשה"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -7773,10 +7760,9 @@ msgid ""
 msgstr "ערך של 1 אינו מותר עבור autoaccept כי כל משתמש מצביע עבור ההצעה שלו."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "דגל סימון שגוי: „%s”"
+msgstr "דגל תרגום שגוי: „%s”"
 
 #: weblate/trans/views/about.py:40
 msgid "About"
