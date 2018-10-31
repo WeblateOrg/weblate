@@ -71,7 +71,7 @@ Features
 Documentation
 -------------
 
-Detailed documentation is available in ``docs`` directory in the sources.
+Detailed documentation is available in ``docs`` directory in the sources. Please check out.
 
 The documentation can be also viewed online on
 https://docs.weblate.org/.
@@ -79,7 +79,7 @@ https://docs.weblate.org/.
 Installation
 ------------
 
-Installation and setup instructions are provided in our manual, check
+Installation and setup instructions are provided in our manual, please check
 quick setup guide:
 
 https://docs.weblate.org/en/latest/admin/quick.html
