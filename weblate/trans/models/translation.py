@@ -233,8 +233,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             user = request.user
 
         # Check if we're not already up to date
-        if self.revision != self.get_git_blob_hash():
-            reason = 'revision has changed'
+        if not self.revision:
+            reason = 'new file'
+        elif self.revision != self.get_git_blob_hash():
+            reason = 'hash has changed'
         elif force:
             reason = 'check forced'
         else:
@@ -242,11 +244,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         self.notify_new_string = False
 
-        self.log_info(
-            'processing %s, %s',
-            self.filename,
-            reason,
-        )
+        self.log_info('processing %s, %s', self.filename, reason)
 
         # List of created units (used for cleanup and duplicates detection)
         created_units = set()
