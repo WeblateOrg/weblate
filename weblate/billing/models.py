@@ -88,7 +88,7 @@ class BillingQuerySet(models.QuerySet):
         return self.filter(in_limits=False)
 
     def get_unpaid(self):
-        return self.filter(paid=False)
+        return self.filter(paid=False, state=Billing.STATE_ACTIVE)
 
     def get_valid(self):
         return self.filter(
