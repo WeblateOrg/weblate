@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-10-30 14:16+0000\n"
+"POT-Creation-Date: 2018-11-01 15:12+0000\n"
 "PO-Revision-Date: 2018-11-01 12:11+0000\n"
 "Last-Translator: Iván Seoane <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -1092,8 +1092,8 @@ msgstr "Eliminar suxestión"
 msgid "Vote suggestion"
 msgstr "Votar suxestión"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:60
-#: weblate/templates/component.html:117 weblate/templates/component.html:119
+#: weblate/auth/data.py:71 weblate/templates/component.html:59
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
@@ -1359,7 +1359,7 @@ msgid "From component list"
 msgstr "Da listaxe dos compoñentes"
 
 #: weblate/auth/models.py:131 weblate/billing/admin.py:54
-#: weblate/billing/models.py:213 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:211 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:139 weblate/trans/views/basic.py:64
@@ -1375,7 +1375,7 @@ msgstr "Escolla de lingua"
 msgid "All languages"
 msgstr "Tódalas linguas"
 
-#: weblate/auth/models.py:152 weblate/billing/models.py:248
+#: weblate/auth/models.py:152 weblate/billing/models.py:246
 #: weblate/lang/models.py:364 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1455,92 +1455,86 @@ msgstr "Asignacións de grupo automático"
 msgid "Owners"
 msgstr ""
 
-#: weblate/billing/models.py:121 weblate/templates/billing/detail.html:12
+#: weblate/billing/models.py:120 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
 msgstr "Plan de pagamento"
 
-#: weblate/billing/models.py:125
+#: weblate/billing/models.py:124
 msgid "Billed projects"
 msgstr "Proxectos de pagamentos"
 
-#: weblate/billing/models.py:129
+#: weblate/billing/models.py:128
 msgid "Billing owners"
 msgstr "Responsábeis do pagamento"
 
-#: weblate/billing/models.py:133
+#: weblate/billing/models.py:132
 msgid "Active"
 msgstr "Activo"
 
-#: weblate/billing/models.py:134
+#: weblate/billing/models.py:133
 msgid "Trial"
 msgstr "Proba"
 
-#: weblate/billing/models.py:135
+#: weblate/billing/models.py:134 weblate/templates/billing/detail.html:13
 msgid "Expired"
 msgstr "Expirado"
 
-#: weblate/billing/models.py:136
-#, fuzzy
-#| msgid "Not translated"
-msgid "Not activated"
-msgstr "Non traducido"
-
-#: weblate/billing/models.py:139
+#: weblate/billing/models.py:137
 msgid "Billing state"
 msgstr "Estado do pagamento"
 
-#: weblate/billing/models.py:143
+#: weblate/billing/models.py:141
 msgid "Trial expiry date"
 msgstr "Data de caducidade da proba"
 
-#: weblate/billing/models.py:147
+#: weblate/billing/models.py:145
 msgid "Paid"
 msgstr "Pago"
 
-#: weblate/billing/models.py:153
+#: weblate/billing/models.py:151
 msgid "In limits"
 msgstr "Dentro dos límites"
 
-#: weblate/billing/models.py:181
+#: weblate/billing/models.py:179
 msgid "Changes in last month"
 msgstr "Cambios no último mes"
 
-#: weblate/billing/models.py:185
+#: weblate/billing/models.py:183
 msgid "Changes in last quarter"
 msgstr "Cambios nos últimos catro meses"
 
-#: weblate/billing/models.py:189
+#: weblate/billing/models.py:187
 msgid "Changes in last year"
 msgstr "Cambios no último ano"
 
-#: weblate/billing/models.py:203 weblate/trans/admin.py:111
+#: weblate/billing/models.py:201 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "Repositorios VCS"
 
-#: weblate/billing/models.py:225 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:223 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
 msgid "Source strings"
 msgstr "Cadeas de orixe"
 
-#: weblate/billing/models.py:236 weblate/trans/admin.py:102
+#: weblate/billing/models.py:234 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "Palabras de orixe"
 
-#: weblate/billing/models.py:283 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:281 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Número de cadeas"
 
-#: weblate/billing/models.py:290
+#: weblate/billing/models.py:288
 msgid "N/A"
 msgstr "Sen datos"
 
-#: weblate/billing/models.py:291 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:289 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "Última factura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:317
+#: weblate/billing/models.py:315
 msgid "In display limits"
 msgstr "Dentro dos límites da vista"
 
@@ -1864,7 +1858,7 @@ msgstr ""
 #: weblate/checks/views.py:74 weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/legend.html:16
 #: weblate/templates/progress.html:11 weblate/templates/project.html:51
-#: weblate/templates/source-review.html:27 weblate/templates/translate.html:572
+#: weblate/templates/source-review.html:27 weblate/templates/translate.html:573
 msgid "Failing checks"
 msgstr "Comprobacións falladas"
 
@@ -2288,7 +2282,9 @@ msgid "Privacy Policy"
 msgstr "Política de privacidade"
 
 #: weblate/legal/templates/legal/cookies.html:29
-msgid "We use cookies for following:"
+#, fuzzy
+#| msgid "We use cookies for following:"
+msgid "Cookies are used on this site for the following:"
 msgstr "Empregamos cookies para o seguinte:"
 
 #: weblate/legal/templates/legal/cookies.html:33
@@ -2305,16 +2301,20 @@ msgstr ""
 "situacións."
 
 #: weblate/legal/templates/legal/cookies.html:36
+#, fuzzy
+#| msgid ""
+#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
-"settings in your browser."
+"This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
+"Track&quot; settings in your browser."
 msgstr ""
 "Empregamos o Matomo para analiza-lo tráfico no noso sitio web. O Matomo "
 "respecta os axustes de non ser rastrexado (\"Do Not Track\") no seu "
 "navigador."
 
 #: weblate/legal/templates/legal/cookies.html:39
-msgid "We use Google Analytics to analyze traffic on our website."
+msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
 
 #: weblate/legal/templates/legal/index.html:15
@@ -2361,7 +2361,7 @@ msgstr ""
 msgid "Terms"
 msgstr ""
 
-#: weblate/legal/views.py:37 weblate/templates/translation.html:32
+#: weblate/legal/views.py:37 weblate/templates/translation.html:31
 msgid "Overview"
 msgstr "Vista xeral"
 
@@ -2669,7 +2669,7 @@ msgstr "A sinatura non fica configurada."
 
 #: weblate/templates/about/stats.html:6 weblate/templates/about/stats.html:82
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
-#: weblate/templates/translation.html:42 weblate/templates/translation.html:369
+#: weblate/templates/translation.html:41 weblate/templates/translation.html:368
 #: weblate/trans/views/about.py:45
 msgid "Statistics"
 msgstr "Estatísticas"
@@ -2688,7 +2688,7 @@ msgstr "Usuario"
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:105 weblate/templates/project.html:164
-#: weblate/templates/translation.html:387
+#: weblate/templates/translation.html:386
 #: weblate/trans/templatetags/translations.py:542 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Traducido"
@@ -3123,8 +3123,8 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:105
 #: weblate/templates/trans/component_form.html:33
 #: weblate/templates/trans/project_form.html:33
-#: weblate/templates/translate.html:105 weblate/templates/translate.html:213
-#: weblate/templates/translate.html:410
+#: weblate/templates/translate.html:104 weblate/templates/translate.html:214
+#: weblate/templates/translate.html:411
 msgid "Save"
 msgstr "Gardar"
 
@@ -3434,7 +3434,7 @@ msgstr "Actividade no último ano"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
-#: weblate/templates/component.html:82
+#: weblate/templates/component.html:81
 msgid "Addons"
 msgstr "Complementos"
 
@@ -3559,7 +3559,7 @@ msgstr ""
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:323
+#: weblate/templates/project.html:104 weblate/templates/translate.html:324
 #: weblate/trans/models/component.py:433 weblate/trans/models/whiteboard.py:88
 msgid "Component"
 msgstr "Compoñente"
@@ -3642,7 +3642,7 @@ msgstr "Confirmación do novo contrasinal"
 
 #: weblate/templates/base.html:147 weblate/templates/dictionary.html:99
 #: weblate/templates/js/detail.html:41 weblate/templates/manage-access.html:71
-#: weblate/templates/translate.html:475
+#: weblate/templates/translate.html:476
 msgid "Add"
 msgstr "Engadir"
 
@@ -3688,14 +3688,14 @@ msgstr "Sesión iniciada coma %(user)s"
 msgid "Billing overview"
 msgstr "Resumo dos pagamentos"
 
-#: weblate/templates/base.html:185 weblate/templates/component.html:77
+#: weblate/templates/base.html:185 weblate/templates/component.html:76
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
 msgid "Translation memory"
 msgstr "Memoria da tradución"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
-#: weblate/templates/component.html:83
+#: weblate/templates/component.html:82
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:73
 msgid "Settings"
@@ -3733,45 +3733,65 @@ msgstr ""
 msgid "Recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:20
+#: weblate/templates/billing/detail.html:15
+#, fuzzy
+#| msgid "Starting date"
+msgid "Past due date"
+msgstr "Data de inicio"
+
+#: weblate/templates/billing/detail.html:17
+#, fuzzy
+#| msgid "In limits"
+msgid "Exceeds limits"
+msgstr "Dentro dos límites"
+
+#: weblate/templates/billing/detail.html:29
 #, fuzzy
 #| msgid "Change"
 msgid "Change plan"
 msgstr "Mudanza"
 
-#: weblate/templates/billing/detail.html:23
-msgid "Disable recurring payment"
+#: weblate/templates/billing/detail.html:31
+#, fuzzy
+#| msgid "PHP format"
+msgid "Perform payment"
+msgstr "Formato PHP"
+
+#: weblate/templates/billing/detail.html:36
+msgid "Terminate recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:27
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 
-#: weblate/templates/billing/detail.html:30
-msgid "Terminate billing"
-msgstr ""
+#: weblate/templates/billing/detail.html:43
+#, fuzzy
+#| msgid "Billing plan"
+msgid "Terminate billing plan"
+msgstr "Plan de pagamento"
 
-#: weblate/templates/billing/detail.html:38
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:42
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:43
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Descarregar factura"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:69
 msgid "Not available"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:61
+#: weblate/templates/billing/detail.html:74
 #, fuzzy
 msgid "No invoices found!"
 msgstr "Non se atopou ningunha palabra!"
@@ -3880,8 +3900,8 @@ msgid "Check details"
 msgstr "Comprobacións"
 
 #: weblate/templates/checks.html:28 weblate/templates/component-list.html:14
-#: weblate/templates/component.html:32 weblate/templates/language.html:16
-#: weblate/templates/project.html:28 weblate/templates/translation.html:33
+#: weblate/templates/component.html:31 weblate/templates/language.html:16
+#: weblate/templates/project.html:28 weblate/templates/translation.html:32
 msgid "Information"
 msgstr "Informacións"
 
@@ -3924,12 +3944,12 @@ msgstr "Documentación"
 msgid "Automatic component list assignment"
 msgstr "Tradución automática"
 
-#: weblate/templates/component.html:31
+#: weblate/templates/component.html:30
 #: weblate/templates/trans/suggestion_list.html:17
 msgid "Translations"
 msgstr "Traducións"
 
-#: weblate/templates/component.html:33 weblate/templates/component.html:140
+#: weblate/templates/component.html:32 weblate/templates/component.html:139
 #: weblate/templates/dashboard/user.html:38
 #: weblate/templates/dashboard/user.html:112
 #: weblate/templates/dictionary.html:89
@@ -3938,141 +3958,141 @@ msgstr "Traducións"
 #: weblate/templates/project.html:210
 #: weblate/templates/screenshots/screenshot_detail.html:79
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
-#: weblate/templates/search.html:15 weblate/templates/translate.html:55
-#: weblate/templates/translation.html:34 weblate/templates/translation.html:330
-#: weblate/templates/translation.html:335 weblate/templates/zen.html:38
+#: weblate/templates/search.html:15 weblate/templates/translate.html:54
+#: weblate/templates/translation.html:33 weblate/templates/translation.html:329
+#: weblate/templates/translation.html:334 weblate/templates/zen.html:37
 #: weblate/trans/forms.py:1016
 msgid "Search"
 msgstr "Procurar"
 
-#: weblate/templates/component.html:36 weblate/templates/dashboard/user.html:25
-#: weblate/templates/project.html:33 weblate/templates/translation.html:37
+#: weblate/templates/component.html:35 weblate/templates/dashboard/user.html:25
+#: weblate/templates/project.html:33 weblate/templates/translation.html:36
 msgid "Insights"
 msgstr "Seguemento"
 
-#: weblate/templates/component.html:39 weblate/templates/dashboard/user.html:28
+#: weblate/templates/component.html:38 weblate/templates/dashboard/user.html:28
 #: weblate/templates/dictionary.html:39
 #: weblate/templates/edit_dictionary.html:35
 #: weblate/templates/language-project.html:18
 #: weblate/templates/language.html:17 weblate/templates/project.html:36
-#: weblate/templates/translate.html:245 weblate/templates/translation.html:40
+#: weblate/templates/translate.html:246 weblate/templates/translation.html:39
 msgid "History"
 msgstr "Historial"
 
-#: weblate/templates/component.html:40 weblate/templates/dashboard/user.html:29
+#: weblate/templates/component.html:39 weblate/templates/dashboard/user.html:29
 #: weblate/templates/language-project.html:19
 #: weblate/templates/language.html:18 weblate/templates/project.html:37
-#: weblate/templates/translation.html:41
+#: weblate/templates/translation.html:40
 msgid "Activity"
 msgstr "Actividade"
 
-#: weblate/templates/component.html:41 weblate/templates/project.html:38
+#: weblate/templates/component.html:40 weblate/templates/project.html:38
 msgid "Download statistics (CSV)"
 msgstr "Descarregar estatísticas (CSV)"
 
-#: weblate/templates/component.html:42 weblate/templates/project.html:39
+#: weblate/templates/component.html:41 weblate/templates/project.html:39
 msgid "Download statistics (JSON)"
 msgstr "Descarregar estatísticas (JSON)"
 
-#: weblate/templates/component.html:44
+#: weblate/templates/component.html:43
 #, fuzzy
 msgid "Translation reports"
 msgstr "Contexto da tradución"
 
-#: weblate/templates/component.html:50 weblate/templates/dashboard/user.html:35
+#: weblate/templates/component.html:49 weblate/templates/dashboard/user.html:35
 #: weblate/templates/language-project.html:22
 #: weblate/templates/language.html:22 weblate/templates/project.html:44
-#: weblate/templates/translation.html:55
+#: weblate/templates/translation.html:54
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:149
+#: weblate/templates/component.html:53 weblate/templates/component.html:148
 #: weblate/templates/project.html:48 weblate/templates/project.html:219
-#: weblate/templates/replace.html:13 weblate/templates/translation.html:63
-#: weblate/templates/translation.html:230 weblate/trans/models/change.py:220
+#: weblate/templates/replace.html:13 weblate/templates/translation.html:62
+#: weblate/templates/translation.html:229 weblate/trans/models/change.py:220
 msgid "Search and replace"
 msgstr "Procurar e substituír"
 
-#: weblate/templates/component.html:56 weblate/templates/project.html:50
-#: weblate/templates/translation.html:58
+#: weblate/templates/component.html:55 weblate/templates/project.html:50
+#: weblate/templates/translation.html:57
 msgid "Data exports"
 msgstr "Exportacións dos datos"
 
-#: weblate/templates/component.html:57
+#: weblate/templates/component.html:56
 msgid "Matrix view"
 msgstr "Vista en matriz"
 
-#: weblate/templates/component.html:58
+#: weblate/templates/component.html:57
 msgid "Source strings review"
 msgstr "Revisión das cadeas de orixe"
 
-#: weblate/templates/component.html:66 weblate/templates/project.html:58
-#: weblate/templates/translation.html:73
+#: weblate/templates/component.html:65 weblate/templates/project.html:58
+#: weblate/templates/translation.html:72
 msgid "Manage"
 msgstr "Xestionar"
 
-#: weblate/templates/component.html:70 weblate/templates/js/git-status.html:112
-#: weblate/templates/project.html:62 weblate/templates/translation.html:77
+#: weblate/templates/component.html:69 weblate/templates/js/git-status.html:112
+#: weblate/templates/project.html:62 weblate/templates/translation.html:76
 msgid "Commit"
 msgstr "Remitir"
 
-#: weblate/templates/component.html:73 weblate/templates/project.html:65
-#: weblate/templates/translation.html:80
+#: weblate/templates/component.html:72 weblate/templates/project.html:65
+#: weblate/templates/translation.html:79
 msgid "Repository maintenance"
 msgstr "Mantemento do repositorio"
 
-#: weblate/templates/component.html:76
+#: weblate/templates/component.html:75
 #: weblate/templates/screenshots/screenshot_detail.html:10
 #: weblate/templates/screenshots/screenshot_list.html:9
 msgid "Screenshots"
 msgstr "Capturas da pantalla"
 
-#: weblate/templates/component.html:79 weblate/templates/manage-access.html:18
+#: weblate/templates/component.html:78 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:70
 msgid "Users"
 msgstr "Usuarios"
 
-#: weblate/templates/component.html:90 weblate/templates/project.html:81
-#: weblate/templates/translation.html:88
+#: weblate/templates/component.html:89 weblate/templates/project.html:81
+#: weblate/templates/translation.html:87
 msgid "Share"
 msgstr "Partillar ou compartir"
 
-#: weblate/templates/component.html:94
+#: weblate/templates/component.html:93
 msgid "Share on Facebook!"
 msgstr "Compartir no Facebook!"
 
-#: weblate/templates/component.html:95 weblate/templates/project.html:86
-#: weblate/templates/translation.html:93
+#: weblate/templates/component.html:94 weblate/templates/project.html:86
+#: weblate/templates/translation.html:92
 #, fuzzy, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Grazas por usar Weblate!"
 
-#: weblate/templates/component.html:95 weblate/templates/translation.html:93
+#: weblate/templates/component.html:94 weblate/templates/translation.html:92
 msgid "Tweet this translation!"
 msgstr "Chía esta tradución no Twitter!"
 
-#: weblate/templates/component.html:96 weblate/templates/project.html:87
-#: weblate/templates/translation.html:94
+#: weblate/templates/component.html:95 weblate/templates/project.html:87
+#: weblate/templates/translation.html:93
 msgid "Engage page"
 msgstr "Páxina de participación"
 
-#: weblate/templates/component.html:97 weblate/templates/project.html:88
-#: weblate/templates/translation.html:95
+#: weblate/templates/component.html:96 weblate/templates/project.html:88
+#: weblate/templates/translation.html:94
 msgid "Status widgets"
 msgstr "Trebellos do estado"
 
-#: weblate/templates/component.html:119
+#: weblate/templates/component.html:118
 #, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start a new translation"
 msgstr "Non ten permisos para gardar as traducións!"
 
-#: weblate/templates/component.html:119
+#: weblate/templates/component.html:118
 msgid "Please log in to start new translation"
 msgstr "Accede a túa conta para comezar novas traducións"
 
-#: weblate/templates/component.html:151 weblate/templates/project.html:221
-#: weblate/templates/translation.html:232
+#: weblate/templates/component.html:150 weblate/templates/project.html:221
+#: weblate/templates/translation.html:231
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
@@ -4080,60 +4100,60 @@ msgstr ""
 "Pode substituír unha cadea en tódalas cadeas, nunha soa vez. A procura é de "
 "subcadeas e distingue entre maiúsculas e minúsculas."
 
-#: weblate/templates/component.html:156 weblate/templates/component.html:171
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:226 weblate/templates/project.html:241
-#: weblate/templates/replace.html:46 weblate/templates/translation.html:218
-#: weblate/templates/translation.html:237
-#: weblate/templates/translation.html:252
-#: weblate/templates/translation.html:272
+#: weblate/templates/replace.html:46 weblate/templates/translation.html:217
+#: weblate/templates/translation.html:236
+#: weblate/templates/translation.html:251
+#: weblate/templates/translation.html:271
 msgid "Process"
 msgstr "Procesar"
 
-#: weblate/templates/component.html:164 weblate/templates/project.html:234
-#: weblate/templates/translation.html:245 weblate/trans/models/change.py:227
+#: weblate/templates/component.html:163 weblate/templates/project.html:234
+#: weblate/templates/translation.html:244 weblate/trans/models/change.py:227
 #, fuzzy
 #| msgid "Last name"
 msgid "Mass state change"
 msgstr "Segundo apelido"
 
-#: weblate/templates/component.html:166 weblate/templates/project.html:236
-#: weblate/templates/translation.html:247
+#: weblate/templates/component.html:165 weblate/templates/project.html:236
+#: weblate/templates/translation.html:246
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 "Pode mudar á vez o estado de tódalas cadeas que coincidan co tipo fornecido."
 
-#: weblate/templates/component.html:182 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Ollar tódalas mudanzas do compoñente"
 
-#: weblate/templates/component.html:189 weblate/templates/project.html:252
-#: weblate/templates/translate.html:361 weblate/templates/translate.html:365
-#: weblate/templates/translation.html:319 weblate/trans/forms.py:232
+#: weblate/templates/component.html:188 weblate/templates/project.html:252
+#: weblate/templates/translate.html:362 weblate/templates/translate.html:366
+#: weblate/templates/translation.html:318 weblate/trans/forms.py:232
 msgid "Loading…"
 msgstr "Estase a carregar…"
 
-#: weblate/templates/component.html:202
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr ""
 
-#: weblate/templates/component.html:206
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/component.html:210 weblate/templates/component.html:229
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Xerar"
 
-#: weblate/templates/component.html:221
+#: weblate/templates/component.html:220
 #, fuzzy
 msgid "Contributor stats"
 msgstr "Repositorio Git:"
 
-#: weblate/templates/component.html:225
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "Reporta o número das cadeas e palabras traducidas por cada tradutor."
 
@@ -4413,8 +4433,8 @@ msgstr "glosarios"
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
 #: weblate/templates/project.html:106 weblate/templates/project.html:165
-#: weblate/templates/translation.html:130
-#: weblate/templates/translation.html:376
+#: weblate/templates/translation.html:129
+#: weblate/templates/translation.html:375
 msgid "Words"
 msgstr "Palabras"
 
@@ -4452,16 +4472,16 @@ msgstr ""
 
 #: weblate/templates/dictionary.html:54 weblate/templates/matrix.html:17
 #: weblate/templates/search.html:30 weblate/templates/source-review.html:25
-#: weblate/templates/translate.html:182 weblate/templates/translate.html:253
-#: weblate/templates/translate.html:374 weblate/templates/translate.html:461
+#: weblate/templates/translate.html:181 weblate/templates/translate.html:254
+#: weblate/templates/translate.html:375 weblate/templates/translate.html:462
 #: weblate/trans/forms.py:310 weblate/trans/forms.py:1021
 msgid "Source"
 msgstr "Orixe"
 
 #: weblate/templates/dictionary.html:55
 #: weblate/templates/js/translations.html:9
-#: weblate/templates/translate.html:253 weblate/templates/translate.html:323
-#: weblate/templates/translate.html:373 weblate/templates/translate.html:462
+#: weblate/templates/translate.html:254 weblate/templates/translate.html:324
+#: weblate/templates/translate.html:374 weblate/templates/translate.html:463
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1022
 #: weblate/trans/forms.py:1429
 msgid "Translation"
@@ -4481,7 +4501,7 @@ msgstr "Editar"
 #: weblate/templates/list-comments.html:23
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
-#: weblate/templates/translate.html:310
+#: weblate/templates/translate.html:311
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -4541,7 +4561,7 @@ msgid ""
 msgstr "Logo de activar a súa conta, proceda á sección da tradución."
 
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:81
-#: weblate/templates/translate.html:118 weblate/templates/translation.html:125
+#: weblate/templates/translate.html:117 weblate/templates/translation.html:124
 msgid "Translate"
 msgstr "Traducir"
 
@@ -4697,13 +4717,13 @@ msgstr "Estado"
 msgid "Ignore: %(check)s"
 msgstr "Ignorar: %(check)s"
 
-#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:503
+#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:504
 #, fuzzy
 #| msgid "Translation context"
 msgid "Screenshot context"
 msgstr "Contexto da tradución"
 
-#: weblate/templates/js/detail.html:91 weblate/templates/translate.html:511
+#: weblate/templates/js/detail.html:91 weblate/templates/translate.html:512
 msgid "No screenshot currently associated!"
 msgstr ""
 
@@ -4720,8 +4740,8 @@ msgstr "Engadir unha nova palabra"
 
 #: weblate/templates/js/detail.html:110 weblate/templates/memory/index.html:60
 #: weblate/templates/screenshots/screenshot_list.html:26
-#: weblate/templates/translation.html:298
-#: weblate/templates/translation.html:309
+#: weblate/templates/translation.html:297
+#: weblate/templates/translation.html:308
 msgid "Upload"
 msgstr "Subir"
 
@@ -4910,7 +4930,7 @@ msgstr "Precisa dunha edición"
 msgid "Translation comment"
 msgstr "Comentario da tradución"
 
-#: weblate/templates/list-comments.html:14 weblate/templates/translate.html:160
+#: weblate/templates/list-comments.html:14 weblate/templates/translate.html:159
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
 msgstr "Comentario da cadea de orixe"
@@ -4956,7 +4976,7 @@ msgid "Configure columns"
 msgstr ""
 
 #: weblate/templates/list-translations.html:36
-#: weblate/templates/translation.html:114
+#: weblate/templates/translation.html:113
 msgid "This translation is being used as source strings within this component."
 msgstr ""
 "Esta tradución está a ser empregada coma cadeas de orixe dentro deste "
@@ -4973,6 +4993,8 @@ msgstr "Orixe"
 #: weblate/templates/mail/activation.txt:1
 #: weblate/templates/mail/billing_check.html:7
 #: weblate/templates/mail/billing_check.txt:1
+#: weblate/templates/mail/billing_expired.html:7
+#: weblate/templates/mail/billing_expired.txt:1
 #: weblate/templates/mail/changed_translation.html:7
 #: weblate/templates/mail/changed_translation.txt:1
 #: weblate/templates/mail/merge_failure.html:7
@@ -5067,6 +5089,17 @@ msgstr "Enviada desde o sistema de tradución Weblate"
 
 #: weblate/templates/mail/base.html:36
 msgid "Change subscription settings"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired.html:10
+#: weblate/templates/mail/billing_expired.txt:3
+msgid ""
+"Your billing plan has expired, if you want to continue using the service, "
+"please renew it on following link."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:2
+msgid "Your billing plan has expired"
 msgstr ""
 
 #: weblate/templates/mail/changed_translation.html:11
@@ -5573,7 +5606,7 @@ msgstr "Tradución"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/project.html:85 weblate/templates/translation.html:92
+#: weblate/templates/project.html:85 weblate/templates/translation.html:91
 msgid "Share on Facebook"
 msgstr "Compartir no Facebook"
 
@@ -5665,8 +5698,8 @@ msgid "Assign source strings"
 msgstr "Asignar cadeas de orixe"
 
 #: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:152 weblate/templates/translate.html:253
-#: weblate/templates/translate.html:521
+#: weblate/templates/translate.html:151 weblate/templates/translate.html:254
+#: weblate/templates/translate.html:522
 msgid "Context"
 msgstr "Contexto"
 
@@ -5718,8 +5751,8 @@ msgstr ""
 "asociadas."
 
 #: weblate/templates/screenshots/screenshot_list.html:37
-#: weblate/templates/translation.html:121
-#: weblate/templates/translation.html:375
+#: weblate/templates/translation.html:120
+#: weblate/templates/translation.html:374
 msgid "Strings"
 msgstr "Cadeas"
 
@@ -5731,6 +5764,18 @@ msgstr "Non hai cadeas de orixe actualmente asignadas!"
 msgid "No matching strings found."
 msgstr "Non foron atopadas cadeas que coincidan."
 
+#: weblate/templates/show-component-state.html:4
+#, fuzzy
+#| msgid "This translation is currently locked for updates!"
+msgid "This translation is currently locked for updates."
+msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
+
+#: weblate/templates/show-component-state.html:11
+#, fuzzy
+#| msgid "This translation is currently locked for updates!"
+msgid "This project is currently locked due to unpaid billing."
+msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
+
 #: weblate/templates/show-contributor-agreement.html:7
 #, fuzzy
 msgid "View contributor agreement"
@@ -5741,12 +5786,6 @@ msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
 msgstr ""
-
-#: weblate/templates/show-lock.html:4
-#, fuzzy
-#| msgid "This translation is currently locked for updates!"
-msgid "This translation is currently locked for updates."
-msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -5769,11 +5808,11 @@ msgstr "Comentario"
 msgid "No matching source strings found."
 msgstr "Non foi atopada ningunha cadea de orixe que coincidira."
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:146
+#: weblate/templates/source.html:19 weblate/templates/translation.html:145
 msgid "Strings to check"
 msgstr "Cadeas para revisar"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:170
+#: weblate/templates/source.html:34 weblate/templates/translation.html:169
 msgid "Project Information"
 msgstr "Informacións do proxecto"
 
@@ -5841,7 +5880,7 @@ msgstr ""
 "sería mellor xerar un novo compoñente de tradución."
 
 #: weblate/templates/trans/suggestion_list.html:7
-#: weblate/templates/translate.html:233 weblate/templates/translate.html:432
+#: weblate/templates/translate.html:234 weblate/templates/translate.html:433
 #: weblate/trans/forms.py:1431
 msgid "Suggestions"
 msgstr "Suxestións"
@@ -5867,137 +5906,137 @@ msgstr "Editar no modo Cen"
 msgid "Zen"
 msgstr "Modo Cen"
 
-#: weblate/templates/translate.html:42
+#: weblate/templates/translate.html:41
 msgid "First"
 msgstr "Primeiro"
 
-#: weblate/templates/translate.html:43
+#: weblate/templates/translate.html:42
 msgid "Previous"
 msgstr "Anterior"
 
-#: weblate/templates/translate.html:45 weblate/templates/zen.html:28
+#: weblate/templates/translate.html:44 weblate/templates/zen.html:27
 msgid "Edit search parameters"
 msgstr ""
 
-#: weblate/templates/translate.html:62
+#: weblate/templates/translate.html:61
 #, fuzzy
 #| msgid "New password confirmation"
 msgid "Go to position"
 msgstr "Confirmación do novo contrasinal"
 
-#: weblate/templates/translate.html:63
+#: weblate/templates/translate.html:62
 #, fuzzy, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "filtro actual: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: weblate/templates/translate.html:75
+#: weblate/templates/translate.html:74
 msgid "Jump to position"
 msgstr "Brincar á posición"
 
-#: weblate/templates/translate.html:80
+#: weblate/templates/translate.html:79
 msgid "Jump"
 msgstr "Brincar"
 
-#: weblate/templates/translate.html:86
+#: weblate/templates/translate.html:85
 msgid "Next"
 msgstr "Seguinte"
 
-#: weblate/templates/translate.html:87
+#: weblate/templates/translate.html:86
 msgid "Last"
 msgstr "Último"
 
-#: weblate/templates/translate.html:100
+#: weblate/templates/translate.html:99
 msgid "Copy permalink"
 msgstr ""
 
-#: weblate/templates/translate.html:103
+#: weblate/templates/translate.html:102
 msgid "Keyboard shortcuts available:"
 msgstr "Atallos do teclado dispoñíbeis:"
 
-#: weblate/templates/translate.html:106
+#: weblate/templates/translate.html:105
 msgid "Unmark review needed flag and save"
 msgstr ""
 
-#: weblate/templates/translate.html:107
+#: weblate/templates/translate.html:106
 msgid "Strings navigation"
 msgstr "Navigación por cadeas"
 
-#: weblate/templates/translate.html:108
+#: weblate/templates/translate.html:107
 #, fuzzy
 #| msgid "Your translations"
 msgid "Focus translation editor"
 msgstr "As súas traducións"
 
-#: weblate/templates/translate.html:109
+#: weblate/templates/translate.html:108
 #, fuzzy
 #| msgid "Your translations"
 msgid "Focus comment editor"
 msgstr "As súas traducións"
 
-#: weblate/templates/translate.html:110
+#: weblate/templates/translate.html:109
 msgid "Shows machine translation tab"
 msgstr "Amosa-la lapela da tradución de xeito automático"
 
-#: weblate/templates/translate.html:111
+#: weblate/templates/translate.html:110
 msgid "Shows nearby strings tab"
 msgstr "Amosa-la lapela das cadeas pretas"
 
-#: weblate/templates/translate.html:112
+#: weblate/templates/translate.html:111
 msgid "Shows search tab"
 msgstr ""
 
-#: weblate/templates/translate.html:113
+#: weblate/templates/translate.html:112
 #, fuzzy
 #| msgid "Source string:"
 msgid "Copies source string"
 msgstr "Cadea de orixe:"
 
-#: weblate/templates/translate.html:114
+#: weblate/templates/translate.html:113
 msgid "Toggle edit needed flag"
 msgstr ""
 
-#: weblate/templates/translate.html:118
+#: weblate/templates/translate.html:117
 #, fuzzy
 #| msgid "Source string:"
 msgid "Editing source string"
 msgstr "Cadea de orixe:"
 
-#: weblate/templates/translate.html:130
+#: weblate/templates/translate.html:129
 #, fuzzy
 #| msgid "Source string:"
 msgid "Edit string"
 msgstr "Cadea de orixe:"
 
-#: weblate/templates/translate.html:144 weblate/templates/zen-units.html:38
+#: weblate/templates/translate.html:143 weblate/templates/zen-units.html:38
 msgid "Source change"
 msgstr "Mudanzas na orixe"
 
-#: weblate/templates/translate.html:168 weblate/trans/forms.py:1220
+#: weblate/templates/translate.html:167 weblate/trans/forms.py:1220
 #, fuzzy
 #| msgid "Additional message"
 msgid "Additional context"
 msgstr "Mensaxe adicional"
 
-#: weblate/templates/translate.html:178 weblate/templates/zen-units.html:13
+#: weblate/templates/translate.html:177 weblate/templates/zen-units.html:13
 #, fuzzy
 #| msgid "Context"
 msgid "Context:"
 msgstr "Contexto"
 
-#: weblate/templates/translate.html:187
+#: weblate/templates/translate.html:186
 #, fuzzy
 #| msgid "Source string:"
 msgid "Edit source string"
 msgstr "Cadea de orixe:"
 
-#: weblate/templates/translate.html:204
+#: weblate/templates/translate.html:203
 #, fuzzy
 #| msgid "Failed translation"
 msgid "Please log in to save translations."
 msgstr "Fallou a tradución"
 
-#: weblate/templates/translate.html:206
+#: weblate/templates/translate.html:205
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
@@ -6005,7 +6044,12 @@ msgstr ""
 "Só os revisores poden muda-las cadeas aprobadas; engade unha suxestión se "
 "cres que a cadea precisaría dunha modificación."
 
-#: weblate/templates/translate.html:208 weblate/trans/views/edit.py:290
+#: weblate/templates/translate.html:207
+msgid ""
+"This translation only accepts suggestions and these are approved by voting."
+msgstr ""
+
+#: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
 #: weblate/trans/views/edit.py:771
 #, fuzzy
@@ -6013,85 +6057,85 @@ msgstr ""
 msgid "Insufficient privileges for saving translations."
 msgstr "Fallou a tradución"
 
-#: weblate/templates/translate.html:211 weblate/templates/translate.html:221
+#: weblate/templates/translate.html:212 weblate/templates/translate.html:222
 #, fuzzy
 #| msgid "Translation is currently not locked."
 msgid "This translation is currently locked."
 msgstr "A tradución está bloqueada neste intre."
 
-#: weblate/templates/translate.html:219
+#: weblate/templates/translate.html:220
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "Insufficient privileges for adding suggestions."
 msgstr "Non ten permiso para aceptar suxestións!"
 
-#: weblate/templates/translate.html:223
+#: weblate/templates/translate.html:224
 msgid "Suggest"
 msgstr "Suxerir"
 
-#: weblate/templates/translate.html:225
+#: weblate/templates/translate.html:226
 msgid "Skip"
 msgstr "Omitir"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:232
 msgid "Messages placed around this one"
 msgstr "Mensaxes situadas arredor desta"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:232
 msgid "Nearby strings"
 msgstr "Cadeas pretas"
 
-#: weblate/templates/translate.html:236 weblate/templates/translate.html:435
+#: weblate/templates/translate.html:237 weblate/templates/translate.html:436
 #, fuzzy
 #| msgid "Your translations"
 msgid "Other translations"
 msgstr "As súas traducións"
 
-#: weblate/templates/translate.html:239 weblate/templates/translate.html:439
+#: weblate/templates/translate.html:240 weblate/templates/translate.html:440
 #: weblate/templates/unit-details.html:13
 msgid "Comments"
 msgstr "Comentarios"
 
-#: weblate/templates/translate.html:242
+#: weblate/templates/translate.html:243
 msgid "Machine translation suggestions"
 msgstr "Suxestións da tradución de xeito automático"
 
-#: weblate/templates/translate.html:242 weblate/trans/forms.py:928
+#: weblate/templates/translate.html:243 weblate/trans/forms.py:928
 msgid "Machine translation"
 msgstr "Tradución de xeito automático"
 
-#: weblate/templates/translate.html:244
+#: weblate/templates/translate.html:245
 #, fuzzy
 #| msgid "Translation is now open for translation updates."
 msgid "Translations of this string in the other languages"
 msgstr "A tradución está agora aberta para actualizacións."
 
-#: weblate/templates/translate.html:244
+#: weblate/templates/translate.html:245
 msgid "Other languages"
 msgstr "Outras linguas"
 
-#: weblate/templates/translate.html:245
+#: weblate/templates/translate.html:246
 msgid "List of recent changes done in Weblate"
 msgstr "Lista de cambios recentes feitos no Weblate"
 
-#: weblate/templates/translate.html:253
+#: weblate/templates/translate.html:254
 msgid "State"
 msgstr "Estado"
 
-#: weblate/templates/translate.html:283
+#: weblate/templates/translate.html:284
 #, python-format
 msgid "%(user)s has suggested"
 msgstr ""
 
-#: weblate/templates/translate.html:285
+#: weblate/templates/translate.html:286
 msgid "Anonymous user has suggested"
 msgstr ""
 
-#: weblate/templates/translate.html:289
+#: weblate/templates/translate.html:290
 msgid "Suggested change:"
 msgstr "Mudanza suxerida:"
 
-#: weblate/templates/translate.html:293
+#: weblate/templates/translate.html:294
 #, fuzzy, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
@@ -6100,94 +6144,94 @@ msgid_plural "%(count)s votes"
 msgstr[0] "hai un minuto"
 msgstr[1] "hai %(count)s minutos"
 
-#: weblate/templates/translate.html:298
+#: weblate/templates/translate.html:299
 msgid "Vote for"
 msgstr ""
 
-#: weblate/templates/translate.html:299
+#: weblate/templates/translate.html:300
 msgid "Vote against"
 msgstr ""
 
-#: weblate/templates/translate.html:302
+#: weblate/templates/translate.html:303
 msgid "Accept"
 msgstr "Aceptar"
 
-#: weblate/templates/translate.html:303
+#: weblate/templates/translate.html:304
 msgid "Accept and edit"
 msgstr ""
 
-#: weblate/templates/translate.html:308
+#: weblate/templates/translate.html:309
 msgid "Mark as spam"
 msgstr ""
 
-#: weblate/templates/translate.html:333
+#: weblate/templates/translate.html:334
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
 msgstr[0] "Esta cadea ten o mesmo contexto e a mesma orixe."
 msgstr[1] "Estas cadeas teñen o mesmo contexto e a mesma orixe."
 
-#: weblate/templates/translate.html:341
+#: weblate/templates/translate.html:342
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "Esta cadea ten un contexto diferente pero a mesma orixe."
 msgstr[1] "Estas cadeas teñen un contexto diferente pero a mesma orixe."
 
-#: weblate/templates/translate.html:349
+#: weblate/templates/translate.html:350
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "Esta cadea ten unha orixe diferente pero o mesmo contexto."
 msgstr[1] "Estas cadeas teñen unhas orixes diferentes pero o mesmo contexto."
 
-#: weblate/templates/translate.html:375
+#: weblate/templates/translate.html:376
 msgid "Service"
 msgstr ""
 
-#: weblate/templates/translate.html:376
+#: weblate/templates/translate.html:377
 msgid "Quality"
 msgstr ""
 
-#: weblate/templates/translate.html:404 weblate/trans/forms.py:1119
+#: weblate/templates/translate.html:405 weblate/trans/forms.py:1119
 msgid "New comment"
 msgstr "Novo comentario"
 
-#: weblate/templates/translate.html:406
+#: weblate/templates/translate.html:407
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr ""
 "Comente nesta cadea para que o ollen outros tradutores e os desenvolvedores."
 
-#: weblate/templates/translate.html:429
+#: weblate/templates/translate.html:430
 msgid "Things to check"
 msgstr "Elementos para revisar"
 
-#: weblate/templates/translate.html:453
+#: weblate/templates/translate.html:454
 msgid "Manage glossary"
 msgstr "Xestionar glosario"
 
-#: weblate/templates/translate.html:455
+#: weblate/templates/translate.html:456
 msgid "Glossary"
 msgstr "Glosario"
 
-#: weblate/templates/translate.html:473
+#: weblate/templates/translate.html:474
 msgid "Add word to glossary"
 msgstr "Engadir palabra ó glosario"
 
-#: weblate/templates/translate.html:494
+#: weblate/templates/translate.html:495
 msgid "Source information"
 msgstr "Informacións da orixe"
 
-#: weblate/templates/translate.html:526
+#: weblate/templates/translate.html:527
 msgid "No context currently associated!"
 msgstr ""
 
-#: weblate/templates/translate.html:544
+#: weblate/templates/translate.html:545
 msgid "Flags"
 msgstr "Marcadores de estado"
 
-#: weblate/templates/translate.html:552
+#: weblate/templates/translate.html:553
 msgid "No flags currently set!"
 msgstr ""
 
-#: weblate/templates/translate.html:561
+#: weblate/templates/translate.html:562
 msgid "String priority"
 msgstr "Prioridade da cadea"
 
@@ -6215,7 +6259,7 @@ msgid "Download strings needing action as %(format)s"
 msgstr "Descarregar cadeas que precisan de acción coma %(format)s"
 
 #: weblate/templates/translation-download.html:18
-#: weblate/templates/translation.html:282
+#: weblate/templates/translation.html:281
 msgid "Customize download"
 msgstr "Persoaliza-la descarrega"
 
@@ -6223,51 +6267,51 @@ msgstr "Persoaliza-la descarrega"
 msgid "Upload translation"
 msgstr "Subir tradución"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1469
+#: weblate/templates/translation.html:46 weblate/trans/forms.py:1469
 msgid "Files"
 msgstr "Ficheiros"
 
-#: weblate/templates/translation.html:60 weblate/templates/translation.html:209
+#: weblate/templates/translation.html:59 weblate/templates/translation.html:208
 #: weblate/trans/models/change.py:198
 msgid "Automatic translation"
 msgstr "Tradución automática"
 
-#: weblate/templates/translation.html:66 weblate/templates/translation.html:265
+#: weblate/templates/translation.html:65 weblate/templates/translation.html:264
 msgid "Add new translation string"
 msgstr "Engadir nova cadea de tradución"
 
-#: weblate/templates/translation.html:110 weblate/templates/widgets.html:56
+#: weblate/templates/translation.html:109 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
 #: weblate/templates/widgets.html:79
 msgid "Translation status"
 msgstr "Estado da tradución"
 
-#: weblate/templates/translation.html:151
+#: weblate/templates/translation.html:150
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s palabra"
 msgstr[1] "%(count)s palabras"
 
-#: weblate/templates/translation.html:158
+#: weblate/templates/translation.html:157
 msgid "Other components"
 msgstr "Outros compoñentes"
 
-#: weblate/templates/translation.html:177
+#: weblate/templates/translation.html:176
 #: weblate/templates/unit-details.html:26
 msgid "Translation file"
 msgstr "Ficheiro da tradución"
 
-#: weblate/templates/translation.html:181
-#: weblate/templates/translation.html:288
+#: weblate/templates/translation.html:180
+#: weblate/templates/translation.html:287
 msgid "Download"
 msgstr "Descarregar"
 
-#: weblate/templates/translation.html:198
+#: weblate/templates/translation.html:197
 msgid "Browse all translation changes"
 msgstr "Procurar tódalas mudanzas de tradución"
 
-#: weblate/templates/translation.html:213
+#: weblate/templates/translation.html:212
 #, fuzzy
 msgid ""
 "Automatic translation takes existing translations in this project and "
@@ -6279,7 +6323,7 @@ msgstr ""
 "aplícallas ao subproxecto actual. Pode usarse para pular as traducións cara "
 "a diferentes ramificacións ou para arranxar traducións inconsistentes."
 
-#: weblate/templates/translation.html:214
+#: weblate/templates/translation.html:213
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -6289,13 +6333,13 @@ msgstr ""
 "activos de tradución automática para obte-las mellores traducións posíbeis e "
 "aplicaas neste proxecto."
 
-#: weblate/templates/translation.html:267
+#: weblate/templates/translation.html:266
 msgid ""
 "You can add new translation string here, it will automatically appear in all "
 "translations."
 msgstr ""
 
-#: weblate/templates/translation.html:301
+#: weblate/templates/translation.html:300
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
@@ -6303,46 +6347,46 @@ msgstr ""
 "O ficheiro carregado combinarase ca tradución actual. Se queres sobrescribir "
 "cadeas xa traducidas, non esquezas activa-la opción correspondente."
 
-#: weblate/templates/translation.html:303
+#: weblate/templates/translation.html:302
 #, fuzzy
 #| msgid "Uploaded file will be merged with current translation."
 msgid "The uploaded file will be merged with the current translation."
 msgstr "O ficheiro enviado fusionarase coa tradución actual."
 
-#: weblate/templates/translation.html:346
-#: weblate/templates/translation.html:393
+#: weblate/templates/translation.html:345
+#: weblate/templates/translation.html:392
 msgid "Review"
 msgstr "Revisión"
 
-#: weblate/templates/translation.html:348
+#: weblate/templates/translation.html:347
 msgid "Review translations touched by other users."
 msgstr "Revisa-las traducións mudadas por outros usuarios."
 
-#: weblate/templates/translation.html:352
+#: weblate/templates/translation.html:351
 msgid "Start review"
 msgstr "Iniciar revisión"
 
-#: weblate/templates/translation.html:374
+#: weblate/templates/translation.html:373
 msgid "Percent"
 msgstr "Porcentaxe"
 
-#: weblate/templates/translation.html:381
+#: weblate/templates/translation.html:380
 msgid "Total"
 msgstr "Total"
 
-#: weblate/templates/translation.html:399
+#: weblate/templates/translation.html:398
 msgid "Failing check"
 msgstr "Comprobación fallada"
 
-#: weblate/templates/translation.html:414
+#: weblate/templates/translation.html:413
 msgid "Last activity"
 msgstr "Última actividade"
 
-#: weblate/templates/translation.html:418
+#: weblate/templates/translation.html:417
 msgid "Last change"
 msgstr "Última mudanza"
 
-#: weblate/templates/translation.html:422
+#: weblate/templates/translation.html:421
 msgid "Last author"
 msgstr "Último autor"
 
@@ -6479,17 +6523,17 @@ msgstr "A tradución chegou ó seu remate."
 msgid "zen"
 msgstr "cen"
 
-#: weblate/templates/zen.html:23
+#: weblate/templates/zen.html:22
 #, fuzzy
 #| msgid "Source string:"
 msgid "Edit in single string mode"
 msgstr "Cadea de orixe:"
 
-#: weblate/templates/zen.html:23
+#: weblate/templates/zen.html:22
 msgid "Exit Zen"
 msgstr "Saír do modo Cen"
 
-#: weblate/templates/zen.html:30
+#: weblate/templates/zen.html:29
 #, fuzzy, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "%(filter_name)s (%(filter_count)s)"
@@ -9059,7 +9103,7 @@ msgid "Weblate administration"
 msgstr "As súas traducións"
 
 #: weblate/wladmin/sites.py:173
-msgid "Object listing disabled"
+msgid "Object listing turned off"
 msgstr ""
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
@@ -9219,6 +9263,11 @@ msgstr "Informes"
 #| msgid "New password confirmation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Confirmación do novo contrasinal"
+
+#, fuzzy
+#~| msgid "Not translated"
+#~ msgid "Not activated"
+#~ msgstr "Non traducido"
 
 #~ msgid "We process only Personal Data User provides us by using our service:"
 #~ msgstr ""
@@ -10555,11 +10604,6 @@ msgstr "Confirmación do novo contrasinal"
 #~| msgid "Papiamento"
 #~ msgid "Placement"
 #~ msgstr "Papiamento"
-
-#, fuzzy
-#~| msgid "Starting date"
-#~ msgid "Start date"
-#~ msgstr "Data de inicio"
 
 #~ msgid "Text"
 #~ msgstr "Texto"

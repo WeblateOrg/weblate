@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-10-30 14:16+0000\n"
+"POT-Creation-Date: 2018-11-01 15:12+0000\n"
 "PO-Revision-Date: 2018-10-31 14:20+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -1045,8 +1045,8 @@ msgstr "Slette forslag"
 msgid "Vote suggestion"
 msgstr "Stemme på forslag"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:60
-#: weblate/templates/component.html:117 weblate/templates/component.html:119
+#: weblate/auth/data.py:71 weblate/templates/component.html:59
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
@@ -1312,7 +1312,7 @@ msgid "From component list"
 msgstr "Fra komponentliste"
 
 #: weblate/auth/models.py:131 weblate/billing/admin.py:54
-#: weblate/billing/models.py:213 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:211 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:139 weblate/trans/views/basic.py:64
@@ -1328,7 +1328,7 @@ msgstr "Sprogvalg"
 msgid "All languages"
 msgstr "Alle sprog"
 
-#: weblate/auth/models.py:152 weblate/billing/models.py:248
+#: weblate/auth/models.py:152 weblate/billing/models.py:246
 #: weblate/lang/models.py:364 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1406,90 +1406,86 @@ msgstr "Automatisk gruppetildelinger"
 msgid "Owners"
 msgstr "Ejere"
 
-#: weblate/billing/models.py:121 weblate/templates/billing/detail.html:12
+#: weblate/billing/models.py:120 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
 msgstr "Faktureringsplan"
 
-#: weblate/billing/models.py:125
+#: weblate/billing/models.py:124
 msgid "Billed projects"
 msgstr "Fakturerede projekter"
 
-#: weblate/billing/models.py:129
+#: weblate/billing/models.py:128
 msgid "Billing owners"
 msgstr "Faktureringsejere"
 
-#: weblate/billing/models.py:133
+#: weblate/billing/models.py:132
 msgid "Active"
 msgstr "Aktiv"
 
-#: weblate/billing/models.py:134
+#: weblate/billing/models.py:133
 msgid "Trial"
 msgstr "Prøveperiode"
 
-#: weblate/billing/models.py:135
+#: weblate/billing/models.py:134 weblate/templates/billing/detail.html:13
 msgid "Expired"
 msgstr "Udløbet"
 
-#: weblate/billing/models.py:136
-msgid "Not activated"
-msgstr "Ikke aktiveret"
-
-#: weblate/billing/models.py:139
+#: weblate/billing/models.py:137
 msgid "Billing state"
 msgstr "Faktureringstilstand"
 
-#: weblate/billing/models.py:143
+#: weblate/billing/models.py:141
 msgid "Trial expiry date"
 msgstr "Prøveperiodens udløbsdato"
 
-#: weblate/billing/models.py:147
+#: weblate/billing/models.py:145
 msgid "Paid"
 msgstr "Betalt"
 
-#: weblate/billing/models.py:153
+#: weblate/billing/models.py:151
 msgid "In limits"
 msgstr "Indenfor grænserne"
 
-#: weblate/billing/models.py:181
+#: weblate/billing/models.py:179
 msgid "Changes in last month"
 msgstr "Ændringer i sidste måned"
 
-#: weblate/billing/models.py:185
+#: weblate/billing/models.py:183
 msgid "Changes in last quarter"
 msgstr "Ændringer i sidste kvartal"
 
-#: weblate/billing/models.py:189
+#: weblate/billing/models.py:187
 msgid "Changes in last year"
 msgstr "Ændringer i sidste år"
 
-#: weblate/billing/models.py:203 weblate/trans/admin.py:111
+#: weblate/billing/models.py:201 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "VCS-arkiver"
 
-#: weblate/billing/models.py:225 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:223 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
 msgid "Source strings"
 msgstr "Kildestrenge"
 
-#: weblate/billing/models.py:236 weblate/trans/admin.py:102
+#: weblate/billing/models.py:234 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "Kildeord"
 
-#: weblate/billing/models.py:283 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:281 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Antal strenge"
 
-#: weblate/billing/models.py:290
+#: weblate/billing/models.py:288
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:291 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:289 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "Sidste faktura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:317
+#: weblate/billing/models.py:315
 msgid "In display limits"
 msgstr "I skærmgrænser"
 
@@ -1781,7 +1777,7 @@ msgstr "Oversættelserne i flere sprog har fejlslagne tjek"
 #: weblate/checks/views.py:74 weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/legend.html:16
 #: weblate/templates/progress.html:11 weblate/templates/project.html:51
-#: weblate/templates/source-review.html:27 weblate/templates/translate.html:572
+#: weblate/templates/source-review.html:27 weblate/templates/translate.html:573
 msgid "Failing checks"
 msgstr "Fejlslagne tjek"
 
@@ -2195,7 +2191,9 @@ msgid "Privacy Policy"
 msgstr "Privatlivspolitik"
 
 #: weblate/legal/templates/legal/cookies.html:29
-msgid "We use cookies for following:"
+#, fuzzy
+#| msgid "We use cookies for following:"
+msgid "Cookies are used on this site for the following:"
 msgstr "Cookies anvendes til følgende:"
 
 #: weblate/legal/templates/legal/cookies.html:33
@@ -2210,16 +2208,23 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Præferencecookie til at gemme brugerpræferencer i visse situationer."
 
 #: weblate/legal/templates/legal/cookies.html:36
+#, fuzzy
+#| msgid ""
+#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
-"settings in your browser."
+"This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
+"Track&quot; settings in your browser."
 msgstr ""
 "Matomo bruges til at analysere trafikken på vores websted. Matomo "
 "respekterer Do Not Track-indstillinger i browseren."
 
 #: weblate/legal/templates/legal/cookies.html:39
-msgid "We use Google Analytics to analyze traffic on our website."
-msgstr "Vi bruger Google Analytics til at analysere trafikken på vores websted."
+#, fuzzy
+#| msgid "We use Google Analytics to analyze traffic on our website."
+msgid "This site uses Google Analytics to analyze website traffic."
+msgstr ""
+"Vi bruger Google Analytics til at analysere trafikken på vores websted."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2264,7 +2269,7 @@ msgstr ""
 msgid "Terms"
 msgstr "Vilkår"
 
-#: weblate/legal/views.py:37 weblate/templates/translation.html:32
+#: weblate/legal/views.py:37 weblate/templates/translation.html:31
 msgid "Overview"
 msgstr "Oversigt"
 
@@ -2538,7 +2543,7 @@ msgstr "Signering af indsendelse er ikke konfigureret."
 
 #: weblate/templates/about/stats.html:6 weblate/templates/about/stats.html:82
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
-#: weblate/templates/translation.html:42 weblate/templates/translation.html:369
+#: weblate/templates/translation.html:41 weblate/templates/translation.html:368
 #: weblate/trans/views/about.py:45
 msgid "Statistics"
 msgstr "Statistikker"
@@ -2557,7 +2562,7 @@ msgstr "Bruger"
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:105 weblate/templates/project.html:164
-#: weblate/templates/translation.html:387
+#: weblate/templates/translation.html:386
 #: weblate/trans/templatetags/translations.py:542 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Oversat"
@@ -2958,8 +2963,8 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:105
 #: weblate/templates/trans/component_form.html:33
 #: weblate/templates/trans/project_form.html:33
-#: weblate/templates/translate.html:105 weblate/templates/translate.html:213
-#: weblate/templates/translate.html:410
+#: weblate/templates/translate.html:104 weblate/templates/translate.html:214
+#: weblate/templates/translate.html:411
 msgid "Save"
 msgstr "Gem"
 
@@ -3258,7 +3263,7 @@ msgstr "Aktivitet det seneste år"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
-#: weblate/templates/component.html:82
+#: weblate/templates/component.html:81
 msgid "Addons"
 msgstr "Tilføjelser"
 
@@ -3377,7 +3382,7 @@ msgstr "Komponentfilnavn med stort begyndende bogstav"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:323
+#: weblate/templates/project.html:104 weblate/templates/translate.html:324
 #: weblate/trans/models/component.py:433 weblate/trans/models/whiteboard.py:88
 msgid "Component"
 msgstr "Komponent"
@@ -3453,7 +3458,7 @@ msgstr "Konfigurationsfejl"
 
 #: weblate/templates/base.html:147 weblate/templates/dictionary.html:99
 #: weblate/templates/js/detail.html:41 weblate/templates/manage-access.html:71
-#: weblate/templates/translate.html:475
+#: weblate/templates/translate.html:476
 msgid "Add"
 msgstr "Tilføj"
 
@@ -3499,14 +3504,14 @@ msgstr "Logget ind som %(user)s"
 msgid "Billing overview"
 msgstr "Oversigt over fakturering"
 
-#: weblate/templates/base.html:185 weblate/templates/component.html:77
+#: weblate/templates/base.html:185 weblate/templates/component.html:76
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
 msgid "Translation memory"
 msgstr "Oversættelseshukommelse"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
-#: weblate/templates/component.html:83
+#: weblate/templates/component.html:82
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:73
 msgid "Settings"
@@ -3544,43 +3549,65 @@ msgstr ""
 msgid "Recurring payment"
 msgstr "Gentagende betaling"
 
-#: weblate/templates/billing/detail.html:20
+#: weblate/templates/billing/detail.html:15
+#, fuzzy
+#| msgid "Start date"
+msgid "Past due date"
+msgstr "Startdato"
+
+#: weblate/templates/billing/detail.html:17
+#, fuzzy
+#| msgid "In limits"
+msgid "Exceeds limits"
+msgstr "Indenfor grænserne"
+
+#: weblate/templates/billing/detail.html:29
 msgid "Change plan"
 msgstr "Skift plan"
 
-#: weblate/templates/billing/detail.html:23
-msgid "Disable recurring payment"
+#: weblate/templates/billing/detail.html:31
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform payment"
+msgstr "Ydeevne"
+
+#: weblate/templates/billing/detail.html:36
+#, fuzzy
+#| msgid "Disable recurring payment"
+msgid "Terminate recurring payment"
 msgstr "Deaktivér gentagende betaling"
 
-#: weblate/templates/billing/detail.html:27
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "For at stoppe fakturering skal alle projekter først fjernes."
 
-#: weblate/templates/billing/detail.html:30
-msgid "Terminate billing"
+#: weblate/templates/billing/detail.html:43
+#, fuzzy
+#| msgid "Terminate billing"
+msgid "Terminate billing plan"
 msgstr "Stop fakturering"
 
-#: weblate/templates/billing/detail.html:38
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Fakturaer"
 
-#: weblate/templates/billing/detail.html:42
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Faktureringsperiode"
 
-#: weblate/templates/billing/detail.html:43
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Fakturabeløb"
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Download faktura"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:69
 msgid "Not available"
 msgstr "Ikke tilgængelig"
 
-#: weblate/templates/billing/detail.html:61
+#: weblate/templates/billing/detail.html:74
 msgid "No invoices found!"
 msgstr "Ingen fakturaer fundet!"
 
@@ -3671,8 +3698,8 @@ msgid "Check details"
 msgstr "Tjekdetaljer"
 
 #: weblate/templates/checks.html:28 weblate/templates/component-list.html:14
-#: weblate/templates/component.html:32 weblate/templates/language.html:16
-#: weblate/templates/project.html:28 weblate/templates/translation.html:33
+#: weblate/templates/component.html:31 weblate/templates/language.html:16
+#: weblate/templates/project.html:28 weblate/templates/translation.html:32
 msgid "Information"
 msgstr "Information"
 
@@ -3707,12 +3734,12 @@ msgstr "Antal komponenter"
 msgid "Automatic component list assignment"
 msgstr "Automatisk komponentliste tildeling"
 
-#: weblate/templates/component.html:31
+#: weblate/templates/component.html:30
 #: weblate/templates/trans/suggestion_list.html:17
 msgid "Translations"
 msgstr "Oversættelser"
 
-#: weblate/templates/component.html:33 weblate/templates/component.html:140
+#: weblate/templates/component.html:32 weblate/templates/component.html:139
 #: weblate/templates/dashboard/user.html:38
 #: weblate/templates/dashboard/user.html:112
 #: weblate/templates/dictionary.html:89
@@ -3721,138 +3748,138 @@ msgstr "Oversættelser"
 #: weblate/templates/project.html:210
 #: weblate/templates/screenshots/screenshot_detail.html:79
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
-#: weblate/templates/search.html:15 weblate/templates/translate.html:55
-#: weblate/templates/translation.html:34 weblate/templates/translation.html:330
-#: weblate/templates/translation.html:335 weblate/templates/zen.html:38
+#: weblate/templates/search.html:15 weblate/templates/translate.html:54
+#: weblate/templates/translation.html:33 weblate/templates/translation.html:329
+#: weblate/templates/translation.html:334 weblate/templates/zen.html:37
 #: weblate/trans/forms.py:1016
 msgid "Search"
 msgstr "Søg"
 
-#: weblate/templates/component.html:36 weblate/templates/dashboard/user.html:25
-#: weblate/templates/project.html:33 weblate/templates/translation.html:37
+#: weblate/templates/component.html:35 weblate/templates/dashboard/user.html:25
+#: weblate/templates/project.html:33 weblate/templates/translation.html:36
 msgid "Insights"
 msgstr "Indsigt"
 
-#: weblate/templates/component.html:39 weblate/templates/dashboard/user.html:28
+#: weblate/templates/component.html:38 weblate/templates/dashboard/user.html:28
 #: weblate/templates/dictionary.html:39
 #: weblate/templates/edit_dictionary.html:35
 #: weblate/templates/language-project.html:18
 #: weblate/templates/language.html:17 weblate/templates/project.html:36
-#: weblate/templates/translate.html:245 weblate/templates/translation.html:40
+#: weblate/templates/translate.html:246 weblate/templates/translation.html:39
 msgid "History"
 msgstr "Historik"
 
-#: weblate/templates/component.html:40 weblate/templates/dashboard/user.html:29
+#: weblate/templates/component.html:39 weblate/templates/dashboard/user.html:29
 #: weblate/templates/language-project.html:19
 #: weblate/templates/language.html:18 weblate/templates/project.html:37
-#: weblate/templates/translation.html:41
+#: weblate/templates/translation.html:40
 msgid "Activity"
 msgstr "Aktivitet"
 
-#: weblate/templates/component.html:41 weblate/templates/project.html:38
+#: weblate/templates/component.html:40 weblate/templates/project.html:38
 msgid "Download statistics (CSV)"
 msgstr "Download statistikker (CSV)"
 
-#: weblate/templates/component.html:42 weblate/templates/project.html:39
+#: weblate/templates/component.html:41 weblate/templates/project.html:39
 msgid "Download statistics (JSON)"
 msgstr "Download statistikker (JSON)"
 
-#: weblate/templates/component.html:44
+#: weblate/templates/component.html:43
 msgid "Translation reports"
 msgstr "Oversættelsesrapporter"
 
-#: weblate/templates/component.html:50 weblate/templates/dashboard/user.html:35
+#: weblate/templates/component.html:49 weblate/templates/dashboard/user.html:35
 #: weblate/templates/language-project.html:22
 #: weblate/templates/language.html:22 weblate/templates/project.html:44
-#: weblate/templates/translation.html:55
+#: weblate/templates/translation.html:54
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:149
+#: weblate/templates/component.html:53 weblate/templates/component.html:148
 #: weblate/templates/project.html:48 weblate/templates/project.html:219
-#: weblate/templates/replace.html:13 weblate/templates/translation.html:63
-#: weblate/templates/translation.html:230 weblate/trans/models/change.py:220
+#: weblate/templates/replace.html:13 weblate/templates/translation.html:62
+#: weblate/templates/translation.html:229 weblate/trans/models/change.py:220
 msgid "Search and replace"
 msgstr "Søg og erstat"
 
-#: weblate/templates/component.html:56 weblate/templates/project.html:50
-#: weblate/templates/translation.html:58
+#: weblate/templates/component.html:55 weblate/templates/project.html:50
+#: weblate/templates/translation.html:57
 msgid "Data exports"
 msgstr "Dataeksporter"
 
-#: weblate/templates/component.html:57
+#: weblate/templates/component.html:56
 msgid "Matrix view"
 msgstr "Matrix-visning"
 
-#: weblate/templates/component.html:58
+#: weblate/templates/component.html:57
 msgid "Source strings review"
 msgstr "Gennemgang af kildestrenge"
 
-#: weblate/templates/component.html:66 weblate/templates/project.html:58
-#: weblate/templates/translation.html:73
+#: weblate/templates/component.html:65 weblate/templates/project.html:58
+#: weblate/templates/translation.html:72
 msgid "Manage"
 msgstr "Håndter"
 
-#: weblate/templates/component.html:70 weblate/templates/js/git-status.html:112
-#: weblate/templates/project.html:62 weblate/templates/translation.html:77
+#: weblate/templates/component.html:69 weblate/templates/js/git-status.html:112
+#: weblate/templates/project.html:62 weblate/templates/translation.html:76
 msgid "Commit"
 msgstr "Indsend"
 
-#: weblate/templates/component.html:73 weblate/templates/project.html:65
-#: weblate/templates/translation.html:80
+#: weblate/templates/component.html:72 weblate/templates/project.html:65
+#: weblate/templates/translation.html:79
 msgid "Repository maintenance"
 msgstr "Vedligeholdelse af arkiv"
 
-#: weblate/templates/component.html:76
+#: weblate/templates/component.html:75
 #: weblate/templates/screenshots/screenshot_detail.html:10
 #: weblate/templates/screenshots/screenshot_list.html:9
 msgid "Screenshots"
 msgstr "Skærmbilleder"
 
-#: weblate/templates/component.html:79 weblate/templates/manage-access.html:18
+#: weblate/templates/component.html:78 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:70
 msgid "Users"
 msgstr "Brugere"
 
-#: weblate/templates/component.html:90 weblate/templates/project.html:81
-#: weblate/templates/translation.html:88
+#: weblate/templates/component.html:89 weblate/templates/project.html:81
+#: weblate/templates/translation.html:87
 msgid "Share"
 msgstr "Del"
 
-#: weblate/templates/component.html:94
+#: weblate/templates/component.html:93
 msgid "Share on Facebook!"
 msgstr "Del på Facebook!"
 
-#: weblate/templates/component.html:95 weblate/templates/project.html:86
-#: weblate/templates/translation.html:93
+#: weblate/templates/component.html:94 weblate/templates/project.html:86
+#: weblate/templates/translation.html:92
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Oversæt %(object)s med brug af %%23Weblate på %(share_url)s!"
 
-#: weblate/templates/component.html:95 weblate/templates/translation.html:93
+#: weblate/templates/component.html:94 weblate/templates/translation.html:92
 msgid "Tweet this translation!"
 msgstr "Tweet denne oversættelse!"
 
-#: weblate/templates/component.html:96 weblate/templates/project.html:87
-#: weblate/templates/translation.html:94
+#: weblate/templates/component.html:95 weblate/templates/project.html:87
+#: weblate/templates/translation.html:93
 msgid "Engage page"
 msgstr "Rekrutteringsside"
 
-#: weblate/templates/component.html:97 weblate/templates/project.html:88
-#: weblate/templates/translation.html:95
+#: weblate/templates/component.html:96 weblate/templates/project.html:88
+#: weblate/templates/translation.html:94
 msgid "Status widgets"
 msgstr "Statuswidgets"
 
-#: weblate/templates/component.html:119
+#: weblate/templates/component.html:118
 msgid "You don't have permission to start a new translation"
 msgstr "Du har ikke tilladelse til at starte en ny oversættelse"
 
-#: weblate/templates/component.html:119
+#: weblate/templates/component.html:118
 msgid "Please log in to start new translation"
 msgstr "Log ind for at starte en ny oversættelse"
 
-#: weblate/templates/component.html:151 weblate/templates/project.html:221
-#: weblate/templates/translation.html:232
+#: weblate/templates/component.html:150 weblate/templates/project.html:221
+#: weblate/templates/translation.html:231
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
@@ -3860,41 +3887,41 @@ msgstr ""
 "Du kan erstatte en streng i alle strenge på én gang. Søgningen er en enkel "
 "versalfølsom delstrengssøgning."
 
-#: weblate/templates/component.html:156 weblate/templates/component.html:171
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:226 weblate/templates/project.html:241
-#: weblate/templates/replace.html:46 weblate/templates/translation.html:218
-#: weblate/templates/translation.html:237
-#: weblate/templates/translation.html:252
-#: weblate/templates/translation.html:272
+#: weblate/templates/replace.html:46 weblate/templates/translation.html:217
+#: weblate/templates/translation.html:236
+#: weblate/templates/translation.html:251
+#: weblate/templates/translation.html:271
 msgid "Process"
 msgstr "Gennemgå"
 
-#: weblate/templates/component.html:164 weblate/templates/project.html:234
-#: weblate/templates/translation.html:245 weblate/trans/models/change.py:227
+#: weblate/templates/component.html:163 weblate/templates/project.html:234
+#: weblate/templates/translation.html:244 weblate/trans/models/change.py:227
 msgid "Mass state change"
 msgstr "Masse-tilstandsændring"
 
-#: weblate/templates/component.html:166 weblate/templates/project.html:236
-#: weblate/templates/translation.html:247
+#: weblate/templates/component.html:165 weblate/templates/project.html:236
+#: weblate/templates/translation.html:246
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 "Du kan skifte tilstand på alle strenge som matcher den givne type samtidigt."
 
-#: weblate/templates/component.html:182 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Gennemse alle ændringer i komponenten"
 
-#: weblate/templates/component.html:189 weblate/templates/project.html:252
-#: weblate/templates/translate.html:361 weblate/templates/translate.html:365
-#: weblate/templates/translation.html:319 weblate/trans/forms.py:232
+#: weblate/templates/component.html:188 weblate/templates/project.html:252
+#: weblate/templates/translate.html:362 weblate/templates/translate.html:366
+#: weblate/templates/translation.html:318 weblate/trans/forms.py:232
 msgid "Loading…"
 msgstr "Indlæser…"
 
-#: weblate/templates/component.html:202
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Skabt af"
 
-#: weblate/templates/component.html:206
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3904,16 +3931,16 @@ msgstr ""
 "periode. Det kan være nyttigt til at medtage i din dokumentation eller "
 "anvendelse til tak til oversætterne."
 
-#: weblate/templates/component.html:210 weblate/templates/component.html:229
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Opret"
 
-#: weblate/templates/component.html:221
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Bidragyderstatistik"
 
-#: weblate/templates/component.html:225
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "Rapporterer antallet af strenge og ord oversat af hver oversætter."
 
@@ -4195,8 +4222,8 @@ msgstr "ordlister"
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
 #: weblate/templates/project.html:106 weblate/templates/project.html:165
-#: weblate/templates/translation.html:130
-#: weblate/templates/translation.html:376
+#: weblate/templates/translation.html:129
+#: weblate/templates/translation.html:375
 msgid "Words"
 msgstr "Ord"
 
@@ -4234,16 +4261,16 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:54 weblate/templates/matrix.html:17
 #: weblate/templates/search.html:30 weblate/templates/source-review.html:25
-#: weblate/templates/translate.html:182 weblate/templates/translate.html:253
-#: weblate/templates/translate.html:374 weblate/templates/translate.html:461
+#: weblate/templates/translate.html:181 weblate/templates/translate.html:254
+#: weblate/templates/translate.html:375 weblate/templates/translate.html:462
 #: weblate/trans/forms.py:310 weblate/trans/forms.py:1021
 msgid "Source"
 msgstr "Kilde"
 
 #: weblate/templates/dictionary.html:55
 #: weblate/templates/js/translations.html:9
-#: weblate/templates/translate.html:253 weblate/templates/translate.html:323
-#: weblate/templates/translate.html:373 weblate/templates/translate.html:462
+#: weblate/templates/translate.html:254 weblate/templates/translate.html:324
+#: weblate/templates/translate.html:374 weblate/templates/translate.html:463
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1022
 #: weblate/trans/forms.py:1429
 msgid "Translation"
@@ -4263,7 +4290,7 @@ msgstr "Rediger"
 #: weblate/templates/list-comments.html:23
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
-#: weblate/templates/translate.html:310
+#: weblate/templates/translate.html:311
 msgid "Delete"
 msgstr "Slet"
 
@@ -4326,7 +4353,7 @@ msgstr ""
 "Når du har aktiveret din konto, kan du fortsætte til oversættelsessektionen."
 
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:81
-#: weblate/templates/translate.html:118 weblate/templates/translation.html:125
+#: weblate/templates/translate.html:117 weblate/templates/translation.html:124
 msgid "Translate"
 msgstr "Oversæt"
 
@@ -4479,11 +4506,11 @@ msgstr "Status"
 msgid "Ignore: %(check)s"
 msgstr "Ignorer: %(check)s"
 
-#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:503
+#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:504
 msgid "Screenshot context"
 msgstr "Skærmbilledkontekst"
 
-#: weblate/templates/js/detail.html:91 weblate/templates/translate.html:511
+#: weblate/templates/js/detail.html:91 weblate/templates/translate.html:512
 msgid "No screenshot currently associated!"
 msgstr "Intet skærmbillede tilknyttet!"
 
@@ -4498,8 +4525,8 @@ msgstr "Tilføj nyt skærmbillede"
 
 #: weblate/templates/js/detail.html:110 weblate/templates/memory/index.html:60
 #: weblate/templates/screenshots/screenshot_list.html:26
-#: weblate/templates/translation.html:298
-#: weblate/templates/translation.html:309
+#: weblate/templates/translation.html:297
+#: weblate/templates/translation.html:308
 msgid "Upload"
 msgstr "Upload"
 
@@ -4683,7 +4710,7 @@ msgstr "Behøver redigering"
 msgid "Translation comment"
 msgstr "Kommentar til oversættelsen"
 
-#: weblate/templates/list-comments.html:14 weblate/templates/translate.html:160
+#: weblate/templates/list-comments.html:14 weblate/templates/translate.html:159
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
 msgstr "Kommentar til kildestrengen"
@@ -4729,7 +4756,7 @@ msgid "Configure columns"
 msgstr "Konfigurer kolonner"
 
 #: weblate/templates/list-translations.html:36
-#: weblate/templates/translation.html:114
+#: weblate/templates/translation.html:113
 msgid "This translation is being used as source strings within this component."
 msgstr "Oversættelsen bliver brugt som kildestrenge inden for komponenten."
 
@@ -4743,6 +4770,8 @@ msgstr "kilde"
 #: weblate/templates/mail/activation.txt:1
 #: weblate/templates/mail/billing_check.html:7
 #: weblate/templates/mail/billing_check.txt:1
+#: weblate/templates/mail/billing_expired.html:7
+#: weblate/templates/mail/billing_expired.txt:1
 #: weblate/templates/mail/changed_translation.html:7
 #: weblate/templates/mail/changed_translation.txt:1
 #: weblate/templates/mail/merge_failure.html:7
@@ -4834,6 +4863,17 @@ msgstr "Sendt af Weblate-oversættelsessystemet"
 #: weblate/templates/mail/base.html:36
 msgid "Change subscription settings"
 msgstr "Skift abonnementsindstillinger"
+
+#: weblate/templates/mail/billing_expired.html:10
+#: weblate/templates/mail/billing_expired.txt:3
+msgid ""
+"Your billing plan has expired, if you want to continue using the service, "
+"please renew it on following link."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:2
+msgid "Your billing plan has expired"
+msgstr ""
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5268,7 +5308,7 @@ msgstr "Anmod om ny oversættelse"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s/%(total)s"
 
-#: weblate/templates/project.html:85 weblate/templates/translation.html:92
+#: weblate/templates/project.html:85 weblate/templates/translation.html:91
 msgid "Share on Facebook"
 msgstr "Del på Facebook"
 
@@ -5355,8 +5395,8 @@ msgid "Assign source strings"
 msgstr "Tildelte kildestrenge"
 
 #: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:152 weblate/templates/translate.html:253
-#: weblate/templates/translate.html:521
+#: weblate/templates/translate.html:151 weblate/templates/translate.html:254
+#: weblate/templates/translate.html:522
 msgid "Context"
 msgstr "Kontekst"
 
@@ -5398,8 +5438,8 @@ msgstr ""
 "Sletning af skærmbilledet vil fjerne det fra alle tilknyttede kildestrenge."
 
 #: weblate/templates/screenshots/screenshot_list.html:37
-#: weblate/templates/translation.html:121
-#: weblate/templates/translation.html:375
+#: weblate/templates/translation.html:120
+#: weblate/templates/translation.html:374
 msgid "Strings"
 msgstr "Strenge"
 
@@ -5410,6 +5450,16 @@ msgstr "Ingen kildestrenge er i øjeblikket tildelt!"
 #: weblate/templates/search.html:43
 msgid "No matching strings found."
 msgstr "Ingen matchende strenge fundet."
+
+#: weblate/templates/show-component-state.html:4
+msgid "This translation is currently locked for updates."
+msgstr "Denne oversættelse er i øjeblikket låst for opdateringer."
+
+#: weblate/templates/show-component-state.html:11
+#, fuzzy
+#| msgid "This translation is currently locked for updates."
+msgid "This project is currently locked due to unpaid billing."
+msgstr "Denne oversættelse er i øjeblikket låst for opdateringer."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5422,10 +5472,6 @@ msgid ""
 msgstr ""
 "Bidrag til denne oversættelse kræver, at du erklærer dig enig i en "
 "bidragsyderaftale."
-
-#: weblate/templates/show-lock.html:4
-msgid "This translation is currently locked for updates."
-msgstr "Denne oversættelse er i øjeblikket låst for opdateringer."
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -5448,11 +5494,11 @@ msgstr "Kommentér"
 msgid "No matching source strings found."
 msgstr "Der blev ikke fundet matchende strenge."
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:146
+#: weblate/templates/source.html:19 weblate/templates/translation.html:145
 msgid "Strings to check"
 msgstr "Strenge som skal tjekkes"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:170
+#: weblate/templates/source.html:34 weblate/templates/translation.html:169
 msgid "Project Information"
 msgstr "Information om projektet"
 
@@ -5513,7 +5559,7 @@ msgstr ""
 "oprette en ny oversættelseskomponent."
 
 #: weblate/templates/trans/suggestion_list.html:7
-#: weblate/templates/translate.html:233 weblate/templates/translate.html:432
+#: weblate/templates/translate.html:234 weblate/templates/translate.html:433
 #: weblate/trans/forms.py:1431
 msgid "Suggestions"
 msgstr "Forslag"
@@ -5538,116 +5584,116 @@ msgstr "Rediger i zen-tilstand"
 msgid "Zen"
 msgstr "Zen"
 
-#: weblate/templates/translate.html:42
+#: weblate/templates/translate.html:41
 msgid "First"
 msgstr "Første"
 
-#: weblate/templates/translate.html:43
+#: weblate/templates/translate.html:42
 msgid "Previous"
 msgstr "Forrige"
 
-#: weblate/templates/translate.html:45 weblate/templates/zen.html:28
+#: weblate/templates/translate.html:44 weblate/templates/zen.html:27
 msgid "Edit search parameters"
 msgstr "Rediger søgeparametrene"
 
-#: weblate/templates/translate.html:62
+#: weblate/templates/translate.html:61
 msgid "Go to position"
 msgstr "Go til placering"
 
-#: weblate/templates/translate.html:63
+#: weblate/templates/translate.html:62
 #, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s/%(filter_count)s"
 
-#: weblate/templates/translate.html:75
+#: weblate/templates/translate.html:74
 msgid "Jump to position"
 msgstr "Hop til placering"
 
-#: weblate/templates/translate.html:80
+#: weblate/templates/translate.html:79
 msgid "Jump"
 msgstr "Hop"
 
-#: weblate/templates/translate.html:86
+#: weblate/templates/translate.html:85
 msgid "Next"
 msgstr "Næste"
 
-#: weblate/templates/translate.html:87
+#: weblate/templates/translate.html:86
 msgid "Last"
 msgstr "Sidste"
 
-#: weblate/templates/translate.html:100
+#: weblate/templates/translate.html:99
 msgid "Copy permalink"
 msgstr "Kopiér permalink"
 
-#: weblate/templates/translate.html:103
+#: weblate/templates/translate.html:102
 msgid "Keyboard shortcuts available:"
 msgstr "Tilgængelige tastaturgenveje:"
 
-#: weblate/templates/translate.html:106
+#: weblate/templates/translate.html:105
 msgid "Unmark review needed flag and save"
 msgstr "Fjern behøver gennemgang-flaget og gem"
 
-#: weblate/templates/translate.html:107
+#: weblate/templates/translate.html:106
 msgid "Strings navigation"
 msgstr "Navigation af strenge"
 
-#: weblate/templates/translate.html:108
+#: weblate/templates/translate.html:107
 msgid "Focus translation editor"
 msgstr "Fokus på oversættelseseditor"
 
-#: weblate/templates/translate.html:109
+#: weblate/templates/translate.html:108
 msgid "Focus comment editor"
 msgstr "Fokus på kommentareditor"
 
-#: weblate/templates/translate.html:110
+#: weblate/templates/translate.html:109
 msgid "Shows machine translation tab"
 msgstr "Viser maskinoversættelse-fanebladet"
 
-#: weblate/templates/translate.html:111
+#: weblate/templates/translate.html:110
 msgid "Shows nearby strings tab"
 msgstr "Viser nærmeste strenge-fanebladet"
 
-#: weblate/templates/translate.html:112
+#: weblate/templates/translate.html:111
 msgid "Shows search tab"
 msgstr "Viser søg-fanebladet"
 
-#: weblate/templates/translate.html:113
+#: weblate/templates/translate.html:112
 msgid "Copies source string"
 msgstr "Kopierer kildestrengen"
 
-#: weblate/templates/translate.html:114
+#: weblate/templates/translate.html:113
 msgid "Toggle edit needed flag"
 msgstr "Skift behøver redigering-flaget"
 
-#: weblate/templates/translate.html:118
+#: weblate/templates/translate.html:117
 msgid "Editing source string"
 msgstr "Redigering af kildestreng"
 
-#: weblate/templates/translate.html:130
+#: weblate/templates/translate.html:129
 msgid "Edit string"
 msgstr "Rediger streng"
 
-#: weblate/templates/translate.html:144 weblate/templates/zen-units.html:38
+#: weblate/templates/translate.html:143 weblate/templates/zen-units.html:38
 msgid "Source change"
 msgstr "Ændring af kilde"
 
-#: weblate/templates/translate.html:168 weblate/trans/forms.py:1220
+#: weblate/templates/translate.html:167 weblate/trans/forms.py:1220
 msgid "Additional context"
 msgstr "Yderligere kontekst"
 
-#: weblate/templates/translate.html:178 weblate/templates/zen-units.html:13
+#: weblate/templates/translate.html:177 weblate/templates/zen-units.html:13
 msgid "Context:"
 msgstr "Kontekst:"
 
-#: weblate/templates/translate.html:187
+#: weblate/templates/translate.html:186
 msgid "Edit source string"
 msgstr "Rediger kildestreng"
 
-#: weblate/templates/translate.html:204
+#: weblate/templates/translate.html:203
 msgid "Please log in to save translations."
 msgstr "Log ind for at gemme oversættelser."
 
-#: weblate/templates/translate.html:206
+#: weblate/templates/translate.html:205
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
@@ -5655,176 +5701,181 @@ msgstr ""
 "Kun korrekturlæsere kan ændre godkendte strenge, tilføj et forslag hvis du "
 "mener, at strengen skal ændres."
 
-#: weblate/templates/translate.html:208 weblate/trans/views/edit.py:290
+#: weblate/templates/translate.html:207
+msgid ""
+"This translation only accepts suggestions and these are approved by voting."
+msgstr ""
+
+#: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
 #: weblate/trans/views/edit.py:771
 msgid "Insufficient privileges for saving translations."
 msgstr "Ikke tilstrækkelige rettigheder til at gemme oversættelser."
 
-#: weblate/templates/translate.html:211 weblate/templates/translate.html:221
+#: weblate/templates/translate.html:212 weblate/templates/translate.html:222
 msgid "This translation is currently locked."
 msgstr "Oversættelsen er låst i øjeblikket."
 
-#: weblate/templates/translate.html:219
+#: weblate/templates/translate.html:220
 msgid "Insufficient privileges for adding suggestions."
 msgstr "Ikke tilstrækkelige rettigheder til at tilføje forslag."
 
-#: weblate/templates/translate.html:223
+#: weblate/templates/translate.html:224
 msgid "Suggest"
 msgstr "Foreslå"
 
-#: weblate/templates/translate.html:225
+#: weblate/templates/translate.html:226
 msgid "Skip"
 msgstr "Spring over"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:232
 msgid "Messages placed around this one"
 msgstr "Beskeder placeret omkring denne"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:232
 msgid "Nearby strings"
 msgstr "Nærmeste strenge"
 
-#: weblate/templates/translate.html:236 weblate/templates/translate.html:435
+#: weblate/templates/translate.html:237 weblate/templates/translate.html:436
 msgid "Other translations"
 msgstr "Andre oversættelser"
 
-#: weblate/templates/translate.html:239 weblate/templates/translate.html:439
+#: weblate/templates/translate.html:240 weblate/templates/translate.html:440
 #: weblate/templates/unit-details.html:13
 msgid "Comments"
 msgstr "Kommentarer"
 
-#: weblate/templates/translate.html:242
+#: weblate/templates/translate.html:243
 msgid "Machine translation suggestions"
 msgstr "Forslag fra maskinoversætter"
 
-#: weblate/templates/translate.html:242 weblate/trans/forms.py:928
+#: weblate/templates/translate.html:243 weblate/trans/forms.py:928
 msgid "Machine translation"
 msgstr "Maskinoversættelse"
 
-#: weblate/templates/translate.html:244
+#: weblate/templates/translate.html:245
 msgid "Translations of this string in the other languages"
 msgstr "Oversættelser af strengen til andre sprog"
 
-#: weblate/templates/translate.html:244
+#: weblate/templates/translate.html:245
 msgid "Other languages"
 msgstr "Andre sprog"
 
-#: weblate/templates/translate.html:245
+#: weblate/templates/translate.html:246
 msgid "List of recent changes done in Weblate"
 msgstr "Liste med seneste ændringer foretaget i Weblate"
 
-#: weblate/templates/translate.html:253
+#: weblate/templates/translate.html:254
 msgid "State"
 msgstr "Tilstand"
 
-#: weblate/templates/translate.html:283
+#: weblate/templates/translate.html:284
 #, python-format
 msgid "%(user)s has suggested"
 msgstr "%(user)s har foreslået"
 
-#: weblate/templates/translate.html:285
+#: weblate/templates/translate.html:286
 msgid "Anonymous user has suggested"
 msgstr "Anonym bruger har foreslået"
 
-#: weblate/templates/translate.html:289
+#: weblate/templates/translate.html:290
 msgid "Suggested change:"
 msgstr "Foreslået ændring:"
 
-#: weblate/templates/translate.html:293
+#: weblate/templates/translate.html:294
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
 msgstr[0] "%(count)s stemme"
 msgstr[1] "%(count)s stemmer"
 
-#: weblate/templates/translate.html:298
+#: weblate/templates/translate.html:299
 msgid "Vote for"
 msgstr "Stem på"
 
-#: weblate/templates/translate.html:299
+#: weblate/templates/translate.html:300
 msgid "Vote against"
 msgstr "Stem imod"
 
-#: weblate/templates/translate.html:302
+#: weblate/templates/translate.html:303
 msgid "Accept"
 msgstr "Godkend"
 
-#: weblate/templates/translate.html:303
+#: weblate/templates/translate.html:304
 msgid "Accept and edit"
 msgstr "Accepter og rediger"
 
-#: weblate/templates/translate.html:308
+#: weblate/templates/translate.html:309
 msgid "Mark as spam"
 msgstr "Mærk som spam"
 
-#: weblate/templates/translate.html:333
+#: weblate/templates/translate.html:334
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
 msgstr[0] "Følgende streng har samme kontekst og samme kilde."
 msgstr[1] "Følgende strenge har samme kontekst og samme kilde."
 
-#: weblate/templates/translate.html:341
+#: weblate/templates/translate.html:342
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "Følgende streng har forskellig kontekst, men samme kilde."
 msgstr[1] "Følgende strenge har forskellige kontekst, men samme kilde."
 
-#: weblate/templates/translate.html:349
+#: weblate/templates/translate.html:350
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "Følgende streng har en anden kilde, men samme kontekst."
 msgstr[1] "Følgende strenge har en anden kilde, men samme kontekst."
 
-#: weblate/templates/translate.html:375
+#: weblate/templates/translate.html:376
 msgid "Service"
 msgstr "Tjeneste"
 
-#: weblate/templates/translate.html:376
+#: weblate/templates/translate.html:377
 msgid "Quality"
 msgstr "Kvalitet"
 
-#: weblate/templates/translate.html:404 weblate/trans/forms.py:1119
+#: weblate/templates/translate.html:405 weblate/trans/forms.py:1119
 msgid "New comment"
 msgstr "Ny kommentar"
 
-#: weblate/templates/translate.html:406
+#: weblate/templates/translate.html:407
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr "Kommentér på strengen så andre oversættere og udviklere kan læse det."
 
-#: weblate/templates/translate.html:429
+#: weblate/templates/translate.html:430
 msgid "Things to check"
 msgstr "Ting der skal tjekkes"
 
-#: weblate/templates/translate.html:453
+#: weblate/templates/translate.html:454
 msgid "Manage glossary"
 msgstr "Håndter ordliste"
 
-#: weblate/templates/translate.html:455
+#: weblate/templates/translate.html:456
 msgid "Glossary"
 msgstr "Ordliste"
 
-#: weblate/templates/translate.html:473
+#: weblate/templates/translate.html:474
 msgid "Add word to glossary"
 msgstr "Føj ord til ordbog"
 
-#: weblate/templates/translate.html:494
+#: weblate/templates/translate.html:495
 msgid "Source information"
 msgstr "Kildeoplysninger"
 
-#: weblate/templates/translate.html:526
+#: weblate/templates/translate.html:527
 msgid "No context currently associated!"
 msgstr "Ingen kontekst aktuelt tilknyttet!"
 
-#: weblate/templates/translate.html:544
+#: weblate/templates/translate.html:545
 msgid "Flags"
 msgstr "Flag"
 
-#: weblate/templates/translate.html:552
+#: weblate/templates/translate.html:553
 msgid "No flags currently set!"
 msgstr "Ingen flag er indstillet på nuværende tidspunkt!"
 
-#: weblate/templates/translate.html:561
+#: weblate/templates/translate.html:562
 msgid "String priority"
 msgstr "Strengens prioritet"
 
@@ -5850,7 +5901,7 @@ msgid "Download strings needing action as %(format)s"
 msgstr "Download strenge der behøver handling som %(format)s"
 
 #: weblate/templates/translation-download.html:18
-#: weblate/templates/translation.html:282
+#: weblate/templates/translation.html:281
 msgid "Customize download"
 msgstr "Tilpas download"
 
@@ -5858,51 +5909,51 @@ msgstr "Tilpas download"
 msgid "Upload translation"
 msgstr "Upload oversættelse"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1469
+#: weblate/templates/translation.html:46 weblate/trans/forms.py:1469
 msgid "Files"
 msgstr "Filer"
 
-#: weblate/templates/translation.html:60 weblate/templates/translation.html:209
+#: weblate/templates/translation.html:59 weblate/templates/translation.html:208
 #: weblate/trans/models/change.py:198
 msgid "Automatic translation"
 msgstr "Automatisk oversættelse"
 
-#: weblate/templates/translation.html:66 weblate/templates/translation.html:265
+#: weblate/templates/translation.html:65 weblate/templates/translation.html:264
 msgid "Add new translation string"
 msgstr "Tilføj ny oversættelsesstreng"
 
-#: weblate/templates/translation.html:110 weblate/templates/widgets.html:56
+#: weblate/templates/translation.html:109 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
 #: weblate/templates/widgets.html:79
 msgid "Translation status"
 msgstr "Status for oversættelse"
 
-#: weblate/templates/translation.html:151
+#: weblate/templates/translation.html:150
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s ord"
 msgstr[1] "%(count)s ord"
 
-#: weblate/templates/translation.html:158
+#: weblate/templates/translation.html:157
 msgid "Other components"
 msgstr "Andre komponenter"
 
-#: weblate/templates/translation.html:177
+#: weblate/templates/translation.html:176
 #: weblate/templates/unit-details.html:26
 msgid "Translation file"
 msgstr "Oversættelsens fil"
 
-#: weblate/templates/translation.html:181
-#: weblate/templates/translation.html:288
+#: weblate/templates/translation.html:180
+#: weblate/templates/translation.html:287
 msgid "Download"
 msgstr "Download"
 
-#: weblate/templates/translation.html:198
+#: weblate/templates/translation.html:197
 msgid "Browse all translation changes"
 msgstr "Gennemse alle oversættelsesændringer"
 
-#: weblate/templates/translation.html:213
+#: weblate/templates/translation.html:212
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -5914,7 +5965,7 @@ msgstr ""
 "oversættelser til en anden forgrening, rette inkonsistente oversættelser "
 "eller oversætte en ny komponent med brug af oversættelseshukommelse."
 
-#: weblate/templates/translation.html:214
+#: weblate/templates/translation.html:213
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -5924,7 +5975,7 @@ msgstr ""
 "maskinoversættelsesmotorer for at få den bedst mulige oversættelse og "
 "anvender dem i projektet."
 
-#: weblate/templates/translation.html:267
+#: weblate/templates/translation.html:266
 msgid ""
 "You can add new translation string here, it will automatically appear in all "
 "translations."
@@ -5932,7 +5983,7 @@ msgstr ""
 "Her kan du tilføje ny oversættelsesstreng. Den vises automatisk i alle "
 "oversættelser."
 
-#: weblate/templates/translation.html:301
+#: weblate/templates/translation.html:300
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
@@ -5940,44 +5991,44 @@ msgstr ""
 "Den uploadede fil vil blive flettet med den nuværende oversættelse. Hvis du "
 "vil overskrive strenge som allerede er oversatte, så husk at aktivere det."
 
-#: weblate/templates/translation.html:303
+#: weblate/templates/translation.html:302
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Den uploadede fil vil blive flettet med den nuværende oversættelse."
 
-#: weblate/templates/translation.html:346
-#: weblate/templates/translation.html:393
+#: weblate/templates/translation.html:345
+#: weblate/templates/translation.html:392
 msgid "Review"
 msgstr "Gennemgang"
 
-#: weblate/templates/translation.html:348
+#: weblate/templates/translation.html:347
 msgid "Review translations touched by other users."
 msgstr "Gennemgå oversættelser som andre brugere har foretaget."
 
-#: weblate/templates/translation.html:352
+#: weblate/templates/translation.html:351
 msgid "Start review"
 msgstr "Start gennemgang"
 
-#: weblate/templates/translation.html:374
+#: weblate/templates/translation.html:373
 msgid "Percent"
 msgstr "Procent"
 
-#: weblate/templates/translation.html:381
+#: weblate/templates/translation.html:380
 msgid "Total"
 msgstr "Samlet"
 
-#: weblate/templates/translation.html:399
+#: weblate/templates/translation.html:398
 msgid "Failing check"
 msgstr "Fejlslagne tjek"
 
-#: weblate/templates/translation.html:414
+#: weblate/templates/translation.html:413
 msgid "Last activity"
 msgstr "Seneste aktivitet"
 
-#: weblate/templates/translation.html:418
+#: weblate/templates/translation.html:417
 msgid "Last change"
 msgstr "Sidste ændring"
 
-#: weblate/templates/translation.html:422
+#: weblate/templates/translation.html:421
 msgid "Last author"
 msgstr "Sidste forfatter"
 
@@ -6111,15 +6162,15 @@ msgstr "Oversættelsen har nået slutningen."
 msgid "zen"
 msgstr "zen"
 
-#: weblate/templates/zen.html:23
+#: weblate/templates/zen.html:22
 msgid "Edit in single string mode"
 msgstr "Rediger i strengtilstand"
 
-#: weblate/templates/zen.html:23
+#: weblate/templates/zen.html:22
 msgid "Exit Zen"
 msgstr "Afslut Zen"
 
-#: weblate/templates/zen.html:30
+#: weblate/templates/zen.html:29
 #, python-format
 msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
@@ -8474,7 +8525,9 @@ msgid "Weblate administration"
 msgstr "Weblate administration"
 
 #: weblate/wladmin/sites.py:173
-msgid "Object listing disabled"
+#, fuzzy
+#| msgid "Object listing disabled"
+msgid "Object listing turned off"
 msgstr "Objektliste deaktiveret"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
@@ -8630,6 +8683,9 @@ msgstr "Rapporter"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Kunne ikke afvise konfigurationsfejl!"
+
+#~ msgid "Not activated"
+#~ msgstr "Ikke aktiveret"
 
 #~ msgid ""
 #~ "The services are provided “as is”, at your own risk, without any warranty."
@@ -10237,9 +10293,6 @@ msgstr "Kunne ikke afvise konfigurationsfejl!"
 
 #~ msgid "Placement"
 #~ msgstr "Placering"
-
-#~ msgid "Start date"
-#~ msgstr "Startdato"
 
 #~ msgid "End date"
 #~ msgstr "Slutdato"
