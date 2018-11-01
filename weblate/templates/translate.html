@@ -204,6 +204,8 @@
     title="{% trans "Please log in to save translations." %}"
     {% elif unit.approved %}
     title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
+    {% elif unit.translation.component.suggestion_voting %}
+    title="{% trans "This translation only accepts suggestions and these are approved by voting." %}"
     {% else %}
     title="{% trans "Insufficient privileges for saving translations." %}"
     {% endif %}
