@@ -109,6 +109,8 @@ def check_can_edit(user, permission, obj, is_vote=False):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
+    else:
+        raise ValueError('Uknown object for permission check!')
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
