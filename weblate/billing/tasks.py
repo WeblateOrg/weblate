@@ -20,9 +20,15 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from celery.schedules import crontab
+
+from django.urls import reverse
+
 from weblate.accounts.notifications import send_notification_email
+from weblate.auth.models import User
 from weblate.celery import app
 from weblate.billing.models import Billing
+from weblate.utils.site import get_site_url
 
 
 @app.task
@@ -44,6 +50,28 @@ def billing_notify():
         )
 
 
+@app.task
+def notify_expired():
+    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+        if bill.check_payment_status():
+            continue
+        users = bill.owners.distinct()
+        for project in bill.projects.all():
+            users |= User.objects.having_perm('billing.view', project)
+
+        for user in users:
+            send_notification_email(
+                user.profile.language,
+                user.email,
+                'billing_expired',
+                context={
+                    'billing': bill,
+                    'billing_url': get_site_url(reverse('billing')),
+                },
+                info=bill,
+            )
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -55,4 +83,9 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         billing_notify.s(),
         name='billing-notify',
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=30, day_of_week='monday,thursday'),
+        notify_expired.s(),
+        name='notify-expired',
     )
