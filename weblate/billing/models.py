@@ -78,7 +78,7 @@ class Plan(models.Model):
 
 
 class BillingManager(models.Manager):
-    def check_limits(self, grace=30):
+    def check_limits(self, grace=90):
         for bill in self.all():
             bill.check_limits(grace)
 
