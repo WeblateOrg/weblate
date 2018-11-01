@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-30 14:16+0000\n"
-"PO-Revision-Date: 2018-10-30 20:24+0000\n"
+"PO-Revision-Date: 2018-11-01 12:11+0000\n"
 "Last-Translator: Iván Seoane <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
 "gl/>\n"
@@ -2654,16 +2654,14 @@ msgid "Commit signing"
 msgstr "Sinatura"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"O Weblate asina ca chave ou clave cifrada GPG %(gpg_key_id)s tódolos seus "
-"comunicados, pode olla-la chave ou clave pública deseguido."
+"Tódalas confirmacións feitas co Weblate asínanse ca chave ou clave GPG "
+"%(gpg_key_id)s, para a cal a chave ou clave pública correspondente atópase "
+"embaixo."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3712,6 +3710,8 @@ msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
+"O Weblate non suporta Microsoft Internet Explorer 8 ou anterior, por favor "
+"empregue un navegador máis novo coma Firefox, Chrome ou Edge."
 
 #: weblate/templates/base.html:233 weblate/templates/base.html:240
 msgid "Close"
@@ -4260,13 +4260,11 @@ msgstr ""
 "suxestións."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "hai un minuto"
-msgstr[1] "hai %(count)s minutos"
+msgstr[0] "Procurar %(count)s1 proxecto"
+msgstr[1] "Procurar %(count)s1 proxectos"
 
 #: weblate/templates/dashboard/user.html:41
 msgid "Checks overview"
@@ -4504,10 +4502,9 @@ msgid "Change word"
 msgstr "Cambiar a palabra"
 
 #: weblate/templates/engage.html:18
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s!"
+#, python-format
 msgid "Get involved in %(project)s."
-msgstr "Participe en %(project)s!"
+msgstr "Participe no %(project)s."
 
 #: weblate/templates/engage.html:21
 msgid "Hi, and thank you for your interest."
@@ -4524,13 +4521,13 @@ msgstr ""
 "tradutores."
 
 #: weblate/templates/engage.html:30
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
 msgstr ""
-"Se quere colaborar na tradución de %(name)s, cómpre que <a href=\"/accounts/"
-"register/\">se rexistre neste servidor."
+"Se desexa contribuír á tradución de %(project)s, ten que rexistrarse neste "
+"servidor."
 
 #: weblate/templates/engage.html:34
 msgid ""
@@ -5045,27 +5042,12 @@ msgstr ""
 #: weblate/templates/mail/activation.txt:5
 #: weblate/templates/mail/remove.html:15 weblate/templates/mail/remove.txt:5
 #: weblate/templates/mail/reset.html:15 weblate/templates/mail/reset.txt:5
-#, fuzzy
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "This is an automatic email to help you complete your registration\n"
-#| "with %(site_title)s.\n"
-#| "\n"
-#| "Please open the following link in your web browser. If the link\n"
-#| "is split over several lines, you may need to copy it in the\n"
-#| "address bar."
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"Ola,\n"
-"\n"
-"Este correo automático ten como fin axudalo a completar o seu rexistro\n"
-"en  %(site_title)s.\n"
-"\n"
-"Abra a seguinte ligazón no seu navegador. Se a ligazón\n"
-"se divide en varias liñas, pode necesitar copialas na barra de enderezos."
+"Abra a seguinte ligazón no seu navigador. Se o mesmo atópase dividido en "
+"varias liñas probábelmente precisará copialo na barra de enderezos."
 
 #: weblate/templates/mail/activation.html:23
 #: weblate/templates/mail/activation.txt:9
@@ -6282,9 +6264,8 @@ msgid "Download"
 msgstr "Descarregar"
 
 #: weblate/templates/translation.html:198
-#, fuzzy
 msgid "Browse all translation changes"
-msgstr "Contexto da tradución"
+msgstr "Procurar tódalas mudanzas de tradución"
 
 #: weblate/templates/translation.html:213
 #, fuzzy
@@ -8485,10 +8466,9 @@ msgid "Project access control has been changed."
 msgstr "O seu contrasinal foi cambiado."
 
 #: weblate/trans/views/basic.py:94
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Participe en %(project)s!"
+msgstr "Participe no {0}!"
 
 #: weblate/trans/views/basic.py:100
 #, python-format
