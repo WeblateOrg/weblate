@@ -137,6 +137,11 @@ def check_can_edit(user, permission, obj, is_vote=False):
              not check_permission(user, 'unit.override', obj))):
         return False
 
+    # Billing limits
+    if ('weblate.billing' in settings.INSTALLED_APPS and
+            not component.project.billing.paid):
+        return False
+
     return True
 
 

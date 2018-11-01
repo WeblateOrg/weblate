@@ -6,3 +6,8 @@
 {% endif %}
 
 {% show_contributor_agreement object %}
+
+{% if has_billing and not object.project.billing.paid %}
+{% trans "This project is currently locked due to unpaid billing." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
