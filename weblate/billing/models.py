@@ -111,9 +111,8 @@ class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_EXPIRED = 2
-    STATE_NEW = 3
 
-    EXPIRING_STATES = (STATE_TRIAL, STATE_NEW)
+    EXPIRING_STATES = (STATE_TRIAL,)
 
     plan = models.ForeignKey(
         Plan,
@@ -133,7 +132,6 @@ class Billing(models.Model):
             (STATE_ACTIVE, _('Active')),
             (STATE_TRIAL, _('Trial')),
             (STATE_EXPIRED, _('Expired')),
-            (STATE_NEW, _('Not activated')),
         ),
         default=STATE_ACTIVE,
         verbose_name=_('Billing state'),
@@ -322,7 +320,7 @@ class Billing(models.Model):
         paid = (
             self.plan.price == 0 or
             self.invoice_set.filter(end__gt=due_date).exists() or
-            self.state != Billing.STATE_ACTIVE
+            self.state == Billing.STATE_TRIAL
         )
         modified = False
 
