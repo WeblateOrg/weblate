@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-10-30 14:16+0000\n"
-"PO-Revision-Date: 2018-10-28 14:19+0000\n"
+"PO-Revision-Date: 2018-11-01 07:20+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -143,10 +143,8 @@ msgid "Current password"
 msgstr "현재 비밀번호"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr "아직 비밀번호를 설정하지 않으셨다면, 빈칸으로 남겨두십시오."
+msgstr "아직 비밀번호를 설정하지 않으셨다면, 비워두십시오."
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -1377,7 +1375,7 @@ msgstr "자동 번역 할당"
 
 #: weblate/billing/admin.py:58
 msgid "Owners"
-msgstr ""
+msgstr "소유자"
 
 #: weblate/billing/models.py:121 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
@@ -1404,10 +1402,8 @@ msgid "Expired"
 msgstr "유효시간 초과"
 
 #: weblate/billing/models.py:136
-#, fuzzy
-#| msgid "Not translated"
 msgid "Not activated"
-msgstr "미번역"
+msgstr "활성화되지 않음"
 
 #: weblate/billing/models.py:139
 msgid "Billing state"
@@ -2188,7 +2184,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "We use Google Analytics to analyze traffic on our website."
-msgstr ""
+msgstr "Google Analytics를 사용하여 웹사이트의 트래픽을 분석합니다."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2492,16 +2488,12 @@ msgid "Commit signing"
 msgstr "서명하기"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"모든 커밋을 Weblate가 GPG 키 %(gpg_key_id)s 로 서명하면, 아래에서 그에 맞는 "
-"공개 키를 찾으실 수 있습니다."
+"Weblate로 만든 모든 커밋을 GPG 키 %(gpg_key_id)s 로 서명하면, 아래에서 그에 맞는 공개 키를 찾으실 수 있습니다."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -3490,25 +3482,23 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "반복 결제"
 
 #: weblate/templates/billing/detail.html:20
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "변경 사항"
+msgstr "플랜 변경"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Disable recurring payment"
-msgstr ""
+msgstr "반복 결제 사용 중지"
 
 #: weblate/templates/billing/detail.html:27
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "청구를 종료하려면 먼저 모든 프로젝트를 제거해야 합니다."
 
 #: weblate/templates/billing/detail.html:30
 msgid "Terminate billing"
-msgstr ""
+msgstr "결제 종료"
 
 #: weblate/templates/billing/detail.html:38
 msgid "Invoices"
@@ -3543,10 +3533,8 @@ msgid "You currently do not have any billings active."
 msgstr "현재 유효한 결제가 없습니다."
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Weblate 호스팅 플랜"
+msgstr "새 호스팅 플랜 구매"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -5258,38 +5246,30 @@ msgstr "원본 단어의 수"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "검색을 검토하고 확인한 다음 결과를 바꾸십시오."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "원본 문자열"
+msgstr "원본 문자열 지정됨"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
 msgstr "원본 문자열"
 
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:56
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
 msgstr "활동"
 
 #: weblate/templates/screenshots/screenshot_detail.html:37
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
-msgstr ""
+msgstr "모든 표시된 원본 문자열에 시각적 문맥을 추가하기 위해 스크린샷이 보여집니다."
 
 #: weblate/templates/screenshots/screenshot_detail.html:48
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "원본 문자열"
+msgstr "원본 문자열 지정"
 
 #: weblate/templates/screenshots/screenshot_detail.html:54
 #: weblate/templates/translate.html:152 weblate/templates/translate.html:253
@@ -5298,28 +5278,20 @@ msgid "Context"
 msgstr "상황・문맥"
 
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#, fuzzy
-#| msgid "Action"
 msgid "Location"
-msgstr "활동"
+msgstr "위치"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "로드 중…"
+msgstr "로딩 결과…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:63
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "원본 문자열에서 검색"
+msgstr "일치하는 원본 문자열을 찾으시려면 아래에서 검색하세요."
 
 #: weblate/templates/screenshots/screenshot_detail.html:72
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "자동 감지"
+msgstr "자동 인식"
 
 #: weblate/templates/screenshots/screenshot_detail.html:78
 #, fuzzy
