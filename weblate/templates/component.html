@@ -24,8 +24,7 @@
 {% perm 'translation.add' object as user_can_add_translation %}
 {% perm 'component.edit' object as user_can_edit_component %}
 
-{% include "show-lock.html" %}
-{% show_contributor_agreement object %}
+{% include "show-component-state.html" %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>

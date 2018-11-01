@@ -17,8 +17,7 @@
 
 {% block content %}
 
-{% include "show-lock.html" with object=object.component %}
-{% show_contributor_agreement object.component %}
+{% include "show-component-state.html" with object=object.component %}
 
 <a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
 

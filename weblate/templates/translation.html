@@ -25,8 +25,7 @@
 
 {% get_translate_url object as translate_url %}
 
-{% include "show-lock.html" with object=object.component %}
-{% show_contributor_agreement object.component %}
+{% include "show-component-state.html" with object=object.component %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>

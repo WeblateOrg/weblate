@@ -32,8 +32,7 @@
 <a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
-{% include "show-lock.html" with object=unit.translation.component %}
-{% show_contributor_agreement unit.translation.component %}
+{% include "show-component-state.html" with object=unit.translation.component %}
 
 {% with unit.get_comments as comments and unit.nearby as nearby %}
 
