@@ -22,7 +22,13 @@
   <form method="post" action="{% url 'billing' %}">
   {% csrf_token %}
   {% if payment_enabled %}
-    <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">{% trans "Change plan" %}</a>
+    <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
+    {% if billing.payment.recurring %}
+    {% trans "Change plan" %}
+    {% else %}
+    {% trans "Perform payment" %}
+    {% endif %}
+    </a>
   {% endif %}
   {% if billing.payment.recurring %}
   <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">{% trans "Terminate recurring payment" %}</button>
