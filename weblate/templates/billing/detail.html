@@ -4,12 +4,14 @@
 <div class="row">
 
 <div class="col-lg-6">
-<div class="panel {% if not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-primary{% endif %}">
   <div class="panel-heading">
   {% if billing.payment.recurring %}
   <span class="pull-right flip badge">{% trans "Recurring payment" %}</span>
   {% endif %}
-  {% if not billing.paid %}
+  {% if not billing.is_active %}
+  <span class="pull-right flip badge">{% trans "Expired" %}</span>
+  {% elif not billing.paid %}
   <span class="pull-right flip badge">{% trans "Past due date" %}</span>
   {% elif not billing.in_limits %}
   <span class="pull-right flip badge">{% trans "Exceeds limits" %}</span>
