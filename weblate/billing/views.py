@@ -42,7 +42,8 @@ def download_invoice(request, pk):
         for p in invoice.billing.projects.all()
     ]
 
-    if not any(permissions):
+    if (not any(permissions) and
+            not invoice.billing.owners.filter(pk=request.user.pk).exists()):
         raise PermissionDenied('Not an owner!')
 
     filename = invoice.filename
