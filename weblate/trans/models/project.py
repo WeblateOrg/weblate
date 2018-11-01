@@ -317,7 +317,6 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @cached_property
     def paid(self):
-        print self.billing_set.filter(paid=True)
         return (
             'weblate.billing' not in settings.INSTALLED_APPS or
             not self.billing_set.exists() or
