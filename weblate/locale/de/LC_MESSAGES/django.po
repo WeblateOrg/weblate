@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-02 07:02+0000\n"
-"PO-Revision-Date: 2018-10-20 19:34+0000\n"
+"PO-Revision-Date: 2018-11-04 16:25+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -156,8 +156,6 @@ msgid "Current password"
 msgstr "Aktuelles Passwort"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
 msgstr ""
 "Lassen Sie das Feld leer, wenn Sie bislang noch kein Passwort gesetzt haben."
@@ -2263,10 +2261,8 @@ msgid "Privacy Policy"
 msgstr "Datenschutzrichtlinie"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
-msgstr "Wir nutzen Cookies für folgende Zwecke:"
+msgstr "Auf dieser Website werden Cookies für folgendes verwendet:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
@@ -2283,21 +2279,19 @@ msgstr ""
 "festgelegte Anwendungsfälle."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Ferner verwenden wir Matomo, um das Besucherverhalten auf unserer Webseite "
-"zu analysieren. Matomo respektiert hierbei die \"Do Not Track\"-Einstellung "
-"(DNT; engl. für „nicht verfolgen“) in Ihrem Webbrowser."
+"Diese Website verwendet Matomo, um den Traffic der Website zu analysieren. "
+"Es werden die &quot;Do Not Track&quot; Einstellungen in Ihrem Browser "
+"berücksichtigt."
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
+"Diese Website verwendet Google Analytics, um den Traffic der Website zu "
+"analysieren."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2619,15 +2613,12 @@ msgid "Commit signing"
 msgstr "Commitsignatur"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Alle von Weblate vorgenommenen Commits werden mit dem GPG-Schlüssel "
+"Alle mit Weblate vorgenommenen Commits werden mit dem GPG-Schlüssel "
 "%(gpg_key_id)s signiert, für den der entsprechende öffentliche Schlüssel "
 "unten aufgeführt ist."
 
@@ -3671,45 +3662,35 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Wiederkehrende Zahlung"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Startdatum"
+msgstr "Abgelaufenes Fälligkeitsdatum"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "Innerhalb der Beschränkungen"
+msgstr "Überschreitet Grenzwert"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "Ändern"
+msgstr "Plan ändern"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Performance"
+msgstr "Zahlung durchführen"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "Wiederkehrende Zahlung beenden"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "Um die Abrechnung zu beenden müssen Sie zuerst alle Projekte entfernen."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Terminate billing plan"
-msgstr "Abrechnungstarif"
+msgstr "Fakturierungsplan beenden"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -3744,14 +3725,12 @@ msgid "You currently do not have any billings active."
 msgstr "Sie haben derzeit keine aktiven Abrechnungen."
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Hosting-Angebote anzeigen"
+msgstr "Neuen Hosting-Plan kaufen"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
-msgstr "Aktueller Tarif"
+msgstr "Aktueller Plan"
 
 #: weblate/templates/billing/status.html:6
 #, python-format
@@ -5038,10 +5017,12 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Ihr Abrechnungsplan ist abgelaufen. Wenn Sie den Service weiterhin nutzen "
+"möchten, verlängern Sie ihn bitte über den folgenden Link:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Ihr Abrechnungsplan ist abgelaufen"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5636,10 +5617,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Diese Übersetzung ist aktuell für Änderungen gesperrt."
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "Diese Übersetzung ist aktuell für Änderungen gesperrt."
+msgstr "Dieses Projekt ist derzeit aufgrund unbezahlter Rechnungen gesperrt."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5887,6 +5866,8 @@ msgstr ""
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
+"Diese Übersetzung akzeptiert nur Vorschläge und wird durch Abstimmung "
+"genehmigt."
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -8175,10 +8156,9 @@ msgstr ""
 "automatisch für seinen eigenen Vorschlag stimmt."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Ungültige Prüfungs-Markierung: \"%s\""
+msgstr "Ungültiges Übersetzungsflag: \"%s\""
 
 #: weblate/trans/views/about.py:40
 msgid "About"
@@ -8780,10 +8760,8 @@ msgid "Weblate administration"
 msgstr "Weblate-Administration"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Objekttistung deaktiviert"
+msgstr "Objektliste deaktiviert"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
