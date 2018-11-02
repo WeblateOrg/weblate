@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-01 15:12+0000\n"
-"PO-Revision-Date: 2018-10-29 09:32+0000\n"
-"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
+"PO-Revision-Date: 2018-11-02 07:01+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -64,9 +64,7 @@ msgstr "コンポーネント全体の通知"
 #: weblate/accounts/forms.py:232
 msgid ""
 "You will receive notification on every such event in your watched projects."
-msgstr ""
-"監視しているプロジェクトにおいて、このようなイベントが発生するたびに通知が届"
-"くようになります。"
+msgstr "監視中のプロジェクトにおいて以下のイベントが発生するたびに、通知が届くようになります。"
 
 #: weblate/accounts/forms.py:239
 msgid "Translation notifications"
@@ -76,7 +74,7 @@ msgstr "翻訳の通知"
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr "監視中のプロジェクトで、翻訳設定した言語のみ通知が届きます。"
+msgstr "監視中のプロジェクトの翻訳言語を対象とした以下の通知が届くようになります。"
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
@@ -149,11 +147,8 @@ msgid "Current password"
 msgstr "現在のパスワード"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr ""
-"まだパスワードを設定していない場合、この項目には何も入力しないでください。"
+msgstr "まだパスワードを設定していない場合、この項目には何も入力しないでください。"
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -274,12 +269,12 @@ msgstr "認証の失敗回数が規定値を超過したため、アカウント
 
 #: weblate/accounts/models.py:85
 msgid "Account and all private data have been removed."
-msgstr "アカウントと全てのプライベートデータを削除しました。"
+msgstr "アカウントとすべてのプライベートデータは削除されました。"
 
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "{date} 時点でのサービス利用規約の内容に合意しました。"
+msgstr "{date} 現在の、サービス利用規約の内容に合意しました。"
 
 #: weblate/accounts/models.py:94
 msgid "To restore access to your account, please reset your password."
@@ -289,7 +284,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:177 weblate/templates/accounts/profile.html:217
 msgid "Account activity"
-msgstr "アカウントの利用状況"
+msgstr "アカウントの活動状況"
 
 #: weblate/accounts/models.py:286
 msgid "Interface Language"
@@ -589,7 +584,7 @@ msgstr "パスワードを変更する"
 
 #: weblate/accounts/views.py:712
 msgid "Password reset has been already completed!"
-msgstr "パスワードリセットは既に完了しています！"
+msgstr "パスワード リセットは既に完了しています！"
 
 #: weblate/accounts/views.py:743
 msgid "Can not reset password, email authentication is disabled!"
@@ -648,8 +643,7 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"単一言語の基本ファイルに合わせて全ての翻訳ファイルを更新します。ほとんどの"
-"ファイル形式で、基本ファイルに存在しない、無効な翻訳キーを削除します。"
+"単一言語の基本ファイルに合わせてすべての翻訳ファイルを更新します。ほとんどのファイル形式で、基本ファイルに存在しない、無効な翻訳キーを削除します。"
 
 #: weblate/addons/consistency.py:33
 msgid "Language consistency"
@@ -729,9 +723,8 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートし、原文と比較し一致すると Weblate "
-"は毎回 ”要編集\" フラグを付けます。これは、未翻訳を含む全ての文字列のファイル"
-"形式を利用するには、特に便利です。"
+"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は ”要編集\" "
+"フラグを付けます。これは、文字列が翻訳されていない場合であっても、すべての文字列を含むファイル形式には特に便利です。"
 
 #: weblate/addons/forms.py:51
 msgid "Name of generated file"
@@ -775,7 +768,7 @@ msgstr "JSON インデント処理"
 
 #: weblate/addons/forms.py:125
 msgid "Regular expression to match translation files"
-msgstr "翻訳ファイルへのマッチングに使用する正規表現"
+msgstr "翻訳ファイルを照合する正規表現"
 
 #: weblate/addons/forms.py:129 weblate/trans/forms.py:568
 #: weblate/trans/models/component.py:232
@@ -880,8 +873,8 @@ msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"msgmerge を使用して、POT ファイルと一致する全ての PO ファイルを更新します。上"
-"流のリポジトリから新しい変更を取得するたびに実行されます。"
+"msgmerge を使用して、POT ファイルと一致するすべての PO "
+"ファイルを更新します。これは、上流のリポジトリから新しい変更が取得されるたびに実行されます。"
 
 #: weblate/addons/gettext.py:217
 msgid "Customize gettext output"
@@ -1352,9 +1345,7 @@ msgstr "スーパーユーザの状態"
 
 #: weblate/auth/models.py:324
 msgid "User has all permissions without having been given them."
-msgstr ""
-"このユーザは、明示的に権限を与えなくても、全ての権限を持っているものとして扱"
-"われるユーザを意味します。"
+msgstr "このユーザは、明示的に権限を与えなくても、すべての権限を持っています。"
 
 #: weblate/auth/models.py:328
 msgid "active"
@@ -1375,8 +1366,7 @@ msgstr "グループ"
 #: weblate/auth/models.py:338
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
-"ユーザは、所属するグループに設定された全ての権限を持つものとして扱われます。"
+msgstr "ユーザは、所属するグループに設定されたすべての権限を持つものとして扱われます。"
 
 #: weblate/auth/models.py:494
 msgid "Email regular expression"
@@ -2183,8 +2173,6 @@ msgid "Privacy Policy"
 msgstr "プライバシーポリシー"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
 msgstr "本サイトでは、 Cookie を下記の用途で使用しています:"
 
@@ -2199,20 +2187,16 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "ある状況におけるユーザ設定を記憶するための設定 Cookie"
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"なお、 Web サイトのトラフィックを解析する目的で、 Matomo を使用しています。 "
-"Matomo ではブラウザの Do Not Track (追跡禁止) 設定を尊重して動作します。"
+"本 Web サイトではトラフィックを解析する目的で Matomo を使用しています。 Matomo ではブラウザの &quot;Do Not Track "
+"(追跡禁止)&quot; 設定を尊重して動作します。"
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "本 Web サイトではトラフィックを解析する目的で Google Analytics を使用しています。"
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2273,7 +2257,7 @@ msgstr "TMX ファイルもしくは JSON ファイルをアップロードす�
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr "全ての翻訳メモリ項目の削除確認"
+msgstr "すべての翻訳メモリ項目の削除確認"
 
 #: weblate/memory/storage.py:65
 msgctxt "Translation memory category"
@@ -2428,10 +2412,8 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate はバージョンコントロールシステムと密接に統合できるウェブベースの翻訳"
-"ツールです。シンプルで明瞭なユーザインターフェイスのほか、コンポーネントを超"
-"えた翻訳連携、品質チェック、ソースファイルへの自動リンクなどの機能を備えてい"
-"ます。"
+"Weblate は、バージョン管理サービスとの密接な統合が可能な Web ベースの翻訳ツールです。シンプルで明瞭なユーザーインターフェイス、コンポーネント"
+"間の翻訳の連携、品質チェック、ソースファイルへの自動リンクなどの機能を備えています。"
 
 #: weblate/templates/about/index.html:20
 #, python-format
@@ -2529,16 +2511,11 @@ msgid "Commit signing"
 msgstr "コミットへの署名"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
-msgstr ""
-"Weblate が作成した全てのコミットには、 GPG 鍵 %(gpg_key_id)s の署名を付与して"
-"います。下記に公開鍵を示します。"
+msgstr "Weblate が作成した全てのコミットには、 GPG 鍵 %(gpg_key_id)s の署名を付与しています。下記に公開鍵を示します。"
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -2993,9 +2970,7 @@ msgstr "管理しているプロジェクトに対しては、重要な通知を
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
-msgstr ""
-"監視中のプロジェクトもダッシュボードに表示するので、翻訳したいプロジェクトを"
-"すべて選択してください。"
+msgstr "監視中のプロジェクトはダッシュボードにも表示されるので、翻訳したいプロジェクトをすべて選択してください。"
 
 #: weblate/templates/accounts/profile.html:91
 msgid "Subscription settings"
@@ -3049,7 +3024,7 @@ msgstr "アカウントの削除は、すべてのプライベートデータを
 
 #: weblate/templates/accounts/profile.html:167
 msgid "Remove my account"
-msgstr "私のアカウントを削除します"
+msgstr "アカウントを削除"
 
 #: weblate/templates/accounts/profile.html:175
 msgid "Your summary"
@@ -3069,7 +3044,7 @@ msgstr "アバター"
 
 #: weblate/templates/accounts/profile.html:196
 msgid "Avatars are provided using Gravatar."
-msgstr "アバターは Gravatar を使用して提供しています。"
+msgstr "アバターは Gravatar を使用して提供されています。"
 
 #: weblate/templates/accounts/profile.html:207
 msgid ""
@@ -3083,7 +3058,7 @@ msgstr ""
 #: weblate/templates/last-changes-content.html:8
 #: weblate/templates/trans/suggestion_list.html:16
 msgid "When"
-msgstr "いつ"
+msgstr "日時"
 
 #: weblate/templates/accounts/profile.html:218
 msgid "IP address"
@@ -3128,11 +3103,11 @@ msgstr "API ルート URL:"
 
 #: weblate/templates/accounts/profile.html:270
 msgid "API usage example:"
-msgstr "API 使用例:"
+msgstr "API の使用例:"
 
 #: weblate/templates/accounts/profile.html:282
 msgid "CLI usage example:"
-msgstr "CLI の利用例:"
+msgstr "CLI の使用例:"
 
 #: weblate/templates/accounts/profile.html:299
 msgid "Accessing Git repositories"
@@ -3555,45 +3530,35 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "定期支払い"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "開始日"
+msgstr "期日超過"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "制限内"
+msgstr "制限超過"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "変更"
+msgstr "プランの変更"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "性能"
+msgstr "支払いの実施"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "定期支払いの終了"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "支払いを終了するには、まず全てのプロジェクトを削除しなければなりません。"
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Terminate billing plan"
-msgstr "課金プラン"
+msgstr "課金プランの終了"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -3628,10 +3593,8 @@ msgid "You currently do not have any billings active."
 msgstr "現時点で有効な課金はありません。"
 
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "ホスティング プランの表示"
+msgstr "新しいホスティング プランの購入"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -3913,8 +3876,7 @@ msgstr "状態の一括変更"
 #: weblate/templates/component.html:165 weblate/templates/project.html:236
 #: weblate/templates/translation.html:246
 msgid "You can change state of all strings matching given type at once."
-msgstr ""
-"指定した種類に該当する全ての文字列の状態を、一括で変更することができます。"
+msgstr "指定した種類に該当するすべての文字列の状態を、一括で変更することができます。"
 
 #: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -4100,17 +4062,13 @@ msgstr "お使いの言語の管理"
 msgid ""
 "Choose languages you speak in the preferences, to see an overview of all "
 "projects that feature those languages here."
-msgstr ""
-"環境設定内で言語を選択すると、ここにはその言語に対応する全てのプロジェクトの"
-"概要が表示されます。"
+msgstr "設定で言語を選択すると、ここにはその言語に対応するすべてのプロジェクトの概要が表示されます。"
 
 #: weblate/templates/dashboard/user.html:91
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
-msgstr ""
-"提案できる内容が見つかりませんでした。提案項目を増やすには、環境設定で言語を"
-"選択してください。"
+msgstr "提案できる内容が見つかりませんでした。提案項目を増やすには、設定で言語を選択してください。"
 
 #: weblate/templates/dashboard/user.html:96
 msgid "Register to manage your languages"
@@ -4170,9 +4128,7 @@ msgstr ""
 msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
-msgstr ""
-"たとえば 1 つのコンポーネント内での全ての翻訳に関する統計情報を取得するには、"
-"下記のように実行します:"
+msgstr "たとえば 1 つのコンポーネント内でのすべての翻訳に関する統計情報を取得するには、下記のように実行します:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -4494,8 +4450,7 @@ msgstr "特定の箇所を大文字に変換しても、それはあまり役に
 
 #: weblate/templates/i18n.html:44
 msgid "All-uppercase is almost as easy to guess as all-lowercase."
-msgstr ""
-"全てを小文字にしても、全てを大文字にしても、それは容易に推測可能なものです。"
+msgstr "すべてを小文字にしても、すべてを大文字にしても、それは容易に推測可能なものです。"
 
 #: weblate/templates/i18n.html:45
 msgid "Reversed words aren't much harder to guess."
@@ -4879,11 +4834,11 @@ msgstr "通知設定の変更"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it on following link."
-msgstr ""
+msgstr "ご利用の課金プランは期限切れの状態になっています。サービスの使用を続けたい場合は、下記のリンクを利用して更新を行なってください。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "ご利用の課金プランは期限切れの状態になっています"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5473,10 +5428,8 @@ msgid "This translation is currently locked for updates."
 msgstr "この翻訳は現在、更新ができないようにロックされています。"
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "この翻訳は現在、更新ができないようにロックされています。"
+msgstr "このプロジェクトは現在、未払いが発生しているためロックされています。"
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5718,7 +5671,7 @@ msgstr ""
 #: weblate/templates/translate.html:207
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "この翻訳は提案のみを受け付け、投票によって承認されるようになっています。"
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -5992,9 +5945,7 @@ msgstr ""
 msgid ""
 "You can add new translation string here, it will automatically appear in all "
 "translations."
-msgstr ""
-"ここでは新しい翻訳文字列を追加することができます。これは自動的に全ての翻訳に"
-"対して表示されます。"
+msgstr "ここでは新しい翻訳文字列を追加することができます。これは自動的にすべての翻訳に対して表示されます。"
 
 #: weblate/templates/translation.html:300
 msgid ""
@@ -6241,7 +6192,7 @@ msgstr "%sにおける最近の更新"
 #: weblate/trans/feeds.py:43 weblate/trans/feeds.py:79
 #, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "%s で Weblate を利用して最近おこわなれた全ての変更。"
+msgstr "%s で Weblate を利用して最近行われたすべての変更。"
 
 #: weblate/trans/filter.py:31
 msgid "All strings"
@@ -6546,7 +6497,7 @@ msgstr "スコアしきい値"
 
 #: weblate/trans/forms.py:970
 msgid "All components in current project"
-msgstr "現在のプロジェクトにおける全てのコンポーネント"
+msgstr "現在のプロジェクトにおけるすべてのコンポーネント"
 
 #: weblate/trans/forms.py:1011
 msgid "Invalid integer list!"
@@ -6605,7 +6556,7 @@ msgstr "翻訳文のコメントです。他の翻訳者との対話に利用で
 
 #: weblate/trans/forms.py:1132
 msgid "All components"
-msgstr "全てのコンポーネント"
+msgstr "すべてのコンポーネント"
 
 #: weblate/trans/forms.py:1172
 #, python-brace-format
@@ -7944,10 +7895,9 @@ msgstr ""
 "できてしまうためです。"
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "チェックフラグが正しくありません: \"%s\""
+msgstr "翻訳フラグが正しくありません: \"%s\""
 
 #: weblate/trans/views/about.py:40
 msgid "About"
@@ -8278,7 +8228,7 @@ msgstr "翻訳の更新のため、コンポーネントを開示しました。
 
 #: weblate/trans/views/lock.py:80
 msgid "All components are now locked for translation updates!"
-msgstr "全てのコンポーネントに対して、翻訳を更新できないようにロックしました！"
+msgstr "すべてのコンポーネントに対して、翻訳を更新できないようにロックしました！"
 
 #: weblate/trans/views/lock.py:99
 msgid "Project is now open for translation updates."
@@ -8524,8 +8474,6 @@ msgid "Weblate administration"
 msgstr "Weblate の管理"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
 msgstr "オブジェクトの一覧が無効化されています"
 

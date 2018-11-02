@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-01 15:12+0000\n"
-"PO-Revision-Date: 2018-10-30 20:24+0000\n"
+"PO-Revision-Date: 2018-11-02 07:01+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -141,10 +141,8 @@ msgid "Current password"
 msgstr "当前密码"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr "如果尚未設定密碼，無需填寫此欄位。"
+msgstr "如果尚未设定密码，无需填写此栏。"
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -1255,7 +1253,7 @@ msgstr "词汇表"
 #: weblate/auth/data.py:215
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "记忆存储"
 
 #: weblate/auth/data.py:217
 msgctxt "Per project access control group"
@@ -1493,7 +1491,7 @@ msgstr "付费套餐"
 
 #: weblate/billing/models.py:141
 msgid "Trial expiry date"
-msgstr ""
+msgstr "试用过期日期"
 
 #: weblate/billing/models.py:145
 msgid "Paid"
@@ -8044,14 +8042,11 @@ msgid ""
 msgstr "因为每一个用户给了他自己的建议一票，因而值为1是不可以自动接受的。"
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "无效的勾选标记: \"%s\""
+msgstr "无效的翻译标记：“%s”"
 
 #: weblate/trans/views/about.py:40
-#, fuzzy
-#| msgid "about"
 msgid "About"
 msgstr "关于"
 
@@ -8188,10 +8183,8 @@ msgid ""
 msgstr "您已经激活了您的账户，请设置密码以登录。"
 
 #: weblate/trans/views/dashboard.py:170
-#, fuzzy
-#| msgid "Please set your full name in your profile."
 msgid "Please set your full name and email in your profile."
-msgstr "请在资料中设置您的全名。"
+msgstr "请在资料中设置您的全名和电子邮箱。"
 
 #: weblate/trans/views/dictionary.py:47
 #, python-format
@@ -8359,10 +8352,8 @@ msgid "All repositories have been reset."
 msgstr "已重设所有代码库。"
 
 #: weblate/trans/views/git.py:104
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "已重设所有代码库。"
+msgstr "所有代码库均已清理。"
 
 #: weblate/trans/views/git.py:286
 msgid "Translation has been removed."
@@ -8400,10 +8391,8 @@ msgid "Search for %s"
 msgstr "%s 的搜索"
 
 #: weblate/trans/views/search.py:212
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "Too many search queries, please try again later."
-msgstr "发送了太多信息，请稍后重试！"
+msgstr "发送了太多搜索请求，请稍后再试。"
 
 #: weblate/trans/views/search.py:215
 msgid "Invalid search query!"
@@ -8446,16 +8435,12 @@ msgid "Failed to change a priority!"
 msgstr "更改优先级失败！"
 
 #: weblate/trans/views/source.py:150
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed to change a context!"
-msgstr "更改优先级失败！"
+msgstr "更改上下文失败！"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "添加新翻译文件失败！"
+msgstr "修改翻译旗标（flag）失败！"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
@@ -8514,8 +8499,6 @@ msgid "Too many attempts, you have been logged out!"
 msgstr "尝试太多次，您已被登出！"
 
 #: weblate/utils/render.py:72
-#, fuzzy
-#| msgid "Failed to compile: {0}"
 msgid "Failed to render template: {}"
 msgstr "渲染模版失败：{}"
 
@@ -8570,8 +8553,6 @@ msgid "Unsupported file format."
 msgstr "不支持的文件格式。"
 
 #: weblate/utils/validators.py:219
-#, fuzzy
-#| msgid "Username can not start with full stop."
 msgid "Username can not start with a full stop."
 msgstr "用户名不能以句点开头。"
 
@@ -8584,10 +8565,8 @@ msgid "This email address is not allowed."
 msgstr "该电子邮件地址不被允许使用。"
 
 #: weblate/utils/validators.py:242
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Failed to evaluate plural equation: {}"
-msgstr "保存翻译失败！"
+msgstr "计算复数方程失败：{}"
 
 #: weblate/utils/views.py:195
 #, python-format
@@ -8635,10 +8614,8 @@ msgid "Weblate administration"
 msgstr "Weblate 管理"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "对象列出已禁用"
+msgstr "对象列出功能已关闭"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
@@ -8680,23 +8657,18 @@ msgid "Ignore permanently"
 msgstr "永久忽略"
 
 #: weblate/wladmin/templates/admin/performance.html:53
-#, fuzzy
 msgid ""
 "You can safely permanently ignore errors for file formats you do not intend "
 "to use. These are usually caused by missing or outdated dependencies."
-msgstr ""
-"您可以安全地永久忽略不打算使用的文件格式的错误。这些通常是由于缺少依赖或依赖"
-"过时的造成的。"
+msgstr "您可以安全地永久忽略不打算使用的文件格式的错误。这些通常是由于缺少依赖或依赖过时而导致的。"
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "检查"
+msgstr "系统检查"
 
 #: weblate/wladmin/templates/admin/performance.html:87
 msgid "Congratulations, your setup seems to work."
-msgstr ""
+msgstr "恭喜！您的设置似乎可以正常工作。"
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13
@@ -8771,8 +8743,6 @@ msgid "Port:"
 msgstr "端口:"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
-#, fuzzy
-#| msgid "Documentation"
 msgid "Import speed documentation"
 msgstr "导入速度文档"
 

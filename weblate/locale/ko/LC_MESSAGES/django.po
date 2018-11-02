@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-01 15:12+0000\n"
-"PO-Revision-Date: 2018-11-01 15:11+0000\n"
+"PO-Revision-Date: 2018-11-02 07:01+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -673,7 +673,7 @@ msgstr "이 애드온은 스크립트를 실행합니다."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "새 원본 문자열을 \"Needs editing\"으로 설정"
+msgstr "새 원본 문자열을 \"수정이 필요함\"으로 설정"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -686,7 +686,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
-msgstr "새 번역을 \"Needs editing\"으로 설정"
+msgstr "새 번역을 \"수정이 필요함\"으로 설정"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -699,7 +699,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "바뀌지 않은 번역을 \"Needs editing\"으로 설정"
+msgstr "바뀌지 않은 번역을 \"수정이 필요함\"으로 설정"
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -2157,8 +2157,6 @@ msgid "Privacy Policy"
 msgstr "개인 정보 보호 정책"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
 msgstr "이 사이트는 다음을 위해 쿠키를 사용합니다:"
 
@@ -2173,22 +2171,14 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "특정 상황에서 사용자 환경 설정을 저장하기 위한 환경 설정 쿠키."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
-msgstr ""
-"우리의 웹사이트에 트래픽을 분석하기 위해 Matomo를 사용합니다. Matomo는 당신"
-"의 브라우저 설정을 추적하지 않습니다."
+msgstr "이 사이트는 트래픽을 분석하기 위해 Matomo를 사용합니다. 당신의 브라우저 설정을 &quot;추적하지 않습니다&quot;."
 
 #: weblate/legal/templates/legal/cookies.html:39
-#, fuzzy
-#| msgid "We use Google Analytics to analyze traffic on our website."
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr "Google Analytics를 사용하여 웹사이트의 트래픽을 분석합니다."
+msgstr "이 사이트는 Google Analytics를 사용하여 웹사이트의 트래픽을 분석합니다."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -3490,42 +3480,32 @@ msgid "Recurring payment"
 msgstr "반복 결제"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "시작일"
+msgstr "연체 기한"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "제한 있음"
+msgstr "한도 초과"
 
 #: weblate/templates/billing/detail.html:29
 msgid "Change plan"
 msgstr "플랜 변경"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "성능"
+msgstr "결제하기"
 
 #: weblate/templates/billing/detail.html:36
-#, fuzzy
-#| msgid "Disable recurring payment"
 msgid "Terminate recurring payment"
-msgstr "반복 결제 사용 중지"
+msgstr "반복 결제 종료하기"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "청구를 종료하려면 먼저 모든 프로젝트를 제거해야 합니다."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Terminate billing"
 msgid "Terminate billing plan"
-msgstr "결제 종료"
+msgstr "결제 플랜 종료"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -5594,10 +5574,8 @@ msgid "Toggle edit needed flag"
 msgstr ""
 
 #: weblate/templates/translate.html:117
-#, fuzzy
-#| msgid "source strings"
 msgid "Editing source string"
-msgstr "원본 문자열"
+msgstr "원본 문자열 편집 중"
 
 #: weblate/templates/translate.html:129
 #, fuzzy
@@ -5610,34 +5588,26 @@ msgid "Source change"
 msgstr "원본 변경사항"
 
 #: weblate/templates/translate.html:167 weblate/trans/forms.py:1220
-#, fuzzy
-#| msgid "Additional commit file"
 msgid "Additional context"
-msgstr "추가 커밋 파일"
+msgstr "추가 문맥"
 
 #: weblate/templates/translate.html:177 weblate/templates/zen-units.html:13
-#, fuzzy
-#| msgid "Context"
 msgid "Context:"
-msgstr "상황・문맥"
+msgstr "문맥:"
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit source string"
-msgstr "원본 문자열"
+msgstr "원본 문자열 편집"
 
 #: weblate/templates/translate.html:203
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Please log in to save translations."
-msgstr "새로운 번역가를 위한 기본 파일"
+msgstr "번역을 저장하기 위해 로그인 하십시오."
 
 #: weblate/templates/translate.html:205
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
-msgstr ""
+msgstr "오직 검토자만이 승인된 문자열을 변경할 수 있습니다, 문자열에 변경 사항이 필요하다고 생각하시면 제안을 추가하세요."
 
 #: weblate/templates/translate.html:207
 msgid ""
@@ -5647,22 +5617,16 @@ msgstr ""
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
 #: weblate/trans/views/edit.py:771
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Insufficient privileges for saving translations."
-msgstr "새로운 번역가를 위한 기본 파일"
+msgstr "번역을 저장할 권한이 부족합니다."
 
 #: weblate/templates/translate.html:212 weblate/templates/translate.html:222
-#, fuzzy
-#| msgid "Translation is currently not locked."
 msgid "This translation is currently locked."
-msgstr "번역은 현재 잠겨 있지 않습니다."
+msgstr "이 번역은 현재 잠겨있습니다."
 
 #: weblate/templates/translate.html:220
-#, fuzzy
-#| msgid "No privileges for adding suggestions!"
 msgid "Insufficient privileges for adding suggestions."
-msgstr "제안을 추가할 권한이 없습니다!"
+msgstr "제안을 추가할 권한이 부족합니다."
 
 #: weblate/templates/translate.html:224
 msgid "Suggest"
@@ -5670,17 +5634,15 @@ msgstr "제안"
 
 #: weblate/templates/translate.html:226
 msgid "Skip"
-msgstr ""
+msgstr "넘기기"
 
 #: weblate/templates/translate.html:232
 msgid "Messages placed around this one"
 msgstr "이 주위에 배치된 메세지"
 
 #: weblate/templates/translate.html:232
-#, fuzzy
-#| msgid "Source strings"
 msgid "Nearby strings"
-msgstr "원본 문자열"
+msgstr "근처 문자열"
 
 #: weblate/templates/translate.html:237 weblate/templates/translate.html:436
 msgid "Other translations"
@@ -5700,16 +5662,12 @@ msgid "Machine translation"
 msgstr "기계 번역"
 
 #: weblate/templates/translate.html:245
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid "Translations of this string in the other languages"
-msgstr "업데이트를 위해 번역이 현재 열려 있습니다."
+msgstr "다른 언어에서 이 문자열의 번역"
 
 #: weblate/templates/translate.html:245
-#, fuzzy
-#| msgid "Songhai languages"
 msgid "Other languages"
-msgstr "송가이어"
+msgstr "다른 언어"
 
 #: weblate/templates/translate.html:246
 msgid "List of recent changes done in Weblate"
@@ -5729,10 +5687,8 @@ msgid "Anonymous user has suggested"
 msgstr "익명 사용자가 제안함"
 
 #: weblate/templates/translate.html:290
-#, fuzzy
-#| msgid "Browse changes"
 msgid "Suggested change:"
-msgstr "변경 사항 찾아보기"
+msgstr "제안된 변경 사항:"
 
 #: weblate/templates/translate.html:294
 #, python-format
@@ -5754,32 +5710,26 @@ msgstr "수락"
 
 #: weblate/templates/translate.html:304
 msgid "Accept and edit"
-msgstr ""
+msgstr "수락하고 편집"
 
 #: weblate/templates/translate.html:309
 msgid "Mark as spam"
-msgstr ""
+msgstr "스팸으로 표시"
 
 #: weblate/templates/translate.html:334
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "다음 문자열은 같은 문맥과 같은 원본 문자열을 가지고 있습니다."
 
 #: weblate/templates/translate.html:342
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "다음 문자열은 다른 문맥을 지니지만 같은 원본 문자열입니다."
 
 #: weblate/templates/translate.html:350
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "다음 문자열은 다른 원본 문자열이지만 같은 문맥을 지닙니다."
 
 #: weblate/templates/translate.html:376
 msgid "Service"
@@ -5787,19 +5737,15 @@ msgstr "서비스"
 
 #: weblate/templates/translate.html:377
 msgid "Quality"
-msgstr ""
+msgstr "품질"
 
 #: weblate/templates/translate.html:405 weblate/trans/forms.py:1119
 msgid "New comment"
 msgstr "새로운 주석"
 
 #: weblate/templates/translate.html:407
-#, fuzzy
-#| msgid ""
-#| "You can share comments about this string with other translators and "
-#| "developers."
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr "다른 번역자와 개발자에게 이 문자열에 대한 댓글을 공유할 수 있습니다."
+msgstr "동료 번역가와 개발자가 읽을 수 있도록 이 문자열에 주석을 달아 주십시오."
 
 #: weblate/templates/translate.html:430
 msgid "Things to check"
@@ -5822,20 +5768,16 @@ msgid "Source information"
 msgstr "원본 정보"
 
 #: weblate/templates/translate.html:527
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No context currently associated!"
-msgstr "현재 관련됨:"
+msgstr "현재 지정된 문맥이 없습니다!"
 
 #: weblate/templates/translate.html:545
 msgid "Flags"
 msgstr "플래그"
 
 #: weblate/templates/translate.html:553
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No flags currently set!"
-msgstr "현재 관련됨:"
+msgstr "현재 설정된 플래그가 없습니다!"
 
 #: weblate/templates/translate.html:562
 msgid "String priority"
@@ -5848,27 +5790,24 @@ msgid "Download for an offline translation."
 msgstr "오프라인 번역을 위해 다운로드합니다."
 
 #: weblate/templates/translation-download.html:6
-#, fuzzy, python-format
-#| msgid "Download compiled translation"
+#, python-format
 msgid "Download original translation file (%(format)s)"
-msgstr "컴파일된 번역 다운로드"
+msgstr "원본 파일 (%(format)s) 다운로드"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy, python-format
-#| msgid "Download compiled translation"
+#, python-format
 msgid "Download translation file as %(format)s"
-msgstr "컴파일된 번역 다운로드"
+msgstr "번역 파일을 %(format)s로 다운로드"
 
 #: weblate/templates/translation-download.html:14
-#, fuzzy, python-format
-#| msgid "Good translations"
+#, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "평판이 좋은 번역"
+msgstr "행동이 필요한 문자열을 %(format)s로 다운로드"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:281
 msgid "Customize download"
-msgstr ""
+msgstr "사용자 지정 다운로드"
 
 #: weblate/templates/translation-download.html:21
 msgid "Upload translation"
@@ -5884,10 +5823,8 @@ msgid "Automatic translation"
 msgstr "자동 번역"
 
 #: weblate/templates/translation.html:65 weblate/templates/translation.html:264
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add new translation string"
-msgstr "번역으로서 추가"
+msgstr "새 번역 문자열 추가"
 
 #: weblate/templates/translation.html:109 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -5896,12 +5833,10 @@ msgid "Translation status"
 msgstr "번역 현황"
 
 #: weblate/templates/translation.html:150
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s개의 투표"
+msgstr[0] "%(count)s개의 단어"
 
 #: weblate/templates/translation.html:157
 msgid "Other components"
@@ -5918,10 +5853,8 @@ msgid "Download"
 msgstr "다운로드"
 
 #: weblate/templates/translation.html:197
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Browse all translation changes"
-msgstr "번역 변경 사항:"
+msgstr "모든 번역 변경 사항 찾아보기"
 
 #: weblate/templates/translation.html:212
 msgid ""
@@ -5939,29 +5872,21 @@ msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this project."
-msgstr ""
+msgstr "기계 번역을 통한 자동 번역은 능동적인 기계 번역 엔진을 사용하여 최상의 번역을 얻어 이 프로젝트에 적용합니다."
 
 #: weblate/templates/translation.html:266
 msgid ""
 "You can add new translation string here, it will automatically appear in all "
 "translations."
-msgstr ""
+msgstr "여기에 새 번역 문자열을 추가할 수 있습니다, 모든 번역에 자동으로 나타납니다."
 
 #: weblate/templates/translation.html:300
-#, fuzzy
-#| msgid ""
-#| "Uploaded file will be merged with current translation. In case you want "
-#| "to overwrite already translated strings, don't forget to enable it."
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
-msgstr ""
-"업로드된 파일은 현재 번역과 병합됩니다. 이미 번역 된 문자열을 덮어 쓰기 할 경"
-"우에, 그것을 가능하게 하는 것을 잊지 마세요."
+msgstr "업로드된 파일은 현재 번역과 병합됩니다. 이미 번역 된 문자열을 덮어 쓰기 할 경우에, 그것을 가능하게 하는 것을 잊지 마세요."
 
 #: weblate/templates/translation.html:302
-#, fuzzy
-#| msgid "Uploaded file will be merged with current translation."
 msgid "The uploaded file will be merged with the current translation."
 msgstr "업로드된 파일은 현재 번역과 병합됩니다."
 
@@ -6011,16 +5936,13 @@ msgid "Source string age"
 msgstr "원본 문자열이 변경되었던 시간"
 
 #: weblate/templates/unit-details.html:30
-#, fuzzy, python-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s, 번역 단위 %(position)s"
+msgstr "%(filename)s, 문자열 %(position)s"
 
 #: weblate/templates/user-activity.html:13
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Pending suggestions"
-msgstr "연상 활성화"
+msgstr "대기 중인 제안"
 
 #: weblate/templates/user-activity.html:15
 #, fuzzy
@@ -6372,7 +6294,7 @@ msgstr "번역할 메세지는 더 이상 사용할 수 없습니다!"
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
-msgstr ""
+msgstr "원본 문자열이 업데이트된 이후 문자열은 보통 \"수정이 필요함\"으로 표시되고, 수동으로 표시할 수 있습니다."
 
 #: weblate/trans/forms.py:450
 #, fuzzy
