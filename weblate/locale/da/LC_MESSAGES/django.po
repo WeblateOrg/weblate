@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-02 07:02+0000\n"
-"PO-Revision-Date: 2018-10-31 14:20+0000\n"
+"PO-Revision-Date: 2018-11-04 16:25+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -2191,10 +2191,8 @@ msgid "Privacy Policy"
 msgstr "Privatlivspolitik"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
-msgstr "Cookies anvendes til følgende:"
+msgstr "Cookies anvendes på stedet til følgende:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
@@ -2208,23 +2206,16 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Præferencecookie til at gemme brugerpræferencer i visse situationer."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Matomo bruges til at analysere trafikken på vores websted. Matomo "
-"respekterer Do Not Track-indstillinger i browseren."
+"Stedet bruger Matomo til at analysere trafikken på webstedet. Matomo "
+"respekterer &quot;Do Not Track&quot;-indstillinger i din browser."
 
 #: weblate/legal/templates/legal/cookies.html:39
-#, fuzzy
-#| msgid "We use Google Analytics to analyze traffic on our website."
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
-"Vi bruger Google Analytics til at analysere trafikken på vores websted."
+msgstr "Stedet bruger Google Analytics til at analysere trafikken på webstedet."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -3550,42 +3541,32 @@ msgid "Recurring payment"
 msgstr "Gentagende betaling"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Startdato"
+msgstr "Over forfaldsdato"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "Indenfor grænserne"
+msgstr "Overstiger grænserne"
 
 #: weblate/templates/billing/detail.html:29
 msgid "Change plan"
 msgstr "Skift plan"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Ydeevne"
+msgstr "Udfør betaling"
 
 #: weblate/templates/billing/detail.html:36
-#, fuzzy
-#| msgid "Disable recurring payment"
 msgid "Terminate recurring payment"
-msgstr "Deaktivér gentagende betaling"
+msgstr "Stop gentagende betaling"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "For at stoppe fakturering skal alle projekter først fjernes."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Terminate billing"
 msgid "Terminate billing plan"
-msgstr "Stop fakturering"
+msgstr "Stop faktureringsplan"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -4870,10 +4851,12 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Din faktureringsplan er udløbet. Hvis du fortsat vil bruge tjenesten, så "
+"forny den venligst ved at bruge følgende link:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Din faktureringsplan er udløbet"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5456,10 +5439,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Denne oversættelse er i øjeblikket låst for opdateringer."
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "Denne oversættelse er i øjeblikket låst for opdateringer."
+msgstr "Projektet er i øjeblikket låst pga. fakturering som ikke er betalt."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5704,7 +5685,7 @@ msgstr ""
 #: weblate/templates/translate.html:207
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "Oversættelsen accepterer kun forslag og de godkendes ved afstemning."
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -7380,8 +7361,7 @@ msgstr "Kan ikke validere fil match grundet ugyldigt regulært udtryk."
 
 #: weblate/trans/models/component.py:1334
 msgid "Automatically accepting suggestions can work only with voting enabled!"
-msgstr ""
-"Automatisk accepterer forslag kan kun arbejde med stemmeafgivelse aktiveret!"
+msgstr "Automatisk accept af forslag virker kun når afstemning er aktiveret!"
 
 #: weblate/trans/models/component.py:1483
 msgid "Failed to add new translation file!"
@@ -8525,10 +8505,8 @@ msgid "Weblate administration"
 msgstr "Weblate administration"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Objektliste deaktiveret"
+msgstr "Objektlistning er slået fra"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
