@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-02 07:02+0000\n"
-"PO-Revision-Date: 2018-10-30 20:24+0000\n"
+"PO-Revision-Date: 2018-11-04 16:26+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -2196,10 +2196,8 @@ msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
-msgstr "Ми використовуємо реп'яшки для таких цілей:"
+msgstr "Реп'яшки використовуються сайтом для таких цілей:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
@@ -2216,23 +2214,16 @@ msgstr ""
 "випадках."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Ми використовуємо Matomo для аналізу трафіку на нашому сайті. Matomo поважає "
-"ваші права і НЕ відстежує налаштування у вашому веб-переглядачі."
+"Сайт використовує Matomo для аналізу трафіку. Matomo поважає параметр &quot;"
+"Не відстежувати&quot; у вашому веб-переглядачі."
 
 #: weblate/legal/templates/legal/cookies.html:39
-#, fuzzy
-#| msgid "We use Google Analytics to analyze traffic on our website."
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
-"Ми використовуємо Google Analytics для аналізу трафіку на нашому веб-сайті."
+msgstr "Сайт використовує Google Analytics для аналізу трафіку."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -3579,42 +3570,32 @@ msgid "Recurring payment"
 msgstr "Регулярність платежів"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Дата початку"
+msgstr "Протермінована дата"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "У межах"
+msgstr "Перевищує ліміти"
 
 #: weblate/templates/billing/detail.html:29
 msgid "Change plan"
 msgstr "Змінити план"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Продуктивність"
+msgstr "Здійснити оплату"
 
 #: weblate/templates/billing/detail.html:36
-#, fuzzy
-#| msgid "Disable recurring payment"
 msgid "Terminate recurring payment"
-msgstr "Вимкнути повторення платежів"
+msgstr "Припинити повторення платежів"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Щоб припинити план, потрібно вилучити спершу усі проекти."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Terminate billing"
 msgid "Terminate billing plan"
-msgstr "Припинити план"
+msgstr "Припинити тарифний план"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -4896,10 +4877,12 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Термін дії тарифного плану минав, якщо ви хочете продовжити використання "
+"цієї послуги, оновіть план, використовуючи це посилання:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Термін дії тарифного плану минув"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5481,10 +5464,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Цей переклад наразі заблокований для оновлень."
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "Цей переклад наразі заблокований для оновлень."
+msgstr "Цей переклад наразі заблокований через неоплачені рахунки."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5727,7 +5708,7 @@ msgstr ""
 #: weblate/templates/translate.html:207
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "Цей переклад приймає тільки пропозиції і вони схвалені голосуванням."
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -8580,10 +8561,8 @@ msgid "Weblate administration"
 msgstr "Адміністрування Weblate"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Перерахування об'єктів — вимкнено"
+msgstr "Список об'єктів — вимкнено"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
