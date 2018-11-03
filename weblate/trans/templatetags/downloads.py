@@ -5,40 +5,42 @@ from django.utils.translation import gettext as _
 register = template.Library()
 
 @register.simple_tag(takes_context=True)
-def download_translation_url(context):
-    template = "{% url 'download_translation' project=project.slug "
-    if context.get('component') != None:
-        template += "component=component.slug"
-        
-    template += "%}"
+def translation_download_url(context):
+    #template = "{% url 'download_translation' project=project.slug "
+    #if context.get('component') != None:
+    #    template += "component=component.slug"
+    #    
+    #template += "%}"
 
-    query_params = []
-    if context.get('exporter') != None:
-        query_params.append("format={{exporter.name}}")
-        
-    if context.get('language') != None:
-        query_params.append("lang={{language.code}}")
+    #query_params = []
+    #if context.get('exporter') != None:
+    #    query_params.append("format={{exporter.name}}")
+    #    
+    #if context.get('language') != None:
+    #    query_params.append("lang={{language.code}}")
 
-    if query_params.__sizeof__() > 0:
-        template += '?'
-        template += "&".join(query_params)
+    #if query_params.__sizeof__() > 0:
+    #    template += '?'
+    #    template += "&".join(query_params)
 
-    return Template(template).render(context)
+    #return Template(template).render(context)
+    return "testUrl"
 
 @register.simple_tag(takes_context=True)
 def translation_download_link(context, todo=False):
-    before_link_text = '''
-        {% load downloads %}
-        {% load i18n %}
+    #before_link_text = '''
+    #    {% load downloads %}
+    #    {% load i18n %}
 
-        <a href="{% download_translation_url  %}" 
-        title="{% trans "Download for an offline translation." %}">
-    '''
+    #    <a href="{% translation_download_url  %}" 
+    #    title="{% trans "Download for an offline translation." %}">
+    #'''
 
-    closing_tag = "</a>"
-    
-    template = before_link_text + link_text(context) + closing_tag
-    return Template(template).render(context)
+    #closing_tag = "</a>"
+    #
+    #template = before_link_text + link_text(context) + closing_tag
+    #return Template(template).render(context)
+    return "testLink"
 
 
 def link_text(context):
