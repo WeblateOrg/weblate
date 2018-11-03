@@ -3,12 +3,12 @@ from unittest import TestCase
 from weblate.trans.templatetags.downloads import link_text
 
 class Context():
-    def get(what):
+    def get(self, what):
         return {'name': 'test'}
 
 class ContextNoExport():
-    def get(what):
-        return Null
+    def get(self, what):
+        return None
 
 class DownloadTest(TestCase):
     def test_with_exporter(self):
