@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-import sys
-
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
@@ -30,8 +28,8 @@ from django.views.decorators.http import require_POST
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form, DownloadForm
-from weblate.trans.views.helper import (
-    get_translation, download_translation_files, show_form_errors,
+from weblate.utils.views import (
+    get_translation, download_translation_file, show_form_errors,
 )
 from weblate.trans.models import Project
 
@@ -116,7 +114,6 @@ def upload_translation(request, project, component, lang):
             request.FILES['file'],
             overwrite,
             author,
-            merge_header=form.cleaned_data['merge_header'],
             method=form.cleaned_data['method'],
             fuzzy=form.cleaned_data['fuzzy'],
         )
@@ -138,6 +135,6 @@ def upload_translation(request, project, component, lang):
         messages.error(
             request, _('File content merge failed: %s') % force_text(error)
         )
-        report_error(error, sys.exc_info(), request)
+        report_error(error, request)
 
     return redirect(obj)

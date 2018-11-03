@@ -12,8 +12,14 @@
 <tr>
 <th>{% trans "Pending suggestions" %}</th>
 <td>
-<a href="{% url 'user_suggestions' user=user %}" class="pull-right flip btn btn-sm btn-default">{% trans "Browse pending" %}</a>
+<a href="{% url 'user_suggestions' user=user.username %}" class="pull-right flip btn btn-sm btn-default">{% trans "Browse pending" %}</a>
 {{ user.suggestion_set.count }}
+</td>
+</tr>
+<tr>
+<th>{% trans "Screenshots uploaded" %}</th>
+<td>
+{{ profile.uploaded }}
 </td>
 </tr>
 <tr>

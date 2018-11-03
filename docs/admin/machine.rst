@@ -20,8 +20,8 @@ To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
 
 .. seealso:: 
    
-    `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
-    `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
+    :doc:`virtaal:amagama`,
+    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
 
@@ -58,6 +58,27 @@ To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
 
     :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
     `Amazon Translate Documentation <https://aws.amazon.com/documentation/translate/>`_
+
+.. _baidu-translate:
+
+Baidu API machine translation
+-----------------------------
+
+.. versionadded:: 3.2
+
+Machine translation service provided by Baidu.
+
+This service uses an API and you need to obtain ID and API key from Baidu.
+
+To enable this service, add ``weblate.machinery.baidu.BaiduTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and
+:setting:`MT_BAIDU_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_BAIDU_ID`,
+    :setting:`MT_BAIDU_SECRET`
+    `Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_
 
 .. _deepl:
 
@@ -114,31 +135,6 @@ To enable this service, add ``weblate.machinery.google.GoogleTranslation`` to
     :setting:`MT_GOOGLE_KEY`,
     `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
-.. _ms-translate:
-
-Microsoft Translator
---------------------
-
-.. deprecated:: 2.10
-
-.. note::
-
-    This service is deprecated by Microsoft and has been replaced by
-    :ref:`ms-cognitive-translate`.
-
-Machine translation service provided by Microsoft, it's known as Bing Translator as well.
-
-You need to register at Azure market and use Client ID and secret from there.
-
-To enable this service, add ``weblate.machinery.microsoft.MicrosoftTranslation`` to
-:setting:`MT_SERVICES`.
-
-.. seealso::
-
-    :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
-    `Bing Translator <https://www.bing.com/translator/>`_,
-    `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
 .. _ms-cognitive-translate:
 
 Microsoft Cognitive Services Translator
@@ -161,7 +157,7 @@ To enable this service, add ``weblate.machinery.microsoft.MicrosoftCognitiveTran
 .. seealso::
     
     :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
-    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. _ms-terminology:
@@ -175,7 +171,7 @@ The Microsoft Terminology Service API allows you to programmatically access the
 terminology, definitions and user interface (UI) strings available on the
 Language Portal through a web service.
 
-To enable this service, add ``weblate.machinery.microsoft.MicrosoftTerminologyService`` to
+To enable this service, add ``weblate.machinery.microsoftterminology.MicrosoftTerminologyService`` to
 :setting:`MT_SERVICES`.
 
 .. seealso::
@@ -202,6 +198,27 @@ To enable this service, add ``weblate.machinery.mymemory.MyMemoryTranslation`` t
     :setting:`MT_MYMEMORY_USER`,
     :setting:`MT_MYMEMORY_KEY`,
     `MyMemory website <https://mymemory.translated.net/>`_
+
+.. _netease-translate:
+
+Netease Sight API machine translation
+-------------------------------------
+
+.. versionadded:: 3.3
+
+Machine translation service provided by Netease.
+
+This service uses an API and you need to obtain key and secret from Netease.
+
+To enable this service, add ``weblate.machinery.youdao.NeteaseSightTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_NETEASE_KEY` and
+:setting:`MT_NETEASE_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_NETEASE_KEY`,
+    :setting:`MT_NETEASE_SECRET`
+    `Netease Sight Translation Platform <https://sight.netease.com/>`_
 
 .. _tmserver:
 
@@ -239,8 +256,9 @@ And configure Weblate to talk to it:
 
     :setting:`MT_TMSERVER`,
     :doc:`tt:commands/tmserver`
-    `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
-    `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
+    :doc:`virtaal:amagama`,
+    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
+
 
 .. _yandex-translate:
 
@@ -258,7 +276,28 @@ To enable this service, add ``weblate.machinery.yandex.YandexTranslation`` to
 
     :setting:`MT_YANDEX_KEY`,
     `Yandex Translate API <https://tech.yandex.com/translate/>`_,
-    `Powered by Yandex.Translate <http://translate.yandex.com/>`_
+    `Powered by Yandex.Translate <https://translate.yandex.com/>`_
+
+.. _youdao-translate:
+
+Youdao Zhiyun API machine translation
+-------------------------------------
+
+.. versionadded:: 3.2
+
+Machine translation service provided by Youdao.
+
+This service uses an API and you need to obtain ID and API key from Youdao.
+
+To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_YOUDAO_ID` and
+:setting:`MT_YOUDAO_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_YOUDAO_ID`,
+    :setting:`MT_YOUDAO_SECRET`
+    `Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/product-fanyi.s>`_
 
 Weblate
 -------
@@ -277,7 +316,7 @@ Weblate Translation Memory
 
 .. versionadded:: 2.20
 
-The :ref:`translation-memory` can use used as source for machine translation
+The :ref:`translation-memory` can be used as source for machine translation
 suggestions as well.
 
 To enable these services, add ``weblate.memory.machine.WeblateMemory`` to

@@ -29,7 +29,7 @@ from dateutil import parser
 import six
 from six.moves.configparser import RawConfigParser
 
-from weblate.vcs.ssh import get_wrapper_filename
+from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
 
 
@@ -46,6 +46,8 @@ class HgRepository(Repository):
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
+    ref_to_remote = 'heads(branch(.)) - .'
+    ref_from_remote = 'outgoing()'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
 
@@ -60,7 +62,7 @@ class HgRepository(Repository):
     def check_config(self):
         """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
-        self.set_config('ui.ssh', get_wrapper_filename())
+        self.set_config('ui.ssh', SSH_WRAPPER.filename)
 
     @classmethod
     def _clone(cls, source, target, branch=None):
@@ -143,10 +145,7 @@ class HgRepository(Repository):
                 try:
                     self.execute(['rebase', '-d', 'remote(.)'])
                 except RepositoryException as error:
-                    if error.stdout:
-                        message = error.stdout
-                    else:
-                        message = error.stderr
+                    message = error.stdout if error.stdout else error.stderr
                     # Mercurial 3.8 changed error code and output
                     if (error.retcode in (1, 255) and
                             'nothing to rebase' in message):
@@ -237,32 +236,18 @@ class HgRepository(Repository):
 
         return result
 
+    def log_revisions(self, refspec):
+        """Return revisin log for given refspec."""
+        return self.execute(
+            ['log', '--template', '"{node}\n"', '--rev', refspec],
+            needs_lock=False
+        ).splitlines()
+
     def needs_ff(self):
         """Check whether repository needs a fast-forward to upstream
         (the path to the upstream is linear).
         """
-        return self.execute(
-            ['log', '-r', '.::remote(.) - .'],
-            needs_lock=False
-        ) != ''
-
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (has multiple heads or not up-to-date).
-        """
-        return self.execute(
-            ['log', '-r', 'heads(branch(.)) - .'],
-            needs_lock=False
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self.execute(
-            ['log', '-r', 'outgoing()'],
-            needs_lock=False
-        ) != ''
+        return bool(self.log_revisions('.::remote(.) - .'))
 
     @classmethod
     def _get_version(cls):
@@ -352,3 +337,8 @@ class HgRepository(Repository):
             ['cat', '--rev', revision, path],
             needs_lock=False
         )
+
+    def cleanup(self):
+        """Remove not tracked files from the repository."""
+        self.set_config('extensions.purge', '')
+        self.execute(['purge'])

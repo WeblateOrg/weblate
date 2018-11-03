@@ -24,12 +24,12 @@
 {% perm 'translation.add' object as user_can_add_translation %}
 {% perm 'component.edit' object as user_can_edit_component %}
 
-{% include "show-lock.html" %}
-{% show_contributor_agreement object %}
+{% include "show-component-state.html" %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
@@ -49,7 +49,6 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
@@ -74,6 +73,7 @@
       <li role="separator" class="divider"></li>
       {% endif %}
       <li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
+      <li><a href="{% url 'memory' project=object.project.slug %}">{% trans "Translation memory" %}</a></li>
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
@@ -115,7 +115,7 @@
 {% if user_can_add_translation %}
 <a class="btn btn-default" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
 {% else %}
-<button disabled="disabled" class="btn btn-default text-tooltip" title="{% if user.is_authenticated %}{% trans "You don't have permission to start new translation" %}{% else %}{% trans "Please login to start new translation "%}{% endif %}">{% trans "Start new translation" %}</button>
+<button disabled="disabled" class="btn btn-default text-tooltip" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please log in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>
 {% endif %}
 </p>
 {% endif %}

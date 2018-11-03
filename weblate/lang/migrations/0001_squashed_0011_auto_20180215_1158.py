@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 
+import weblate.utils.validators
+
 
 class Migration(migrations.Migration):
 
@@ -36,7 +38,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('source', models.SmallIntegerField(choices=[(0, 'Default plural'), (1, 'Gettext plural formula')], default=0, verbose_name='Plural definition source')),
                 ('number', models.SmallIntegerField(default=2, verbose_name='Number of plurals')),
-                ('equation', models.CharField(default='n != 1', max_length=400, verbose_name='Plural equation')),
+                ('equation', models.CharField(default='n != 1', max_length=400, validators=[weblate.utils.validators.validate_pluraleq], verbose_name='Plural equation')),
                 ('type', models.IntegerField(choices=[(0, 'None'), (1, 'One/other (classic plural)'), (2, 'One/few/other (Slavic languages)'), (3, 'Arabic languages'), (11, 'Zero/one/other'), (4, 'One/two/other'), (14, 'One/other/two'), (6, 'One/two/few/other'), (13, 'Other/one/two/few'), (5, 'One/two/three/other'), (7, 'One/other/zero'), (8, 'One/few/many/other'), (9, 'Two/other'), (10, 'One/two/few/many/other'), (666, 'Unknown')], default=1, editable=False, verbose_name='Plural type')),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
             ],

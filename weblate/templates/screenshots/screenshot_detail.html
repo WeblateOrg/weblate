@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load permissions %}
 {% load crispy_forms_tags %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
@@ -51,6 +52,7 @@
     <tr>
     <th>{% trans "Source string" %}</th>
     <th>{% trans "Context" %}</th>
+    <th>{% trans "Location" %}</th>
     <th>{% trans "Actions" %}</th>
     </tr>
     </thead>
@@ -104,7 +106,17 @@
   </div>
 </div>
 </form>
+
 {% endif %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Screenshot details" %}</h4></div>
+ 
+<table class="table table-condensed table-striped">
+<tr><th>{% trans "Created on" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
+<tr><th>{% trans "Uploaded by" %}</th><td>{{ object.get_user_display }}</td></tr>
+</table>
+
+</div>
 
 {% if user_can_delete_screenshot %}
 <div class="panel panel-danger">

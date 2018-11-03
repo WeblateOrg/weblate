@@ -52,7 +52,7 @@ class WeblateSitemap(Sitemap):
         raise NotImplementedError()
 
     def lastmod(self, item):
-        return item.last_change
+        return item.stats.last_changed
 
 
 class ProjectSitemap(WeblateSitemap):
@@ -101,7 +101,7 @@ class EngageLangSitemap(Sitemap):
             access_control__lt=Project.ACCESS_PRIVATE
         )
         for project in projects:
-            for lang in project.get_languages():
+            for lang in project.languages:
                 ret.append((project, lang))
         return ret
 

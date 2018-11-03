@@ -30,7 +30,6 @@ import six
 
 from translate.storage.csvl10n import csv
 from translate.storage.po import pounit, pofile
-from translate.storage.poheader import default_header
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
@@ -182,7 +181,7 @@ class CSVUnit(MonolingualSimpleUnit):
         if self.template is not None:
             if self.template.id:
                 return self.template.id
-            elif self.template.context:
+            if self.template.context:
                 return self.template.context
             return self.template.getid()
         return self.mainunit.getcontext()
@@ -267,37 +266,6 @@ class PoFormat(FileFormat):
             language_team='none',
         )
 
-    def merge_header(self, otherstore):
-        """Try to merge headers"""
-        if (not hasattr(self.store, 'updateheader') or
-                not hasattr(otherstore.store, 'parseheader')):
-            return
-        values = otherstore.store.parseheader()
-        skip_list = (
-            'Plural-Forms',
-            'Content-Type',
-            'Content-Transfer-Encoding',
-            'MIME-Version',
-            'Language',
-        )
-        update = {}
-        for key in values:
-            if key in skip_list:
-                continue
-            if values[key] == default_header.get(key):
-                continue
-            update[key] = values[key]
-
-        self.store.updateheader(**update)
-
-        header = self.store.header()
-        newheader = otherstore.store.header()
-        if not header or not newheader:
-            return
-
-        header.removenotes()
-        header.addnote(newheader.getnotes())
-
 
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
@@ -318,6 +286,14 @@ class TSFormat(FileFormat):
     loader = tsfile
     autoload = ('.ts',)
     unit_class = TSUnit
+
+    @classmethod
+    def untranslate_store(cls, store, language, fuzzy=False):
+        """Remove translations from ttkit store"""
+        # We need to mark all units as fuzzy to get
+        # type="unfinished" on empty strings, which are otherwise
+        # treated as translated same as source
+        super(TSFormat, cls).untranslate_store(store, language, True)
 
 
 class XliffFormat(FileFormat):
@@ -360,7 +336,20 @@ class PoXliffFormat(XliffFormat):
     loader = PoXliffFile
 
 
-class StringsFormat(FileFormat):
+class PropertiesBaseFormat(FileFormat):
+    @classmethod
+    def is_valid(cls, store):
+        result = super(PropertiesBaseFormat, cls).is_valid(store)
+        if not result:
+            return False
+
+        # Accept emty file, but reject file without a delimiter.
+        # Translate-toolkit happily parses anything into a property
+        # even if there is no delimiter used in the line.
+        return not store.units or store.units[0].delimiter
+
+
+class StringsFormat(PropertiesBaseFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
@@ -380,7 +369,7 @@ class StringsUtf8Format(StringsFormat):
     new_translation = '\n'
 
 
-class PropertiesUtf8Format(FileFormat):
+class PropertiesUtf8Format(PropertiesBaseFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
@@ -402,20 +391,16 @@ class PropertiesFormat(PropertiesUtf8Format):
 
     @classmethod
     def fixup(cls, store):
-        """Fixe encoding.
+        """Force encoding.
 
         Java properties need to be iso-8859-1, but
         ttkit converts them to utf-8.
-
-        This will be fixed in translate-toolkit 1.14.0, we could then
-        merge utf-16 and this one as the encoding detection should do
-        the correct magic then.
         """
         store.encoding = 'iso-8859-1'
         return store
 
 
-class JoomlaFormat(FileFormat):
+class JoomlaFormat(PropertiesBaseFormat):
     name = _('Joomla Language File')
     format_id = 'joomla'
     loader = ('properties', 'joomlafile')
@@ -477,9 +462,9 @@ class AndroidFormat(FileFormat):
         # Android doesn't use Hans/Hant, but rather TW/CN variants
         if code == 'zh_Hans':
             return 'zh-rCN'
-        elif code == 'zh_Hant':
+        if code == 'zh_Hant':
             return 'zh-rTW'
-        return code.replace('_', '-r')
+        return code.replace('-', '_').replace('_', '-r')
 
 
 class JSONFormat(FileFormat):
@@ -568,11 +553,7 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        # Do we have python 3 compatible csv module?
-        new_csv = six.PY3 or hasattr(csv, 'PY3')
-
-        if new_csv:
-            content = content.decode('utf-8')
+        content = content.decode('utf-8')
 
         fileobj = csv.StringIO(content)
         storefile.close()
@@ -587,10 +568,7 @@ class CSVFormat(FileFormat):
             return store
 
         result = storeclass(fieldnames=['source', 'target'])
-        if new_csv:
-            result.parse(content.encode('utf-8'))
-        else:
-            result.parse(content)
+        result.parse(content.encode('utf-8'))
         return result
 
 

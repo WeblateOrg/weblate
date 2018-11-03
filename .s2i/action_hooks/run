@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# This is a 'run' action hook script. This script must be executable and
+# will be run in place of the 'run' script provided by the S2I builder.
+# The application to run in the container must be launched by this
+# script and it must inherit the process ID of this script by using
+# 'exec' to run the application.
+
+set -eo pipefail
+
+ARGS=""
+
+# Ensure that all logging from Apache goes to the terminal. If you
+# want exceptions to be logged from Django, you will need to setup
+# LOGGING in Django settings appropriately.
+
+ARGS="$ARGS --log-to-terminal"
+
+# OpenShift S2I builders for Python all use port 8080 as exposed port.
+
+ARGS="$ARGS --port 8080"
+
+# Adjust number of mod_wsgi daemon mode processes and threads.
+
+if [ x"$MOD_WSGI_PROCESSES" != x"" ]; then
+    ARGS="$ARGS --processes $MOD_WSGI_PROCESSES"
+fi
+
+if [ x"$MOD_WSGI_THREADS" != x"" ]; then
+    ARGS="$ARGS --threads $MOD_WSGI_THREADS"
+fi
+
+# Enable request access logging if user has requested it.
+
+if [ x"$MOD_WSGI_ACCESS_LOG" != x"" ]; then
+    ARGS="$ARGS --access-log"
+fi
+
+# Trust the proxy headers sent by the router for the remote client.
+
+ARGS="$ARGS --trust-proxy-header X-Forwarded-For"
+ARGS="$ARGS --trust-proxy-header X-Forwarded-Port"
+ARGS="$ARGS --trust-proxy-header X-Forwarded-Proto"
+
+# Map URLs to static files for browser icon and robots file.
+
+ARGS="$ARGS --url-alias /robots.txt weblate/static/robots.txt"
+ARGS="$ARGS --url-alias /favicon.ico weblate/static/favicon.ico"
+
+# Map URL for static assets. Assumed here that URL_PREFIX is empty.
+
+ARGS="$ARGS --url-alias /static /opt/app-root/src/wsgi/static"
+
+# Map URL for media uploads. Assumed here that URL_PREFIX is empty.
+
+ARGS="$ARGS --url-alias /media /opt/app-root/data/media"
+
+# Import WSGI application via module import of weblate.wsgi.
+
+ARGS="$ARGS --application-type module"
+ARGS="$ARGS --entry-point weblate.wsgi"
+
+# Run mod_wsgi-express.
+
+exec mod_wsgi-express start-server $ARGS

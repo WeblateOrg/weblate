@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# This is a 'build' action hook script. This script must be executable
+# and will be run by the S2I process after the original S2I 'assemble'
+# script has been run. This hook is to allow a user to run additional
+# build steps which may need the source code or build artefacts in
+# place, or to setup any data required for the application.
+
+set -eo pipefail
+
+# Use the directory /opt/app-root/data for data. This would usually be
+# used as a mount point for a separate persistent volume, but could be
+# use if creating an ephemral instance for testing with data being
+# thrown away on restarts.
+
+echo " -----> Creating mount point for data directory."
+
+mkdir -p /opt/app-root/data
+
+# Install mod_wsgi even though not mentioned in requirements.txt file.
+
+echo " -----> Installing mod_wsgi-express."
+
+pip install mod_wsgi
+
+# Install any optional package requirements. Don't fail if a package
+# cannot be installed. Skip 'tesserocr' as we know that will not be able
+# to be installed and can cause memory resource limit to be reached with
+# the build container being killed off.
+
+echo " -----> Installing optional package requirements."
+
+while read line; do
+    case "$line" in
+        -r*|\#*) continue ;;
+        tesserocr*) continue ;;
+        *) pip install --no-cache-dir "$line" || true ;;
+    esac
+done < requirements-optional.txt
+
+# Install MySQL and PostgreSQL Python packages.
+
+echo " -----> Installing Python database client packages."
+
+pip install --no-cache-dir mysqlclient
+pip install --no-cache-dir psycopg2
+
+# Collect together all static assets used by the application.
+
+echo " -----> Running collection of Django static resources."
+
+python manage.py collectstatic --noinput
+
+# Generate language specific message files used by the application.
+
+echo " -----> Running creation of language specific message files."
+
+python manage.py compilemessages
+
+# Delete the data directory and re-create it as an empty directory to
+# avoid permissions issues with files created as a side effect of the
+# running of the Django management commands above. This is only really
+# an issue when using ephemeral instance. If mounted a new persistent
+# volume over the data directory, everything in it from the build would
+# be hidden anyway.
+
+rm -rf /opt/app-root/data
+
+mkdir -p /opt/app-root/data
+
+# Fixup permissions on all directories/files so still writable by group
+# 'root' and can be updated when image is run with assigned user ID.
+
+fix-permissions /opt/app-root

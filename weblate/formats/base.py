@@ -362,7 +362,7 @@ class FileFormat(object):
         # Check store validity
         if not self.is_valid(self.store):
             raise ValueError(
-                'Invalid file format {0}'.format(self.store)
+                'Invalid file format {0}'.format(repr(self.store))
             )
         # Remember template
         self.template_store = template_store
@@ -544,10 +544,10 @@ class FileFormat(object):
         return True
 
     @classmethod
-    def is_valid_base_for_new(cls, base):
+    def is_valid_base_for_new(cls, base, monolingual):
         """Check whether base is valid."""
         if not base:
-            return cls.new_translation is not None
+            return monolingual and cls.new_translation is not None
         try:
             cls.parse_store(base)
             return True
@@ -616,10 +616,6 @@ class FileFormat(object):
                     set_fuzzy = True
 
             yield set_fuzzy, unit
-
-    def merge_header(self, otherstore):
-        """Try to merge headers"""
-        return
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):

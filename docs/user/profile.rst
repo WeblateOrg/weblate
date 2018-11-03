@@ -142,4 +142,4 @@ filename and line placeholders.  Usually something like
 .. seealso::
 
     You can find more information on registering custom URL protocols for editor in
-    `nette documentation <https://pla.nette.org/en/how-open-files-in-ide-from-debugger>`_.
+    `nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_.

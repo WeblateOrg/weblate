@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# This is a 'setup' action hook script. This script must be executable
+# and will only be run by explicit execution of 'powershift image setup'.
+# The script should include any once off actions to setup an environment
+# for the application.
+
+set -eo pipefail
+
+# Don't run setup of the application if it has already been done.
+
+mkdir -p /opt/app-root/data/markers
+
+if [ ! -f /opt/app-root/data/markers/setup ]; then
+    date > /opt/app-root/data/markers/setup
+else
+    exit 0
+fi
+
+# Perform initial setup of the database for the application.
+
+echo " -----> Running Django database table migrations."
+
+python manage.py migrate --noinput
+
+# Perform setup of Weblate definitions in database.
+
+echo " -----> Setting up Weblate language definitions."
+
+python manage.py setuplang
+
+echo " -----> Setting up Weblate group definitions."
+
+python manage.py setupgroups
+
+echo " -----> Rebuild index after initial updates."
+
+python manage.py rebuild_index --all
+
+# Create an initial super user account if supplied with credentials, or
+# if script run in an interactive session, prompt for the credentials.
+
+if [ x"$DJANGO_ADMIN_USERNAME" != x"" ]; then
+    echo " -----> Creating predefined Django super user"
+    python manage.py createadmin --username "$DJANGO_ADMIN_USERNAME" --email "$DJANGO_ADMIN_EMAIL" --password "$DJANGO_ADMIN_PASSWORD"
+else
+    if (tty > /dev/null 2>&1); then
+        echo " -----> Running Django super user creation"
+        python manage.py createsuperuser
+    fi
+fi

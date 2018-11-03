@@ -45,17 +45,17 @@ using :command:`docker exec`:
     docker exec <container> weblate list_versions
 
 With :program:`docker-compose` this is quite similar, you just have to use
-:command:`docker-compose run`:
+:command:`docker-compose exec`:
 
 .. code-block:: sh
 
-    docker-compose run --rm weblate list_versions
+    docker-compose exec weblate weblate list_versions
 
 In case you need to pass some file, you can temporary add a volume:
 
 .. code-block:: sh
 
-    docker-compose run --rm --volume /tmp:/tmp weblate importusers /tmp/users.json
+    docker-compose exec /tmp:/tmp weblate weblate importusers /tmp/users.json
 
 .. seealso::
 
@@ -117,6 +117,14 @@ Performs automatic translation based on other component translations.
 .. django-admin-option:: --add
 
     Automatically add language if given translation does not exist.
+
+.. django-admin-option:: --mt MT
+
+    Use machine translation instead of other components.
+
+.. django-admin-option:: --threshold THRESHOLD
+
+    Similarity threshold for machine translation, defaults to 80.
 
 Example:
 
@@ -211,7 +219,9 @@ cleanuptrans
 
 .. django-admin:: cleanuptrans
 
-Cleanups orphaned checks and translation suggestions.
+Cleanups orphaned checks and translation suggestions. This is normally not
+needed to execute manually, the cleanups happen automatically in the
+background.
 
 .. seealso::
    
@@ -539,6 +549,12 @@ Installs addon to set of components.
 You can either define on which project or component to install addon (eg.
 ``weblate/master``) or use ``--all`` to include all existing components.
 
+For example installing :ref:`addon-weblate.gettext.customize` to all components:
+
+.. code-block:: shell
+
+   ./manage.py install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
+
 .. seealso::
 
    :ref:`addons`
@@ -559,7 +575,7 @@ list_languages
 Lists supported language in MediaWiki markup - language codes, English names
 and localized names.
 
-This is used to generate <http://wiki.l10n.cz/Jazyky>.
+This is used to generate <https://wiki.l10n.cz/Jazyky>.
 
 list_memory
 -----------
@@ -645,6 +661,26 @@ You can either define which project or component to update (eg.
    
    :djadmin:`unlock_translation`
 
+optimize_memory
+---------------
+
+.. django-admin:: optimize_memory
+
+.. versionadded:: 3.2
+
+Optimizes translation memory storage.
+
+.. django-admin-option:: --rebuild
+
+    The index will be completely rebuilt by dumping all content and creating it again.
+    It is recommended to backup it prior to this operation.
+
+.. seealso::
+
+    :ref:`translation-memory`,
+    :doc:`backup`,
+    :djadmin:`dump_memory`
+
 pushgit
 -------
 
@@ -674,7 +710,8 @@ have a huge set of translation units.
 
 .. django-admin-option:: --clean
 
-    Removes all words from database prior updating.
+    Removes all words from database prior updating, this is implicit when
+    called with ``--all``.
 
 .. django-admin-option:: --optimize
 
@@ -684,20 +721,6 @@ have a huge set of translation units.
 .. seealso:: 
    
    :ref:`fulltext`
-
-update_index
-------------
-
-.. django-admin:: update_index
-
-Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
-
-It is recommended to run this frequently (eg. every 5 minutes) to have index
-uptodate.
-
-.. seealso:: 
-   
-   :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
 
 unlock_translation
 ------------------

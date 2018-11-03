@@ -36,7 +36,7 @@ class ReviewTest(ViewTestCase):
         unit = self.get_unit()
         unit.target = 'Ahoj svete!\n'
         unit.state = STATE_APPROVED
-        unit.save(backend=True)
+        unit.save()
 
     def check_result(self, fail):
         unit = self.get_unit()

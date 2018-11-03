@@ -36,13 +36,10 @@ from django.core.cache import cache
 
 from weblate.auth.models import Group, Role, Permission, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.management.commands.update_index import (
-    Command as UpdateIndexCommand
-)
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import create_test_user
+from weblate.trans.tests.utils import create_test_user, wait_for_celery
 from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 
@@ -80,8 +77,12 @@ class RegistrationTestMixin(object):
 
 
 class ViewTestCase(RepoTestCase):
+    fake_search = True
+
     def setUp(self):
         super(ViewTestCase, self).setUp()
+        if self.fake_search:
+            Fulltext.FAKE = True
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
@@ -119,9 +120,13 @@ class ViewTestCase(RepoTestCase):
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
 
+    def tearDown(self):
+        super(ViewTestCase, self).tearDown()
+        if self.fake_search:
+            Fulltext.FAKE = False
+
     def update_fulltext_index(self):
-        command = UpdateIndexCommand()
-        command.do_update(Fulltext(), 100000)
+        wait_for_celery()
 
     def make_manager(self):
         """Make user a Manager."""
@@ -339,7 +344,7 @@ class NewLangTest(ViewTestCase):
             reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Start new translation')
-        self.assertContains(response, 'permission to start new translation')
+        self.assertContains(response, 'permission to start a new translation')
 
         # Test adding fails
         response = self.client.post(
@@ -602,7 +607,12 @@ class BasicLinkViewTest(BasicViewTest):
 
 
 class HomeViewTest(ViewTestCase):
-    """Test for home/inidex view."""
+    """Test for home/index view."""
+    def test_view_home_anonymous(self):
+        self.client.logout()
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'Browse 1 project')
+
     def test_view_home(self):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')

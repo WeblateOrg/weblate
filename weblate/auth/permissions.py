@@ -103,8 +103,14 @@ def check_can_edit(user, permission, obj, is_vote=False):
     if isinstance(obj, Translation):
         translation = obj
         component = obj.component
+        project = component.project
     elif isinstance(obj, Component):
         component = obj
+        project = component.project
+    elif isinstance(obj, Project):
+        project = obj
+    else:
+        raise ValueError('Uknown object for permission check!')
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
@@ -130,12 +136,15 @@ def check_can_edit(user, permission, obj, is_vote=False):
         return False
 
     # Special check for voting
-    if is_vote and component and not component.suggestion_voting:
+    if ((is_vote and component and not component.suggestion_voting) or
+            (not is_vote and translation and
+             component.suggestion_voting and
+             component.suggestion_autoaccept > 0 and
+             not check_permission(user, 'unit.override', obj))):
         return False
-    elif not is_vote and translation \
-            and component.suggestion_voting \
-            and component.suggestion_autoaccept > 0 \
-            and not check_permission(user, 'unit.override', obj):
+
+    # Billing limits
+    if not project.paid:
         return False
 
     return True

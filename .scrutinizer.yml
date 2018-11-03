@@ -2,32 +2,36 @@ checks:
     python:
         code_rating: true
         duplicate_code: true
-tools:
-    pylint:
-        python_version: '3'
-        config_file: 'ci/pylint-scrutinizer.rc'
+        classes_valid_slots: true
 filter:
     excluded_paths:
         - '*/migrations/*'
-before_commands:
-    - sudo pip3 install 'Django<2.0'
 build:
     environment:
         python: 3.6
         postgresql: true
     dependencies:
         override:
-            - pip install six
-            - pip install 'Django<2.0'
             - pip install -r ci/requirements-scrutinizer.txt
-    tests:
-        override:
-            -
-                command: ./manage.py collectstatic --settings=weblate.settings_test --noinput
-            -
-                command: coverage run --source . ./manage.py test --settings=weblate.settings_test
-            -
-                command: coverage combine
-                coverage:
-                    file: .coverage
-                    format: py-cc
+    nodes:
+        analysis:
+            tests:
+                override:
+                  - 
+                    command: pylint-run --rcfile=.pylintrc
+                    idle_timeout: 360
+                  - py-scrutinizer-run
+        tests:
+            tests:
+                override:
+                    -
+                        command: export DJANGO_SETTINGS_MODULE=weblate.settings_test
+                    -
+                        command: ./manage.py collectstatic --noinput
+                    -
+                        command: coverage run --source . ./manage.py test
+                    -
+                        command: coverage combine
+                        coverage:
+                            file: .coverage
+                            format: py-cc

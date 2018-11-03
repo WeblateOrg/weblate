@@ -12,7 +12,7 @@ Git exporter
 .. versionadded:: 2.10
 
 The Git exporter provides you read only access to the underlaying Git repository
-using http.
+using HTTP.
 
 Installation
 ++++++++++++
@@ -90,6 +90,20 @@ After installation you can control billing in the admin interface. Users with
 billing enabled will get new :guilabel:`Billing` tab in their
 :ref:`user-profile`.
 
+The billing module additionally allows project admins to create new projects
+and components without being superusers (see :ref:`adding-projects`). This is
+possible when following conditions are met:
+
+* The billing is in it's configured limits (any overusage results in blocking
+  of project/component creation) and paid (if it's price is non zero)
+* The user is admin of existing project with billing or user is owner of
+  billing (the latter is necessary when creating new billing for users to be
+  able to import new projects).
+
+Upon project creation user is able to choose which billing should be charged
+for the project in case he has access to more of them.
+
+
 .. _legal:
 
 Legal
@@ -98,12 +112,23 @@ Legal
 .. versionadded:: 2.15
 
 Legal module is used on `Hosted Weblate <https://weblate.org/hosting/>`_
-and is used to provide required legal documents.
+and is used to provide required legal documents. It comes with blank documents
+and you are expected to provide following templates with the documents:
+
+:file:`legal/documents/tos.html`
+   Terms of service document
+:file:`legal/documents/privacy.html`
+   Privacy policy document
+:file:`legal/documents/summary.html`
+   Short overview of terms of service and privacy policy
 
 .. note::
 
-    The module ships legal documents for the Hosted Weblate service. You are
-    required to adjust the templates to match your use case.
+    You can find legal documents for the Hosted Weblate service in separate Git repository
+    <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/templates/legal/documents>.
+
+    Most likely these will not be directly usable for you, but you might want
+    to use them as a starting point and adjust them to match your use case.
 
 Installation
 ++++++++++++
@@ -161,6 +186,7 @@ Weblate currently supports single backend:
 .. seealso:: 
    
    :ref:`production-cache-avatar`,
+   :setting:`AVATAR_URL_PREFIX`,
    :setting:`ENABLE_AVATARS`
 
 Spam protection

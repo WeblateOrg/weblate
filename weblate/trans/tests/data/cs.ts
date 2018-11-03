@@ -7,7 +7,7 @@
     <message>
         <source>Hello, world!
 </source>
-        <translation>Ahoj světe!
+        <translation>Ahoj svete!
 </translation>
     </message>
     <message numerus="yes">

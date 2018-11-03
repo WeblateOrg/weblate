@@ -12,5 +12,20 @@
 {% blocktrans %}The server had serious problems serving your request. Trained monkeys are en-route fixing the issue.{% endblocktrans %}
 </p>
 
-{% endblock %}
+{% if request.sentry.id %}
+<p>{% blocktrans with error_id=request.sentry.id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
+{% if sentry_dsn %}
+<script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
+<script>
+Raven.showReportDialog({
+    eventId: '{{ request.sentry.id }}',
+
+    // use the public DSN (dont include your secret!)
+    dsn: '{{ sentry_dsn }}'
+});
+</script>
+{% endif %}
+{% endif %}
+
+{% endblock %}

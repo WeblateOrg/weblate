@@ -21,6 +21,7 @@
 from importlib import import_module
 
 from django.conf import settings
+from django.urls import reverse
 from django.utils.http import is_safe_url
 
 from social_django.strategy import DjangoStrategy
@@ -54,10 +55,19 @@ class WeblateStrategy(DjangoStrategy):
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
         if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
-            data['next'] = '/accounts/profile/#auth'
+            data['next'] = '{0}#auth'.format(reverse('profile'))
         return data
 
     def build_absolute_uri(self, path=None):
         if self.request:
             self.request.__dict__['_current_scheme_host'] = get_site_url()
         return super(WeblateStrategy, self).build_absolute_uri(path)
+
+    def clean_partial_pipeline(self, token):
+        # The cleanup somehow breaks our partial pipelines, simply skip
+        # it for now
+        # See https://github.com/python-social-auth/social-core/issues/287
+        return
+
+    def really_clean_partial_pipeline(self, token):
+        super(WeblateStrategy, self).clean_partial_pipeline(token)

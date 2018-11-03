@@ -60,6 +60,11 @@ class ComponentDiscoveryTest(RepoTestCase):
             {
                 'po/*.po': {
                     'files': {'po/cs.po', 'po/de.po', 'po/it.po'},
+                    'files_langs': {
+                        ('po/cs.po', 'cs'),
+                        ('po/de.po', 'de'),
+                        ('po/it.po', 'it'),
+                    },
                     'languages': {'cs', 'de', 'it'},
                     'mask': 'po/*.po',
                     'name': 'Po',
@@ -70,6 +75,11 @@ class ComponentDiscoveryTest(RepoTestCase):
                 'po-link/*.po': {
                     'files': {
                         'po-link/cs.po', 'po-link/de.po', 'po-link/it.po'
+                    },
+                    'files_langs': {
+                        ('po-link/cs.po', 'cs'),
+                        ('po-link/de.po', 'de'),
+                        ('po-link/it.po', 'it'),
                     },
                     'languages': {'cs', 'de', 'it'},
                     'mask': 'po-link/*.po',
@@ -83,6 +93,12 @@ class ComponentDiscoveryTest(RepoTestCase):
                         'po-mono/cs.po', 'po-mono/de.po',
                         'po-mono/it.po', 'po-mono/en.po'
                     },
+                    'files_langs': {
+                        ('po-mono/cs.po', 'cs'),
+                        ('po-mono/de.po', 'de'),
+                        ('po-mono/it.po', 'it'),
+                        ('po-mono/en.po', 'en'),
+                    },
                     'languages': {'cs', 'de', 'it', 'en'},
                     'mask': 'po-mono/*.po',
                     'name': 'Po-Mono',
@@ -92,6 +108,10 @@ class ComponentDiscoveryTest(RepoTestCase):
                 },
                 'second-po/*.po': {
                     'files': {'second-po/cs.po', 'second-po/de.po'},
+                    'files_langs': {
+                        ('second-po/cs.po', 'cs'),
+                        ('second-po/de.po', 'de'),
+                    },
                     'languages': {'cs', 'de'},
                     'mask': 'second-po/*.po',
                     'name': 'Second-Po',
@@ -121,10 +141,18 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(matched), 3)
         self.assertEqual(len(deleted), 0)
 
-        # Second discovery with restricted component match
+        # Remove some files
+        repository = self.component.repository
+        with repository.lock:
+            repository.remove(
+                ['po-link', 'second-po/cs.po', 'second-po/de.po'],
+                'Remove some files'
+            )
+
+        # Create new discover as it caches matches
         discovery = ComponentDiscovery(
             self.component,
-            r'(?P<component>po)/(?P<language>[^/]*)\.po',
+            r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
             '{{ component|title }}',
             '^(?!xx).*$',
         )
@@ -134,19 +162,19 @@ class ComponentDiscoveryTest(RepoTestCase):
             preview=True, remove=True
         )
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 0)
-        self.assertEqual(len(deleted), 3)
+        self.assertEqual(len(matched), 1)
+        self.assertEqual(len(deleted), 2)
 
         # Test component removal
         created, matched, deleted = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 0)
-        self.assertEqual(len(deleted), 3)
+        self.assertEqual(len(matched), 1)
+        self.assertEqual(len(deleted), 2)
 
         # Components should be now removed
         created, matched, deleted = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 0)
+        self.assertEqual(len(matched), 1)
         self.assertEqual(len(deleted), 0)
 
     def test_duplicates(self):

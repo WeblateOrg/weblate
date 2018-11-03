@@ -29,9 +29,8 @@ well.
 Social authentication
 ---------------------
 
-Thanks to `python-social-auth <https://python-social-auth.readthedocs.io/>`_, Weblate
-support authentication using many third party services such as Facebook,
-GitHub, Google or Bitbucket.
+Thanks to :doc:`psa:index`, Weblate support authentication using many third
+party services such as Facebook, GitHub, Google or Bitbucket.
 
 Please check their documentation for generic configuration instructions
 in :doc:`psa:configuration/django`.
@@ -55,6 +54,10 @@ authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
+.. seealso::
+
+    :doc:`Python Social Auth backend <psa:backends/index>`
+
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -72,7 +75,12 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
+.. seealso:: 
+   
+   :doc:`psa:backends/openid`
+
 .. _github_auth:
+
 
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -95,7 +103,7 @@ You need to register an application on GitHub and then tell Weblate all the secr
 
 .. seealso::
 
-    :doc:`Python Social Auth backend <psa:backends/index>`
+    :doc:`psa:backends/github`
 
 .. _bitbucket_auth:
 
@@ -118,9 +126,9 @@ You need to register an application on Bitbucket and then tell Weblate all the s
     SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 
-.. seealso::
-
-    :doc:`Python Social Auth backend <psa:backends/index>`
+.. seealso:: 
+   
+   :doc:`psa:backends/bitbucket`
 
 .. _google_auth:
 
@@ -145,6 +153,10 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
+.. seealso:: 
+   
+   :doc:`psa:backends/google`
+
 .. _facebook_auth:
 
 Facebook OAuth2
@@ -167,10 +179,14 @@ Facebook. Once this is done, you can configure Weblate to use it:
     SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
+.. seealso:: 
+   
+   :doc:`psa:backends/facebook`
+
 
 .. _gitlab_auth:
 
-Gitlab OAuth2
+GitLab OAuth2
 ~~~~~~~~~~~~~
 
 For using Gitlab OAuth2, you need to register application on
@@ -192,6 +208,13 @@ ensure to mark the `read_user` scope.
     SOCIAL_AUTH_GITLAB_KEY = 'Application ID'
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
+
+    # If your using own GitLab
+    # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
+
+.. seealso:: 
+   
+   :doc:`psa:backends/gitlab`
 
 Password authentication
 -----------------------
@@ -234,6 +257,14 @@ can install it by usual means:
     With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work
     properly for newly created users.
 
+.. note::
+
+   There are some incompatibilities in Python LDAP module 3.1.0 which might
+   prevent you from using that version. If you get error `AttributeError:
+   'module' object has no attribute '_trace_level'
+   <https://github.com/python-ldap/python-ldap/issues/226>`_, downgrading
+   python-ldap to 3.0.0 might help.
+
 Once you have the package installed, you can hook it to Django authentication:
 
 .. code-block:: python
@@ -266,6 +297,19 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
+If you can not use direct bind for authentication, you will need to use search
+and provide user to bind for the search. For example:
+
+.. code-block:: python
+
+   import ldap
+   from django_auth_ldap.config import LDAPSearch
+
+   AUTH_LDAP_BIND_DN = ""
+   AUTH_LDAP_BIND_PASSWORD = ""
+   AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
+       ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+
 .. note::
 
     You should remove ``'social_core.backends.email.EmailAuth'`` from the
@@ -278,7 +322,7 @@ Once you have the package installed, you can hook it to Django authentication:
 
 .. seealso::
 
-    :doc:`ldap:index`
+    :doc:`ldap:index`, :doc:`ldap:authentication`
 
 
 .. _cas-auth:

@@ -229,6 +229,8 @@ SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '3.1'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
@@ -325,6 +327,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Middleware
 MIDDLEWARE = [
+    'weblate.middleware.ProxyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -336,7 +339,6 @@ MIDDLEWARE = [
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'weblate.accounts.middleware.RequireLoginMiddleware',
     'weblate.middleware.SecurityMiddleware',
-    'weblate.wladmin.middleware.ConfigurationErrorsMiddleware',
 ]
 
 ROOT_URLCONF = 'weblate.urls'
@@ -514,16 +516,20 @@ if not HAVE_SYSLOG:
 # List of machine translations
 # MT_SERVICES = (
 #     'weblate.machinery.apertium.ApertiumAPYTranslation',
+#     'weblate.machinery.baidu.BaiduTranslation',
 #     'weblate.machinery.deepl.DeepLTranslation',
 #     'weblate.machinery.glosbe.GlosbeTranslation',
 #     'weblate.machinery.google.GoogleTranslation',
 #     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
 #     'weblate.machinery.mymemory.MyMemoryTranslation',
+#     'weblate.machinery.netease.NeteaseSightTranslation',
 #     'weblate.machinery.tmserver.AmagamaTranslation',
 #     'weblate.machinery.tmserver.TMServerTranslation',
 #     'weblate.machinery.yandex.YandexTranslation',
 #     'weblate.machinery.weblatetm.WeblateTranslation',
 #     'weblate.machinery.saptranslationhub.SAPTranslationHub',
+#     'weblate.machinery.youdao.YoudaoTranslation',
 #     'weblate.memory.machine.WeblateMemory',
 # )
 
@@ -550,6 +556,18 @@ MT_MYMEMORY_KEY = None
 # Google API key for Google Translate API
 MT_GOOGLE_KEY = None
 
+# Baidu app key and secret
+MT_BAIDU_ID = None
+MT_BAIDU_SECRET = None
+
+# Youdao Zhiyun app key and secret
+MT_YOUDAO_ID = None
+MT_YOUDAO_SECRET = None
+
+# Netease Sight (Jianwai) app key and secret
+MT_NETEASE_KEY = None
+MT_NETEASE_SECRET = None
+
 # API key for Yandex Translate API
 MT_YANDEX_KEY = None
 
@@ -571,7 +589,7 @@ ENABLE_HTTPS = False
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
-# http://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
+# https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = ENABLE_HTTPS
 
 # Make CSRF cookie HttpOnly, see documentation for more details:
@@ -609,8 +627,8 @@ LOGIN_REDIRECT_URL = '{0}/'.format(URL_PREFIX)
 ANONYMOUS_USER_NAME = 'anonymous'
 
 # Reverse proxy settings
-IP_BEHIND_REVERSE_PROXY = False
 IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
+IP_BEHIND_REVERSE_PROXY = False
 IP_PROXY_OFFSET = 0
 
 # Sending HTML in mails
@@ -622,14 +640,8 @@ EMAIL_SUBJECT_PREFIX = '[{0}] '.format(SITE_TITLE)
 # Enable remote hooks
 ENABLE_HOOKS = True
 
-# Whether to run hooks in background
-BACKGROUND_HOOKS = True
-
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
-
-# Offload indexing
-OFFLOAD_INDEXING = False
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
@@ -657,6 +669,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.format.CFormatCheck',
 #     'weblate.checks.format.PerlFormatCheck',
 #     'weblate.checks.format.JavascriptFormatCheck',
+#     'weblate.checks.format.CSharpFormatCheck',
+#     'weblate.checks.format.JavaFormatCheck',
+#     'weblate.checks.format.JavaMessageFormatCheck',
+#     'weblate.checks.angularjs.AngularJSInterpolationCheck',
 #     'weblate.checks.consistency.PluralsCheck',
 #     'weblate.checks.consistency.SamePluralsCheck',
 #     'weblate.checks.consistency.ConsistencyCheck',
@@ -720,7 +736,7 @@ ALLOWED_HOSTS = []
 #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
 #             'PARSER_CLASS': 'redis.connection.HiredisParser',
 #         }
-#     }
+#     },
 # Memcached alternative:
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
@@ -784,5 +800,17 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
-# Force sane test runner
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+# Celery worker configuration for testing
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_BROKER_URL = 'memory://'
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+# Celery worker configuration for production
+# CELERY_TASK_ALWAYS_EAGER = False
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+# Celery settings, it is not recommended to change these
+CELERY_WORKER_PREFETCH_MULTIPLIER = 0
+CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
+    DATA_DIR, 'celery', 'beat-schedule'
+)

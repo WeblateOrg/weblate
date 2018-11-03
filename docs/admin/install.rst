@@ -10,12 +10,16 @@ Weblate should run on any contemporary hardware without problems, the following 
 the minimal configuration required to run Weblate on single host (Weblate, database
 and web server):
 
-* 1 GB of RAM memory
+* 2 GB of RAM memory
 * 2 CPU cores
 * 1 GB of storage space
 
 The more memory you have, the better - it will be used for caching on all
 levels (filesystem, database and Weblate).
+
+If you are going to have many concurrent users, you will need more CPU cores.
+For hundredths of translation components at least 4 GB of memory is
+recommended.
 
 .. note::
 
@@ -38,10 +42,14 @@ distribution packages:
     
 Django (>= 1.11)
     https://www.djangoproject.com/
+Celery (>= 4.0)
+    http://www.celeryproject.org/
+celery-batches (>= 0.2)
+    https://pypi.org/project/celery-batches/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
-translate-toolkit (>= 2.3.0)
-    http://toolkit.translatehouse.org/
+translate-toolkit (>= 2.3.1)
+    https://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.org/project/six/
 filelock (>= 3.0.1)
@@ -50,7 +58,7 @@ Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
 social-auth-core (>= 1.3.0)
     https://python-social-auth.readthedocs.io/
-social-auth-app-django (>= 1.2.0)
+social-auth-app-django (>= 2.0.0)
     https://python-social-auth.readthedocs.io/
 django-appconf (>= 1.0)
     https://github.com/django-compressor/django-appconf
@@ -59,7 +67,7 @@ Whoosh (>= 2.7.0)
 PIL or Pillow library
     https://python-pillow.org/
 lxml (>= 3.1.0)
-    http://lxml.de/
+    https://lxml.de/
 defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
@@ -69,13 +77,11 @@ django_compressor (>= 2.1.1)
 django-crispy-forms (>= 1.6.1)
     https://django-crispy-forms.readthedocs.io/
 Django REST Framework (>=3.8)
-    http://www.django-rest-framework.org/
+    https://www.django-rest-framework.org/
 user-agents (>= 1.1.0)
     https://github.com/selwin/python-user-agents
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
-Babel (optional for Android resources support)
-    http://babel.pocoo.org/
 phply (optional for PHP support)
     https://github.com/viraptor/phply
 Database backend
@@ -91,10 +97,14 @@ akismet (>= 1.0) (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
 PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
+backports.csv (needed on Python 2.7)
+    https://pypi.org/project/backports.csv/
 jellyfish (>= 0.6.1)
     https://github.com/jamesturk/jellyfish
 openpyxl (>=2.5.0) (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
+zeep (>=3.0.0) (optional for :ref:`ms-terminology`)
+    https://python-zeep.readthedocs.io/
 
 Other system requirements
 +++++++++++++++++++++++++
@@ -202,7 +212,7 @@ system Python libraries.
         
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYAML Babel pyuca
+        pip install pytz python-bidi PyYAML pyuca
 
 5. Create your settings (in our example it would be in 
    :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
@@ -244,12 +254,12 @@ If you decide to install Weblate using pip installer, you will notice some
 differences. Most importantly the command line interface is installed  to the
 system path as :command:`weblate` instead of :command:`./manage.py` as used in
 this documentation. Also when invoking this command, you will have to specify
-settings, either by environment variable `DJANGO_SETTINGS` or on the command
-line, for example:
+settings, either by environment variable `DJANGO_SETTINGS_MODULE` on the
+command line, for example:
 
 .. code-block:: sh
 
-    weblate --settings=yourproject.settings migrate
+    DJANGO_SETTINGS_MODULE=yourproject.settings weblate migrate
 
 .. seealso:: :ref:`invoke-manage`
 
@@ -265,9 +275,9 @@ install them you can use apt-get:
 
     apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil \
-        python-babel git mercurial \
+        git mercurial \
         python-django-compressor python-django-crispy-forms \
-        python-djangorestframework python-dateutil
+        python-djangorestframework python-dateutil python-celery
 
     # Optional packages for database backend:
 
@@ -356,8 +366,8 @@ Most of requirements are available either directly in openSUSE or in
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow \
         python-social-auth-core python-social-auth-app-django \
-        python-babel Git mercurial python-pyuca \
-        python-dateutil
+        Git mercurial python-pyuca \
+        python-dateutil python-celery
 
     # Optional for database backend
     zypper install python-psycopg2      # For PostgreSQL
@@ -531,8 +541,8 @@ you're using emojis or some other higher Unicode symbols you might hit errors
 when saving such data. Depending on MySQL and Python bindings version, the
 error might look like:
 
-* ``OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")``
-* ``UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)``
+* `OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")`
+* `UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)`
 
 To solve this, you need to change your database to use ``utf8mb4`` (what is again
 subset of Unicode, but this time which can be stored in four bytes in ``utf-8``
@@ -549,9 +559,30 @@ this won't change collation of existing fields:
 
     ALTER DATABASE weblate CHARACTER SET utf8mb4;
 
-.. seealso::
+Using this charset might however lead to problems with default MySQL server
+settings as each character is now taking 4 bytest to store and MySQL has limit
+of 767 bytes for an index. In case this happens you will get one of following
+error messages:
 
-    `Using Innodb_large_prefix to Avoid ERROR 1071 <http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_
+* `1071: Specified key was too long; max key length is 767 bytes`
+* `1709: Index column size too large. The maximum column size is 767 bytes.`
+
+There are two ways to workaround this limitation. You can configure MySQL in a
+way to not have this limit, see `Using Innodb_large_prefix to Avoid ERROR 1071
+<https://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_.
+Alternatively you can  also adjust several settings for social-auth in your
+:file:`settings.py` (see :doc:`psa:configuration/settings`):
+
+.. code-block:: python
+
+   # Limit some social-auth fields to 191 chars to fit
+   # them in 767 bytes
+
+   SOCIAL_AUTH_UID_LENGTH = 191
+   SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 191
+   SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 191
+   SOCIAL_AUTH_EMAIL_LENGTH = 191
+
 
 Transaction locking
 ~~~~~~~~~~~~~~~~~~~
@@ -646,6 +677,76 @@ Django documentation.
         You can verify whether outgoing mail is working correctly by using
         :djadmin:`django:sendtestemail` management command.
 
+.. _celery:
+
+Background tasks using Celery
++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.2
+
+Weblate uses Celery to process background tasks. The example settings come with
+eager configuration, which does process all tasks in place, but you want to
+change this to something more reasonable for production setup.
+
+Typical setup using redis as a backend should look like:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = False
+   CELERY_BROKER_URL = 'redis://localhost:6379'
+   CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+You should also start the Celery worker to process the tasks and start
+scheduled tasks, this can be done directly on command line (what is mostly
+useful when debugging or developing):
+
+.. code-block:: sh
+
+   celery worker --app weblate --loglevel info --beat
+
+Most likely you will want to run Celery as a daemon and that is covered by
+:doc:`celery:userguide/daemonizing`. For the most usual Linux setup using
+systemd you can use example files shipped in the :file:`examples` folder and
+listed below.
+
+Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
+
+.. literalinclude:: ../../examples/celery-weblate.service
+    :language: ini
+    :encoding: utf-8
+
+Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
+
+.. literalinclude:: ../../examples/celery-weblate.conf
+    :language: sh
+    :encoding: utf-8
+
+Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
+
+.. literalinclude:: ../../examples/celery-weblate.logrotate
+    :language: text
+    :encoding: utf-8
+
+Weblate comes with built in setup for scheduled tasks. You can however define
+additional tasks in :file:`settings.py`, for example:
+
+.. code-block:: python
+
+   CELERY_BEAT_SCHEDULE = {
+       # Unconditionally commit all changes every 2 minutes
+       'commit': {
+           'task': 'weblate.trans.tasks.commit_pending',
+           'kwargs': {'hours': 0},
+           'schedule': 120,
+        }
+   }
+
+.. seealso::
+
+   :doc:`celery:userguide/configuration`,
+   :doc:`celery:userguide/workers`,
+   :doc:`celery:userguide/daemonizing`
+
 .. _installation:
 
 Installation
@@ -693,6 +794,13 @@ options:
     database backed engine you should schedule
     :command:`./manage.py clearsessions` to remove stale session data from the
     database.
+
+    If you are using redis as cache (see :ref:`production-cache`) it is
+    recommended to use it for sessions as well:
+
+    .. code-block:: python
+
+         SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
     .. seealso::
 
@@ -887,19 +995,6 @@ several other related Django settings in the example configuration.
 You might want to configure HSTS as well, see
 :ref:`django:security-recommendation-ssl` for more details.
 
-.. _production-indexing:
-
-Enable indexing offloading
-++++++++++++++++++++++++++
-
-Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance. Don't forget to schedule indexing as a background job to keep the
-index up to date.
-
-.. seealso::
-
-   :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
-
 .. _production-database:
 
 Use powerful database engine
@@ -986,6 +1081,7 @@ recommended to use separate, file backed cache for this purpose:
 .. seealso::
 
     :setting:`ENABLE_AVATARS`, 
+    :setting:`AVATAR_URL_PREFIX`,
     :ref:`avatars`,
     :ref:`production-cache`, 
     :doc:`django:topics/cache`
@@ -1146,22 +1242,14 @@ Running maintenance tasks
 For optimal performance, it is good idea to run some maintenance tasks in the
 background.
 
-On a Unix-likesystem, this can be scheduled using cron:
+.. versionchanged:: 3.2
 
-.. code-block:: text
-
-    # Fulltext index updates
-    */5 * * * * cd /usr/share/weblate/; ./manage.py update_index
-
-    # Cleanup stale objects
-    @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
-
-    # Commit pending changes after 96 hours
-    @hourly cd /usr/share/weblate/; ./manage.py commit_pending --all --age=96 --verbosity=0
+   Since version 3.2 the default way of executing these tasks is using Celery
+   and Weblate already comes with proper configuration, see :ref:`celery`.
 
 .. seealso::
 
-   :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
+   :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 
@@ -1308,16 +1396,42 @@ Collecting error reports
 
 It is good idea to collect errors from any Django application in structured way
 and Weblate is not an exception from this. You might find several services providing
-this, for example:
+this, Weblate has basic support for following ones.
 
-* `Sentry <https://sentry.io>`_
-* `Rollbar <https://rollbar.com/>`_
+Sentry
+++++++
+
+Weblate has built in support for `Sentry <https://sentry.io/>`_. To use
+it it's enough to follow instructions for `Sentry for Python <https://docs.sentry.io/clients/python/>`_.
+
+In short, you need to adjust :file:`settings.py`:
+
+.. code-block:: python
+
+    import raven
+
+    # Add raven to apps:
+    INSTALLED_APPS = (
+        # ... other app classes ...
+        'raven.contrib.django.raven_compat',
+    )
+
+
+    RAVEN_CONFIG = {
+        'dsn': 'https://id:key@your.sentry.example.com/',
+        # Setting public_dsn will allow collecting user feedback on errors
+        'public_dsn': 'https://id@your.sentry.example.com/',
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': raven.fetch_git_sha(BASE_DIR),
+    }
+
 
 Rollbar
 +++++++
 
 Weblate has built in support for `Rollbar <https://rollbar.com/>`_. To use
-it it's enough to follow instructions for `Rollbar notifier for Python <https://rollbar.com/docs/notifier/pyrollbar/>`_.
+it it's enough to follow instructions for `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_.
 
 In short, you need to adjust :file:`settings.py`:
 

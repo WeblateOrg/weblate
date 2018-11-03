@@ -20,7 +20,7 @@ work, but is not as well tested as single version upgrades.
 .. note::
 
     It is recommended to perform a full database backup prior to upgrade so that you
-    can roll back the database in case upgrade fails.
+    can roll back the database in case upgrade fails, see :doc:`backup`.
 
 1. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
@@ -63,6 +63,8 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py check --deploy
 
+8. Restart celery worker (see :ref:`celery`).
+
 
 .. _version-specific-instructions:
 
@@ -99,26 +101,70 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * Rate limiting configuration has been changed, please see :ref:`rate-limit`.
+* Microsoft Terminology machine translation was moved to separate module and now requires ``zeep`` module.
+* Weblate now uses Celery for several background tasks. There are new dependencies and settings because of this. You should also run Celery worker as standalone process. See :ref:`celery` for more information.
+* There are several changes in :file:`settings_example.py`, most notable Celery configuration and middleware changes, please adjust your settings accordingly.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+
+Upgrade from 3.2 to 3.3
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The DEFAULT_CUSTOM_ACL settings was replaced by :setting:`DEFAULT_ACCESS_CONTROL`. If you were using that please update your :file:`settings.py`.
+* Increase required translate-toolkit version to 2.3.1.
+* Increase required social auth module versions (2.0.0 for social-auth-core and 3.0.0 for social-auth-app-django).
+* The CELERY_RESULT_BACKEND should be now configured unless you are using eager mode, see :doc:`celery:userguide/configuration`.
+* There is new ``weblate.middleware.ProxyMiddleware`` middleware needed if you use :setting:`IP_BEHIND_REVERSE_PROXY`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _py3:
 
-Upgrading from Python 2.x to 3.x
---------------------------------
+Upgrading from Python 2 to Python 3
+-----------------------------------
 
-The upgrade from Python 2.x to 3.x, should work without major problems. Take
-care about some changed module names when installing dependencies.
+Weblate currently supports both Python 2.7 and 3.x. Upgrading existing
+installations is supported, but you should pay attention to some data stored on
+the disk as it might be incompatible between these two.
 
-The Whoosh index has to be rebuilt as it's encoding depends on Python version,
-you can do that using following command:
+Things which might be problematic include Whoosh indices and file based caches.
+Fortunately these are easy to handle. Recommended upgrade steps:
 
-.. code-block:: sh
+1. Backup your :ref:`translation-memory` using :djadmin:`dump_memory`:
 
-    ./manage.py rebuild_index --clean --all
+   .. code-block:: sh
 
-The caches might be incompatible (depending on cache backend you are using), so
-it might be good idea to cleanup avatar cache using :djadmin:`cleanup_avatar_cache`.
+         ./manage.py dump_memory > memory.json
+
+2. Upgrade your installation to Python 3.
+3. Delete :ref:`translation-memory` database :djadmin:`delete_memory`:
+
+   .. code-block:: sh
+
+         ./manage.py delete_memory --all
+
+4. Restore your :ref:`translation-memory` using :djadmin:`import_memory`.
+
+   .. code-block:: sh
+
+         ./manage.py import_memory memory.json
+
+5. Recreate fulltext index using :djadmin:`rebuild_index`:
+
+   .. code-block:: sh
+
+      ./manage.py rebuild_index --clean --all
+
+6. Cleanup avatar cache (if using file based) using :djadmin:`cleanup_avatar_cache`.
+
+   .. code-block:: sh
+
+      ./manage.py cleanup_avatar_cache
 
 .. _pootle-migration:
 

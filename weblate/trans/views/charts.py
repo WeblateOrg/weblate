@@ -19,6 +19,7 @@
 #
 """Charting library for Weblate."""
 
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.utils.translation import pgettext
@@ -26,7 +27,19 @@ from django.utils.translation import pgettext
 from weblate.auth.models import User
 from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.trans.views.helper import get_project_translation
+from weblate.utils.views import get_project_translation
+
+
+def cache_key(*args):
+    def makekey(val):
+        if not val:
+            return '0'
+        if hasattr(val, 'id'):
+            return str(val.id)
+        return str(val)
+    return 'activity-{}'.format('-'.join(
+        [makekey(arg) for arg in args]
+    ))
 
 
 def get_json_stats(request, days, step, project=None, component=None,
@@ -61,16 +74,15 @@ def get_json_stats(request, days, step, project=None, component=None,
         language = None
         user = None
 
-    # Get actual stats
-    return Change.objects.base_stats(
-        days,
-        step,
-        project,
-        component,
-        translation,
-        language,
-        user
-    )
+    key = cache_key(days, step, project, component, translation, language, user)
+    result = cache.get(key)
+    if not result or True:
+        # Get actual stats
+        result = Change.objects.base_stats(
+            days, step, project, component, translation, language, user
+        )
+        cache.set(key, result, 3600 * 4)
+    return result
 
 
 def yearly_activity(request, project=None, component=None, lang=None,

@@ -172,6 +172,18 @@
 <p class="helptext">{% trans "Reset all changes in the local repository" %}</p>
 </td>
 </tr>
+
+<tr>
+<td>
+<form method="POST" action="{{ object.get_cleanup_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default confirm-reset" value="{% trans "Cleanup" %}" />
+</form>
+</td>
+<td>
+<p class="helptext">{% trans "Cleanup all untracked files in the local repository" %}</p>
+</td>
+</tr>
 {% endif %}
 
 

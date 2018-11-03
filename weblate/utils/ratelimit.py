@@ -21,11 +21,17 @@
 from __future__ import unicode_literals
 
 from hashlib import md5
+from time import time
 
 from django.conf import settings
+from django.contrib.auth import logout
 from django.core.cache import cache
+from django.middleware.csrf import rotate_token
+from django.shortcuts import redirect
 from django.utils.encoding import force_bytes
+from django.utils.translation import ugettext as _
 
+from weblate.utils import messages
 from weblate.utils.request import get_ip_address
 
 
@@ -69,3 +75,44 @@ def check_rate_limit(scope, request):
         cache.set(key, 1, get_rate_setting(scope, 'WINDOW'))
 
     return True
+
+
+def session_ratelimit_post(scope):
+    def session_ratelimit_post_inner(function):
+        """Session based rate limiting for POST requests."""
+        def rate_wrap(request, *args, **kwargs):
+            if request.method == 'POST':
+                session = request.session
+                now = time()
+                k_timeout = '{}_timeout'.format(scope)
+                k_attempts = '{}_attempts'.format(scope)
+                # Reset expired counter
+                if (k_timeout in session and
+                        k_attempts in session and
+                        session[k_timeout] <= now):
+                    session[k_attempts] = 0
+
+                # Get current attempts
+                attempts = session.get(k_attempts, 0)
+
+                # Did we hit the limit?
+                if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
+                    # Rotate session token
+                    rotate_token(request)
+                    # Logout user
+                    if request.user.is_authenticated:
+                        logout(request)
+                    messages.error(
+                        request,
+                        _('Too many attempts, you have been logged out!')
+                    )
+                    return redirect('login')
+
+                session[k_attempts] = attempts + 1
+                if k_timeout not in session:
+                    window = get_rate_setting(scope, 'WINDOW')
+                    session[k_timeout] = now + window
+
+            return function(request, *args, **kwargs)
+        return rate_wrap
+    return session_ratelimit_post_inner

@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import copy
 from datetime import date, datetime, timedelta
 import json
+import re
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Div
@@ -45,7 +46,7 @@ from django.db.models import Q
 from weblate.auth.models import User
 
 from weblate.formats.exporters import EXPORTERS
-from weblate.lang.data import LOCALE_ALIASES
+from weblate.langdata.languages  import ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
@@ -55,14 +56,13 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
-from weblate.trans.util import sort_choices
+from weblate.trans.util import sort_choices, is_repo_link
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
     STATE_CHOICES
 )
 from weblate.utils.validators import validate_file_extension
-from weblate.logger import LOGGER
 from weblate.utils.docs import get_doc_url
 
 ICON_TEMPLATE = '''
@@ -419,7 +419,7 @@ class ChecksumForm(forms.Form):
                 id_hash=self.cleaned_data['checksum']
             )[0]
         except (Unit.DoesNotExist, IndexError):
-            LOGGER.error(
+            self.translation.log_error(
                 'string %s disappeared!', self.cleaned_data['checksum']
             )
             raise ValidationError(_(
@@ -481,6 +481,8 @@ class TranslationForm(ChecksumForm):
             self.fields['review'].choices.append((STATE_EMPTY, ''))
         self.helper = FormHelper()
         self.helper.form_method = 'post'
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
         self.helper.layout = Layout(
             Field('checksum'),
             Field('target'),
@@ -543,6 +545,8 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_action = reverse(
             'save_zen', kwargs=translation.get_reverse_url_kwargs()
         )
+        self.helper.form_tag = True
+        self.helper.disable_csrf = False
 
 
 class AntispamForm(forms.Form):
@@ -578,7 +582,8 @@ class SimpleUploadForm(forms.Form):
     method = forms.ChoiceField(
         label=_('Merge method'),
         choices=(
-            ('translate', _('Add as translation')),
+            ('translate', _('Add as translation needing review')),
+            ('approve', _('Add as approved translation')),
             ('suggest', _('Add as a suggestion')),
             ('fuzzy', _('Add as translation needing edit')),
         ),
@@ -591,12 +596,6 @@ class SimpleUploadForm(forms.Form):
             ('approve', _('Import as translated')),
         ),
         required=False
-    )
-    merge_header = forms.BooleanField(
-        label=_('Merge file header'),
-        help_text=_('Merges content of file header into the translation.'),
-        required=False,
-        initial=True,
     )
 
     def remove_translation_choice(self, value):
@@ -649,6 +648,8 @@ def get_upload_form(user, translation, *args):
         result.remove_translation_choice('fuzzy')
     if not user.has_perm('suggestion.add', translation):
         result.remove_translation_choice('suggest')
+    if not user.has_perm('unit.review', translation):
+        result.remove_translation_choice('approve')
     return result
 
 
@@ -671,7 +672,7 @@ class BaseSearchForm(forms.Form):
     def get_search_query(self):
         return None
 
-    def urlencode(self):
+    def items(self):
         items = []
         # Skip checksum and offset as these change
         ignored = set(('checksum', 'offset'))
@@ -700,11 +701,16 @@ class BaseSearchForm(forms.Form):
             elif isinstance(value, list):
                 for val in value:
                     items.append((param, val))
+            elif isinstance(value, User):
+                items.append((param, value.username))
             else:
                 # It should be string here
                 if value:
                     items.append((param, value))
-        return urlencode(items)
+        return items
+
+    def urlencode(self):
+        return urlencode(self.items())
 
     def reset_offset(self):
         """Reset offset to avoid using form as default for new search."""
@@ -722,6 +728,7 @@ class SearchForm(BaseSearchForm):
         label=_('Query'),
         min_length=1,
         required=False,
+        strip=False,
     )
     search = forms.ChoiceField(
         label=_('Search type'),
@@ -730,6 +737,7 @@ class SearchForm(BaseSearchForm):
             ('ftx', _('Fulltext')),
             ('substring', _('Substring')),
             ('exact', _('Exact match')),
+            ('regex', _('Regular expression')),
         ),
         initial='ftx',
         error_messages={
@@ -789,13 +797,14 @@ class SearchForm(BaseSearchForm):
         if not self.cleaned_data.get('type'):
             self.cleaned_data['type'] = 'all'
 
-        if (self.cleaned_data['q'] and
-                self.cleaned_data['search'] != 'exact' and
-                len(self.cleaned_data['q']) < 2):
-            self.cleaned_data['q'] = None
-            raise ValidationError(
-                {'q': _('The query string has to be longer!')}
-            )
+        # Validate regexp
+        if self.cleaned_data['search'] == 'regex':
+            try:
+                re.compile(self.cleaned_data.get('q', ''))
+            except re.error as error:
+                raise ValidationError({
+                    'q': _('Invalid regular expression: {}').format(error)
+                })
 
         # Default to source and target search
         if (not self.cleaned_data['source'] and
@@ -1002,6 +1011,11 @@ class CommaSeparatedIntegerField(forms.Field):
             raise ValidationError(_('Invalid integer list!'))
 
 
+class OneWordForm(forms.Form):
+    """Simple one-word form"""
+    term = forms.CharField(label=_('Search'), max_length=30, required=False)
+
+
 class WordForm(forms.Form):
     """Form for adding word to a glossary."""
     source = forms.CharField(label=_('Source'), max_length=190)
@@ -1019,7 +1033,6 @@ class InlineWordForm(WordForm):
         for fieldname in ('source', 'target'):
             field = self.fields[fieldname]
             field.widget.attrs['placeholder'] = field.label
-            field.widget.attrs['size'] = 10
 
 
 class DictUploadForm(forms.Form):
@@ -1121,7 +1134,7 @@ class EngageForm(forms.Form):
 
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
-        choices = [(l.code, force_text(l)) for l in project.get_languages()]
+        choices = [(l.code, force_text(l)) for l in project.languages]
         components = [(c.slug, c.name) for c in project.component_set.all()]
 
         super(EngageForm, self).__init__(*args, **kwargs)
@@ -1151,15 +1164,15 @@ class NewLanguageOwnerForm(forms.Form):
             translation__component=self.component
         )
         for code in self.cleaned_data['lang']:
-            if code not in LOCALE_ALIASES:
+            if code not in ALIASES:
                 continue
-            if existing.filter(code=LOCALE_ALIASES[code]).exists():
+            if existing.filter(code=ALIASES[code]).exists():
                 raise ValidationError(
                     _(
                         'Similar translation '
                         'already exists in the project ({0})!'
                     ).format(
-                        LOCALE_ALIASES[code]
+                        _ALIASES[code]
                     )
                 )
         return self.cleaned_data['lang']
@@ -1211,14 +1224,14 @@ class ContextForm(forms.Form):
 
 class CheckFlagsForm(forms.Form):
     flags = forms.CharField(
-        label=_('Check flags'),
+        label=_('Translation flags'),
         required=False,
     )
 
     def __init__(self, *args, **kwargs):
         super(CheckFlagsForm, self).__init__(*args, **kwargs)
         self.fields['flags'].help_text = ugettext(
-            'Please enter a comma separated list of check flags, '
+            'Please enter a comma separated list of translation flags, '
             'see <a href="{url}">documentation</a> for more details.'
         ).format(
             url=get_doc_url('admin/checks', 'custom-checks')
@@ -1325,11 +1338,38 @@ class ReportsForm(forms.Form):
             raise ValidationError({'start_date': msg, 'end_date': msg})
 
 
-class ComponentSettingsForm(forms.ModelForm):
+class SettingsBaseForm(forms.ModelForm):
+    """Component base form."""
+    class Meta(object):
+        model = Component
+        fields = []
+
+    def __init__(self, request, *args, **kwargs):
+        super(SettingsBaseForm, self).__init__(*args, **kwargs)
+        self.request = request
+
+    def clean_repo(self):
+        repo = self.cleaned_data.get('repo')
+        if not repo or not is_repo_link(repo):
+            return repo
+        project, component = repo[10:].split('/', 1)
+        try:
+            obj = Component.objects.get(slug=component, project__slug=project)
+        except Component.DoesNotExist:
+            return repo
+        if not self.request.user.has_perm('component.edit', obj):
+            raise ValidationError(
+                _('You do not have permission to access this component!')
+            )
+        return repo
+
+
+class ComponentSettingsForm(SettingsBaseForm):
     """Component settings form."""
     class Meta(object):
         model = Component
         fields = (
+            'name',
             'report_source_bugs',
             'license',
             'license_url',
@@ -1345,6 +1385,9 @@ class ComponentSettingsForm(forms.ModelForm):
             'commit_message',
             'add_message',
             'delete_message',
+            'repo',
+            'branch',
+            'push',
             'repoweb',
             'push_on_commit',
             'commit_pending_age',
@@ -1358,14 +1401,18 @@ class ComponentSettingsForm(forms.ModelForm):
             'language_regex',
         )
 
-    def __init__(self, *args, **kwargs):
-        super(ComponentSettingsForm, self).__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentSettingsForm, self).__init__(request, *args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
                     _('Basic'),
+                    Fieldset(
+                        _('Name'),
+                        'name',
+                    ),
                     Fieldset(
                         _('License'),
                         'license',
@@ -1398,6 +1445,10 @@ class ComponentSettingsForm(forms.ModelForm):
                     _('Version control'),
                     Fieldset(
                         _('Locations'),
+                        Div(template='trans/repo_help.html'),
+                        'repo',
+                        'branch',
+                        'push',
                         'repoweb',
                     ),
                     Fieldset(
@@ -1432,16 +1483,63 @@ class ComponentSettingsForm(forms.ModelForm):
         )
 
 
-class ProjectSettingsForm(forms.ModelForm):
+class ComponentCreateForm(SettingsBaseForm):
+    """Component creation form."""
+    class Meta(object):
+        model = Component
+        fields = [
+            'project', 'name', 'slug', 'vcs', 'repo', 'push', 'repoweb',
+            'branch', 'file_format', 'filemask', 'template', 'new_base',
+            'license', 'new_lang', 'language_regex',
+        ]
+
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentCreateForm, self).__init__(request, *args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+
+class ProjectSettingsForm(SettingsBaseForm):
     """Project settings form."""
     class Meta(object):
         model = Project
         fields = (
+            'name',
             'web',
             'mail',
             'instructions',
             'set_translation_team',
+            'use_shared_tm',
+            'enable_hooks',
+            'source_language',
         )
+
+    def __init__(self, request, *args, **kwargs):
+        super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+
+
+class ProjectCreateForm(SettingsBaseForm):
+    """Project creation form."""
+    # This is fake field with is either hidden or configured
+    # in the view
+    billing = forms.ModelChoiceField(
+        label=_('Billing'),
+        queryset=User.objects.none(),
+        required=True,
+        empty_label=None,
+    )
+
+    class Meta(object):
+        model = Project
+        fields = ('name', 'slug', 'web', 'mail', 'instructions')
+
+    def __init__(self, request, *args, **kwargs):
+        super(ProjectCreateForm, self).__init__(request, *args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
 
 
 class ProjectAccessForm(forms.ModelForm):
@@ -1474,11 +1572,13 @@ class ReplaceForm(forms.Form):
         label=_('Search string'),
         min_length=1,
         required=True,
+        strip=False,
     )
     replacement = forms.CharField(
         label=_('Replacement string'),
         min_length=1,
         required=True,
+        strip=False,
     )
 
     def __init__(self, *args, **kwargs):

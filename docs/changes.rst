@@ -1,14 +1,78 @@
 Changes
 =======
 
+weblate 3.3
+-----------
+
+Released on ? 2018.
+
+* Increase required translate-toolkit version to 2.3.1.
+* Increase required social auth module versions.
+* Add Netease Sight translate service.
+* Add support for Pagure webhooks.
+* Improved performance when processing linked components.
+* Fixed error in some API calls.
+* Fixed usage of URL_PREFIX.
+* Fixed machine translation interaction with review workflow.
+
+weblate 3.2.2
+-------------
+
+Released on October 20th 2018.
+
+* Remove no longer needed Babel dependency.
+* Updated language definitions.
+* Improve documentation for addons, LDAP and Celery.
+* Fixed enabling new dos-eol and auto-java-messageformat flags.
+* Fixed running setup.py test from PyPI package.
+* Improved plurals handling.
+* Fixed translation upload API failure in some corner cases.
+* Fixed updating Git configuration in case it was changed manually.
+
+weblate 3.2.1
+-------------
+
+Released on October 10th 2018.
+
+* Document dependency on backports.csv on Python 2.7.
+* Fix running tests under root.
+* Improved error handling in gitexport module.
+* Fixed progress reporting for newly added languages.
+* Correctly report Celery worker errors to Sentry.
+* Fixed creating new translations with Qt Linguist.
+* Fixed occasional fulltext index update failures.
+* Improved validation when creating new components.
+* Added support for cleanup of old suggestions.
+
 weblate 3.2
 ------------
 
-Released on ? 2018.
+Released on October 6th 2018.
 
 * Add install_addon management command for automated addon installation.
 * Allow more fine grained ratelimit settings.
 * Added support for export and import of Excel files.
+* Improve component cleanup in case of multiple component discovery addons.
+* Rewritten Microsoft Terminology machine translation backend.
+* Weblate now uses Celery to offload some processing.
+* Improved search capabilities and added regular expression search.
+* Added support for Youdao Zhiyun API machine translation.
+* Added support for Baidu API machine translation.
+* Integrated maintenance and cleanup tasks using Celery.
+* Improved performance of loading translations by almost 25%.
+* Removed support for merging headers on upload.
+* Removed support for custom commit messages.
+* Configurable editing mode (zen/full).
+* Added support for error reporting to Sentry.
+* Added support for automated daily update of repositories.
+* Added support for creating projects and components by users.
+* Built in translation memory now automatically stores translations done.
+* Users and projects can import their existing translation memories.
+* Better management of related strings for screenshots.
+* Added support for checking Java MessageFormat.
+
+See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/milestone/36?closed=1>`_
+for detailed list of addressed issues.
 
 weblate 3.1.1
 -------------

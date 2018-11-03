@@ -48,9 +48,6 @@ from weblate.utils.data import data_dir
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
-# List of default domain names on which warn user
-DEFAULT_DOMAINS = ('example.net', 'example.com')
-
 PRIORITY_CHOICES = (
     (60, ugettext_lazy('Very high')),
     (80, ugettext_lazy('High')),
@@ -80,7 +77,8 @@ def get_string(text):
         return ''
     if hasattr(text, 'strings'):
         return join_plural(text.strings)
-    return text
+    # We might get integer or float in some formats
+    return force_text(text)
 
 
 def is_repo_link(val):
@@ -105,10 +103,10 @@ def get_distinct_translations(units):
     return result
 
 
-def translation_percent(translated, total):
+def translation_percent(translated, total, zero_complete=True):
     """Return translation percentage."""
     if total == 0:
-        return 100.0
+        return 100.0 if zero_complete else 0.0
     if total is None:
         return 0.0
     perc = round(1000 * translated / total) / 10.0
@@ -120,11 +118,11 @@ def translation_percent(translated, total):
     return perc
 
 
-def add_configuration_error(name, message):
+def add_configuration_error(name, message, force_cache=False):
     """Log configuration error.
 
     Uses cache in case database is not yet ready."""
-    if apps.models_ready:
+    if apps.models_ready and not force_cache:
         from weblate.wladmin.models import ConfigurationError
         try:
             ConfigurationError.objects.add(name, message)
@@ -138,6 +136,27 @@ def add_configuration_error(name, message):
         'name': name,
         'message': message,
         'timestamp': timezone.now(),
+    })
+    cache.set('configuration-errors', errors)
+
+
+def delete_configuration_error(name, force_cache=False):
+    """Delete configuration error.
+
+    Uses cache in case database is not yet ready."""
+    if apps.models_ready and not force_cache:
+        from weblate.wladmin.models import ConfigurationError
+        try:
+            ConfigurationError.objects.remove(name)
+            return
+        except OperationalError:
+            # The table does not have to be created yet (eg. migration
+            # is about to be executed)
+            pass
+    errors = cache.get('configuration-errors', [])
+    errors.append({
+        'name': name,
+        'delete': True,
     })
     cache.set('configuration-errors', errors)
 
@@ -207,7 +226,7 @@ def get_project_description(project):
         'Join the translation or start translating your own project.',
     ).format(
         project,
-        project.get_language_count()
+        project.stats.languages
     )
 
 
@@ -259,16 +278,6 @@ def sort_choices(choices):
 def sort_objects(objects):
     """Sort objects alphabetically"""
     return sort_unicode(objects, force_text)
-
-
-def check_domain(domain):
-    """Check whether site domain is correctly set"""
-    return (
-        domain not in DEFAULT_DOMAINS and
-        not domain.startswith('http:') and
-        not domain.startswith('https:') and
-        not domain.endswith('/')
-    )
 
 
 def redirect_next(next_url, fallback):

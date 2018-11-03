@@ -20,9 +20,9 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
 from glob import glob
 import os
-import sys
 import time
 import fnmatch
 import re
@@ -38,6 +38,8 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.formats import ParseError
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.mixins import URLMixin, PathMixin
@@ -62,7 +64,8 @@ from weblate.trans.validators import (
 )
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.utils.validators import validate_repoweb, validate_render
+from weblate.utils.render import validate_render
+from weblate.utils.validators import validate_repoweb
 
 
 NEW_LANG_CHOICES = (
@@ -183,7 +186,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     branch = models.CharField(
         verbose_name=ugettext_lazy('Repository branch'),
-        max_length=50,
+        max_length=200,
         help_text=ugettext_lazy('Repository branch to translate'),
         default='',
         blank=True
@@ -283,7 +286,7 @@ class Component(models.Model, URLMixin, PathMixin):
         validators=[validate_autoaccept],
     )
     check_flags = models.TextField(
-        verbose_name=ugettext_lazy('Quality checks flags'),
+        verbose_name=ugettext_lazy('Translation flags'),
         default='',
         help_text=ugettext_lazy(
             'Additional comma-separated flags to influence quality checks, '
@@ -398,7 +401,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     language_regex = RegexField(
         verbose_name=ugettext_lazy('Language filter'),
-        max_length=200,
+        max_length=500,
         default='^[^.]+$',
         help_text=ugettext_lazy(
             'Regular expression which is used to filter '
@@ -436,6 +439,9 @@ class Component(models.Model, URLMixin, PathMixin):
         self._file_format = None
         self.stats = ComponentStats(self)
         self.addons_cache = {}
+        self.needs_cleanup = False
+        self.updated_sources = {}
+        self.old_component = copy(self)
 
     @property
     def filemask_re(self):
@@ -758,6 +764,29 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return True
 
+    @perform_on_link
+    def do_cleanup(self, request=None):
+        """Wrapper for cleaning up repo."""
+        try:
+            self.log_info('cleaning up the repo')
+            with self.repository.lock:
+                self.repository.cleanup()
+        except RepositoryException as error:
+            self.log_error('failed to clean the repo')
+            msg = 'Error:\n{0}'.format(str(error))
+            mail_admins(
+                'failed clean the repo {0}'.format(force_text(self)),
+                msg
+            )
+            messages.error(
+                request,
+                _('Failed to clean the repository on %s.') %
+                force_text(self)
+            )
+            return False
+
+        return True
+
     def get_repo_link_url(self):
         return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 
@@ -765,7 +794,8 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return list of components which link repository to us."""
         return self.component_set.prefetch()
 
-    def commit_pending(self, reason, request, from_link=False, skip_push=False):
+    def commit_pending(self, reason, request, from_link=False,
+                       skip_push=False):
         """Check whether there is any translation which needs commit."""
 
         # If we're not recursing, call on parent
@@ -789,7 +819,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
-        report_error(error, sys.exc_info())
+        report_error(error)
         if translation is None:
             filename = self.template
         else:
@@ -913,11 +943,18 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return sorted(matches)
 
+    def update_source_checks(self):
+        for unit in self.updated_sources.values():
+            unit.source_info.run_checks(unit)
+        self.updated_sources = {}
+
     def create_translations(self, force=False, langs=None, request=None,
-                            changed_template=False):
+                            changed_template=False, skip_checks=False):
         """Load translations from VCS."""
-        translations = set()
-        languages = set()
+        self.needs_cleanup = False
+        self.updated_sources = {}
+        translations = {}
+        languages = {}
         matches = self.get_mask_matches()
         for pos, path in enumerate(matches):
             with transaction.atomic():
@@ -935,13 +972,16 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 lang = Language.objects.auto_get_or_create(code=code)
                 if lang.code in languages:
-                    self.log_error('duplicate language found: %s', lang.code)
+                    self.log_error(
+                        'duplicate language found: %s (%s, %s)',
+                        lang.code, code, languages[lang.code]
+                    )
                     continue
                 translation = Translation.objects.check_sync(
                     self, lang, code, path, force, request=request
                 )
-                translations.add(translation.id)
-                languages.add(lang.code)
+                translations[translation.id] = translation
+                languages[lang.code] = code
                 # Remove fuzzy flag on template name change
                 if changed_template:
                     translation.unit_set.filter(
@@ -952,8 +992,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in=translations)
+            todelete = self.translation_set.exclude(id__in=translations.keys())
             if todelete.exists():
+                self.needs_cleanup = True
                 with transaction.atomic():
                     self.log_info(
                         'removing stale translations: %s',
@@ -961,13 +1002,38 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     todelete.delete()
 
+        if self.updated_sources:
+            self.log_info('running source checks')
+            self.update_source_checks()
+
         # Process linked repos
-        for component in self.get_linked_childs():
+        childs = self.get_linked_childs()
+        for pos, component in enumerate(childs):
             self.log_info(
-                'updating linked project %s',
-                component
+                'updating linked project %s [%d/%d]',
+                component, pos, len(childs),
             )
-            component.create_translations(force, langs, request=request)
+            component.create_translations(
+                force, langs, request=request, skip_checks=True
+            )
+
+        # Run target checks (consistency)
+        if not skip_checks:
+            self.run_target_checks()
+
+        if self.needs_cleanup:
+            from weblate.trans.tasks import cleanup_project
+            cleanup_project.delay(self.project.pk)
+
+        from weblate.accounts.notifications import notify_new_string
+        # First invalidate all caches
+        for translation in translations.values():
+            translation.invalidate_cache()
+        # Now send notifications to avoid calculating component stats
+        # several times
+        for translation in translations.values():
+            if translation.notify_new_string:
+                notify_new_string(translation)
 
         self.log_info('updating completed')
 
@@ -1111,11 +1177,16 @@ class Component(models.Model, URLMixin, PathMixin):
                 '\n'.join(errors)
             ))
 
+    def is_valid_base_for_new(self):
+        filename = self.get_new_base_filename()
+        template = self.has_template()
+        return self.file_format_cls.is_valid_base_for_new(filename, template)
+
     def clean_new_lang(self):
         """Validate new language choices."""
         if self.new_lang == 'add':
-            filename = self.get_new_base_filename()
-            if not self.file_format_cls.is_valid_base_for_new(filename):
+            if not self.is_valid_base_for_new():
+                filename = self.get_new_base_filename()
                 if filename:
                     message = _(
                         'Format of base file for new translations '
@@ -1165,8 +1236,8 @@ class Component(models.Model, URLMixin, PathMixin):
             if code:
                 lang = Language.objects.auto_get_or_create(
                     code=code
-                ).base_code()
-                if lang != self.project.source_language.base_code():
+                ).base_code
+                if lang != self.project.source_language.base_code:
                     msg = _(
                         'Template language ({0}) does not '
                         'match project source language ({1})!'
@@ -1220,6 +1291,10 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.file_format not in FILE_FORMATS:
             msg = _('Unsupported file format: {0}').format(self.file_format)
             raise ValidationError({'file_format': msg})
+
+        # Baild out on failed repo validation
+        if self.repo is None:
+            return
 
         # Validate VCS repo
         try:
@@ -1368,11 +1443,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def has_template(self):
         """Return true if component is using template for translation"""
         monolingual = self.file_format_cls.monolingual
-        return (
-            (monolingual or monolingual is None) and
-            self.template and
-            not self.template.endswith('.pot')
-        )
+        return ((monolingual or monolingual is None) and self.template)
 
     def load_template_store(self):
         """Load translate-toolkit store for template."""
@@ -1392,18 +1463,6 @@ class Component(models.Model, URLMixin, PathMixin):
         except Exception as exc:
             self.handle_parse_error(exc)
 
-    @property
-    def last_change(self):
-        """Return date of last change done in Weblate."""
-        try:
-            return Change.objects.content().filter(
-                translation__component=self
-            ).values_list(
-                'timestamp', flat=True
-            )[0]
-        except IndexError:
-            return None
-
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
@@ -1417,74 +1476,59 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.new_lang != 'add':
             return False
 
-        base_filename = self.get_new_base_filename()
-        if not self.file_format_cls.is_valid_base_for_new(base_filename):
-            return False
-
-        return True
+        return self.is_valid_base_for_new()
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
         if not self.can_add_new_language():
-            if request:
-                messages.error(
-                    request,
-                    _('Failed to add new translation file!')
-                )
+            messages.error(request, _('Failed to add new translation file!'))
             return False
 
-        format_lang_code = self.file_format_cls.get_language_code(
-            language.code
-        )
-        if re.match(self.language_regex, format_lang_code) is None:
-            if request:
-                messages.error(
-                    request,
-                    _('Given language is filtered by the language filter!')
-                )
+        file_format = self.file_format_cls
+        # Language code from Weblate
+        code = language.code
+        # Language code used for file
+        format_code = file_format.get_language_code(code)
+
+        if re.match(self.language_regex, format_code) is None:
+            messages.error(
+                request,
+                _('Given language is filtered by the language filter!')
+            )
             return False
 
         base_filename = self.get_new_base_filename()
 
-        filename = self.file_format_cls.get_language_filename(
-            self.filemask,
-            language.code
-        )
+        filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
         # Ignore request if file exists (possibly race condition as
         # the processing of new language can take some time and user
         # can submit again)
         if os.path.exists(fullname):
-            if request:
-                Translation.objects.check_sync(
-                    self, language, language.code, filename, request=request
-                )
-                messages.error(
-                    request,
-                    _('Translation file already exists!')
-                )
+            translation = Translation.objects.check_sync(
+                self, language, format_code, filename, request=request
+            )
+            self.run_target_checks()
+            translation.invalidate_cache()
+            messages.error(request, _('Translation file already exists!'))
             return False
 
-        self.file_format_cls.add_language(
-            fullname,
-            language,
-            base_filename
-        )
+        file_format.add_language(fullname, language, base_filename)
 
         translation = Translation.objects.create(
             component=self,
             language=language,
             plural=language.plural,
             filename=filename,
-            language_code=language.code,
-            commit_message='__add__'
+            language_code=format_code,
         )
         if send_signal:
             translation_post_add.send(
                 sender=self.__class__,
                 translation=translation
             )
+        translation.commit_template = 'add'
         translation.git_commit(
             request,
             request.user.get_author_name()
@@ -1496,6 +1540,8 @@ class Component(models.Model, URLMixin, PathMixin):
             force=True,
             request=request
         )
+        self.run_target_checks()
+        translation.invalidate_cache()
         return True
 
     def do_lock(self, user, lock=True):
@@ -1513,5 +1559,32 @@ class Component(models.Model, URLMixin, PathMixin):
             return None
         return self.translation_set.get(filename=self.template)
 
-    def get_language_count(self):
-        return self.translation_set.count()
+    def run_target_checks(self):
+        """Run batch executed target checks"""
+        for check, check_obj in CHECKS.items():
+            if not check_obj.target or not check_obj.batch_update:
+                continue
+            self.log_info('running batch check: %s', check)
+            # List of triggered checks
+            data = check_obj.check_target_project(self.project)
+            # Fetch existing check instances
+            existing = set(
+                Check.objects.filter(
+                    project=self.project,
+                    check=check
+                ).values_list(
+                    'pk', flat=True
+                )
+            )
+            # Create new check instances
+            for item in data:
+                instance = Check.objects.get_or_create(
+                    content_hash=item['content_hash'],
+                    project=self.project,
+                    language_id=item['translation__language'],
+                    check=check,
+                    defaults={'ignore': False},
+                )[0]
+                existing.discard(instance.pk)
+            # Remove stale instances
+            Check.objects.filter(pk__in=existing).delete()

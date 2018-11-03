@@ -27,6 +27,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
@@ -83,15 +84,20 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Set \"Translation-Team\" header'),
         default=True,
         help_text=ugettext_lazy(
-            'Whether the \"Translation-Team\" field in file headers should be '
-            'updated by Weblate.'
+            'Lets Weblate update the \"Translation-Team\" file header '
+            'of your project.'
         ),
     )
-
+    use_shared_tm = models.BooleanField(
+        verbose_name=ugettext_lazy('Use shared translation memory'),
+        default=settings.DEFAULT_SHARED_TM,
+        help_text=ugettext_lazy(
+            'Uses and contributes to the pool of shared translations '
+            'between projects.'
+        )
+    )
     access_control = models.IntegerField(
-        default=(
-            ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC
-        ),
+        default=settings.DEFAULT_ACCESS_CONTROL,
         choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
@@ -224,16 +230,16 @@ class Project(models.Model, URLMixin, PathMixin):
             format_names.append(unicode(component.file_format_name))
         return ', '.join(format_names)
 
-    def get_languages(self):
+    @cached_property
+    def languages(self):
         """Return list of all languages used in project."""
         return Language.objects.filter(
             translation__component__project=self
         ).distinct()
 
-    def get_language_count(self):
-        """Return number of languages used in this project."""
-        return self.get_languages().count()
-    get_language_count.short_description = _('Languages')
+    def get_languages(self):
+        # TODO: remove before merge
+        return languages();
 
     def repo_needs_commit(self):
         """Check whether there are any uncommitted changes."""
@@ -289,22 +295,19 @@ class Project(models.Model, URLMixin, PathMixin):
             ret |= component.do_reset(request)
         return ret
 
+    def do_cleanup(self, request=None):
+        """Push all Git repos."""
+        ret = False
+        for component in self.all_repo_components():
+            ret |= component.do_cleanup(request)
+        return ret
+
     def can_push(self):
         """Check whether any suprojects can push."""
         ret = False
         for component in self.component_set.all():
             ret |= component.can_push()
         return ret
-
-    @property
-    def last_change(self):
-        """Return date of last change done in Weblate."""
-        components = self.component_set.all()
-        changes = [component.last_change for component in components]
-        changes = [c for c in changes if c is not None]
-        if not changes:
-            return None
-        return max(changes)
 
     def all_repo_components(self):
         """Return list of all unique VCS components."""
@@ -321,3 +324,11 @@ class Project(models.Model, URLMixin, PathMixin):
             result.append(other)
 
         return result
+
+    @cached_property
+    def paid(self):
+        return (
+            'weblate.billing' not in settings.INSTALLED_APPS or
+            not self.billing_set.exists() or
+            self.billing_set.filter(paid=True).exists()
+        )

@@ -41,7 +41,7 @@ def remove_user(user, request):
     notify_account_activity(user, request, 'removed')
 
     # Remove any email validation codes
-    Code.objects.filter(email__in=get_all_user_mails(user)).delete()
+    invalidate_reset_codes(user)
 
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
@@ -72,14 +72,18 @@ def remove_user(user, request):
     user.groups.clear()
 
 
-def get_all_user_mails(user):
+def get_all_user_mails(user, entries=None):
     """Return all verified mails for user."""
-    emails = set(
-        VerifiedEmail.objects.filter(
-            social__user=user
-        ).values_list(
-            'email', flat=True
-        )
-    )
+    verified = VerifiedEmail.objects.filter(social__user=user)
+    if entries:
+        verified = verified.filter(social__in=entries)
+    emails = set(verified.values_list('email', flat=True))
     emails.add(user.email)
     return emails
+
+
+def invalidate_reset_codes(user=None, entries=None, emails=None):
+    """Invalidate email activation codes for an user."""
+    if emails is None:
+        emails = get_all_user_mails(user, entries)
+    Code.objects.filter(email__in=emails).delete()

@@ -93,35 +93,6 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
 
-    def test_import_header(self):
-        """Test importing with header merge."""
-        response = self.do_import(
-            merge_header='1',
-        )
-        self.assertRedirects(response, self.translation_url)
-
-        # Verify stats
-        translation = self.get_translation()
-        self.assertEqual(translation.stats.translated, 1)
-        self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all, 4)
-
-        # Verify unit
-        unit = self.get_unit()
-        self.assertEqual(unit.target, TRANSLATION_PO)
-
-        # Verify header
-        if (self.test_file == TEST_PO and
-                hasattr(unit.translation.store.store, 'parseheader')):
-            header = unit.translation.store.store.parseheader()
-            self.assertEqual(
-                header['POT-Creation-Date'], '2000-01-02 03:04+0100'
-            )
-            self.assertIn(
-                'Testing Weblate, 2015.',
-                unit.translation.store.store.header().getnotes()
-            )
-
     def test_import_author(self):
         """Test importing normally."""
         response = self.do_import(
@@ -248,7 +219,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.all, 4)
 
     def test_import_process(self):
-        """Test importing normally."""
+        """Test importing including fuzzy strings."""
         response = self.do_import(
             fuzzy='process'
         )
@@ -261,7 +232,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.all, 4)
 
     def test_import_approve(self):
-        """Test importing normally."""
+        """Test importing ignoring fuzzy flag."""
         response = self.do_import(
             fuzzy='approve'
         )
@@ -269,6 +240,20 @@ class ImportFuzzyTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
+
+    def test_import_review(self):
+        """Test importing as approved."""
+        self.project.enable_review = True
+        self.project.save()
+        response = self.do_import(method='approve', fuzzy='approve')
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.approved, 1)
         self.assertEqual(translation.stats.translated, 1)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
@@ -450,7 +435,8 @@ class ExportTest(ViewTestCase):
         )
         self.assertEqual(
             response['Content-Type'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            '; charset=utf-8'
         )
 
     def test_export_invalid(self):
@@ -464,5 +450,5 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice('suggest')
         self.assertEqual(
             [x[0] for x in form.fields['method'].choices],
-            ['translate', 'fuzzy']
+            ['translate', 'approve', 'fuzzy']
         )

@@ -19,6 +19,7 @@
 #
 
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from weblate.auth.models import User
 from weblate.trans.models import Project, Comment
@@ -97,3 +98,25 @@ class PermissionsTest(TestCase):
         self.assertFalse(
             self.user.has_perm('comment.delete', comment, self.project)
         )
+
+    @override_settings(AUTH_RESTRICT_ADMINS={'super': ('trans.add_project',)})
+    def test_restrict_super(self):
+        self.assertFalse(self.superuser.has_perm('trans.change_project'))
+        self.assertFalse(self.admin.has_perm('trans.change_project'))
+        self.assertFalse(self.user.has_perm('trans.change_project'))
+        self.assertTrue(self.superuser.has_perm('trans.add_project'))
+        self.assertFalse(self.admin.has_perm('trans.add_project'))
+        self.assertFalse(self.user.has_perm('trans.add_project'))
+        # Should have no effect here
+        self.test_delete_comment()
+
+    @override_settings(AUTH_RESTRICT_ADMINS={'admin': ('trans.add_project',)})
+    def test_restrict_admin(self):
+        self.assertTrue(self.superuser.has_perm('trans.change_project'))
+        self.assertFalse(self.admin.has_perm('trans.change_project'))
+        self.assertFalse(self.user.has_perm('trans.change_project'))
+        self.assertTrue(self.superuser.has_perm('trans.add_project'))
+        self.assertFalse(self.admin.has_perm('trans.add_project'))
+        self.assertFalse(self.user.has_perm('trans.add_project'))
+        # Should have no effect here
+        self.test_delete_comment()

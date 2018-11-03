@@ -21,6 +21,9 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
 
+# List of default domain names on which warn user
+DEFAULT_DOMAINS = ('example.net', 'example.com')
+
 
 def get_site_domain():
     """Return current site domain."""
@@ -33,4 +36,14 @@ def get_site_url(url=''):
         'https' if settings.ENABLE_HTTPS else 'http',
         get_site_domain(),
         url
+    )
+
+
+def check_domain(domain):
+    """Check whether site domain is correctly set"""
+    return (
+        domain not in DEFAULT_DOMAINS and
+        not domain.startswith('http:') and
+        not domain.startswith('https:') and
+        not domain.endswith('/')
     )

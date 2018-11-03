@@ -142,18 +142,23 @@ curl \
 <tbody>
 <tr>
 <th><a href="https://github.com/">GitHub</a></th>
-<td>{{ site_url }}{% url 'hook-github' %}</td>
+<td>{{ site_url }}{% url 'webhook' service='github' %}</td>
 <td><a href="{% documentation "admin/continuous" "github-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://about.gitlab.com/">GitLab</a></th>
-<td>{{ site_url }}{% url 'hook-gitlab' %}</td>
+<td>{{ site_url }}{% url 'webhook' service='gitlab' %}</td>
 <td><a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://bitbucket.org/">Bitbucket</a></th>
-<td>{{ site_url }}{% url 'hook-bitbucket' %}</td>
+<td>{{ site_url }}{% url 'webhook' service='bitbucket' %}</td>
 <td><a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://docs.pagure.org/pagure/">Pagure</a></th>
+<td>{{ site_url }}{% url 'webhook' service='pagure' %}</td>
+<td><a href="{% documentation "admin/continuous" "pagure-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
 </tr>
 </tbody>
 </table>

@@ -292,7 +292,11 @@ class Profile(models.Model):
         Language,
         verbose_name=_('Translated languages'),
         blank=True,
-        help_text=_('Choose languages to which you can translate.')
+        help_text=_(
+            'Choose which languages you prefer to translate. '
+            'These will be offered to you on the dashboard to '
+            'have easier access to chosen translations.'
+        )
     )
     secondary_languages = models.ManyToManyField(
         Language,
@@ -306,6 +310,7 @@ class Profile(models.Model):
     )
     suggested = models.IntegerField(default=0, db_index=True)
     translated = models.IntegerField(default=0, db_index=True)
+    uploaded = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
         verbose_name=_('Hide completed translations on the dashboard'),
@@ -331,6 +336,16 @@ class Profile(models.Model):
             ' is good option.'
         ),
         validators=[validate_editor],
+    )
+    TRANSLATE_FULL = 0
+    TRANSLATE_ZEN = 1
+    translate_mode = models.IntegerField(
+        verbose_name=_('Translation editor mode'),
+        choices=(
+            (TRANSLATE_FULL, _('Full editor')),
+            (TRANSLATE_ZEN, _('Zen mode')),
+        ),
+        default=TRANSLATE_FULL,
     )
     special_chars = models.CharField(
         default='', blank=True,
@@ -448,14 +463,6 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse('user_page', kwargs={'user': self.user.username})
-
-    @property
-    def last_change(self):
-        """Return date of last change user has done in Weblate."""
-        try:
-            return self.user.change_set.values_list('timestamp', flat=True)[0]
-        except IndexError:
-            return None
 
     @property
     def full_name(self):

@@ -78,6 +78,12 @@ class WeblateAdminSite(AdminSite):
     site_title = _('Weblate administration')
     index_template = 'admin/weblate-index.html'
 
+    @property
+    def site_url(self):
+        if settings.URL_PREFIX:
+            return settings.URL_PREFIX
+        return '/'
+
     def discover(self):
         """Manual discovery."""
         # Accounts
@@ -131,6 +137,14 @@ class WeblateAdminSite(AdminSite):
             from weblate.legal.models import Agreement
             self.register(Agreement, AgreementAdmin)
 
+        # Hosted
+        if 'wlhosted' in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
+            from wlhosted.payments.models import Customer, Payment
+            self.register(Customer, CustomerAdmin)
+            self.register(Payment, PaymentAdmin)
+
         # Python Social Auth
         self.register(UserSocialAuth, UserSocialAuthOption)
         self.register(Nonce, NonceOption)
@@ -156,7 +170,7 @@ class WeblateAdminSite(AdminSite):
 
     def each_context(self, request):
         result = super(WeblateAdminSite, self).each_context(request)
-        empty = [_('Object listing disabled')]
+        empty = [_('Object listing turned off')]
         result['empty_selectable_objects_list'] = [empty]
         result['empty_objects_list'] = empty
         result['configuration_errors'] = ConfigurationError.objects.filter(

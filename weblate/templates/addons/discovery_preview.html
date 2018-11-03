@@ -17,8 +17,8 @@
 <tr>
 <th>{{ match.0.name }}</th>
 <td>
-{% for file in match.0.files %}
-<code>{{ file }}</code><br/>
+{% for file, lang in match.0.files_langs %}
+<code>{{ file }}</code> ({{ lang }})<br/>
 {% endfor %}
 </td>
 </tr>
@@ -30,8 +30,8 @@
 <tr>
 <th><a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a></th>
 <td>
-{% for file in match.0.files %}
-<code>{{ file }}</code><br/>
+{% for file, lang in match.0.files_langs %}
+<code>{{ file }}</code> ({{ lang }})<br/>
 {% endfor %}
 </td>
 </tr>

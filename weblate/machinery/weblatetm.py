@@ -24,7 +24,6 @@ from django.utils.encoding import force_text
 
 from weblate.machinery.base import MachineTranslation
 from weblate.trans.models import Unit
-from weblate.utils.search import Comparer
 
 
 class WeblateTranslation(MachineTranslation):
@@ -57,12 +56,10 @@ class WeblateTranslation(MachineTranslation):
             translation__component__project__in=user.allowed_projects
         ).more_like_this(unit, 1000)
 
-        comparer = Comparer()
-
         result = set((
             self.format_unit_match(
                 munit,
-                comparer.similarity(text, munit.get_source_plurals()[0])
+                self.comparer.similarity(text, munit.get_source_plurals()[0])
             )
             for munit in matching_units
         ))

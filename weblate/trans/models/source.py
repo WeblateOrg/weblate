@@ -21,12 +21,13 @@
 from __future__ import unicode_literals
 
 from django.apps import apps
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import PRIORITY_CHOICES
 
@@ -82,21 +83,20 @@ class Source(models.Model):
             self.check_flags_modified = (old.check_flags != self.check_flags)
         super(Source, self).save(force_insert, **kwargs)
 
-    @property
+    @cached_property
     def unit(self):
         try:
-            translation = self.component.translation_set.all()[0]
+            return self.units[0]
         except IndexError:
             return None
-        try:
-            return translation.unit_set.get(id_hash=self.id_hash)
-        except ObjectDoesNotExist:
-            return None
 
+    @cached_property
     def units(self):
         return self.units_model.objects.filter(
             id_hash=self.id_hash,
             translation__component=self.component
+        ).prefetch_related(
+            'translation', 'translation__component'
         )
 
     def get_absolute_url(self):
@@ -104,3 +104,49 @@ class Source(models.Model):
             'project': self.component.project.slug,
             'component': self.component.slug,
         })
+
+    def run_checks(self, unit=None):
+        """Update checks for this unit."""
+        if unit is None:
+            try:
+                unit = self.units[0]
+            except IndexError:
+                return
+
+        content_hash = unit.content_hash
+        src = unit.get_source_plurals()
+        project = self.component.project
+
+        # Fetch old checks
+        old_checks = set(
+            Check.objects.filter(
+                content_hash=content_hash,
+                project=project,
+                language=None
+            ).values_list('check', flat=True)
+        )
+
+        # Run all source checks
+        for check, check_obj in CHECKS.items():
+            if check_obj.source and check_obj.check_source(src, unit):
+                if check in old_checks:
+                    # We already have this check
+                    old_checks.remove(check)
+                else:
+                    # Create new check
+                    Check.objects.create(
+                        content_hash=content_hash,
+                        project=project,
+                        language=None,
+                        ignore=False,
+                        check=check
+                    )
+
+        # Remove stale checks
+        if old_checks:
+            Check.objects.filter(
+                content_hash=content_hash,
+                project=project,
+                language=None,
+                check__in=old_checks
+            ).delete()

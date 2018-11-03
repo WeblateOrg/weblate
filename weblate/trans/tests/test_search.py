@@ -33,12 +33,13 @@ from django.http import QueryDict
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import Fulltext
-from weblate.trans.models import IndexUpdate
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(SearchViewTest, self).setUp()
         self.translation = self.component.translation_set.get(
@@ -85,6 +86,22 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(
             response,
             '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'q': '^Hello', 'search': 'regex'}
+        )
+        self.assertContains(
+            response,
+            'Hello, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'q': '^(Hello', 'search': 'regex'}
+        )
+        self.assertContains(
+            response,
+            'Invalid regular expression'
         )
         response = self.client.get(
             reverse('search'),
@@ -208,11 +225,6 @@ class SearchViewTest(ViewTestCase):
         self.do_search(
             {'q': 'Thank you for using Weblate.', 'search': 'exact'},
             'Search for exact string'
-        )
-        # Short string
-        self.do_search(
-            {'q': 'x'},
-            'The query string has to be longer!',
         )
         # Short exact
         self.do_search(
@@ -375,11 +387,13 @@ class SearchViewTest(ViewTestCase):
 
 
 class SearchBackendTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(SearchBackendTest, self).setUp()
         self.update_fulltext_index()
 
-    def do_index_update(self):
+    def test_add(self):
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
@@ -389,18 +403,6 @@ class SearchBackendTest(ViewTestCase):
         )
         Fulltext.update_index_unit(unit)
         Fulltext.update_index_unit(unit)
-
-    @override_settings(OFFLOAD_INDEXING=False)
-    def test_add(self):
-        self.do_index_update()
-        self.assertEqual(IndexUpdate.objects.count(), 0)
-
-    @override_settings(OFFLOAD_INDEXING=True)
-    def test_add_offload(self):
-        self.do_index_update()
-        self.assertEqual(IndexUpdate.objects.count(), 1)
-        update = IndexUpdate.objects.all()[0]
-        self.assertTrue(update.source, True)
 
 
 class SearchMigrationTest(TestCase, TempDirMixin):
@@ -453,6 +455,7 @@ class SearchMigrationTest(TestCase, TempDirMixin):
 
 class ReplaceTest(ViewTestCase):
     """Test for search and replace functionality."""
+    fake_search = False
 
     def setUp(self):
         super(ReplaceTest, self).setUp()

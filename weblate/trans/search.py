@@ -20,19 +20,23 @@
 
 """Whoosh based full text search."""
 
+from __future__ import absolute_import, unicode_literals
+
 import functools
+from time import sleep
+
+from celery_batches import Batches
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.query import Or, Term
+from whoosh.index import LockError
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
 
-from django.conf import settings
-from django.db.utils import IntegrityError
 from django.utils.encoding import force_text
-from django.db import transaction
 
-from weblate.lang.models import Language
+from weblate.celery import app
+from weblate.utils.celery import extract_batch_args, extract_batch_kwargs
 from weblate.utils.index import WhooshIndex
 
 
@@ -53,6 +57,7 @@ class SourceSchema(SchemaClass):
 
 class Fulltext(WhooshIndex):
     LOCATION = 'whoosh'
+    FAKE = False
 
     def get_source_index(self):
         return self.open_index(SourceSchema, 'source')
@@ -65,88 +70,68 @@ class Fulltext(WhooshIndex):
     @staticmethod
     def update_source_unit_index(writer, unit):
         """Update source index for given unit."""
+        if not isinstance(unit, dict):
+            unit = {
+                'source': unit.source,
+                'context': unit.context,
+                'location': unit.location,
+                'pk': unit.pk,
+            }
         writer.update_document(
-            pk=unit.pk,
-            source=force_text(unit.source),
-            context=force_text(unit.context),
-            location=force_text(unit.location),
+            pk=unit['pk'],
+            source=force_text(unit['source']),
+            context=force_text(unit['context']),
+            location=force_text(unit['location']),
         )
 
     @staticmethod
     def update_target_unit_index(writer, unit):
         """Update target index for given unit."""
+        if not isinstance(unit, dict):
+            unit = {
+                'pk': unit.pk,
+                'target': unit.target,
+                'comment': unit.comment,
+            }
         writer.update_document(
-            pk=unit.pk,
-            target=force_text(unit.target),
-            comment=force_text(unit.comment),
+            pk=unit['pk'],
+            target=force_text(unit['target']),
+            comment=force_text(unit['comment']),
         )
 
     def update_index(self, units):
         """Update fulltext index for given set of units."""
-        languages = Language.objects.have_translation()
 
         # Update source index
-        if units.exists():
-            index = self.get_source_index()
-            with BufferedWriter(index) as writer:
-                for unit in units.iterator():
-                    self.update_source_unit_index(writer, unit)
+        index = self.get_source_index()
+        with BufferedWriter(index) as writer:
+            for unit in units:
+                self.update_source_unit_index(writer, unit)
+
+        languages = set([unit['language'] for unit in units])
 
         # Update per language indices
-        for lang in languages:
-            language_units = units.filter(
-                translation__language=lang
-            ).exclude(
-                target=''
-            )
-
-            if language_units.exists():
-                index = self.get_target_index(lang.code)
-                with BufferedWriter(index) as writer:
-                    for unit in language_units.iterator():
-                        self.update_target_unit_index(writer, unit)
-
-    @staticmethod
-    def add_index_update(unit_id, to_delete, language_code):
-        from weblate.trans.models.search import IndexUpdate
-        try:
-            with transaction.atomic():
-                IndexUpdate.objects.create(
-                    unitid=unit_id,
-                    to_delete=to_delete,
-                    language_code=language_code,
-                )
-        except IntegrityError:
-            try:
-                update = IndexUpdate.objects.get(unitid=unit_id)
-                if to_delete and not update.to_delete:
-                    update.to_delete = True
-                    update.save()
-            except IndexUpdate.DoesNotExist:
-                # It did exist, but was deleted meanwhile
-                return
+        for language in languages:
+            index = self.get_target_index(language)
+            with BufferedWriter(index) as writer:
+                for unit in units:
+                    if unit['language'] != language:
+                        continue
+                    self.update_target_unit_index(writer, unit)
 
     @classmethod
     def update_index_unit(cls, unit):
         """Add single unit to index."""
-        # Should this happen in background?
-        if settings.OFFLOAD_INDEXING:
-            cls.add_index_update(
-                unit.id, False, unit.translation.language.code
+        if not cls.FAKE:
+            update_fulltext.delay(
+                pk=unit.pk,
+                source=force_text(unit.source),
+                context=force_text(unit.context),
+                location=force_text(unit.location),
+                target=force_text(unit.target),
+                comment=force_text(unit.comment),
+                language=force_text(unit.translation.language.code),
             )
-            return
-
-        # Update source
-        instance = cls()
-        index = instance.get_source_index()
-        with AsyncWriter(index) as writer:
-            instance.update_source_unit_index(writer, unit)
-
-        # Update target
-        if unit.target:
-            index = instance.get_target_index(unit.translation.language.code)
-            with AsyncWriter(index) as writer:
-                instance.update_target_unit_index(writer, unit)
 
     @staticmethod
     def base_search(index, query, params, search, schema):
@@ -233,12 +218,11 @@ class Fulltext(WhooshIndex):
             # Filter results with score above 50 and not current unit
             return [h[0] for h in results if scores[h[0]] > 50 and h[0] != pk]
 
-    def clean_search_unit(self, pk, lang):
+    @classmethod
+    def clean_search_unit(cls, pk, lang):
         """Cleanup search index on unit deletion."""
-        if settings.OFFLOAD_INDEXING:
-            self.add_index_update(pk, True, lang)
-        else:
-            self.delete_search_unit(pk, lang)
+        if not cls.FAKE:
+            delete_fulltext.delay(pk, lang)
 
     def delete_search_unit(self, pk, lang):
         try:
@@ -265,3 +249,44 @@ class Fulltext(WhooshIndex):
             with index.writer() as writer:
                 for pk in units:
                     writer.delete_by_term('pk', pk)
+
+
+@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
+def update_fulltext(self, *args, **kwargs):
+    unitdata = extract_batch_kwargs(*args, **kwargs)
+    fulltext = Fulltext()
+
+    # Update index
+    try:
+        fulltext.update_index(unitdata)
+    except LockError:
+        # Manually handle retries, it doesn't work
+        # with celery-batches
+        sleep(10)
+        for unit in unitdata:
+            update_fulltext.delay(**unit)
+
+
+@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
+def delete_fulltext(self, *args):
+    ids = extract_batch_args(*args)
+    fulltext = Fulltext()
+
+    units = set()
+    languages = {}
+    for unit, language in ids:
+        units.add(unit)
+        if language is None:
+            continue
+        if language not in languages:
+            languages[language] = set()
+        languages[language].add(unit)
+
+    try:
+        fulltext.delete_search_units(units, languages)
+    except LockError:
+        # Manually handle retries, it doesn't work
+        # with celery-batches
+        sleep(10)
+        for unit in ids:
+            delete_fulltext.delay(*unit)

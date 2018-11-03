@@ -21,8 +21,9 @@
 
 from __future__ import unicode_literals
 
-import sys
+from hashlib import md5
 import json
+import random
 
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
@@ -35,7 +36,8 @@ from django.utils.http import urlencode
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.hash import calculate_hash
+from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
 
@@ -54,6 +56,7 @@ class MachineTranslation(object):
     rank_boost = 0
     default_languages = []
     cache_translations = True
+    language_map = {}
 
     @classmethod
     def get_rank(cls):
@@ -66,6 +69,7 @@ class MachineTranslation(object):
         self.languages_cache = '{}-languages'.format(self.mtid)
         self.request_url = None
         self.request_params = None
+        self.comparer = Comparer()
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -77,14 +81,25 @@ class MachineTranslation(object):
         """Hook for backends to allow add authentication headers to request."""
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False, json_body=False,
                  **kwargs):
         """Perform JSON request."""
+
+        # JSON body requires using POST
+        if json_body:
+            http_post = True
+
         # Encode params
         if kwargs:
-            params = urlencode(kwargs)
+            if json_body:
+                params = json.dumps(kwargs)
+            else:
+                params = urlencode(kwargs)
         else:
-            params = ''
+            if json_body:
+                params = '{}'
+            else:
+                params = ''
 
         # Store for exception handling
         self.request_url = url
@@ -96,7 +111,6 @@ class MachineTranslation(object):
 
         # Create request object with custom headers
         request = Request(url)
-        request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT)
         request.add_header('Referer', get_site_url())
         # Optional authentication
@@ -105,9 +119,9 @@ class MachineTranslation(object):
 
         # Fire request
         if http_post:
-            handle = urlopen(request, params.encode('utf-8'))
+            handle = urlopen(request, params.encode('utf-8'), timeout=5.0)
         else:
-            handle = urlopen(request)
+            handle = urlopen(request, timeout=5.0)
 
         # Read and possibly convert response
         text = handle.read()
@@ -165,13 +179,15 @@ class MachineTranslation(object):
 
     def convert_language(self, language):
         """Convert language to service specific code."""
+        if language in self.language_map:
+            return self.language_map[language]
+
         return language
 
     def report_error(self, exc, message):
         """Wrapper for handling error situations"""
         report_error(
-            exc, sys.exc_info(),
-            {'mt_url': self.request_url, 'mt_params': self.request_params}
+            exc, {'mt_url': self.request_url, 'mt_params': self.request_params}
         )
         LOGGER.error(
             message,
@@ -237,35 +253,38 @@ class MachineTranslation(object):
             return True
         return False
 
-    def translate(self, language, text, unit, user):
+    def translate(self, language, text, unit, user, source=None):
         """Return list of machine translations."""
-        if text == '':
+        if not text or self.is_rate_limited():
             return []
 
-        if self.is_rate_limited():
+        if source is None:
+            language = self.convert_language(language)
+            source = self.convert_language(
+                unit.translation.component.project.source_language.code
+            )
+
+        if source == language:
             return []
 
-        language = self.convert_language(language)
-        source = self.convert_language(
-            unit.translation.component.project.source_language.code
-        )
         if not self.is_supported(source, language):
             # Try without country code
-            if '_' in language or '-' in language:
-                language = language.replace('-', '_').split('_')[0]
-                if source == language:
-                    return []
-                if not self.is_supported(source, language):
-                    return []
-            else:
-                return []
+            source = source.replace('-', '_')
+            if '_' in source:
+                source = source.split('_')[0]
+                return self.translate(language, text, unit, user, source)
+            language = language.replace('-', '_')
+            if '_' in language:
+                language = language.split('_')[0]
+                return self.translate(language, text, unit, user, source)
+            return []
 
         cache_key = None
         if self.cache_translations:
             cache_key = 'mt:{}:{}:{}'.format(
                 self.mtid,
                 calculate_hash(source, language),
-                hash_to_checksum(calculate_hash(None, text)),
+                calculate_hash(None, text),
             )
             result = cache.get(cache_key)
             if result is not None:
@@ -300,3 +319,13 @@ class MachineTranslation(object):
                 exc.__class__.__name__,
                 str(exc)
             ))
+
+    def signed_salt(self, appid, secret, text):
+        """Generates salt and sign as used by Chinese services."""
+
+        salt = str(random.randint(0, 10000000000))
+
+        payload = ''.join((appid, text, salt, secret))
+        digest = md5(payload.encode('utf-8')).hexdigest()
+
+        return salt, digest

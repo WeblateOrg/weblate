@@ -6,18 +6,13 @@
 {% perm 'suggestion.add' unit.translation as user_can_suggest %}
 
 {% for item in glossary %}
-    <tr>
+    <tr class="glossary-embed" title="{% trans "Copy word into translation" %}">
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
-    <td>
-    {% if user_can_translate or user_can_suggest %}
-    <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word into translation" %}">{% trans "Copy" %}</a>
-    {% endif %}
-    </td>
     </tr>
 {% empty %}
     <tr>
-    <td colspan="3">
+    <td colspan="2">
 {% trans "No related strings found in the glossary." %}
     </td>
     </tr>

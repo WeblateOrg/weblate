@@ -60,19 +60,25 @@ class GitNoChangeProjectTest(ViewTestCase):
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_project_push(self):
+    def test_push(self):
         response = self.client.post(
             self.get_test_url('push')
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_project_reset(self):
+    def test_reset(self):
         response = self.client.post(
             self.get_test_url('reset')
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_project_status(self):
+    def test_cleanup(self):
+        response = self.client.post(
+            self.get_test_url('cleanup')
+        )
+        self.assertRedirects(response, self.get_expected_redirect())
+
+    def test_status(self):
         response = self.client.get(
             self.get_test_url('git_status')
         )

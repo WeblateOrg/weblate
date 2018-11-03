@@ -6,7 +6,7 @@ FROM weblate/weblate:edge
 # and WILL perform very poorly in production.
 #
 # For production-ready dockerfile see:
-# https://github.com/WeblateOrg/docker/tree/docker
+# https://github.com/WeblateOrg/docker
 #########
 
 WORKDIR /srv
@@ -14,10 +14,11 @@ WORKDIR /srv
 # TODO: put some new dependencies here
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 ENTRYPOINT
 
-CMD sh -c "./manage.py migrate \
-    && ./manage.py createadmin --update --password admin \
-    && ./manage.py runserver 0.0.0.0:8080"
+# Container "FROM" debian:stretch and includes python2.7. Explicitly picking python3 as weblate:edge installs pip3
+CMD sh -c "python3 manage.py migrate \
+    && python3 manage.py createadmin --update --password admin \
+    && python3 manage.py runserver 0.0.0.0:8080"

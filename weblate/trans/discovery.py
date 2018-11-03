@@ -28,10 +28,23 @@ from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
+from weblate.celery import app
 from weblate.logger import LOGGER
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
+
+# Attributes to copy from main component
+COPY_ATTRIBUTES = (
+    'project', 'branch', 'vcs',
+    'license_url', 'license', 'agreement',
+    'report_source_bugs', 'allow_translation_propagation', 'save_history',
+    'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
+    'check_flags', 'new_lang',
+    'commit_message', 'add_message', 'delete_message',
+    'committer_name', 'committer_email',
+    'push_on_commit', 'commit_pending_age',
+)
 
 
 class ComponentDiscovery(object):
@@ -101,6 +114,7 @@ class ComponentDiscovery(object):
                 result[mask] = {
                     'files': {path},
                     'languages': {groups['language']},
+                    'files_langs': {(path, groups['language'])},
                     'base_file': render_template(
                         self.base_file_template, **groups
                     ),
@@ -114,9 +128,16 @@ class ComponentDiscovery(object):
             else:
                 result[mask]['files'].add(path)
                 result[mask]['languages'].add(groups['language'])
+                result[mask]['files_langs'].add((path, groups['language']))
         return result
 
-    def create_component(self, main, match, **params):
+    def log(self, *args):
+        if self.component:
+            self.component.log_info(*args)
+        else:
+            LOGGER.info(*args)
+
+    def create_component(self, main, match, background=False, **kwargs):
         max_length = settings.COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -125,20 +146,21 @@ class ComponentDiscovery(object):
                 result = result[:max_length - extra]
             return result
 
+        # Get name and slug
         name = get_val('name')
         slug = get_val('slug')
-        simple_keys = (
-            'project', 'branch', 'vcs', 'push_on_commit', 'license_url',
-            'license',
-        )
-        for key in simple_keys:
-            if key not in params:
-                params[key] = getattr(main, key)
-        if 'repo' not in params:
-            params['repo'] = main.get_repo_link_url()
 
-        components = Component.objects.filter(project=params['project'])
+        # Copy attributes from main component
+        for key in COPY_ATTRIBUTES:
+            if key not in kwargs and main is not None:
+                kwargs[key] = getattr(main, key)
 
+        # Fill in repository
+        if 'repo' not in kwargs:
+            kwargs['repo'] = main.get_repo_link_url()
+
+        # Deal with duplicate name or slug
+        components = Component.objects.filter(project=kwargs['project'])
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
             base_name = get_val('name', 4)
             base_slug = get_val('slug', 4)
@@ -151,21 +173,48 @@ class ComponentDiscovery(object):
                     continue
                 break
 
-        if self.component:
-            self.component.log_info('Creating component %s', name)
-        else:
-            LOGGER.info('Creating component %s', name)
-        return Component.objects.create(
-            name=name,
-            slug=slug,
-            template=match['base_file'],
-            filemask=match['mask'],
-            file_format=self.file_format,
-            language_regex=self.language_re,
-            **params
-        )
+        # Fill in remaining attributes
+        kwargs.update({
+            'name': name,
+            'slug': slug,
+            'template': match['base_file'],
+            'filemask': match['mask'],
+            'file_format': self.file_format,
+            'language_regex': self.language_re,
+        })
 
-    def perform(self, preview=False, remove=False):
+        self.log('Creating component %s', name)
+        if background:
+            # Can't pass objects, pass only IDs
+            kwargs['project'] = kwargs['project'].pk
+            create_component.delay(**kwargs)
+            return None
+
+        return Component.objects.create(**kwargs)
+
+    def cleanup(self, main, processed, preview=False):
+        deleted = []
+        for component in main.get_linked_childs().exclude(pk__in=processed):
+            if component.has_template():
+                # Valid template?
+                if os.path.exists(component.get_template_filename()):
+                    continue
+            elif component.new_base:
+                # Valid new base?
+                if os.path.exists(component.get_new_base_filename()):
+                    continue
+            else:
+                if component.get_mask_matches():
+                    continue
+
+            # Delete as needed files seem to be missing
+            deleted.append((None, component))
+            if not preview:
+                component.delete()
+
+        return deleted
+
+    def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
         deleted = []
@@ -187,18 +236,22 @@ class ComponentDiscovery(object):
                 processed.add(found.id)
             except IndexError:
                 # Create new component
-                if preview:
-                    component = None
-                else:
-                    component = self.create_component(main, match)
+                component = None
+                if not preview:
+                    component = self.create_component(
+                        main, match, background
+                    )
+                if component:
                     processed.add(component.id)
                 created.append((match, component))
 
         if remove:
-            for found in main.get_linked_childs().exclude(pk__in=processed):
-                # Delete
-                deleted.append((None, found))
-                if not preview:
-                    found.delete()
+            deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
+
+
+@app.task
+def create_component(**kwargs):
+    kwargs['project'] = Project.objects.get(pk=kwargs['project'])
+    Component.objects.create(**kwargs)

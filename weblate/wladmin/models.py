@@ -52,6 +52,9 @@ class ConfigurationErrorManager(models.Manager):
             obj.save(update_fields=['message', 'timestamp'])
         return obj
 
+    def remove(self, name):
+        self.filter(name=name).delete()
+
 
 @python_2_unicode_compatible
 class ConfigurationError(models.Model):

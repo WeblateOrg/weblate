@@ -49,6 +49,9 @@ PERMISSIONS = (
 
     ('machinery.view', _('Use machine translation services')),
 
+    ('memory.edit', _('Edit translation memory')),
+    ('memory.delete', _('Delete translation memory')),
+
     ('project.edit', _('Edit project settings')),
     ('project.permissions', _('Manage project access')),
 
@@ -103,6 +106,7 @@ TRANSLATE_PERMS = {
     'suggestion.accept', 'suggestion.add', 'suggestion.vote',
     'unit.check', 'unit.edit',
     'upload.overwrite', 'upload.perform',
+    'machinery.view',
 }
 
 # Default set of roles
@@ -123,7 +127,6 @@ ROLES = (
         pgettext('Access control role', 'Power user'),
         TRANSLATE_PERMS | {
             'translation.add',
-            'machinery.view',
             'unit.template',
             'vcs.access', 'vcs.view',
         } | filter_perms('glossary.')
@@ -143,6 +146,10 @@ ROLES = (
     (
         pgettext('Access control role', 'Manage glossary'),
         filter_perms('glossary.')
+    ),
+    (
+        pgettext('Access control role', 'Manage translation memory'),
+        filter_perms('memory.')
     ),
     (
         pgettext('Access control role', 'Manage screenshots'),
@@ -205,6 +212,8 @@ ACL_GROUPS = {
         'Manage languages',
     pgettext('Per project access control group', 'Glossary'):
         'Manage glossary',
+    pgettext('Per project access control group', 'Memory'):
+        'Manage translation memory',
     pgettext('Per project access control group', 'Screenshots'):
         'Manage screenshots',
     pgettext('Per project access control group', 'Review'):

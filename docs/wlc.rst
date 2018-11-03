@@ -120,6 +120,14 @@ Currently the following subcommands are available:
 
     Resets changes in Weblate object to match remote repository (translation, component or project).
 
+.. option:: cleanup
+
+    .. versionadded:: 0.9
+
+        Supported since wlc 0.9.
+
+    Removes any utracked changes in Weblate object to match remote repository (translation, component or project).
+
 .. option:: repo
 
     Displays repository status for given Weblate object (translation, component or project).
@@ -176,6 +184,22 @@ Currently the following subcommands are available:
     .. option:: --output
 
         File where to store output, if not specified file is printed to stdout.
+
+.. option:: upload 
+
+    .. versionadded:: 0.9
+
+        Supported since wlc 0.9.
+
+    Uploads translation file.
+
+    .. option:: --overwrite
+
+        Overwrite existing translations on upload.
+
+    .. option:: --input
+
+        File where to read content, if not specified file is read from stdin.
 
 .. _files:
 

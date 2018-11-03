@@ -201,7 +201,7 @@ LANGUAGES = (
         'zh_CN@test',
         'ltr',
         '0',
-        'Chinese (zh_CN@test)',
+        'Chinese (Simplified)',
         True,
     ),
     (
@@ -404,7 +404,10 @@ class VerifyPluralsTest(TestCase):
         """Validate that we can name all plural equations"""
         for code, dummy, dummy, pluraleq in self.all_data():
             self.assertNotEqual(
-                get_plural_type(code, pluraleq),
+                get_plural_type(
+                    code.replace('_', '-').split('-')[0],
+                    pluraleq
+                ),
                 data.PLURAL_UNKNOWN,
                 'Can not guess plural type for {0} ({1})'.format(
                     code, pluraleq

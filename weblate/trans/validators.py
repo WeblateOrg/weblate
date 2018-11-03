@@ -30,6 +30,10 @@ EXTRA_FLAGS = {
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
+EXTRA_FLAGS['dos-eol'] = ugettext_lazy('DOS end of lines')
+EXTRA_FLAGS['auto-java-messageformat'] = ugettext_lazy(
+    'Automatically detect Java MessageFormat'
+)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
@@ -59,4 +63,4 @@ def validate_check_flags(val):
         name = flag.split(':')[0]
         if name in EXTRA_FLAGS or name in IGNORE_CHECK_FLAGS:
             continue
-        raise ValidationError(_('Invalid check flag: "%s"') % flag)
+        raise ValidationError(_('Invalid translation flag: "%s"') % flag)

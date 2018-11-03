@@ -27,6 +27,7 @@ from distutils.spawn import find_executable
 import os
 
 from django.utils.encoding import force_text
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.utils import messages
@@ -37,27 +38,6 @@ from weblate.utils.data import data_dir
 KNOWN_HOSTS = 'known_hosts'
 RSA_KEY = 'id_rsa'
 RSA_KEY_PUB = 'id_rsa.pub'
-
-SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
-exec ssh \
-    -o "UserKnownHostsFile={known_hosts}" \
-    -o "IdentityFile={identity}" \
-    -o StrictHostKeyChecking=yes \
-    -o HashKnownHosts=no \
-    "$@"
-'''
-
-
-def get_wrapper_filename():
-    """Calculates unique wrapper filename.
-
-    It is based on template and DATA_DIR settings.
-    """
-    md5 = hashlib.md5(SSH_WRAPPER_TEMPLATE.encode('utf-8'))
-    md5.update(data_dir('ssh').encode('utf-8'))
-    return ssh_file('ssh-weblate-wrapper-{0}'.format(
-        md5.hexdigest()
-    ))
 
 
 def ssh_file(filename):
@@ -212,17 +192,38 @@ def can_generate_key():
     return find_executable('ssh-keygen') is not None
 
 
-def create_ssh_wrapper():
-    """Create wrapper for SSH to pass custom known hosts and key."""
-    ssh_wrapper = get_wrapper_filename()
+class SSHWrapper(object):
+    SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
+    exec ssh \
+        -o "UserKnownHostsFile={known_hosts}" \
+        -o "IdentityFile={identity}" \
+        -o StrictHostKeyChecking=yes \
+        -o HashKnownHosts=no \
+        "$@"
+    '''
 
-    if os.path.exists(ssh_wrapper):
-        return
+    @cached_property
+    def filename(self):
+        """Calculates unique wrapper filename.
 
-    with open(ssh_wrapper, 'w') as handle:
-        handle.write(SSH_WRAPPER_TEMPLATE.format(
-            known_hosts=ssh_file(KNOWN_HOSTS),
-            identity=ssh_file(RSA_KEY),
-        ))
+        It is based on template and DATA_DIR settings.
+        """
+        md5 = hashlib.md5(self.SSH_WRAPPER_TEMPLATE.encode('utf-8'))
+        md5.update(data_dir('ssh').encode('utf-8'))
+        return ssh_file('ssh-weblate-wrapper-{0}'.format(md5.hexdigest()))
 
-    os.chmod(ssh_wrapper, 0o755)
+    def create(self):
+        """Create wrapper for SSH to pass custom known hosts and key."""
+        if os.path.exists(self.filename):
+            return
+
+        with open(self.filename, 'w') as handle:
+            handle.write(self.SSH_WRAPPER_TEMPLATE.format(
+                known_hosts=ssh_file(KNOWN_HOSTS),
+                identity=ssh_file(RSA_KEY),
+            ))
+
+        os.chmod(self.filename, 0o755)
+
+
+SSH_WRAPPER = SSHWrapper()

@@ -18,11 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import absolute_import, unicode_literals
+
 import csv
 import json
 import re
-import sys
-import threading
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -37,8 +37,9 @@ from django.http import (
 )
 
 from weblate.trans.models import Component
-from weblate.trans.views.helper import get_project, get_component
+from weblate.utils.views import get_project, get_component
 from weblate.trans.stats import get_project_stats
+from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.logger import LOGGER
 
@@ -73,14 +74,13 @@ GITHUB_REPOS = (
     'git@github.com:%(owner)s/%(slug)s.git',
 )
 
+PAGURE_REPOS = (
+    'https://{server}/{project}',
+    'https://{server}/{project}.git',
+    'ssh://git@{server}/{project}.git',
+)
+
 HOOK_HANDLERS = {}
-
-
-def background_hook(method):
-    try:
-        method()
-    except Exception as error:
-        report_error(error, sys.exc_info())
 
 
 def hook_response(response='Update triggered', status='success'):
@@ -97,18 +97,6 @@ def register_hook(handler):
     return handler
 
 
-def perform_update(obj):
-    """Trigger update of given object."""
-    if settings.BACKGROUND_HOOKS:
-        thread = threading.Thread(
-            target=background_hook,
-            args=(obj.do_update,)
-        )
-        thread.start()
-    else:
-        obj.do_update()
-
-
 @csrf_exempt
 def update_component(request, project, component):
     """API hook for updating git repos."""
@@ -117,7 +105,7 @@ def update_component(request, project, component):
     obj = get_component(request, project, component, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update(obj)
+    perform_update.delay('Component', obj.pk)
     return hook_response()
 
 
@@ -129,7 +117,7 @@ def update_project(request, project):
     obj = get_project(request, project, True)
     if not obj.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update(obj)
+    perform_update.delay('Project', obj.pk)
     return hook_response()
 
 
@@ -165,6 +153,9 @@ def vcs_service_hook(request, service):
     except (ValueError, KeyError, UnicodeError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
+    if not data:
+        return HttpResponseBadRequest('Invalid data in json payload!')
+
     # Get service helper
     hook_helper = HOOK_HANDLERS[service]
 
@@ -173,7 +164,7 @@ def vcs_service_hook(request, service):
         service_data = hook_helper(data)
     except Exception as error:
         LOGGER.error('failed to parse service %s data', service)
-        report_error(error, sys.exc_info())
+        report_error(error)
         return HttpResponseBadRequest('Invalid data in json payload!')
 
     # This happens on ping request upon installation
@@ -222,7 +213,7 @@ def vcs_service_hook(request, service):
             service_long_name,
             obj
         )
-        perform_update(obj)
+        perform_update.delay('Component', obj.pk)
 
     if updates == 0:
         return hook_response('No matching repositories found!', 'failure')
@@ -314,7 +305,11 @@ def bitbucket_hook_helper(data):
 @register_hook
 def github_hook_helper(data):
     """API to handle commit hooks from GitHub."""
+    # Ignore ping on Webhook install
     if 'ref' not in data and 'zen' in data:
+        return None
+    # Ignore GitHub application installation
+    if data.get('action') == 'created':
         return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
@@ -348,6 +343,9 @@ def github_hook_helper(data):
 @register_hook
 def gitlab_hook_helper(data):
     """API to handle commit hooks from GitLab."""
+    # Ignore non known events
+    if 'ref' not in data:
+        return None
     ssh_url = data['repository']['url']
     http_url = '.'.join((data['repository']['homepage'], 'git'))
     branch = re.sub(r'^refs/heads/', '', data['ref'])
@@ -367,6 +365,30 @@ def gitlab_hook_helper(data):
         'repos': repos,
         'branch': branch,
         'full_name': ssh_url.split(':', 1)[1],
+    }
+
+
+@register_hook
+def pagure_hook_helper(data):
+    """API to handle commit hooks from Pagure."""
+    # Ignore non known events
+    if 'msg' not in data or data.get('topic') != 'git.receive':
+        return None
+
+    server = urlparse(data['msg']['pagure_instance']).hostname
+    project = data['msg']['project_fullname']
+
+    repos = [
+        repo.format(server=server, project=project)
+        for repo in PAGURE_REPOS
+    ]
+
+    return {
+        'service_long_name': 'Pagure',
+        'repo_url': repos[0],
+        'repos': repos,
+        'branch': data['msg']['branch'],
+        'full_name': project,
     }
 
 

@@ -52,9 +52,6 @@ class WeblateConf(AppConf):
     # Enable sharing
     ENABLE_SHARING = True
 
-    # Whether to run hooks in background
-    BACKGROUND_HOOKS = True
-
     # Number of nearby messages to show in each direction
     NEARBY_MESSAGES = 5
 
@@ -64,8 +61,8 @@ class WeblateConf(AppConf):
     # Enable lazy commits
     COMMIT_PENDING_HOURS = 24
 
-    # Offload indexing
-    OFFLOAD_INDEXING = False
+    # Automatically update vcs repositories daily
+    AUTO_UPDATE = False
 
     # List of quality checks
     CHECK_LIST = (
@@ -87,6 +84,9 @@ class WeblateConf(AppConf):
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
         'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.CSharpFormatCheck',
+        'weblate.checks.format.JavaFormatCheck',
+        'weblate.checks.format.JavaMessageFormatCheck',
         'weblate.checks.angularjs.AngularJSInterpolationCheck',
         'weblate.checks.consistency.PluralsCheck',
         'weblate.checks.consistency.SamePluralsCheck',
@@ -163,7 +163,8 @@ class WeblateConf(AppConf):
 
     DEFAULT_TRANSLATION_PROPAGATION = True
 
-    DEFAULT_CUSTOM_ACL = False
+    DEFAULT_ACCESS_CONTROL = 0
+    DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
     DEFAULT_VCS = 'git'
@@ -183,8 +184,14 @@ class WeblateConf(AppConf):
         'Deleted translation using Weblate ({{ language_name }})\n\n'
     )
 
+    DEFAULT_PULL_MESSAGE = (
+        'Update from Weblate'
+    )
+
     # Billing
     INVOICE_PATH = ''
+    BILLING_ADMIN = True
+    VAT_RATE = 1.21
 
     # Rate limiting
     IP_BEHIND_REVERSE_PROXY = False
@@ -203,6 +210,8 @@ class WeblateConf(AppConf):
 
     # Following probably should not be configured
     COMPONENT_NAME_LENGTH = 100
+
+    SUGGESTION_CLEANUP_DAYS = None
 
     class Meta(object):
         prefix = ''

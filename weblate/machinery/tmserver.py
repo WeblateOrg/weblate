@@ -27,6 +27,8 @@ from six.moves.urllib.parse import quote
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
+AMAGAMA_LIVE = 'https://amagama-live.translatehouse.org/api/v1'
+
 
 class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
@@ -77,9 +79,9 @@ class TMServerTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         url = '{0}/{1}/{2}/unit/{3}'.format(
             self.url,
-            quote(source),
-            quote(language),
-            quote(text[:500].replace('\r', ' ').encode('utf-8'))
+            quote(source, b''),
+            quote(language, b''),
+            quote(text[:500].replace('\r', ' ').encode('utf-8'), b'')
         )
         response = self.json_req(url)
 
@@ -94,4 +96,4 @@ class AmagamaTranslation(TMServerTranslation):
     name = 'Amagama'
 
     def get_server_url(self):
-        return 'https://amagama-live.translatehouse.org/api/v1'
+        return AMAGAMA_LIVE

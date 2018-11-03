@@ -70,8 +70,13 @@ class WeblateConf(AppConf):
     SAP_PASSWORD = None
     SAP_USE_MT = True
 
-    # Limit (in seconds) for Weblate machine translation
-    WEBLATE_LIMIT = 15
+    # Youdao
+    YOUDAO_ID = None
+    YOUDAO_SECRET = None
+
+    # Netease
+    NETEASE_KEY = None
+    NETEASE_SECRET = None
 
     # List of machine translations
     SERVICES = (

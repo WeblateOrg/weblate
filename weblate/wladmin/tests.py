@@ -24,10 +24,14 @@ from django.conf import settings
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.util import add_configuration_error
+from weblate.trans.util import (
+    add_configuration_error, delete_configuration_error,
+)
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.data import check_data_writable
+from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
+from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.tasks import configuration_health_check
 
 
 class AdminTest(FixtureTestCase):
@@ -85,12 +89,15 @@ class AdminTest(FixtureTestCase):
 
     def test_performace(self):
         response = self.client.get(reverse('admin:performance'))
-        self.assertContains(response, 'Django caching')
+        self.assertContains(response, 'weblate.E007')
 
     def test_error(self):
         add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
         response = self.client.get(reverse('admin:performance'))
         self.assertContains(response, 'FOOOOOOOOOOOOOO')
+        delete_configuration_error('Test error')
+        response = self.client.get(reverse('admin:performance'))
+        self.assertNotContains(response, 'FOOOOOOOOOOOOOO')
 
     def test_report(self):
         response = self.client.get(reverse('admin:report'))
@@ -131,3 +138,13 @@ class AdminTest(FixtureTestCase):
                 }
             )
             self.assertRedirects(response, url)
+
+    def test_configuration_health_check(self):
+        add_configuration_error('TEST', 'Message', True)
+        add_configuration_error('TEST2', 'Message', True)
+        configuration_health_check(False)
+        self.assertEqual(ConfigurationError.objects.count(), 2)
+        delete_configuration_error('TEST2', True)
+        configuration_health_check(False)
+        self.assertEqual(ConfigurationError.objects.count(), 1)
+        configuration_health_check()

@@ -38,6 +38,12 @@ class ComparerTest(TestCase):
             100
         )
 
+    def test_unicode(self):
+        self.assertEqual(
+            Comparer().similarity('NICHOLASŸ', 'NICHOLAS'),
+            88
+        )
+
     def test_long(self):
         self.assertLessEqual(
             Comparer().similarity('a' * 200000, 'b' * 200000),

@@ -39,7 +39,7 @@ different languages, so if you think the result is wrong, please report a bug.
    :setting:`CHECK_LIST`, :ref:`custom-checks`
 
 Translation checks
-++++++++++++++++++
+------------------
 
 These are executed on every translation change and help translators to keep
 good quality of translations.
@@ -190,6 +190,9 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-perl-format:
 .. _check-javascript-format:
 .. _check-angularjs-format:
+.. _check-c-sharp-format:
+.. _check-java-format:
+.. _check-java-messageformat:
 
 Format strings
 ~~~~~~~~~~~~~~
@@ -259,7 +262,7 @@ PHP format
 
 .. seealso::
 
-    `PHP sprintf documentation <https://php.net/manual/en/function.sprintf.php>`_,
+    `PHP sprintf documentation <https://secure.php.net/manual/en/function.sprintf.php>`_,
     `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
 
 C format
@@ -319,6 +322,50 @@ AngularJS interpolation string
 .. seealso::
 
     `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
+
+C# format
+*********
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are {0} apples``                                   |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `c-sharp-format`                                           |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+    
+Java format
+***********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `java-format`                                              |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+    
+    `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
+
+Java MessageFormat
+******************
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are {0} apples``                                   |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `java-messageformat` enables the check unconditionally     |
++------------------------+------------------------------------------------------------+
+|                        | `auto-java-messageformat` enables check only if there is a |
+|                        | format string in the source                                |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+   `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
 
 .. _check-plurals:
 
@@ -419,7 +466,7 @@ This usually means resulting output will look different. In most cases this is
 not desired result from translation, but occasionally it is desired.
 
 Source checks
-+++++++++++++
+-------------
 
 Source checks can help developers to improve quality of source strings.
 

@@ -91,13 +91,6 @@ CACHES = {
     }
 }
 
-# Offload indexing: if the cron cartridge is installed the preconfigured job
-# in .openshift/cron/minutely/update_index updates the index.
-if os.environ.get('OPENSHIFT_CRON_DIR', False):
-    OFFLOAD_INDEXING = True
-else:
-    OFFLOAD_INDEXING = False
-
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
     'weblate.machinery.weblatetm.WeblateTranslation',

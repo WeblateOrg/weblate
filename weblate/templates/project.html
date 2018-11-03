@@ -20,11 +20,13 @@
 {% perm 'vcs.commit' object as user_can_commit_translation %}
 {% perm 'project.permissions' object as user_can_manage_acl %}
 {% perm 'project.edit' object as user_can_edit_project %}
+{% perm 'component.edit' object as user_can_edit_component %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
   <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -42,7 +44,6 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
@@ -64,6 +65,7 @@
       <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Repository maintenance" %}</a></li>
       <li role="separator" class="divider"></li>
       {% endif %}
+      <li><a href="{% url 'memory' project=object.slug %}">{% trans "Translation memory" %}</a></li>
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
@@ -125,11 +127,27 @@
 <td class="progress-cell">{% words_progress prj %}</td>
 <td class="percent">{{ prj.stats.translated_words_percent }}%</td>
 </tr>
+{% empty %}
+<tr><td colspan="5">
+  {% trans "There are currently no translation components!" as msg %}
+  {% show_message "warning" msg %}
+</td></tr>
 {% endfor %}
 </tbody>
+{% if user_can_edit_project %}
+<tfoot>
+<tr><td colspan="5">
+  <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+</td></tr>
+</tbody>
+{% endif %}
 </table>
 
 {% include "legend.html" %}
+
+{% with components as page_obj %}
+{% include "paginator.html" %}
+{% endwith %}
 
 </div>
 
@@ -137,6 +155,12 @@
 
 <table class="table table-striped">
 {% include "project_info.html" %}
+{% if licenses %}
+<tr>
+<th>{% trans "Translation license" %}</th>
+<td colspan="2">{{ licenses }}</td>
+</tr>
+{% endif %}
 {% include "project_stats.html" %}
 </table>
 

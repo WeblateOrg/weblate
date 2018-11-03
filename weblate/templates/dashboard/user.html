@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% whiteboard_messages %}
+
+
+<ul class="nav nav-pills">
+{% if user.is_authenticated %}
+<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions|length }}</span></a></li>
+<li {% active_link "your-languages" %}><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %} <span class="badge">{{ userlanguages|length }}</span></a></li>
+{% endif %}
+{% if all_componentlists %}
+<li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
+{% endif %}
+<li {% active_link "suggestions" %}><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a></li>
+{% for componentlist in componentlists %}
+<li {% active_link componentlist.tab_slug %}><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a></li>
+{% endfor %}
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Insights" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
+    <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
+    <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    {% trans "Tools" %} <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
+    <li><a href="{% url 'languages' %}">{% trans "All languages" %}</a></li>
+    <li><a href="{% url 'projects' %}">{% trans "All projects" %}</a></li>
+    <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
+  </ul>
+</li>
+</ul>
+
+<div class="tab-content">
+{% if user.is_authenticated %}
+<div {% active_tab "your-subscriptions" %}>
+{% if subscribed_projects %}
+    {% if usersubscriptions %}
+        {% include "list-translations.html" with translations=usersubscriptions show_language=2 hide_completed=user.profile.hide_completed %}
+        <p>{% include "legend.html" %}</p>
+        {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
+    {% else %}
+        {% include "list-projects.html" with projects=subscribed_projects %}
+    {% endif %}
+{% else %}
+    <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
+{% endif %}
+<p>
+    <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
+    <a class="btn btn-default" href="{% url 'profile' %}#subscriptions">{% trans "Manage watched projects" %}</a>
+</p>
+</div>
+
+<div {% active_tab "your-languages" %}>
+{% if userlanguages %}
+{% include "list-translations.html" with translations=userlanguages show_language=2 %}
+<p>{% include "legend.html" %}</p>
+{% include "paginator.html" with page_obj=userlanguages anchor='your-languages' %}
+{% else %}
+<p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
+{% endif %} {# userlanguages #}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+</div>
+{% endif %} {# user.is_authenticated #}
+
+{% if all_componentlists %}
+<div {% active_tab "componentlists" %}>
+{% include "list-translations.html" with translations=all_componentlists show_language=3 %}
+<p>{% include "legend.html" %}</p>
+</div>
+{% endif %}
+
+{# Suggested translations #}
+<div {% active_tab "suggestions" %}>
+{% if suggestions %}
+{% include "list-translations.html" with translations=suggestions show_language=2 %}
+<p>{% include "legend.html" %}</p>
+{% else %}
+<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
+{% endif %}
+{% if user.is_authenticated %}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+{% else %}
+<p><a class="btn btn-default" href="{% url 'register' %}">{% trans "Register to manage your languages" %}</a></p>
+{% endif %}
+</div>
+
+
+{% for componentlist in componentlists %}
+    <div {% active_tab componentlist.tab_slug %}>
+    {% include "list-translations.html" with translations=componentlist.translations show_language=2 %}
+    <p>{% include "legend.html" %}</p>
+    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+</div>{% endfor %}
+
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' %}" method="GET" data-persist="search-index">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+
+</div>
+
+{% include "activity-tab.html" %}
+
+</div>
+
+{% endblock %}

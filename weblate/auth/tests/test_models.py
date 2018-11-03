@@ -99,23 +99,23 @@ class ModelTest(FixtureTestCase):
     def test_groups(self):
         # Add test group
         self.user.groups.add(self.group)
-        self.assertEquals(self.user.groups.count(), 3)
+        self.assertEqual(self.user.groups.count(), 3)
 
         # Add same named Django group
         self.user.groups.add(DjangoGroup.objects.create(name='Test'))
-        self.assertEquals(self.user.groups.count(), 3)
+        self.assertEqual(self.user.groups.count(), 3)
 
         # Add different Django group
         self.user.groups.add(DjangoGroup.objects.create(name='Second'))
-        self.assertEquals(self.user.groups.count(), 4)
+        self.assertEqual(self.user.groups.count(), 4)
 
         # Remove Weblate group
         self.user.groups.remove(Group.objects.get(name='Test'))
-        self.assertEquals(self.user.groups.count(), 3)
+        self.assertEqual(self.user.groups.count(), 3)
 
         # Remove Django group
         self.user.groups.remove(DjangoGroup.objects.get(name='Second'))
-        self.assertEquals(self.user.groups.count(), 2)
+        self.assertEqual(self.user.groups.count(), 2)
 
     def test_user(self):
         # Create user with Django User fields

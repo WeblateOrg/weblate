@@ -19,7 +19,6 @@
 #
 from __future__ import unicode_literals
 
-import sys
 import traceback
 
 from django.conf import settings
@@ -33,8 +32,14 @@ try:
 except ImportError:
     HAS_ROLLBAR = False
 
+try:
+    from raven.contrib.django.models import client as raven_client
+    HAS_RAVEN = True
+except ImportError:
+    HAS_RAVEN = False
 
-def report_error(error, exc_info, request=None, extra_data=None, level=None):
+
+def report_error(error, request=None, extra_data=None):
     """Wrapper for error reporting
 
     This can be used for store exceptions in error reporting solutions as
@@ -42,7 +47,12 @@ def report_error(error, exc_info, request=None, extra_data=None, level=None):
     """
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(
-            exc_info, request, extra_data=extra_data, level=level
+            request=request, extra_data=extra_data, level='warning'
+        )
+
+    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
+        raven_client.captureException(
+            request=request, extra_data=extra_data, level='warning'
         )
 
     LOGGER.error(
@@ -50,7 +60,3 @@ def report_error(error, exc_info, request=None, extra_data=None, level=None):
         error.__class__.__name__,
         force_text(error).encode('utf-8')
     )
-
-    # Print error when running testsuite
-    if sys.argv[1:2] == ['test']:
-        traceback.print_exc()

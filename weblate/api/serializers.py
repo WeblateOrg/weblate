@@ -246,6 +246,9 @@ class TranslationSerializer(RemovableSerializer):
     have_comment = serializers.IntegerField(
         source='stats.comments', read_only=True,
     )
+    last_change = serializers.DateTimeField(
+        source='stats.last_changed', read_only=True,
+    )
     last_author = serializers.CharField(
         source='get_last_author', read_only=True,
     )
@@ -341,11 +344,13 @@ class LockRequestSerializer(ReadOnlySerializer):
 class UploadRequestSerializer(ReadOnlySerializer):
     overwrite = serializers.BooleanField()
     file = serializers.FileField()
+    email = serializers.EmailField(required=False)
+    author = serializers.CharField(max_length=200, required=False)
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
-        choices=('commit', 'pull', 'push', 'reset')
+        choices=('commit', 'pull', 'push', 'reset', 'cleanup')
     )
 
 

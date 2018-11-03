@@ -20,42 +20,36 @@
 
 from __future__ import unicode_literals
 
-from django.urls import reverse
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
-from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from django.utils.translation.trans_real import parse_accept_lang_header
 import django.views.defaults
 
-from weblate.checks.models import Check
 from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.trans.models import (
-    Project, Translation, ComponentList, Change, Unit, IndexUpdate,
-)
-from weblate.utils.requirements import get_versions, get_optional_versions
+from weblate.utils.views import get_paginator
+from weblate.trans.models import Translation, ComponentList, Change, Unit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
-    get_upload_form, SearchForm, SiteSearchForm,
+    get_upload_form, SearchForm,
     AutoForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
 )
-from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_project, get_component, get_translation,
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
+<<<<<<< HEAD
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
@@ -278,17 +272,14 @@ def show_engage(request, project, lang=None):
         stats_obj = obj.stats.get_single_language_stats(language)
     else:
         stats_obj = obj.stats
-    percent = stats_obj.translated_percent
-
-    languages = obj.get_language_count()
 
     context = {
         'allow_index': True,
         'object': obj,
         'project': obj,
-        'languages': languages,
+        'languages': stats_obj.languages,
         'total': obj.stats.source_strings,
-        'percent': percent,
+        'percent': stats_obj.translated_percent,
         'url': obj.get_absolute_url(),
         'lang_url': obj.get_absolute_url() + '#languages',
         'language': language,
@@ -331,7 +322,7 @@ def show_project(request, project):
         dictionary__project=obj
     ).annotate(Count('dictionary'))
 
-    last_changes = Change.objects.for_project(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
         obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
@@ -347,6 +338,12 @@ def show_project(request, project):
         replace_form = ReplaceForm()
     else:
         replace_form = None
+
+    # Paginate components of project.
+    all_components = obj.component_set.select_related()
+    components = prefetch_stats(get_paginator(
+        request, all_components
+    ))
 
     return render(
         request,
@@ -367,8 +364,11 @@ def show_project(request, project):
             'search_form': SearchForm(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
-            'components': prefetch_stats(obj.component_set.select_related()),
             'exporters': list_exporters()
+            'components': components,
+            'licenses': ', '.join(
+                sorted(set([x.license for x in all_components if x.license]))
+            ),
         }
     )
 
@@ -377,7 +377,7 @@ def show_project(request, project):
 def show_component(request, project, component):
     obj = get_component(request, project, component)
 
-    last_changes = Change.objects.for_component(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(component=obj)[:10]
 
     # Is user allowed to do automatic translation?
     if request.user.has_perm('translation.auto', obj):
@@ -420,7 +420,7 @@ def show_component(request, project, component):
 def show_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     obj.stats.ensure_all()
-    last_changes = Change.objects.for_translation(obj)[:10]
+    last_changes = Change.objects.prefetch().filter(translation=obj)[:10]
 
     # Get form
     form = get_upload_form(request.user, obj)
@@ -474,13 +474,8 @@ def show_translation(request, project, component, lang):
                 },
             ),
             'last_changes': last_changes,
-            'last_changes_url': urlencode(obj.get_kwargs()),
+            'last_changes_url': urlencode(obj.get_reverse_url_kwargs()),
             'show_only_component': True,
-            'pending_fulltext': obj.unit_set.filter(
-                id__in=IndexUpdate.objects.filter(
-                    to_delete=False
-                ).values('unitid')
-            ).exists(),
             'other_translations': prefetch_stats(
                 Translation.objects.prefetch().filter(
                     component__project=obj.component.project,
@@ -523,86 +518,23 @@ def denied(request, exception=None):
 def server_error(request):
     """Error handler for server errors."""
     try:
+        if (hasattr(settings, 'RAVEN_CONFIG') and
+                'public_dsn' in settings.RAVEN_CONFIG):
+            sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
+        else:
+            sentry_dsn = None
         return render(
             request,
             '500.html',
             {
                 'request_path': request.path,
                 'title': _('Internal Server Error'),
+                'sentry_dsn': sentry_dsn,
             },
             status=500,
         )
     except Exception:
         return django.views.defaults.server_error(request)
-
-
-def about(request):
-    """Show about page with version information."""
-    return render(
-        request,
-        'about.html',
-        {
-            'title': _('About Weblate'),
-            'versions': get_versions() + get_optional_versions(),
-            'allow_index': True,
-        }
-    )
-
-
-def keys(request):
-    """Show keys information."""
-    return render(
-        request,
-        'keys.html',
-        {
-            'title': _('Weblate keys'),
-            'gpg_key_id': get_gpg_sign_key(),
-            'gpg_key': get_gpg_public_key(),
-            'ssh_key': get_key_data(),
-            'allow_index': True,
-        }
-    )
-
-
-def stats(request):
-    """View with Various stats about Weblate."""
-
-    context = {}
-
-    context['title'] = _('Weblate statistics')
-
-    totals = Profile.objects.aggregate(
-        Sum('translated'), Sum('suggested'), Count('id')
-    )
-    total_strings = []
-    total_words = []
-    for project in prefetch_stats(Project.objects.all()):
-        total_strings.append(project.stats.source_strings)
-        total_words.append(project.stats.source_words)
-
-    context['total_translations'] = totals['translated__sum']
-    context['total_suggestions'] = totals['suggested__sum']
-    context['total_users'] = totals['id__count']
-    context['total_strings'] = sum(total_strings)
-    context['total_units'] = Unit.objects.count()
-    context['total_words'] = sum(total_words)
-    context['total_languages'] = Language.objects.filter(
-        translation__pk__gt=0
-    ).distinct().count()
-    context['total_checks'] = Check.objects.count()
-    context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-
-    top_translations = Profile.objects.order_by('-translated')[:10]
-    top_suggestions = Profile.objects.order_by('-suggested')[:10]
-
-    context['top_translations'] = top_translations.select_related('user')
-    context['top_suggestions'] = top_suggestions.select_related('user')
-
-    return render(
-        request,
-        'stats.html',
-        context
-    )
 
 
 @never_cache

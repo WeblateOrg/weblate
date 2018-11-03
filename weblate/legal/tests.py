@@ -100,7 +100,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         user = create_test_user()
         # Unauthenticated
         response = self.client.get(reverse('home'), follow=True)
-        self.assertContains(response, 'Suggested translations')
+        self.assertContains(response, 'Browse all 0 projects')
         # Login
         self.client.login(username='testuser', password='testpassword')
         # Chck that homepage redirects

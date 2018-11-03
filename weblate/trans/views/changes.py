@@ -31,7 +31,7 @@ from django.utils.http import urlencode
 from weblate.auth.models import User
 from weblate.utils import messages
 from weblate.trans.models.change import Change
-from weblate.trans.views.helper import get_project_translation
+from weblate.utils.views import get_project_translation
 from weblate.lang.models import Language
 
 
@@ -182,18 +182,11 @@ class ChangesView(ListView):
         result = Change.objects.last_changes(self.request.user)
 
         if self.translation is not None:
-            result = result.filter(
-                translation=self.translation
-            )
+            result = result.filter(translation=self.translation)
         elif self.component is not None:
-            result = result.filter(
-                translation__component=self.component
-            )
+            result = result.filter(component=self.component)
         elif self.project is not None:
-            result = result.filter(
-                Q(translation__component__project=self.project) |
-                Q(dictionary__project=self.project)
-            )
+            result = result.filter(project=self.project)
 
         if self.language is not None:
             result = result.filter(
@@ -202,14 +195,10 @@ class ChangesView(ListView):
             )
 
         if self.glossary:
-            result = result.filter(
-                dictionary__isnull=False
-            )
+            result = result.filter(dictionary__isnull=False)
 
         if self.user is not None:
-            result = result.filter(
-                user=self.user
-            )
+            result = result.filter(user=self.user)
 
         return result
 
@@ -219,10 +208,10 @@ class ChangesCSVView(ChangesView):
     paginate_by = None
 
     def get(self, request, *args, **kwargs):
-        object_list = self.get_queryset()
+        object_list = self.get_queryset()[:2000]
 
         # Do reasonable ACL check for global
-        acl_obj = self.project
+        acl_obj = self.translation or self.component or self.project
         if not acl_obj:
             for change in object_list:
                 if change.component:
@@ -243,7 +232,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in object_list[:2000]:
+        for change in object_list:
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),

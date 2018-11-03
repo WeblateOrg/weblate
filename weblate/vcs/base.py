@@ -37,9 +37,10 @@ from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 
 from weblate.trans.util import (
-    get_clean_env, add_configuration_error, path_separator
+    get_clean_env, path_separator,
+    add_configuration_error, delete_configuration_error,
 )
-from weblate.vcs.ssh import get_wrapper_filename, create_ssh_wrapper
+from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger('weblate-vcs')
 
@@ -100,9 +101,9 @@ class Repository(object):
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
-            create_ssh_wrapper()
-        if not self.is_valid():
-            self.init()
+            SSH_WRAPPER.create()
+            if not self.is_valid():
+                self.init()
 
     @classmethod
     def log(cls, message):
@@ -138,10 +139,11 @@ class Repository(object):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        return get_clean_env({'GIT_SSH': get_wrapper_filename()})
+        return get_clean_env({'GIT_SSH': SSH_WRAPPER.filename})
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False,
+               local=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
@@ -214,7 +216,7 @@ class Repository(object):
     @classmethod
     def clone(cls, source, target, branch=None):
         """Clone repository and return object for cloned repository."""
-        create_ssh_wrapper()
+        SSH_WRAPPER.create()
         cls._clone(source, target, branch)
         return cls(target, branch)
 
@@ -225,10 +227,8 @@ class Repository(object):
 
     def status(self):
         """Return status of the repository."""
-        return self.execute(
-            self._cmd_status,
-            needs_lock=False
-        )
+        with self.lock:
+            return self.execute(self._cmd_status)
 
     def push(self):
         """Push given branch to remote repository."""
@@ -250,17 +250,29 @@ class Repository(object):
         """Check whether repository needs commit."""
         raise NotImplementedError()
 
+    def count_missing(self):
+        """Count missing commits."""
+        return len(self.log_revisions(
+            self.ref_to_remote.format(self.get_remote_branch_name())
+        ))
+
+    def count_outgoing(self):
+        """Count outgoing commits."""
+        return len(self.log_revisions(
+            self.ref_from_remote.format(self.get_remote_branch_name())
+        ))
+
     def needs_merge(self):
         """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
-        raise NotImplementedError()
+        return self.count_missing() > 0
 
     def needs_push(self):
         """Check whether repository needs push to upstream
         (has additional revisions).
         """
-        raise NotImplementedError()
+        return self.count_outgoing() > 0
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -286,10 +298,10 @@ class Repository(object):
         except (OSError, RepositoryException):
             cls._is_supported = False
             return False
-        if cls.req_version is None:
+        if (cls.req_version is None or
+                LooseVersion(version) >= LooseVersion(cls.req_version)):
             cls._is_supported = True
-        elif LooseVersion(version) >= LooseVersion(cls.req_version):
-            cls._is_supported = True
+            delete_configuration_error(cls.name.lower())
         else:
             cls._is_supported = False
             add_configuration_error(
@@ -385,3 +397,17 @@ class Repository(object):
         if merge_driver is None or not os.path.exists(merge_driver):
             return None
         return merge_driver
+
+    def cleanup(self):
+        """Remove not tracked files from the repository."""
+        raise NotImplementedError()
+
+    def log_revisions(self, refspec):
+        """Log revisions for given refspec.
+
+        This is not universal as refspec is different per vcs.
+        """
+        raise NotImplementedError()
+
+    def get_remote_branch_name(self):
+        return 'origin/{0}'.format(self.branch)

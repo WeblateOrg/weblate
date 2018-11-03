@@ -11,6 +11,6 @@ check() {
 }
 
 run_coverage() {
-    python -Wd -m coverage run --source . --append "$@"
+    python -W default -W ignore:unclosed:ResourceWarning -m coverage run --source . --append "$@"
 }
 

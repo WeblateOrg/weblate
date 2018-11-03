@@ -18,15 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import sys
-
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
@@ -40,9 +37,9 @@ from weblate.lang.models import Language
 from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
-from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.trans.views.helper import get_project, import_message
-from weblate.utils.views import get_page_limit
+from weblate.trans.forms import WordForm, DictUploadForm, LetterForm, OneWordForm
+from weblate.utils.views import get_project, import_message
+from weblate.utils.views import get_paginator
 
 
 def dict_title(prj, lang):
@@ -185,7 +182,7 @@ def upload_dictionary(request, project, lang):
                 )
             )
         except Exception as error:
-            report_error(error, sys.exc_info(), request)
+            report_error(error, request)
             messages.error(
                 request, _('File upload has failed: %s') % force_text(error)
             )
@@ -309,9 +306,17 @@ def show_dictionary(request, project, lang):
         project=prj, language=lang
     ).order_by(Lower('source'))
 
-    page, limit = get_page_limit(request, 25)
-
     letterform = LetterForm(request.GET)
+
+    searchform = OneWordForm(request.GET)
+
+    if searchform.is_valid() and searchform.cleaned_data['term'] != '':
+        words = words.filter(
+            source__icontains=searchform.cleaned_data['term']
+        )
+        search = searchform.cleaned_data['term']
+    else:
+        search = ''
 
     if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
         words = words.filter(
@@ -321,13 +326,7 @@ def show_dictionary(request, project, lang):
     else:
         letter = ''
 
-    paginator = Paginator(words, limit)
-
-    try:
-        words = paginator.page(page)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        words = paginator.page(paginator.num_pages)
+    words = get_paginator(request, words)
 
     last_changes = Change.objects.last_changes(request.user).filter(
         dictionary__project=prj,
@@ -343,12 +342,14 @@ def show_dictionary(request, project, lang):
             'language': lang,
             'page_obj': words,
             'form': form,
-            'query_string': 'letter={}'.format(letter) if letter else '',
+            'query_string': urlencode({
+                'term': search,
+                'letter': letter
+            }),
             'uploadform': uploadform,
             'letterform': letterform,
+            'searchform': searchform,
             'letter': letter,
-            'limit': limit,
-            'page': page,
             'last_changes': last_changes,
             'last_changes_url': urlencode({
                 'project': prj.slug,

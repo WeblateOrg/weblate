@@ -22,7 +22,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.sites.models import Site
 
-from weblate.trans.util import check_domain
+from weblate.utils.site import check_domain
 
 
 class Command(BaseCommand):

@@ -15,7 +15,7 @@ REST API
     The API is available since Weblate 2.6.
 
 The API is accessible on the ``/api/`` URL and it is based on
-`Django REST framework <http://www.django-rest-framework.org/>`_.
+`Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
 
 .. _api-generic:
@@ -154,7 +154,7 @@ requests per day for anonymous users and 1000 requests per day for authenticated
 users.
 
 Rate limiting can be adjusted in the :file:`settings.py`; see 
-`Throttling in Django REST framework documentation <http://www.django-rest-framework.org/api-guide/throttling/>`_
+`Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
 API Entry Point
@@ -171,7 +171,7 @@ API Entry Point
           GET /api/ HTTP/1.1
           Host: example.com
           Accept: application/json, text/javascript
-          Autorization: Token YOUR-TOKEN
+          Authorization: Token YOUR-TOKEN
 
     **Example response:**
 
@@ -328,7 +328,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -568,7 +568,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -865,7 +865,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -1136,6 +1136,20 @@ update individual repositories; see
         :ref:`bitbucket-setup`
             For instruction on setting up Bitbucket integration
         https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html
+            Generic information about Bitbucket Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
+.. http:post:: /hooks/pagure/
+
+    Special hook for handling Pagure notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`pagure-setup`
+            For instruction on setting up Bitbucket integration
+        https://docs.pagure.org/pagure/usage/using_webhooks.html
             Generic information about Bitbucket Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

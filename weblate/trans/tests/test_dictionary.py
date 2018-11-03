@@ -22,6 +22,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -307,7 +309,7 @@ class DictionaryTest(FixtureTestCase):
         # List all words
         response = self.client.get(dict_url)
         self.assertContains(response, 'Czech')
-        self.assertContains(response, '1 / 7')
+        self.assertContains(response, '1 / 4')
         self.assertContains(response, 'datový tok')
 
         # Filtering by letter
@@ -315,6 +317,12 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, 'Czech')
         self.assertContains(response, '1 / 1')
         self.assertContains(response, 'datový tok')
+
+        # Filtering by string
+        response = self.client.get(dict_url, {'term': 'mark'})
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '1 / 1')
+        self.assertContains(response, 'záložka')
 
     def test_get_words(self):
         translation = self.get_translation()
@@ -375,7 +383,7 @@ class DictionaryTest(FixtureTestCase):
         """Test parsing long source string."""
         unit = self.get_unit()
         unit.source = LONG
-        unit.save(backend=True)
+        unit.save()
         self.assertEqual(
             Dictionary.objects.get_words(unit).count(),
             0
@@ -396,3 +404,15 @@ class DictionaryTest(FixtureTestCase):
             Dictionary.objects.get_words(unit).count(),
             1
         )
+
+    def test_add(self):
+        """Test for adding word from translate page"""
+
+        unit = self.get_unit('Thank you for using Weblate.')
+        # Add word
+        response = self.client.post(
+            reverse('js-add-glossary', kwargs={'unit_id': unit.pk}),
+            {'source': 'source', 'target': 'překlad'}
+        )
+        content = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(content['responseCode'], 200)

@@ -23,7 +23,7 @@ import os.path
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, Http404
 
 from weblate.billing.models import Invoice, Billing
@@ -42,7 +42,8 @@ def download_invoice(request, pk):
         for p in invoice.billing.projects.all()
     ]
 
-    if not any(permissions):
+    if (not any(permissions) and
+            not invoice.billing.owners.filter(pk=request.user.pk).exists()):
         raise PermissionDenied('Not an owner!')
 
     filename = invoice.filename
@@ -66,9 +67,34 @@ def download_invoice(request, pk):
     return response
 
 
+def handle_post(request, billings):
+    def get(name):
+        try:
+            return int(request.POST[name])
+        except (KeyError, ValueError):
+            return None
+
+    recurring = get('recurring')
+    terminate = get('terminate')
+    if not recurring and not terminate:
+        return
+    try:
+        billing = billings.get(pk=recurring or terminate)
+    except Billing.DoesNotExist:
+        return
+    if recurring:
+        if 'recurring' in billing.payment:
+            del billing.payment['recurring']
+        billing.save()
+    elif terminate:
+        billing.state = Billing.STATE_EXPIRED
+        billing.save()
+
+
 @login_required
 def overview(request):
-    billings = Billing.objects.filter(
-        projects__in=request.user.projects_with_perm('billing.view')
-    ).distinct()
+    billings = Billing.objects.for_user(request.user)
+    if request.method == 'POST':
+        handle_post(request, billings)
+        return redirect('billing')
     return render(request, 'billing/overview.html', {'billings': billings})

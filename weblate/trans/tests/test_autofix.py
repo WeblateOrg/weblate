@@ -30,6 +30,7 @@ from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
     ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace, RemoveControlChars,
 )
+from weblate.trans.autofixes.custom import DoubleApostrophes
 from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
 
@@ -162,3 +163,49 @@ class AutoFixTest(TestCase):
         self.assertEqual(fixed, ['Bar…'])
         self.assertEqual(len(fixups), 1)
         self.assertEqual(force_text(fixups[0]), 'Trailing ellipsis')
+
+    def test_apostrophes(self):
+        unit = MockUnit(source='Foo')
+        fix = DoubleApostrophes()
+        # No flags
+        self.assertEqual(fix.fix_target(['Bar'], unit), (['Bar'], False))
+        # No format string, but forced
+        unit.flags = 'java-messageformat'
+        self.assertEqual(fix.fix_target(['Bar'], unit), (['Bar'], False))
+        # No format string
+        unit.flags = 'auto-java-messageformat'
+        self.assertEqual(fix.fix_target(['Bar'], unit), (['Bar'], False))
+        unit.source = 'test {0}'
+        # Nothing to fix
+        self.assertEqual(fix.fix_target(['r {0}'], unit), (['r {0}'], False))
+        # Correct string
+        self.assertEqual(
+            fix.fix_target(["''r'' {0}"], unit),
+            (["''r'' {0}"], False)
+        )
+        # String with quoted format string
+        self.assertEqual(
+            fix.fix_target(["''r'' '{0}'"], unit),
+            (["''r'' '{0}'"], False)
+        )
+        # Fixes
+        self.assertEqual(
+            fix.fix_target(["'r''' {0}"], unit),
+            (["''r'' {0}"], True)
+        )
+        # Fixes keeping double ones
+        self.assertEqual(
+            fix.fix_target(["'''''''r'''' {0}"], unit),
+            (["''''r'''' {0}"], True)
+        )
+        # Quoted format
+        self.assertEqual(
+            fix.fix_target(["'r''' {0}"], unit),
+            (["''r'' {0}"], True)
+        )
+        unit.source = 'foo'
+        unit.flags = 'java-messageformat'
+        self.assertEqual(
+            fix.fix_target(["bar'"], unit),
+            (["bar''"], True)
+        )

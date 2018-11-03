@@ -32,7 +32,7 @@ from django.conf import settings
 from django.utils.functional import cached_property
 
 from weblate.trans.util import get_clean_env
-from weblate.vcs.ssh import get_wrapper_filename
+from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -51,6 +51,8 @@ class GitRepository(Repository):
     name = 'Git'
     req_version = '1.6'
     default_branch = 'master'
+    ref_to_remote = '..{0}'
+    ref_from_remote = '{0}..'
 
     def is_valid(self):
         """Check whether this is a valid repository."""
@@ -88,7 +90,7 @@ class GitRepository(Repository):
     def set_config(self, path, value):
         """Set entry in local configuration."""
         self.execute(
-            ['config', path, value]
+            ['config', '--replace-all', path, value]
         )
 
     def set_committer(self, name, mail):
@@ -98,7 +100,7 @@ class GitRepository(Repository):
 
     def reset(self):
         """Reset working copy to match remote branch."""
-        self.execute(['reset', '--hard', 'origin/{0}'.format(self.branch)])
+        self.execute(['reset', '--hard', self.get_remote_branch_name()])
         self.clean_revision_cache()
 
     def rebase(self, abort=False):
@@ -160,7 +162,8 @@ class GitRepository(Repository):
             cmd = ['status', '--porcelain']
         else:
             cmd = ['status', '--porcelain', '--', filename]
-        status = self.execute(cmd, needs_lock=False)
+        with self.lock:
+            status = self.execute(cmd)
         return status != ''
 
     def show(self, revision):
@@ -225,28 +228,12 @@ class GitRepository(Repository):
 
         return result
 
-    def _log_revisions(self, refspec):
+    def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--oneline', refspec, '--'],
+            ['log', '--format=format:%H', refspec, '--'],
             needs_lock=False
-        )
-
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (is missing some revisions).
-        """
-        return self._log_revisions(
-            '..origin/{0}'.format(self.branch)
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self._log_revisions(
-            'origin/{0}..'.format(self.branch)
-        ) != ''
+        ).splitlines()
 
     @classmethod
     def _get_version(cls):
@@ -375,6 +362,10 @@ class GitRepository(Repository):
             needs_lock=False
         )
 
+    def cleanup(self):
+        """Remove not tracked files from the repository."""
+        self.execute(['clean', '-f'])
+
 
 class GitWithGerritRepository(GitRepository):
 
@@ -498,27 +489,6 @@ class SubversionRepository(GitRepository):
         else:
             self.execute(['svn', 'rebase'])
 
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (is missing some revisions).
-        """
-        return self._log_revisions(
-            '..{0}'.format(self.get_remote_branch_name())
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self._log_revisions(
-            '{0}..'.format(self.get_remote_branch_name())
-        ) != ''
-
-    def reset(self):
-        """Reset working copy to match remote branch."""
-        self.execute(['reset', '--hard', self.get_remote_branch_name()])
-        self.clean_revision_cache()
-
     @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
@@ -561,7 +531,7 @@ class GithubRepository(GitRepository):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        env = {'GIT_SSH': get_wrapper_filename()}
+        env = {'GIT_SSH': SSH_WRAPPER.filename}
 
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')
@@ -579,7 +549,7 @@ class GithubRepository(GitRepository):
             '-f',
             '-h', '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
             '-b', origin_branch,
-            '-m', 'Update from Weblate.',
+            '-m', settings.DEFAULT_PULL_MESSAGE,
         ]
         self.execute(cmd)
 

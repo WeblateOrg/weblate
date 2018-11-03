@@ -182,6 +182,7 @@ function screenshotResultSet(results) {
         var row = $(
             '<tr><td class="text"></td>' +
             '<td class="context"></td>' +
+            '<td class="location"></td>' +
             '<td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' +
             gettext('Add to screenshot') +
             '</a><i class="fa fa-spinner fa-spin"></i></tr>'
@@ -189,6 +190,7 @@ function screenshotResultSet(results) {
 
         row.find('.text').text(value.text);
         row.find('.context').text(value.context);
+        row.find('.location').text(value.location);
         row.find('.add-string').data('pk', value.pk);
         row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
         $('#search-results').append(row);
@@ -307,14 +309,20 @@ function processMachineTranslation(data) {
 
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
+            /* Standard worflow */
             $('#id_fuzzy').prop('checked', true);
+            /* Review workflow */
+            $('.translation-form input[name="review"][value="10"]').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
+            /* Standard worflow */
             $('#id_fuzzy').prop('checked', false);
+            /* Review workflow */
+            $('.translation-form input[name="review"][value="20"]').prop('checked', true);
             submitForm({target:$('.translation-editor')});
         });
 
@@ -376,7 +384,7 @@ function loadMachineTranslations(data, textStatus) {
     data.forEach(function (el, idx) {
         increaseLoading('#mt-loading');
         $.ajax({
-            url: $('#js-translate').attr('href') + '?service=' + el,
+            url: $('#js-translate').attr('href').replace('__service__', el),
             success: processMachineTranslation,
             error: failedMachineTranslation,
             dataType: 'json'
@@ -826,8 +834,8 @@ $(function () {
     });
 
     /* Copy from dictionary */
-    $('.copydict').click(function (e) {
-        var text = $(this).parents('tr').find('.target').text();
+    $('.glossary-embed').click(function (e) {
+        var text = $(this).find('.target').text();
 
         insertEditor(text);
         e.preventDefault();
@@ -914,7 +922,9 @@ $(function () {
             e.stopPropagation();
             e.preventDefault();
         });
-
+        if (width < 800) {
+            columnsMenu.find('#toggle-comments').click();
+        }
         if (width < 700) {
             columnsMenu.find('#toggle-suggestions').click();
         }
@@ -1345,4 +1355,22 @@ $(function () {
             window.localStorage.translation_autosave = JSON.stringify(data.get());
         }
     });
+
+    /* Slugify name */
+    $('input[name="slug"]').each(function () {
+        var $slug = $(this);
+        var $form = $slug.parents('form');
+        $form.find('input[name="name"]').on('change keypress keydown paste', function () {
+            $slug.val(slugify($(this).val()).toLowerCase());
+        });
+
+    });
+
+    /* Warn users that they do not want to use developer console in most cases */
+    console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
+    console.log( "%cThis is a console for developers. If someone has asked you to open this "
+               + "window, they are likely trying to compromise your Weblate account."
+               , "color: red;"
+                );
+    console.log("%cPlease close this window now.", "color: blue;");
 });

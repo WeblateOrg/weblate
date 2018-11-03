@@ -124,6 +124,13 @@ class BaseExporter(object):
             self.handle_plurals(unit.get_source_plurals())
         )
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
+        # Location needs to be set prior to ID to avoid overwrite
+        # on some formats (eg. xliff)
+        for location in unit.location.split():
+            if location:
+                output.addlocation(location)
+
+        # Store context as context and ID
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
@@ -131,18 +138,25 @@ class BaseExporter(object):
                 output.msgctxt = [context]
             if self.set_id:
                 output.setid(context)
-        for location in unit.location.split():
-            if location:
-                output.addlocation(location)
+        elif self.set_id:
+            # Use checksum based ID on formats requiring it
+            output.setid(unit.checksum)
+
+        # Store note
         note = self.string_filter(unit.comment)
         if note:
             output.addnote(note, origin='developer')
+
+        # Set type comment (for Gettext)
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
                 if flag:
                     output.settypecomment(flag)
+
+        # Store fuzzy flag
         if unit.fuzzy:
             output.markfuzzy(True)
+
         self.storage.addunit(output)
 
     def writeToFile(self, filePath):
@@ -310,8 +324,9 @@ class CSVExporter(BaseExporter):
 
         This is really bad idea, implemented in Excel, as this change leads
         to displaying additional ' in all other tools, but this seems to be
-        what most people have gotten used to. Hopefully these chars are not widely
-        used at first position of translatable strings, so that harm is reduced.
+        what most people have gotten used to. Hopefully these chars are not
+        widely used at first position of translatable strings, so that harm is
+        reduced.
         """
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))

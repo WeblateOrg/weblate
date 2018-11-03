@@ -116,6 +116,35 @@ class AutoTranslationTest(ViewTestCase):
             add=True,
         )
 
+    def test_command_mt(self):
+        call_command(
+            'auto_translate',
+            '--mt', 'weblate',
+            'test',
+            'test',
+            'cs',
+        )
+
+    def test_command_mt_error(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            '--mt', 'invalid',
+            'test',
+            'test',
+            'ia',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            '--threshold', 'invalid',
+            'test',
+            'test',
+            'ia',
+        )
+
     def test_command_add(self):
         self.component.file_format = 'po'
         self.component.new_lang = 'add'
@@ -184,6 +213,8 @@ class AutoTranslationTest(ViewTestCase):
 
 
 class AutoTranslationMtTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(AutoTranslationMtTest, self).setUp()
         # Need extra power

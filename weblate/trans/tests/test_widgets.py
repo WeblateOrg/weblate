@@ -20,38 +20,11 @@
 
 """Test for widgets."""
 
-from django.test import TestCase
-from django.test.utils import override_settings
-
-from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
-from weblate.trans.fonts import get_font
-import weblate.trans.fonts
-
-
-class FontsTest(TestCase):
-    def setUp(self):
-        # Always start with clear cache
-        weblate.trans.fonts.FONT_CACHE = {}
-
-    def tearDown(self):
-        # Always reset cache
-        weblate.trans.fonts.FONT_CACHE = {}
-
-    def test_get(self):
-        self.assertIsNotNone(get_font(12))
-        self.assertIsNotNone(get_font(12, True))
-        self.assertIsNotNone(get_font(12, False, False))
-        self.assertIsNotNone(get_font(12))
-
-    @override_settings(TTF_PATH='/nonexistent/')
-    def test_get_missing(self):
-        with self.assertRaises(ImproperlyConfigured):
-            get_font(12, True, False)
 
 
 class WidgetsTest(FixtureTestCase):

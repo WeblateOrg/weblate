@@ -40,13 +40,14 @@ from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
     MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm, NewUnitForm,
 )
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_translation, import_message, show_form_errors,
 )
 from weblate.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.ratelimit import session_ratelimit_post
 
 
 def get_other_units(unit):
@@ -67,7 +68,7 @@ def get_other_units(unit):
             unit.translation.language,
     }
 
-    same = Unit.objects.same(unit, False)
+    same = Unit.objects.prefetch().same(unit, False)
     same_id = Unit.objects.prefetch().filter(
         id_hash=unit.id_hash,
         **kwargs
@@ -110,7 +111,9 @@ def cleanup_session(session):
         if not key.startswith('search_'):
             continue
         value = session[key]
-        if not isinstance(value, dict) or value['ttl'] < now:
+        if (not isinstance(value, dict) or
+                value['ttl'] < now or
+                'items' not in value):
             del session[key]
 
 
@@ -132,7 +135,9 @@ def search(translation, request):
     search_url = form.urlencode()
     session_key = 'search_{0}_{1}'.format(translation.pk, search_url)
 
-    if session_key in request.session and 'offset' in request.GET:
+    if (session_key in request.session and
+            'offset' in request.GET and
+            'items' in request.session[session_key]):
         search_result.update(request.session[session_key])
         return search_result
 
@@ -158,6 +163,7 @@ def search(translation, request):
     store_result = {
         'query': search_query,
         'url': search_url,
+        'items': form.items(),
         'key': session_key,
         'name': force_text(name),
         'ids': unit_ids,
@@ -175,7 +181,7 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
         return False
-    elif not request.user.has_perm('suggestion.add', unit.translation):
+    if not request.user.has_perm('suggestion.add', unit.translation):
         # Need privilege to add
         messages.error(
             request,
@@ -183,7 +189,7 @@ def perform_suggestion(unit, form, request):
         )
         # Stay on same entry
         return False
-    elif not request.user.is_authenticated:
+    if not request.user.is_authenticated:
         # Spam check
         if is_spam('\n'.join(form.cleaned_data['target']), request):
             messages.error(
@@ -257,7 +263,8 @@ def perform_translation(unit, form, request):
     return True
 
 
-def handle_translate(translation, request, this_unit_url, next_unit_url):
+@session_ratelimit_post('translate')
+def handle_translate(request, translation, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
     # Antispam protection
     antispam = AntispamForm(request.POST)
@@ -283,15 +290,6 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
             _('Insufficient privileges for saving translations.')
         )
     else:
-        # Custom commit message
-        message = request.POST.get('commit_message')
-        if message is not None and message != unit.translation.commit_message:
-            # Commit pending changes so that they don't get new message
-            unit.translation.commit_pending('commit message', request)
-            # Store new commit message
-            unit.translation.commit_message = message
-            unit.translation.save()
-
         go_next = perform_translation(unit, form, request)
 
     # Redirect to next entry
@@ -365,7 +363,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
                 _('You do not have privilege to accept suggestions!')
             )
             return False
-    elif mode == 'delete':
+    elif mode in ('delete', 'spam'):
         if not user.has_perm('suggestion.delete', suggestion, translation):
             messages.error(
                 request,
@@ -385,7 +383,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
 def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     """Handle suggestion deleting/accepting."""
     sugid = ''
-    params = ('accept', 'accept_edit', 'delete', 'upvote', 'downvote')
+    params = ('accept', 'accept_edit', 'delete', 'spam', 'upvote', 'downvote')
     redirect_url = this_unit_url
     mode = None
 
@@ -416,8 +414,8 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         suggestion.accept(translation, request)
         if 'accept' in request.POST:
             redirect_url = next_unit_url
-    elif 'delete' in request.POST:
-        suggestion.delete_log(request.user)
+    elif 'delete' in request.POST or 'spam' in request.POST:
+        suggestion.delete_log(request.user, is_spam='spam' in request.POST)
     elif 'upvote' in request.POST:
         suggestion.add_vote(translation, request, True)
         redirect_url = next_unit_url
@@ -477,20 +475,19 @@ def translate(request, project, component, lang):
     # Any form submitted?
     if 'skip' in request.POST:
         return redirect(next_unit_url)
-    elif (request.method == 'POST' and
-          (not locked or 'delete' in request.POST)):
-
-        if ('accept' not in request.POST and
+    if request.method == 'POST':
+        if (not locked and
+                'accept' not in request.POST and
                 'accept_edit' not in request.POST and
                 'delete' not in request.POST and
+                'spam' not in request.POST and
                 'upvote' not in request.POST and
                 'downvote' not in request.POST):
             # Handle translation
             response = handle_translate(
-                translation, request,
-                this_unit_url, next_unit_url
+                request, translation, this_unit_url, next_unit_url
             )
-        elif not locked or 'delete' in request.POST:
+        elif not locked or 'delete' in request.POST or 'spam' in request.POST:
             # Handle accepting/deleting suggestions
             response = handle_suggestions(
                 translation, request, this_unit_url, next_unit_url,
@@ -547,6 +544,7 @@ def translate(request, project, component, lang):
             'others': get_other_units(unit),
             'total': translation.unit_set.all().count(),
             'search_url': search_result['url'],
+            'search_items': search_result['items'],
             'search_query': search_result['query'],
             'offset': offset,
             'filter_name': search_result['name'],
@@ -610,6 +608,7 @@ def auto_translation(request, project, component, lang):
 
 
 @login_required
+@session_ratelimit_post('comment')
 def comment(request, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
@@ -643,16 +642,17 @@ def comment(request, pk):
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    request.user.check_access(comment_obj.project)
+    project = comment_obj.project
+    request.user.check_access(project)
 
-    if not request.user.has_perm('comment.delete', comment_obj, comment_obj.project):
+    if not request.user.has_perm('comment.delete', comment_obj, project):
         raise PermissionDenied()
 
     units = comment_obj.related_units
     if units.exists():
         fallback_url = units[0].get_absolute_url()
     else:
-        fallback_url = comment_obj.project.get_absolute_url()
+        fallback_url = project.get_absolute_url()
 
     comment_obj.delete()
     messages.info(request, _('Translation comment has been deleted.'))

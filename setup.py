@@ -39,7 +39,7 @@ DATA_FILES = [
 
 setup(
     name='Weblate',
-    version='3.2',
+    version='3.3',
     packages=[
         'weblate',
     ],
@@ -52,7 +52,12 @@ setup(
     keywords='i18n l10n gettext git mercurial translate',
     url='https://weblate.org/',
     download_url='https://weblate.org/download/',
-    bugtrack_url='https://github.com/WeblateOrg/weblate/issues',
+    project_urls={
+        'Issue Tracker': 'https://github.com/WeblateOrg/weblate/issues',
+        'Documentation': 'https://docs.weblate.org/',
+        'Source Code': 'https://github.com/WeblateOrg/weblate',
+        'Twitter': 'https://twitter.com/WeblateOrg',
+    },
     author='Michal Čihař',
     author_email='michal@cihar.com',
     install_requires=REQUIRES,

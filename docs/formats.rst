@@ -44,6 +44,51 @@ Weblate can automatically detect several widely spread file formats, but this
 detection can harm your performance and will limit features specific to given
 file format (for example automatic adding of new translations).
 
+.. _fmt_capabs:
+
+Translation types capabilities
+------------------------------
+
+Below are listed capabilities of all supported formats.
+
++---------------------+------------+----------+---------+----------+
+| Format              | Linguality | Comments | Context | Location |
++=====================+============+==========+=========+==========+
+| :ref:`gettext`      | bilingual  | yes      | yes     | yes      |
++---------------------+------------+----------+---------+----------+
+| :ref:`mono_gettext` | mono       | yes      | yes     | yes      |
++---------------------+------------+----------+---------+----------+
+| :ref:`xliff`        | both       | yes      | yes     |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`javaprop`     | mono       | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`joomla`       | mono       | yes      | no      | yes      |
++---------------------+------------+----------+---------+----------+
+| :ref:`qtling`       | both       | yes      | no      | yes      |
++---------------------+------------+----------+---------+----------+
+| :ref:`aresource`    | mono       | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`apple`        | bilingual  | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`php`          | mono       | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`json`         | mono       | no       | no      | no       |
++---------------------+------------+----------+---------+----------+
+| :ref:`webex`        | mono       | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`dotnet`       | mono       | yes      | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`csv`          | bilingual  | yes      | no      | yes      |
++---------------------+------------+----------+---------+----------+
+| :ref:`yaml`         | mono       | yes      | no      | no       |
++---------------------+------------+----------+---------+----------+
+| :ref:`dtd`          | mono       | no       | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`winrc`        | mono       |          | no      |          |
++---------------------+------------+----------+---------+----------+
+| :ref:`xlsx`         |            |          | no      |          |
++---------------------+------------+----------+---------+----------+
+
 .. _gettext:
 
 GNU Gettext
@@ -97,6 +142,8 @@ The bilingual gettext PO file typically looks like:
     :ref:`addon-weblate.gettext.linguas`,
     :ref:`addon-weblate.gettext.mo`,
     :ref:`addon-weblate.gettext.msgmerge`,
+
+.. _mono_gettext:
 
 Monolingual Gettext
 +++++++++++++++++++
@@ -213,6 +260,8 @@ For example:
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
     :doc:`tt:formats/xliff`
 
+.. _javaprop:
+
 Java properties
 ---------------
 
@@ -223,7 +272,15 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
+Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format. All of
+them supports storing all Unicode characters, it's just differently encoded. In
+the ISO-8859-1 the Unicode escape sequences are used (eg. ``zkou\u0161ka``),
+all others encode characters directly either in UTF-8 or UTF-16.
+
+.. note::
+
+   Loading of escape sequences will work in UTF-8 mode as well, so please be
+   careful chosing correct charset matching your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -243,6 +300,8 @@ Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`,
+
+.. _joomla:
 
 Joomla translations
 -------------------
@@ -272,6 +331,8 @@ Joomla translations are usually used as monolingual.
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
     :doc:`tt:formats/properties`
+
+.. _qtling:
 
 Qt Linguist .ts
 ---------------
@@ -310,7 +371,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 
 .. seealso::
 
-    `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
+    `Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_,
     :doc:`tt:formats/ts`,
     :ref:`bimono`
 
@@ -343,7 +404,7 @@ location from the others :file:`res/values/strings.xml`.
 
 .. seealso::
 
-    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource.html>`_,
+    `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource>`_,
     :doc:`tt:formats/android`
 
 .. note::
@@ -401,8 +462,10 @@ Apple OS X strings are usually used as bilingual.
 
 .. seealso::
 
-    `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
+    `Apple Strings Files documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
     :doc:`tt:formats/strings`
+
+.. _php:
 
 PHP strings
 -----------
@@ -511,6 +574,8 @@ Nested files are supported as well (see above for requirements), such file can l
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
+.. _webex:
+
 WebExtension JSON
 -----------------
 
@@ -544,6 +609,8 @@ Example file:
     `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
     `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Internationalization>`_
 
+.. _dotnet:
+
 .Net Resource files
 -------------------
 
@@ -554,7 +621,8 @@ Example file:
 .. versionadded:: 2.3
 
 .Net Resource (.resx) file is a monolingual XML file format used in Microsoft
-.Net Applications.
+.Net Applications. It works with .resw files as well as they use identical
+syntax to .resx.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -572,6 +640,8 @@ Example file:
 
     :doc:`tt:formats/resx`,
     :ref:`addon-weblate.cleanup.generic`,
+
+.. _csv:
 
 CSV files
 ---------
@@ -654,6 +724,8 @@ Example Ruby i18n YAML file:
 
 .. seealso:: :doc:`tt:formats/yaml`
 
+.. _dtd:
+
 DTD files
 ---------
 
@@ -681,6 +753,8 @@ Example DTD file:
 +--------------------------------+----------------------------------+
 
 .. seealso:: :doc:`tt:formats/dtd`
+
+.. _winrc:
 
 Windows RC files
 ----------------

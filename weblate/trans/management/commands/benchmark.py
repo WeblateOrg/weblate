@@ -24,6 +24,7 @@ import pstats
 from django.core.management.base import BaseCommand
 
 from weblate.trans.models import Component, Project
+from weblate.trans.search import Fulltext
 
 
 class Command(BaseCommand):
@@ -34,14 +35,17 @@ class Command(BaseCommand):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--profile-sort',
-            dest='profile_sort',
             default='cumulative',
             help='sort order for profile stats',
         )
         parser.add_argument(
+            '--profile-filter',
+            default='/weblate',
+            help='filter for profile stats',
+        )
+        parser.add_argument(
             '--profile-count',
             type=int,
-            dest='profile_count',
             default=20,
             help='number of profile stats to show',
         )
@@ -59,6 +63,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        Fulltext.FAKE = True
         project = Project.objects.get(slug=options['project'])
         # Delete any possible previous tests
         Component.objects.filter(
@@ -76,6 +81,6 @@ class Command(BaseCommand):
         )
         stats = pstats.Stats(profiler, stream=self.stdout)
         stats.sort_stats(options['profile_sort'])
-        stats.print_stats(options['profile_count'])
+        stats.print_stats(options['profile_filter'], options['profile_count'])
         # Delete after testing
         component.delete()

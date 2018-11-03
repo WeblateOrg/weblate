@@ -19,6 +19,7 @@
 #
 
 from io import BytesIO
+import gettext
 import os
 import re
 import sys
@@ -31,8 +32,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
-
-from weblate.utils.render import render_template
 
 
 USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
@@ -214,16 +213,6 @@ def validate_file_extension(value):
     return value
 
 
-def validate_render(value, **kwargs):
-    """Validates rendered template."""
-    try:
-        render_template(value, **kwargs)
-    except Exception as err:
-        raise ValidationError(
-            _('Failed to render template: {}').format(err)
-        )
-
-
 def validate_username(value):
     if value.startswith('.'):
         raise ValidationError(
@@ -243,3 +232,12 @@ def validate_email(value):
         raise ValidationError(_('Enter a valid email address.'))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
         raise ValidationError(_('This email address is not allowed.'))
+
+
+def validate_pluraleq(value):
+    try:
+        gettext.c2py(value if value else '0')
+    except ValueError as error:
+        raise ValidationError(
+            _('Failed to evaluate plural equation: {}').format(error)
+        )

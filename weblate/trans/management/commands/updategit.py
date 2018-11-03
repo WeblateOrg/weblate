@@ -20,10 +20,12 @@
 
 from weblate.trans.management.commands import WeblateComponentCommand
 
+from weblate.trans.tasks import perform_update
+
 
 class Command(WeblateComponentCommand):
     help = 'updates git repos'
 
     def handle(self, *args, **options):
         for component in self.get_components(*args, **options):
-            component.do_update()
+            perform_update.delay('Component', component.pk)

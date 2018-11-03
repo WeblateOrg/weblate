@@ -13,89 +13,60 @@ mask of files to translate. Below :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
 files (matching mask defined in :ref:`component`) appear in VCS repository.
 
-.. note::
-
-    You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
-
-.. _admin-interface:
-
-Administration
---------------
-
-Administration of Weblate is done through standard Django admin interface,
-which is available under :file:`/admin/` URL. Once logged in as user with
-proper privileges, you can access it using the wrench icon in top navigation:
-
-.. image:: ../images/admin-wrench.png
-
-Here you can manage objects stored in the database, such as users, translations
-and other settings:
-
-.. image:: ../images/admin.png
-
-In the :guilabel:`Reports` section you can check the status of your site, tweak
-it for :ref:`production` or manage SSH keys to access :ref:`vcs-repos`.
-
-With all sections below you can manage database objects. The most interesting one is
-probably :guilabel:`Weblate translations`, where you can manage translatable
-projects, see :ref:`project` and :ref:`component`.
-
-Another section, :guilabel:`Weblate languages` holds language definitions, see
-:ref:`languages` for more details.
-
-Adding new components
----------------------
-
 All translation components need to be available as VCS repositories and are
 organized as project/component structure.
 
 Weblate supports wide range of translation formats (both bilingual and
-monolingua) supported by translate toolkit, see :ref:`formats` for more
+monolingual) supported by translate toolkit, see :ref:`formats` for more
 information.
 
-Adding project
-++++++++++++++
+.. note::
 
-First you have to add project, which will serve as container for all
-components. Usually you create one project for one piece of software or book
-(see :ref:`project` for information on individual parameters):
+    You can share cloned VCS repositories using :ref:`internal-urls`. Using
+    shared repositories feature is highly recommended when you have many
+    components that use the same VCS. It will improve performance and use less
+    disk space.
 
-.. image:: ../images/add-project.png
+.. _adding-projects:
 
-.. seealso:: 
-   
-   :ref:`project`
+Adding translation projects and components
+------------------------------------------
 
-.. _bilingual:
+.. versionchanged:: 3.2
 
-Bilingual components
-++++++++++++++++++++
+   Since the 3.2 release the interface for adding projects and components is
+   included in Weblate and no longer requires you to use
+   :ref:`admin-interface`.
 
-Once you have added a project, you can add translation components to it
-(see :ref:`component` for information on individual parameters):
+Based on your permissions, you can be able to create new translation projects
+and components in Weblate. It is always allowed for superusers and if your
+instance uses billing (eg. like https://hosted.weblate.org/, see
+:ref:`billing`), you can also create those based on your plans allowance.
 
-.. image:: ../images/add-component.png
+You can view your current billing plan on separate page:
 
-.. seealso:: 
-   
-   :ref:`component`,
-   :ref:`bimono`
+.. image:: ../images/user-billing.png
 
-.. _monolingual:
+The project creation can be initiated from there or using menu in navigation
+bar. All you need to do then is to fill in basic information about the
+translation project:
 
-Monolingual components
-++++++++++++++++++++++
+.. image:: ../images/user-add-project.png
 
-For easier translating of monolingual formats, you should provide a template
-file, which contains mapping of message IDs to source language (usually
-English) (see :ref:`component` for information on individual parameters):
+After creating the project, you are directly taken to the project page:
 
-.. image:: ../images/add-component-mono.png
+.. image:: ../images/user-add-project-done.png
 
-.. seealso:: 
-   
-   :ref:`component`,
-   :ref:`bimono`
+Creating new translation component can be initiated by single click there and
+you will have to fill in translation component information now:
+
+.. image:: ../images/user-add-component.png
+
+.. seealso::
+
+      :ref:`admin-interface`,
+      :ref:`project`,
+      :ref:`component`
 
 .. _project:
 
@@ -120,6 +91,8 @@ Translation instructions
 Set Translation-Team header
     Whether Weblate should manage Translation-Team header (this is
     :ref:`gettext` only feature right now).
+Use shared translation memory
+    Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 Access control
     Configure per project access control, see :ref:`acl` for more details.
 Enable reviews
@@ -221,7 +194,8 @@ Monolingual base language file
 Edit base file
     Whether to allow editing of base file for :ref:`monolingual`.
 Base file for new translations
-    Base file used to generate new translations, eg. ``.pot`` file with Gettext.
+    Base file used to generate new translations, eg. ``.pot`` file with Gettext,
+    see :ref:`new-translations` for more information.
 File format
     Translation file format, see also :ref:`formats`.
 Source string bug report address
@@ -244,8 +218,8 @@ Suggestion voting
     Enable voting for suggestions, see :ref:`voting`.
 Autoaccept suggestions
     Automatically accept voted suggestions, see :ref:`voting`.
-Quality checks flags
-    Additional flags to pass to quality checks, see :ref:`custom-checks`.
+Translation flags
+    Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
 Translation license
     License of this translation.
 License URL
@@ -323,7 +297,7 @@ There are following variables available in the templates:
 ``{{ url }}``
     Translation URL
 ``{{ stats }}``
-    Translation stats, this has futher attributes, see below for examples.
+    Translation stats, this has further attributes, see below for examples.
 ``{{ stats.all }}``
     Total strings count
 ``{{ stats.fuzzy }}``
@@ -353,6 +327,18 @@ You can use conditions:
 
     {% if stats.translated_percent > 80 %}Well translated!{% endif %}
 
+There is additional tag available to replace chars:
+
+.. code-block:: django
+
+    {% replace component "-" " " %}
+
+You can combine it with filters:
+
+.. code-block:: django
+
+    {% replace component|capfirst "-" " " %}
+
 ...and other Django template features.
 
 .. _import-speed:
@@ -363,24 +349,6 @@ Importing speed
 Fetching VCS repository and importing translations to Weblate can be a lengthy
 process depending on size of your translations. Here are some tips to improve
 this situation:
-
-Clone Git repository in advance
-+++++++++++++++++++++++++++++++
-
-You can put in place a Git repository which will be used by Weblate. The
-repositories are stored in :file:`vcs` directory in path defined by
-:setting:`DATA_DIR` in :file:`settings.py` in :file:`<project>/<component>`
-directories.
-
-This can be especially useful if you already have local clone of this
-repository and you can use ``--reference`` option while cloning:
-
-.. code-block:: sh
-
-    git clone \
-        --reference /path/to/checkout \
-        https://github.com/WeblateOrg/weblate.git \
-        weblate/repos/project/component
 
 Optimize configuration
 ++++++++++++++++++++++
@@ -394,6 +362,16 @@ especially:
 * :ref:`production-cache`
 * :ref:`production-database`
 * :ref:`production-debug`
+
+Check resource limits
++++++++++++++++++++++
+
+If you are importing huge translations or repositories, you might be hit by
+resource limits of your server.
+
+* check amount of free memory, having translation files by system will greatly improve performance
+* disk operations might be bottleneck if there is lot of strings to process - the disk is pushed by both Weblate and database
+* additional CPU cores might help to improve performance of background tasks (see :ref:`celery`)
 
 Disable not needed checks
 +++++++++++++++++++++++++
@@ -417,7 +395,7 @@ For using the addon, you need to first create component for one translation
 file (choose the one that is least likely to be renamed or removed in future)
 and install the addon on this component.
 
-For the management commans, you need to create a project which will contain all
+For the management commands, you need to create a project which will contain all
 components and then it's just a matter of running :djadmin:`import_project` or
 :djadmin:`import_json`.
 
@@ -431,19 +409,10 @@ components and then it's just a matter of running :djadmin:`import_project` or
 Fulltext search
 ---------------
 
-Fulltext search is based on Whoosh. You can either allow Weblate to directly
-update the index on every change to content or offload this to separate process by
-:setting:`OFFLOAD_INDEXING`.
-
-The first approach (immediate updates) allows for a more up to date index, but
-suffers locking issues in some setups (eg. Apache's mod_wsgi) and produces a more
-fragmented index.
-
-Offloaded indexing is always the better choice for production setup - it only marks
-which items need to be reindexed and you need to schedule a background process
-(:djadmin:`update_index`) to update index. This leads to a faster response of the
-site and less fragmented index with the cost that it might be slightly outdated.
+Fulltext search is based on Whoosh. It is processed in background if Celery is
+configured.  This leads to a faster response of the site and less fragmented
+index with the cost that it might be slightly outdated.
 
 .. seealso:: 
    
-   :djadmin:`update_index`, :setting:`OFFLOAD_INDEXING`, :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`
+   :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`

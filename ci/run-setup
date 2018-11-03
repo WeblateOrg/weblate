@@ -16,6 +16,9 @@ check
 run_coverage ./setup.py sdist
 check
 
+twine check dist/*
+check
+
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
 BIN_DIR=`find $INSTALL_DIR -name 'bin' -type d`
 
@@ -23,5 +26,5 @@ diff -ruNqp -x '*.swp' -x '*.pyc' weblate $INSTALLED_DIR/weblate
 check
 
 cd $INSTALL_DIR
-PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate test --settings weblate.settings_test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
+PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
 check

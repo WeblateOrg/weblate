@@ -58,6 +58,41 @@ Defaults to 10.
 
     :ref:`rate-limit`,
 
+.. setting:: AUTO_UPDATE
+
+AUTO_UPDATE
+-----------
+
+.. versionadded:: 3.2
+
+Automatically update all repositories on daily basis. This can be useful if you
+do not use :ref:`hooks` to update Weblate repositories automatically.
+
+.. note::
+
+    This requires :ref:`celery` working and you will have to restart celery for
+    this setting to take effect.
+
+.. setting:: AVATAR_URL_PREFIX
+
+AVATAR_URL_PREFIX
+-----------------
+
+Prefix for constructing avatar URLs. The URL will be constructed like:
+``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Following services are
+known to work:
+
+Gravatar (default), see https://gravatar.com/
+    ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
+Libravatar, see https://www.libravatar.org/
+   ``AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'``
+
+.. seealso::
+
+   :ref:`production-cache-avatar`,
+   :setting:`ENABLE_AVATARS`,
+   :ref:`avatars`
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS
@@ -196,14 +231,6 @@ For example you can enable only few of them:
 
    :ref:`autofix`, :ref:`custom-autofix`
 
-.. setting:: BACKGROUND_HOOKS
-
-BACKGROUND_HOOKS
-----------------
-
-Whether to run hooks in background. This is generally recommended unless you
-are debugging.
-
 .. setting:: BASE_DIR
 
 BASE_DIR
@@ -253,6 +280,8 @@ For example you can enable only few of them:
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
         'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.CSharpFormatCheck',
+        'weblate.checks.format.JavaFormatCheck',
         'weblate.checks.consistency.SamePluralsCheck',
         'weblate.checks.consistency.PluralsCheck',
         'weblate.checks.consistency.ConsistencyCheck',
@@ -315,11 +344,13 @@ The following subdirectories usually exist:
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
 :file:`memory`
-    Translation memory data uwing Whoosh engine (see :ref:`translation-memory`).
+    Translation memory data using Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
+:file:`backups`
+    Dump of data in daily backups, see :ref:`backup-dumps`.
 
 .. note::
 
@@ -336,7 +367,35 @@ Defaults to ``$BASE_DIR/data``.
 
 .. seealso::
 
-    :setting:`BASE_DIR`
+    :setting:`BASE_DIR`,
+    :doc:`backup`
+
+.. setting:: DEFAULT_ACCESS_CONTROL
+
+DEFAULT_ACCESS_CONTROL
+----------------------
+
+.. versionadded:: 3.3
+
+Choose default access control when creating new project, possible values are currently:
+
+``0``
+   :guilabel:`Public`
+``1``
+   :guilabel:`Protected`
+``100``
+   :guilabel:`Private`
+``200``
+   :guilabel:`Custom`
+
+Use :guilabel:`Custom` if you are going to manage ACL manually and do not want
+to rely on Weblate internal management.
+
+.. seealso::
+
+   :ref:`acl`,
+   :ref:`privileges`
+
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 
@@ -366,23 +425,6 @@ Default committer name when creating translation component (see
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
 
-.. setting:: DEFAULT_CUSTOM_ACL
-
-DEFAULT_CUSTOM_ACL
-------------------
-
-.. versionadded:: 3.0
-
-Whether newly created projects should default to :guilabel:`Custom` ACL.
-Use if you are going to manage ACL manually and do not want to rely on Weblate
-internal management.
-
-.. seealso::
-
-   :ref:`acl`,
-   :ref:`privileges`
-
-
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
 DEFAULT_TRANSLATION_PROPAGATION
@@ -396,6 +438,14 @@ defaults to ``True``.
 .. seealso::
 
    :ref:`component`
+
+.. setting:: DEFAULT_PULL_MESSAGE
+
+DEFAULT_PULL_MESSAGE
+--------------------
+
+Default pull request title,
+defaults to ``'Update from Weblate'``.
 
 .. setting:: ENABLE_AVATARS
 
@@ -411,6 +461,7 @@ this.
 .. seealso::
 
    :ref:`production-cache-avatar`,
+   :setting:`AVATAR_URL_PREFIX`,
    :ref:`avatars`
 
 .. setting:: ENABLE_HOOKS
@@ -638,6 +689,7 @@ List of enabled machine translation services to use.
         'weblate.machinery.glosbe.GlosbeTranslation',
         'weblate.machinery.google.GoogleTranslation',
         'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+        'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
         'weblate.machinery.mymemory.MyMemoryTranslation',
         'weblate.machinery.tmserver.AmagamaTranslation',
         'weblate.machinery.tmserver.TMServerTranslation',
@@ -696,6 +748,28 @@ Region name to use for Amazon Translate.
 
     :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_BAIDU_ID
+
+MT_BAIDU_ID
+------------
+
+Client ID for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
+
+.. seealso::
+
+   :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_BAIDU_SECRET
+
+MT_BAIDU_SECRET
+----------------
+
+Client secret for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
+
+.. seealso::
+
+   :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_DEEPL_KEY
 
 MT_DEEPL_KEY
@@ -718,30 +792,6 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_MICROSOFT_ID
-
-MT_MICROSOFT_ID
----------------
-
-Client ID for Microsoft Translator service.
-
-.. seealso::
-
-   :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
-.. setting:: MT_MICROSOFT_SECRET
-
-MT_MICROSOFT_SECRET
--------------------
-
-Client secret for Microsoft Translator service.
-
-.. seealso::
-
-   :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
-
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
 MT_MICROSOFT_COGNITIVE_KEY
@@ -751,7 +801,7 @@ Client key for Microsoft Cognitive Services Translator API.
 
 .. seealso::
     :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsfot Azure Portal <https://portal.azure.com/>`_
 
 .. setting:: MT_MYMEMORY_EMAIL
@@ -790,6 +840,28 @@ MyMemory user id for private translation memory, use together with :setting:`MT_
    :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
    `MyMemory: API key generator <https://mymemory.translated.net/doc/keygen.php>`_
 
+.. setting:: MT_NETEASE_KEY
+
+MT_NETEASE_KEY
+--------------
+
+App key for Netease Sight API, you can register at https://sight.netease.com/
+
+.. seealso::
+
+   :ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_NETEASE_SECRET
+
+MT_NETEASE_SECRET
+-----------------
+
+App secret for Netease Sight API, you can register at https://sight.netease.com/
+
+.. seealso::
+
+   :ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_TMSERVER
 
 MT_TMSERVER
@@ -812,6 +884,28 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 .. seealso::
 
    :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_YOUDAO_ID
+
+MT_YOUDAO_ID
+------------
+
+Client ID for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+
+.. seealso::
+
+   :ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_YOUDAO_SECRET
+
+MT_YOUDAO_SECRET
+----------------
+
+Client secret for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+
+.. seealso::
+
+   :ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_SAP_BASE_URL
 
@@ -870,24 +964,6 @@ NEARBY_MESSAGES
 ---------------
 
 How many messages around current one to show during translating.
-
-.. setting:: OFFLOAD_INDEXING
-
-OFFLOAD_INDEXING
-----------------
-
-Offload updating of fulltext index to separate process. This heavily
-improves responsiveness of online operation on expense of slightly
-outdated index, which might still point to older content.
-
-While enabling this, don't forget scheduling runs of
-:djadmin:`update_index` in cron or similar tool.
-
-This is the recommended setup for production use.
-
-.. seealso::
-
-   :ref:`fulltext`
 
 .. setting:: PIWIK_SITE_ID
 
@@ -993,6 +1069,16 @@ STATUS_URL
 
 URL where your Weblate instance reports it's status.
 
+.. setting:: SUGGESTION_CLEANUP_DAYS
+
+SUGGESTION_CLEANUP_DAYS
+-----------------------
+
+.. versionadded:: 3.2.1
+
+Automatically delete suggestions after given number of days. Defaults to
+``None`` what means no deletion at all.
+
 .. setting:: TTF_PATH
 
 TTF_PATH
@@ -1027,7 +1113,34 @@ WEBLATE_ADDONS
 --------------
 
 List of addons available for use. To use them, they have to be enabled for
-given translation component.
+given translation component. By default this includes all built in addons, when
+extending the list you will probably want to keep existing ones enabled, for
+example:
+
+
+.. code-block:: python
+
+    WEBLATE_ADDONS = (
+        # Built in addons
+        'weblate.addons.gettext.GenerateMoAddon',
+        'weblate.addons.gettext.UpdateLinguasAddon',
+        'weblate.addons.gettext.UpdateConfigureAddon',
+        'weblate.addons.gettext.MsgmergeAddon',
+        'weblate.addons.gettext.GettextCustomizeAddon',
+        'weblate.addons.gettext.GettextAuthorComments',
+        'weblate.addons.cleanup.CleanupAddon',
+        'weblate.addons.consistency.LangaugeConsistencyAddon',
+        'weblate.addons.discovery.DiscoveryAddon',
+        'weblate.addons.flags.SourceEditAddon',
+        'weblate.addons.flags.TargetEditAddon',
+        'weblate.addons.flags.SameEditAddon',
+        'weblate.addons.generate.GenerateFileAddon',
+        'weblate.addons.json.JSONCustomizeAddon',
+        'weblate.addons.properties.PropertiesSortAddon',
+
+        # Addon you want to include
+        'weblate.addons.example.ExampleAddon',
+    )
 
 .. seealso::
 

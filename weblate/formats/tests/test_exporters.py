@@ -93,6 +93,7 @@ class PoExporterTest(TestCase):
                 component=component,
                 plural=plural,
             ),
+            id_hash=-1,
             **kwargs
         )
         exporter = self.get_exporter(lang)

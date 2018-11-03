@@ -23,6 +23,7 @@ import os.path
 
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.urls import reverse
@@ -48,7 +49,7 @@ class BillingTest(TestCase):
             password='kill',
             email='noreply@example.net'
         )
-        self.plan = Plan.objects.create(name='test', limit_projects=1, price=0)
+        self.plan = Plan.objects.create(name='test', limit_projects=1, price=1.0)
         self.billing = Billing.objects.create(plan=self.plan)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
@@ -92,11 +93,13 @@ class BillingTest(TestCase):
         self.assertContains(response, 'Current plan')
 
     def test_limit_projects(self):
-        self.assertTrue(self.billing.in_limits())
+        self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.assertTrue(self.billing.in_limits())
+        self.billing.refresh_from_db()
+        self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.assertFalse(self.billing.in_limits())
+        self.billing.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
 
     def test_commands(self):
         out = StringIO()
@@ -111,6 +114,9 @@ class BillingTest(TestCase):
             'Following billings are over limit:\n'
             ' * test0, test1 (test)\n'
         )
+        out = StringIO()
+        call_command('billing_check', '--valid', stdout=out)
+        self.assertEqual(out.getvalue(), '')
         self.invoice.delete()
         out = StringIO()
         call_command('billing_check', stdout=out)
@@ -121,6 +127,8 @@ class BillingTest(TestCase):
             'Following billings are past due date:\n'
             ' * test0, test1 (test)\n'
         )
+        call_command('billing_check', '--notify', stdout=out)
+        self.assertEqual(len(mail.outbox), 1)
 
     def test_invoice_validation(self):
         invoice = Invoice(

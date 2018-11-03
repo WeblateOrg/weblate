@@ -178,7 +178,7 @@ pseudoxml:
 
 update-screenshots:
 	@rm -rf ../data-test ../test-images
-	@cd .. && ./manage.py test --settings weblate.settings_test weblate.trans.tests.test_selenium.SeleniumTests
+	@cd .. && export DJANGO_SETTINGS_MODULE=weblate.settings_test && ./manage.py test weblate.trans.tests.test_selenium.SeleniumTests
 	@set -e ;for file in ../test-images/*.png ; do \
 		echo Processing `basename $$file` ; \
 		cp $$file tmp.png ; \

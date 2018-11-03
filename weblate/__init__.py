@@ -23,6 +23,10 @@ import os
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
 
+from weblate.celery import app as celery_app
+
+__all__ = ('celery_app',)
+
 
 def get_root_dir():
     """Return Weblate root dir."""
@@ -31,7 +35,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = '3.2-dev'
+VERSION = '3.3-dev'
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace('-dev', '')

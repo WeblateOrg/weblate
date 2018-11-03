@@ -64,7 +64,7 @@ development server.
         
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYAML Babel pyuca
+        pip install pytz python-bidi PyYAML pyuca
 
 #. Copy the file :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings-example.py`
    to :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
@@ -140,7 +140,7 @@ Installing using Docker
 
    .. code-block:: sh
 
-        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
 #. Start Weblate containers:

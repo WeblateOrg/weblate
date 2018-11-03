@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from datetime import timedelta
-import json
 
 from django.urls import reverse
 from django.utils import timezone

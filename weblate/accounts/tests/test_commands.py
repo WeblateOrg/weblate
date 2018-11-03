@@ -20,15 +20,19 @@
 
 """Test for user handling."""
 
-import os.path
+import pickle
+import os
+import zlib
 
 from django.test import TestCase
+from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.models import Project
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.accounts.models import Profile
 
@@ -43,6 +47,9 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
+        user.profile.subscriptions.add(Project.objects.create(
+            name='name', slug='name'
+        ))
 
         try:
             self.create_temp()
@@ -64,6 +71,9 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertTrue(
             profile.secondary_languages.filter(code='cs').exists()
         )
+        self.assertTrue(
+            profile.subscriptions.exists()
+        )
 
     def test_changesite(self):
         call_command('changesite', get_name=True)
@@ -79,3 +89,26 @@ class CommandTest(TestCase, TempDirMixin):
         )
         call_command('changesite', set_name='test.weblate.org', site_id=2)
         self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
+
+    def test_avatar_cleanup(self):
+        backup = settings.CACHES
+        backend = 'django.core.cache.backends.filebased.FileBasedCache'
+        try:
+            self.create_temp()
+            settings.CACHES['avatar'] = {
+                'BACKEND': backend,
+                'LOCATION': self.tempdir,
+            }
+            testfile = os.path.join(self.tempdir, 'test.djcache')
+            picklefile = os.path.join(self.tempdir, 'pickle.djcache')
+            with open(testfile, 'w') as handle:
+                handle.write('x')
+            with open(picklefile, 'wb') as handle:
+                pickle.dump('fake', handle)
+                handle.write(zlib.compress(pickle.dumps('payload')))
+            call_command('cleanup_avatar_cache')
+            self.assertFalse(os.path.exists(testfile))
+            self.assertTrue(os.path.exists(picklefile))
+        finally:
+            self.remove_temp()
+            settings.CACHES = backup

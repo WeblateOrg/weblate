@@ -29,54 +29,28 @@
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
-{% if billings %}
-<li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
-{% endif %}
 </ul>
 
 <div class="tab-content">
+
 <div class="tab-pane active" id="languages">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Languages" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% trans "Languages" %}</h4></div>
   <div class="panel-body">
-    {{ form|crispy }}
+    {% crispy languagesform %}
+    <p class="help-block">
+      {% blocktrans %}Only languages which are currently being translated are listed. If you want to translate to another language, please request it first on the project you want to translate.{% endblocktrans %}
+    </p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
 </div>
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>
-      {% blocktrans %}Choose which languages you prefer to translate. These will be offered to you on the dashboard to have easier access to chosen translations.{% endblocktrans %}
-    </p>
-    <p>
-      {% blocktrans %}The secondary languages are shown next to the source string when translating.{% endblocktrans %}
-    </p>
-    <p>
-      {% blocktrans %}Only languages which are currently being translated are listed. If you want to translate to another language, please request it first on the project you want to translate.{% endblocktrans %}
-    </p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' 'languages' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <div class="tab-pane" id="preferences">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'preferences' right=True %}{% trans "Preferences" %}</h4></div>
   <div class="panel-body">
     {{ usersettingsform|crispy }}
     {{ dashboardsettingsform|crispy }}
@@ -86,26 +60,8 @@
   </div>
 </div>
 </div>
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>
-      {% blocktrans %}Customize Weblate behavior to match your personal preferences.{% endblocktrans %}
-    </p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' 'preferences' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <div class="tab-pane" id="subscriptions">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 {% if managed_projects %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Managed projects" %}</h4></div>
@@ -119,74 +75,46 @@
   </div>
 </div>
 {% endif %}
+
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Watched projects" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Watched projects" %}</h4></div>
   <div class="panel-body">
 {% crispy subscriptionform %}
+    <p class="help-block">{% trans "Watched projects are also shown on dashboard, so choose all projects you want to translate." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
-</div>
-<div class="col-lg-6 hidden-xs">
+
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% trans "You will receive chosen notifications via email for all your languages." %}</p>
-    <p>{% trans "Watched projects are also shown on dashboard, so choose all projects you want to translate." %}</p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' 'subscriptions' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Subscription settings" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Subscription settings" %}</h4></div>
   <div class="panel-body">
 {% crispy subscriptionsettingsform %}
+    <p class="help-block">{% trans "You will receive chosen notifications via email for all your languages." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
 </div>
-</div>
-</div>
-</div>
+
 <div class="tab-pane" id="account">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Account" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
-{{ userform|crispy }}
+{% crispy userform %}
+    <p class="help-block">{% trans "Your name and email will appear as author on the commits." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
 </div>
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% trans "Your name and email will appear as author on the commits." %}</p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <div class="tab-pane" id="auth">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Current user identities" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}</h4></div>
 <table class="table">
 <thead>
 <tr>
@@ -196,7 +124,7 @@
 </tr>
 <tbody>
 <tr>
-<th>{% trans "Password" %}</th>
+<th><i class="fa fa-lg fa-wl-social fa-key" aria-hidden="true"></i> {% trans "Password" %}</th>
 <td>{{ request.user.username }}</td>
 <td>
 <a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
@@ -229,7 +157,6 @@
 </div>
 {% endif %}
 
-
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
   <div class="panel-body">
@@ -242,26 +169,8 @@
 </div>
 
 </div>
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
-    <p>{% trans "You can configure how you will log in on this site." %}</p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' 'authentication' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-</div>
-</div>
-</div>
 
-</div>
 <div class="tab-pane" id="profile">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
 <table class="table">
@@ -274,34 +183,20 @@
 <td><a href="{{ user_page }}">{{ user_page }}</a></td>
 </tr>
 </table>
+<div class="panel-footer">
+    <p class="help-block">{% trans "Your public appearance on this site." %}</p>
+</div>
 </div>
 
 {% if enable_avatars %}
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Your avatar" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
 <p class="border"><img src="{% url 'user_avatar' user=request.user.username size=128 %}" /></p>
 <p><a href="https://www.gravatar.com/">{% trans "Avatars are provided using Gravatar." %}</a></p>
 </div>
 </div>
 {% endif %}
-
-</div>
-
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% trans "Your public appearance on this site." %}</p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'user/profile' 'avatar' %}">{% trans "Documentation" %}</a>
-  </div>
-</div>
-</div>
-</div>
-
-</div>
 
 </div>
 
@@ -336,11 +231,9 @@
 <td>{% trans "Hidden" %}</td>
 <td>{% trans "Hidden" %}</td>
 {% endif %}
-</td>
-<td>
 </tr>
 {% empty %}
-<tr><td colspan="3">{% trans "No recent activity found!" %}</td></tr>
+<tr><td colspan="4">{% trans "No recent activity found!" %}</td></tr>
 {% endfor %}
 </tbody>
 </table>
@@ -352,12 +245,12 @@
 </div>
 
 <div class="tab-pane" id="api">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "API access" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'api' right=True %}{% trans "API access" %}</h4></div>
 <table class="table">
+<tr><td colspan="2">
+    <p>{% blocktrans %}You can control Weblate using HTTP REST API and API key is used to authenticate to it.{% endblocktrans %}</p>
+</td></tr>
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
 <td>
@@ -401,33 +294,24 @@ wlc \
 </table>
 </div>
 
-</div>
-
-<div class="col-lg-6 hidden-xs">
+{% if has_gitexport %}
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% trans "Accessing Git repositories" %}</h4></div>
   <div class="panel-body">
-    <p>{% blocktrans %}You can control Weblate using HTTP REST API and API key is used to authenticate to it.{% endblocktrans %}</p>
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% documentation 'api' %}">{% trans "API documentation" %}</a>
-  <a class="btn btn-default" href="{% documentation 'admin/optionals' 'git-exporter' %}">{% trans "Git export documentation" %}</a>
+    <pre>
+git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
-</div>
-</div>
+{% endif %}
 
 </div>
 
-</div>
 <div class="tab-pane" id="licenses">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses" %}</h4></div>
   <div class="panel-body">
+    <p>{% trans "Please pay attention to the licensing information as these specify how others are allowed to use your translations." %}</p>
 <p>
 {% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
 </p>
@@ -465,72 +349,7 @@ wlc \
 {% endif %}
 </div>
 </div>
-
 </div>
-
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% trans "Please pay attention to the licensing information as these specify how others are allowed to use your translations." %}</p>
-  </div>
-</div>
-</div>
-</div>
-
-</div>
-
-</div>
-
-{% if billings %}
-<div class="tab-pane" id="billing">
-{% for billing in billings %}
-<div class="container-fluid">
-<div class="row">
-
-
-<div class="col-lg-6">
-{% include "billing/detail.html" %}
-</div>
-
-<div class="col-lg-6">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
-<table class="table table-striped">
-<thead>
-<tr>
-<th>{% trans "Invoice period" %}</th>
-<th>{% trans "Invoice amount" %}</th>
-<th>{% trans "Download invoice" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for invoice in billing.invoice_set.all %}
-<tr>
-<td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
-<td>{{ invoice.payment }} {{ invoice.get_currency_display }}</td>
-<td>
-{% if invoice.ref %}
-<a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
-{% else %}
-{% trans "Not available" %}
-{% endif %}
-</td>
-</tr>
-{% empty %}
-<tr><td colspan="3">{% trans "No invoices found!" %}</td/></tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-</div>
-{% endfor %}
-
-</div>
-{% endif %}
 
 </div>
 

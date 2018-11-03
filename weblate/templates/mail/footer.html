@@ -4,16 +4,19 @@
 
 <table>
 <tr>
-<th>{% trans "Total strings:" %}</th><td>{{ translation.stats.all }}</td>
+<th>{% get_filter_name "all" %}</th><td>{{ translation.stats.all }}</td>
 </tr>
 <tr>
-<td>{% trans "Translated strings:" %}</th><td>{{ translation.stats.translated }} ({{ translation.stats.translated_percent }}%)</td>
+<td>{% get_filter_name "translated" %}</th><td>{{ translation.stats.translated }} ({{ translation.stats.translated_percent }}%)</td>
 </tr>
 <tr>
-<td>{% trans "Untranslated strings:" %}</th><td>{{ translation.stats.untranslated }} ({{ translation.stats.untranslated_percent }}%)</td>
+<td>{% get_filter_name "nottranslated" %}</th><td>{{ translation.stats.nottranslated }} ({{ translation.stats.nottranslated_percent }}%)</td>
 </tr>
 <tr>
-<td>{% trans "Strings marked for review:" %}</th><td>{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</td>
+<td>{% get_filter_name "todo" %}</th><td>{{ translation.stats.todo }} ({{ translation.stats.todo_percent }}%)</td>
+</tr>
+<tr>
+<td>{% get_filter_name "fuzzy" %}</th><td>{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</td>
 </tr>
 </table>
 

@@ -36,22 +36,12 @@ class Check(UnitData):
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
 
-    _for_unit = None
-
-    @property
-    def for_unit(self):
-        return self._for_unit
-
     @cached_property
     def check_obj(self):
         try:
             return CHECKS[self.check]
         except KeyError:
             return None
-
-    @for_unit.setter
-    def for_unit(self, value):
-        self._for_unit = value
 
     class Meta(object):
         unique_together = ('content_hash', 'project', 'language', 'check')
@@ -89,13 +79,15 @@ class Check(UnitData):
 
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
-def update_failed_check_flag(sender, instance, **kwargs):
+def update_failed_check_flag(sender, instance, created, **kwargs):
     """Update related unit failed check flag."""
-    if instance.language is None:
+    if instance.language is None or created:
         return
     related = instance.related_units
-    if instance.for_unit is not None:
-        related = related.exclude(pk=instance.for_unit)
-    for unit in related:
-        unit.update_has_failing_check(False)
-        unit.translation.invalidate_cache()
+    try:
+        related[0].update_has_failing_check(
+            has_checks=None if instance.ignore else True,
+            invalidate=True
+        )
+    except IndexError:
+        return

@@ -26,6 +26,7 @@ import shutil
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
+from weblate.celery import app
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
@@ -34,7 +35,6 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
@@ -48,20 +48,15 @@ from weblate.utils.files import remove_readonly
 
 __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
-    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
+    'Comment', 'Vote', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf', 'ContributorAgreement',
 ]
 
 
 @receiver(post_delete, sender=Project)
-@receiver(post_delete, sender=Component)
 def delete_object_dir(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Do not delete linked components
-    if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
-        return
-
     project_path = instance.full_path
 
     # Remove path if it exists
@@ -69,23 +64,34 @@ def delete_object_dir(sender, instance, **kwargs):
         shutil.rmtree(project_path, onerror=remove_readonly)
 
 
+@receiver(post_delete, sender=Component)
+def delete_component(sender, instance, **kwargs):
+    """Handler to delete (sub)project directory on project deletion."""
+    from weblate.trans.tasks import cleanup_project
+    cleanup_project.delay(instance.project.pk)
+
+    # Do not delete linked components
+    if not instance.is_repo_link:
+        delete_object_dir(sender, instance, **kwargs)
+
+
 @receiver(post_save, sender=Source)
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
-    related_units = Unit.objects.filter(
-        id_hash=instance.id_hash,
-        translation__component=instance.component,
-    )
     if instance.priority_modified:
-        units = related_units.exclude(
+        Unit.objects.filter(
+            id_hash=instance.id_hash,
+            translation__component=instance.component,
+        ).exclude(
             priority=instance.priority
-        )
-        units.update(priority=instance.priority)
+        ).update(priority=instance.priority)
 
     if instance.check_flags_modified:
-        for unit in related_units:
+        for unit in instance.units:
             unit.run_checks()
+        instance.run_checks()
+        for unit in instance.units:
             unit.translation.invalidate_cache()
 
 
@@ -159,3 +165,23 @@ def auto_project_componentlist(sender, instance, **kwargs):
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)
+
+
+@receiver(post_save, sender=Component)
+@disable_for_loaddata
+def post_save_update_checks(sender, instance, **kwargs):
+    if instance.old_component.check_flags == instance.check_flags:
+        return
+    update_checks.delay(instance.pk)
+
+
+@app.task
+def update_checks(pk):
+    component = Component.objects.get(pk=pk)
+    for translation in component.translation_set.all():
+        for unit in translation.unit_set.all():
+            unit.run_checks()
+    for source in component.source_set.all():
+        source.run_checks()
+    for translation in component.translation_set.all():
+        translation.invalidate_cache()

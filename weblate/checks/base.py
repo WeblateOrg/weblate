@@ -32,6 +32,7 @@ class Check(object):
     default_disabled = False
     severity = 'info'
     enable_check_value = False
+    batch_update = False
 
     def get_identifier(self):
         return self.check_id
@@ -121,7 +122,7 @@ class Check(object):
 
     def is_language(self, unit, vals):
         """Detect whether language is in given list, ignores variants."""
-        return unit.translation.language.code.split('_')[0] in vals
+        return unit.translation.language.base_code in vals
 
     def get_doc_url(self):
         """Return link to documentation."""

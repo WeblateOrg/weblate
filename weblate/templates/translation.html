@@ -23,8 +23,9 @@
 {% perm 'upload.perform' object as user_can_upload_translation %}
 {% perm 'unit.add' object as user_can_add_unit %}
 
-{% include "show-lock.html" with object=object.component %}
-{% show_contributor_agreement object.component %}
+{% get_translate_url object as translate_url %}
+
+{% include "show-component-state.html" with object=object.component %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
@@ -120,7 +121,7 @@
 <td class="progress-cell">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent }}%</td>
 <td rowspan="2">
-<a href="{{ object.get_translate_url }}?type={% if object.stats.nottranslated > 0 %}untranslated{% else %}all{% endif %}" class="pull-right flip btn btn-default"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
+<a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-default"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
 </tr>
 
@@ -146,7 +147,7 @@
 </div>
 <div class="list-group">
 {% for c in object.list_translation_checks %}
-<a class="list-group-item list-group-item-{{ c.3 }}" href="{{ object.get_translate_url }}?type={{ c.0 }}">{% if c.4 %}<span class="badge">{% blocktrans count c.4 as count %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}</span>{% endif %}<span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
+<a class="list-group-item list-group-item-{{ c.3 }}" href="{{ translate_url }}?type={{ c.0 }}">{% if c.4 %}<span class="badge">{% blocktrans count c.4 as count %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}</span>{% endif %}<span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
 </div>
 </div>
@@ -323,12 +324,7 @@
 <div class="row">
 <div class="col-lg-6">
 
-{% if pending_fulltext %}
-{% trans "The fulltext search might not work properly as the fulltext index for this translation is not yet up to date." as msg %}
-{% show_message "warning" msg %}
-{% endif %}
-
-<form action="{{ object.get_translate_url }}" method="GET" data-persist="search-translation">
+<form action="{{ translate_url }}" method="GET" data-persist="search-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">
@@ -344,7 +340,7 @@
 
 {% if review_form %}
 <div class="col-lg-6">
-<form action="{{ object.get_translate_url }}" method="GET">
+<form action="{{ translate_url }}" method="GET">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Review" %}</h4></div>
   <div class="panel-body">
@@ -419,7 +415,7 @@
 <tbody>
 <tr>
 <th>{% trans "Last change" %}<th>
-<td class="number" colspan="3">{{ object.last_change }}</td>
+<td class="number" colspan="3">{{ object.stats.last_changed }}</td>
 </tr>
 <tr>
 <th>{% trans "Last author" %}<th>

@@ -20,14 +20,14 @@
 
 from __future__ import unicode_literals
 
-from unittest import TestCase
+from django.test import SimpleTestCase
 
 from weblate.utils.hash import (
     calculate_hash, hash_to_checksum, checksum_to_hash,
 )
 
 
-class HashTest(TestCase):
+class HashTest(SimpleTestCase):
     def test_hash(self):
         """Ensure hash is not changing"""
         text = 'Message'

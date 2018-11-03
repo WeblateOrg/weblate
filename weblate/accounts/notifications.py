@@ -19,9 +19,6 @@
 #
 from __future__ import unicode_literals
 
-from smtplib import SMTPException
-import sys
-
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
@@ -30,8 +27,8 @@ from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
+from weblate.celery import app
 from weblate.utils.site import get_site_url, get_site_domain
-from weblate.utils.errors import report_error
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
 from weblate.logger import LOGGER
@@ -71,7 +68,7 @@ def notify_merge_failure(component, error, status):
             }
         )
     )
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_parse_error(component, translation, error, filename):
@@ -113,7 +110,7 @@ def notify_parse_error(component, translation, error, filename):
             }
         )
     )
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_string(translation):
@@ -127,7 +124,7 @@ def notify_new_string(translation):
             send_new_string(subscription, translation)
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_language(component, language, user):
@@ -151,7 +148,7 @@ def notify_new_language(component, language, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_translation(unit, oldunit, user):
@@ -167,7 +164,7 @@ def notify_new_translation(unit, oldunit, user):
             send_any_translation(subscription, unit, oldunit)
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_contributor(unit, user):
@@ -186,7 +183,7 @@ def notify_new_contributor(unit, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_suggestion(unit, suggestion, user):
@@ -207,7 +204,7 @@ def notify_new_suggestion(unit, suggestion, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_comment(unit, comment, user, report_source_bugs):
@@ -238,14 +235,13 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
             user=user,
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,
                            user=None, info=None):
     """Render notification email."""
-    cur_language = django_translation.get_language()
     context = context or {}
     headers = headers or {}
     references = None
@@ -261,20 +257,18 @@ def get_notification_email(language, email, notification,
         references = '<{0}@{1}>'.format(references, get_site_domain())
         headers['In-Reply-To'] = references
         headers['References'] = references
-    try:
-        if info is None:
-            info = force_text(translation_obj)
-        LOGGER.info(
-            'sending notification %s on %s to %s',
-            notification,
-            info,
-            email
-        )
 
-        # Load user language
-        if language is not None:
-            django_translation.activate(language)
+    if info is None:
+        info = force_text(translation_obj)
 
+    LOGGER.info(
+        'sending notification %s on %s to %s',
+        notification,
+        info,
+        email
+    )
+
+    with django_translation.override('en' if language is None else language):
         # Template name
         context['subject_template'] = 'mail/{0}_subject.txt'.format(
             notification
@@ -323,22 +317,14 @@ def get_notification_email(language, email, notification,
         else:
             emails = [email]
 
-        # Create message
-        email = EmailMultiAlternatives(
-            settings.EMAIL_SUBJECT_PREFIX + subject,
-            body,
-            to=emails,
-            headers=headers,
-        )
-        email.attach_alternative(
-            html_body,
-            'text/html'
-        )
-
-        # Return the mail
-        return email
-    finally:
-        django_translation.activate(cur_language)
+        # Return the mail content
+        return {
+            'subject': subject,
+            'body': body,
+            'to': emails,
+            'headers': headers,
+            'html_body': html_body,
+        }
 
 
 def send_notification_email(language, email, notification,
@@ -349,7 +335,7 @@ def send_notification_email(language, email, notification,
         language, email, notification, translation_obj, context, headers,
         user, info
     )
-    send_mails([email])
+    enqueue_mails([email])
 
 
 def is_new_login(user, address):
@@ -552,13 +538,30 @@ def send_parse_error(profile, component, translation, error, filename):
     )
 
 
+def enqueue_mails(mails):
+    mails = [mail for mail in mails if mail is not None]
+    if mails:
+        send_mails.delay(mails)
+
+
+@app.task
 def send_mails(mails):
     """Send multiple mails in single connection."""
     try:
-        connection = get_connection(fail_silently=True)
-        connection.send_messages(
-            [mail for mail in mails if mail is not None]
-        )
+        with get_connection() as connection:
+            for mail in mails:
+                email = EmailMultiAlternatives(
+                    settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
+                    mail['body'],
+                    to=mail['to'],
+                    headers=mail['headers'],
+                    connection=connection,
+                )
+                email.attach_alternative(
+                    mail['html_body'],
+                    'text/html'
+                )
+                email.send()
     except SMTPException as error:
         LOGGER.error('Failed to send email: %s', error)
         report_error(error, sys.exc_info())

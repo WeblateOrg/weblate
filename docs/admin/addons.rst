@@ -51,9 +51,9 @@ act as master and others will use :ref:`internal-urls` to it as a VCS
 configuration. You should choose the one which is less likely to disappear in
 the future here.
 
-Once you have one component from the target VCS, you can configured the
+Once you have one component from the target VCS, you can configure the
 discovery addon to find all translation components in the VCS. The matching is
-done using regular expresion so it can be quite powerful, but it can be complex
+done using regular expression so it can be quite powerful, but it can be complex
 to configure. You can use examples in the addon help for some common use cases.
 
 Once you hit save, you will be presented with a preview of matched components,
@@ -100,7 +100,24 @@ Statistics generator
 --------------------
 
 This addon generates a file containing detailed information about the
-translation.
+translation. You can use Django template in both filename and content, see
+:ref:`markup` for detailed markup description.
+
+For example generating summary file for each translations:
+
+Name of generated file
+   ``locale/{{ language_code }}.json``
+Content
+   .. code-block:: json
+
+      {
+         "language": "{{ language_code }}",
+         "strings": "{{ stats.all }}",
+         "translated": "{{ stats.translated }}",
+         "last_changed": "{{ stats.last_changed }}",
+         "last_author": "{{ stats.last_author }}",
+      }
+
 
 .. seealso::
 
@@ -164,6 +181,13 @@ Formats the Java properties file
 --------------------------------
 
 This addon sorts the Java properties file.
+
+
+Customizing list of addons
+++++++++++++++++++++++++++
+
+List of addons is configured by :setting:`WEBLATE_ADDONS`, to add another addon
+simply include class absolute name in this setting.
 
 
 Writing addon

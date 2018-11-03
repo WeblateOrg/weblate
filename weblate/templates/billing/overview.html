@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -8,9 +9,18 @@
 
 {% block content %}
 
-
 {% for billing in billings %}
 {% include "billing/detail.html" %}
+{% empty %}
+{% trans "You currently do not have any billings active." as msg %}
+{% show_message "info" msg %}
+
+{% if offer_hosting %}
+<a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+{% endif %}
 {% endfor %}
+{% if payment_enabled %}
+<a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+{% endif %}
 
 {% endblock %}

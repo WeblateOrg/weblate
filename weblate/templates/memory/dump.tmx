@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+<header adminlang="en" srclang="en">
+</header>
+<body>
+{% for item in data %}
+<tu>
+<tuv xml:lang="{{ item.source_language }}">
+<seg>{{ item.source }}</seg>
+</tuv>
+<tuv xml:lang="{{ item.target_language }}">
+<seg>{{ item.target }}</seg>
+</tuv>
+</tu>
+{% endfor %}
+</body>
+</tmx>

@@ -28,7 +28,7 @@ this.
 
    .. code-block:: sh
 
-        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
 2. Create a :file:`docker-compose.override.yml` file with your settings.
@@ -36,7 +36,7 @@ this.
 
    .. code-block:: yaml
 
-        version: '2'
+        version: '3'
         services:
           weblate:
             environment:
@@ -81,7 +81,7 @@ a :file:`docker-compose-https.override.yml` file with your settings:
 
 .. code-block:: yaml
 
-    version: '2'
+    version: '3'
     services:
       weblate:
         environment:
@@ -125,18 +125,8 @@ should be no need for additional manual actions.
 
     Upgrades across 3.0 are not supported by Weblate. If you are on 2.x series
     and want to upgrade to 3.x, first upgrade to latest 3.0.1-x (at time of
-    writing this it is ``3.0.1-6``) image which will do the migration and then
+    writing this it is ``3.0.1-7``) image which will do the migration and then
     continue in upgrading to newer versions.
-
-Maintenance tasks
-+++++++++++++++++
-
-The Docker container runs some cron jobs to perform maintenance tasks in
-background:
-
-* Update fulltext index by :djadmin:`update_index` (needed for :envvar:`WEBLATE_OFFLOAD_INDEXING`)
-* Cleanup stale objects by :djadmin:`cleanuptrans`
-* Commit pending changes by :djadmin:`commit_pending`
 
 .. _docker-environment:
 
@@ -253,21 +243,6 @@ Generic settings
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures time zone used.
-
-.. envvar:: WEBLATE_OFFLOAD_INDEXING
-
-    Configures offloaded indexing, defaults to enabled.
-
-    **Example:**
-
-    .. code-block:: yaml
-
-        environment:
-          - WEBLATE_OFFLOAD_INDEXING=1
-
-    .. seealso::
-
-        :ref:`production-indexing`
 
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
@@ -531,7 +506,9 @@ Error reporting
 ~~~~~~~~~~~~~~~
 
 It is recommended to collect errors from the installation in systematic way,
-see :ref:`collecting-errors`. To enable support for Rollbar, set following:
+see :ref:`collecting-errors`. 
+
+To enable support for Rollbar, set following:
 
 .. envvar:: ROLLBAR_KEY
 
@@ -540,6 +517,20 @@ see :ref:`collecting-errors`. To enable support for Rollbar, set following:
 .. envvar:: ROLLBAR_ENVIRONMENT
 
     Your Rollbar environment, defaults to ``production``.
+
+To enable support for Sentry, set following:
+
+.. envvar:: SENTRY_DSN 
+
+    Your Sentry DSN.
+
+.. envvar:: SENTRY_PUBLIC_DSN 
+
+    Your Sentry public DSN.
+
+.. envvar:: SENTRY_ENVIRONMENT
+
+    Your Sentry environment, defaults to ``production``.
 
 Further configuration customization
 +++++++++++++++++++++++++++++++++++
@@ -581,9 +572,7 @@ Running Weblate on OpenShift 2
 
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
-Online (https://www.openshift.com/), OpenShift Enterprise
-(https://enterprise.openshift.com/) and OpenShift Origin
-(https://www.openshift.org/).
+variants (see https://www.openshift.com/ and https://www.okd.io/).
 
 Prerequisites
 +++++++++++++
@@ -600,7 +589,7 @@ Prerequisites
 
    In order to follow the examples given in this documentation you need to have
    the OpenShift Client Tools (RHC) installed:
-   https://developers.openshift.com/en/managing-client-tools.html
+   https://docs.openshift.com/online/cli_reference/get_started_cli.html
 
    While there are other possibilities to create and configure OpenShift
    applications, this documentation is based on the OpenShift Client Tools
@@ -650,7 +639,6 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * SQLite embedded database (:setting:`DATABASES`)
 * Random admin password
 * Random Django secret key (:setting:`SECRET_KEY`)
-* Indexing offloading if the cron cartridge is installed (:setting:`OFFLOAD_INDEXING`)
 * Committing of pending changes if the cron cartridge is installed (:djadmin:`commit_pending`)
 * Weblate machine translations for suggestions bases on previous translations (:setting:`MT_SERVICES`)
 * Weblate directories (STATIC_ROOT, :setting:`DATA_DIR`, :setting:`TTF_PATH`, Avatar cache) set according to OpenShift requirements/conventions

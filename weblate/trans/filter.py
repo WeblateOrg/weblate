@@ -34,7 +34,7 @@ def get_filter_choice(include_source=False):
         ('translated', _('Translated strings')),
         ('fuzzy', _('Strings marked for edit')),
         ('suggestions', _('Strings with suggestions')),
-        ('nosuggestions', _('Strings without suggestions')),
+        ('nosuggestions', _('Strings needing action without suggestions')),
         ('comments', _('Strings with comments')),
         ('allchecks', _('Strings with any failing checks')),
         ('approved', _('Approved strings')),

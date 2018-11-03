@@ -87,7 +87,7 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'yaml', 'PyYAML', 'http://pyyaml.org/wiki/PyYAML'
+        result, 'yaml', 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
     )
 
     get_optional_module(
@@ -159,6 +159,20 @@ def get_versions():
     ))
 
     result.append(get_single(
+        'Celery',
+        'http://www.celeryproject.org/',
+        'celery',
+        '4.0',
+    ))
+
+    result.append(get_single(
+        'celery-batches',
+        'https://pypi.org/project/celery-batches/',
+        'celery_batches',
+        '0.2',
+    ))
+
+    result.append(get_single(
         'six',
         'https://pypi.org/project/six/',
         'six',
@@ -169,14 +183,14 @@ def get_versions():
         'social-auth-core',
         'https://python-social-auth.readthedocs.io/',
         'social_core',
-        '1.3.0',
+        '2.0.0',
     ))
 
     result.append(get_single(
         'social-auth-app-django',
         'https://python-social-auth.readthedocs.io/',
         'social_django',
-        '1.2.0',
+        '3.0.0',
     ))
 
     result.append(get_single(
@@ -188,9 +202,9 @@ def get_versions():
 
     result.append(get_single(
         'translate-toolkit',
-        'http://toolkit.translatehouse.org/',
+        'https://toolkit.translatehouse.org/',
         'translate',
-        '2.3.0',
+        '2.3.1',
     ))
 
     result.append(get_single(
@@ -233,7 +247,7 @@ def get_versions():
 
     result.append(get_single(
         'lxml',
-        'http://lxml.de/',
+        'https://lxml.de/',
         'lxml.etree',
         '3.1.0',
     ))
@@ -254,7 +268,7 @@ def get_versions():
 
     result.append(get_single(
         'djangorestframework',
-        'http://www.django-rest-framework.org/',
+        'https://www.django-rest-framework.org/',
         'rest_framework',
         '3.8',
     ))

@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.conf.urls import include, url
 from django.conf import settings
 from django.views.decorators.cache import cache_page
@@ -36,12 +38,16 @@ import weblate.accounts.views
 import weblate.addons.views
 import weblate.checks.views
 import weblate.lang.views
+import weblate.memory.views
 import weblate.screenshots.views
+import weblate.trans.views.about
 import weblate.trans.views.acl
 import weblate.trans.views.agreement
 import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
+import weblate.trans.views.create
+import weblate.trans.views.dashboard
 import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.files
@@ -90,10 +96,10 @@ handler404 = weblate.trans.views.basic.not_found
 
 handler500 = weblate.trans.views.basic.server_error
 
-urlpatterns = [
+real_patterns = [
     url(
         r'^$',
-        weblate.trans.views.basic.home,
+        weblate.trans.views.dashboard.home,
         name='home',
     ),
     url(
@@ -310,6 +316,16 @@ urlpatterns = [
         name='settings',
     ),
     url(
+        r'^create/project/$',
+        weblate.trans.views.create.CreateProject.as_view(),
+        name='create-project',
+    ),
+    url(
+        r'^create/component/$',
+        weblate.trans.views.create.CreateComponent.as_view(),
+        name='create-component',
+    ),
+    url(
         r'^contributor-agreement/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.agreement.agreement_confirm,
         name='contributor-agreement',
@@ -484,6 +500,23 @@ urlpatterns = [
         name='reset_translation',
     ),
 
+    # VCS manipulation - cleanup
+    url(
+        r'^cleanup/' + PROJECT + '$',
+        weblate.trans.views.git.cleanup_project,
+        name='cleanup_project',
+    ),
+    url(
+        r'^cleanup/' + COMPONENT + '$',
+        weblate.trans.views.git.cleanup_component,
+        name='cleanup_component',
+    ),
+    url(
+        r'^cleanup/' + TRANSLATION + '$',
+        weblate.trans.views.git.cleanup_translation,
+        name='cleanup_translation',
+    ),
+
     # VCS manipulation - remove
     url(
         r'^remove/' + TRANSLATION + '$',
@@ -555,6 +588,53 @@ urlpatterns = [
         name='screenshot-js-add',
     ),
 
+    # Translation memory
+    url(
+        r'^memory/$',
+        weblate.memory.views.MemoryView.as_view(),
+        name='memory',
+    ),
+    url(
+        r'^memory/delete/$',
+        weblate.memory.views.DeleteView.as_view(),
+        name='memory-delete',
+    ),
+    url(
+        r'^memory/upload/$',
+        weblate.memory.views.UploadView.as_view(),
+        name='memory-upload',
+    ),
+    url(
+        r'^memory/download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + '$',
+        weblate.memory.views.MemoryView.as_view(),
+        name='memory',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'delete/$',
+        weblate.memory.views.DeleteView.as_view(),
+        name='memory-delete',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'upload/$',
+        weblate.memory.views.UploadView.as_view(),
+        name='memory-upload',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'import/$',
+        weblate.memory.views.ImportView.as_view(),
+        name='memory-import',
+    ),
+
     # Languages browsing
     url(
         r'^languages/$',
@@ -618,19 +698,9 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
-        r'^hooks/github/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'github'},
-        name='hook-github',
-    ),
-    url(
-        r'^hooks/gitlab/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'gitlab'},
-        name='hook-gitlab',
-    ),
-    url(
-        r'^hooks/bitbucket/$', weblate.trans.views.api.vcs_service_hook,
-        {'service': 'bitbucket'},
-        name='hook-bitbucket',
+        r'^hooks/(?P<service>github|gitlab|bitbucket|pagure)/$',
+        weblate.trans.views.api.vcs_service_hook,
+        name='webhook',
     ),
 
     # Stats exports
@@ -763,7 +833,7 @@ urlpatterns = [
         name='js-mt-services',
     ),
     url(
-        r'^js/translate/(?P<unit_id>[0-9]+)/$',
+        r'^js/translate/(?P<service>[^/]+)/(?P<unit_id>[0-9]+)/$',
         weblate.trans.views.js.translate,
         name='js-translate',
     ),
@@ -827,9 +897,21 @@ urlpatterns = [
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
     url(r'^hosting/', weblate.accounts.views.hosting, name='hosting'),
-    url(r'^about/$', weblate.trans.views.basic.about, name='about'),
-    url(r'^keys/$', weblate.trans.views.basic.keys, name='keys'),
-    url(r'^stats/$', weblate.trans.views.basic.stats, name='stats'),
+    url(
+        r'^about/$',
+        weblate.trans.views.about.AboutView.as_view(),
+        name='about'
+    ),
+    url(
+        r'^keys/$',
+        weblate.trans.views.about.KeysView.as_view(),
+        name='keys'
+    ),
+    url(
+        r'^stats/$',
+        weblate.trans.views.about.StatsView.as_view(),
+        name='stats'
+    ),
 
     # User pages
     url(
@@ -1004,10 +1086,10 @@ urlpatterns = [
     ),
 ]
 
-if 'weblate.billing' in settings.INSTALLED_APPS:
+if 'weblate.billing' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
     # pylint: disable=wrong-import-position
     import weblate.billing.views
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^invoice/(?P<pk>[0-9]+)/download/$',
             weblate.billing.views.download_invoice,
@@ -1023,7 +1105,7 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
 if 'weblate.gitexport' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.gitexport.views
-    urlpatterns += [
+    real_patterns += [
         # Redirect clone from the Weblate project URL
         url(
             r'^projects/' + COMPONENT_SCOPED_BY_PROJECT +
@@ -1062,7 +1144,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
 if 'weblate.legal' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.legal.views
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^legal/',
             include(('weblate.legal.urls', 'weblate.legal'), namespace='legal')
@@ -1070,7 +1152,7 @@ if 'weblate.legal' in settings.INSTALLED_APPS:
     ]
 
 if settings.DEBUG:
-    urlpatterns += [
+    real_patterns += [
         url(
             r'^media/(?P<path>.*)$',
             django.views.static.serve,
@@ -1081,6 +1163,28 @@ if settings.DEBUG:
 if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import debug_toolbar
-    urlpatterns += [
+    real_patterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
+
+if 'wlhosted' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
+    # pylint: disable=wrong-import-position
+    from wlhosted.integrations.views import CreateBillingView
+    real_patterns += [
+        url(
+            r'^create/billing/$',
+            CreateBillingView.as_view(),
+            name='create-billing',
+        ),
+    ]
+
+
+def get_url_prefix():
+    if not settings.URL_PREFIX:
+        return ''
+    return re.escape(settings.URL_PREFIX.strip('/')) + '/'
+
+
+urlpatterns = [
+    url(get_url_prefix(), include(real_patterns))
+]

@@ -18,8 +18,4 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.utils.template_hacks import monkey_patch_translate
-
 default_app_config = 'weblate.utils.apps.UtilsConfig'
-
-monkey_patch_translate()

@@ -1,16 +1,24 @@
 {% load i18n %}
 
 <div class="legend">
+<div class="legend-item">
 {% with approved=100 %}
-{% include "progress.html" %} - {% trans "Approved" %}
+{% include "progress.html" %} {% trans "Approved" %}
 {% endwith %}
+</div>
+<div class="legend-item">
 {% with good=100 %}
-{% include "progress.html" %} - {% trans "Good" %}
+{% include "progress.html" %} {% trans "Good" %}
 {% endwith %}
+</div>
+<div class="legend-item">
 {% with checks=100 %}
-{% include "progress.html" %} - {% trans "Failing checks" %}
+{% include "progress.html" %} {% trans "Failing checks" %}
 {% endwith %}
+</div>
+<div class="legend-item">
 {% with fuzzy=100 %}
-{% include "progress.html" %} - {% trans "Needs editing" %}
+{% include "progress.html" %} {% trans "Needs editing" %}
 {% endwith %}
+</div>
 </div>

@@ -18,9 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
+
+from django.core.cache import cache
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from weblate.trans.models import Change
+from weblate.utils.decorators import disable_for_loaddata
 
 
 class WeblateConf(AppConf):
@@ -35,5 +42,38 @@ class WeblateConf(AppConf):
     RATELIMIT_SEARCH_WINDOW = 60
     RATELIMIT_SEARCH_LOCKOUT = 60
 
+    RATELIMIT_TRANSLATE_ATTEMPTS = 12
+    RATELIMIT_TRANSLATE_WINDOW = 60
+
     class Meta(object):
         prefix = ''
+
+
+class CeleryConf(AppConf):
+    """Defaults for Celery settings."""
+    TASK_ALWAYS_EAGER = True
+    BROKER_URL = 'memory://'
+
+    IMPORTS = [
+        'weblate.accounts.notifications',
+        'weblate.trans.discovery',
+        'weblate.trans.models',
+        'weblate.trans.search',
+    ]
+
+    class Meta(object):
+        prefix = 'CELERY'
+
+
+@receiver(post_save, sender=Change)
+@disable_for_loaddata
+def update_source(sender, instance, created, **kwargs):
+    if (not created or
+            instance.action not in Change.ACTIONS_CONTENT or
+            instance.translation is None):
+        return
+    cache.set(
+        'last-content-change-{}'.format(instance.translation.pk),
+        instance.pk,
+        180 * 86400
+    )

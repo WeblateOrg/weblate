@@ -1,0 +1,30 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+{% if limit %}
+<p>Following billings are over limit:</p>
+
+<ul>
+{% for bill in limit %}
+<li>{{ bill }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if due %}
+<p>Following billings are past due date:</p>
+
+<ul>
+{% for bill in due %}
+<li>{{ bill }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

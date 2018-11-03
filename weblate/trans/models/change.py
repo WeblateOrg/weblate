@@ -116,15 +116,6 @@ class ChangeQuerySet(models.QuerySet):
             'component__project'
         )
 
-    def for_project(self, project):
-        return self.prefetch().filter(project=project)
-
-    def for_component(self, component):
-        return self.prefetch().filter(component=component)
-
-    def for_translation(self, translation):
-        return self.prefetch().filter(translation=translation)
-
     def last_changes(self, user):
         """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.
@@ -194,6 +185,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ACCESS_EDIT = 33
     ACTION_ADD_USER = 34
     ACTION_REMOVE_USER = 35
+    ACTION_APPROVE = 36
+    ACTION_MARKED_EDIT = 37
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -235,6 +228,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_ACCESS_EDIT, ugettext_lazy('Changed visibility')),
         (ACTION_ADD_USER, ugettext_lazy('Added user')),
         (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),
+        (ACTION_APPROVE, ugettext_lazy('Translation approved')),
+        (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
     )
 
     ACTIONS_COMPONENT = frozenset((
@@ -269,6 +264,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REPLACE,
         ACTION_NEW_UNIT,
         ACTION_MASS_STATE,
+        ACTION_APPROVE,
+        ACTION_MARKED_EDIT,
     ))
 
     ACTIONS_REPOSITORY = frozenset((
@@ -409,7 +406,6 @@ class Change(models.Model, UserDisplayMixin):
             self.translation = self.unit.translation
         if self.translation:
             self.component = self.translation.component
-            self.translation.invalidate_last_change()
         if self.component:
             self.project = self.component.project
         if self.dictionary:

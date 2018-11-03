@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
+<li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'about/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for u in top_translations %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.translated }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active suggesters" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Suggested" %}</th>
+</tr>
+<tbody>
+{% for u in top_suggestions %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.suggested }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active screenshot uploaders" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Screenshots uploaded" %}</th>
+</tr>
+<tbody>
+{% for u in top_uploads %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.uploaded }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
+
+<table class="table">
+<tr>
+<th>{% trans "Source strings" %}</th>
+<td>{{ total_strings }}</td>
+</tr>
+<tr>
+<th>{% trans "Translatable strings" %}</th>
+<td>{{ total_units }}</td>
+</tr>
+<tr>
+<th>{% trans "Translatable words" %}</th>
+<td>{{ total_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Used languages" %}</th>
+<td>{{ total_languages }}</td>
+</tr>
+<tr>
+<th>{% trans "Registered users" %}</th>
+<td>{{ total_users }}</td>
+</tr>
+<tr>
+<th>{% trans "Suggestions made" %}</th>
+<td>{{ total_suggestions }}</td>
+</tr>
+<tr>
+<th>{% trans "Translations made" %}</th>
+<td>{{ total_translations }}</td>
+</tr>
+<tr>
+<th>{% trans "Failing checks found" %}</th>
+<td>{{ total_checks }}</td>
+</tr>
+<tr>
+<th>{% trans "Ignored checks" %}</th>
+<td>{{ ignored_checks }}</td>
+</tr>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -17,17 +17,21 @@ Weblate
     :alt: Codecov Coverage Status
     :target: https://codecov.io/gh/WeblateOrg/weblate
 
-.. image:: https://landscape.io/github/WeblateOrg/weblate/master/landscape.png
-    :alt: Code Health
-    :target: https://landscape.io/github/WeblateOrg/weblate/master
-
 .. image:: https://api.codacy.com/project/badge/Grade/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
     :target: https://www.codacy.com/app/Weblate/weblate
 
+.. image:: https://api.codeclimate.com/v1/badges/eeaa886372cf697f96c0/maintainability
+    :target: https://codeclimate.com/github/WeblateOrg/weblate/maintainability
+    :alt: Maintainability
+
 .. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
+
+.. image:: https://img.shields.io/liberapay/receives/Weblate.svg?logo=liberapay
+    :alt: Liberapay
+    :target: https://liberapay.com/Weblate/
 
 .. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
     :alt: CII Best Practices

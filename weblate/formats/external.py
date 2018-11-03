@@ -39,6 +39,10 @@ from openpyxl import Workbook, load_workbook
 from weblate.formats.helpers import StringIOMode
 from weblate.formats.ttkit import CSVFormat
 
+# use the same relugar expression as in openpyxl.cell
+# to remove illegal characters
+ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+
 
 class XlsxFormat(CSVFormat):
     name = _('Excel Open XML')
@@ -59,10 +63,6 @@ class XlsxFormat(CSVFormat):
                 value=field,
             )
 
-        # use the same relugar expression as in openpyxl.cell
-        # to remove illegal characters
-        illegal_characters_re = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
-
         for row, unit in enumerate(self.store.units):
             data = unit.todict()
 
@@ -71,7 +71,7 @@ class XlsxFormat(CSVFormat):
                     column=1 + column,
                     row=2 + row,
                 ).set_explicit_value(
-                    illegal_characters_re.sub('', data[field]),
+                    ILLEGAL_CHARACTERS_RE.sub('', data[field]),
                     data_type="s"
                 )
         workbook.save(handle)
@@ -86,7 +86,8 @@ class XlsxFormat(CSVFormat):
     @classmethod
     def parse_store(cls, storefile):
         # try to load the given file via openpyxl
-        # catch at least the BadZipFile exception if an unsupported file has been given
+        # catch at least the BadZipFile exception if an unsupported
+        # file has been given
         try:
             workbook = load_workbook(filename=storefile)
             worksheet = workbook.active

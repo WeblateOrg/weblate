@@ -23,16 +23,21 @@
 <ul>
 <li><a href="{% url 'legal:terms' %}">{% trans "Terms of Service" %}</a></li>
 <li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
-<ul>
+</ul>
 
 <p>
-{% blocktrans %}We use cookies for following:{% endblocktrans %}
+{% blocktrans %}Cookies are used on this site for the following:{% endblocktrans %}
 </p>
 
 <ul>
 <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
 <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
-<li>{% trans "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track settings in your browser." %}</li>
+{% if piwik_site_id and piwik_url %}
+<li>{% trans "This site uses Matomo to analyze website traffic. It honours &quot;Do Not Track&quot; settings in your browser." %}</li>
+{% endif %}
+{% if google_analytics_id %}
+<li>{% trans "This site uses Google Analytics to analyze website traffic." %}</li>
+{% endif %}
 </ul>
 
 </div>

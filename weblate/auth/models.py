@@ -312,6 +312,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         _('Email'),
         blank=False,
+        null=True,
         max_length=190,
         unique=True,
         validators=[validate_email],
@@ -399,6 +400,8 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data['first_name']
         elif 'last_name' in self.extra_data:
             self.full_name = self.extra_data['last_name']
+        if not self.email:
+            self.email = None
         super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, module):
@@ -415,8 +418,12 @@ class User(AbstractBaseUser):
         """Permission check"""
         # Compatibility API for admin interface
         if obj is None:
-            # Superuser has all permissions
-            return self.is_superuser
+            if not self.is_superuser:
+                return False
+
+            # Check permissions restrictions
+            allowed = settings.AUTH_RESTRICT_ADMINS.get(self.username)
+            return allowed is None or perm in allowed
 
         # Validate perms, this is expensive to perform, so this only in test by
         # default
@@ -511,7 +518,7 @@ def create_groups(update):
 
     # Create permissions and roles
     migrate_permissions(Permission)
-    migrate_roles(Role, Permission)
+    new_roles = migrate_roles(Role, Permission)
     migrate_groups(Group, Role, update)
 
     # Create anonymous user
@@ -524,6 +531,11 @@ def create_groups(update):
     group = Group.objects.get(name='Viewers')
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match='^.*$')
+
+    # Create new per project groups
+    if new_roles:
+        for project in Project.objects.iterator():
+            project.save()
 
 
 @receiver(post_migrate)
@@ -542,7 +554,7 @@ def auto_assign_group(user):
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.all():
-        if re.match(auto.match, user.email):
+        if re.match(auto.match, user.email or ''):
             user.groups.add(auto.group)
 
 
@@ -636,17 +648,20 @@ def setup_project_groups(sender, instance, **kwargs):
                 group.save()
         except Group.DoesNotExist:
             # Create new group
-            group = Group.objects.create(
+            group, created = Group.objects.get_or_create(
                 internal=True,
                 name=name,
-                project_selection=SELECTION_MANUAL,
-                language_selection=SELECTION_ALL,
+                defaults={
+                    'project_selection': SELECTION_MANUAL,
+                    'language_selection': SELECTION_ALL,
+                }
             )
-            group.projects.add(instance)
-            group.roles.set(
-                Role.objects.filter(name=ACL_GROUPS[group_name]),
-                clear=True
-            )
+            if created:
+                group.projects.add(instance)
+                group.roles.set(
+                    Role.objects.filter(name=ACL_GROUPS[group_name]),
+                    clear=True
+                )
         handled.add(group.pk)
 
     # Remove stale groups
@@ -669,6 +684,7 @@ def cleanup_group_acl(sender, instance, **kwargs):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
     AUTH_VALIDATE_PERMS = False
+    AUTH_RESTRICT_ADMINS = {}
 
     class Meta(object):
         prefix = ''

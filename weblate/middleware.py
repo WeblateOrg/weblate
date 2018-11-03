@@ -28,8 +28,25 @@ from django.conf import settings
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
     "connect-src {3}; object-src 'none'; font-src {4};"
-    "child-src 'none'; frame-ancestors 'none';"
+    "frame-src 'none'; frame-ancestors 'none';"
 )
+
+
+class ProxyMiddleware(object):
+    """Middleware that sets Content-Security-Policy"""
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        proxy = None
+        if settings.IP_BEHIND_REVERSE_PROXY:
+            proxy = request.META.get(settings.IP_PROXY_HEADER)
+        if proxy:
+            # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
+            address = proxy.split(', ')[settings.IP_PROXY_OFFSET].strip()
+            request.META['REMOTE_ADDR'] = address
+
+        return self.get_response(request)
 
 
 class SecurityMiddleware(object):
@@ -56,6 +73,15 @@ class SecurityMiddleware(object):
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')
 
+        if (hasattr(settings, 'RAVEN_CONFIG') and
+                'public_dsn' in settings.RAVEN_CONFIG):
+            domain = urlparse(settings.RAVEN_CONFIG['public_dsn']).hostname
+            script.add(domain)
+            connect.add(domain)
+            script.add("'unsafe-inline'")
+            script.add('cdn.ravenjs.com')
+            image.add('data:')
+
         if settings.PIWIK_URL:
             script.add("'unsafe-inline'")
             script.add(settings.PIWIK_URL)
@@ -67,11 +93,11 @@ class SecurityMiddleware(object):
             image.add('www.google-analytics.com')
 
         if '://' in settings.MEDIA_URL:
-            domain = urlparse(settings.MEDIA_URL).netloc
+            domain = urlparse(settings.MEDIA_URL).hostname
             image.add(domain)
 
         if '://' in settings.STATIC_URL:
-            domain = urlparse(settings.STATIC_URL).netloc
+            domain = urlparse(settings.STATIC_URL).hostname
             script.add(domain)
             image.add(domain)
             style.add(domain)

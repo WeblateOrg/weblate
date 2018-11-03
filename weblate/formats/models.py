@@ -26,7 +26,11 @@ from appconf import AppConf
 
 from django.utils.functional import cached_property
 
-from weblate.trans.util import add_configuration_error
+import six
+
+from weblate.trans.util import (
+    add_configuration_error, delete_configuration_error,
+)
 from weblate.utils.classloader import ClassLoader
 
 
@@ -46,14 +50,15 @@ class FileFormatLoader(ClassLoader):
         result = super(FileFormatLoader, self).load_data()
 
         for fileformat in list(result.values()):
+            error_name = 'File format: {0}'.format(fileformat.format_id)
             try:
                 fileformat.get_class()
-            except (AttributeError, ImportError):
-                add_configuration_error(
-                    'File format: {0}'.format(fileformat.format_id),
-                    traceback.format_exc()
-                )
+                delete_configuration_error(error_name)
+            except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
+                if fileformat.format_id == 'rc' and six.PY3:
+                    continue
+                add_configuration_error(error_name, str(error))
 
         return result
 

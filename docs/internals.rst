@@ -17,7 +17,7 @@ Modules
 Weblate consists of several Django applications (some of them are optional, see
 :doc:`admin/optionals`):
 
-``accounts```
+``accounts``
 
     User account, profiles and notifications.
 
@@ -57,7 +57,7 @@ Weblate consists of several Django applications (some of them are optional, see
 
     The optional :ref:`legal` module.
 
-``machinery```
+``machinery``
 
     Machine translation services integration.
 
@@ -91,4 +91,4 @@ Weblate consists of several Django applications (some of them are optional, see
     
 
 .. _Django: https://www.djangoproject.com/
-.. _Django REST framework: http://www.django-rest-framework.org/
+.. _Django REST framework: https://www.django-rest-framework.org/

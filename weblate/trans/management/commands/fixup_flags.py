@@ -34,7 +34,7 @@ class Command(WeblateLangCommand):
                 unit.update_has_failing_check()
             if unit.fuzzy and unit.translated:
                 unit.translated = False
-                unit.save(backend=True, same_content=True)
+                unit.save(same_content=True)
 
         for translation in self.get_translations(**options):
             translation.invalidate_cache()

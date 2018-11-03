@@ -125,9 +125,17 @@ all separatey:
 Automatically receiving changes from GitHub
 +++++++++++++++++++++++++++++++++++++++++++
 
-Weblate comes with native support for GitHub. To receive notifications on every
-push to GitHub repository, you just need to add Weblate Webhook in the
-repository settings (:guilabel:`Webhooks`) as shown on the image below:
+Weblate comes with native support for GitHub.
+
+If you are using Hosted Weblate the recommended approach is to install `Hosted
+Weblate app <https://github.com/apps/hosted-weblate>`_, that way you will get
+correct setup without much configuring. In future it will be used for pushing
+changes back as well (that's why the write permission is requested), but it's
+not yet implemented.
+
+To receive notifications on every push to GitHub repository, you just need to
+add Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown
+on the image below:
 
 .. image:: ../images/github-settings.png
 
@@ -169,6 +177,24 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 .. seealso:: 
    
    :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
+
+.. _pagure-setup:
+
+Automatically receiving changes from Pagure
++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.3
+
+Weblate has support for Pagure hooks, all you need to do is add project web hook
+with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
+example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
+:guilabel:`Activate Web-hooks` under :guilabel:`Project options`:
+
+.. image:: ../images/pagure-webhook.png
+
+.. seealso:: 
+   
+   :http:post:`/hooks/pagure/`, :ref:`hosted-push`
 
 .. _push-changes:
 
@@ -250,7 +276,6 @@ fulfilled:
 * import of translation happens
 * mass state change is performed
 * search and replace is executed
-* translation for a language is completed
 * explicit commit is requested
 
 You can also additionally set a cron job to commit pending changes after some

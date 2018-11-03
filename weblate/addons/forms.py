@@ -32,7 +32,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
-from weblate.utils.validators import validate_render, validate_re
+from weblate.utils.render import validate_render
+from weblate.utils.validators import validate_re
 
 
 class BaseAddonForm(forms.Form):

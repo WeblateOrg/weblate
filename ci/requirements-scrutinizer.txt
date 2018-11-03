@@ -3,15 +3,14 @@
 # - without python_version modifiers
 # - without PyAML and tesserocr
 pyuca>=1.1
-Babel
 chardet
 python-memcached
 python-bidi>=0.4.0
 akismet>=1.0
-# Test
-httpretty!=0.8.11
-selenium
-coverage
 boto3
+zeep
+# Test
+-r ../requirements-test.txt
+coverage
 # Database backend
 psycopg2-binary

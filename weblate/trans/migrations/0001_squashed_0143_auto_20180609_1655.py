@@ -12,6 +12,7 @@ import weblate.trans.fields
 import weblate.trans.mixins
 import weblate.trans.validators
 import weblate.utils.fields
+import weblate.utils.render
 import weblate.utils.validators
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.formats.models import FILE_FORMATS
@@ -85,7 +86,7 @@ class Migration(migrations.Migration):
                 ('web', models.URLField(help_text='Main website of translated project.', verbose_name='Project website')),
                 ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list')),
                 ('instructions', models.URLField(blank=True, help_text='URL with instructions for translators.', verbose_name='Translation instructions')),
-                ('set_translation_team', models.BooleanField(default=True, help_text='Whether the "Translation-Team" field in file headers should be updated by Weblate.', verbose_name='Set "Translation-Team" header')),
+                ('set_translation_team', models.BooleanField(default=True, help_text='Lets Weblate update the \"Translation-Team\" file header of your project.', verbose_name='Set "Translation-Team" header')),
             ],
             options={
                 'ordering': ['name'],
@@ -127,7 +128,7 @@ class Migration(migrations.Migration):
                 ('enable_suggestions', models.BooleanField(default=True, help_text='Whether to allow translation suggestions at all.', verbose_name='Enable suggestions')),
                 ('suggestion_voting', models.BooleanField(default=False, help_text='Whether users can vote for suggestions.', verbose_name='Suggestion voting')),
                 ('suggestion_autoaccept', models.PositiveSmallIntegerField(default=0, help_text='Automatically accept suggestions with this number of votes, use 0 to disable.', validators=[weblate.trans.validators.validate_autoaccept], verbose_name='Autoaccept suggestions')),
-                ('check_flags', models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Quality checks flags')),
+                ('check_flags', models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Translation flags')),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Project', verbose_name='Project')),
             ],
             options={
@@ -280,7 +281,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AddField(
             model_name='component',
@@ -378,12 +379,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when adding translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='component',
@@ -444,7 +445,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='access_control',
-            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=200 if settings.DEFAULT_CUSTOM_ACL else 0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
+            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=settings.DEFAULT_ACCESS_CONTROL, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
         ),
         migrations.AddField(
             model_name='project',
@@ -471,7 +472,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='whiteboardmessage',
             name='message_html',
-            field=models.BooleanField(default=False, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
+            field=models.BooleanField(default=False, blank=True, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
         ),
         migrations.AddField(
             model_name='componentlist',

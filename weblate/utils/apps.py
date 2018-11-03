@@ -22,9 +22,14 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.core.checks import register
 
-from weblate.utils.checks import check_mail_connection
-from weblate.utils.data import check_data_writable
+from weblate.utils.checks import (
+    check_mail_connection, check_celery, check_database,
+    check_cache, check_settings, check_templates,
+    check_data_writable, check_site,
+)
+from weblate.utils.fonts import check_fonts
 from weblate.utils.requirements import check_requirements
+from weblate.utils.template_hacks import monkey_patch_translate
 
 
 class UtilsConfig(AppConfig):
@@ -33,7 +38,16 @@ class UtilsConfig(AppConfig):
     verbose_name = 'Utils'
 
     def ready(self):
+        super(UtilsConfig, self).ready()
         register(check_requirements)
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
-        super(UtilsConfig, self).ready()
+        register(check_fonts)
+        register(check_celery, deploy=True)
+        register(check_database, deploy=True)
+        register(check_cache, deploy=True)
+        register(check_settings, deploy=True)
+        register(check_templates, deploy=True)
+        register(check_site, deploy=True)
+
+        monkey_patch_translate()

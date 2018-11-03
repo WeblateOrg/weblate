@@ -32,7 +32,7 @@ from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
 
-from weblate.trans.fonts import is_base, get_font
+from weblate.utils.fonts import is_base, get_font
 from weblate.utils.site import get_site_url
 
 
@@ -131,7 +131,7 @@ class BitmapWidget(ContentWidget):
         super(BitmapWidget, self).__init__(obj, color, lang)
         # Get object and related params
         self.total = obj.stats.source_strings
-        self.languages = obj.get_language_count()
+        self.languages = obj.stats.languages
         self.params = self.get_text_params()
 
         # Set rendering variables

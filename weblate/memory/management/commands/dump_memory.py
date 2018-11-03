@@ -20,11 +20,10 @@
 
 from __future__ import unicode_literals
 
-import json
-
 from django.core.management.base import BaseCommand
 
 from weblate.memory.storage import TranslationMemory
+from weblate.memory.tasks import memory_backup
 
 
 class Command(BaseCommand):
@@ -42,14 +41,18 @@ class Command(BaseCommand):
                 'pretty-printing output.'
             ),
         )
+        parser.add_argument(
+            '--backup',
+            action='store_true',
+            help='Store backup to the backups directory in the DATA_DIR',
+        )
 
     def handle(self, *args, **options):
+        if options['backup']:
+            memory_backup(options['indent'])
+            return
         memory = TranslationMemory()
         memory.open_searcher()
         self.stdout.ending = None
-        json.dump(
-            list(memory.searcher.documents()),
-            self.stdout,
-            indent=options['indent'],
-        )
+        memory.dump(self.stdout, indent=options['indent'])
         self.stdout.write('\n')

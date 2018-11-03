@@ -23,26 +23,27 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-modules`.
 
 .. _custom-checks:
 
-Customizing checks
-------------------
+Customizing behavior
+--------------------
 
-Fine tuning existing checks
-+++++++++++++++++++++++++++
-
-You can fine tune checks for each source string (in source strings review, see
-:ref:`additional`) or in the :ref:`component` (:guilabel:`Quality checks
-flags`); here is a list of flags currently accepted:
+You can fine tune Weblate behavior (mostly checks) for each source string (in
+source strings review, see :ref:`additional`) or in the :ref:`component`
+(:guilabel:`Translation flags`); here is a list of flags currently accepted:
 
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
+``dos-eol``
+    Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``max-length:N``
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
-    :ref:`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-same`.
+    :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
+    :ref:`check-c-sharp-format`, :ref:`check-java-format`,
+    :ref:`check-java-messageformat`, :ref:`check-same`.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
 ``ignore-inconsistent``
@@ -97,7 +98,11 @@ flags`); here is a list of flags currently accepted:
     Skip the "Trailing stop" quality check.
 ``ignore-angularjs-format``
     Skip the "AngularJS interpolation string" quality check.
-
+``ignore-c-sharp-format``
+    Skip the "C# format" quality check.
+``ignore-java-format``
+    Skip the "Java format" quality check.
+    
 .. note::
 
     Generally the rule is named ``ignore-*`` for any check, using its
@@ -107,7 +112,7 @@ These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
 
 Writing own checks
-++++++++++++++++++
+------------------
 
 Weblate comes with wide range of quality checks (see :ref:`checks`), though
 they might not 100% cover all you want to check. The list of performed checks

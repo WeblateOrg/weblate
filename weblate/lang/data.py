@@ -36,6 +36,7 @@ NO_CODE_LANGUAGES = frozenset((
     'en_US', 'en_CA', 'en_AU', 'en_IE', 'en_PH',
     'pt_BR', 'pt_PT',
     'es_AR', 'es_MX', 'es_PR', 'es_US',
+    'ro_MD',
 ))
 
 # List of defaul languages - the ones, where using
@@ -49,6 +50,7 @@ DEFAULT_LANGS = (
     'az_az',
     'be_by',
     'bg_bg',
+    'bo_bt',
     'br_fr',
     'bs_ba',
     'ca_es',
@@ -377,84 +379,4 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Many'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
-}
-
-# Aliases to map locales to consistent coding
-# The source has to be lowercase with _ as separators
-LOCALE_ALIASES = {
-    # Windows
-    'arabic': 'ar',
-    'braz_por': 'pt_BR',
-    'chinese_chs': 'zh_Hans',
-    'schinese': 'zh_Hans',
-    'chinese_zh': 'zh_Hant',
-    'tchinese': 'zh_Hant',
-    'korean': 'ko',
-    'dutch_be': 'nl_BE',
-    'english': 'en',
-    'english-uk': 'en_GB',
-    'portuguese_br': 'pt_BR',
-    'portuguese_portugal': 'pt_PT',
-    'russian': 'ru',
-    'serbo-croatian': 'sr_Latn',
-    'serbian': 'sr',
-    'indonesian': 'id',
-    'norwegian': 'nb_NO',
-    'spanish': 'es',
-    'german': 'de',
-    'french': 'fr',
-    'polish': 'pl',
-    # Android
-    'be-rby': 'be_Latn',
-    # Misc invalid codes
-    'val_es': 'ca@valencia',
-    'no_nb': 'nb_NO',
-    'es_eu': 'eu',
-    'ru_r': 'ru',
-    'ru_rr': 'ru',
-    'ar_ar': 'ar',
-    'jp': 'ja',
-    'ba_ck': 'ba',
-    'ca_ps': 'ca',
-    'by': 'be',
-    'ua': 'uk',
-    'en_en': 'en',
-    # Old locale iso codes
-    'in': 'id',  # Indonesian
-    'iw': 'he',  # Hebrew
-    'ji': 'yi',  # Yiddish
-    'jw': 'jv',  # Javanese
-    'mo': 'ro_MD',  # Moldovan
-    'scc': 'sr',  # Serbian
-    'scr': 'hr',  # Croatian
-    'sh': 'sr_Latn',  # Serbo-Croatian
-    'no': 'nb_NO',  # Norwegian
-    # Strip not needed country
-    'sr_latn_rs': 'sr_Latn',
-    'bs_latn_ba': 'bs_Latn',
-    # Prefer new variants
-    'nb': 'nb_NO',
-    'be@latin': 'be_Latn',
-    'sr@latin': 'sr_Latn',
-    'sr_rs@latin': 'sr_Latn',
-    'sr@cyrillic': 'sr_Cyrl',
-    'sr_rs@cyrillic': 'sr_Cyrl',
-    'uz@latin': 'uz_Latn',
-    'zh_cn': 'zh_Hans',
-    'zh_tw': 'zh_Hant',
-    'zh_hk': 'zh_Hant_HK',
-    'zh_cmn_hans': 'zh_Hans',
-    'zh_cmn_hant': 'zh_Hant',
-    # ios translations
-    'base': 'en',
-    # commonly used
-    'source': 'en',
-    # Country codes used instead of language,
-    # we can map only those which do not collide with existing language code
-    'dk': 'da',
-    'gr': 'el',
-    'rs': 'sr',
-    'jpn': 'ja',
-    'swe': 'sv',
-    'zho': 'zh_Hant',
 }

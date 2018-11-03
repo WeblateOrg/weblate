@@ -375,7 +375,7 @@ class EndSemicolonCheck(TargetCheck):
     severity = 'warning'
 
     def check_single(self, source, target, unit):
-        if self.is_language(unit, ('el', )) and source[-1] == '?':
+        if self.is_language(unit, ('el', )) and source and source[-1] == '?':
             # Complement to question mark check
             return False
         return self.check_chars(source, target, -1, [';'])

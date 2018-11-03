@@ -23,6 +23,7 @@
 import csv
 import json
 import re
+from textwrap import TextWrapper
 
 SPLIT_RE = re.compile(
     r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
@@ -49,26 +50,37 @@ HEADER = '''# -*- coding: utf-8 -*-
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-############################################################################
-# This is automatically generated file, see scripts/generate-language-data #
-############################################################################
+"""
+Language data definitions.
+
+This is an automatically generated file, see scripts/generate-language-data
+
+Do not edit, please adjust language definitions in following repository:
+https://github.com/WeblateOrg/language-data
+"""
 # pylint: disable=line-too-long,too-many-lines
 
 from __future__ import unicode_literals
 '''
 
-TEMPLATE = '''    (
-        '{}',
-        _('{}'),
-        {},
-        '{}',
-    ),
+TEMPLATE = '''    ('{}', _('{}'), {}, '{}'),
 '''
+
+WRAPPER = TextWrapper(
+    width=79,
+    initial_indent=' ' * 4,
+    subsequent_indent=' ' * 4,
+)
 
 # Read languages
 with open('scripts/language-data/languages.csv', 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=';')
     LANGUAGES = list(reader)
+
+# Read aliases
+with open("scripts/language-data/aliases.csv", "r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
+    ALIASES = [alias for alias in reader if alias[0] != "#"]
 
 # Read extra plurals
 with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
@@ -101,6 +113,11 @@ with open('weblate/langdata/languages.py', 'w') as output:
             row[3],
         ))
     output.write(')\n')
+    output.write('# Language aliases\n')
+    output.write('ALIASES = {\n')
+    for row in ALIASES:
+        output.write("    '{}': '{}',\n".format(*row))
+    output.write('}\n')
 
 # Generate same check blacklist
 words = set()
@@ -171,10 +188,10 @@ with open('weblate/checks/languages.py', 'w') as output:
     output.write('\n\n')
     output.write('# Language names to ignore in same check\n')
     output.write('LANGUAGES = frozenset((\n')
-    for word in sorted(words):
-        if len(word) <= 2:
-            continue
-        output.write('    \'{}\',\n'.format(
-            word.replace("'", "\\'")
-        ))
-    output.write('))\n')
+    content = ', '.join((
+        '\'{}\''.format(word.replace("'", "\\'"))
+        for word in sorted(words)
+        if len(word) > 2
+    ))
+    output.write('\n'.join(WRAPPER.wrap(content)))
+    output.write('\n))\n')

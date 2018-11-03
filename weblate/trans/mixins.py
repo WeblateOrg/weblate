@@ -66,6 +66,9 @@ class URLMixin(object):
     def get_reset_url(self):
         return self.reverse_url('reset')
 
+    def get_cleanup_url(self):
+        return self.reverse_url('cleanup')
+
     def get_lock_url(self):
         return self.reverse_url('lock')
 

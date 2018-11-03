@@ -38,10 +38,6 @@ from weblate.utils.ratelimit import reset_rate_limit
 
 from weblate.trans.tests.test_views import RegistrationTestMixin
 
-# Workaround for httpretty breakage with pyopenssl
-# pylint: disable=unused-import
-import weblate.trans.tests.mypretty  # noqa
-
 REGISTRATION_DATA = {
     'username': 'username',
     'email': 'noreply-weblate@example.org',
@@ -687,15 +683,14 @@ class RegistrationTest(BaseRegistrationTest):
             response = self.client.get(
                 reverse('social:complete', args=('github',)),
                 {
-                    'state': query['state'][0],
-                    'redirect_state': return_query['redirect_state'][0],
+                    'state': query['state'][0] or return_query['state'][0],
                     'code': 'XXX'
                 },
                 follow=True
             )
             if fail:
                 self.assertContains(
-                    response, 'are already associated with another account'
+                    response, 'is already associated with another account'
                 )
                 return
             if confirm:
