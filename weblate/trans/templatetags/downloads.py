@@ -19,7 +19,7 @@ def download_translation_url(context):
     if context.get('language') != None:
         query_params.append("lang={{language.code}}")
 
-    if query_params.__sizeof__ > 0:
+    if query_params.__sizeof__() > 0:
         template += '?'
         template += "&".join(query_params)
 

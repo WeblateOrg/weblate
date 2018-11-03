@@ -33,7 +33,7 @@ from weblate.utils.views import (
 )
 from weblate.trans.models import Project
 
-
+from weblate.trans.views.helper import download_translation_files
 
 def download_translation(request, project, component=None):
     projectRecord = Project.objects.get(slug=project)

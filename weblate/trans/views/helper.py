@@ -21,7 +21,7 @@
 import shutil
 import tempfile
 import zipfile
-import StringIO
+from io import BytesIO
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -189,10 +189,11 @@ def translation_filename(translation):
     )
 
 def download_translation_files(translations, fmt=None, form_cleaned_data=None):
+    dirname = 0
     try:
-        s = StringIO.StringIO()
-
         dirname = tempfile.mkdtemp()
+        s = BytesIO()
+
         with zipfile.ZipFile(s, 'w') as translationsZip:
             for translation in translations:
                 translationFile = get_translation_file(translation, fmt, form_cleaned_data, dirname)

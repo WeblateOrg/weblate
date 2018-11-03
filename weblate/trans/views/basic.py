@@ -49,7 +49,6 @@ from weblate.utils.views import (
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
-<<<<<<< HEAD
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
@@ -364,7 +363,7 @@ def show_project(request, project):
             'search_form': SearchForm(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
-            'exporters': list_exporters()
+            'exporters': list_exporters(),
             'components': components,
             'licenses': ', '.join(
                 sorted(set([x.license for x in all_components if x.license]))
