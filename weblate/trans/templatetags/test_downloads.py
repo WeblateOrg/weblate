@@ -9,7 +9,18 @@ class RenderContextMock():
 class Context():
     render_context = RenderContextMock()
     def get(self, what):
-        return {'name': 'test', 'slug': 'test'}
+        if what == 'project':
+            return {'name': 'test', 'slug': 'test'}
+        elif what == 'exporter':
+            return {'name': 'test'}
+
+class ContextWithComponent(Context):
+    render_context = RenderContextMock()
+    def get(self, what):
+        if what == 'component':
+            return { 'slug': 'ctest' }
+
+        return Context.get(self, what)
 
 class ContextNoExport():
     def get(self, what):
@@ -31,5 +42,10 @@ class DownloadTest(TestCase):
     def test_url(self):
         context = Context();
         self.assertEqual("/download/test/", translation_download_url(context))
+
+    def test_url_with_component(self):
+        context = ContextWithComponent();
+        self.assertEqual("/download/test/ctest/", translation_download_url(context))
+
 
 

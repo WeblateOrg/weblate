@@ -8,13 +8,15 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def translation_download_url(context):
     project = context.get('project')
-    url = reverse('download_translation', kwargs={'project': project['slug']}) 
 
+    kwargs = {}
+    kwargs['project'] = project['slug']
+    component = context.get('component')
+    if component != None:
+        kwargs['component'] = component['slug']
+        
+    url = reverse('download_translation', kwargs=kwargs) 
 
-    #if context.get('component') != None:
-    #    template += "component=component.slug"
-    #    
-    #template += "%}"
 
     #query_params = []
     #if context.get('exporter') != None:
@@ -27,7 +29,6 @@ def translation_download_url(context):
     #    template += '?'
     #    template += "&".join(query_params)
 
-    #return Template(template).render(context)
     return url;
 
 @register.simple_tag(takes_context=True)
