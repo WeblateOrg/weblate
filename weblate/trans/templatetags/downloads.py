@@ -28,19 +28,13 @@ def translation_download_url(context):
 
 @register.simple_tag(takes_context=True)
 def translation_download_link(context, todo=False):
-    #before_link_text = '''
-    #    {% load downloads %}
-    #    {% load i18n %}
+    translation_download_url_variable = translation_download_url(context)
+    title_tag = _('title="Download for an offline translation."')
+    opening_tag = f'<a {title_tag} href="{translation_download_url_variable}">'
 
-    #    <a href="{% translation_download_url  %}" 
-    #    title="{% trans "Download for an offline translation." %}">
-    #'''
-
-    #closing_tag = "</a>"
-    #
-    #template = before_link_text + link_text(context) + closing_tag
-    #return Template(template).render(context)
-    return "testLink"
+    closing_tag = "</a>"
+    
+    return opening_tag + link_text(context) + closing_tag
 
 
 def link_text(context):
