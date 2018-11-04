@@ -9,7 +9,7 @@ class RenderContextMock():
 class Context():
     render_context = RenderContextMock()
     def get(self, what):
-        return {'name': 'test'}
+        return {'name': 'test', 'slug': 'test'}
 
 class ContextNoExport():
     def get(self, what):
@@ -26,10 +26,10 @@ class DownloadTest(TestCase):
 
     def test_link(self):
         context = Context();
-        self.assertEqual('<a title="Download for an offline translation." href="testUrl">test</a>', translation_download_link(context))
+        self.assertEqual('<a title="Download for an offline translation." href="/download/test/">test</a>', translation_download_link(context))
 
     def test_url(self):
         context = Context();
-        self.assertEqual("testUrl", translation_download_url(context))
+        self.assertEqual("/download/test/", translation_download_url(context))
 
 

@@ -1,12 +1,16 @@
 from django import template
 from django.template import Template
 from django.utils.translation import gettext as _
+from django.urls import reverse
 
 register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def translation_download_url(context):
-    #template = "{% url 'download_translation' project=project.slug "
+    project = context.get('project')
+    url = reverse('download_translation', kwargs={'project': project['slug']}) 
+
+
     #if context.get('component') != None:
     #    template += "component=component.slug"
     #    
@@ -24,7 +28,7 @@ def translation_download_url(context):
     #    template += "&".join(query_params)
 
     #return Template(template).render(context)
-    return "testUrl"
+    return url;
 
 @register.simple_tag(takes_context=True)
 def translation_download_link(context, todo=False):
