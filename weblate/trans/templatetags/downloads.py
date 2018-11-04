@@ -17,17 +17,18 @@ def translation_download_url(context):
         
     url = reverse('download_translation', kwargs=kwargs) 
 
+    query_params = []
+    exporter = context.get('exporter')
+    if exporter != None:
+        query_params.append(f'format={exporter["name"]}')
+        
+    language = context.get('language')
+    if language != None:
+        query_params.append(f'lang={language["code"]}')
 
-    #query_params = []
-    #if context.get('exporter') != None:
-    #    query_params.append("format={{exporter.name}}")
-    #    
-    #if context.get('language') != None:
-    #    query_params.append("lang={{language.code}}")
-
-    #if query_params.__sizeof__() > 0:
-    #    template += '?'
-    #    template += "&".join(query_params)
+    if len(query_params) > 0:
+        url += '?'
+        url += "&".join(query_params)
 
     return url;
 
