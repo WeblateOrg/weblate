@@ -468,7 +468,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def git_commit(self, request, author, timestamp, skip_push=False,
                    force_new=False):
-        """Wrapper for commiting translation to git."""
+        """Wrapper for committing translation to git."""
         repository = self.component.repository
         with repository.lock:
             # Is there something for commit?
@@ -477,7 +477,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Do actual commit with git lock
             self.log_info(
-                'commiting %s as %s',
+                'committing %s as %s',
                 self.filename,
                 author
             )

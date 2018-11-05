@@ -11,7 +11,7 @@ Git exporter
 
 .. versionadded:: 2.10
 
-The Git exporter provides you read only access to the underlaying Git repository
+The Git exporter provides you read only access to the underlying Git repository
 using HTTP.
 
 Installation
@@ -183,8 +183,8 @@ Weblate currently supports single backend:
 
 * `Gravatar <https://gravatar.com/>`_
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-cache-avatar`,
    :setting:`AVATAR_URL_PREFIX`,
    :setting:`ENABLE_AVATARS`

@@ -39,7 +39,7 @@ Python dependencies
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
 2.7, 3.4 or newer. The following dependencies can be installed using pip or your
 distribution packages:
-    
+
 Django (>= 1.11)
     https://www.djangoproject.com/
 Celery (>= 4.0)
@@ -206,22 +206,22 @@ system Python libraries.
         . /tmp/weblate/bin/activate
 
 4. Install Weblate including all dependencies, you can also use pip to install
-   optional dependecies:
+   optional dependencies:
 
    .. code-block:: sh
-        
+
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
 
-5. Create your settings (in our example it would be in 
+5. Create your settings (in our example it would be in
    :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
    based on the :file:`settings_example.py` in same directory).
 6. You can now run Weblate commands using :command:`weblate` command, see
    :ref:`manage`.
-7. To run webserver, use the wsgi wrapper installed with Weblate (in our case 
+7. To run webserver, use the wsgi wrapper installed with Weblate (in our case
    it is :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/wsgi.py`).
-   Don't forget to set Python search path to your virtualenv as well (for 
+   Don't forget to set Python search path to your virtualenv as well (for
    example using ``virtualenv = /tmp/weblate`` in uwsgi).
 
 .. _install-git:
@@ -230,7 +230,7 @@ Installing Weblate from Git
 +++++++++++++++++++++++++++
 
 You can also run the latest version from Git. It is maintained stable and
-production ready. You can usually find it running on 
+production ready. You can usually find it running on
 `Hosted Weblate <https://weblate.org/hosting/>`_.
 
 To get latest sources using Git use:
@@ -1005,7 +1005,7 @@ environment), see :ref:`database-setup` for more information.
 
 .. seealso::
 
-    :ref:`database-setup`, 
+    :ref:`database-setup`,
     :ref:`installation`,
     :doc:`django:ref/databases`
 
@@ -1046,7 +1046,7 @@ Alternatively you can also use memcached:
 
 .. seealso::
 
-    :ref:`production-cache-avatar`, 
+    :ref:`production-cache-avatar`,
     :doc:`django:topics/cache`
 
 .. _production-cache-avatar:
@@ -1080,10 +1080,10 @@ recommended to use separate, file backed cache for this purpose:
 
 .. seealso::
 
-    :setting:`ENABLE_AVATARS`, 
+    :setting:`ENABLE_AVATARS`,
     :setting:`AVATAR_URL_PREFIX`,
     :ref:`avatars`,
-    :ref:`production-cache`, 
+    :ref:`production-cache`,
     :doc:`django:topics/cache`
 
 .. _production-email:

@@ -22,7 +22,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'pushes all changes to upstream respository'
+    help = 'pushes all changes to upstream repository'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
@@ -31,7 +31,7 @@ class Command(WeblateComponentCommand):
             action='store_true',
             dest='force_commit',
             default=False,
-            help='Forces commiting pending changes'
+            help='Forces committing pending changes'
         )
 
     def handle(self, *args, **options):

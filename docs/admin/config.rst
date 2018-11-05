@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-User name of user for definining privileges of not logged in user.
+User name of user for defining privileges of not logged in user.
 
 .. seealso::
 
@@ -47,7 +47,7 @@ Maximum number of failed authentication attempts before rate limiting is applied
 
 This is currently applied in the following locations:
 
-* On login, the acccount password is reset. User will not be able to log in
+* On login, the account password is reset. User will not be able to log in
   after that using password until he asks for password reset.
 * On password reset, the reset mails are no longer sent. This avoids spamming
   user with too many password reset attempts.
@@ -237,12 +237,12 @@ BASE_DIR
 --------
 
 Base directory where Weblate sources are located. This is used to derive
-several other paths by defalt:
+several other paths by default:
 
 - :setting:`DATA_DIR`
 - :setting:`TTF_PATH`
 
-Default value: Toplevel directory of Weblate sources.
+Default value: Top level directory of Weblate sources.
 
 .. setting:: CHECK_LIST
 
@@ -251,7 +251,7 @@ CHECK_LIST
 
 List of quality checks to perform on translation.
 
-You need to provide afully-qualified path to the Python class implementing the check
+You need to provide a fully-qualified path to the Python class implementing the check
 interface.
 
 Some of the checks are not useful for all projects, so you are welcome to
@@ -313,7 +313,7 @@ COMMIT_PENDING_HOURS
 
 .. versionadded:: 2.10
 
-Default interval for commiting pending changes using :djadmin:`commit_pending`.
+Default interval for committing pending changes using :djadmin:`commit_pending`.
 
 .. seealso::
 
@@ -802,7 +802,7 @@ Client key for Microsoft Cognitive Services Translator API.
 .. seealso::
     :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
-    `Microsfot Azure Portal <https://portal.azure.com/>`_
+    `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. setting:: MT_MYMEMORY_EMAIL
 
@@ -1176,7 +1176,7 @@ Identity which should be used by Weblate to sign Git commits, for example:
 
     If you are going to change value of setting, it is advisable to clean the
     cache as the key information is cached for seven days. This is not
-    necessarry for initial setup as nothing is cached if this feature is not
+    necessary for initial setup as nothing is cached if this feature is not
     configured.
 
 .. seealso::

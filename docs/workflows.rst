@@ -74,7 +74,7 @@ Peer review
 With this workflow, anybody can add suggestions, however they need approval
 from additional member before it is accepted as a translation.
 
-* *Any user* can add suggestions 
+* *Any user* can add suggestions
 * *Any user* can vote for suggestions
 * Suggestions become translations when they get given number of votes
 
@@ -109,7 +109,7 @@ translations and one which reviews them. Review is there to ensure the
 translations are consistent and in a good quality.
 
 * *Any user* can edit non approved translations.
-* *Reviewer* can approve / unapprove strings.
+* *Reviewer* can approve / unapproved strings.
 * *Reviewer* can edit all translations (including approved ones).
 * Suggestions are now also way to suggest changes for approved strings.
 

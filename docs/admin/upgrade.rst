@@ -31,7 +31,7 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py migrate --noinput
 
-3. Collect updated static files (mostly javacript and CSS):
+3. Collect updated static files (mostly javascript and CSS):
 
    .. code-block:: sh
 
@@ -75,7 +75,7 @@ Upgrade from 2.x
 ~~~~~~~~~~~~~~~~
 
 If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
-:ref:`weblate3:upgrade_3`) and the continue ugprading in the 3.x series.
+:ref:`weblate3:upgrade_3`) and the continue upgrading in the 3.x series.
 Upgrades skipping this step are not supported and will break.
 
 .. _up-3-1:
@@ -172,5 +172,5 @@ Migrating from Pootle
 ---------------------
 
 As Weblate was originally written as replacement from Pootle, it is supported
-to migrate user accounts from Pootle. You can dump the users from Poootle and
+to migrate user accounts from Pootle. You can dump the users from Pootle and
 import them using :djadmin:`importusers`.

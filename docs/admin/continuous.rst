@@ -99,14 +99,14 @@ The script for doing updates can look like:
     git commit -m 'Locale updates' -- locale
     # Push changes to upstream repository
     git push
-    # Tell Weblate to pull changes (not needed if Weblate follows your repo 
+    # Tell Weblate to pull changes (not needed if Weblate follows your repo
     # automatically)
     wlc pull
     # Unlock translations
     wlc unlock
 
 If you have multiple components sharing same repository, you need to lock them
-all separatey:
+all separately:
 
 .. code-block:: sh
 
@@ -146,7 +146,7 @@ You can leave other values on the default settings (Weblate can handle both
 content types and consumes just the `push` event).
 
 .. seealso::
-   
+
    :http:post:`/hooks/github/`, :ref:`hosted-push`
 
 .. _bitbucket-setup:
@@ -161,8 +161,8 @@ on your Weblate installation (for example
 
 .. image:: ../images/bitbucket-settings.png
 
-.. seealso:: 
-   
+.. seealso::
+
    :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
 
 .. _gitlab-setup:
@@ -174,8 +174,8 @@ Weblate has support for GitLab hooks, all you need to do is add project web hook
 with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/gitlab/``).
 
-.. seealso:: 
-   
+.. seealso::
+
    :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
 
 .. _pagure-setup:
@@ -192,8 +192,8 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 
 .. image:: ../images/pagure-webhook.png
 
-.. seealso:: 
-   
+.. seealso::
+
    :http:post:`/hooks/pagure/`, :ref:`hosted-push`
 
 .. _push-changes:
@@ -229,7 +229,7 @@ Pushing changes from Hosted Weblate
 
 For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
 and GitLab (with username :guilabel:`weblate` and named
-:guilabel:`Weblate push user`). You need to add this user as a collabolator and
+:guilabel:`Weblate push user`). You need to add this user as a collaborator and
 give him permissions to push to your repository. Let us know when you've done
 so and we will enable pushing changes from Hosted Weblate for you.
 
@@ -253,8 +253,8 @@ Interacting with others
 
 Weblate makes it easy to interact with others using its API.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`api`
 
 .. _lazy-commit:
@@ -287,6 +287,6 @@ Processing repository with scripts
 ----------------------------------
 
 The way to customize how Weblate interacts with the repository are
-:ref:`addons`. See :ref:`addon-script` for infomrmation how to execute
+:ref:`addons`. See :ref:`addon-script` for information how to execute
 external scripts through addons.
 

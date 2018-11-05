@@ -86,7 +86,7 @@ Celery tasks
 
 The Celery tasks queue might contain some information, but usually it's not
 needed to backup. At most your will loose not processed updates to translation
-memory. The fulltext or repository updates are anyway recommeded to perform on
+memory. The fulltext or repository updates are anyway recommended to perform on
 restore, so there is no problem in losing these.
 
 .. seealso::

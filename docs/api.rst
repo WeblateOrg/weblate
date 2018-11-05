@@ -98,7 +98,7 @@ Authentication examples
 Passing Parameters Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For the :http:method:`POST` method the parameters can be specified either as 
+For the :http:method:`POST` method the parameters can be specified either as
 form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
 (:mimetype:`application/json`).
 
@@ -153,7 +153,7 @@ The API requests are rate limited; the default configuration limits it to 100
 requests per day for anonymous users and 1000 requests per day for authenticated
 users.
 
-Rate limiting can be adjusted in the :file:`settings.py`; see 
+Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
@@ -1012,7 +1012,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/
 
-    Returns a list of screenshot string informations.
+    Returns a list of screenshot string information.
 
     .. seealso::
 
@@ -1029,7 +1029,7 @@ Screenshots
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array sources: link to asssociated source string information; see :http:get:`/api/sources/(int:pk)/`
+    :>json array sources: link to associated source string information; see :http:get:`/api/sources/(int:pk)/`
 
 .. http:get:: /api/screenshots/(int:pk)/file/
 

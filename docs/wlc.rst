@@ -126,7 +126,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.9.
 
-    Removes any utracked changes in Weblate object to match remote repository (translation, component or project).
+    Removes any untracked changes in Weblate object to match remote repository (translation, component or project).
 
 .. option:: repo
 
@@ -150,7 +150,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.5.
 
-    Locks compontent from translating in Weblate.
+    Locks component from translating in Weblate.
 
 .. option:: unlock
 
@@ -158,7 +158,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.5.
 
-    Unlocks compontent from translating in Weblate.
+    Unlocks component from translating in Weblate.
 
 .. option:: changes
 
@@ -185,7 +185,7 @@ Currently the following subcommands are available:
 
         File where to store output, if not specified file is printed to stdout.
 
-.. option:: upload 
+.. option:: upload
 
     .. versionadded:: 0.9
 
@@ -211,7 +211,7 @@ Files
 :file:`~/.config/weblate`
     User configuration file
 :file:`/etc/xdg/weblate`
-    Global configration file
+    Global configuration file
 
 The program follows XDG specification, so you can adjust placement of config files
 by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
@@ -219,7 +219,7 @@ by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
 
-.. describe:: key 
+.. describe:: key
 
     API KEY to access Weblate.
 
@@ -277,11 +277,11 @@ You can also let wlc know current project and it will then operate on it:
 
 .. code-block:: sh
 
-    $ cat .weblate 
+    $ cat .weblate
     [weblate]
     url = https://hosted.weblate.org/api/
     translation = weblate/master
-    
+
     $ wlc show
     branch: master
     file_format: po
@@ -294,7 +294,7 @@ You can also let wlc know current project and it will then operate on it:
     project: weblate
     repo: git://github.com/WeblateOrg/weblate.git
     slug: master
-    template: 
+    template:
     url: https://hosted.weblate.org/api/components/weblate/master/
     vcs: git
     web_url: https://hosted.weblate.org/projects/weblate/master/

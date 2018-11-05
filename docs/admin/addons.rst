@@ -207,7 +207,7 @@ Executing scripts from addon
 ++++++++++++++++++++++++++++
 
 You can also use addons to execute external scripts. This used to be
-intergrated in Weblate, but now you have to write little code to wrap your
+integrated in Weblate, but now you have to write little code to wrap your
 script with an addon.
 
 .. literalinclude:: ../../weblate/addons/example_pre.py

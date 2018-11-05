@@ -5,7 +5,7 @@ The quality checks help to catch common translator errors to make sure the
 translation is in good shape. The checks are divided into three severities and
 can be ignored in case there is a false positive.
 
-Once submitting translation with failing check, this is immediatelly shown to
+Once submitting translation with failing check, this is immediately shown to
 the user:
 
 .. image:: ../images/checks.png
@@ -21,8 +21,8 @@ errors in translated strings. This can be quite a powerful feature to prevent
 common mistakes in translations, however use it with caution as it can cause
 silent corruption as well.
 
-.. seealso:: 
-   
+.. seealso::
+
    :setting:`AUTOFIX_LIST`
 
 .. _checks:
@@ -34,8 +34,8 @@ Weblate does a wide range of quality checks on messages. The following section
 describes them in more detail. The checks also take account special rules for
 different languages, so if you think the result is wrong, please report a bug.
 
-.. seealso:: 
-   
+.. seealso::
+
    :setting:`CHECK_LIST`, :ref:`custom-checks`
 
 Translation checks
@@ -154,8 +154,8 @@ real ellipsis (``…``) not for three dots (``...``).
 An ellipsis is usually rendered nicer than three dots, so it's good to keep it
 when the original string was using that as well.
 
-.. seealso:: 
-   
+.. seealso::
+
    `Ellipsis on wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
 
@@ -335,7 +335,7 @@ C# format
 .. seealso::
 
     `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
-    
+
 Java format
 ***********
 
@@ -348,7 +348,7 @@ Java format
 +------------------------+------------------------------------------------------------+
 
 .. seealso::
-    
+
     `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
 Java MessageFormat
@@ -441,8 +441,8 @@ Translation contains extra zero-width space (<U+200B>) character.
 This character is usually inserted by mistake, though it might have a legitimate
 use. Some programs might have problems when this character is used.
 
-.. seealso:: 
-   
+.. seealso::
+
     `Zero width space on wikipedia <https://en.wikipedia.org/wiki/Zero-width_space>`_
 
 

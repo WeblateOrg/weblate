@@ -4,7 +4,7 @@ Translation projects
 Translation organization
 ------------------------
 
-Weblate organizes translatable content into tree like structure. The toplevel
+Weblate organizes translatable content into tree like structure. The top level
 object is :ref:`project`, which should hold all translations which belong
 together (for example translation of an application in several versions
 and/or documentation). On the next level, there is :ref:`component`, which is
@@ -100,12 +100,12 @@ Enable reviews
 Enable hooks
     Whether unauthenticated :ref:`hooks` will be enabled for this repository.
 Source language
-    Language used for source strings in all components. Change this if you are 
+    Language used for source strings in all components. Change this if you are
     translating from something else than English.
 
 .. note::
 
-    Most of the fields can be edited by project owners or managers in the 
+    Most of the fields can be edited by project owners or managers in the
     Weblate interface.
 
 Adjusting interaction
@@ -149,7 +149,7 @@ Version control system
     VCS to use, see :ref:`vcs` for details.
 Source code repository
     VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
-    
+
     This can be either a real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
@@ -162,7 +162,7 @@ Repository browser
     are used). When empty no such links will be generated.
 
     You can use following format strings:
-        
+
     * ``%(branchs)s`` - current branch
     * ``%(line)s`` - line in file
     * ``%(file)s`` - filename
@@ -180,7 +180,7 @@ Repository branch
     Which branch to checkout from the VCS and where to look for translations.
 File mask
     Mask of files to translate including path. It should include one *
-    replacing language code (see :ref:`languages` for information how this is 
+    replacing language code (see :ref:`languages` for information how this is
     processed). In case your repository contains more than one translation
     files (eg. more Gettext domains), you need to create separate component for
     each.
@@ -256,11 +256,11 @@ Language filter
 
 .. note::
 
-    Most of the fields can be edited by project owners or managers in the 
+    Most of the fields can be edited by project owners or managers in the
     Weblate interface.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`faq-vcs`
 
 .. _markup:
@@ -399,8 +399,8 @@ For the management commands, you need to create a project which will contain all
 components and then it's just a matter of running :djadmin:`import_project` or
 :djadmin:`import_json`.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`manage`,
    :ref:`addon-weblate.discovery.discovery`
 
@@ -413,6 +413,6 @@ Fulltext search is based on Whoosh. It is processed in background if Celery is
 configured.  This leads to a faster response of the site and less fragmented
 index with the cost that it might be slightly outdated.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`
