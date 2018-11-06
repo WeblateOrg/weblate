@@ -374,7 +374,7 @@ class Invoice(models.Model):
     )
     start = models.DateField()
     end = models.DateField()
-    payment = models.FloatField()
+    amount = models.FloatField()
     currency = models.IntegerField(
         choices=(
             (CURRENCY_EUR, 'EUR'),

@@ -61,7 +61,7 @@
 {% for invoice in billing.invoice_set.all %}
 <tr>
 <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
-<td>{{ invoice.payment }} {{ invoice.get_currency_display }}</td>
+<td>{{ invoice.amount }} {{ invoice.get_currency_display }}</td>
 <td>
 {% if invoice.ref %}
 <a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
