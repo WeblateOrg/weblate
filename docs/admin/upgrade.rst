@@ -166,6 +166,8 @@ Fortunately these are easy to handle. Recommended upgrade steps:
 
       ./manage.py cleanup_avatar_cache
 
+7. It is recommended to throw away your caches.
+
 .. _pootle-migration:
 
 Migrating from Pootle
