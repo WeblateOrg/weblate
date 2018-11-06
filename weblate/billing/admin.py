@@ -60,7 +60,7 @@ class BillingAdmin(WeblateModelAdmin):
 
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = (
-        'billing', 'start', 'end', 'payment', 'currency', 'ref'
+        'billing', 'start', 'end', 'amount', 'currency', 'ref'
     )
     list_filter = ('currency', 'billing')
     search_fields = (
