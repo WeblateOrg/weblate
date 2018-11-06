@@ -55,7 +55,7 @@ class BillingTest(TestCase):
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
             end=timezone.now().date() + timedelta(days=2),
-            payment=10,
+            amount=10,
             ref='00000',
         )
         self.projectnum = 0
@@ -135,7 +135,7 @@ class BillingTest(TestCase):
             billing=self.billing,
             start=self.invoice.start,
             end=self.invoice.end,
-            payment=30
+            amount=30
         )
         # Full overlap
         self.assertRaises(
@@ -202,7 +202,7 @@ class BillingTest(TestCase):
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
             end=timezone.now().date() + timedelta(days=2),
-            payment=10,
+            amount=10,
         )
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': invoice.pk})

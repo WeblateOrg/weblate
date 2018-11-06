@@ -453,7 +453,7 @@ def create_billing(user):
     billing.owners.add(user)
     Invoice.objects.create(
         billing=billing,
-        payment=19,
+        amount=19,
         start=timezone.now() - timedelta(days=1),
         end=timezone.now() + timedelta(days=1),
     )
