@@ -22,7 +22,7 @@ the user making the suggestion).
 .. note::
 
     Once you enable automatic accepting, normal users lose the privilege to
-    directly save translations or accept suggestions. This can be overriden
+    directly save translations or accept suggestions. This can be overridden
     by :guilabel:`Can override suggestion state` privilege
     (see :ref:`privileges`).
 
@@ -89,10 +89,10 @@ Translation flags
 
 .. versionchanged:: 3.3
 
-      Previously this was called :guilabel:`Quaity checks flags`, but as it no
+      Previously this was called :guilabel:`Quality checks flags`, but as it no
       longer configures only checks, the name was changed to be more generic.
 
-Default set of traslation flags is determined from the translation
+Default set of translation flags is determined from the translation
 :ref:`component` and the translation file. However, you might want to customize
 this per source string and you have the option here.
 
@@ -114,7 +114,7 @@ The uploaded screenshot is shown in the translation context sidebar:
 .. image:: ../images/screenshot-context.png
 
 In addition to :ref:`source-review`, screenshots have a separate management
-interface. You can find it under :guilabel:`Tools` menu. This allows you 
+interface. You can find it under :guilabel:`Tools` menu. This allows you
 to upload screenshots, assign them to source strings manually or using OCR.
 
 Once screenshot is uploaded, you will be presented following interface to

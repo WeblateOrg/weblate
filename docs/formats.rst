@@ -7,8 +7,8 @@ Weblate supports most translation format understood by the translate-toolkit,
 however each format being slightly different, there might be some issues with
 formats that are not well tested.
 
-.. seealso:: 
-   
+.. seealso::
+
     :doc:`tt:formats/index`
 
 .. note::
@@ -21,7 +21,7 @@ formats that are not well tested.
 
 .. _bimono:
 
-Bilingual and monolignual formats
+Bilingual and monolingual formats
 ---------------------------------
 
 Weblate does support both :index:`monolingual <pair: translation; monolingual>`
@@ -280,7 +280,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 .. note::
 
    Loading of escape sequences will work in UTF-8 mode as well, so please be
-   careful chosing correct charset matching your application needs.
+   careful choosing correct charset matching your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -812,8 +812,8 @@ easily supported, but they did not (yet) receive any testing. In most cases
 some thin layer is needed in Weblate to hide differences in behavior of
 different translate-toolkit storages.
 
-.. seealso:: 
-   
+.. seealso::
+
     :doc:`tt:formats/index`
 
 .. _new-translations:
@@ -832,7 +832,7 @@ formats.
 Some formats expect to start with empty file and only translated
 strings to be included (eg. :ref:`aresource`), while others expect to have all
 keys present (eg. :ref:`gettext`). In some situations this really doesn't depend
-on the format, but rather on framework you use to handle the translation (eg. with 
+on the format, but rather on framework you use to handle the translation (eg. with
 :ref:`json`).
 
 When you specify :guilabel:`Base file for new translations` in

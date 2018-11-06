@@ -22,7 +22,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'forces commiting changes to git repo'
+    help = 'forces committing changes to git repo'
 
     def handle(self, *args, **options):
         """Commit pending translations in given projects."""

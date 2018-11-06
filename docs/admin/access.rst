@@ -237,7 +237,7 @@ users.
 
 .. describe:: Translate
 
-    Can translate project, including upload of offline translatoins.
+    Can translate project, including upload of offline translations.
 
 .. describe:: VCS
 
@@ -259,7 +259,7 @@ Custom access control
 
 By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
 managing access for given project and you can setup custom rules in Django
-admin interface. This can be used for definining more complex access control or
+admin interface. This can be used for defining more complex access control or
 having shared access policy for all projects in single Weblate instance. If you
 want to enable this for all projects by default please configure the
 :setting:`DEFAULT_ACCESS_CONTROL`.

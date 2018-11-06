@@ -66,7 +66,7 @@ In case you need to pass some file, you can temporary add a volume:
 add_suggestions
 ---------------
 
-.. django-admin:: add_suggesstions <project> <component> <language> <file>
+.. django-admin:: add_suggestions <project> <component> <language> <file>
 
 .. versionadded:: 2.5
 
@@ -132,8 +132,8 @@ Example:
 
     ./manage.py --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`auto-translation`
 
 changesite
@@ -154,8 +154,8 @@ admin interface.
 
     Prints currently configured site name.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-site`
 
 checkgit
@@ -224,7 +224,7 @@ needed to execute manually, the cleanups happen automatically in the
 background.
 
 .. seealso::
-   
+
    :ref:`production-cron`
 
 createadmin
@@ -235,27 +235,27 @@ createadmin
 Creates ``admin`` account with random password unless it is specified.
 
 .. django-admin-option:: --password PASSWORD
-   
+
     Provide password on the command line and skip generating random one.
 
 .. django-admin-option:: --no-password
-   
+
     Do not set password, this can be useful with --update.
-    
+
 .. django-admin-option:: --username USERNAME
-   
+
     Use given name instead of ``admin``.
 
 .. django-admin-option:: --email USER@EXAMPLE.COM
-   
+
     Specify admin email.
-    
+
 .. django-admin-option:: --name
 
     Specify admin name (visible).
 
 .. django-admin-option:: --update
-   
+
     Update existing user (you can use this to change password).
 
 .. versionchanged:: 2.9
@@ -272,11 +272,11 @@ delete_memory
 Deletes entries in the Weblate Translation Memory.
 
 .. django-admin-option:: --origin ORIGIN
-   
+
     Origin to delete, for imported files the origin is filename without path.
 
 .. django-admin-option:: --all
-   
+
     Delete complete memory content and recreate the database.
 
 .. seealso::
@@ -400,7 +400,7 @@ simple using wildcards or it can use full power of regular expressions.
 The simple matching uses ``**`` for component name and ``*`` for language, for
 example: ``**/*.po``
 
-The regullar expression has to contain named groups `component` and `language`.
+The regular expression has to contain named groups `component` and `language`.
 For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``
 
 The import matches existing components based on files and adds the ones which
@@ -429,7 +429,7 @@ do not exist. It does no changes to the already existing ones.
     parameter. It has to be valid regular expression.
 
 .. django-admin-option:: --main-component
-   
+
     You can specify which component will be chosen as main - the one actually
     containing VCS repository.
 
@@ -587,7 +587,7 @@ list_memory
 Lists contents of the Weblate Translation Memory.
 
 .. django-admin-option:: --type {origin}
-   
+
     Type of information to list, defaults to listing used origins.
 
 .. seealso::
@@ -631,11 +631,11 @@ repository).
 
 .. django-admin-option:: --force
 
-    Force update even if the files should be up to date. 
-    
+    Force update even if the files should be up to date.
+
 .. django-admin-option:: --lang LANGUAGE
 
-    Limit processing to single languaguage.
+    Limit processing to single language.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
@@ -652,13 +652,13 @@ lock_translation
 .. django-admin:: lock_translation <project|project/component>
 
 Locks given component for translating. This is useful in case you want to do
-some maintenance on underlaying repository.
+some maintenance on underlying repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-.. seealso:: 
-   
+.. seealso::
+
    :djadmin:`unlock_translation`
 
 optimize_memory
@@ -686,7 +686,7 @@ pushgit
 
 .. django-admin:: pushgit <project|project/component>
 
-Pushes committed changes to upstream VCS repository. 
+Pushes committed changes to upstream VCS repository.
 
 .. django-admin-option:: --force-commit
 
@@ -718,8 +718,8 @@ have a huge set of translation units.
     The index will not be processed again, only its content will be optimized
     (removing stale entries and merging possibly split index files).
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`fulltext`
 
 unlock_translation
@@ -728,13 +728,13 @@ unlock_translation
 .. django-admin:: unlock_translation <project|project/component>
 
 Unlocks a given component for translating. This is useful in case you want to do
-some maintenance on the underlaying repository.
+some maintenance on the underlying repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-.. seealso:: 
-   
+.. seealso::
+
    :djadmin:`lock_translation`
 
 setupgroups
@@ -753,8 +753,8 @@ Configures default groups and optionally assigns all users to default group.
     Prevents updates of groups for existing projects. This allows to add newly
     added groups to existing projects, see :ref:`acl`.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`privileges`
 
 setuplang
@@ -766,7 +766,7 @@ Setups list of languages (it has own list and all defined in
 translate-toolkit).
 
 .. django-admin-option:: --no-update
-    
+
     Disables update of existing languages (only adds new ones).
 
 updatechecks

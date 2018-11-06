@@ -40,7 +40,7 @@ translation, with slightly different checks being displayed:
 One of the most interesting checks here is the :ref:`check-multiple-failures` -
 it fires whenever there is failure on multiple translations of given string.
 Usually this is something to look for as this is string where translators have
-problems doing the translation properly. It might be just wrong punctation at
+problems doing the translation properly. It might be just wrong punctuation at
 the end of sentence or something more problematic.
 
 The detailed listing then shows you overview per language:

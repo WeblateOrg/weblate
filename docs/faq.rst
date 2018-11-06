@@ -21,8 +21,8 @@ without interaction unless some merge conflict occurs.
    Weblate push changes to your repository whenever they are committed at Weblate.
 4. Optionally set up a cron job for :djadmin:`commit_pending`.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`continuous-translation`, :ref:`avoid-merge-conflicts`
 
 How to access repositories over SSH?
@@ -72,7 +72,7 @@ actions.
     ...
     git commit
 
-    # Push changes to upstream respository, Weblate will fetch merge from there
+    # Push changes to upstream repository, Weblate will fetch merge from there
     git push
 
     # Open Weblate for translation
@@ -100,7 +100,7 @@ branches:
     ... # Resolve conflicts
     git commit
 
-    # Push changes to upstream respository, Weblate will fetch merge from there
+    # Push changes to upstream repository, Weblate will fetch merge from there
     git push
 
 In case of Gettext po files, there is a way to merge conflict in a semi-automatic way:
@@ -131,11 +131,11 @@ upstream git repository: intact and working copy):
     done
     git commit
 
-    # Push changes to upstream respository, Weblate will fetch merge from there
+    # Push changes to upstream repository, Weblate will fetch merge from there
     git push
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`git-export`
 
 How do I translate several branches at once?
@@ -159,7 +159,7 @@ Once you merge changes from Weblate, you might have to merge these branches
 How to export the Git repository that Weblate uses?
 ---------------------------------------------------
 
-There is nothing special about the repository, it lives under the 
+There is nothing special about the repository, it lives under the
 :setting:`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you
 have SSH access to this machine, you can use the repository directly.
 
@@ -184,7 +184,7 @@ Here are examples of workflows used with Weblate:
 
 Of course you are free to mix all of these as you wish.
 
-How can I limit Weblates access to translations only without exposing source code to it?
+How can I limit Weblate access to translations only without exposing source code to it?
 ----------------------------------------------------------------------------------------
 
 You can use `git submodule`_ for separating translations from source code
@@ -213,7 +213,7 @@ How can I check if my Weblate is configured properly?
 -----------------------------------------------------
 
 Weblate includes a set of configuration checks which you can see in the admin
-interface, just follow the :guilabel:`Performance report` link in the admin interface or 
+interface, just follow the :guilabel:`Performance report` link in the admin interface or
 open the ``/admin/performance/`` URL directly.
 
 .. _faq-site:
@@ -224,8 +224,8 @@ Why do links contain example.com as the domain?
 Weblate uses Django's sites framework and it defines the site name inside the
 database. You need to set the domain name to match your installation.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-site`
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
@@ -234,11 +234,11 @@ Why are all commits committed by Weblate <noreply@weblate.org>?
 This is the default committer name, configured when you create a translation component.
 You can also change it in the administration at any time.
 
-The author of every commit (if the underlaying VCS supports it) is still recorded
+The author of every commit (if the underlying VCS supports it) is still recorded
 correctly as the user who has made the translation.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`component`
 
 Usage
@@ -274,8 +274,8 @@ translating:
   instance, which will make it automatically pick up translations from other
   projects as well.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 Does Weblate update translation files besides translations?
@@ -283,7 +283,7 @@ Does Weblate update translation files besides translations?
 
 Weblate tries to limit changes in translation files to a minimum. For some file
 formats it might unfortunately lead to reformatting the file. If you want to
-keep the file formattted in your way, please use a pre-commit hook for that.
+keep the file formatted in your way, please use a pre-commit hook for that.
 
 For monolingual files (see :ref:`formats`) Weblate might add new translation
 units which are present in the :guilabel:`template` and not in actual
@@ -294,8 +294,8 @@ install a pre-commit hook which will handle the cleanup according to your requir
 Weblate also will not try to update bilingual files in any way, so if you need
 :file:`po` files being updated from :file:`pot`, you need to do it yourself.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`processing`
 
 
@@ -397,8 +397,8 @@ better to rebuild it from scratch:
 
     ./manage.py rebuild_index --clean
 
-.. seealso:: 
-   
+.. seealso::
+
    :djadmin:`rebuild_index`
 
 .. _faq-ft-lock:
@@ -408,10 +408,10 @@ I get "Lock Error" quite often while translating
 
 This is usually caused by concurrent updates to the fulltext index. In case you are
 running a multi-threaded server (e.g. mod_wsgi), this happens quite often. For such
-a setup it is recommended to use Celery to peform updates in the background.
+a setup it is recommended to use Celery to perform updates in the background.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`fulltext`, :ref:`celery`
 
 .. _faq-ft-space:
@@ -420,15 +420,15 @@ Rebuilding index has failed with "No space left on device"
 ----------------------------------------------------------
 
 Whoosh uses a temporary directory to build indices. In case you have a small /tmp
-(eg. using ramdisk), this might fail. Change the temporary directory by passing it 
+(eg. using ramdisk), this might fail. Change the temporary directory by passing it
 as ``TEMP`` variable:
 
 .. code-block:: sh
 
     TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
 
-.. seealso:: 
-   
+.. seealso::
+
    :djadmin:`rebuild_index`
 
 
@@ -439,8 +439,8 @@ This can happen when using theSQLite database as it is not powerful enough for s
 relations used within Weblate. The only way to fix this is to use some more
 capable database, see :ref:`production-database` for more information.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-database`,
    :doc:`django:ref/databases`
 

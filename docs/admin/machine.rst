@@ -18,8 +18,8 @@ Special installation of :ref:`tmserver` run by Virtaal authors.
 To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
 :setting:`MT_SERVICES`.
 
-.. seealso:: 
-   
+.. seealso::
+
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
@@ -146,7 +146,7 @@ Microsoft Cognitive Services Translator
 
     This is replacement service for :ref:`ms-translate`.
 
-Machine transation service provided by Microsoft in Azure portal as a one of
+Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
 You need to register at Azure portal and use the key you obtain there.
@@ -155,7 +155,7 @@ To enable this service, add ``weblate.machinery.microsoft.MicrosoftCognitiveTran
 :setting:`MT_SERVICES` and set :setting:`MT_MICROSOFT_COGNITIVE_KEY`.
 
 .. seealso::
-    
+
     :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
@@ -330,7 +330,7 @@ SAP Translation Hub
 
 Machine translation service provided by SAP.
 
-You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud 
+You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud
 Platform) to use this service.
 
 To enable this service, add
@@ -342,7 +342,7 @@ sandbox or productive API.
 
     To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL`
     and :setting:`MT_SAP_SANDBOX_APIKEY`.
-    
+
     To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`,
     :setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`.
 

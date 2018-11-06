@@ -75,7 +75,7 @@ Docker container with https support
 
 Please see :ref:`docker-deploy` for generic deployment instructions. To add
 HTTPS reverse proxy additional Docker container is required, we will use
-`https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_. This is 
+`https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_. This is
 used in the :file:`docker-compose-https.yml` file. Then you just need to create
 a :file:`docker-compose-https.override.yml` file with your settings:
 
@@ -395,7 +395,7 @@ Authentication settings
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
-    Disabled email authenticatin when set to any value.
+    Disabled email authentication when set to any value.
 
 
 PostgreSQL database setup
@@ -438,7 +438,7 @@ for compatibility with older deployments.
 
 .. envvar:: REDIS_HOST
 
-   The memcached server hostname or IP adress. Defaults to ``cache``.
+   The memcached server hostname or IP address. Defaults to ``cache``.
 
 .. envvar:: REDIS_PORT
 
@@ -446,7 +446,7 @@ for compatibility with older deployments.
 
 .. envvar:: MEMCACHED_HOST
 
-   The memcached server hostname or IP adress. Defaults to ``cache``.
+   The memcached server hostname or IP address. Defaults to ``cache``.
 
 .. envvar:: MEMCACHED_PORT
 
@@ -506,7 +506,7 @@ Error reporting
 ~~~~~~~~~~~~~~~
 
 It is recommended to collect errors from the installation in systematic way,
-see :ref:`collecting-errors`. 
+see :ref:`collecting-errors`.
 
 To enable support for Rollbar, set following:
 
@@ -520,11 +520,11 @@ To enable support for Rollbar, set following:
 
 To enable support for Sentry, set following:
 
-.. envvar:: SENTRY_DSN 
+.. envvar:: SENTRY_DSN
 
     Your Sentry DSN.
 
-.. envvar:: SENTRY_PUBLIC_DSN 
+.. envvar:: SENTRY_PUBLIC_DSN
 
     Your Sentry public DSN.
 

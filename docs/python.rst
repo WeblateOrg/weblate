@@ -7,8 +7,8 @@
 Weblate's Python API
 ~~~~~~~~~~~~~~~~~~~~
 
-Instalation
-===========
+Installation
+============
 
 The Python API is shipped separately, you need to install
 :ref:`wlc`:, wlc, to have it.
@@ -71,7 +71,7 @@ The Python API is shipped separately, you need to install
 ----------------------
 
 .. class:: WeblateConfig(section='wlc')
-    
+
     :param section: Configuration section to use
     :type section: str
 
@@ -100,7 +100,7 @@ The Python API is shipped separately, you need to install
     :type settings: list
     :param stdout: stdout file object for printing output, uses ``sys.stdout`` as default
     :type stdout: object
-    :param args: command line argumets to process, uses ``sys.args`` as default
+    :param args: command line arguments to process, uses ``sys.args`` as default
     :type args: list
 
     Main entry point for command line interface.

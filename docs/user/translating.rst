@@ -15,7 +15,7 @@ There are also some options for translation project visibility:
 * It can be publicly visible and anybody can contribute
 * It can be visible only to certain group of translators
 
-Plase see :ref:`workflows` for more information about translation workflow.
+Please see :ref:`workflows` for more information about translation workflow.
 
 Translation projects
 --------------------
@@ -65,7 +65,7 @@ keep formatting.
 There are various bits of extra information which can be shown on this page. Most of
 them are coming from the project source code (like context, comments or where
 the message is being used). When you configure secondary languages in your
-preferences, translation to these languages will be shown (see 
+preferences, translation to these languages will be shown (see
 :ref:`secondary-languages`).
 
 Below the translation, suggestions from other users can be shown, which you
@@ -194,7 +194,7 @@ Translation history
 
 Every change is by default (unless disabled in component settings) saved in
 the database and can be reverted. Of course you can still also revert anything
-in the underlaying version control system.
+in the underlying version control system.
 
 Glossary
 --------
@@ -228,8 +228,8 @@ machine translation tools.
 
 All machine translations are available on single tab on translation page.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`machine-translation-setup`
 
 .. _auto-translation:
@@ -249,10 +249,10 @@ This can operate in two modes:
 - Using selected machine translation services with translations about certain
   quality threshold.
 
-You can also choose which strings will be translated. 
+You can also choose which strings will be translated.
 
 .. warning::
-   
+
     Be careful that this will overwrite existing translations if you choose
     wide filters such as :guilabel:`All strings`.
 

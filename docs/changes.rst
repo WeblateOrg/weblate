@@ -1,20 +1,6 @@
 Changes
 =======
 
-weblate 3.3
------------
-
-Released on ? 2018.
-
-* Increase required translate-toolkit version to 2.3.1.
-* Increase required social auth module versions.
-* Add Netease Sight translate service.
-* Add support for Pagure webhooks.
-* Improved performance when processing linked components.
-* Fixed error in some API calls.
-* Fixed usage of URL_PREFIX.
-* Fixed machine translation interaction with review workflow.
-
 weblate 3.2.2
 -------------
 
@@ -280,7 +266,7 @@ Released on May 17th 2017.
 * Weblate sets Content-Security-Policy by default.
 * The local editor URL is validated to avoid self-XSS.
 * The password is now validated against common flaws by default.
-* Notify users about imporant activity with their account such as password change.
+* Notify users about important activity with their account such as password change.
 * The CSV exports now escape potential formulas.
 * Various minor improvements in security.
 * The authentication attempts are now rate limited.
@@ -438,7 +424,7 @@ Released on Jul 10th 2016.
 * Fixed Google Translate API for Hebrew language.
 * Compatibility with Mercurial 3.8.
 * Added import_json management command.
-* Correct ordering of listed traslations.
+* Correct ordering of listed translations.
 * Show full suggestion text, not only a diff.
 * Extend API (detailed repository status, statistics, ...).
 * Testsuite no longer requires network access to test repositories.
@@ -471,7 +457,7 @@ Released on Mar 10th 2016.
 * Site wide search can search only in one language.
 * Improve quality checks for Armenian.
 * Support for starting translation components without existing translations.
-* Support for adding new transations in Qt TS.
+* Support for adding new translations in Qt TS.
 * Improved support for translating PHP files.
 * Performance improvements for quality checks.
 * Fixed sitewide search for failing checks.
@@ -493,7 +479,7 @@ Released on Mar 10th 2016.
 * Dropped support for Django 1.7.
 * Dropped dependency on msginit for creating new Gettext po files.
 * Added configurable dashboard views.
-* Improved notifications on parse erorrs.
+* Improved notifications on parse errors.
 * Added option to import components with duplicate name to import_project.
 * Improved support for translating PHP files
 * Added XLIFF export for dictionary.
@@ -516,7 +502,7 @@ Released on Sep 20th 2015.
 * Tigher control on fuzzy strings on translation upload.
 * Several URLs have changed, you might have to update your bookmarks.
 * Hook scripts are executed with VCS root as current directory.
-* Hook scripts are executed with environment variables descriping current component.
+* Hook scripts are executed with environment variables describing current component.
 * Add management command to optimize fulltext index.
 * Added support for error reporting to Rollbar.
 * Projects now can have multiple owners.
@@ -534,7 +520,7 @@ Released on Sep 20th 2015.
 * Direct login/registration links to third party service if that's the only one.
 * Commit pending changes on account removal.
 * Add management command to change site name.
-* Add option to confiugure default committer.
+* Add option to configure default committer.
 * Add hook after adding new translation.
 * Add option to specify multiple files to add to commit.
 
@@ -610,7 +596,7 @@ Released on Nov 6th 2014.
 * Added support for disabling translation suggestions.
 * Django 1.7 support.
 * ACL projects now have user management.
-* Extended search possibilites.
+* Extended search possibilities.
 * Give more hints to translators about plurals.
 * Fixed Git repository locking.
 * Compatibility with older Git versions.
@@ -708,7 +694,7 @@ Released on April 16th 2013.
 * Added possibility to pretty print JSON export.
 * Various performance improvements.
 * Indicate failing checks or fuzzy strings in progress bars for projects or languages as well.
-* Added support for custom pre-commit hooks and commiting additional files.
+* Added support for custom pre-commit hooks and committing additional files.
 * Rewritten search for better performance and user experience.
 * New interface for machine translations.
 * Added support for monolingual po files.

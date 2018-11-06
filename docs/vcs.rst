@@ -51,10 +51,10 @@ done this, Weblate should be able to access your repository.
     well protected against malicious usage.
 
 .. warning::
-   
+
     On GitHub, you can add the key to only one repository. See the following
     sections for other solutions for GitHub.
-    
+
 Verifying SSH host keys
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -67,7 +67,7 @@ adding, the fingerprints will be displayed in the confirmation message:
 
 .. image:: images/ssh-keys-added.png
 
-   
+
 HTTPS repositories
 ++++++++++++++++++
 
@@ -75,7 +75,7 @@ To access protected HTTPS repositories, you need to include the username and pas
 in the URL. Don't worry, Weblate will strip this information when showing the URL
 to the users (if they are allowed to see the repository URL at all).
 
-For example the GitHub URL with authentication might look like 
+For example the GitHub URL with authentication might look like
 ``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
 .. note::
@@ -105,8 +105,8 @@ or by enforcing it in VCS configuration, for example:
     jobs. The VCS configuration has to be set for the user which is running
     Weblate.
 
-.. seealso:: 
-   
+.. seealso::
+
     `curl manpage <https://curl.haxx.se/docs/manpage.html>`_,
     `git config documentation <https://git-scm.com/docs/git-config>`_
 
@@ -119,8 +119,8 @@ Git
 Git is first VCS backend that was available in Weblate and is still the most
 stable and tested one.
 
-.. seealso:: 
-   
+.. seealso::
+
     See :ref:`vcs-repos` for information how to access different kind of
     repositories.
 
@@ -174,7 +174,7 @@ For ``hello`` repository from selenic.com with Mercurial use::
 
 .. warning::
 
-    Please be prepared to some incovenience when using Git remote helpers,
+    Please be prepared to some inconvenience when using Git remote helpers,
     for example with Mercurial, the remote helper sometimes tends to create new
     tip when pushing changes back.
 
@@ -191,7 +191,7 @@ It currently uses the `hub`_ tool to do the integration.
 
 There is no need to use this to access Git repositories, ordinary
 :ref:`vcs-git` works the same, the only difference is how pushing to a repository is
-handled. With :ref:`vcs-git` changes are pushed directly to the repository, while 
+handled. With :ref:`vcs-git` changes are pushed directly to the repository, while
 :ref:`vcs-github` creates pull requests.
 
 .. _github-push:
@@ -205,8 +205,8 @@ push translations to the repository, you can have them sent as a pull request in
 You need to configure the `hub`_ command line tool and set
 :setting:`GITHUB_USERNAME` for this to work.
 
-.. seealso:: 
-   
+.. seealso::
+
    :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
 
 .. _hub-setup:
@@ -238,15 +238,15 @@ Mercurial
 
 .. versionadded:: 2.1
 
-Mercurial is another VCS you can use directly in Weblate. 
+Mercurial is another VCS you can use directly in Weblate.
 
-.. note:: 
-   
+.. note::
+
     It should work with any Mercurial version, but there are sometimes
     incompatible changes to the command line interface which break Weblate.
 
-.. seealso:: 
-   
+.. seealso::
+
     See :ref:`vcs-repos` for information how to access different kind of
     repositories.
 
