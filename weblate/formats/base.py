@@ -40,6 +40,7 @@ from translate.storage.ts2 import tsunit
 
 from weblate.trans.util import get_string
 
+from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
 
 import weblate
@@ -551,7 +552,8 @@ class FileFormat(object):
         try:
             cls.parse_store(base)
             return True
-        except Exception:
+        except Exception as error:
+            report_error(error)
             return False
 
     @staticmethod
