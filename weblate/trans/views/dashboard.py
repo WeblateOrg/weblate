@@ -201,7 +201,8 @@ def dashboard_user(request):
 
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
-    if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
+    if (active_tab_id == Profile.DASHBOARD_COMPONENT_LIST
+            and user.profile.dashboard_component_list):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
