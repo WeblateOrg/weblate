@@ -210,17 +210,20 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
-Translations marked for review
-++++++++++++++++++++++++++++++
+Translations states
++++++++++++++++++++
 
-.. versionchanged:: 2.18
+The ``state`` attribute in the file is completely ignored. It cannot be read and it
+cannot be written by Weblate. That means that a unit is considered translated as
+soon as a ``<target>`` element exists.
 
-    Since version 2.18 Weblate differentiates approved and fuzzy states, so
-    it should work as expected with Xliff. You still might apply note below in
-    cases where you don't want to use review process in Weblate.
+Also if the translation unit has ``approved="yes"`` it will be imported into Weblate
+as approved, anything else will be imported as waiting for review (which matches XLIFF
+specification).
 
-If the translation unit doesn't have ``approved="yes"`` it will be imported into
-Weblate as needing review (which matches XLIFF specification).
+That means that when using XLIFF format, it is strongly recommended to enable Weblate
+review process, in order to see and change the approved state of units.
+See :ref:`reviews`.
 
 Similarly on importing such files, you should choose
 :guilabel:`Import as translated` under
