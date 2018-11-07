@@ -47,6 +47,7 @@ class Command(BaseCommand):
             )
             if other.exists:
                 self.stderr.write('Already exists: {}'.format(translation))
+                continue
             translation.language=target
             translation.save()
         source.whiteboardmessage_set.update(language=target)
