@@ -325,6 +325,9 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Allow new user registrations
+REGISTRATION_OPEN = True
+
 # Middleware
 MIDDLEWARE = [
     'weblate.middleware.ProxyMiddleware',
