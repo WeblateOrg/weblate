@@ -13,11 +13,12 @@
 
 <div class="container-fluid">
 
+{% documentation 'contributing' 'security' as security_url %}
+
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Security Policy" %}</h4></div>
 <div class="panel-body">
 
-{% documentation 'contributing' 'security' as security_url %}
 <p>
 {% trans "At Weblate, we take security seriously and strive to maintain an environment that values the security and privacy of our users." %}
 </p>
@@ -28,13 +29,31 @@
 </a>
 </p>
 
+
+</div>
+</div>
+
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Security FAQ" %}</h4></div>
+<div class="panel-body">
+
+<h4>{% trans "How do you store user passwords?" %}</h4>
+
+<p>{% trans "All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + SHA256 with 150000 iterations for that." %}</p>
+
+<h4>{% trans "I have found a security issue, how should I report it?" %}</h4>
+
 <p>
 <a href="{{ security_url }}">{% blocktrans %}Please see our documentation for instructions how to report security weaknesses in our platform.{% endblocktrans %}</a>
 </p>
 
 </div>
 </div>
+
 </div>
+
+
 </div>
 
 {% endblock %}
