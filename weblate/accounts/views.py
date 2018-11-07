@@ -883,8 +883,13 @@ def auth_redirect_state(request):
     )
 
 
-def handle_missing_parameter(request, error):
+def handle_missing_parameter(request, backend, error):
     report_error(error)
+    if backend != 'email' and error.parameter == 'email':
+        return auth_fail(
+            request,
+            _('Third party authentication service did not provide email!')
+        )
     if error.parameter in ('email', 'user', 'expires'):
         return auth_redirect_token(request)
     if error.parameter in ('state', 'code'):
@@ -916,7 +921,7 @@ def social_complete(request, backend):
     except InvalidEmail:
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
-        return handle_missing_parameter(request, error)
+        return handle_missing_parameter(request, backend, error)
     except (AuthStateMissing, AuthStateForbidden):
         return auth_redirect_state(request)
     except AuthFailed:
