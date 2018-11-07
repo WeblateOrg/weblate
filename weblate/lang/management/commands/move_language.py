@@ -46,10 +46,10 @@ class Command(BaseCommand):
             other = translation.component.translation_set.filter(
                 language=target
             )
-            if other.exists:
+            if other.exists():
                 self.stderr.write('Already exists: {}'.format(translation))
                 continue
-            translation.language=target
+            translation.language = target
             translation.save()
         source.whiteboardmessage_set.update(language=target)
 
@@ -75,10 +75,10 @@ class Command(BaseCommand):
                 language=target,
                 check=check.check
             )
-            if other.exists:
+            if other.exists():
                 self.stderr.write('Already exists: {}'.format(check))
                 continue
-            check.language=target
+            check.language = target
             check.save()
 
         for plural in source.plural_set.all():
