@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-02 07:02+0000\n"
-"PO-Revision-Date: 2018-11-06 23:12+0000\n"
+"PO-Revision-Date: 2018-11-08 08:22+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -4342,11 +4342,11 @@ msgstr "Vaihda sanaa"
 #: weblate/templates/engage.html:18
 #, python-format
 msgid "Get involved in %(project)s."
-msgstr "Tule mukaan %(project)s."
+msgstr "Tule mukaan kääntämään projektia %(project)s."
 
 #: weblate/templates/engage.html:21
 msgid "Hi, and thank you for your interest."
-msgstr "Hei ja kiitos mielenkiinnosta."
+msgstr "Hei, ja kiitoksia mielenkiinnostasi käännösprojektiamme kohtaan."
 
 #: weblate/templates/engage.html:24
 #, python-format
@@ -4354,8 +4354,10 @@ msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(project)s on käännetty käyttäen %(weblate_name_link)s, web-työkalu on "
-"suunniteltu helpottamaan kääntämistä kehittäjille ja kääntäjille."
+"%(project)s -projektia käännetään eri kielille työkalulla nimeltä "
+"%(weblate_name_link)s. Tämä web -pohjainen käännöstyökalu on suunniteltu "
+"sekä kehittäjien että kääntäjien tarpeiden pohjalta helpottamaan "
+"ohjelmistojen kääntämistä eri kielille."
 
 #: weblate/templates/engage.html:30
 #, python-format
@@ -4363,8 +4365,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
 msgstr ""
-"Jos haluat edistää käännös %(project)s, sinun täytyy rekisteröityä tässä "
-"palvelimessa."
+"Jos haluat osallistua käännösprojektiin %(project)s, tulee sinun ensin "
+"rekisteröityä tähän käännöstyökaluun."
 
 #: weblate/templates/engage.html:34
 msgid ""
@@ -4377,7 +4379,10 @@ msgstr ""
 #: weblate/templates/engage.html:38
 msgid ""
 "Once you have activated your account, proceed to the translation section."
-msgstr "Kun olet aktivoinut käyttäjätilisi, siirry käännökset osioon."
+msgstr ""
+"Rekisteröitymisen jälkeen, heti kun olet aktivoinut käyttäjätilisi ja "
+"kirjautunut sisään, voit aloittaa käännöstekstien tutkimisen ja aloittaa "
+"uusien käännösten tekemisen tai parannella vanhoja käännöksiä."
 
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:81
 #: weblate/templates/translate.html:117 weblate/templates/translation.html:124
@@ -6122,28 +6127,30 @@ msgstr "Widgetit"
 
 #: weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
-msgstr "Käännös projektien edistäminen"
+msgstr "Käännösprojektien mainostaminen"
 
 #: weblate/templates/widgets.html:14
 #, python-format
 msgid "You can point newcomers to the introduction page at %(engage_link)s."
-msgstr "Voit osoittaa uusia tulokkaita johdantosivulle %(engage_link)s."
+msgstr ""
+"Voit ohjata kiinnostuneet kääntäjäehdokkaat tälle esittelysivulle "
+"%(engage_link)s."
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
-msgstr "Tiettyjen käännösten edistäminen"
+msgstr "Jonkin tietyn kielikäännöksen mainostaminen"
 
 #: weblate/templates/widgets.html:20
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Koko käännösprojektin edistämisen sijaan voit myös valita jonkin tietyn "
-"kielen käännöksen edistämisen:"
+"Koko käännösprojektin mainostamisen sijaan voit valita jonkin tietyn kielen "
+"mainostamisen käännösprojektistasi:"
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
-msgstr "Kuvawidgetit"
+msgstr "Kuvavimpaimet"
 
 #: weblate/templates/widgets.html:27
 msgid ""
@@ -6151,14 +6158,15 @@ msgid ""
 "They can increase the visibility of your translation projects and bring in "
 "new contributors."
 msgstr ""
-"Voit käyttää seuraavia widgettejä edistääksesi projektisi kääntämistä. "
-"Niiden avulla voit lisätä käännösprojektisi näkyvyyttä ja saada uusia "
-"avustajia."
+"Alla olevista vimpaimista voit valita sinulle sopivimmat vimpaimet "
+"käännösprojektisi mainostamiseen muilla nettisivuillasi. Niiden avulla saat "
+"helposti lisää näkyvyyttä ja mahdollisuutesi tavoittaa uusia potentiaalisia "
+"kääntäjiä kasvavat."
 
 #: weblate/templates/widgets.html:31
 #, python-format
 msgid "Image %(widget)s"
-msgstr "Kuva %(widget)s"
+msgstr "Kuvavimpaimen tyyppi %(widget)s"
 
 #: weblate/templates/widgets.html:33
 msgid "Color variants:"
@@ -8043,9 +8051,9 @@ msgid ""
 "translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Käännösprojekti %(project)s</a> sisältää tällä hetkellä "
-"%(total)s tekstiä käännettäviksi, ja on <a href=\"%(lang_url)s\"> käännetty "
-"%(languages)s kielille</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
-"%% valmiita."
+"%(total)s käännettävää tekstiä, ja se on <a href=\"%(lang_url)s\"> käännetty "
+"%(languages)s kielelle</a>. Kaiken kaikkiaan nämä käännökset ovat "
+"%(percent)s%% valmiita."
 
 #. Translators: line of text in engagement page, please use your
 #. language name instead of English
@@ -8056,8 +8064,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">Käännösprojekti %(project)s</a> Suomeksi sisältää tällä "
-"hetkellä %(total)s tekstiä käännettäviksi, ja on %(percent)s%% valmis."
+"Projektin %(project)s <a href=\"%(url)s\">suomen kielen käännös</a> sisältää "
+"tällä hetkellä yhteensä %(total)s käännettävää tekstiä, joista %(percent)s%% "
+"on tällä hetkellä käännetty."
 
 #: weblate/trans/views/basic.py:378
 msgid ""
