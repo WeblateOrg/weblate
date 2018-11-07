@@ -77,12 +77,13 @@ def get_github_email(access_token):
 def reauthenticate(strategy, backend, user, social, uid, weblate_action,
                    **kwargs):
     """Force authentication when adding new association."""
-    if strategy.request.session.pop('reauthenticate_done', False):
+    session = strategy.request.session
+    if session.pop('reauthenticate_done', False):
         return None
     if weblate_action != 'activation':
         return None
     if user and not social and user.has_usable_password():
-        strategy.request.session['reauthenticate'] = {
+        session['reauthenticate'] = {
             'backend': backend.name,
             'backend_verbose': get_auth_name(backend.name),
             'uid': uid,
@@ -124,14 +125,15 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
 def send_validation(strategy, backend, code, partial_token):
     """Send verification email."""
     # We need to have existing session
-    if not strategy.request.session.session_key:
-        strategy.request.session.create()
-    strategy.request.session['registration-email-sent'] = True
+    session = strategy.request.session
+    if not session.session_key:
+        session.create()
+    session['registration-email-sent'] = True
 
     template = 'activation'
-    if strategy.request.session.get('password_reset'):
+    if session.get('password_reset'):
         template = 'reset'
-    elif strategy.request.session.get('account_remove'):
+    elif session.get('account_remove'):
         template = 'remove'
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
@@ -170,10 +172,11 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
         user.save(update_fields=['password'])
         # Remove partial pipeline, we do not need it
         strategy.really_clean_partial_pipeline(current_partial.token)
+        session = strategy.request.session
         # Store user ID
-        strategy.request.session['perform_reset'] = user.pk
+        session['perform_reset'] = user.pk
         # Set short session expiry
-        strategy.request.session.set_expiry(90)
+        session.set_expiry(90)
         # Redirect to form to change password
         return redirect('password_reset')
     return None
@@ -189,8 +192,9 @@ def remove_account(strategy, backend, user, social, details, weblate_action,
         # Remove partial pipeline, we do not need it
         strategy.really_clean_partial_pipeline(current_partial.token)
         # Set short session expiry
-        strategy.request.session.set_expiry(90)
-        strategy.request.session['remove_confirm'] = True
+        session = strategy.request.session
+        session.set_expiry(90)
+        session['remove_confirm'] = True
         # Redirect to form to change password
         return redirect('remove')
     return None
@@ -234,9 +238,10 @@ def store_params(strategy, user, **kwargs):
         registering_user = None
 
     # Pipeline action
-    if strategy.request.session['password_reset']:
+    session = strategy.request.session
+    if session['password_reset']:
         action = 'reset'
-    elif strategy.request.session['account_remove']:
+    elif session['account_remove']:
         action = 'remove'
     else:
         action = 'activation'
