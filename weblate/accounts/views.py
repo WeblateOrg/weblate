@@ -860,6 +860,48 @@ def social_auth(request, backend):
     return auth(request, backend)
 
 
+def auth_fail(request, message):
+    messages.error(request, message)
+    return redirect(reverse('login'))
+
+
+def auth_redirect_token(request):
+    return auth_fail(
+        request,
+        _(
+            'Failed to verify your registration! '
+            'Probably the verification token has expired. '
+            'Please try the registration again.'
+        )
+    )
+
+
+def auth_redirect_state(request):
+    return auth_fail(
+        request,
+        _('Authentication failed due to invalid session state.')
+    )
+
+
+def handle_missing_parameter(request, error):
+    report_error(error)
+    if error.parameter in ('email', 'user', 'expires'):
+        return auth_redirect_token(request)
+    if error.parameter in ('state', 'code'):
+        return auth_redirect_state(request)
+    if error.parameter == 'demo':
+        return auth_fail(
+            request,
+            _('Can not change authentication for demo!')
+        )
+    if error.parameter == 'disabled':
+        return auth_fail(
+            request,
+            _('New registrations are disabled!')
+        )
+    raise
+
+
 @csrf_exempt
 @avoid_demo
 @never_cache
@@ -869,55 +911,29 @@ def social_complete(request, backend):
     - blocks access for demo user
     - gracefuly handle backend errors
     """
-    # pylint: disable=too-many-branches,too-many-return-statements
-    def fail(message):
-        messages.error(request, message)
-        return redirect(reverse('login'))
-
-    def redirect_token():
-        return fail(_(
-            'Failed to verify your registration! '
-            'Probably the verification token has expired. '
-            'Please try the registration again.'
-        ))
-
-    def redirect_state():
-        return fail(
-            _('Authentication failed due to invalid session state.')
-        )
-
     try:
         return complete(request, backend)
     except InvalidEmail:
-        return redirect_token()
+        return auth_redirect_token(request)
     except AuthMissingParameter as error:
-        report_error(error)
-        if error.parameter in ('email', 'user', 'expires'):
-            return redirect_token()
-        if error.parameter in ('state', 'code'):
-            return redirect_state()
-        if error.parameter == 'demo':
-            return fail(
-                _('Can not change authentication for demo!')
-            )
-        if error.parameter == 'disabled':
-            return fail(
-                _('New registrations are disabled!')
-            )
-        raise
+        return handle_missing_parameter(request, error)
     except (AuthStateMissing, AuthStateForbidden):
-        return redirect_state()
+        return auth_redirect_state(request)
     except AuthFailed:
-        return fail(_(
+        return auth_fail(request, _(
             'Authentication has failed, probably due to expired token '
             'or connection error.'
         ))
     except AuthCanceled:
-        return fail(_('Authentication has been cancelled.'))
+        return auth_fail(
+            request, _('Authentication has been cancelled.')
+        )
     except AuthForbidden:
-        return fail(_('Authentication has been forbidden by server.'))
+        return auth_fail(
+            request, _('Authentication has been forbidden by server.')
+        )
     except AuthAlreadyAssociated:
-        return fail(_(
+        return auth_fail(request, _(
             'Failed to complete your registration! This authentication, '
             'email or username is already associated with another account!'
         ))
