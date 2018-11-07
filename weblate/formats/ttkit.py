@@ -29,8 +29,8 @@ from django.utils.translation import ugettext_lazy as _
 import six
 
 from translate.storage.csvl10n import csv
-from translate.storage.po import pounit, pofile
-from translate.storage.ts2 import tsfile, tsunit
+from translate.storage.po import pofile
+from translate.storage.ts2 import tsfile
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
@@ -40,9 +40,7 @@ from weblate.formats.base import FileUnit, FileFormat
 from weblate.trans.util import get_string, join_plural
 
 
-FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
-SUPPORTS_FUZZY = (pounit, tsunit)
 
 
 class ParseError(Exception):
