@@ -21,7 +21,7 @@
 from django.core.management.base import BaseCommand
 
 from weblate.lang.models import Language, Plural
-from weblate.check.models import Check
+from weblate.checks.models import Check
 
 
 class Command(BaseCommand):
