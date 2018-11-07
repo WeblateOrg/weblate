@@ -236,7 +236,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if not self.revision:
             reason = 'new file'
         elif self.revision != self.get_git_blob_hash():
-            reason = 'hash has changed'
+            reason = 'content changed'
         elif force:
             reason = 'check forced'
         else:
