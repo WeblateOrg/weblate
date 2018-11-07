@@ -380,13 +380,7 @@ class GitWithGerritRepository(GitRepository):
         return cls._popen(['review', '--version'], err=True).split()[-1]
 
     def push(self):
-        try:
-            self.execute(['review', '--yes', self.branch])
-        except RepositoryException as error:
-            if error.retcode == 1:
-                # Nothing to push
-                return
-            raise
+        self.execute(['review', '--yes', self.branch])
 
 
 class SubversionRepository(GitRepository):
