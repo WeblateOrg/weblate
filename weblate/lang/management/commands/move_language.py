@@ -41,7 +41,14 @@ class Command(BaseCommand):
         target = Language.objects.get(code=options['target'])
 
         source.suggestion_set.update(language=target)
-        source.translation_set.update(language=target)
+        for translation in source.translation_set.all():
+            other = translation.component.translation_set.filter(
+                language=target
+            )
+            if other.exists:
+                self.stderr.write('Already exists: {}'.format(translation))
+            translation.language=target
+            translation.save()
         source.whiteboardmessage_set.update(language=target)
 
         for profile in source.profile_set.all():
