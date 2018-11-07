@@ -59,6 +59,16 @@ class PoUnit(FileUnit):
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
 
+    def get_context(self):
+        """Return context of message.
+
+        In some cases we have to use ID here to make all backends consistent.
+        """
+        if self.template is not None:
+            # Monolingual PO files
+            return self.template.getid()
+        return super(PoUnit, self).get_context()
+
 
 class XliffUnit(FileUnit):
     """Wrapper unit for XLIFF

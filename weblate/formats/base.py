@@ -181,11 +181,7 @@ class FileUnit(object):
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        if isinstance(self.mainunit, pounit) and self.template is not None:
-            # Monolingual PO files
-            return self.template.getid()
-        else:
-            context = self.mainunit.getcontext()
+        context = self.mainunit.getcontext()
         if self.is_unit_key_value(self.mainunit) and context == '':
             return self.mainunit.getid()
         return context
