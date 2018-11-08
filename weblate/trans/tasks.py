@@ -290,7 +290,7 @@ def setup_periodic_tasks(sender, **kwargs):
         name='commit-pending',
     )
     sender.add_periodic_task(
-        3600 * 24,
+        crontab(hour=3, minute=30),
         update_remotes.s(),
         name='update-remotes',
     )
