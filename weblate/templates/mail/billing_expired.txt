@@ -4,5 +4,11 @@
 
 {{ billing_url }}
 
+This billing plan covers following projects:
+
+{% for project in billing.projects %}
+* {{ project }}: {{ current_site_url }}{{ project.get_absolute_url }}">
+{% endfor %}
+
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}
 

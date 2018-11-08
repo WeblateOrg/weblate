@@ -13,4 +13,12 @@
 <a href="{{ billing_url }}">{{ billing_url }}</a>
 </p>
 
+<p>{% trans "This billing plan covers following projects:" %}</p>
+
+<ul>
+{% for project in billing.projects %}
+<li><a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}
