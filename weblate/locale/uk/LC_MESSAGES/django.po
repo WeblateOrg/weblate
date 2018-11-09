@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-02 07:02+0000\n"
+"POT-Creation-Date: 2018-11-09 15:24+0000\n"
 "PO-Revision-Date: 2018-11-04 16:26+0000\n"
 "Last-Translator: Taras <oster.ok@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -479,23 +479,23 @@ msgstr "Не можна повторно використовувати попе
 msgid "Your password can't match a password you have used in the past."
 msgstr "Ваш пароль не може збігатися з тим, який ви раніше використовували."
 
-#: weblate/accounts/pipeline.py:295
+#: weblate/accounts/pipeline.py:300
 msgid "You can not complete password reset while logged in!"
 msgstr "Ви не можете відновити повністю пароль, поки перебуваєте у системі!"
 
-#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
 msgid "The registration link has been invalidated."
 msgstr "Посилання на реєстрацію визнане недійсним."
 
-#: weblate/accounts/pipeline.py:314
+#: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
 msgstr "Ви не можете завершити реєстрацію, поки перебуваєте у системі!"
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
 msgstr "Ви можете підтвердити вашу реєстрацію лише, коли увійдете!"
 
-#: weblate/accounts/pipeline.py:456
+#: weblate/accounts/pipeline.py:461
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -595,7 +595,7 @@ msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
 "Не можна відновити пароль, бо вимкнена перевірка через електронну пошту!"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:872
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -603,11 +603,15 @@ msgstr ""
 "Не вдалося перевірити вашу реєстрацію! Можливо, маркер підтвердження "
 "застарів. Будь ласка, спробуйте зареєструватись знову."
 
-#: weblate/accounts/views.py:886
+#: weblate/accounts/views.py:882
 msgid "Authentication failed due to invalid session state."
 msgstr "Вхід не вдався через недійсний стан сеансу."
 
-#: weblate/accounts/views.py:901
+#: weblate/accounts/views.py:891
+msgid "Third party authentication service did not provide email!"
+msgstr ""
+
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "Не можна змінити автентифікацію для демо!"
 
@@ -615,22 +619,22 @@ msgstr "Не можна змінити автентифікацію для де�
 msgid "New registrations are disabled!"
 msgstr "Нові реєстрації вимкнені!"
 
-#: weblate/accounts/views.py:912
+#: weblate/accounts/views.py:929
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Ввійти не вдалося, ймовірно, через закінчення терміну дії маркера або "
 "помилка з'єднання."
 
-#: weblate/accounts/views.py:916
+#: weblate/accounts/views.py:934
 msgid "Authentication has been cancelled."
 msgstr "Автентифікація скасована."
 
-#: weblate/accounts/views.py:918
+#: weblate/accounts/views.py:938
 msgid "Authentication has been forbidden by server."
 msgstr "Автентифікація заборонена сервером."
 
-#: weblate/accounts/views.py:921
+#: weblate/accounts/views.py:942
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -1821,103 +1825,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:228
+#: weblate/formats/ttkit.py:236
 msgid "Gettext PO file"
 msgstr "Gettext PO файл"
 
-#: weblate/formats/ttkit.py:271
+#: weblate/formats/ttkit.py:279
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO файл (одномовний)"
 
-#: weblate/formats/ttkit.py:284
+#: weblate/formats/ttkit.py:292
 msgid "Qt Linguist Translation File"
 msgstr "файл перекладу Qt Linguist"
 
-#: weblate/formats/ttkit.py:300
+#: weblate/formats/ttkit.py:308
 msgid "XLIFF Translation File"
 msgstr "Файл перекладу XLIFF"
 
-#: weblate/formats/ttkit.py:333
+#: weblate/formats/ttkit.py:341
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл перекладу XLIFF із розширенням PO"
 
-#: weblate/formats/ttkit.py:353
+#: weblate/formats/ttkit.py:361
 msgid "OS X Strings"
 msgstr "Рядки OS X"
 
-#: weblate/formats/ttkit.py:366
+#: weblate/formats/ttkit.py:374
 msgid "OS X Strings (UTF-8)"
 msgstr "Рядки OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:373
+#: weblate/formats/ttkit.py:381
 msgid "Java Properties (UTF-8)"
 msgstr "Властивості Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:381
+#: weblate/formats/ttkit.py:389
 msgid "Java Properties (UTF-16)"
 msgstr "Властивості Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:387
+#: weblate/formats/ttkit.py:395
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Властивості Java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:404
+#: weblate/formats/ttkit.py:412
 msgid "Joomla Language File"
 msgstr "Мовний файл Joomla"
 
-#: weblate/formats/ttkit.py:413
+#: weblate/formats/ttkit.py:421
 msgid "PHP strings"
 msgstr "Рядки PHP"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:440
 msgid ".Net resource file"
 msgstr "Файл ресурсу .Net"
 
-#: weblate/formats/ttkit.py:442
+#: weblate/formats/ttkit.py:450
 msgid "Android String Resource"
 msgstr "Рядки ресурсів Android"
 
-#: weblate/formats/ttkit.py:471
+#: weblate/formats/ttkit.py:479
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/formats/ttkit.py:490
+#: weblate/formats/ttkit.py:498
 msgid "JSON nested structure file"
 msgstr "Файл JSON із вкладеною структурою"
 
-#: weblate/formats/ttkit.py:496
+#: weblate/formats/ttkit.py:504
 msgid "WebExtension JSON file"
 msgstr "Файл JSON для WebExtension"
 
-#: weblate/formats/ttkit.py:504
+#: weblate/formats/ttkit.py:512
 msgid "i18next JSON file"
 msgstr "Файл i18next JSON"
 
-#: weblate/formats/ttkit.py:510
+#: weblate/formats/ttkit.py:518
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/formats/ttkit.py:576
+#: weblate/formats/ttkit.py:584
 msgid "Simple CSV file"
 msgstr "Простий файл CSV"
 
-#: weblate/formats/ttkit.py:612
+#: weblate/formats/ttkit.py:620
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простий файл CSV (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:618
+#: weblate/formats/ttkit.py:626
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/formats/ttkit.py:637
+#: weblate/formats/ttkit.py:645
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:652
 msgid "DTD file"
 msgstr "Файл DTD"
 
-#: weblate/formats/ttkit.py:670
+#: weblate/formats/ttkit.py:678
 msgid "RC file"
 msgstr "Файл RC"
 
@@ -2238,11 +2242,11 @@ msgstr "Конфіденційність"
 msgid "Security"
 msgstr "Безпека"
 
-#: weblate/legal/templates/legal/security.html:17
+#: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
 msgstr "Політика безпеки"
 
-#: weblate/legal/templates/legal/security.html:22
+#: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
@@ -2251,7 +2255,7 @@ msgstr ""
 "середовище так, щоби воно цінувало безпеку і конфіденційність наших "
 "користувачів."
 
-#: weblate/legal/templates/legal/security.html:27
+#: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
@@ -2260,7 +2264,29 @@ msgstr ""
 "інфраструктури від фундації Linux (Linux Foundation Core Infrastructure "
 "Initiative Best Practices)."
 
-#: weblate/legal/templates/legal/security.html:32
+#: weblate/legal/templates/legal/security.html:38
+#, fuzzy
+#| msgid "Security"
+msgid "Security FAQ"
+msgstr "Безпека"
+
+#: weblate/legal/templates/legal/security.html:41
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "How do you store user passwords?"
+msgstr "Забули свій пароль?"
+
+#: weblate/legal/templates/legal/security.html:43
+msgid ""
+"All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
+"SHA256 with 150000 iterations for that."
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:45
+msgid "I have found a security issue, how should I report it?"
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -4880,6 +4906,12 @@ msgid ""
 msgstr ""
 "Термін дії тарифного плану минав, якщо ви хочете продовжити використання "
 "цієї послуги, оновіть план, використовуючи це посилання:"
+
+#: weblate/templates/mail/billing_expired.html:16
+#, fuzzy
+#| msgid "This site is built using following projects:"
+msgid "This billing plan covers following projects:"
+msgstr "Сайт побудований за допомогою таких проектів:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -10579,9 +10611,6 @@ msgstr "Не вдалося знехтувати помилкою в налаш�
 
 #~ msgid "{name} (e.g. {examples})"
 #~ msgstr "{name} (напр. {examples})"
-
-#~ msgid "This site is built using following projects:"
-#~ msgstr "Сайт побудований за допомогою таких проектів:"
 
 #~ msgid "Browse all changes"
 #~ msgstr "Перегляд всіх змін"

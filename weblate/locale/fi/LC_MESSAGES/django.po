@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-02 07:02+0000\n"
+"POT-Creation-Date: 2018-11-09 15:24+0000\n"
 "PO-Revision-Date: 2018-11-08 08:22+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -483,24 +483,24 @@ msgstr "Aiemmin käytettyä salasanaa ei voida käyttää uudelleen!"
 msgid "Your password can't match a password you have used in the past."
 msgstr "Salasanasi ei saa sellainen salasana jota olet käyttänyt aiemmin."
 
-#: weblate/accounts/pipeline.py:295
+#: weblate/accounts/pipeline.py:300
 msgid "You can not complete password reset while logged in!"
 msgstr ""
 "Et voi viedä loppuun salasanan palautusta koska olet kirjautunut sisään!"
 
-#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
 msgid "The registration link has been invalidated."
 msgstr "Rekisteröintilinkki ei ole enään kelvollinen."
 
-#: weblate/accounts/pipeline.py:314
+#: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
 msgstr "Et voi tehdä rekisteröintiä loppuun koska olet kirjautunut sisään!"
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
 msgstr "Voit vahvistaa rekisteröitymisesi vain jos olet kirjautunut sisään!"
 
-#: weblate/accounts/pipeline.py:456
+#: weblate/accounts/pipeline.py:461
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -599,7 +599,7 @@ msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
 "Salasanaa ei voi resetoida koska sähköpostitunnistautuminen ei ole käytössä!"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:872
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -607,11 +607,15 @@ msgstr ""
 "Rekisteröintiäsi ei voida vahvistaa! Todennäköisesti rekisteröinnin varmiste "
 "on vanhentunut. Ole hyvä ja yritä rekisteröintiä uudelleen."
 
-#: weblate/accounts/views.py:886
+#: weblate/accounts/views.py:882
 msgid "Authentication failed due to invalid session state."
 msgstr "Tunnistautuminen epäonnistui koska istunnon tila on virheellinen."
 
-#: weblate/accounts/views.py:901
+#: weblate/accounts/views.py:891
+msgid "Third party authentication service did not provide email!"
+msgstr ""
+
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "Kokeilutilin tunnistautumistietoja ei voi vaihtaa!"
 
@@ -619,22 +623,22 @@ msgstr "Kokeilutilin tunnistautumistietoja ei voi vaihtaa!"
 msgid "New registrations are disabled!"
 msgstr "Uudet rekisteröinnit on estetty!"
 
-#: weblate/accounts/views.py:912
+#: weblate/accounts/views.py:929
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Tunnistautuminen epäonnistui. Mahdollinen syy voi olla joko vanhentunut "
 "istunto tai yhteysvirhe."
 
-#: weblate/accounts/views.py:916
+#: weblate/accounts/views.py:934
 msgid "Authentication has been cancelled."
 msgstr "Tunnistautuminen on keskeytetty."
 
-#: weblate/accounts/views.py:918
+#: weblate/accounts/views.py:938
 msgid "Authentication has been forbidden by server."
 msgstr "Palvelin kielsi tunnistautumisen."
 
-#: weblate/accounts/views.py:921
+#: weblate/accounts/views.py:942
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -862,8 +866,8 @@ msgstr "Luo MO -tiedostot"
 #: weblate/addons/gettext.py:57
 msgid "Automatically generates MO file for every changed PO file."
 msgstr ""
-"Jokaiselle muutetulle PO -tiedostolle generoidaan automaattisesti MO "
-"-tiedosto."
+"Jokaiselle muutetulle PO -tiedostolle generoidaan automaattisesti MO -"
+"tiedosto."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -1841,103 +1845,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:228
+#: weblate/formats/ttkit.py:236
 msgid "Gettext PO file"
 msgstr "Gettext PO tiedosto"
 
-#: weblate/formats/ttkit.py:271
+#: weblate/formats/ttkit.py:279
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO tiedosto (yksikielinen)"
 
-#: weblate/formats/ttkit.py:284
+#: weblate/formats/ttkit.py:292
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist"
 
-#: weblate/formats/ttkit.py:300
+#: weblate/formats/ttkit.py:308
 msgid "XLIFF Translation File"
 msgstr "XLIFF käännöstiedosto"
 
-#: weblate/formats/ttkit.py:333
+#: weblate/formats/ttkit.py:341
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF -käännöstiedosto PO -laajennuksella"
 
-#: weblate/formats/ttkit.py:353
+#: weblate/formats/ttkit.py:361
 msgid "OS X Strings"
 msgstr "OS X -tekstit"
 
-#: weblate/formats/ttkit.py:366
+#: weblate/formats/ttkit.py:374
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X -tekstit (UTF-8)"
 
-#: weblate/formats/ttkit.py:373
+#: weblate/formats/ttkit.py:381
 msgid "Java Properties (UTF-8)"
 msgstr "Java ominaisuudet (UTF-8)"
 
-#: weblate/formats/ttkit.py:381
+#: weblate/formats/ttkit.py:389
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/formats/ttkit.py:387
+#: weblate/formats/ttkit.py:395
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:404
+#: weblate/formats/ttkit.py:412
 msgid "Joomla Language File"
 msgstr "Joomla -kielitiedosto"
 
-#: weblate/formats/ttkit.py:413
+#: weblate/formats/ttkit.py:421
 msgid "PHP strings"
 msgstr "PHP -tekstit"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:440
 msgid ".Net resource file"
 msgstr ".Net -resurssitiedosto"
 
-#: weblate/formats/ttkit.py:442
+#: weblate/formats/ttkit.py:450
 msgid "Android String Resource"
 msgstr "Android resurssien tekstit"
 
-#: weblate/formats/ttkit.py:471
+#: weblate/formats/ttkit.py:479
 msgid "JSON file"
 msgstr "JSON -tiedosto (yksinkertainen)"
 
-#: weblate/formats/ttkit.py:490
+#: weblate/formats/ttkit.py:498
 msgid "JSON nested structure file"
 msgstr "JSON -tiedosto (sisäkkäinen rakenne)"
 
-#: weblate/formats/ttkit.py:496
+#: weblate/formats/ttkit.py:504
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON -tiedosto"
 
-#: weblate/formats/ttkit.py:504
+#: weblate/formats/ttkit.py:512
 msgid "i18next JSON file"
 msgstr "i18next JSON -tiedosto"
 
-#: weblate/formats/ttkit.py:510
+#: weblate/formats/ttkit.py:518
 msgid "CSV file"
 msgstr "CSV -tiedosto"
 
-#: weblate/formats/ttkit.py:576
+#: weblate/formats/ttkit.py:584
 msgid "Simple CSV file"
 msgstr "Yksinkertainen CSV -tiedosto"
 
-#: weblate/formats/ttkit.py:612
+#: weblate/formats/ttkit.py:620
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Yksinkertainen CSV -tiedosto (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:618
+#: weblate/formats/ttkit.py:626
 msgid "YAML file"
 msgstr "YAML -tiedosto"
 
-#: weblate/formats/ttkit.py:637
+#: weblate/formats/ttkit.py:645
 msgid "Ruby YAML file"
 msgstr "Ruby YAML -tiedosto"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:652
 msgid "DTD file"
 msgstr "DTD-tiedosto"
 
-#: weblate/formats/ttkit.py:670
+#: weblate/formats/ttkit.py:678
 msgid "RC file"
 msgstr "RC -tiedosto"
 
@@ -2258,11 +2262,11 @@ msgstr "Yksityisyys"
 msgid "Security"
 msgstr "Turvallisuus"
 
-#: weblate/legal/templates/legal/security.html:17
+#: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
 msgstr "Turvallisuuskäytännöt"
 
-#: weblate/legal/templates/legal/security.html:22
+#: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
@@ -2270,7 +2274,7 @@ msgstr ""
 "Me Weblatella otamme turvallisuuden tosissaan ja pyrimme ylläpitämään "
 "palveluympäristöä joka arvostaa käyttäjien turvallisuutta ja yksityisyyttä."
 
-#: weblate/legal/templates/legal/security.html:27
+#: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
@@ -2278,7 +2282,29 @@ msgstr ""
 "Weblaten kehitystyö noudattaa Linux Foundationin yhteistyöprojektin, Core "
 "Infrastructure Initiative:n Best Practices määritelmiä."
 
-#: weblate/legal/templates/legal/security.html:32
+#: weblate/legal/templates/legal/security.html:38
+#, fuzzy
+#| msgid "Security"
+msgid "Security FAQ"
+msgstr "Turvallisuus"
+
+#: weblate/legal/templates/legal/security.html:41
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "How do you store user passwords?"
+msgstr "Unohditko salasanasi?"
+
+#: weblate/legal/templates/legal/security.html:43
+msgid ""
+"All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
+"SHA256 with 150000 iterations for that."
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:45
+msgid "I have found a security issue, how should I report it?"
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -3611,7 +3637,8 @@ msgstr "Lopeta toistuva maksu"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr "Lopettaaksesi laskutuksen, sinun täytyy ensin poistaa kaikki projektit."
+msgstr ""
+"Lopettaaksesi laskutuksen, sinun täytyy ensin poistaa kaikki projektit."
 
 #: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
@@ -4909,6 +4936,12 @@ msgid ""
 msgstr ""
 "Laskutussuunnitelmasi ei ole enään voimassa. Jos haluat jatkaa palvelun "
 "käyttöä, ole hyvä ja uusi se seuraamalla linkkiä:"
+
+#: weblate/templates/mail/billing_expired.html:16
+#, fuzzy
+#| msgid "This site is built using following projects:"
+msgid "This billing plan covers following projects:"
+msgstr "Tämä sivu on rakennettu käyttämällä seuraavia projekteja:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -6662,8 +6695,8 @@ msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Anna pilkulla erotettu lista käännösehdoista, katso <a href=\"{url}\""
-">ohjeista</a> lisätietoja."
+"Anna pilkulla erotettu lista käännösehdoista, katso <a href="
+"\"{url}\">ohjeista</a> lisätietoja."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -8052,8 +8085,8 @@ msgid ""
 msgstr ""
 "<a href=\"%(url)s\">Käännösprojekti %(project)s</a> sisältää tällä hetkellä "
 "%(total)s käännettävää tekstiä, ja se on <a href=\"%(lang_url)s\"> käännetty "
-"%(languages)s kielelle</a>. Kaiken kaikkiaan nämä käännökset ovat "
-"%(percent)s%% valmiita."
+"%(languages)s kielelle</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
+"%% valmiita."
 
 #. Translators: line of text in engagement page, please use your
 #. language name instead of English
@@ -10591,9 +10624,6 @@ msgstr "Asetusvirheen hylkääminen epäonnistui!"
 
 #~ msgid "{name} (e.g. {examples})"
 #~ msgstr "{name} (esim. {examples})"
-
-#~ msgid "This site is built using following projects:"
-#~ msgstr "Tämä sivu on rakennettu käyttämällä seuraavia projekteja:"
 
 #~ msgid "Browse all changes"
 #~ msgstr "Selaa kaikkia muutoksia"

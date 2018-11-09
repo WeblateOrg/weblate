@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-02 07:02+0000\n"
+"POT-Creation-Date: 2018-11-09 15:24+0000\n"
 "PO-Revision-Date: 2018-11-04 16:25+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -480,23 +480,23 @@ msgstr "今までに使用したパスワードは再利用できません！"
 msgid "Your password can't match a password you have used in the past."
 msgstr "過去に使用したパスワードと一致してはいけません。"
 
-#: weblate/accounts/pipeline.py:295
+#: weblate/accounts/pipeline.py:300
 msgid "You can not complete password reset while logged in!"
 msgstr "パスワードのリセットはログイン中に完了できません！"
 
-#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
 msgid "The registration link has been invalidated."
 msgstr "登録リンクを取り消しました。"
 
-#: weblate/accounts/pipeline.py:314
+#: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
 msgstr "登録処理はログイン中に完了できません！"
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
 msgstr "登録処理はログイン中のみ確認できます！"
 
-#: weblate/accounts/pipeline.py:456
+#: weblate/accounts/pipeline.py:461
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -596,7 +596,7 @@ msgstr ""
 "パスワードをリセットすることができません。電子メール認証が無効化されていま"
 "す！"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:872
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -604,11 +604,15 @@ msgstr ""
 "登録の検証に失敗しました！検証トークンの期限が切れた可能性がありますので、も"
 "う一度登録をしてください。"
 
-#: weblate/accounts/views.py:886
+#: weblate/accounts/views.py:882
 msgid "Authentication failed due to invalid session state."
 msgstr "セッション状態が正しくないため、認証に失敗しました。"
 
-#: weblate/accounts/views.py:901
+#: weblate/accounts/views.py:891
+msgid "Third party authentication service did not provide email!"
+msgstr ""
+
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "デモ環境の場合、認証を変更することはできません！"
 
@@ -616,20 +620,20 @@ msgstr "デモ環境の場合、認証を変更することはできません！
 msgid "New registrations are disabled!"
 msgstr "新規登録は無効化されています！"
 
-#: weblate/accounts/views.py:912
+#: weblate/accounts/views.py:929
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr "認証が失敗しました。トークンの期限切れか、接続エラーと思われます。"
 
-#: weblate/accounts/views.py:916
+#: weblate/accounts/views.py:934
 msgid "Authentication has been cancelled."
 msgstr "認証をキャンセルしました。"
 
-#: weblate/accounts/views.py:918
+#: weblate/accounts/views.py:938
 msgid "Authentication has been forbidden by server."
 msgstr "認証をサーバ側で禁止しました。"
 
-#: weblate/accounts/views.py:921
+#: weblate/accounts/views.py:942
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -1805,103 +1809,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:228
+#: weblate/formats/ttkit.py:236
 msgid "Gettext PO file"
 msgstr "Gettext PO ファイル"
 
-#: weblate/formats/ttkit.py:271
+#: weblate/formats/ttkit.py:279
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO ファイル (単一言語)"
 
-#: weblate/formats/ttkit.py:284
+#: weblate/formats/ttkit.py:292
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:300
+#: weblate/formats/ttkit.py:308
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:333
+#: weblate/formats/ttkit.py:341
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO 拡張付きの XLIFF 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:353
+#: weblate/formats/ttkit.py:361
 msgid "OS X Strings"
 msgstr "OS X の文字列"
 
-#: weblate/formats/ttkit.py:366
+#: weblate/formats/ttkit.py:374
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X の文字列 (UTF-8)"
 
-#: weblate/formats/ttkit.py:373
+#: weblate/formats/ttkit.py:381
 msgid "Java Properties (UTF-8)"
 msgstr "Java プロパティファイル (UTF-8)"
 
-#: weblate/formats/ttkit.py:381
+#: weblate/formats/ttkit.py:389
 msgid "Java Properties (UTF-16)"
 msgstr "Java プロパティファイル (UTF-16)"
 
-#: weblate/formats/ttkit.py:387
+#: weblate/formats/ttkit.py:395
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java プロパティファイル (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:404
+#: weblate/formats/ttkit.py:412
 msgid "Joomla Language File"
 msgstr "Joomla 言語ファイル"
 
-#: weblate/formats/ttkit.py:413
+#: weblate/formats/ttkit.py:421
 msgid "PHP strings"
 msgstr "PHP 文字列"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:440
 msgid ".Net resource file"
 msgstr ".Net リソース ファイル"
 
-#: weblate/formats/ttkit.py:442
+#: weblate/formats/ttkit.py:450
 msgid "Android String Resource"
 msgstr "Android 文字列リソース"
 
-#: weblate/formats/ttkit.py:471
+#: weblate/formats/ttkit.py:479
 msgid "JSON file"
 msgstr "JSON ファイル"
 
-#: weblate/formats/ttkit.py:490
+#: weblate/formats/ttkit.py:498
 msgid "JSON nested structure file"
 msgstr "JSON ネスト型構造ファイル"
 
-#: weblate/formats/ttkit.py:496
+#: weblate/formats/ttkit.py:504
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON ファイル"
 
-#: weblate/formats/ttkit.py:504
+#: weblate/formats/ttkit.py:512
 msgid "i18next JSON file"
 msgstr "i18next JSON ファイル"
 
-#: weblate/formats/ttkit.py:510
+#: weblate/formats/ttkit.py:518
 msgid "CSV file"
 msgstr "CSV ファイル"
 
-#: weblate/formats/ttkit.py:576
+#: weblate/formats/ttkit.py:584
 msgid "Simple CSV file"
 msgstr "シンプルな CSV ファイル"
 
-#: weblate/formats/ttkit.py:612
+#: weblate/formats/ttkit.py:620
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "シンプルな CSV ファイル (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:618
+#: weblate/formats/ttkit.py:626
 msgid "YAML file"
 msgstr "YAML ファイル"
 
-#: weblate/formats/ttkit.py:637
+#: weblate/formats/ttkit.py:645
 msgid "Ruby YAML file"
 msgstr "Ruby YAML ファイル"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:652
 msgid "DTD file"
 msgstr "DTD ファイル"
 
-#: weblate/formats/ttkit.py:670
+#: weblate/formats/ttkit.py:678
 msgid "RC file"
 msgstr "RC ファイル"
 
@@ -2221,11 +2225,11 @@ msgstr "プライバシー"
 msgid "Security"
 msgstr "セキュリティ"
 
-#: weblate/legal/templates/legal/security.html:17
+#: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
 msgstr "セキュリティポリシー"
 
-#: weblate/legal/templates/legal/security.html:22
+#: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
@@ -2233,7 +2237,7 @@ msgstr ""
 "Weblate ではセキュリティを重要な課題として位置づけており、セキュリティとユー"
 "ザのプライバシー保護のため、環境の維持に努力しています。"
 
-#: weblate/legal/templates/legal/security.html:27
+#: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
@@ -2241,7 +2245,29 @@ msgstr ""
 "Weblate の開発は、 Linux Foundation の Core Infrastructure Initiative が提供"
 "する Best Practices の方式に従っています。"
 
-#: weblate/legal/templates/legal/security.html:32
+#: weblate/legal/templates/legal/security.html:38
+#, fuzzy
+#| msgid "Security"
+msgid "Security FAQ"
+msgstr "セキュリティ"
+
+#: weblate/legal/templates/legal/security.html:41
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "How do you store user passwords?"
+msgstr "パスワードをお忘れですか？"
+
+#: weblate/legal/templates/legal/security.html:43
+msgid ""
+"All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
+"SHA256 with 150000 iterations for that."
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:45
+msgid "I have found a security issue, how should I report it?"
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -3275,7 +3301,9 @@ msgstr "アドオンの設定"
 msgid ""
 "This addon operates on whole project, it is enough to install it on one "
 "component."
-msgstr "このアドオンはプロジェクト全体に対して動作します。1 つのコンポーネントにインストールすれば十分です。"
+msgstr ""
+"このアドオンはプロジェクト全体に対して動作します。1 つのコンポーネントにイン"
+"ストールすれば十分です。"
 
 #: weblate/templates/addons/addon_head.html:5
 msgid "project wide"
@@ -4858,7 +4886,15 @@ msgstr "通知設定の変更"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
-msgstr "ご利用の課金プランは期限切れの状態になっています。サービスの使用を続けたい場合は、下記のリンクを利用して更新を行なってください。"
+msgstr ""
+"ご利用の課金プランは期限切れの状態になっています。サービスの使用を続けたい場"
+"合は、下記のリンクを利用して更新を行なってください。"
+
+#: weblate/templates/mail/billing_expired.html:16
+#, fuzzy
+#| msgid "This site is built using following projects:"
+msgid "This billing plan covers following projects:"
+msgstr "このサイトは、以下のプロジェクトを使用して構築されています。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -10521,9 +10557,6 @@ msgstr "設定エラーを隠す処理に失敗しました！"
 
 #~ msgid "{name} (e.g. {examples})"
 #~ msgstr "{name} (例: {examples})"
-
-#~ msgid "This site is built using following projects:"
-#~ msgstr "このサイトは、以下のプロジェクトを使用して構築されています。"
 
 #~ msgid "Browse all changes"
 #~ msgstr "すべての変更を参照する"

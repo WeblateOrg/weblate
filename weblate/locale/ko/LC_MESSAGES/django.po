@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-02 07:02+0000\n"
+"POT-Creation-Date: 2018-11-09 15:24+0000\n"
 "PO-Revision-Date: 2018-11-04 16:25+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -464,23 +464,23 @@ msgstr "이전에 사용한 비밀번호를 다시 사용할 수 없습니다!"
 msgid "Your password can't match a password you have used in the past."
 msgstr "과거에 사용한 비밀번호와 일치해서는 안됩니다."
 
-#: weblate/accounts/pipeline.py:295
+#: weblate/accounts/pipeline.py:300
 msgid "You can not complete password reset while logged in!"
 msgstr "로그인한 상태에서는 비밀번호 초기화를 완료할 수 없습니다!"
 
-#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
 msgid "The registration link has been invalidated."
 msgstr "등록 링크가 무효화되었습니다."
 
-#: weblate/accounts/pipeline.py:314
+#: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
 msgstr "로그인 중에는 등록을 완료할 수 없습니다!"
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
 msgstr "로그인 중에만 등록을 확인할 수 있습니다!"
 
-#: weblate/accounts/pipeline.py:456
+#: weblate/accounts/pipeline.py:461
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -578,7 +578,7 @@ msgstr "비밀번호 초기화가 이미 완료되었습니다!"
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "이메일 인증이 활성화되어 있지 않아서, 비밀번호를 초기화할 수 없습니다!"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:872
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -586,11 +586,15 @@ msgstr ""
 "등록을 확인할 수 없습니다! 토큰이 만료되었을 수 있습니다. 다시 한번 등록해주"
 "시기 바랍니다."
 
-#: weblate/accounts/views.py:886
+#: weblate/accounts/views.py:882
 msgid "Authentication failed due to invalid session state."
 msgstr "잘못된 세션 상태로 인해 인증에 실패했습니다."
 
-#: weblate/accounts/views.py:901
+#: weblate/accounts/views.py:891
+msgid "Third party authentication service did not provide email!"
+msgstr ""
+
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "데모 환경은 인증을 변경할 수 없습니다!"
 
@@ -598,20 +602,20 @@ msgstr "데모 환경은 인증을 변경할 수 없습니다!"
 msgid "New registrations are disabled!"
 msgstr "회원 가입이 비활성화 되어 있습니다!"
 
-#: weblate/accounts/views.py:912
+#: weblate/accounts/views.py:929
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
 
-#: weblate/accounts/views.py:916
+#: weblate/accounts/views.py:934
 msgid "Authentication has been cancelled."
 msgstr "인증이 취소되었습니다."
 
-#: weblate/accounts/views.py:918
+#: weblate/accounts/views.py:938
 msgid "Authentication has been forbidden by server."
 msgstr "인증이 서버에 의해 금지되었습니다."
 
-#: weblate/accounts/views.py:921
+#: weblate/accounts/views.py:942
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -1782,103 +1786,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel 오픈 XML"
 
-#: weblate/formats/ttkit.py:228
+#: weblate/formats/ttkit.py:236
 msgid "Gettext PO file"
 msgstr "Gettext PO 파일"
 
-#: weblate/formats/ttkit.py:271
+#: weblate/formats/ttkit.py:279
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 파일 (단일 단어)"
 
-#: weblate/formats/ttkit.py:284
+#: weblate/formats/ttkit.py:292
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 번역 파일"
 
-#: weblate/formats/ttkit.py:300
+#: weblate/formats/ttkit.py:308
 msgid "XLIFF Translation File"
 msgstr "XLIFF 번역 파일"
 
-#: weblate/formats/ttkit.py:333
+#: weblate/formats/ttkit.py:341
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO 확장이 있는 XLIFF 번역 파일"
 
-#: weblate/formats/ttkit.py:353
+#: weblate/formats/ttkit.py:361
 msgid "OS X Strings"
 msgstr "OS X 문자열"
 
-#: weblate/formats/ttkit.py:366
+#: weblate/formats/ttkit.py:374
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 문자열 (UTF-8)"
 
-#: weblate/formats/ttkit.py:373
+#: weblate/formats/ttkit.py:381
 msgid "Java Properties (UTF-8)"
 msgstr "자바 환경 설정 (UTF-8)"
 
-#: weblate/formats/ttkit.py:381
+#: weblate/formats/ttkit.py:389
 msgid "Java Properties (UTF-16)"
 msgstr "자바 환경 설정 (UTF-16)"
 
-#: weblate/formats/ttkit.py:387
+#: weblate/formats/ttkit.py:395
 msgid "Java Properties (ISO-8859-1)"
 msgstr "자바 환경 설정 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:404
+#: weblate/formats/ttkit.py:412
 msgid "Joomla Language File"
 msgstr "Joomla 언어 파일"
 
-#: weblate/formats/ttkit.py:413
+#: weblate/formats/ttkit.py:421
 msgid "PHP strings"
 msgstr "PHP 문자열"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:440
 msgid ".Net resource file"
 msgstr ".Net 리소스 파일"
 
-#: weblate/formats/ttkit.py:442
+#: weblate/formats/ttkit.py:450
 msgid "Android String Resource"
 msgstr "안드로이드 문자열 리소스"
 
-#: weblate/formats/ttkit.py:471
+#: weblate/formats/ttkit.py:479
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/formats/ttkit.py:490
+#: weblate/formats/ttkit.py:498
 msgid "JSON nested structure file"
 msgstr "JSON 중첩 구조 파일"
 
-#: weblate/formats/ttkit.py:496
+#: weblate/formats/ttkit.py:504
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 파일"
 
-#: weblate/formats/ttkit.py:504
+#: weblate/formats/ttkit.py:512
 msgid "i18next JSON file"
 msgstr "i18next JSON 파일"
 
-#: weblate/formats/ttkit.py:510
+#: weblate/formats/ttkit.py:518
 msgid "CSV file"
 msgstr "CSV 파일"
 
-#: weblate/formats/ttkit.py:576
+#: weblate/formats/ttkit.py:584
 msgid "Simple CSV file"
 msgstr "Simple CSV 파일"
 
-#: weblate/formats/ttkit.py:612
+#: weblate/formats/ttkit.py:620
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simple CSV 파일 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:618
+#: weblate/formats/ttkit.py:626
 msgid "YAML file"
 msgstr "YAML 파일"
 
-#: weblate/formats/ttkit.py:637
+#: weblate/formats/ttkit.py:645
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 파일"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:652
 msgid "DTD file"
 msgstr "DTD 파일"
 
-#: weblate/formats/ttkit.py:670
+#: weblate/formats/ttkit.py:678
 msgid "RC file"
 msgstr "RC 파일"
 
@@ -2195,11 +2199,11 @@ msgstr "개인 정보 보호"
 msgid "Security"
 msgstr "보안"
 
-#: weblate/legal/templates/legal/security.html:17
+#: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
 msgstr "보안 정책"
 
-#: weblate/legal/templates/legal/security.html:22
+#: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
@@ -2207,7 +2211,7 @@ msgstr ""
 "Weblate는 보안을 중요하게 생각하며 사용자의 보안과 개인 정보를 소중하게 여기"
 "는 환경을 유지하기 위해 노력합니다."
 
-#: weblate/legal/templates/legal/security.html:27
+#: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
@@ -2215,7 +2219,29 @@ msgstr ""
 "Weblate 개발은 The Linux Foundation Core Infrastructure Initiative Best "
 "Practices를 따릅니다."
 
-#: weblate/legal/templates/legal/security.html:32
+#: weblate/legal/templates/legal/security.html:38
+#, fuzzy
+#| msgid "Security"
+msgid "Security FAQ"
+msgstr "보안"
+
+#: weblate/legal/templates/legal/security.html:41
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "How do you store user passwords?"
+msgstr "비밀번호를 잊어 버렸습니까?"
+
+#: weblate/legal/templates/legal/security.html:43
+msgid ""
+"All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
+"SHA256 with 150000 iterations for that."
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:45
+msgid "I have found a security issue, how should I report it?"
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -4778,7 +4804,15 @@ msgstr "구독 설정 변경"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
-msgstr "당신의 결제 플랜이 만료되었습니다, 서비스를 계속 사용하려면, 다음 링크를 통해 갱신하십시오:"
+msgstr ""
+"당신의 결제 플랜이 만료되었습니다, 서비스를 계속 사용하려면, 다음 링크를 통"
+"해 갱신하십시오:"
+
+#: weblate/templates/mail/billing_expired.html:16
+#, fuzzy
+#| msgid "This site is built using following projects:"
+msgid "This billing plan covers following projects:"
+msgstr "이 사이트는 다음의 프로젝트들을 이용하여 만들어졌습니다:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -5987,7 +6021,9 @@ msgstr "특정 번역 홍보하기"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
-msgstr "전체 번역 프로젝트를 홍보하는 것 외에도 홍보하기 위한 특정 언어나 컴포넌트를 선택할 수 있습니다:"
+msgstr ""
+"전체 번역 프로젝트를 홍보하는 것 외에도 홍보하기 위한 특정 언어나 컴포넌트를 "
+"선택할 수 있습니다:"
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
@@ -5999,8 +6035,8 @@ msgid ""
 "They can increase the visibility of your translation projects and bring in "
 "new contributors."
 msgstr ""
-"프로젝트의 번역을 홍보하기 위해 다음의 위젯을 사용할 수 있습니다. 그것들은 번역 프로젝트의 가시성을 높이고 새로운 참여자를 데려올 수 "
-"있습니다."
+"프로젝트의 번역을 홍보하기 위해 다음의 위젯을 사용할 수 있습니다. 그것들은 번"
+"역 프로젝트의 가시성을 높이고 새로운 참여자를 데려올 수 있습니다."
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -6098,7 +6134,8 @@ msgstr "Hosted Weblate, 당신의 소프트웨어 프로젝트를 번역하는 �
 
 #: weblate/trans/context_processors.py:102
 msgid "This site runs Weblate for translating various software projects."
-msgstr "이 사이트는 다양한 소프르웨어 프로젝트를 번역하기 위해 Weblate를 실행합니다."
+msgstr ""
+"이 사이트는 다양한 소프르웨어 프로젝트를 번역하기 위해 Weblate를 실행합니다."
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
 #, python-format
@@ -6241,7 +6278,8 @@ msgstr "그동안 원본 문자열이 변경되었습니다. 당신의 변경 �
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
-msgstr "그동안 문자열의 번역이 변경되었습니다. 당신의 변경 사항을 확인하십시오."
+msgstr ""
+"그동안 문자열의 번역이 변경되었습니다. 당신의 변경 사항을 확인하십시오."
 
 #: weblate/trans/forms.py:529
 msgid "Translation text too long!"
@@ -6423,7 +6461,8 @@ msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
 msgstr ""
-"Translate Toolkit으로 인식 가능한 형식(TBX, CSV, Gettext PO 파일 포함)을 업로드 할 수 있습니다."
+"Translate Toolkit으로 인식 가능한 형식(TBX, CSV, Gettext PO 파일 포함)을 업로"
+"드 할 수 있습니다."
 
 #: weblate/trans/forms.py:1051
 msgid "Keep current"
@@ -6494,7 +6533,9 @@ msgstr "번역 플래그"
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
-msgstr "번역 플래그의 목록을 쉼표로 구분해 입력해 주세요. 더 자세한 내용은 <a href=\"{url}\">문서</a>를 참조하세요."
+msgstr ""
+"번역 플래그의 목록을 쉼표로 구분해 입력해 주세요. 더 자세한 내용은 <a href="
+"\"{url}\">문서</a>를 참조하세요."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6504,7 +6545,9 @@ msgstr "추가할 사용자"
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
-msgstr "사용자 이름 혹은 메일 주소를 입력해 주세요. 이 계정은 Weblate에서 이미 활성화된 계정이어야 합니다."
+msgstr ""
+"사용자 이름 혹은 메일 주소를 입력해 주세요. 이 계정은 Weblate에서 이미 활성화"
+"된 계정이어야 합니다."
 
 #: weblate/trans/forms.py:1262
 msgid "Report format"
@@ -6606,7 +6649,9 @@ msgstr "번역 키"
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
-msgstr "키는 번역 파일에서 문자열을 확인하기 위해 사용됩니다. 파일 형식 특정 규칙이 적용될 수 있습니다."
+msgstr ""
+"키는 번역 파일에서 문자열을 확인하기 위해 사용됩니다. 파일 형식 특정 규칙이 "
+"적용될 수 있습니다."
 
 #: weblate/trans/forms.py:1631
 msgid "Source language text"
@@ -6615,7 +6660,8 @@ msgstr "원본 언어 문자"
 #: weblate/trans/forms.py:1633
 msgid ""
 "You can edit this later, as with any other string in the source language."
-msgstr "원본 문자열의 다른 문자열과 마찬가지로, 이것을 나중에 수정할 수 있습니다."
+msgstr ""
+"원본 문자열의 다른 문자열과 마찬가지로, 이것을 나중에 수정할 수 있습니다."
 
 #: weblate/trans/forms.py:1654
 msgid "State to set"
@@ -6872,8 +6918,8 @@ msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"저장소 루트와 관련되어 번역할 파일 경로, 언어 코드 대신 * 를 사용하세요. 예를 들면 다음과 같습니다: po/*.po 또는 "
-"locale/*/LC_MESSAGE/django.po."
+"저장소 루트와 관련되어 번역할 파일 경로, 언어 코드 대신 * 를 사용하세요. 예"
+"를 들면 다음과 같습니다: po/*.po 또는 locale/*/LC_MESSAGE/django.po."
 
 #: weblate/trans/models/component.py:205
 msgid "Monolingual base language file"
@@ -6982,7 +7028,9 @@ msgstr "사용자가 이 컴포넌트를 번역하기 전에 승인해야 하는
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
-msgstr "새 번역 작성 요청을 처리하는 방법. 선택 가능한 항목은 파일 형식에 따라 다릅니다."
+msgstr ""
+"새 번역 작성 요청을 처리하는 방법. 선택 가능한 항목은 파일 형식에 따라 다릅니"
+"다."
 
 #: weblate/trans/models/component.py:340
 msgid "Merge style"
@@ -7005,7 +7053,9 @@ msgstr "번역할 때 커밋 메시지"
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
-msgstr "다양한 정보의 템플릿 언어를 사용할 수 있습니다, 자세한 내용은 설명서를 확인 하시기 바랍니다."
+msgstr ""
+"다양한 정보의 템플릿 언어를 사용할 수 있습니다, 자세한 내용은 설명서를 확인 "
+"하시기 바랍니다."
 
 #: weblate/trans/models/component.py:359
 msgid "Commit message when adding translation"
@@ -7099,7 +7149,9 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1095
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr "Weblate 프로젝트의 링크가 잘못되었습니다, weblate://project/component를 사용하세요."
+msgstr ""
+"Weblate 프로젝트의 링크가 잘못되었습니다, weblate://project/component를 사용"
+"하세요."
 
 #: weblate/trans/models/component.py:1101
 msgid "Push URL is not used when repository is linked!"
@@ -7128,7 +7180,9 @@ msgstr "언어 코드 \"%s\"가 너무 깁니다, 파일 마스크를 확인하�
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
-msgstr "하나의 언어에 대한 더 많은 파일이 있습니다 (%s), 다른 자원을 변환하기 위해 마스크를 조정하고 컴포넌트를 사용하십시오."
+msgstr ""
+"하나의 언어에 대한 더 많은 파일이 있습니다 (%s), 다른 자원을 변환하기 위해 마"
+"스크를 조정하고 컴포넌트를 사용하십시오."
 
 #: weblate/trans/models/component.py:1139
 #, python-format
@@ -7162,13 +7216,17 @@ msgstr "새로운 번역에 대한 기본 파일의 형식을 인식할 수 없�
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
-msgstr "새 번역 파일을 추가할 구성된 Weblate를 갖고 있습니다, 하지만 실행할 기본 파일을 제공하지 않았습니다!"
+msgstr ""
+"새 번역 파일을 추가할 구성된 Weblate를 갖고 있습니다, 하지만 실행할 기본 파일"
+"을 제공하지 않았습니다!"
 
 #: weblate/trans/models/component.py:1202
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
-msgstr "프로젝트 설정 때문에 새로운 컴포넌트에 대한 기본 파일을 사용할 수 없습니다. 새 번역을 자동으로 추가하기를 원할 것입니다."
+msgstr ""
+"프로젝트 설정 때문에 새로운 컴포넌트에 대한 기본 파일을 사용할 수 없습니다. "
+"새 번역을 자동으로 추가하기를 원할 것입니다."
 
 #: weblate/trans/models/component.py:1213
 msgid "You can not use base file with bilingual translation!"
@@ -7737,7 +7795,9 @@ msgstr "매우 낮음"
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
-msgstr "Weblate를 사용하여 {0}를 {1} 언어로 번역합니다. 번역에 참여하거나 당신의 프로젝트 번역을 시작하십시오."
+msgstr ""
+"Weblate를 사용하여 {0}를 {1} 언어로 번역합니다. 번역에 참여하거나 당신의 프로"
+"젝트 번역을 시작하십시오."
 
 #: weblate/trans/validators.py:31
 msgid "RST text"
@@ -8053,7 +8113,9 @@ msgid ""
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "업로드 된 파일에서 {0} 문자열 처리됨 (건너뜀: {1}, 찾을 수 없음: {2}, 업데이트 됨: {3})."
+msgstr[0] ""
+"업로드 된 파일에서 {0} 문자열 처리됨 (건너뜀: {1}, 찾을 수 없음: {2}, 업데이"
+"트 됨: {3})."
 
 #: weblate/trans/views/files.py:122
 #, python-format
@@ -8241,7 +8303,9 @@ msgstr "컴파일에 실패했습니다: {0}"
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr "정규 표현식은 이름이 없는 그룹입니다 \"{0}\", 이것을 정의하는 가장 간단한 방법은 {1} 입니다."
+msgstr ""
+"정규 표현식은 이름이 없는 그룹입니다 \"{0}\", 이것을 정의하는 가장 간단한 방"
+"법은 {1} 입니다."
 
 #: weblate/utils/validators.py:132
 msgid "Invalid image!"
@@ -8386,8 +8450,8 @@ msgid ""
 "You can safely permanently ignore errors for file formats you do not intend "
 "to use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"당신이 사용할 의도가 없는 파일 형식에 대해 오류를 안전하게 영구적으로 무시할 수 있습니다. 이것은 보통 누락되거나 오래도록 있으면 "
-"나타납니다."
+"당신이 사용할 의도가 없는 파일 형식에 대해 오류를 안전하게 영구적으로 무시할 "
+"수 있습니다. 이것은 보통 누락되거나 오래도록 있으면 나타납니다."
 
 #: weblate/wladmin/templates/admin/performance.html:60
 msgid "System checks"
@@ -8484,7 +8548,8 @@ msgstr "필수 입력란은 굵게 표시되어 있습니다."
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "여기에 객체를 변경하지 마십시오, 대신 Weblate의 인터페이스를 사용하십시오."
+msgstr ""
+"여기에 객체를 변경하지 마십시오, 대신 Weblate의 인터페이스를 사용하십시오."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
@@ -10334,9 +10399,6 @@ msgstr "구성 오류를 버리지 못했습니다!"
 #~| msgid "This message has more than one translation in this project"
 #~ msgid "This string has different source but same context."
 #~ msgstr "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
-
-#~ msgid "This site is built using following projects:"
-#~ msgstr "이 사이트는 다음의 프로젝트들을 이용하여 만들어졌습니다:"
 
 #, fuzzy
 #~| msgid "Browse changes"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-02 07:02+0000\n"
+"POT-Creation-Date: 2018-11-09 15:24+0000\n"
 "PO-Revision-Date: 2018-11-04 16:25+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -468,23 +468,23 @@ msgstr "لا يمكن استخدام كلمة سر مستخدمة سابقاً!"
 msgid "Your password can't match a password you have used in the past."
 msgstr "كلمة السر لا يمكن أن تطابق كلمة السر التي استخدمتها سابقاً."
 
-#: weblate/accounts/pipeline.py:295
+#: weblate/accounts/pipeline.py:300
 msgid "You can not complete password reset while logged in!"
 msgstr "لا يمكنك تغيير كلمة السر بشكل كامل وأنت مسجل الدخول!"
 
-#: weblate/accounts/pipeline.py:299 weblate/accounts/pipeline.py:323
+#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
 msgid "The registration link has been invalidated."
 msgstr "رابط تسجيلك قد إنتهى وقته."
 
-#: weblate/accounts/pipeline.py:314
+#: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
 msgstr "لا يمكنك إكمال التسجيل وأنت مسجلٌ دخولك!"
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
 msgstr "يمكنك تأكيد تسجيلك فقط إذا كنت مسجّلًا الدخول!"
 
-#: weblate/accounts/pipeline.py:456
+#: weblate/accounts/pipeline.py:461
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -581,7 +581,7 @@ msgstr "إرجاع كلمة السر قد تم بنجاح!"
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "لا يمكنك إرجاع كلمة السر، مصادقة البريد الإلكتروني معطلة!"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:872
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -589,11 +589,15 @@ msgstr ""
 "فشل التحقق من تسجيلك! يرجّح أن وقت تفعيل عضويتك قد نفد. نرجو معاودة التسجيل "
 "مرة أخرى."
 
-#: weblate/accounts/views.py:886
+#: weblate/accounts/views.py:882
 msgid "Authentication failed due to invalid session state."
 msgstr "فشلت المصادقة بسبب حالة جلسة فاشلة."
 
-#: weblate/accounts/views.py:901
+#: weblate/accounts/views.py:891
+msgid "Third party authentication service did not provide email!"
+msgstr ""
+
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "لا يمكن تغيير المصادقة للتجربة!"
 
@@ -601,20 +605,20 @@ msgstr "لا يمكن تغيير المصادقة للتجربة!"
 msgid "New registrations are disabled!"
 msgstr "التسجيلات الجديدة معطلة!"
 
-#: weblate/accounts/views.py:912
+#: weblate/accounts/views.py:929
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr "فشلت المصادقة، ربما بسبب ترميز منتهي أو مشكلة في الإتصال."
 
-#: weblate/accounts/views.py:916
+#: weblate/accounts/views.py:934
 msgid "Authentication has been cancelled."
 msgstr "أُلغِيت المصادقة."
 
-#: weblate/accounts/views.py:918
+#: weblate/accounts/views.py:938
 msgid "Authentication has been forbidden by server."
 msgstr "ألغى الخادوم المصادقة."
 
-#: weblate/accounts/views.py:921
+#: weblate/accounts/views.py:942
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -1520,7 +1524,8 @@ msgstr "نقطة تَعجُّب زائدة"
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
-msgstr "المصدر والترجمة لا تنتهيان بعلامة استفهام أو انها غير متباعدة بشكل صحيح"
+msgstr ""
+"المصدر والترجمة لا تنتهيان بعلامة استفهام أو انها غير متباعدة بشكل صحيح"
 
 #: weblate/checks/chars.py:273
 msgid "Trailing exclamation"
@@ -1775,103 +1780,103 @@ msgstr "صيغة CSV"
 msgid "Excel Open XML"
 msgstr ""
 
-#: weblate/formats/ttkit.py:228
+#: weblate/formats/ttkit.py:236
 msgid "Gettext PO file"
 msgstr "ملف Gettext PO"
 
-#: weblate/formats/ttkit.py:271
+#: weblate/formats/ttkit.py:279
 msgid "Gettext PO file (monolingual)"
 msgstr "ملف Gettext PO (أحادي اللغة)"
 
-#: weblate/formats/ttkit.py:284
+#: weblate/formats/ttkit.py:292
 msgid "Qt Linguist Translation File"
 msgstr ""
 
-#: weblate/formats/ttkit.py:300
+#: weblate/formats/ttkit.py:308
 msgid "XLIFF Translation File"
 msgstr "ملف ترجمة XLIFF"
 
-#: weblate/formats/ttkit.py:333
+#: weblate/formats/ttkit.py:341
 msgid "XLIFF Translation File with PO extensions"
 msgstr ""
 
-#: weblate/formats/ttkit.py:353
+#: weblate/formats/ttkit.py:361
 msgid "OS X Strings"
 msgstr "سلاسل OS X"
 
-#: weblate/formats/ttkit.py:366
+#: weblate/formats/ttkit.py:374
 msgid "OS X Strings (UTF-8)"
 msgstr "سلاسل OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:373
+#: weblate/formats/ttkit.py:381
 msgid "Java Properties (UTF-8)"
 msgstr "خصائص جافا (UTF-8)"
 
-#: weblate/formats/ttkit.py:381
+#: weblate/formats/ttkit.py:389
 msgid "Java Properties (UTF-16)"
 msgstr "خصائص جافا (UTF-16)"
 
-#: weblate/formats/ttkit.py:387
+#: weblate/formats/ttkit.py:395
 msgid "Java Properties (ISO-8859-1)"
 msgstr "خصائص جافا (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:404
+#: weblate/formats/ttkit.py:412
 msgid "Joomla Language File"
 msgstr "ملف لغة جوملا"
 
-#: weblate/formats/ttkit.py:413
+#: weblate/formats/ttkit.py:421
 msgid "PHP strings"
 msgstr "سلاسل PHP"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:440
 msgid ".Net resource file"
 msgstr "ملف موارد .Net"
 
-#: weblate/formats/ttkit.py:442
+#: weblate/formats/ttkit.py:450
 msgid "Android String Resource"
 msgstr "ملف موارد أندرويد"
 
-#: weblate/formats/ttkit.py:471
+#: weblate/formats/ttkit.py:479
 msgid "JSON file"
 msgstr "ملف جسون"
 
-#: weblate/formats/ttkit.py:490
+#: weblate/formats/ttkit.py:498
 msgid "JSON nested structure file"
 msgstr "ملف JSON ذات بنية متداخلة"
 
-#: weblate/formats/ttkit.py:496
+#: weblate/formats/ttkit.py:504
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:504
+#: weblate/formats/ttkit.py:512
 msgid "i18next JSON file"
 msgstr "ملف JSON i18next"
 
-#: weblate/formats/ttkit.py:510
+#: weblate/formats/ttkit.py:518
 msgid "CSV file"
 msgstr "ملف CSV"
 
-#: weblate/formats/ttkit.py:576
+#: weblate/formats/ttkit.py:584
 msgid "Simple CSV file"
 msgstr "ملف CSV بسيط"
 
-#: weblate/formats/ttkit.py:612
+#: weblate/formats/ttkit.py:620
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "ملف CSV بسيط (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:618
+#: weblate/formats/ttkit.py:626
 msgid "YAML file"
 msgstr "ملف YAML"
 
-#: weblate/formats/ttkit.py:637
+#: weblate/formats/ttkit.py:645
 msgid "Ruby YAML file"
 msgstr "ملف YAML روبي"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:652
 msgid "DTD file"
 msgstr "ملف DTD"
 
-#: weblate/formats/ttkit.py:670
+#: weblate/formats/ttkit.py:678
 msgid "RC file"
 msgstr "ملف RC"
 
@@ -2196,11 +2201,11 @@ msgstr "الخصوصية"
 msgid "Security"
 msgstr "الأمن"
 
-#: weblate/legal/templates/legal/security.html:17
+#: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
 msgstr "سياسات الأمان"
 
-#: weblate/legal/templates/legal/security.html:22
+#: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
@@ -2208,14 +2213,36 @@ msgstr ""
 "في وِبليت، نحن نأخذ الأمان على محمل الجد ونجاهد لكي نحافظ ونصون بيئة حيث تكون "
 "فيها الأمان والخصوصية أولوية لمستخدمينا."
 
-#: weblate/legal/templates/legal/security.html:27
+#: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
 msgstr ""
 "تطوير وِبليت يتبع أفضل الممارسات الأساسية لمبادرة البنية التحتية لمؤسسة لينكس."
 
-#: weblate/legal/templates/legal/security.html:32
+#: weblate/legal/templates/legal/security.html:38
+#, fuzzy
+#| msgid "Security"
+msgid "Security FAQ"
+msgstr "الأمن"
+
+#: weblate/legal/templates/legal/security.html:41
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "How do you store user passwords?"
+msgstr "هل نسيت كلمتك السرية ؟"
+
+#: weblate/legal/templates/legal/security.html:43
+msgid ""
+"All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
+"SHA256 with 150000 iterations for that."
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:45
+msgid "I have found a security issue, how should I report it?"
+msgstr ""
+
+#: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -4793,6 +4820,10 @@ msgstr "تغيير إعدادات الاشتراك"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired.html:16
+msgid "This billing plan covers following projects:"
 msgstr ""
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
