@@ -125,8 +125,8 @@ class EndStopCheck(TargetCheck):
             return False
         if not target:
             return False
-        # Thai does not have a full stop
-        if self.is_language(unit, ('th', )):
+        # Thai and Lojban does not have a full stop
+        if self.is_language(unit, ('th', 'jbo')):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == '…':
@@ -203,6 +203,8 @@ class EndColonCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if self.is_language(unit, ('jbo', )):
+            return False
         if self.is_language(unit, ('fr', 'br')):
             return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
@@ -252,6 +254,8 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
+        if self.is_language(unit, ('jbo', )):
+            return False
         if self.is_language(unit, ('fr', 'br')):
             return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
@@ -294,7 +298,7 @@ class EndExclamationCheck(TargetCheck):
         if (self.is_language(unit, ('eu', )) and source[-1] == '!' and
                 '¡' in target and '!' in target):
             return False
-        if self.is_language(unit, ('hy', )):
+        if self.is_language(unit, ('hy', 'jbo')):
             return False
         if self.is_language(unit, ('fr', 'br')):
             return self._check_fr(source, target)
@@ -317,6 +321,8 @@ class EndEllipsisCheck(TargetCheck):
 
     def check_single(self, source, target, unit):
         if not target:
+            return False
+        if self.is_language(unit, ('jbo', )):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == '…':
