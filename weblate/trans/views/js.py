@@ -19,10 +19,8 @@
 #
 
 from django.shortcuts import render, get_object_or_404
-from django.http import (
-    HttpResponse, HttpResponseBadRequest, Http404, JsonResponse,
-)
-from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, Http404, JsonResponse
+from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 
@@ -48,7 +46,7 @@ def translate(request, unit_id, service):
         raise PermissionDenied()
 
     if service not in MACHINE_TRANSLATION_SERVICES:
-        return HttpResponseBadRequest('Invalid service specified')
+        raise SuspiciousOperation('Invalid service specified')
 
     translation_service = MACHINE_TRANSLATION_SERVICES[service]
 
