@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-09 16:22+0000\n"
-"PO-Revision-Date: 2018-11-04 16:26+0000\n"
+"PO-Revision-Date: 2018-11-10 11:38+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -217,7 +217,7 @@ msgstr "Дополнительное сообщение"
 
 #: weblate/accounts/forms.py:664
 msgid "Please describe the project and your relation to the project."
-msgstr ""
+msgstr "Пожалуйста, опишите проект и вашу роль в нём."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -609,7 +609,7 @@ msgstr "Аутентификация не удалась из-за неправ�
 
 #: weblate/accounts/views.py:891
 msgid "Third party authentication service did not provide email!"
-msgstr ""
+msgstr "Сторонний сервис аутентификации не предоставил письмо!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2263,26 +2263,24 @@ msgstr ""
 "Infrastructure Initiative."
 
 #: weblate/legal/templates/legal/security.html:38
-#, fuzzy
-#| msgid "Security"
 msgid "Security FAQ"
-msgstr "Безопасность"
+msgstr "FAQ по безопасности"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "How do you store user passwords?"
-msgstr "Забыли пароль?"
+msgstr "Как вы храните пароли пользователей?"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
 "SHA256 with 150000 iterations for that."
 msgstr ""
+"Все пароли пользователей хранятся в виде хэша. Для этого Weblate использует "
+"PBKDF2 + HMAC + SHA256 с 150000 итерациями."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "I have found a security issue, how should I report it?"
-msgstr ""
+msgstr "Я нашёл проблему безопасности, как мне сообщить о ней?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -2830,15 +2828,11 @@ msgid "Conditions for free hosting"
 msgstr "Условия для бесплатного хостинга"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project fits into free hosting conditions:"
 msgstr ""
-"Пожалуйста, проверьте заранее, имеет ли ваш проект право на хостинг на этом "
-"сайте."
+"Пожалуйста, заполните эту форму, если ваш проект соответствует условиям "
+"бесплатного хостинга:"
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
@@ -2868,6 +2862,7 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
+"Ищите коммерческий хостинг? Наша цена начинается с %(price)s евро в месяц."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
@@ -4909,10 +4904,8 @@ msgstr ""
 "пожалуйста, обновите его по следующей ссылке:"
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "This site is built using following projects:"
 msgid "This billing plan covers following projects:"
-msgstr "Этот сайт построен с использованием проектов:"
+msgstr "Этот тарифный план покрывает следующие проекты:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
