@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-09 16:22+0000\n"
-"PO-Revision-Date: 2018-10-23 05:18+0000\n"
+"PO-Revision-Date: 2018-11-10 11:38+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -148,8 +148,6 @@ msgid "Current password"
 msgstr "Дзейны пароль"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
 msgstr "Пакіньце поле пустым, калі не хочаце задаваць пароль."
 
@@ -219,7 +217,7 @@ msgstr "Дадатковае паведамленне"
 
 #: weblate/accounts/forms.py:664
 msgid "Please describe the project and your relation to the project."
-msgstr ""
+msgstr "Калі ласка, апішыце праект ды вашыя адносіны да яго."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -610,7 +608,7 @@ msgstr "Аўтэнтыфікацыя не атрымалася праз нядз
 
 #: weblate/accounts/views.py:891
 msgid "Third party authentication service did not provide email!"
-msgstr ""
+msgstr "Пабочная служба аўтэнтыфікацыі не прадставіла электронную пошту!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2204,10 +2202,8 @@ msgid "Privacy Policy"
 msgstr "Палітыка прыватнасці"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
-msgstr "Мы выкарыстоўваем кукі для наступнага:"
+msgstr "Кукі выкарыстоўваюцца сайтам для наступнага:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
@@ -2220,20 +2216,16 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Кукі налад захоўваюць налады карыстальніка ў пэўных сітуацыях."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Мы выкарыстоўваем Matomo, каб аналізаваць трафік на нашым сайце. Matomo "
+"Гэты сайт выкарыстоўвае Matomo, каб аналізаваць трафік. Matomo "
 "прыслухоўваецца да «Do Not Track» налады вашага браўзера."
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "Гэты сайт выкарыстоўвае Google Analytics для аналізу трафіку."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2270,26 +2262,24 @@ msgstr ""
 "Practices)."
 
 #: weblate/legal/templates/legal/security.html:38
-#, fuzzy
-#| msgid "Security"
 msgid "Security FAQ"
-msgstr "Бяспека"
+msgstr "FAQ бяспекі"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "How do you store user passwords?"
-msgstr "Забылі свой пароль?"
+msgstr "Як вы захоўваеца паролі карыстальнікаў?"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
 "SHA256 with 150000 iterations for that."
 msgstr ""
+"Усе паролі карыстальнікаў заховаюцца хэшаванымі. Weblate цяпер выкарыстоўвае "
+"PBKDF2 + HMAC + SHA256 з 150000 паўторамі для гэтага."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "I have found a security issue, how should I report it?"
-msgstr ""
+msgstr "Я выявіў праблему бяспекі! Як мне паведаміць пра яе?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -2573,16 +2563,13 @@ msgid "Commit signing"
 msgstr "Подпіс фіксацыі"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "All commits made by Weblate are signed with the GPG key %(gpg_key_id)s, "
-#| "for which the corresponding public key is found below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Усе фіксацыі, зробленыя Weblate, будуць падпісаныя GPG-ключом "
-"%(gpg_key_id)s, публічную частку якога можна пабачыць ніжэй."
+"Усе фіксацыі, зробленыя з Weblate, будуць падпісаныя GPG-ключом %(gpg_key_id)"
+"s, публічную частку якога можна пабачыць ніжэй."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -2847,15 +2834,11 @@ msgid "Conditions for free hosting"
 msgstr "Умовы для дармавога хостынгу"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project fits into free hosting conditions:"
 msgstr ""
-"Папярэдне праверце, ці адпавядае ваш праект патрабаванням размяшчэння на "
-"гэтым сайце."
+"Калі ласка, запоўніце гэтую форму, калі ваш праект адпавядае патрабаванням "
+"размяшчэння:"
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
@@ -2885,13 +2868,13 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
+"Шукаеце камерцыйнае размяшчэнне? Нашыя цэны пачынаюцца ад %(price)s эўра ў "
+"месяц."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Паглядзець тарыфы размяшчэння"
+msgstr "Прыдбаць новы пран размяшчэння"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3609,45 +3592,36 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Рэгулярная аплата"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Дата пачатку"
+msgstr "Пратэрмінованая дата"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "У межах"
+msgstr "Перавышае абмежаванні"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "Змяніць"
+msgstr "Змяніць план"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Прадукцыйнасць"
+msgstr "Здзейсьніць аплату"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "Спыніць рэгулярную аплату"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
+"Каб спыніць выстаўленне рахункаў, спачатку вы павінны выдаліць усе праекты."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Terminate billing plan"
-msgstr "Тарыфны план"
+msgstr "Спыніць тарыфны план"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -3683,7 +3657,7 @@ msgstr "У вас няма аніякіх актыўных аплат."
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
-msgstr "Дзейны план"
+msgstr "Цяперашні план"
 
 #: weblate/templates/billing/status.html:6
 #, python-format
@@ -3716,7 +3690,7 @@ msgstr "Абмежаванне рэпазіторыяў"
 
 #: weblate/templates/billing/status.html:26
 msgid "Projects limit"
-msgstr "Абмежаванне праектаў"
+msgstr "Абмежаванні праектаў"
 
 #: weblate/templates/billing/status.html:36
 msgid "No projects currently assigned!"
@@ -4924,16 +4898,16 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Ваш тарыфны пран мінуў. Калі вы хочаце працягнуць карыстанне паслугай, калі "
+"ласка, абнавіце план па наступнай спасылцы:"
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "This site is built using following projects:"
 msgid "This billing plan covers following projects:"
-msgstr "Сайт збудаваны пры дапамозе гэткіх праектаў:"
+msgstr "Гэты тарыфны пран ахоплівае наступныя праекты:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Ваш тарыфны план мінуў"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5516,10 +5490,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Пераклад зараз заблакаваны для абнаўленняў."
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "Пераклад зараз заблакаваны для абнаўленняў."
+msgstr "Пераклад зараз заблакаваны праз неаплату."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5764,6 +5736,7 @@ msgstr ""
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
+"Гэты пераклад прымае толькі прапановы і яны будуць ухваленыя галасаваннем."
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -8020,10 +7993,9 @@ msgstr ""
 "за сваю прапанову."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Хібны флаг праверкі: «%s»"
+msgstr "Хібны флаг перакладу: «%s»"
 
 #: weblate/trans/views/about.py:40
 msgid "About"
@@ -8610,10 +8582,8 @@ msgid "Weblate administration"
 msgstr "Адміністраванне Weblate"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Ліставанне аб'ектаў адключана"
+msgstr "Ліставанне аб'ектаў адключанае"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
