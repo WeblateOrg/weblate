@@ -239,9 +239,9 @@ def store_params(strategy, user, **kwargs):
 
     # Pipeline action
     session = strategy.request.session
-    if session['password_reset']:
+    if session.get('password_reset'):
         action = 'reset'
-    elif session['account_remove']:
+    elif session.get('account_remove'):
         action = 'remove'
     else:
         action = 'activation'
