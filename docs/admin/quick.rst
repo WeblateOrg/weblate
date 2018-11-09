@@ -69,12 +69,6 @@ development server.
 
 #. Optionally, adjust the values in the new :file:`settings.py` file.
 
-#. Tell Django where to find the settings file for Weblate:
-
-   .. code-block:: sh
-   
-        export DJANGO_SETTINGS_MODULE=weblate.settings
-
 #. Create the SQLite database and its structure for Weblate:
 
    .. code-block:: sh
