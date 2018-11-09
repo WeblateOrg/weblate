@@ -348,11 +348,11 @@ Java MessageFormat
 Missing plurals
 ~~~~~~~~~~~~~~~
 
-Checks that plural forms are present in translation.
-Check plural form definition to see the specifics of how each plural form is being used.
+Checks that all plural forms of a source string have been translated.
+Specifics on how each plural form is used can be found in the string definition.
 
 Failing to fill in plural forms will in some cases lead to displaying nothing when
-the plural is in use.
+the plural tense is in use.
 
 .. _check-same-plurals:
 
