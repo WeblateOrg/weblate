@@ -7,6 +7,17 @@ Quick setup guide
     testing purposes. Please check :ref:`install` for more real world setup
     instructions.
 
+Choosing installation method
+----------------------------
+
+Choose best installation method depending on your environment and customization you need:
+
+1. Choose Docker if you are familiar with that and if you are not going to change Weblate code, see :ref:`quick-docker`.
+2. If you are not going to change Weblate code, but want to avoid Docker install in virtual env, see :ref:`quick-virtualenv`.
+3. If you want to develop and/or change Weblate code, grab Weblate from Git, see :ref:`quick-source`.
+
+.. _quick-virtualenv:
+
 Installing in a virtualenv
 --------------------------
 
@@ -47,13 +58,13 @@ development server.
 
    .. code-block:: sh
 
-        virtualenv --python=python2.7 ~/weblate-env
+        virtualenv ~/weblate-env
      
 #. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
         
    .. code-block:: sh
     
-        . ~/weblate-env/weblate/bin/activate
+        . ~/weblate-env/bin/activate
 
 #. Install Weblate including all dependencies. You can also use pip to install
    the optional dependencies:
@@ -98,13 +109,21 @@ You can stop the test server with Ctrl+C, and leave the virtual environment with
 If you want to resume testing later, you need to repeat the steps 4, 8 and 11 each time to start the development server.
 
 
+.. _quick-source:
+
 Installing from sources
 -----------------------
 
-#. Install all required dependencies, see :ref:`requirements`.
-
 #. Grab Weblate sources (either using Git or download a tarball) and unpack
    them, see :ref:`install-weblate`.
+
+#. Install all required dependencies into an virtual env (also see :ref:`requirements`):
+
+   .. code-block:: sh
+
+        virtualenv .venv
+        . .venv/bin/activate
+        pip install -r /path/to/weblate/requirements.txt
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
    adjust it to match your setup. You will at least need to configure the database
@@ -125,6 +144,8 @@ Installing from sources
 #. Configure webserver to serve Weblate, see :ref:`server`.
 
 
+.. _quick-docker:
+
 Installing using Docker
 -----------------------
 
@@ -144,6 +165,8 @@ Installing using Docker
 .. seealso::
 
     See :ref:`docker` for more detailed instructions and customization options.
+
+.. _quick-openshift:
 
 Installing on OpenShift 2
 -------------------------

@@ -3,6 +3,8 @@
 Installation instructions
 =========================
 
+Looking for quick installation instructions? See :doc:`admin/quick`.
+
 Hardware requirements
 ---------------------
 
