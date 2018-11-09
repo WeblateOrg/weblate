@@ -35,6 +35,7 @@ from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.request import get_ip_address
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class SuggestionManager(models.Manager):
@@ -44,15 +45,22 @@ class SuggestionManager(models.Manager):
         """Create new suggestion for this unit."""
         user = request.user
 
-        same = self.filter(
-            target=target,
-            content_hash=unit.content_hash,
-            language=unit.translation.language,
-            project=unit.translation.component.project,
-        )
+        try:
+            same = self.get(
+                target=target,
+                content_hash=unit.content_hash,
+                language=unit.translation.language,
+                project=unit.translation.component.project,
+            )
 
-        if same.exists() or (unit.target == target and not unit.fuzzy):
-            return False
+            if same.user == user or not vote:
+                return False
+            else:
+                same.add_vote(unit.translation, request, True)
+                return False
+
+        except ObjectDoesNotExist:
+            pass
 
         # Create the suggestion
         suggestion = self.create(

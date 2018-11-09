@@ -70,6 +70,14 @@ def create_test_user():
         full_name='Weblate Test',
     )
 
+def create_another_user():
+    return User.objects.create_user(
+        'jane',
+        'jane.doe@example.org',
+        'anotherpassword',
+        full_name='Jane Doe',
+    )
+
 
 class RepoTestMixin(object):
     """Mixin for testing with test repositories."""
