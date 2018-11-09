@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-10-23 05:18+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -216,6 +216,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "Дадатковае паведамленне"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -2522,7 +2526,7 @@ msgstr ""
 "ласка, звяжыцеся з намі для падрабязнасцей."
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Спытаць аб хостынгу праекта"
@@ -2533,7 +2537,7 @@ msgid "View hosting plans"
 msgstr "Паглядзець тарыфы размяшчэння"
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "Звяжыцеся з намі для камерцыйнага хостынгу"
 
@@ -2743,7 +2747,7 @@ msgstr ""
 "звярніцеся на сайт %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr "Адправіць"
 
@@ -2838,26 +2842,37 @@ msgstr ""
 "Папярэдне праверце, ці адпавядае ваш праект патрабаванням размяшчэння на "
 "гэтым сайце."
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr "Умовы для дармавога хостынгу"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please check in advance whether your project is eligible for project "
+#| "hosting on this site."
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+"Папярэдне праверце, ці адпавядае ваш праект патрабаванням размяшчэння на "
+"гэтым сайце."
+
+#: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
 msgstr "Перакладзены кантэнт мае ісці пад свабоднай ліцэнзіяй."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "Зыходны код мусіць быць публічна даступным у падтрымванай сістэме кантролю "
 "версій."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr "Няма гарантый на даступнасць сервісу альбо якасць."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
@@ -2865,17 +2880,18 @@ msgstr ""
 "Запыты на хостынг, як правіла, апрацоўваюцца раз у месяц, таму, калі ласка, "
 "будце цярплівымі пасля адпраўкі запыту."
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
-msgstr "Камерцыйны хостынг"
-
-#: weblate/templates/accounts/hosting.html:50
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
 msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
-"Камерцыйны хостынг таксама магчымы, наша цана пачынаецца з 19 еўра ў месяц. "
-"Калі ласка, звяжыцеся з намі для падрабязнасцей."
+
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "Паглядзець тарыфы размяшчэння"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3664,12 +3680,6 @@ msgstr "Аплата"
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
 msgstr "У вас няма аніякіх актыўных аплат."
-
-#: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "Паглядзець тарыфы размяшчэння"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -8759,6 +8769,16 @@ msgstr "Справаздачы"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Не атрымалася адхіліць памылку канфігурацыі!"
+
+#~ msgid "Commercial hosting"
+#~ msgstr "Камерцыйны хостынг"
+
+#~ msgid ""
+#~ "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~ "month, please get in touch with us for more details."
+#~ msgstr ""
+#~ "Камерцыйны хостынг таксама магчымы, наша цана пачынаецца з 19 еўра ў "
+#~ "месяц. Калі ласка, звяжыцеся з намі для падрабязнасцей."
 
 #, fuzzy
 #~| msgid "Not translated"

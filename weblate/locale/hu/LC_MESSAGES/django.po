@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-06-16 20:39+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -220,6 +220,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "További üzenet"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -2829,7 +2833,7 @@ msgstr ""
 "kezdődnek. További részletekért kérjük lépjen kapcsolatba velünk."
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Projektelhelyezés kérése"
@@ -2840,7 +2844,7 @@ msgid "View hosting plans"
 msgstr "Hosting tervek megtekintése"
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "Kereskedelmi elhelyezéssel kapcsoltban érdeklődjön nálunk"
 
@@ -3065,7 +3069,7 @@ msgstr ""
 "keresse fel a %(weblate_link)s oldalt."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr "Küldés"
 
@@ -3182,11 +3186,22 @@ msgstr ""
 "Kérjük előzetesen ellenőrizze, hogy az Ön projektének helyet adhat-e ez a "
 "webhely."
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr "Az ingyenes elhelyezés feltételei"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please check in advance whether your project is eligible for project "
+#| "hosting on this site."
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+"Kérjük előzetesen ellenőrizze, hogy az Ön projektének helyet adhat-e ez a "
+"webhely."
+
+#: weblate/templates/accounts/hosting.html:22
 #, fuzzy
 #| msgid ""
 #| "Translated content has to be released under <a href=\"http://en.wikipedia."
@@ -3196,38 +3211,35 @@ msgstr ""
 "A lefordított tartalmat a <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">szabad licenc</a> alatt kell kiadni."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "A forráskódnak szabadon elérhetőnek kell lennie támogatott verziókövető "
 "rendszerben."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr "Nincs garantált rendelkezésre állás vagy szolgáltatási szint."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
-msgstr "Kereskedelmi elhelyezés"
-
-#: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid ""
-#| "Commercial hosting is possible as well, our price starts at 19 EUR per "
-#| "project and month, please get in touch with us for more details."
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
 msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
-"Kereskedelmi elhelyezésre is van lehetőség, áraink 19EUR/projekt/hótól "
-"kezdődnek. További részletekért kérjük lépjen kapcsolatba velünk."
+
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "Hosting tervek megtekintése"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -4082,12 +4094,6 @@ msgstr "Számlázás"
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
 msgstr ""
-
-#: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "Hosting tervek megtekintése"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -9752,6 +9758,20 @@ msgstr "Jelentések"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfigurációs hibák"
+
+#~ msgid "Commercial hosting"
+#~ msgstr "Kereskedelmi elhelyezés"
+
+#, fuzzy
+#~| msgid ""
+#~| "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~| "project and month, please get in touch with us for more details."
+#~ msgid ""
+#~ "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~ "month, please get in touch with us for more details."
+#~ msgstr ""
+#~ "Kereskedelmi elhelyezésre is van lehetőség, áraink 19EUR/projekt/hótól "
+#~ "kezdődnek. További részletekért kérjük lépjen kapcsolatba velünk."
 
 #, fuzzy
 #~| msgid "translated"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-11-09 15:46+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -225,6 +225,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "Zusätzliche Nachricht"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -2593,7 +2597,7 @@ msgstr ""
 "pro Monat. Bitte setzen Sie sich für weitere Details mit uns in Verbindung."
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Kontaktanfrage für Projekt-Hosting"
@@ -2604,7 +2608,7 @@ msgid "View hosting plans"
 msgstr "Hosting-Angebote anzeigen"
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "Kontaktanfrage für kommerzielles Hosting"
 
@@ -2813,7 +2817,7 @@ msgstr ""
 "%(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr "Senden"
 
@@ -2910,30 +2914,41 @@ msgstr ""
 "Bitte prüfen Sie vorab, ob Ihr Projekt für das Projekt-Hosting auf diesem "
 "Server in Frage kommt."
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr "Bedingungen für kostenloses Hosting"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please check in advance whether your project is eligible for project "
+#| "hosting on this site."
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+"Bitte prüfen Sie vorab, ob Ihr Projekt für das Projekt-Hosting auf diesem "
+"Server in Frage kommt."
+
+#: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
 msgstr ""
 "Übersetzte Inhalte müssen unter einer freien Software-Lizenz veröffentlicht "
 "werden."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "Der Quellcode muss in einer unterstützten Versionsverwaltung öffentlich "
 "zugänglich bereitgestellt werden."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr ""
 "Ein Garantieanspruch bezüglich Verfügbarkeit oder Qualität der "
 "Bereitstellung ist ausgeschlossen."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
@@ -2941,17 +2956,16 @@ msgstr ""
 "Hosting-Anfragen werden gewöhnlich einmal pro Monat bearbeitet, bitte haben "
 "Sie deshalb nach der Beauftragung ein wenig Geduld."
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
-msgstr "Kostenpflichtiges Hosting"
-
-#: weblate/templates/accounts/hosting.html:50
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
 msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
-"Kommerzielles Hosting können wir Ihnen ab 19 EUR pro Monat anbieten. Für "
-"weiterführende Informationen können Sie uns jederzeit gerne kontaktieren."
+
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+msgid "Purchase new hosting plan"
+msgstr "Neuen Hosting-Plan kaufen"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3751,10 +3765,6 @@ msgstr "Rechnung"
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
 msgstr "Sie haben derzeit keine aktiven Abrechnungen."
-
-#: weblate/templates/billing/overview.html:23
-msgid "Purchase new hosting plan"
-msgstr "Neuen Hosting-Plan kaufen"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -8950,6 +8960,16 @@ msgstr "Auswertungen"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfigurationsfehler konnte nicht verworfen werden!"
+
+#~ msgid "Commercial hosting"
+#~ msgstr "Kostenpflichtiges Hosting"
+
+#~ msgid ""
+#~ "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~ "month, please get in touch with us for more details."
+#~ msgstr ""
+#~ "Kommerzielles Hosting können wir Ihnen ab 19 EUR pro Monat anbieten. Für "
+#~ "weiterführende Informationen können Sie uns jederzeit gerne kontaktieren."
 
 #, fuzzy
 #~| msgid "Not translated"

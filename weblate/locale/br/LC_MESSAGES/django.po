@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -245,6 +245,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "Kemennadenn ouzhpenn"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 #, fuzzy
@@ -2829,7 +2833,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr ""
@@ -2840,7 +2844,7 @@ msgid "View hosting plans"
 msgstr ""
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 #, fuzzy
 #| msgid "Commercial hosting"
 msgid "Contact us for commercial hosting"
@@ -3061,7 +3065,7 @@ msgstr ""
 "zivout un draen bennak, kit da welet war al lec'hienn %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr "Kas"
 
@@ -3185,11 +3189,22 @@ msgstr ""
 "Gwiriit mat a-raok ha gallout a ra ho raktres bezañ degemeret war al "
 "lec'hienn-mañ pe get."
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr "Traoù rekis evit bezañ herberc'hiet digoust"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please check in advance whether your project is eligible for project "
+#| "hosting on this site."
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+"Gwiriit mat a-raok ha gallout a ra ho raktres bezañ degemeret war al "
+"lec'hienn-mañ pe get."
+
+#: weblate/templates/accounts/hosting.html:22
 #, fuzzy
 #| msgid ""
 #| "Translated content has to be released under <a href=\"http://en.wikipedia."
@@ -3199,33 +3214,34 @@ msgstr ""
 "Embannet e rank bezañ an troidigezhioù dindan un <a href=\"http://en."
 "wikipedia.org/wiki/Free_software_license\">Aotre-implijout frank</a>."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "Rankout a ra ar c'hod tarzh bezañ hegerz d'an holl en ur reizhiad kontroliñ "
 "stummoù skoret."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr ""
 "N'eus tamm gwarant ebet war kalite ar servij pourchaset na war hag-eñ ez eus "
 "ur servij da vat."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
-msgstr "Herberc'hiañ kenwerzhel"
-
-#: weblate/templates/accounts/hosting.html:50
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
 msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+msgid "Purchase new hosting plan"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:14
@@ -4084,10 +4100,6 @@ msgstr ""
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
-
-#: weblate/templates/billing/overview.html:23
-msgid "Purchase new hosting plan"
 msgstr ""
 
 #: weblate/templates/billing/status.html:6
@@ -9721,6 +9733,9 @@ msgstr "Danevelloù"
 #| msgid "Start new translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#~ msgid "Commercial hosting"
+#~ msgstr "Herberc'hiañ kenwerzhel"
 
 #, fuzzy
 #~| msgid "translate"

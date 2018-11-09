@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-09-12 09:49+0000\n"
 "Last-Translator: Robert Readman <robert_readman@hotmail.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
@@ -216,6 +216,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "Additional message"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -2559,7 +2563,7 @@ msgstr ""
 "please get in touch for more details."
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Ask for project hosting"
@@ -2570,7 +2574,7 @@ msgid "View hosting plans"
 msgstr "View hosting plans"
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "Contact us for commercial hosting"
 
@@ -2794,7 +2798,7 @@ msgstr ""
 "its website at %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr "Send"
 
@@ -2887,25 +2891,36 @@ msgstr ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr "Conditions for free hosting"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please check in advance whether your project is eligible for project "
+#| "hosting on this site."
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+"Please check in advance whether your project is eligible for project hosting "
+"on this site."
+
+#: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
 msgstr "Translated content has to be released under free software license."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "Source code has to be publicly available in supported version control system."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr "There is no guarantee for service availability or quality."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
@@ -2913,17 +2928,18 @@ msgstr ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
-msgstr "Commercial hosting"
-
-#: weblate/templates/accounts/hosting.html:50
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
 msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
+
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "View hosting plans"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3721,12 +3737,6 @@ msgstr "Billing"
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
 msgstr "You currently do not have any billings active."
-
-#: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "View hosting plans"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -8864,6 +8874,16 @@ msgstr "Reports"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Failed to dismiss configuration error!"
+
+#~ msgid "Commercial hosting"
+#~ msgstr "Commercial hosting"
+
+#~ msgid ""
+#~ "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~ "month, please get in touch with us for more details."
+#~ msgstr ""
+#~ "Commercial hosting is possible as well, our price starts at 19 EUR per "
+#~ "month, please get in touch with us for more details."
 
 #, fuzzy
 #~| msgid "Not translated"

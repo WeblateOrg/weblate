@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-09 15:24+0000\n"
+"POT-Creation-Date: 2018-11-09 16:22+0000\n"
 "PO-Revision-Date: 2018-09-23 05:23+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <https://hosted.weblate.org/projects/weblate/master/"
@@ -214,6 +214,10 @@ msgstr ""
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
 msgstr "Mensaxe adicional"
+
+#: weblate/accounts/forms.py:664
+msgid "Please describe the project and your relation to the project."
+msgstr ""
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -2557,7 +2561,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/about/index.html:46
-#: weblate/templates/accounts/hosting.html:21
+#: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr ""
@@ -2568,7 +2572,7 @@ msgid "View hosting plans"
 msgstr "Ver planes d'agospiu"
 
 #: weblate/templates/about/index.html:48
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr ""
 
@@ -2773,7 +2777,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
 msgid "Send"
 msgstr ""
 
@@ -2855,38 +2859,46 @@ msgid ""
 "on this site."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:34
+#: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for free hosting"
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:18
+msgid ""
+"Please fill in this form if your project fits into free hosting conditions:"
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:23
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability or quality."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:25
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:46
-msgid "Commercial hosting"
+#: weblate/templates/accounts/hosting.html:30
+#, python-format
+msgid ""
+"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:50
-msgid ""
-"Commercial hosting is possible as well, our price starts at 19 EUR per "
-"month, please get in touch with us for more details."
-msgstr ""
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing/overview.html:23
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "Ver planes d'agospiu"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3652,12 +3664,6 @@ msgstr ""
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
 msgstr ""
-
-#: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "Ver planes d'agospiu"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
