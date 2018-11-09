@@ -43,19 +43,17 @@ development server.
         # Fedora/RHEL/CentOS:
         dnf install python-pip python-virtualenv
 
-#. Create the virtualenv for Weblate (the path in ``/tmp`` is really
-   just an example, you rather want something more permanent, even if this is
-   just for testing):
+#. Create the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv --python=python2.7 /tmp/weblate
+        virtualenv --python=python2.7 ~/weblate-env
      
 #. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
         
    .. code-block:: sh
     
-        . /tmp/weblate/bin/activate
+        . ~/weblate-env/weblate/bin/activate
 
 #. Install Weblate including all dependencies. You can also use pip to install
    the optional dependencies:
@@ -66,8 +64,8 @@ development server.
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
 
-#. Copy the file :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings-example.py`
-   to :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
+#. Copy the file :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings-example.py`
+   to :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
 
 #. Optionally, adjust the values in the new :file:`settings.py` file.
 

@@ -197,13 +197,12 @@ system Python libraries.
         # Fedora/RHEL/CentOS:
         dnf install python-pip python-virtualenv
 
-3. Create and activate virtualenv for Weblate (the path in ``/tmp`` is really
-   just an example, you rather want something permanent):
+3. Create and activate virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv /tmp/weblate
-        . /tmp/weblate/bin/activate
+        virtualenv ~/weblate-env
+        . ~/weblate-env/bin/activate
 
 4. Install Weblate including all dependencies, you can also use pip to install
    optional dependencies:
@@ -215,14 +214,14 @@ system Python libraries.
         pip install pytz python-bidi PyYAML pyuca
 
 5. Create your settings (in our example it would be in
-   :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
+   :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
    based on the :file:`settings_example.py` in same directory).
 6. You can now run Weblate commands using :command:`weblate` command, see
    :ref:`manage`.
 7. To run webserver, use the wsgi wrapper installed with Weblate (in our case
-   it is :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/wsgi.py`).
+   it is :file:`~/weblate-env/lib/python2.7/site-packages/weblate/wsgi.py`).
    Don't forget to set Python search path to your virtualenv as well (for
-   example using ``virtualenv = /tmp/weblate`` in uwsgi).
+   example using ``virtualenv = /home/user/weblate-env`` in uwsgi).
 
 .. _install-git:
 
