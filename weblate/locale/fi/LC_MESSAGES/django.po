@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-09 16:22+0000\n"
-"PO-Revision-Date: 2018-11-08 08:22+0000\n"
+"PO-Revision-Date: 2018-11-10 11:38+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -220,7 +220,7 @@ msgstr "Ylimääräinen viesti"
 
 #: weblate/accounts/forms.py:664
 msgid "Please describe the project and your relation to the project."
-msgstr ""
+msgstr "Kuvaile projektia sekä suhdettasi siihen."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -617,7 +617,7 @@ msgstr "Tunnistautuminen epäonnistui koska istunnon tila on virheellinen."
 
 #: weblate/accounts/views.py:891
 msgid "Third party authentication service did not provide email!"
-msgstr ""
+msgstr "Kolmannen osapuolen todennuspalvelu ei tarjoa sähköpostia!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2287,26 +2287,25 @@ msgstr ""
 "Infrastructure Initiative:n Best Practices määritelmiä."
 
 #: weblate/legal/templates/legal/security.html:38
-#, fuzzy
-#| msgid "Security"
 msgid "Security FAQ"
-msgstr "Turvallisuus"
+msgstr "Turvallisuus UKK"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "How do you store user passwords?"
-msgstr "Unohditko salasanasi?"
+msgstr "Kuinka pidät salanojasi tallessa?"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
 "SHA256 with 150000 iterations for that."
 msgstr ""
+"Kaikista salasanoista tallennetaan vain hash -algoritmilla laskettu "
+"tunniste. Weblate käyttää tällä hetkellä algoritmina PBKDF2 + HMAC + SHA256 "
+"150000 toiston kanssa."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "I have found a security issue, how should I report it?"
-msgstr ""
+msgstr "Olen löytänyt tietoturvaongelman, kuinka voin raportoida sen?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -2487,9 +2486,9 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate on verkkopohjainen kääntämistyökalu, jolla on tiukka "
-"versionhallintaintegraatio. Se tarjoaa yksinkertaisen ja siistin "
-"käyttöliittymän, käännösten etenemisen seurannan, laatutarkistukset ja "
+"Weblate on tiukasti versionhallintaan integroitu verkkopohjainen "
+"käännöstyökalu. Se tarjoaa yksinkertaisen ja siistin käyttöliittymän, "
+"käännöstyön etenemisen seurannan, automaattisia laaduntarkistuksia sekä "
 "automaattisen linkittämisen lähdetiedostoihin."
 
 #: weblate/templates/about/index.html:20
@@ -2500,8 +2499,8 @@ msgstr "Lisätietoja Weblatesta löytyy osoitteesta %(weblate_link)s."
 #: weblate/templates/about/index.html:22
 msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr ""
-"Weblate on vapaa ohjelmisto joka on luotu vapaaehtoisvoimin, ja vastaanottaa "
-"lahjoituksia."
+"Weblate on vapaaehtoisvoimin luotu vapaa ohjelmisto, ja se voi myös "
+"vastaanottaa lahjoituksia kehitystyön edistämiseksi."
 
 #: weblate/templates/about/index.html:26
 msgid "Fund Weblate on Liberapay"
@@ -2579,11 +2578,11 @@ msgstr "Weblate käyttää seuraavia avaimia päästäkseen etäarkistoihin."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
-msgstr "SSH -avain ei ole saatavilla."
+msgstr "SSH -avainta ei ole saatavilla."
 
 #: weblate/templates/about/keys.html:40
 msgid "Commit signing"
-msgstr "Commitoi allekirjoitus"
+msgstr "Committien allekirjoitus"
 
 #: weblate/templates/about/keys.html:46
 #, python-format
@@ -2596,7 +2595,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
-msgstr "Allekirjoituksen commitointiasetuksia ei ole määritelty."
+msgstr "Committien allekirjoitusasetuksia ei ole määritelty."
 
 #: weblate/templates/about/stats.html:6 weblate/templates/about/stats.html:82
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
@@ -2753,8 +2752,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at %(weblate_link)s."
 msgstr ""
-"Jos etsit Weblate tukea tai haluat lähettää virhe raportteja, katso tämä "
-"sivu %(weblate_link)s."
+"Jos etsit tukea Weblaten käytössä tai haluat lähettää virheraportteja, "
+"löydät lisätietoja sivustolta %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
 #: weblate/templates/accounts/hosting.html:47
@@ -2857,15 +2856,11 @@ msgid "Conditions for free hosting"
 msgstr "Edellytykset ilmaiseen hostaukseen"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project fits into free hosting conditions:"
 msgstr ""
-"Ole hyvä ja tarkista etukäteen onko projektisi oikeutettu isännöitäväksi "
-"tällä sivustolla."
+"Ole hyvä ja täytä tämä lomake jos projektisi täyttää ilmaisen isännöinnin "
+"ehot:"
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
@@ -2894,6 +2889,8 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our price starts at %(price)s EUR per month."
 msgstr ""
+"Etsitkö maksullista isännöintipalvelua? Hintamme alkaen %(price)s euroa "
+"kuukaudessa."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
@@ -2941,7 +2938,7 @@ msgstr "Eikö sinulla ole vielä käyttäjätiliä?"
 
 #: weblate/templates/accounts/login.html:98
 msgid "You can register."
-msgstr "Voit kirjautua."
+msgstr "Rekisteröidy tästä."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -4145,7 +4142,7 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"Valitse haluamasi kielet asetuksista nähdäksesi katsauksen seuraamiesi "
+"Valitse haluamasi kielet asetuksista nähdäksesi yhteenvedon seuraamiesi "
 "projektien saatavilla olevista käännöksistä."
 
 #: weblate/templates/dashboard/user.html:61
@@ -4390,10 +4387,10 @@ msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(project)s -projektia käännetään eri kielille työkalulla nimeltä "
-"%(weblate_name_link)s. Tämä web -pohjainen käännöstyökalu on suunniteltu "
-"sekä kehittäjien että kääntäjien tarpeiden pohjalta helpottamaan "
-"ohjelmistojen kääntämistä eri kielille."
+"%(project)s -projektia käännetään eri kielille tällä web -pohjaisella "
+"%(weblate_name_link)s -nimisellä työkalulla. Weblate käännöstyökalu on "
+"suunniteltu sekä kehittäjien että kääntäjien tarpeiden pohjalta helpottamaan "
+"erillaisten ohjelmistojen kääntämistä eri kielille."
 
 #: weblate/templates/engage.html:30
 #, python-format
@@ -4401,16 +4398,17 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
 msgstr ""
-"Jos haluat osallistua käännösprojektiin %(project)s, tulee sinun ensin "
-"rekisteröityä tähän käännöstyökaluun."
+"Jos haluat osallistua %(project)s käännösprojektiin, sinun pitää ensin "
+"rekisteröityä kääntäjäksi tähän käännöstyökaluun."
 
 #: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
 msgstr ""
-"Tämä käännös on avoin vain rajatulle ryhmälle kääntäjiä, jos haluat "
-"osallistua, ole hyvä ja ota yhteyttä projektin ylläpitäjiin."
+"Huomaa! Tämä käännösprojekti on avoinna vain rajatulle kääntäjäryhmälle. Jos "
+"haluat osallistua kääntämiseen, ole hyvä ja ota yhteyttä projektin "
+"ylläpitäjiin."
 
 #: weblate/templates/engage.html:38
 msgid ""
@@ -4947,10 +4945,8 @@ msgstr ""
 "käyttöä, ole hyvä ja uusi se seuraamalla linkkiä:"
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "This site is built using following projects:"
 msgid "This billing plan covers following projects:"
-msgstr "Tämä sivu on rakennettu käyttämällä seuraavia projekteja:"
+msgstr "Tämä laskutussuunnitelma kattaa seuraavanlaiset projektit:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -7003,7 +6999,7 @@ msgstr "Ei lisäyksiä kieleen"
 
 #: weblate/trans/models/component.py:78
 msgid "Merge"
-msgstr "Yhdistää"
+msgstr "Yhdistä"
 
 #: weblate/trans/models/component.py:116
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:59
@@ -7216,7 +7212,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:340
 msgid "Merge style"
-msgstr "Yhdistämisstrategia (merge)"
+msgstr "Yhdistämisstrategia"
 
 #: weblate/trans/models/component.py:345
 msgid ""
@@ -8092,10 +8088,10 @@ msgid ""
 "\">being translated into %(languages)s languages</a>. Overall, these "
 "translations are %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Käännösprojekti %(project)s</a> sisältää tällä hetkellä "
-"%(total)s käännettävää tekstiä, ja se on <a href=\"%(lang_url)s\"> käännetty "
-"%(languages)s kielelle</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
-"%% valmiita."
+"<a href=\"%(url)s\">%(project)s -käännösprojekti</a> sisältää tällä hetkellä "
+"%(total)s käännettävää tekstiä, ja sitä on <a href=\"%(lang_url)s\"> "
+"käännetty %(languages)s kielelle</a>. Yhteensä nämä eri käännökset ovat "
+"%(percent)s%% valmiina."
 
 #. Translators: line of text in engagement page, please use your
 #. language name instead of English
@@ -8106,9 +8102,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"Projektin %(project)s <a href=\"%(url)s\">suomen kielen käännös</a> sisältää "
-"tällä hetkellä yhteensä %(total)s käännettävää tekstiä, joista %(percent)s%% "
-"on tällä hetkellä käännetty."
+"%(project)s -projektin <a href=\"%(url)s\">suomen kielen käännös</a> "
+"sisältää tällä hetkellä yhteensä %(total)s käännettävää tekstiä, joista "
+"%(percent)s%% on tällä hetkellä käännetty."
 
 #: weblate/trans/views/basic.py:378
 msgid ""
