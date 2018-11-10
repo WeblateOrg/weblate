@@ -888,7 +888,7 @@ def handle_missing_parameter(request, backend, error):
     if backend != 'email' and error.parameter == 'email':
         return auth_fail(
             request,
-            _('Third party authentication service did not provide email!')
+            _('The third party authentication service did not provide an email address!')
         )
     if error.parameter in ('email', 'user', 'expires'):
         return auth_redirect_token(request)
