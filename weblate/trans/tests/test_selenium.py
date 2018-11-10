@@ -87,7 +87,7 @@ TEST_BACKENDS = (
 
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     caps = {
-        'browserName': 'firefox',
+        'browserName': 'chrome',
         'platform': 'Windows 10',
     }
     driver = None
@@ -1104,10 +1104,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
 # What other platforms we want to test
 EXTRA_PLATFORMS = {
-    'Chrome': {
-        'browserName': 'chrome',
-        'platform': 'Windows 10',
+    'Safari': {
+        'browserName': 'safari',
+        'platform': 'macOS 10.13',
     },
+    'Edge': {
+        'browserName': 'MicrosoftEdge',
+        'platform': 'Windows 10',
+    }
 }
 
 
@@ -1115,10 +1119,7 @@ def create_extra_classes():
     """Create classes for testing with other browsers"""
     classes = {}
     for platform, caps in EXTRA_PLATFORMS.items():
-        name = '{0}_{1}'.format(
-            platform,
-            SeleniumTests.__name__,
-        )
+        name = '{0}SeleniumTests'.format(platform)
         classdict = dict(SeleniumTests.__dict__)
         classdict.update({
             'caps': caps,
