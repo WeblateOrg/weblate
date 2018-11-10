@@ -661,7 +661,7 @@ class HostingForm(forms.Form):
         widget=forms.Textarea,
         max_length=1000,
         help_text=_(
-            'Please describe the project and your relation to the project.'
+            'Please describe the project and your relation to it.'
         )
     )
     content = forms.CharField(required=False)
