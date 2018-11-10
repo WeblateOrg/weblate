@@ -108,7 +108,7 @@ Breton. The presence of colons is also checked for various languages where they 
 .. _check-end-question:
 
 Trailing question mark
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 Checks that question marks are replicated between both source and translation, and
 that they are correctly spaced or similar. This includes spacing rules for languages like French or
@@ -171,7 +171,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-java-messageformat:
 
 Formatted strings
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Checks that formatting in strings are replicated between both source and translation.
 Omitting format strings in translation usually cause severe problems, so the formatting in strings
