@@ -132,7 +132,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     def setUpClass(cls):
         if DO_SELENIUM:
             cls.caps['name'] = 'Weblate CI build'
-            cls.caps['screenResolution'] = '1280x1024'
+            if 'screenResoltion' not in cls.caps:
+                cls.caps['screenResolution'] = '1280x1024'
             # Fill in Travis details in caps
             if 'TRAVIS_JOB_NUMBER' in os.environ:
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
@@ -1107,11 +1108,8 @@ EXTRA_PLATFORMS = {
     'Safari': {
         'browserName': 'safari',
         'platform': 'macOS 10.13',
+        'screenResolution': '1280x960',
     },
-    'Edge': {
-        'browserName': 'MicrosoftEdge',
-        'platform': 'Windows 10',
-    }
 }
 
 
