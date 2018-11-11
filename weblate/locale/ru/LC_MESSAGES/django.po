@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-11 14:36+0000\n"
-"PO-Revision-Date: 2018-11-10 11:38+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2018-11-11 20:50+0000\n"
+"Last-Translator: mesnevi <shams@airpost.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -216,10 +216,8 @@ msgid "Additional message"
 msgstr "Дополнительное сообщение"
 
 #: weblate/accounts/forms.py:664
-#, fuzzy
-#| msgid "Please describe the project and your relation to the project."
 msgid "Please describe the project and your relation to it."
-msgstr "Пожалуйста, опишите проект и вашу роль в нём."
+msgstr "Пожалуйста, опишите проект и вашу в нём роль."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -610,11 +608,10 @@ msgid "Authentication failed due to invalid session state."
 msgstr "Аутентификация не удалась из-за неправильного состояния сессии."
 
 #: weblate/accounts/views.py:891
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
 msgstr ""
-"Вы можете добавить другой адрес электронной почты на вкладке Идентификация."
+"Не удалось получить адрес электронной почты у стороннего сервиса "
+"идентификации!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2251,17 +2248,12 @@ msgid "Security Policy"
 msgstr "Политика безопасности"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, we take security seriously and strive to maintain an "
-#| "environment that values the security and privacy of our users."
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
 msgstr ""
-"Мы в Weblate относимся к безопасности серьезно и делаем все, что в наших "
-"силах для поддержания окружения, ценящего безопасность и личные данные "
-"пользователей."
+"Мы относимся к безопасности серьезно и делаем все, что в наших силах,  чтобы "
+"личные данные пользователей были в целости и сохранности."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
@@ -2280,22 +2272,16 @@ msgid "How do you store user passwords?"
 msgstr "Как вы храните пароли пользователей?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "All user passwords are stored hashed. Weblate currently uses PBKDF2 + "
-#| "HMAC + SHA256 with 150000 iterations for that."
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
 "Все пароли пользователей хранятся в виде хэша. Для этого Weblate использует "
-"PBKDF2 + HMAC + SHA256 с 150000 итерациями."
+"PBKDF2, HMAC и SHA256 с 150000 итераций."
 
 #: weblate/legal/templates/legal/security.html:45
-#, fuzzy
-#| msgid "I have found a security issue, how should I report it?"
 msgid "How are security issues reported?"
-msgstr "Я нашёл проблему безопасности, как мне сообщить о ней?"
+msgstr "Как сообщить о проблеме безопасности?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -5563,17 +5549,15 @@ msgstr "У вас нет прав для создания компонентов
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr ""
+msgstr "Уверены?"
 
 #: weblate/templates/trans/delete-form.html:11
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "Following translation components will be also removed:"
-msgstr "Следующие компоненты будут удалены"
+msgstr "Эти компоненты тоже будут удалены:"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "Я осознаю последствия. Удалить этот перевод"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6816,28 +6800,26 @@ msgid "I agree with the contributor agreement"
 msgstr "Я соглашаюсь с соглашением участников"
 
 #: weblate/trans/forms.py:1698
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Name of the translation"
-msgstr "Добавить как другой перевод"
+msgstr "Название перевода"
 
 #: weblate/trans/forms.py:1699
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the name of the translation to confirm."
-msgstr "Пожалуйста, войдите на сайт для сохранения переводов."
+msgstr "Чтобы подтвердить удаление, введите название перевода."
 
 #: weblate/trans/forms.py:1708
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
+"Это действие нельзя отменить. Перевод {} и связанный с ним контент будут "
+"безвозвратно удалены."
 
 #: weblate/trans/forms.py:1725
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
-msgstr "BBcode в переводе не совпадает с BBcode-ом в источнике"
+msgstr ""
+"Введенное название перевода не совпадает с названием, предназначенным для "
+"удаления!"
 
 #: weblate/trans/models/change.py:192
 msgid "Resource update"
@@ -8383,16 +8365,12 @@ msgid "Translation has been removed."
 msgstr "Перевод удален."
 
 #: weblate/trans/views/git.py:310
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation component has been removed."
-msgstr "Перевод удален."
+msgstr "Компонент удален."
 
 #: weblate/trans/views/git.py:329
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "Project has been removed."
-msgstr "Источник был удален."
+msgstr "Проект удален."
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
