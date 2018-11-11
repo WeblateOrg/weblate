@@ -139,7 +139,10 @@ class Repository(object):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        return get_clean_env({'GIT_SSH': SSH_WRAPPER.filename})
+        return get_clean_env({
+            'GIT_SSH': SSH_WRAPPER.filename,
+            'GIT_TERMINAL_PROMPT': '0',
+        })
 
     @classmethod
     def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False,

@@ -31,8 +31,6 @@ from defusedxml import ElementTree
 from django.conf import settings
 from django.utils.functional import cached_property
 
-from weblate.trans.util import get_clean_env
-from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -522,17 +520,16 @@ class GithubRepository(GitRepository):
             return False
         return super(GithubRepository, cls).is_supported()
 
-    @staticmethod
-    def _getenv():
+    @classmethod
+    def _getenv(cls):
         """Generate environment for process execution."""
-        env = {'GIT_SSH': SSH_WRAPPER.filename}
-
+        env = super(cls, GithubRepository)._getenv()
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')
         if os.path.exists(userconfig):
             env['HUB_CONFIG'] = userconfig
 
-        return get_clean_env(env)
+        return env
 
     def create_pull_request(self, origin_branch, fork_branch):
         """Create pull request to merge branch in forked repository into
