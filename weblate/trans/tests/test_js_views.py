@@ -36,6 +36,7 @@ class JSViewsTest(FixtureTestCase):
     @staticmethod
     def ensure_dummy_mt():
         """Ensure we have dummy mt installed"""
+        global MACHINE_TRANSLATION_SERVICES
         if 'dummy' in MACHINE_TRANSLATION_SERVICES:
             return
         name = 'weblate.machinery.dummy.DummyTranslation'
