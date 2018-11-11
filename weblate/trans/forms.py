@@ -26,7 +26,7 @@ import json
 import re
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, Div
+from crispy_forms.layout import Layout, Fieldset, Field, Div, HTML
 from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 
 from django import forms
@@ -1691,3 +1691,36 @@ class ContributorAgreementForm(forms.Form):
         required=False,
         widget=forms.HiddenInput,
     )
+
+
+class DeleteForm(forms.Form):
+    confirm = forms.CharField(
+        label=_('Name of the translation'),
+        help_text=_('Please type in the name of the translation to confirm.'),
+        required=True
+    )
+
+    def __init__(self, obj, *args, **kwargs):
+        super(DeleteForm, self).__init__(*args, **kwargs)
+        self.obj = obj
+        self.helper = FormHelper(self)
+        message = _(
+            'This action cannot be undone. This will permanently delete '
+            'the {} translation and all related content.'
+        ).format(
+            '<strong>{}</strong>'.format(escape(obj.full_slug))
+        )
+        self.helper.layout = Layout(
+            Div(
+                HTML(message),
+                css_class='form-group',
+            ),
+            Field('confirm'),
+        )
+        self.helper.form_tag = False
+
+    def clean(self):
+        if self.cleaned_data.get('confirm') != self.obj.full_slug:
+            raise ValidationError(
+                _('The translation name does not match the one to delete!')
+            )

@@ -14,6 +14,7 @@ Released on October 20th 2018.
 * Improved plurals handling.
 * Fixed translation upload API failure in some corner cases.
 * Fixed updating Git configuration in case it was changed manually.
+* Added support for component and project removal.
 
 weblate 3.2.1
 -------------

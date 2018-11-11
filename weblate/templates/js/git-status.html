@@ -215,21 +215,6 @@
 {% endif %}
 {% endif %}
 
-{% if translation and user_can_remove_translation %}
-<tr>
-<td>
-<form method="POST" action="{% url 'remove_translation' project=translation.component.project.slug component=translation.component.slug lang=translation.language.code %}">
-{% csrf_token %}
-<input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
-</form>
-</td>
-<td>
-<p class="helptext">{% blocktrans %}Removes current translation from the repository.{% endblocktrans %}</p>
-</td>
-</tr>
-{% endif %}
-
-
 </table>
 
 </div>

@@ -81,6 +81,10 @@
       <li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
       <li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
+      {% if delete_form %}
+      <li role="separator" class="divider"></li>
+      <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+      {% endif %}
     </ul>
   </li>
 {% if enable_sharing %}
@@ -182,6 +186,10 @@
 </div>
 
 {% include "activity-tab.html" %}
+
+{% if delete_form %}
+{% include "trans/delete-form.html" %}
+{% endif %}
 
 {% if user_can_see_repository_status %}
 <div class="tab-pane" id="repository">

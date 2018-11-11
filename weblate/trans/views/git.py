@@ -21,14 +21,16 @@
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
 from filelock import Timeout
 
 from weblate.utils import messages
 from weblate.utils.views import (
-    get_project, get_component, get_translation
+    get_project, get_component, get_translation, show_form_errors,
 )
+from weblate.trans.forms import DeleteForm
 from weblate.trans.util import redirect_param
 from weblate.utils.errors import report_error
 
@@ -280,10 +282,50 @@ def remove_translation(request, project, component, lang):
     if not request.user.has_perm('translation.delete', obj):
         raise PermissionDenied()
 
-    return execute_locked(
-        request,
-        obj.component,
-        _('Translation has been removed.'),
-        obj.remove,
-        user=request.user,
-    )
+    form = DeleteForm(obj, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#delete')
+
+    obj.remove(request.user)
+    messages.success(request, _('Translation has been removed.'))
+
+    return redirect(obj.component)
+
+
+@login_required
+@require_POST
+def remove_component(request, project, component):
+    obj = get_component(request, project, component)
+
+    if not request.user.has_perm('component.edit', obj):
+        raise PermissionDenied()
+
+    form = DeleteForm(obj, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#delete')
+
+    obj.delete()
+    messages.success(request, _('Translation component has been removed.'))
+
+    return redirect(obj.project)
+
+
+@login_required
+@require_POST
+def remove_project(request, project):
+    obj = get_project(request, project)
+
+    if not request.user.has_perm('project.edit', obj):
+        raise PermissionDenied()
+
+    form = DeleteForm(obj, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#delete')
+
+    obj.delete()
+    messages.success(request, _('Project has been removed.'))
+
+    return redirect('home')

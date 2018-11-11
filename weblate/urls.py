@@ -514,6 +514,16 @@ real_patterns = [
 
     # VCS manipulation - remove
     url(
+        r'^remove/' + PROJECT + '$',
+        weblate.trans.views.git.remove_project,
+        name='remove_project',
+    ),
+    url(
+        r'^remove/' + COMPONENT + '$',
+        weblate.trans.views.git.remove_component,
+        name='remove_component',
+    ),
+    url(
         r'^remove/' + TRANSLATION + '$',
         weblate.trans.views.git.remove_translation,
         name='remove_translation',

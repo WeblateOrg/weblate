@@ -75,12 +75,15 @@ class URLMixin(object):
     def get_unlock_url(self):
         return self.reverse_url('unlock')
 
+    def get_remove_url(self):
+        return self.reverse_url('remove')
+
 
 class LoggerMixin(object):
     """Mixin with logging."""
     @cached_property
     def full_slug(self):
-        raise NotImplementedError()
+        return self.slug
 
     def log_debug(self, msg, *args):
         return LOGGER.debug(
