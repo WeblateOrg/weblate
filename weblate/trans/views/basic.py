@@ -51,6 +51,12 @@ from weblate.utils.views import (
 from weblate.trans.util import render, sort_objects, sort_unicode
 
 
+def optional_form(form, perm_user, perm, perm_obj, **kwargs):
+    if not perm_user.has_perm(perm, perm_obj):
+        return None
+    return form(**kwargs)
+
+
 @never_cache
 def list_projects(request):
     """List all projects"""
@@ -125,6 +131,7 @@ def show_engage(request, project, lang=None):
 @never_cache
 def show_project(request, project):
     obj = get_project(request, project)
+    user = request.user
 
     dict_langs = Language.objects.filter(
         dictionary__project=obj
@@ -135,17 +142,6 @@ def show_project(request, project):
     language_stats = sort_unicode(
         obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
     )
-
-    # Is user allowed to do automatic translation?
-    if request.user.has_perm('translation.auto', obj):
-        mass_state_form = MassStateForm(request.user, obj)
-    else:
-        mass_state_form = None
-
-    if request.user.has_perm('unit.edit', obj):
-        replace_form = ReplaceForm()
-    else:
-        replace_form = None
 
     # Paginate components of project.
     all_components = obj.component_set.select_related()
@@ -170,8 +166,11 @@ def show_project(request, project):
                 translation__component__project=obj
             ).distinct().count(),
             'search_form': SearchForm(),
-            'replace_form': replace_form,
-            'mass_state_form': mass_state_form,
+            'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
+            'mass_state_form': optional_form(
+                MassStateForm, user, 'translation.auto', obj,
+                user=user, obj=obj
+            ),
             'components': components,
             'licenses': ', '.join(
                 sorted(set([x.license for x in all_components if x.license]))
@@ -183,19 +182,9 @@ def show_project(request, project):
 @never_cache
 def show_component(request, project, component):
     obj = get_component(request, project, component)
+    user = request.user
 
     last_changes = Change.objects.prefetch().filter(component=obj)[:10]
-
-    # Is user allowed to do automatic translation?
-    if request.user.has_perm('translation.auto', obj):
-        mass_state_form = MassStateForm(request.user, obj)
-    else:
-        mass_state_form = None
-
-    if request.user.has_perm('unit.edit', obj):
-        replace_form = ReplaceForm()
-    else:
-        replace_form = None
 
     return render(
         request,
@@ -216,8 +205,11 @@ def show_component(request, project, component):
             'language_count': Language.objects.filter(
                 translation__component=obj
             ).distinct().count(),
-            'replace_form': replace_form,
-            'mass_state_form': mass_state_form,
+            'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
+            'mass_state_form': optional_form(
+                MassStateForm, user, 'translation.auto', obj,
+                user=user, obj=obj
+            ),
             'search_form': SearchForm(),
         }
     )
@@ -228,37 +220,21 @@ def show_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     obj.stats.ensure_all()
     last_changes = Change.objects.prefetch().filter(translation=obj)[:10]
+    user = request.user
 
     # Get form
-    form = get_upload_form(request.user, obj)
-
-    # Is user allowed to do automatic translation?
-    if request.user.has_perm('translation.auto', obj):
-        mass_state_form = MassStateForm(request.user, obj)
-    else:
-        mass_state_form = None
-
-    # Is user allowed to do automatic translation?
-    if request.user.has_perm('translation.auto', obj):
-        autoform = AutoForm(obj, request.user)
-    else:
-        autoform = None
+    form = get_upload_form(user, obj)
 
     # Search form for everybody
     search_form = SearchForm()
 
     # Review form for logged in users
-    if request.user.is_anonymous:
+    if user.is_anonymous:
         review_form = None
     else:
         review_form = ReviewForm(
-            initial={'exclude_user': request.user.username}
+            initial={'exclude_user': user.username}
         )
-
-    if request.user.has_perm('unit.edit', obj):
-        replace_form = ReplaceForm()
-    else:
-        replace_form = None
 
     return render(
         request,
@@ -269,13 +245,19 @@ def show_translation(request, project, component, lang):
             'project': obj.component.project,
             'form': form,
             'download_form': DownloadForm(),
-            'autoform': autoform,
+            'autoform': optional_form(
+                AutoForm, user, 'translation.auto', obj,
+                user=user, obj=obj
+            ),
             'search_form': search_form,
             'review_form': review_form,
-            'replace_form': replace_form,
-            'mass_state_form': mass_state_form,
+            'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
+            'mass_state_form': optional_form(
+                MassStateForm, user, 'translation.auto', obj,
+                user=user, obj=obj
+            ),
             'new_unit_form': NewUnitForm(
-                request.user,
+                user,
                 initial={
                     'value': Unit(translation=obj, id_hash=-1),
                 },

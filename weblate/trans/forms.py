@@ -946,7 +946,7 @@ class AutoForm(forms.Form):
         max_value=100,
     )
 
-    def __init__(self, obj, user, *args, **kwargs):
+    def __init__(self, user, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
         other_components = obj.component.project.component_set.exclude(
             id=obj.component.id
