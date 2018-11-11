@@ -1101,30 +1101,3 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         ).send_keys('^(cs|he|hu)$')
         self.screenshot('user-add-component.png')
-
-
-# What other platforms we want to test
-EXTRA_PLATFORMS = {
-    'Safari': {
-        'browserName': 'safari',
-        'platform': 'macOS 10.13',
-        'screenResolution': '1280x960',
-    },
-}
-
-
-def create_extra_classes():
-    """Create classes for testing with other browsers"""
-    classes = {}
-    for platform, caps in EXTRA_PLATFORMS.items():
-        name = '{0}SeleniumTests'.format(platform)
-        classdict = dict(SeleniumTests.__dict__)
-        classdict.update({
-            'caps': caps,
-        })
-        classes[name] = type(name, (SeleniumTests,), classdict)
-
-    globals().update(classes)
-
-
-create_extra_classes()
