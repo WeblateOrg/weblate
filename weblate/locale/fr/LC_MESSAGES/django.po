@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-11 14:36+0000\n"
-"PO-Revision-Date: 2018-11-11 12:13+0000\n"
+"PO-Revision-Date: 2018-11-11 20:50+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -218,10 +218,8 @@ msgid "Additional message"
 msgstr "Message supplémentaire"
 
 #: weblate/accounts/forms.py:664
-#, fuzzy
-#| msgid "Please describe the project and your relation to the project."
 msgid "Please describe the project and your relation to it."
-msgstr "Veuillez décrire le projet et vos liens avec ce projet."
+msgstr "Veuillez décrire le projet ainsi que vos liens avec celui-ci."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -627,12 +625,10 @@ msgid "Authentication failed due to invalid session state."
 msgstr "L’authentification a échoué en raison d'un statut de session invalide."
 
 #: weblate/accounts/views.py:891
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
 msgstr ""
-"Vous pouvez ajouter une autre adresse de courriel dans l’onglet "
-"Authentification."
+"Aucune adresse courriel n'a été fournit par le service d'authentification "
+"tiers !"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2305,16 +2301,12 @@ msgid "Security Policy"
 msgstr "Politique de sécurité"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, we take security seriously and strive to maintain an "
-#| "environment that values the security and privacy of our users."
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
 msgstr ""
-"Chez Weblate, nous prenons la sécurité au sérieux et faisons tout notre "
-"possible pour préserver la sécurité et la vie privée de nos utilisateurs."
+"Chez Weblate, la sécurité est prise au sérieux et nous faisons tout notre "
+"possible pour préserver la vie privée de nos utilisateurs."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
@@ -2333,22 +2325,16 @@ msgid "How do you store user passwords?"
 msgstr "Comment sont stockés les mots de passe ?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "All user passwords are stored hashed. Weblate currently uses PBKDF2 + "
-#| "HMAC + SHA256 with 150000 iterations for that."
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
 "Tous les mots de passe utilisateurs sont stockés hachés. Actuellement "
-"Weblate effectue 150 000 itérations PBKDF2 + HMAC + SHA256."
+"Weblate effectue 150 000 itérations avec PBKDF2, HMAC et SH-A256."
 
 #: weblate/legal/templates/legal/security.html:45
-#, fuzzy
-#| msgid "I have found a security issue, how should I report it?"
 msgid "How are security issues reported?"
-msgstr "J'ai découvert une faille de sécurité, que dois-je faire ?"
+msgstr "Comment sont signalées les failles de sécurité ?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -5679,17 +5665,15 @@ msgstr ""
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr ""
+msgstr "Êtes-vous absolument certain ?"
 
 #: weblate/templates/trans/delete-form.html:11
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "Following translation components will be also removed:"
-msgstr "Les composants suivants vont être supprimés"
+msgstr "Les composants de traduction suivants vont aussi être supprimés :"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "Je comprend les conséquences : Supprimer cette traduction"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5780,7 +5764,7 @@ msgstr "Atteindre la position"
 
 #: weblate/templates/translate.html:79
 msgid "Jump"
-msgstr "Atteindre"
+msgstr "Aller"
 
 #: weblate/templates/translate.html:85
 msgid "Next"
@@ -6939,28 +6923,24 @@ msgid "I agree with the contributor agreement"
 msgstr "J’accepte l’accord de contribution"
 
 #: weblate/trans/forms.py:1698
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Name of the translation"
-msgstr "Ajouter comme autre traduction"
+msgstr "Nom de la traduction"
 
 #: weblate/trans/forms.py:1699
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the name of the translation to confirm."
-msgstr "Veuillez vous connecter pour enregistrer vos traductions."
+msgstr "Veuillez saisir le nom de la traduction pour confirmer."
 
 #: weblate/trans/forms.py:1708
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
+"Cette action est IRREVERSIBLE. La traduction {} sera supprimée de manière "
+"définitive ainsi que tous les contenus qui lui sont attachés."
 
 #: weblate/trans/forms.py:1725
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
-msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
+msgstr "Le nom de la traduction ne correspond pas à la traduction à supprimer !"
 
 #: weblate/trans/models/change.py:192
 msgid "Resource update"
@@ -8520,16 +8500,12 @@ msgid "Translation has been removed."
 msgstr "La traduction a été supprimée."
 
 #: weblate/trans/views/git.py:310
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation component has been removed."
-msgstr "La traduction a été supprimée."
+msgstr "Le composant de traduction a été supprimé."
 
 #: weblate/trans/views/git.py:329
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "Project has been removed."
-msgstr "La source a été retirée."
+msgstr "Le projet a été supprimé."
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
