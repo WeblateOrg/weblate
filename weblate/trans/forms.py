@@ -1172,7 +1172,7 @@ class NewLanguageOwnerForm(forms.Form):
                         'Similar translation '
                         'already exists in the project ({0})!'
                     ).format(
-                        _ALIASES[code]
+                        ALIASES[code]
                     )
                 )
         return self.cleaned_data['lang']
