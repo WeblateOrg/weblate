@@ -450,7 +450,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
     @cached_property
-    def log_prefix(self):
+    def full_slug(self):
         return '/'.join((self.project.slug, self.slug))
 
     def get_reverse_url_kwargs(self):

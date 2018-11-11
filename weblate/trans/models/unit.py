@@ -399,7 +399,7 @@ class Unit(models.Model, LoggerMixin):
         return self.state == STATE_FUZZY
 
     @cached_property
-    def log_prefix(self):
+    def full_slug(self):
         return '/'.join((
             self.translation.component.project.slug,
             self.translation.component.slug,

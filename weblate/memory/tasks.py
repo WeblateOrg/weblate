@@ -76,7 +76,7 @@ def update_memory(user, unit):
             target_language=unit.translation.language.code,
             source=unit.source,
             target=unit.target,
-            origin=component.log_prefix,
+            origin=component.full_slug,
             category=category,
         )
 

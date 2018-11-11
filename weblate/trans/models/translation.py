@@ -114,7 +114,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.commit_template = ''
 
     @cached_property
-    def log_prefix(self):
+    def full_slug(self):
         return '/'.join((
             self.component.project.slug,
             self.component.slug,

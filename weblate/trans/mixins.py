@@ -79,27 +79,27 @@ class URLMixin(object):
 class LoggerMixin(object):
     """Mixin with logging."""
     @cached_property
-    def log_prefix(self):
-        return 'default'
+    def full_slug(self):
+        raise NotImplementedError()
 
     def log_debug(self, msg, *args):
         return LOGGER.debug(
-            ': '.join((self.log_prefix, msg)), *args
+            ': '.join((self.full_slug, msg)), *args
         )
 
     def log_info(self, msg, *args):
         return LOGGER.info(
-            ': '.join((self.log_prefix, msg)), *args
+            ': '.join((self.full_slug, msg)), *args
         )
 
     def log_warning(self, msg, *args):
         return LOGGER.warning(
-            ': '.join((self.log_prefix, msg)), *args
+            ': '.join((self.full_slug, msg)), *args
         )
 
     def log_error(self, msg, *args):
         return LOGGER.error(
-            ': '.join((self.log_prefix, msg)), *args
+            ': '.join((self.full_slug, msg)), *args
         )
 
 
