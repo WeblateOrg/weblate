@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2018.
+# MESUT AKCAN <makcan@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-09 16:22+0000\n"
-"PO-Revision-Date: 2018-10-19 12:50+0000\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"PO-Revision-Date: 2018-11-11 12:13+0000\n"
+"Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -146,10 +147,8 @@ msgid "Current password"
 msgstr "Şu anki parola"
 
 #: weblate/accounts/forms.py:515
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
-msgstr "Parolanızı henüz ayarlamadıysanız alanı boş bırakın."
+msgstr "Parolanız henüz belirlenmemiş ise alanı boş bırakın."
 
 #: weblate/accounts/forms.py:529
 msgid "You have entered an invalid password."
@@ -217,7 +216,7 @@ msgstr "Ek ileti"
 
 #: weblate/accounts/forms.py:664
 msgid "Please describe the project and your relation to the project."
-msgstr ""
+msgstr "Lütfen projeyi ve projeyle ilişkinizi tanımlayınız."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -602,7 +601,7 @@ msgstr "Geçersiz oturum durumu yüzünden kimlik doğrulma başarısız oldu."
 
 #: weblate/accounts/views.py:891
 msgid "Third party authentication service did not provide email!"
-msgstr ""
+msgstr "Üçüncü taraf kimlik doğrulama hizmeti e-posta desteği vermedi!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2195,10 +2194,8 @@ msgid "Privacy Policy"
 msgstr "Gizlilik İlkesi"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
-#| msgid "We use cookies for following:"
 msgid "Cookies are used on this site for the following:"
-msgstr "Çerezleri şunlar için kullanıyoruz:"
+msgstr "Bu sitede çerezler aşağıdakiler için kullanılmaktadır:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
@@ -2214,20 +2211,16 @@ msgstr ""
 "Belirli durumlarda kullanıcı tercihlerini depolamak için tercih çerezleri."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "We use Matomo to analyze traffic on our website. Matomo honours Do Not "
-#| "Track settings in your browser."
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Web sitemizdeki trafiği incelemek için Matomo kullanıyoruz. Matomo "
-"tarayıcınızdaki Beni İzleme ayarlarına uyar."
+"Bu site web sitesi trafiğini analiz etmek için Matomo kullanıyor. "
+"Tarayıcınızda \"Takip Etme\" ayarlarını onurlandırır."
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "Bu site web site trafiğini analiz etmek için Google Analytics kullanır."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2262,26 +2255,24 @@ msgstr ""
 "Uygulamalar'ı izler."
 
 #: weblate/legal/templates/legal/security.html:38
-#, fuzzy
-#| msgid "Security"
 msgid "Security FAQ"
-msgstr "Güvenlik"
+msgstr "Güvenlik SSS"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "How do you store user passwords?"
-msgstr "Parolanızı mı unuttunuz?"
+msgstr "Kullanıcı parolalarını nasıl saklıyorsunuz?"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "All user passwords are stored hashed. Weblate currently uses PBKDF2 + HMAC + "
 "SHA256 with 150000 iterations for that."
 msgstr ""
+"Tüm kullanıcı parolaları karma olarak saklanır. Weblate şu anda bunun için "
+"150000 yineleme ile PBKDF2 + HMAC + SHA256 kullanır."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "I have found a security issue, how should I report it?"
-msgstr ""
+msgstr "Bir güvenlik sorunu buldum, nasıl rapor etmeliyim?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -2562,16 +2553,13 @@ msgid "Commit signing"
 msgstr "İşleme imzalama"
 
 #: weblate/templates/about/keys.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the "
-#| "public key below."
+#, python-format
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Weblate tüm işlemeleri %(gpg_key_id)s GPG anahtarıyla imzalar, genel "
-"anahtarı aşağıda görebilirsiniz."
+"Weblate ile yapılan tüm işlemler, ilgili ortak anahtarın aşağıda bulunduğu "
+"GPG anahtarı %(gpg_key_id)s ile imzalanır."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -2834,15 +2822,10 @@ msgid "Conditions for free hosting"
 msgstr "Ücretsiz barındırma için koşullar"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project fits into free hosting conditions:"
 msgstr ""
-"Lütfen projenizin bu sitede proje barındırma için uygun nitelikte olup "
-"olmadığını önceden kontrol edin."
+"Projeniz ücretsiz barındırma koşullarına uyuyorsa lütfen bu formu doldurunuz:"
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under free software license."
@@ -2870,14 +2853,12 @@ msgstr ""
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our price starts at %(price)s EUR per month."
-msgstr ""
+msgstr "Ticari hosting mi arıyorsunuz? Fiyatımız ayda %(price)s EUR ile başlar."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Barındırma planlarını göster"
+msgstr "Yeni hosting planı satın alın"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3583,48 +3564,40 @@ msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
 msgstr ""
+"Bu eksik abonelikten kaynaklanabilir veya faturalarınızın bir kısmı vadesi "
+"geçmiş veya üst sınırlar geçmiştir."
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Yinelenen ödeme"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Başlangıç tarihi"
+msgstr "Vadesi geçmiş tarih"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "Sınırlar içinde"
+msgstr "Sınırları aşıyor"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change"
 msgid "Change plan"
-msgstr "Değişiklik"
+msgstr "Değişiklik planı"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Performans"
+msgstr "Ödeme yapmak"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "Yinelenen ödemeyi sonlandır"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "Faturalamayı sonlandırmak için önce tüm projeleri kaldırmanız gerekir."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Terminate billing plan"
-msgstr "Faturalandırma planı"
+msgstr "Faturalandırma planını sonlandır"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -4904,16 +4877,16 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Faturalandırma planınızın süresi doldu, hizmeti kullanmaya devam etmek "
+"istiyorsanız lütfen aşağıdaki bağlantıyı kullanarak yenileyin:"
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "This site is built using following projects:"
 msgid "This billing plan covers following projects:"
-msgstr "Bu site aşağıdaki projeler kullanılarak yapılmıştır:"
+msgstr "Bu faturalandırma planı aşağıdaki projeleri kapsar:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Faturalandırma planınızın süresi doldu"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5497,10 +5470,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Bu çeviri şu anda güncellemeler için kilitli."
 
 #: weblate/templates/show-component-state.html:11
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This project is currently locked due to unpaid billing."
-msgstr "Bu çeviri şu anda güncellemeler için kilitli."
+msgstr "Bu proje, ödenmemiş fatura nedeniyle şu anda kilitlenmiştir."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5583,10 +5554,8 @@ msgid "Create project"
 msgstr "Proje oluştur"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You currently do not have permission to create project."
 msgid "You currently do not have permission to create projects."
-msgstr "Proje oluşturma yetkiniz yok."
+msgstr "Şu anda proje oluşturma yetkiniz yok."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -5746,7 +5715,7 @@ msgstr ""
 #: weblate/templates/translate.html:207
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "Bu çeviri sadece önerileri kabul eder ve bunlar oylama ile onaylanır."
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -6654,22 +6623,17 @@ msgid "Higher priority strings are presented to translators earlier."
 msgstr "Yüksek öncelikli satırlar çevirmenlere daha önce sunulur."
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:289
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation flags"
-msgstr "Çeviri dosyası"
+msgstr "Çeviri bayrakları"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Lütfen denetim bayraklarının virgülle ayrılmış bir listesini girin, daha çok "
-"ayrıntı için <a href=\"{url}\">belgelere</a> bakın."
+"Lütfen çeviri bayraklarının virgülle ayrılmış bir listesini girin, daha "
+"fazla ayrıntı için <a href=\"{url}\">belgelere</a> bakın."
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
@@ -6939,16 +6903,12 @@ msgid "Removed user"
 msgstr "Kullanıcı kaldırıldı"
 
 #: weblate/trans/models/change.py:231
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation approved"
-msgstr "Çeviri işleyişi"
+msgstr "Çeviri onayladı"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Marked for edit"
-msgstr "Düzenlenme için işaretlenen satır"
+msgstr "Düzenlemek için işaretlenmiş"
 
 #: weblate/trans/models/change.py:327
 #, python-format
@@ -7982,13 +7942,11 @@ msgstr "XML metni"
 
 #: weblate/trans/validators.py:33
 msgid "DOS end of lines"
-msgstr ""
+msgstr "DOS satır sonu"
 
 #: weblate/trans/validators.py:35
-#, fuzzy
-#| msgid "Apostrophes in Java MessageFormat"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Java MessageFormat içindeki kesme imleri"
+msgstr "Java MessageFormat'ı otomatik olarak algıla"
 
 #: weblate/trans/validators.py:45
 msgid "File mask does not contain * as a language placeholder!"
@@ -8003,10 +7961,9 @@ msgstr ""
 "değerine izin verilmez."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Geçersiz denetim bayrağı: \"%s\""
+msgstr "Geçersiz çeviri bayrağı: \"%s\""
 
 #: weblate/trans/views/about.py:40
 msgid "About"
@@ -8409,10 +8366,8 @@ msgid "Failed to change a context!"
 msgstr "Bir bağlam değiştirilemedi!"
 
 #: weblate/trans/views/source.py:168
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Failed to change translation flags!"
-msgstr "Yeni çeviri dosyası eklenemedi!"
+msgstr "Çeviri bayrakları değiştirilemedi!"
 
 #: weblate/trans/widgets.py:110
 #, python-brace-format
@@ -8588,10 +8543,8 @@ msgid "Weblate administration"
 msgstr "Weblate yönetimi"
 
 #: weblate/wladmin/sites.py:173
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
-msgstr "Nesne listeleme devre dışı"
+msgstr "Nesne listesi kapalı"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
