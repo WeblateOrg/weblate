@@ -132,7 +132,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     def setUpClass(cls):
         if DO_SELENIUM:
             cls.caps['name'] = 'Weblate CI build'
-            if 'screenResoltion' not in cls.caps:
+            if 'screenResolution' not in cls.caps:
                 cls.caps['screenResolution'] = '1280x1024'
             # Fill in Travis details in caps
             if 'TRAVIS_JOB_NUMBER' in os.environ:
