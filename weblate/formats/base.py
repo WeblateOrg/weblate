@@ -463,8 +463,8 @@ class TranslationFormat(object):
         Note: This can change fuzzy state of units!
         """
         for unit in self.all_units:
-            # Handle header
-            if unit.unit and unit.unit.isheader():
+            # Handle header and other special units
+            if not unit.is_translatable():
                 continue
 
             # Skip fuzzy (if asked for that)
