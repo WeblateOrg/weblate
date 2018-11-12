@@ -307,22 +307,19 @@ class TranslationFormat(object):
 
         return (self.unit_class(ttkit_unit, template_ttkit_unit), add)
 
+    @cached_property
+    def _source_index(self):
+        """Context and source based index for units."""
+        return {
+            (unit.get_context(), unit.get_source()): unit
+            for unit in self.all_units
+        }
+
     def _find_unit_bilingual(self, context, source):
-        # Find all units with same source
-        found_units = self.store.findunits(source)
-        # Find is broken for propfile, ignore results
-        if found_units and not isinstance(self.store, propfile):
-            for ttkit_unit in found_units:
-                # Does context match?
-                if ttkit_unit.getcontext() == context:
-                    return (self.unit_class(ttkit_unit), False)
-        else:
-            # Fallback to manual find for value based files
-            for ttkit_unit in self.store.units:
-                ttkit_unit = self.unit_class(ttkit_unit)
-                if ttkit_unit.get_source() == source:
-                    return (ttkit_unit, False)
-        return (None, False)
+        try:
+            return (self._source_index[context, source], False)
+        except KeyError:
+            return (None, False)
 
     def find_unit(self, context, source):
         """Find unit by context and source.
