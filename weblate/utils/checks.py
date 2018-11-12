@@ -81,7 +81,7 @@ def check_celery(app_configs, **kwargs):
             errors.append(
                 Critical(
                     'The Celery tasks queue is too long, either the worker '
-    -               'is not running or is too slow.',
+                    'is not running or is too slow.',
                     hint=get_doc_url('admin/install', 'celery'),
                     id='weblate.E009',
                 )
