@@ -32,7 +32,6 @@ from django.utils.functional import cached_property
 
 import six
 
-from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
@@ -133,35 +132,11 @@ class TranslationUnit(object):
 
     def get_source(self):
         """Return source string from a ttkit unit."""
-        if self.is_unit_key_value(self.mainunit):
-            # Need to decode property encoded string
-            if isinstance(self.mainunit, propunit):
-                if self.template is not None:
-                    return quote.propertiesdecode(self.template.value)
-                return quote.propertiesdecode(self.unit.name)
-            if self.template is not None:
-                return self.template.value
-            return self.unit.name
-        else:
-            if self.template is not None:
-                return get_string(self.template.target)
-            return get_string(self.unit.source)
+        raise NotImplementedError()
 
     def get_target(self):
         """Return target string from a ttkit unit."""
-        if self.unit is None:
-            return ''
-        if self.is_unit_key_value(self.unit):
-            # Need to decode property encoded string
-            if isinstance(self.unit, propunit):
-                # This is basically stolen from
-                # translate.storage.properties.propunit.gettarget
-                # which for some reason does not return translation
-                value = quote.propertiesdecode(self.unit.value)
-                value = re.sub('\\\\ ', ' ', value)
-                return value
-            return self.unit.value
-        return get_string(self.unit.target)
+        raise NotImplementedError()
 
     def get_context(self):
         """Return context of message.

@@ -28,6 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 import six
 
+from translate.misc import quote
 from translate.storage.csvl10n import csv
 from translate.storage.po import pofile
 from translate.storage.ts2 import tsfile
@@ -43,10 +44,6 @@ from weblate.trans.util import get_string, join_plural
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
 
-class TTKitFormat(TranslationFormat):
-    pass
-
-
 class TTKitUnit(TranslationUnit):
     def get_locations(self):
         """Return comma separated list of locations."""
@@ -54,12 +51,53 @@ class TTKitUnit(TranslationUnit):
             [x for x in self.mainunit.getlocations() if x is not None]
         )
 
+    def get_source(self):
+        """Return source string from a ttkit unit."""
+        if self.is_unit_key_value(self.mainunit):
+            if self.template is not None:
+                return self.template.value
+            return self.unit.name
+
+        if self.template is not None:
+            return get_string(self.template.target)
+        return get_string(self.unit.source)
+
+    def get_target(self):
+        """Return target string from a ttkit unit."""
+        if self.unit is None:
+            return ''
+        if self.is_unit_key_value(self.unit):
+            return self.unit.value
+        return get_string(self.unit.target)
+
+
+class TTKitFormat(TranslationFormat):
+    unit_class = TTKitUnit
+
 
 class PropertiesUnit(TTKitUnit):
     """Wrapper for properties based units."""
     def get_locations(self):
         """Return comma separated list of locations."""
         return ''
+
+    def get_source(self):
+        # Need to decode property encoded string
+        return quote.propertiesdecode(
+            super(PropertiesUnit, self).get_source()
+        )
+
+    def get_target(self):
+        """Return target string from a ttkit unit."""
+        if self.unit is None:
+            return ''
+        # Need to decode property encoded string
+        # This is basically stolen from
+        # translate.storage.properties.propunit.gettarget
+        # which for some reason does not return translation
+        value = quote.propertiesdecode(self.unit.value)
+        value = re.sub('\\\\ ', ' ', value)
+        return value
 
 
 class PoUnit(TTKitUnit):
