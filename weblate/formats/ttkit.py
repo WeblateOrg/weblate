@@ -150,6 +150,12 @@ class PoUnit(TTKitUnit):
             return self.reformat_flags(self.template.typecomments)
         return self.reformat_flags(self.unit.typecomments)
 
+    def get_previous_source(self):
+        """Return previous message source if there was any."""
+        if not self.is_fuzzy():
+            return ''
+        return get_string(self.unit.prev_source)
+
 
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF

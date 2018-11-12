@@ -147,9 +147,7 @@ class TranslationUnit(object):
 
     def get_previous_source(self):
         """Return previous message source if there was any."""
-        if not self.is_fuzzy() or not hasattr(self.unit, 'prev_source'):
-            return ''
-        return get_string(self.unit.prev_source)
+        return ''
 
     @cached_property
     def id_hash(self):
