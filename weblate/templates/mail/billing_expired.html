@@ -16,7 +16,7 @@
 <p>{% trans "This billing plan covers following projects:" %}</p>
 
 <ul>
-{% for project in billing.projects %}
+{% for project in billing.projects.all %}
 <li><a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project }}</a></li>
 {% endfor %}
 </ul>

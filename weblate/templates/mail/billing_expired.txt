@@ -6,7 +6,7 @@
 
 This billing plan covers following projects:
 
-{% for project in billing.projects %}
+{% for project in billing.projects.all %}
 * {{ project }}: {{ current_site_url }}{{ project.get_absolute_url }}">
 {% endfor %}
 
