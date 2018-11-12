@@ -113,18 +113,6 @@ class TranslationUnit(object):
 
         return comment
 
-    def is_unit_key_value(self, unit):
-        """Check whether unit is key = value based rather than translation.
-
-        These are some files like PHP or properties, which for some
-        reason do not correctly set source/target attributes.
-        """
-        return (
-            hasattr(unit, 'name') and
-            hasattr(unit, 'value') and
-            hasattr(unit, 'translation')
-        )
-
     def get_source(self):
         """Return source string from a ttkit unit."""
         raise NotImplementedError()
@@ -183,21 +171,15 @@ class TranslationUnit(object):
 
     def set_target(self, target):
         """Set translation unit target."""
-        if isinstance(target, list):
-            target = multistring(target)
-        self.unit.target = target
-        # Propagate to value so that is_translated works correctly
-        if self.is_unit_key_value(self.unit):
-            self.unit.value = self.unit.translation
+        raise NotImplementedError()
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
-        self.unit.markfuzzy(fuzzy)
+        raise NotImplementedError()
 
     def mark_approved(self, value):
         """Set approved flag on translated unit."""
-        if hasattr(self.unit, 'markapproved'):
-            self.unit.markapproved(value)
+        raise NotImplementedError()
 
 
 class TranslationFormat(object):

@@ -99,6 +99,21 @@ class TTKitUnit(TranslationUnit):
         """
         return self.mainunit.istranslatable() and not self.mainunit.isblank()
 
+    def set_target(self, target):
+        """Set translation unit target."""
+        if isinstance(target, list):
+            target = multistring(target)
+        self.unit.target = target
+
+    def mark_fuzzy(self, fuzzy):
+        """Set fuzzy flag on translated unit."""
+        self.unit.markfuzzy(fuzzy)
+
+    def mark_approved(self, value):
+        """Set approved flag on translated unit."""
+        if hasattr(self.unit, 'markapproved'):
+            self.unit.markapproved(value)
+
 
 class KeyValueUnit(TTKitUnit):
     def get_source(self):
@@ -132,6 +147,12 @@ class KeyValueUnit(TTKitUnit):
         if hasattr(self.unit, 'value'):
             return not self.unit.isfuzzy() and self.unit.value != ''
         return self.unit.istranslated()
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        super(KeyValueUnit, self).set_target(target)
+        # Propagate to value so that is_translated works correctly
+        self.unit.value = self.unit.translation
 
 
 class TTKitFormat(TranslationFormat):
