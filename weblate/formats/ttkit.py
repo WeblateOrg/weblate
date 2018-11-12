@@ -35,7 +35,7 @@ from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
 
-from weblate.formats.base import FileUnit, FileFormat
+from weblate.formats.base import TranslationUnit, TranslationFormat
 
 from weblate.trans.util import get_string, join_plural
 
@@ -43,11 +43,15 @@ from weblate.trans.util import get_string, join_plural
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
 
-class ParseError(Exception):
-    """Generic error for parsing."""
+class TTKitFormat(TranslationFormat):
+    pass
 
 
-class PoUnit(FileUnit):
+class TTKitUnit(TranslationUnit):
+    pass
+
+
+class PoUnit(TTKitUnit):
     """Wrapper for Gettext PO unit"""
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
@@ -68,7 +72,7 @@ class PoUnit(FileUnit):
         return super(PoUnit, self).get_context()
 
 
-class XliffUnit(FileUnit):
+class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF
 
     XLIFF is special in ttkit - it uses locations for what
@@ -124,7 +128,7 @@ class XliffUnit(FileUnit):
         return
 
 
-class MonolingualIDUnit(FileUnit):
+class MonolingualIDUnit(TTKitUnit):
     def get_context(self):
         if self.template is not None:
             return self.template.getid()
@@ -202,7 +206,7 @@ class CSVUnit(MonolingualSimpleUnit):
         return super(CSVUnit, self).get_source()
 
 
-class RESXUnit(FileUnit):
+class RESXUnit(TTKitUnit):
     def get_locations(self):
         return ''
 
@@ -217,7 +221,7 @@ class RESXUnit(FileUnit):
         return get_string(self.template.target)
 
 
-class PHPUnit(FileUnit):
+class PHPUnit(TTKitUnit):
     def get_locations(self):
         return ''
 
@@ -232,7 +236,7 @@ class PHPUnit(FileUnit):
         return self.unit.source
 
 
-class PoFormat(FileFormat):
+class PoFormat(TTKitFormat):
     name = _('Gettext PO file')
     format_id = 'po'
     loader = pofile
@@ -288,7 +292,7 @@ class PoMonoFormat(PoFormat):
     )
 
 
-class TSFormat(FileFormat):
+class TSFormat(TTKitFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
     loader = tsfile
@@ -304,7 +308,7 @@ class TSFormat(FileFormat):
         super(TSFormat, cls).untranslate_store(store, language, True)
 
 
-class XliffFormat(FileFormat):
+class XliffFormat(TTKitFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
     loader = xlifffile
@@ -344,7 +348,7 @@ class PoXliffFormat(XliffFormat):
     loader = PoXliffFile
 
 
-class PropertiesBaseFormat(FileFormat):
+class PropertiesBaseFormat(TTKitFormat):
     @classmethod
     def is_valid(cls, store):
         result = super(PropertiesBaseFormat, cls).is_valid(store)
@@ -417,7 +421,7 @@ class JoomlaFormat(PropertiesBaseFormat):
     autoload = ('.ini',)
 
 
-class PhpFormat(FileFormat):
+class PhpFormat(TTKitFormat):
     name = _('PHP strings')
     format_id = 'php'
     loader = ('php', 'phpfile')
@@ -436,7 +440,7 @@ class PhpFormat(FileFormat):
         return 'php'
 
 
-class RESXFormat(FileFormat):
+class RESXFormat(TTKitFormat):
     name = _('.Net resource file')
     format_id = 'resx'
     loader = RESXFile
@@ -446,7 +450,7 @@ class RESXFormat(FileFormat):
     autoload = ('.resx',)
 
 
-class AndroidFormat(FileFormat):
+class AndroidFormat(TTKitFormat):
     name = _('Android String Resource')
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
@@ -475,7 +479,7 @@ class AndroidFormat(FileFormat):
         return code.replace('-', '_').replace('_', '-r')
 
 
-class JSONFormat(FileFormat):
+class JSONFormat(TTKitFormat):
     name = _('JSON file')
     format_id = 'json'
     loader = ('jsonl10n', 'JsonFile')
@@ -514,7 +518,7 @@ class I18NextFormat(JSONFormat):
     loader = ('jsonl10n', 'I18NextFile')
 
 
-class CSVFormat(FileFormat):
+class CSVFormat(TTKitFormat):
     name = _('CSV file')
     format_id = 'csv'
     loader = ('csvl10n', 'csvfile')
@@ -622,7 +626,7 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
     encoding = 'iso-8859-1'
 
 
-class YAMLFormat(FileFormat):
+class YAMLFormat(TTKitFormat):
     name = _('YAML file')
     format_id = 'yaml'
     loader = ('yaml', 'YAMLFile')
@@ -648,7 +652,7 @@ class RubyYAMLFormat(YAMLFormat):
     autoload = ('.ryml', '.yml', '.yaml')
 
 
-class DTDFormat(FileFormat):
+class DTDFormat(TTKitFormat):
     name = _('DTD file')
     format_id = 'dtd'
     loader = ('dtd', 'dtdfile')
@@ -674,7 +678,7 @@ class DTDFormat(FileFormat):
         return store
 
 
-class WindowsRCFormat(FileFormat):
+class WindowsRCFormat(TTKitFormat):
     name = _('RC file')
     format_id = 'rc'
     loader = ('rc', 'rcfile')

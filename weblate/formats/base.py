@@ -70,7 +70,7 @@ def move_atomic(source, target):
         os.rename(source, target)
 
 
-class FileUnit(object):
+class TranslationUnit(object):
     """Wrapper for translate-toolkit unit.
 
     It handles ID/template based translations and other API differences.
@@ -268,14 +268,14 @@ class FileUnit(object):
             self.unit.markapproved(value)
 
 
-class FileFormat(object):
+class TranslationFormat(object):
     """Generic object defining file format loader."""
     name = ''
     format_id = ''
     loader = ('', '')
     monolingual = None
     check_flags = ()
-    unit_class = FileUnit
+    unit_class = TranslationUnit
     new_translation = None
     autoload = ()
     can_add_unit = True
@@ -291,7 +291,7 @@ class FileFormat(object):
 
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):
-        """Parse store and returns FileFormat instance."""
+        """Parse store and returns TranslationFormat instance."""
         return cls(storefile, template_store, language_code)
 
     @classmethod
