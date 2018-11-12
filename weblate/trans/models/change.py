@@ -187,6 +187,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REMOVE_USER = 35
     ACTION_APPROVE = 36
     ACTION_MARKED_EDIT = 37
+    ACTION_REMOVE_COMPONENT = 38
+    ACTION_REMOVE_PROJECT = 39
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -230,6 +232,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),
         (ACTION_APPROVE, ugettext_lazy('Translation approved')),
         (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
+        (ACTION_REMOVE_COMPONENT, ugettext_lazy('Removed component')),
+        (ACTION_REMOVE_PROJECT, ugettext_lazy('Removed project')),
     )
 
     ACTIONS_COMPONENT = frozenset((

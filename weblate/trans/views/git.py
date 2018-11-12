@@ -31,6 +31,7 @@ from weblate.utils.views import (
     get_project, get_component, get_translation, show_form_errors,
 )
 from weblate.trans.forms import DeleteForm
+from weblate.trans.models import Change
 from weblate.trans.util import redirect_param
 from weblate.utils.errors import report_error
 
@@ -308,6 +309,13 @@ def remove_component(request, project, component):
 
     obj.delete()
     messages.success(request, _('Translation component has been removed.'))
+    Change.objects.create(
+        project=obj.project,
+        action=Change.ACTION_REMOVE_COMPONENT,
+        target=obj.slug,
+        user=request.user,
+        author=request.user
+    )
 
     return redirect(obj.project)
 
@@ -324,6 +332,13 @@ def remove_project(request, project):
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
+
+    Change.objects.create(
+        action=Change.ACTION_REMOVE_PROJECT,
+        target=obj.slug,
+        user=request.user,
+        author=request.user
+    )
 
     obj.delete()
     messages.success(request, _('Project has been removed.'))
