@@ -58,6 +58,7 @@ from weblate.trans.signals import (
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
+from weblate.trans.models.alert import Alert, ALERTS_IMPORT
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_filemask, validate_autoaccept, validate_check_flags,
@@ -440,6 +441,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.stats = ComponentStats(self)
         self.addons_cache = {}
         self.needs_cleanup = False
+        self.alerts_trigger = {}
         self.updated_sources = {}
         self.old_component = copy(self)
 
@@ -877,12 +879,14 @@ class Component(models.Model, URLMixin, PathMixin):
                         component=self,
                         previous_head=previous_head
                     )
+                    self.delete_alert('MergeFailure')
                     for component in self.get_linked_childs():
                         vcs_post_update.send(
                             sender=component.__class__,
                             component=component,
                             previous_head=previous_head
                         )
+                        component.delete_alert('MergeFailure')
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
@@ -900,6 +904,9 @@ class Component(models.Model, URLMixin, PathMixin):
                         component=self, action=action_failed, target=error,
                         user=request.user if request else None,
                     )
+                    self.add_alert('MergeFailure', error=error)
+                    for component in self.get_linked_childs():
+                        component.add_alert('MergeFailure', error=error)
 
                 # Notify subscribers and admins
                 from weblate.accounts.notifications import notify_merge_failure
@@ -948,11 +955,33 @@ class Component(models.Model, URLMixin, PathMixin):
             unit.source_info.run_checks(unit)
         self.updated_sources = {}
 
+    def trigger_alert(self, name, **kwargs):
+        if name in self.alerts_trigger:
+            self.alerts_trigger[name].append(kwargs)
+        else:
+            self.alerts_trigger[name] = [kwargs]
+
+    def delete_alert(self, alert):
+        self.alert_set.filter(name=alert).delete()
+
+    def add_alert(self, alert, **details):
+        obj = self.alert_set.get_or_create(name=alert)[0]
+        obj.details = details
+        obj.save()
+
+    def update_import_alerts(self):
+        for alert in ALERTS_IMPORT:
+            if alert in self.alerts_trigger:
+                self.add_alert(alert, occurences=self.alerts_trigger[alert])
+            else:
+                self.delete_alert(alert)
+
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False, skip_checks=False):
         """Load translations from VCS."""
         self.needs_cleanup = False
         self.updated_sources = {}
+        self.alerts_trigger = {}
         translations = {}
         languages = {}
         matches = self.get_mask_matches()
@@ -972,15 +1001,19 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 lang = Language.objects.auto_get_or_create(code=code)
                 if lang.code in languages:
-                    detail = '{} ({}, {})'.format(
-                        lang.code, code, languages[lang.code]
-                    )
+                    codes = '{}, {}'.format(code, languages[lang.code])
+                    detail = '{} ({})'.format(lang.code, codes)
                     self.log_error('duplicate language found: %s', detail)
                     Change.objects.create(
                         component=self,
                         user=request.user if request else None,
                         target=detail,
                         action=Change.ACTION_DUPLICATE_LANGUAGE,
+                    )
+                    self.trigger_alert(
+                        'DuplicateLanguage',
+                        codes=codes,
+                        language_code=lang.code,
                     )
                     continue
                 translation = Translation.objects.check_sync(
@@ -1011,6 +1044,8 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.updated_sources:
             self.log_info('running source checks')
             self.update_source_checks()
+
+        self.update_import_alerts()
 
         # Process linked repos
         childs = self.get_linked_childs()

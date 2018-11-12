@@ -22,7 +22,7 @@
 {% endif %}
 {% if changes.0.is_merge_failure %}
 <div class="alert alert-danger" role="alert">
-<p>{% trans "There has been a merge failure in the repository:" %}</p>
+<p>{% trans "There has been a merge failure in the repository" %}</p>
 <pre>{{ changes.0.target }}</pre>
 <p><a href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for information on how to resolve this." %}</a></p>
 </div>

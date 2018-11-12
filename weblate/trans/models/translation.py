@@ -302,6 +302,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     user=user,
                     author=user
                 )
+                self.component.trigger_alert(
+                    'DuplicateString',
+                    language_code=self.language.code,
+                    source=newunit.source,
+                    unit_pk=newunit.pk,
+                )
 
             # Store current unit ID
             created_units.add(newunit.id)

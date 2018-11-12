@@ -16,6 +16,7 @@ Released on October 20th 2018.
 * Fixed updating Git configuration in case it was changed manually.
 * Added support for component and project removal.
 * Improved performance for some monolingual translations.
+* Added translation component alerts to highlight problems with a translation.
 
 weblate 3.2.1
 -------------
