@@ -280,13 +280,13 @@ class TranslationFormat(object):
         )
 
     @cached_property
-    def _id_index(self):
+    def _context_index(self):
         """ID based index for units."""
-        return {unit.getid(): unit for unit in self.store.units}
+        return {unit.get_context(): unit for unit in self.mono_units}
 
     def find_unit_mono(self, context):
         try:
-            return self._id_index[context]
+            return self._context_index[context].unit
         except KeyError:
             return None
 
@@ -361,18 +361,18 @@ class TranslationFormat(object):
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
 
-    def find_matching(self, template_unit):
-        """Find matching store unit for template"""
-        return self.find_unit_mono(template_unit.getid())
+    @cached_property
+    def mono_units(self):
+        return [self.unit_class(unit) for unit in self.store.units]
 
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(unit) for unit in self.store.units]
+            return self.mono_units
         return [
-            self.unit_class(self.find_matching(unit), unit)
-            for unit in self.template_store.store.units
+            self.unit_class(self.find_unit_mono(unit.get_context()), unit.unit)
+            for unit in self.template_store.mono_units
         ]
 
     @property
