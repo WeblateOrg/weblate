@@ -263,7 +263,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Select all current units for update
         self.unit_set.select_for_update()
 
-        for unit in self.store.all_units():
+        for unit in self.store.all_units:
             if not unit.is_translatable():
                 continue
 
@@ -717,7 +717,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             request.user.profile.translated += accepted
             request.user.profile.save(update_fields=['translated'])
 
-        return (not_found, skipped, accepted, store2.count_units())
+        return (not_found, skipped, accepted, len(store2.all_units))
 
     def merge_suggestions(self, request, store, fuzzy):
         """Merge content of translate-toolkit store as a suggestions."""
@@ -744,7 +744,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if accepted > 0:
             self.invalidate_cache()
 
-        return (not_found, skipped, accepted, store.count_units())
+        return (not_found, skipped, accepted, len(store.all_units))
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
                      method='translate', fuzzy=''):

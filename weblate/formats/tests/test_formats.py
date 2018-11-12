@@ -164,7 +164,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
-        self.assertEqual(storage.count_units(), self.COUNT)
+        self.assertEqual(len(storage.all_units), self.COUNT)
         self.assertEqual(storage.mimetype, self.MIME)
         self.assertEqual(storage.extension, self.EXT)
 
@@ -184,7 +184,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         storage = self.FORMAT(testfile)
 
         if edit:
-            units = list(storage.all_units())
+            units = storage.all_units
             units[0].set_target('Nazdar, svete!\n')
 
         # Save test file

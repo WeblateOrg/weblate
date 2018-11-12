@@ -368,27 +368,15 @@ class TranslationFormat(object):
         """Find matching store unit for template"""
         return self.find_unit_mono(template_unit.getid())
 
+    @cached_property
     def all_units(self):
-        """Generator of all units."""
+        """List of all units."""
         if not self.has_template:
-            for tt_unit in self.store.units:
-
-                # Create wrapper object
-                yield self.unit_class(tt_unit)
-        else:
-            for template_unit in self.template_store.store.units:
-
-                # Create wrapper object (not translated)
-                yield self.unit_class(
-                    self.find_matching(template_unit),
-                    template_unit
-                )
-
-    def count_units(self):
-        """Return count of units."""
-        if not self.has_template:
-            return len(self.store.units)
-        return len(self.template_store.store.units)
+            return [self.unit_class(unit) for unit in self.store.units]
+        return [
+            self.unit_class(self.find_matching(unit), unit)
+            for unit in self.template_store.store.units
+        ]
 
     @property
     def mimetype(self):
@@ -474,7 +462,7 @@ class TranslationFormat(object):
 
         Note: This can change fuzzy state of units!
         """
-        for unit in self.all_units():
+        for unit in self.all_units:
             # Handle header
             if unit.unit and unit.unit.isheader():
                 continue

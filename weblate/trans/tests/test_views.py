@@ -225,7 +225,7 @@ class ViewTestCase(RepoTestCase):
         messages = set()
         translated = 0
 
-        for unit in store.all_units():
+        for unit in store.all_units:
             if not unit.is_translatable():
                 continue
             id_hash = unit.id_hash
