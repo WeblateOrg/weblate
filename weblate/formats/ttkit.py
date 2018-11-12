@@ -71,6 +71,12 @@ class PoUnit(TTKitUnit):
             return self.template.getid()
         return super(PoUnit, self).get_context()
 
+    def get_flags(self):
+        """Return flags (typecomments) from units."""
+        if self.template is not None:
+            return self.reformat_flags(self.template.typecomments)
+        return self.reformat_flags(self.unit.typecomments)
+
 
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF

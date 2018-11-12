@@ -107,14 +107,7 @@ class TranslationUnit(object):
         return ', '.join(flags)
 
     def get_flags(self):
-        """Return flags (typecomments) from units.
-
-        This is Gettext (po) specific feature."""
-        # Merge flags
-        if hasattr(self.unit, 'typecomments'):
-            return self.reformat_flags(self.unit.typecomments)
-        elif hasattr(self.template, 'typecomments'):
-            return self.reformat_flags(self.template.typecomments)
+        """Return flags (typecomments) from units."""
         return ''
 
     def get_comments(self):
