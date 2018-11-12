@@ -271,7 +271,7 @@ class TranslationFormat(object):
         """Return matching plural object."""
         return language.plural
 
-    @property
+    @cached_property
     def has_template(self):
         """Check whether class is using template."""
         return (
