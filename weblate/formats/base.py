@@ -28,6 +28,8 @@ import re
 import sys
 import tempfile
 
+from django.utils.functional import cached_property
+
 import six
 
 from translate.misc import quote
@@ -82,8 +84,6 @@ class FileUnit(object):
             self.mainunit = template
         else:
             self.mainunit = unit
-        self.id_hash = None
-        self.content_hash = None
 
     def get_locations(self):
         """Return comma separated list of locations."""
@@ -192,34 +192,22 @@ class FileUnit(object):
             return ''
         return get_string(self.unit.prev_source)
 
-    def get_id_hash(self):
+    @cached_property
+    def id_hash(self):
         """Return hash of source string, used for quick lookup.
 
         We use siphash as it is fast and works well for our purpose.
         """
-        if self.id_hash is None:
-            if self.template is None:
-                self.id_hash = calculate_hash(
-                    self.get_source(), self.get_context()
-                )
-            else:
-                self.id_hash = calculate_hash(
-                    None, self.get_context()
-                )
+        if self.template is None:
+            return calculate_hash(self.get_source(), self.get_context())
+        return calculate_hash(None, self.get_context())
 
-        return self.id_hash
-
-    def get_content_hash(self):
+    @cached_property
+    def content_hash(self):
         """Return hash of source string and context, used for quick lookup."""
         if self.template is None:
-            return self.get_id_hash()
-
-        if self.content_hash is None:
-            self.content_hash = calculate_hash(
-                self.get_source(), self.get_context()
-            )
-
-        return self.content_hash
+            return self.id_hash
+        return calculate_hash(self.get_source(), self.get_context())
 
     def is_translated(self):
         """Check whether unit is translated."""

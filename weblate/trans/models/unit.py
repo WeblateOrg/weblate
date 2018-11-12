@@ -82,8 +82,8 @@ class UnitManager(models.Manager):
         # Get basic unit data
         src = unit.get_source()
         ctx = unit.get_context()
-        id_hash = unit.get_id_hash()
-        content_hash = unit.get_content_hash()
+        id_hash = unit.id_hash
+        content_hash = unit.content_hash
         created = False
 
         # Try getting existing unit
@@ -440,7 +440,7 @@ class Unit(models.Model, LoggerMixin):
         comment = unit.get_comments()
         state = self.get_unit_state(unit, created)
         previous_source = unit.get_previous_source()
-        content_hash = unit.get_content_hash()
+        content_hash = unit.content_hash
 
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
