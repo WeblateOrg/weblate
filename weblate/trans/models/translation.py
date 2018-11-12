@@ -857,7 +857,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Record change
         Change.objects.create(
             component=self.component,
-            action=Change.ACTION_REMOVE,
+            action=Change.ACTION_REMOVE_TRANSLATION,
             target=self.filename,
             user=user,
             author=user

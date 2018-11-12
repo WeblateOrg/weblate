@@ -174,7 +174,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_FAILED_MERGE = 22
     ACTION_FAILED_REBASE = 23
     ACTION_PARSE_ERROR = 24
-    ACTION_REMOVE = 25
+    ACTION_REMOVE_TRANSLATION = 25
     ACTION_SUGGESTION_DELETE = 26
     ACTION_REPLACE = 27
     ACTION_FAILED_PUSH = 28
@@ -217,7 +217,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_FAILED_REBASE, ugettext_lazy('Failed rebase on repository')),
         (ACTION_FAILED_PUSH, ugettext_lazy('Failed push on repository')),
         (ACTION_PARSE_ERROR, ugettext_lazy('Parse error')),
-        (ACTION_REMOVE, ugettext_lazy('Removed translation')),
+        (ACTION_REMOVE_TRANSLATION, ugettext_lazy('Removed translation')),
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
         (ACTION_REPLACE, ugettext_lazy('Search and replace')),
         (
