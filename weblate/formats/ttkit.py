@@ -63,6 +63,13 @@ class TTKitUnit(TranslationUnit):
             return ''
         return get_string(self.unit.target)
 
+    def get_context(self):
+        """Return context of message.
+
+        In some cases we have to use ID here to make all backends consistent.
+        """
+        return self.mainunit.getcontext()
+
 
 class KeyValueUnit(TTKitUnit):
     def get_source(self):
@@ -76,6 +83,16 @@ class KeyValueUnit(TTKitUnit):
         if self.unit is None:
             return ''
         return self.unit.value
+
+    def get_context(self):
+        """Return context of message.
+
+        In some cases we have to use ID here to make all backends consistent.
+        """
+        context = super(KeyValueUnit, self).get_context()
+        if not context:
+            return self.mainunit.getid()
+        return context
 
 
 class TTKitFormat(TranslationFormat):

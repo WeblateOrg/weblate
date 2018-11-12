@@ -143,10 +143,7 @@ class TranslationUnit(object):
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        context = self.mainunit.getcontext()
-        if self.is_unit_key_value(self.mainunit) and context == '':
-            return self.mainunit.getid()
-        return context
+        raise NotImplementedError()
 
     def get_previous_source(self):
         """Return previous message source if there was any."""
