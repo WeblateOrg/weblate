@@ -35,11 +35,7 @@ import six
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
-from translate.storage.po import pounit
-from translate.storage.properties import propunit, propfile
-from translate.storage.ts2 import tsunit
-
-from weblate.trans.util import get_string
+from translate.storage.properties import propfile
 
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
@@ -47,7 +43,6 @@ from weblate.utils.hash import calculate_hash
 import weblate
 
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
-SUPPORTS_FUZZY = (pounit, tsunit)
 
 
 def move_atomic(source, target):
@@ -168,43 +163,23 @@ class TranslationUnit(object):
 
     def is_translated(self):
         """Check whether unit is translated."""
-        if self.unit is None:
-            return False
-        # The hasattr check here is needed for merged storages
-        # where template is different kind than translations
-        if self.is_unit_key_value(self.unit) and hasattr(self.unit, 'value'):
-            return not self.unit.isfuzzy() and self.unit.value != ''
-        return self.unit.istranslated()
+        raise NotImplementedError()
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
-        if self.unit is None:
-            return fallback
-        if hasattr(self.unit, 'isapproved'):
-            return self.unit.isapproved()
         return fallback
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit."""
-        if self.unit is None:
-            return fallback
-        # Most of the formats do not support this, but they
-        # happily return False
-        if isinstance(self.unit, SUPPORTS_FUZZY):
-            return self.unit.isfuzzy()
         return fallback
 
     def is_obsolete(self):
         """Check whether unit is marked as obsolete in backend."""
-        return self.mainunit.isobsolete()
+        return False
 
     def is_translatable(self):
-        """Check whether unit is translatable.
-
-        For some reason, blank string does not mean non translatable
-        unit in some formats (XLIFF), so lets skip those as well.
-        """
-        return self.mainunit.istranslatable() and not self.mainunit.isblank()
+        """Check whether unit is translatable."""
+        return True
 
     def set_target(self, target):
         """Set translation unit target."""

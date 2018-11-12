@@ -30,8 +30,8 @@ import six
 
 from translate.misc import quote
 from translate.storage.csvl10n import csv
-from translate.storage.po import pofile
-from translate.storage.ts2 import tsfile
+from translate.storage.po import pofile, pounit
+from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
@@ -42,6 +42,7 @@ from weblate.trans.util import get_string, join_plural
 
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
+SUPPORTS_FUZZY = (pounit, tsunit)
 
 
 class TTKitUnit(TranslationUnit):
@@ -70,6 +71,34 @@ class TTKitUnit(TranslationUnit):
         """
         return self.mainunit.getcontext()
 
+    def is_translated(self):
+        """Check whether unit is translated."""
+        if self.unit is None:
+            return False
+        return self.unit.istranslated()
+
+    def is_fuzzy(self, fallback=False):
+        """Check whether unit needs edit."""
+        if self.unit is None:
+            return fallback
+        # Most of the formats do not support this, but they
+        # happily return False
+        if isinstance(self.unit, SUPPORTS_FUZZY):
+            return self.unit.isfuzzy()
+        return fallback
+
+    def is_obsolete(self):
+        """Check whether unit is marked as obsolete in backend."""
+        return self.mainunit.isobsolete()
+
+    def is_translatable(self):
+        """Check whether unit is translatable.
+
+        For some reason, blank string does not mean non translatable
+        unit in some formats (XLIFF), so lets skip those as well.
+        """
+        return self.mainunit.istranslatable() and not self.mainunit.isblank()
+
 
 class KeyValueUnit(TTKitUnit):
     def get_source(self):
@@ -93,6 +122,16 @@ class KeyValueUnit(TTKitUnit):
         if not context:
             return self.mainunit.getid()
         return context
+
+    def is_translated(self):
+        """Check whether unit is translated."""
+        if self.unit is None:
+            return False
+        # The hasattr check here is needed for merged storages
+        # where template is different kind than translations
+        if hasattr(self.unit, 'value'):
+            return not self.unit.isfuzzy() and self.unit.value != ''
+        return self.unit.istranslated()
 
 
 class TTKitFormat(TranslationFormat):
@@ -211,6 +250,14 @@ class XliffUnit(TTKitUnit):
 
         We ignore this for now."""
         return
+
+    def is_approved(self, fallback=False):
+        """Check whether unit is appoved."""
+        if self.unit is None:
+            return fallback
+        if hasattr(self.unit, 'isapproved'):
+            return self.unit.isapproved()
+        return fallback
 
 
 class MonolingualIDUnit(TTKitUnit):
