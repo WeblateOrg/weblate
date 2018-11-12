@@ -484,25 +484,6 @@ class XliffFormat(TTKitFormat):
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
 
-    def find_matching(self, template_unit):
-        """Find matching store unit for template"""
-        for search_unit in self.store.units:
-            if search_unit.source == template_unit.source:
-                return search_unit
-
-        return None
-
-    def find_unit(self, context, source):
-        return super(XliffFormat, self).find_unit(
-            context.replace('///', ID_SEPARATOR), source
-        )
-
-    def _find_unit_bilingual(self, context, source):
-        return (
-            self.unit_class(self.find_unit_mono(context)),
-            False
-        )
-
     def create_unit(self, key, source):
         unit = super(XliffFormat, self).create_unit(key, source)
         unit.marktranslated()
