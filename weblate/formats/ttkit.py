@@ -29,12 +29,15 @@ from django.utils.translation import ugettext_lazy as _
 import six
 
 from translate.misc import quote
+from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csv
 from translate.storage.po import pofile, pounit
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
+
+import weblate
 
 from weblate.formats.base import TranslationUnit, TranslationFormat
 
@@ -430,6 +433,19 @@ class PoFormat(TTKitFormat):
             plural_forms=plural.plural_form,
             language_team='none',
         )
+
+    def update_header(self, **kwargs):
+        """Update store header if available."""
+        kwargs['x_generator'] = 'Weblate {0}'.format(weblate.VERSION)
+
+        # Adjust Content-Type header if needed
+        header = self.store.parseheader()
+        if ('Content-Type' not in header or
+                'charset=CHARSET' in header['Content-Type'] or
+                'charset=ASCII' in header['Content-Type']):
+            kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
+
+        self.store.updateheader(**kwargs)
 
 
 class PoMonoFormat(PoFormat):

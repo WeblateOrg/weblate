@@ -32,15 +32,12 @@ from django.utils.functional import cached_property
 
 import six
 
-from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propfile
 
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
-
-import weblate
 
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 
@@ -354,19 +351,7 @@ class TranslationFormat(object):
 
     def update_header(self, **kwargs):
         """Update store header if available."""
-        if not hasattr(self.store, 'updateheader'):
-            return
-
-        kwargs['x_generator'] = 'Weblate {0}'.format(weblate.VERSION)
-
-        # Adjust Content-Type header if needed
-        header = self.store.parseheader()
-        if ('Content-Type' not in header or
-                'charset=CHARSET' in header['Content-Type'] or
-                'charset=ASCII' in header['Content-Type']):
-            kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
-
-        self.store.updateheader(**kwargs)
+        return
 
     def save_content(self, handle):
         """Stores content to file."""
