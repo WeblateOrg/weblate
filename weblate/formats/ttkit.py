@@ -53,11 +53,6 @@ class TTKitUnit(TranslationUnit):
 
     def get_source(self):
         """Return source string from a ttkit unit."""
-        if self.is_unit_key_value(self.mainunit):
-            if self.template is not None:
-                return self.template.value
-            return self.unit.name
-
         if self.template is not None:
             return get_string(self.template.target)
         return get_string(self.unit.source)
@@ -66,16 +61,28 @@ class TTKitUnit(TranslationUnit):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
-        if self.is_unit_key_value(self.unit):
-            return self.unit.value
         return get_string(self.unit.target)
+
+
+class KeyValueUnit(TTKitUnit):
+    def get_source(self):
+        """Return source string from a ttkit unit."""
+        if self.template is not None:
+            return self.template.value
+        return self.unit.name
+
+    def get_target(self):
+        """Return target string from a ttkit unit."""
+        if self.unit is None:
+            return ''
+        return self.unit.value
 
 
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
 
 
-class PropertiesUnit(TTKitUnit):
+class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties based units."""
     def get_locations(self):
         """Return comma separated list of locations."""
@@ -276,7 +283,7 @@ class RESXUnit(TTKitUnit):
         return get_string(self.template.target)
 
 
-class PHPUnit(TTKitUnit):
+class PHPUnit(KeyValueUnit):
     def get_locations(self):
         return ''
 
