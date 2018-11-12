@@ -972,9 +972,15 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 lang = Language.objects.auto_get_or_create(code=code)
                 if lang.code in languages:
-                    self.log_error(
-                        'duplicate language found: %s (%s, %s)',
+                    detail = '{} ({}, {})'.format(
                         lang.code, code, languages[lang.code]
+                    )
+                    self.log_error('duplicate language found: %s', detail)
+                    Change.objects.create(
+                        component=self,
+                        user=request.user if request else None,
+                        target=detail,
+                        action=Change.ACTION_DUPLICATE_LANGUAGE,
                     )
                     continue
                 translation = Translation.objects.check_sync(

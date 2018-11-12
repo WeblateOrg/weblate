@@ -189,6 +189,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MARKED_EDIT = 37
     ACTION_REMOVE_COMPONENT = 38
     ACTION_REMOVE_PROJECT = 39
+    ACTION_DUPLICATE_LANGUAGE = 40
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -234,6 +235,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
         (ACTION_REMOVE_COMPONENT, ugettext_lazy('Removed component')),
         (ACTION_REMOVE_PROJECT, ugettext_lazy('Removed project')),
+        (ACTION_DUPLICATE_LANGUAGE, ugettext_lazy('Duplicate language found')),
     )
 
     ACTIONS_COMPONENT = frozenset((
@@ -282,6 +284,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
         ACTION_LOCK,
         ACTION_UNLOCK,
+        ACTION_DUPLICATE_LANGUAGE,
     ))
 
     ACTIONS_MERGE_FAILURE = frozenset((
