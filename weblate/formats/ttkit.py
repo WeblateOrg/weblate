@@ -499,7 +499,7 @@ class XliffFormat(TTKitFormat):
 
     def _find_unit_bilingual(self, context, source):
         return (
-            self.unit_class(self._find_unit_mono(context, self.store)),
+            self.unit_class(self.find_unit_mono(context)),
             False
         )
 

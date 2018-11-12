@@ -279,29 +279,22 @@ class TranslationFormat(object):
             self.template_store is not None
         )
 
-    def _find_unit_mono(self, context, store):
-        # We search by ID when using template
-        ttkit_unit = store.findid(context)
+    @cached_property
+    def _id_index(self):
+        """ID based index for units."""
+        return {unit.getid(): unit for unit in self.store.units}
 
-        if ttkit_unit is not None:
-            return ttkit_unit
-
-        # Do not use findid as it does not work for empty translations
-        for search_unit in store.units:
-            if search_unit.getid() == context:
-                return search_unit
-
-        return None
+    def find_unit_mono(self, context):
+        try:
+            return self._id_index[context]
+        except KeyError:
+            return None
 
     def _find_unit_template(self, context):
         # Need to create new unit based on template
-        template_ttkit_unit = self._find_unit_mono(
-            context, self.template_store.store
-        )
+        template_ttkit_unit = self.template_store.find_unit_mono(context)
         # We search by ID when using template
-        ttkit_unit = self._find_unit_mono(
-            context, self.store
-        )
+        ttkit_unit = self.find_unit_mono(context)
 
         # We always need new unit to translate
         if ttkit_unit is None:
@@ -373,7 +366,7 @@ class TranslationFormat(object):
 
     def find_matching(self, template_unit):
         """Find matching store unit for template"""
-        return self.store.findid(template_unit.getid())
+        return self.find_unit_mono(template_unit.getid())
 
     def all_units(self):
         """Generator of all units."""
