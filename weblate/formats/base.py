@@ -87,13 +87,7 @@ class TranslationUnit(object):
 
     def get_locations(self):
         """Return comma separated list of locations."""
-        # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
-        # is context in other formats
-        if isinstance(self.mainunit, propunit):
-            return ''
-        return ', '.join(
-            [x for x in self.mainunit.getlocations() if x is not None]
-        )
+        return ''
 
     def reformat_flags(self, typecomments):
         """Processe flags from PO file to nicer form."""

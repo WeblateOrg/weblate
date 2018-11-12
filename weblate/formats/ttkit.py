@@ -48,7 +48,18 @@ class TTKitFormat(TranslationFormat):
 
 
 class TTKitUnit(TranslationUnit):
-    pass
+    def get_locations(self):
+        """Return comma separated list of locations."""
+        return ', '.join(
+            [x for x in self.mainunit.getlocations() if x is not None]
+        )
+
+
+class PropertiesUnit(TTKitUnit):
+    """Wrapper for properties based units."""
+    def get_locations(self):
+        """Return comma separated list of locations."""
+        return ''
 
 
 class PoUnit(TTKitUnit):
@@ -355,6 +366,8 @@ class PoXliffFormat(XliffFormat):
 
 
 class PropertiesBaseFormat(TTKitFormat):
+    unit_class = PropertiesUnit
+
     @classmethod
     def is_valid(cls, store):
         result = super(PropertiesBaseFormat, cls).is_valid(store)
