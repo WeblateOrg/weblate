@@ -79,6 +79,22 @@ class TTKitUnit(TranslationUnit):
         """
         return self.mainunit.getcontext()
 
+    @cached_property
+    def comments(self):
+        """Return comments (notes) from units."""
+        comment = ''
+
+        if self.unit is not None:
+            comment = self.unit.getnotes()
+
+        if self.template is not None:
+            # Avoid duplication in case template has same comments
+            template_comment = self.template.getnotes()
+            if template_comment != comment:
+                comment = template_comment + ' ' + comment
+
+        return comment
+
     def is_translated(self):
         """Check whether unit is translated."""
         if self.unit is None:
