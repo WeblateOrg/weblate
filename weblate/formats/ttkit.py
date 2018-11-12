@@ -22,6 +22,7 @@
 from __future__ import unicode_literals
 
 import importlib
+import inspect
 import re
 
 from django.utils.functional import cached_property
@@ -31,7 +32,9 @@ import six
 
 from translate.misc import quote
 from translate.misc.multistring import multistring
+from translate.storage.base import TranslationStore
 from translate.storage.csvl10n import csv
+from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
@@ -43,6 +46,8 @@ import weblate
 from weblate.formats.base import TranslationUnit, TranslationFormat
 
 from weblate.trans.util import get_string, join_plural
+
+from weblate.utils.errors import report_error
 
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
@@ -184,6 +189,153 @@ class KeyValueUnit(TTKitUnit):
 
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
+    loader = ('', '')
+
+    def __init__(self, storefile, template_store=None, language_code=None):
+        super(TTKitFormat, self).__init__(
+            storefile, template_store, language_code
+        )
+        # Set language (needed for some which do not include this)
+        if (language_code is not None and
+                self.store.gettargetlanguage() is None):
+            self.store.settargetlanguage(language_code)
+
+    @staticmethod
+    def serialize(store):
+        """Serialize given ttkit store"""
+        return bytes(store)
+
+    @classmethod
+    def fixup(cls, store):
+        """Perform optional fixups on store."""
+        return store
+
+    @classmethod
+    def load(cls, storefile):
+        """Load file using defined loader."""
+        # Add missing mode attribute to Django file wrapper
+        if isinstance(storefile, TranslationStore):
+            # Used by XLSX writer
+            return storefile
+        if (not isinstance(storefile, six.string_types) and
+                not hasattr(storefile, 'mode')):
+            storefile.mode = 'r'
+
+        return cls.parse_store(storefile)
+
+    @classmethod
+    def get_class(cls):
+        """Return class for handling this module."""
+        # Direct class
+        if inspect.isclass(cls.loader):
+            return cls.loader
+        # Tuple style loader, import from translate toolkit
+        module_name, class_name = cls.loader
+        if '.' not in module_name:
+            module_name = 'translate.storage.{0}'.format(module_name)
+        module = importlib.import_module(module_name)
+
+        # Get the class
+        return getattr(module, class_name)
+
+    @classmethod
+    def parse_store(cls, storefile):
+        """Parse the store."""
+        storeclass = cls.get_class()
+
+        # Parse file
+        store = storeclass.parsefile(storefile)
+
+        # Apply possible fixups and return
+        return cls.fixup(store)
+
+    def add_unit(self, ttkit_unit):
+        """Add new unit to underlaying store."""
+        if isinstance(self.store, LISAfile):
+            # LISA based stores need to know this
+            self.store.addunit(ttkit_unit, new=True)
+        else:
+            self.store.addunit(ttkit_unit)
+
+    def save_content(self, handle):
+        """Stores content to file."""
+        self.store.serialize(handle)
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        return self.store.Mimetypes[0]
+
+    @property
+    def extension(self):
+        """Return most common file extension for format."""
+        return self.store.Extensions[0]
+
+    @classmethod
+    def is_valid(cls, store):
+        """Check whether store seems to be valid.
+
+        In some cases ttkit happily "parses" the file, even though it
+        really did not do so (eg. Gettext parser on random text file).
+        """
+        if store is None:
+            return False
+
+        if cls.monolingual is False and not store.units:
+            return False
+
+        return True
+
+    def create_unit(self, key, source):
+        unit = self.store.UnitClass(source)
+        unit.setid(key)
+        unit.source = key
+        unit.target = source
+        return unit
+
+    @classmethod
+    def untranslate_store(cls, store, language, fuzzy=False):
+        """Remove translations from ttkit store"""
+        store.settargetlanguage(language.code)
+        plural = language.plural
+
+        for unit in store.units:
+            if unit.istranslatable():
+                if hasattr(unit, 'markapproved'):
+                    # Xliff only
+                    unit.markapproved(False)
+                else:
+                    unit.markfuzzy(fuzzy)
+                if unit.hasplural():
+                    unit.target = [''] * plural.number
+                else:
+                    unit.target = ''
+
+    @classmethod
+    def create_new_file(cls, filename, language, base):
+        """Handle creation of new translation file."""
+        if base:
+            # Parse file
+            store = cls.parse_store(base)
+            cls.untranslate_store(store, language)
+            store.savefile(filename)
+        elif cls.new_translation is None:
+            raise ValueError('Not supported')
+        else:
+            with open(filename, 'w') as output:
+                output.write(cls.new_translation)
+
+    @classmethod
+    def is_valid_base_for_new(cls, base, monolingual):
+        """Check whether base is valid."""
+        if not base:
+            return monolingual and cls.new_translation is not None
+        try:
+            cls.parse_store(base)
+            return True
+        except Exception as error:
+            report_error(error)
+            return False
 
 
 class PropertiesUnit(KeyValueUnit):
@@ -558,6 +710,12 @@ class PropertiesBaseFormat(TTKitFormat):
         # Translate-toolkit happily parses anything into a property
         # even if there is no delimiter used in the line.
         return not store.units or store.units[0].delimiter
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        # Properties files do not expose mimetype
+        return 'text/plain'
 
 
 class StringsFormat(PropertiesBaseFormat):
