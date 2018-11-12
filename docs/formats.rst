@@ -247,11 +247,23 @@ For example:
         </trans-unit>
 
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` for bilingual XLIFF              |
 +================================+==================================+
 | File mask                      | ``localizations/*.xliff``        |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``localizations/en-US.xliff``    |
++--------------------------------+----------------------------------+
+| File format                    | `XLIFF Translation File`         |
++--------------------------------+----------------------------------+
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` for monolingual XLIFF            |
++================================+==================================+
+| File mask                      | ``localizations/*.xliff``        |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``localizations/en-US.xliff``    |
 +--------------------------------+----------------------------------+
 | Base file for new translations | ``localizations/en-US.xliff``    |
 +--------------------------------+----------------------------------+
