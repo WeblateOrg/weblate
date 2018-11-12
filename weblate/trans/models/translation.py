@@ -519,7 +519,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Check for changes
             if ((not add or unit.target == '') and
-                    unit.target == pounit.get_target() and
+                    unit.target == pounit.target and
                     unit.approved == pounit.is_approved(unit.approved) and
                     unit.fuzzy == pounit.is_fuzzy()):
                 unit.save(update_fields=['pending'], same_content=True)
@@ -546,7 +546,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
             state = unit.get_unit_state(pounit, False)
-            flags = pounit.get_flags()
+            flags = pounit.flags
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
@@ -705,7 +705,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 state = STATE_APPROVED
             unit.translate(
                 request,
-                split_plural(unit2.get_target()),
+                split_plural(unit2.target),
                 state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=False
@@ -734,8 +734,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             # Add suggestion
-            if dbunit.target != unit.get_target():
-                Suggestion.objects.add(dbunit, unit.get_target(), request)
+            if dbunit.target != unit.target:
+                Suggestion.objects.add(dbunit, unit.target, request)
                 accepted += 1
             else:
                 skipped += 1

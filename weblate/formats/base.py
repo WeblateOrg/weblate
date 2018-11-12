@@ -76,7 +76,8 @@ class TranslationUnit(object):
         else:
             self.mainunit = unit
 
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         """Return comma separated list of locations."""
         return ''
 
@@ -91,11 +92,13 @@ class TranslationUnit(object):
         # Join into string
         return ', '.join(flags)
 
-    def get_flags(self):
+    @cached_property
+    def flags(self):
         """Return flags (typecomments) from units."""
         return ''
 
-    def get_comments(self):
+    @cached_property
+    def comments(self):
         """Return comments (notes) from units."""
         comment = ''
 
@@ -110,22 +113,26 @@ class TranslationUnit(object):
 
         return comment
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         """Return source string from a ttkit unit."""
         raise NotImplementedError()
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         """Return target string from a ttkit unit."""
         raise NotImplementedError()
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         """Return context of message.
 
         In some cases we have to use ID here to make all backends consistent.
         """
         raise NotImplementedError()
 
-    def get_previous_source(self):
+    @cached_property
+    def previous_source(self):
         """Return previous message source if there was any."""
         return ''
 
@@ -136,15 +143,15 @@ class TranslationUnit(object):
         We use siphash as it is fast and works well for our purpose.
         """
         if self.template is None:
-            return calculate_hash(self.get_source(), self.get_context())
-        return calculate_hash(None, self.get_context())
+            return calculate_hash(self.source, self.context)
+        return calculate_hash(None, self.context)
 
     @cached_property
     def content_hash(self):
         """Return hash of source string and context, used for quick lookup."""
         if self.template is None:
             return self.id_hash
-        return calculate_hash(self.get_source(), self.get_context())
+        return calculate_hash(self.source, self.context)
 
     def is_translated(self):
         """Check whether unit is translated."""
@@ -282,7 +289,7 @@ class TranslationFormat(object):
     @cached_property
     def _context_index(self):
         """ID based index for units."""
-        return {unit.get_context(): unit for unit in self.mono_units}
+        return {unit.context: unit for unit in self.mono_units}
 
     def find_unit_mono(self, context):
         try:
@@ -311,7 +318,7 @@ class TranslationFormat(object):
     def _source_index(self):
         """Context and source based index for units."""
         return {
-            (unit.get_context(), unit.get_source()): unit
+            (unit.context, unit.source): unit
             for unit in self.all_units
         }
 
@@ -371,7 +378,7 @@ class TranslationFormat(object):
         if not self.has_template:
             return self.mono_units
         return [
-            self.unit_class(self.find_unit_mono(unit.get_context()), unit.unit)
+            self.unit_class(self.find_unit_mono(unit.context), unit.unit)
             for unit in self.template_store.mono_units
         ]
 

@@ -220,7 +220,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             self.assertTrue(unit is None)
         else:
             self.assertIsNotNone(unit)
-            self.assertEqual(unit.get_target(), self.FIND_MATCH)
+            self.assertEqual(unit.target, self.FIND_MATCH)
 
     def test_add(self):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))

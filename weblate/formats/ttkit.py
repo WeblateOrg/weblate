@@ -24,6 +24,7 @@ from __future__ import unicode_literals
 import importlib
 import re
 
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 import six
@@ -49,25 +50,29 @@ SUPPORTS_FUZZY = (pounit, tsunit)
 
 
 class TTKitUnit(TranslationUnit):
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         """Return comma separated list of locations."""
         return ', '.join(
             [x for x in self.mainunit.getlocations() if x is not None]
         )
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         """Return source string from a ttkit unit."""
         if self.template is not None:
             return get_string(self.template.target)
         return get_string(self.unit.source)
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
         return get_string(self.unit.target)
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         """Return context of message.
 
         In some cases we have to use ID here to make all backends consistent.
@@ -119,24 +124,27 @@ class TTKitUnit(TranslationUnit):
 
 
 class KeyValueUnit(TTKitUnit):
-    def get_source(self):
+    @cached_property
+    def source(self):
         """Return source string from a ttkit unit."""
         if self.template is not None:
             return self.template.value
         return self.unit.name
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
         return self.unit.value
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         """Return context of message.
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        context = super(KeyValueUnit, self).get_context()
+        context = super(KeyValueUnit, self).context
         if not context:
             return self.mainunit.getid()
         return context
@@ -164,17 +172,20 @@ class TTKitFormat(TranslationFormat):
 
 class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties based units."""
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         """Return comma separated list of locations."""
         return ''
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         # Need to decode property encoded string
         return quote.propertiesdecode(
-            super(PropertiesUnit, self).get_source()
+            super(PropertiesUnit, self).source
         )
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
@@ -197,7 +208,8 @@ class PoUnit(TTKitUnit):
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         """Return context of message.
 
         In some cases we have to use ID here to make all backends consistent.
@@ -205,15 +217,17 @@ class PoUnit(TTKitUnit):
         if self.template is not None:
             # Monolingual PO files
             return self.template.getid()
-        return super(PoUnit, self).get_context()
+        return super(PoUnit, self).context
 
-    def get_flags(self):
+    @cached_property
+    def flags(self):
         """Return flags (typecomments) from units."""
         if self.template is not None:
             return self.reformat_flags(self.template.typecomments)
         return self.reformat_flags(self.unit.typecomments)
 
-    def get_previous_source(self):
+    @cached_property
+    def previous_source(self):
         """Return previous message source if there was any."""
         if not self.is_fuzzy():
             return ''
@@ -227,15 +241,18 @@ class XliffUnit(TTKitUnit):
     is context in other formats.
     """
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         """Return context of message."""
         return self.mainunit.getid().replace(ID_SEPARATOR, '///')
 
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         """Return comma separated list of locations."""
         return ''
 
-    def get_flags(self):
+    @cached_property
+    def flags(self):
         """Return flags from unit.
 
         We currently extract maxwidth attribute.
@@ -285,14 +302,16 @@ class XliffUnit(TTKitUnit):
 
 
 class MonolingualIDUnit(TTKitUnit):
-    def get_context(self):
+    @cached_property
+    def context(self):
         if self.template is not None:
             return self.template.getid()
         return self.mainunit.getcontext()
 
 
 class TSUnit(MonolingualIDUnit):
-    def get_source(self):
+    @cached_property
+    def source(self):
         if self.template is None and self.mainunit.hasplural():
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
@@ -301,25 +320,27 @@ class TSUnit(MonolingualIDUnit):
                 source,
                 source.replace('(s)', 's'),
             ])
-        return super(TSUnit, self).get_source()
+        return super(TSUnit, self).source
 
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         """Return comma separated list of locations."""
-        result = super(TSUnit, self).get_locations()
+        result = super(TSUnit, self).locations
         # Do not try to handle relative locations in Qt TS, see
         # http://doc.qt.io/qt-5/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
             return ''
         return result
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
         if not self.unit.isreview() and not self.unit.istranslated():
             # For Qt ts, empty translated string means source should be used
-            return self.get_source()
-        return super(TSUnit, self).get_target()
+            return self.source
+        return super(TSUnit, self).target
 
     def is_translated(self):
         """Check whether unit is translated."""
@@ -330,10 +351,12 @@ class TSUnit(MonolingualIDUnit):
 
 
 class MonolingualSimpleUnit(MonolingualIDUnit):
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         return ''
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         if self.template is None:
             return self.mainunit.getid().lstrip('.')
         return get_string(self.template.target)
@@ -343,7 +366,8 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
 
 
 class CSVUnit(MonolingualSimpleUnit):
-    def get_context(self):
+    @cached_property
+    def context(self):
         # Needed to avoid translate-toolkit construct ID
         # as context\04source
         if self.template is not None:
@@ -354,39 +378,46 @@ class CSVUnit(MonolingualSimpleUnit):
             return self.template.getid()
         return self.mainunit.getcontext()
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         # Needed to avoid translate-toolkit construct ID
         # as context\04source
         if self.template is None:
             return get_string(self.mainunit.source)
-        return super(CSVUnit, self).get_source()
+        return super(CSVUnit, self).source
 
 
 class RESXUnit(TTKitUnit):
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         return ''
 
-    def get_context(self):
+    @cached_property
+    def context(self):
         if self.template is not None:
             return self.template.getid()
         return self.unit.getid()
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         if self.template is None:
             return self.mainunit.getid()
         return get_string(self.template.target)
 
 
 class PHPUnit(KeyValueUnit):
-    def get_locations(self):
+    @cached_property
+    def locations(self):
         return ''
 
-    def get_source(self):
+    @cached_property
+    def source(self):
         if self.template is not None:
             return self.template.source
         return self.unit.getid()
 
-    def get_target(self):
+    @cached_property
+    def target(self):
         if self.unit is None:
             return ''
         return self.unit.source
