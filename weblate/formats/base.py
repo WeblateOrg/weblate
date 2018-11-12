@@ -225,7 +225,7 @@ class TranslationFormat(object):
 
     def find_unit_mono(self, context):
         try:
-            return self._context_index[context].unit
+            return self._context_index[context].template
         except KeyError:
             return None
 
@@ -298,15 +298,15 @@ class TranslationFormat(object):
 
     @cached_property
     def mono_units(self):
-        return [self.unit_class(unit) for unit in self.store.units]
+        return [self.unit_class(None, unit) for unit in self.store.units]
 
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return self.mono_units
+            return [self.unit_class(unit) for unit in self.store.units]
         return [
-            self.unit_class(self.find_unit_mono(unit.context), unit.unit)
+            self.unit_class(self.find_unit_mono(unit.context), unit.template)
             for unit in self.template_store.mono_units
         ]
 
