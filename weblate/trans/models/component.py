@@ -830,6 +830,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
         report_error(error)
+        error_message = force_text(error)
         if translation is None:
             filename = self.template
         else:
@@ -838,15 +839,18 @@ class Component(models.Model, URLMixin, PathMixin):
         notify_parse_error(
             self,
             translation,
-            str(error),
+            error_message,
             filename
+        )
+        self.trigger_alert(
+            'ParseError', error=error_message, filename=filename
         )
         if self.id:
             Change.objects.create(
                 component=self,
                 action=Change.ACTION_PARSE_ERROR,
             )
-        raise ParseError(str(error))
+        raise ParseError(error_message)
 
     @perform_on_link
     def update_branch(self, request=None, method=None):

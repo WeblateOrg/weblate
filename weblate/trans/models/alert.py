@@ -153,3 +153,9 @@ class UpdateFailure(ErrorAlert):
 @register
 class UnusedNewBase(BaseAlert):
     verbose = _('Unused base file for new translations')
+
+
+@register
+class ParseError(MultiAlert):
+    verbose = _('Failed to parse translation files')
+    on_import = True

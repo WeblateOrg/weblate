@@ -252,8 +252,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # List of created units (used for cleanup and duplicates detection)
         created_units = set()
 
+        try:
+            store = self.store
+        except ParseError as error:
+            self.log_warning('skipping update due to parse error: %s', error)
+            return
+
         # Store plural
-        plural = self.store.get_plural(self.language)
+        plural = store.get_plural(self.language)
         if plural != self.plural:
             self.plural = plural
             self.save(update_fields=['plural'])
@@ -266,7 +272,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Select all current units for update
         self.unit_set.select_for_update()
 
-        for unit in self.store.all_units:
+        for unit in store.all_units:
             if not unit.is_translatable():
                 continue
 
