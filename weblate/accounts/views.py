@@ -551,6 +551,9 @@ class WeblateLoginView(LoginView):
         if len(auth_backends) == 1 and auth_backends[0] != 'email':
             return redirect_single(request, auth_backends[0])
 
+        if 'next' in request.GET:
+            messages.info(request, _('Please login or register to use Weblate.'))
+
         return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
 
 
