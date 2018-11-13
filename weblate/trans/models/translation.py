@@ -263,7 +263,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Select all current units for update
         self.unit_set.select_for_update()
 
-        for unit in self.store.all_units():
+        for unit in self.store.all_units:
             if not unit.is_translatable():
                 continue
 
@@ -519,7 +519,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Check for changes
             if ((not add or unit.target == '') and
-                    unit.target == pounit.get_target() and
+                    unit.target == pounit.target and
                     unit.approved == pounit.is_approved(unit.approved) and
                     unit.fuzzy == pounit.is_fuzzy()):
                 unit.save(update_fields=['pending'], same_content=True)
@@ -546,7 +546,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
             state = unit.get_unit_state(pounit, False)
-            flags = pounit.get_flags()
+            flags = pounit.flags
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
@@ -705,7 +705,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 state = STATE_APPROVED
             unit.translate(
                 request,
-                split_plural(unit2.get_target()),
+                split_plural(unit2.target),
                 state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=False
@@ -717,7 +717,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             request.user.profile.translated += accepted
             request.user.profile.save(update_fields=['translated'])
 
-        return (not_found, skipped, accepted, store2.count_units())
+        return (not_found, skipped, accepted, len(store2.all_units))
 
     def merge_suggestions(self, request, store, fuzzy):
         """Merge content of translate-toolkit store as a suggestions."""
@@ -734,8 +734,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             # Add suggestion
-            if dbunit.target != unit.get_target():
-                Suggestion.objects.add(dbunit, unit.get_target(), request)
+            if dbunit.target != unit.target:
+                Suggestion.objects.add(dbunit, unit.target, request)
                 accepted += 1
             else:
                 skipped += 1
@@ -744,7 +744,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if accepted > 0:
             self.invalidate_cache()
 
-        return (not_found, skipped, accepted, store.count_units())
+        return (not_found, skipped, accepted, len(store.all_units))
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
                      method='translate', fuzzy=''):

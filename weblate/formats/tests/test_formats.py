@@ -164,7 +164,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
-        self.assertEqual(storage.count_units(), self.COUNT)
+        self.assertEqual(len(storage.all_units), self.COUNT)
         self.assertEqual(storage.mimetype, self.MIME)
         self.assertEqual(storage.extension, self.EXT)
 
@@ -184,7 +184,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         storage = self.FORMAT(testfile)
 
         if edit:
-            units = list(storage.all_units())
+            units = storage.all_units
             units[0].set_target('Nazdar, svete!\n')
 
         # Save test file
@@ -220,7 +220,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             self.assertTrue(unit is None)
         else:
             self.assertIsNotNone(unit)
-            self.assertEqual(unit.get_target(), self.FIND_MATCH)
+            self.assertEqual(unit.target, self.FIND_MATCH)
 
     def test_add(self):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
@@ -326,6 +326,7 @@ class PropertiesFormatTest(AutoFormatTest):
     MASK = 'java/swing_messages_*.properties'
     EXPECTED_PATH = 'java/swing_messages_cs_CZ.properties'
     FIND = 'IGNORE'
+    FIND_CONTEXT = 'IGNORE'
     FIND_MATCH = 'Ignore'
     MATCH = '\n'
     NEW_UNIT_MATCH = b'\nkey=Source string\n'
@@ -347,6 +348,7 @@ class JoomlaFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'joomla/cs_CZ.ini'
     MATCH = '\n'
     FIND = 'HELLO'
+    FIND_CONTEXT = 'HELLO'
     FIND_MATCH = 'Ahoj "světe"!\n'
     NEW_UNIT_MATCH = b'\nkey=Source string\n'
 
@@ -403,6 +405,7 @@ class PhpFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'php/cs_CZ/admin.php'
     MATCH = '<?php\n'
     FIND = '$LANG[\'foo\']'
+    FIND_CONTEXT = '$LANG[\'foo\']'
     FIND_MATCH = 'bar'
     BASE = ''
     NEW_UNIT_MATCH = b'\nkey = \'Source string\';\n'
@@ -469,6 +472,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     MASK = 'resx/*.resx'
     EXPECTED_PATH = 'resx/cs_CZ.resx'
     FIND = 'Hello'
+    FIND_CONTEXT = 'Hello'
     FIND_MATCH = ''
     MATCH = 'text/microsoft-resx'
     BASE = ''

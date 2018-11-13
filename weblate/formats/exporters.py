@@ -33,7 +33,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
-from weblate.formats.base import FileFormat
+from weblate.formats.ttkit import TTKitFormat
 from weblate.formats.external import XlsxFormat
 from weblate.utils.site import get_site_url
 
@@ -176,7 +176,7 @@ class BaseExporter(object):
 
     def serialize(self):
         """Return storage content"""
-        return FileFormat.serialize(self.storage)
+        return TTKitFormat.serialize(self.storage)
 
 
 @register_exporter

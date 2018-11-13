@@ -28,7 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from translate.storage import factory
 
-from weblate.formats.base import FileFormat
+from weblate.formats.ttkit import TTKitFormat
 from weblate.formats.helpers import StringIOMode
 from weblate.formats.models import FILE_FORMATS
 
@@ -73,13 +73,13 @@ def try_load(filename, content, original_format, template_store):
     raise failure
 
 
-class AutoFormat(FileFormat):
+class AutoFormat(TTKitFormat):
     name = _('Automatic detection')
     format_id = 'auto'
 
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):
-        """Parse store and returns FileFormat instance.
+        """Parse store and returns TTKitFormat instance.
 
         First attempt own autodetection, then fallback to ttkit.
         """

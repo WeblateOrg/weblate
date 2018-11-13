@@ -51,8 +51,8 @@ class DictionaryManager(models.Manager):
 
         # process all units
         for dummy, unit in store.iterate_merge(False):
-            source = unit.get_source()
-            target = unit.get_target()
+            source = unit.source
+            target = unit.target
 
             # Ignore too long words
             if len(source) > 190 or len(target) > 190:

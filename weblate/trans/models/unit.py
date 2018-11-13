@@ -80,10 +80,10 @@ class UnitManager(models.Manager):
         Process translation toolkit unit and stores/updates database entry.
         """
         # Get basic unit data
-        src = unit.get_source()
-        ctx = unit.get_context()
-        id_hash = unit.get_id_hash()
-        content_hash = unit.get_content_hash()
+        src = unit.source
+        ctx = unit.context
+        id_hash = unit.id_hash
+        content_hash = unit.content_hash
         created = False
 
         # Try getting existing unit
@@ -308,8 +308,8 @@ class UnitQuerySet(models.QuerySet):
 
         This is used for import, so kind of fuzzy matching is expected.
         """
-        source = ttunit.get_source()
-        context = ttunit.get_context()
+        source = ttunit.source
+        context = ttunit.context
 
         params = [{'source': source, 'context': context}, {'source': source}]
         # Try empty context first before matching any context
@@ -432,15 +432,15 @@ class Unit(models.Model, LoggerMixin):
         """Update Unit from ttkit unit."""
         self.is_batch_update = True
         # Get unit attributes
-        location = unit.get_locations()
-        flags = unit.get_flags()
-        target = unit.get_target()
-        source = unit.get_source()
-        context = unit.get_context()
-        comment = unit.get_comments()
+        location = unit.locations
+        flags = unit.flags
+        target = unit.target
+        source = unit.source
+        context = unit.context
+        comment = unit.comments
         state = self.get_unit_state(unit, created)
-        previous_source = unit.get_previous_source()
-        content_hash = unit.get_content_hash()
+        previous_source = unit.previous_source
+        content_hash = unit.content_hash
 
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
