@@ -285,6 +285,20 @@ def cleanup_old_suggestions():
     Suggestion.objects.filter(timestamp__lt=cutoff).delete()
 
 
+@app.task
+def repository_alerts(threshold=10):
+    non_linked = Component.objects.exclude(repo__startswith='weblate:')
+    for component in non_linked.iterator():
+        if component.repository.count_missing() > 10:
+            component.delete_alert('RepositoryOutdated', childs=True)
+        else:
+            component.add_alert('RepositoryOutdated', childs=True)
+        if component.repository.count_outgoing() > 10:
+            component.delete_alert('RepositoryChanges', childs=True)
+        else:
+            component.add_alert('RepositoryChanges', childs=True)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -296,6 +310,11 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=3, minute=30),
         update_remotes.s(),
         name='update-remotes',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        repository_alerts.s(),
+        name='repository-alerts',
     )
     sender.add_periodic_task(
         3600 * 24,

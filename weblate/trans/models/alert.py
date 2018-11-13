@@ -161,3 +161,13 @@ class ParseError(MultiAlert):
 @register
 class BillingLimit(BaseAlert):
     verbose = _('Your billing plan is above limits')
+
+
+@register
+class RepositoryOutdated(BaseAlert):
+    verbose = _('Repository is outdated')
+
+
+@register
+class RepositoryChanges(BaseAlert):
+    verbose = _('Repository has changes')

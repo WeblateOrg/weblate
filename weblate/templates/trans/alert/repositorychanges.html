@@ -1,0 +1,6 @@
+{% load i18n %}
+{% load translations %}
+
+<p>{% trans "The VCS repository has many changes compared to the upstream. Please merge the changes manually or setup push to automate this." %}</p>
+
+<a class="btn btn-default" href="{% documentation 'admin/continuous' 'push-changes' %}">{% trans "Documentation" %}</a>
