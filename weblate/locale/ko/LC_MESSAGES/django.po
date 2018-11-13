@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 16:02+0000\n"
+"POT-Creation-Date: 2018-11-13 22:16+0000\n"
 "PO-Revision-Date: 2018-11-10 11:38+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -4518,7 +4518,6 @@ msgid "There has been a merge failure in the repository"
 msgstr "저장소에서 병합 오류가 발생했습니다:"
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
 msgid "Check the FAQ for information on how to resolve this."
 msgstr "이 문제를 해결하는 방법에 대한 정보는 FAQ를 확인하십시오."
 
@@ -5475,16 +5474,19 @@ msgstr ""
 "해 갱신하십시오:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
+#, fuzzy
+#| msgid "Whether component is locked for translation updates."
 msgid ""
-"The component contains several translation files which are mapped to single "
-"language in Weblate."
-msgstr ""
+"The component contains several translation files mapped to single language "
+"in Weblate."
+msgstr "컴포넌트가 번역 업데이트를 위해 잠겨있는지 여부."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
+#: weblate/templates/trans/alert/parseerror.html:6
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "Following occurences were found:"
+msgid "The following occurences were found:"
 msgstr "검사를 통과하지 못한 번역 발견됨"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -5495,26 +5497,35 @@ msgstr "언어 코드"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
 msgid ""
-"Please take a look at the translation files and fix this by removing one of "
-"the duplicite translations."
+"Please fix this by removing one of the duplicated strings from the "
+"translation files."
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 #, fuzzy
 #| msgid "Whether component is locked for translation updates."
-msgid "The component contains several duplicate translation strings."
+msgid "The component contains several duplicated translation strings."
 msgstr "컴포넌트가 번역 업데이트를 위해 잠겨있는지 여부."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
-"Please take a look at the translation files and fix this by removing "
-"duplicate strings with same identifier."
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 
 #: weblate/templates/trans/alert/mergefailure.html:4
+#, fuzzy
+#| msgid "Resetting the repository will throw away all local changes!"
 msgid ""
-"When updating the repository Weblate was not able to merge upstream changes."
-msgstr ""
+"When updating the repository Weblate was unable to merge the upstream "
+"changes."
+msgstr "저장소를 초기화하면 모든 지역적 변경사항이 손실됩니다!"
+
+#: weblate/templates/trans/alert/mergefailure.html:8
+#, fuzzy
+#| msgid "Check the FAQ for information on how to resolve this."
+msgid "Check the FAQ for info on how to resolve this."
+msgstr "이 문제를 해결하는 방법에 대한 정보는 FAQ를 확인하십시오."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 #, fuzzy
@@ -5524,13 +5535,13 @@ msgid ""
 "files."
 msgstr "번역을 잠그는 것은 번역을 작업하는 다른 사람을 막을 것입니다."
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 #, fuzzy
 #| msgid "Full name"
 msgid "Filename"
 msgstr "전체 이름"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
 msgstr ""
 
@@ -5542,8 +5553,8 @@ msgstr ""
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
-"The VCS repository is outdated against upstream one. Please merge the "
-"changes manually or setup hooks to automate this."
+"The VCS repository is not up to date with the upstream one. Please merge "
+"changes manually or set up hooks to automate this."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusednewbase.html:2

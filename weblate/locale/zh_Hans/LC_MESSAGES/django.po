@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 16:02+0000\n"
+"POT-Creation-Date: 2018-11-13 22:16+0000\n"
 "PO-Revision-Date: 2018-11-13 16:00+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -4692,7 +4692,6 @@ msgid "There has been a merge failure in the repository"
 msgstr "该代码库已发生一次合并失败："
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
 msgid "Check the FAQ for information on how to resolve this."
 msgstr "查阅我们的常见问题以获取如何解决该问题的信息。"
 
@@ -5669,16 +5668,19 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
+#, fuzzy
+#| msgid "Whether component is locked for translation updates."
 msgid ""
-"The component contains several translation files which are mapped to single "
-"language in Weblate."
-msgstr ""
+"The component contains several translation files mapped to single language "
+"in Weblate."
+msgstr "翻译更新时是否锁定组件。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
+#: weblate/templates/trans/alert/parseerror.html:6
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "Following occurences were found:"
+msgid "The following occurences were found:"
 msgstr "未通过检查"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -5689,26 +5691,35 @@ msgstr "语言代码"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
 msgid ""
-"Please take a look at the translation files and fix this by removing one of "
-"the duplicite translations."
+"Please fix this by removing one of the duplicated strings from the "
+"translation files."
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 #, fuzzy
 #| msgid "Whether component is locked for translation updates."
-msgid "The component contains several duplicate translation strings."
+msgid "The component contains several duplicated translation strings."
 msgstr "翻译更新时是否锁定组件。"
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
-"Please take a look at the translation files and fix this by removing "
-"duplicate strings with same identifier."
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 
 #: weblate/templates/trans/alert/mergefailure.html:4
+#, fuzzy
+#| msgid "Resetting the repository will throw away all local changes!"
 msgid ""
-"When updating the repository Weblate was not able to merge upstream changes."
-msgstr ""
+"When updating the repository Weblate was unable to merge the upstream "
+"changes."
+msgstr "重设代码库将丢失所有本地修改！"
+
+#: weblate/templates/trans/alert/mergefailure.html:8
+#, fuzzy
+#| msgid "Check the FAQ for information on how to resolve this."
+msgid "Check the FAQ for info on how to resolve this."
+msgstr "查阅我们的常见问题以获取如何解决该问题的信息。"
 
 #: weblate/templates/trans/alert/parseerror.html:4
 #, fuzzy
@@ -5718,13 +5729,13 @@ msgid ""
 "files."
 msgstr "锁定可以防止其他人与您同时翻译。"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 #, fuzzy
 #| msgid "Full name"
 msgid "Filename"
 msgstr "全名"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
 msgstr ""
 
@@ -5736,8 +5747,8 @@ msgstr ""
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
-"The VCS repository is outdated against upstream one. Please merge the "
-"changes manually or setup hooks to automate this."
+"The VCS repository is not up to date with the upstream one. Please merge "
+"changes manually or set up hooks to automate this."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusednewbase.html:2

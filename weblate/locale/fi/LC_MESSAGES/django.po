@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 16:02+0000\n"
+"POT-Creation-Date: 2018-11-13 22:16+0000\n"
 "PO-Revision-Date: 2018-11-13 22:14+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -4632,7 +4632,6 @@ msgid "There has been a merge failure in the repository"
 msgstr "Versioiden yhdistämisessä (merge) on tapahtunut virhe"
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
 msgid "Check the FAQ for information on how to resolve this."
 msgstr "Tarkista FAQ saadaksesi lisätietoja ongelman ratkaisemiseksi."
 
@@ -5599,16 +5598,23 @@ msgstr ""
 "käyttöä, mutta suunnitelman päivittäminen on suositeltavaa."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
+#, fuzzy
+#| msgid ""
+#| "The component contains several translation files which are mapped to "
+#| "single language in Weblate."
 msgid ""
-"The component contains several translation files which are mapped to single "
-"language in Weblate."
+"The component contains several translation files mapped to single language "
+"in Weblate."
 msgstr ""
 "Komponentti sisältää useita käännöstiedostoja jotka on Weblatessa linkitetty "
 "yhteen kieleen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-msgid "Following occurences were found:"
+#: weblate/templates/trans/alert/parseerror.html:6
+#, fuzzy
+#| msgid "Following occurences were found:"
+msgid "The following occurences were found:"
 msgstr "Seuraavat esiintymät löydettiin:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -5616,31 +5622,52 @@ msgid "Language codes"
 msgstr "Kielikoodit"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing one "
+#| "of the duplicite translations."
 msgid ""
-"Please take a look at the translation files and fix this by removing one of "
-"the duplicite translations."
+"Please fix this by removing one of the duplicated strings from the "
+"translation files."
 msgstr ""
 "Tarkasta käännöstiedostot ja korjaa tämä poistamalla joku samanlaisista "
 "käännöksistä."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-msgid "The component contains several duplicate translation strings."
+#, fuzzy
+#| msgid "The component contains several duplicate translation strings."
+msgid "The component contains several duplicated translation strings."
 msgstr "Komponentti sisältää useita samanlaisia käännöstekstejä."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing "
+#| "duplicate strings with same identifier."
 msgid ""
-"Please take a look at the translation files and fix this by removing "
-"duplicate strings with same identifier."
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 "Tarkista käännöstiedostot ja korjaa tämä poistamalla tekstit joilla on sama "
 "tunniste."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
+#, fuzzy
+#| msgid ""
+#| "When updating the repository Weblate was not able to merge upstream "
+#| "changes."
 msgid ""
-"When updating the repository Weblate was not able to merge upstream changes."
+"When updating the repository Weblate was unable to merge the upstream "
+"changes."
 msgstr ""
 "Paikallista arkistoa päivitettäessä Weblate ei voinut yhdistää (merge) "
 "etäarkistosta haettuja muutoksia."
+
+#: weblate/templates/trans/alert/mergefailure.html:8
+#, fuzzy
+#| msgid "Check the FAQ for information on how to resolve this."
+msgid "Check the FAQ for info on how to resolve this."
+msgstr "Tarkista FAQ saadaksesi lisätietoja ongelman ratkaisemiseksi."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5649,11 +5676,11 @@ msgid ""
 msgstr ""
 "Käännöstieostoja päivitettäessä Weblate ei voinut jäsentää käännöstiedostoja."
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
 msgstr "Tiedostonimi"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
 msgstr "Virhe"
 
@@ -5667,9 +5694,13 @@ msgstr ""
 "viennin (push) asetukset kuntoon."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is outdated against upstream one. Please merge the "
+#| "changes manually or setup hooks to automate this."
 msgid ""
-"The VCS repository is outdated against upstream one. Please merge the "
-"changes manually or setup hooks to automate this."
+"The VCS repository is not up to date with the upstream one. Please merge "
+"changes manually or set up hooks to automate this."
 msgstr ""
 "Paikallinen arkisto ei ole ajantasalla. Yhdistä muutokset etäarkistosta "
 "käsin, tai laita koukun asetukset kuntoon automatisoidaksesi muutosten "

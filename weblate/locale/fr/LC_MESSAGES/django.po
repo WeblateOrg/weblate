@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 16:02+0000\n"
+"POT-Creation-Date: 2018-11-13 22:16+0000\n"
 "PO-Revision-Date: 2018-11-13 22:14+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -4682,7 +4682,6 @@ msgid "There has been a merge failure in the repository"
 msgstr "Un échec de fusion s’est produit dans le dépôt"
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
 msgid "Check the FAQ for information on how to resolve this."
 msgstr ""
 "Consultez la FAQ pour obtenir des informations sur la résolution de ce "
@@ -5667,16 +5666,23 @@ msgstr ""
 "facturation supérieur."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
+#, fuzzy
+#| msgid ""
+#| "The component contains several translation files which are mapped to "
+#| "single language in Weblate."
 msgid ""
-"The component contains several translation files which are mapped to single "
-"language in Weblate."
+"The component contains several translation files mapped to single language "
+"in Weblate."
 msgstr ""
 "Le composant contient plusieurs fichiers de traduction qui sont associés à "
 "une seule langue dans Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-msgid "Following occurences were found:"
+#: weblate/templates/trans/alert/parseerror.html:6
+#, fuzzy
+#| msgid "Following occurences were found:"
+msgid "The following occurences were found:"
 msgstr "Les occurrences suivantes ont été trouvées :"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -5684,31 +5690,54 @@ msgid "Language codes"
 msgstr "Codes langue"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing one "
+#| "of the duplicite translations."
 msgid ""
-"Please take a look at the translation files and fix this by removing one of "
-"the duplicite translations."
+"Please fix this by removing one of the duplicated strings from the "
+"translation files."
 msgstr ""
 "Veuillez vérifier les fichiers de traduction et les corriger en supprimant "
 "l'une des traductions en double."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-msgid "The component contains several duplicate translation strings."
+#, fuzzy
+#| msgid "The component contains several duplicate translation strings."
+msgid "The component contains several duplicated translation strings."
 msgstr "Le composant contient plusieurs traductions en double."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing "
+#| "duplicate strings with same identifier."
 msgid ""
-"Please take a look at the translation files and fix this by removing "
-"duplicate strings with same identifier."
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 "Veuillez vérifier les fichiers de traduction et les corriger en supprimant "
 "les chaînes ayant le même identifiant."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
+#, fuzzy
+#| msgid ""
+#| "When updating the repository Weblate was not able to merge upstream "
+#| "changes."
 msgid ""
-"When updating the repository Weblate was not able to merge upstream changes."
+"When updating the repository Weblate was unable to merge the upstream "
+"changes."
 msgstr ""
 "Lors de la mise à jour du dépôt, Weblate n'est pas parvenu à fusionner les "
 "modifications amont."
+
+#: weblate/templates/trans/alert/mergefailure.html:8
+#, fuzzy
+#| msgid "Check the FAQ for information on how to resolve this."
+msgid "Check the FAQ for info on how to resolve this."
+msgstr ""
+"Consultez la FAQ pour obtenir des informations sur la résolution de ce "
+"problème."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5718,11 +5747,11 @@ msgstr ""
 "Lors de la mise à jour des traductions, Weblate n'est pas parvenu à analyser "
 "les fichiers de traduction."
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
 msgstr "Nom de fichier"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
 msgstr "Erreur"
 
@@ -5734,8 +5763,8 @@ msgstr ""
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
-"The VCS repository is outdated against upstream one. Please merge the "
-"changes manually or setup hooks to automate this."
+"The VCS repository is not up to date with the upstream one. Please merge "
+"changes manually or set up hooks to automate this."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusednewbase.html:2

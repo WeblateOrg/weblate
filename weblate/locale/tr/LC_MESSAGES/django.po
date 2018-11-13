@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 16:02+0000\n"
+"POT-Creation-Date: 2018-11-13 22:16+0000\n"
 "PO-Revision-Date: 2018-11-13 22:14+0000\n"
 "Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -4570,7 +4570,6 @@ msgid "There has been a merge failure in the repository"
 msgstr "Havuzda birleştirmede bir başarısızlık oldu"
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
 msgid "Check the FAQ for information on how to resolve this."
 msgstr "Bunun nasıl çözüleceği hakkında bilgi için SSS bölümüne bakın."
 
@@ -5535,14 +5534,22 @@ msgstr ""
 "ancak daha yüksek faturalandırma planına geçmeniz önerilir."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
+#, fuzzy
+#| msgid ""
+#| "The component contains several translation files which are mapped to "
+#| "single language in Weblate."
 msgid ""
-"The component contains several translation files which are mapped to single "
-"language in Weblate."
-msgstr "Bileşen, Weblate'de tek bir dile eşlenmiş birkaç çeviri dosyası içerir."
+"The component contains several translation files mapped to single language "
+"in Weblate."
+msgstr ""
+"Bileşen, Weblate'de tek bir dile eşlenmiş birkaç çeviri dosyası içerir."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-msgid "Following occurences were found:"
+#: weblate/templates/trans/alert/parseerror.html:6
+#, fuzzy
+#| msgid "Following occurences were found:"
+msgid "The following occurences were found:"
 msgstr "Aşağıdaki olaylar bulundu:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -5550,31 +5557,52 @@ msgid "Language codes"
 msgstr "Dil kodları"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing one "
+#| "of the duplicite translations."
 msgid ""
-"Please take a look at the translation files and fix this by removing one of "
-"the duplicite translations."
+"Please fix this by removing one of the duplicated strings from the "
+"translation files."
 msgstr ""
 "Lütfen çeviri dosyalarına bir göz atın ve bunu yinelenen çevirilerden birini "
 "kaldırarak düzeltin."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-msgid "The component contains several duplicate translation strings."
+#, fuzzy
+#| msgid "The component contains several duplicate translation strings."
+msgid "The component contains several duplicated translation strings."
 msgstr "Bileşen, birkaç yinelenen çeviri dizesi içerir."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
+#, fuzzy
+#| msgid ""
+#| "Please take a look at the translation files and fix this by removing "
+#| "duplicate strings with same identifier."
 msgid ""
-"Please take a look at the translation files and fix this by removing "
-"duplicate strings with same identifier."
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 "Lütfen çeviri dosyalarına bir göz atın ve aynı tanımlayıcıya sahip yinelenen "
 "dizeleri kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
+#, fuzzy
+#| msgid ""
+#| "When updating the repository Weblate was not able to merge upstream "
+#| "changes."
 msgid ""
-"When updating the repository Weblate was not able to merge upstream changes."
+"When updating the repository Weblate was unable to merge the upstream "
+"changes."
 msgstr ""
 "Veri havuzu güncelleştirirken, Weblate yukarı akış değişikliklerini "
 "birleştiremedi."
+
+#: weblate/templates/trans/alert/mergefailure.html:8
+#, fuzzy
+#| msgid "Check the FAQ for information on how to resolve this."
+msgid "Check the FAQ for info on how to resolve this."
+msgstr "Bunun nasıl çözüleceği hakkında bilgi için SSS bölümüne bakın."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5582,11 +5610,11 @@ msgid ""
 "files."
 msgstr "Çevirileri güncellerken, Weblate çeviri dosyalarını ayrıştıramadı."
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
 msgstr "Dosya adı"
 
-#: weblate/templates/trans/alert/parseerror.html:8
+#: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
 msgstr "Hata"
 
@@ -5598,8 +5626,8 @@ msgstr ""
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
-"The VCS repository is outdated against upstream one. Please merge the "
-"changes manually or setup hooks to automate this."
+"The VCS repository is not up to date with the upstream one. Please merge "
+"changes manually or set up hooks to automate this."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
