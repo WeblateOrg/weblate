@@ -1,0 +1,4 @@
+{% load i18n %}
+<p>{% trans "Your billing plan has exceeded limits. You can still use the service, but you are recommended to upgrade to higher billing plan." %}</p>
+
+<a class="btn btn-default" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a>

@@ -37,6 +37,18 @@ def billing_check():
 
 
 @app.task
+def billing_alert():
+    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+        in_limit = bill.in_display_limits()
+        for project in bill.projects.all():
+            for component in project.component_set.all():
+                if in_limit:
+                    component.delete_alert('BillingLimit')
+                else:
+                    component.add_alert('BillingLimit')
+
+
+@app.task
 def billing_notify():
     billing_check()
 
@@ -78,6 +90,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600,
         billing_check.s(),
         name='billing-check',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        billing_alert.s(),
+        name='billing-alert',
     )
     sender.add_periodic_task(
         3600 * 24,

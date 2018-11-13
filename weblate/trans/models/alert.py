@@ -156,3 +156,8 @@ class UnusedNewBase(BaseAlert):
 class ParseError(MultiAlert):
     verbose = _('Failed to parse translation files')
     on_import = True
+
+
+@register
+class BillingLimit(BaseAlert):
+    verbose = _('Your billing plan is above limits')
