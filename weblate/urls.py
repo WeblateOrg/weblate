@@ -1091,7 +1091,7 @@ real_patterns = [
     ),
 ]
 
-if 'weblate.billing' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
+if 'weblate.billing' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.billing.views
     real_patterns += [
@@ -1172,7 +1172,7 @@ if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
-if 'wlhosted' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
+if 'wlhosted' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     from wlhosted.integrations.views import CreateBillingView
     real_patterns += [
