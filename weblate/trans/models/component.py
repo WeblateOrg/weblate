@@ -571,6 +571,10 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.log_info('update took %.2f seconds', timediff)
                 for line in self.repository.last_output.splitlines():
                     self.log_debug('update: %s', line)
+                if self.id:
+                    self.delete_alert('UpdateFailure')
+                    for component in self.get_linked_childs():
+                        component.delete_alert('UpdateFailure')
             return True
         except RepositoryException as error:
             error_text = force_text(error)
@@ -586,6 +590,10 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise ValidationError({
                     'repo': _('Failed to fetch repository: %s') % error_text
                 })
+            if self.id:
+                self.add_alert('UpdateFailure', error=error_text)
+                for component in self.get_linked_childs():
+                    component.add_alert('UpdateFailure', error=error_text)
             return False
 
     def configure_repo(self, validate=False):

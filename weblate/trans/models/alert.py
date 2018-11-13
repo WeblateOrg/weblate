@@ -143,3 +143,8 @@ class DuplicateLanguage(MultiAlert):
 @register
 class MergeFailure(ErrorAlert):
     verbose = _('There has been a merge failure in the repository')
+
+
+@register
+class UpdateFailure(ErrorAlert):
+    verbose = _('There has been a failure in updating the repository')

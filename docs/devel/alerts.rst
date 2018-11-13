@@ -11,7 +11,7 @@ The alerts currently cover following areas:
 
 * Duplicate source strings in translation files
 * Duplicate languages within translations
-* Merge failure on the repository
+* Merge or update failure on the repository
 
 You can find alerts on the component page as :guilabel:`Alerts`. If there is no
 such tab, no alert was triggered on this particular component. There is no way
