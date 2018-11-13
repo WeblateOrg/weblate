@@ -188,7 +188,10 @@ def cleanup_language_data(project):
 @app.task
 def cleanup_project(pk):
     """Perform cleanup of project models."""
-    project = Project.objects.get(pk=pk)
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
 
     cleanup_sources(project)
     cleanup_source_data(project)
