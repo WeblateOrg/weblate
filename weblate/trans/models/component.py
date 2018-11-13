@@ -572,9 +572,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 for line in self.repository.last_output.splitlines():
                     self.log_debug('update: %s', line)
                 if self.id:
-                    self.delete_alert('UpdateFailure')
-                    for component in self.get_linked_childs():
-                        component.delete_alert('UpdateFailure')
+                    self.delete_alert('UpdateFailure', childs=True)
             return True
         except RepositoryException as error:
             error_text = force_text(error)
@@ -591,9 +589,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     'repo': _('Failed to fetch repository: %s') % error_text
                 })
             if self.id:
-                self.add_alert('UpdateFailure', error=error_text)
-                for component in self.get_linked_childs():
-                    component.add_alert('UpdateFailure', error=error_text)
+                self.add_alert('UpdateFailure', childs=True, error=error_text)
             return False
 
     def configure_repo(self, validate=False):
@@ -891,14 +887,13 @@ class Component(models.Model, URLMixin, PathMixin):
                         component=self,
                         previous_head=previous_head
                     )
-                    self.delete_alert('MergeFailure')
+                    self.delete_alert('MergeFailure', childs=True)
                     for component in self.get_linked_childs():
                         vcs_post_update.send(
                             sender=component.__class__,
                             component=component,
                             previous_head=previous_head
                         )
-                        component.delete_alert('MergeFailure')
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
@@ -916,9 +911,7 @@ class Component(models.Model, URLMixin, PathMixin):
                         component=self, action=action_failed, target=error,
                         user=request.user if request else None,
                     )
-                    self.add_alert('MergeFailure', error=error)
-                    for component in self.get_linked_childs():
-                        component.add_alert('MergeFailure', error=error)
+                    self.add_alert('MergeFailure', childs=True, error=error)
 
                 # Notify subscribers and admins
                 from weblate.accounts.notifications import notify_merge_failure
@@ -973,13 +966,19 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.alerts_trigger[name] = [kwargs]
 
-    def delete_alert(self, alert):
+    def delete_alert(self, alert, childs=False):
         self.alert_set.filter(name=alert).delete()
+        if childs:
+            for component in self.get_linked_childs():
+                component.delete_alert(alert)
 
-    def add_alert(self, alert, **details):
+    def add_alert(self, alert, childs=False, **details):
         obj = self.alert_set.get_or_create(name=alert)[0]
         obj.details = details
         obj.save()
+        if childs:
+            for component in self.get_linked_childs():
+                component.add_alert(alert, **details)
 
     def update_import_alerts(self):
         for alert in ALERTS_IMPORT:
