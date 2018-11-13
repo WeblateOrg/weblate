@@ -1101,3 +1101,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         ).send_keys('^(cs|he|hu)$')
         self.screenshot('user-add-component.png')
+
+    def test_alerts(self):
+        project = Project.objects.create(name='WeblateOrg', slug='weblateorg')
+        component = Component.objects.create(
+            name='Duplicates',
+            slug='duplicates',
+            project=project,
+            repo='https://github.com/WeblateOrg/test.git',
+            filemask='po-duplicates/*.dpo',
+            new_base='po-duplicates/hello.pot',
+            file_format='po',
+        )
+        self.do_login()
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
+        with self.wait_for_page_load():
+            self.click('Duplicates')
+        self.click('Alerts')
+        self.screenshot('alerts.png')

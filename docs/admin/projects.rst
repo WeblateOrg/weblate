@@ -261,7 +261,7 @@ Language filter
 
 .. seealso::
 
-   :ref:`faq-vcs`
+   :ref:`faq-vcs`, :ref:`alerts`
 
 .. _markup:
 

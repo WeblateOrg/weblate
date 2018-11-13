@@ -27,6 +27,7 @@ from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
 from weblate.celery import app
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project

@@ -29,6 +29,9 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  {% if object.alert_set.all %}
+  <li><a href="#alerts" data-toggle="tab">{% trans "Alerts" %}</a></li>
+  {% endif %}
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -124,6 +127,16 @@
 </p>
 {% endif %}
 
+</div>
+
+<div class="tab-pane" id="alerts">
+{% for alert in object.alert_set.all %}
+<div class="panel panel-warning">
+<div class="panel-heading">{{ alert }}</div>
+<div class="panel-body">{{ alert.render }}</div>
+<div class="panel-footer">{{ alert.timestamp|naturaltime }}</div>
+</div>
+{% endfor %}
 </div>
 
 <div class="tab-pane" id="information">

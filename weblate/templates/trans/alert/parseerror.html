@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load translations %}
+
+<p>{% trans "When updating the translations Weblate was not able to parse the translation files." %}</p>
+
+<table class="table table-condensed">
+<thead>
+<tr><th>{% trans "Filename" %}</th><th>{% trans "Error" %}</th></tr>
+</thead>
+<tbody>
+{% for occurence in occurences %}
+<tr><td>{{ occurence.filename }}</td><td>{{ occurence.error }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
