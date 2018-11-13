@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-13 16:02+0000\n"
-"PO-Revision-Date: 2018-11-13 11:17+0000\n"
+"PO-Revision-Date: 2018-11-13 22:14+0000\n"
 "Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -567,10 +567,8 @@ msgid "User with reviewer permissions"
 msgstr "Gözden geçirici izni olan kullanıcı"
 
 #: weblate/accounts/views.py:555
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please login or register to use Weblate."
-msgstr "Yeni çeviri başlatmak için lütfen giriş yapın"
+msgstr "Lütfen giriş yapın veya Weblate'i kullanmak için kayıt olun."
 
 #: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
 msgid "Thanks for using Weblate!"
@@ -3764,7 +3762,7 @@ msgstr "Çeviriler"
 
 #: weblate/templates/component.html:33
 msgid "Alerts"
-msgstr ""
+msgstr "Uyarılar"
 
 #: weblate/templates/component.html:35 weblate/templates/component.html:156
 #: weblate/templates/dashboard/user.html:38
@@ -4568,10 +4566,8 @@ msgid "There are some uncommitted changes!"
 msgstr "Bazı işlenmemiş değişiklikler var!"
 
 #: weblate/templates/js/git-status.html:25 weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a merge failure in the repository"
-msgstr "Havuzda birleştirmede bir başarısızlık oldu:"
+msgstr "Havuzda birleştirmede bir başarısızlık oldu"
 
 #: weblate/templates/js/git-status.html:27
 #: weblate/templates/trans/alert/mergefailure.html:8
@@ -5531,77 +5527,68 @@ msgid "Project Information"
 msgstr "Proje Bilgisi"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has exceeded limits. You can still use the service, but "
 "you are recommended to upgrade to higher billing plan."
 msgstr ""
-"Faturalandırma planınızın süresi doldu, hizmeti kullanmaya devam etmek "
-"istiyorsanız lütfen aşağıdaki bağlantıyı kullanarak yenileyin:"
+"Faturalandırma planınız limitleri aştı. Hizmeti yine de kullanabilirsiniz, "
+"ancak daha yüksek faturalandırma planına geçmeniz önerilir."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 msgid ""
 "The component contains several translation files which are mapped to single "
 "language in Weblate."
-msgstr ""
+msgstr "Bileşen, Weblate'de tek bir dile eşlenmiş birkaç çeviri dosyası içerir."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following occurences were found:"
-msgstr "Başarısız olan denetimler bulundu"
+msgstr "Aşağıdaki olaylar bulundu:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
-#, fuzzy
-#| msgid "Language code"
 msgid "Language codes"
-msgstr "Dil kodu"
+msgstr "Dil kodları"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
 msgid ""
 "Please take a look at the translation files and fix this by removing one of "
 "the duplicite translations."
 msgstr ""
+"Lütfen çeviri dosyalarına bir göz atın ve bunu yinelenen çevirilerden birini "
+"kaldırarak düzeltin."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains several duplicate translation strings."
-msgstr "Çeviri güncellemeleri için bileşenin kilitlenip kilitlenmeyeceği."
+msgstr "Bileşen, birkaç yinelenen çeviri dizesi içerir."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please take a look at the translation files and fix this by removing "
 "duplicate strings with same identifier."
 msgstr ""
+"Lütfen çeviri dosyalarına bir göz atın ve aynı tanımlayıcıya sahip yinelenen "
+"dizeleri kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 msgid ""
 "When updating the repository Weblate was not able to merge upstream changes."
 msgstr ""
+"Veri havuzu güncelleştirirken, Weblate yukarı akış değişikliklerini "
+"birleştiremedi."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "When updating the translations Weblate was not able to parse the translation "
 "files."
-msgstr ""
-"Çeviriyi kilitlemek diğerlerinin çeviri üzerinde çalışmasını önleyecektir."
+msgstr "Çevirileri güncellerken, Weblate çeviri dosyalarını ayrıştıramadı."
 
 #: weblate/templates/trans/alert/parseerror.html:8
-#, fuzzy
-#| msgid "Full name"
 msgid "Filename"
-msgstr "Tam ad"
+msgstr "Dosya adı"
 
 #: weblate/templates/trans/alert/parseerror.html:8
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -5625,11 +5612,10 @@ msgstr ""
 "olabilirsiniz."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid ""
 "When updating the repository Weblate was not able to fetch upstream changes."
-msgstr "Havuzu sıfırlamak tüm yerel değişiklikleri kaybedecektir!"
+msgstr ""
+"Veri havuzu güncelleştirilirken Weblate yukarı akış değişikliklerini alamadı."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -6921,52 +6907,36 @@ msgid "The translation name does not match the one to delete!"
 msgstr "Çeviri adı silinecek olanla eşleşmiyor!"
 
 #: weblate/trans/models/alert.py:130
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Duplicate string to translate"
-msgstr "Yeni satır çevirmek için bildirim"
+msgstr "Çevirmek için yinelenen dize"
 
 #: weblate/trans/models/alert.py:136
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Duplicate translation"
-msgstr "Weblate çevirileri"
+msgstr "Yinelenen çeviri"
 
 #: weblate/trans/models/alert.py:147
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a failure in updating the repository"
-msgstr "Havuzda birleştirmede bir başarısızlık oldu:"
+msgstr "Havuzun güncellenmesinde bir hata oluştu"
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Unused base file for new translations"
-msgstr "Yeni çeviriler için taban dosya"
+msgstr "Yeni çeviriler için kullanılmayan taban dosyası"
 
 #: weblate/trans/models/alert.py:157
-#, fuzzy
-#| msgid "Failed to parse translation base file: %s"
 msgid "Failed to parse translation files"
-msgstr "Çeviri taban dosyası ayrıştırılamadı: %s"
+msgstr "Çeviri dosyaları ayrıştırılamadı"
 
 #: weblate/trans/models/alert.py:163
-#, fuzzy
-#| msgid "Your billing plan has expired"
 msgid "Your billing plan is above limits"
-msgstr "Faturalandırma planınızın süresi doldu"
+msgstr "Faturalandırma planınız limitlerin üzerindedir"
 
 #: weblate/trans/models/alert.py:168
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository is outdated"
-msgstr "Havuz durumu"
+msgstr "Havuz güncel değil"
 
 #: weblate/trans/models/alert.py:173
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository has changes"
-msgstr "Havuz değişiklikleri"
+msgstr "Havuzun değişiklikleri var"
 
 #: weblate/trans/models/change.py:195
 msgid "Resource update"
@@ -7109,22 +7079,16 @@ msgid "Marked for edit"
 msgstr "Düzenlemek için işaretlenmiş"
 
 #: weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Create component"
 msgid "Removed component"
-msgstr "Bileşen oluştur"
+msgstr "Kaldırılan bileşen"
 
 #: weblate/trans/models/change.py:237
-#, fuzzy
-#| msgid "Whole project"
 msgid "Removed project"
-msgstr "Bütün proje"
+msgstr "Kaldırılan proje"
 
 #: weblate/trans/models/change.py:238
-#, fuzzy
-#| msgid "Displayed languages"
 msgid "Duplicate language found"
-msgstr "Gösterilen diller"
+msgstr "Yinelenen dil bulundu"
 
 #: weblate/trans/models/change.py:334
 #, python-format
