@@ -38,15 +38,9 @@ from weblate.utils.state import STATE_TRANSLATED
 class ComponentTest(RepoTestCase):
     """Component object testing."""
     def verify_component(self, component, translations, lang=None, units=0,
-                         unit='Hello, world!\n', fail=False):
+                         unit='Hello, world!\n'):
         # Validation
-        if fail:
-            self.assertRaises(
-                ValidationError,
-                component.full_clean
-            )
-        else:
-            component.full_clean()
+        component.full_clean()
         # Correct path
         self.assertTrue(os.path.exists(component.full_path))
         # Count translations
@@ -124,7 +118,7 @@ class ComponentTest(RepoTestCase):
             'po/*.po',
             new_base='po/project.pot'
         )
-        self.verify_component(component, 3, 'cs', 4, fail=True)
+        self.verify_component(component, 3, 'cs', 4)
 
     def test_create_filtered(self):
         component = self._create_component(
@@ -140,7 +134,7 @@ class ComponentTest(RepoTestCase):
             'po/*.po',
             new_base='po/project.pot'
         )
-        self.verify_component(component, 3, 'cs', 4, fail=True)
+        self.verify_component(component, 3, 'cs', 4)
 
     def test_create_po(self):
         component = self.create_po()
@@ -541,16 +535,19 @@ class ComponentValidationTest(RepoTestCase):
         self.component.new_base = 'po/project.pot'
         self.component.save()
 
+        self.component.full_clean()
         # Check that it warns about unused pot
-        self.assertRaisesMessage(
-            ValidationError,
-            'Base file for new translations is not used '
-            'because of component settings.',
-            self.component.full_clean
+        self.assertTrue(
+            self.component.alert_set.filter(name='UnusedNewBase').exists()
         )
 
         self.component.new_lang = 'add'
         self.component.save()
+
+        # The alert should be gone
+        self.assertFalse(
+            self.component.alert_set.filter(name='UnusedNewBase').exists()
+        )
 
         # Check that it doesn't warn about not supported format
         self.component.full_clean()

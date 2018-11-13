@@ -1232,28 +1232,19 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_new_lang(self):
         """Validate new language choices."""
-        if self.new_lang == 'add':
-            if not self.is_valid_base_for_new():
-                filename = self.get_new_base_filename()
-                if filename:
-                    message = _(
-                        'Format of base file for new translations '
-                        'was not recognized!'
-                    )
-                else:
-                    message = _(
-                        'You have configured Weblate to add new translation '
-                        'files, but did not provide base file to do that!'
-                    )
-                raise ValidationError({'new_base': message})
-        elif self.new_lang != 'add' and self.new_base:
-            msg = _(
-                'Base file for new translations is not used because of '
-                'component settings. '
-                'You probably want to enable automatic adding of new '
-                'translations.'
-            )
-            raise ValidationError({'new_lang': msg, 'new_base': msg})
+        if self.new_lang == 'add' and not self.is_valid_base_for_new():
+            filename = self.get_new_base_filename()
+            if filename:
+                message = _(
+                    'Format of base file for new translations '
+                    'was not recognized!'
+                )
+            else:
+                message = _(
+                    'You have configured Weblate to add new translation '
+                    'files, but did not provide base file to do that!'
+                )
+            raise ValidationError({'new_base': message})
 
     def clean_template(self):
         """Validate template value."""
@@ -1460,6 +1451,11 @@ class Component(models.Model, URLMixin, PathMixin):
         # Copy suggestions to new project
         if changed_project:
             old.project.suggestion_set.copy(self.project)
+
+        if self.new_lang != 'add' and self.new_base:
+            self.add_alert('UnusedNewBase')
+        else:
+            self.delete_alert('UnusedNewBase')
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""

@@ -148,3 +148,8 @@ class MergeFailure(ErrorAlert):
 @register
 class UpdateFailure(ErrorAlert):
     verbose = _('There has been a failure in updating the repository')
+
+
+@register
+class UnusedNewBase(BaseAlert):
+    verbose = _('Unused base file for new translations')
