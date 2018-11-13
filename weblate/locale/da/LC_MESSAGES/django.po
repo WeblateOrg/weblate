@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-11 14:36+0000\n"
-"PO-Revision-Date: 2018-11-11 08:06+0000\n"
+"PO-Revision-Date: 2018-11-13 11:17+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -213,10 +213,8 @@ msgid "Additional message"
 msgstr "Yderligere besked"
 
 #: weblate/accounts/forms.py:664
-#, fuzzy
-#| msgid "Please describe the project and your relation to the project."
 msgid "Please describe the project and your relation to it."
-msgstr "Beskriv venligst projektet og din relation til projektet."
+msgstr "Beskriv venligst projektet og din relation til det."
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -607,10 +605,8 @@ msgid "Authentication failed due to invalid session state."
 msgstr "Godkendelse mislykkedes på grund af ugyldigt sessionstilstand."
 
 #: weblate/accounts/views.py:891
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
-msgstr "Du kan tilføje endnu en e-mailadresse i godkendelse-fanebladet."
+msgstr "Fik ingen e-mailadresse fra tredjeparts godkendelsestjeneste!"
 
 #: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
@@ -2247,16 +2243,12 @@ msgid "Security Policy"
 msgstr "Sikkerhedspolitik"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, we take security seriously and strive to maintain an "
-#| "environment that values the security and privacy of our users."
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
 msgstr ""
-"Weblate tager sikkerheden alvorligt og stræber efter at opretholde et miljø, "
-"der værdsætter sikkerhed og privatlivets fred for brugerne."
+"Hos Weblate tager vi sikkerhed alvorligt for at opretholde et miljø, der "
+"værdsætter vores brugeres privatliv."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
@@ -2275,22 +2267,16 @@ msgid "How do you store user passwords?"
 msgstr "Hvordan gemmer du brugeradgangskoder?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "All user passwords are stored hashed. Weblate currently uses PBKDF2 + "
-#| "HMAC + SHA256 with 150000 iterations for that."
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
-"Alle brugeradgangskoder gemmes hashed. Weblate bruger på nuværende tidspunkt "
-"PBKDF2 + HMAC + SHA256 150000-gennemgange til det."
+"Weblate gemmer alle brugeradgangskoder hashed, i øjeblikket med PBKDF2, HMAC "
+"og SHA-256 med 150000-gennemgange."
 
 #: weblate/legal/templates/legal/security.html:45
-#, fuzzy
-#| msgid "I have found a security issue, how should I report it?"
 msgid "How are security issues reported?"
-msgstr "Jeg har fundet et sikkerhedsproblem. Hvordan skal jeg rapportere det?"
+msgstr "Hvordan rapporteres sikkerhedsproblemer?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -5552,17 +5538,15 @@ msgstr "Du har ikke tilladelse til at oprette komponenter i nogen projekter."
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr ""
+msgstr "Er du helt sikker?"
 
 #: weblate/templates/trans/delete-form.html:11
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "Following translation components will be also removed:"
-msgstr "Følgende komponenter slettes"
+msgstr "Følgende oversættelseskomponenter fjernes:"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "Jeg forstår konsekvenserne - slet oversættelsen"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6798,28 +6782,24 @@ msgid "I agree with the contributor agreement"
 msgstr "Jeg erklærer mig enig i bidragsyderaftalen"
 
 #: weblate/trans/forms.py:1698
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Name of the translation"
-msgstr "Tilføj som anden oversættelse"
+msgstr "Navnet på oversættelsen"
 
 #: weblate/trans/forms.py:1699
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please type in the name of the translation to confirm."
-msgstr "Log ind for at gemme oversættelser."
+msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
 
 #: weblate/trans/forms.py:1708
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
+"Handlingen kan ikke fortrydes. Det vil slette {}-oversættelsen permanent og "
+"al relateret indhold."
 
 #: weblate/trans/forms.py:1725
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
-msgstr "BBcode i oversættelsen matcher ikke med kilden"
+msgstr "Oversættelsesnavnet er ikke magen til det der er ved at blive slettet!"
 
 #: weblate/trans/models/change.py:192
 msgid "Resource update"
@@ -8336,16 +8316,12 @@ msgid "Translation has been removed."
 msgstr "Oversættelsen er blevet fjernet."
 
 #: weblate/trans/views/git.py:310
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation component has been removed."
-msgstr "Oversættelsen er blevet fjernet."
+msgstr "Oversættelseskomponenten er blevet fjernet."
 
 #: weblate/trans/views/git.py:329
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "Project has been removed."
-msgstr "Kilde er blevet fjernet."
+msgstr "Projektet er blevet fjernet."
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
