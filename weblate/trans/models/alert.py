@@ -73,12 +73,14 @@ class BaseAlert(object):
         self.instance = instance
 
     def get_context(self):
-        return {
+        result = {
             'alert': self.instance,
             'component': self.instance.component,
             'timestamp': self.instance.timestamp,
             'details': self.instance.details,
         }
+        result.update(self.instance.details)
+        return result
 
     def render(self):
         return render_to_string(
@@ -91,11 +93,6 @@ class ErrorAlert(BaseAlert):
     def __init__(self, instance, error):
         super(ErrorAlert, self).__init__(instance)
         self.error = error
-
-    def get_context(self):
-        result = super(ErrorAlert, self).get_context()
-        result['error'] = self.error
-        return result
 
 
 class MultiAlert(BaseAlert):
