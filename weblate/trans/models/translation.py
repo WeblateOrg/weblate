@@ -57,7 +57,7 @@ class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False,
                    request=None):
         """Parse translation meta info and updates translation object"""
-        translation, dummy = self.get_or_create(
+        translation = self.get_or_create(
             language=lang,
             component=component,
             defaults={
@@ -65,7 +65,10 @@ class TranslationManager(models.Manager):
                 'language_code': code,
                 'plural': lang.plural
             },
-        )
+        )[0]
+        # Share component instance to improve performance
+        # and to properly process updated data.
+        translation.component = component
         if translation.filename != path or translation.language_code != code:
             force = True
             translation.filename = path
@@ -874,6 +877,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 author=request.user
             )
             self.store.new_unit(key, value)
+            # Force reloading of template storage
+            if 'template_store' in self.component.__dict__:
+                del self.component.__dict__['template_store']
             self.component.create_translations(request=request)
             self.__git_commit(
                 request.user.get_author_name(),
