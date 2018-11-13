@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-13 16:02+0000\n"
-"PO-Revision-Date: 2018-11-13 21:05+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-11-13 22:14+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -590,10 +590,8 @@ msgid "User with reviewer permissions"
 msgstr "Utilisateur avec des droits de révision"
 
 #: weblate/accounts/views.py:555
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please login or register to use Weblate."
-msgstr "Veuillez vous connecter pour contribuer à la traduction"
+msgstr "Veuillez vous inscrire ou vous connecter pour utiliser Weblate."
 
 #: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
 msgid "Thanks for using Weblate!"
@@ -5660,31 +5658,26 @@ msgid "Project Information"
 msgstr "Informations sur le projet"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has exceeded limits. You can still use the service, but "
 "you are recommended to upgrade to higher billing plan."
 msgstr ""
-"Votre plan de facturation a expiré. Si vous souhaitez continuer à utiliser "
-"ce service, renouvelez votre plan en cliquant sur le lien suivant :"
+"Votre plan de facturation a dépassé les limites. Vous pouvez continuer à "
+"utiliser le service mais il est recommandé de passer à un plan de "
+"facturation supérieur."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 msgid ""
 "The component contains several translation files which are mapped to single "
 "language in Weblate."
 msgstr ""
-"Le composant contient plusieurs fichiers de traduction qui sont mappés en "
+"Le composant contient plusieurs fichiers de traduction qui sont associés à "
 "une seule langue dans Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following occurences were found:"
-msgstr "Erreurs de validation"
+msgstr "Les occurrences suivantes ont été trouvées :"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 msgid "Language codes"
@@ -5695,34 +5688,35 @@ msgid ""
 "Please take a look at the translation files and fix this by removing one of "
 "the duplicite translations."
 msgstr ""
+"Veuillez vérifier les fichiers de traduction et les corriger en supprimant "
+"l'une des traductions en double."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains several duplicate translation strings."
-msgstr ""
-"Le composant est-il ou non verrouillé pour les mises à jour de traduction."
+msgstr "Le composant contient plusieurs traductions en double."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please take a look at the translation files and fix this by removing "
 "duplicate strings with same identifier."
 msgstr ""
+"Veuillez vérifier les fichiers de traduction et les corriger en supprimant "
+"les chaînes ayant le même identifiant."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 msgid ""
 "When updating the repository Weblate was not able to merge upstream changes."
 msgstr ""
+"Lors de la mise à jour du dépôt, Weblate n'est pas parvenu à fusionner les "
+"modifications amont."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "When updating the translations Weblate was not able to parse the translation "
 "files."
 msgstr ""
-"Verrouiller la traduction empêchera d’autres personnes de travailler sur "
-"celle-ci."
+"Lors de la mise à jour des traductions, Weblate n'est pas parvenu à analyser "
+"les fichiers de traduction."
 
 #: weblate/templates/trans/alert/parseerror.html:8
 msgid "Filename"
@@ -5754,11 +5748,11 @@ msgstr ""
 "automatique de nouvelles langues de traduction."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid ""
 "When updating the repository Weblate was not able to fetch upstream changes."
-msgstr "La réinitialisation du dépôt effacera tous les changements locaux !"
+msgstr ""
+"Lors de la mise à jour du dépôt, Weblate n'est pas parvenu à récupérer les "
+"modifications amont."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -7062,22 +7056,16 @@ msgstr ""
 "Le nom de la traduction ne correspond pas à la traduction à supprimer !"
 
 #: weblate/trans/models/alert.py:130
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Duplicate string to translate"
-msgstr "Être notifié des nouvelles chaînes à traduire"
+msgstr "Chaîne en double à traduire"
 
 #: weblate/trans/models/alert.py:136
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Duplicate translation"
-msgstr "Traductions Weblate"
+msgstr "Traduction en double"
 
 #: weblate/trans/models/alert.py:147
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a failure in updating the repository"
-msgstr "Un échec de fusion s’est produit dans le dépôt :"
+msgstr "Un échec s’est produit lors de la mise à jour du dépôt"
 
 #: weblate/trans/models/alert.py:152
 msgid "Unused base file for new translations"
@@ -7248,10 +7236,8 @@ msgid "Removed project"
 msgstr "Projet supprimé"
 
 #: weblate/trans/models/change.py:238
-#, fuzzy
-#| msgid "Displayed languages"
 msgid "Duplicate language found"
-msgstr "Langues affichées"
+msgstr "Langue présente en double"
 
 #: weblate/trans/models/change.py:334
 #, python-format
