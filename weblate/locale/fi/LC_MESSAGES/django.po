@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-13 16:02+0000\n"
-"PO-Revision-Date: 2018-11-12 13:46+0000\n"
+"PO-Revision-Date: 2018-11-13 22:14+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -582,10 +582,8 @@ msgid "User with reviewer permissions"
 msgstr "Käyttäjä jolla on käännösten tarkistusoikeudet"
 
 #: weblate/accounts/views.py:555
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please login or register to use Weblate."
-msgstr "Kirjaudu sisään aloittaaksesi uuden käännöksen"
+msgstr "Kirjaudu sisään tai rekisteröidy aloittaaksesi Weblaten käytön."
 
 #: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
 msgid "Thanks for using Weblate!"
@@ -3816,7 +3814,7 @@ msgstr "Käännökset"
 
 #: weblate/templates/component.html:33
 msgid "Alerts"
-msgstr ""
+msgstr "Hälytykset"
 
 #: weblate/templates/component.html:35 weblate/templates/component.html:156
 #: weblate/templates/dashboard/user.html:38
@@ -4630,10 +4628,8 @@ msgid "There are some uncommitted changes!"
 msgstr "Palvelussa on joitakin commitoimattomia muutoksia!"
 
 #: weblate/templates/js/git-status.html:25 weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a merge failure in the repository"
-msgstr "Versioiden yhdistämisessä (merge) on tapahtunut virhe:"
+msgstr "Versioiden yhdistämisessä (merge) on tapahtunut virhe"
 
 #: weblate/templates/js/git-status.html:27
 #: weblate/templates/trans/alert/mergefailure.html:8
@@ -5595,89 +5591,89 @@ msgid "Project Information"
 msgstr "Tietoja projektista"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has exceeded limits. You can still use the service, but "
 "you are recommended to upgrade to higher billing plan."
 msgstr ""
-"Laskutussuunnitelmasi ei ole enään voimassa. Jos haluat jatkaa palvelun "
-"käyttöä, ole hyvä ja uusi se seuraamalla linkkiä:"
+"Laskutussuunnitelmasi rajat ovat ylittyneet. Voit silti jatkaa palvelun "
+"käyttöä, mutta suunnitelman päivittäminen on suositeltavaa."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 msgid ""
 "The component contains several translation files which are mapped to single "
 "language in Weblate."
 msgstr ""
+"Komponentti sisältää useita käännöstiedostoja jotka on Weblatessa linkitetty "
+"yhteen kieleen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following occurences were found:"
-msgstr "Löytyneet epäonnistuneet tarkistukset"
+msgstr "Seuraavat esiintymät löydettiin:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
-#, fuzzy
-#| msgid "Language code"
 msgid "Language codes"
-msgstr "Kielitunnus"
+msgstr "Kielikoodit"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
 msgid ""
 "Please take a look at the translation files and fix this by removing one of "
 "the duplicite translations."
 msgstr ""
+"Tarkasta käännöstiedostot ja korjaa tämä poistamalla joku samanlaisista "
+"käännöksistä."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains several duplicate translation strings."
-msgstr "Komponentti on lukittu käännöspäivityksille."
+msgstr "Komponentti sisältää useita samanlaisia käännöstekstejä."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please take a look at the translation files and fix this by removing "
 "duplicate strings with same identifier."
 msgstr ""
+"Tarkista käännöstiedostot ja korjaa tämä poistamalla tekstit joilla on sama "
+"tunniste."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 msgid ""
 "When updating the repository Weblate was not able to merge upstream changes."
 msgstr ""
+"Paikallista arkistoa päivitettäessä Weblate ei voinut yhdistää (merge) "
+"etäarkistosta haettuja muutoksia."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "When updating the translations Weblate was not able to parse the translation "
 "files."
 msgstr ""
-"Käännöksen lukitus estää muita työskentelemästä tämän käännöksen parissa."
+"Käännöstieostoja päivitettäessä Weblate ei voinut jäsentää käännöstiedostoja."
 
 #: weblate/templates/trans/alert/parseerror.html:8
-#, fuzzy
-#| msgid "Full name"
 msgid "Filename"
-msgstr "Koko nimi"
+msgstr "Tiedostonimi"
 
 #: weblate/templates/trans/alert/parseerror.html:8
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or setup push to automate this."
 msgstr ""
+"Paikallisessa arkistossa on useita muutoksia verrattuna muutoksiin "
+"etäarkistossa. Yhdistä arkistot käsin, tai laita automaattisen arkistoon "
+"viennin (push) asetukset kuntoon."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is outdated against upstream one. Please merge the "
 "changes manually or setup hooks to automate this."
 msgstr ""
+"Paikallinen arkisto ei ole ajantasalla. Yhdistä muutokset etäarkistosta "
+"käsin, tai laita koukun asetukset kuntoon automatisoidaksesi muutosten "
+"yhdistämisen."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -5692,6 +5688,8 @@ msgstr ""
 msgid ""
 "When updating the repository Weblate was not able to fetch upstream changes."
 msgstr ""
+"Päivitettäessä paikallista arkistoa, Weblate ei onnistunut etäarkiston "
+"muutosten hakemisessa (fetch)."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -6983,52 +6981,36 @@ msgid "The translation name does not match the one to delete!"
 msgstr "Antamasi käännöksen nimi ei täsmää poistettavan kännöksen nimeen!"
 
 #: weblate/trans/models/alert.py:130
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Duplicate string to translate"
-msgstr "Ilmoitus uusista lähdeteksteistä jotka pitää kääntää"
+msgstr "Monista teksti kääntääksesi"
 
 #: weblate/trans/models/alert.py:136
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Duplicate translation"
-msgstr "Weblate -käännökset"
+msgstr "Duplikaattikäännös"
 
 #: weblate/trans/models/alert.py:147
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a failure in updating the repository"
-msgstr "Versioiden yhdistämisessä (merge) on tapahtunut virhe:"
+msgstr "Arkiston päivittämisessä on tapahtunut virhe"
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Unused base file for new translations"
-msgstr "kantatiedosto uusille käännöksille"
+msgstr "Käyttämätön uusien käännösten kantatiedosto"
 
 #: weblate/trans/models/alert.py:157
-#, fuzzy
-#| msgid "Failed to parse translation base file: %s"
 msgid "Failed to parse translation files"
-msgstr "Käännöspohjan tiedoston jäsennys epäonnistui: %s"
+msgstr "Käännöstiedoston jäsennys epäonnistui"
 
 #: weblate/trans/models/alert.py:163
-#, fuzzy
-#| msgid "Your billing plan has expired"
 msgid "Your billing plan is above limits"
-msgstr "Laskutussuunnitelmasi on vanhentunut"
+msgstr "Laskutussuunnitelmasi on yli rajojen"
 
 #: weblate/trans/models/alert.py:168
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository is outdated"
-msgstr "Arkiston tila"
+msgstr "Arkisto ei ole ajantasalla"
 
 #: weblate/trans/models/alert.py:173
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository has changes"
-msgstr "Arkiston muutokset"
+msgstr "Arkistossa on muutoksia"
 
 #: weblate/trans/models/change.py:195
 msgid "Resource update"
@@ -7171,22 +7153,16 @@ msgid "Marked for edit"
 msgstr "Merkitty muokattavaksi"
 
 #: weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Create component"
 msgid "Removed component"
-msgstr "Luo komponentti"
+msgstr "Poistettu komponentti"
 
 #: weblate/trans/models/change.py:237
-#, fuzzy
-#| msgid "Whole project"
 msgid "Removed project"
-msgstr "Koko projekti"
+msgstr "Poistettu projekti"
 
 #: weblate/trans/models/change.py:238
-#, fuzzy
-#| msgid "Displayed languages"
 msgid "Duplicate language found"
-msgstr "Näytettävät kielet"
+msgstr "Toinen samanlainen kieli löytyi"
 
 #: weblate/trans/models/change.py:334
 #, python-format
