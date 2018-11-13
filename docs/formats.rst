@@ -213,9 +213,9 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
 Translations states
 +++++++++++++++++++
 
-The ``state`` attribute in the file is completely ignored. It cannot be read and it
-cannot be written by Weblate. That means that a unit is considered translated as
-soon as a ``<target>`` element exists.
+The ``state`` attribute in the file is partially processed and mapped to needs
+edit state in Weblate. Should the ``state`` attribute be missing a unit is
+considered translated as soon as a ``<target>`` element exists.
 
 Also if the translation unit has ``approved="yes"`` it will be imported into Weblate
 as approved, anything else will be imported as waiting for review (which matches XLIFF
