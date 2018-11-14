@@ -942,6 +942,6 @@ def social_complete(request, backend):
         )
     except AuthAlreadyAssociated:
         return auth_fail(request, _(
-            'Could not complete your registration. The supplied authentication, '
+            'Could not complete registration. The supplied authentication, '
             'email or username is already in use for another account.'
         ))
