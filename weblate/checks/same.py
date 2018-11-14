@@ -71,6 +71,10 @@ SPLIT_RE = re.compile(
     r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
 )
 
+EMOJI_RE = re.compile(
+    u'[\U00002600-\U000027BF]|[\U0001f300-\U0001f64F]|[\U0001f680-\U0001f6FF]'
+)
+
 # Docbook tags to ignore
 DB_TAGS = (
     'screen',
@@ -107,6 +111,9 @@ def strip_string(msg, flags):
 
     # Strip format strings
     stripped = strip_format(stripped, flags)
+
+    # Remove emojis
+    stripped = EMOJI_RE(' ', stripped)
 
     # Remove email addresses
     stripped = EMAIL_RE.sub('', stripped)
