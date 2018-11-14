@@ -250,6 +250,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_xliff('Resname')
         self.verify_component(component, 1, 'en', 2, 'Hi')
 
+    def test_create_xliff_only_resname(self):
+        component = self.create_xliff('only-resname')
+        self.verify_component(component, 1, 'cs', 4)
+
     def test_create_resx(self):
         component = self.create_resx()
         self.verify_component(component, 2, 'cs', 4)

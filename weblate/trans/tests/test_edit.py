@@ -403,6 +403,13 @@ class EditXliffComplexTest(EditTest):
         return self.create_xliff('complex')
 
 
+class EditXliffResnameTest(EditTest):
+    has_plurals = False
+
+    def create_component(self):
+        return self.create_xliff('only-resname')
+
+
 class EditXliffTest(EditTest):
     has_plurals = False
 

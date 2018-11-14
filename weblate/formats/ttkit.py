@@ -411,7 +411,13 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def context(self):
-        """Return context of message."""
+        """Return context of message.
+
+        Use resname if available as it usually is more interesting
+        for translator than id."""
+        resname = self.mainunit.xmlelement.get('resname')
+        if resname:
+            return resname
         return self.mainunit.getid().replace(ID_SEPARATOR, '///')
 
     @cached_property

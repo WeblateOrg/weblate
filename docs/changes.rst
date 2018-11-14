@@ -17,6 +17,7 @@ Released on October 20th 2018.
 * Added support for component and project removal.
 * Improved performance for some monolingual translations.
 * Added translation component alerts to highlight problems with a translation.
+* Expose Xliff unit resname as context when available.
 
 weblate 3.2.1
 -------------
