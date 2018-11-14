@@ -552,7 +552,7 @@ class WeblateLoginView(LoginView):
             return redirect_single(request, auth_backends[0])
 
         if 'next' in request.GET:
-            messages.info(request, _('Please log in or register to use Weblate.'))
+            messages.info(request, _('Log in (or register first) to use Weblate.'))
 
         return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
 
