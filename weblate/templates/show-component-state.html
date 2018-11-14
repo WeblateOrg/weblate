@@ -8,6 +8,6 @@
 {% show_contributor_agreement object %}
 
 {% if not object.project.paid %}
-{% trans "This project is currently locked due to unpaid billing." as msg %}
+{% trans "Pay the bills to unlock this project." as msg %}
 {% show_message "warning" msg %}
 {% endif %}
