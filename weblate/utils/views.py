@@ -36,8 +36,8 @@ def get_page_limit(request, default):
         limit = int(request.GET.get('limit', default))
     except ValueError:
         limit = default
-    # Cap it to range 10 - 200
-    limit = min(max(10, limit), 200)
+    # Cap it to range 10 - 2000
+    limit = min(max(10, limit), 2000)
     try:
         page = int(request.GET.get('page', 1))
     except ValueError:
