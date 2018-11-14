@@ -5,13 +5,14 @@
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2018.
 # Tetsuro Shimazaki <shimazaki@shima-office.com>, 2018.
 # Ryo Nakano <ryonakaknock3@gmail.com>, 2018.
+# 日本語翻訳貢献者 <vllgwvhm@zat.att.ne.jp>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-13 22:37+0000\n"
-"PO-Revision-Date: 2018-11-04 16:25+0000\n"
-"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
+"PO-Revision-Date: 2018-11-14 08:12+0000\n"
+"Last-Translator: 日本語翻訳貢献者 <vllgwvhm@zat.att.ne.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -198,7 +199,7 @@ msgstr "プロジェクトのウェブサイト"
 
 #: weblate/accounts/forms.py:641 weblate/trans/models/component.py:140
 msgid "Source code repository"
-msgstr "ソース コードのリポジトリ"
+msgstr "ソースコードのリポジトリ"
 
 #: weblate/accounts/forms.py:643
 msgid "URL of source code repository for example Git or Mercurial."
@@ -213,8 +214,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"使用して、変換するファイルのパス * 言語コード例えばの代わり: po/*.po または "
-"locale/*/LC_MESSAGES/django.po。"
+"翻訳するファイルのパス。言語コードの代わりに * を使ってください。例えば: po/*.po あるいは locale/*/LC_MESSAGES/"
+"django.po"
 
 #: weblate/accounts/forms.py:659
 msgid "Additional message"
@@ -222,7 +223,7 @@ msgstr "補足メッセージ"
 
 #: weblate/accounts/forms.py:664
 msgid "Please describe the project and your relation to it."
-msgstr ""
+msgstr "プロジェクトやあなたの関わりについて記述してください。"
 
 #: weblate/accounts/models.py:52
 msgid "Password has been changed."
@@ -578,10 +579,8 @@ msgid "User with reviewer permissions"
 msgstr "査読者権限のあるユーザ"
 
 #: weblate/accounts/views.py:555
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please login or register to use Weblate."
-msgstr "新しい翻訳を開始するには、ログインを行なってください"
+msgstr "Weblateを使用するには、ログインするか登録してください。"
 
 #: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
 msgid "Thanks for using Weblate!"
@@ -619,10 +618,8 @@ msgid "Authentication failed due to invalid session state."
 msgstr "セッション状態が正しくないため、認証に失敗しました。"
 
 #: weblate/accounts/views.py:894
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
-msgstr "認証タブで別の電子メールアドレスを追加できます。"
+msgstr "サードパーティ認証サービスから電子メールアドレスを取得できません。"
 
 #: weblate/accounts/views.py:903
 msgid "Can not change authentication for demo!"
@@ -1736,7 +1733,7 @@ msgstr "XML マークアップが正しくないもの"
 
 #: weblate/checks/markup.py:112
 msgid "The translation is not valid XML"
-msgstr "XML として正しい翻訳ではないもの"
+msgstr "翻訳が XML として正しくないもの"
 
 #: weblate/checks/markup.py:139
 msgid "XML tags mismatch"
@@ -2244,16 +2241,10 @@ msgid "Security Policy"
 msgstr "セキュリティポリシー"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, we take security seriously and strive to maintain an "
-#| "environment that values the security and privacy of our users."
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
-msgstr ""
-"Weblate ではセキュリティを重要な課題として位置づけており、セキュリティとユー"
-"ザのプライバシー保護のため、環境の維持に努力しています。"
+msgstr "Weblate ではセキュリティを重要な課題として位置づけ、ユーザのプライバシー保護のための環境を維持しています。"
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
@@ -2264,26 +2255,24 @@ msgstr ""
 "する Best Practices の方式に従っています。"
 
 #: weblate/legal/templates/legal/security.html:38
-#, fuzzy
-#| msgid "Security"
 msgid "Security FAQ"
-msgstr "セキュリティ"
+msgstr "セキュリティ FAQ"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "How do you store user passwords?"
-msgstr "パスワードをお忘れですか？"
+msgstr "パスワードをどのように保持しますか？"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
+"Weblate はすべてのパスワードをハッシュ化し保持しており、現在は 150000 回の繰り返しによる PBKDF2 と HMAC、そして SHA-"
+"256 を使用しています。"
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How are security issues reported?"
-msgstr ""
+msgstr "どのようにしてセキュリティ問題を報告しますか？"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
