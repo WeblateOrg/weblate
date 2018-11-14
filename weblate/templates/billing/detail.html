@@ -26,7 +26,7 @@
   {% if payment_enabled %}
     <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
     {% if billing.payment.recurring %}
-    {% trans "Change plan" %}
+    {% trans "Change payment plan" %}
     {% else %}
     {% trans "Perform payment" %}
     {% endif %}
@@ -71,7 +71,7 @@
 </td>
 </tr>
 {% empty %}
-<tr><td colspan="3">{% trans "No invoices found!" %}</td/></tr>
+<tr><td colspan="3">{% trans "No invoices found." %}</td/></tr>
 {% endfor %}
 </tbody>
 </table>
