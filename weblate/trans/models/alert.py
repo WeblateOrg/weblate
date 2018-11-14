@@ -127,24 +127,24 @@ class MultiAlert(BaseAlert):
 
 @register
 class DuplicateString(MultiAlert):
-    verbose = _('Duplicate string to translate')
+    verbose = _('Duplicated string for translation')
     on_import = True
 
 
 @register
 class DuplicateLanguage(MultiAlert):
-    verbose = _('Duplicate translation')
+    verbose = _('Duplicated translation')
     on_import = True
 
 
 @register
 class MergeFailure(ErrorAlert):
-    verbose = _('There has been a merge failure in the repository')
+    verbose = _('Could not merge the repository')
 
 
 @register
 class UpdateFailure(ErrorAlert):
-    verbose = _('There has been a failure in updating the repository')
+    verbose = _('Could not update the repository')
 
 
 @register
@@ -154,7 +154,7 @@ class UnusedNewBase(BaseAlert):
 
 @register
 class ParseError(MultiAlert):
-    verbose = _('Failed to parse translation files')
+    verbose = _('Could not parse translation files')
     on_import = True
 
 
@@ -165,7 +165,7 @@ class BillingLimit(BaseAlert):
 
 @register
 class RepositoryOutdated(BaseAlert):
-    verbose = _('Repository is outdated')
+    verbose = _('Repository outdated')
 
 
 @register
