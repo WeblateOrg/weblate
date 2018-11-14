@@ -58,7 +58,7 @@ from weblate.trans.signals import (
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
-from weblate.trans.models.alert import Alert, ALERTS_IMPORT
+from weblate.trans.models.alert import ALERTS_IMPORT
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_filemask, validate_autoaccept, validate_check_flags,
@@ -995,6 +995,13 @@ class Component(models.Model, URLMixin, PathMixin):
         self.alerts_trigger = {}
         translations = {}
         languages = {}
+        try:
+            self.template_store
+        except ParseError as exc:
+            self.log_warning(
+                'skipping update due to error in parsing template: %s', exc
+            )
+            raise
         matches = self.get_mask_matches()
         for pos, path in enumerate(matches):
             with transaction.atomic():
