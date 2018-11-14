@@ -125,6 +125,7 @@ LANGUAGES = (
     ('es_PE', _('Spanish (Peru)'), 2, 'n != 1'),
     ('es_PR', _('Spanish (Puerto Rico)'), 2, 'n != 1'),
     ('es_US', _('Spanish (American)'), 2, 'n != 1'),
+    ('es_419', _('Spanish (Latin America)'), 2, 'n != 1'),
     ('et', _('Estonian'), 2, 'n != 1'),
     ('eu', _('Basque'), 2, 'n != 1'),
     ('fa', _('Persian'), 2, 'n > 1'),
