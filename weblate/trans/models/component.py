@@ -1021,7 +1021,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 if lang.code in languages:
                     codes = '{}, {}'.format(code, languages[lang.code])
                     detail = '{} ({})'.format(lang.code, codes)
-                    self.log_error('duplicate language found: %s', detail)
+                    self.log_warning('duplicate language found: %s', detail)
                     Change.objects.create(
                         component=self,
                         user=request.user if request else None,
