@@ -46,13 +46,10 @@ def download_invoice(request, pk):
             not invoice.billing.owners.filter(pk=request.user.pk).exists()):
         raise PermissionDenied('Not an owner!')
 
-    filename = invoice.filename
-    path = os.path.join(settings.INVOICE_PATH, filename)
+    if not invoice.filename_valid:
+        raise Http404('File {0} does not exist!'.format(invoice.filename))
 
-    if not os.path.exists(path):
-        raise Http404('File {0} does not exist!'.format(filename))
-
-    with open(path, 'rb') as handle:
+    with open(invoice.full_filename, 'rb') as handle:
         data = handle.read()
 
     response = HttpResponse(
@@ -60,7 +57,7 @@ def download_invoice(request, pk):
         content_type='application/pdf'
     )
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
-        filename
+        invoice.filename
     )
     response['Content-Length'] = len(data)
 

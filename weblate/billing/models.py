@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from datetime import timedelta
+import os.path
 
 from django.conf import settings
 from django.db.models.signals import post_save, m2m_changed
@@ -30,6 +31,7 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.utils import timezone
 
 from weblate.auth.models import User
@@ -399,11 +401,19 @@ class Invoice(models.Model):
             self.billing if self.billing_id else None
         )
 
-    @property
+    @cached_property
     def filename(self):
         if self.ref:
             return '{0}.pdf'.format(self.ref)
         return None
+
+    @cached_property
+    def full_filename(self):
+        return os.path.join(settings.INVOICE_PATH, self.filename)
+
+    @cached_property
+    def filename_valid(self):
+        return os.path.exists(self.full_filename)
 
     def clean(self):
         if self.end is None or self.start is None:

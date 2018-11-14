@@ -63,8 +63,10 @@
 <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
 <td>{{ invoice.amount }} {{ invoice.get_currency_display }}</td>
 <td>
-{% if invoice.ref %}
+{% if invoice.ref and invoice.filename_valid %}
 <a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
+{% elif invoice.ref %}
+{{ invoice.filename }}
 {% else %}
 {% trans "Not available" %}
 {% endif %}
