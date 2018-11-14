@@ -834,7 +834,7 @@ $(function () {
     });
 
     /* Copy from dictionary */
-    $('.glossary-embed').click(function (e) {
+    $document.on('click', '.glossary-embed', function (e) {
         var text = $(this).find('.target').text();
 
         insertEditor(text);
