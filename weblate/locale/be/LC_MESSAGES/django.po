@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 22:37+0000\n"
+"POT-Creation-Date: 2018-11-14 16:10+0000\n"
 "PO-Revision-Date: 2018-11-12 08:59+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -575,12 +575,14 @@ msgstr "Карыстальнік з прывілеямі рэцэнзента"
 
 #: weblate/accounts/views.py:555
 #, fuzzy
-#| msgid "Please log in to start new translation"
-msgid "Please login or register to use Weblate."
-msgstr "Зайдзіце, калі ласка, каб пачаць новы пераклад"
+#| msgid "Login to Weblate"
+msgid "Log in to use Weblate."
+msgstr "Увайсці на Weblate"
 
-#: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
-msgid "Thanks for using Weblate!"
+#: weblate/accounts/views.py:571
+#, fuzzy
+#| msgid "Thanks for using Weblate!"
+msgid "Thank you for using Weblate."
 msgstr "Дзякуем за карыстанне сістэмай Weblate!"
 
 #: weblate/accounts/views.py:659 weblate/templates/accounts/email.html:17
@@ -640,9 +642,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "Аўтэнтыфікацыя забароненая серверам."
 
 #: weblate/accounts/views.py:945
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username is already associated with another account!"
 msgid ""
-"Failed to complete your registration! This authentication, email or username "
-"is already associated with another account!"
+"Could not complete registration. The supplied authentication, email or "
+"username is already in use for another account."
 msgstr ""
 "Не атрымалася закончыць вашу рэгістрацыю! Гэтая аўтэнтыфікацыя, электронная "
 "пошта ці імя карыстальніка ўжо звязаная з іншым контам!"
@@ -1325,7 +1331,7 @@ msgid "From component list"
 msgstr "Са спісу кампанентаў"
 
 #: weblate/auth/models.py:131 weblate/billing/admin.py:54
-#: weblate/billing/models.py:211 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:213 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:139 weblate/trans/views/basic.py:71
@@ -1341,7 +1347,7 @@ msgstr "Выбар мовы"
 msgid "All languages"
 msgstr "Усе мовы"
 
-#: weblate/auth/models.py:152 weblate/billing/models.py:246
+#: weblate/auth/models.py:152 weblate/billing/models.py:248
 #: weblate/lang/models.py:364 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1419,86 +1425,86 @@ msgstr "Аўтаматычныя прызначэнні групы"
 msgid "Owners"
 msgstr "Уласнікі"
 
-#: weblate/billing/models.py:120 weblate/templates/billing/detail.html:19
+#: weblate/billing/models.py:122 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
 msgstr "Тарыфны план"
 
-#: weblate/billing/models.py:124
+#: weblate/billing/models.py:126
 msgid "Billed projects"
 msgstr "Аплочаныя праекты"
 
-#: weblate/billing/models.py:128
+#: weblate/billing/models.py:130
 msgid "Billing owners"
 msgstr "Уласнікі выплатаў"
 
-#: weblate/billing/models.py:132
+#: weblate/billing/models.py:134
 msgid "Active"
 msgstr "Актыўны"
 
-#: weblate/billing/models.py:133
+#: weblate/billing/models.py:135
 msgid "Trial"
 msgstr "Выпрабавальны"
 
-#: weblate/billing/models.py:134 weblate/templates/billing/detail.html:13
+#: weblate/billing/models.py:136 weblate/templates/billing/detail.html:13
 msgid "Expired"
 msgstr "Скончаны"
 
-#: weblate/billing/models.py:137
+#: weblate/billing/models.py:139
 msgid "Billing state"
 msgstr "Стан аплаты"
 
-#: weblate/billing/models.py:141
+#: weblate/billing/models.py:143
 msgid "Trial expiry date"
 msgstr "Тэрмін пробнай версіі"
 
-#: weblate/billing/models.py:145
+#: weblate/billing/models.py:147
 msgid "Paid"
 msgstr "Аплачаны"
 
-#: weblate/billing/models.py:151
+#: weblate/billing/models.py:153
 msgid "In limits"
 msgstr "У межах"
 
-#: weblate/billing/models.py:179
+#: weblate/billing/models.py:181
 msgid "Changes in last month"
 msgstr "Змен за апошні месяц"
 
-#: weblate/billing/models.py:183
+#: weblate/billing/models.py:185
 msgid "Changes in last quarter"
 msgstr "Змен за апошні кватрал"
 
-#: weblate/billing/models.py:187
+#: weblate/billing/models.py:189
 msgid "Changes in last year"
 msgstr "Змены за апошні год"
 
-#: weblate/billing/models.py:201 weblate/trans/admin.py:111
+#: weblate/billing/models.py:203 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "VCS-рэпазіторыі"
 
-#: weblate/billing/models.py:223 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:225 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
 msgid "Source strings"
 msgstr "Зыходныя радкі"
 
-#: weblate/billing/models.py:234 weblate/trans/admin.py:102
+#: weblate/billing/models.py:236 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "Зыходныя словы"
 
-#: weblate/billing/models.py:281 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:283 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Колькасць радкоў"
 
-#: weblate/billing/models.py:288
+#: weblate/billing/models.py:290
 msgid "N/A"
 msgstr "Н/Д"
 
-#: weblate/billing/models.py:289 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:291 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "Апошні рахунак"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:315
+#: weblate/billing/models.py:317
 msgid "In display limits"
 msgstr "У межах экрана"
 
@@ -1754,11 +1760,11 @@ msgstr "Неадпаведнасць XML-тагаў"
 msgid "XML tags in translation do not match source"
 msgstr "XML-тагі ў перакладзе не адпавядаюць ключу"
 
-#: weblate/checks/same.py:141
+#: weblate/checks/same.py:148
 msgid "Unchanged translation"
 msgstr "Не зменены пераклад"
 
-#: weblate/checks/same.py:142
+#: weblate/checks/same.py:149
 msgid "Source and translation are identical"
 msgstr "Зыходнік і пераклад супадаюць"
 
@@ -1831,103 +1837,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:595
+#: weblate/formats/ttkit.py:601
 msgid "Gettext PO file"
 msgstr "Файл PO для Gettext"
 
-#: weblate/formats/ttkit.py:651
+#: weblate/formats/ttkit.py:657
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл PO для Gettext (аднамоўны)"
 
-#: weblate/formats/ttkit.py:664
+#: weblate/formats/ttkit.py:670
 msgid "Qt Linguist Translation File"
 msgstr "Файл перакладу Qt Linguist"
 
-#: weblate/formats/ttkit.py:680
+#: weblate/formats/ttkit.py:686
 msgid "XLIFF Translation File"
 msgstr "Файл перакладу XLIFF"
 
-#: weblate/formats/ttkit.py:694
+#: weblate/formats/ttkit.py:700
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл перакладу XLIFF з PO-пашырэннямі"
 
-#: weblate/formats/ttkit.py:722
+#: weblate/formats/ttkit.py:728
 msgid "OS X Strings"
 msgstr "Радкі OS X"
 
-#: weblate/formats/ttkit.py:735
+#: weblate/formats/ttkit.py:741
 msgid "OS X Strings (UTF-8)"
 msgstr "Радкі OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:742
+#: weblate/formats/ttkit.py:748
 msgid "Java Properties (UTF-8)"
 msgstr "Уласцівасці Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:750
+#: weblate/formats/ttkit.py:756
 msgid "Java Properties (UTF-16)"
 msgstr "Уласцівасці Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:756
+#: weblate/formats/ttkit.py:762
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Уласцівасці Java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:773
+#: weblate/formats/ttkit.py:779
 msgid "Joomla Language File"
 msgstr "Моўны файл Joomla"
 
-#: weblate/formats/ttkit.py:782
+#: weblate/formats/ttkit.py:788
 msgid "PHP strings"
 msgstr "Радкі PHP"
 
-#: weblate/formats/ttkit.py:801
+#: weblate/formats/ttkit.py:807
 msgid ".Net resource file"
 msgstr "Файл рэсурсаў .Net"
 
-#: weblate/formats/ttkit.py:811
+#: weblate/formats/ttkit.py:817
 msgid "Android String Resource"
 msgstr "Радковыя рэсурсы Android"
 
-#: weblate/formats/ttkit.py:840
+#: weblate/formats/ttkit.py:846
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/formats/ttkit.py:859
+#: weblate/formats/ttkit.py:865
 msgid "JSON nested structure file"
 msgstr "Файл з укладзенай JSON-структураю"
 
-#: weblate/formats/ttkit.py:865
+#: weblate/formats/ttkit.py:871
 msgid "WebExtension JSON file"
 msgstr "JSON-файл WebExtension"
 
-#: weblate/formats/ttkit.py:873
+#: weblate/formats/ttkit.py:879
 msgid "i18next JSON file"
 msgstr "Файл i18next JSON"
 
-#: weblate/formats/ttkit.py:879
+#: weblate/formats/ttkit.py:885
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/formats/ttkit.py:945
+#: weblate/formats/ttkit.py:951
 msgid "Simple CSV file"
 msgstr "Просты файл CSV"
 
-#: weblate/formats/ttkit.py:981
+#: weblate/formats/ttkit.py:987
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Просты файл CSV (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:987
+#: weblate/formats/ttkit.py:993
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/formats/ttkit.py:1006
+#: weblate/formats/ttkit.py:1012
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/formats/ttkit.py:1013
+#: weblate/formats/ttkit.py:1019
 msgid "DTD file"
 msgstr "DTD-файл"
 
-#: weblate/formats/ttkit.py:1039
+#: weblate/formats/ttkit.py:1045
 msgid "RC file"
 msgstr "Файл RC"
 
@@ -2524,7 +2530,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:46
 #: weblate/templates/accounts/hosting.html:42
-#: weblate/templates/projects.html:13
+#: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
 msgstr "Спытаць аб хостынгу праекта"
 
@@ -2837,49 +2843,73 @@ msgstr ""
 "гэтым сайце."
 
 #: weblate/templates/accounts/hosting.html:16
-msgid "Conditions for free hosting"
+#, fuzzy
+#| msgid "Conditions for free hosting"
+msgid "Conditions for gratis hosting"
 msgstr "Умовы для дармавога хостынгу"
 
 #: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please fill in this form if your project fits into free hosting "
+#| "conditions:"
 msgid ""
-"Please fill in this form if your project fits into free hosting conditions:"
+"Please fill in this form if your project meets the conditions for free of "
+"charge hosting:"
 msgstr ""
 "Калі ласка, запоўніце гэтую форму, калі ваш праект адпавядае патрабаванням "
 "размяшчэння:"
 
 #: weblate/templates/accounts/hosting.html:22
-msgid "Translated content has to be released under free software license."
+#, fuzzy
+#| msgid "Translated content has to be released under free software license."
+msgid "Translated content has to be released under libre software license."
 msgstr "Перакладзены кантэнт мае ісці пад свабоднай ліцэнзіяй."
 
 #: weblate/templates/accounts/hosting.html:23
+#, fuzzy
+#| msgid ""
+#| "Source code has to be publicly available in supported version control "
+#| "system."
 msgid ""
-"Source code has to be publicly available in supported version control system."
+"Source code has to be publicly available in a supported version control "
+"system."
 msgstr ""
 "Зыходны код мусіць быць публічна даступным у падтрымванай сістэме кантролю "
 "версій."
 
 #: weblate/templates/accounts/hosting.html:24
-msgid "There is no guarantee for service availability or quality."
+#, fuzzy
+#| msgid "There is no guarantee for service availability or quality."
+msgid "There is no guarantee for service availability, nor quality."
 msgstr "Няма гарантый на даступнасць сервісу альбо якасць."
 
 #: weblate/templates/accounts/hosting.html:25
+#, fuzzy
+#| msgid ""
+#| "The hosting requests are usually processed once in a month, so please be "
+#| "patient after submitting it."
 msgid ""
-"The hosting requests are usually processed once in a month, so please be "
-"patient after submitting it."
+"Hosting requests are usually processed once a month, please have patience "
+"after submitting one."
 msgstr ""
 "Запыты на хостынг, як правіла, апрацоўваюцца раз у месяц, таму, калі ласка, "
 "будце цярплівымі пасля адпраўкі запыту."
 
 #: weblate/templates/accounts/hosting.html:30
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Looking for commercial hosting? Our price starts at %(price)s EUR per "
+#| "month."
 msgid ""
-"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
+"Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
 "Шукаеце камерцыйнае размяшчэнне? Нашыя цэны пачынаюцца ад %(price)s эўра ў "
 "месяц."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
+#: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Прыдбаць новы пран размяшчэння"
 
@@ -3574,7 +3604,7 @@ msgstr "Памяць перакладу"
 msgid "Settings"
 msgstr "Налады"
 
-#: weblate/templates/base.html:188 weblate/wladmin/sites.py:168
+#: weblate/templates/base.html:188 weblate/wladmin/sites.py:169
 msgid "Logout"
 msgstr "Выйсці"
 
@@ -3615,7 +3645,9 @@ msgid "Exceeds limits"
 msgstr "Перавышае абмежаванні"
 
 #: weblate/templates/billing/detail.html:29
-msgid "Change plan"
+#, fuzzy
+#| msgid "Change plan"
+msgid "Change payment plan"
 msgstr "Змяніць план"
 
 #: weblate/templates/billing/detail.html:31
@@ -3651,12 +3683,14 @@ msgstr "Сума рахунку"
 msgid "Download invoice"
 msgstr "Спампаваць рахунак"
 
-#: weblate/templates/billing/detail.html:69
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Не даступнае"
 
-#: weblate/templates/billing/detail.html:74
-msgid "No invoices found!"
+#: weblate/templates/billing/detail.html:76
+#, fuzzy
+#| msgid "No invoices found!"
+msgid "No invoices found."
 msgstr "Рахункаў не знойдзена!"
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
@@ -4587,7 +4621,7 @@ msgstr "Стан рэпазіторыя"
 msgid "There are some uncommitted changes!"
 msgstr "У рэпазіторыі ёсць незамацаваныя змены!"
 
-#: weblate/templates/js/git-status.html:25 weblate/trans/models/alert.py:142
+#: weblate/templates/js/git-status.html:25
 #, fuzzy
 #| msgid "There has been a merge failure in the repository:"
 msgid "There has been a merge failure in the repository"
@@ -5368,8 +5402,9 @@ msgid "Tweet this translation"
 msgstr "Затвітайце гэты пераклад"
 
 #: weblate/templates/project.html:117
-#, python-format
-msgid "Repository for this component is linked to %(target)s"
+#, fuzzy, python-format
+#| msgid "Repository for this component is linked to %(target)s"
+msgid "The repository for this component is linked to %(target)s."
 msgstr "Рэпазіторый гэтага кампаненты звязаны з %(target)s"
 
 #: weblate/templates/project.html:117
@@ -5377,7 +5412,9 @@ msgid "link"
 msgstr "спасылка"
 
 #: weblate/templates/project.html:126
-msgid "There are currently no translation components!"
+#, fuzzy
+#| msgid "There are currently no translation components!"
+msgid "There are currently no translation components."
 msgstr "Цяпер няма кампанентаў перакладу!"
 
 #: weblate/templates/project.html:196
@@ -5508,8 +5545,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Пераклад зараз заблакаваны для абнаўленняў."
 
 #: weblate/templates/show-component-state.html:11
-msgid "This project is currently locked due to unpaid billing."
-msgstr "Пераклад зараз заблакаваны праз неаплату."
+msgid "Pay the bills to unlock this project."
+msgstr ""
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5557,8 +5594,8 @@ msgstr "Інфармацыя аб праекце"
 #| "Your billing plan has expired, if you want to continue using the service, "
 #| "please renew it using the following link:"
 msgid ""
-"Your billing plan has exceeded limits. You can still use the service, but "
-"you are recommended to upgrade to higher billing plan."
+"Your billing plan has exceeded its limits. You can still use the service, "
+"but are recommended to upgrade it."
 msgstr ""
 "Ваш тарыфны пран мінуў. Калі вы хочаце працягнуць карыстанне паслугай, калі "
 "ласка, абнавіце план па наступнай спасылцы:"
@@ -5605,18 +5642,16 @@ msgstr ""
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 #, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
-msgid ""
-"When updating the repository Weblate was unable to merge the upstream "
-"changes."
-msgstr "Блакіроўка забараняе астатнім працаваць над перакладам."
+#| msgid "There has been a merge failure in the repository:"
+msgid "Weblate could not merge upstream changes while updating the repository."
+msgstr "У рэпазіторыі адбылася памылка зліцця:"
 
 #: weblate/templates/trans/alert/parseerror.html:4
 #, fuzzy
 #| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
-"When updating the translations Weblate was not able to parse the translation "
-"files."
+"Weblate could not parse the translation files while updating the "
+"translations."
 msgstr "Блакіроўка забараняе астатнім працаваць над перакладам."
 
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -5632,7 +5667,7 @@ msgstr ""
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
-"the changes manually or setup push to automate this."
+"the changes manually or set up push to automate this."
 msgstr ""
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
@@ -5650,8 +5685,7 @@ msgstr ""
 "Вам верагодна варта ўключыць аўтаматычнае даданне новых перакладаў."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
-msgid ""
-"When updating the repository Weblate was not able to fetch upstream changes."
+msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
 
 #: weblate/templates/trans/change_list.html:21
@@ -5679,7 +5713,9 @@ msgid "Are you absolutely sure?"
 msgstr "Вы абсалютна ўпэўнены?"
 
 #: weblate/templates/trans/delete-form.html:11
-msgid "Following translation components will be also removed:"
+#, fuzzy
+#| msgid "Following translation components will be also removed:"
+msgid "The following translation components will be also removed:"
 msgstr "Наступныя кампаненты перакладу таксама будуць выдаленыя:"
 
 #: weblate/templates/trans/delete-form.html:22
@@ -6943,49 +6979,55 @@ msgstr "Назва перакладу не супадае з назвай для
 #: weblate/trans/models/alert.py:130
 #, fuzzy
 #| msgid "Notification on new string to translate"
-msgid "Duplicate string to translate"
+msgid "Duplicated string for translation."
 msgstr "Апавяшчэнне пра новы радок на пераклад"
 
 #: weblate/trans/models/alert.py:136
 #, fuzzy
 #| msgid "Weblate translations"
-msgid "Duplicate translation"
+msgid "Duplicated translation."
 msgstr "Пераклады Weblate"
+
+#: weblate/trans/models/alert.py:142
+#, fuzzy
+#| msgid "Failed merge on repository"
+msgid "Could not merge the repository."
+msgstr "Памылка зліцця рэпазіторыя"
 
 #: weblate/trans/models/alert.py:147
 #, fuzzy
-#| msgid "There has been a merge failure in the repository:"
-msgid "There has been a failure in updating the repository"
-msgstr "У рэпазіторыі адбылася памылка зліцця:"
+#| msgid "Failed to update repository: %s"
+msgid "Could not update the repository."
+msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
 #: weblate/trans/models/alert.py:152
 #, fuzzy
 #| msgid "Base file for new translations"
-msgid "Unused base file for new translations"
+msgid "Unused base file for new translations."
 msgstr "Базавы файл для новых перакладаў"
 
 #: weblate/trans/models/alert.py:157
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
-msgid "Failed to parse translation files"
+msgid "Could not parse translation files."
 msgstr "Не ўдалося прачытаць базавы файл перакладу: %s"
 
 #: weblate/trans/models/alert.py:163
 #, fuzzy
 #| msgid "Your billing plan has expired"
-msgid "Your billing plan is above limits"
+msgid "Your billing plan has exceeded its limits."
 msgstr "Ваш тарыфны план мінуў"
 
 #: weblate/trans/models/alert.py:168
 #, fuzzy
 #| msgid "Repository status"
-msgid "Repository is outdated"
+msgid "Repository outdated."
 msgstr "Стан рэпазіторыя"
 
 #: weblate/trans/models/alert.py:173
 #, fuzzy
 #| msgid "Repository changes"
-msgid "Repository has changes"
+msgid "Repository has changes."
 msgstr "Змены рэпазіторыя"
 
 #: weblate/trans/models/change.py:195
@@ -7049,7 +7091,9 @@ msgid "Component unlocked"
 msgstr "Кампанент адамкнуты"
 
 #: weblate/trans/models/change.py:211
-msgid "Detected duplicate string"
+#, fuzzy
+#| msgid "Detected duplicate string"
+msgid "Found duplicated string"
 msgstr "Знойдзены радок, што паўтараецца двойчы"
 
 #: weblate/trans/models/change.py:212
@@ -7143,7 +7187,7 @@ msgstr "Увесь праект"
 #: weblate/trans/models/change.py:238
 #, fuzzy
 #| msgid "Displayed languages"
-msgid "Duplicate language found"
+msgid "Found duplicated language"
 msgstr "Адлюстраваныя мовы"
 
 #: weblate/trans/models/change.py:334
@@ -7483,46 +7527,46 @@ msgstr "Не ўдалося перабазіраваць змены ў адда�
 msgid "Failed to merge remote branch into %s."
 msgstr "Не ўдалося зліць аддаленыя веткі з %s."
 
-#: weblate/trans/models/component.py:1133
+#: weblate/trans/models/component.py:1140
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Няправільная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "звязаны рэпазіторый!"
 
-#: weblate/trans/models/component.py:1140
+#: weblate/trans/models/component.py:1147
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Няправільная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "самаго сябе!"
 
-#: weblate/trans/models/component.py:1147
+#: weblate/trans/models/component.py:1154
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Нядзейсная спасылка на праект Weblate. Ужывайце weblate://праект/кампанент."
 
-#: weblate/trans/models/component.py:1153
+#: weblate/trans/models/component.py:1160
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL для адсылання не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/component.py:1159
+#: weblate/trans/models/component.py:1166
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL экспарту не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/component.py:1168
+#: weblate/trans/models/component.py:1175
 msgid "The mask did not match any files!"
 msgstr "Маска не вылучыла ніводнага файла!"
 
-#: weblate/trans/models/component.py:1176
+#: weblate/trans/models/component.py:1183
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Не атрымалася вызначыць мову для %s, калі ласка, праверце маску!"
 
-#: weblate/trans/models/component.py:1181
+#: weblate/trans/models/component.py:1188
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Код мовы «%s» занадта доўгі, калі ласка, праверце маску!"
 
-#: weblate/trans/models/component.py:1185
+#: weblate/trans/models/component.py:1192
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7531,7 +7575,7 @@ msgstr ""
 "Знойдзена некалькі файлаў для адной мовы (%s). Калі ласка, адрэгулюйце маску "
 "і выкарыстоўвайце кампаненты для перакладу розных файлаў."
 
-#: weblate/trans/models/component.py:1191
+#: weblate/trans/models/component.py:1198
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7541,25 +7585,25 @@ msgstr ""
 "Шмат перакладаў прызначаны аднаму моўнаму коду (%s). Патрэбна вымкнуць "
 "SIMPLIFY_LANGUAGES, каб ня зьмешваліся падобныя мовы."
 
-#: weblate/trans/models/component.py:1210
+#: weblate/trans/models/component.py:1217
 msgid "File does not seem to be valid!"
 msgstr "Выдае на тое, што файл невалідны!"
 
-#: weblate/trans/models/component.py:1218
+#: weblate/trans/models/component.py:1225
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Фармат %d трапных файлаў не распазнаны."
 
-#: weblate/trans/models/component.py:1227
+#: weblate/trans/models/component.py:1234
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Не ўдалося прачытаць %d трапных файлаў!"
 
-#: weblate/trans/models/component.py:1242
+#: weblate/trans/models/component.py:1249
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Не ўдалося распазнаць фармат базавага файла для новага перакладу!"
 
-#: weblate/trans/models/component.py:1247
+#: weblate/trans/models/component.py:1254
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7567,33 +7611,33 @@ msgstr ""
 "Вы сканфігуравалі Weblate на дабаўленне новых файлаў перакладаў, але не далі "
 "асноўнага файла для гэтага!"
 
-#: weblate/trans/models/component.py:1256
+#: weblate/trans/models/component.py:1263
 msgid "You can not use base file with bilingual translation!"
 msgstr "Немагчыма ўжываць базавы файл для дзвюхмоўнага перакладу!"
 
-#: weblate/trans/models/component.py:1261
+#: weblate/trans/models/component.py:1268
 msgid "Using .pot file as base file is not supported!"
 msgstr "Выкарыстанне .pot файла ў якасці базавага не падтрымліваецца!"
 
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1275
 msgid "Template file not found!"
 msgstr "Файл шаблона не знойдзены!"
 
-#: weblate/trans/models/component.py:1274
+#: weblate/trans/models/component.py:1281
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Не ўдалося прачытаць базавы файл перакладу: %s"
 
-#: weblate/trans/models/component.py:1284
+#: weblate/trans/models/component.py:1291
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Мова шаблона ({0}) не адпавядае зыходнай мове праекта ({1})!"
 
-#: weblate/trans/models/component.py:1291
+#: weblate/trans/models/component.py:1298
 msgid "You can not use monolingual translation without base file!"
 msgstr "Немагчыма выкарыстоўваць аднамоўны пераклад без базавага файла!"
 
-#: weblate/trans/models/component.py:1302
+#: weblate/trans/models/component.py:1309
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7601,44 +7645,44 @@ msgstr ""
 "Альбо задайце URL з інструкцыямі, альбо скарыстайце з іншага спосабу дадання "
 "новай мовы."
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1316
 msgid "License URL can not be used without license summary."
 msgstr "Не можна задаваць URL ліцэнзіі без сціслага яе апісання."
 
-#: weblate/trans/models/component.py:1329
+#: weblate/trans/models/component.py:1336
 msgid "Changing version control system is not supported!"
 msgstr "Змяненне сістэмы кіравання версіямі не падтрымліваецца!"
 
-#: weblate/trans/models/component.py:1334
+#: weblate/trans/models/component.py:1341
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Непадтрымліваемы фармат файла: {0}"
 
-#: weblate/trans/models/component.py:1345
+#: weblate/trans/models/component.py:1352
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
-#: weblate/trans/models/component.py:1365
+#: weblate/trans/models/component.py:1372
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Не атрымалася праверыць супадзенні файлаў з-за некарэктнага рэгулярнага "
 "выразу."
 
-#: weblate/trans/models/component.py:1377
+#: weblate/trans/models/component.py:1384
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Аўтаматычнае прыняццё прапаноў працуе толькі з дазволеным галасаваннем!"
 
-#: weblate/trans/models/component.py:1531
+#: weblate/trans/models/component.py:1538
 msgid "Failed to add new translation file!"
 msgstr "Не ўдалося дадаць новы файл перакладу!"
 
-#: weblate/trans/models/component.py:1543
+#: weblate/trans/models/component.py:1550
 msgid "Given language is filtered by the language filter!"
 msgstr "Заданая мова фільтруецца моўным фільтрам!"
 
-#: weblate/trans/models/component.py:1561
+#: weblate/trans/models/component.py:1568
 msgid "Translation file already exists!"
 msgstr "Файл перакладу ўжо існуе!"
 
@@ -8800,7 +8844,11 @@ msgstr "Не ўдалося атрымаць ключ хаста: %s"
 msgid "Weblate administration"
 msgstr "Адміністраванне Weblate"
 
-#: weblate/wladmin/sites.py:173
+#: weblate/wladmin/sites.py:163
+msgid "Thanks for using Weblate!"
+msgstr "Дзякуем за карыстанне сістэмай Weblate!"
+
+#: weblate/wladmin/sites.py:174
 msgid "Object listing turned off"
 msgstr "Ліставанне аб'ектаў адключанае"
 
@@ -8958,6 +9006,21 @@ msgstr "Справаздачы"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Не атрымалася адхіліць памылку канфігурацыі!"
+
+#, fuzzy
+#~| msgid "Please log in to start new translation"
+#~ msgid "Please login or register to use Weblate."
+#~ msgstr "Зайдзіце, калі ласка, каб пачаць новы пераклад"
+
+#~ msgid "This project is currently locked due to unpaid billing."
+#~ msgstr "Пераклад зараз заблакаваны праз неаплату."
+
+#, fuzzy
+#~| msgid "Locking the translation will prevent others to work on translation."
+#~ msgid ""
+#~ "When updating the repository Weblate was unable to merge the upstream "
+#~ "changes."
+#~ msgstr "Блакіроўка забараняе астатнім працаваць над перакладам."
 
 #~ msgid "Check the FAQ for information on how to resolve this."
 #~ msgstr "Звярніцеся да FAQ для вырашэння гэтай сітуацыі."
@@ -10656,9 +10719,6 @@ msgstr "Не атрымалася адхіліць памылку канфігу
 
 #~ msgid "Words to translate"
 #~ msgstr "Словы на пераклад"
-
-#~ msgid "Login to Weblate"
-#~ msgstr "Увайсці на Weblate"
 
 #~ msgid "Donate to Weblate!"
 #~ msgstr "Ахвяруйце на Weblate!"

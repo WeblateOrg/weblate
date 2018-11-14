@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-13 22:37+0000\n"
+"POT-Creation-Date: 2018-11-14 16:10+0000\n"
 "PO-Revision-Date: 2018-11-14 11:59+0000\n"
 "Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -567,11 +567,15 @@ msgid "User with reviewer permissions"
 msgstr "Gözden geçirici izni olan kullanıcı"
 
 #: weblate/accounts/views.py:555
-msgid "Please login or register to use Weblate."
-msgstr "Lütfen giriş yapın veya Weblate'i kullanmak için kayıt olun."
+#, fuzzy
+#| msgid "Login to Weblate"
+msgid "Log in to use Weblate."
+msgstr "Weblate'de Oturum Açın"
 
-#: weblate/accounts/views.py:571 weblate/wladmin/sites.py:162
-msgid "Thanks for using Weblate!"
+#: weblate/accounts/views.py:571
+#, fuzzy
+#| msgid "Thanks for using Weblate!"
+msgid "Thank you for using Weblate."
 msgstr "Weblate'i kullandığınız için teşekkürler!"
 
 #: weblate/accounts/views.py:659 weblate/templates/accounts/email.html:17
@@ -631,9 +635,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "Kimlik doğrulama sunucu tarafından yasaklandı."
 
 #: weblate/accounts/views.py:945
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username is already associated with another account!"
 msgid ""
-"Failed to complete your registration! This authentication, email or username "
-"is already associated with another account!"
+"Could not complete registration. The supplied authentication, email or "
+"username is already in use for another account."
 msgstr ""
 "Kaydınız tamamlanamadı! Bu kimlik doğrulama, eposta veya kullanıcı adı zaten "
 "başka bir hesapla bağdaştırılmış!"
@@ -1318,7 +1326,7 @@ msgid "From component list"
 msgstr "Bileşen listesinden"
 
 #: weblate/auth/models.py:131 weblate/billing/admin.py:54
-#: weblate/billing/models.py:211 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:213 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:139 weblate/trans/views/basic.py:71
@@ -1334,7 +1342,7 @@ msgstr "Dil seçimi"
 msgid "All languages"
 msgstr "Tüm diller"
 
-#: weblate/auth/models.py:152 weblate/billing/models.py:246
+#: weblate/auth/models.py:152 weblate/billing/models.py:248
 #: weblate/lang/models.py:364 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1411,86 +1419,86 @@ msgstr "Kendiliğinden grup atamaları"
 msgid "Owners"
 msgstr "Sahipleri"
 
-#: weblate/billing/models.py:120 weblate/templates/billing/detail.html:19
+#: weblate/billing/models.py:122 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
 msgstr "Faturalandırma planı"
 
-#: weblate/billing/models.py:124
+#: weblate/billing/models.py:126
 msgid "Billed projects"
 msgstr "Faturalandırılmış projeler"
 
-#: weblate/billing/models.py:128
+#: weblate/billing/models.py:130
 msgid "Billing owners"
 msgstr "Faturalandırma sahipleri"
 
-#: weblate/billing/models.py:132
+#: weblate/billing/models.py:134
 msgid "Active"
 msgstr "Etkin"
 
-#: weblate/billing/models.py:133
+#: weblate/billing/models.py:135
 msgid "Trial"
 msgstr "Deneme"
 
-#: weblate/billing/models.py:134 weblate/templates/billing/detail.html:13
+#: weblate/billing/models.py:136 weblate/templates/billing/detail.html:13
 msgid "Expired"
 msgstr "Süresi doldu"
 
-#: weblate/billing/models.py:137
+#: weblate/billing/models.py:139
 msgid "Billing state"
 msgstr "Faturalandırma durumu"
 
-#: weblate/billing/models.py:141
+#: weblate/billing/models.py:143
 msgid "Trial expiry date"
 msgstr "Deneme bitiş tarihi"
 
-#: weblate/billing/models.py:145
+#: weblate/billing/models.py:147
 msgid "Paid"
 msgstr "Ödendi"
 
-#: weblate/billing/models.py:151
+#: weblate/billing/models.py:153
 msgid "In limits"
 msgstr "Sınırlar içinde"
 
-#: weblate/billing/models.py:179
+#: weblate/billing/models.py:181
 msgid "Changes in last month"
 msgstr "Geçen aydaki değişiklikler"
 
-#: weblate/billing/models.py:183
+#: weblate/billing/models.py:185
 msgid "Changes in last quarter"
 msgstr "Son dönemdeki değişiklikler"
 
-#: weblate/billing/models.py:187
+#: weblate/billing/models.py:189
 msgid "Changes in last year"
 msgstr "Geçen yıldaki değişiklikler"
 
-#: weblate/billing/models.py:201 weblate/trans/admin.py:111
+#: weblate/billing/models.py:203 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "VCS havuzları"
 
-#: weblate/billing/models.py:223 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:225 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
 msgid "Source strings"
 msgstr "Kaynak satırlar"
 
-#: weblate/billing/models.py:234 weblate/trans/admin.py:102
+#: weblate/billing/models.py:236 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "Kaynak sözcükler"
 
-#: weblate/billing/models.py:281 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:283 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Satır sayısı"
 
-#: weblate/billing/models.py:288
+#: weblate/billing/models.py:290
 msgid "N/A"
 msgstr "YOK"
 
-#: weblate/billing/models.py:289 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:291 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "Son fatura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:315
+#: weblate/billing/models.py:317
 msgid "In display limits"
 msgstr "Görüntüleme sınırları içinde"
 
@@ -1745,11 +1753,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/checks/same.py:141
+#: weblate/checks/same.py:148
 msgid "Unchanged translation"
 msgstr "Değiştirilmemiş çeviri"
 
-#: weblate/checks/same.py:142
+#: weblate/checks/same.py:149
 msgid "Source and translation are identical"
 msgstr "Kaynak ve çeviri aynı"
 
@@ -1822,103 +1830,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:595
+#: weblate/formats/ttkit.py:601
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: weblate/formats/ttkit.py:651
+#: weblate/formats/ttkit.py:657
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO dosyası (tek dilli)"
 
-#: weblate/formats/ttkit.py:664
+#: weblate/formats/ttkit.py:670
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: weblate/formats/ttkit.py:680
+#: weblate/formats/ttkit.py:686
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: weblate/formats/ttkit.py:694
+#: weblate/formats/ttkit.py:700
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO uzantıları olan XLIFF Çeviri Dosyası"
 
-#: weblate/formats/ttkit.py:722
+#: weblate/formats/ttkit.py:728
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: weblate/formats/ttkit.py:735
+#: weblate/formats/ttkit.py:741
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X Satırları (UTF-8)"
 
-#: weblate/formats/ttkit.py:742
+#: weblate/formats/ttkit.py:748
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: weblate/formats/ttkit.py:750
+#: weblate/formats/ttkit.py:756
 msgid "Java Properties (UTF-16)"
 msgstr "Java Özellikleri (UTF-16)"
 
-#: weblate/formats/ttkit.py:756
+#: weblate/formats/ttkit.py:762
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Özellikleri (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:773
+#: weblate/formats/ttkit.py:779
 msgid "Joomla Language File"
 msgstr "Joomla Dil Dosyası"
 
-#: weblate/formats/ttkit.py:782
+#: weblate/formats/ttkit.py:788
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: weblate/formats/ttkit.py:801
+#: weblate/formats/ttkit.py:807
 msgid ".Net resource file"
 msgstr ".Net kaynak dosyası"
 
-#: weblate/formats/ttkit.py:811
+#: weblate/formats/ttkit.py:817
 msgid "Android String Resource"
 msgstr "Android Satır Kaynağı"
 
-#: weblate/formats/ttkit.py:840
+#: weblate/formats/ttkit.py:846
 msgid "JSON file"
 msgstr "JSON dosyası"
 
-#: weblate/formats/ttkit.py:859
+#: weblate/formats/ttkit.py:865
 msgid "JSON nested structure file"
 msgstr "JSON iç içe geçmiş yapı dosyası"
 
-#: weblate/formats/ttkit.py:865
+#: weblate/formats/ttkit.py:871
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON dosyası"
 
-#: weblate/formats/ttkit.py:873
+#: weblate/formats/ttkit.py:879
 msgid "i18next JSON file"
 msgstr "i18next JSON dosyası"
 
-#: weblate/formats/ttkit.py:879
+#: weblate/formats/ttkit.py:885
 msgid "CSV file"
 msgstr "CSV dosyası"
 
-#: weblate/formats/ttkit.py:945
+#: weblate/formats/ttkit.py:951
 msgid "Simple CSV file"
 msgstr "Basit CSV dosyası"
 
-#: weblate/formats/ttkit.py:981
+#: weblate/formats/ttkit.py:987
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Basit CSV dosyası (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:987
+#: weblate/formats/ttkit.py:993
 msgid "YAML file"
 msgstr "YAML dosyası"
 
-#: weblate/formats/ttkit.py:1006
+#: weblate/formats/ttkit.py:1012
 msgid "Ruby YAML file"
 msgstr "Ruby YAML dosyası"
 
-#: weblate/formats/ttkit.py:1013
+#: weblate/formats/ttkit.py:1019
 msgid "DTD file"
 msgstr "DTD dosyası"
 
-#: weblate/formats/ttkit.py:1039
+#: weblate/formats/ttkit.py:1045
 msgid "RC file"
 msgstr "RC dosyası"
 
@@ -2515,7 +2523,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:46
 #: weblate/templates/accounts/hosting.html:42
-#: weblate/templates/projects.html:13
+#: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
 msgstr "Proje barındırma için sorun"
 
@@ -2825,46 +2833,70 @@ msgstr ""
 "olmadığını önceden kontrol edin."
 
 #: weblate/templates/accounts/hosting.html:16
-msgid "Conditions for free hosting"
+#, fuzzy
+#| msgid "Conditions for free hosting"
+msgid "Conditions for gratis hosting"
 msgstr "Ücretsiz barındırma için koşullar"
 
 #: weblate/templates/accounts/hosting.html:18
+#, fuzzy
+#| msgid ""
+#| "Please fill in this form if your project fits into free hosting "
+#| "conditions:"
 msgid ""
-"Please fill in this form if your project fits into free hosting conditions:"
+"Please fill in this form if your project meets the conditions for free of "
+"charge hosting:"
 msgstr ""
 "Projeniz ücretsiz barındırma koşullarına uyuyorsa lütfen bu formu doldurunuz:"
 
 #: weblate/templates/accounts/hosting.html:22
-msgid "Translated content has to be released under free software license."
+#, fuzzy
+#| msgid "Translated content has to be released under free software license."
+msgid "Translated content has to be released under libre software license."
 msgstr "Çevrilmiş içerik özgür yazılım lisansı altında yayımlanmalıdır."
 
 #: weblate/templates/accounts/hosting.html:23
+#, fuzzy
+#| msgid ""
+#| "Source code has to be publicly available in supported version control "
+#| "system."
 msgid ""
-"Source code has to be publicly available in supported version control system."
+"Source code has to be publicly available in a supported version control "
+"system."
 msgstr ""
 "Kaynak kodu, desteklenen sürüm kontrol sisteminde herkese açık olmalıdır."
 
 #: weblate/templates/accounts/hosting.html:24
-msgid "There is no guarantee for service availability or quality."
+#, fuzzy
+#| msgid "There is no guarantee for service availability or quality."
+msgid "There is no guarantee for service availability, nor quality."
 msgstr "Hizmet kullanılabilirliği ya da kalitesi için güvence yoktur."
 
 #: weblate/templates/accounts/hosting.html:25
+#, fuzzy
+#| msgid ""
+#| "The hosting requests are usually processed once in a month, so please be "
+#| "patient after submitting it."
 msgid ""
-"The hosting requests are usually processed once in a month, so please be "
-"patient after submitting it."
+"Hosting requests are usually processed once a month, please have patience "
+"after submitting one."
 msgstr ""
 "Barındırma istekleri genellikle ayda bir kez işlenir, o yüzden gönderdikten "
 "sonra lütfen sabırlı olun."
 
 #: weblate/templates/accounts/hosting.html:30
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Looking for commercial hosting? Our price starts at %(price)s EUR per "
+#| "month."
 msgid ""
-"Looking for commercial hosting? Our price starts at %(price)s EUR per month."
+"Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
 "Ticari hosting mi arıyorsunuz? Fiyatımız ayda %(price)s EUR ile başlar."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
+#: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Yeni hosting planı satın alın"
 
@@ -3552,7 +3584,7 @@ msgstr "Çeviri belleği"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: weblate/templates/base.html:188 weblate/wladmin/sites.py:168
+#: weblate/templates/base.html:188 weblate/wladmin/sites.py:169
 msgid "Logout"
 msgstr "Oturumu kapat"
 
@@ -3593,7 +3625,9 @@ msgid "Exceeds limits"
 msgstr "Sınırları aşıyor"
 
 #: weblate/templates/billing/detail.html:29
-msgid "Change plan"
+#, fuzzy
+#| msgid "Change plan"
+msgid "Change payment plan"
 msgstr "Değişiklik planı"
 
 #: weblate/templates/billing/detail.html:31
@@ -3628,12 +3662,14 @@ msgstr "Fatura tutarı"
 msgid "Download invoice"
 msgstr "Faturayı indir"
 
-#: weblate/templates/billing/detail.html:69
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Yok"
 
-#: weblate/templates/billing/detail.html:74
-msgid "No invoices found!"
+#: weblate/templates/billing/detail.html:76
+#, fuzzy
+#| msgid "No invoices found!"
+msgid "No invoices found."
 msgstr "Fatura bulumadı!"
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
@@ -4565,7 +4601,7 @@ msgstr "Havuz durumu"
 msgid "There are some uncommitted changes!"
 msgstr "Bazı işlenmemiş değişiklikler var!"
 
-#: weblate/templates/js/git-status.html:25 weblate/trans/models/alert.py:142
+#: weblate/templates/js/git-status.html:25
 msgid "There has been a merge failure in the repository"
 msgstr "Havuzda birleştirmede bir başarısızlık oldu"
 
@@ -5343,8 +5379,9 @@ msgid "Tweet this translation"
 msgstr "Bu çeviriyi tweet at"
 
 #: weblate/templates/project.html:117
-#, python-format
-msgid "Repository for this component is linked to %(target)s"
+#, fuzzy, python-format
+#| msgid "Repository for this component is linked to %(target)s"
+msgid "The repository for this component is linked to %(target)s."
 msgstr "Bu bileşen için havuz %(target)s hedefine bağlı"
 
 #: weblate/templates/project.html:117
@@ -5352,7 +5389,9 @@ msgid "link"
 msgstr "bağlantı"
 
 #: weblate/templates/project.html:126
-msgid "There are currently no translation components!"
+#, fuzzy
+#| msgid "There are currently no translation components!"
+msgid "There are currently no translation components."
 msgstr "Şu anda çeviri bileşeni yok!"
 
 #: weblate/templates/project.html:196
@@ -5483,8 +5522,8 @@ msgid "This translation is currently locked for updates."
 msgstr "Bu çeviri şu anda güncellemeler için kilitli."
 
 #: weblate/templates/show-component-state.html:11
-msgid "This project is currently locked due to unpaid billing."
-msgstr "Bu proje, ödenmemiş fatura nedeniyle şu anda kilitlenmiştir."
+msgid "Pay the bills to unlock this project."
+msgstr ""
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -5527,9 +5566,13 @@ msgid "Project Information"
 msgstr "Proje Bilgisi"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded limits. You can still use the service, but "
+#| "you are recommended to upgrade to higher billing plan."
 msgid ""
-"Your billing plan has exceeded limits. You can still use the service, but "
-"you are recommended to upgrade to higher billing plan."
+"Your billing plan has exceeded its limits. You can still use the service, "
+"but are recommended to upgrade it."
 msgstr ""
 "Faturalandırma planınız limitleri aştı. Hizmeti yine de kullanabilirsiniz, "
 "ancak daha yüksek faturalandırma planına geçmeniz önerilir."
@@ -5538,7 +5581,8 @@ msgstr ""
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
-msgstr "Bileşen, Weblate'de tek bir dile eşlenmiş birkaç çeviri dosyası içerir."
+msgstr ""
+"Bileşen, Weblate'de tek bir dile eşlenmiş birkaç çeviri dosyası içerir."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
@@ -5570,16 +5614,19 @@ msgstr ""
 "kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
-msgid ""
-"When updating the repository Weblate was unable to merge the upstream "
-"changes."
-msgstr ""
-"Havuz güncelleştirirken Weblate yukarı akış değişikliklerini birleştiremedi."
+#, fuzzy
+#| msgid "There has been a failure in updating the repository"
+msgid "Weblate could not merge upstream changes while updating the repository."
+msgstr "Havuzun güncellenmesinde bir hata oluştu"
 
 #: weblate/templates/trans/alert/parseerror.html:4
+#, fuzzy
+#| msgid ""
+#| "When updating the translations Weblate was not able to parse the "
+#| "translation files."
 msgid ""
-"When updating the translations Weblate was not able to parse the translation "
-"files."
+"Weblate could not parse the translation files while updating the "
+"translations."
 msgstr "Çevirileri güncellerken, Weblate çeviri dosyalarını ayrıştıramadı."
 
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -5591,9 +5638,13 @@ msgid "Error"
 msgstr "Hata"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or setup push to automate this."
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
-"the changes manually or setup push to automate this."
+"the changes manually or set up push to automate this."
 msgstr ""
 "VCS havuzu, yukarı akışa göre birçok değişikliğe sahiptir. Lütfen "
 "değişiklikleri manuel olarak birleştirin veya otomatikleştirme kurulumunu "
@@ -5617,10 +5668,8 @@ msgstr ""
 "olabilirsiniz."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
-msgid ""
-"When updating the repository Weblate was not able to fetch upstream changes."
+msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Veri havuzu güncelleştirilirken Weblate yukarı akış değişikliklerini alamadı."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -5647,7 +5696,9 @@ msgid "Are you absolutely sure?"
 msgstr "Kesinlikle emin misin?"
 
 #: weblate/templates/trans/delete-form.html:11
-msgid "Following translation components will be also removed:"
+#, fuzzy
+#| msgid "Following translation components will be also removed:"
+msgid "The following translation components will be also removed:"
 msgstr "Aşağıdaki çeviri bileşenleri de kaldırılacak:"
 
 #: weblate/templates/trans/delete-form.html:22
@@ -6912,35 +6963,57 @@ msgid "The translation name does not match the one to delete!"
 msgstr "Çeviri adı silinecek olanla eşleşmiyor!"
 
 #: weblate/trans/models/alert.py:130
-msgid "Duplicate string to translate"
+#, fuzzy
+#| msgid "Duplicate string to translate"
+msgid "Duplicated string for translation."
 msgstr "Çevirmek için yinelenen dize"
 
 #: weblate/trans/models/alert.py:136
-msgid "Duplicate translation"
+#, fuzzy
+#| msgid "Duplicate translation"
+msgid "Duplicated translation."
 msgstr "Yinelenen çeviri"
 
+#: weblate/trans/models/alert.py:142
+#, fuzzy
+#| msgid "Failed merge on repository"
+msgid "Could not merge the repository."
+msgstr "Havuzda birleştirme başarısız"
+
 #: weblate/trans/models/alert.py:147
-msgid "There has been a failure in updating the repository"
-msgstr "Havuzun güncellenmesinde bir hata oluştu"
+#, fuzzy
+#| msgid "Failed to update repository: %s"
+msgid "Could not update the repository."
+msgstr "Havuz güncellenemedi: %s"
 
 #: weblate/trans/models/alert.py:152
-msgid "Unused base file for new translations"
+#, fuzzy
+#| msgid "Unused base file for new translations"
+msgid "Unused base file for new translations."
 msgstr "Yeni çeviriler için kullanılmayan taban dosyası"
 
 #: weblate/trans/models/alert.py:157
-msgid "Failed to parse translation files"
+#, fuzzy
+#| msgid "Failed to parse translation files"
+msgid "Could not parse translation files."
 msgstr "Çeviri dosyaları ayrıştırılamadı"
 
 #: weblate/trans/models/alert.py:163
-msgid "Your billing plan is above limits"
+#, fuzzy
+#| msgid "Your billing plan is above limits"
+msgid "Your billing plan has exceeded its limits."
 msgstr "Faturalandırma planınız limitlerin üzerindedir"
 
 #: weblate/trans/models/alert.py:168
-msgid "Repository is outdated"
+#, fuzzy
+#| msgid "Repository is outdated"
+msgid "Repository outdated."
 msgstr "Havuz güncel değil"
 
 #: weblate/trans/models/alert.py:173
-msgid "Repository has changes"
+#, fuzzy
+#| msgid "Repository has changes"
+msgid "Repository has changes."
 msgstr "Havuzun değişiklikleri var"
 
 #: weblate/trans/models/change.py:195
@@ -7004,7 +7077,9 @@ msgid "Component unlocked"
 msgstr "Bileşen kilitli değil"
 
 #: weblate/trans/models/change.py:211
-msgid "Detected duplicate string"
+#, fuzzy
+#| msgid "Detected duplicate string"
+msgid "Found duplicated string"
 msgstr "Aynı olan satır algılandı"
 
 #: weblate/trans/models/change.py:212
@@ -7092,7 +7167,9 @@ msgid "Removed project"
 msgstr "Kaldırılan proje"
 
 #: weblate/trans/models/change.py:238
-msgid "Duplicate language found"
+#, fuzzy
+#| msgid "Duplicate language found"
+msgid "Found duplicated language"
 msgstr "Yinelenen dil bulundu"
 
 #: weblate/trans/models/change.py:334
@@ -7431,44 +7508,44 @@ msgstr "Dalımız, %s uzak dalının üstüne yeniden konumlanamadı."
 msgid "Failed to merge remote branch into %s."
 msgstr "Uzak dal, %s projesinin içine birleştirilemedi."
 
-#: weblate/trans/models/component.py:1133
+#: weblate/trans/models/component.py:1140
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, bağlantılı havuza bağlantılanamıyor!"
 
-#: weblate/trans/models/component.py:1140
+#: weblate/trans/models/component.py:1147
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Weblate projesi için geçersiz bağlantı, kendine bağlantılanamıyor!"
 
-#: weblate/trans/models/component.py:1147
+#: weblate/trans/models/component.py:1154
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, weblate://project/component adresini "
 "kullanın."
 
-#: weblate/trans/models/component.py:1153
+#: weblate/trans/models/component.py:1160
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: weblate/trans/models/component.py:1159
+#: weblate/trans/models/component.py:1166
 msgid "Export URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
 
-#: weblate/trans/models/component.py:1168
+#: weblate/trans/models/component.py:1175
 msgid "The mask did not match any files!"
 msgstr "Maske hiçbir dosyayla eşleşmedi!"
 
-#: weblate/trans/models/component.py:1176
+#: weblate/trans/models/component.py:1183
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s için boş dil kodu aldınız, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/component.py:1181
+#: weblate/trans/models/component.py:1188
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/component.py:1185
+#: weblate/trans/models/component.py:1192
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7477,7 +7554,7 @@ msgstr ""
 "Tek dil için daha çok dosya var (%s), lütfen maskeyi ayarlayın ve değişik "
 "kaynakları çevirme için bileşenleri kullanın."
 
-#: weblate/trans/models/component.py:1191
+#: weblate/trans/models/component.py:1198
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7488,25 +7565,25 @@ msgstr ""
 "bir taneye eşlemesini önlemek için SIMPLIFY_LANGUAGES seçeneğini devre dışı "
 "kılmalısınız."
 
-#: weblate/trans/models/component.py:1210
+#: weblate/trans/models/component.py:1217
 msgid "File does not seem to be valid!"
 msgstr "Dosya geçerli görünmüyor!"
 
-#: weblate/trans/models/component.py:1218
+#: weblate/trans/models/component.py:1225
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: weblate/trans/models/component.py:1227
+#: weblate/trans/models/component.py:1234
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırılamadı!"
 
-#: weblate/trans/models/component.py:1242
+#: weblate/trans/models/component.py:1249
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Yeni çeviriler için taban dosyanın biçimi tanınmadı!"
 
-#: weblate/trans/models/component.py:1247
+#: weblate/trans/models/component.py:1254
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7514,33 +7591,33 @@ msgstr ""
 "Weblate'i yeni çeviri dosyalarını eklemek için yapılandırdınız, ancak bunu "
 "yapmak için taban dosyayı vermediniz!"
 
-#: weblate/trans/models/component.py:1256
+#: weblate/trans/models/component.py:1263
 msgid "You can not use base file with bilingual translation!"
 msgstr "İki dilli çevirisi olan taban dosyayı kullanamazsınız!"
 
-#: weblate/trans/models/component.py:1261
+#: weblate/trans/models/component.py:1268
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot dosyasını taban dosya olarak kullanma desteklenmiyor!"
 
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1275
 msgid "Template file not found!"
 msgstr "Şablon dosyası bulunmadı!"
 
-#: weblate/trans/models/component.py:1274
+#: weblate/trans/models/component.py:1281
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri taban dosyası ayrıştırılamadı: %s"
 
-#: weblate/trans/models/component.py:1284
+#: weblate/trans/models/component.py:1291
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Şablon dili ({0}) proje kaynak dili ({1}) ile eşleşmiyor!"
 
-#: weblate/trans/models/component.py:1291
+#: weblate/trans/models/component.py:1298
 msgid "You can not use monolingual translation without base file!"
 msgstr "Taban dosya olmadan tek dilli çeviriyi kullanamazsınız!"
 
-#: weblate/trans/models/component.py:1302
+#: weblate/trans/models/component.py:1309
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7548,43 +7625,43 @@ msgstr ""
 "Yeni dil eklemek için lütfen ya yönergeler URL'sindekini doldurun ya da "
 "değişik seçenek kullanın."
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1316
 msgid "License URL can not be used without license summary."
 msgstr "Lisans URL'si lisans özeti olmadan kullanılamaz."
 
-#: weblate/trans/models/component.py:1329
+#: weblate/trans/models/component.py:1336
 msgid "Changing version control system is not supported!"
 msgstr "Sürüm kontrol sisteminin değiştirilmesi desteklenmiyor!"
 
-#: weblate/trans/models/component.py:1334
+#: weblate/trans/models/component.py:1341
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Desteklenmeyen dosya biçimi: {0}"
 
-#: weblate/trans/models/component.py:1345
+#: weblate/trans/models/component.py:1352
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Havuz güncellenemedi: %s"
 
-#: weblate/trans/models/component.py:1365
+#: weblate/trans/models/component.py:1372
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor."
 
-#: weblate/trans/models/component.py:1377
+#: weblate/trans/models/component.py:1384
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Önerileri kendiliğinden kabul etmek yalnızca oylamanın etkinleştirilmesi ile "
 "çalışabilir!"
 
-#: weblate/trans/models/component.py:1531
+#: weblate/trans/models/component.py:1538
 msgid "Failed to add new translation file!"
 msgstr "Yeni çeviri dosyası eklenemedi!"
 
-#: weblate/trans/models/component.py:1543
+#: weblate/trans/models/component.py:1550
 msgid "Given language is filtered by the language filter!"
 msgstr "Verilen dil, dil süzgeci tarafından süzülüyor!"
 
-#: weblate/trans/models/component.py:1561
+#: weblate/trans/models/component.py:1568
 msgid "Translation file already exists!"
 msgstr "Çeviri dosyası zaten var!"
 
@@ -8726,7 +8803,11 @@ msgstr "Makine anahtarı alınamadı: %s"
 msgid "Weblate administration"
 msgstr "Weblate yönetimi"
 
-#: weblate/wladmin/sites.py:173
+#: weblate/wladmin/sites.py:163
+msgid "Thanks for using Weblate!"
+msgstr "Weblate'i kullandığınız için teşekkürler!"
+
+#: weblate/wladmin/sites.py:174
 msgid "Object listing turned off"
 msgstr "Nesne listesi kapalı"
 
@@ -8885,6 +8966,26 @@ msgstr "Bildirimler"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Yapılandırma hatası görmezden gelinemedi!"
+
+#~ msgid "Please login or register to use Weblate."
+#~ msgstr "Lütfen giriş yapın veya Weblate'i kullanmak için kayıt olun."
+
+#~ msgid "This project is currently locked due to unpaid billing."
+#~ msgstr "Bu proje, ödenmemiş fatura nedeniyle şu anda kilitlenmiştir."
+
+#~ msgid ""
+#~ "When updating the repository Weblate was unable to merge the upstream "
+#~ "changes."
+#~ msgstr ""
+#~ "Havuz güncelleştirirken Weblate yukarı akış değişikliklerini "
+#~ "birleştiremedi."
+
+#~ msgid ""
+#~ "When updating the repository Weblate was not able to fetch upstream "
+#~ "changes."
+#~ msgstr ""
+#~ "Veri havuzu güncelleştirilirken Weblate yukarı akış değişikliklerini "
+#~ "alamadı."
 
 #~ msgid "Check the FAQ for information on how to resolve this."
 #~ msgstr "Bunun nasıl çözüleceği hakkında bilgi için SSS bölümüne bakın."
@@ -10575,9 +10676,6 @@ msgstr "Yapılandırma hatası görmezden gelinemedi!"
 
 #~ msgid "Words to translate"
 #~ msgstr "Çevrilecek sözcük"
-
-#~ msgid "Login to Weblate"
-#~ msgstr "Weblate'de Oturum Açın"
 
 #~ msgid "Donate to Weblate!"
 #~ msgstr "Weblate'e Bağış Yapın!"
