@@ -113,7 +113,7 @@ def strip_string(msg, flags):
     stripped = strip_format(stripped, flags)
 
     # Remove emojis
-    stripped = EMOJI_RE(' ', stripped)
+    stripped = EMOJI_RE.sub(' ', stripped)
 
     # Remove email addresses
     stripped = EMAIL_RE.sub('', stripped)
