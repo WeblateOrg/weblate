@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-ESCAPED = frozenset('.\\+*?[^]$(){}=!<>|:-\000')
+ESCAPED = frozenset('.\\+*?[^]$(){}=!<>|:-')
 
 
 def re_escape(pattern):
@@ -30,9 +30,8 @@ def re_escape(pattern):
     """
     string = list(pattern)
     for i, char in enumerate(pattern):
-        if char in ESCAPED:
-            if char == "\000":
-                string[i] = "\\000"
-            else:
-                string[i] = "\\" + char
+        if char == "\000":
+            string[i] = "\\000"
+        elif char in ESCAPED:
+            string[i] = "\\" + char
     return "".join(string)
