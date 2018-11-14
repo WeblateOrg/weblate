@@ -127,47 +127,47 @@ class MultiAlert(BaseAlert):
 
 @register
 class DuplicateString(MultiAlert):
-    verbose = _('Duplicated string for translation')
+    verbose = _('Duplicated string for translation.')
     on_import = True
 
 
 @register
 class DuplicateLanguage(MultiAlert):
-    verbose = _('Duplicated translation')
+    verbose = _('Duplicated translation.')
     on_import = True
 
 
 @register
 class MergeFailure(ErrorAlert):
-    verbose = _('Could not merge the repository')
+    verbose = _('Could not merge the repository.')
 
 
 @register
 class UpdateFailure(ErrorAlert):
-    verbose = _('Could not update the repository')
+    verbose = _('Could not update the repository.')
 
 
 @register
 class UnusedNewBase(BaseAlert):
-    verbose = _('Unused base file for new translations')
+    verbose = _('Unused base file for new translations.')
 
 
 @register
 class ParseError(MultiAlert):
-    verbose = _('Could not parse translation files')
+    verbose = _('Could not parse translation files.')
     on_import = True
 
 
 @register
 class BillingLimit(BaseAlert):
-    verbose = _('Your billing plan is above limits')
+    verbose = _('Your billing plan has exceeded its limits.')
 
 
 @register
 class RepositoryOutdated(BaseAlert):
-    verbose = _('Repository outdated')
+    verbose = _('Repository outdated.')
 
 
 @register
 class RepositoryChanges(BaseAlert):
-    verbose = _('Repository has changes')
+    verbose = _('Repository has changes.')
