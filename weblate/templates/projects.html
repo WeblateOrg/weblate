@@ -9,7 +9,9 @@
 
 {% include "list-projects.html" %}
 
-{% if offer_hosting %}
+{% if payment_enabled %}
+<a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+{% elif offer_hosting %}
 <p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a></p>
 {% endif %}
 
