@@ -297,7 +297,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Check for possible duplicate units
             if newunit.id in created_units:
-                self.log_error(
+                self.log_warning(
                     'duplicate string to translate: %s (%s)',
                     newunit,
                     repr(newunit.source)
