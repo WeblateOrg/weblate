@@ -13,21 +13,21 @@
 {% show_message 'info' msg %}
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for free hosting" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for gratis hosting" %}</h4></div>
   <div class="panel-body">
-<p>{% trans "Please fill in this form if your project fits into free hosting conditions:" %}</p>
+<p>{% trans "Please fill in this form if your project meets the conditions for free of charge hosting:" %}</p>
 
 
 <ul>
-<li>{% trans "Translated content has to be released under free software license." %}</li>
-<li>{% trans "Source code has to be publicly available in supported version control system." %}</li>
-<li>{% trans "There is no guarantee for service availability or quality." %}</li>
-<li>{% trans "The hosting requests are usually processed once in a month, so please be patient after submitting it." %}</li>
+<li>{% trans "Translated content has to be released under libre software license." %}</li>
+<li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
+<li>{% trans "There is no guarantee for service availability, nor quality." %}</li>
+<li>{% trans "Hosting requests are usually processed once a month, please have patience after submitting one." %}</li>
 </ul>
 
   </div>
   <div class="panel-footer">
-    <p>{% blocktrans with price=19 %}Looking for commercial hosting? Our price starts at {{ price }} EUR per month.{% endblocktrans %}</p>
+    <p>{% blocktrans with price=19 %}Looking for commercial hosting? Our prices start at {{ price }} EUR per month.{% endblocktrans %}</p>
 {% if payment_enabled %}
   <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
 {% else %}

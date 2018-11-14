@@ -552,7 +552,7 @@ class WeblateLoginView(LoginView):
             return redirect_single(request, auth_backends[0])
 
         if 'next' in request.GET:
-            messages.info(request, _('Please login or register to use Weblate.'))
+            messages.info(request, _('Log in to use Weblate.'))
 
         return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
 
@@ -568,7 +568,7 @@ class WeblateLogoutView(LogoutView):
         )
 
     def get_next_page(self):
-        messages.info(self.request, _('Thanks for using Weblate!'))
+        messages.info(self.request, _('Thank you for using Weblate.'))
         return reverse('home')
 
 
@@ -942,6 +942,6 @@ def social_complete(request, backend):
         )
     except AuthAlreadyAssociated:
         return auth_fail(request, _(
-            'Failed to complete your registration! This authentication, '
-            'email or username is already associated with another account!'
+            'Could not complete registration. The supplied authentication, '
+            'email or username is already in use for another account.'
         ))

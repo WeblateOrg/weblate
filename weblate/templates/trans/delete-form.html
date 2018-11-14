@@ -8,7 +8,7 @@
 <div class="panel-body">
 {% if object.component_set.all %}
 <div class="form-group">
-<p>{% trans "Following translation components will be also removed:" %}</p>
+<p>{% trans "The following translation components will be also removed:" %}</p>
 <ul>
 {% for component in object.component_set.all %}
 <li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
