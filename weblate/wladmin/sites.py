@@ -119,16 +119,25 @@ class WeblateAdminSite(AdminSite):
             self.register(Change, ChangeAdmin)
             self.register(Source, SourceAdmin)
 
-        # Billing
-        if 'weblate.billing' in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
-            from weblate.billing.admin import (
-                PlanAdmin, BillingAdmin, InvoiceAdmin,
-            )
-            from weblate.billing.models import Plan, Billing, Invoice
-            self.register(Plan, PlanAdmin)
-            self.register(Billing, BillingAdmin)
-            self.register(Invoice, InvoiceAdmin)
+        if settings.BILLING_ADMIN:
+            # Billing
+            if 'weblate.billing' in settings.INSTALLED_APPS:
+                # pylint: disable=wrong-import-position
+                from weblate.billing.admin import (
+                    PlanAdmin, BillingAdmin, InvoiceAdmin,
+                )
+                from weblate.billing.models import Plan, Billing, Invoice
+                self.register(Plan, PlanAdmin)
+                self.register(Billing, BillingAdmin)
+                self.register(Invoice, InvoiceAdmin)
+
+            # Hosted
+            if 'wlhosted' in settings.INSTALLED_APPS:
+                # pylint: disable=wrong-import-position
+                from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
+                from wlhosted.payments.models import Customer, Payment
+                self.register(Customer, CustomerAdmin)
+                self.register(Payment, PaymentAdmin)
 
         # Legal
         if 'weblate.legal' in settings.INSTALLED_APPS:
@@ -136,14 +145,6 @@ class WeblateAdminSite(AdminSite):
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
             self.register(Agreement, AgreementAdmin)
-
-        # Hosted
-        if 'wlhosted' in settings.INSTALLED_APPS and settings.BILLING_ADMIN:
-            # pylint: disable=wrong-import-position
-            from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
-            from wlhosted.payments.models import Customer, Payment
-            self.register(Customer, CustomerAdmin)
-            self.register(Payment, PaymentAdmin)
 
         # Python Social Auth
         self.register(UserSocialAuth, UserSocialAuthOption)
