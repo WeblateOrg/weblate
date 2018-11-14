@@ -208,7 +208,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
         (ACTION_LOCK, ugettext_lazy('Component locked')),
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
-        (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
+        (ACTION_DUPLICATE_STRING, ugettext_lazy('Found duplicated string')),
         (ACTION_COMMIT, ugettext_lazy('Committed changes')),
         (ACTION_PUSH, ugettext_lazy('Pushed changes')),
         (ACTION_RESET, ugettext_lazy('Reset repository')),
@@ -235,7 +235,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
         (ACTION_REMOVE_COMPONENT, ugettext_lazy('Removed component')),
         (ACTION_REMOVE_PROJECT, ugettext_lazy('Removed project')),
-        (ACTION_DUPLICATE_LANGUAGE, ugettext_lazy('Duplicate language found')),
+        (ACTION_DUPLICATE_LANGUAGE, ugettext_lazy('Found duplicated language')),
     )
 
     ACTIONS_COMPONENT = frozenset((
