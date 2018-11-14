@@ -48,4 +48,4 @@ class AlertTest(ViewTestCase):
 
     def test_view(self):
         response = self.client.get(self.component.get_absolute_url())
-        self.assertContains(response, 'Duplicate translation')
+        self.assertContains(response, 'Duplicated translation')

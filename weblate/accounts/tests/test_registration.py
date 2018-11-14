@@ -690,7 +690,7 @@ class RegistrationTest(BaseRegistrationTest):
             )
             if fail:
                 self.assertContains(
-                    response, 'is already associated with another account'
+                    response, 'is already in use for another account'
                 )
                 return
             if confirm:
