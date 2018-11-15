@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-14 16:10+0000\n"
-"PO-Revision-Date: 2018-11-15 13:05+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2018-11-15 13:40+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -31,8 +31,7 @@ msgstr "なし"
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
-msgstr ""
-"このメールアドレスは既に使用中です。別のメールアドレスを入力してください。"
+msgstr "このメールアドレスはすでに使用中です。別のメールアドレスを入力してください。"
 
 #: weblate/accounts/forms.py:102 weblate/auth/models.py:298
 #: weblate/utils/validators.py:223
@@ -51,7 +50,7 @@ msgstr "ユーザ名"
 
 #: weblate/accounts/forms.py:120
 msgid "This username is already taken. Please choose another."
-msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
+msgstr "このユーザ名はすでに使用されています。別の名前にしてください。"
 
 #: weblate/accounts/forms.py:135 weblate/auth/models.py:307
 #: weblate/templates/manage-access.html:24
@@ -597,7 +596,7 @@ msgstr "パスワードを変更する"
 
 #: weblate/accounts/views.py:715
 msgid "Password reset has been already completed!"
-msgstr "パスワード リセットは既に完了しています！"
+msgstr "パスワードのリセットはすでに完了しています！"
 
 #: weblate/accounts/views.py:746
 msgid "Can not reset password, email authentication is disabled!"
@@ -711,8 +710,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文をバージョン管理システムからインポートすると、Weblate は毎回 ”要編集\" "
-"フラグを付けます。このため、開発者が作成した原文を簡単にフィルタしたり、編集できます。"
+"新しい原文をバージョン管理システムからインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。このため、開発者が作成した原文を簡単にフィルタしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
@@ -724,7 +723,7 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章をバージョン管理システムからインポートすると、Weblate は毎回 ”要編集\" "
+"新しい翻訳可能な文章をバージョン管理システムからインポートすると、Weblate は毎回 \"要編集\" "
 "フラグを付けます。これにより、開発者が作成した原文を簡単にフィルタしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:78
@@ -738,7 +737,7 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"バージョン管理システムからインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は ”要編集\" "
+"バージョン管理システムからインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
 "フラグを付けます。これは、文字列が翻訳されていない場合であっても、すべての文字列を含むファイル形式には特に便利です。"
 
 #: weblate/addons/forms.py:51
@@ -1352,7 +1351,7 @@ msgstr "ユーザ名"
 
 #: weblate/auth/models.py:303
 msgid "A user with that username already exists."
-msgstr "指定したユーザ名は既に存在しています。"
+msgstr "指定したユーザ名はすでに存在しています。"
 
 #: weblate/auth/models.py:321
 msgid "superuser status"
@@ -2464,9 +2463,7 @@ msgstr "Weblate に関する詳細情報は %(weblate_link)s にあります。"
 
 #: weblate/templates/about/index.html:22
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr ""
-"Weblate はボランティアによって作成された無料のソフトウェアですが、寄付も受け"
-"付けております。"
+msgstr "Weblate はボランティアによって作成されたフリーソフトウェアです。寄付も受け付けております。"
 
 #: weblate/templates/about/index.html:26
 msgid "Fund Weblate on Liberapay"
@@ -2557,9 +2554,7 @@ msgstr "コミットへの署名"
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
-msgstr ""
-"Weblate が作成した全てのコミットには、 GPG 鍵 %(gpg_key_id)s の署名を付与して"
-"います。下記に公開鍵を示します。"
+msgstr "Weblate が作成したすべてのコミットには、 GPG 鍵 %(gpg_key_id)s の署名を付与しています。下記に公開鍵を示します。"
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -2830,12 +2825,8 @@ msgid ""
 msgstr "プロジェクトが以下の無料ホスティングの条件に合致する場合は、このフォームに記入してください。"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under free software license."
 msgid "Translated content has to be released under libre software license."
-msgstr ""
-"翻訳された内容は、フリーソフトウェアのライセンスでリリースされなければなりま"
-"せん。"
+msgstr "翻訳された内容は、フリーソフトウェアのライセンスでリリースされなければなりません。"
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -2844,8 +2835,6 @@ msgid ""
 msgstr "ソースコードは、サポートされているバージョン管理システムで公開されている必要があります。"
 
 #: weblate/templates/accounts/hosting.html:24
-#, fuzzy
-#| msgid "There is no guarantee for service availability or quality."
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "サービスの可用性と品質に保証はありません。"
 
@@ -2862,14 +2851,10 @@ msgstr ""
 "ませんが、送信後しばらくのお時間をいただきます。"
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy, python-format
-#| msgid ""
-#| "Looking for commercial hosting? Our price starts at %(price)s EUR per "
-#| "month."
+#, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
-msgstr ""
-"商用ホスティングをお探しですか？ 1ヶ月 %(price)s ユーロからご利用が可能です。"
+msgstr "商用ホスティングをお探しですか？1 か月 %(price)s ユーロからご利用が可能です。"
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing/overview.html:23
@@ -3621,8 +3606,7 @@ msgstr "定期支払いの終了"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
-"支払いを終了するには、まず全てのプロジェクトを削除しなければなりません。"
+msgstr "課金を終了するには、まずすべてのプロジェクトを削除しなければなりません。"
 
 #: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
@@ -4078,7 +4062,7 @@ msgstr "下記にある貢献者同意条項をお読みください:"
 
 #: weblate/templates/contributor-agreement.html:29
 msgid "You have already agreed to this agreement."
-msgstr "この条項には既に合意済みです。"
+msgstr "この条項にはすでに合意済みです。"
 
 #: weblate/templates/dashboard/anonymous.html:10
 #, python-format
@@ -5547,16 +5531,10 @@ msgid "Project Information"
 msgstr "プロジェクト情報"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
-msgstr ""
-"ご利用の課金プランは期限切れの状態になっています。サービスの使用を続けたい場"
-"合は、下記のリンクを利用して更新を行なってください。"
+msgstr "ご利用の課金プランは期限切れの状態になっています。サービスを使用することはできますが、更新を行うことを推奨します。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 #, fuzzy
@@ -5617,8 +5595,8 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"バージョン管理システムのリポジトリには、アップストリームに比べて多くの変更があります。変更を手動でマージするか、プッシュを設定してマージを自動化してくださ"
-"い。"
+"バージョン管理システムのリポジトリには、アップストリームに比べて多くの変更があります。変更を手動でマージするか、マージを自動化するためのプッシュを設定して"
+"ください。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -5668,7 +5646,7 @@ msgstr "下記の翻訳コンポーネントも同様に削除されます:"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr "結果に納得して、翻訳を削除します"
+msgstr "結果を理解して、翻訳を削除します"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5676,7 +5654,7 @@ msgstr "この翻訳"
 
 #: weblate/templates/trans/other-row.html:17
 msgid "Use this translation for all components"
-msgstr "すべてのコンポーネントでこの翻訳を使用する"
+msgstr "すべてのコンポーネントでこの翻訳を使う"
 
 #: weblate/templates/trans/other-row.html:17
 msgid "Use this translation"
@@ -5701,9 +5679,8 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
-"リポジトリのURLを変更すると、既存のコンテンツを新しいリポジトリにマージしま"
-"す。リポジトリを別の場所に移動した場合に最適です。リポジトリの内容が異なる場"
-"合は、新しい翻訳コンポーネントの作成を勧めます。"
+"リポジトリの URL を変更すると、既存のコンテンツを新しいリポジトリにマージします。リポジトリを別の場所に移動した場合に最適です。リポジトリの内容が異な"
+"る場合は、新しい翻訳コンポーネントの作成を勧めます。"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:234 weblate/templates/translate.html:433
@@ -5741,11 +5718,11 @@ msgstr "前へ"
 
 #: weblate/templates/translate.html:44 weblate/templates/zen.html:27
 msgid "Edit search parameters"
-msgstr "検索パラメータの編集"
+msgstr "検索パラメータを編集します"
 
 #: weblate/templates/translate.html:61
 msgid "Go to position"
-msgstr "位置に移動"
+msgstr "位置に移動します"
 
 #: weblate/templates/translate.html:62
 #, python-format
@@ -5770,7 +5747,7 @@ msgstr "末尾"
 
 #: weblate/templates/translate.html:99
 msgid "Copy permalink"
-msgstr "permalink のコピー"
+msgstr "パーマリンクをコピー"
 
 #: weblate/templates/translate.html:102
 msgid "Keyboard shortcuts available:"
@@ -6134,9 +6111,7 @@ msgstr ""
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
-msgstr ""
-"アップロードされたファイルは現在の翻訳にマージされます。既に存在している翻訳"
-"を上書きしたい場合は、忘れずに上書きを有効にしてください。"
+msgstr "アップロードされたファイルは現在の翻訳にマージされます。すでに存在している翻訳を上書きしたい場合は、忘れずに上書きを有効にしてください。"
 
 #: weblate/templates/translation.html:306
 msgid "The uploaded file will be merged with the current translation."
@@ -6553,7 +6528,7 @@ msgstr "翻訳済みとしてインポート"
 
 #: weblate/trans/forms.py:612
 msgid "Overwrite existing translations"
-msgstr "既に存在している翻訳を上書きする"
+msgstr "すでに存在している翻訳を上書きする"
 
 #: weblate/trans/forms.py:614
 msgid ""
@@ -6700,7 +6675,7 @@ msgstr "現在のものを維持"
 
 #: weblate/trans/forms.py:1052
 msgid "Overwrite existing"
-msgstr "既に存在しているものを上書きする"
+msgstr "すでに存在しているものを上書きする"
 
 #: weblate/trans/forms.py:1053
 msgid "Add as other translation"
@@ -6744,7 +6719,7 @@ msgstr "すべてのコンポーネント"
 #: weblate/trans/forms.py:1172
 #, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "類似の翻訳がプロジェクト ({0}) 内に既に存在しています！"
+msgstr "類似の翻訳がプロジェクト ({0}) 内にすでに存在しています！"
 
 #: weblate/trans/forms.py:1191
 msgid "Please choose"
@@ -6951,10 +6926,8 @@ msgid "Could not parse translation files."
 msgstr "翻訳ファイルを解析できませんでした。"
 
 #: weblate/trans/models/alert.py:163
-#, fuzzy
-#| msgid "Your billing plan has expired"
 msgid "Your billing plan has exceeded its limits."
-msgstr "ご利用の課金プランは期限切れの状態になっています"
+msgstr "ご利用の課金プランは期限切れの状態になっています。"
 
 #: weblate/trans/models/alert.py:168
 #, fuzzy
@@ -7617,7 +7590,7 @@ msgstr "ご指定の言語は言語フィルタで除外されています！"
 
 #: weblate/trans/models/component.py:1568
 msgid "Translation file already exists!"
-msgstr "翻訳ファイルは既に存在しています！"
+msgstr "翻訳ファイルはすでに存在しています！"
 
 #: weblate/trans/models/componentlist.py:38
 msgid "Component list name"
@@ -8418,7 +8391,7 @@ msgstr "翻訳文のコメントを削除しました。"
 
 #: weblate/trans/views/edit.py:816
 msgid "Translation with this key seem to already exist!"
-msgstr "このキーの翻訳は既に存在しているものと思われます！"
+msgstr "このキーの翻訳はすでに存在しているものと思われます！"
 
 #: weblate/trans/views/edit.py:821
 msgid "New string has been added."
