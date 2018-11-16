@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.urls import reverse
 
 from weblate.lang.models import Language, Plural
-from weblate.formats import ParseError
 from weblate.formats.auto import try_load
 from weblate.checks import CHECKS
 from weblate.trans.models.unit import (
@@ -46,6 +45,7 @@ from weblate.trans.signals import (
     vcs_pre_commit, vcs_post_commit, store_post_load
 )
 from weblate.utils.site import get_site_url
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
@@ -220,7 +220,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Return translate-toolkit storage object for a translation."""
         try:
             return self.load_store()
-        except ParseError:
+        except FileParseError:
             raise
         except Exception as exc:
             self.component.handle_parse_error(exc, self)
@@ -254,7 +254,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         try:
             store = self.store
-        except ParseError as error:
+        except FileParseError as error:
             self.log_warning('skipping update due to parse error: %s', error)
             return
 

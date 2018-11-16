@@ -40,7 +40,6 @@ from django.utils import timezone
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
-from weblate.formats import ParseError
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.trans.fields import RegexField
@@ -58,6 +57,7 @@ from weblate.trans.signals import (
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.models.alert import ALERTS_IMPORT
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -643,7 +643,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # create translation objects for all files
         try:
             self.create_translations(request=request)
-        except ParseError:
+        except FileParseError:
             ret = False
 
         # Push after possible merge
@@ -846,7 +846,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 component=self,
                 action=Change.ACTION_PARSE_ERROR,
             )
-        raise ParseError(error_message)
+        raise FileParseError(error_message)
 
     @perform_on_link
     def update_branch(self, request=None, method=None):
@@ -997,7 +997,7 @@ class Component(models.Model, URLMixin, PathMixin):
         languages = {}
         try:
             self.template_store
-        except ParseError as exc:
+        except FileParseError as exc:
             self.log_warning(
                 'skipping update due to error in parsing template: %s', exc
             )
@@ -1277,7 +1277,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
             try:
                 self.template_store
-            except ParseError as exc:
+            except FileParseError as exc:
                 msg = _('Failed to parse translation base file: %s') % str(exc)
                 raise ValidationError({'template': msg})
 

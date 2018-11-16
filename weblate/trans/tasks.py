@@ -45,6 +45,7 @@ from weblate.trans.models import (
     Suggestion, Comment, Unit, Project, Translation, Source, Component,
     Change,
 )
+from weblate.trans.models.component import FileParseError
 from weblate.trans.search import Fulltext
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
@@ -52,12 +53,16 @@ from weblate.utils.files import remove_readonly
 
 @app.task
 def perform_update(cls, pk):
-    if cls == 'Project':
-        obj = Project.objects.get(pk=pk)
-    else:
-        obj = Component.objects.get(pk=pk)
+    try:
+        if cls == 'Project':
+            obj = Project.objects.get(pk=pk)
+        else:
+            obj = Component.objects.get(pk=pk)
 
-    obj.do_update()
+        obj.do_update()
+    except FileParseError:
+        # This is stored as alert, so we can silently ignore here
+        return
 
 
 @app.task

@@ -26,7 +26,7 @@ import shutil
 from django.core.exceptions import ValidationError
 
 from weblate.checks.models import Check
-from weblate.formats import ParseError
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
     Project, Component, Unit, Suggestion,
 )
@@ -642,8 +642,7 @@ class ComponentErrorTest(RepoTestCase):
         self.assertFalse(
             self.component.do_push(None)
         )
-
-    def test_failed_reset(self):
+def test_failed_reset(self):
         # Corrupt Git database so that reset fails
         shutil.rmtree(
             os.path.join(self.component.full_path, '.git', 'objects', 'pack')
@@ -657,39 +656,29 @@ class ComponentErrorTest(RepoTestCase):
         # Clean class cache, pylint: disable=protected-access
         del self.component.__dict__['template_store']
 
-        self.assertRaises(
-            ParseError,
-            lambda: self.component.template_store
-        )
-        self.assertRaises(
-            ValidationError,
-            self.component.clean
-        )
+        with self.assertRaises(FileParseError):
+            self.component.template_store
+
+        with self.assertRaises(ValidationError)
+            self.component.clean()
 
     def test_invalid_filename(self):
         translation = self.component.translation_set.get(language_code='cs')
         translation.filename = 'foo.bar'
-        self.assertRaises(
-            ParseError,
-            lambda: translation.store
-        )
-        self.assertRaises(
-            ValidationError,
-            translation.clean
-        )
+        with self.assertRaises(FileParseError):
+            translation.store
+        with self.assertRaises(ValidationError):
+            translation.clean()
 
     def test_invalid_storage(self):
         testfile = os.path.join(self.component.full_path, 'ts-mono', 'cs.ts')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
         translation = self.component.translation_set.get(language_code='cs')
-        self.assertRaises(
-            ParseError,
-            lambda: translation.store
-        )
-        self.assertRaises(
-            ValidationError,
-            translation.clean
+        with self.assertRaises(FileParseError):
+            translation.store
+        with self.assertRaises(ValidationError):
+            translation.clean()
         )
 
     def test_invalid_template_storage(self):
@@ -700,14 +689,10 @@ class ComponentErrorTest(RepoTestCase):
         # Clean class cache, pylint: disable=protected-access
         del self.component.__dict__['template_store']
 
-        self.assertRaises(
-            ParseError,
-            lambda: self.component.template_store
-        )
-        self.assertRaises(
-            ValidationError,
-            self.component.clean
-        )
+        with self.assertRaises(FileParseError):
+            self.component.template_store
+        with self.assertRaises(ValidationError):
+            self.component.clean()
 
 
 class ComponentEditTest(ViewTestCase):

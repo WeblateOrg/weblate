@@ -17,9 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""File format specific behavior."""
 
 from __future__ import unicode_literals
 
 
-default_app_config = 'weblate.formats.apps.FormatsConfig'
+class FileParseError(Exception):
+    """Generic error for parsing."""
