@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-14 16:10+0000\n"
-"PO-Revision-Date: 2018-11-16 02:17+0000\n"
+"PO-Revision-Date: 2018-11-16 08:57+0000\n"
 "Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -39,8 +39,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"ユーザ名には ASCII 文字のほか、数字と以下の文字を使うことができます：@ . + - "
-"_ (アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
+"ユーザ名には ASCII 文字のほか、数字と以下の文字を使うことができます: @ . + - _ "
+"(アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
 
 #: weblate/accounts/forms.py:105 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
@@ -524,7 +524,7 @@ msgstr "ユーザ登録"
 
 #: weblate/accounts/views.py:159
 msgid "Message could not be sent to administrator!"
-msgstr "管理者にメッセージを送信できません！"
+msgstr "管理者にメッセージを送信できませんでした！"
 
 #: weblate/accounts/views.py:177
 msgid "Message has been sent to administrator."
@@ -645,7 +645,7 @@ msgstr "認証をサーバ側で禁止しました。"
 msgid ""
 "Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
-msgstr "登録できません。指定した認証情報（電子メールアドレスまたはユーザ名）は、すでに他のアカウントで使用済みです。"
+msgstr "登録できません。入力された認証情報（電子メールアドレスまたはユーザ名）は、すでに他のアカウントで使用済みです。"
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
@@ -2400,7 +2400,7 @@ msgstr "ログイン"
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
 msgid ""
 "However, the following translation projects are available on this server:"
-msgstr "ただし、このサーバではこれらの翻訳プロジェクトが利用できます："
+msgstr "ただし、このサーバではこれらの翻訳プロジェクトが利用できます:"
 
 #: weblate/templates/404.html:5 weblate/trans/views/basic.py:298
 msgid "Page Not Found"
@@ -4889,7 +4889,7 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
-msgstr "この請求書は、以下のプロジェクトを含みます："
+msgstr "この課金プランは、以下のプロジェクトを含みます:"
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
@@ -5536,7 +5536,7 @@ msgstr "コンポーネントは、Weblate の1つの言語に関連づけられ
 #: weblate/templates/trans/alert/duplicatestring.html:6
 #: weblate/templates/trans/alert/parseerror.html:6
 msgid "The following occurences were found:"
-msgstr "次のような現象が起きました："
+msgstr "次のような現象が起きました:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 msgid "Language codes"
@@ -6914,7 +6914,7 @@ msgstr "ご利用の課金プランは期限切れの状態になっています
 
 #: weblate/trans/models/alert.py:168
 msgid "Repository outdated."
-msgstr "古いリポジトリ。"
+msgstr "リポジトリは最新の状態ではありません。"
 
 #: weblate/trans/models/alert.py:173
 msgid "Repository has changes."
@@ -7180,8 +7180,8 @@ msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"リポジトリ相対パスで変換するファイルパスは、言語コードの代わりに*を使用します"
-"（例：po / *。poまたはlocale / * / LC_MESSAGES / django.po）。"
+"リポジトリのルートに対して翻訳するファイルのパスは、言語コードの代わりに*を使用します（例: po / *.po または locale/*/"
+"LC_MESSAGES/django.po）。"
 
 #: weblate/trans/models/component.py:206
 msgid "Monolingual base language file"
@@ -8269,7 +8269,7 @@ msgstr[0] "アップロードしたファイルから %d 個の単語をイン�
 #: weblate/trans/views/dictionary.py:187
 #, python-format
 msgid "File upload has failed: %s"
-msgstr "ファイルのアップロードに失敗しました：%s"
+msgstr "ファイルのアップロードに失敗しました: %s"
 
 #: weblate/trans/views/dictionary.py:190 weblate/trans/views/edit.py:576
 #: weblate/trans/views/search.py:80 weblate/trans/views/search.py:237
@@ -8391,7 +8391,7 @@ msgstr[0] ""
 #: weblate/trans/views/files.py:122
 #, python-format
 msgid "File content merge failed: %s"
-msgstr "ファイル内容のマージに失敗しました：%s"
+msgstr "ファイル内容のマージに失敗しました: %s"
 
 #: weblate/trans/views/git.py:49
 msgid "Failed to lock the repository, another operation in progress."
@@ -8657,7 +8657,7 @@ msgstr "新しい SSH 鍵を作成しました。"
 #: weblate/vcs/ssh.py:129
 #, python-format
 msgid "Failed to generate key: %s"
-msgstr "鍵の生成に失敗しました： %s"
+msgstr "鍵の生成に失敗しました: %s"
 
 #: weblate/vcs/ssh.py:139
 msgid "Invalid host name given!"
