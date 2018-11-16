@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-14 16:10+0000\n"
 "PO-Revision-Date: 2018-11-16 02:17+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -680,9 +680,7 @@ msgstr "コンポーネントの検出"
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
-msgstr ""
-"このアドオンは、バージョン管理システムのファイル変更に基づき、プロジェクトに"
-"自動的にコンポーネントを追加または削除します。"
+msgstr "このアドオンは、VCS のファイル変更に基づき、プロジェクトに自動的にコンポーネントを追加または削除します。"
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -710,7 +708,7 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文をバージョン管理システムからインポートすると、Weblate は毎回 \"要編集\" "
+"新しい原文を VCS からインポートすると、Weblate は毎回 \"要編集\" "
 "フラグを付けます。このため、開発者が作成した原文を簡単にフィルタしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:64
@@ -723,7 +721,7 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章をバージョン管理システムからインポートすると、Weblate は毎回 \"要編集\" "
+"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" "
 "フラグを付けます。これにより、開発者が作成した原文を簡単にフィルタしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:78
@@ -737,7 +735,7 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"バージョン管理システムからインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
+"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
 "フラグを付けます。これは、文字列が翻訳されていない場合であっても、すべての文字列を含むファイル形式には特に便利です。"
 
 #: weblate/addons/forms.py:51
@@ -1253,7 +1251,7 @@ msgstr "査読"
 #: weblate/auth/data.py:221
 msgctxt "Per project access control group"
 msgid "VCS"
-msgstr "バージョン管理システム"
+msgstr "VCS"
 
 #: weblate/auth/data.py:223
 msgctxt "Per project access control group"
@@ -1462,7 +1460,7 @@ msgstr "昨年の変更"
 
 #: weblate/billing/models.py:203 weblate/trans/admin.py:111
 msgid "VCS repositories"
-msgstr "バージョン管理システムのリポジトリ数"
+msgstr "VCS リポジトリ"
 
 #: weblate/billing/models.py:225 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:748
@@ -2832,7 +2830,7 @@ msgstr "翻訳された内容は、フリーソフトウェアのライセンス
 msgid ""
 "Source code has to be publicly available in a supported version control "
 "system."
-msgstr "ソースコードは、サポートされているバージョン管理システムで公開されている必要があります。"
+msgstr "ソースコードは、サポートされている VCS で公開されている必要があります。"
 
 #: weblate/templates/accounts/hosting.html:24
 msgid "There is no guarantee for service availability, nor quality."
@@ -3210,8 +3208,8 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"登録を行なうことで、バージョン管理システムのコミット内に名前とメールアドレスが書き込まれるようになるほか、翻訳結果を各翻訳プロジェクトで規定されているライ"
-"センスで提供することになります。"
+"登録を行なうことで、 VCS "
+"のコミット内に名前とメールアドレスが書き込まれるようになるほか、翻訳結果を各翻訳プロジェクトで規定されているライセンスで提供することになります。"
 
 #: weblate/templates/accounts/register.html:37
 msgid "Register using email"
@@ -5040,7 +5038,7 @@ msgstr ""
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
-msgstr "バージョン管理システムに言語ファイルを追加してください。 Weblate は次回の更新時にそれを自動検出します。"
+msgstr "VCS に言語ファイルを追加してください。 Weblate は次回の更新時にそれを自動検出します。"
 
 #: weblate/templates/mail/new_language.html:20
 msgid ""
@@ -5063,7 +5061,7 @@ msgstr "リクエスト者:"
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
-msgstr "バージョン管理システムに言語ファイルを追加してください。 Weblate は次回の更新時にそれを自動検出します。"
+msgstr "VCS に言語ファイルを追加してください。 Weblate は次回の更新時にそれを自動検出します。"
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
@@ -5583,16 +5581,15 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"バージョン管理システムのリポジトリには、アップストリームに比べて多くの変更があります。変更を手動でマージするか、マージを自動化するためのプッシュを設定して"
-"ください。"
+"VCS のリポジトリには、アップストリームに比べて多くの変更があります。変更を手動でマージするか、マージを自動化するためのプッシュを設定してください。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"バージョン管理システムのリポジトリは、アップストリームのリポジトリと比較して最新の状態ではありません。変更を手動でマージするか、マージを自動化するためのフ"
-"ックを設定してください。"
+"VCS のリポジトリは、アップストリームのリポジトリと比較して最新の状態ではありません。変更を手動でマージするか、マージを自動化するためのフックを設定して"
+"ください。"
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -6294,7 +6291,7 @@ msgstr "保留中の変更をコミットする"
 
 #: weblate/trans/admin.py:58
 msgid "Update VCS repository"
-msgstr "バージョン管理システムのリポジトリを更新"
+msgstr "VCS のリポジトリを更新"
 
 #: weblate/trans/admin.py:78
 msgid "Update quality checks"
@@ -7357,7 +7354,7 @@ msgstr "コミットすべき変更の古さ"
 #: weblate/trans/models/component.py:398
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "コミットされていない変更をバージョン管理システムに送信するまでの時間。"
+msgstr "コミットされていない変更を VCS に送信するまでの時間。"
 
 #: weblate/trans/models/component.py:418
 msgid "Components with higher priority are offered first to translators."
