@@ -39,4 +39,4 @@ To create component list containing all components, you can simply define
 :guilabel:`Automatic component list assignment` with ``^.*$`` regular expression
 on both project and component as shown on following image:
 
-.. image:: ../images/componentlist-add.png
+.. image:: /images/componentlist-add.png

@@ -56,4 +56,4 @@ Additionally, when adding as a translation, you can choose whether to overwrite
 already translated strings or not or how to handle strings needing review in imported
 file.
 
-.. image:: ../images/export-import.png
+.. image:: /images/export-import.png

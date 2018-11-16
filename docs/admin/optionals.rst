@@ -220,7 +220,7 @@ This feature needs GnuPG 2.1 or newer installed.
 You can find the key in the :setting:`DATA_DIR` and the public key is shown on
 the about page:
 
-.. image:: ../images/about-gpg.png
+.. image:: /images/about-gpg.png
 
 Alternatively you can also import existing keys into Weblate, just set
 ``HOME=$DATA_DIR/home`` when invoking gpg.

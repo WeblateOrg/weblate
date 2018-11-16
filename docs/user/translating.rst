@@ -23,7 +23,7 @@ Translation projects
 Translation projects are used to organize translations into related groups. It
 can be one software component, book or anything closely related.
 
-.. image:: ../images/project-overview.png
+.. image:: /images/project-overview.png
 
 .. _strings-to-check:
 
@@ -36,7 +36,7 @@ strings needing review. Should no other checks fire, there will be still link
 to all translations. Alternatively you can use the search field to find a translation
 you need to fix.
 
-.. image:: ../images/strings-to-check.png
+.. image:: /images/strings-to-check.png
 
 Suggestions
 -----------
@@ -93,7 +93,7 @@ Consortium.
 
 .. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 
-.. image:: ../images/plurals.png
+.. image:: /images/plurals.png
 
 Keyboard shortcuts
 ++++++++++++++++++
@@ -152,7 +152,7 @@ The symbols shown can be split into three categories:
 * Per language chars provided by Weblate (eg. quotes or RTL specific chars)
 * Chars configured using :setting:`SPECIAL_CHARS`
 
-.. image:: ../images/visual-keyboard.png
+.. image:: /images/visual-keyboard.png
 
 .. _source-context:
 
@@ -210,13 +210,13 @@ On project page, on :guilabel:`Glossaries` tab, you can find a link
 :guilabel:`Manage all glossaries`, where you can start new glossaries or edit
 existing ones. Once a glossary is existing, it will also show up on this tab.
 
-.. image:: ../images/project-glossaries.png
+.. image:: /images/project-glossaries.png
 
 On the next page, you can choose which glossary to manage (all languages used in
 current project are shown). Following this language link will lead you to page,
 which can be used to edit, import or export the glossary:
 
-.. image:: ../images/glossary-edit.png
+.. image:: /images/glossary-edit.png
 
 .. _machine-translation:
 
@@ -241,7 +241,7 @@ You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` and is
 accessible in the :guilabel:`Tools` menu:
 
-.. image:: ../images/automatic-translation.png
+.. image:: /images/automatic-translation.png
 
 This can operate in two modes:
 

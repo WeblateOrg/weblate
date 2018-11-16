@@ -10,7 +10,7 @@ Activity reports
 
 You can check activity reports for translations, project or individual users.
 
-.. image:: ../images/activity.png
+.. image:: /images/activity.png
 
 Source strings checks
 ---------------------
@@ -35,7 +35,7 @@ You can find the :guilabel:`Source strings review` in the :guilabel:`Tools`
 menu of a translation component. You will get a similar view when opening
 translation, with slightly different checks being displayed:
 
-.. image:: ../images/source-review.png
+.. image:: /images/source-review.png
 
 One of the most interesting checks here is the :ref:`check-multiple-failures` -
 it fires whenever there is failure on multiple translations of given string.
@@ -45,7 +45,7 @@ the end of sentence or something more problematic.
 
 The detailed listing then shows you overview per language:
 
-.. image:: ../images/source-review-detail.png
+.. image:: /images/source-review-detail.png
 
 String comments
 ---------------

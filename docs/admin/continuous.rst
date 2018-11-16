@@ -137,7 +137,7 @@ To receive notifications on every push to GitHub repository, you just need to
 add Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown
 on the image below:
 
-.. image:: ../images/github-settings.png
+.. image:: /images/github-settings.png
 
 For the payload URL append ``/hooks/github/`` to your Weblate URL, for example
 for Hosted Weblate service this is ``https://hosted.weblate.org/hooks/github/``.
@@ -159,7 +159,7 @@ which triggers on repository push with destination to ``/hooks/bitbucket/`` URL
 on your Weblate installation (for example
 ``https://hosted.weblate.org/hooks/bitbucket/``).
 
-.. image:: ../images/bitbucket-settings.png
+.. image:: /images/bitbucket-settings.png
 
 .. seealso::
 
@@ -190,7 +190,7 @@ with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
 example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 :guilabel:`Activate Web-hooks` under :guilabel:`Project options`:
 
-.. image:: ../images/pagure-webhook.png
+.. image:: /images/pagure-webhook.png
 
 .. seealso::
 

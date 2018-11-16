@@ -45,22 +45,22 @@ instance uses billing (eg. like https://hosted.weblate.org/, see
 
 You can view your current billing plan on separate page:
 
-.. image:: ../images/user-billing.png
+.. image:: /images/user-billing.png
 
 The project creation can be initiated from there or using menu in navigation
 bar. All you need to do then is to fill in basic information about the
 translation project:
 
-.. image:: ../images/user-add-project.png
+.. image:: /images/user-add-project.png
 
 After creating the project, you are directly taken to the project page:
 
-.. image:: ../images/user-add-project-done.png
+.. image:: /images/user-add-project-done.png
 
 Creating new translation component can be initiated by single click there and
 you will have to fill in translation component information now:
 
-.. image:: ../images/user-add-component.png
+.. image:: /images/user-add-component.png
 
 .. seealso::
 

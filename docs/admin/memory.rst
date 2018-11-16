@@ -80,7 +80,7 @@ memories. It can be used to download, wipe or import it.
 The downloads in JSON are useful for Weblate, TMX is provided for
 interoperability with other tools.
 
-.. image:: ../images/memory.png
+.. image:: /images/memory.png
 
 Management interface
 ++++++++++++++++++++

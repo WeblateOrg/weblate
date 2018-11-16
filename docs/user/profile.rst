@@ -28,7 +28,7 @@ By default, this will show the components of projects you are watching,
 cross-referenced with your preferred languages.  You can switch to different
 views using the navigation tabs.
 
-.. image:: ../images/dashboard-dropdown.png
+.. image:: /images/dashboard-dropdown.png
 
 The tabs will show several options:
 
@@ -67,7 +67,7 @@ Translated languages
 Choose here which languages you prefer to translate. These will be offered to
 you on main page for watched projects to have easier access to these translations.
 
-.. image:: ../images/your-translations.png
+.. image:: /images/your-translations.png
 
 .. _secondary-languages:
 
@@ -78,7 +78,7 @@ You can define secondary languages, which will be shown you while translating
 together with source language. Example can be seen on following image, where
 Slovak language is shown as secondary:
 
-.. image:: ../images/secondary-language.png
+.. image:: /images/secondary-language.png
 
 Default dashboard view
 ++++++++++++++++++++++
@@ -108,7 +108,7 @@ notifications, like merge failures or new language requests.
 
     You will not receive notifications for actions you've done.
 
-.. image:: ../images/profile-subscriptions.png
+.. image:: /images/profile-subscriptions.png
 
 Authentication
 ++++++++++++++
@@ -118,7 +118,7 @@ you can use to login into Weblate. List of services depends on Weblate
 configuration, but can include popular sites such as Google, Facebook, GitHub
 or Bitbucket.
 
-.. image:: ../images/authentication.png
+.. image:: /images/authentication.png
 
 Avatar
 ++++++

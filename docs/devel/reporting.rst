@@ -6,7 +6,7 @@ period. For this purpose Weblate includes reporting features, where you can
 obtain summaries of contributions to given component over time. You can find
 the reporting tool in the :guilabel:`Insights` menu for a translation component:
 
-.. image:: ../images/reporting.png
+.. image:: /images/reporting.png
     
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for

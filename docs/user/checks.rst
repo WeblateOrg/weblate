@@ -8,7 +8,7 @@ and can be ignored in case of false positives.
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
 
-.. image:: ../images/checks.png
+.. image:: /images/checks.png
 
 
 .. _autofix:
@@ -191,7 +191,7 @@ happens to be used.
 Besides checking, this will also highligh the formatting strings to easily
 insert them into translated strings:
 
-.. image:: ../images/format-highlight.png
+.. image:: /images/format-highlight.png
 
 Python format
 *************

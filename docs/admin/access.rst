@@ -82,7 +82,7 @@ Private
 Custom
     Weblate does not manage users, see :ref:`custom-acl`.
 
-.. image:: ../images/project-access.png
+.. image:: /images/project-access.png
 
 To allow access to this project, you have to add the privilege to do so either
 directly to the given user or group of users in Django admin interface, or by using
@@ -199,7 +199,7 @@ them owners.
 
 The user management is available in :guilabel:`Tools` menu of a project:
 
-.. image:: ../images/manage-users.png
+.. image:: /images/manage-users.png
 
 .. seealso::
 

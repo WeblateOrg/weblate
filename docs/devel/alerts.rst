@@ -22,4 +22,4 @@ has been fixed.
 
 For example component having both duplicate strinsg and languages will have this:
 
-.. image:: ../images/alerts.png
+.. image:: /images/alerts.png

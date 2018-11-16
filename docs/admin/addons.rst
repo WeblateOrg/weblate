@@ -10,7 +10,7 @@ to your translation component and they will work behind the scenes. The addon
 management can be found under :guilabel:`Manage` menu of a translation
 component.
 
-.. image:: ../images/addons.png
+.. image:: /images/addons.png
 
 Built in addons
 +++++++++++++++
@@ -59,7 +59,7 @@ to configure. You can use examples in the addon help for some common use cases.
 Once you hit save, you will be presented with a preview of matched components,
 so you can check whether the configuration actually matches your needs:
 
-.. image:: ../images/addon-discovery.png
+.. image:: /images/addon-discovery.png
 
 .. seealso::
 

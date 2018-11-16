@@ -9,7 +9,7 @@ specifying targets for translations.
 
 The whiteboard can currently be specified only in the admin interface:
 
-.. image:: ../images/whiteboard.png
+.. image:: /images/whiteboard.png
 
 The whiteboard messages are then shown based on specified context:
 
@@ -32,9 +32,9 @@ Language specified
 
 You can see how it looks on the language overview page:
 
-.. image:: ../images/whiteboard-language.png
+.. image:: /images/whiteboard-language.png
 
 
 And on the project page:
 
-.. image:: ../images/whiteboard-project.png
+.. image:: /images/whiteboard-project.png

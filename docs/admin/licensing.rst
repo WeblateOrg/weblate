@@ -24,7 +24,7 @@ Contributor agreement
 Once you specify contributor agreement, only users who have agreed to it will
 be able to contribute. This is clearly visible when accessing the translation:
 
-.. image:: ../images/contributor-agreement.png
+.. image:: /images/contributor-agreement.png
 
 The entered text is formatted into paragraphs and external links are possible.
 HTML markup can not be used.
@@ -51,4 +51,4 @@ User licenses
 
 User can review licenses on projects he is contributing to in the profile:
 
-.. image:: ../images/profile-licenses.png
+.. image:: /images/profile-licenses.png

@@ -65,13 +65,13 @@ available in the translation files. This includes strings prioritization, check
 flags or providing visual context. All these features can be set on the
 :ref:`source-review`:
 
-.. image:: ../images/source-review-edit.png
+.. image:: /images/source-review-edit.png
 
 You can also access this directly from the translating interface when clicking on the
 edit icon next to :guilabel:`Screenshot context`, :guilabel:`Flags`
 or :guilabel:`String priority`:
 
-.. image:: ../images/source-information.png
+.. image:: /images/source-information.png
 
 Strings prioritization
 ++++++++++++++++++++++
@@ -111,7 +111,7 @@ it should be translated.
 
 The uploaded screenshot is shown in the translation context sidebar:
 
-.. image:: ../images/screenshot-context.png
+.. image:: /images/screenshot-context.png
 
 In addition to :ref:`source-review`, screenshots have a separate management
 interface. You can find it under :guilabel:`Tools` menu. This allows you
@@ -120,4 +120,4 @@ to upload screenshots, assign them to source strings manually or using OCR.
 Once screenshot is uploaded, you will be presented following interface to
 manage it and assign to source strings:
 
-.. image:: ../images/screenshot-ocr.png
+.. image:: /images/screenshot-ocr.png

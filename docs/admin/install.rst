@@ -899,7 +899,7 @@ For production setup you should do adjustments described in following sections.
 The most critical settings will trigger warning which is indicated by red
 exclamation mark in the top bar if you are logged in as a superuser:
 
-.. image:: ../images/admin-wrench.png
+.. image:: /images/admin-wrench.png
 
 It is also recommended to inspect checks fired by Django (though you might not
 need to fix all of them):
