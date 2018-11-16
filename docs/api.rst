@@ -385,7 +385,7 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-.. http:get:: /api/components/(string:project)/(string:component)/statistics/
+.. http:get:: /api/components/(string:project)/statistics/
 
     Returns paginated statistics for all languages within a project.
 
@@ -393,8 +393,6 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :param component: Component URL slug
-    :type component: string
     :>json array results: array of translation statistics objects
     :>json string language: language name
     :>json string code: language code
