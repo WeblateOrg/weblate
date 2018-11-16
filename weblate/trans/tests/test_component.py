@@ -440,10 +440,8 @@ class ComponentValidationTest(RepoTestCase):
     def test_commit_message(self):
         """Invalid commit message"""
         self.component.commit_message = '{% if %}'
-        self.assertRaises(
-            ValidationError,
-            self.component.full_clean
-        )
+        with self.assertRaises(ValidationError):
+            self.component.full_clean()
 
     def test_filemask(self):
         """Invalid mask"""
@@ -530,10 +528,8 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_validation_languge_re(self):
         self.component.language_regex = '[-'
-        self.assertRaises(
-            ValidationError,
-            self.component.full_clean
-        )
+        with self.assertRaises(ValidationError):
+            self.component.full_clean()
 
     def test_validation_newlang(self):
         self.component.new_base = 'po/project.pot'
@@ -642,7 +638,8 @@ class ComponentErrorTest(RepoTestCase):
         self.assertFalse(
             self.component.do_push(None)
         )
-def test_failed_reset(self):
+
+    def test_failed_reset(self):
         # Corrupt Git database so that reset fails
         shutil.rmtree(
             os.path.join(self.component.full_path, '.git', 'objects', 'pack')
@@ -659,7 +656,7 @@ def test_failed_reset(self):
         with self.assertRaises(FileParseError):
             self.component.template_store
 
-        with self.assertRaises(ValidationError)
+        with self.assertRaises(ValidationError):
             self.component.clean()
 
     def test_invalid_filename(self):
@@ -679,7 +676,6 @@ def test_failed_reset(self):
             translation.store
         with self.assertRaises(ValidationError):
             translation.clean()
-        )
 
     def test_invalid_template_storage(self):
         testfile = os.path.join(self.component.full_path, 'ts-mono', 'en.ts')
