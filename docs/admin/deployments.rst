@@ -800,7 +800,7 @@ usages.
 
 You may use your administration interface or this button (it will bring you to your server):
 
-.. image:: https://install-app.yunohost.org/install-with-yunohost.png
+.. image:: ../images/install-with-yunohost.png
              :alt: Install Weblate with YunoHost
              :target: https://install-app.yunohost.org/?app=weblate
 
