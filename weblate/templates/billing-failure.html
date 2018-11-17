@@ -5,6 +5,9 @@
 
 {% block message %}
 <a class="btn btn-primary pull-right flip" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+{% if payment_enabled %}
+  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary pull-right flip">{% trans "Purchase new hosting plan" %}</a>
+{% else %}
 {% trans "This might be caused by missing subscription or some of your billings are past due date or over limits." %}
 <div class="clearfix"></div>
 {% endblock %}
