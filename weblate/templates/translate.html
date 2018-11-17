@@ -38,8 +38,8 @@
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
-<li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa fa-step-backward"></i></a></li>
-<li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa fa-backward"></i></a></li>
+<li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-forward{% else %}fa-step-backward{% endif %}"></i></a></li>
+<li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-forward{% else %}fa-backward{% endif %}"></i></a></li>
 <li>
 <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
 <i class="fa fa-search" aria-hidden="true"></i>
@@ -82,8 +82,8 @@
 
 </div>
 </li>
-<li><a id="button-next" href="{{ next_unit_url }}" title="{% trans "Next" %}"><i class="fa fa-forward"></i></a></li>
-<li><a id="button-end" href="{{ last_unit_url }}" title="{% trans "Last" %}"><i class="fa fa-step-forward"></i></a></li>
+<li><a id="button-next" href="{{ next_unit_url }}" title="{% trans "Next" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i></a></li>
+<li><a id="button-end" href="{{ last_unit_url }}" title="{% trans "Last" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-backward{% else %}fa-step-forward{% endif %}"></i></a></li>
 </ul>
 </div>
 
