@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-14 16:10+0000\n"
+"POT-Creation-Date: 2018-11-17 13:15+0000\n"
 "PO-Revision-Date: 2018-11-15 14:49+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -627,7 +627,9 @@ msgstr "인증이 서버에 의해 금지되었습니다."
 msgid ""
 "Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
-msgstr "등록을 완료하지 못했습니다. 제공된 인증, 이메일 또는 사용자 이름이 이미 다른 계정에 연결되어 있습니다."
+msgstr ""
+"등록을 완료하지 못했습니다. 제공된 인증, 이메일 또는 사용자 이름이 이미 다른 "
+"계정에 연결되어 있습니다."
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
@@ -2215,7 +2217,9 @@ msgstr "보안 정책"
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
-msgstr "Weblate에서 보안은 사용자의 개인 정보를 소중하게 여기는 환경을 유지하는 것입니다."
+msgstr ""
+"Weblate에서 보안은 사용자의 개인 정보를 소중하게 여기는 환경을 유지하는 것입"
+"니다."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
@@ -2238,8 +2242,8 @@ msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
-"Weblate는 모든 사용자 비밀번호를 해시하여 보관합니다, 현재는 PBKDF2 + HMAC + SHA256을 150000번 반복하는 "
-"방식을 사용합니다."
+"Weblate는 모든 사용자 비밀번호를 해시하여 보관합니다, 현재는 PBKDF2 + HMAC + "
+"SHA256을 150000번 반복하는 방식을 사용합니다."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How are security issues reported?"
@@ -2808,15 +2812,18 @@ msgstr "서비스 유효성 또는 품질에 대한 보증을 하지 않습니�
 msgid ""
 "Hosting requests are usually processed once a month, please have patience "
 "after submitting one."
-msgstr "호스팅 요청은 대개 한 달에 한 번 처리되므로, 제출한 후 인내심을 가지십시오."
+msgstr ""
+"호스팅 요청은 대개 한 달에 한 번 처리되므로, 제출한 후 인내심을 가지십시오."
 
 #: weblate/templates/accounts/hosting.html:30
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
-msgstr "상용 호스팅을 찾고 계신가요? 금액은 매달 %(price)s EUR 으로 시작됩니다."
+msgstr ""
+"상용 호스팅을 찾고 계신가요? 금액은 매달 %(price)s EUR 으로 시작됩니다."
 
 #: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:23
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
@@ -3507,11 +3514,11 @@ msgstr ""
 msgid "Close"
 msgstr "닫기"
 
-#: weblate/templates/billing-failure.html:7
+#: weblate/templates/billing-failure.html:10
 msgid "Check your billing status"
 msgstr "결제 상태 확인"
 
-#: weblate/templates/billing-failure.html:8
+#: weblate/templates/billing-failure.html:12
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
@@ -5445,13 +5452,16 @@ msgstr "프로젝트 정보"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
-msgstr "당신의 결제 플랜이 한도를 초과했습니다. 서비스를 계속 사용할 수 있지만, 업그레이드 하기를 추천합니다."
+msgstr ""
+"당신의 결제 플랜이 한도를 초과했습니다. 서비스를 계속 사용할 수 있지만, 업그"
+"레이드 하기를 추천합니다."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
-msgstr "컴포넌트가 Weblate에 단일 언어로 매핑된 여러 번역 파일을 갖고 있습니다."
+msgstr ""
+"컴포넌트가 Weblate에 단일 언어로 매핑된 여러 번역 파일을 갖고 있습니다."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
@@ -5477,17 +5487,22 @@ msgstr "컴포넌트가 여러 중복된 번역 문자열을 갖고 있습니다
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
-msgstr "번역 파일에서 동일한 식별자로 된 중복 문자열을 제거함으로써 이것을 해결하십시오."
+msgstr ""
+"번역 파일에서 동일한 식별자로 된 중복 문자열을 제거함으로써 이것을 해결하십시"
+"오."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Weblate가 저장소를 업데이트 하는 동안 업스트림 변경 사항을 병합할 수 없습니다."
+msgstr ""
+"Weblate가 저장소를 업데이트 하는 동안 업스트림 변경 사항을 병합할 수 없습니"
+"다."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "Weblate가 번역을 업데이트 하는 동안 번역 파일을 구문 분석할 수 없습니다."
+msgstr ""
+"Weblate가 번역을 업데이트 하는 동안 번역 파일을 구문 분석할 수 없습니다."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5502,14 +5517,16 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"VCS 저장소가 업스트림에 비해 많은 변경 사항을 갖고 있습니다. 변경 사항을 수동으로 병합하거나 이것이 자동으로 푸시되도록 설정하십시오."
+"VCS 저장소가 업스트림에 비해 많은 변경 사항을 갖고 있습니다. 변경 사항을 수동"
+"으로 병합하거나 이것이 자동으로 푸시되도록 설정하십시오."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"VCS 저장소가 업스트림 저장소와 함께 최신 상태가 아닙니다. 변경 사항을 수동으로 병합하거나 이것이 자동으로 후크되도록 설정하십시오."
+"VCS 저장소가 업스트림 저장소와 함께 최신 상태가 아닙니다. 변경 사항을 수동으"
+"로 병합하거나 이것이 자동으로 후크되도록 설정하십시오."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -5521,7 +5538,9 @@ msgstr ""
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr "저장소가 업데이트 되는 동안 Weblate는 업스트림 변경 사항을 가져올 수 없습니다."
+msgstr ""
+"저장소가 업데이트 되는 동안 Weblate는 업스트림 변경 사항을 가져올 수 없습니"
+"다."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -6786,7 +6805,9 @@ msgstr "확인을 위해 번역의 이름을 입력하십시오."
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
-msgstr "작업을 취소할 수 없습니다. 이 작업은 {} 번역과 모든 관련된 내용물을 영구히 삭제합니다."
+msgstr ""
+"작업을 취소할 수 없습니다. 이 작업은 {} 번역과 모든 관련된 내용물을 영구히 삭"
+"제합니다."
 
 #: weblate/trans/forms.py:1725
 msgid "The translation name does not match the one to delete!"
