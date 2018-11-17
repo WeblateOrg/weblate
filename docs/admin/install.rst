@@ -17,10 +17,10 @@ and web server):
 * 1 GB of storage space
 
 The more memory you have, the better - it will be used for caching on all
-levels (filesystem, database and Weblate).
+levels (file system, database and Weblate).
 
 If you are going to have many concurrent users, you will need more CPU cores.
-For hundredths of translation components at least 4 GB of memory is
+For hundreds of translation components at least 4 GB of memory is
 recommended.
 
 .. note::
@@ -428,8 +428,8 @@ Most requirements can be also installed using pip installer:
 
     pip install -r requirements.txt
 
-For building some of the extensions devel files for several libraries are required,
-see :ref:`virtualenv` for instructions how to install these.
+For building some of the extensions development files for several libraries are
+required, see :ref:`virtualenv` for instructions how to install these.
 
 All optional dependencies (see above) can be installed using:
 
