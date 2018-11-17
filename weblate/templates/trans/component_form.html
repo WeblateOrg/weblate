@@ -9,13 +9,13 @@
 
 {% block content %}
 {% if not projects %}
-{% trans "You do not have permission to create components in any projects." as msg %}
-{% show_message "warning" msg %}
 
 {% if has_billing %}
 {% include "billing-failure.html" %}
 {% endif %}
 
+{% trans "You do not have permission to create components in any projects." as msg %}
+{% show_message "warning" msg %}
 {% else %}
 <form action="{% url 'create-component' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
