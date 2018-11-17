@@ -9,12 +9,12 @@
 
 {% block content %}
 {% if not can_create %}
+{% trans "You currently do not have permission to create projects." as msg %}
+{% show_message "warning" msg %}
+
 {% if has_billing %}
 {% include "billing-failure.html" %}
 {% endif %}
-
-{% trans "You currently do not have permission to create projects." as msg %}
-{% show_message "warning" msg %}
 
 {% else %}
 <form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">

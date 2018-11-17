@@ -88,7 +88,12 @@ class CreateProject(BaseCreateView):
 
     def get_context_data(self, **kwargs):
         kwargs = super(CreateProject, self).get_context_data(**kwargs)
-        kwargs['can_create'] = self.can_create()
+        kwargs['can_create'] = False and self.can_create()
+        if self.has_billing:
+            from weblate.billing.models import Billing
+            kwargs['user_billings'] = Billing.objects.for_user(
+                self.request.user
+            ).exists()
         return kwargs
 
     def dispatch(self, request, *args, **kwargs):
