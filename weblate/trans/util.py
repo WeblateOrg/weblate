@@ -182,11 +182,13 @@ def get_clean_env(extra=None):
     return environ
 
 
-def cleanup_repo_url(url):
+def cleanup_repo_url(url, text=None):
     """Remove credentials from repository URL."""
+    if text is None:
+        text = url
     parsed = urlparse(url)
     if parsed.username and parsed.password:
-        return url.replace(
+        return text.replace(
             '{0}:{1}@'.format(
                 parsed.username,
                 parsed.password
@@ -194,13 +196,13 @@ def cleanup_repo_url(url):
             ''
         )
     elif parsed.username:
-        return url.replace(
+        return text.replace(
             '{0}@'.format(
                 parsed.username,
             ),
             ''
         )
-    return url
+    return text
 
 
 def redirect_param(location, params, *args, **kwargs):

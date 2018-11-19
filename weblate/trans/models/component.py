@@ -558,6 +558,12 @@ class Component(models.Model, URLMixin, PathMixin):
             'branch': self.branch
         }
 
+    def error_text(self, error):
+        """Returns text message for a RepositoryException."""
+        if not settings.HIDE_REPO_CREDENTIALS:
+            return error.get_message()
+        return cleanup_repo_url(self.repo, error.get_message())
+
     @perform_on_link
     def update_remote_branch(self, validate=False):
         """Pull from remote repository."""
@@ -575,7 +581,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.delete_alert('UpdateFailure', childs=True)
             return True
         except RepositoryException as error:
-            error_text = force_text(error)
+            error_text = self.error_text(error)
             self.log_error('failed to update repository: %s', error_text)
             if validate:
                 if 'Host key verification failed' in error_text:
@@ -717,15 +723,16 @@ class Component(models.Model, URLMixin, PathMixin):
 
             return True
         except RepositoryException as error:
-            self.log_error('failed to push on repo: %s', error)
-            msg = 'Error:\n{0}'.format(str(error))
+            error_text = self.error_text(error)
+            self.log_error('failed to push on repo: %s', error_text)
+            msg = 'Error:\n{0}'.format(error_text)
             mail_admins(
                 'failed push on repo {0}'.format(force_text(self)),
                 msg
             )
             Change.objects.create(
                 action=Change.ACTION_FAILED_PUSH, component=self,
-                target=force_text(error),
+                target=error_text,
                 user=request.user if request else None,
             )
             messages.error(
@@ -753,7 +760,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
-            msg = 'Error:\n{0}'.format(str(error))
+            msg = 'Error:\n{0}'.format(self.error_text(error))
             mail_admins(
                 'failed reset on repo {0}'.format(force_text(self)),
                 msg
@@ -779,7 +786,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.repository.cleanup()
         except RepositoryException as error:
             self.log_error('failed to clean the repo')
-            msg = 'Error:\n{0}'.format(str(error))
+            msg = 'Error:\n{0}'.format(self.error_text(error))
             mail_admins(
                 'failed clean the repo {0}'.format(force_text(self)),
                 msg
@@ -897,7 +904,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
-                error = error.get_message()
+                error = self.error_text(error)
                 status = self.repository.status()
 
                 # Log error
@@ -1349,7 +1356,7 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             self.sync_git_repo(True)
         except RepositoryException as exc:
-            msg = _('Failed to update repository: %s') % exc
+            msg = _('Failed to update repository: %s') % self.error_text(exc)
             raise ValidationError({'repo': msg})
 
         # Push repo is not used with link
