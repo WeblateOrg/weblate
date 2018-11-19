@@ -617,6 +617,9 @@ SECURE_HSTS_SECONDS = 0
 SECURE_HSTS_PRELOAD = False
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 
+# Protect repository credentials from users
+HIDE_REPO_CREDENTIALS = True
+
 # URL of login
 LOGIN_URL = '{0}/accounts/login/'.format(URL_PREFIX)
 
