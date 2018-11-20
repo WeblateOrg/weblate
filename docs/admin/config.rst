@@ -534,7 +534,10 @@ Hide repository credentials in the web interface. In case you have repository
 URL with user and password, Weblate will hide it when showing it to the users.
 
 For example instead of ``https://user:password@git.example.com/repo.git`` it
-will show just ``https://git.example.com/repo.git``.
+will show just ``https://git.example.com/repo.git``. It tries to cleanup VCS
+error messages as well in similar manner.
+
+This is enabled by default.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
