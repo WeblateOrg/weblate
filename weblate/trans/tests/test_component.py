@@ -368,10 +368,16 @@ class ComponentChangeTest(RepoTestCase):
 
         old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(
+            component.translation_set.all()[0].get_filename()
+        ))
         component.slug = 'changed'
         component.save()
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(component.full_path))
+        self.assertTrue(os.path.exists(
+            component.translation_set.all()[0].get_filename()
+        ))
 
         self.assertTrue(
             Component.objects.filter(repo='weblate://test/changed').exists()

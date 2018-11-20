@@ -90,6 +90,9 @@ class ProjectTest(RepoTestCase):
         project = component.project
         old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(
+            component.translation_set.all()[0].get_filename()
+        ))
         project.slug = 'changed'
         project.save()
         new_path = project.full_path
@@ -102,6 +105,10 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(
             Component.objects.filter(repo='weblate://test/test').exists()
         )
+        component = Component.objects.get(pk=component.pk)
+        self.assertTrue(os.path.exists(
+            component.translation_set.all()[0].get_filename()
+        ))
 
     def test_delete(self):
         project = self.create_project()
