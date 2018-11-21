@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-17 13:15+0000\n"
+"POT-Creation-Date: 2018-11-21 07:41+0000\n"
 "PO-Revision-Date: 2018-11-21 07:40+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -1352,7 +1352,7 @@ msgstr "Alle sprog"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:860 weblate/trans/forms.py:1149
-#: weblate/trans/forms.py:1608
+#: weblate/trans/forms.py:1619
 msgid "Languages"
 msgstr "Sprog"
 
@@ -6873,19 +6873,26 @@ msgstr "Indsendelsesmeddelelser"
 msgid "Languages processing"
 msgstr "Behandling af sprog"
 
-#: weblate/trans/forms.py:1572
+#: weblate/trans/forms.py:1560
+#, python-format
+msgid ""
+"Please specify license for all components prior to making project publicly "
+"accessible. Following components currently lack license information: %s"
+msgstr ""
+
+#: weblate/trans/forms.py:1583
 msgid "Search string"
 msgstr "Søgestreng"
 
-#: weblate/trans/forms.py:1578
+#: weblate/trans/forms.py:1589
 msgid "Replacement string"
 msgstr "Erstatningsstreng"
 
-#: weblate/trans/forms.py:1623
+#: weblate/trans/forms.py:1634
 msgid "Translation key"
 msgstr "Oversættelsens nøgle"
 
-#: weblate/trans/forms.py:1625
+#: weblate/trans/forms.py:1636
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6893,32 +6900,32 @@ msgstr ""
 "Nøglen som bruges til at identificere strengen i oversættelsesfilen. Regler "
 "som er filformatspecifikke kan gælde."
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1642
 msgid "Source language text"
 msgstr "Kildesprogets tekst"
 
-#: weblate/trans/forms.py:1633
+#: weblate/trans/forms.py:1644
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "Du kan redigere det senere som enhver anden streng i kildesproget."
 
-#: weblate/trans/forms.py:1654
+#: weblate/trans/forms.py:1665
 msgid "State to set"
 msgstr "Tilstand som skal sættes"
 
-#: weblate/trans/forms.py:1687
+#: weblate/trans/forms.py:1698
 msgid "I agree with the contributor agreement"
 msgstr "Jeg erklærer mig enig i bidragsyderaftalen"
 
-#: weblate/trans/forms.py:1698
+#: weblate/trans/forms.py:1709
 msgid "Name of the translation"
 msgstr "Navnet på oversættelsen"
 
-#: weblate/trans/forms.py:1699
+#: weblate/trans/forms.py:1710
 msgid "Please type in the name of the translation to confirm."
 msgstr "Skriv venligst navnet på oversættelsen for at bekræfte."
 
-#: weblate/trans/forms.py:1708
+#: weblate/trans/forms.py:1719
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
@@ -6926,7 +6933,7 @@ msgstr ""
 "Handlingen kan ikke fortrydes. Det vil slette {}-oversættelsen permanent og "
 "al relateret indhold."
 
-#: weblate/trans/forms.py:1725
+#: weblate/trans/forms.py:1736
 msgid "The translation name does not match the one to delete!"
 msgstr "Oversættelsesnavnet er ikke magen til det der er ved at blive slettet!"
 
@@ -7420,7 +7427,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Komponenter med højere prioritet tilbydes først til oversættere."
 
-#: weblate/trans/models/component.py:584
+#: weblate/trans/models/component.py:590
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -7428,80 +7435,80 @@ msgstr ""
 "Mislykkedes med verificering af SSH-værtsnøgle - tilføj dem på SSH-siden i "
 "administratorbrugerfladen."
 
-#: weblate/trans/models/component.py:589
+#: weblate/trans/models/component.py:595
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Kunne ikke hente arkiv: %s"
 
-#: weblate/trans/models/component.py:681
+#: weblate/trans/models/component.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push er deaktiveret for %s."
 
-#: weblate/trans/models/component.py:733
+#: weblate/trans/models/component.py:740
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
-#: weblate/trans/models/component.py:763
+#: weblate/trans/models/component.py:770
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 
-#: weblate/trans/models/component.py:789
+#: weblate/trans/models/component.py:796
 #, python-format
 msgid "Failed to clean the repository on %s."
 msgstr "Kunne ikke rydde op i arkivet på %s."
 
-#: weblate/trans/models/component.py:860
+#: weblate/trans/models/component.py:867
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Mislykkedes med at flytte forgreningspunkt ovenpå fjernt beliggende "
 "forgrening %s."
 
-#: weblate/trans/models/component.py:865
+#: weblate/trans/models/component.py:872
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
-#: weblate/trans/models/component.py:1140
+#: weblate/trans/models/component.py:1147
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Ugyldigt link til et Weblate-projekt, kan ikke linke til sammenkædet arkiv!"
 
-#: weblate/trans/models/component.py:1147
+#: weblate/trans/models/component.py:1154
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Ugyldigt link til et Weblate-projekt, kan ikke linke til sig selv!"
 
-#: weblate/trans/models/component.py:1154
+#: weblate/trans/models/component.py:1161
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ugyldigt link til et Weblate-projekt, brug weblate://projekt/komponent."
 
-#: weblate/trans/models/component.py:1160
+#: weblate/trans/models/component.py:1167
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL anvendes ikke når arkivet er sammenkædet!"
 
-#: weblate/trans/models/component.py:1166
+#: weblate/trans/models/component.py:1173
 msgid "Export URL is not used when repository is linked!"
 msgstr "Eksport af URL anvendes ikke når arkivet er sammenkædet!"
 
-#: weblate/trans/models/component.py:1175
+#: weblate/trans/models/component.py:1182
 msgid "The mask did not match any files!"
 msgstr "Masken matchede ingen filer!"
 
-#: weblate/trans/models/component.py:1183
+#: weblate/trans/models/component.py:1190
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Fik tom sprogkode for %s, tjek venligst filmasken!"
 
-#: weblate/trans/models/component.py:1188
+#: weblate/trans/models/component.py:1195
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Sprogkoden \"%s\" er for lang, tjek venligst filmasken!"
 
-#: weblate/trans/models/component.py:1192
+#: weblate/trans/models/component.py:1199
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7510,7 +7517,7 @@ msgstr ""
 "Der er flere filer til et enkelt sprog (%s), juster masken og brug "
 "komponenter til oversættelse forskellige ressourcer."
 
-#: weblate/trans/models/component.py:1198
+#: weblate/trans/models/component.py:1205
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7521,26 +7528,26 @@ msgstr ""
 "deaktivere SIMPLIFY_LANGUAGES for at forhindre at Weblate i at kortlægge "
 "lignende sprog til et."
 
-#: weblate/trans/models/component.py:1217
+#: weblate/trans/models/component.py:1224
 msgid "File does not seem to be valid!"
 msgstr "Filen synes ikke at være gyldigt!"
 
-#: weblate/trans/models/component.py:1225
+#: weblate/trans/models/component.py:1232
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format på %d matchede filer, kunne ikke genkendes."
 
-#: weblate/trans/models/component.py:1234
+#: weblate/trans/models/component.py:1241
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kunne ikke fortolke %d matchede filer!"
 
-#: weblate/trans/models/component.py:1249
+#: weblate/trans/models/component.py:1256
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Format på oversættelsesskabelon for nye oversættelser kunne ikke genkendes!"
 
-#: weblate/trans/models/component.py:1254
+#: weblate/trans/models/component.py:1261
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7548,33 +7555,33 @@ msgstr ""
 "Weblate er konfigureret til at tilføje nye oversættelsesfiler, men der er "
 "ikke opgivet en grundfil til at gøre det!"
 
-#: weblate/trans/models/component.py:1263
+#: weblate/trans/models/component.py:1270
 msgid "You can not use base file with bilingual translation!"
 msgstr "Du kan ikke bruge grundfil med tosproget oversættelse!"
 
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1275
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot filformat som grundfil understøttes ikke!"
 
-#: weblate/trans/models/component.py:1275
+#: weblate/trans/models/component.py:1282
 msgid "Template file not found!"
 msgstr "Skabelonfil blev ikke fundet!"
 
-#: weblate/trans/models/component.py:1281
+#: weblate/trans/models/component.py:1288
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Kunne ikke fortolke oversættelsesskabelon: %s"
 
-#: weblate/trans/models/component.py:1291
+#: weblate/trans/models/component.py:1298
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Skabelonsproget ({0}) svarer ikke til projektets kildesprog ({1})!"
 
-#: weblate/trans/models/component.py:1298
+#: weblate/trans/models/component.py:1305
 msgid "You can not use monolingual translation without base file!"
 msgstr "Du kan ikke bruge enkeltsprogede oversættelse uden grundfil!"
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1316
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7582,41 +7589,41 @@ msgstr ""
 "Udfyld enten instruktions-URL eller benyt en anden metode til tilføjelse af "
 "nyt sprog."
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1323
 msgid "License URL can not be used without license summary."
 msgstr "URL til licens kan ikke anvendes uden licenssammendrag."
 
-#: weblate/trans/models/component.py:1336
+#: weblate/trans/models/component.py:1343
 msgid "Changing version control system is not supported!"
 msgstr "Ændring af versionsstyringssystemet understøttes ikke!"
 
-#: weblate/trans/models/component.py:1341
+#: weblate/trans/models/component.py:1348
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Ikke-understøttet filformat: {0}"
 
-#: weblate/trans/models/component.py:1352
+#: weblate/trans/models/component.py:1359
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Kunne ikke opdatere arkiv: %s"
 
-#: weblate/trans/models/component.py:1372
+#: weblate/trans/models/component.py:1379
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Kan ikke validere fil match grundet ugyldigt regulært udtryk."
 
-#: weblate/trans/models/component.py:1384
+#: weblate/trans/models/component.py:1391
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "Automatisk accept af forslag virker kun når afstemning er aktiveret!"
 
-#: weblate/trans/models/component.py:1538
+#: weblate/trans/models/component.py:1545
 msgid "Failed to add new translation file!"
 msgstr "Kunne ikke tilføje ny oversættelsesfil!"
 
-#: weblate/trans/models/component.py:1550
+#: weblate/trans/models/component.py:1557
 msgid "Given language is filtered by the language filter!"
 msgstr "Givne sprog filtreres af sprogfilteret!"
 
-#: weblate/trans/models/component.py:1568
+#: weblate/trans/models/component.py:1575
 msgid "Translation file already exists!"
 msgstr "Oversættelsesfilen findes allerede!"
 
@@ -8129,7 +8136,7 @@ msgstr "Lav"
 msgid "Very low"
 msgstr "Meget lav"
 
-#: weblate/trans/util.py:225
+#: weblate/trans/util.py:227
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "

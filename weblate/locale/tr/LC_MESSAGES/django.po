@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-17 13:15+0000\n"
+"POT-Creation-Date: 2018-11-21 07:41+0000\n"
 "PO-Revision-Date: 2018-11-15 14:50+0000\n"
 "Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -1342,7 +1342,7 @@ msgstr "Tüm diller"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:860 weblate/trans/forms.py:1149
-#: weblate/trans/forms.py:1608
+#: weblate/trans/forms.py:1619
 msgid "Languages"
 msgstr "Diller"
 
@@ -6857,19 +6857,26 @@ msgstr "İletileri işle"
 msgid "Languages processing"
 msgstr "Dilleri işleme"
 
-#: weblate/trans/forms.py:1572
+#: weblate/trans/forms.py:1560
+#, python-format
+msgid ""
+"Please specify license for all components prior to making project publicly "
+"accessible. Following components currently lack license information: %s"
+msgstr ""
+
+#: weblate/trans/forms.py:1583
 msgid "Search string"
 msgstr "Arama satırı"
 
-#: weblate/trans/forms.py:1578
+#: weblate/trans/forms.py:1589
 msgid "Replacement string"
 msgstr "Değiştirme satırı"
 
-#: weblate/trans/forms.py:1623
+#: weblate/trans/forms.py:1634
 msgid "Translation key"
 msgstr "Çeviri anahtarı"
 
-#: weblate/trans/forms.py:1625
+#: weblate/trans/forms.py:1636
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6877,34 +6884,34 @@ msgstr ""
 "Çeviri dosyasında satırı tanımlamak için kullanılan anahtar. Dosya biçimine "
 "özel kurallar uygulanabilir."
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1642
 msgid "Source language text"
 msgstr "Kaynak dil metni"
 
-#: weblate/trans/forms.py:1633
+#: weblate/trans/forms.py:1644
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Kaynak dildeki başka bir satırda olduğu gibi bunu daha sonra "
 "düzenleyebilirsiniz."
 
-#: weblate/trans/forms.py:1654
+#: weblate/trans/forms.py:1665
 msgid "State to set"
 msgstr "Ayarlanacak durum"
 
-#: weblate/trans/forms.py:1687
+#: weblate/trans/forms.py:1698
 msgid "I agree with the contributor agreement"
 msgstr "Katılımcı sözleşmesini kabul ediyorum"
 
-#: weblate/trans/forms.py:1698
+#: weblate/trans/forms.py:1709
 msgid "Name of the translation"
 msgstr "Çevirinin adı"
 
-#: weblate/trans/forms.py:1699
+#: weblate/trans/forms.py:1710
 msgid "Please type in the name of the translation to confirm."
 msgstr "Onaylamak için çevirinin adını yazınız."
 
-#: weblate/trans/forms.py:1708
+#: weblate/trans/forms.py:1719
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
@@ -6912,7 +6919,7 @@ msgstr ""
 "Bu işlem geri alınamaz. Bu {} çeviri ve ilgili tüm içeriği kalıcı olarak "
 "siler."
 
-#: weblate/trans/forms.py:1725
+#: weblate/trans/forms.py:1736
 msgid "The translation name does not match the one to delete!"
 msgstr "Çeviri adı silinecek olanla eşleşmiyor!"
 
@@ -7397,7 +7404,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Yüksek öncelikli bileşenler çevirmenlere ilk olarak sunulur."
 
-#: weblate/trans/models/component.py:584
+#: weblate/trans/models/component.py:590
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -7405,79 +7412,79 @@ msgstr ""
 "SSH makine anahtarı doğrulanamadı, lütfen bunları yönetici arayüzündeki SSH "
 "sayfasına ekleyin."
 
-#: weblate/trans/models/component.py:589
+#: weblate/trans/models/component.py:595
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Havuz alınamadı: %s"
 
-#: weblate/trans/models/component.py:681
+#: weblate/trans/models/component.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama devre dışı."
 
-#: weblate/trans/models/component.py:733
+#: weblate/trans/models/component.py:740
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollanamadı."
 
-#: weblate/trans/models/component.py:763
+#: weblate/trans/models/component.py:770
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dal sıfırlanamadı."
 
-#: weblate/trans/models/component.py:789
+#: weblate/trans/models/component.py:796
 #, python-format
 msgid "Failed to clean the repository on %s."
 msgstr "%s üzerindeki havuz temizlenemedi."
 
-#: weblate/trans/models/component.py:860
+#: weblate/trans/models/component.py:867
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Dalımız, %s uzak dalının üstüne yeniden konumlanamadı."
 
-#: weblate/trans/models/component.py:865
+#: weblate/trans/models/component.py:872
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Uzak dal, %s projesinin içine birleştirilemedi."
 
-#: weblate/trans/models/component.py:1140
+#: weblate/trans/models/component.py:1147
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, bağlantılı havuza bağlantılanamıyor!"
 
-#: weblate/trans/models/component.py:1147
+#: weblate/trans/models/component.py:1154
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Weblate projesi için geçersiz bağlantı, kendine bağlantılanamıyor!"
 
-#: weblate/trans/models/component.py:1154
+#: weblate/trans/models/component.py:1161
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, weblate://project/component adresini "
 "kullanın."
 
-#: weblate/trans/models/component.py:1160
+#: weblate/trans/models/component.py:1167
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: weblate/trans/models/component.py:1166
+#: weblate/trans/models/component.py:1173
 msgid "Export URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
 
-#: weblate/trans/models/component.py:1175
+#: weblate/trans/models/component.py:1182
 msgid "The mask did not match any files!"
 msgstr "Maske hiçbir dosyayla eşleşmedi!"
 
-#: weblate/trans/models/component.py:1183
+#: weblate/trans/models/component.py:1190
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s için boş dil kodu aldınız, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/component.py:1188
+#: weblate/trans/models/component.py:1195
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/component.py:1192
+#: weblate/trans/models/component.py:1199
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7486,7 +7493,7 @@ msgstr ""
 "Tek dil için daha çok dosya var (%s), lütfen maskeyi ayarlayın ve değişik "
 "kaynakları çevirme için bileşenleri kullanın."
 
-#: weblate/trans/models/component.py:1198
+#: weblate/trans/models/component.py:1205
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7497,25 +7504,25 @@ msgstr ""
 "bir taneye eşlemesini önlemek için SIMPLIFY_LANGUAGES seçeneğini devre dışı "
 "kılmalısınız."
 
-#: weblate/trans/models/component.py:1217
+#: weblate/trans/models/component.py:1224
 msgid "File does not seem to be valid!"
 msgstr "Dosya geçerli görünmüyor!"
 
-#: weblate/trans/models/component.py:1225
+#: weblate/trans/models/component.py:1232
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: weblate/trans/models/component.py:1234
+#: weblate/trans/models/component.py:1241
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırılamadı!"
 
-#: weblate/trans/models/component.py:1249
+#: weblate/trans/models/component.py:1256
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Yeni çeviriler için taban dosyanın biçimi tanınmadı!"
 
-#: weblate/trans/models/component.py:1254
+#: weblate/trans/models/component.py:1261
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7523,33 +7530,33 @@ msgstr ""
 "Weblate'i yeni çeviri dosyalarını eklemek için yapılandırdınız, ancak bunu "
 "yapmak için taban dosyayı vermediniz!"
 
-#: weblate/trans/models/component.py:1263
+#: weblate/trans/models/component.py:1270
 msgid "You can not use base file with bilingual translation!"
 msgstr "İki dilli çevirisi olan taban dosyayı kullanamazsınız!"
 
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1275
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot dosyasını taban dosya olarak kullanma desteklenmiyor!"
 
-#: weblate/trans/models/component.py:1275
+#: weblate/trans/models/component.py:1282
 msgid "Template file not found!"
 msgstr "Şablon dosyası bulunmadı!"
 
-#: weblate/trans/models/component.py:1281
+#: weblate/trans/models/component.py:1288
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri taban dosyası ayrıştırılamadı: %s"
 
-#: weblate/trans/models/component.py:1291
+#: weblate/trans/models/component.py:1298
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Şablon dili ({0}) proje kaynak dili ({1}) ile eşleşmiyor!"
 
-#: weblate/trans/models/component.py:1298
+#: weblate/trans/models/component.py:1305
 msgid "You can not use monolingual translation without base file!"
 msgstr "Taban dosya olmadan tek dilli çeviriyi kullanamazsınız!"
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1316
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7557,43 +7564,43 @@ msgstr ""
 "Yeni dil eklemek için lütfen ya yönergeler URL'sindekini doldurun ya da "
 "değişik seçenek kullanın."
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1323
 msgid "License URL can not be used without license summary."
 msgstr "Lisans URL'si lisans özeti olmadan kullanılamaz."
 
-#: weblate/trans/models/component.py:1336
+#: weblate/trans/models/component.py:1343
 msgid "Changing version control system is not supported!"
 msgstr "Sürüm kontrol sisteminin değiştirilmesi desteklenmiyor!"
 
-#: weblate/trans/models/component.py:1341
+#: weblate/trans/models/component.py:1348
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Desteklenmeyen dosya biçimi: {0}"
 
-#: weblate/trans/models/component.py:1352
+#: weblate/trans/models/component.py:1359
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Havuz güncellenemedi: %s"
 
-#: weblate/trans/models/component.py:1372
+#: weblate/trans/models/component.py:1379
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor."
 
-#: weblate/trans/models/component.py:1384
+#: weblate/trans/models/component.py:1391
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Önerileri kendiliğinden kabul etmek yalnızca oylamanın etkinleştirilmesi ile "
 "çalışabilir!"
 
-#: weblate/trans/models/component.py:1538
+#: weblate/trans/models/component.py:1545
 msgid "Failed to add new translation file!"
 msgstr "Yeni çeviri dosyası eklenemedi!"
 
-#: weblate/trans/models/component.py:1550
+#: weblate/trans/models/component.py:1557
 msgid "Given language is filtered by the language filter!"
 msgstr "Verilen dil, dil süzgeci tarafından süzülüyor!"
 
-#: weblate/trans/models/component.py:1568
+#: weblate/trans/models/component.py:1575
 msgid "Translation file already exists!"
 msgstr "Çeviri dosyası zaten var!"
 
@@ -8108,7 +8115,7 @@ msgstr "Düşük"
 msgid "Very low"
 msgstr "Çok düşük"
 
-#: weblate/trans/util.py:225
+#: weblate/trans/util.py:227
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "

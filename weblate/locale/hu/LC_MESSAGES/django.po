@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-17 13:15+0000\n"
+"POT-Creation-Date: 2018-11-21 07:41+0000\n"
 "PO-Revision-Date: 2018-06-16 20:39+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1526,7 +1526,7 @@ msgstr "MInden nyelv"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:860 weblate/trans/forms.py:1149
-#: weblate/trans/forms.py:1608
+#: weblate/trans/forms.py:1619
 msgid "Languages"
 msgstr "Nyelvek"
 
@@ -7783,72 +7783,79 @@ msgstr "Kommit üzenet"
 msgid "Languages processing"
 msgstr "Nyelvek feldolgozása"
 
-#: weblate/trans/forms.py:1572
+#: weblate/trans/forms.py:1560
+#, python-format
+msgid ""
+"Please specify license for all components prior to making project publicly "
+"accessible. Following components currently lack license information: %s"
+msgstr ""
+
+#: weblate/trans/forms.py:1583
 #, fuzzy
 #| msgid "Source strings"
 msgid "Search string"
 msgstr "Keresett szöveg"
 
-#: weblate/trans/forms.py:1578
+#: weblate/trans/forms.py:1589
 #, fuzzy
 #| msgid "Search in comment strings"
 msgid "Replacement string"
 msgstr "Csere erre"
 
-#: weblate/trans/forms.py:1623
+#: weblate/trans/forms.py:1634
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "Fordítás"
 
-#: weblate/trans/forms.py:1625
+#: weblate/trans/forms.py:1636
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1642
 #, fuzzy
 #| msgid "Source language"
 msgid "Source language text"
 msgstr "Forrásnyelv"
 
-#: weblate/trans/forms.py:1633
+#: weblate/trans/forms.py:1644
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 
-#: weblate/trans/forms.py:1654
+#: weblate/trans/forms.py:1665
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Támogassa a Weblate-et"
 
-#: weblate/trans/forms.py:1687
+#: weblate/trans/forms.py:1698
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
 msgstr "Közreműködési megegyezés"
 
-#: weblate/trans/forms.py:1698
+#: weblate/trans/forms.py:1709
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Name of the translation"
 msgstr "Hozzáadás egyéb fordításként"
 
-#: weblate/trans/forms.py:1699
+#: weblate/trans/forms.py:1710
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Please type in the name of the translation to confirm."
 msgstr "Alapfájl új fordításokhoz"
 
-#: weblate/trans/forms.py:1708
+#: weblate/trans/forms.py:1719
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
 
-#: weblate/trans/forms.py:1725
+#: weblate/trans/forms.py:1736
 #, fuzzy
 #| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
@@ -8391,7 +8398,7 @@ msgid "Components with higher priority are offered first to translators."
 msgstr ""
 "A fordítók a magasabb priorítású szövegeket kapják meg először fordításra."
 
-#: weblate/trans/models/component.py:584
+#: weblate/trans/models/component.py:590
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -8399,48 +8406,48 @@ msgstr ""
 "Az SSH host-azonosító kulcs ellenőrzése sikertelen. Kérem adja hozzá a "
 "kulcsot a rendszergazdai felület SSH oldalán."
 
-#: weblate/trans/models/component.py:589
+#: weblate/trans/models/component.py:595
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Nem sikerült letölteni a tárolót: %s"
 
-#: weblate/trans/models/component.py:681
+#: weblate/trans/models/component.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Felküldés tiltva a(z) %s összetevőre."
 
-#: weblate/trans/models/component.py:733
+#: weblate/trans/models/component.py:740
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nem sikerült felküldeni a távoli ágra a(z) %s összetevőben."
 
-#: weblate/trans/models/component.py:763
+#: weblate/trans/models/component.py:770
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nem sikerült visszaállítani a távoli ágat itt: %s."
 
-#: weblate/trans/models/component.py:789
+#: weblate/trans/models/component.py:796
 #, fuzzy, python-format
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed to clean the repository on %s."
 msgstr "Nem sikerült letölteni a tárolót: %s"
 
-#: weblate/trans/models/component.py:860
+#: weblate/trans/models/component.py:867
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Nem sikerült újraalapozni (rebase) a mi águnkat a(z) %s távoli ágra."
 
-#: weblate/trans/models/component.py:865
+#: weblate/trans/models/component.py:872
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nem sikerült beolvaszatni a távoli ágat ebbe: %s."
 
-#: weblate/trans/models/component.py:1140
+#: weblate/trans/models/component.py:1147
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Érvénytelen Weblate projekt hivatkozás, nem lehet hivatkozni csatolt tárra!"
 
-#: weblate/trans/models/component.py:1147
+#: weblate/trans/models/component.py:1154
 #, fuzzy
 #| msgid ""
 #| "Invalid link to a Weblate project, can not link to linked repository!"
@@ -8448,35 +8455,35 @@ msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Érvénytelen Weblate projekt hivatkozás, nem lehet hivatkozni csatolt tárra!"
 
-#: weblate/trans/models/component.py:1154
+#: weblate/trans/models/component.py:1161
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Hibás Weblate projekt hivatkozás, a helyes forma weblate://projekt/összetevő."
 
-#: weblate/trans/models/component.py:1160
+#: weblate/trans/models/component.py:1167
 msgid "Push URL is not used when repository is linked!"
 msgstr "A felküldési URL nem használt csatolt tárolónál!"
 
-#: weblate/trans/models/component.py:1166
+#: weblate/trans/models/component.py:1173
 msgid "Export URL is not used when repository is linked!"
 msgstr "Az export URL csatolt tárnál nem használt!"
 
-#: weblate/trans/models/component.py:1175
+#: weblate/trans/models/component.py:1182
 msgid "The mask did not match any files!"
 msgstr "A maszk egy fájlra sem illeszkedik!"
 
-#: weblate/trans/models/component.py:1183
+#: weblate/trans/models/component.py:1190
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Üres nyelvi kód erre: %s, kérem ellenőrizze a fájlmaszkot!"
 
-#: weblate/trans/models/component.py:1188
+#: weblate/trans/models/component.py:1195
 #, fuzzy, python-format
 #| msgid "Got empty language code for %s, please check filemask!"
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Üres nyelvi kód erre: %s, kérem ellenőrizze a fájlmaszkot!"
 
-#: weblate/trans/models/component.py:1192
+#: weblate/trans/models/component.py:1199
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
@@ -8488,7 +8495,7 @@ msgstr ""
 "Több fájl is elérhető egyetlen nyelvhez. Kérem állítson a maszkon és "
 "használja az összetevőket a különböző fájlok fordításához."
 
-#: weblate/trans/models/component.py:1198
+#: weblate/trans/models/component.py:1205
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -8499,26 +8506,26 @@ msgstr ""
 "kapcsolja ki a SIMPLIFY_LANGUAGES beállítást, hogy a Weblate a hasonló "
 "nyelveket külön kezelje."
 
-#: weblate/trans/models/component.py:1217
+#: weblate/trans/models/component.py:1224
 msgid "File does not seem to be valid!"
 msgstr "A fájl nem érvényes formátumú!"
 
-#: weblate/trans/models/component.py:1225
+#: weblate/trans/models/component.py:1232
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d számú egyező fájl formátumát nem sikerült felismerni."
 
-#: weblate/trans/models/component.py:1234
+#: weblate/trans/models/component.py:1241
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nem sikerült felolvasni (parse) %d egyező állományt!"
 
-#: weblate/trans/models/component.py:1249
+#: weblate/trans/models/component.py:1256
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Az új fordításokra szolgáló alapfájl formátumát nem sikerült felismerni!"
 
-#: weblate/trans/models/component.py:1254
+#: weblate/trans/models/component.py:1261
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -8526,33 +8533,33 @@ msgstr ""
 "Úgy állította be a Weblate-et, hogy automatikusan hozzáadja az új fordítási "
 "fájlokat, de nem adott meg alapfájlt ehhez!"
 
-#: weblate/trans/models/component.py:1263
+#: weblate/trans/models/component.py:1270
 msgid "You can not use base file with bilingual translation!"
 msgstr "Nem használhat alapfájlt kétnyelvű fordításhoz!"
 
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1275
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot fájl használata alapfájlként nem támogatott!"
 
-#: weblate/trans/models/component.py:1275
+#: weblate/trans/models/component.py:1282
 msgid "Template file not found!"
 msgstr "A sablonfájl nem található!"
 
-#: weblate/trans/models/component.py:1281
+#: weblate/trans/models/component.py:1288
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nem sikerült felolvasni (parse) a fordítási alapfájlt: %s"
 
-#: weblate/trans/models/component.py:1291
+#: weblate/trans/models/component.py:1298
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1298
+#: weblate/trans/models/component.py:1305
 msgid "You can not use monolingual translation without base file!"
 msgstr "Alapfájl nélkül nem használható egynyelvű fordítás!"
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1316
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -8560,47 +8567,47 @@ msgstr ""
 "Vagy töltse ki az útmutató webcímét vagy más módot használjon új nyelv "
 "hozzáadására."
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1323
 msgid "License URL can not be used without license summary."
 msgstr "A licenc URL nem használható licenc összefoglaló nélkül."
 
-#: weblate/trans/models/component.py:1336
+#: weblate/trans/models/component.py:1343
 msgid "Changing version control system is not supported!"
 msgstr "A verziókezelő rendszer megváltoztatása nem támogatott!"
 
-#: weblate/trans/models/component.py:1341
+#: weblate/trans/models/component.py:1348
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Nem támogatott állománytípus: {0}"
 
-#: weblate/trans/models/component.py:1352
+#: weblate/trans/models/component.py:1359
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Nem sikerült frissíteni a tárolót: %s"
 
-#: weblate/trans/models/component.py:1372
+#: weblate/trans/models/component.py:1379
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nem lehet ellenőrizni a fájlilleszkedéseket egy érvénytelen reguláris "
 "kifejezés miatt."
 
-#: weblate/trans/models/component.py:1384
+#: weblate/trans/models/component.py:1391
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "A javaslatok automatikus elfogadása csak a szavazás bekapcsolása esetén "
 "használható!"
 
-#: weblate/trans/models/component.py:1538
+#: weblate/trans/models/component.py:1545
 msgid "Failed to add new translation file!"
 msgstr "Nem sikerült új fordítási fájlt hozzáadni!"
 
-#: weblate/trans/models/component.py:1550
+#: weblate/trans/models/component.py:1557
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
 msgstr "Egynyelvű alap nyelvi fájl"
 
-#: weblate/trans/models/component.py:1568
+#: weblate/trans/models/component.py:1575
 msgid "Translation file already exists!"
 msgstr "A fordítási fájl már létezik!"
 
@@ -9158,7 +9165,7 @@ msgstr "Alacsony"
 msgid "Very low"
 msgstr "Nagyon alacsony"
 
-#: weblate/trans/util.py:225
+#: weblate/trans/util.py:227
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
