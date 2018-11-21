@@ -1551,6 +1551,17 @@ class ProjectAccessForm(forms.ModelForm):
             'enable_review',
         )
 
+    def clean(self):
+        access = self.cleaned_data.get('access_control')
+        if access in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
+            unlicensed = self.instance.component_set.filter(license='')
+            if unlicensed:
+                raise ValidationError(_(
+                    'Please specify license for all components prior to '
+                    'making project publicly accessible. Following '
+                    'components currently lack license information: %s'
+                ) % ', '.join(unlicensed.values_list('name', flat=True)))
+
     def __init__(self, *args, **kwargs):
         super(ProjectAccessForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
