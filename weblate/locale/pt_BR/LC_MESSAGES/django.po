@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-21 08:34+0000\n"
+"POT-Creation-Date: 2018-11-21 11:49+0000\n"
 "PO-Revision-Date: 2018-11-21 11:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -1347,7 +1347,7 @@ msgstr "Todos os idiomas"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:860 weblate/trans/forms.py:1149
-#: weblate/trans/forms.py:1619
+#: weblate/trans/forms.py:1618
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -2286,7 +2286,9 @@ msgstr ""
 "PBKDF2, HMAC e SHA-256 com 150000 iterações."
 
 #: weblate/legal/templates/legal/security.html:45
-msgid "How are security issues reported?"
+#, fuzzy
+#| msgid "How are security issues reported?"
+msgid "How to report a security issue?"
 msgstr "Como que  problemas de segurança são relatados?"
 
 #: weblate/legal/templates/legal/security.html:48
@@ -6546,7 +6548,9 @@ msgid "Add as approved translation"
 msgstr "Adicionar como tradução aprovada"
 
 #: weblate/trans/forms.py:587
-msgid "Add as a suggestion"
+#, fuzzy
+#| msgid "Add as a suggestion"
+msgid "Add as suggestion"
 msgstr "Adicionar como uma sugestão"
 
 #: weblate/trans/forms.py:588
@@ -6888,26 +6892,23 @@ msgstr "Idiomas em processamento"
 #: weblate/trans/forms.py:1560
 #, python-format
 msgid ""
-"Please specify license for all components prior to making project publicly "
-"accessible. Following components currently lack license information: %s"
+"You must specify a license for these components to make them publicly "
+"accessible: %s"
 msgstr ""
-"Por favor, especifique a licença para todos os componentes antes de tornar o "
-"projeto acessível publicamente. Os seguintes componentes atualmente não "
-"possuem informações de licença: %s"
 
-#: weblate/trans/forms.py:1583
+#: weblate/trans/forms.py:1582
 msgid "Search string"
 msgstr "Pesquisar texto"
 
-#: weblate/trans/forms.py:1589
+#: weblate/trans/forms.py:1588
 msgid "Replacement string"
 msgstr "Substituição de texto"
 
-#: weblate/trans/forms.py:1634
+#: weblate/trans/forms.py:1633
 msgid "Translation key"
 msgstr "Chave de tradução"
 
-#: weblate/trans/forms.py:1636
+#: weblate/trans/forms.py:1635
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6915,34 +6916,34 @@ msgstr ""
 "Chave usada para identificar o texto no arquivo de tradução. As regras "
 "específicas do formato do arquivo devem ser aplicadas."
 
-#: weblate/trans/forms.py:1642
+#: weblate/trans/forms.py:1641
 msgid "Source language text"
 msgstr "Texto do idioma fonte"
 
-#: weblate/trans/forms.py:1644
+#: weblate/trans/forms.py:1643
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Você pode editar posteriormente, assim como qualquer outro texto no idioma "
 "fonte."
 
-#: weblate/trans/forms.py:1665
+#: weblate/trans/forms.py:1664
 msgid "State to set"
 msgstr "Estado a definir"
 
-#: weblate/trans/forms.py:1698
+#: weblate/trans/forms.py:1697
 msgid "I agree with the contributor agreement"
 msgstr "Concordo com o acordo do colaborador"
 
-#: weblate/trans/forms.py:1709
+#: weblate/trans/forms.py:1708
 msgid "Name of the translation"
 msgstr "Nome da tradução"
 
-#: weblate/trans/forms.py:1710
+#: weblate/trans/forms.py:1709
 msgid "Please type in the name of the translation to confirm."
 msgstr "Por favor, digite o nome da tradução para confirmar."
 
-#: weblate/trans/forms.py:1719
+#: weblate/trans/forms.py:1718
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
@@ -6950,7 +6951,7 @@ msgstr ""
 "Essa ação não pode ser desfeita. Isso excluirá permanentemente a tradução {} "
 "e todo o conteúdo relacionado."
 
-#: weblate/trans/forms.py:1736
+#: weblate/trans/forms.py:1735
 msgid "The translation name does not match the one to delete!"
 msgstr "O nome da tradução não corresponde ao nome a ser excluído!"
 
@@ -8949,6 +8950,15 @@ msgstr "Relatórios"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Falha ao ignorar erro de configuração!"
+
+#~ msgid ""
+#~ "Please specify license for all components prior to making project "
+#~ "publicly accessible. Following components currently lack license "
+#~ "information: %s"
+#~ msgstr ""
+#~ "Por favor, especifique a licença para todos os componentes antes de "
+#~ "tornar o projeto acessível publicamente. Os seguintes componentes "
+#~ "atualmente não possuem informações de licença: %s"
 
 #~ msgid "Please login or register to use Weblate."
 #~ msgstr "Por favor, faça o login ou registre para usar o Weblate."
