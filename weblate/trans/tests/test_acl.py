@@ -245,10 +245,23 @@ class ACLTest(FixtureTestCase):
             billing = Billing.objects.create(plan=plan)
             billing.projects.add(self.project)
 
+        # Editing should now work, but components do not have a license
+        response = self.client.post(
+            url,
+            {'access_control': Project.ACCESS_PROTECTED},
+            follow=True
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertContains(response, 'Please specify license for all components')
+
+        # Set component license
+        self.project.component_set.update(license='Test license')
+
         # Editing should now work
         response = self.client.post(
             url,
-            {'access_control': Project.ACCESS_PROTECTED}
+            {'access_control': Project.ACCESS_PROTECTED},
+            follow=True
         )
         self.assertRedirects(response, self.access_url)
 
