@@ -560,9 +560,10 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def error_text(self, error):
         """Returns text message for a RepositoryException."""
+        message = error.get_message()
         if not settings.HIDE_REPO_CREDENTIALS:
-            return error.get_message()
-        return cleanup_repo_url(self.repo, error.get_message())
+            return message
+        return cleanup_repo_url(self.repo, message)
 
     @perform_on_link
     def update_remote_branch(self, validate=False):

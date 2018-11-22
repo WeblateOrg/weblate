@@ -189,17 +189,12 @@ def cleanup_repo_url(url, text=None):
     parsed = urlparse(url)
     if parsed.username and parsed.password:
         return text.replace(
-            '{0}:{1}@'.format(
-                parsed.username,
-                parsed.password
-            ),
+            '{0}:{1}@'.format(parsed.username, parsed.password),
             ''
         )
     elif parsed.username:
         return text.replace(
-            '{0}@'.format(
-                parsed.username,
-            ),
+            '{0}@'.format(parsed.username),
             ''
         )
     return text
