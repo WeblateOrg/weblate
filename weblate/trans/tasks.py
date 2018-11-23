@@ -45,7 +45,7 @@ from weblate.trans.models import (
     Suggestion, Comment, Unit, Project, Translation, Source, Component,
     Change,
 )
-from weblate.trans.models.component import FileParseError
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.search import Fulltext
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
