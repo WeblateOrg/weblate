@@ -11,8 +11,8 @@ US encryption controls
 ----------------------
 
 Weblate does not contain any cryptographic code, but it might be subject to the
-export controls as it uses third party components which utilize cryptographic
-functions.
+export controls as it uses third party components which utilize cryptography
+for authentication, data integrity and data confidentiality.
 
 Most likely Weblate would be classified as ECCN 5D002 or 5D992 and as a
 publicly available libre software, it should not be subject to EAR (see
