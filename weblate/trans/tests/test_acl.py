@@ -252,7 +252,9 @@ class ACLTest(FixtureTestCase):
             follow=True
         )
         self.assertRedirects(response, self.access_url)
-        self.assertContains(response, 'Please specify license for all components')
+        self.assertContains(
+            response, 'You must specify a license for these components'
+        )
 
         # Set component license
         self.project.component_set.update(license='Test license')
