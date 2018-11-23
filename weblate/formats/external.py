@@ -104,7 +104,7 @@ class XlsxFormat(CSVFormat):
         for row in worksheet.rows:
             writer.writerow([cls.encode(cell.value) for cell in row])
 
-        if isinstance(storefile, six.string_types)
+        if isinstance(storefile, six.string_types):
             name = os.path.basename(storefile) + ".csv"
         else:
             name = os.path.basename(storefile.name) + ".csv"
