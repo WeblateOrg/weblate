@@ -23,6 +23,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 class Command(WeblateComponentCommand):
     help = 'pushes all changes to upstream repository'
+    needs_repo = True
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)

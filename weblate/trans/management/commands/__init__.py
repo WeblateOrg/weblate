@@ -51,6 +51,8 @@ class WeblateCommand(BaseCommand):
 
 class WeblateComponentCommand(WeblateCommand):
     """Command which accepts project/component/--all params to process."""
+    needs_repo = False
+
     def add_arguments(self, parser):
         parser.add_argument(
             '--all',
@@ -114,7 +116,12 @@ class WeblateComponentCommand(WeblateCommand):
         """Return list of components matching parameters."""
         if options['all']:
             # all components
-            result = Component.objects.all()
+            if self.needs_repo:
+                result = Component.objects.exclude(
+                    repo__startswith='weblate:/'
+                )
+            else:
+                result = Component.objects.all()
         elif not options['component']:
             # no argumets to filter projects
             self.stderr.write(
