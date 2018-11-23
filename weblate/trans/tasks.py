@@ -295,13 +295,13 @@ def repository_alerts(threshold=10):
     non_linked = Component.objects.exclude(repo__startswith='weblate:')
     for component in non_linked.iterator():
         if component.repository.count_missing() > 10:
-            component.delete_alert('RepositoryOutdated', childs=True)
-        else:
             component.add_alert('RepositoryOutdated', childs=True)
-        if component.repository.count_outgoing() > 10:
-            component.delete_alert('RepositoryChanges', childs=True)
         else:
+            component.delete_alert('RepositoryOutdated', childs=True)
+        if component.repository.count_outgoing() > 10:
             component.add_alert('RepositoryChanges', childs=True)
+        else:
+            component.delete_alert('RepositoryChanges', childs=True)
 
 
 @app.on_after_finalize.connect

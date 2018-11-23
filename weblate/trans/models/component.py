@@ -721,6 +721,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 vcs_post_push.send(
                     sender=component.__class__, component=component
                 )
+            self.delete_alert('RepositoryChanges', childs=True)
 
             return True
         except RepositoryException as error:
@@ -896,6 +897,7 @@ class Component(models.Model, URLMixin, PathMixin):
                         previous_head=previous_head
                     )
                     self.delete_alert('MergeFailure', childs=True)
+                    self.delete_alert('RepositoryOutdated', childs=True)
                     for component in self.get_linked_childs():
                         vcs_post_update.send(
                             sender=component.__class__,
