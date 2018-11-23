@@ -47,6 +47,13 @@ class Command(BaseCommand):
             )
         )
         self.stdout.write(
+            ' * Celery: {}, {}, {}'.format(
+                settings.CELERY_BROKER_URL,
+                settings.CELERY_RESULT_BACKEND,
+                'eager' if settings.CELERY_TASK_ALWAYS_EAGER else 'regular',
+            )
+        )
+        self.stdout.write(
             ' * Platform: {} {} ({})'.format(
                 platform.system(),
                 platform.release(),
