@@ -30,7 +30,7 @@ from celery_batches import Batches
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.query import Or, Term
 from whoosh.index import LockError
-from whoosh.writing import AsyncWriter, BufferedWriter
+from whoosh.writing import AsyncWriter
 from whoosh import qparser
 
 from django.utils.encoding import force_text
@@ -104,7 +104,7 @@ class Fulltext(WhooshIndex):
 
         # Update source index
         index = self.get_source_index()
-        with BufferedWriter(index) as writer:
+        with index.writer() as writer:
             for unit in units:
                 self.update_source_unit_index(writer, unit)
 
@@ -113,7 +113,7 @@ class Fulltext(WhooshIndex):
         # Update per language indices
         for language in languages:
             index = self.get_target_index(language)
-            with BufferedWriter(index) as writer:
+            with index.writer() as writer:
                 for unit in units:
                     if unit['language'] != language:
                         continue
