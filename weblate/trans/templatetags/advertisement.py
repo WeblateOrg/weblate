@@ -29,19 +29,13 @@ from django.utils.translation import ugettext_lazy as _
 register = template.Library()
 
 DONATE = 'https://weblate.org/donate/'
-BOUNTYSOURCE = 'https://salt.bountysource.com/teams/weblate'
-LIBERAPAY = 'https://liberapay.com/Weblate/donate'
 WEBLATE = 'https://weblate.org/'
 TEXT_CHOICES = (
-    (_('Donate to Weblate at {0}'), DONATE),
-    (_('Support Weblate at {0}'), LIBERAPAY),
-    (_('Support Weblate at {0}'), BOUNTYSOURCE),
+    (_('Support Weblate at {0}'), DONATE),
     (_('More information about Weblate can be found at {0}'), WEBLATE),
 )
 HTML_CHOICES = (
-    (_('Donate to Weblate'), DONATE),
-    (_('Support Weblate on Liberapay'), LIBERAPAY),
-    (_('Support Weblate on Bountysource'), BOUNTYSOURCE),
+    (_('Support Weblate'), DONATE),
     (_('More information about Weblate'), WEBLATE),
 )
 
