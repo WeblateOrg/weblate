@@ -48,8 +48,8 @@ class Command(BaseCommand):
         )
         self.stdout.write(
             ' * Celery: {}, {}, {}'.format(
-                settings.get('CELERY_BROKER_URL'),
-                settings.get('CELERY_RESULT_BACKEND'),
+                getattr(settings, 'CELERY_BROKER_URL', 'N/A'),
+                getattr(settings, 'CELERY_RESULT_BACKEND', 'N/A'),
                 'eager' if settings.CELERY_TASK_ALWAYS_EAGER else 'regular',
             )
         )
