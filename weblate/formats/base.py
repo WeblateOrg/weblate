@@ -28,6 +28,8 @@ import tempfile
 
 from django.utils.functional import cached_property
 
+import six
+
 from weblate.utils.hash import calculate_hash
 
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
@@ -191,14 +193,21 @@ class TranslationFormat(object):
 
     def __init__(self, storefile, template_store=None, language_code=None):
         """Create file format object, wrapping up translate-toolkit's store."""
+        if (not isinstance(storefile, six.string_types) and
+                not hasattr(storefile, 'mode')):
+            storefile.mode = 'r'
+
         self.storefile = storefile
+
         # Load store
         self.store = self.load(storefile)
+
         # Check store validity
         if not self.is_valid(self.store):
             raise ValueError(
                 'Invalid file format {0}'.format(repr(self.store))
             )
+
         # Remember template
         self.template_store = template_store
 

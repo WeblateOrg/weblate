@@ -217,9 +217,6 @@ class TTKitFormat(TranslationFormat):
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
             return storefile
-        if (not isinstance(storefile, six.string_types) and
-                not hasattr(storefile, 'mode')):
-            storefile.mode = 'r'
 
         return cls.parse_store(storefile)
 
