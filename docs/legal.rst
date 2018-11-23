@@ -7,6 +7,17 @@ Legal documents
    operate Weblate in certain legal environments. It is provided as a guidance,
    but without any warranty to be accurate or correct.
 
+ITAR and other export controls
+------------------------------
+
+Weblate can be run within your own datacenter or virtual private cloud. As
+such, it can be used to store ITAR- or other export-controlled information,
+however, end users are responsible for ensuring such compliance.
+
+The Hosted Weblate service has not been audited for compliance with ITAR or
+other export controls, and does not currently offer the ability to restrict
+transaltions access by country.
+
 US encryption controls
 ----------------------
 
