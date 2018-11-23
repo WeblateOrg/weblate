@@ -29,7 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage import factory
 
 from weblate.formats.ttkit import TTKitFormat
-from weblate.formats.helpers import StringIOMode
+from weblate.formats.helpers import BytesIOMode
 from weblate.formats.models import FILE_FORMATS
 
 
@@ -54,7 +54,7 @@ def try_load(filename, content, original_format, template_store):
         if file_format.monolingual in (True, None) and template_store:
             try:
                 result = file_format.parse(
-                    StringIOMode(filename, content),
+                    BytesIOMode(filename, content),
                     template_store
                 )
                 # Skip if there is not translated unit
@@ -66,7 +66,7 @@ def try_load(filename, content, original_format, template_store):
                 failure = error
         if file_format.monolingual in (False, None):
             try:
-                return file_format.parse(StringIOMode(filename, content))
+                return file_format.parse(BytesIOMode(filename, content))
             except Exception as error:
                 failure = error
 

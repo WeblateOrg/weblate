@@ -23,9 +23,9 @@ from __future__ import unicode_literals
 from io import BytesIO
 
 
-class StringIOMode(BytesIO):
+class BytesIOMode(BytesIO):
     """StringIO with mode attribute to make ttkit happy."""
     def __init__(self, filename, data):
-        super(StringIOMode, self).__init__(data)
+        super(BytesIOMode, self).__init__(data)
         self.mode = 'r'
         self.name = filename

@@ -36,7 +36,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from openpyxl import Workbook, load_workbook
 
-from weblate.formats.helpers import StringIOMode
+from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import CSVFormat
 
 # use the same relugar expression as in openpyxl.cell
@@ -116,7 +116,7 @@ class XlsxFormat(CSVFormat):
             content = content.encode("utf-8")
 
         # Load the file as CSV
-        return super(XlsxFormat, cls).parse_store(StringIOMode(name, content))
+        return super(XlsxFormat, cls).parse_store(BytesIOMode(name, content))
 
     @staticmethod
     def encode(value):
