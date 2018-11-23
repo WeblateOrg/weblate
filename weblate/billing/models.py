@@ -41,9 +41,15 @@ from weblate.utils.fields import JSONField
 
 
 class PlanQuerySet(models.QuerySet):
-    def public(self):
+    def public(self, user=None):
         """List of public paid plans which are available."""
-        return self.filter(public=True, price__gt=0).order_by('price')
+        result = self.filter(public=True)
+        if user:
+            result |= self.filter(
+                public=False,
+                billing__in=Billing.objects.for_user(user)
+            )
+        return result.distinct().order_by('price')
 
 
 @python_2_unicode_compatible
