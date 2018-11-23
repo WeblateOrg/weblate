@@ -1,0 +1,54 @@
+Legal documents
+===============
+
+.. note::
+
+   This document collects various pieces of legal information you might need to
+   operate Weblate in certain legal environments. It is provided as a guidance,
+   but without any warranty to be accurate or correct.
+
+US encryption controls
+----------------------
+
+Weblate does not contain any cryptographic code, but it might be subject to the
+export controls as it uses third party components which utilize cryptographic
+functions.
+
+Most likely Weblate would be classified as ECCN 5D002 or 5D992 and as a
+publicly available libre software, it should not be subject to EAR (see
+`Encryption items NOT Subject to the EAR
+<https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_.
+
+Software components used by Weblate (only listed for components related to
+cryptographic functions):
+
+`Python <https://www.python.org/>`_
+   See https://wiki.python.org/moin/PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F
+`GnuPG <https://www.gnupg.org/>`_
+   Optionally used by Weblate
+`Git <https://git-scm.com/>`_
+   Optionally used by Weblate
+`curl <https://curl.haxx.se/>`_
+   Used by Git
+`OpenSSL <https://www.openssl.org/>`_
+   Used by Python and curl
+
+The strength of of encryption keys depends on a configuration of Weblate and
+third party components it interacts with, but in any decent setup it will
+include all export restricted cryptographic functions:
+
+- In excess of 56 bits for a symmetric algorithm
+- Factorisation of integers in excess of 512 bits for an asymmetric algorithm
+- Computation of discrete logarithms in a multiplicative group of a finite field of size greater than 512 bits for an asymmetric algorithm
+- Discrete logarithms in a group different than above in excess of 112 bits for an asymmetric algorithm
+
+Weblate doesn't have any cryptographic activation feature, but it can be
+configured in a way where no cryptography code would be involved. The
+cryptographic features include:
+
+- Accessing remote servers using secure protocols (HTTPS)
+- Generating signatures for code commits (PGP)
+
+.. seealso::
+
+   `Export Controls (EAR) on Open Source Software <http://www.magicsplat.com/blog/ear/>`_

@@ -26,6 +26,7 @@ Contents:
     contributing
     internals
     license
+    legal
 
 
 .. only:: format_html
