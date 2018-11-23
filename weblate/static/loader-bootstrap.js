@@ -843,7 +843,7 @@ $(function () {
 
 
     /* Copy from source text highlight check */
-    $('.hlcheck').click(function (e) {
+    $document.on('click', '.hlcheck', function (e) {
         var text = $(this).clone();
 
         text.find('.highlight-number').remove();
