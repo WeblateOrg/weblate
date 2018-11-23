@@ -104,7 +104,10 @@ class XlsxFormat(CSVFormat):
         for row in worksheet.rows:
             writer.writerow([cls.encode(cell.value) for cell in row])
 
-        name = os.path.basename(storefile.name) + ".csv"
+        if isinstance(storefile, six.string_types)
+            name = os.path.basename(storefile) + ".csv"
+        else:
+            name = os.path.basename(storefile.name) + ".csv"
 
         # return the new csv as bytes
         content = output.getvalue()
