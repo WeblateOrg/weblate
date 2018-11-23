@@ -87,6 +87,10 @@ class Plan(models.Model):
     def vat_yearly_price(self):
         return round(self.yearly_price * settings.VAT_RATE, 2)
 
+    @property
+    def is_free(self):
+        return self.price == 0 and self.yearly_price == 0
+
 
 class BillingManager(models.Manager):
     def check_limits(self, grace=30):
@@ -331,7 +335,7 @@ class Billing(models.Model):
         Compared to paid attribute, this does not include grace period.
         """
         return (
-            self.plan.price == 0 or
+            self.plan.is_free or
             self.invoice_set.filter(end__gte=timezone.now()).exists() or
             self.state == Billing.STATE_TRIAL
         )
@@ -340,7 +344,7 @@ class Billing(models.Model):
         due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
         paid = (
-            self.plan.price == 0 or
+            self.plan.is_free or
             self.invoice_set.filter(end__gt=due_date).exists() or
             self.state == Billing.STATE_TRIAL
         )
