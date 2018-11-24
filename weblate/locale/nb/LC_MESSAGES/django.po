@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-23 21:13+0000\n"
-"PO-Revision-Date: 2018-11-23 08:44+0000\n"
+"PO-Revision-Date: 2018-11-24 10:59+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -2829,22 +2829,16 @@ msgstr ""
 "nettstedet."
 
 #: weblate/templates/accounts/hosting.html:16
-#, fuzzy
-#| msgid "Conditions for free hosting"
 msgid "Conditions for gratis hosting"
 msgstr "Betingelser for gratis vertslagring"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project meets the conditions for free of "
 "charge hosting:"
 msgstr ""
 "Fyll inn dette skjemaet hvis prosjektet ditt er berettiget gratis "
-"vertstjening."
+"vertstjening:"
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under libre software license."
@@ -2863,10 +2857,6 @@ msgid "There is no guarantee for service availability, nor quality."
 msgstr "Det er ingen garanti for tjenestens tilgjengelighet eller kvalitet."
 
 #: weblate/templates/accounts/hosting.html:25
-#, fuzzy
-#| msgid ""
-#| "The hosting requests are usually processed once in a month, so please be "
-#| "patient after submitting it."
 msgid ""
 "Hosting requests are usually processed once a month, please have patience "
 "after submitting one."
@@ -3615,16 +3605,12 @@ msgid "Past due date"
 msgstr "Forfalt"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
 msgstr "Oversiger grensene"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change payment plan"
-msgstr "Endre plan"
+msgstr "Endre betalingsplan"
 
 #: weblate/templates/billing/detail.html:31
 msgid "Perform payment"
@@ -3663,10 +3649,8 @@ msgid "Not available"
 msgstr "Ikke tilgjengelig"
 
 #: weblate/templates/billing/detail.html:76
-#, fuzzy
-#| msgid "No invoices found!"
 msgid "No invoices found."
-msgstr "Ingen fakturaer funnet!"
+msgstr "Ingen fakturaer funnet."
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
 msgid "Billing"
@@ -5378,19 +5362,17 @@ msgid "Tweet this translation"
 msgstr "Kvitre om denne oversettelsen"
 
 #: weblate/templates/project.html:117
-#, fuzzy, python-format
+#, python-format
 msgid "The repository for this component is linked to %(target)s."
-msgstr "Pakkebrønn for denne komponenten er lenket til %(target)s"
+msgstr "Kodelageret for denne komponenten er lenket til %(target)s"
 
 #: weblate/templates/project.html:117
 msgid "link"
 msgstr "lenke"
 
 #: weblate/templates/project.html:126
-#, fuzzy
-#| msgid "There are currently no translation components!"
 msgid "There are currently no translation components."
-msgstr "Det finnes ikke noen oversettelseskomponenter per nå!"
+msgstr "Det finnes ikke noen oversettelseskomponenter per nå."
 
 #: weblate/templates/project.html:196
 msgid "There are currently no glossaries defined for this project."
@@ -5570,12 +5552,10 @@ msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
 msgstr ""
-"Faktureringsplanen din har utløpt, hvis du ønsker å bruke tjenesten, forny "
-"den på følgende lenke."
+"Faktureringsplanen din har oversteget sine grenser. Du kan fremdeles bruke "
+"tjenesten, men anbefales å oppgradere betalingsplanen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
@@ -5586,8 +5566,6 @@ msgstr ""
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
 #: weblate/templates/trans/alert/parseerror.html:6
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "The following occurences were found:"
 msgstr "Figurerer følgende steder:"
 
@@ -5616,10 +5594,10 @@ msgstr ""
 "identifikator fra oversettelsesfilene."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
-#, fuzzy
-#| msgid "There has been a failure in updating the repository"
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Kunne ikke oppdatere pakkebrønnen"
+msgstr ""
+"Weblate kunne ikke flette oppstrømsendringer under oppdatering av "
+"kodelageret."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 #, fuzzy
@@ -5627,7 +5605,9 @@ msgstr "Kunne ikke oppdatere pakkebrønnen"
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "Å låse oversettelsen vil hindre andre å arbeide med oversettelsen."
+msgstr ""
+"Weblate kunne ikke tolke oversettelsesfilene under oppdatering av "
+"oversettelsene."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5647,12 +5627,11 @@ msgstr ""
 "endringene manuelt, eller sett opp push for å automatisere dette."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
-#, fuzzy
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Oppstrøms pakkebrønn har endringer som ikke finnes i VKS-pakkebrønnen. Flett "
+"VKS-kodelageret har endringer som ikke finnes i det oppstrøms. Flett "
 "endringer manuelt, eller sett opp kroker for å automatisere dette."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
@@ -6563,8 +6542,6 @@ msgid "Add as approved translation"
 msgstr "Legg til som godkjent oversettelse"
 
 #: weblate/trans/forms.py:587
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add as suggestion"
 msgstr "Legg til som forslag"
 
@@ -6968,40 +6945,28 @@ msgid "The translation name does not match the one to delete!"
 msgstr "Oversettelsesnavnet stemmer ikke overens med det å slette!"
 
 #: weblate/trans/models/alert.py:130
-#, fuzzy
-#| msgid "Duplicate string to translate"
 msgid "Duplicated string for translation."
-msgstr "Duplisert string å oversette"
+msgstr "Duplisert string å oversette."
 
 #: weblate/trans/models/alert.py:136
-#, fuzzy
-#| msgid "Duplicate translation"
 msgid "Duplicated translation."
-msgstr "Duplisert oversettelse"
+msgstr "Duplisert oversettelse."
 
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "Failed merge on repository"
 msgid "Could not merge the repository."
-msgstr "Manglende samsvar i kodelageret"
+msgstr "Kunne ikke flette kodelageret."
 
 #: weblate/trans/models/alert.py:147
-#, fuzzy
-#| msgid "Failed to update repository: %s"
 msgid "Could not update the repository."
-msgstr "Kan ikke oppdatere kodelageret: %s"
+msgstr "Kunne ikke oppdatere kodelageret."
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Unused base file for new translations"
 msgid "Unused base file for new translations."
-msgstr "Ubrukt basisfil for nye oversettelser"
+msgstr "Ubrukt basisfil for nye oversettelser."
 
 #: weblate/trans/models/alert.py:157
-#, fuzzy
-#| msgid "Failed to parse translation files"
 msgid "Could not parse translation files."
-msgstr "Kunne ikke tolke oversettelsesfiler"
+msgstr "Kunne ikke tolke oversettelsesfiler."
 
 #: weblate/trans/models/alert.py:163
 #, fuzzy
@@ -7082,10 +7047,8 @@ msgid "Component unlocked"
 msgstr "Komponenten ulåst"
 
 #: weblate/trans/models/change.py:211
-#, fuzzy
-#| msgid "Detected duplicate string"
 msgid "Found duplicated string"
-msgstr "Oppdaget duplikatstreng"
+msgstr "Fant duplikatstreng"
 
 #: weblate/trans/models/change.py:212
 msgid "Committed changes"
@@ -7164,20 +7127,14 @@ msgid "Marked for edit"
 msgstr "Merket for redigering"
 
 #: weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Create component"
 msgid "Removed component"
 msgstr "Fjernet komponent"
 
 #: weblate/trans/models/change.py:237
-#, fuzzy
-#| msgid "Whole project"
 msgid "Removed project"
 msgstr "Fjernet prosjekt"
 
 #: weblate/trans/models/change.py:238
-#, fuzzy
-#| msgid "Duplicate language found"
 msgid "Found duplicated language"
 msgstr "Fant duplisert språk"
 
@@ -7936,10 +7893,8 @@ msgid "More information about Weblate can be found at {0}"
 msgstr "Mer info om Weblate finner du på {0}"
 
 #: weblate/trans/templatetags/advertisement.py:38
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
-msgstr "Støtt Weblate på {0}"
+msgstr "Støtt Weblate"
 
 #: weblate/trans/templatetags/advertisement.py:39
 msgid "More information about Weblate"
@@ -8216,8 +8171,7 @@ msgstr ""
 "hans/hennes forslag."
 
 #: weblate/trans/validators.py:66
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Invalid translation flag: \"%s\""
 msgstr "Ugyldig oversettelsesflagg: \"%s\""
 
@@ -8548,10 +8502,8 @@ msgid "Translation has been removed."
 msgstr "Oversettelsen er fjernet."
 
 #: weblate/trans/views/git.py:311
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation component has been removed."
-msgstr "Oversettelsen er fjernet."
+msgstr "Oversettelseskomponenten er fjernet."
 
 #: weblate/trans/views/git.py:344
 msgid "Project has been removed."
@@ -8816,8 +8768,6 @@ msgid "Thanks for using Weblate!"
 msgstr "Takk for at du bruker Weblate!"
 
 #: weblate/wladmin/sites.py:174
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
 msgstr "Objektlisting skrudd av"
 
