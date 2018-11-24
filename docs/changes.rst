@@ -17,7 +17,8 @@ Released on October 20th 2018.
 * Added support for component and project removal.
 * Improved performance for some monolingual translations.
 * Added translation component alerts to highlight problems with a translation.
-* Expose Xliff unit resname as context when available.
+* Expose XLIFF unit resname as context when available.
+* Added support for XLIFF states.
 
 weblate 3.2.1
 -------------
@@ -182,7 +183,7 @@ Released on December 15th 2017.
 * Improved configuration of special chars virtual keyboard.
 * Added support for DTD file format.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
-* Improved support for approved flag in Xliff files.
+* Improved support for approved flag in XLIFF files.
 * Added support for not wrapping long strings in Gettext po files.
 * Added button to copy permalink for current translation.
 * Dropped support for Django 1.10 and added support for Django 2.0.
