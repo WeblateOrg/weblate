@@ -3,10 +3,10 @@ Legal documents
 
 .. note::
 
-   This document collects various pieces of legal information you might need to
-   operate Weblate in certain legal environments. It is provided as a guidance,
-   but without any warranty to be accurate or correct. It is ultimately your
-   responsibility to ensure that your use of Weblate comply with all applicable
+   Herein you will find various legal information you might need to
+   operate Weblate in certain legal jurisdictions. It is provided as a means of guidance,
+   without any warranty of accuracy or correctness. It is ultimately your
+   responsibility to ensure that your use of Weblate complies with all applicable
    laws and regulations.
 
 ITAR and other export controls
@@ -23,17 +23,17 @@ translations access by country.
 US encryption controls
 ----------------------
 
-Weblate does not contain any cryptographic code, but it might be subject to the
-export controls as it uses third party components which utilize cryptography
-for authentication, data integrity and data confidentiality.
+Weblate does not contain any cryptographic code, but might be subject
+export controls as it uses third party components utilizing cryptography
+for authentication, data-integrity and -confidentiality.
 
-Most likely Weblate would be classified as ECCN 5D002 or 5D992 and as a
+Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as
 publicly available libre software, it should not be subject to EAR (see
 `Encryption items NOT Subject to the EAR
 <https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_.
 
-Software components used by Weblate (only listed for components related to
-cryptographic functions):
+Software components used by Weblate (listing only components related to
+cryptographic function):
 
 `Python <https://www.python.org/>`_
    See https://wiki.python.org/moin/PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F
@@ -44,10 +44,10 @@ cryptographic functions):
 `curl <https://curl.haxx.se/>`_
    Used by Git
 `OpenSSL <https://www.openssl.org/>`_
-   Used by Python and curl
+   Used by Python and cURL
 
-The strength of of encryption keys depends on a configuration of Weblate and
-third party components it interacts with, but in any decent setup it will
+The strength of encryption keys depend on the configuration of Weblate and
+the third party components it interacts with, but in any decent setup it will
 include all export restricted cryptographic functions:
 
 - In excess of 56 bits for a symmetric algorithm
