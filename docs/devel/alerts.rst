@@ -3,23 +3,21 @@
 Translation component alerts
 ============================
 
-The alerts are there to tell you there is something wrong with your translation
-component. They can indicate problem in Weblate configuration or in your
-translation project and they will give you a guidance how to address found issue.
+Shows errors in the Weblate configuration or the translation project for any given translation component.
+Guidance on how to address found issues is also offered.
 
-The alerts currently cover following areas:
+Currently the following is covered:
 
-* Duplicate source strings in translation files
-* Duplicate languages within translations
-* Merge or update failure on the repository
+* Duplicated source strings in translation files
+* Duplicated languages within translations
+* Merge or update failures in the source repository
 * Unused new base in component settings
-* Parse error in the translation files
+* Parse errors in the translation files
 
-You can find alerts on the component page as :guilabel:`Alerts`. If there is no
-such tab, no alert was triggered on this particular component. There is no way
-to ignore an alert, it will disappear automatically after underlying problem
-has been fixed.
+Alerts are listed on each respective component page as :guilabel:`Alerts`.
+If it is missing, the component clears all current checks. Alerts can not be ignored,
+but will disappear once the underlying problem has been fixed.
 
-For example component having both duplicate strinsg and languages will have this:
+A component with both duplicated strings and languages looks like this:
 
 .. image:: /images/alerts.png
