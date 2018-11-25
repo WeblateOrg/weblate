@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-25 10:42+0000\n"
-"PO-Revision-Date: 2018-11-21 11:46+0000\n"
+"PO-Revision-Date: 2018-11-26 06:07+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
 ">\n"
@@ -698,7 +698,7 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "حالما تُستورد سلسلة جديدة من نظام إدارة الإصدارات، فإنها ستعلَّم بأنها بحاجة "
-"إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية سلاسل المصدر التي كتبها "
+"إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية السلاسل المصدرية التي كتبها "
 "المطورون وتحريرها بسهولة."
 
 #: weblate/addons/flags.py:64
@@ -711,9 +711,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"حالما تُستورد سلسلة جديدة قابلة للترجمة من نظام إدارة الإصدارات، فإنها ستعلَّم "
-"بأنها بحاجة إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية سلاسل المصدر التي "
-"أنشأها المطورون وتحريرها بسهولة."
+"حالما تُستورد سلسلة جديدة قابلة للترجمة من نظام إدارة الإصدارات، فإنها ستعلَّ"
+"م بأنها بحاجة إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية السلاسل "
+"المصدرية التي أنشأها المطورون وتحريرها بسهولة."
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -4676,7 +4676,7 @@ msgstr "تعليق الترجمة"
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:159
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
-msgstr "تعليق سلسلة المصدر"
+msgstr "تعليق على السلسلة المصدرية"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -5182,10 +5182,9 @@ msgid "disabled"
 msgstr "معطّل"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "معجم المفردات باللغة %(language)s لِـ %(project)s"
+msgstr "عدد الوحدات في %(project)s"
 
 #: weblate/templates/memory/index.html:37
 msgid "Number of your entries"
@@ -5323,7 +5322,7 @@ msgstr "سلاسل المصدر المُعينة"
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
 msgid "Source string"
-msgstr "سلسلة المصدر"
+msgstr "السلسلة المصدرية"
 
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:56
@@ -5487,12 +5486,10 @@ msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr "هناك خطأ في الدمج في المستودع:"
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "يدمج محتوى ترويسة الملف في الترجمة."
+msgstr "تعذر علي Weblate تحليل ملفات الترجمة أثناء عملية تحديث الترجمات."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5689,7 +5686,7 @@ msgstr "يُظهِر لسان البحث"
 
 #: weblate/templates/translate.html:112
 msgid "Copies source string"
-msgstr "انسخ سلسلة المصدر"
+msgstr "انسخ السلسلة المصدرية"
 
 #: weblate/templates/translate.html:113
 msgid "Toggle edit needed flag"
@@ -5998,7 +5995,7 @@ msgstr "ملف الترجمة"
 #: weblate/templates/translation.html:184
 #: weblate/templates/translation.html:291
 msgid "Download"
-msgstr "تنزيل"
+msgstr "التنزيل"
 
 #: weblate/templates/translation.html:201
 msgid "Browse all translation changes"
@@ -6078,7 +6075,7 @@ msgstr "مكان سلسة المصدر"
 
 #: weblate/templates/unit-details.html:20
 msgid "Source string age"
-msgstr "عمر سلسلة المصدر"
+msgstr "عمر السلسلة المصدرية"
 
 #: weblate/templates/unit-details.html:30
 #, python-format
@@ -6414,8 +6411,6 @@ msgid "Add as approved translation"
 msgstr "إضافة كترجمة تم التحقق منها"
 
 #: weblate/trans/forms.py:587
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add as suggestion"
 msgstr "إضافة كاقتراح"
 
@@ -6785,7 +6780,7 @@ msgstr "نص لغة المصدر"
 #: weblate/trans/forms.py:1643
 msgid ""
 "You can edit this later, as with any other string in the source language."
-msgstr "يمكنك تحرير هذا لاحقا ، كما هو الأمر مع أي سلسلة أخرى في اللغة المصدر."
+msgstr "يمكنك تعديل هذا لاحقا ، كما هو الأمر مع أي سلسلة أخرى في اللغة المصدر."
 
 #: weblate/trans/forms.py:1664
 msgid "State to set"
@@ -7379,7 +7374,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1270
 msgid "You can not use base file with bilingual translation!"
-msgstr ""
+msgstr "لا يمكنك استخدام ملف أساسي مع ترجمة ثنائية اللغة!"
 
 #: weblate/trans/models/component.py:1275
 msgid "Using .pot file as base file is not supported!"
@@ -7408,10 +7403,11 @@ msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"يرجى إما ملء عنوان URL الخاص بالإرشادات أو استخدام خيار آخر لإضافة لغة جديدة."
 
 #: weblate/trans/models/component.py:1323
 msgid "License URL can not be used without license summary."
-msgstr ""
+msgstr "لا يمكن استخدام عنوان URL الخاص بالتراخيص بدون ملخص الترخيص."
 
 #: weblate/trans/models/component.py:1343
 msgid "Changing version control system is not supported!"
@@ -7433,7 +7429,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1391
 msgid "Automatically accepting suggestions can work only with voting enabled!"
-msgstr ""
+msgstr "لا يمكن قبول الاقتراحات تلقائيًا إلا بالتصويت فقط!"
 
 #: weblate/trans/models/component.py:1543
 msgid "Failed to add new translation file!"
@@ -7700,10 +7696,8 @@ msgid "More information about Weblate can be found at {0}"
 msgstr "يمكنكم الإطلاع على المزيد من المعلومات عن Weblate على {0}"
 
 #: weblate/trans/templatetags/advertisement.py:38
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
-msgstr "قم بدعم Weblate على {0}"
+msgstr "دعم ويب لايت"
 
 #: weblate/trans/templatetags/advertisement.py:39
 msgid "More information about Weblate"
@@ -7857,7 +7851,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:431
 msgid "a second from now"
-msgstr ""
+msgstr "منذ ثانية"
 
 #: weblate/trans/templatetags/translations.py:433
 #, python-format
@@ -7923,11 +7917,11 @@ msgstr "معرّف السلسة %s"
 
 #: weblate/trans/util.py:52
 msgid "Very high"
-msgstr ""
+msgstr "عالية جدا"
 
 #: weblate/trans/util.py:53
 msgid "High"
-msgstr ""
+msgstr "عالية"
 
 #: weblate/trans/util.py:54
 msgid "Medium"
@@ -7935,11 +7929,11 @@ msgstr "متوسطة"
 
 #: weblate/trans/util.py:55
 msgid "Low"
-msgstr ""
+msgstr "منخفضة"
 
 #: weblate/trans/util.py:56
 msgid "Very low"
-msgstr ""
+msgstr "منخفضة جداً"
 
 #: weblate/trans/util.py:222
 #, python-brace-format
