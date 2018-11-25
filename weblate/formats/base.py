@@ -21,6 +21,7 @@
 
 from __future__ import unicode_literals
 
+from copy import deepcopy
 import os
 import re
 import sys
@@ -247,9 +248,9 @@ class TranslationFormat(object):
 
         # We always need new unit to translate
         if ttkit_unit is None:
-            ttkit_unit = template_ttkit_unit
             if template_ttkit_unit is None:
                 return (None, False)
+            ttkit_unit = deepcopy(template_ttkit_unit)
             add = True
         else:
             add = False
