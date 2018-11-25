@@ -1206,12 +1206,6 @@ class Component(models.Model, URLMixin, PathMixin):
                     'adjust the mask and use components for translating '
                     'different resources.'
                 ) % code)
-            if lang.code in translated_langs:
-                raise ValidationError(_(
-                    'Multiple translations were mapped to a single language '
-                    'code (%s). You should disable SIMPLIFY_LANGUAGES '
-                    'to prevent Weblate mapping similar languages to one.'
-                ) % lang.code)
             langs.add(code)
             translated_langs.add(lang.code)
 
