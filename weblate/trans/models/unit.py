@@ -80,10 +80,7 @@ class UnitManager(models.Manager):
         Process translation toolkit unit and stores/updates database entry.
         """
         # Get basic unit data
-        src = unit.source
-        ctx = unit.context
         id_hash = unit.id_hash
-        content_hash = unit.content_hash
         created = False
 
         # Try getting existing unit
@@ -101,9 +98,9 @@ class UnitManager(models.Manager):
             dbunit = Unit(
                 translation=translation,
                 id_hash=id_hash,
-                content_hash=content_hash,
-                source=src,
-                context=ctx
+                content_hash=unit.content_hash,
+                source=unit.source,
+                context=unit.context
             )
             created = True
 
