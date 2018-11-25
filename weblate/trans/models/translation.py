@@ -889,9 +889,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 author=request.user
             )
             self.store.new_unit(key, value)
-            # Force reloading of template storage
-            if 'template_store' in self.component.__dict__:
-                del self.component.__dict__['template_store']
             self.component.create_translations(request=request)
             self.__git_commit(
                 request.user.get_author_name(),
