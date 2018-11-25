@@ -130,16 +130,22 @@ class TTKitUnit(TranslationUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
+        if 'target' in self.__dict__:
+            del self.__dict__['target']
         if isinstance(target, list):
             target = multistring(target)
         self.unit.target = target
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
+        if 'flags' in self.__dict__:
+            del self.__dict__['flags']
         self.unit.markfuzzy(fuzzy)
 
     def mark_approved(self, value):
         """Set approved flag on translated unit."""
+        if 'flags' in self.__dict__:
+            del self.__dict__['flags']
         if hasattr(self.unit, 'markapproved'):
             self.unit.markapproved(value)
 

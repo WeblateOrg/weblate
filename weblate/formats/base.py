@@ -234,6 +234,7 @@ class TranslationFormat(object):
 
     def find_unit_mono(self, context):
         try:
+            # The mono units always have only template set
             return self._context_index[context].template
         except KeyError:
             return None
