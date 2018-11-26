@@ -7,14 +7,14 @@ Internals
 
     This chapter will give you basic overview of Weblate internals.
 
-Weblate is based on `Django`_ and most of its code structure comes from that.
-If you are not familiar with Django, you might want to check
-:doc:`django:intro/overview` to get basic understanding of files structure.
+Weblate is derives most of its code structure from, and is based on `Django`_.
+Familiarize yourself with
+:doc:`django:intro/overview` to get a basic understanding of its file structure.
 
 Modules
 -------
 
-Weblate consists of several Django applications (some of them are optional, see
+Weblate consists of several Django applications (some optional, see
 :doc:`admin/optionals`):
 
 ``accounts``
@@ -39,7 +39,7 @@ Weblate consists of several Django applications (some of them are optional, see
 
 ``formats``
 
-    File formats abstraction layer based on translate-toolkit.
+    File format abstraction layer based on translate-toolkit.
 
 ``gitexport``
 
@@ -59,7 +59,7 @@ Weblate consists of several Django applications (some of them are optional, see
 
 ``machinery``
 
-    Machine translation services integration.
+    Integration of machine translation services.
 
 ``memory``
 
