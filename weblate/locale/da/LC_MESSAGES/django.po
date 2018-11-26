@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-25 10:42+0000\n"
-"PO-Revision-Date: 2018-11-26 06:07+0000\n"
+"PO-Revision-Date: 2018-11-27 06:39+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -1130,7 +1130,7 @@ msgstr "Nulstille ændringer i det interne arkiv"
 
 #: weblate/auth/data.py:91
 msgid "View upstream repository location"
-msgstr "Vis placering af opstrømsopbevaringsstedet"
+msgstr "Vis placering af opstrømssoftwarekilden"
 
 #: weblate/auth/data.py:92
 msgid "Update the internal repository"
@@ -3769,7 +3769,7 @@ msgstr "Oversættelser"
 
 #: weblate/templates/component.html:33
 msgid "Alerts"
-msgstr ""
+msgstr "Varslinger"
 
 #: weblate/templates/component.html:35 weblate/templates/component.html:156
 #: weblate/templates/dashboard/user.html:38
@@ -5353,7 +5353,7 @@ msgstr "Tweet denne oversættelse"
 #: weblate/templates/project.html:117
 #, python-format
 msgid "The repository for this component is linked to %(target)s."
-msgstr "Opbevaringsstedet for denne komponent er knyttet til %(target)s."
+msgstr "Softwarekilden for denne komponent er knyttet til %(target)s."
 
 #: weblate/templates/project.html:117
 msgid "link"
@@ -5581,19 +5581,18 @@ msgstr ""
 "fra oversættelsesfilerne."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Der er opstået en flettefejl i arkivet:"
+msgstr ""
+"Weblate kunne ikke sammenlægge opstrømsændringer mens softwarekilden "
+"opdateres."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
 msgstr ""
-"Låsning af oversættelsen vil forhindre andre i at arbejde med oversættelsen."
+"Weblate kunne ikke fortolke oversættelsesfilerne mens oversættelserne "
+"opdateres."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5608,12 +5607,16 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
+"VCS-softwarearkivet har mange ændringer i forhold til opstrømmen. Sammenlæg "
+"venligst ændringerne manuelt eller opsæt push for at gøre det automatisk."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
+"VCS-softwarearkivet er ikke opdateret med den seneste opstrøm. Sammenlæg "
+"venligst ændringerne manuelt eller opsæt hooks for at gøre det automatisk."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -5627,8 +5630,7 @@ msgstr ""
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate kunne ikke hente opstrømsændringer ved opdatering af "
-"kildekodearkivet."
+"Weblate kunne ikke hente opstrømsændringer ved opdatering af softwarekilden."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -5693,10 +5695,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
-"Når arkiv-URL'en ændres, så sammenlægges det eksisterende indhold med det "
-"nye arkiv. Det virker fint hvis arkivet er blevet flyttet til en anden "
-"placering. Hvis arkivets indhold er forskelligt, så kan det være bedre at "
-"oprette en ny oversættelseskomponent."
+"Når softwarekilde-URL'en ændres, så sammenlægges det eksisterende indhold "
+"med det nye arkiv. Det virker fint hvis softwarekilden er blevet flyttet til "
+"en anden placering. Hvis softwarekildens indhold er forskelligt, så kan det "
+"være bedre at oprette en ny oversættelseskomponent."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:234 weblate/templates/translate.html:433
@@ -6934,11 +6936,11 @@ msgstr "Duplikeret oversættelse."
 
 #: weblate/trans/models/alert.py:142
 msgid "Could not merge the repository."
-msgstr "Kunne ikke flette arkivet."
+msgstr "Kunne ikke flette softwarekilden."
 
 #: weblate/trans/models/alert.py:147
 msgid "Could not update the repository."
-msgstr "Kunne ikke opdatere kildekodearkivet."
+msgstr "Kunne ikke opdatere softwarekilden."
 
 #: weblate/trans/models/alert.py:152
 msgid "Unused base file for new translations."
@@ -7348,7 +7350,7 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Tag stilling til om Weblate skal flette opstrømsarkiv eller flytte "
+"Tag stilling til om Weblate skal flette opstrømssoftwarekilde eller flytte "
 "forgreningspunkt for ændringer ovenpå det."
 
 #: weblate/trans/models/component.py:351
@@ -7386,7 +7388,7 @@ msgstr "Skub under indsendelse"
 
 #: weblate/trans/models/component.py:391
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Om arkivet skal skubbes opstrøm ved hver indsendelse."
+msgstr "Om softwarekilden skal skubbes opstrøm ved hver indsendelse."
 
 #: weblate/trans/models/component.py:395
 msgid "Age of changes to commit"
@@ -7433,7 +7435,7 @@ msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 #: weblate/trans/models/component.py:798
 #, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "Kunne ikke rydde op i arkivet på %s."
+msgstr "Kunne ikke rydde op i softwarekilden på %s."
 
 #: weblate/trans/models/component.py:869
 #, python-format
@@ -8430,7 +8432,7 @@ msgstr "Fletning af filindhold mislykkedes: %s"
 
 #: weblate/trans/views/git.py:49
 msgid "Failed to lock the repository, another operation in progress."
-msgstr "Kunne ikke låse arkiv, en anden handling er i gang."
+msgstr "Kunne ikke låse softwarekilden, en anden handling er i gang."
 
 #: weblate/trans/views/git.py:61
 msgid "All pending translations were committed."
