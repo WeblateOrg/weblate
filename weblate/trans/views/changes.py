@@ -18,7 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import csv
+import six
+if six.PY2:
+    from backports import csv
+else:
+    import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
@@ -235,8 +239,8 @@ class ChangesCSVView(ChangesView):
         for change in object_list:
             writer.writerow((
                 change.timestamp.isoformat(),
-                change.get_action_display().encode('utf8'),
-                change.user.username.encode('utf8') if change.user else '',
+                change.get_action_display(),
+                change.user.username if change.user else '',
                 change.get_absolute_url(),
             ))
 
