@@ -284,7 +284,7 @@ def check_perms(app_configs=None, **kwargs):
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             path = os.path.join(dirpath, name)
-            if os.stat(path).st_uid != uid:
+            if os.stat(path, follow_symlinks=False).st_uid != uid:
                 errors.append(
                     Critical(
                         message.format(path),
