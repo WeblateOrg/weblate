@@ -47,7 +47,7 @@ Weblate
     :alt: Documentation
     :target: https://docs.weblate.org/
 
-Weblate is a free web-based translation tool with tight version control
+Weblate is a free web-based localization tool with tight version control
 integration. It features simple and clean user interface, propagation of
 translations across components within a project, quality checks and automatic
 linking to source files.
