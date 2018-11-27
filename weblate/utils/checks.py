@@ -279,19 +279,12 @@ def check_site(app_configs, **kwargs):
 def check_perms(app_configs=None, **kwargs):
     """Check we can write to data dir."""
     errors = []
-    ignore = (
-        '.git', '.hg', '.svn',
-        'test-base-repo.git', 'test-base-repo.svn',
-        'test-repo.git', 'test-repo.svn',
-    )
+    uid = os.getuid()
     message = 'Path {} is not writable, check your DATA_DIR settings.'
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
-        for name in ignore:
-            if name in dirnames:
-                dirnames.remove(name)
         for name in chain(dirnames, filenames):
             path = os.path.join(dirpath, name)
-            if not os.access(path, os.W_OK):
+            if os.stat(path).st_uid != uid:
                 errors.append(
                     Critical(
                         message.format(path),
