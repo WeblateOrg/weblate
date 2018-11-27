@@ -19,6 +19,7 @@ Released on October 20th 2018.
 * Added translation component alerts to highlight problems with a translation.
 * Expose XLIFF unit resname as context when available.
 * Added support for XLIFF states.
+* Added check for non writable files in DATA_DIR.
 
 weblate 3.2.1
 -------------
