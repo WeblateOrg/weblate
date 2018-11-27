@@ -31,6 +31,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import is_repo_link
+from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.logger import LOGGER
 
@@ -161,7 +162,10 @@ class Command(BaseCommand):
 
         # Initialize git repository
         self.logger.info('Cloning git repository...')
-        gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir)
+        try:
+            gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir)
+        except RepositoryException as error:
+            raise CommandError('Failed clone: {}'.format(error))
         self.logger.info('Updating working copy in git repository...')
         with gitrepo.lock:
             gitrepo.configure_branch(branch)
