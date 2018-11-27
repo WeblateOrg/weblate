@@ -78,6 +78,12 @@ def perform_commit(pk, *args):
 
 
 @app.task
+def perform_push(pk, *args, **kwargs):
+    component = Component.objects.get(pk=pk)
+    component.do_push(*args, **kwargs)
+
+
+@app.task
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()

@@ -674,9 +674,8 @@ class Component(models.Model, URLMixin, PathMixin):
             return True
         if not self.repo_needs_push():
             return True
-        return self.do_push(
-            request, force_commit=False, do_update=do_update
-        )
+        from weblate.trans.tasks import perform_push
+        perform_push.delay(None, force_commit=False, do_update=do_update)
 
     @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True):
