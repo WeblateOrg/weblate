@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-25 10:42+0000\n"
+"POT-Creation-Date: 2018-11-27 22:57+0000\n"
 "PO-Revision-Date: 2018-10-25 07:04+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -190,7 +190,8 @@ msgstr "源始碼儲存庫"
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "存放源始碼之儲存庫 URL，例如 Git 或 Mercurial。"
 
-#: weblate/accounts/forms.py:649 weblate/trans/models/component.py:196
+#: weblate/accounts/forms.py:649 weblate/templates/component_info.html:93
+#: weblate/trans/models/component.py:196
 msgid "File mask"
 msgstr "檔案遮罩"
 
@@ -2431,58 +2432,60 @@ msgstr "更多 Weblate 的相關資訊可在 %(weblate_link)s 查看。"
 msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate 是款由志工打造的自由軟體，也接受捐款。"
 
-#: weblate/templates/about/index.html:26
-msgid "Fund Weblate on Liberapay"
-msgstr "透過 Liberapay 資助 Weblate"
-
-#: weblate/templates/about/index.html:27
-msgid "Fund Weblate on Bountysource"
-msgstr "透過 Bountysource 資助 Weblate"
-
-#: weblate/templates/about/index.html:28 weblate/templates/footer.html:11
+#: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
 msgstr "捐款給 Weblate"
 
-#: weblate/templates/about/index.html:35
+#: weblate/templates/about/index.html:33
 msgid "Hosting translations"
 msgstr "託管翻譯"
 
-#: weblate/templates/about/index.html:38
+#: weblate/templates/about/index.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr "此 Weblate 網站替許多自由軟體專案託管翻譯。"
 
-#: weblate/templates/about/index.html:39
+#: weblate/templates/about/index.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr "Weblate 可以替您託管專案，還請您與我們聯絡。"
 
-#: weblate/templates/about/index.html:42
+#: weblate/templates/about/index.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr "我們也提供商用託管服務，每個月 19 歐元起算，詳情請聯繫我們。"
 
-#: weblate/templates/about/index.html:46
+#: weblate/templates/about/index.html:44
 #: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
 msgstr "申請專案託管"
 
-#: weblate/templates/about/index.html:47
+#: weblate/templates/about/index.html:45
 #: weblate/templates/billing/overview.html:19
 msgid "View hosting plans"
 msgstr "檢視託管方案"
 
-#: weblate/templates/about/index.html:48
+#: weblate/templates/about/index.html:47
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing-failure.html:8
+#: weblate/templates/billing/overview.html:23
+#: weblate/templates/projects.html:13
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "檢視託管方案"
+
+#: weblate/templates/about/index.html:49
 #: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "請與我們聯繫瞭解商用託管事宜"
 
-#: weblate/templates/about/index.html:55
+#: weblate/templates/about/index.html:57
 msgid "Versions"
 msgstr "版本"
 
-#: weblate/templates/about/index.html:71
+#: weblate/templates/about/index.html:73
 msgid "Weblate owes its existence to these projects."
 msgstr "若沒有這些專案 Weblate 就無法存在。"
 
@@ -2822,15 +2825,6 @@ msgstr "通常一個月會處理一次託管請求，所以提交請求之後請
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
-
-#: weblate/templates/accounts/hosting.html:32
-#: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
-#: weblate/templates/projects.html:13
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "檢視託管方案"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3990,6 +3984,11 @@ msgstr "儲存庫分支"
 #: weblate/templates/component_info.html:85
 msgid "Repository with Weblate translations"
 msgstr "有 Weblate 翻譯的儲存庫"
+
+#: weblate/templates/component_info.html:98
+#: weblate/trans/models/component.py:206
+msgid "Monolingual base language file"
+msgstr "單語的基底語言檔"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
@@ -7090,10 +7089,6 @@ msgstr ""
 "要翻譯的檔案路徑，路徑相對於儲存庫的根基，請使用 * 號取代語言碼，例如：po/*."
 "po 或是 locale/*/LC_MESSAGES/django.po。"
 
-#: weblate/trans/models/component.py:206
-msgid "Monolingual base language file"
-msgstr "單語的基底語言檔"
-
 #: weblate/trans/models/component.py:210
 msgid ""
 "Filename of translations base file, which contains all strings and their "
@@ -7263,168 +7258,168 @@ msgstr "SSH 主機金鑰驗證失敗，請在管理介面中將它們加入 SSH 
 msgid "Failed to fetch repository: %s"
 msgstr "無法擷取儲存庫：%s"
 
-#: weblate/trans/models/component.py:688
+#: weblate/trans/models/component.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s 已停用推送。"
 
-#: weblate/trans/models/component.py:742
+#: weblate/trans/models/component.py:741
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "推送到 %s 上的遠端分支時失敗。"
 
-#: weblate/trans/models/component.py:772
+#: weblate/trans/models/component.py:771
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "重設 %s 上的遠端分支時失敗。"
 
-#: weblate/trans/models/component.py:798
+#: weblate/trans/models/component.py:797
 #, python-format
 msgid "Failed to clean the repository on %s."
 msgstr "無法清理 %s 上的儲存庫。"
 
-#: weblate/trans/models/component.py:869
+#: weblate/trans/models/component.py:868
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "無法將我們的分支衍合到遠端分支 %s。"
 
-#: weblate/trans/models/component.py:874
+#: weblate/trans/models/component.py:873
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "無法將遠端分支合併到 %s。"
 
-#: weblate/trans/models/component.py:1153
+#: weblate/trans/models/component.py:1152
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "無效的 Weblate 專案連結，無法連到連結的儲存庫！"
 
-#: weblate/trans/models/component.py:1160
+#: weblate/trans/models/component.py:1159
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "無效的 Weblate 專案連結，無法連到自身！"
 
-#: weblate/trans/models/component.py:1167
+#: weblate/trans/models/component.py:1166
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "無效的 Weblate 專案連結，請使用 weblate://project/component。"
 
-#: weblate/trans/models/component.py:1173
+#: weblate/trans/models/component.py:1172
 msgid "Push URL is not used when repository is linked!"
 msgstr "當儲存庫連結時不使用推送 URL！"
 
-#: weblate/trans/models/component.py:1179
+#: weblate/trans/models/component.py:1178
 msgid "Export URL is not used when repository is linked!"
 msgstr "當儲存庫連結時不使用網址 URL！"
 
-#: weblate/trans/models/component.py:1188
+#: weblate/trans/models/component.py:1187
 msgid "The mask did not match any files!"
 msgstr "遮罩比對不到任何檔案！"
 
-#: weblate/trans/models/component.py:1196
+#: weblate/trans/models/component.py:1195
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "抓到 %s 的語言碼是空白，請檢查檔案遮罩！"
 
-#: weblate/trans/models/component.py:1201
+#: weblate/trans/models/component.py:1200
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "「%s」語言碼太長，請檢查檔案遮罩！"
 
-#: weblate/trans/models/component.py:1205
+#: weblate/trans/models/component.py:1204
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr "有單一語言的更多檔案 (%s)，請調整遮罩並使用組件翻譯不同的資源。"
 
-#: weblate/trans/models/component.py:1224
+#: weblate/trans/models/component.py:1223
 msgid "File does not seem to be valid!"
 msgstr "檔案似乎不正確！"
 
-#: weblate/trans/models/component.py:1232
+#: weblate/trans/models/component.py:1231
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "無法識別出比對到的 %d 格式檔案。"
 
-#: weblate/trans/models/component.py:1241
+#: weblate/trans/models/component.py:1240
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "解析比對到的 %d 檔案失敗！"
 
-#: weblate/trans/models/component.py:1256
+#: weblate/trans/models/component.py:1255
 msgid "Format of base file for new translations was not recognized!"
 msgstr "無法識別新翻譯的基底檔格式！"
 
-#: weblate/trans/models/component.py:1261
+#: weblate/trans/models/component.py:1260
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr "您已設定 Weblate 要加入新翻譯檔，但是卻沒有提供基底檔！"
 
-#: weblate/trans/models/component.py:1270
+#: weblate/trans/models/component.py:1269
 msgid "You can not use base file with bilingual translation!"
 msgstr "您無法使用基底檔作雙語翻譯！"
 
-#: weblate/trans/models/component.py:1275
+#: weblate/trans/models/component.py:1274
 msgid "Using .pot file as base file is not supported!"
 msgstr "不支援使用 .pot 檔作為基底檔！"
 
-#: weblate/trans/models/component.py:1282
+#: weblate/trans/models/component.py:1281
 msgid "Template file not found!"
 msgstr "找不到模板檔！"
 
-#: weblate/trans/models/component.py:1288
+#: weblate/trans/models/component.py:1287
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "無法解析翻譯基底檔：%s"
 
-#: weblate/trans/models/component.py:1298
+#: weblate/trans/models/component.py:1297
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "模板語言 ({0}) 和專案來源語言 ({1}) 不符！"
 
-#: weblate/trans/models/component.py:1305
+#: weblate/trans/models/component.py:1304
 msgid "You can not use monolingual translation without base file!"
 msgstr "您不用基底檔就不能作單語翻譯！"
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1315
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr "請填寫新增翻譯的步驟指示 URL 或使用其他方法。"
 
-#: weblate/trans/models/component.py:1323
+#: weblate/trans/models/component.py:1322
 msgid "License URL can not be used without license summary."
 msgstr "授權條款 URL 不能沒有授權條款摘要。"
 
-#: weblate/trans/models/component.py:1343
+#: weblate/trans/models/component.py:1342
 msgid "Changing version control system is not supported!"
 msgstr "不支援更動版本控制系統！"
 
-#: weblate/trans/models/component.py:1348
+#: weblate/trans/models/component.py:1347
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "未支援的檔案格式：{0}"
 
-#: weblate/trans/models/component.py:1359
+#: weblate/trans/models/component.py:1358
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "無法更新儲存庫：%s"
 
-#: weblate/trans/models/component.py:1379
+#: weblate/trans/models/component.py:1378
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "因為正則表達式無效而無法驗證檔案是否相符。"
 
-#: weblate/trans/models/component.py:1391
+#: weblate/trans/models/component.py:1390
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "自動接受翻譯建議只有在啟用投票功能後才能作用！"
 
-#: weblate/trans/models/component.py:1543
+#: weblate/trans/models/component.py:1542
 msgid "Failed to add new translation file!"
 msgstr "無法新增翻譯檔！"
 
-#: weblate/trans/models/component.py:1555
+#: weblate/trans/models/component.py:1554
 msgid "Given language is filtered by the language filter!"
 msgstr "指定的語言已由語言過濾器過濾！"
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1572
 msgid "Translation file already exists!"
 msgstr "翻譯檔已經存在！"
 
@@ -8019,45 +8014,45 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增語言的要求已傳送給專案維護者。"
 
-#: weblate/trans/views/changes.py:72
+#: weblate/trans/views/changes.py:76
 #, python-format
 msgctxt "Changes in translation"
 msgid "Changes in %s"
 msgstr "%s 的更動"
 
-#: weblate/trans/views/changes.py:84
+#: weblate/trans/views/changes.py:88
 #, python-format
 msgctxt "Changes in component"
 msgid "Changes in %s"
 msgstr "%s 的更動"
 
-#: weblate/trans/views/changes.py:94
+#: weblate/trans/views/changes.py:98
 #, python-format
 msgctxt "Changes in project"
 msgid "Changes in %s"
 msgstr "%s 的更動"
 
-#: weblate/trans/views/changes.py:107
+#: weblate/trans/views/changes.py:111
 #, python-format
 msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "%s 的更動"
 
-#: weblate/trans/views/changes.py:115
+#: weblate/trans/views/changes.py:119
 #, python-format
 msgctxt "Changes by user"
 msgid "Changes by %s"
 msgstr "%s 的更動"
 
-#: weblate/trans/views/changes.py:142
+#: weblate/trans/views/changes.py:146
 msgid "Failed to find matching project!"
 msgstr "找不到符合的專案！"
 
-#: weblate/trans/views/changes.py:155
+#: weblate/trans/views/changes.py:159
 msgid "Failed to find matching language!"
 msgstr "找不到符合的語言！"
 
-#: weblate/trans/views/changes.py:168
+#: weblate/trans/views/changes.py:172
 msgid "Failed to find matching user!"
 msgstr "找不到符合的使用者！"
 
@@ -8683,6 +8678,12 @@ msgstr "回報"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
+
+#~ msgid "Fund Weblate on Liberapay"
+#~ msgstr "透過 Liberapay 資助 Weblate"
+
+#~ msgid "Fund Weblate on Bountysource"
+#~ msgstr "透過 Bountysource 資助 Weblate"
 
 #~ msgid ""
 #~ "Multiple translations were mapped to a single language code (%s). You "

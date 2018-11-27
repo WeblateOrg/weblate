@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-11-25 10:42+0000\n"
+"POT-Creation-Date: 2018-11-27 22:57+0000\n"
 "PO-Revision-Date: 2018-11-23 16:55+0000\n"
 "Last-Translator: Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
@@ -207,7 +207,8 @@ msgstr "Källkodsförråd"
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL till källkodsförråd som t.ex. Git eller Mercurial."
 
-#: weblate/accounts/forms.py:649 weblate/trans/models/component.py:196
+#: weblate/accounts/forms.py:649 weblate/templates/component_info.html:93
+#: weblate/trans/models/component.py:196
 msgid "File mask"
 msgstr "Filmask"
 
@@ -2838,27 +2839,15 @@ msgstr ""
 "Weblate är fri programvara skapad av frivilliga krafter, men du kan ändå "
 "stödja dem finansiellt."
 
-#: weblate/templates/about/index.html:26
-#, fuzzy
-#| msgid "Support Weblate at {0}"
-msgid "Fund Weblate on Liberapay"
-msgstr "Stöd Weblate på {0}"
-
-#: weblate/templates/about/index.html:27
-#, fuzzy
-#| msgid "Support Weblate using GitTip"
-msgid "Fund Weblate on Bountysource"
-msgstr "Stöd Weblate med GitTip"
-
-#: weblate/templates/about/index.html:28 weblate/templates/footer.html:11
+#: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
 msgstr "Donera till Weblate"
 
-#: weblate/templates/about/index.html:35
+#: weblate/templates/about/index.html:33
 msgid "Hosting translations"
 msgstr "Lagrade översättningar"
 
-#: weblate/templates/about/index.html:38
+#: weblate/templates/about/index.html:36
 #, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
@@ -2869,7 +2858,7 @@ msgstr ""
 "Denna instans av Weblate håller översättningar för diverse fri programvara-"
 "projekt."
 
-#: weblate/templates/about/index.html:39
+#: weblate/templates/about/index.html:37
 #, fuzzy
 #| msgid ""
 #| "We can host your project as well, if you are interested, please contact "
@@ -2878,7 +2867,7 @@ msgid "Weblate can host your project as well, please get in touch."
 msgstr ""
 "Vi kan lagra ditt projekt också. Vänligen, kontakta oss om du är intresserad."
 
-#: weblate/templates/about/index.html:42
+#: weblate/templates/about/index.html:40
 #, fuzzy
 #| msgid ""
 #| "Commercial hosting is possible as well, our price starts at 19 EUR per "
@@ -2890,27 +2879,37 @@ msgstr ""
 "Kommersiell lagring är också möjlig. Våra priser startar på 19 EUR per "
 "projekt och månad. Vänligen, kontakta oss för mer detaljerad info."
 
-#: weblate/templates/about/index.html:46
+#: weblate/templates/about/index.html:44
 #: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
 msgstr "Fråga om projektlagring"
 
-#: weblate/templates/about/index.html:47
+#: weblate/templates/about/index.html:45
 #: weblate/templates/billing/overview.html:19
 msgid "View hosting plans"
 msgstr "Se hostingplaner"
 
-#: weblate/templates/about/index.html:48
+#: weblate/templates/about/index.html:47
+#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/billing-failure.html:8
+#: weblate/templates/billing/overview.html:23
+#: weblate/templates/projects.html:13
+#, fuzzy
+#| msgid "View hosting plans"
+msgid "Purchase new hosting plan"
+msgstr "Se hostingplaner"
+
+#: weblate/templates/about/index.html:49
 #: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
 msgstr "Kontakta oss för kommersiell lagring"
 
-#: weblate/templates/about/index.html:55
+#: weblate/templates/about/index.html:57
 msgid "Versions"
 msgstr "Versioner"
 
-#: weblate/templates/about/index.html:71
+#: weblate/templates/about/index.html:73
 msgid "Weblate owes its existence to these projects."
 msgstr ""
 
@@ -3296,15 +3295,6 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
-
-#: weblate/templates/accounts/hosting.html:32
-#: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
-#: weblate/templates/projects.html:13
-#, fuzzy
-#| msgid "View hosting plans"
-msgid "Purchase new hosting plan"
-msgstr "Se hostingplaner"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -4629,6 +4619,11 @@ msgstr "Förrådsutforskare"
 #| msgid "Git repository with Weblate translations:"
 msgid "Repository with Weblate translations"
 msgstr "Git-förråd med Weblate-översättningar:"
+
+#: weblate/templates/component_info.html:98
+#: weblate/trans/models/component.py:206
+msgid "Monolingual base language file"
+msgstr "Enspråkig basspråkfil"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
@@ -8383,10 +8378,6 @@ msgstr ""
 "Sökväg för filer att översätta, använd * istället för språkkod, till "
 "exempel: po/*.po ellerr locale/*/LC_MESSAGES/django.po."
 
-#: weblate/trans/models/component.py:206
-msgid "Monolingual base language file"
-msgstr "Enspråkig basspråkfil"
-
 #: weblate/trans/models/component.py:210
 msgid ""
 "Filename of translations base file, which contains all strings and their "
@@ -8592,79 +8583,79 @@ msgstr ""
 msgid "Failed to fetch repository: %s"
 msgstr "Kunde inte hämta git-förråd: %s"
 
-#: weblate/trans/models/component.py:688
+#: weblate/trans/models/component.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:742
+#: weblate/trans/models/component.py:741
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:772
+#: weblate/trans/models/component.py:771
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:798
+#: weblate/trans/models/component.py:797
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to clean the repository on %s."
 msgstr "Kunde inte hämta git-förråd: %s"
 
-#: weblate/trans/models/component.py:869
+#: weblate/trans/models/component.py:868
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:874
+#: weblate/trans/models/component.py:873
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1153
+#: weblate/trans/models/component.py:1152
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "Kan inte länka till det länkade förrådet!"
 
-#: weblate/trans/models/component.py:1160
+#: weblate/trans/models/component.py:1159
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Kan inte länka till det länkade förrådet!"
 
-#: weblate/trans/models/component.py:1167
+#: weblate/trans/models/component.py:1166
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ogiltig link till Weblate-projekt, använd weblate://projekt/underprojekt."
 
-#: weblate/trans/models/component.py:1173
+#: weblate/trans/models/component.py:1172
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1179
+#: weblate/trans/models/component.py:1178
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1188
+#: weblate/trans/models/component.py:1187
 msgid "The mask did not match any files!"
 msgstr "Masken matchade inte några filer!"
 
-#: weblate/trans/models/component.py:1196
+#: weblate/trans/models/component.py:1195
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1201
+#: weblate/trans/models/component.py:1200
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1205
+#: weblate/trans/models/component.py:1204
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
@@ -8676,59 +8667,59 @@ msgstr ""
 "Det finns fler filer för enskilda språk, justera masken och använd "
 "underprojekt för att översätta olika resurser."
 
-#: weblate/trans/models/component.py:1224
+#: weblate/trans/models/component.py:1223
 msgid "File does not seem to be valid!"
 msgstr "Filen verkar inte vara giltig!"
 
-#: weblate/trans/models/component.py:1232
+#: weblate/trans/models/component.py:1231
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formatet på %d matchande filer kändes inte igen."
 
-#: weblate/trans/models/component.py:1241
+#: weblate/trans/models/component.py:1240
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kunde inte tolka %d matchade filer!"
 
-#: weblate/trans/models/component.py:1256
+#: weblate/trans/models/component.py:1255
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Formatet på basfil för nya översättningar kändes inte igen!"
 
-#: weblate/trans/models/component.py:1261
+#: weblate/trans/models/component.py:1260
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1270
+#: weblate/trans/models/component.py:1269
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "Du kan inte använda enspråkig översättning utan en mall!"
 
-#: weblate/trans/models/component.py:1275
+#: weblate/trans/models/component.py:1274
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1282
+#: weblate/trans/models/component.py:1281
 msgid "Template file not found!"
 msgstr "Mallfil ej funnen!"
 
-#: weblate/trans/models/component.py:1288
+#: weblate/trans/models/component.py:1287
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Kunde inte tolka basfilen för översättning: %s"
 
-#: weblate/trans/models/component.py:1298
+#: weblate/trans/models/component.py:1297
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1305
+#: weblate/trans/models/component.py:1304
 msgid "You can not use monolingual translation without base file!"
 msgstr "Du kan inte använda enspråkig översättning utan en basfil!"
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1315
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -8736,49 +8727,49 @@ msgstr ""
 "Fyll antingen i instruktions-URL eller använd ett annat val för att lägga "
 "till ett nytt språk."
 
-#: weblate/trans/models/component.py:1323
+#: weblate/trans/models/component.py:1322
 msgid "License URL can not be used without license summary."
 msgstr "Licens-URL kan inte användas utan en licenssammanfattning."
 
-#: weblate/trans/models/component.py:1343
+#: weblate/trans/models/component.py:1342
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1348
+#: weblate/trans/models/component.py:1347
 #, fuzzy, python-brace-format
 #| msgid "Support Weblate at {0}"
 msgid "Unsupported file format: {0}"
 msgstr "Stöd Weblate på {0}"
 
-#: weblate/trans/models/component.py:1359
+#: weblate/trans/models/component.py:1358
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
 msgstr "Kunde inte hämta git-förråd: %s"
 
-#: weblate/trans/models/component.py:1379
+#: weblate/trans/models/component.py:1378
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:1391
+#: weblate/trans/models/component.py:1390
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatiskt accepterande av förslag kan endast fungera då röstning är "
 "aktiverad!"
 
-#: weblate/trans/models/component.py:1543
+#: weblate/trans/models/component.py:1542
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
 msgstr "Kunde inte spara översättning!"
 
-#: weblate/trans/models/component.py:1555
+#: weblate/trans/models/component.py:1554
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
 msgstr "Enspråkig basspråkfil"
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1572
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file already exists!"
@@ -9468,50 +9459,50 @@ msgid ""
 msgstr ""
 "En förfrågan om en ny översättning har skickats till projektets utvecklare."
 
-#: weblate/trans/views/changes.py:72
+#: weblate/trans/views/changes.py:76
 #, fuzzy, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in translation"
 msgid "Changes in %s"
 msgstr "Senaste ändringar i %s"
 
-#: weblate/trans/views/changes.py:84
+#: weblate/trans/views/changes.py:88
 #, fuzzy, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in component"
 msgid "Changes in %s"
 msgstr "Senaste ändringar i %s"
 
-#: weblate/trans/views/changes.py:94
+#: weblate/trans/views/changes.py:98
 #, fuzzy, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in project"
 msgid "Changes in %s"
 msgstr "Senaste ändringar i %s"
 
-#: weblate/trans/views/changes.py:107
+#: weblate/trans/views/changes.py:111
 #, fuzzy, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "Senaste ändringar i %s"
 
-#: weblate/trans/views/changes.py:115
+#: weblate/trans/views/changes.py:119
 #, fuzzy, python-format
 #| msgid "Changes"
 msgctxt "Changes by user"
 msgid "Changes by %s"
 msgstr "Ändringar"
 
-#: weblate/trans/views/changes.py:142
+#: weblate/trans/views/changes.py:146
 msgid "Failed to find matching project!"
 msgstr "Kunde inte hitta matchande projekt!"
 
-#: weblate/trans/views/changes.py:155
+#: weblate/trans/views/changes.py:159
 msgid "Failed to find matching language!"
 msgstr "Kunde inte hitta matchande språk!"
 
-#: weblate/trans/views/changes.py:168
+#: weblate/trans/views/changes.py:172
 msgid "Failed to find matching user!"
 msgstr "Kunde inte hitta matchande användare!"
 
@@ -10217,6 +10208,16 @@ msgstr "Rapporter"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Inställningsfel"
+
+#, fuzzy
+#~| msgid "Support Weblate at {0}"
+#~ msgid "Fund Weblate on Liberapay"
+#~ msgstr "Stöd Weblate på {0}"
+
+#, fuzzy
+#~| msgid "Support Weblate using GitTip"
+#~ msgid "Fund Weblate on Bountysource"
+#~ msgstr "Stöd Weblate med GitTip"
 
 #~ msgid "Donate to Weblate at {0}"
 #~ msgstr "Donera till Weblate på {0}"
