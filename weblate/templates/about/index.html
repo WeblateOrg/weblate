@@ -43,7 +43,11 @@
   <div class="panel-footer">
   <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
   <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+{% if payment_enabled %}
+  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+{% else %}
   <a class="btn btn-primary" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
+{% endif %}
   </div>
 </div>
 {% endif %}
