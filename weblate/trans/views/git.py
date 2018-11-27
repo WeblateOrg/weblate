@@ -48,7 +48,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
             request,
             _('Failed to lock the repository, another operation in progress.')
         )
-        report_error(error)
+        report_error(error, request)
 
     return redirect_param(obj, '#repository')
 

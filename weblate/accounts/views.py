@@ -887,7 +887,7 @@ def auth_redirect_state(request):
 
 
 def handle_missing_parameter(request, backend, error):
-    report_error(error)
+    report_error(error, request)
     if backend != 'email' and error.parameter == 'email':
         return auth_fail(
             request,
