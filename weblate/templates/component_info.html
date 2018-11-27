@@ -61,16 +61,6 @@
 </tr>
 {% endif %}
 
-<tr>
-<th>{% trans "File mask" %}</th><td><code>{{ object.filemask }}</code></td>
-</tr>
-
-{% if object.template %}
-<tr>
-<th>{% trans "Monolingual base language file" %}</th><td><code>{{ object.template }}</code></td>
-</tr>
-{% endif %}
-
 {% if user_can_see_git_repository %}
 <tr>
 <th>{% trans "Repository" %}</th>
@@ -97,4 +87,14 @@
 </tr>
 {% endif %}
 {% endwith %}
+{% endif %}
+
+<tr>
+<th>{% trans "File mask" %}</th><td><code>{{ object.filemask }}</code></td>
+</tr>
+
+{% if object.template %}
+<tr>
+<th>{% trans "Monolingual base language file" %}</th><td><code>{{ object.template }}</code></td>
+</tr>
 {% endif %}
