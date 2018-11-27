@@ -1587,6 +1587,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 sender=self.__class__,
                 translation=translation
             )
+        translation.check_sync(force=True, request=request)
         translation.commit_template = 'add'
         translation.git_commit(
             request,
@@ -1594,10 +1595,6 @@ class Component(models.Model, URLMixin, PathMixin):
             if request else 'Weblate <noreply@weblate.org>',
             timezone.now(),
             force_new=True,
-        )
-        translation.check_sync(
-            force=True,
-            request=request
         )
         self.run_target_checks()
         translation.invalidate_cache()
