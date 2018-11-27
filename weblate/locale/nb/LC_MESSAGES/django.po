@@ -5,13 +5,14 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2018.
 # Petter Reinholdtsen <pere-weblate@hungry.com>, 2018.
 # Jon Harald Søby <jhsoby@gmail.com>, 2018.
+# Kurt Eilertsen <kurt@kheds.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-25 10:42+0000\n"
-"PO-Revision-Date: 2018-11-24 10:59+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2018-11-27 20:07+0000\n"
+"Last-Translator: Kurt Eilertsen <kurt@kheds.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
 "Language: nb\n"
@@ -2272,7 +2273,6 @@ msgid "How do you store user passwords?"
 msgstr "Hvordan lagres brukerpassord?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
@@ -2281,8 +2281,6 @@ msgstr ""
 "HMAC og SHA-256 med 150000 gjentagelser."
 
 #: weblate/legal/templates/legal/security.html:45
-#, fuzzy
-#| msgid "How are security issues reported?"
 msgid "How to report a security issue?"
 msgstr "Hvordan rapporteres sikkerhetsfeil?"
 
@@ -2865,14 +2863,11 @@ msgstr ""
 "tålmod etter innsendelse."
 
 #: weblate/templates/accounts/hosting.html:30
-#, fuzzy, python-format
-#| msgid ""
-#| "Looking for commercial hosting? Our price starts at %(price)s EUR per "
-#| "month."
+#, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
-"Er du ute etter komersiell vertstjening? Priser fra %(price)s EUR per måned."
+"Er du ute etter komersiell nettplass? Priser fra %(price)s EUR per måned."
 
 #: weblate/templates/accounts/hosting.html:32
 #: weblate/templates/billing-failure.html:8
@@ -3588,7 +3583,6 @@ msgid "Check your billing status"
 msgstr "Sjekk din faktureringsstatus"
 
 #: weblate/templates/billing-failure.html:12
-#, fuzzy
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
@@ -3695,7 +3689,7 @@ msgstr "Kodelagergrense"
 
 #: weblate/templates/billing/status.html:26
 msgid "Projects limit"
-msgstr "Grense for prosjekter"
+msgstr "Prosjekt begrensning"
 
 #: weblate/templates/billing/status.html:36
 msgid "No projects currently assigned!"
@@ -4906,7 +4900,7 @@ msgid ""
 "please renew it using the following link:"
 msgstr ""
 "Faktureringsplanen din har utløpt, hvis du ønsker å bruke tjenesten, forny "
-"den ved bruk av følgende lenke."
+"den ved bruk av følgende lenke:"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
@@ -5302,7 +5296,6 @@ msgid "Import existing translations"
 msgstr "Importer eksisterende oversettelser"
 
 #: weblate/templates/memory/index.html:72
-#, fuzzy
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
@@ -5364,7 +5357,7 @@ msgstr "Kvitre om denne oversettelsen"
 #: weblate/templates/project.html:117
 #, python-format
 msgid "The repository for this component is linked to %(target)s."
-msgstr "Kodelageret for denne komponenten er lenket til %(target)s"
+msgstr "Kodelageret for denne komponenten er lenket til %(target)s."
 
 #: weblate/templates/project.html:117
 msgid "link"
@@ -5544,10 +5537,6 @@ msgid "Project Information"
 msgstr "Prosjektinformasjon"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it on following link."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
@@ -5600,8 +5589,6 @@ msgstr ""
 "kodelageret."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
@@ -5618,13 +5605,12 @@ msgid "Error"
 msgstr "Feil"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
-#, fuzzy
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"VKS-pakkebrønnen har mange endringer sammenlignet med den oppstrøms. Flett "
-"endringene manuelt, eller sett opp push for å automatisere dette."
+"VKS-pakkearkivet har mange endringer sammenlignet med opplastingen. Flett "
+"endringene manuelt, eller sett opp plan for å automatisere dette."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -5674,14 +5660,12 @@ msgid "Are you absolutely sure?"
 msgstr "Er du helt sikker?"
 
 #: weblate/templates/trans/delete-form.html:11
-#, fuzzy
-#| msgid "Following translation components will be also removed:"
 msgid "The following translation components will be also removed:"
-msgstr "Følgende komponenter vil fjernes:"
+msgstr "Følgende oversettelses komponenter vil fjernes:"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr "Jeg forstår konsekvensene, slett denne oversettelsen."
+msgstr "Jeg forstår konsekvensene, slett denne oversettelsen"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6969,20 +6953,14 @@ msgid "Could not parse translation files."
 msgstr "Kunne ikke tolke oversettelsesfiler."
 
 #: weblate/trans/models/alert.py:163
-#, fuzzy
-#| msgid "Your billing plan is above limits"
 msgid "Your billing plan has exceeded its limits."
-msgstr "Din faktureringsplan er for liten."
+msgstr "Din faktureringsplan er oversteget."
 
 #: weblate/trans/models/alert.py:168
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository outdated."
 msgstr "Pakkelageret er utdatert."
 
 #: weblate/trans/models/alert.py:173
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository has changes."
 msgstr "Pakkelageret har endringer."
 
@@ -8139,7 +8117,6 @@ msgid "XML text"
 msgstr "XML-tekst"
 
 #: weblate/trans/validators.py:33
-#, fuzzy
 msgid "DOS end of lines"
 msgstr "DOS-linjeslutt"
 
