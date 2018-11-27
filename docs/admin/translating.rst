@@ -38,23 +38,6 @@ You can combine these with :ref:`privileges` into one of following setups:
   this case it can be optionally used by users when they are not sure about
   translation (they can suggest more of them).
 
-.. _locking:
-
-Translation locking
--------------------
-
-To improve collaboration, it is good to prevent duplicate effort on
-translation. To achieve this, translation can be locked for a single translator.
-This can be either done manually on translation page or is done automatically
-when somebody starts to work on translation. The automatic locking needs to be
-enabled using :setting:`AUTO_LOCK`.
-
-The automatic lock is valid for :setting:`AUTO_LOCK_TIME` seconds and is
-automatically extended on every translation made and while user has opened
-translation page.
-
-A user can also explicitly lock a translation for :setting:`LOCK_TIME` seconds.
-
 .. _additional:
 
 Additional information on source strings
