@@ -81,7 +81,6 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
 .. _github_auth:
 
-
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -215,6 +214,31 @@ ensure to mark the `read_user` scope.
 .. seealso:: 
    
    :doc:`psa:backends/gitlab`
+
+Disabling password authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Email and password authentication can be disabled by removing
+``social_core.backends.email.EmailAuth`` from
+:setting:`django:AUTHENTICATION_BACKENDS`. Always keep
+``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
+Weblate functionality.
+
+.. tip::
+
+   You can still use password authentication for the admin interface for users you
+   manually create there. Just navigate to ``/admin/``.
+
+For example authentication using only openSUSE Open ID provider can be achieved
+using following:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.suse.OpenSUSEOpenId',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
 
 Password authentication
 -----------------------
