@@ -61,7 +61,7 @@ class ConfigurationError(models.Model):
     name = models.CharField(unique=True, max_length=150)
     message = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
-    ignored = models.BooleanField(default=False)
+    ignored = models.BooleanField(default=False, db_index=True)
 
     objects = ConfigurationErrorManager()
 
