@@ -171,10 +171,6 @@ ROLES = (
         pgettext('Access control role', 'Billing'),
         filter_perms('billing.')
     ),
-    (
-        pgettext('Access control role', 'Coordinator'),
-        filter_perms('reports.')
-    ),
 )
 
 # Default set of roles for groups
@@ -226,8 +222,6 @@ ACL_GROUPS = {
         'Manage repository',
     pgettext('Per project access control group', 'Administration'):
         'Administration',
-    pgettext('Per project access control group', 'Coordinator'):
-        'Coordinator',
     pgettext('Per project access control group', 'Billing'):
         'Billing',
 }
