@@ -196,6 +196,8 @@ class MachineTranslation(object):
 
     def get_supported_languages(self, request):
         """Return list of supported languages."""
+        if self.supported_languages is not None:
+            return
 
         # Try using list from cache
         languages = cache.get(self.languages_cache)
@@ -258,11 +260,8 @@ class MachineTranslation(object):
 
     def translate(self, language, text, unit, request, source=None):
         """Return list of machine translations."""
-        if not text or self.is_rate_limited():
-            return []
 
-        if self.supported_languages is None:
-            self.get_supported_languages(request)
+        self.get_supported_languages(request)
 
         if source is None:
             language = self.convert_language(language)
@@ -270,7 +269,7 @@ class MachineTranslation(object):
                 unit.translation.component.project.source_language.code
             )
 
-        if source == language:
+        if not text or self.is_rate_limited() or source == language:
             return []
 
         if not self.is_supported(source, language):
