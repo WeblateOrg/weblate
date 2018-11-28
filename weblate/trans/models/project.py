@@ -263,7 +263,7 @@ class Project(models.Model, URLMixin, PathMixin):
         # Push all components, this avoids multiple pushes for linked
         # components
         for component in components:
-            ret |= component.push_if_needed(request, on_commit=on_commit)
+            component.push_if_needed(request, on_commit=on_commit)
 
         return ret
 
