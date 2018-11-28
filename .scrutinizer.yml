@@ -9,7 +9,6 @@ filter:
 build:
     environment:
         python: 3.6
-        postgresql: true
     dependencies:
         override:
             - pip install -r ci/requirements-scrutinizer.txt
@@ -22,6 +21,8 @@ build:
                     idle_timeout: 360
                   - py-scrutinizer-run
         tests:
+            services:
+                postgres: 10
             tests:
                 override:
                     -
