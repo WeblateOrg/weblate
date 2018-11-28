@@ -33,10 +33,11 @@ from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 
 from weblate.auth.models import User
-from weblate.utils import messages
-from weblate.trans.models.change import Change
-from weblate.utils.views import get_project_translation
 from weblate.lang.models import Language
+from weblate.trans.models.change import Change
+from weblate.utils import messages
+from weblate.utils.site import get_site_url
+from weblate.utils.views import get_project_translation
 
 
 class ChangesView(ListView):
@@ -241,7 +242,7 @@ class ChangesCSVView(ChangesView):
                 change.timestamp.isoformat(),
                 change.get_action_display(),
                 change.user.username if change.user else '',
-                change.get_absolute_url(),
+                get_site_url(change.get_absolute_url()),
                 change.target,
             ))
 

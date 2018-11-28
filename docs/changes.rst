@@ -20,6 +20,7 @@ Released on October 20th 2018.
 * Expose XLIFF unit resname as context when available.
 * Added support for XLIFF states.
 * Added check for non writable files in DATA_DIR.
+* Improved CSV export for changes.
 
 weblate 3.2.1
 -------------
