@@ -247,6 +247,15 @@ class MachineTranslation(object):
             return True
         return False
 
+    def translate_cache_key(self, source, language, text):
+        if not self.cache_translations:
+            return None
+        return 'mt:{}:{}:{}'.format(
+            self.mtid,
+            calculate_hash(source, language),
+            calculate_hash(None, text),
+        )
+
     def translate(self, language, text, unit, request, source=None):
         """Return list of machine translations."""
         if not text or self.is_rate_limited():
@@ -276,13 +285,8 @@ class MachineTranslation(object):
                 return self.translate(language, text, unit, request, source)
             return []
 
-        cache_key = None
-        if self.cache_translations:
-            cache_key = 'mt:{}:{}:{}'.format(
-                self.mtid,
-                calculate_hash(source, language),
-                calculate_hash(None, text),
-            )
+        cache_key = self.translate_cache_key(source, language, text)
+        if cache_key:
             result = cache.get(cache_key)
             if result is not None:
                 return result
