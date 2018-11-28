@@ -190,7 +190,9 @@ class MachineTranslation(object):
         extra = {'mt_url': self.request_url, 'mt_params': self.request_params}
         report_error(exc, request, extra)
         LOGGER.error(message, self.name)
-        LOGGER.info('Last URL: %(mt_url)s, params: %(mt_params)s', **extra)
+        LOGGER.info(
+            'Last URL: %s, params: %s', extra['mt_url'], extra['mt_params']
+        )
 
     def get_supported_languages(self, request):
         """Return list of supported languages."""
