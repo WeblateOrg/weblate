@@ -58,5 +58,5 @@ def report_error(error, request=None, extra_data=None):
     LOGGER.error(
         'Handled exception %s: %s',
         error.__class__.__name__,
-        force_text(error).encode('utf-8')
+        force_text(error)
     )
