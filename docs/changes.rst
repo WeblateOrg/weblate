@@ -1,6 +1,19 @@
 Changes
 =======
 
+weblate 3.3
+-----------
+
+Released on ? 2018.
+
+* Added support for component and project removal.
+* Improved performance for some monolingual translations.
+* Added translation component alerts to highlight problems with a translation.
+* Expose XLIFF unit resname as context when available.
+* Added support for XLIFF states.
+* Added check for non writable files in DATA_DIR.
+* Improved CSV export for changes.
+
 weblate 3.2.2
 -------------
 
@@ -14,13 +27,6 @@ Released on October 20th 2018.
 * Improved plurals handling.
 * Fixed translation upload API failure in some corner cases.
 * Fixed updating Git configuration in case it was changed manually.
-* Added support for component and project removal.
-* Improved performance for some monolingual translations.
-* Added translation component alerts to highlight problems with a translation.
-* Expose XLIFF unit resname as context when available.
-* Added support for XLIFF states.
-* Added check for non writable files in DATA_DIR.
-* Improved CSV export for changes.
 
 weblate 3.2.1
 -------------
