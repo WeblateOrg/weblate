@@ -306,7 +306,7 @@ Projects
     Manage project access [`Administration`]
 
 Reports
-    Download reports [`Administration`]
+    Download reports [`Administration`, `Coordinator`]
 
 Screenshots
     Add screenshot [`Administration`, `Manage screenshots`]
