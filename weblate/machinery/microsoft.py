@@ -101,7 +101,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """
         return self.json_req(LIST_URL)
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         args = {
             'text': text[:5000],

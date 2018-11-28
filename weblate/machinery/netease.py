@@ -80,7 +80,7 @@ class NeteaseSightTranslation(MachineTranslation):
         request.add_header('timestamp', timestamp)
         request.add_header('signature', sign)
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         response = self.json_req(
             NETEASE_API_ROOT,

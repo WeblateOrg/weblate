@@ -65,7 +65,7 @@ def translate(request, unit_id, service):
             unit.translation.language.code,
             unit.get_source_plurals()[0],
             unit,
-            request.user
+            request
         )
         response['responseStatus'] = 200
     except Exception as exc:

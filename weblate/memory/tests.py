@@ -21,10 +21,11 @@ from __future__ import unicode_literals
 
 import json
 
-from django.test import SimpleTestCase, TestCase
-from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.http import HttpRequest
+from django.test import SimpleTestCase, TestCase
+from django.urls import reverse
 
 from six import StringIO
 
@@ -167,8 +168,10 @@ class MemoryDBTest(TestCase):
     def test_machine(self):
         add_document()
         machine_translation = WeblateMemory()
+        request = HttpRequest()
+        request.user = None
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello', MockUnit(), None),
+            machine_translation.translate('cs', 'Hello', MockUnit(), request),
             [
                 {
                     'quality': 100,

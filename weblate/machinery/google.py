@@ -69,7 +69,7 @@ class GoogleTranslation(MachineTranslation):
 
         return [d['language'] for d in response['data']['languages']]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         response = self.json_req(
             GOOGLE_API_ROOT,

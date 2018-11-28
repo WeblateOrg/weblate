@@ -31,7 +31,7 @@ class DummyTranslation(MachineTranslation):
         """Dummy translation supports just Czech language."""
         return ('en', 'cs')
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Dummy translation supports just single phrase."""
         if source == 'en' and text.strip() == 'Hello, world!':
             return [

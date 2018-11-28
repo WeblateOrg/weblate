@@ -76,7 +76,7 @@ class SAPTranslationHub(MachineTranslation):
         lang = [d['id'] for d in response['languages']]
         return lang
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
 
         # should the machine translation service be used?

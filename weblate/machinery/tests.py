@@ -23,6 +23,7 @@ import json
 
 from botocore.stub import Stubber, ANY
 
+from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -244,19 +245,22 @@ class MachineTranslationTest(TestCase):
 
     def test_support(self):
         machine_translation = self.get_machine(DummyTranslation)
+        machine_translation.get_supported_languages(HttpRequest())
         self.assertTrue(machine_translation.is_supported('en', 'cs'))
         self.assertFalse(machine_translation.is_supported('en', 'de'))
 
     def test_translate(self):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello', MockUnit(), None),
+            machine_translation.translate(
+                'cs', 'Hello', MockUnit(), HttpRequest()
+            ),
             []
         )
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    'cs', 'Hello, world!', MockUnit(), None
+                    'cs', 'Hello, world!', MockUnit(), HttpRequest()
                 )
             ),
             2
@@ -267,7 +271,7 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    'cs_CZ', 'Hello, world!', MockUnit(), None
+                    'cs_CZ', 'Hello, world!', MockUnit(), HttpRequest()
                 )
             ),
             2
@@ -277,13 +281,13 @@ class MachineTranslationTest(TestCase):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
             machine_translation.translate(
-                'de_CZ', 'Hello, world!', MockUnit(), None
+                'de_CZ', 'Hello, world!', MockUnit(), HttpRequest()
             ),
             []
         )
 
     def assert_translate(self, machine, lang='cs', word='world', empty=False):
-        translation = machine.translate(lang, word, MockUnit(), None)
+        translation = machine.translate(lang, word, MockUnit(), HttpRequest())
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(translation)
@@ -418,6 +422,7 @@ class MachineTranslationTest(TestCase):
             content_type='text/xml',
             status=500,
         )
+        machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
@@ -466,6 +471,7 @@ class MachineTranslationTest(TestCase):
             body='',
             status=500,
         )
+        machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
@@ -547,6 +553,7 @@ class MachineTranslationTest(TestCase):
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
             body=b'{"code": 401, "message": "Invalid request"}'
         )
+        machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
@@ -686,6 +693,7 @@ class MachineTranslationTest(TestCase):
             body='',
             status=500
         )
+        machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
@@ -742,10 +750,12 @@ class WeblateTranslationTest(FixtureTestCase):
     def test_same(self):
         machine = WeblateTranslation()
         unit = Unit.objects.all()[0]
+        request = HttpRequest()
+        request.user = self.user
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
             unit,
-            self.user
+            request,
         )
         self.assertEqual(results, [])

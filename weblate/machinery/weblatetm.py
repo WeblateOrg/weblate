@@ -50,10 +50,10 @@ class WeblateTranslation(MachineTranslation):
             unit.get_source_plurals()[0],
         )
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
-            translation__component__project__in=user.allowed_projects
+            translation__component__project__in=request.user.allowed_projects
         ).more_like_this(unit, 1000)
 
         result = set((

@@ -72,7 +72,7 @@ class MyMemoryTranslation(MachineTranslation):
             match['segment'],
         )
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from MyMemory."""
         args = {
             'q': text.split('. ')[0][:500],

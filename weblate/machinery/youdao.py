@@ -70,7 +70,7 @@ class YoudaoTranslation(MachineTranslation):
             'id'
         ]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             settings.MT_YOUDAO_ID, settings.MT_YOUDAO_SECRET, text
