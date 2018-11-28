@@ -136,17 +136,17 @@ class TranslationMemory(WhooshIndex):
         return category
 
     @classmethod
-    def import_file(cls, fileobj, langmap=None, category=None, project=None,
-                    user=None):
+    def import_file(cls, request, fileobj, langmap=None, category=None,
+                    project=None, user=None):
         origin = force_text(os.path.basename(fileobj.name)).lower()
         category = cls.get_category(category, project, user)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
         if extension == '.tmx':
-            result = cls.import_tmx(fileobj, langmap, category, origin)
+            result = cls.import_tmx(request, fileobj, langmap, category, origin)
         elif extension == '.json':
-            result = cls.import_json(fileobj, category, origin)
+            result = cls.import_json(request, fileobj, category, origin)
         else:
             raise MemoryImportError(_('Unsupported file!'))
         if not result:
@@ -156,13 +156,13 @@ class TranslationMemory(WhooshIndex):
         return result
 
     @classmethod
-    def import_json(cls, fileobj, category=None, origin=None):
+    def import_json(cls, request, fileobj, category=None, origin=None):
         from weblate.memory.tasks import update_memory_task
         content = fileobj.read()
         try:
             data = json.loads(force_text(content))
         except (ValueError, UnicodeDecodeError) as error:
-            report_error(error)
+            report_error(error, request)
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}
         fields = cls.SCHEMA().names()
@@ -189,14 +189,14 @@ class TranslationMemory(WhooshIndex):
         return found
 
     @classmethod
-    def import_tmx(cls, fileobj, langmap=None, category=None, origin=None):
+    def import_tmx(cls, request, fileobj, langmap=None, category=None, origin=None):
         from weblate.memory.tasks import update_memory_task
         if category is None:
             category = CATEGORY_FILE
         try:
             storage = tmxfile.parsefile(fileobj)
         except SyntaxError as error:
-            report_error(error)
+            report_error(error, request)
             raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
             storage.document.getroot().iterchildren(

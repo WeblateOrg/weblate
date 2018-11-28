@@ -102,7 +102,7 @@ class UploadView(MemoryFormView):
             raise PermissionDenied()
         try:
             TranslationMemory.import_file(
-                form.cleaned_data['file'], **self.objects
+                self.request, form.cleaned_data['file'], **self.objects
             )
             messages.success(
                 self.request,

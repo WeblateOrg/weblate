@@ -57,6 +57,6 @@ class Command(BaseCommand):
             }
 
         try:
-            TranslationMemory.import_file(options['file'], langmap)
+            TranslationMemory.import_file(None, options['file'], langmap)
         except MemoryImportError as error:
             raise CommandError('Import failed: {}'.format(error))
