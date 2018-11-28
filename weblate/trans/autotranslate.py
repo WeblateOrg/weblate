@@ -117,7 +117,7 @@ class AutoTranslate(object):
                     self.translation.language.code,
                     unit.get_source_plurals()[0],
                     unit,
-                    self.user
+                    self.request
                 )
 
                 for item in result:
