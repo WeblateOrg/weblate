@@ -152,7 +152,8 @@ class GitRepository(Repository):
             self.execute(['merge', tmp])
 
         # Delete temporary branch
-        self.execute(['branch', '-D', tmp])
+        if self.has_branch(tmp):
+            self.execute(['branch', '-D', tmp])
 
     def needs_commit(self, filename=None):
         """Check whether repository needs commit."""
