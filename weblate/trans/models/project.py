@@ -276,7 +276,10 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_push(self, request=None):
         """Push all Git repos."""
-        return self.commit_pending('push', request, on_commit=False)
+        ret = False
+        for component in self.all_repo_components():
+            ret |= component.do_push(request)
+        return ret
 
     def do_reset(self, request=None):
         """Push all Git repos."""
