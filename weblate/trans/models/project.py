@@ -251,7 +251,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def commit_pending(self, reason, request):
         """Commit any pending changes."""
-        return self.on_repo_components(False, 'commit_pending')
+        return self.on_repo_components(True, 'commit_pending')
 
     def repo_needs_merge(self):
         return self.on_repo_components(False, 'repo_needs_merge')
