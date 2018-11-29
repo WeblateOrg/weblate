@@ -238,23 +238,6 @@ class Project(models.Model, URLMixin, PathMixin):
                 return True
         return False
 
-    def commit_pending(self, reason, request, on_commit=True):
-        """Commit any pending changes."""
-        ret = False
-
-        components = self.all_repo_components()
-
-        # Iterate all components
-        for component in components:
-            component.commit_pending(reason, request, skip_push=True)
-
-        # Push all components, this avoids multiple pushes for linked
-        # components
-        for component in components:
-            component.push_if_needed(request, on_commit=on_commit)
-
-        return ret
-
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
         ret = default
@@ -265,6 +248,10 @@ class Project(models.Model, URLMixin, PathMixin):
             else:
                 ret = ret | res
         return ret
+
+    def commit_pending(self, reason, request):
+        """Commit any pending changes."""
+        return self.on_repo_components(False, 'commit_pending')
 
     def repo_needs_merge(self):
         return self.on_repo_components(False, 'repo_needs_merge')

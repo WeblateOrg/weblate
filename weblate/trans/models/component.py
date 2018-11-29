@@ -659,7 +659,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return ret
 
-    def push_if_needed(self, request, do_update=True, on_commit=True):
+    def push_if_needed(self, request, do_update=True):
         """Wrapper to push if needed
 
         Checks for:
@@ -668,7 +668,7 @@ class Component(models.Model, URLMixin, PathMixin):
         * Configured push
         * There is something to push
         """
-        if on_commit and not self.push_on_commit:
+        if not self.push_on_commit:
             return True
         if not self.can_push():
             return True
