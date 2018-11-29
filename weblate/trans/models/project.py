@@ -238,18 +238,6 @@ class Project(models.Model, URLMixin, PathMixin):
                 return True
         return False
 
-    def repo_needs_merge(self):
-        for component in self.component_set.all():
-            if component.repo_needs_merge():
-                return True
-        return False
-
-    def repo_needs_push(self):
-        for component in self.all_repo_components():
-            if component.repo_needs_push():
-                return True
-        return False
-
     def commit_pending(self, reason, request, on_commit=True):
         """Commit any pending changes."""
         ret = False
@@ -267,6 +255,19 @@ class Project(models.Model, URLMixin, PathMixin):
 
         return ret
 
+    def on_repo_components(self, method, *args, **kwargs):
+        """Wrapper for operations on repository."""
+        ret = False
+        for component in self.all_repo_components():
+            ret |= getattr(component, method)(*args, **kwargs)
+        return ret
+
+    def repo_needs_merge(self):
+        return self.on_repo_components('repo_needs_merge')
+
+    def repo_needs_push(self):
+        return self.on_repo_components('repo_needs_push')
+
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
         ret = True
@@ -276,31 +277,19 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_push(self, request=None):
         """Push all Git repos."""
-        ret = False
-        for component in self.all_repo_components():
-            ret |= component.do_push(request)
-        return ret
+        return self.on_repo_components('do_push', request)
 
     def do_reset(self, request=None):
         """Push all Git repos."""
-        ret = False
-        for component in self.all_repo_components():
-            ret |= component.do_reset(request)
-        return ret
+        return self.on_repo_components('do_reset', request)
 
     def do_cleanup(self, request=None):
         """Push all Git repos."""
-        ret = False
-        for component in self.all_repo_components():
-            ret |= component.do_cleanup(request)
-        return ret
+        return self.on_repo_components('do_cleanup', request)
 
     def can_push(self):
         """Check whether any suprojects can push."""
-        ret = False
-        for component in self.component_set.all():
-            ret |= component.can_push()
-        return ret
+        return self.on_repo_components('can_push')
 
     def all_repo_components(self):
         """Return list of all unique VCS components."""
