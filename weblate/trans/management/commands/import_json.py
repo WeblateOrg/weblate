@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import argparse
 import json
 
+from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import slugify
 
@@ -140,7 +141,16 @@ class Command(BaseCommand):
                 )
 
             except Component.DoesNotExist:
-                component = Component.objects.create(**item)
+                component = Component(**item)
+                try:
+                    component.full_clean()
+                except ValidationError as error:
+                    for key, value in error.message_dict.items():
+                        self.stderr.write(
+                            'Error in {}: {}'.format(key, ', '.join(value))
+                        )
+                    raise CommandError('Component failed validation!')
+                component.save(force_insert=True)
                 self.stdout.write(
                     'Imported {0} with {1} translations'.format(
                         component,

@@ -40,6 +40,7 @@ from weblate.accounts.models import Profile
 
 TEST_PO = get_test_file('cs.po')
 TEST_COMPONENTS = get_test_file('components.json')
+TEST_COMPONENTS_INVALID = get_test_file('components-invalid.json')
 
 
 class RunnerTest(SimpleTestCase):
@@ -648,6 +649,14 @@ class ImportCommandTest(RepoTestCase):
             'Imported Test/Gettext PO with 3 translations',
             output.getvalue()
         )
+
+    def test_import_invalid(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--project', 'test',
+                TEST_COMPONENTS_INVALID,
+            )
 
     def test_import_twice(self):
         call_command(
