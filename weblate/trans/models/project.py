@@ -255,41 +255,42 @@ class Project(models.Model, URLMixin, PathMixin):
 
         return ret
 
-    def on_repo_components(self, method, *args, **kwargs):
+    def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
-        ret = False
+        ret = default
         for component in self.all_repo_components():
-            ret |= getattr(component, method)(*args, **kwargs)
+            res = getattr(component, call)(*args, **kwargs)
+            if default:
+                ret = ret & res
+            else:
+                ret = ret | res
         return ret
 
     def repo_needs_merge(self):
-        return self.on_repo_components('repo_needs_merge')
+        return self.on_repo_components(False, 'repo_needs_merge')
 
     def repo_needs_push(self):
-        return self.on_repo_components('repo_needs_push')
+        return self.on_repo_components(False, 'repo_needs_push')
 
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
-        ret = True
-        for component in self.all_repo_components():
-            ret &= component.do_update(request, method=method)
-        return ret
+        return self.on_repo_components(True, 'do_update', request, method=method)
 
     def do_push(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components('do_push', request)
+        return self.on_repo_components(True, 'do_push', request)
 
     def do_reset(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components('do_reset', request)
+        return self.on_repo_components(True, 'do_reset', request)
 
     def do_cleanup(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components('do_cleanup', request)
+        return self.on_repo_components(True, 'do_cleanup', request)
 
     def can_push(self):
         """Check whether any suprojects can push."""
-        return self.on_repo_components('can_push')
+        return self.on_repo_components(False, 'can_push')
 
     def all_repo_components(self):
         """Return list of all unique VCS components."""
