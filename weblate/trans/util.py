@@ -33,6 +33,8 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _, ugettext_lazy
+from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
+from lxml import etree
 
 try:
     import pyuca  # pylint: disable=import-error
@@ -284,3 +286,31 @@ def redirect_next(next_url, fallback):
             not next_url.startswith('/')):
         return redirect(fallback)
     return HttpResponseRedirect(next_url)
+
+
+def xliff_string_to_rich(string):
+    """XLIFF string to StringElement
+
+    Transform a string containing XLIFF placeholders as XML
+    into a rich content (StringElement)
+    """
+
+    return [parse_xliff(string)]
+
+
+def rich_to_xliff_string(string_elements):
+    """StringElement to XLIFF string
+
+    Transform rich content (StringElement) into
+    a string with placeholder kept as XML
+    """
+
+    result = ''
+    for string_element in string_elements:
+        xml = etree.Element(u'e')
+        strelem_to_xml(xml, string_element)
+        string_xml = etree.tostring(xml, encoding="unicode")
+        string_without_wrapping_element = string_xml[3:][:-4]
+        result += string_without_wrapping_element
+
+    return result

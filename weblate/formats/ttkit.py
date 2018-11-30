@@ -45,7 +45,9 @@ import weblate
 
 from weblate.formats.base import TranslationUnit, TranslationFormat
 
-from weblate.trans.util import get_string, join_plural
+from weblate.trans.util import (
+    get_string, join_plural, xliff_string_to_rich, rich_to_xliff_string
+)
 
 from weblate.utils.errors import report_error
 
@@ -416,6 +418,29 @@ class XliffUnit(TTKitUnit):
     ))
 
     @cached_property
+    def source(self):
+        """Return source string from a ttkit unit."""
+
+        if self.template is not None:
+            return rich_to_xliff_string(self.template.rich_target)
+        return rich_to_xliff_string(self.unit.rich_source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a ttkit unit."""
+        if self.unit is None:
+            return ''
+
+        if self.unit.target is None:
+            return ''
+
+        return rich_to_xliff_string(self.unit.rich_target)
+
+    def set_target(self, target):
+        """Set translation unit target."""
+        self.unit.rich_target = xliff_string_to_rich(target)
+
+    @cached_property
     def xliff_node(self):
         return self.unit.getlanguageNode(lang=None, index=1)
 
@@ -500,6 +525,19 @@ class XliffUnit(TTKitUnit):
         super(XliffUnit, self).mark_approved(value)
         if self.xliff_state:
             self.xliff_node.set('state', 'final' if value else 'translated')
+
+class PoXliffUnit(XliffUnit):
+
+    @cached_property
+    def source(self):
+        return TTKitUnit.source.__get__(self)
+
+    @cached_property
+    def target(self):
+        return TTKitUnit.target.__get__(self)
+
+    def set_target(self, target):
+        TTKitUnit.set_target(self, target)
 
 
 class MonolingualIDUnit(TTKitUnit):
@@ -728,6 +766,7 @@ class PoXliffFormat(XliffFormat):
     format_id = 'poxliff'
     autoload = ('.poxliff',)
     loader = PoXliffFile
+    unit_class = PoXliffUnit
 
 
 class PropertiesBaseFormat(TTKitFormat):
