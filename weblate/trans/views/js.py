@@ -28,6 +28,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Change
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.utils.errors import report_error
 from weblate.utils.views import (
     get_project, get_component, get_translation
 )
@@ -69,6 +70,7 @@ def translate(request, unit_id, service):
         )
         response['responseStatus'] = 200
     except Exception as exc:
+        report_error(exc, request)
         response['responseDetails'] = '{0}: {1}'.format(
             exc.__class__.__name__,
             str(exc)
