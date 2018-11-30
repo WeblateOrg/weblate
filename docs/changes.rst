@@ -2,7 +2,7 @@ Changes
 =======
 
 weblate 3.4
-------------
+-----------
 
 Released on ? 2019.
 
