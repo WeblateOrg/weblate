@@ -170,7 +170,7 @@ def download_translation_file(translation, fmt=None, units=None):
     )
 
     # Create response
-    with open(srcfilename) as handle:
+    with open(srcfilename, 'rb') as handle:
         response = HttpResponse(
             handle.read(),
             content_type=translation.store.mimetype
