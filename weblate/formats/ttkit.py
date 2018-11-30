@@ -526,19 +526,6 @@ class XliffUnit(TTKitUnit):
         if self.xliff_state:
             self.xliff_node.set('state', 'final' if value else 'translated')
 
-class PoXliffUnit(XliffUnit):
-
-    @cached_property
-    def source(self):
-        return TTKitUnit.source.__get__(self)
-
-    @cached_property
-    def target(self):
-        return TTKitUnit.target.__get__(self)
-
-    def set_target(self, target):
-        TTKitUnit.set_target(self, target)
-
 
 class MonolingualIDUnit(TTKitUnit):
     @cached_property
@@ -766,7 +753,6 @@ class PoXliffFormat(XliffFormat):
     format_id = 'poxliff'
     autoload = ('.poxliff',)
     loader = PoXliffFile
-    unit_class = PoXliffUnit
 
 
 class PropertiesBaseFormat(TTKitFormat):
