@@ -35,7 +35,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = '3.3-dev'
+VERSION = '3.3'
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace('-dev', '')

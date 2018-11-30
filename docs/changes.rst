@@ -4,7 +4,7 @@ Changes
 weblate 3.3
 -----------
 
-Released on ? 2018.
+Released on November 30th 2018.
 
 * Added support for component and project removal.
 * Improved performance for some monolingual translations.
