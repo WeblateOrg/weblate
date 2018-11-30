@@ -743,6 +743,12 @@ additional tasks in :file:`settings.py`, for example:
         }
    }
 
+.. note::
+
+   The Celery process has to be executed under same user as Weblate wsgi
+   process, otherwise files in the :setting:`DATA_DIR` will be stored with
+   mixed ownership leading to runtime issues.
+
 .. seealso::
 
    :doc:`celery:userguide/configuration`,
