@@ -237,10 +237,10 @@ DEEPL_RESPONSE = b'''{
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
-    def get_machine(self, cls):
+    def get_machine(self, cls, cache=False):
         machine = cls()
         machine.delete_cache()
-        machine.cache_translations = False
+        machine.cache_translations = cache
         return machine
 
     def test_support(self):
@@ -339,10 +339,7 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
-    @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
-    @httpretty.activate
-    def test_apertium_apy(self):
-        machine = self.get_machine(ApertiumAPYTranslation)
+    def register_apertium_urls(self):
         httpretty.register_uri(
             httpretty.GET,
             'http://apertium.example.com/listPairs',
@@ -355,6 +352,12 @@ class MachineTranslationTest(TestCase):
             body='{"responseData":{"translatedText":"Mundial"},'
             '"responseDetails":null,"responseStatus":200}'
         )
+
+    @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
+    @httpretty.activate
+    def test_apertium_apy(self):
+        machine = self.get_machine(ApertiumAPYTranslation)
+        self.register_apertium_urls()
         self.assert_translate(machine, 'es')
         self.assert_translate(machine, 'es', word='Zkouška')
 
@@ -711,8 +714,7 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_DEEPL_KEY='KEY')
     @httpretty.activate
     def test_cache(self):
-        machine = self.get_machine(DeepLTranslation)
-        machine.cache_translations = True
+        machine = self.get_machine(DeepLTranslation, True)
         httpretty.register_uri(
             httpretty.POST,
             'https://api.deepl.com/v1/translate',
@@ -744,6 +746,20 @@ class MachineTranslationTest(TestCase):
                 }
             )
             self.assert_translate(machine, lang='de', word='Hello')
+
+    @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
+    @httpretty.activate
+    def test_languages_cache(self):
+        machine = self.get_machine(ApertiumAPYTranslation, True)
+        self.register_apertium_urls()
+        self.assert_translate(machine, 'es')
+        self.assert_translate(machine, 'es', word='Zkouška')
+        self.assertTrue(httpretty.has_request())
+        httpretty.reset()
+        # New instance should use cached languages
+        machine = ApertiumAPYTranslation()
+        self.assert_translate(machine, 'es')
+        self.assertFalse(httpretty.has_request())
 
 
 class WeblateTranslationTest(FixtureTestCase):

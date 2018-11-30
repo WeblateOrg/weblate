@@ -202,10 +202,12 @@ class MachineTranslation(object):
         # Try using list from cache
         languages = cache.get(self.languages_cache)
         if languages is not None:
-            return languages
+            self.supported_languages = languages
+            return
 
         if self.is_rate_limited():
-            return []
+            self.supported_languages = []
+            return
 
         # Download
         try:
