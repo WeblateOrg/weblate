@@ -6,6 +6,8 @@ weblate 3.4
 
 Released on ? 2019.
 
+* Added support for XLIFF placeholders.
+
 weblate 3.3
 -----------
 
