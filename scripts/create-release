@@ -35,16 +35,16 @@ fi
 
 # Create tarballs
 fakeroot ./setup.py sdist
-# Build tarballs
+
+# Recompress tarballs
 zcat dist/$tarver.tar.gz | xz > dist/$tarver.tar.xz
 zcat dist/$tarver.tar.gz | bzip2 > dist/$tarver.tar.bz2
+
+# Upload release
 if [ "x$1" = "x--tag" ] ; then
     # PyPi archive upload
     twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.tar.gz
-fi
 
-
-if [ "x$1" = "x--tag" ] ; then
     # Download server
     scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
 fi
