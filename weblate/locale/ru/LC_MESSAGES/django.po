@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Igor <f2404@yandex.ru>, 2018.
 # mesnevi <shams@airpost.net>, 2018.
+# Andrey <andrey@mailbox.org>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-29 09:02+0000\n"
-"PO-Revision-Date: 2018-11-15 14:50+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2018-12-01 19:40+0000\n"
+"Last-Translator: Andrey <andrey@mailbox.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.3-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -642,16 +643,12 @@ msgid "Authentication has been forbidden by server."
 msgstr "Аутентификация запрещена сервером."
 
 #: weblate/accounts/views.py:945
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication, email or "
-#| "username is already associated with another account!"
 msgid ""
 "Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
 msgstr ""
 "Завершить регистрацию не удалось! Адрес электронной почты или имя "
-"пользователя уже связаны с другой учетной записью!"
+"пользователя уже связаны с другой учетной записью."
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
@@ -2291,8 +2288,6 @@ msgstr ""
 "PBKDF2, HMAC и SHA256 с 150000 итераций."
 
 #: weblate/legal/templates/legal/security.html:45
-#, fuzzy
-#| msgid "How are security issues reported?"
 msgid "How to report a security issue?"
 msgstr "Как сообщить о проблеме безопасности?"
 
@@ -2491,7 +2486,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
-msgstr "Помогите Weblate деньгами"
+msgstr "Пожертвовать Weblate"
 
 #: weblate/templates/about/index.html:33
 msgid "Hosting translations"
@@ -2841,10 +2836,6 @@ msgid "Conditions for gratis hosting"
 msgstr "Условия для бесплатного хостинга"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please fill in this form if your project fits into free hosting "
-#| "conditions:"
 msgid ""
 "Please fill in this form if your project meets the conditions for free of "
 "charge hosting:"
@@ -4413,7 +4404,7 @@ msgstr "После активации учетной записи перейди
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:81
 #: weblate/templates/translate.html:117 weblate/templates/translation.html:128
 msgid "Translate"
-msgstr "Стать переводчиком"
+msgstr "Перевести"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5555,24 +5546,20 @@ msgid "Project Information"
 msgstr "Информация о проекте"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
 msgstr ""
-"Ваш тарифный план истёк, если вы хотите продолжить пользоваться сервисом, "
-"пожалуйста, обновите его по следующей ссылке:"
+"Ваш тарифный план превысил лимиты. Вы все равно можете использовать этот "
+"сервис, но рекомендуется обновить тарифный план."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
-msgstr "Заблокирован ли компонент от обновлений переводов."
+msgstr ""
+"Компонент содержит несколько файлов перевода, сопоставленных одному языку в "
+"Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
@@ -5588,35 +5575,30 @@ msgstr "Коды языков"
 msgid ""
 "Please fix this by removing one of the duplicated strings from the "
 "translation files."
-msgstr ""
+msgstr "Исправьте это, удалив одну из дублированных строк из файлов перевода."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "The component contains several duplicated translation strings."
-msgstr "Заблокирован ли компонент от обновлений переводов."
+msgstr "Компонент содержит несколько дублированных строк перевода."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
+"Исправьте это, удалив дублированные строки с тем же идентификатором из "
+"файлов перевода."
 
 #: weblate/templates/trans/alert/mergefailure.html:4
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Произошла ошибка слияния в репозитории:"
+msgstr "Weblate не смог объединить изменения при обновлении репозитория."
 
 #: weblate/templates/trans/alert/parseerror.html:4
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
 msgstr ""
-"Блокировка перевода приведёт к невозможности работы других пользователей с "
-"переводом."
+"Weblate не смог проанализировать файлы перевода при обновлении переводов."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5631,12 +5613,16 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
+"Репозиторий VCS имеет множество изменений по сравнению с выгружаемым. "
+"Объедините изменения вручную или настройте push, чтобы автоматизировать это."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
+"Репозиторий VCS не обновляется с выгружаемым. Объедините изменения вручную "
+"или настройте автоматизацию."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -5648,7 +5634,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr ""
+msgstr "Weblate не смог извлечь выгружаемое при обновлении репозитория."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -6548,10 +6534,8 @@ msgid "Add as approved translation"
 msgstr "Пометить перевод как одобренный"
 
 #: weblate/trans/forms.py:587
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add as suggestion"
-msgstr "Добавить предложение"
+msgstr "Добавить как предложение"
 
 #: weblate/trans/forms.py:588
 msgid "Add as translation needing edit"
@@ -6892,6 +6876,8 @@ msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
+"Вы должны указать лицензию для этих компонентов, чтобы сделать их "
+"общедоступными: %s"
 
 #: weblate/trans/forms.py:1582
 msgid "Search string"
@@ -7888,10 +7874,8 @@ msgid "More information about Weblate can be found at {0}"
 msgstr "Получить больше информации о Weblate можно на {0}"
 
 #: weblate/trans/templatetags/advertisement.py:38
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
-msgstr "Поддержите Weblate на {0}"
+msgstr "Поддержать Weblate"
 
 #: weblate/trans/templatetags/advertisement.py:39
 msgid "More information about Weblate"
