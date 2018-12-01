@@ -1,27 +1,25 @@
 Translating using Weblate
 =========================
 
-Thank you for interest in translating using Weblate. Weblate can be used to
-translate many projects and every project can have different settings which
-influence whether you can translate or add suggestions only.
+Thank you for interest in translating using Weblate.
+Projects can be either be set up for direct translation, or by way of accepting suggestions on behalf of users without accounts.
 
-Overall there are the following possibilities for translating:
+Overall, there are the modes of translation:
 
 * Projects accepts direct translations
-* Projects accepts only suggestions and those are accepted once they get a defined number of votes
+* Projects accepts only suggestions, which are accepted once given a defined number of votes
 
-There are also some options for translation project visibility:
+Options for translation project visibility:
 
-* It can be publicly visible and anybody can contribute
-* It can be visible only to certain group of translators
+* Publicly visible and anybody can contribute
+* Visible only to a certain group of translators
 
-Please see :ref:`workflows` for more information about translation workflow.
+Please see :ref:`workflows` for more info on translation workflow.
 
 Translation projects
 --------------------
 
-Translation projects are used to organize translations into related groups. It
-can be one software component, book or anything closely related.
+Translation projects hold related components, related to the same software, book, or project.
 
 .. image:: /images/project-overview.png
 
@@ -30,66 +28,56 @@ can be one software component, book or anything closely related.
 Translation links
 -----------------
 
-Once you navigate to a translation, you will be shown set of links which lead
-to translation. These are results of various checks, like untranslated or
-strings needing review. Should no other checks fire, there will be still link
-to all translations. Alternatively you can use the search field to find a translation
-you need to fix.
+Having navigated to a component, a set of links lead to actual translation.
+The translation is further divided into indivudual checks, like "Untranslated" or "Needing review".
+If the whole project is translated, without error, "All translations" is still available.
+Alternatively you can use the search field to find a specific string or term.
 
 .. image:: /images/strings-to-check.png
 
 Suggestions
 -----------
 
-As an anonymous user, you have no other choice than making a suggestion.
-However, if you are logged in you can still decide to make only a suggestion
-instead of saving translation, for example in case you are unsure about the
-translation and you want somebody else to review it.
+Anonymous users can only (if permitted) forward suggestions.
+Doing so is still available to logged in users, in cases where uncertainty about the translation arises,
+which will prompt another translator to review it.
 
 .. note::
 
-    Permissions might vary depending on your setup, what is described is
-    default Weblate behaviour.
+    Permissions might vary depending on your setup, the following describes the default behaviour of Weblate.
 
 Translating
 -----------
 
-On translate page, you are shown the source string and an edit area for translating.
+On the translation page, the source string and an edit area for translating it is shown.
 Should the translation be plural, multiple source strings and edit areas are
-shown, each described with label for plural form.
+shown, each described and label in plural form.
 
-Any special whitespace chars are underlined in red and indicated with grey
-symbols. Also more than one space is underlined in red to allow translator to
-keep formatting.
+Any special whitespace chars you will find underlined in red and indicated with grey
+symbols. More than one subsequent space is also underlined in red to alert the translator to
+its formatting.
 
-There are various bits of extra information which can be shown on this page. Most of
-them are coming from the project source code (like context, comments or where
-the message is being used). When you configure secondary languages in your
-preferences, translation to these languages will be shown (see
-:ref:`secondary-languages`).
+Various bits of extra info can be shown on this page, most which comes from the project source code
+(like context, comments or where the message is being used). When you choose secondary languages in your
+preferences, translation to these languages will be shown (see :ref:`secondary-languages`).
 
-Below the translation, suggestions from other users can be shown, which you
-can accept or delete.
+Below the translation, any suggestions made by others will be shown, which you
+can in turn accept, accept and make changes, or delete.
 
 .. _plurals:
 
 Plurals
 +++++++
 
-What are plurals? Generally spoken plurals are words which take into account
-numeric meanings. But as you may imagine each language has its own definition
-of plurals. English, for example, supports one plural. We have a singular
-definition, for example "car", which means implicitly one car, and we have the
-plural definition, "cars" which could mean more than one car but also zero
-cars. Other languages like Czech or Arabic have more plurals and also the
-rules for plurals are different.
+Words that change form to account of their numeric designation are called plurals.
+Each language has its own definition of plurals. English, for example, supports one plural.
+In the singular definition of for example "car", implicitly one car is referenced, in the
+plural definition, "cars" two or more cars are referenced, or the concept of cars as a noun. 
+Languages like for example Czech or Arabic have more plurals and also their rules for plurals are different.
 
-Weblate does have support for translating these and offers you one field to
-translate every plural separately. The number of fields and how it is used in
-the translated application depends on plural equation which is different for
-every language. Weblate shows the basic information, but you can find more
-detailed description in the `Language Plural Rules`_ from the Unicode
-Consortium.
+Weblate has full support for each of these forms, in each respective language by translating every plural separately.
+The number of fields and how it is used in the translated application depends on the configured plural equation.
+Weblate shows the basic info, but you can find a more detailed description in the `Language Plural Rules`_ by the Unicode Consortium.
 
 .. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 
@@ -100,10 +88,10 @@ Keyboard shortcuts
 
 .. versionchanged:: 2.18
 
-    The keyboard shortcuts have been changed in 2.18 to less likely collide
-    with browser or system ones.
+    The keyboard shortcuts have been revamped in 2.18 to less likely collide
+    with browser or system defaults.
 
-While translating you can use the following keyboard shortcuts:
+The following keyboard shortcuts can be utilized during translation:
 
 :kbd:`Alt+Home`
     Navigates to first translation in current search.
@@ -113,9 +101,9 @@ While translating you can use the following keyboard shortcuts:
     Navigates to previous translation in current search.
 :kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Ctrl+Enter` or :kbd:`⌘+Enter` or :kbd:`Ctrl+Enter` or :kbd:`⌘+Enter`
+:kbd:`Ctrl+⏎` or :kbd:`⌘+⏎` or :kbd:`Ctrl+Enter` or :kbd:`⌘+⏎`
     Saves current translation.
-:kbd:`Ctrl+Shift+Enter` or :kbd:`⌘+Shift+Enter`
+:kbd:`Ctrl+Shift+⏎` or :kbd:`⌘+Shift+⏎`
     Unmarks translation as fuzzy and submits it.
 :kbd:`Ctrl+E` or :kbd:`⌘+E`
     Focus translation editor.
@@ -143,13 +131,13 @@ While translating you can use the following keyboard shortcuts:
 Visual keyboard
 +++++++++++++++
 
-There is small visual keyboard shown when translating. This can be useful for
-typing chars which are usually not present on the keyboard.
+A small visual keyboard is shown when translating. This can be useful for
+typing chars not usually found or otherwise hard to type.
 
-The symbols shown can be split into three categories:
+The shown symbols factor into three categories:
 
 * User configured chars defined in the :ref:`user-profile`
-* Per language chars provided by Weblate (eg. quotes or RTL specific chars)
+* Per language chars provided by Weblate (e.g. quotes or RTL specific chars)
 * Chars configured using :setting:`SPECIAL_CHARS`
 
 .. image:: /images/visual-keyboard.png
@@ -159,61 +147,58 @@ The symbols shown can be split into three categories:
 Translation context
 +++++++++++++++++++
 
-Translation context part allows you to see related information about current
-string.
+This contextual description provides related info about the current string.
 
 String attributes
     Things like message ID, context (msgctxt) or location in source code.
 Screenshots
-    Screenshots can be uploaded to Weblate to better show translators
-    where the string is used, see :ref:`screenshots`.
+    Can be uploaded to Weblate to better inform translators
+    of where and how the string is used, see :ref:`screenshots`.
 Nearby messages
-    Displays messages which are located nearby in translation file. These
-    usually are also used in similar context and you might want to check them
-    to keep translation consistent.
+    Displays neighbouring messages from the translation file. These
+    are usually also used in a similar context and prove useful in keeping the translation consistent.
 Similar messages
-    Messages which are similar to currently one, which again can help you to
-    stay consistent within translation.
+    Messages found to be similar the current source string, which helps in providing a consistent translation.
 All locations
-    In case message appears in multiple places (eg. multiple components),
-    this tab shows all of them and for inconsistent translations (see
-    :ref:`check-inconsistent`) you can choose which one to use.
+    In case a message appears in multiple places (e.g. multiple components),
+    this tab shows all of them if found to be inconsistent (see
+    :ref:`check-inconsistent`), you can choose which one to use.
 Glossary
-    Displays words from project glossary which are used in current message.
+    Displays terms from the project glossary used in the current message.
 Recent edits
-    List of people who have changed this message recently using Weblate.
+    List of people whom have changed this message recently using Weblate.
 Project
-    Project information like instructions for translators or information about
-    VCS repository.
+    Project info like instructions for translators, or info about
+    its version control system repository.
 
-If the translation format supports it, you can also follow links to source code
-which contains translated strings.
+If the translation format supports it, you can also follow supplied links to respective 
+source code containing each source string.
 
 Translation history
 +++++++++++++++++++
 
-Every change is by default (unless disabled in component settings) saved in
-the database and can be reverted. Of course you can still also revert anything
+Every change is by default (unless turned off in component settings) saved in
+the database, and can be reverted. Optionally one can still also revert anything
 in the underlying version control system.
 
 Glossary
 --------
 
-Each project can have an assigned glossary for any language. This could be used
-for storing terminology for a given project, so that translations are consistent.
-You can display terms from the currently translated string in the bottom tabs.
+Each project can have an assigned glossary for any language as a shorthand for storing terminology.
+Consistency is more easily maintained this way.
+Terms from the currently translated string can be displayed in the bottom tabs.
 
 Managing glossaries
 +++++++++++++++++++
 
-On project page, on :guilabel:`Glossaries` tab, you can find a link
-:guilabel:`Manage all glossaries`, where you can start new glossaries or edit
-existing ones. Once a glossary is existing, it will also show up on this tab.
+On the :guilabel:`Glossaries` tab of each project page, you can find a link that reads
+:guilabel:`Manage all glossaries`, wherein you can start new glossaries or edit
+existing ones. Once a glossary exists, it will also show up in this tab.
 
 .. image:: /images/project-glossaries.png
 
 On the next page, you can choose which glossary to manage (all languages used in
-current project are shown). Following this language link will lead you to page,
+the current project are shown). Following this language link will lead you to a page
 which can be used to edit, import or export the glossary:
 
 .. image:: /images/glossary-edit.png
@@ -223,10 +208,10 @@ which can be used to edit, import or export the glossary:
 Machine translation
 -------------------
 
-Based on configuration and your language, Weblate provides buttons for the following
-machine translation tools.
+Based on configuration and your translated language, Weblate provides buttons for the following
+machine translation tools:
 
-All machine translations are available on single tab on translation page.
+All machine translations are available in a single tab of each translation page.
 
 .. seealso::
 
@@ -237,26 +222,25 @@ All machine translations are available on single tab on translation page.
 Automatic translation
 ---------------------
 
-You can use automatic translation to bootstrap translation based on external
-sources. This tool is called :guilabel:`Automatic translation` and is
-accessible in the :guilabel:`Tools` menu:
+You can use automatic translation to bootstrap translation based on external sources.
+This tool is called :guilabel:`Automatic translation` accessible in the :guilabel:`Tools` menu:
 
 .. image:: /images/automatic-translation.png
 
-This can operate in two modes:
+Two modes of operation are possible:
 
-- Using other Weblate components as source for translations.
-- Using selected machine translation services with translations about certain
+- Using other Weblate components as a source for translations.
+- Using selected machine translation services with translations above a certain
   quality threshold.
 
-You can also choose which strings will be translated.
+You can also choose which strings are to be auto-translated.
 
 .. warning::
 
-    Be careful that this will overwrite existing translations if you choose
+    Be mindful that this will overwrite existing translations if employed with
     wide filters such as :guilabel:`All strings`.
 
-This feature can be useful in several situations like consolidating translation
+Useful in several situations like consolidating translation
 between different components (for example website and application) or when
-bootstrapping translation for new component using existing translations
+bootstrapping translation for a new component using existing translations
 (translation memory).
