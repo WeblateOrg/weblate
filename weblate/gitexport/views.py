@@ -32,6 +32,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import User
+from weblate.gitexport.models import SUPPORTED_VCS
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_component
 
@@ -134,6 +135,8 @@ def git_export(request, project, component, path):
         raise
     if not request.user.has_perm('vcs.access', obj):
         raise PermissionDenied('No VCS permissions')
+   if obj.vcs not in SUPPORTED_VCS:
+        raise Http404('Not a git repository')
 
     return run_git_http(request, obj, path)
 
