@@ -208,14 +208,13 @@ which can be used to edit, import or export the glossary:
 Machine translation
 -------------------
 
-Based on configuration and your translated language, Weblate provides buttons for the following
-machine translation tools:
-
-All machine translations are available in a single tab of each translation page.
+Based on configuration and your translated language, Weblate provides you
+suggestions from several machine translation tools. All machine translations
+are available in a single tab of each translation page.
 
 .. seealso::
 
-   :ref:`machine-translation-setup`
+   You can find list of supported tools in :ref:`machine-translation-setup`.
 
 .. _auto-translation:
 
