@@ -1,32 +1,32 @@
 Downloading and uploading translations
 ======================================
 
-Weblate supports both export and import of translation files. This allows you
-to work offline and then merge changes back. Your changes will be merged within
-existing translation (even if it has been changed meanwhile).
+You can export files from a translation, make changes, and import them again. This allows
+working offline, and then merging changes back into the existing translation.
+This works even if it has been changed in the meantime.
 
 .. note::
 
-    This available options might be limited by :ref:`privileges`.
+    The available options might be limited by :ref:`privileges`.
 
 Downloading translations
 ------------------------
 
-You can download a translatable file using the :guilabel:`Download source file`
-action in the :guilabel:`Files` menu. This will give you the file as it is stored
+Translatable files can be downloaded using the :guilabel:`Download source file`
+in the :guilabel:`Files` menu, producing a copy of the file as it is stored
 in upstream version control system.
 
-You can also download files in several other formats, including a compiled file
-to use within an application (for example ``.mo`` files for GNU Gettext) using
+Several file formats are available, including a compiled file
+to use in your choice of application (for example ``.mo`` files for GNU Gettext) using
 the :guilabel:`Files`.
 
 Uploading translations
 ----------------------
 
-You can upload translated files using the :guilabel:`Upload translation` action
+When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
-Weblate accepts any file format it understands on upload, but it is still
+Any of supported file formats can be uploaded, but it is still
 recommended to use the same file format as is used for translation, otherwise some
 features might not be translated properly.
 
@@ -34,26 +34,25 @@ features might not be translated properly.
    
    :ref:`formats`
 
-The uploaded file is merged to current the translation, overwriting existing
-entries by default (this can be changed in the upload dialog).
+The uploaded file is merged to update the translation, overwriting existing
+entries by default (this can be turned off or on in the upload dialog).
 
 Import methods
 ++++++++++++++
 
-You can choose how imported strings will be merged out of following options:
+These are the choices presented when uploading translation files:
 
 Add as translation
-    Imported translations are added as translation. This is most usual and
-    default behavior.
-Add as a suggestion
-    Imported translations are added as suggestions, do this when you want to
-    review imported strings.
-Add as translation needing review
+    Imported translations are added as translations. This is the most common usecase, and
+    the default behavior.
+Add as suggestion
+    Imported translations are added as suggestions, do this when you want your
+    uploaded strings reviewed.
+Add as needing review
     Imported translations are added as translations needing review. This can be useful
-    for review as well.
+    when you want translations to be used, but also reviewed.
 
-Additionally, when adding as a translation, you can choose whether to overwrite
-already translated strings or not or how to handle strings needing review in imported
+There is also an option for how to handle strings needing review in the imported
 file.
 
 .. image:: /images/export-import.png
