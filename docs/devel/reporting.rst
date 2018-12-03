@@ -1,16 +1,15 @@
 Translation progress reporting
 ==============================
 
-It is often useful to be able to see how translation progresses over given
-period. For this purpose Weblate includes reporting features, where you can
-obtain summaries of contributions to given component over time. You can find
-the reporting tool in the :guilabel:`Insights` menu for a translation component:
+Reporting features give insight into how a translation progresses over a given
+period. A summary of contributions to any given component over time is provided.
+The reporting tool is found in the :guilabel:`Insights` menu of any translation component:
 
 .. image:: /images/reporting.png
     
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
-embedding into existing documentation, while JSON is useful for further
+embedding statistics into existing documentation, while JSON is useful for further
 processing of the data.
 
 .. _credits:
@@ -19,30 +18,30 @@ Translator credits
 ------------------
 
 Generates a document usable for crediting translators - sorted by language
-and listing all contributors to given language:
+and lists all contributors to a given language:
 
 .. code-block:: rst
 
     * Czech
 
         * Michal Čihař <michal@cihar.com>
-        * Weblate Admin <admin@example.com>
+        * John Doe <john@example.com>
 
     * Dutch
 
-        * Weblate Admin <admin@example.com>
+        * Jane Doe <jane@example.com>
 
 
-And it will get rendered as:
+It will render as:
 
     * Czech
 
         * Michal Čihař <michal@cihar.com>
-        * Weblate Admin <admin@example.com>
+        * John Doe <john@example.com>
 
     * Dutch
 
-        * Weblate Admin <admin@example.com>
+        * Jae Doe <jane@example.com>
 
 .. _stats:
 
@@ -50,7 +49,7 @@ And it will get rendered as:
 Contributor stats
 -----------------
 
-Generates number of words and units translated by translators:
+Generates the number of translated words and units by translator name:
 
 .. code-block:: rst
 
@@ -58,7 +57,7 @@ Generates number of words and units translated by translators:
     Name                                     Email                                    Words      Count     
     ======================================== ======================================== ========== ==========
     Michal Čihař                             michal@cihar.com                               2332        421 
-    Weblate Admin                            admin@example.com                                25          8 
+    John Doe                                 john@example.com                                 25          8 
     ======================================== ======================================== ========== ==========
 
 And it will get rendered as:
@@ -67,5 +66,5 @@ And it will get rendered as:
     Name                                     Email                                    Words      Count     
     ======================================== ======================================== ========== ==========
     Michal Čihař                             michal@cihar.com                               2332        421 
-    Weblate Admin                            admin@example.com                                25          8 
+    John Doe                                 john@example.com                                 25          8 
     ======================================== ======================================== ========== ==========
