@@ -706,7 +706,7 @@ rebuild_index
 .. django-admin:: rebuild_index <project|project/component>
 
 Rebuilds index for fulltext search. This might be lengthy operation if you
-have a huge set of translation units.
+have a huge set of translation strings.
 
 .. django-admin-option:: --clean
 
@@ -774,7 +774,7 @@ updatechecks
 
 .. django-admin:: updatechecks <project|project/component>
 
-Updates all check for all units. This could be useful only on upgrades
+Updates all check for all strings. This could be useful only on upgrades
 which do major changes to checks.
 
 You can either define which project or component to update (eg.

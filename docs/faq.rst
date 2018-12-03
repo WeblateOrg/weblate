@@ -286,7 +286,7 @@ formats it might unfortunately lead to reformatting the file. If you want to
 keep the file formatted in your way, please use a pre-commit hook for that.
 
 For monolingual files (see :ref:`formats`) Weblate might add new translation
-units which are present in the :guilabel:`template` and not in actual
+strings which are present in the :guilabel:`template` and not in actual
 translations. It does not however perform any automatic cleanup of stale
 strings as that might have unexpected outcomes. If you want to do this, please
 install a pre-commit hook which will handle the cleanup according to your requirements.

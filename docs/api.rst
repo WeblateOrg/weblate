@@ -649,15 +649,15 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json object component: component object; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json int failing_checks: number of units failing check
-    :>json float failing_checks_percent: percentage of units failing check
+    :>json int failing_checks: number of strings failing check
+    :>json float failing_checks_percent: percentage of strings failing check
     :>json int failing_checks_words: number of words with failing check
     :>json string filename: translation filename
-    :>json int fuzzy: number of units marked for review
-    :>json float fuzzy_percent: percentage of units marked for review
+    :>json int fuzzy: number of strings marked for review
+    :>json float fuzzy_percent: percentage of strings marked for review
     :>json int fuzzy_words: number of words marked for review
-    :>json int have_comment: number of units with comment
-    :>json int have_suggestion: number of units with suggestion
+    :>json int have_comment: number of strings with comment
+    :>json int have_suggestion: number of strings with suggestion
     :>json boolean is_template: whether translation is monolingual base
     :>json object language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string language_code: language code used in the repository; this can be different from language code in the language object
@@ -665,16 +665,16 @@ Translations
     :>json timestamp last_change: last change timestamp
     :>json string revision: hash revision of the file
     :>json string share_url: URL for sharing leading to engage page
-    :>json int total: total number of units
+    :>json int total: total number of strings
     :>json int total_words: total number of words
     :>json string translate_url: URL for translating
-    :>json int translated: number of translated units
-    :>json float translated_percent: percentage of translated units
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
     :>json int translated_words: number of translated words
     :>json string repository_url: URL to repository status; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
     :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
-    :>json string units_list_url: URL to units list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
+    :>json string units_list_url: URL to strings list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
 
     .. seealso::
 

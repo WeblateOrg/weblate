@@ -49,7 +49,7 @@ It will render as:
 Contributor stats
 -----------------
 
-Generates the number of translated words and units by translator name:
+Generates the number of translated words and strings by translator name:
 
 .. code-block:: rst
 

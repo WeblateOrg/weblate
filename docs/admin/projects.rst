@@ -132,7 +132,7 @@ You can find some examples of typical configurations in the :ref:`formats`.
     the translation by anything what makes sense in your case (individual
     applications or addons, book chapters or websites).
 
-    Weblate easily handles translations with 10000 of units, but it is harder
+    Weblate easily handles translations with 10000 of strings, but it is harder
     to split work and coordinate among translators with such a large translation.
     Also when one translator is working on a component, this translation is locked
     for others, see :ref:`locking`.

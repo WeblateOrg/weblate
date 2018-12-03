@@ -16,7 +16,7 @@ Released on November 30th 2018.
 * Added support for component and project removal.
 * Improved performance for some monolingual translations.
 * Added translation component alerts to highlight problems with a translation.
-* Expose XLIFF unit resname as context when available.
+* Expose XLIFF string resname as context when available.
 * Added support for XLIFF states.
 * Added check for non writable files in DATA_DIR.
 * Improved CSV export for changes.
@@ -203,7 +203,7 @@ Released on December 15th 2017.
 * Added button to copy permalink for current translation.
 * Dropped support for Django 1.10 and added support for Django 2.0.
 * Removed locking of translations while translating.
-* Added support for adding new units to monolingual translations.
+* Added support for adding new strings to monolingual translations.
 * Added support for translation workflows with dedicated reviewers.
 
 weblate 2.17.1
@@ -254,7 +254,7 @@ weblate 2.15
 Released on June 30th 2017.
 
 * Show more related translations in other translations.
-* Add option to see translations of current unit to other languages.
+* Add option to see translations of current string to other languages.
 * Use 4 plural forms for Lithuanian by default.
 * Fixed upload for monolingual files of different format.
 * Improved error messages on failed authentication.
@@ -387,7 +387,7 @@ Released on Dec 15th 2016.
 * Added support for CSV export.
 * Added CSV download for stats.
 * Added matrix view for quick overview of all translations
-* Added basic API for changes and units.
+* Added basic API for changes and strings.
 * Added support for Apertium APy server for machine translations.
 
 weblate 2.9
@@ -652,7 +652,7 @@ Released on November 7th 2013.
 * Users can login by email instead of username.
 * Documentation improvements.
 * Improved source strings review.
-* Searching across all units.
+* Searching across all strings.
 * Better tracking of source strings.
 * Captcha protection for registration.
 
@@ -665,7 +665,7 @@ Released on October 7th 2013.
 * Support for checking Python brace format string.
 * Per component customization of quality checks.
 * Detailed per translation stats.
-* Changed way of linking suggestions, checks and comments to units.
+* Changed way of linking suggestions, checks and comments to strings.
 * Users can now add text to commit message.
 * Support for subscribing on new language requests.
 * Support for adding new translations.
@@ -726,7 +726,7 @@ weblate 1.4
 
 Released on January 23rd 2013.
 
-* Fixed deleting of checks/comments on unit deletion.
+* Fixed deleting of checks/comments on string deletion.
 * Added option to disable automatic propagation of translations.
 * Added option to subscribe for merge failures.
 * Correctly import on projects which needs custom ttkit loader.
@@ -745,7 +745,7 @@ Released on January 23rd 2013.
 * Added support for substring search.
 * Various quality checks improvements.
 * Support for per project ACL.
-* Basic unit tests coverage.
+* Basic string tests coverage.
 
 weblate 1.3
 -----------
@@ -795,7 +795,7 @@ Released on August 14th 2012.
 * Optionally maintain Language-Team header in po file.
 * Include some statistics in about page.
 * Supports (and requires) django-registration 0.8.
-* Caching of counted units with failing checks.
+* Caching of counted strings with failing checks.
 * Checking of requirements during setup.
 * Documentation improvements.
 

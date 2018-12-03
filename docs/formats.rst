@@ -219,15 +219,15 @@ The ``state`` attribute in the file is partially processed and mapped to needs
 edit state in Weblate (the following states are used to flag the string as
 needing edit if there is some target present: ``new``, ``needs-translation``,
 ``needs-adaptation``, ``needs-l10n``). Should the ``state`` attribute be
-missing a unit is considered translated as soon as a ``<target>`` element
+missing a string is considered translated as soon as a ``<target>`` element
 exists.
 
-Also if the translation unit has ``approved="yes"`` it will be imported into Weblate
+Also if the translation string has ``approved="yes"`` it will be imported into Weblate
 as approved, anything else will be imported as waiting for review (which matches XLIFF
 specification).
 
 That means that when using XLIFF format, it is strongly recommended to enable Weblate
-review process, in order to see and change the approved state of units.
+review process, in order to see and change the approved state of strings.
 See :ref:`reviews`.
 
 Similarly on importing such files, you should choose
@@ -239,7 +239,7 @@ Whitespace and newlines in XLIFF
 
 Generally the XML formats do not differentiate between types or amounts of whitespace.
 If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
-the unit.
+the string.
 
 For example:
 
@@ -523,7 +523,7 @@ Example file:
 
     Following things are known to be broken:
 
-    * Adding new units to translation, every translation has to contain all strings (even if empty).
+    * Adding new strings to translation, every translation has to contain all strings (even if empty).
     * Handling of special chars like newlines.
 
 
@@ -819,7 +819,7 @@ When using xlsx files for translation upload, be aware that only the active
 worksheet is considered and there must be at least a column called ``source``
 (which contains the source string) and a column called ``target`` (which
 contains the translation). Additionally there should be the column ``context``
-(which contains the context path of the translation unit). If you use the xlsx
+(which contains the context path of the translation string). If you use the xlsx
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
 
@@ -860,5 +860,5 @@ When you specify :guilabel:`Base file for new translations` in
 exiting translations will be removed from the file when doing so.
 
 When :guilabel:`Base file for new translations` is empty and file format
-supports it, empty file is created where new units will be added once they are
+supports it, empty file is created where new strings will be added once they are
 translated.
