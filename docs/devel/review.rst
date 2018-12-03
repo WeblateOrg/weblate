@@ -8,50 +8,49 @@ Reviewing source strings
 Activity reports
 ----------------
 
-You can check activity reports for translations, project or individual users.
+Check changes of translations, projects or for individual users.
 
 .. image:: /images/activity.png
 
 Source strings checks
 ---------------------
 
-Weblate includes quite a lot of :ref:`checks`. Some of them also focus on
-quality of source strings. These can give you some hints for making strings
-easier to translate. You can check failing source checks on :guilabel:`Source`
+There are many :ref:`checks`, some of them focus on improving the
+quality of source strings. Many failing checks make for a hint to make source strings
+easier to translate. All types failing source checks are displayed on the :guilabel:`Source`
 tab of every component.
 
-Failing checks on translation
+Translation string checks
 -----------------------------
 
-On the other side, failing translation checks might also indicate problem in
-the source strings. Translators often tend to fix some mistakes in the translation
+Erroneous failing translation string checks indicate the problem is with
+the source string. Translators sometimes fix mistakes in the translation
 instead of reporting it - a typical example is a missing full stop at the end of
-sentence, but there are more similar cases.
+a sentence.
 
-Reviewing all failing checks on your translation can bring you valuable
-feedback for improving source strings as well.
+Reviewing all failing checks of your translation, for every language, can 
+provide valuable feedback to improve its source strings.
 
-You can find the :guilabel:`Source strings review` in the :guilabel:`Tools`
-menu of a translation component. You will get a similar view when opening
-translation, with slightly different checks being displayed:
+:guilabel:`Source strings review` is in the :guilabel:`Tools`
+menu of any given translation component. A similar view is presented when opening
+a translation, with slightly different checks displayed:
 
 .. image:: /images/source-review.png
 
 One of the most interesting checks here is the :ref:`check-multiple-failures` -
-it fires whenever there is failure on multiple translations of given string.
-Usually this is something to look for as this is string where translators have
-problems doing the translation properly. It might be just wrong punctuation at
-the end of sentence or something more problematic.
+it is triggered whenever there is failure on multiple translations of a given string.
+Usually this is something to look for, as this is a string translators have
+problems translating properly.
 
-The detailed listing then shows you overview per language:
+The detailed listing is a per language overview:
 
 .. image:: /images/source-review-detail.png
 
 String comments
 ---------------
 
-Weblate allows translators to comment on both translation and source strings.
-Each :ref:`component` can be configured to receive such comments on email
-address and sending this to developers mailing list is usually best approach.
-This way you can monitor when translators find problems and fix them quickly.
+Translators can comment on both translation and source strings.
+Each :ref:`component` can be configured to receive such comments to an email
+address, and using the developers mailing list is usually the best approach.
+This way you can keep an eye on when problems arise in translation, tend to, and fix them quickly.
 
