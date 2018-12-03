@@ -166,6 +166,10 @@ class Billing(models.Model):
         verbose_name=_('In limits'),
         editable=False,
     )
+    grace_period = models.IntegerField(
+        default=0,
+        verbose_name=_('Grace period for payments'),
+    )
     # Payment detailed information, used for integration
     # with payment processor
     payment = JSONField(editable=False, default={})
@@ -334,9 +338,10 @@ class Billing(models.Model):
 
         Compared to paid attribute, this does not include grace period.
         """
+        end = timezone.now() - timedelta(days=self.grace_period)
         return (
             self.plan.is_free or
-            self.invoice_set.filter(end__gte=timezone.now()).exists() or
+            self.invoice_set.filter(end__gte=end).exists() or
             self.state == Billing.STATE_TRIAL
         )
 
