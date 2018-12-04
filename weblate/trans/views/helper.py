@@ -133,7 +133,7 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_res
     
     if http_response:
         return exporter.get_response(filename_template)
-    else:    
+    else:
         filename = exporter.getFileName(filename_template)
         filePath = tmpdir + '/' + filename
         tmpFilePath = exporter.writeToFile(filePath)
