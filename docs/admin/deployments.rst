@@ -648,7 +648,7 @@ After installation on OpenShift, Weblate is ready for use and, preconfigured as 
    :ref:`customize_config`
 
 Retrieve the Admin Password
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Retrieve the generated admin password using the following command:
 
