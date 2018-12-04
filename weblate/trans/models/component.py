@@ -949,7 +949,7 @@ class Component(models.Model, URLMixin, PathMixin):
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, '')
             code = self.get_lang_code(path)
-            if re.match(self.language_regex, code):
+            if re.match(self.language_regex, code) and code != 'source':
                 matches.add(path)
             else:
                 self.log_info('skipping language %s [%s]', code, path)
