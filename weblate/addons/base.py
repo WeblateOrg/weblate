@@ -158,8 +158,7 @@ Updated by {name} hook in Weblate.'''
                     self.message.format(name=self.verbose),
                     files=files
                 )
-                if component.push_on_commit:
-                    repository.push()
+                component.push_if_needed()
 
     def post_update(self, component, previous_head):
         self.update_translations(component, previous_head)
