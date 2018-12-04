@@ -124,7 +124,6 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_res
 
     if units is None:
         units = translation.unit_set.all()
-    
     exporter.add_units(units)
 
     filename_template = '{{project}}-{0}-{{language}}.{{extension}}'.format(
