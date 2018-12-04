@@ -647,8 +647,10 @@ The :file:`settings.py` snippet for MySQL:
             'PORT': '',
             # Additional database options
             'OPTIONS': {
-                # In case of older MySQL server which has default MariaDB
+                # In case of using an older MySQL server, which has MyISAM as a default storage
                 # 'init_command': 'SET storage_engine=INNODB',
+                # Uncomment for MySQL older than 5.7:
+                # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
                 # If your server supports it, see Unicode issues above
                'charset': 'utf8mb4',
             }

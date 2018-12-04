@@ -51,6 +51,8 @@ DATABASES = {
         'PORT': '',
         # Customizations for databases
         'OPTIONS': {
+            # In case of using an older MySQL server, which has MyISAM as a default storage
+            # 'init_command': 'SET storage_engine=INNODB',
             # Uncomment for MySQL older than 5.7:
             # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             # Set emoji capable charset for MySQL:
