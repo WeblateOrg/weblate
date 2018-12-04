@@ -65,7 +65,7 @@ import weblate.api.urls
 import weblate.wladmin.sites
 
 def optional(route_part):
-  return '(?:' + route_part + r')?'
+    return '(?:' + route_part + r')?'
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
