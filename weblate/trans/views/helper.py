@@ -115,7 +115,7 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_res
     try:
         exporter = get_exporter(fmt)(translation=translation)
     except KeyError:
-        raise Http404('File format not supported')
+        raise Http404('File format unsupported')
 
     units = translation.unit_set.search(
         form_cleaned_data,
