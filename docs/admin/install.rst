@@ -997,7 +997,7 @@ Correctly configure HTTPS
 +++++++++++++++++++++++++
 
 It is strongly recommended to run Weblate using the encrypted HTTPS protocol.
-After enabling it you should sed :setting:`ENABLE_HTTPS` settings, which also adjusts
+After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings, which also adjusts
 several other related Django settings in the example configuration.
 
 You might want to set up HSTS as well, see
