@@ -714,20 +714,6 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info('pushing to remote repo')
             with self.repository.lock:
                 self.repository.push()
-
-            Change.objects.create(
-                action=Change.ACTION_PUSH, component=self,
-                user=request.user if request else None,
-            )
-
-            vcs_post_push.send(sender=self.__class__, component=self)
-            for component in self.get_linked_childs():
-                vcs_post_push.send(
-                    sender=component.__class__, component=component
-                )
-            self.delete_alert('RepositoryChanges', childs=True)
-
-            return True
         except RepositoryException as error:
             error_text = self.error_text(error)
             self.log_error('failed to push on repo: %s', error_text)
@@ -748,6 +734,20 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             return False
 
+        Change.objects.create(
+            action=Change.ACTION_PUSH, component=self,
+            user=request.user if request else None,
+        )
+
+        vcs_post_push.send(sender=self.__class__, component=self)
+        for component in self.get_linked_childs():
+            vcs_post_push.send(
+                sender=component.__class__, component=component
+            )
+        self.delete_alert('RepositoryChanges', childs=True)
+
+        return True
+
     @perform_on_link
     def do_reset(self, request=None):
         """Wrapper for reseting repo to same sources as remote."""
@@ -759,11 +759,6 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info('reseting to remote repo')
             with self.repository.lock:
                 self.repository.reset()
-
-            Change.objects.create(
-                action=Change.ACTION_RESET, component=self,
-                user=request.user if request else None,
-            )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
             msg = 'Error:\n{0}'.format(self.error_text(error))
@@ -777,6 +772,11 @@ class Component(models.Model, URLMixin, PathMixin):
                 force_text(self)
             )
             return False
+
+        Change.objects.create(
+            action=Change.ACTION_RESET, component=self,
+            user=request.user if request else None,
+        )
 
         # create translation objects for all files
         self.create_translations(request=request)
@@ -885,27 +885,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 # Try to merge it
                 method()
                 self.log_info('%s remote into repo', self.merge_style)
-                if self.id:
-                    Change.objects.create(
-                        component=self, action=action,
-                        user=request.user if request else None,
-                    )
-
-                    # run post update hook
-                    vcs_post_update.send(
-                        sender=self.__class__,
-                        component=self,
-                        previous_head=previous_head
-                    )
-                    self.delete_alert('MergeFailure', childs=True)
-                    self.delete_alert('RepositoryOutdated', childs=True)
-                    for component in self.get_linked_childs():
-                        vcs_post_update.send(
-                            sender=component.__class__,
-                            component=component,
-                            previous_head=previous_head
-                        )
-                return True
             except RepositoryException as error:
                 # In case merge has failer recover
                 error = self.error_text(error)
@@ -931,6 +910,28 @@ class Component(models.Model, URLMixin, PathMixin):
                 messages.error(request, error_msg % force_text(self))
 
                 return False
+
+        if self.id:
+            Change.objects.create(
+                component=self, action=action,
+                user=request.user if request else None,
+            )
+
+            # run post update hook
+            vcs_post_update.send(
+                sender=self.__class__,
+                component=self,
+                previous_head=previous_head
+            )
+            self.delete_alert('MergeFailure', childs=True)
+            self.delete_alert('RepositoryOutdated', childs=True)
+            for component in self.get_linked_childs():
+                vcs_post_update.send(
+                    sender=component.__class__,
+                    component=component,
+                    previous_head=previous_head
+                )
+        return True
 
     def get_mask_matches(self):
         """Return files matching current mask."""
