@@ -64,8 +64,6 @@ after_script:
   - python-codacy-coverage -r coverage.xml
   # CodeClimate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-# use docker based faster build
-sudo: false
 matrix:
   include:
     - name: "Django 2.1, sqlite"
