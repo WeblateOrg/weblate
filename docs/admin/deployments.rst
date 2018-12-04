@@ -43,13 +43,18 @@ The following examples assume you have a working Docker environment, with
               - WEBLATE_EMAIL_HOST_PASSWORD=pass
               - WEBLATE_SERVER_EMAIL=weblate@example.com
               - WEBLATE_DEFAULT_FROM_EMAIL=weblate@example.com
-              - WEBLATE_ALLOWED_HOSTS=weblate.example.com
+              - WEBLATE_ALLOWED_HOSTS=weblate.example.com,localhost
               - WEBLATE_ADMIN_PASSWORD=password for the admin user
+              - WEBLATE_ADMIN_EMAIL=weblate.admin@example.com
 
    .. note::
 
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
+        
+        Append ',localhost' to *WEBLATE_ALLOWED_HOSTS* to be able to access locally for testing.
+        
+        You may also need to edit the *docker-compose.yml* file and change the default port from 80 if you already have a web server running on your local machine
 
 3. Start Weblate containers:
 
