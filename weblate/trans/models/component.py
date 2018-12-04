@@ -884,10 +884,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 previous_head = self.repository.last_revision
                 # Try to merge it
                 method()
-                self.log_info(
-                    '%s remote into repo',
-                    self.merge_style,
-                )
+                self.log_info('%s remote into repo', self.merge_style)
                 if self.id:
                     Change.objects.create(
                         component=self, action=action,
@@ -915,11 +912,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 status = self.repository.status()
 
                 # Log error
-                self.log_error(
-                    'failed %s on repo: %s',
-                    self.merge_style,
-                    error
-                )
+                self.log_error('failed %s: %s', self.merge_style, error)
                 if self.id:
                     Change.objects.create(
                         component=self, action=action_failed, target=error,
@@ -935,10 +928,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 method(abort=True)
 
                 # Tell user (if there is any)
-                messages.error(
-                    request,
-                    error_msg % force_text(self)
-                )
+                messages.error(request, error_msg % force_text(self))
 
                 return False
 
