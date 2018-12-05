@@ -220,7 +220,6 @@ class Fulltext(WhooshIndex):
             # Filter bad results
             threshold = max([h[1] for h in results]) / 2
             results = [h[0] for h in results if h[1] > threshold]
-            print('filter %d matches over threshold %d' %( len(results), threshold))
             LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
 
             return results
