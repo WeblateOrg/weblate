@@ -123,6 +123,18 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+
+Upgrade from 3.3 to 3.4
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The Celery now uses multiple queues, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

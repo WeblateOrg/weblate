@@ -78,7 +78,7 @@ def check_celery(app_configs, **kwargs):
             )
         )
     else:
-        if get_queue_length() > 1000:
+        if get_queue_length() > 50 or get_queue_length('search') > 10000:
             errors.append(
                 Critical(
                     'The Celery tasks queue is too long, either the worker '

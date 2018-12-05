@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Simple wrapper to start/stop celery workers
+
+python -m celery -A weblate multi $1 \
+    search celery \
+    --pidfile=weblate-%n.pid \
+    --logfile=weblate-%n%I.log --loglevel=DEBUG \
+    --concurrency:search=1 --queues:search=search \
+    --beat:celery --concurrency:celery=2 --queues:celery=celery

@@ -632,6 +632,7 @@ class Metrics(APIView):
             'languages': stats.languages,
             'checks': Check.objects.count(),
             'suggestions': Suggestion.objects.count(),
-            'index_updates': get_queue_length(),
+            'index_updates': get_queue_length('search'),
+            'celery_queue': get_queue_length(),
             'name': settings.SITE_TITLE,
         })

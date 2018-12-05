@@ -706,7 +706,8 @@ useful when debugging or developing):
 
 .. code-block:: sh
 
-   celery worker --app weblate --loglevel info --beat
+   ./examples/celery start
+   ./examples/celery stop
 
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`. For the most usual Linux setup using
