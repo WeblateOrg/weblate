@@ -23,7 +23,7 @@
 
   <div class="panel-body">
 {% if ssh_key %}
-  <p>{% blocktrans %}Weblate uses following SSH key to access remote repositories.{% endblocktrans %}</p>
+  <p>{% blocktrans %}Weblate uses SSH key to access remote repositories. The corresponding public key is found below, you can use it to grant Weblate access to a repository.{% endblocktrans %}</p>
   <div class="list-group-item pre-scrollable">
   {{ ssh_key.key|linebreaks }}
   </div>
