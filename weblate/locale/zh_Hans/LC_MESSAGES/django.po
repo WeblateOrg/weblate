@@ -5,13 +5,14 @@
 # Sun Zhigang <sunner@gmail.com>, 2018.
 # Boyuan Yang <073plan@gmail.com>, 2018.
 # popcorner <memoword@163.com>, 2018.
+# dragonandy <dragonandy@foxmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-29 09:02+0000\n"
-"PO-Revision-Date: 2018-12-01 19:40+0000\n"
-"Last-Translator: popcorner <memoword@163.com>\n"
+"PO-Revision-Date: 2018-12-05 11:35+0000\n"
+"Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -552,16 +553,12 @@ msgid "User with reviewer permissions"
 msgstr "有复查权限的用户"
 
 #: weblate/accounts/views.py:555
-#, fuzzy
-#| msgid "Login to Weblate"
 msgid "Log in to use Weblate."
-msgstr "登录 Weblate"
+msgstr "登录以使用 Weblate。"
 
 #: weblate/accounts/views.py:571
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Thank you for using Weblate."
-msgstr "感谢您使用 Weblate！"
+msgstr "感谢您使用 Weblate。"
 
 #: weblate/accounts/views.py:659 weblate/templates/accounts/email.html:17
 msgid "Register email"
@@ -591,10 +588,8 @@ msgid "Authentication failed due to invalid session state."
 msgstr "因会话状态无效，验证失败。"
 
 #: weblate/accounts/views.py:894
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
-msgstr "您可以在身份验证选项卡中添加其他电子邮箱。"
+msgstr "未能从第三方认证服务中获得电子邮箱地址！"
 
 #: weblate/accounts/views.py:903
 msgid "Can not change authentication for demo!"
@@ -618,14 +613,10 @@ msgid "Authentication has been forbidden by server."
 msgstr "身份验证已被服务器禁止。"
 
 #: weblate/accounts/views.py:945
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication, email or "
-#| "username is already associated with another account!"
 msgid ""
 "Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
-msgstr "未能完成注册！本次验证所用的电子邮箱或用户名已经与另一账号相关联！"
+msgstr "未能完成注册。本次验证所提供的电子邮箱或用户名已经与另一账号相关联。"
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
@@ -879,8 +870,6 @@ msgid ""
 msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行。"
 
 #: weblate/addons/gettext.py:243
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
 msgstr "在注释中添加贡献信息"
 
@@ -1518,8 +1507,9 @@ msgid "Trial expiry date"
 msgstr "试用过期日期"
 
 #: weblate/billing/models.py:160
+#, fuzzy
 msgid "Paid"
-msgstr ""
+msgstr "已支付"
 
 #: weblate/billing/models.py:166
 msgid "In limits"
@@ -1907,8 +1897,9 @@ msgid "CSV"
 msgstr "版本控制系统（VCS）"
 
 #: weblate/formats/exporters.py:331 weblate/formats/external.py:48
+#, fuzzy
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:628
 msgid "Gettext PO file"
@@ -2316,7 +2307,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "本站使用 Google Analytics 来分析网站流量。"
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2366,11 +2357,11 @@ msgstr "忘记了密码？"
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
-msgstr ""
+msgstr "Weblate 以哈希的形式存储用户密码，当前使用PBKDF2、HMAC和SHA-256，迭代次数为150000。"
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
-msgstr ""
+msgstr "如何报告安全问题？"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
@@ -2393,11 +2384,11 @@ msgstr "文件"
 
 #: weblate/memory/forms.py:35
 msgid "You can upload a TMX or JSON file."
-msgstr ""
+msgstr "您可以上传 TMX 或 JSON 文件。"
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "确认删除所有翻译记忆条目"
 
 #: weblate/memory/storage.py:65
 #, fuzzy
@@ -2453,7 +2444,7 @@ msgstr "解析 %d 匹配文件失败！"
 
 #: weblate/memory/views.py:77
 msgid "Entries deleted."
-msgstr ""
+msgstr "条目已删除。"
 
 #: weblate/memory/views.py:92
 #, fuzzy
@@ -2463,7 +2454,7 @@ msgstr "导入为需要编辑的字符串"
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "文件已被处理，条目将很快出现。"
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
@@ -2544,9 +2535,9 @@ msgid ""
 msgstr "服务器在处理您的请求时遇到严重问题。我们的程序猿将会修复该问题。"
 
 #: weblate/templates/500.html:16
-#, python-format
+#, fuzzy, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr ""
+msgstr "如果您需要帮助，你可以将此错误引用为 %(error_id)s。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -2978,7 +2969,7 @@ msgstr "托管请求通常会在一个月内处理，所以在提交之后请耐
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
-msgstr ""
+msgstr "需要商业托管？我们从每月 %(price)s 欧元开始。"
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
