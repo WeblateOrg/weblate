@@ -285,8 +285,11 @@ fulfilled:
 * search and replace is executed
 * explicit commit is requested
 
-You can also additionally set a cron job to commit pending changes after some
-delay, see :djadmin:`commit_pending` and :ref:`production-cron`.
+Additionally you can schedule a regular task to perform commit:
+
+.. literalinclude:: ../../examples/beat-settings.py
+    :language: python
+    :encoding: utf-8
 
 .. _processing:
 
