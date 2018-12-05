@@ -497,7 +497,7 @@ LOGGING = {
             'level': 'DEBUG',
         },
         # Logging VCS operations
-        # 'weblate-vcs': {
+        # 'weblate.vcs': {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },

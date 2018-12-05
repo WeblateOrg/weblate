@@ -42,7 +42,7 @@ from weblate.trans.util import (
 )
 from weblate.vcs.ssh import SSH_WRAPPER
 
-LOGGER = logging.getLogger('weblate-vcs')
+LOGGER = logging.getLogger('weblate.vcs')
 
 
 class RepositoryException(Exception):
