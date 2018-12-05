@@ -1336,11 +1336,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 msg = _('Changing version control system is not supported!')
                 raise ValidationError({'vcs': msg})
 
-        # Check file format
-        if self.file_format not in FILE_FORMATS:
-            msg = _('Unsupported file format: {0}').format(self.file_format)
-            raise ValidationError({'file_format': msg})
-
         # Baild out on failed repo validation
         if self.repo is None:
             return
