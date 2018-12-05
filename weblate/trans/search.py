@@ -207,11 +207,13 @@ class Fulltext(WhooshIndex):
             query = Or(
                 [Term('source', word, boost=weight) for word, weight in kts]
             )
+            LOGGER.debug('more like query: %r', query)
 
             # Grab fulltext results
             results = [
                 (h['pk'], h.score) for h in searcher.search(query, limit=top)
             ]
+            LOGGER.debug('found %d matches', len(results))
             if not results:
                 return []
             # Normalize scores to 0-100
