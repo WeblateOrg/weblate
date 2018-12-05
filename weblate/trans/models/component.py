@@ -1326,7 +1326,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Check if we should rename
         if self.id:
             old = Component.objects.get(pk=self.id)
-            self.check_rename(old)
+            self.check_rename(old, validate=True)
 
             if old.vcs != self.vcs:
                 # This could work, but the problem is that before changed
