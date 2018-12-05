@@ -1299,6 +1299,24 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise ValidationError({'template': msg})
 
+    def clean_repo(self):
+        self.set_default_branch()
+
+        # Baild out on failed repo validation
+        if self.repo is None:
+            return
+
+        # Validate VCS repo
+        try:
+            self.sync_git_repo(True)
+        except RepositoryException as exc:
+            msg = _('Failed to update repository: %s') % self.error_text(exc)
+            raise ValidationError({'repo': msg})
+
+        # Push repo is not used with link
+        if self.is_repo_link:
+            self.clean_repo_link()
+
     def clean(self):
         """Validator fetches repository
 
@@ -1321,8 +1339,6 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.project_id is None:
             return
 
-        self.set_default_branch()
-
         # Check if we should rename
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -1336,20 +1352,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 msg = _('Changing version control system is not supported!')
                 raise ValidationError({'vcs': msg})
 
-        # Baild out on failed repo validation
-        if self.repo is None:
-            return
-
-        # Validate VCS repo
-        try:
-            self.sync_git_repo(True)
-        except RepositoryException as exc:
-            msg = _('Failed to update repository: %s') % self.error_text(exc)
-            raise ValidationError({'repo': msg})
-
-        # Push repo is not used with link
-        if self.is_repo_link:
-            self.clean_repo_link()
+        self.clean_repo()
 
         # Template validation
         self.clean_template()

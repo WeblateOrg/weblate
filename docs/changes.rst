@@ -9,6 +9,7 @@ Released on ? 2019.
 * Added support for XLIFF placeholders.
 * Celery can now utilize multiple task queues.
 * Added suppport for renaming and moving projects and components.
+* Added guided adding of translation components with automatic detection of translation files.
 
 weblate 3.3
 -----------

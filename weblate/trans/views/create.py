@@ -27,7 +27,10 @@ from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 from django.utils.text import slugify
 
-from weblate.trans.forms import ProjectCreateForm, ComponentCreateForm
+from weblate.trans.forms import (
+    ProjectCreateForm, ComponentCreateForm, ComponentInitCreateForm,
+    ComponentDiscoverForm,
+)
 from weblate.trans.models import Project, Component
 
 
@@ -114,8 +117,34 @@ class CreateProject(BaseCreateView):
 @method_decorator(login_required, name='dispatch')
 class CreateComponent(BaseCreateView):
     model = Component
-    form_class = ComponentCreateForm
     projects = None
+    stage = None
+
+    def get_form_class(self):
+        """Return the form class to use."""
+        if self.stage == 'create':
+            return ComponentCreateForm
+        elif self.stage == 'discover':
+            return ComponentDiscoverForm
+        return ComponentInitCreateForm
+
+    def get_form_kwargs(self):
+        if not self.initial:
+            return super(CreateComponent, self).get_form_kwargs()
+        return {'initial': self.initial, 'request': self.request}
+
+    def form_valid(self, form):
+        if self.stage == 'create':
+            return super(CreateComponent, self).form_valid(form)
+        elif self.stage == 'discover':
+            # Move to create
+            self.initial = form.cleaned_data
+            self.stage = 'create'
+            return self.get(self, self.request)
+        # Move to discover
+        self.stage = 'discover'
+        self.initial = form.cleaned_data
+        return self.get(self, self.request)
 
     def get_form(self, form_class=None):
         form = super(CreateComponent, self).get_form(form_class)
@@ -131,9 +160,16 @@ class CreateComponent(BaseCreateView):
     def get_context_data(self, **kwargs):
         kwargs = super(CreateComponent, self).get_context_data(**kwargs)
         kwargs['projects'] = self.projects
+        kwargs['stage'] = self.stage
         return kwargs
 
     def dispatch(self, request, *args, **kwargs):
+        if 'filemask' in request.POST:
+            self.stage = 'create'
+        elif 'discovery' in request.POST:
+            self.stage = 'discover'
+        else:
+            self.stage = 'init'
         if self.request.user.is_superuser:
             self.projects = Project.objects.all()
         elif self.has_billing:

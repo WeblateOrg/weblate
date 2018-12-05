@@ -157,3 +157,27 @@ class CreateTest(ViewTestCase):
         self.assert_create_component(True)
         self.client_create_component(True)
         self.client_create_component(True, name='c2', slug='c2')
+
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
+    def test_create_component_wizard(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        # First step
+        params = {
+            'name': 'Create Component',
+            'slug': 'create-component',
+            'project': self.project.pk,
+            'vcs': 'git',
+            'repo': self.component.repo,
+        }
+        response = self.client.post(reverse('create-component'), params)
+        self.assertContains(response, self.component.get_repo_link_url())
+        self.assertContains(response, 'po/*.po')
+
+        # Display form
+        params['discovery'] = '4'
+        response = self.client.post(reverse('create-component'), params)
+        self.assertContains(response, self.component.get_repo_link_url())
+        self.assertContains(response, 'po/*.po')
