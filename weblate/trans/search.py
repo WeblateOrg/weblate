@@ -216,12 +216,14 @@ class Fulltext(WhooshIndex):
             LOGGER.debug('found %d matches', len(results))
             if not results:
                 return []
-            # Normalize scores to 0-100
-            max_score = max([h[1] for h in results])
-            scores = {h[0]:  h[1] * 100 / max_score for h in results}
 
-            # Filter results with score above 50 and not current unit
-            return [h[0] for h in results if scores[h[0]] > 50 and h[0] != pk]
+            # Filter bad results
+            threshold = max([h[1] for h in results]) / 2
+            results = [h[0] for h in results if h[1] > threshold]
+            print('filter %d matches over threshold %d' %( len(results), threshold))
+            LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
+
+            return results
 
     @classmethod
     def clean_search_unit(cls, pk, lang):

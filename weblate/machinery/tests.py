@@ -26,9 +26,11 @@ from botocore.stub import Stubber, ANY
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.utils.encoding import force_text
 
 import httpretty
 
+from weblate.trans.search import update_fulltext
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.models.unit import Unit
@@ -50,6 +52,7 @@ from weblate.machinery.netease import NeteaseSightTranslation, NETEASE_API_ROOT
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.checks.tests.test_checks import MockUnit
+from weblate.utils.state import STATE_TRANSLATED
 
 GLOSBE_JSON = '''
 {
@@ -763,7 +766,7 @@ class MachineTranslationTest(TestCase):
 
 
 class WeblateTranslationTest(FixtureTestCase):
-    def test_same(self):
+    def test_empty(self):
         machine = WeblateTranslation()
         unit = Unit.objects.all()[0]
         request = HttpRequest()
@@ -775,3 +778,32 @@ class WeblateTranslationTest(FixtureTestCase):
             request,
         )
         self.assertEqual(results, [])
+
+    def test_exists(self):
+        unit = Unit.objects.all()[0]
+        request = HttpRequest()
+        request.user = self.user
+        # Create fake fulltext entry
+        other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
+        other.source = unit.source
+        other.target = 'Preklad'
+        other.state = STATE_TRANSLATED
+        other.save()
+        update_fulltext(
+            pk=other.pk,
+            source=force_text(unit.source),
+            context=force_text(unit.context),
+            location=force_text(unit.location),
+            target=force_text(other.target),
+            comment='',
+            language=force_text(unit.translation.language.code),
+        )
+        # Perform lookup
+        machine = WeblateTranslation()
+        results = machine.translate(
+            unit.translation.language.code,
+            unit.get_source_plurals()[0],
+            unit,
+            request,
+        )
+        self.assertNotEqual(results, [])
