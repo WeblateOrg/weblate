@@ -199,7 +199,7 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++
 
-Weblate does automatically pull remote repositories nightly to improve
+Weblate does automatically fetch remote repositories nightly to improve
 performance when merging changes later. You can optionally turn this into doing
 nightly merges as well by enabling :setting:`AUTO_UPDATE`.
 
