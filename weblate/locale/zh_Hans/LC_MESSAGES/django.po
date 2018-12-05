@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-29 09:02+0000\n"
-"PO-Revision-Date: 2018-12-05 11:38+0000\n"
+"PO-Revision-Date: 2018-12-05 12:37+0000\n"
 "Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -920,7 +920,7 @@ msgstr "重要日期"
 
 #: weblate/auth/data.py:35
 msgid "View billing information"
-msgstr "查看支付信息"
+msgstr "查看计费信息"
 
 #: weblate/auth/data.py:37
 msgid "Download changes"
@@ -1470,7 +1470,7 @@ msgstr "拥有者"
 
 #: weblate/billing/models.py:135 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
-msgstr "付费套餐"
+msgstr "付费计划"
 
 #: weblate/billing/models.py:139
 #, fuzzy
@@ -1479,10 +1479,8 @@ msgid "Billed projects"
 msgstr "所有项目"
 
 #: weblate/billing/models.py:143
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
-msgstr "付费套餐"
+msgstr "账单所有者"
 
 #: weblate/billing/models.py:147
 msgid "Active"
@@ -1497,10 +1495,8 @@ msgid "Expired"
 msgstr "已过期"
 
 #: weblate/billing/models.py:152
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing state"
-msgstr "付费套餐"
+msgstr "计费状态"
 
 #: weblate/billing/models.py:156
 msgid "Trial expiry date"
@@ -2636,16 +2632,12 @@ msgid "SSH key"
 msgstr "SSH 密钥"
 
 #: weblate/templates/about/keys.html:26
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Weblate uses following SSH key to access remote repositories."
-msgstr "将本地变更衍合至远程代码库"
+msgstr "Weblate 使用下列 SSH 密钥来访问远程代码库。"
 
 #: weblate/templates/about/keys.html:31
-#, fuzzy
-#| msgid "Not available"
 msgid "SSH key not available."
-msgstr "不可用"
+msgstr "SSH 密钥不可用。"
 
 #: weblate/templates/about/keys.html:40
 #, fuzzy
@@ -3633,10 +3625,8 @@ msgstr "作为 %(name)s 登录"
 
 #: weblate/templates/base.html:183
 #: weblate/templates/trans/alert/billinglimit.html:4
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "等待复查"
+msgstr "账单概览"
 
 #: weblate/templates/base.html:185 weblate/templates/component.html:79
 #: weblate/templates/memory/index.html:10
@@ -3672,14 +3662,16 @@ msgid "Check your billing status"
 msgstr "查看您的账单状态"
 
 #: weblate/templates/billing-failure.html:12
+#, fuzzy
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
-msgstr ""
+msgstr "这可能是因为您缺少订阅或是您的账单已到期或超过上限所致。"
 
 #: weblate/templates/billing/detail.html:10
+#, fuzzy
 msgid "Recurring payment"
-msgstr ""
+msgstr "周期性付款"
 
 #: weblate/templates/billing/detail.html:15
 #, fuzzy
@@ -3706,18 +3698,17 @@ msgid "Perform payment"
 msgstr "性能"
 
 #: weblate/templates/billing/detail.html:36
+#, fuzzy
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "终止周期性付款"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "要终止计费您首先必须删除所有项目。"
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Terminate billing plan"
-msgstr "付费套餐"
+msgstr "终止计费计划"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -3751,7 +3742,7 @@ msgstr "账单"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "您当前没有任何已激活的计费。"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -3760,7 +3751,7 @@ msgstr "当前方案"
 #: weblate/templates/billing/status.html:6
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr "，期限为 %(expires)s"
 
 #: weblate/templates/billing/status.html:6
 msgid "See other plans"
@@ -3873,7 +3864,7 @@ msgstr "翻译"
 
 #: weblate/templates/component.html:33
 msgid "Alerts"
-msgstr ""
+msgstr "提醒"
 
 #: weblate/templates/component.html:35 weblate/templates/component.html:156
 #: weblate/templates/dashboard/user.html:38
@@ -4783,7 +4774,7 @@ msgstr "重置本地代码库中的所有变更"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Cleanup"
-msgstr ""
+msgstr "清理"
 
 #: weblate/templates/js/git-status.html:184
 #, fuzzy
@@ -5030,17 +5021,15 @@ msgstr "订阅设置"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
-msgstr ""
+msgstr "您的计费计划已过期，如果您想要继续使用该服务，请使用以下链接更新它："
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "This site is built using following projects:"
 msgid "This billing plan covers following projects:"
-msgstr "此网站基于以下项目："
+msgstr "这个计费计划覆盖以下项目："
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "您的计费计划已过期"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5381,11 +5370,11 @@ msgstr "使用此翻译"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
-msgstr ""
+msgstr "已启用"
 
 #: weblate/templates/memory/index.html:30
 msgid "disabled"
-msgstr ""
+msgstr "已禁用"
 
 #: weblate/templates/memory/index.html:37
 #, fuzzy, python-format
@@ -5430,11 +5419,12 @@ msgid "Import existing translations"
 msgstr "改写现有译文"
 
 #: weblate/templates/memory/index.html:72
+#, fuzzy
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
-msgstr ""
+msgstr "计划将此项目中的所有现有翻译导入到翻译记忆中。这在擦除翻译记忆后或者在初始化设置时很有用。"
 
 #: weblate/templates/memory/index.html:86
 #, fuzzy
@@ -5444,7 +5434,7 @@ msgstr "保存翻译历史"
 
 #: weblate/templates/memory/index.html:91
 msgid "Wipe"
-msgstr ""
+msgstr "擦除"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -5601,10 +5591,8 @@ msgid "Screenshot details"
 msgstr "截图"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "已创建 SSH 密钥。"
+msgstr "建立时间"
 
 #: weblate/templates/screenshots/screenshot_detail.html:116
 #, fuzzy
@@ -5636,7 +5624,7 @@ msgstr "此翻译正在更新中而被锁定。"
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
-msgstr ""
+msgstr "付费以解锁这一项目。"
 
 #: weblate/templates/show-contributor-agreement.html:7
 #, fuzzy
@@ -5683,7 +5671,7 @@ msgstr "项目信息"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
-msgstr ""
+msgstr "你的计费计划超出了它的限制。您仍然可以使用该服务，但建议升级它。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 #, fuzzy
@@ -5711,7 +5699,7 @@ msgstr "语言代码"
 msgid ""
 "Please fix this by removing one of the duplicated strings from the "
 "translation files."
-msgstr ""
+msgstr "请通过移除翻译文件中的一个重复字符串来修复这个问题。"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 #, fuzzy
@@ -5723,7 +5711,7 @@ msgstr "翻译更新时是否锁定组件。"
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
-msgstr ""
+msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来修复此问题。"
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 #, fuzzy
@@ -5746,20 +5734,21 @@ msgid "Filename"
 msgstr "全名"
 
 #: weblate/templates/trans/alert/parseerror.html:10
+#, fuzzy
 msgid "Error"
-msgstr ""
+msgstr "出错"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
-msgstr ""
+msgstr "VCS 代码库相较于上游有许多变化。请手动合并更改或者设置 push 来自动化这一操作。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
-msgstr ""
+msgstr "VCS 代码库并不是最新的上游代码库版本。请手动合并更改或设置 hooks 来实现自动化操作。"
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -5771,7 +5760,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr ""
+msgstr "在更新代码库时 Weblate 无法拉取上游更改。"
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -5799,7 +5788,7 @@ msgstr "您没有更改项目访问控制的权限。"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr ""
+msgstr "您确定吗？"
 
 #: weblate/templates/trans/delete-form.html:11
 #, fuzzy
@@ -5808,8 +5797,9 @@ msgid "The following translation components will be also removed:"
 msgstr "以下组件将被删除"
 
 #: weblate/templates/trans/delete-form.html:22
+#, fuzzy
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "我明白后果，删除这个翻译"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5845,7 +5835,7 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
-msgstr ""
+msgstr "当更改代码库 URL 时，现有内容将与新代码库合并。代码库将会在移动到不同的位置后依然正常工作。但如果代码库内容不同，最好创建新的翻译组件。"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:234 weblate/templates/translate.html:433
@@ -5997,7 +5987,7 @@ msgstr ""
 #: weblate/templates/translate.html:207
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "这个翻译只接受建议并最终由投票决定。"
 
 #: weblate/templates/translate.html:209 weblate/trans/views/edit.py:290
 #: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
@@ -6099,7 +6089,7 @@ msgstr "接受并修改"
 
 #: weblate/templates/translate.html:309
 msgid "Mark as spam"
-msgstr ""
+msgstr "标记为垃圾"
 
 #: weblate/templates/translate.html:334
 msgid "Following string has same context and same source."
@@ -6479,8 +6469,9 @@ msgid "Control chars"
 msgstr "控制字符"
 
 #: weblate/trans/autofixes/custom.py:49
+#, fuzzy
 msgid "Apostrophes in Java MessageFormat"
-msgstr ""
+msgstr "Java MessageFormat 中的撇号 '"
 
 #: weblate/trans/autofixes/whitespace.py:35
 msgid "Trailing and leading whitespace"
@@ -7029,7 +7020,7 @@ msgstr "语言处理"
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
-msgstr ""
+msgstr "您必须为这些组件指定允许它们被公开访问的许可证：%s"
 
 #: weblate/trans/forms.py:1582
 msgid "Search string"
@@ -7084,7 +7075,7 @@ msgstr "请登录以保存翻译。"
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
-msgstr ""
+msgstr "这个动作是不能撤消的。这将永久删除{}翻译和所有相关内容。"
 
 #: weblate/trans/forms.py:1735
 #, fuzzy
@@ -7130,7 +7121,7 @@ msgstr "无法解析翻译译文模版文件: %s"
 
 #: weblate/trans/models/alert.py:163
 msgid "Your billing plan has exceeded its limits."
-msgstr ""
+msgstr "您已经超出计费计划的限制。"
 
 #: weblate/trans/models/alert.py:168
 #, fuzzy
@@ -7591,7 +7582,7 @@ msgstr "高优先级的组件将最先提供给翻译者。"
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
-msgstr "验证SSH主机密钥失败，请在管理员界面的SSH页增加。"
+msgstr "验证 SSH 主机密钥失败，请在管理员界面的 SSH 页增加它们。"
 
 #: weblate/trans/models/component.py:596
 #, python-format
@@ -7854,7 +7845,7 @@ msgstr "使用此翻译"
 #: weblate/trans/models/project.py:95
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+msgstr "使用和贡献到翻译池中以在不同项目之间共享翻译。"
 
 #: weblate/trans/models/project.py:102
 msgid "Access control"
@@ -8984,7 +8975,7 @@ msgstr "生成 SSH 密钥"
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
-msgstr "若您没有 SSH 密钥，按下面的按钮 Weblate 即可为您生成一个。"
+msgstr "您没有 SSH 密钥，按下面的按钮 Weblate 即可为您生成一个。"
 
 #: weblate/wladmin/templates/admin/ssh.html:42
 msgid "Known host keys"
@@ -9010,7 +9001,7 @@ msgstr "添加主机密钥"
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
-msgstr "要访问 SSH 主机，需要验证其主机密钥。您可以通过以下表单检查主机密钥。"
+msgstr "要访问 SSH 主机，需要验证其主机密钥。您可以通过在下面的表单中为主机输入域名或IP来获取主机密钥。"
 
 #: weblate/wladmin/templates/admin/ssh.html:69
 msgid "Host:"
