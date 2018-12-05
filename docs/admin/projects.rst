@@ -38,6 +38,11 @@ Adding translation projects and components
    included in Weblate and no longer requires you to use
    :ref:`admin-interface`.
 
+.. versionchanged:: 3.4
+
+   Since the 3.4 release, the process of adding component is multi stage with
+   automated discovery of most parameters.
+
 Based on your permissions, you can be able to create new translation projects
 and components in Weblate. It is always allowed for superusers and if your
 instance uses billing (eg. like https://hosted.weblate.org/, see
@@ -57,8 +62,20 @@ After creating the project, you are directly taken to the project page:
 
 .. image:: /images/user-add-project-done.png
 
-Creating new translation component can be initiated by single click there and
-you will have to fill in translation component information now:
+Creating new translation component can be initiated by single click there.  The
+process of creating component is multi staged and automatically detects most of
+the translation parameters.
+
+First you need to fill in name and repository location:
+
+.. image:: /images/user-add-component-init.png
+
+On next page, you are presented list of discovered translatable resources:
+
+.. image:: /images/user-add-component-discovery.png
+
+As a last step you will review the translation component information and fill
+in optional details:
 
 .. image:: /images/user-add-component.png
 

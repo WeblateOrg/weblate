@@ -28,9 +28,14 @@
 </div>
 <div class="panel-body">
 {% crispy form %}
+{% if stage == "discover" %}
+<div class="alert alert-info">
+<i class="fa fa-commenting"></i> The translations discovery is currently a beta feature, in case something was wrongly detected, please <a href="https://github.com/WeblateOrg/translation-finder/issues/new?title=Wrongly discovered translations&amp;body=Problem with detecting translations on {{ form.repo.value }}">provide us feedback</a>.
+</div>
+{% endif %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+<input type="submit" value="{% if stage != "create" %}{% trans "Continue" %}{% else %}{% trans "Save" %}{% endif %}" class="btn btn-success" />
 </div>
 </div>
 </form>

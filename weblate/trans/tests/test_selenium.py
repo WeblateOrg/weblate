@@ -1040,7 +1040,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Add project
         self.driver.find_element_by_id('id_name').send_keys('WeblateOrg')
-        self.driver.find_element_by_id('id_slug').send_keys('weblateorg')
         self.driver.find_element_by_id(
             'id_web'
         ).send_keys(
@@ -1069,12 +1068,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Add component
         self.driver.find_element_by_id('id_name').send_keys('Language names')
-        self.driver.find_element_by_id('id_slug').send_keys('languages')
         self.driver.find_element_by_id(
             'id_repo'
         ).send_keys(
             'https://github.com/WeblateOrg/demo.git'
         )
+        self.screenshot('user-add-component-init.png')
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+
+        self.screenshot('user-add-component-discovery.png')
+        self.driver.find_element_by_id('id_id_discovery_0_1').click()
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+
         self.driver.find_element_by_id(
             'id_repoweb'
         ).send_keys(

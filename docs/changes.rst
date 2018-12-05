@@ -10,6 +10,7 @@ Released on ? 2019.
 * Celery can now utilize multiple task queues.
 * Added suppport for renaming and moving projects and components.
 * Include chars counts in reports.
+* Added guided adding of translation components with automatic detection of translation files.
 
 weblate 3.3
 -----------

@@ -30,12 +30,14 @@ from crispy_forms.layout import Layout, Fieldset, Field, Div, HTML
 from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext, get_language,
 )
 from django.urls import reverse
 from django.forms.utils import from_current_timezone
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
@@ -43,9 +45,13 @@ from django.utils.html import escape
 from django.utils.http import urlencode
 from django.forms import ValidationError
 from django.db.models import Q
+
+from translation_finder import discover
+
 from weblate.auth.models import User
 
 from weblate.formats.exporters import EXPORTERS
+from weblate.formats.models import FILE_FORMATS
 from weblate.langdata.languages  import ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
@@ -64,6 +70,7 @@ from weblate.utils.state import (
 )
 from weblate.utils.validators import validate_file_extension
 from weblate.utils.docs import get_doc_url
+from weblate.vcs.models import VCS_REGISTRY
 
 ICON_TEMPLATE = '''
 <i class="fa fa-{0}"></i> {1}
@@ -1338,18 +1345,7 @@ class ReportsForm(forms.Form):
             raise ValidationError({'start_date': msg, 'end_date': msg})
 
 
-class SettingsBaseForm(forms.ModelForm):
-    """Component base form."""
-    class Meta(object):
-        model = Component
-        fields = []
-
-    def __init__(self, request, *args, **kwargs):
-        super(SettingsBaseForm, self).__init__(*args, **kwargs)
-        self.request = request
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-
+class CleanRepoMixin(object):
     def clean_repo(self):
         repo = self.cleaned_data.get('repo')
         if not repo or not is_repo_link(repo):
@@ -1364,6 +1360,19 @@ class SettingsBaseForm(forms.ModelForm):
                 _('You do not have permission to access this component!')
             )
         return repo
+
+
+class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
+    """Component base form."""
+    class Meta(object):
+        model = Component
+        fields = []
+
+    def __init__(self, request, *args, **kwargs):
+        super(SettingsBaseForm, self).__init__(*args, **kwargs)
+        self.request = request
+        self.helper = FormHelper()
+        self.helper.form_tag = False
 
 
 class ComponentSettingsForm(SettingsBaseForm):
@@ -1492,6 +1501,131 @@ class ComponentCreateForm(SettingsBaseForm):
             'branch', 'file_format', 'filemask', 'template', 'new_base',
             'license', 'new_lang', 'language_regex',
         ]
+
+
+class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
+    """Component creation form.
+
+    This is mostly copy from Component model. Probably
+    should be extracted to standalone Repository model...
+    """
+    name = forms.CharField(
+        label=_('Component name'),
+        max_length=settings.COMPONENT_NAME_LENGTH,
+        help_text=_('Name to display')
+    )
+    slug = forms.SlugField(
+        label=_('URL slug'),
+        max_length=settings.COMPONENT_NAME_LENGTH,
+        help_text=_('Name used in URLs and file names.')
+    )
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.none(),
+        label=_('Project'),
+    )
+    vcs = forms.ChoiceField(
+        label=_('Version control system'),
+        help_text=_(
+            'Version control system to use to access your '
+            'repository with translations.'
+        ),
+        choices=VCS_REGISTRY.get_choices(),
+        initial=settings.DEFAULT_VCS,
+    )
+    repo = forms.CharField(
+        label=_('Source code repository'),
+        max_length=200,
+        help_text=_(
+            'URL of a repository, use weblate://project/component '
+            'for sharing with other component.'
+        ),
+    )
+    branch = forms.CharField(
+        label=_('Repository branch'),
+        max_length=200,
+        help_text=_('Repository branch to translate'),
+        required=False,
+    )
+
+    def __init__(self, request, *args, **kwargs):
+        if 'instance' in kwargs:
+            kwargs.pop('instance')
+        super(ComponentInitCreateForm, self).__init__(*args, **kwargs)
+        self.request = request
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.instance = None
+
+    def clean_instance(self, data):
+        params = copy.copy(data)
+        if 'discovery' in params:
+            params.pop('discovery')
+
+        instance = Component(**params)
+        instance.clean_fields(exclude=('filemask',))
+        instance.validate_unique()
+        instance.clean_repo()
+        self.instance = instance
+
+        # Create linked repos automatically
+        if not self.instance.is_repo_link:
+            same_repo = instance.project.component_set.filter(
+                repo=instance.repo, vcs=instance.vcs, branch=instance.branch
+            )
+            if same_repo.exists():
+                component = same_repo[0]
+                data['repo'] = component.get_repo_link_url()
+                data['branch'] = component.branch
+                self.clean_instance(data)
+
+    def clean(self):
+        self.clean_instance(self.cleaned_data)
+
+
+class ComponentDiscoverForm(ComponentInitCreateForm):
+    discovery = forms.ChoiceField(
+        label=_('Choose translation files to import'),
+        choices=[
+            ('manual', _('Specify configuration manually'))
+        ],
+        required=True,
+        widget=forms.RadioSelect,
+    )
+
+    def render_choice(self, value):
+        context = copy.copy(value)
+        try:
+            format_cls = FILE_FORMATS[value['file_format']]
+            context['file_format_name'] = format_cls.name
+        except KeyError:
+            context['file_format_name'] = value['file_format']
+        return render_to_string('trans/discover-choice.html', context)
+
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentDiscoverForm, self).__init__(request, *args, **kwargs)
+        for field, value in self.fields.items():
+            if field == 'discovery':
+                continue
+            value.widget = forms.HiddenInput()
+        self.discovered = self.perform_discovery(request, kwargs)
+        for i, value in enumerate(self.discovered):
+            self.fields['discovery'].choices.append(
+                (i, self.render_choice(value))
+            )
+
+    def perform_discovery(self, request, kwargs):
+        if 'data' in kwargs:
+            return request.session['create_discovery']
+        self.clean_instance(kwargs['initial'])
+        discovered = discover(self.instance.full_path)
+        request.session['create_discovery'] = discovered
+        return discovered
+
+    def clean(self):
+        super(ComponentDiscoverForm, self).clean()
+        discovery = self.cleaned_data.get('discovery')
+        if discovery and discovery != 'manual':
+            self.cleaned_data.update(self.discovered[int(discovery)])
 
 
 class ComponentRenameForm(SettingsBaseForm):
