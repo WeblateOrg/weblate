@@ -1347,6 +1347,8 @@ class SettingsBaseForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         super(SettingsBaseForm, self).__init__(*args, **kwargs)
         self.request = request
+        self.helper = FormHelper()
+        self.helper.form_tag = False
 
     def clean_repo(self):
         repo = self.cleaned_data.get('repo')
@@ -1403,8 +1405,6 @@ class ComponentSettingsForm(SettingsBaseForm):
 
     def __init__(self, request, *args, **kwargs):
         super(ComponentSettingsForm, self).__init__(request, *args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1493,11 +1493,6 @@ class ComponentCreateForm(SettingsBaseForm):
             'license', 'new_lang', 'language_regex',
         ]
 
-    def __init__(self, request, *args, **kwargs):
-        super(ComponentCreateForm, self).__init__(request, *args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-
 
 class ProjectSettingsForm(SettingsBaseForm):
     """Project settings form."""
@@ -1516,8 +1511,6 @@ class ProjectSettingsForm(SettingsBaseForm):
 
     def __init__(self, request, *args, **kwargs):
         super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
         self.helper.disable_csrf = True
 
 
@@ -1535,11 +1528,6 @@ class ProjectCreateForm(SettingsBaseForm):
     class Meta(object):
         model = Project
         fields = ('name', 'slug', 'web', 'mail', 'instructions')
-
-    def __init__(self, request, *args, **kwargs):
-        super(ProjectCreateForm, self).__init__(request, *args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
 
 
 class ProjectAccessForm(forms.ModelForm):
