@@ -65,20 +65,25 @@ import weblate.accounts.urls
 import weblate.api.urls
 import weblate.wladmin.sites
 
+def optional(route_part):
+    return '(?:' + route_part + r')?'
+
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
 
 # URL regexp for project
-PROJECT = r'(?P<project>[^/]+)/'
+PROJECT = r'(?P<project>[^/]+)'
+
+COMPONENT = r'(?P<component>[^/]+)'
 
 # URL regexp for component
-COMPONENT = PROJECT + r'(?P<component>[^/]+)/'
+COMPONENT_SCOPED_BY_PROJECT = PROJECT + '/' + COMPONENT + '/'
 
 # URL regexp for translations
-TRANSLATION = COMPONENT + LANGUAGE + '/'
+TRANSLATION = PROJECT + '/' + COMPONENT + '/' + LANGUAGE + '/'
 
 # URL regexp for project language pages
-PROJECT_LANG = PROJECT + LANGUAGE + '/'
+PROJECT_LANG = PROJECT + '/' + LANGUAGE + '/'
 
 # URL regexp used as base for widgets
 WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
@@ -155,27 +160,27 @@ real_patterns = [
 
     # Subroject pages
     url(
-        r'^projects/' + COMPONENT + '$',
+        r'^projects/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.basic.show_component,
         name='component',
     ),
     url(
-        r'^projects/' + COMPONENT + 'source/$',
+        r'^projects/' + COMPONENT_SCOPED_BY_PROJECT + 'source/$',
         weblate.trans.views.source.show_source,
         name='show_source',
     ),
     url(
-        r'^projects/' + COMPONENT + 'source/review/$',
+        r'^projects/' + COMPONENT_SCOPED_BY_PROJECT + 'source/review/$',
         weblate.trans.views.source.review_source,
         name='review_source',
     ),
     url(
-        r'^matrix/' + COMPONENT + '$',
+        r'^matrix/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.source.matrix,
         name='matrix',
     ),
     url(
-        r'^js/matrix/' + COMPONENT + '$',
+        r'^js/matrix/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.source.matrix_load,
         name='matrix-load',
     ),
@@ -217,7 +222,7 @@ real_patterns = [
         name='zen',
     ),
     url(
-        r'^download/' + TRANSLATION + '$',
+        r'^download/' + PROJECT + '/' + optional(COMPONENT + '/') + '$',
         weblate.trans.views.files.download_translation,
         name='download_translation',
     ),
@@ -242,7 +247,7 @@ real_patterns = [
         name='replace',
     ),
     url(
-        r'^replace/' + COMPONENT + '$',
+        r'^replace/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.search.search_replace,
         name='replace',
     ),
@@ -257,7 +262,7 @@ real_patterns = [
         name='state-change',
     ),
     url(
-        r'^state-change/' + COMPONENT + '$',
+        r'^state-change/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.search.state_change,
         name='state-change',
     ),
@@ -267,27 +272,27 @@ real_patterns = [
         name='state-change',
     ),
     url(
-        r'^credits/' + COMPONENT + '$',
+        r'^credits/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.reports.get_credits,
         name='credits',
     ),
     url(
-        r'^counts/' + COMPONENT + '$',
+        r'^counts/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.reports.get_counts,
         name='counts',
     ),
     url(
-        r'^new-lang/' + COMPONENT + '$',
+        r'^new-lang/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.basic.new_language,
         name='new-language',
     ),
     url(
-        r'^addons/' + COMPONENT + '$',
+        r'^addons/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.addons.views.AddonList.as_view(),
         name='addons',
     ),
     url(
-        r'^addons/' + COMPONENT + '(?P<pk>[0-9]+)/$',
+        r'^addons/' + COMPONENT_SCOPED_BY_PROJECT + '(?P<pk>[0-9]+)/$',
         weblate.addons.views.AddonDetail.as_view(),
         name='addon-detail',
     ),
@@ -307,7 +312,7 @@ real_patterns = [
         name='settings',
     ),
     url(
-        r'^settings/' + COMPONENT + '$',
+        r'^settings/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.settings.change_component,
         name='settings',
     ),
@@ -322,7 +327,7 @@ real_patterns = [
         name='create-component',
     ),
     url(
-        r'^contributor-agreement/' + COMPONENT + '$',
+        r'^contributor-agreement/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.agreement.agreement_confirm,
         name='contributor-agreement',
     ),
@@ -354,7 +359,7 @@ real_patterns = [
         name='monthly_activity',
     ),
     url(
-        r'^activity/month/' + COMPONENT + '$',
+        r'^activity/month/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.charts.monthly_activity,
         name='monthly_activity',
     ),
@@ -391,7 +396,7 @@ real_patterns = [
         name='yearly_activity',
     ),
     url(
-        r'^activity/year/' + COMPONENT + '$',
+        r'^activity/year/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.charts.yearly_activity,
         name='yearly_activity',
     ),
@@ -435,7 +440,7 @@ real_patterns = [
         name='commit_project',
     ),
     url(
-        r'^commit/' + COMPONENT + '$',
+        r'^commit/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.git.commit_component,
         name='commit_component',
     ),
@@ -452,7 +457,7 @@ real_patterns = [
         name='update_project',
     ),
     url(
-        r'^update/' + COMPONENT + '$',
+        r'^update/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.git.update_component,
         name='update_component',
     ),
@@ -469,7 +474,7 @@ real_patterns = [
         name='push_project',
     ),
     url(
-        r'^push/' + COMPONENT + '$',
+        r'^push/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.git.push_component,
         name='push_component',
     ),
@@ -486,7 +491,7 @@ real_patterns = [
         name='reset_project',
     ),
     url(
-        r'^reset/' + COMPONENT + '$',
+        r'^reset/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.git.reset_component,
         name='reset_component',
     ),
@@ -558,19 +563,19 @@ real_patterns = [
         name='unlock_project',
     ),
     url(
-        r'^lock/' + COMPONENT + '$',
+        r'^lock/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.lock.lock_component,
         name='lock_component',
     ),
     url(
-        r'^unlock/' + COMPONENT + '$',
+        r'^unlock/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.lock.unlock_component,
         name='unlock_component',
     ),
 
     # Screenshots
     url(
-        r'^screenshots/' + COMPONENT + '$',
+        r'^screenshots/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.screenshots.views.ScreenshotList.as_view(),
         name='screenshots',
     ),
@@ -691,7 +696,7 @@ real_patterns = [
         name='show_check_project',
     ),
     url(
-        r'^checks/(?P<name>[^/]+)/' + COMPONENT + '$',
+        r'^checks/(?P<name>[^/]+)/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.checks.views.show_check_component,
         name='show_check_component',
     ),
@@ -710,7 +715,7 @@ real_patterns = [
 
     # Notification hooks
     url(
-        r'^hooks/update/' + COMPONENT + '$',
+        r'^hooks/update/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.api.update_component,
         name='hook-component',
     ),
@@ -727,7 +732,7 @@ real_patterns = [
 
     # Stats exports
     url(
-        r'^exports/stats/' + COMPONENT + '$',
+        r'^exports/stats/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.api.export_stats,
         name='export_stats',
     ),
@@ -754,7 +759,7 @@ real_patterns = [
         name='rss-project',
     ),
     url(
-        r'^exports/rss/' + COMPONENT + '$',
+        r'^exports/rss/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         ComponentChangesFeed(),
         name='rss-component',
     ),
@@ -870,7 +875,7 @@ real_patterns = [
         name='js-unit-translations',
     ),
     url(
-        r'^js/detail/' + COMPONENT + '(?P<checksum>[^/]+)/$',
+        r'^js/detail/' + COMPONENT_SCOPED_BY_PROJECT + '(?P<checksum>[^/]+)/$',
         weblate.trans.views.js.get_detail,
         name='js-detail',
     ),
@@ -880,7 +885,7 @@ real_patterns = [
         name='git_status_project',
     ),
     url(
-        r'^js/git/' + COMPONENT + '$',
+        r'^js/git/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.js.git_status_component,
         name='git_status_component',
     ),
@@ -1057,7 +1062,7 @@ real_patterns = [
         )
     ),
     url(
-        r'^activity/html/' + COMPONENT + '$',
+        r'^activity/html/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         RedirectView.as_view(
             url='/projects/%(project)s/%(component)s/#activity',
             permanent=True,
@@ -1090,7 +1095,7 @@ real_patterns = [
         name="search"
     ),
     url(
-        r'^search/' + COMPONENT + '$',
+        r'^search/' + COMPONENT_SCOPED_BY_PROJECT + '$',
         weblate.trans.views.search.search,
         name="search"
     ),
@@ -1130,7 +1135,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
     real_patterns += [
         # Redirect clone from the Weblate project URL
         url(
-            r'^projects/' + COMPONENT +
+            r'^projects/' + COMPONENT_SCOPED_BY_PROJECT +
             '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
@@ -1139,7 +1144,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
             )
         ),
         url(
-            r'^projects/' + COMPONENT[:-1] +
+            r'^projects/' + COMPONENT_SCOPED_BY_PROJECT[:-1] +
             r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
@@ -1149,7 +1154,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
         ),
         # Redirect clone in case user adds .git to the path
         url(
-            r'^git/' + COMPONENT[:-1] + r'\.git/' + '(?P<path>[a-z0-9_/-]*)$',
+            r'^git/' + COMPONENT_SCOPED_BY_PROJECT[:-1] + r'\.git/' + '(?P<path>[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,
@@ -1157,7 +1162,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
             )
         ),
         url(
-            r'^git/' + COMPONENT + '(?P<path>[a-z0-9_/-]*)$',
+            r'^git/' + COMPONENT_SCOPED_BY_PROJECT + '(?P<path>[a-z0-9_/-]*)$',
             weblate.gitexport.views.git_export,
             name='git-export',
         ),
