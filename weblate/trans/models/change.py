@@ -190,6 +190,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REMOVE_COMPONENT = 38
     ACTION_REMOVE_PROJECT = 39
     ACTION_DUPLICATE_LANGUAGE = 40
+    ACTION_RENAME_PROJECT = 41
+    ACTION_RENAME_COMPONENT = 42
+    ACTION_MOVE_COMPONENT = 43
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -236,6 +239,9 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE_COMPONENT, ugettext_lazy('Removed component')),
         (ACTION_REMOVE_PROJECT, ugettext_lazy('Removed project')),
         (ACTION_DUPLICATE_LANGUAGE, ugettext_lazy('Found duplicated language')),
+        (ACTION_RENAME_PROJECT, ugettext_lazy('Renamed project')),
+        (ACTION_RENAME_COMPONENT, ugettext_lazy('Renamed component')),
+        (ACTION_MOVE_COMPONENT, ugettext_lazy('Moved component')),
     )
 
     ACTIONS_COMPONENT = frozenset((

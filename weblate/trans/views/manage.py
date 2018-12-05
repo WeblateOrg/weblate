@@ -28,7 +28,9 @@ from weblate.utils import messages
 from weblate.utils.views import (
     get_project, get_component, get_translation, show_form_errors,
 )
-from weblate.trans.forms import DeleteForm
+from weblate.trans.forms import (
+    DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
+)
 from weblate.trans.models import Change
 from weblate.trans.util import redirect_param
 
@@ -102,3 +104,53 @@ def remove_project(request, project):
     messages.success(request, _('Project has been removed.'))
 
     return redirect('home')
+
+
+def perform_rename(form_cls, request, obj, perm, **kwargs):
+    if not request.user.has_perm(perm, obj):
+        raise PermissionDenied()
+
+    form = form_cls(request, request.POST, instance=obj)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#delete')
+
+    form.save()
+    Change.objects.create(
+        user=request.user,
+        author=request.user,
+        **kwargs
+    )
+
+    return redirect(obj)
+
+
+@login_required
+@require_POST
+def rename_component(request, project, component):
+    obj = get_component(request, project, component)
+    return perform_rename(
+        ComponentRenameForm, request, obj, 'component.edit',
+        component=obj, target=obj.slug, action=Change.ACTION_RENAME_COMPONENT
+    )
+
+
+@login_required
+@require_POST
+def move_component(request, project, component):
+    obj = get_component(request, project, component)
+    return perform_rename(
+        ComponentMoveForm, request, obj, 'project.edit',
+        component=obj, target=obj.project.slug,
+        action=Change.ACTION_MOVE_COMPONENT
+    )
+
+
+@login_required
+@require_POST
+def rename_project(request, project):
+    obj = get_project(request, project)
+    return perform_rename(
+        ProjectRenameForm, request, obj, 'project.edit',
+        project=obj, target=obj.slug, action=Change.ACTION_RENAME_PROJECT
+    )

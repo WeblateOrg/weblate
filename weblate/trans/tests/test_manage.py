@@ -22,6 +22,7 @@
 
 from django.urls import reverse
 
+from weblate.trans.models import Project, Component
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -71,3 +72,78 @@ class RemovalTest(ViewTestCase):
             response,
             'Project has been removed.',
         )
+
+
+class RenameTest(ViewTestCase):
+    def test_denied(self):
+        self.assertNotContains(
+            self.client.get(reverse('project', kwargs=self.kw_project)),
+            '#rename',
+        )
+        self.assertNotContains(
+            self.client.get(reverse('component', kwargs=self.kw_component)),
+            '#rename',
+        )
+        response = self.client.post(
+            reverse('rename', kwargs=self.kw_project),
+            {'slug': 'xxxx'}
+        )
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(
+            reverse('rename', kwargs=self.kw_component),
+            {'slug': 'xxxx'}
+        )
+        self.assertEqual(response.status_code, 403)
+
+        other = Project.objects.create(name='Other', slug='other')
+        response = self.client.post(
+            reverse('move', kwargs=self.kw_component),
+            {'project': other.pk}
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_move_component(self):
+        self.make_manager()
+        other = Project.objects.create(name='Other project', slug='other')
+        self.assertContains(
+            self.client.get(reverse('component', kwargs=self.kw_component)),
+            'Other project',
+        )
+        response = self.client.post(
+            reverse('move', kwargs=self.kw_component),
+            {'project': other.pk}
+        )
+        self.assertRedirects(response, '/projects/other/test/')
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.project.slug, 'other')
+        self.assertIsNotNone(component.repository.last_remote_revision)
+
+    def test_rename_component(self):
+        self.make_manager()
+        self.assertContains(
+            self.client.get(reverse('component', kwargs=self.kw_component)),
+            '#rename',
+        )
+        response = self.client.post(
+            reverse('rename', kwargs=self.kw_component),
+            {'slug': 'xxxx'}
+        )
+        self.assertRedirects(response, '/projects/test/xxxx/')
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.slug, 'xxxx')
+        self.assertIsNotNone(component.repository.last_remote_revision)
+
+    def test_rename_project(self):
+        self.make_manager()
+        self.assertContains(
+            self.client.get(reverse('project', kwargs=self.kw_project)),
+            '#rename',
+        )
+        response = self.client.post(
+            reverse('rename', kwargs=self.kw_project),
+            {'slug': 'xxxx'}
+        )
+        self.assertRedirects(response, '/projects/xxxx/')
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.slug, 'xxxx')

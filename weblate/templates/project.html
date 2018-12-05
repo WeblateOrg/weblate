@@ -72,8 +72,9 @@
       {% if user_can_edit_project %}
       <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
-      {% if delete_form %}
+      {% if delete_form or rename_form %}
       <li role="separator" class="divider"></li>
+      <li><a href="#rename" data-toggle="tab">{% trans "Rename" %}</a></li>
       <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
       {% endif %}
     </ul>
@@ -253,6 +254,27 @@
 
 {% if delete_form %}
 {% include "trans/delete-form.html" %}
+{% endif %}
+
+{% if rename_form %}
+<div class="tab-pane" id="rename">
+
+<form method="post" action="{% url 'rename' project=object.slug %}">
+<div class="panel panel-warning">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Rename project" %}</h4></div>
+<div class="panel-body">
+<div class="form-group">
+<p>{% trans "Renaming the project will change all URLs, users will have to update bookmarks or references in cloned repositories!" %}</p>
+</div>
+{% crispy rename_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" class="btn btn-warning" value="{% trans "Rename" %}">
+</div>
+</div>
+</form>
+
+</div>
 {% endif %}
 
 {% if user_can_see_repository_status %}

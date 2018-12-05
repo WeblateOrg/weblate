@@ -529,6 +529,22 @@ real_patterns = [
         weblate.trans.views.manage.remove_translation,
         name='remove_translation',
     ),
+    # Rename/move
+    url(
+        r'^rename/' + PROJECT + '$',
+        weblate.trans.views.manage.rename_project,
+        name='rename',
+    ),
+    url(
+        r'^rename/' + COMPONENT + '$',
+        weblate.trans.views.manage.rename_component,
+        name='rename',
+    ),
+    url(
+        r'^move/' + COMPONENT + '$',
+        weblate.trans.views.manage.move_component,
+        name='move',
+    ),
 
     # Locking
     url(

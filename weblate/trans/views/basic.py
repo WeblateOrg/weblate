@@ -42,7 +42,7 @@ from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
-    DeleteForm,
+    DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
 )
 from weblate.accounts.notifications import notify_new_language
 from weblate.utils.views import (
@@ -170,6 +170,11 @@ def show_project(request, project):
             'delete_form': optional_form(
                 DeleteForm, user, 'project.edit', obj, obj=obj
             ),
+            'rename_form': optional_form(
+                ProjectRenameForm, user, 'project.edit', obj,
+                request=request, instance=obj
+            ),
+# ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
                 MassStateForm, user, 'translation.auto', obj,
@@ -216,6 +221,14 @@ def show_component(request, project, component):
             ),
             'delete_form': optional_form(
                 DeleteForm, user, 'component.edit', obj, obj=obj
+            ),
+            'rename_form': optional_form(
+                ComponentRenameForm, user, 'component.edit', obj,
+                request=request, instance=obj
+            ),
+            'move_form': optional_form(
+                ComponentMoveForm, user, 'component.edit', obj,
+                request=request, instance=obj
             ),
             'search_form': SearchForm(),
         }

@@ -1494,6 +1494,24 @@ class ComponentCreateForm(SettingsBaseForm):
         ]
 
 
+class ComponentRenameForm(SettingsBaseForm):
+    """Component rename form."""
+    class Meta(object):
+        model = Component
+        fields = ['slug']
+
+
+class ComponentMoveForm(SettingsBaseForm):
+    """Component rename form."""
+    class Meta(object):
+        model = Component
+        fields = ['project']
+
+    def __init__(self, request, *args, **kwargs):
+        super(ComponentMoveForm, self).__init__(request, *args, **kwargs)
+        self.fields['project'].queryset = request.user.owned_projects
+
+
 class ProjectSettingsForm(SettingsBaseForm):
     """Project settings form."""
     class Meta(object):
@@ -1512,6 +1530,13 @@ class ProjectSettingsForm(SettingsBaseForm):
     def __init__(self, request, *args, **kwargs):
         super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
         self.helper.disable_csrf = True
+
+
+class ProjectRenameForm(SettingsBaseForm):
+    """Project rename form."""
+    class Meta(object):
+        model = Project
+        fields = ['slug']
 
 
 class ProjectCreateForm(SettingsBaseForm):
