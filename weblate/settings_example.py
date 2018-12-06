@@ -502,10 +502,10 @@ LOGGING = {
             'level': 'INFO',
         },
         # Logging VCS operations
-        # 'weblate.vcs': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
-        # },
+        'weblate.vcs': {
+            'handlers': [DEFAULT_LOG],
+            'level': 'WARNING',
+        },
         # Python Social Auth logging
         # 'social': {
         #     'handlers': [DEFAULT_LOG],
