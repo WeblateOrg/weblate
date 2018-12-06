@@ -40,6 +40,8 @@ RST_HEADING = ' '.join([
     '=' * 12,
     '=' * 12,
     '=' * 12,
+    '=' * 12,
+    '=' * 12,
 ])
 
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
@@ -145,8 +147,9 @@ def generate_counts(component, start_date, end_date):
             timestamp__range=(start_date, end_date),
         ).values_list(
             'author__email', 'author__full_name', 'unit__num_words', 'action',
+            'target',
         )
-        for email, name, words, action in authors:
+        for email, name, words, action, target in authors:
             if words is None:
                 continue
             if email not in result:
@@ -155,17 +158,21 @@ def generate_counts(component, start_date, end_date):
                     'email': email,
                     'words': 0,
                     'count': 0,
+                    'chars_new': 0,
                     'words_new': 0,
                     'count_new': 0,
+                    'chars_edit': 0,
                     'words_edit': 0,
                     'count_edit': 0,
                 }
             result[email]['words'] += words
             result[email]['count'] += 1
             if action == Change.ACTION_NEW:
+                result[email]['chars_new'] += len(target)
                 result[email]['words_new'] += words
                 result[email]['count_new'] += 1
             else:
+                result[email]['chars_edit'] += len(target)
                 result[email]['words_edit'] += words
                 result[email]['count_edit'] += 1
 
@@ -201,10 +208,12 @@ def get_counts(request, project, component):
         'Email',
         'Words total',
         'Count total',
-        'Words edited',
-        'Count edited',
+        'Chars new',
         'Words new',
         'Count new',
+        'Chars edited',
+        'Words edited',
+        'Count edited',
     )
 
     if form.cleaned_data['style'] == 'html':
@@ -242,8 +251,10 @@ def get_counts(request, project, component):
                 cell_name.format(item['email']),
                 cell_count.format(item['words']),
                 cell_count.format(item['count']),
+                cell_count.format(item['chars_new']),
                 cell_count.format(item['words_new']),
                 cell_count.format(item['count_new']),
+                cell_count.format(item['chars_edit']),
                 cell_count.format(item['words_edit']),
                 cell_count.format(item['count_edit']),
             ))
