@@ -255,8 +255,8 @@ If you decide to install Weblate using the pip installer, you will notice some
 differences. Most importantly the command line interface is installed to the
 system path as :command:`weblate` instead of :command:`./manage.py` as used in
 this documentation. Also when invoking this command, you will have to specify
-settings, either by the environment variable `DJANGO_SETTINGS_MODULE` on the
-command line, for example:
+settings by the environment variable `DJANGO_SETTINGS_MODULE` on the command
+line, for example:
 
 .. code-block:: sh
 
