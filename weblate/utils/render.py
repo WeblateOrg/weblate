@@ -38,28 +38,37 @@ class RestrictedEngine(Engine):
         super(RestrictedEngine, self).__init__(*args, **kwargs)
 
 
-def render_template(template, translation=None, **kwargs):
+def render_template(template, **kwargs):
     """Helper class to render string template with context."""
-    context = {}
-    context.update(kwargs)
+    translation = kwargs.get('translation')
+    component = kwargs.get('component')
+    project = kwargs.get('project')
 
-    if translation is not None:
+    if getattr(translation, 'id', None):
         translation.stats.ensure_basic()
-        context['project_name'] = translation.component.project.name
-        context['project_slug'] = translation.component.project.slug
-        context['component_name'] = translation.component.name
-        context['component_slug'] = translation.component.slug
-        context['language_code'] = translation.language_code
-        context['language_name'] = translation.language.name
-        context['stats'] = translation.stats.get_data()
-        context['url'] = get_site_url(translation.get_absolute_url())
+        kwargs['language_code'] = translation.language_code
+        kwargs['language_name'] = translation.language.name
+        kwargs['stats'] = translation.stats.get_data()
+        kwargs['url'] = get_site_url(translation.get_absolute_url())
+        component = translation.component
+
+    if getattr(component, 'id', None):
+        kwargs['component_name'] = component.name
+        kwargs['component_slug'] = component.slug
+        kwargs['component_remote_branch'] = \
+            component.repository.get_remote_branch_name()
+        project = component.project
+
+    if getattr(project, 'id', None):
+        kwargs['project_name'] = project.name
+        kwargs['project_slug'] = project.slug
 
     with override('en'):
         return Template(
             template,
             engine=RestrictedEngine(),
         ).render(
-            Context(context, autoescape=False),
+            Context(kwargs, autoescape=False),
         )
 
 

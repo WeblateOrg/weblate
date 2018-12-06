@@ -241,7 +241,7 @@ class Repository(object):
         """Reset working copy to match remote branch."""
         raise NotImplementedError()
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
         raise NotImplementedError()
 

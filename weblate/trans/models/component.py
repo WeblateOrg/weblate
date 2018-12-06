@@ -47,6 +47,7 @@ from weblate.utils import messages
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
+from weblate.utils.render import render_template
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
     PRIORITY_CHOICES,
@@ -373,6 +374,15 @@ class Component(models.Model, URLMixin, PathMixin):
         ),
         validators=[validate_render],
         default=settings.DEFAULT_DELETE_MESSAGE,
+    )
+    merge_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when merging translation'),
+        help_text=ugettext_lazy(
+            'You can use template language for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_render],
+        default=settings.DEFAULT_MERGE_MESSAGE,
     )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
@@ -871,17 +881,21 @@ class Component(models.Model, URLMixin, PathMixin):
             error_msg = _('Failed to rebase our branch onto remote branch %s.')
             action = Change.ACTION_REBASE
             action_failed = Change.ACTION_FAILED_REBASE
+            kwargs = {}
         else:
             method = self.repository.merge
             error_msg = _('Failed to merge remote branch into %s.')
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
+            kwargs = {
+                'message': render_template(self.merge_message, component=self)
+            }
 
         with self.repository.lock:
             try:
                 previous_head = self.repository.last_revision
                 # Try to merge it
-                method()
+                method(**kwargs)
                 self.log_info('%s remote into repo', self.merge_style)
             except RepositoryException as error:
                 # In case merge has failer recover

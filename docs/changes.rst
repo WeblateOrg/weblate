@@ -11,6 +11,7 @@ Released on ? 2019.
 * Added suppport for renaming and moving projects and components.
 * Include chars counts in reports.
 * Added guided adding of translation components with automatic detection of translation files.
+* Customizable merge commit messages for Git.
 
 weblate 3.3
 -----------

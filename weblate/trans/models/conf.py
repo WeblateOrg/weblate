@@ -184,6 +184,10 @@ class WeblateConf(AppConf):
         'Deleted translation using Weblate ({{ language_name }})\n\n'
     )
 
+    DEFAULT_MERGE_MESSAGE = (
+        "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
+    )
+
     DEFAULT_PULL_MESSAGE = (
         'Update from Weblate'
     )

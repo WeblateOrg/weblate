@@ -41,7 +41,7 @@ COPY_ATTRIBUTES = (
     'report_source_bugs', 'allow_translation_propagation', 'save_history',
     'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
     'check_flags', 'new_lang',
-    'commit_message', 'add_message', 'delete_message',
+    'commit_message', 'add_message', 'delete_message', 'merge_message',
     'committer_name', 'committer_email',
     'push_on_commit', 'commit_pending_age',
 )
