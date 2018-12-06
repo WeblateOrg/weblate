@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-11-29 09:02+0000\n"
-"PO-Revision-Date: 2018-12-05 16:03+0000\n"
+"PO-Revision-Date: 2018-12-06 07:03+0000\n"
 "Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -2376,7 +2376,7 @@ msgstr "找不到您要访问的页面。"
 #: weblate/templates/404.html:19
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "你正在寻找的项目不存在，或者不是公开可用的。"
+msgstr "您寻找的项目不存在或不公开可用。"
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:330
 msgid "Internal Server Error"
@@ -2395,7 +2395,7 @@ msgstr "服务器在处理您的请求时遇到严重问题。我们的程序猿
 #: weblate/templates/500.html:16
 #, fuzzy, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr "如果您需要帮助，你可以将此错误引用为 %(error_id)s。"
+msgstr "如果您需要帮助，您可以将此错误引用为 %(error_id)s。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -2746,7 +2746,7 @@ msgstr "注册"
 msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
-msgstr "请先检查你的项目是否适合在此网站上托管。"
+msgstr "请提前检查您的项目是否合适在此网站上进行项目托管。"
 
 #: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for gratis hosting"
@@ -2829,11 +2829,11 @@ msgstr "请启用密码验证以保护您的账号安全。"
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
-msgstr "您仍能使用第三方服务验证。"
+msgstr "您仍能使用第三方服务进行身份验证。"
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
-msgstr "密码用于确认您账号相关的重要变更。"
+msgstr "这一密码将会用于认证您账户的重要变更。"
 
 #: weblate/templates/accounts/password-warning.html:14
 msgid "Configure the password"
@@ -3482,33 +3482,26 @@ msgid "Recurring payment"
 msgstr "定期付款"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "开始日期"
+msgstr "过期日期"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "In limits"
 msgid "Exceeds limits"
-msgstr "限制"
+msgstr "超出限制"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "Change"
 msgid "Change payment plan"
-msgstr "修改"
+msgstr "更改付款计划"
 
 #: weblate/templates/billing/detail.html:31
 #, fuzzy
 #| msgid "Performance"
 msgid "Perform payment"
-msgstr "性能"
+msgstr "履行付款"
 
 #: weblate/templates/billing/detail.html:36
-#, fuzzy
 msgid "Terminate recurring payment"
-msgstr "终止周期性付款"
+msgstr "停止定期付款"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
@@ -3539,10 +3532,8 @@ msgid "Not available"
 msgstr "不可用"
 
 #: weblate/templates/billing/detail.html:76
-#, fuzzy
-#| msgid "No invoices found!"
 msgid "No invoices found."
-msgstr "未找到发票！"
+msgstr "未找到发票。"
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1529
 msgid "Billing"
@@ -3590,10 +3581,8 @@ msgid "Projects limit"
 msgstr "项目限制"
 
 #: weblate/templates/billing/status.html:36
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No projects currently assigned!"
-msgstr "无相关的截图！"
+msgstr "当前没有指派的项目！"
 
 #. Translators: Number of projects/repositories/strings used in billing when there is no limit
 #: weblate/templates/billing/used.html:6
@@ -3635,20 +3624,16 @@ msgid "Information"
 msgstr "信息"
 
 #: weblate/templates/checks.html:30
-#, fuzzy
-#| msgid ""
-#| "Customizable quality checks will help you in improving quality of "
-#| "translations."
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr "可定制的质量检查将帮助您改善翻译质量。"
+msgstr "可自定义的质量检查将帮助您改善翻译质量。"
 
 #: weblate/templates/checks.html:31
 msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
-msgstr "检查可以帮助你找出有问题的翻译与未翻译的字符串。"
+msgstr "这一检查可以帮助您找出有问题的翻译与难以翻译的源字符串。"
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
@@ -3806,16 +3791,12 @@ msgid "Status widgets"
 msgstr "状态小工具"
 
 #: weblate/templates/component.html:125
-#, fuzzy
-#| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start a new translation"
-msgstr "您没有保存译文的权限！"
+msgstr "您没有开始新翻译的权限"
 
 #: weblate/templates/component.html:125
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please log in to start new translation"
-msgstr "请登录以保存翻译。"
+msgstr "请登录以开始新翻译"
 
 #: weblate/templates/component.html:167 weblate/templates/project.html:225
 #: weblate/templates/translation.html:235
@@ -4397,7 +4378,7 @@ msgstr "避免使用最近的年份。"
 
 #: weblate/templates/i18n.html:33
 msgid "Avoid years that are associated with you."
-msgstr "避免使用与你相关的年份。"
+msgstr "避免使用与您相关的年份。"
 
 #: weblate/templates/i18n.html:34
 msgid "Dates are often easy to guess."
@@ -4405,7 +4386,7 @@ msgstr "日期很容易被猜到。"
 
 #: weblate/templates/i18n.html:35
 msgid "Avoid dates and years that are associated with you."
-msgstr "避免使用与你相关的日期和年份。"
+msgstr "避免使用与您相关的日期和年份。"
 
 #: weblate/templates/i18n.html:36
 msgid "This is a top-10 common password."
@@ -5266,7 +5247,7 @@ msgstr "项目维护者将收到此请求通知，提醒他们手动增加语言
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
-msgstr "列表中找不到你的语言？"
+msgstr "列表中找不到您的语言？"
 
 #: weblate/templates/new-language.html:36
 msgid "Request new translation"
@@ -5444,7 +5425,7 @@ msgstr "提供者协议"
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
-msgstr "贡献翻译需要你同意贡献者协议。"
+msgstr "贡献翻译需要您同意贡献者协议。"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -5479,7 +5460,7 @@ msgstr "项目信息"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
-msgstr "你的计费计划超出了它的限制。您仍然可以使用该服务，但建议升级它。"
+msgstr "您的计费计划超出了它的限制。您仍然可以使用该服务，但建议升级它。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 #, fuzzy
@@ -6524,34 +6505,24 @@ msgid "Exact match"
 msgstr "精确匹配"
 
 #: weblate/trans/forms.py:744
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "请选择有效的搜索类型。"
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "源字符串"
+msgstr "目标字符串"
 
 #: weblate/trans/forms.py:758
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "搜索字符串的上下文"
+msgstr "字符串上下文"
 
 #: weblate/trans/forms.py:763
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "地点"
+msgstr "位置字符串"
 
 #: weblate/trans/forms.py:768
-#, fuzzy
-#| msgid "Bad format string (%s)"
 msgid "Comment strings"
-msgstr "格式串（%s）无效"
+msgstr "注释格式串"
 
 #: weblate/trans/forms.py:775
 msgid "Show ignored checks as well"
@@ -6570,10 +6541,8 @@ msgid "Exclude changes by user"
 msgstr "排除用户做出的改动"
 
 #: weblate/trans/forms.py:806
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
-msgstr "电子邮件正则表达式"
+msgstr "无效正则表达式：{}"
 
 #: weblate/trans/forms.py:829
 #, python-format
@@ -6615,10 +6584,8 @@ msgid "Other translation components"
 msgstr "其他翻译组件"
 
 #: weblate/trans/forms.py:938
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "要使用的机器翻译引擎"
+msgstr "机器翻译引擎"
 
 #: weblate/trans/forms.py:943
 msgid "Score threshold"
@@ -6633,15 +6600,10 @@ msgid "Invalid integer list!"
 msgstr "无效的整数列表！"
 
 #: weblate/trans/forms.py:1044
-#, fuzzy
-#| msgid ""
-#| "You can upload any format which is understood by Translate Toolkit "
-#| "(including TBX, CSV or Gettext PO files)."
 msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
-msgstr ""
-"您可以上传翻译工具能够识别的任意格式 (包括 TBX、CSV 以及 Gettext PO 文件) 。"
+msgstr "您可以上传翻译工具能够识别的任意格式 (包括 TBX、CSV 以及 gettext PO 文件) 。"
 
 #: weblate/trans/forms.py:1051
 msgid "Keep current"
@@ -6660,12 +6622,9 @@ msgid "Starting date"
 msgstr "开始日期"
 
 #: weblate/trans/forms.py:1079
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
-msgstr "全部"
+msgstr "任意"
 
 #: weblate/trans/forms.py:1081
 msgid "Starting letter"
@@ -6698,42 +6657,35 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "类似的翻译已经在 {0} 项目中存在！"
 
 #: weblate/trans/forms.py:1191
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "请选择"
 
 #: weblate/trans/forms.py:1213
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
-msgstr "高优先级的字符串将最先提供给翻译者。"
+msgstr "较高优先级的字符串将优先提供给翻译者。"
 
 #: weblate/trans/forms.py:1227 weblate/trans/models/component.py:290
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation flags"
-msgstr "翻译文件"
+msgstr "翻译标记"
 
 #: weblate/trans/forms.py:1234
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Please enter a comma separated list of check flags, see <a href="
-#| "\"{url}\">documentation</a> for more details."
+#, python-brace-format
 msgid ""
 "Please enter a comma separated list of translation flags, see <a href="
 "\"{url}\">documentation</a> for more details."
-msgstr "请用逗号分隔开检查标记, 详情见<a href=\"{url}\">文档</a>."
+msgstr "请输入一个以逗号分隔的翻译标志列表, 详情见<a href=\"{url}\">文档</a>。"
 
 #: weblate/trans/forms.py:1252
 msgid "User to add"
-msgstr "添加者"
+msgstr "要添加的用户"
 
 #: weblate/trans/forms.py:1254
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
-msgstr "请提供用户名或邮箱。用户需在 Weblate 上拥有活动账户。"
+msgstr "请提供用户名或邮箱。用户需在 Weblate 上拥有已启用的账户。"
 
 #: weblate/trans/forms.py:1262
 msgid "Report format"
@@ -6776,20 +6728,16 @@ msgid "Ending date"
 msgstr "结束日期"
 
 #: weblate/trans/forms.py:1323 weblate/trans/forms.py:1325
-#, fuzzy
-#| msgid "Ending date"
 msgid "Missing date!"
-msgstr "结束日期"
+msgstr "缺少日期！"
 
 #: weblate/trans/forms.py:1337
 msgid "Starting date has to be before ending date!"
 msgstr "开始日期必须在结束日期之前！"
 
 #: weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to access this component!"
-msgstr "您没有更改项目访问控制的权限。"
+msgstr "您没有访问这个组建的权限！"
 
 #: weblate/trans/forms.py:1411
 msgid "Basic"
@@ -7347,7 +7295,7 @@ msgstr "翻译时的注释消息"
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
-msgstr "你可以为各种信息定义格式字符串，请查看文档以观其详。"
+msgstr "您可以使用模版语言获取各种信息，请查看文档以了解更多细节。"
 
 #: weblate/trans/models/component.py:360
 msgid "Commit message when adding translation"
