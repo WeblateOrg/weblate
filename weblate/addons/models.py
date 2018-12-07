@@ -33,13 +33,13 @@ from django.utils.functional import cached_property
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
     EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
-    EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD,
+    EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD, EVENT_PRE_UPDATE,
 )
 
 from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    translation_post_add, unit_pre_create, store_post_load,
+    translation_post_add, unit_pre_create, store_post_load, vcs_pre_update,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
@@ -147,6 +147,12 @@ def post_push(sender, component, **kwargs):
 def post_update(sender, component, previous_head, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         addon.addon.post_update(component, previous_head)
+
+
+@receiver(vcs_pre_update)
+def pre_update(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
+        addon.addon.pre_update(component)
 
 
 @receiver(vcs_pre_commit)

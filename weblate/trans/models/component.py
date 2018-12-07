@@ -52,7 +52,7 @@ from weblate.trans.util import (
     PRIORITY_CHOICES,
 )
 from weblate.trans.signals import (
-    vcs_post_push, vcs_post_update, translation_post_add
+    vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add
 )
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
@@ -864,6 +864,12 @@ class Component(models.Model, URLMixin, PathMixin):
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
+        # run pre update hook
+        vcs_pre_update.send(sender=self.__class__, component=self)
+        for component in self.get_linked_childs():
+            vcs_pre_update.send(
+                sender=component.__class__, component=component
+            )
 
         # Merge/rebase
         if method == 'rebase':

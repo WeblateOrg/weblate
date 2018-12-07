@@ -28,9 +28,11 @@ EVENT_POST_ADD = 5
 EVENT_UNIT_PRE_CREATE = 6
 EVENT_STORE_POST_LOAD = 7
 EVENT_UNIT_POST_SAVE = 8
+EVENT_PRE_UPDATE = 9
 
 EVENT_CHOICES = (
     (EVENT_POST_PUSH, 'post push'),
+    (EVENT_PRE_UPDATE, 'pre update'),
     (EVENT_POST_UPDATE, 'post update'),
     (EVENT_PRE_COMMIT, 'pre commit'),
     (EVENT_POST_COMMIT, 'post commit'),
