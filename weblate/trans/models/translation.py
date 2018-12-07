@@ -438,7 +438,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         else:
             template = self.component.commit_message
 
-        msg = render_template(template, self, author=author)
+        msg = render_template(template, translation=self, author=author)
 
         return msg
 

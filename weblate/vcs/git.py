@@ -106,7 +106,7 @@ class GitRepository(Repository):
         if abort:
             self.execute(['rebase', '--abort'])
         else:
-            self.execute(['rebase', 'origin/{0}'.format(self.branch)])
+            self.execute(['rebase', self.get_remote_branch_name()])
 
     def has_rev(self, rev):
         try:
@@ -115,7 +115,7 @@ class GitRepository(Repository):
         except RepositoryException:
             return False
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
         tmp = 'weblate-merge-tmp'
         if abort:
@@ -131,7 +131,7 @@ class GitRepository(Repository):
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
             # changes merged into Weblate)
-            remote = 'origin/{}'.format(self.branch)
+            remote = self.get_remote_branch_name()
             # Create local branch for upstream
             self.execute(['branch', tmp, remote])
             # Checkout upstream branch
@@ -140,7 +140,7 @@ class GitRepository(Repository):
             cmd = [
                 'merge',
                 '--message',
-                "Merge branch '{}' into Weblate".format(remote),
+                message or "Merge branch '{}' into Weblate".format(remote),
             ]
             cmd.extend(self._get_gpg_sign())
             cmd.append(self.branch)
@@ -469,7 +469,7 @@ class SubversionRepository(GitRepository):
             args.insert(0, revision)
         cls._popen(['svn', 'clone'] + args)
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Rebases. Git-svn does not support merge."""
         self.rebase(abort)
 

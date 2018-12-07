@@ -153,7 +153,7 @@ class HgRepository(Repository):
                         return
                     raise
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
         if abort:
             self.execute(['update', '--clean', '.'])
