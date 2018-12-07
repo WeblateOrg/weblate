@@ -47,6 +47,7 @@ from weblate.utils import messages
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
+from weblate.utils.licenses import is_osi_approved, is_fsf_approved
 from weblate.utils.render import render_template
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
@@ -1655,3 +1656,11 @@ class Component(models.Model, URLMixin, PathMixin):
                 existing.discard(instance.pk)
             # Remove stale instances
             Check.objects.filter(pk__in=existing).delete()
+
+    @cached_property
+    def osi_approved_license(self):
+        return is_osi_approved(self.license)
+
+    @cached_property
+    def fsf_approved_license(self):
+        return is_fsf_approved(self.license)
