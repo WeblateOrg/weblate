@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2018.
 # MESUT AKCAN <makcan@gmail.com>, 2018.
+# Mesut Akcan <makcan@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-11-24 10:59+0000\n"
-"Last-Translator: MESUT AKCAN <makcan@gmail.com>\n"
+"PO-Revision-Date: 2018-12-07 15:03+0000\n"
+"Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -994,7 +995,7 @@ msgstr "Terim sözlüğü girdisini sil"
 
 #: weblate/auth/data.py:48
 msgid "Upload glossary entries"
-msgstr "Terim sözlüğü girdilerini karşıdan yükle"
+msgstr "Sözlük girişleri yükle"
 
 #: weblate/auth/data.py:50
 msgid "Use machine translation services"
@@ -1103,11 +1104,11 @@ msgstr "Karşıdan çeviri yüklemesinin yazarını tanımla"
 
 #: weblate/auth/data.py:84
 msgid "Overwrite existing strings with upload"
-msgstr "Var olan satırların üzerine karşıdan yüklemeyle yaz"
+msgstr "Yükleme ile mevcut satırların üzerine yaz"
 
 #: weblate/auth/data.py:85
 msgid "Upload translation strings"
-msgstr "Çeviri satırlarını karşıdan yükle"
+msgstr "Çeviri satırlarını yükle"
 
 #: weblate/auth/data.py:87
 msgid "Access the internal repository"
@@ -1439,10 +1440,8 @@ msgid "Expired"
 msgstr "Süresi doldu"
 
 #: weblate/billing/models.py:151
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Çevrilen"
+msgstr "Sonlandırıldı"
 
 #: weblate/billing/models.py:154
 msgid "Billing state"
@@ -1461,10 +1460,8 @@ msgid "In limits"
 msgstr "Sınırlar içinde"
 
 #: weblate/billing/models.py:173
-#, fuzzy
-#| msgid "Perform payment"
 msgid "Grace period for payments"
-msgstr "Ödeme yapmak"
+msgstr "Ödemeler için ödemesiz süre"
 
 #: weblate/billing/models.py:200
 msgid "Changes in last month"
@@ -2386,18 +2383,15 @@ msgstr "Resim"
 
 #: weblate/screenshots/models.py:42
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
-"2000x2000 piksele kadar olan JPEG veya PNG resimleri karşıdan yükleyin."
+msgstr "2000x2000 piksele kadar JPEG veya PNG görüntüleri yükleyin."
 
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
-"Ekran görüntüsü karşıdan yüklendi, şimdi kaynak satırlara atayabilirsiniz."
+msgstr "Ekran görüntüsü yüklendi, artık bunu kaynak satırlara atayabilirsiniz."
 
 #: weblate/screenshots/views.py:106
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
-"Ekran görüntüsü karşıdan yüklenemedi, lütfen aşağıdaki hataları düzeltin."
+msgstr "Ekran görüntüsü yüklenemedi, lütfen aşağıdaki hataları düzeltin."
 
 #: weblate/screenshots/views.py:162
 #, python-format
@@ -2565,6 +2559,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate, uzak depolara erişmek için SSH anahtarını kullanır. İlgili ortak "
+"anahtar aşağıda bulunur, bir depoya Weblate erişimi vermek için bunu "
+"kullanabilirsiniz."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
@@ -3884,10 +3881,8 @@ msgstr "Kullanıcılar"
 
 #: weblate/templates/component.html:89 weblate/templates/component.html:221
 #: weblate/templates/project.html:77 weblate/templates/project.html:272
-#, fuzzy
-#| msgid "Filename"
 msgid "Rename"
-msgstr "Dosya adı"
+msgstr "Yeniden adlandır"
 
 #: weblate/templates/component.html:97 weblate/templates/project.html:86
 #: weblate/templates/translation.html:91
@@ -3961,32 +3956,33 @@ msgid "Browse all component changes"
 msgstr "Tüm bileşen değişikliklerine gözat"
 
 #: weblate/templates/component.html:213
-#, fuzzy
-#| msgid "Removed component"
 msgid "Rename component"
-msgstr "Kaldırılan bileşen"
+msgstr "Bileşeni yeniden adlandır"
 
 #: weblate/templates/component.html:216
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Bileşeni yeniden adlandırmak tüm URL'lerini değiştirecek, kullanıcılar "
+"klonlanmış depolardaki yer imlerini veya referanslarını güncellemek zorunda "
+"kalacak!"
 
 #: weblate/templates/component.html:228
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "Kaldırılan bileşen"
+msgstr "Bileşeni taşı"
 
 #: weblate/templates/component.html:231
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Bileşeni taşımak tüm URL'lerini değiştirecek, kullanıcılar klonlanmış "
+"depolardaki yer imlerini veya referanslarını güncellemek zorunda kalacak!"
 
 #: weblate/templates/component.html:236
 msgid "Move"
-msgstr ""
+msgstr "Taşı"
 
 #: weblate/templates/component.html:247 weblate/templates/project.html:282
 #: weblate/templates/translate.html:362 weblate/templates/translate.html:366
@@ -4606,7 +4602,7 @@ msgstr "Yeni ekran görüntüsü ekle"
 #: weblate/templates/translation.html:301
 #: weblate/templates/translation.html:312
 msgid "Upload"
-msgstr "Karşıdan Yükle"
+msgstr "Yükle"
 
 #: weblate/templates/js/detail.html:122
 msgid "User comments"
@@ -5424,16 +5420,17 @@ msgid "Browse all project changes"
 msgstr "Tüm proje değişikliklerine gözat"
 
 #: weblate/templates/project.html:264
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "Kaldırılan proje"
+msgstr "Projeyi yeniden adlandır"
 
 #: weblate/templates/project.html:267
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Projeyi yeniden adlandırmak tüm URL'leri değiştirecek, kullanıcılar "
+"klonlanmış depolarda yer imlerini veya referanslarını güncellemek zorunda "
+"kalacak!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5708,10 +5705,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Herhangi bir projede bileşen oluşturma yetkiniz yok."
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "Bağlam"
+msgstr "Devam et"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -6112,7 +6107,7 @@ msgstr "İndirmeyi özelleştir"
 
 #: weblate/templates/translation-download.html:21
 msgid "Upload translation"
-msgstr "Çevirileri karşıdan yükle"
+msgstr "Çeviri yükle"
 
 #: weblate/templates/translation.html:46 weblate/trans/forms.py:1478
 msgid "Files"
@@ -6192,13 +6187,12 @@ msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
 msgstr ""
-"Karşıdan yüklenen dosya şu anki çeviri ile birleştirilecek. Zaten çevrilmiş "
-"olan satırların üzerine yazmak istediğiniz takdirde, bunu etkinleştirmeyi "
-"unutmayın."
+"Yüklenen dosya mevcut çeviri ile birleştirilecek. Önceden çevrilmiş "
+"satırların üzerine yazmak istediğinizde, etkinleştirmeyi unutmayın."
 
 #: weblate/templates/translation.html:306
 msgid "The uploaded file will be merged with the current translation."
-msgstr "Karşıdan yüklenen dosya şu anki çeviri ile birleştirilecek."
+msgstr "Yüklenen dosya mevcut çeviri ile birleştirilecek."
 
 #: weblate/templates/translation.html:353
 #: weblate/templates/translation.html:400
@@ -6752,8 +6746,8 @@ msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
 msgstr ""
-"Translate Toolkit tarafından anlaşılan (TBX, CSV veya gettext PO dosyaları "
-"dahil) her biçimi karşıdan yükleyebilirsiniz."
+"Translate Toolkit (TBX, CSV veya gettext PO dosyaları dahil) tarafından "
+"anlaşılan herhangi bir formatı yükleyebilirsiniz."
 
 #: weblate/trans/forms.py:1058
 msgid "Keep current"
@@ -6961,14 +6955,12 @@ msgid "Repository branch to translate"
 msgstr "Çevirmek için havuz dalı"
 
 #: weblate/trans/forms.py:1587
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "Çeviri dosyaslarını temizle"
+msgstr "İçe aktarılacak çeviri dosyalarını seç"
 
 #: weblate/trans/forms.py:1589
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "Yapılandırmayı manuel olarak belirt"
 
 #: weblate/trans/forms.py:1707
 #, python-format
@@ -7108,7 +7100,7 @@ msgstr "Çeviri geri alındı"
 
 #: weblate/trans/models/change.py:207
 msgid "Translation uploaded"
-msgstr "Çeviri karşıdan yüklendi"
+msgstr "Çeviri yüklendi"
 
 #: weblate/trans/models/change.py:208
 msgid "Glossary added"
@@ -7120,7 +7112,7 @@ msgstr "Terim sözlüğü güncellendi"
 
 #: weblate/trans/models/change.py:210
 msgid "Glossary uploaded"
-msgstr "Terim sözlüğü karşıdan yüklendi"
+msgstr "Sözlük yüklendi"
 
 #: weblate/trans/models/change.py:211
 msgid "New source string"
@@ -7227,22 +7219,16 @@ msgid "Found duplicated language"
 msgstr "Yinelenen dil bulundu"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "Kaldırılan proje"
+msgstr "Yeniden adlandırılmış proje"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "Kaldırılan bileşen"
+msgstr "Yeniden adlandırılmış bileşen"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "Kaldırılan bileşen"
+msgstr "Taşınmış bileşen"
 
 #: weblate/trans/models/change.py:340
 #, python-format
@@ -8496,7 +8482,7 @@ msgstr "Erişim reddedildi."
 
 #: weblate/trans/views/files.py:107
 msgid "No strings were imported from the uploaded file."
-msgstr "Karşıdan yüklenen dosyadan içe aktarılan satır olmadı."
+msgstr "Yüklenen dosyadan satırlar içe aktarılmadı."
 
 #: weblate/trans/views/files.py:110
 #, python-brace-format
