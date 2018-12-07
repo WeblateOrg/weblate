@@ -3,15 +3,15 @@
 Contributing
 ============
 
-There are dozens of ways to contribute in Weblate. We welcome any help, be it
-coding help, graphics design, documentation or sponsorship.
+There are dozens of ways to contribute in Weblate. Any help is welcomed, be it
+coding, graphics design, documentation or sponsorship.
 
 Code and development
 --------------------
 
-Weblate is being developed on `GitHub <https://github.com/WeblateOrg/weblate>`_. You
+Weblate is developed on `GitHub <https://github.com/WeblateOrg/weblate>`_. You
 are welcome to fork the code and open pull requests. Patches in any other form
-are welcome as well.
+are welcome too.
 
 .. seealso::
 
@@ -24,12 +24,12 @@ The code should follow PEP-8 coding guidelines.
 
 It is good idea to check your contributions using :program:`pep8`,
 :program:`pylint` and :program:`pyflages`. You can execute all checks
-by script :file:`ci/run-lint`.
+with the script :file:`ci/run-lint`.
 
 Developer's Certificate of Origin
 ---------------------------------
 
-If you would like to make a contribution to the Weblate project, please
+In contributing to the Weblate project, please
 certify to the following:
 
     Weblate Developer's Certificate of Origin. Version 1.0
@@ -60,7 +60,7 @@ certify to the following:
 
         https://www.gnu.org/licenses/gpl-3.0.html
 
-And please confirm your certification to the above by adding the following
+Please confirm your affirmation of the above by adding the following
 line to your patch:
 
 .. code-block:: text
@@ -69,18 +69,18 @@ line to your patch:
 
 using your real name (sorry, no pseudonyms or anonymous contributions).
 
-If you are a developer who is authorized to contribute to Weblate on
-behalf of your employer, then please use your corporate email address in the
-Signed-off-by tag.  If not, then please use a personal email address.
+If you are a developer authorized to contribute to Weblate on
+behalf of your employer, please use your corporate email address in the
+"Signed-off-by" tag.  If not, please use a personal email address.
 
 Testsuite
 ---------
 
-We do write testsuite for our code, so please add testcases for any new
-functionality and verify that it works. You can see current test results on
-`Travis <https://travis-ci.org/WeblateOrg/weblate>`_ and coverage on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
+Testsuites exist for most of the current code, increase coverage by adding testcases for any new
+functionality, and verify that it works. Current test results can be found on
+`Travis <https://travis-ci.org/WeblateOrg/weblate>`_ and coverage is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
 
-To run testsuite locally, use:
+To run a testsuite locally, use:
 
 .. code-block:: sh
 
@@ -102,8 +102,8 @@ Reporting issues
 
 Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is hosted at GitHub:
 
-Feel welcome to report any issues with or suggest improvement of Weblate there.
-In case you have found a security issue in Weblate, please consult the "Security
+Feel welcome to report any issues with, or suggest improvement of Weblate there.
+If what you have found is a security issue in Weblate, please consult the "Security
 issues" section below.
 
 .. _security:
@@ -111,22 +111,22 @@ issues" section below.
 Security issues
 ---------------
 
-In order to give the community time to respond and upgrade we strongly urge you
-report all security issues privately. We're currently using HackerOne to handle
-security issues, so you are welcome to report issues directly at `HackerOne <https://hackerone.com/weblate>`_.
+In order to give the community time to respond and upgrade your are strongly urged to
+report all security issues privately. HackerOne is used to handle
+security issues, and can be reported directly at `HackerOne <https://hackerone.com/weblate>`_.
 
-Alternatively you can report them to security@weblate.org, which ends up on
+Alternatively, report to security@weblate.org, which ends up on
 HackerOne as well.
 
 If you don't want to use HackerOne, for whatever reason, you can send the report
-by email to michal@cihar.com. You can choose to encrypt it using his PGP key
+by email to michal@cihar.com. You can choose to encrypt it using this PGP key
 `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`.
 
 .. note::
 
-    We're heavily depending on third party components for many things.  In case
-    you find a vulnerability which is affecting those components in general,
-    please report it directly to them.
+    Weblate depends on third party components for many things.  In case
+    you find a vulnerability affecting one of those components in general,
+    please report it directly to the respective project.
 
     Some of these are:
 
@@ -137,10 +137,10 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
 Starting with our codebase
 --------------------------
 
-If you are looking for some bugs which should be good for starting with our
-codebase, you can find them labelled with :guilabel:`good first issue` <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ tag:
+If looking for some bugs to familiarize yourself with the Weblate
+codebase, look for ones labelled :guilabel:`good first issue` <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_:
 
-If you have Docker and docker-compose installed you can spin up the development
+If you have Docker and docker-compose installed, you can spin up the development
 environment simply by running:
 
 .. code-block:: sh
@@ -150,7 +150,7 @@ environment simply by running:
 Earning money by coding
 -----------------------
 
-We're using Bountysource to fund our development, you can participate as well by solving issues with bounties on them:
+Bountysource is used to fund development, you can participate too by solving issues with bounties attached:
 
 https://github.com/WeblateOrg/weblate/labels/bounty
 
@@ -166,9 +166,9 @@ Funding Weblate development
 ---------------------------
 
 You can fund further Weblate development on `Bountysource`_. Funds collected
-there are used to fund free hosting for libre software projects and further
+there are used to fund gratis hosting for libre software projects, and further
 development of Weblate. Please check the `Bountysource`_ page for details, such
-as funding goals and rewards you can get for funding.
+as funding goals and rewards you can get by being a funder.
 
 .. include:: ../BACKERS.rst
 
