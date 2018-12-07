@@ -109,6 +109,9 @@ class BaseAddon(object):
     def post_push(self, component):
         return
 
+    def pre_update(self, component):
+        return
+
     def post_update(self, component, previous_head):
         return
 
