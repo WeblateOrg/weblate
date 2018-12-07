@@ -12,6 +12,7 @@ Released on ? 2019.
 * Include chars counts in reports.
 * Added guided adding of translation components with automatic detection of translation files.
 * Customizable merge commit messages for Git.
+* Added visual indication of component alerts in navigation.
 
 weblate 3.3
 -----------
