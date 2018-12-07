@@ -84,7 +84,7 @@ def handle_post(request, billings):
             del billing.payment['recurring']
         billing.save()
     elif terminate:
-        billing.state = Billing.STATE_EXPIRED
+        billing.state = Billing.STATE_TERMINATED
         billing.save()
 
 
