@@ -115,6 +115,8 @@ class BillingQuerySet(models.QuerySet):
         )
 
     def for_user(self, user):
+        if user.is_superuser:
+            return self.all().order_by('state')
         return self.filter(
             Q(projects__in=user.projects_with_perm('billing.view')) |
             Q(owners=user)
