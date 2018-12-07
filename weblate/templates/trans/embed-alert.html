@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if alerts %}
+<a href="{{ component.get_absolute_url }}#alerts">
+<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "There are some alerts on this component" %}"></i>
+</a>
+{% endif %}

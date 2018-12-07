@@ -733,3 +733,19 @@ def get_translate_url(context, translation):
 def get_filter_name(name):
     names = dict(get_filter_choice(True))
     return names[name]
+
+
+@register.inclusion_tag('trans/embed-alert.html')
+def indicate_alerts(obj):
+    alerts = None
+    component = None
+
+    if isinstance(obj, Translation):
+        component = obj.component
+    elif isinstance(obj, Component):
+        component = obj
+
+    if component:
+        alerts = component.alert_set.all()
+
+    return {'alerts': alerts, 'component': component}
