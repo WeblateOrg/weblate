@@ -4,13 +4,16 @@ set -e
 
 NAME=sc-4.5.2-linux.tar.gz
 
+rm -f ~/.sauce-ready
+rm -f ~/.sauce-log
+
 SC_TEMP=`mktemp -d -t sc.XXXX`
 wget -O - https://saucelabs.com/downloads/$NAME | tar -x -z -C $SC_TEMP
 
 $SC_TEMP/*/bin/sc \
     -i ${TRAVIS_JOB_NUMBER} \
-    -f $SC_TEMP/ready \
-    -l $SC_TEMP/log &
+    -f ~/.sauce-ready \
+    -l ~/.sauce-log &
 
 echo $! > ~/.sauce-pid
 
