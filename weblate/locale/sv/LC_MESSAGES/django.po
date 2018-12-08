@@ -7,9 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-12-07 07:44+0000\n"
-"Last-Translator: Kristoffer Grundström <kristoffer.grundstrom1983@gmail."
-"com>\n"
+"PO-Revision-Date: 2018-12-08 07:01+0000\n"
+"Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
 "Language: sv\n"
@@ -882,6 +881,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
+"Uppdaterar ALL_LINGUAS-variabeln i filerna configure, configure.in och "
+"configure.ac, när en ny översättning adderas."
 
 #: weblate/addons/gettext.py:187
 msgid "Update PO files to match POT (msgmerge)"
@@ -1373,64 +1374,53 @@ msgstr "Markera användaren som inaktiv istället för att ta bort."
 
 #: weblate/auth/models.py:332
 msgid "Date joined"
-msgstr ""
+msgstr "Datum för inträde"
 
 #: weblate/auth/models.py:335
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: weblate/auth/models.py:338
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
+"Användaren tilldelas alla behörigheter som finns inkluderat i dessa grupper."
 
 #: weblate/auth/models.py:494
 msgid "Email regular expression"
 msgstr "Regulärt uttryck för mejl"
 
 #: weblate/auth/models.py:498
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
-msgstr "Reguljärt uttryck som används för att matcha en användares e-post."
+msgstr "Reguljärt uttryck för att matcha en användares mejladress."
 
 #: weblate/auth/models.py:503
 msgid "Group to assign"
 msgstr "Grupptilldelning"
 
 #: weblate/auth/models.py:508
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic group assignment"
-msgstr "Automatisk översättning"
+msgstr "Automatisk grupptilldelning"
 
 #: weblate/auth/models.py:509
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic group assignments"
-msgstr "Automatisk översättning"
+msgstr "Automatisk grupptilldelning"
 
 #: weblate/billing/admin.py:58
 msgid "Owners"
-msgstr ""
+msgstr "Ägare"
 
 #: weblate/billing/models.py:136 weblate/templates/billing/detail.html:19
-#, fuzzy
-#| msgid "Trailing space"
 msgid "Billing plan"
-msgstr "Avslutande mellanslag"
+msgstr "Faktureringsplan"
 
 #: weblate/billing/models.py:140
-#, fuzzy
-#| msgid "All subprojects"
 msgid "Billed projects"
-msgstr "Alla underprojekt"
+msgstr "Fakturerade projekt"
 
 #: weblate/billing/models.py:144
-#, fuzzy
-#| msgid "Trailing space"
 msgid "Billing owners"
-msgstr "Avslutande mellanslag"
+msgstr "Faktureringsägare"
 
 #: weblate/billing/models.py:148
 msgid "Active"
@@ -1445,36 +1435,28 @@ msgid "Expired"
 msgstr "Utgången"
 
 #: weblate/billing/models.py:151
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Översatt"
+msgstr "Avslutad"
 
 #: weblate/billing/models.py:154
-#, fuzzy
-#| msgid "Trailing space"
 msgid "Billing state"
-msgstr "Avslutande mellanslag"
+msgstr "Faktureringstillstånd"
 
 #: weblate/billing/models.py:158
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Slutdatum för provperiod"
 
 #: weblate/billing/models.py:162
 msgid "Paid"
-msgstr ""
+msgstr "Betalt"
 
 #: weblate/billing/models.py:168
-#, fuzzy
-#| msgid "Strings to review"
 msgid "In limits"
-msgstr "Strängar att granska"
+msgstr "Inom gränserna"
 
 #: weblate/billing/models.py:173
-#, fuzzy
-#| msgid "Performance"
 msgid "Grace period for payments"
-msgstr "Prestanda"
+msgstr "Tidsfrist för betalningar"
 
 #: weblate/billing/models.py:200
 msgid "Changes in last month"
@@ -1485,10 +1467,8 @@ msgid "Changes in last quarter"
 msgstr "Senaste kvartalets ändringar"
 
 #: weblate/billing/models.py:208
-#, fuzzy
-#| msgid "Activity in last year"
 msgid "Changes in last year"
-msgstr "Aktivitet det senaste året"
+msgstr "Ändringar senaste året"
 
 #: weblate/billing/models.py:222 weblate/trans/admin.py:111
 msgid "VCS repositories"
@@ -1505,20 +1485,16 @@ msgstr "Källord"
 
 #: weblate/billing/models.py:302 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
-#, fuzzy
-#| msgid "Documentation"
 msgid "Number of strings"
-msgstr "Dokumentation"
+msgstr "Antal strängar"
 
 #: weblate/billing/models.py:309
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: weblate/billing/models.py:310 weblate/templates/billing/status.html:24
-#, fuzzy
-#| msgid "Download"
 msgid "Last invoice"
-msgstr "Hämta"
+msgstr "Sista faktura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:336
@@ -1526,10 +1502,8 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/checks/angularjs.py:43
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "AngularJS interpolation string"
-msgstr "Sök i sammanhangssträngar"
+msgstr "AngularJS interpolationssträng"
 
 #: weblate/checks/angularjs.py:44
 msgid "AngularJS interpolation strings do not match source"
@@ -1629,33 +1603,27 @@ msgstr "Antalet \\n i översättningen överensstämmer inte med källan"
 
 #: weblate/checks/chars.py:345 weblate/trans/autofixes/chars.py:52
 msgid "Zero-width space"
-msgstr ""
+msgstr "Mellanrum utan bredd"
 
 #: weblate/checks/chars.py:346
 msgid "Translation contains extra zero-width space character"
-msgstr ""
+msgstr "Översättningen innehåller extra tecken med noll-bredd"
 
 #: weblate/checks/chars.py:358
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Maximum length of translation"
-msgstr "Hantera dina översättningar"
+msgstr "Maximal längd av översättningen"
 
 #: weblate/checks/chars.py:359
 msgid "Translation should not exceed given length"
-msgstr ""
+msgstr "Översättningen bör inte överstiga angiven längd"
 
 #: weblate/checks/chars.py:379
-#, fuzzy
-#| msgid "Trailing colon"
 msgid "Trailing semicolon"
-msgstr "Avslutande kolon"
+msgstr "Avslutande semikolon"
 
 #: weblate/checks/chars.py:380
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Källa och översättning slutar inte båda med radbryt"
+msgstr "Källa och översättning slutar inte båda med semikolon"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -1667,35 +1635,27 @@ msgstr "Några pluralformer är inte översatta"
 
 #: weblate/checks/consistency.py:52
 msgid "Same plurals"
-msgstr ""
+msgstr "Identiska pluralformer"
 
 #: weblate/checks/consistency.py:53
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are translated in the same way"
-msgstr "Några pluralformer är inte översatta"
+msgstr "Några pluralformer är identiskt översatta"
 
 #: weblate/checks/consistency.py:72
 msgid "Inconsistent"
 msgstr "Inkonsekvent"
 
 #: weblate/checks/consistency.py:74
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has more than one translation in this project"
-msgstr "Detta meddelande har mer än en översättning i detta projekt"
+msgstr "Strängen har mer än en översättning i projektet"
 
 #: weblate/checks/consistency.py:113
-#, fuzzy
-#| msgid "translated"
 msgid "Has been translated"
-msgstr "översatt"
+msgstr "Har blivit översatt"
 
 #: weblate/checks/consistency.py:115
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has been translated in the past"
-msgstr "Detta meddelande har mer än en översättning i detta projekt"
+msgstr "Strängen har blivit översatt tidigare"
 
 #: weblate/checks/format.py:265
 msgid "Python format"
@@ -1722,72 +1682,52 @@ msgid "C format string does not match source"
 msgstr "C-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:298
-#, fuzzy
-#| msgid "PHP format"
 msgid "Perl format"
-msgstr "PHP-format"
+msgstr "Perl-format"
 
 #: weblate/checks/format.py:299
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "Perl format string does not match source"
-msgstr "PHP-formatsträngen matchar inte källan"
+msgstr "Perl-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:309
 msgid "Javascript format"
-msgstr ""
+msgstr "JavaScript-format"
 
 #: weblate/checks/format.py:310
 msgid "Javascript format string does not match source"
 msgstr "Javascript-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:316
-#, fuzzy
-#| msgid "Python format"
 msgid "Python brace format"
-msgstr "Python-format"
+msgstr "Python brace-format"
 
 #: weblate/checks/format.py:317
-#, fuzzy
-#| msgid "Format string does not match source"
 msgid "Python brace format string does not match source"
-msgstr "Formatsträngen matchar inte källan"
+msgstr "Python brace-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:327
-#, fuzzy
-#| msgid "C format"
 msgid "C# format"
-msgstr "C-format"
+msgstr "C#-format"
 
 #: weblate/checks/format.py:328
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C# format string does not match source"
-msgstr "C-formatsträngen matchar inte källan"
+msgstr "C#-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:338
-#, fuzzy
-#| msgid "C format"
 msgid "Java format"
-msgstr "C-format"
+msgstr "Java-format"
 
 #: weblate/checks/format.py:339
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Java format string does not match source"
-msgstr "C-formatsträngen matchar inte källan"
+msgstr "Java-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:349
-#, fuzzy
-#| msgid "C format"
 msgid "Java MessageFormat"
-msgstr "C-format"
+msgstr "Java Message-format"
 
 #: weblate/checks/format.py:350
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Java MessageFormat string does not match source"
-msgstr "C-formatsträngen matchar inte källan"
+msgstr "Java Message-formatsträngen matchar inte källan"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -1799,13 +1739,11 @@ msgstr "BB-kod i översättningen matchar inte källan"
 
 #: weblate/checks/markup.py:111
 msgid "Invalid XML markup"
-msgstr ""
+msgstr "Ogiltig XML markup"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "The translation is not valid XML"
-msgstr "Översättning är låst för dig nu."
+msgstr "Översättningen är inte giltig XML"
 
 #: weblate/checks/markup.py:139
 msgid "XML tags mismatch"
@@ -1816,16 +1754,12 @@ msgid "XML tags in translation do not match source"
 msgstr "XML-taggarna i översättningen matchar ej källan"
 
 #: weblate/checks/same.py:148
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Unchanged translation"
-msgstr "Maskinöversättning"
+msgstr "Oförändrad översättning"
 
 #: weblate/checks/same.py:149
-#, fuzzy
-#| msgid "Source and translated strings are same"
 msgid "Source and translation are identical"
-msgstr "Strängar för källa och översättning är samma"
+msgstr "Källa och översättning är identiska"
 
 #: weblate/checks/source.py:37
 msgid "Optional plural"
@@ -1864,42 +1798,36 @@ msgid "Automatic detection"
 msgstr "Automatisk igenkänning"
 
 #: weblate/formats/exporters.py:187
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:229
-#, fuzzy
-#| msgid "Copy word to translation"
 msgid "XLIFF with gettext extensions"
-msgstr "Kopiera ord till översättning"
+msgstr "XLIFF med gettext-tillägg"
 
 #: weblate/formats/exporters.py:241
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:252
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:263
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:274
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:307
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: weblate/formats/exporters.py:331 weblate/formats/external.py:48
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:653
 msgid "Gettext PO file"
@@ -1918,104 +1846,92 @@ msgid "XLIFF Translation File"
 msgstr "XLIFF-översättningsfil"
 
 #: weblate/formats/ttkit.py:752
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File with PO extensions"
-msgstr "XLIFF-översättningsfil"
+msgstr "XLIFF-översättningsfil med PO-tillägg"
 
 #: weblate/formats/ttkit.py:780
 msgid "OS X Strings"
-msgstr ""
+msgstr "OS X-strängar"
 
 #: weblate/formats/ttkit.py:793
 msgid "OS X Strings (UTF-8)"
-msgstr ""
+msgstr "OS X-strängar (UTF-8)"
 
 #: weblate/formats/ttkit.py:800
 msgid "Java Properties (UTF-8)"
-msgstr ""
+msgstr "Java-properties (UTF-8)"
 
 #: weblate/formats/ttkit.py:808
 msgid "Java Properties (UTF-16)"
-msgstr ""
+msgstr "Java-properties (UTF-16)"
 
 #: weblate/formats/ttkit.py:814
 msgid "Java Properties (ISO-8859-1)"
-msgstr ""
+msgstr "Java-properties (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:831
-#, fuzzy
-#| msgid "Language"
 msgid "Joomla Language File"
-msgstr "Språk"
+msgstr "Joomla-språkfil"
 
 #: weblate/formats/ttkit.py:840
 msgid "PHP strings"
 msgstr "PHP-strängar"
 
 #: weblate/formats/ttkit.py:859
-#, fuzzy
-#| msgid "New source string"
 msgid ".Net resource file"
-msgstr "Ny källsträng"
+msgstr ".Net-resursfil"
 
 #: weblate/formats/ttkit.py:869
 msgid "Android String Resource"
-msgstr ""
+msgstr "Android String-resurs"
 
 #: weblate/formats/ttkit.py:898
 msgid "JSON file"
-msgstr ""
+msgstr "JSON-fil"
 
 #: weblate/formats/ttkit.py:917
 msgid "JSON nested structure file"
-msgstr ""
+msgstr "JSON nested structure-fil"
 
 #: weblate/formats/ttkit.py:923
 msgid "WebExtension JSON file"
-msgstr ""
+msgstr "WebExtension JSON-fil"
 
 #: weblate/formats/ttkit.py:931
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "i18next JSON file"
-msgstr "Gettext po-fil"
+msgstr "i18next JSON-fil"
 
 #: weblate/formats/ttkit.py:937
 msgid "CSV file"
-msgstr ""
+msgstr "CSV-fil"
 
 #: weblate/formats/ttkit.py:1003
-#, fuzzy
-#| msgid "Simplified Chinese"
 msgid "Simple CSV file"
-msgstr "Förenklad kinesiska"
+msgstr "Simple CSV-fil"
 
 #: weblate/formats/ttkit.py:1039
 msgid "Simple CSV file (ISO-8859-1)"
-msgstr ""
+msgstr "Simple CSV-fil (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1045
 msgid "YAML file"
-msgstr ""
+msgstr "YAML-fil"
 
 #: weblate/formats/ttkit.py:1064
 msgid "Ruby YAML file"
-msgstr ""
+msgstr "Ruby YAML-fil"
 
 #: weblate/formats/ttkit.py:1071
 msgid "DTD file"
-msgstr ""
+msgstr "DTD-fil"
 
 #: weblate/formats/ttkit.py:1097
 msgid "RC file"
-msgstr ""
+msgstr "RC-fil"
 
 #: weblate/lang/apps.py:28
-#, fuzzy
-#| msgid "Used languages"
 msgid "Weblate languages"
-msgstr "Använda språk"
+msgstr "Weblate-språk"
 
 #: weblate/lang/data.py:303 weblate/lang/data.py:307 weblate/lang/data.py:313
 #: weblate/lang/data.py:321 weblate/lang/data.py:325 weblate/lang/data.py:330
@@ -2068,30 +1984,24 @@ msgstr "Tre"
 
 #: weblate/lang/models.py:343 weblate/templates/addons/generate_help.html:9
 #: weblate/templates/language.html:60
-#, fuzzy
-#| msgid "Language"
 msgid "Language code"
-msgstr "Språk"
+msgstr "Språkkod"
 
 #: weblate/lang/models.py:347 weblate/templates/addons/generate_help.html:7
-#, fuzzy
-#| msgid "Language"
 msgid "Language name"
-msgstr "Språk"
+msgstr "Språknamn"
 
 #: weblate/lang/models.py:350 weblate/templates/language.html:64
-#, fuzzy
-#| msgid "Toggle text direction"
 msgid "Text direction"
-msgstr "Ändra textriktning"
+msgstr "Textriktning"
 
 #: weblate/lang/models.py:354
 msgid "Left to right"
-msgstr ""
+msgstr "Vänster till höger"
 
 #: weblate/lang/models.py:355
 msgid "Right to left"
-msgstr ""
+msgstr "Höger till vänster"
 
 #: weblate/lang/models.py:363 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
@@ -2112,96 +2022,88 @@ msgstr "Ingen"
 #: weblate/lang/models.py:429
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "En/övriga (klassisk pluralform)"
 
 #: weblate/lang/models.py:433
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr ""
+msgstr "En/få/övriga (slaviska språk)"
 
 #: weblate/lang/models.py:437
-#, fuzzy
-#| msgid "languages"
 msgctxt "Plural type"
 msgid "Arabic languages"
-msgstr "språk"
+msgstr "Arabiska språk"
 
 #: weblate/lang/models.py:441
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr ""
+msgstr "Inga/en/övriga"
 
 #: weblate/lang/models.py:445
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr ""
+msgstr "En/två/övriga"
 
 #: weblate/lang/models.py:449
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr ""
+msgstr "En/övriga/två"
 
 #: weblate/lang/models.py:453
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr ""
+msgstr "/En/två/fåtal/övriga"
 
 #: weblate/lang/models.py:457
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr ""
+msgstr "Övriga/en/två/fåtal"
 
 #: weblate/lang/models.py:461
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr ""
+msgstr "En/två/tre/övriga"
 
 #: weblate/lang/models.py:465
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "En/övriga/inga"
 
 #: weblate/lang/models.py:469
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "En/fåtal/många/övriga"
 
 #: weblate/lang/models.py:473
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "Två/övriga"
 
 #: weblate/lang/models.py:477
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "En/två/fåtal/många/övriga"
 
 #: weblate/lang/models.py:481
 msgctxt "Plural type"
 msgid "Unknown"
-msgstr ""
+msgstr "Okänt"
 
 #: weblate/lang/models.py:488
-#, fuzzy
-#| msgid "Plural equation"
 msgid "Plural definition source"
-msgstr "Pluralekvation"
+msgstr "Pluraldefinitionskälla"
 
 #: weblate/lang/models.py:490
-#, fuzzy
-#| msgid "Optional plural"
 msgid "Default plural"
-msgstr "Valfri plural"
+msgstr "Standard pluralform"
 
 #: weblate/lang/models.py:491
 msgid "Gettext plural formula"
-msgstr ""
+msgstr "Gettext-pluralform"
 
 #: weblate/lang/models.py:496 weblate/templates/language.html:76
-#, fuzzy
-#| msgid "Documentation"
 msgid "Number of plurals"
-msgstr "Dokumentation"
+msgstr "Antal pluralformer"
 
 #: weblate/lang/models.py:503 weblate/templates/language.html:96
 #: weblate/trans/forms.py:345
@@ -2209,29 +2111,22 @@ msgid "Plural equation"
 msgstr "Pluralekvation"
 
 #: weblate/lang/models.py:508 weblate/templates/language.html:80
-#, fuzzy
-#| msgid "Plural"
 msgid "Plural type"
-msgstr "Plural"
+msgstr "Pluraltyp"
 
 #: weblate/lang/models.py:515
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural form"
-msgstr "Pluralform %d"
+msgstr "Pluralform"
 
 #: weblate/lang/models.py:516
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural forms"
-msgstr "Pluralform %d"
+msgstr "Pluralformer"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:585
-#, fuzzy, python-brace-format
-#| msgid "Failed to add comment!"
+#, python-brace-format
 msgid "For example: {0}"
-msgstr "Kunde inte lägga till kommentar!"
+msgstr "T.ex.: {0}"
 
 #: weblate/lang/models.py:596
 msgid "Singular"
@@ -2248,13 +2143,15 @@ msgstr "Pluralform %d"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Jag accepterar villkoren för tjänsten"
 
 #: weblate/legal/middleware.py:59
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Det finns en uppdaterad version av tjänstevillkoren, läs igenom och bekräfta "
+"dessa."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -2264,15 +2161,15 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/base.html:162
 #: weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "Juridisk"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Du måste acceptera tjänstevillkoren"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Läs igenom följande tjänstevillkor:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:31
@@ -2282,11 +2179,11 @@ msgstr "Sänd"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:47
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Cookies-policy"
 
 #: weblate/legal/templates/legal/cookies.html:20
 #: weblate/legal/templates/legal/index.html:21
@@ -2298,10 +2195,8 @@ msgstr ""
 #: weblate/legal/templates/legal/cookies.html:24
 #: weblate/legal/templates/legal/index.html:25
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-#, fuzzy
-#| msgid "Service"
 msgid "Terms of Service"
-msgstr "Tjänst"
+msgstr "Tjänstevillkor"
 
 #: weblate/legal/templates/legal/cookies.html:25
 #: weblate/legal/templates/legal/index.html:26
@@ -2311,27 +2206,33 @@ msgstr "Sekretesspolicy"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid "Cookies are used on this site for the following:"
-msgstr ""
+msgstr "Cookies används på sidan för följande:"
 
 #: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Autentiserings-cookies, som är nödvändiga för att hantera inloggade "
+"användare."
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Inställnings-cookie, som används för att spara inställningar i vissa "
+"situationer."
 
 #: weblate/legal/templates/legal/cookies.html:36
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
+"Sidan använder Matomo för att analysera webbtrafiken. Matomo respekterar "
+"&quot;Do Not Track&quot;-inställningarna i din webbläsare."
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "Sidan använder Google Analytics för att analysera webbtrafiken."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2339,57 +2240,63 @@ msgstr "Översikt av juridiska villkor"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
-msgstr ""
+msgstr "Integritet"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
-msgstr ""
+msgstr "Säkerhet"
 
 #: weblate/legal/templates/legal/security.html:19
 msgid "Security Policy"
-msgstr ""
+msgstr "Säkerhetspolicy"
 
 #: weblate/legal/templates/legal/security.html:23
 msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
 msgstr ""
+"Hos Weblate tar vi säkerheten på allvar för att upprätthålla en miljö där "
+"värdesätter våra användares integritet."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
 msgstr ""
+"Weblate utveckling följer Linux Foundation Core Infrastructure Initiative "
+"Best Practices."
 
 #: weblate/legal/templates/legal/security.html:38
 msgid "Security FAQ"
-msgstr ""
+msgstr "Säkerhets-FAQ"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "Set password"
 msgid "How do you store user passwords?"
-msgstr "Ställ in lösenord"
+msgstr "Hur lagrar ni användarnas lösenord?"
 
 #: weblate/legal/templates/legal/security.html:43
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
+"Weblate lagrar alla användarlösenord hashade, för närvarande med PBKDF2, "
+"HMAC och SHA-256 med 150000 iterationer."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
-msgstr ""
+msgstr "Hur rapporterar jag ett säkerhetsproblem?"
 
 #: weblate/legal/templates/legal/security.html:48
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
 msgstr ""
+"Följ instruktionerna i dokumentationen för hur man rapporterar ett "
+"säkerhetsproblem."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "Villkor"
 
 #: weblate/legal/views.py:37 weblate/templates/translation.html:31
 msgid "Overview"
@@ -2402,114 +2309,92 @@ msgstr "Fil"
 
 #: weblate/memory/forms.py:35
 msgid "You can upload a TMX or JSON file."
-msgstr ""
+msgstr "Du kan ladda upp en TMX- eller JSON-fil."
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "Bekräfta borttagning av alla poster i översättningsminnet"
 
 #: weblate/memory/storage.py:65
-#, fuzzy
-#| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
-msgstr "Projekt"
+msgstr "Projekt: {}"
 
 #: weblate/memory/storage.py:67
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
-msgstr "Personlig information"
+msgstr "Personlig information: {}"
 
 #: weblate/memory/storage.py:69
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
-msgstr "Dela"
+msgstr "Delat: {}"
 
 #: weblate/memory/storage.py:71
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory category"
 msgid "File: {}"
-msgstr "Fil"
+msgstr "Fil: {}"
 
 #: weblate/memory/storage.py:151
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Unsupported file!"
-msgstr "Stöd Weblate på {0}"
+msgstr "Filen stöds inte!"
 
 #: weblate/memory/storage.py:154
-#, fuzzy
-#| msgid "No related strings found in dictionary."
 msgid "No valid entries found in the uploaded file!"
-msgstr "Inga relaterade strängar funna i ordboken."
+msgstr "Hittade inga giltiga poster i den uppladdade filen!"
 
 #: weblate/memory/storage.py:166
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
-msgstr "Kunde inte tolka %d matchade filer!"
+msgstr "Kunde inte tolka JSON-fil!"
 
 #: weblate/memory/storage.py:200
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse TMX file!"
-msgstr "Kunde inte tolka %d matchade filer!"
+msgstr "Kunde inte tolka TMX-fil!"
 
 #: weblate/memory/views.py:77
 msgid "Entries deleted."
-msgstr ""
+msgstr "Poster togs bort."
 
 #: weblate/memory/views.py:92
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Import of strings scheduled."
-msgstr "Granskning av källsträngar"
+msgstr "Import av strängar är schemalagt."
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "Filen är behandlad. Posterna visas inom kort."
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshot name"
-msgstr "Översättningssammanhang"
+msgstr "Namn på skärmdump"
 
 #: weblate/screenshots/models.py:41
 #: weblate/templates/screenshots/screenshot_detail.html:86
 #: weblate/templates/screenshots/screenshot_list.html:36
 msgid "Image"
-msgstr ""
+msgstr "Bild"
 
 #: weblate/screenshots/models.py:42
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
+msgstr "Ladda upp JPEG- eller PNG-bilder med som mest 2000x2000 pixels."
 
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
+"Skärmdumpen har blivit uppladdad. Den kan nu tilldelas till källsträngar."
 
 #: weblate/screenshots/views.py:106
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Kunde inte ladda upp skärmdumpen. Se anledningen här under."
 
 #: weblate/screenshots/views.py:162
-#, fuzzy, python-format
-#| msgid "Translation has been saved!"
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Översättningen har sparats!"
+msgstr "Skärmdump %s har tagits bort."
 
 #: weblate/screenshots/views.py:182
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Ditt konto har tagits bort."
+msgstr "Källan har tagits bort."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/basic.py:324
@@ -2517,8 +2402,6 @@ msgid "Permission Denied"
 msgstr "Åtkomst nekad"
 
 #: weblate/templates/403.html:11
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "Insufficient privileges to display this page."
 msgstr "Du har inte behörighet att visa denna sida."
 
@@ -2528,9 +2411,6 @@ msgid "Log in"
 msgstr "Logga in"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
-#, fuzzy
-#| msgid ""
-#| "However the following translation projects are available on this server:"
 msgid ""
 "However, the following translation projects are available on this server:"
 msgstr ""
@@ -2545,38 +2425,30 @@ msgid "The page you are looking for was not found."
 msgstr "Sidan du letar efter hittades inte."
 
 #: weblate/templates/404.html:19
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "Sidan du letar efter hittades inte."
+msgstr "Det sökta projektet finns inte eller är inte publikt tillgängligt."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:343
-#, fuzzy
-#| msgid "Server Error"
 msgid "Internal Server Error"
-msgstr "Serverfel"
+msgstr "Internt serverfel"
 
 #: weblate/templates/500.html:9
 msgid "Server Error"
 msgstr "Serverfel"
 
 #: weblate/templates/500.html:12
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems while serving your request. We've just "
-#| "sent our trained monkeys to fix the issue."
 msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
-"Servern hade allvarliga problem med din förfrågan. Vi har kallat in våra "
-"tränade apor för att rätta till problemet."
+"Servern hade allvarliga problem med din förfrågan. Våra tränade apor är på "
+"väg för att rätta till problemet."
 
 #: weblate/templates/500.html:16
 #, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr ""
+msgstr "Om du behöver hjälp kan du hänvisa till felet med %(error_id)s."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -2586,12 +2458,6 @@ msgid "About Weblate"
 msgstr "Om Weblate"
 
 #: weblate/templates/about/index.html:18
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features simple and clean user interface, propagation of "
-#| "translations across components, quality checks and automatic linking to "
-#| "source files."
 msgid ""
 "Weblate is a web based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
@@ -2599,25 +2465,20 @@ msgid ""
 "source files."
 msgstr ""
 "Weblate är ett webbaserat översättningsverktyg med "
-"versionkontrollsintegrering. Det har ett enkelt och rent användargränssnitt, "
+"versionskontrollintegrering. Det har ett enkelt och rent användargränssnitt, "
 "propagering av översättningar mellan komponenter, kvalitetskontroll och "
 "automatisk länkning till källkodsfiler."
 
 #: weblate/templates/about/index.html:20
-#, fuzzy, python-format
-#| msgid "More information about Weblate can be found at http://weblate.org/"
+#, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr "Mer information om Weblate kan ses på http://weblate.org/"
+msgstr "Mer information om Weblate kan fås på %(weblate_link)s."
 
 #: weblate/templates/about/index.html:22
-#, fuzzy
-#| msgid ""
-#| "Weblate is free software created by volunteers, but you can still support "
-#| "them financially."
 msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr ""
-"Weblate är fri programvara skapad av frivilliga krafter, men du kan ändå "
-"stödja dem finansiellt."
+"Weblate är fri programvara skapad av frivilliga krafter, och accepterar "
+"donationer."
 
 #: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
@@ -2628,10 +2489,6 @@ msgid "Hosting translations"
 msgstr "Lagrade översättningar"
 
 #: weblate/templates/about/index.html:36
-#, fuzzy
-#| msgid ""
-#| "This Weblate instance hosts translations for various free software "
-#| "projects."
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
@@ -2639,25 +2496,16 @@ msgstr ""
 "projekt."
 
 #: weblate/templates/about/index.html:37
-#, fuzzy
-#| msgid ""
-#| "We can host your project as well, if you are interested, please contact "
-#| "us."
 msgid "Weblate can host your project as well, please get in touch."
-msgstr ""
-"Vi kan lagra ditt projekt också. Vänligen, kontakta oss om du är intresserad."
+msgstr "Vi kan hosta ditt projekt också, kontakta oss."
 
 #: weblate/templates/about/index.html:40
-#, fuzzy
-#| msgid ""
-#| "Commercial hosting is possible as well, our price starts at 19 EUR per "
-#| "project and month, please get in touch with us for more details."
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
-"Kommersiell lagring är också möjlig. Våra priser startar på 19 EUR per "
-"projekt och månad. Vänligen, kontakta oss för mer detaljerad info."
+"Kommersiell hosting är också möjlig. Våra priser startar på 19 EUR per "
+"månad. Kontakta oss för mer detaljer."
 
 #: weblate/templates/about/index.html:44
 #: weblate/templates/accounts/hosting.html:42
@@ -2675,10 +2523,8 @@ msgstr "Se hostingplaner"
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:23
 #: weblate/templates/projects.html:13
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Purchase new hosting plan"
-msgstr "Se hostingplaner"
+msgstr "Köp ny hosting-plan"
 
 #: weblate/templates/about/index.html:49
 #: weblate/templates/accounts/hosting.html:34
@@ -2691,36 +2537,33 @@ msgstr "Versioner"
 
 #: weblate/templates/about/index.html:73
 msgid "Weblate owes its existence to these projects."
-msgstr ""
+msgstr "Weblate hade inte existerat utan dessa projekt."
 
 #: weblate/templates/about/keys.html:7 weblate/templates/base.html:161
 #: weblate/trans/views/about.py:115
-#, fuzzy
-#| msgid "Used languages"
 msgid "Weblate keys"
-msgstr "Använda språk"
+msgstr "Weblate-nycklar"
 
 #: weblate/templates/about/keys.html:20
-#, fuzzy
-#| msgid "SSH keys"
 msgid "SSH key"
-msgstr "SSH-nycklar"
+msgstr "SSH-nyckel"
 
 #: weblate/templates/about/keys.html:26
 msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate använder en SSH-nyckel för att komma åt fjärrarkiv. Den publika "
+"delen av denna nyckel finns här under. Den kan du använda för att ge Weblate "
+"tillgång till ett arkiv."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
-msgstr ""
+msgstr "SSH-nyckel inte tillgänglig."
 
 #: weblate/templates/about/keys.html:40
-#, fuzzy
-#| msgid "Bad format string (%s)"
 msgid "Commit signing"
-msgstr "Felaktigt formaterad sträng (%s)"
+msgstr "Signering av arkivering"
 
 #: weblate/templates/about/keys.html:46
 #, python-format
@@ -2728,12 +2571,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"Alla arkiveringar som görs med Weblate signeras med GPG-nyckeln %(gpg_key_id)"
+"s. Den publika delen av denna nyckel finns här under."
 
 #: weblate/templates/about/keys.html:51
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Commit signing is not configured."
-msgstr "C-formatsträngen matchar inte källan"
+msgstr "Signering av arkiveringar är inte konfigurerat."
 
 #: weblate/templates/about/stats.html:6 weblate/templates/about/stats.html:82
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
@@ -2770,29 +2613,21 @@ msgid "Suggested"
 msgstr "Föreslog"
 
 #: weblate/templates/about/stats.html:61
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "Mest aktiva med förslag"
+msgstr "Mest aktiva uppladdare av skärmdumpar"
 
 #: weblate/templates/about/stats.html:66
 #: weblate/templates/user-activity.html:20
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshots uploaded"
-msgstr "Översättningssammanhang"
+msgstr "Skärmdumpar laddades upp"
 
 #: weblate/templates/about/stats.html:90
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translatable strings"
-msgstr "Översatta strängar"
+msgstr "Strängar som kan översättas"
 
 #: weblate/templates/about/stats.html:94
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Translatable words"
-msgstr "Ej översatta strängar"
+msgstr "Ord som kan översättas"
 
 #: weblate/templates/about/stats.html:98
 msgid "Used languages"
@@ -2824,49 +2659,47 @@ msgstr "Ignorerade kontroller"
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:49
-#, fuzzy
-#| msgid "Public SSH key"
 msgid "Public"
-msgstr "Offentlig SSH-nyckel"
+msgstr "Publik"
 
 #: weblate/templates/access_control_description.html:5
 msgid "Publicly visible and translatable"
-msgstr ""
+msgstr "Publikt synlig och kan översättas"
 
 #: weblate/templates/access_control_description.html:6
 #: weblate/trans/models/project.py:50
 msgid "Protected"
-msgstr ""
+msgstr "Skyddad"
 
 #: weblate/templates/access_control_description.html:7
 msgid "Publicly visible, only translatable for chosen users"
-msgstr ""
+msgstr "Publikt synlig, kan bara översättas av utvalda användare"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:51
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: weblate/templates/access_control_description.html:9
 msgid "Visible and translatable only for chosen users"
-msgstr ""
+msgstr "Synlig men kan bara översättas av utvalda användare"
 
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:52
 msgid "Custom"
-msgstr ""
+msgstr "Anpassad"
 
 #: weblate/templates/access_control_description.html:11
 msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Använd bara detta om du vet vad du gör. Om du väljer detta kan det innebära "
+"att du förlorar din behörighet till projektet."
 
 #: weblate/templates/access_control_description.html:11
-#, fuzzy
-#| msgid "List of recent changes done in Weblate"
 msgid "Permissions are not managed in Weblate."
-msgstr "Lista av ändringar nyligt gjorda i Weblate"
+msgstr "Behörigheter hanteras inte av Weblate."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2878,10 +2711,8 @@ msgstr "Din profil"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Confirm new association"
-msgstr "Lägg till ny koppling:"
+msgstr "Bekräfta ny koppling"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -2889,6 +2720,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Efter att ha bekräftat kommer du inte att kunna logga in till Weblate med "
+"%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -2915,64 +2748,47 @@ msgid "Registration"
 msgstr "Registrering"
 
 #: weblate/templates/accounts/email-sent.html:14
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset almost complete"
-msgstr "Ditt lösenord har ändrats."
+msgstr "Återställning av lösenord är nästan slutfört"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Account removal almost complete"
-msgstr "Ditt lösenord har ändrats."
+msgstr "Borttagning av konto nästan slutfört"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
 msgstr "Registreringen nästan klar"
 
 #: weblate/templates/accounts/email-sent.html:24
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "Shortly you should receive an email containing a confirmation link. Click it "
 "to reset your password."
 msgstr ""
-"Tack för din registrering. Du kommer snart erhålla ett mail med en "
-"bekräftelselänk. Var god följ denna länk för att slutföra din registrering."
+"Du kommer snart erhålla ett mejl med en bekräftelselänk. Följ länken för att "
+"slutföra återställningen av lösenordet."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "Shortly you should receive an email containing a confirmation link. Click it "
 "to remove your account."
 msgstr ""
-"Tack för din registrering. Du kommer snart erhålla ett mail med en "
-"bekräftelselänk. Var god följ denna länk för att slutföra din registrering."
+"Du kommer snart erhålla ett mejl med en bekräftelselänk. Följ länken för att "
+"ta bort ditt konto."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "Thank you for registering. Click the confirmation link you receive by email "
 "to complete the registration."
 msgstr ""
-"Tack för din registrering. Du kommer snart erhålla ett mail med en "
+"Tack för din registrering. Du kommer snart erhålla ett mejl med en "
 "bekräftelselänk. Var god följ denna länk för att slutföra din registrering."
 
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
 msgstr ""
+"Om bekräftelselänken förfaller innan du hunnit använda den, registrera dig "
+"igen."
 
 #: weblate/templates/accounts/email-sent.html:35
 msgid ""
@@ -2983,10 +2799,8 @@ msgstr ""
 "Omproblemet kvarstår, var god kontakta oss."
 
 #: weblate/templates/accounts/email-sent.html:38
-#, fuzzy
-#| msgid "User registration"
 msgid "Report an issue with registration"
-msgstr "Användarregistrering"
+msgstr "Rapportera ett problem med registreringen"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:26
@@ -3019,38 +2833,21 @@ msgstr ""
 "projektlagring på denna webbplats."
 
 #: weblate/templates/accounts/hosting.html:16
-#, fuzzy
-#| msgid "Conditions for free hosting"
 msgid "Conditions for gratis hosting"
-msgstr "Villkor för gratis lagring"
+msgstr "Villkor för gratis hosting"
 
 #: weblate/templates/accounts/hosting.html:18
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please fill in this form if your project meets the conditions for free of "
 "charge hosting:"
 msgstr ""
-"Vänligen, kontrollera i förväg om ditt projekt är berättigat till "
-"projektlagring på denna webbplats."
+"Fyll vänligen i formuläret om ditt projekt är berättigat till gratis hosting:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid ""
-#| "Translated content has to be released under <a href=\"http://en.wikipedia."
-#| "org/wiki/Free_software_license\">free license</a>."
 msgid "Translated content has to be released under libre software license."
-msgstr ""
-"Översatt innehåll måste släppas under en <a href=\"http://en.wikipedia.org/"
-"wiki/Free_software_license\">fri licens</a>."
+msgstr "Översatt innehåll måste publiceras under en fri licens."
 
 #: weblate/templates/accounts/hosting.html:23
-#, fuzzy
-#| msgid ""
-#| "Source code has to be publicly available in supported version control "
-#| "system."
 msgid ""
 "Source code has to be publicly available in a supported version control "
 "system."
@@ -3059,8 +2856,6 @@ msgstr ""
 "versionshanteringssystem som stöds."
 
 #: weblate/templates/accounts/hosting.html:24
-#, fuzzy
-#| msgid "There is no guarantee for service availability or quality."
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Det finns ingen garanti för tillgänglighet eller kvalitet på tjänsten."
 
@@ -3069,12 +2864,16 @@ msgid ""
 "Hosting requests are usually processed once a month, please have patience "
 "after submitting one."
 msgstr ""
+"Hosting-anmälningar behandlas normalt en gång i månaden, så vänligen ha "
+"tålamod efter att anmälan skickats in."
 
 #: weblate/templates/accounts/hosting.html:30
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
+"Letar du efter kommersiell hosting? Våra priser startas vid %(price)s EUR i "
+"månaden."
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3085,6 +2884,8 @@ msgstr ""
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
+"För att test Weblate på den här demoserver kan du logga in som följande "
+"användare:"
 
 #: weblate/templates/accounts/login.html:28
 #: weblate/templates/accounts/profile.html:205
@@ -3097,16 +2898,12 @@ msgid "Password login"
 msgstr "Inloggning med lösenord"
 
 #: weblate/templates/accounts/login.html:58
-#, fuzzy
-#| msgid "Set password"
 msgid "Forgot your password?"
-msgstr "Ställ in lösenord"
+msgstr "Glömt lösenord?"
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can reset it."
-msgstr "Du kan granska det på:"
+msgstr "Du kan återställa det."
 
 #: weblate/templates/accounts/login.html:79
 msgid "Third party login"
@@ -3114,13 +2911,11 @@ msgstr "Tredjepartinloggning"
 
 #: weblate/templates/accounts/login.html:97
 msgid "Do not have an account yet?"
-msgstr ""
+msgstr "Har du inget konto ännu?"
 
 #: weblate/templates/accounts/login.html:98
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can register."
-msgstr "Du kan granska det på:"
+msgstr "Du kan registrera dig."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3132,13 +2927,11 @@ msgstr ""
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "Lösenordet behövs för att bekräfta viktiga ändringar för ditt konto."
 
 #: weblate/templates/accounts/password-warning.html:14
-#, fuzzy
-#| msgid "Current password"
 msgid "Configure the password"
-msgstr "Nuvarande lösenord"
+msgstr "Konfigurera lösenordet"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -3183,7 +2976,7 @@ msgstr "Licenser"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:212
 msgid "Audit log"
-msgstr ""
+msgstr "Revisionslogg"
 
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:249
@@ -3217,21 +3010,23 @@ msgid "Save"
 msgstr "Spara"
 
 #: weblate/templates/accounts/profile.html:67
-#, fuzzy
-#| msgid "Hostname"
 msgid "Managed projects"
-msgstr "Värdnamn"
+msgstr "Hanterade projekt"
 
 #: weblate/templates/accounts/profile.html:74
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
+"Du kommer automatiskt att ta emot viktiga notifieringar för hanterade "
+"projekt."
 
 #: weblate/templates/accounts/profile.html:83
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"Bevakade projekt visas också på kontrollpanelen så välj alla projekt som du "
+"vill översätta."
 
 #: weblate/templates/accounts/profile.html:91
 msgid "Subscription settings"
@@ -3248,10 +3043,8 @@ msgstr ""
 "Ditt namn och din e-postadress kommer att visas som upphovsman i projekten."
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Användaridentiteter"
+msgstr "Nuvarande användaridentiteter"
 
 #: weblate/templates/accounts/profile.html:121
 msgid "Identity"
@@ -3275,10 +3068,8 @@ msgid "Disconnect"
 msgstr "Koppla bort"
 
 #: weblate/templates/accounts/profile.html:151
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Lägg till ny koppling:"
+msgstr "Lägg till ny koppling"
 
 #: weblate/templates/accounts/profile.html:161
 #: weblate/templates/component.html:90 weblate/templates/project.html:78
@@ -3312,16 +3103,16 @@ msgid "Your avatar"
 msgstr "Din avatar"
 
 #: weblate/templates/accounts/profile.html:196
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "Avatarer tillhandahålls med hjälp av libravatar."
+msgstr "Avatarer tillhandahålls med hjälp av Gravatar."
 
 #: weblate/templates/accounts/profile.html:207
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Revisionsloggen visar viktiga ändringar för ditt konto. Om du ser något "
+"misstänkt, tveka inte att kontakta oss."
 
 #: weblate/templates/accounts/profile.html:216
 #: weblate/templates/last-changes-content.html:8
@@ -3330,31 +3121,25 @@ msgid "When"
 msgstr "När"
 
 #: weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Email address"
 msgid "IP address"
-msgstr "E-postadress"
+msgstr "IP-adress"
 
 #: weblate/templates/accounts/profile.html:219
-#, fuzzy
-#| msgid "User comments"
 msgid "User agent"
-msgstr "Användarkommentarer"
+msgstr "Användaragent"
 
 #: weblate/templates/accounts/profile.html:231
 #: weblate/templates/accounts/profile.html:232
 msgid "Hidden"
-msgstr ""
+msgstr "Gömd"
 
 #: weblate/templates/accounts/profile.html:236
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Ingen aktivitet har noterats den senaste tiden."
+msgstr "Ingen aktivitet har noterats den senaste tiden!"
 
 #: weblate/templates/accounts/profile.html:241
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Rapportera misstänkt aktivitet"
 
 #: weblate/templates/accounts/profile.html:252
 msgid ""
@@ -3364,37 +3149,35 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:255
 msgid "Your personal API key:"
-msgstr ""
+msgstr "Din personliga API-nyckel:"
 
 #: weblate/templates/accounts/profile.html:262
-#, fuzzy
-#| msgid "Generate"
 msgid "Regenerate API key"
-msgstr "Generera"
+msgstr "Generera om API-nyckel"
 
 #: weblate/templates/accounts/profile.html:266
 msgid "API root URL:"
-msgstr ""
+msgstr "Bas-URL för API:"
 
 #: weblate/templates/accounts/profile.html:270
 msgid "API usage example:"
-msgstr ""
+msgstr "Användningsexempel för API:"
 
 #: weblate/templates/accounts/profile.html:282
 msgid "CLI usage example:"
-msgstr ""
+msgstr "Användningsexempel för CLI:"
 
 #: weblate/templates/accounts/profile.html:299
-#, fuzzy
-#| msgid "Git repository"
 msgid "Accessing Git repositories"
-msgstr "Git-förråd"
+msgstr "Kontaktar Git-arkiv"
 
 #: weblate/templates/accounts/profile.html:301
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
+"API-nyckeln används också för autentisering till automatiskt exporterade Git-"
+"arkiv."
 
 #: weblate/templates/accounts/profile.html:314
 msgid ""
@@ -3430,14 +3213,12 @@ msgid "License"
 msgstr "Licens"
 
 #: weblate/templates/accounts/redirect.html:13
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Redirecting you to the authentication provider."
-msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd!"
+msgstr "Omdirigerar dig till autentiseringstjänsten."
 
 #: weblate/templates/accounts/register.html:18
 msgid "Please read our Terms of Service prior to registration."
-msgstr ""
+msgstr "Läs igenom våra tjänstevillkor innan registrering."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -3458,14 +3239,12 @@ msgid "Third party registration"
 msgstr "Tredjepartsregistrering"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Sorry, but registrations on this site are disabled."
-msgstr "Nya registreringar är avstängda!"
+msgstr "Beklagar, men nya registreringar tillåts inte av denna webb-site."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
-msgstr ""
+msgstr "Du kan kontakta oss för ytterligare detaljer."
 
 #: weblate/templates/accounts/removal.html:17
 msgid "Account removal"
@@ -3489,12 +3268,8 @@ msgid "Delete this account"
 msgstr "Ta bort detta konto"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
-"Glömt ditt lösenord? Du kan <a href=\"%(reset_url)s\">nollställa det</a>."
+msgstr "Glömt ditt lösenord? Du kan nu välja ett nytt."
 
 #: weblate/templates/accounts/reset.html:16
 msgid ""
@@ -3505,10 +3280,8 @@ msgstr ""
 "instruktioner för att ange ett nytt."
 
 #: weblate/templates/accounts/reset.html:36
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "Ställ in lösenord"
+msgstr "Ändra mitt lösenord"
 
 #: weblate/templates/accounts/reset.html:36
 msgid "Reset my password"
@@ -3519,10 +3292,8 @@ msgid "Recent changes"
 msgstr "Senaste ändringar"
 
 #: weblate/templates/accounts/user.html:55
-#, fuzzy
-#| msgid "Browse changes"
 msgid "Browse all changes for user"
-msgstr "Utforska ändringar"
+msgstr "Utforska alla ändringar för användaren"
 
 #: weblate/templates/activity-tab.html:5
 msgid "Activity in last 30 days"
@@ -3539,10 +3310,8 @@ msgid "Addons"
 msgstr "Tillägg"
 
 #: weblate/templates/addons/addon_detail.html:26
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "Configure addon"
-msgstr "Inställningsfel"
+msgstr "Konfigurera tillägg"
 
 #: weblate/templates/addons/addon_head.html:5
 msgid ""
@@ -3551,31 +3320,25 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid "Project website"
 msgid "project wide"
-msgstr "Projektwebbplats"
+msgstr "hela projektet"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
-msgstr ""
+msgstr "Installerade tillägg"
 
 #: weblate/templates/addons/addon_list.html:28
 msgid "Uninstall"
-msgstr ""
+msgstr "Avinstallera"
 
 #: weblate/templates/addons/addon_list.html:32
 #: weblate/templates/memory/index.html:32
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "Configure"
-msgstr "Inställningsfel"
+msgstr "Konfigurera"
 
 #: weblate/templates/addons/addon_list.html:41
-#, fuzzy
-#| msgid "Translation is currently not locked."
 msgid "There are no addons currently installed."
-msgstr "Översättning är för tillfället inte låst."
+msgstr "Det finns inga tillägg installerade."
 
 #: weblate/templates/addons/addon_list.html:43
 #, fuzzy, python-format
@@ -3588,19 +3351,22 @@ msgstr[1] "Det finns %(count)s ej översatta strängar."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available addons"
-msgstr ""
+msgstr "Tillgängliga tillägg"
 
 #: weblate/templates/addons/addon_list.html:61
 msgid "Install"
-msgstr ""
+msgstr "Installera"
 
 #: weblate/templates/addons/addon_list.html:69
 msgid "Could not find any additional addons compatible with this translation."
 msgstr ""
+"Hittade inga ytterligare tillägg som är kompatibla med denna översättning."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
 msgstr ""
+"Några tillägg kommer att fråga efter ytterligare konfiguration under "
+"installationen."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -3609,36 +3375,32 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:747
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Regulärt uttryck för e-post"
+msgstr "Reguljärt uttryck"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Kunde inte tolka %d matchade filer!"
+msgstr "Exempel på matchande filer"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "En katalog per språk som innehåller översättningsfiler för komponeter."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
-msgstr ""
+msgstr "Vanlig struktur för att lagra gettext PO-filer."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "Använder både komponent- och språknamn i filnamn."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "Använder språk i både sökväg och filnamn."
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr ""
+msgstr "Android resurssträngar, dela i flera filer."
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
@@ -3647,43 +3409,39 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:71
-#, fuzzy
-#| msgid "Comment added"
 msgid "Component filename match"
-msgstr "Kommentar tillagd"
+msgstr "Komponent filnamn match"
 
 #: weblate/templates/addons/discovery_help.html:73
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Komponentfilnamn med stor begynnelsebokstav"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
 #: weblate/templates/project.html:109 weblate/templates/translate.html:324
 #: weblate/trans/models/component.py:434 weblate/trans/models/whiteboard.py:88
 msgid "Component"
-msgstr ""
+msgstr "Komponent"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Bevakade projekt"
+msgstr "Matchade filer"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "Följande komponenter kommer tas bort"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "Följande komponenter skulle läggas till"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Följande komponenter matchade redan existerande"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Inga komponenter matchade!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -3692,35 +3450,25 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/generate_help.html:11
-#, fuzzy
-#| msgid "translated"
 msgid "Percents translated"
-msgstr "översatt"
+msgstr "Procent översatt"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Number of translated strings"
-msgstr "Ej översatta strängar"
+msgstr "Antal översatta strängar"
 
 #: weblate/templates/addons/generate_help.html:17 weblate/trans/forms.py:1513
 #: weblate/trans/models/component.py:115
-#, fuzzy
-#| msgid "Comment added"
 msgid "Component name"
-msgstr "Kommentar tillagd"
+msgstr "Komponentnamn"
 
 #: weblate/templates/addons/generate_help.html:19
-#, fuzzy
-#| msgid "Comments"
 msgid "Component URL slug"
-msgstr "Kommentarer"
+msgstr "Komponentens URL-slug"
 
 #: weblate/templates/addons/generate_help.html:23
-#, fuzzy
-#| msgid "Projects"
 msgid "Project URL slug"
-msgstr "Projekt"
+msgstr "Projektets URL-slug"
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -3731,16 +3479,12 @@ msgid "Dashboard"
 msgstr "Kontrollpanel"
 
 #: weblate/templates/base.html:119 weblate/templates/dashboard/user.html:62
-#, fuzzy
-#| msgid "Hostname"
 msgid "Manage watched projects"
-msgstr "Värdnamn"
+msgstr "Hantera bevakade projekt"
 
 #: weblate/templates/base.html:130
-#, fuzzy
-#| msgid "Registration"
 msgid "Administration"
-msgstr "Registrering"
+msgstr "Administration"
 
 #: weblate/templates/base.html:132
 #: weblate/wladmin/templates/admin/performance.html:22
@@ -3755,21 +3499,17 @@ msgstr "Lägg till"
 
 #: weblate/templates/base.html:149 weblate/templates/billing/status.html:39
 #: weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add new translation project"
-msgstr "Lägg till som översättning"
+msgstr "Lägg till nytt översättningsprojekt"
 
 #: weblate/templates/base.html:150 weblate/templates/project.html:135
 #: weblate/templates/trans/component_form.html:26
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Add new translation component"
-msgstr "Översättning klar"
+msgstr "Lägg till ny översättningskomponent"
 
 #: weblate/templates/base.html:157
 msgid "Help"
-msgstr ""
+msgstr "Hjälp"
 
 #: weblate/templates/base.html:163 weblate/templates/check.html:43
 #: weblate/templates/check_component.html:45
@@ -3789,16 +3529,13 @@ msgid "Documentation"
 msgstr "Dokumentation"
 
 #: weblate/templates/base.html:164 weblate/templates/footer.html:8
-#, fuzzy
-#| msgid "Service"
 msgid "Service status"
-msgstr "Tjänst"
+msgstr "Status för tjänsten"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "Inloggad som %(name)s"
+msgstr "Inloggad som %(user)s"
 
 #: weblate/templates/base.html:183
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -3815,10 +3552,8 @@ msgstr "Översättningsminne"
 #: weblate/templates/component.html:85
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:73
-#, fuzzy
-#| msgid "Strings"
 msgid "Settings"
-msgstr "Strängar"
+msgstr "Inställningar"
 
 #: weblate/templates/base.html:188 weblate/wladmin/sites.py:169
 msgid "Logout"
@@ -3829,14 +3564,16 @@ msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
+"Weblate stödjer inte Microsoft Internet Explorer 8 eller äldre. Använd en "
+"nyare webbläsare som t.ex. Firefox, Chrome eller Edge."
 
 #: weblate/templates/base.html:233 weblate/templates/base.html:240
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: weblate/templates/billing-failure.html:10
 msgid "Check your billing status"
-msgstr ""
+msgstr "Kontrollera din faktureringsstatus"
 
 #: weblate/templates/billing-failure.html:12
 msgid ""
@@ -3846,72 +3583,59 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
-msgstr ""
+msgstr "Återkommande betalning"
 
 #: weblate/templates/billing/detail.html:15
-#, fuzzy
-#| msgid "Start date"
 msgid "Past due date"
-msgstr "Startdatum"
+msgstr "Passerat förfallodatum"
 
 #: weblate/templates/billing/detail.html:17
-#, fuzzy
-#| msgid "Strings to review"
 msgid "Exceeds limits"
-msgstr "Strängar att granska"
+msgstr "Överstiger gränserna"
 
 #: weblate/templates/billing/detail.html:29
-#, fuzzy
-#| msgid "changes"
 msgid "Change payment plan"
-msgstr "ändringar"
+msgstr "Ändra betalningsplan"
 
 #: weblate/templates/billing/detail.html:31
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform payment"
-msgstr "Prestanda"
+msgstr "Utför betalning"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
-msgstr ""
+msgstr "Stoppa återkommande betalning"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "För att stoppa fakturering så måste du ta bort alla projekt först."
 
 #: weblate/templates/billing/detail.html:43
-#, fuzzy
-#| msgid "Trailing space"
 msgid "Terminate billing plan"
-msgstr "Avslutande mellanslag"
+msgstr "Avsluta betalningsplan"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
-msgstr ""
+msgstr "Fakturor"
 
 #: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
-msgstr ""
+msgstr "Faktureringsperiod"
 
 #: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
-msgstr ""
+msgstr "Faktureringsbelopp"
 
 #: weblate/templates/billing/detail.html:57
-#, fuzzy
-#| msgid "Download"
 msgid "Download invoice"
-msgstr "Hämta"
+msgstr "Hämta faktura"
 
 #: weblate/templates/billing/detail.html:71
 msgid "Not available"
-msgstr ""
+msgstr "Inte tillgänglig"
 
 #: weblate/templates/billing/detail.html:76
-#, fuzzy
 msgid "No invoices found."
-msgstr "Inga ord hittades!"
+msgstr "Inga fakturor hittades."
 
 #: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1681
 msgid "Billing"
@@ -3928,7 +3652,7 @@ msgstr "Aktuell plan"
 #: weblate/templates/billing/status.html:6
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr ", förfaller %(expires)s"
 
 #: weblate/templates/billing/status.html:6
 #, fuzzy
@@ -3938,55 +3662,43 @@ msgstr "Saknade pluralformer"
 
 #: weblate/templates/billing/status.html:7
 msgid "Monthly price"
-msgstr ""
+msgstr "Månatligt pris"
 
 #: weblate/templates/billing/status.html:8
 msgid "Yearly price"
-msgstr ""
+msgstr "Årligt pris"
 
 #: weblate/templates/billing/status.html:9
-#, fuzzy
-#| msgid "Strings to review"
 msgid "Strings limit"
-msgstr "Strängar att granska"
+msgstr "Strängbegränsning"
 
 #: weblate/templates/billing/status.html:14
-#, fuzzy
-#| msgid "Languages"
 msgid "Languages limit"
-msgstr "Språk"
+msgstr "Språkbegränsning"
 
 #: weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repositories limit"
-msgstr "Förrådsstatus"
+msgstr "Arkivbegränsning"
 
 #: weblate/templates/billing/status.html:26
-#, fuzzy
-#| msgid "Projects"
 msgid "Projects limit"
-msgstr "Projekt"
+msgstr "Projektbegränsning"
 
 #: weblate/templates/billing/status.html:36
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No projects currently assigned!"
-msgstr "Nu associerade:"
+msgstr "Inga projekt är associerade för ögonblicket!"
 
 #. Translators: Number of projects/repositories/strings used in billing when there is no limit
 #: weblate/templates/billing/used.html:6
-#, fuzzy, python-format
-#| msgid "Suggested by %(user)s"
+#, python-format
 msgid "Used %(used)s"
-msgstr "Föreslaget av %(user)s"
+msgstr "Används %(used)s"
 
 #. Translators: Number of projects/repositories/strings used in billing from given limit
 #: weblate/templates/billing/used.html:9
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
-msgstr "%(position)s / %(total)s"
+msgstr "Använder %(used)s av %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_component.html:6
 #: weblate/templates/check_project.html:6 weblate/templates/checks.html:6
@@ -4016,10 +3728,6 @@ msgid "Information"
 msgstr "Information"
 
 #: weblate/templates/checks.html:30
-#, fuzzy
-#| msgid ""
-#| "Customizable quality checks will help you in improving quality of "
-#| "translations."
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
@@ -4038,23 +3746,17 @@ msgstr ""
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
 #: weblate/trans/forms.py:940 weblate/trans/models/component.py:435
-#, fuzzy
-#| msgid "Comments"
 msgid "Components"
-msgstr "Kommentarer"
+msgstr "Komponenter"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Documentation"
 msgid "Number of components"
-msgstr "Dokumentation"
+msgstr "Antal komponenter"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic component list assignment"
-msgstr "Automatisk översättning"
+msgstr "Automatisk tilldelning till komponentlista"
 
 #: weblate/templates/component.html:30
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4063,7 +3765,7 @@ msgstr "Översättningar"
 
 #: weblate/templates/component.html:33
 msgid "Alerts"
-msgstr ""
+msgstr "Varningar"
 
 #: weblate/templates/component.html:35 weblate/templates/component.html:157
 #: weblate/templates/dashboard/user.html:38
@@ -4103,20 +3805,16 @@ msgid "Activity"
 msgstr "Aktivitet"
 
 #: weblate/templates/component.html:43 weblate/templates/project.html:38
-#, fuzzy
-#| msgid "Your translations"
 msgid "Download statistics (CSV)"
-msgstr "Dina översättningar"
+msgstr "Hämta statistik (CSV)"
 
 #: weblate/templates/component.html:44 weblate/templates/project.html:39
 msgid "Download statistics (JSON)"
-msgstr ""
+msgstr "Hämta statistik (JSON)"
 
 #: weblate/templates/component.html:46
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reports"
-msgstr "Översättning återställd"
+msgstr "Översättningsrapporter"
 
 #: weblate/templates/component.html:52 weblate/templates/dashboard/user.html:35
 #: weblate/templates/language-project.html:22
@@ -4129,23 +3827,17 @@ msgstr "Verktyg"
 #: weblate/templates/project.html:48 weblate/templates/project.html:224
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:62
 #: weblate/templates/translation.html:233 weblate/trans/models/change.py:226
-#, fuzzy
-#| msgid "Search type"
 msgid "Search and replace"
-msgstr "Sökningstyp"
+msgstr "Sök och ersätt"
 
 #: weblate/templates/component.html:58 weblate/templates/project.html:50
 #: weblate/templates/translation.html:57
-#, fuzzy
-#| msgid "Data export"
 msgid "Data exports"
-msgstr "Data-export"
+msgstr "Dataexporter"
 
 #: weblate/templates/component.html:59
-#, fuzzy
-#| msgid "Start review"
 msgid "Matrix view"
-msgstr "Påbörja granskning"
+msgstr "Matrisvy"
 
 #: weblate/templates/component.html:60
 msgid "Source strings review"
@@ -4163,32 +3855,24 @@ msgstr "Verkställ"
 
 #: weblate/templates/component.html:75 weblate/templates/project.html:65
 #: weblate/templates/translation.html:79
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository maintenance"
-msgstr "Förrådsstatus"
+msgstr "Arkivunderhåll"
 
 #: weblate/templates/component.html:78
 #: weblate/templates/screenshots/screenshot_detail.html:10
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshots"
-msgstr "Översättningssammanhang"
+msgstr "Skärmdumpar"
 
 #: weblate/templates/component.html:81 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:70
-#, fuzzy
-#| msgid "User"
 msgid "Users"
 msgstr "Användare"
 
 #: weblate/templates/component.html:89 weblate/templates/component.html:221
 #: weblate/templates/project.html:77 weblate/templates/project.html:272
-#, fuzzy
-#| msgid "Full name"
 msgid "Rename"
-msgstr "Fullständigt namn"
+msgstr "Namnändring"
 
 #: weblate/templates/component.html:97 weblate/templates/project.html:86
 #: weblate/templates/translation.html:91
