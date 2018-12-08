@@ -300,8 +300,8 @@ PLURAL_MAPPINGS = (
 PLURAL_NAMES = {
     PLURAL_NONE: ('',),
     PLURAL_ONE_OTHER: (
-        pgettext_lazy('Plural form description', 'One'),
-        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'Singular'),
+        pgettext_lazy('Plural form description', 'Plural'),
     ),
     PLURAL_ONE_FEW_OTHER: (
         pgettext_lazy('Plural form description', 'One'),
