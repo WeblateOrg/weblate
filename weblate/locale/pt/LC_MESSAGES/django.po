@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-11-24 10:59+0000\n"
+"PO-Revision-Date: 2018-12-10 15:10+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1455,10 +1455,8 @@ msgid "Expired"
 msgstr "Expirado"
 
 #: weblate/billing/models.py:151
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Traduzido"
+msgstr "Terminado"
 
 #: weblate/billing/models.py:154
 msgid "Billing state"
@@ -1477,10 +1475,8 @@ msgid "In limits"
 msgstr "Dentro dos limites"
 
 #: weblate/billing/models.py:173
-#, fuzzy
-#| msgid "Perform payment"
 msgid "Grace period for payments"
-msgstr "Efetuar pagamento"
+msgstr "Prazo de tolerância para os pagamentos"
 
 #: weblate/billing/models.py:200
 msgid "Changes in last month"
@@ -2576,6 +2572,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate usa a chave SSH para acesso a repositórios remotos. A chave pública "
+"correspondente está abaixo, você pode usá-la para conceder acesso ao Weblate "
+"a um repositório."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
@@ -3905,10 +3904,8 @@ msgstr "Utilizadores"
 
 #: weblate/templates/component.html:89 weblate/templates/component.html:221
 #: weblate/templates/project.html:77 weblate/templates/project.html:272
-#, fuzzy
-#| msgid "Filename"
 msgid "Rename"
-msgstr "Nome do ficheiro"
+msgstr "Renomear"
 
 #: weblate/templates/component.html:97 weblate/templates/project.html:86
 #: weblate/templates/translation.html:91
@@ -3981,32 +3978,32 @@ msgid "Browse all component changes"
 msgstr "Ver todos os componentes alterados"
 
 #: weblate/templates/component.html:213
-#, fuzzy
-#| msgid "Removed component"
 msgid "Rename component"
-msgstr "Componente apagado"
+msgstr "Renomear componente"
 
 #: weblate/templates/component.html:216
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Renomear o componente mudará todas as suas URLs, os usuários terão que "
+"atualizar bookmarks ou referências em repositórios clonados!"
 
 #: weblate/templates/component.html:228
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "Componente apagado"
+msgstr "Mover componente"
 
 #: weblate/templates/component.html:231
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Mover o componente mudará todas as suas URLs, os usuários terão que "
+"atualizar bookmarks ou referências em repositórios clonados!"
 
 #: weblate/templates/component.html:236
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: weblate/templates/component.html:247 weblate/templates/project.html:282
 #: weblate/templates/translate.html:362 weblate/templates/translate.html:366
@@ -5440,16 +5437,16 @@ msgid "Browse all project changes"
 msgstr "Explorar todas as alterações do projeto"
 
 #: weblate/templates/project.html:264
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "Projeto apagado"
+msgstr "Renomear projeto"
 
 #: weblate/templates/project.html:267
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Renomear o projeto mudará todas as URLs, os usuários terão que atualizar "
+"bookmarks ou referências em repositórios clonados!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5727,10 +5724,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Não tem permissão para para criar componentes em qualquer projecto."
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "Contexto"
+msgstr "Continuar"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -6976,14 +6971,12 @@ msgid "Repository branch to translate"
 msgstr "Ramo do repositório a traduzir"
 
 #: weblate/trans/forms.py:1587
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "Limpeza de ficheiros de tradução"
+msgstr "Escolha os ficheiros de tradução a importar"
 
 #: weblate/trans/forms.py:1589
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "Especificar a configuração manualmente"
 
 #: weblate/trans/forms.py:1707
 #, python-format
@@ -7241,22 +7234,16 @@ msgid "Found duplicated language"
 msgstr "Idioma duplicado encontrado"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "Projeto apagado"
+msgstr "Projeto renomeado"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "Componente apagado"
+msgstr "Componente renomeado"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "Componente apagado"
+msgstr "Componente deslocado"
 
 #: weblate/trans/models/change.py:340
 #, python-format
