@@ -171,3 +171,8 @@ class RepositoryOutdated(BaseAlert):
 @register
 class RepositoryChanges(BaseAlert):
     verbose = _('Repository has changes.')
+
+
+@register
+class MissingLicense(BaseAlert):
+    verbose = _('License information missing.')

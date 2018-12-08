@@ -310,6 +310,12 @@ def repository_alerts(threshold=10):
             component.delete_alert('RepositoryChanges', childs=True)
 
 
+@app.task
+def component_alerts():
+    for component in Component.objects.iterator():
+        component.update_alerts()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -326,6 +332,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         repository_alerts.s(),
         name='repository-alerts',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        component_alerts.s(),
+        name='component-alerts',
     )
     sender.add_periodic_task(
         3600 * 24,

@@ -1481,10 +1481,19 @@ class Component(models.Model, URLMixin, PathMixin):
         if changed_project:
             old.project.suggestion_set.copy(self.project)
 
+        self.update_alerts()
+
+    def update_alerts(self):
         if self.new_lang != 'add' and self.new_base:
             self.add_alert('UnusedNewBase')
         else:
             self.delete_alert('UnusedNewBase')
+
+        if (self.project.access_control == self.project.ACCESS_PUBLIC
+                and not self.license):
+            self.add_alert('MissingLicense')
+        else:
+            self.delete_alert('MissingLicense')
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""
