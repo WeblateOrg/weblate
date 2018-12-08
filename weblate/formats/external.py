@@ -20,7 +20,6 @@
 """External file format specific behavior."""
 from __future__ import unicode_literals
 
-import csv
 import os
 import re
 
@@ -35,6 +34,8 @@ import six
 from django.utils.translation import ugettext_lazy as _
 
 from openpyxl import Workbook, load_workbook
+
+from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import CSVFormat
@@ -94,15 +95,12 @@ class XlsxFormat(CSVFormat):
         except BadZipFile:
             return None, None
 
-        if six.PY3:
-            output = six.StringIO()
-        else:
-            output = six.BytesIO()
+        output = six.StringIO()
 
-        writer = csv.writer(output)
+        writer = csv.writer(output, dialect='unix')
 
         for row in worksheet.rows:
-            writer.writerow([cls.encode(cell.value) for cell in row])
+            writer.writerow([cell.value for cell in row])
 
         if isinstance(storefile, six.string_types):
             name = os.path.basename(storefile) + ".csv"
@@ -110,18 +108,7 @@ class XlsxFormat(CSVFormat):
             name = os.path.basename(storefile.name) + ".csv"
 
         # return the new csv as bytes
-        content = output.getvalue()
-
-        if six.PY3:
-            content = content.encode("utf-8")
+        content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
         return super(XlsxFormat, cls).parse_store(BytesIOMode(name, content))
-
-    @staticmethod
-    def encode(value):
-        if value is None:
-            return value
-        if six.PY2:
-            return value.encode("utf-8")
-        return value
