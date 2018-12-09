@@ -1,22 +1,35 @@
+
 {% load i18n %}
 {% load permissions %}
+{% load downloads %}
 
-{% perm 'upload.perform' object as user_can_upload_translation %}
-
-<li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with object.component.file_format_name as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
-<li role="separator" class="divider"></li>
-{% for exporter in exporters %}
-<li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download translation file as {{ format }}{% endblocktrans %}</a></li>
-{% endfor %}
-{% if object.stats.todo %}
-<li role="separator" class="divider"></li>
-{% for exporter in exporters %}
-<li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;type=todo" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download strings needing action as {{ format }}{% endblocktrans %}</a></li>
-{% endfor %}
+{% if subject == 'translation'  %}
+    {% perm 'upload.perform' object as user_can_upload_translation %}
 {% endif %}
+
+<li>{% translation_download_link %}</li>
+
 <li role="separator" class="divider"></li>
+
+{% for exporter in exporters %}
+    <li>{% translation_download_link %}</li>
+{% endfor %}
+
+
+{% if stats.todo %}
+    <li role="separator" class="divider"></li>
+
+    {% for exporter in exporters %}
+        <li>{% translation_download_link todo=true %}</li>
+    {% endfor %}
+{% endif %}
+
+<li role="separator" class="divider"></li>
+
 <li><a href="#download" data-toggle="tab">{% trans "Customize download" %}</a></li>
 {% if user_can_upload_translation %}
+
 <li role="separator" class="divider"></li>
+
 <li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
 {% endif %}
