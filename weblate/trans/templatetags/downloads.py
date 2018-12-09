@@ -7,12 +7,12 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def translation_download_url(context):
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
 
     project = context.get('project')
 
     kwargs = {}
-    kwargs['project'] = project['slug']
+    kwargs['project'] = project.slug
     component = context.get('component')
     if component != None:
         kwargs['component'] = component['slug']
@@ -33,6 +33,10 @@ def translation_download_url(context):
         url += "&".join(query_params)
 
     return url;
+
+@register.simple_tag(takes_context=True)
+def translation_download_link_todo(context, todo=False):
+    translation_download_link(context, True)
 
 @register.simple_tag(takes_context=True)
 def translation_download_link(context, todo=False):

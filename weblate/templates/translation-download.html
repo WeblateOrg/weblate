@@ -3,6 +3,7 @@
 {% load permissions %}
 {% load downloads %}
 
+{% autoescape off %}
 {% if subject == 'translation'  %}
     {% perm 'upload.perform' object as user_can_upload_translation %}
 {% endif %}
@@ -20,10 +21,11 @@
     <li role="separator" class="divider"></li>
 
     {% for exporter in exporters %}
-        <li>{% translation_download_link todo=true %}</li>
+        <li>{% translation_download_link_todo %}</li>
     {% endfor %}
 {% endif %}
 
+{% endautoescape %}
 <li role="separator" class="divider"></li>
 
 <li><a href="#download" data-toggle="tab">{% trans "Customize download" %}</a></li>
