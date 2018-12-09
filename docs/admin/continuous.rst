@@ -50,7 +50,7 @@ hooks are executed.
 With Gettext PO files, you might get bit by conflicts in PO file
 headers. To avoid it, you can use the shipped merge driver
 (:file:`examples/git-merge-gettext-po`). Use it by putting the following
-configuration to your :file:`.gitconfig`:
+configuration in your :file:`.gitconfig`:
 
 .. code-block:: ini
 
