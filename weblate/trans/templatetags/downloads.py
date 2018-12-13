@@ -1,5 +1,4 @@
 from django import template
-from django.template import Template
 from django.utils.translation import gettext as _
 from django.urls import reverse
 
