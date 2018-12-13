@@ -15,7 +15,7 @@ def translation_download_url(context):
     component = context.get('component')
     if component != None:
         kwargs['component'] = component['slug']
-        
+
     url = reverse('download_translation', kwargs=kwargs) 
 
     query_params = []
@@ -44,7 +44,7 @@ def translation_download_link(context, todo=False):
     opening_tag = f'<a {title_tag} href="{translation_download_url_variable}">'
 
     closing_tag = "</a>"
-    
+
     return opening_tag + link_text(context) + closing_tag
 
 
