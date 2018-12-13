@@ -129,8 +129,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 
 .. _google_auth:
 
-Google OAuth2
-~~~~~~~~~~~~~
+Google OAuth 2
+~~~~~~~~~~~~~~
 
 To use Google OAuth 2, you need to register an application on
 <https://console.developers.google.com/> and enable the Google+ API.
@@ -157,7 +157,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 .. _facebook_auth:
 
 Facebook OAuth 2
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 As per usual with OAuth 2 services, you need to register your application with
 Facebook. Once this is done, you can set up Weblate to use it:
@@ -183,8 +183,8 @@ Facebook. Once this is done, you can set up Weblate to use it:
 
 .. _gitlab_auth:
 
-GitLab OAuth2
-~~~~~~~~~~~~~
+GitLab OAuth 2
+~~~~~~~~~~~~~~
 
 For using GitLab OAuth 2, you need to register an application on
 <https://gitlab.com/profile/applications>.
@@ -214,7 +214,7 @@ ensure you mark the `read_user` scope.
    :doc:`psa:backends/gitlab`
 
 Turning off password authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Email and password authentication can be disabled by removing
 ``social_core.backends.email.EmailAuth`` from

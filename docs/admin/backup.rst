@@ -115,7 +115,7 @@ Restoring
          ./manage.py updategit --all
 
 Moving a Weblate installation
----------------------------
+------------------------------
 
 Relocatable your installation to a different system
 by following the backup and restore instructions above.
