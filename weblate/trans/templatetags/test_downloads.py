@@ -69,11 +69,11 @@ class DownloadTest(TestCase):
         context = ContextWithExporter()
         self.assertEqual("/download/test/?format=etest", translation_download_url(context))
 
-    def test_urL_with_language(self):
+    def test_url_with_language(self):
         context = ContextWithLanguage()
         self.assertEqual("/download/test/?lang=de", translation_download_url(context))
 
-    def test_url_with_exporter_and_language(self):
+    def test_url_exporter_and_lang(self):
         context = ContextWithLanguageAndExporter()
         self.assertEqual("/download/test/?format=etest&lang=de", translation_download_url(context))
 

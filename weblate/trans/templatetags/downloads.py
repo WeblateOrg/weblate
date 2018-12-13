@@ -39,9 +39,9 @@ def translation_download_link_todo(context, todo=False):
 
 @register.simple_tag(takes_context=True)
 def translation_download_link(context, todo=False):
-    translation_download_url_variable = translation_download_url(context)
+    href_value = translation_download_url(context)
     title_tag = _('title="Download for an offline translation."')
-    opening_tag = f'<a {title_tag} href="{translation_download_url_variable}">'
+    opening_tag = f'<a {title_tag} href="{href_value}">'
 
     closing_tag = "</a>"
 
