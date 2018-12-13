@@ -65,6 +65,7 @@ import weblate.accounts.urls
 import weblate.api.urls
 import weblate.wladmin.sites
 
+
 def optional(route_part):
     return '(?:' + route_part + r')?'
 
@@ -74,9 +75,10 @@ LANGUAGE = r'(?P<lang>[^/]+)'
 # URL regexp for project
 PROJECT = r'(?P<project>[^/]+)'
 
+# URL regexp for component
 COMPONENT = r'(?P<component>[^/]+)'
 
-# URL regexp for component
+# URL regexp for component scoped by project
 COMPONENT_SCOPED_BY_PROJECT = PROJECT + '/' + COMPONENT + '/'
 
 # URL regexp for translations
