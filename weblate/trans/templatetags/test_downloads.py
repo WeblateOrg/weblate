@@ -16,21 +16,21 @@ class ContextWithComponent(Context):
     render_context = RenderContextMock()
     def get(self, what):
         if what == 'component':
-            return { 'slug': 'ctest' }
+            return {'slug': 'ctest'}
 
         return Context.get(self, what)
 
 class ContextWithExporter(Context):
     def get(self, what):
         if what == 'exporter':
-            return { 'name': 'etest' }
+            return {'name': 'etest'}
 
         return Context.get(self, what)
 
 class ContextWithLanguage(Context):
     def get(self, what):
         if what == 'language':
-            return { 'code': 'de' }
+            return {'code': 'de'}
 
         return Context.get(self, what)
 
