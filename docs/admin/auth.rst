@@ -4,33 +4,31 @@ Authentication
 User registration
 -----------------
 
-The default setup for Weblate is to use python-social-auth for handling new
-users. This allows them to register using a form on the website and after
-confirming their email they can contribute or authenticate by using some
-third party service.
+The default setup for Weblate is to use python-social-auth, a form on the website
+to handle registration of new users. After confirming their email a new user can
+contribute or authenticate by using one of the third party services.
 
-You can also completely disable new users registration using
+You can also turn off registration of new users using
 :setting:`REGISTRATION_OPEN`.
 
-The authentication attempts are subjects to :ref:`rate-limit`.
+The authentication attempts are subject to :ref:`rate-limit`.
 
 
 Authentication backends
 -----------------------
 
-By default Weblate uses the Django built-in authentication and includes various
-social authentication options. Thanks to using Django authentication, you can
-also import user database from other Django based projects (see
+The inbuilt solution of Django is used for authentication,
+including various social options to do so.
+Using it means you can import the user database of other Django based projects (see
 :ref:`pootle-migration`).
 
-Django can be additionally configured to authenticate against other means as
-well.
+Django can additionally be set up to authenticate against other means too.
 
 Social authentication
 ---------------------
 
 Thanks to :doc:`psa:index`, Weblate support authentication using many third
-party services such as Facebook, GitHub, Google or Bitbucket.
+party services such as GitLab, Ubuntu, Fedora, etc.
 
 Please check their documentation for generic configuration instructions
 in :doc:`psa:configuration/django`.
@@ -38,8 +36,8 @@ in :doc:`psa:configuration/django`.
 .. note::
 
     By default, Weblate relies on third-party authentication services to
-    provide a validated email address, in case some of the services you want to use
-    do not support this, please enforce email validation on Weblate side
+    provide a validated email address. If some of the services you want to use
+    don't support this, please enforce email validation on the Weblate side
     by configuring FORCE_EMAIL_VALIDATION for them. For example:
 
     .. code-block:: python
@@ -49,10 +47,10 @@ in :doc:`psa:configuration/django`.
     .. seealso:: :doc:`psa:pipeline`
 
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
-the ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
-authentication. Please note that some backends do not provide user email by
+the ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for a given
+authentication method. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
-to properly credit users contributions.
+to properly credit contributions users make.
 
 .. seealso::
 
@@ -84,7 +82,7 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-You need to register an application on GitHub and then tell Weblate all the secrets:
+You need to register an application on GitHub and then tell Weblate all its secrets:
 
 .. code-block:: python
 
@@ -109,7 +107,7 @@ You need to register an application on GitHub and then tell Weblate all the secr
 Bitbucket authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to register an application on Bitbucket and then tell Weblate all the secrets:
+You need to register an application on Bitbucket and then tell Weblate all its secrets:
 
 .. code-block:: python
 
@@ -134,8 +132,8 @@ You need to register an application on Bitbucket and then tell Weblate all the s
 Google OAuth2
 ~~~~~~~~~~~~~
 
-For using Google OAuth2, you need to register an application on
-<https://console.developers.google.com/> and enable Google+ API.
+To use Google OAuth 2, you need to register an application on
+<https://console.developers.google.com/> and enable the Google+ API.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
@@ -158,11 +156,11 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
 .. _facebook_auth:
 
-Facebook OAuth2
+Facebook OAuth 2
 ~~~~~~~~~~~~~~~
 
-As usual with OAuth2 services, you need to register your application with
-Facebook. Once this is done, you can configure Weblate to use it:
+As per usual with OAuth 2 services, you need to register your application with
+Facebook. Once this is done, you can set up Weblate to use it:
 
 .. code-block:: python
 
@@ -188,11 +186,11 @@ Facebook. Once this is done, you can configure Weblate to use it:
 GitLab OAuth2
 ~~~~~~~~~~~~~
 
-For using Gitlab OAuth2, you need to register application on
+For using GitLab OAuth 2, you need to register an application on
 <https://gitlab.com/profile/applications>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and
-ensure to mark the `read_user` scope.
+ensure you mark the `read_user` scope.
 
 .. code-block:: python
 
@@ -208,14 +206,14 @@ ensure to mark the `read_user` scope.
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
 
-    # If your using own GitLab
+    # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
 
 .. seealso:: 
    
    :doc:`psa:backends/gitlab`
 
-Disabling password authentication
+Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Email and password authentication can be disabled by removing
@@ -226,11 +224,11 @@ Weblate functionality.
 
 .. tip::
 
-   You can still use password authentication for the admin interface for users you
+   You can still use password authentication for the admin interface, for users you
    manually create there. Just navigate to ``/admin/``.
 
-For example authentication using only openSUSE Open ID provider can be achieved
-using following:
+For example authentication using only the openSUSE Open ID provider can be achieved
+using the following:
 
 .. code-block:: python
 
@@ -243,30 +241,30 @@ using following:
 Password authentication
 -----------------------
 
-The default :file:`settings.py` comes with reasonable set of
+The default :file:`settings.py` comes with a reasonable set of
 :setting:`django:AUTH_PASSWORD_VALIDATORS`:
 
-* Password can't be too similar to your other personal information.
-* Password must contain at least 6 characters.
-* Password can't be a commonly used password.
-* Password can't be entirely numeric.
-* Password can't consist of single character or whitespace only.
-* Password can't match password you have used in the past.
+* Passwords can't be too similar to your other personal info.
+* Passwords must contain at least 6 characters.
+* Passwords can't be a commonly used password.
+* Passwords can't be entirely numeric.
+* Passwords can't consist of a single character or only whitespace.
+* Passwords can't match a password you have used in the past.
 
 You can customize this setting to match your password policy.
 
 Additionally you can also install
 `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
-which gives quite realistic estimates of password difficulty and allows to reject
-passwords below certain threshold.
+which gives quite realistic estimates of password difficulty and allows rejecting
+passwords below a certain threshold.
 
 .. _ldap-auth:
 
 LDAP authentication
 -------------------
 
-LDAP authentication can be best achieved using `django-auth-ldap` package. You
-can install it by usual means:
+LDAP authentication can be best achieved using the `django-auth-ldap` package. You
+can install it via usual means:
 
 .. code-block:: sh
 
@@ -283,13 +281,13 @@ can install it by usual means:
 
 .. note::
 
-   There are some incompatibilities in Python LDAP module 3.1.0 which might
+   There are some incompatibilities in the Python LDAP 3.1.0 module, which might
    prevent you from using that version. If you get error `AttributeError:
    'module' object has no attribute '_trace_level'
    <https://github.com/python-ldap/python-ldap/issues/226>`_, downgrading
    python-ldap to 3.0.0 might help.
 
-Once you have the package installed, you can hook it to Django authentication:
+Once you have the package installed, you can hook it into the Django authentication:
 
 .. code-block:: python
 
@@ -305,15 +303,15 @@ Once you have the package installed, you can hook it to Django authentication:
 
     # DN to use for authentication
     AUTH_LDAP_USER_DN_TEMPLATE = 'cn=%(user)s,o=Example'
-    # Depending on your LDAP server, you might use different DN
+    # Depending on your LDAP server, you might use a different DN
     # like:
     # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
 
-    # List of attributes to import from LDAP on login
-    # Weblate stores full user name in the full_name attribute
+    # List of attributes to import from LDAP upon login
+    # Weblate stores full name of the user in the full_name attribute
     AUTH_LDAP_USER_ATTR_MAP = {
         'full_name': 'name',
-        # Use following if your LDAP server does not have full name
+        # Use the following if your LDAP server does not have full name
         # Weblate will merge them later
         # 'first_name': 'givenName',
         # 'last_name': 'sn',
@@ -321,8 +319,8 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
-If you can not use direct bind for authentication, you will need to use search
-and provide user to bind for the search. For example:
+If you can not use direct bind for authentication, you will need to use search,
+and provide a user to bind for the search. For example:
 
 .. code-block:: python
 
@@ -338,10 +336,10 @@ and provide user to bind for the search. For example:
 
     You should remove ``'social_core.backends.email.EmailAuth'`` from the
     ``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set
-    their password in Weblate and authenticate using that. Keeping
+    their password in Weblate, and authenticate using that. Keeping
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
-    make permissions and anonymous user work correctly. It will also allow you
-    to login using local admin account if you have created it (eg. by using
+    make permissions and facilitate anonymous users. It will also allow you
+    to log in using a local admin account, if you have created it (e.g. by using
     :djadmin:`createadmin`).
 
 .. seealso::
@@ -358,7 +356,7 @@ CAS authentication
 CAS authentication can be achieved using a package such as `django-cas-ng`.
 
 Step one is disclosing the email field of the user via CAS. This has to be
-configured on the CAS server itself and requires you run at least CAS v2 since
+configured on the CAS server itself, and requires you run at least CAS v2 since
 CAS v1 doesn't support attributes at all.
 
 Step two is updating Weblate to use your CAS server and attributes.
@@ -374,8 +372,8 @@ authentication system by modifying the :file:`settings.py` file:
 
 .. code-block:: python
 
-    # Add CAS backed, keep Django one if you want to be able to login
-    # even without LDAP for admin account
+    # Add CAS backed, keep the Django one if you want to be able to log in
+    # even without LDAP for the admin account
     AUTHENTICATION_BACKENDS = (
         'django_cas_ng.backends.CASBackend',
         'weblate.accounts.auth.WeblateUserBackend',
@@ -392,12 +390,12 @@ authentication system by modifying the :file:`settings.py` file:
 
 Finally, a signal can be used to map the email field to the user object. For
 this to work you have to import the signal from the `django-cas-ng` package and
-connect your code with this signal. Doing this inside your settings file can
+connect your code with this signal. Doing this in settings file can
 cause problems, therefore it's suggested to put it:
 
-- in your app config's :py:meth:`django:django.apps.AppConfig.ready` method (Django 1.7 and higher)
-- at the end of your :file:`models.py` file (Django 1.6 and lower)
-- in the project's :file:`urls.py` file (when no models exist)
+- In your app config's :py:meth:`django:django.apps.AppConfig.ready` method (Django 1.7 and above)
+- At the end of your :file:`models.py` file (Django 1.6 and below)
+- In the project's :file:`urls.py` file (when no models exist)
 
 .. code-block:: python
 
@@ -418,7 +416,7 @@ Configuring third party Django authentication
 ---------------------------------------------
 
 Generally any Django authentication plugin should work with Weblate. Just
-follow instructions for the plugin, just remember to keep Weblate user backend
+follow the instructions for the plugin, just remember to keep the Weblate user backend
 installed.
 
 .. seealso::
@@ -426,8 +424,8 @@ installed.
     :ref:`ldap-auth`,
     :ref:`cas-auth`
 
-Typically the installation will consist of adding authentication backend to
-:setting:`django:AUTHENTICATION_BACKENDS` and installing authentication app (if
+Typically the installation will consist of adding an authentication backend to
+:setting:`django:AUTHENTICATION_BACKENDS` and installing an authentication app (if
 there is any) into :setting:`django:INSTALLED_APPS`:
 
 .. code-block:: python
