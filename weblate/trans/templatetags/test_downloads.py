@@ -4,7 +4,7 @@ from weblate.trans.templatetags.downloads import link_text, translation_download
 
 class RenderContextMock():
     def push_state(self, arg):
-        return "test";
+        return "test"
 
 class Context():
     render_context = RenderContextMock()
@@ -53,28 +53,28 @@ class DownloadTest(TestCase):
         self.assertEqual("Original", link_text(context))
 
     def test_link(self):
-        context = ContextWithExporter();
+        context = ContextWithExporter()
         self.assertEqual('<a title="Download for an offline translation." href="/download/test/?format=etest">etest</a>', translation_download_link(context))
 
     def test_url(self):
-        context = Context();
+        context = Context()
         self.assertEqual("/download/test/", translation_download_url(context))
 
     def test_url_with_component(self):
-        context = ContextWithComponent();
+        context = ContextWithComponent()
         self.assertEqual("/download/test/ctest/", translation_download_url(context))
 
 
     def test_url_with_exporter(self):
-        context = ContextWithExporter();
+        context = ContextWithExporter()
         self.assertEqual("/download/test/?format=etest", translation_download_url(context))
 
     def test_urL_with_language(self):
-        context = ContextWithLanguage();
+        context = ContextWithLanguage()
         self.assertEqual("/download/test/?lang=de", translation_download_url(context))
 
     def test_url_with_exporter_and_language(self):
-        context = ContextWithLanguageAndExporter();
+        context = ContextWithLanguageAndExporter()
         self.assertEqual("/download/test/?format=etest&lang=de", translation_download_url(context))
 
 

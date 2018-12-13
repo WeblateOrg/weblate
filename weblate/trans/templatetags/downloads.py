@@ -31,7 +31,7 @@ def translation_download_url(context):
         url += '?'
         url += "&".join(query_params)
 
-    return url;
+    return url
 
 @register.simple_tag(takes_context=True)
 def translation_download_link_todo(context, todo=False):
