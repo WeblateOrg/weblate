@@ -381,7 +381,7 @@ Check resource limits
 If you are importing huge translations or repositories, you might be hit by
 resource limitations of your server.
 
-* Check the amount of free memory, having translation files by the system memory will greatly improve performance.
+* Check the amount of free memory, having translation files cached by the operating system will greatly improve performance.
 * Disk operations might be bottleneck if there is a lot of strings to process - the disk is pushed by both Weblate and the database.
 * Additional CPU cores might help improve performance of background tasks (see :ref:`celery`).
 
