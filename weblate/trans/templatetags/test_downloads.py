@@ -54,7 +54,9 @@ class DownloadTest(TestCase):
 
     def test_link(self):
         context = ContextWithExporter()
-        self.assertEqual('<a title="Download for an offline translation." href="/download/test/?format=etest">etest</a>', translation_download_link(context))
+        expected_1 = '<a title="Download for an offline translation."'
+        expected_2 = ' href="/download/test/?format=etest">etest</a>'
+        self.assertEqual(expected_1 + expected_2, translation_download_link(context))
 
     def test_url(self):
         context = Context()
