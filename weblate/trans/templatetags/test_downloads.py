@@ -2,6 +2,13 @@ from __future__ import unicode_literals
 from unittest import TestCase
 from weblate.trans.templatetags.downloads import link_text, translation_download_link, translation_download_url
 
+class Struct:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+def struct(dict):
+    return Struct(**dict)
+
 class RenderContextMock():
     def push_state(self, arg):
         return "test"
@@ -10,7 +17,7 @@ class Context():
     render_context = RenderContextMock()
     def get(self, what):
         if what == 'project':
-            return {'name': 'test', 'slug': 'test'}
+            return struct({'name': 'test', 'slug': 'test'})
 
 class ContextWithComponent(Context):
     render_context = RenderContextMock()
