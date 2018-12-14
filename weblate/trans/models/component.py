@@ -54,7 +54,8 @@ from weblate.trans.util import (
     PRIORITY_CHOICES,
 )
 from weblate.trans.signals import (
-    vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add
+    vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add,
+    vcs_pre_push,
 )
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
@@ -717,6 +718,11 @@ class Component(models.Model, URLMixin, PathMixin):
             # Were all changes merged?
             if self.repo_needs_merge():
                 return False
+
+        # Send pre push signal
+        vcs_pre_push.send(sender=self.__class__, component=self)
+        for component in self.get_linked_childs():
+            vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
         try:

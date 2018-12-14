@@ -34,12 +34,14 @@ from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
     EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
     EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD, EVENT_PRE_UPDATE,
+    EVENT_PRE_PUSH,
 )
 
 from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
     translation_post_add, unit_pre_create, store_post_load, vcs_pre_update,
+    vcs_pre_push,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
@@ -135,6 +137,12 @@ class AddonsConf(AppConf):
 
     class Meta(object):
         prefix = 'WEBLATE'
+
+
+@receiver(vcs_pre_push)
+def pre_push(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
+        addon.addon.pre_push(component)
 
 
 @receiver(vcs_post_push)

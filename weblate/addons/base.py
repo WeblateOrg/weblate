@@ -106,6 +106,9 @@ class BaseAddon(object):
                 return False
         return True
 
+    def pre_push(self, component):
+        return
+
     def post_push(self, component):
         return
 
