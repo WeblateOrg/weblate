@@ -89,6 +89,11 @@ def search_replace(request, project, component=None, lang=None):
     updated = 0
     if matching.exists():
         confirm = ReplaceConfirmForm(matching, request.POST)
+        limited = False
+
+        if matching.count() > 300:
+            matching = matching.order_by('id')[:250]
+            limited = True
 
         if not confirm.is_valid():
             for unit in matching:
@@ -100,6 +105,7 @@ def search_replace(request, project, component=None, lang=None):
                 'search_query': search_text,
                 'replacement': replacement,
                 'form': form,
+                'limited': limited,
                 'confirm': ReplaceConfirmForm(matching),
             })
             return render(
