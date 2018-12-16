@@ -101,7 +101,6 @@ class Command(WeblateTranslationCommand):
         # Get user
         try:
             user = User.objects.get(username=options['user'])
-            Profile.objects.get_or_create(user=user)
         except User.DoesNotExist:
             raise CommandError('User does not exist!')
 

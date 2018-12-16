@@ -511,9 +511,6 @@ def post_login_handler(sender, request, user, **kwargs):
     if is_email_auth and not user.has_usable_password():
         request.session['show_set_password'] = True
 
-    # Ensure user has a profile
-    profile = Profile.objects.get_or_create(user=user)[0]
-
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP
     if (is_email_auth and user.has_usable_password() and user.email and
@@ -528,7 +525,7 @@ def post_login_handler(sender, request, user, **kwargs):
         )
 
     # Set language for session based on preferences
-    set_lang(request, profile)
+    set_lang(request, user.profile)
 
     # Fixup accounts with empty name
     if not user.full_name:
@@ -552,9 +549,6 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     """Automatically create token and profile for user."""
     if created:
         # Create API token
-        Token.objects.create(
-            user=instance,
-            key=get_random_string(40),
-        )
+        Token.objects.create(user=instance, key=get_random_string(40))
         # Create profile
-        Profile.objects.get_or_create(user=instance)
+        Profile.objects.create(user=instance)

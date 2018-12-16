@@ -367,9 +367,8 @@ def notify_account_activity(user, request, activity, **kwargs):
     )
 
     if audit.should_notify():
-        profile = Profile.objects.get_or_create(user=user)[0]
         send_notification_email(
-            profile.language,
+            user.profile.language,
             user.email,
             'account_activity',
             context={

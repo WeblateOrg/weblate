@@ -57,7 +57,6 @@ class ViewTest(TestCase):
         user.full_name = 'First Second'
         user.email = 'noreply@example.com'
         user.save()
-        Profile.objects.get_or_create(user=user)
         return user
 
     @override_settings(

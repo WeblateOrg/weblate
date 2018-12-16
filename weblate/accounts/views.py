@@ -63,7 +63,7 @@ from weblate.accounts.forms import (
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang, Profile
+from weblate.accounts.models import set_lang
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -465,7 +465,6 @@ def hosting(request):
 def user_page(request, user):
     """User details page."""
     user = get_object_or_404(User, username=user)
-    profile = Profile.objects.get_or_create(user=user)[0]
 
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(
@@ -485,7 +484,7 @@ def user_page(request, user):
         request,
         'accounts/user.html',
         {
-            'page_profile': profile,
+            'page_profile': user.profile,
             'page_user': user,
             'last_changes': last_changes,
             'last_changes_url': urlencode(
@@ -840,7 +839,7 @@ class SuggestionView(ListView):
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
         result['page_user'] = user
-        result['page_profile'] = Profile.objects.get_or_create(user=user)[0]
+        result['page_profile'] = user.profile
         return result
 
 
