@@ -44,9 +44,9 @@ class Command(BaseCommand):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--name-template',
-            default='%s',
+            default='{{ component }}',
             help=(
-                'Python formatting string, transforming the filemask '
+                'Template string, transforming the filemask '
                 'match to a project name'
             )
         )
@@ -54,7 +54,7 @@ class Command(BaseCommand):
             '--base-file-template',
             default='',
             help=(
-                'Python formatting string, transforming the filemask '
+                'Template string, transforming the filemask '
                 'match to a monolingual base file name'
             )
         )
@@ -62,7 +62,7 @@ class Command(BaseCommand):
             '--new-base-template',
             default='',
             help=(
-                'Python formatting string, transforming the filemask '
+                'Template string, transforming the filemask '
                 'match to a base file name for new translations'
             )
         )
