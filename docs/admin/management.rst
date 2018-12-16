@@ -347,7 +347,7 @@ Example of JSON file:
 
 .. seealso::
 
-    :djadmin:`import_project`
+    :djadmin:`import_memory`
 
 import_memory
 -------------
