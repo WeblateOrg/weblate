@@ -165,14 +165,6 @@ class Project(models.Model, URLMixin, PathMixin):
             group = self.group_set.get(name='{0}{1}'.format(self.name, group))
             user.groups.remove(group)
 
-    def clean(self):
-        try:
-            self.create_path()
-        except OSError as exc:
-            raise ValidationError(
-                _('Could not create project directory: %s') % str(exc)
-            )
-
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
