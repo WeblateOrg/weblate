@@ -20,10 +20,14 @@
 
 """Test for management views."""
 
+import os.path
+import shutil
+
 from django.urls import reverse
 
 from weblate.trans.models import Project, Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.data import data_dir
 
 
 class RemovalTest(ViewTestCase):
@@ -137,6 +141,10 @@ class RenameTest(ViewTestCase):
         self.assertContains(response, '/projects/test/xxxx/')
 
     def test_rename_project(self):
+        # Remove stale dir from previous tests
+        target = os.path.join(data_dir('vcs'), 'xxxx')
+        if os.path.exists(target):
+            shutil.rmtree(target)
         self.make_manager()
         self.assertContains(
             self.client.get(reverse('project', kwargs=self.kw_project)),
@@ -147,9 +155,9 @@ class RenameTest(ViewTestCase):
             {'slug': 'xxxx'}
         )
         self.assertRedirects(response, '/projects/xxxx/')
-        self.project.refresh_from_db()
-        self.assertEqual(self.project.slug, 'xxxx')
-        for component in self.project.component_set.all():
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(project.slug, 'xxxx')
+        for component in project.component_set.all():
             self.assertIsNotNone(component.repository.last_remote_revision)
             response = self.client.get(component.get_absolute_url())
             self.assertContains(response, '/projects/xxxx/')
