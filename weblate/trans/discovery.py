@@ -214,6 +214,25 @@ class ComponentDiscovery(object):
 
         return deleted
 
+    def check_valid(self, match):
+        def valid_file(name):
+            if not name:
+                return True
+            fullname = os.path.join(self.component.full_path, name)
+            return os.path.exists(fullname)
+
+        # Skip matches to main component
+        if match['mask'] == self.component.filemask:
+            return False
+
+        if not valid_file(match['base_file']):
+            return False
+
+        if not valid_file(match['new_base']):
+            return False
+
+        return True
+
     def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
@@ -223,8 +242,8 @@ class ComponentDiscovery(object):
         main = self.component
 
         for match in self.matched_components.values():
-            # Skip matches to main component
-            if match['mask'] == main.filemask:
+            # Skip invalid matches
+            if not self.check_valid(match):
                 continue
 
             try:
