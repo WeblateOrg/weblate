@@ -133,6 +133,8 @@ class RenameTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.slug, 'xxxx')
         self.assertIsNotNone(component.repository.last_remote_revision)
+        response = self.client.get(component.get_absolute_url())
+        self.assertContains(response, '/projects/test/xxxx/')
 
     def test_rename_project(self):
         self.make_manager()
@@ -149,3 +151,5 @@ class RenameTest(ViewTestCase):
         self.assertEqual(self.project.slug, 'xxxx')
         for component in self.project.component_set.all():
             self.assertIsNotNone(component.repository.last_remote_revision)
+            response = self.client.get(component.get_absolute_url())
+            self.assertContains(response, '/projects/xxxx/')
