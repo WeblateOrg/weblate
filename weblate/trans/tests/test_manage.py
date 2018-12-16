@@ -147,3 +147,5 @@ class RenameTest(ViewTestCase):
         self.assertRedirects(response, '/projects/xxxx/')
         self.project.refresh_from_db()
         self.assertEqual(self.project.slug, 'xxxx')
+        for component in self.project.component_set.all():
+            self.assertIsNotNone(component.repository.last_remote_revision)
