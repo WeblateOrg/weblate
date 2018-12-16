@@ -424,7 +424,7 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FIND_CONTEXT = 'hello'
     FIND_MATCH = 'Hello, world!\n'
     BASE = ''
-    NEW_UNIT_MATCH = b'\n<string name="key">Source string</string>\n'
+    NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
 
 
 class XliffFormatTest(XMLMixin, AutoFormatTest):
@@ -524,7 +524,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<TS version="2.0" language="cs">'
     FIND_MATCH = 'Ahoj svete!\n'
     NEW_UNIT_MATCH = (
-        b'\n<message><source>key</source>'
+        b'<message><source>key</source>'
         b'<translation>Source string</translation>\n    </message>'
     )
 
@@ -547,7 +547,7 @@ class DTDFormatTest(AutoFormatTest):
     MATCH = '<!ENTITY'
     FIND = 'hello'
     FIND_MATCH = ''
-    NEW_UNIT_MATCH = b'\n<!ENTITY key "Source string">\n'
+    NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
 
 
 class WindowsRCFormatTest(AutoFormatTest):
