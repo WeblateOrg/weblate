@@ -456,6 +456,20 @@ class Component(models.Model, URLMixin, PathMixin):
         self.alerts_trigger = {}
         self.updated_sources = {}
         self.old_component = copy(self)
+        self._sources = None
+
+    def get_source(self, id_hash):
+        """Cached access to source information."""
+        if not self._sources:
+            self._sources = {
+                source.id_hash: source for source in self.source_set.all()
+            }
+        try:
+            return self._sources[id_hash], False
+        except KeyError:
+            source = self.source_set.create(id_hash=id_hash)
+            self._sources[id_hash] = source
+            return source, True
 
     @property
     def filemask_re(self):

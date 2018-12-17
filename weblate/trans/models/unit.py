@@ -438,9 +438,7 @@ class Unit(models.Model, LoggerMixin):
             return
 
         # Ensure we track source string
-        source_info, source_created = Source.objects.get_or_create(
-            id_hash=self.id_hash, component=component
-        )
+        source_info, source_created = component.get_source(self.id_hash)
         contentsum_changed = self.content_hash != content_hash
 
         self.__dict__['source_info'] = source_info

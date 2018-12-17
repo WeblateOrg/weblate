@@ -13,6 +13,7 @@ Released on ? 2019.
 * Added guided adding of translation components with automatic detection of translation files.
 * Customizable merge commit messages for Git.
 * Added visual indication of component alerts in navigation.
+* Improved performance of loading translation files.
 
 weblate 3.3
 -----------
