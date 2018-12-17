@@ -50,6 +50,10 @@ class Command(BaseCommand):
             help='number of profile stats to show',
         )
         parser.add_argument(
+            '--template',
+            help='template monolingual files',
+        )
+        parser.add_argument(
             'project',
             help='Existing project slug for tests',
         )
@@ -77,6 +81,7 @@ class Command(BaseCommand):
             slug='benchmark',
             repo=options['repo'],
             filemask=options['mask'],
+            template=options['template'],
             project=project
         )
         stats = pstats.Stats(profiler, stream=self.stdout)
