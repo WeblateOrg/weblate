@@ -73,37 +73,6 @@ SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
 NEWLINES = re.compile(r'\r\n|\r|\n')
 
 
-class UnitManager(models.Manager):
-    @staticmethod
-    def update_from_unit(translation, unit, pos):
-        """
-        Process translation toolkit unit and stores/updates database entry.
-        """
-        # Get basic unit data
-        id_hash = unit.id_hash
-
-        # Try getting existing unit
-        try:
-            dbunit = translation.unit_set.get(id_hash=id_hash)
-            created = False
-        except Unit.DoesNotExist:
-            # Create unit if it does not exist
-            dbunit = Unit(
-                translation=translation,
-                id_hash=id_hash,
-                content_hash=unit.content_hash,
-                source=unit.source,
-                context=unit.context
-            )
-            created = True
-
-        # Update all details
-        dbunit.update_from_unit(unit, pos, created, translation.component)
-
-        # Return result
-        return dbunit, created
-
-
 class UnitQuerySet(models.QuerySet):
     def filter_checks(self, rqtype, project, language, ignored=False,
                       strict=False):
@@ -353,7 +322,7 @@ class Unit(models.Model, LoggerMixin):
 
     pending = models.BooleanField(default=False)
 
-    objects = UnitManager.from_queryset(UnitQuerySet)()
+    objects = UnitQuerySet.as_manager()
 
     class Meta(object):
         ordering = ['priority', 'position']
@@ -418,8 +387,9 @@ class Unit(models.Model, LoggerMixin):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
-    def update_from_unit(self, unit, pos, created, component):
+    def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
+        component = self.translation.component
         self.is_batch_update = True
         # Get unit attributes
         location = unit.locations

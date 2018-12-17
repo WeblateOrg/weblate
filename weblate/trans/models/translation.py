@@ -267,36 +267,24 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Was there change?
         was_new = False
         # Position of current unit
-        pos = 1
+        pos = 0
 
         # Select all current units for update
-        self.unit_set.select_for_update()
+        dbunits = {
+            unit.id_hash: unit for unit in self.unit_set.select_for_update()
+        }
 
         for unit in store.all_units:
             if not unit.is_translatable():
                 continue
 
-            newunit, is_new = Unit.objects.update_from_unit(
-                self, unit, pos
-            )
-
-            # Check if unit is worth notification:
-            # - new and untranslated
-            # - newly not translated
-            # - newly fuzzy
-            was_new = (
-                was_new or
-                (
-                    newunit.state < STATE_TRANSLATED and
-                    (newunit.state != newunit.old_unit.state or is_new)
-                )
-            )
+            id_hash = unit.id_hash
 
             # Update position
             pos += 1
 
             # Check for possible duplicate units
-            if newunit.id in created_units:
+            if id_hash in created_units:
                 self.log_warning(
                     'duplicate string to translate: %s (%s)',
                     newunit,
@@ -314,9 +302,37 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     source=newunit.source,
                     unit_pk=newunit.pk,
                 )
+                continue
+
+            try:
+                newunit = dbunits[id_hash]
+                is_new = False
+            except KeyError:
+                newunit = Unit(
+                    translation=self,
+                    id_hash=id_hash,
+                    content_hash=unit.content_hash,
+                    source=unit.source,
+                    context=unit.context
+                )
+                is_new = True
+
+            newunit.update_from_unit(unit, pos, is_new)
+
+            # Check if unit is worth notification:
+            # - new and untranslated
+            # - newly not translated
+            # - newly fuzzy
+            was_new = (
+                was_new or
+                (
+                    newunit.state < STATE_TRANSLATED and
+                    (newunit.state != newunit.old_unit.state or is_new)
+                )
+            )
 
             # Store current unit ID
-            created_units.add(newunit.id)
+            created_units.add(id_hash)
 
         # Following query can get huge, so we should find better way
         # to delete stale units, probably sort of garbage collection
@@ -324,7 +340,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # We should also do cleanup on source strings tracking objects
 
         # Delete stale units
-        if self.unit_set.exclude(id__in=created_units).delete()[0]:
+        if self.unit_set.exclude(id_hash__in=created_units).delete()[0]:
             self.component.needs_cleanup = True
 
         # Update revision and stats
