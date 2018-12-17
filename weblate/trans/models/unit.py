@@ -81,20 +81,13 @@ class UnitManager(models.Manager):
         """
         # Get basic unit data
         id_hash = unit.id_hash
-        created = False
 
         # Try getting existing unit
         try:
             dbunit = translation.unit_set.get(id_hash=id_hash)
-        except Unit.MultipleObjectsReturned:
-            # Some inconsistency (possibly race condition), try to recover
-            translation.unit_set.filter(id_hash=id_hash).delete()
-            dbunit = None
+            created = False
         except Unit.DoesNotExist:
-            dbunit = None
-
-        # Create unit if it does not exist
-        if dbunit is None:
+            # Create unit if it does not exist
             dbunit = Unit(
                 translation=translation,
                 id_hash=id_hash,
