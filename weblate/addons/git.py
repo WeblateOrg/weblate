@@ -54,17 +54,21 @@ class GitSquashAddon(BaseAddon):
             repository.execute(['reset', '--soft', remote])
             repository.execute(['commit', '-m', message])
 
+    def get_filenames(self, component):
+        languages = {}
+        for origin in [component] + list(component.get_linked_childs()):
+            for translation in origin.translation_set.all():
+                code = translation.language.code
+                if code in languages:
+                    languages[code].append(translation.filename)
+                else:
+                    languages[code] = [translation.filename]
+        return languages
+
     def squash_language(self, component, repository):
         with repository.lock:
             remote = repository.get_remote_branch_name()
-            languages = {}
-            for origin in [component] + list(component.get_linked_childs()):
-                for translation in origin.translation_set.all():
-                    code = translation.language.code
-                    if code in languages:
-                        languages[code].append(translation.filename)
-                    else:
-                        languages[code] = [translation.filename]
+            languages = self.get_filenames(component)
 
             messages = {}
             for code, filenames in languages.items():
@@ -79,6 +83,28 @@ class GitSquashAddon(BaseAddon):
                     continue
                 repository.execute(
                     ['commit', '-m', message, '--'] + languages[code]
+                )
+
+    def squash_file(self, component, repository):
+        with repository.lock:
+            remote = repository.get_remote_branch_name()
+            languages = self.get_filenames(component)
+
+            messages = {}
+            for filenames in languages.values():
+                for filename in filenames:
+                    messages[filename] = repository.execute([
+                        'log', '--format=%B', '{}..HEAD'.format(remote),
+                        '--', filename
+                    ])
+
+            repository.execute(['reset', '--soft', remote])
+
+            for filename, message in messages.items():
+                if not message:
+                    continue
+                repository.execute(
+                    ['commit', '-m', message, '--', filename]
                 )
 
     def pre_push(self, component):

@@ -103,6 +103,7 @@ class GitSquashForm(BaseAddonForm):
         choices=(
             ('all', _('All commits into one')),
             ('language', _('Per language')),
+            ('file', _('Per file')),
         ),
         initial='all',
         required=True,

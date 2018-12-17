@@ -648,3 +648,6 @@ class GitSquashAddonTest(ViewTestCase):
 
     def test_languages(self):
         self.test_squash('language', 2)
+
+    def test_files(self):
+        self.test_squash('file', 2)
