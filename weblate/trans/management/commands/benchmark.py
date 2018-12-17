@@ -51,6 +51,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--template',
+            default='',
             help='template monolingual files',
         )
         parser.add_argument(
