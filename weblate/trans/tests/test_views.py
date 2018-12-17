@@ -149,17 +149,17 @@ class ViewTestCase(RepoTestCase):
         setattr(request, '_messages', messages)
         return request
 
-    def get_translation(self):
+    def get_translation(self, language='cs'):
         return self.component.translation_set.get(
-            language_code='cs'
+            language_code=language
         )
 
-    def get_unit(self, source='Hello, world!\n'):
-        translation = self.get_translation()
+    def get_unit(self, source='Hello, world!\n', language='cs'):
+        translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
-    def change_unit(self, target):
-        unit = self.get_unit()
+    def change_unit(self, target, source='Hello, world!\n', language='cs'):
+        unit = self.get_unit(source, language)
         unit.target = target
         unit.save_backend(self.get_request('/'))
 

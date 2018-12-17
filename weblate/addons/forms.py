@@ -102,6 +102,7 @@ class GitSquashForm(BaseAddonForm):
         widget=forms.RadioSelect,
         choices=(
             ('all', _('All commits into one')),
+            ('language', _('Per language')),
         ),
         initial='all',
         required=True,

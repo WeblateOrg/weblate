@@ -54,6 +54,33 @@ class GitSquashAddon(BaseAddon):
             repository.execute(['reset', '--soft', remote])
             repository.execute(['commit', '-m', message])
 
+    def squash_language(self, component, repository):
+        with repository.lock:
+            remote = repository.get_remote_branch_name()
+            languages = {}
+            for origin in [component] + list(component.get_linked_childs()):
+                for translation in origin.translation_set.all():
+                    code = translation.language.code
+                    if code in languages:
+                        languages[code].append(translation.filename)
+                    else:
+                        languages[code] = [translation.filename]
+
+            messages = {}
+            for code, filenames in languages.items():
+                messages[code] = repository.execute([
+                    'log', '--format=%B', '{}..HEAD'.format(remote), '--'
+                ] + filenames)
+
+            repository.execute(['reset', '--soft', remote])
+
+            for code, message in messages.items():
+                if not message:
+                    continue
+                repository.execute(
+                    ['commit', '-m', message, '--'] + languages[code]
+                )
+
     def pre_push(self, component):
         squash = self.instance.configuration['squash']
         if not component.repository.needs_push():

@@ -284,7 +284,7 @@ class EditResourceSourceTest(ViewTestCase):
         unit = translation.unit_set.get(context='hello')
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
-    def get_translation(self):
+    def get_translation(self, language=None):
         return self.component.translation_set.get(
             language_code=self._language_code
         )

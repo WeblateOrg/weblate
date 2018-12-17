@@ -624,14 +624,16 @@ class GitSquashAddonTest(ViewTestCase):
         )
 
     def edit(self):
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.get_translation().commit_pending('test', None)
-        self.edit_unit(
-            'Thank you for using Weblate.', 'Diky za pouziti Weblate.'
-        )
-        self.get_translation().commit_pending('test', None)
+        for lang in ('cs', 'de'):
+            self.change_unit('Nazdar svete!\n', 'Hello, world!\n', lang)
+            self.component.commit_pending('test', None)
+            self.change_unit(
+                'Diky za pouziti Weblate.', 'Thank you for using Weblate.',
+                lang
+            )
+            self.component.commit_pending('test', None)
 
-    def test_squash(self, mode='all'):
+    def test_squash(self, mode='all', expected=1):
         addon = self.create(mode)
         repo = self.component.repository
         self.assertEqual(repo.count_outgoing(), 0)
@@ -639,7 +641,10 @@ class GitSquashAddonTest(ViewTestCase):
         addon.pre_push(self.component)
         # Make some changes
         self.edit()
-        self.assertEqual(repo.count_outgoing(), 2)
+        self.assertEqual(repo.count_outgoing(), 4)
         # Test squash
         addon.pre_push(self.component)
-        self.assertEqual(repo.count_outgoing(), 1)
+        self.assertEqual(repo.count_outgoing(), expected)
+
+    def test_languages(self):
+        self.test_squash('language', 2)
