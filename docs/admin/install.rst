@@ -733,12 +733,7 @@ Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
     :encoding: utf-8
 
 Weblate comes with built-in setup for scheduled tasks. You can however define
-additional tasks in :file:`settings.py`, for example (also see
-:ref:`lazy-commit`):
-
-.. literalinclude:: ../../examples/beat-settings.py
-    :language: python
-    :encoding: utf-8
+additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
 
 .. note::
 
