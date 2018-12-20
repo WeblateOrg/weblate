@@ -1616,30 +1616,31 @@ class Component(models.Model, URLMixin, PathMixin):
 
         file_format.add_language(fullname, language, base_filename)
 
-        translation = Translation.objects.create(
-            component=self,
-            language=language,
-            plural=language.plural,
-            filename=filename,
-            language_code=format_code,
-        )
-        if send_signal:
-            translation_post_add.send(
-                sender=self.__class__,
-                translation=translation
+        with transaction.atomic():
+            translation = Translation.objects.create(
+                component=self,
+                language=language,
+                plural=language.plural,
+                filename=filename,
+                language_code=format_code,
             )
-        translation.check_sync(force=True, request=request)
-        translation.commit_template = 'add'
-        translation.git_commit(
-            request,
-            request.user.get_author_name()
-            if request else 'Weblate <noreply@weblate.org>',
-            timezone.now(),
-            force_new=True,
-        )
-        self.run_target_checks()
-        translation.invalidate_cache()
-        return True
+            if send_signal:
+                translation_post_add.send(
+                    sender=self.__class__,
+                    translation=translation
+                )
+            translation.check_sync(force=True, request=request)
+            translation.commit_template = 'add'
+            translation.git_commit(
+                request,
+                request.user.get_author_name()
+                if request else 'Weblate <noreply@weblate.org>',
+                timezone.now(),
+                force_new=True,
+            )
+            self.run_target_checks()
+            translation.invalidate_cache()
+            return True
 
     def do_lock(self, user, lock=True):
         """Lock or unlock component."""
