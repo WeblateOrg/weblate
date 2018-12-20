@@ -721,6 +721,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.generate.GenerateFileAddon',
 #     'weblate.addons.json.JSONCustomizeAddon',
 #     'weblate.addons.properties.PropertiesSortAddon',
+#     'weblate.addons.git.GitSquashAddon',
 # )
 
 # E-mail address that error messages come from.
