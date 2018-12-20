@@ -19,32 +19,21 @@
 #
 from __future__ import unicode_literals
 
-from difflib import SequenceMatcher
+from diff_match_patch import diff_match_patch
 
 
 def html_diff(old, new):
     """Generate HTML formatted diff of two strings."""
-    diff = SequenceMatcher(None, old, new)
+    dmp = diff_match_patch()
+    diff = dmp.diff_main(old, new)
+    dmp.diff_cleanupSemantic(diff)
+
     result = []
-    for tag, oldpos1, oldpos2, newpos1, newpos2 in diff.get_opcodes():
-        if tag == 'replace':
-            result.append(
-                '<del>{0}</del><ins>{1}</ins>'.format(
-                    old[oldpos1:oldpos2], new[newpos1:newpos2]
-                )
-            )
-        elif tag == 'delete':
-            result.append(
-                '<del>{0}</del>'.format(
-                    old[oldpos1:oldpos2]
-                )
-            )
-        elif tag == 'insert':
-            result.append(
-                '<ins>{0}</ins>'.format(
-                    new[newpos1:newpos2]
-                )
-            )
-        elif tag == 'equal':
-            result.append(new[newpos1:newpos2])
+    for op, data in diff:
+        if op == dmp.DIFF_DELETE:
+            result.append('<del>{0}</del>'.format(data))
+        elif op == dmp.DIFF_INSERT:
+            result.append('<ins>{0}</ins>'.format(data))
+        elif op == dmp.DIFF_EQUAL:
+            result.append(data)
     return ''.join(result)

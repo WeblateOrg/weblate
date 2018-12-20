@@ -132,6 +132,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * The Celery now uses multiple queues, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
+* There is new depedency on diff-match-patch.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
