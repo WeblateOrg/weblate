@@ -661,21 +661,6 @@ Retrieve the generated admin password using the following command:
 
     rhc -aweblate ssh credentials
 
-Indexing Offloading
-~~~~~~~~~~~~~~~~~~~
-
-To enable the preconfigured indexing offloading you need to add the Cron cartridge to your program and restart it:
-
-.. code-block:: sh
-
-    rhc -aweblate add-cartridge cron
-    rhc -aweblate app stop
-    rhc -aweblate app start
-
-The fulltext search index will then be updated every 5 minutes.
-Restarting with ``rhc restart`` instead, will not enable indexing offloading in Weblate.
-You can verify that indexing offloading is indeed enabled by visiting the URL ``/admin/performance/`` of your program.
-
 Pending Changes
 ~~~~~~~~~~~~~~~
 
