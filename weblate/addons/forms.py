@@ -96,6 +96,20 @@ class GettextCustomizeForm(BaseAddonForm):
     )
 
 
+class GitSquashForm(BaseAddonForm):
+    squash = forms.ChoiceField(
+        label=_('Commit squashing'),
+        widget=forms.RadioSelect,
+        choices=(
+            ('all', _('All commits into one')),
+            ('language', _('Per language')),
+            ('file', _('Per file')),
+        ),
+        initial='all',
+        required=True,
+    )
+
+
 class JSONCustomizeForm(BaseAddonForm):
     sort_keys = forms.BooleanField(
         label=_('Sort JSON keys'),

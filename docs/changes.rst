@@ -14,6 +14,8 @@ Released on ? 2019.
 * Customizable merge commit messages for Git.
 * Added visual indication of component alerts in navigation.
 * Improved performance of loading translation files.
+* New addon to squash commits prior to push.
+
 
 weblate 3.3
 -----------

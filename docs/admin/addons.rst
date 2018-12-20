@@ -168,6 +168,13 @@ Update PO files to match POT (msgmerge)
 Update all PO files to match the POT file using msgmerge. This is triggered
 whenever new changes are pulled from the upstream repository.
 
+.. _addon-weblate.git.squash:
+
+Squash Git commits
+------------------
+
+Squash Git commits prior to pushing changes.
+
 .. _addon-weblate.json.customize:
 
 Customize JSON output

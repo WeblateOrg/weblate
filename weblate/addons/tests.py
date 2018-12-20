@@ -45,6 +45,7 @@ from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
     GettextCustomizeAddon, GettextAuthorComments,
 )
+from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.models import Addon
@@ -613,3 +614,40 @@ class LanguageConsistencyTest(ViewTestCase):
         # Trigger post update signal, should do nothing
         addon.post_update(self.component, '')
         self.assertEqual(Translation.objects.count(), 8)
+
+
+class GitSquashAddonTest(ViewTestCase):
+    def create(self, mode):
+        self.assertTrue(GitSquashAddon.can_install(self.component, None))
+        return GitSquashAddon.create(
+            self.component, configuration={'squash': mode}
+        )
+
+    def edit(self):
+        for lang in ('cs', 'de'):
+            self.change_unit('Nazdar svete!\n', 'Hello, world!\n', lang)
+            self.component.commit_pending('test', None)
+            self.change_unit(
+                'Diky za pouziti Weblate.', 'Thank you for using Weblate.',
+                lang
+            )
+            self.component.commit_pending('test', None)
+
+    def test_squash(self, mode='all', expected=1):
+        addon = self.create(mode)
+        repo = self.component.repository
+        self.assertEqual(repo.count_outgoing(), 0)
+        # Test no-op behavior
+        addon.pre_push(self.component)
+        # Make some changes
+        self.edit()
+        self.assertEqual(repo.count_outgoing(), 4)
+        # Test squash
+        addon.pre_push(self.component)
+        self.assertEqual(repo.count_outgoing(), expected)
+
+    def test_languages(self):
+        self.test_squash('language', 2)
+
+    def test_files(self):
+        self.test_squash('file', 2)

@@ -133,6 +133,7 @@ class AddonsConf(AppConf):
         'weblate.addons.generate.GenerateFileAddon',
         'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',
+        'weblate.addons.git.GitSquashAddon',
     )
 
     class Meta(object):
