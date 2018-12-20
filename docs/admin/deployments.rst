@@ -26,7 +26,7 @@ The following examples assume you have a working Docker environment, with
 
    .. code-block:: sh
 
-        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
+        git clone --recurse-submodules https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
 2. Create a :file:`docker-compose.override.yml` file with your settings.
