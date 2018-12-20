@@ -193,11 +193,11 @@ You can either define which project or component to update (eg.
     Age in hours for committing. If not specified value configured in
     :ref:`component` is used.
 
-This is most useful if executed periodically from cron or similar tool:
+.. note::
 
-.. code-block:: sh
-
-    ./manage.py commit_pending --all
+   This is automatically perfomed in the background by Weblate, so there is not
+   much reason to invoke this manually besides forcing earlier commit than
+   specified by :ref:`component`.
 
 .. seealso::
 

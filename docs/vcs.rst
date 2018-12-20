@@ -100,10 +100,10 @@ or by enforcing it in VCS configuration, for example:
 
 .. note::
 
-    The proxy setting needs to be done in the same context which is used to execute
-    Weblate. For the environment it should be set for both server and cron
-    jobs. The VCS configuration has to be set for the user which is running
-    Weblate.
+    The proxy setting needs to be done in the same context which is used to
+    execute Weblate. For the environment it should be set for both wsgi and
+    Celery servers. The VCS configuration has to be set for the user which is
+    running Weblate.
 
 .. seealso::
 
