@@ -1240,16 +1240,19 @@ Running maintenance tasks
 +++++++++++++++++++++++++
 
 For optimal performance, it is good idea to run some maintenance tasks in the
-background.
+background. This is now automatically done by :ref:`celery` and covers following tasks:
+
+* Configuration health check (hourly).
+* Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:`commit_pending`.
+* Updating component alerts (daily).
+* Update remote branches (nightly), see :setting:`AUTO_UPDATE`.
+* Translation memory backup to JSON (daily), see :djadmin:`dump_memory`.
+* Fulltext and database maintenance tasks (daily and weekly taks), see :djadmin:`cleanuptrans`.
 
 .. versionchanged:: 3.2
 
    Since version 3.2, the default way of executing these tasks is using Celery
    and Weblate already comes with proper configuration, see :ref:`celery`.
-
-.. seealso::
-
-   :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 
