@@ -287,6 +287,13 @@ def get_versions():
         '0.6.1',
     ))
 
+    result.append(get_single(
+        'diff-match-patch',
+        'https://github.com/diff-match-patch-python/diff-match-patch',
+        'diff_match_patch',
+        '20121119',
+    ))
+
     return result
 
 

@@ -15,7 +15,7 @@ Released on ? 2019.
 * Added visual indication of component alerts in navigation.
 * Improved performance of loading translation files.
 * New addon to squash commits prior to push.
-
+* Improved displaying of translation changes.
 
 weblate 3.3
 -----------
