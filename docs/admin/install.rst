@@ -1403,6 +1403,12 @@ additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
    process, otherwise files in the :setting:`DATA_DIR` will be stored with
    mixed ownership, leading to runtime issues.
 
+.. warning::
+
+   The Celery errors are by default only logged into Celery log and are not
+   visible to user. In case you want to have overview on such failures, it is
+   recommended to configure :ref:`collecting-errors`.
+
 .. seealso::
 
    :doc:`celery:userguide/configuration`,
