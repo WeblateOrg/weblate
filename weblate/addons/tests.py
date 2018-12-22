@@ -31,7 +31,7 @@ from six import StringIO
 
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
-from weblate.addons.base import TestAddon
+from weblate.addons.base import TestAddon, TestCrashAddon, TestException
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
@@ -48,7 +48,7 @@ from weblate.addons.gettext import (
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
-from weblate.addons.models import Addon
+from weblate.addons.models import Addon, ADDONS
 from weblate.lang.models import Language
 from weblate.trans.models import Unit, Translation
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -145,6 +145,17 @@ class IntegrationTest(ViewTestCase):
             'Last-Translator: Weblate Test <weblate@example.org>\\nLanguage',
             commit
         )
+
+    def test_crash(self):
+        self.component.addons_cache = {}
+        addon = TestCrashAddon.create(self.component)
+        ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
+
+        with self.assertRaises(TestException):
+            addon.post_update(self.component, '')
+
+        with self.assertRaises(TestException):
+            self.component.update_branch()
 
 
 class GettextAddonTest(ViewTestCase):

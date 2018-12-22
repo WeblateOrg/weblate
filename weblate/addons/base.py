@@ -171,6 +171,20 @@ Updated by {name} hook in Weblate.'''
         self.commit_and_push(component)
 
 
+class TestException(Exception):
+    pass
+
+
+class TestCrashAddon(UpdateBaseAddon):
+    """Testing addong doing nothing."""
+    name = 'weblate.base.crash'
+    verbose = 'Crash test addon'
+    description = 'Crash test addon'
+
+    def update_translations(self, component, previous_head):
+        raise TestException('Test error')
+
+
 class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
     events = (EVENT_STORE_POST_LOAD,)
