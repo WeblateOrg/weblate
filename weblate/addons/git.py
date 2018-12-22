@@ -109,7 +109,12 @@ class GitSquashAddon(BaseAddon):
 
     def pre_push(self, component):
         squash = self.instance.configuration['squash']
-        if not component.repository.needs_push():
+        repository = component.repository
+        if not repository.needs_push():
             return
         method = getattr(self, 'squash_{}'.format(squash))
-        method(component, component.repository)
+        method(component, repository)
+        # Commit any left files, those were most likely generated
+        # by addon and do not exactly match patterns above
+        if repository.needs_commit():
+            repository.execute(['commit', '-m', 'Weblate squashed changes'])
