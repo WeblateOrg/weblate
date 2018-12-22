@@ -66,46 +66,44 @@ class GitSquashAddon(BaseAddon):
         return languages
 
     def squash_language(self, component, repository):
-        with repository.lock:
-            remote = repository.get_remote_branch_name()
-            languages = self.get_filenames(component)
+        remote = repository.get_remote_branch_name()
+        languages = self.get_filenames(component)
 
-            messages = {}
-            for code, filenames in languages.items():
-                messages[code] = repository.execute([
-                    'log', '--format=%B', '{}..HEAD'.format(remote), '--'
-                ] + filenames)
+        messages = {}
+        for code, filenames in languages.items():
+            messages[code] = repository.execute([
+                'log', '--format=%B', '{}..HEAD'.format(remote), '--'
+            ] + filenames)
 
-            repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--soft', remote])
 
-            for code, message in messages.items():
-                if not message:
-                    continue
-                repository.execute(
-                    ['commit', '-m', message, '--'] + languages[code]
-                )
+        for code, message in messages.items():
+            if not message:
+                continue
+            repository.execute(
+                ['commit', '-m', message, '--'] + languages[code]
+            )
 
     def squash_file(self, component, repository):
-        with repository.lock:
-            remote = repository.get_remote_branch_name()
-            languages = self.get_filenames(component)
+        remote = repository.get_remote_branch_name()
+        languages = self.get_filenames(component)
 
-            messages = {}
-            for filenames in languages.values():
-                for filename in filenames:
-                    messages[filename] = repository.execute([
-                        'log', '--format=%B', '{}..HEAD'.format(remote),
-                        '--', filename
-                    ])
+        messages = {}
+        for filenames in languages.values():
+            for filename in filenames:
+                messages[filename] = repository.execute([
+                    'log', '--format=%B', '{}..HEAD'.format(remote),
+                    '--', filename
+                ])
 
-            repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--soft', remote])
 
-            for filename, message in messages.items():
-                if not message:
-                    continue
-                repository.execute(
-                    ['commit', '-m', message, '--', filename]
-                )
+        for filename, message in messages.items():
+            if not message:
+                continue
+            repository.execute(
+                ['commit', '-m', message, '--', filename]
+            )
 
     def pre_push(self, component):
         squash = self.instance.configuration['squash']
@@ -113,8 +111,9 @@ class GitSquashAddon(BaseAddon):
         if not repository.needs_push():
             return
         method = getattr(self, 'squash_{}'.format(squash))
-        method(component, repository)
-        # Commit any left files, those were most likely generated
-        # by addon and do not exactly match patterns above
-        if repository.needs_commit():
-            repository.execute(['commit', '-m', 'Weblate squashed changes'])
+        with repository.lock:
+            method(component, repository)
+            # Commit any left files, those were most likely generated
+            # by addon and do not exactly match patterns above
+            if repository.needs_commit():
+                repository.execute(['commit', '-m', 'Weblate squashed changes'])

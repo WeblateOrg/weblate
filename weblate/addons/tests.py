@@ -651,3 +651,7 @@ class GitSquashAddonTest(ViewTestCase):
 
     def test_files(self):
         self.test_squash('file', 2)
+
+    def test_mo(self):
+        GenerateMoAddon.create(self.component)
+        self.test_squash('file', 3)
