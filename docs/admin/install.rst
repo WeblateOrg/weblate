@@ -1397,9 +1397,11 @@ using Kubernetes.
 Collecting error reports
 ------------------------
 
-It is good idea to collect errors from any Django program in structured way,
-and Weblate is no exception from this rule. You might find several services providing
-this, Weblate has basic support for the following ones:
+Weblate, as any other software, can fail. In order to collect useful failure
+states we recommend to use third party services to collect such information.
+This is especially useful in case of failing Celery tasks, which would
+otherwise only report error to the logs and you won't get notified on them.
+Weblate has support for the following services:
 
 Sentry
 ++++++

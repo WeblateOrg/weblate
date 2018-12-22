@@ -27,7 +27,7 @@ from celery.exceptions import TimeoutError
 
 from django.conf import settings
 from django.core.mail import get_connection
-from django.core.checks import Error, Critical
+from django.core.checks import Info, Error, Critical
 
 import six
 
@@ -295,3 +295,16 @@ def check_perms(app_configs=None, **kwargs):
                 )
 
     return errors
+
+
+def check_errors(app_configs=None, **kwargs):
+    """Check there is error collection configured."""
+    if hasattr(settings, 'ROLLBAR') or hasattr(settings, 'RAVEN_CONFIG'):
+        return []
+    return [
+        Info(
+            'Error collection is not configured, it is highly recommended for production use',
+            hint=get_doc_url('admin/install', 'collecting-errors'),
+            id='weblate.I021',
+        )
+    ]
