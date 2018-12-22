@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-12-20 18:22+0000\n"
+"PO-Revision-Date: 2018-12-22 06:10+0000\n"
 "Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -69,11 +69,10 @@ msgid "Translation notifications"
 msgstr "翻译通知"
 
 #: weblate/accounts/forms.py:241
-#, fuzzy
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr "您只会收到您关注的项目中您参与的翻译语言相关的此类通知。"
+msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
@@ -916,7 +915,7 @@ msgstr "重要日期"
 
 #: weblate/auth/data.py:35
 msgid "View billing information"
-msgstr "查看计费信息"
+msgstr "查看账单信息"
 
 #: weblate/auth/data.py:37
 msgid "Download changes"
@@ -1048,10 +1047,8 @@ msgid "Review strings"
 msgstr "复查字符串"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "当建议被强制执行时编辑字符串"
+msgstr "当建议被强制执行时需要编辑字符串"
 
 #: weblate/auth/data.py:81
 msgid "Edit source strings"
@@ -1376,7 +1373,7 @@ msgstr "拥有者"
 
 #: weblate/billing/models.py:136 weblate/templates/billing/detail.html:19
 msgid "Billing plan"
-msgstr "付费计划"
+msgstr "付费套餐"
 
 #: weblate/billing/models.py:140
 msgid "Billed projects"
@@ -1404,7 +1401,7 @@ msgstr "已终止"
 
 #: weblate/billing/models.py:154
 msgid "Billing state"
-msgstr "计费状态"
+msgstr "账单状态"
 
 #: weblate/billing/models.py:158
 msgid "Trial expiry date"
@@ -1416,7 +1413,7 @@ msgstr "已支付"
 
 #: weblate/billing/models.py:168
 msgid "In limits"
-msgstr "限制"
+msgstr "受限"
 
 #: weblate/billing/models.py:173
 msgid "Grace period for payments"
@@ -2387,9 +2384,9 @@ msgid ""
 msgstr "服务器在处理您的请求时遇到严重问题。我们的程序猿将会修复该问题。"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
+#, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr "如果您需要帮助，您可以将此错误引用为 %(error_id)s。"
+msgstr "如果您需要帮助，您可以在汇报错误时引用此错误代码 %(error_id)s。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -2457,7 +2454,7 @@ msgstr "查看托管套餐"
 #: weblate/templates/billing/overview.html:23
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
-msgstr "购买新的托管计划"
+msgstr "购买新的托管套餐"
 
 #: weblate/templates/about/index.html:49
 #: weblate/templates/accounts/hosting.html:34
@@ -3251,11 +3248,10 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "部分插件会在安装时要求额外配置。"
 
 #: weblate/templates/addons/discovery_help.html:3
-#, fuzzy
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
-msgstr "要匹配组件与语言的翻译文件，正则表达式必须包含两个命名组，例如:"
+msgstr "匹配翻译文件的正则表达式必须包含两个命名组以匹配组件和语言，例如："
 
 #: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:747
 msgid "Regular expression"
@@ -3347,11 +3343,11 @@ msgstr "组件名称"
 
 #: weblate/templates/addons/generate_help.html:19
 msgid "Component URL slug"
-msgstr "组件 URL 标识符"
+msgstr "组件 URL slug"
 
 #: weblate/templates/addons/generate_help.html:23
 msgid "Project URL slug"
-msgstr "项目 URL 标识符"
+msgstr "项目 URL slug"
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -3462,7 +3458,7 @@ msgstr "查看您的账单状态"
 msgid ""
 "This might be caused by missing subscription or some of your billings are "
 "past due date or over limits."
-msgstr "这可能是因为您没有订阅，或是您的付费计划已过期或超过上限。"
+msgstr "这可能是因为您没有订阅，或是您的付费套餐已过期或超过限额。"
 
 #: weblate/templates/billing/detail.html:10
 msgid "Recurring payment"
@@ -3474,7 +3470,7 @@ msgstr "过期日期"
 
 #: weblate/templates/billing/detail.html:17
 msgid "Exceeds limits"
-msgstr "超出限制"
+msgstr "超出限额"
 
 #: weblate/templates/billing/detail.html:29
 msgid "Change payment plan"
@@ -3482,7 +3478,7 @@ msgstr "更改付款计划"
 
 #: weblate/templates/billing/detail.html:31
 msgid "Perform payment"
-msgstr "履行付款"
+msgstr "执行付款"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
@@ -3494,7 +3490,7 @@ msgstr "要终止计费您首先必须删除所有项目。"
 
 #: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
-msgstr "终止计费计划"
+msgstr "终止付费套餐"
 
 #: weblate/templates/billing/detail.html:51
 msgid "Invoices"
@@ -3526,11 +3522,11 @@ msgstr "账单"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr "您当前没有任何已激活的计费。"
+msgstr "您当前没有任何已激活的付费套餐。"
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
-msgstr "当前方案"
+msgstr "当前套餐"
 
 #: weblate/templates/billing/status.html:6
 #, python-format
@@ -3858,9 +3854,7 @@ msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
-msgstr ""
-"鸣谢表是在指定时间段内为此组件的翻译作出贡献的译者名单。它很适合放在您的文档"
-"或应用程序中，以此感谢翻译者的努力。"
+msgstr "鸣谢表是在指定时间段内为此组件的翻译作出贡献的翻译者名单。它很适合放在您的文档或应用程序中，以此感谢翻译者的努力。"
 
 #: weblate/templates/component.html:268 weblate/templates/component.html:287
 #: weblate/wladmin/templates/admin/ssh.html:36
@@ -3873,11 +3867,11 @@ msgstr "贡献者统计"
 
 #: weblate/templates/component.html:283
 msgid "Reports number of strings and words translated by each translator."
-msgstr "按每个译者报告已翻译字符串和单词数量。"
+msgstr "按每个翻译者报告已翻译字符串和单词数量。"
 
 #: weblate/templates/component_info.html:11
 msgid "Translation process"
-msgstr "翻译进度"
+msgstr "翻译进程"
 
 #: weblate/templates/component_info.html:15
 msgid "Translations can be made only through suggesting."
@@ -4041,11 +4035,11 @@ msgstr "数据导出"
 
 #: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr "您可以从 Weblate 获取多种能被其他应用程序所读取的格式。"
+msgstr "您可以从 Weblate 获取多种能被其他应用程序读取的数据格式。"
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
-msgstr "RSS 订阅"
+msgstr "RSS 频道"
 
 #: weblate/templates/data.html:22
 msgid ""
@@ -4068,15 +4062,10 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "There are also per language RSS feeds available, you can construct them "
-#| "by appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available, you can construct them by "
 "appending a language code to the above URLs."
-msgstr ""
-"每种语言都有独立的 RSS 频道，您可以在上述 URL 中追加语言代码来构造取得。"
+msgstr "每种语言均有独立的 RSS 订阅频道，您可以在上述 URL 末尾追加语言代码来构造取得。"
 
 #: weblate/templates/data.html:56
 msgid ""
@@ -4095,18 +4084,10 @@ msgid "Notification hooks"
 msgstr "通知钩子"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes done "
-#| "by your developers and will allow continuous translation. More "
-#| "information is available in <a href=\"%(hooks_docs)s\">the documentation</"
-#| "a>."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation."
-msgstr ""
-"使用通知钩子时，Weblate 会自动导入开发者所做的更改，使之成为不间断的持续翻译"
-"流程。"
+msgstr "使用通知钩子时，Weblate 会自动导入开发者所做的更改，以实现持续翻译集成。"
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4121,7 +4102,7 @@ msgstr "例如，让 Weblate 拉取远程代码库可以使用："
 #: weblate/templates/data.html:132
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
-msgstr "Weblate 也支持众多来自代码托管网站的直接通知："
+msgstr "Weblate 直接支持许多代码托管网站的通知信息："
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
@@ -4245,9 +4226,7 @@ msgstr "您好，感谢您的关注。"
 msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
-msgstr ""
-"%(project)s 通过 %(weblate_name_link)s 进行翻译，一个为了程序员和翻译员能够轻"
-"松翻译而设计的在线翻译工具。"
+msgstr "%(project)s 通过 %(weblate_name_link)s 进行翻译，一个为开发者和翻译者能够轻松翻译而设计的在线翻译工具。"
 
 #: weblate/templates/engage.html:30
 #, python-format
@@ -4774,15 +4753,15 @@ msgstr "订阅设置"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
-msgstr "您的计费计划已过期，如果您想要继续使用该服务，请使用以下链接更新它："
+msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请使用以下链接更新它："
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
-msgstr "这个计费计划覆盖以下项目："
+msgstr "这个付费套餐涵盖下列项目："
 
 #: weblate/templates/mail/billing_expired_subject.txt:2
 msgid "Your billing plan has expired"
-msgstr "您的计费计划已过期"
+msgstr "您的付费套餐已过期"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -5148,14 +5127,11 @@ msgid "Import existing translations"
 msgstr "导入现有译文"
 
 #: weblate/templates/memory/index.html:72
-#, fuzzy
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
-msgstr ""
-"计划将此项目中的所有现有翻译导入到翻译记忆库中。这在擦除翻译记忆库后或者在初"
-"始化设置时很有用。"
+msgstr "计划将此项目中的全部现有翻译导入到翻译记忆库中。这一操作在擦除翻译记忆库后或者在初始化设置时很有用。"
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
@@ -5176,14 +5152,10 @@ msgid "Please choose the language you want to translate to."
 msgstr "请选择您想要翻译的语言。"
 
 #: weblate/templates/new-language.html:29
-#, fuzzy
-#| msgid ""
-#| "Project maintainers will get notified about this request and will add the "
-#| "language manually."
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
-msgstr "项目维护者将收到此请求通知，提醒他们手动增加语言。"
+msgstr "项目维护者将收到此请求通知，以提醒他们手动添加语言。"
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
@@ -5243,11 +5215,11 @@ msgstr "重命名项目将会修改其所有的 URLs 地址，用户需要更新
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
-msgstr "给译者的邮件列表"
+msgstr "给翻译者的邮件列表"
 
 #: weblate/templates/project_info.html:16
 msgid "Instructions for translators"
-msgstr "给译者的说明"
+msgstr "给翻译者的说明"
 
 #: weblate/templates/project_stats.html:9
 msgid "Number of words"
@@ -5399,15 +5371,13 @@ msgstr "项目信息"
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
-msgstr "您的计费计划超出了它的限制。您仍然可以使用该服务，但建议升级它。"
+msgstr "您已超出付费套餐的限额。您仍然可以使用该服务，但建议升级它。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
-msgstr "该组件包含多个翻译文件对应 Weblate 中的单个语种。"
+msgstr "该组件包含多个翻译文件，映射到 Weblate 中的同一语言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 #: weblate/templates/trans/alert/duplicatestring.html:6
@@ -5423,7 +5393,7 @@ msgstr "语言代码"
 msgid ""
 "Please fix this by removing one of the duplicated strings from the "
 "translation files."
-msgstr "请通过移除翻译文件中的一个重复字符串来修复这个问题。"
+msgstr "请通过移除译文文件中一个重复的字符串来修复这个问题。"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
@@ -5491,7 +5461,7 @@ msgstr "以 CSV 格式下载最新改动"
 
 #: weblate/templates/trans/change_list.html:37
 msgid "Follow using RSS"
-msgstr "订阅RSS"
+msgstr "订阅 RSS"
 
 #: weblate/templates/trans/component_form.html:7
 msgid "Create component"
@@ -5829,7 +5799,7 @@ msgstr "新注释"
 
 #: weblate/templates/translate.html:407
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr "您可以针对该字符串做出注释以供其他译者和开发者阅读。"
+msgstr "您可以针对该字符串做出注释以供其他翻译员和开发者阅读。"
 
 #: weblate/templates/translate.html:430
 msgid "Things to check"
@@ -5946,17 +5916,14 @@ msgid ""
 "applies them to the current component. It can be used to push translations "
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
-msgstr ""
-"自动翻译会将此项目中现有的译文应用到当前的组件中。它可以用来将译文推送至不同"
-"的分支，修复不一致的翻译或使用翻译记忆翻译新组件。"
+msgstr "自动翻译会将此项目中现有的译文应用到当前的组件中。它可以用来将译文推送至不同的分支，修复不一致的翻译或使用翻译记忆库翻译新组件。"
 
 #: weblate/templates/translation.html:217
-#, fuzzy
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this project."
-msgstr "自动翻译使用主动机器翻译引擎来获得最佳的翻译结果，并应用于此项目中。"
+msgstr "自动翻译启用机器翻译引擎以尽可能获得最佳的翻译结果，并将译文应用于此项目中。"
 
 #: weblate/templates/translation.html:270
 msgid ""
@@ -6475,12 +6442,10 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:900 weblate/trans/forms.py:902
-#, fuzzy
 msgid "Could not find merged string."
 msgstr "找不到已合并字符串。"
 
 #: weblate/trans/forms.py:921
-#, fuzzy
 msgid "Could not find reverted change."
 msgstr "找不到已还原更改。"
 
@@ -6498,7 +6463,7 @@ msgstr "机器翻译引擎"
 
 #: weblate/trans/forms.py:950
 msgid "Score threshold"
-msgstr "分数阈值"
+msgstr "匹配分数阈值"
 
 #: weblate/trans/forms.py:977
 msgid "All components in current project"
@@ -6687,7 +6652,7 @@ msgstr "要显示的名称"
 #: weblate/trans/forms.py:1518 weblate/trans/models/component.py:120
 #: weblate/trans/models/componentlist.py:45 weblate/trans/models/project.py:62
 msgid "URL slug"
-msgstr "URL代号"
+msgstr "URL slug"
 
 #: weblate/trans/forms.py:1520 weblate/trans/models/component.py:122
 #: weblate/trans/models/componentlist.py:48
@@ -6809,7 +6774,7 @@ msgstr "无法解析翻译文件。"
 
 #: weblate/trans/models/alert.py:163
 msgid "Your billing plan has exceeded its limits."
-msgstr "您已经超出计费计划的限制。"
+msgstr "您已经超出付费套餐的限额。"
 
 #: weblate/trans/models/alert.py:168
 msgid "Repository outdated."
@@ -7064,7 +7029,6 @@ msgstr ""
 "译格式。"
 
 #: weblate/trans/models/component.py:216
-#, fuzzy
 msgid "Edit base file"
 msgstr "编辑译文模版文件"
 
@@ -7174,10 +7138,6 @@ msgstr "翻译时的注释消息"
 
 #: weblate/trans/models/component.py:353 weblate/trans/models/component.py:362
 #: weblate/trans/models/component.py:371
-#, fuzzy
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
@@ -7321,11 +7281,10 @@ msgid "Format of base file for new translations was not recognized!"
 msgstr "无法识别新译文模板的格式！"
 
 #: weblate/trans/models/component.py:1254
-#, fuzzy
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
-msgstr "您已配置 Weblate 添加新的翻译文件，但未提供译文模版文件！"
+msgstr "您已配置 Weblate 添加新的翻译文件，但并未提供译文模版文件来进行这一操作！"
 
 #: weblate/trans/models/component.py:1263
 msgid "You can not use base file with bilingual translation!"
@@ -7443,7 +7402,7 @@ msgstr "邮件列表"
 
 #: weblate/trans/models/project.py:75
 msgid "Mailing list for translators."
-msgstr "译者邮件列表。"
+msgstr "翻译者邮件列表。"
 
 #: weblate/trans/models/project.py:78
 msgid "Translation instructions"
@@ -7451,7 +7410,7 @@ msgstr "翻译说明"
 
 #: weblate/trans/models/project.py:80
 msgid "URL with instructions for translators."
-msgstr "给译者的翻译说明地址。"
+msgstr "给翻译者的翻译说明地址。"
 
 #: weblate/trans/models/project.py:84
 msgid "Set \"Translation-Team\" header"
@@ -7494,7 +7453,7 @@ msgstr "启用钩子"
 
 #: weblate/trans/models/project.py:119
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr "是否允许使用远程钩子更新。"
+msgstr "是否允许使用远程钩子更新此代码库。"
 
 #: weblate/trans/models/project.py:124
 msgid "Source language"
@@ -7888,9 +7847,8 @@ msgid "XML text"
 msgstr "XML 文本"
 
 #: weblate/trans/validators.py:33
-#, fuzzy
 msgid "DOS end of lines"
-msgstr "DOS end of lines"
+msgstr "DOS 换行符 (EOL)"
 
 #: weblate/trans/validators.py:35
 msgid "Automatically detect Java MessageFormat"
@@ -8411,11 +8369,11 @@ msgstr "格式串（%s）无效"
 
 #: weblate/utils/validators.py:181
 msgid "The editor link lacks URL scheme!"
-msgstr "编辑器链接 缺少 URL scheme！"
+msgstr "编辑器链接缺少 URL 方案！"
 
 #: weblate/utils/validators.py:187
 msgid "Forbidden URL scheme!"
-msgstr "禁用的 URL scheme！"
+msgstr "禁止的 URL 方案！"
 
 #: weblate/utils/validators.py:203
 msgid "Please avoid using special chars in the full name."
