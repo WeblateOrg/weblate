@@ -30,7 +30,7 @@ from weblate.accounts.avatar import get_user_display
 
 
 class URLMixin(object):
-    """Mixin providing standard shortcut API for few standard URLs"""
+    """Mixin for models providing standard shortcut API for few standard URLs"""
     _reverse_url_name = None
 
     def get_reverse_url_kwargs(self):
@@ -80,7 +80,7 @@ class URLMixin(object):
 
 
 class LoggerMixin(object):
-    """Mixin with logging."""
+    """Mixin for models with logging."""
     @cached_property
     def full_slug(self):
         return self.slug
@@ -107,7 +107,7 @@ class LoggerMixin(object):
 
 
 class PathMixin(LoggerMixin):
-    """Mixin for path manipulations."""
+    """Mixin for models with path manipulations."""
     def _get_path(self):
         """Actual calculation of path."""
         raise NotImplementedError()
