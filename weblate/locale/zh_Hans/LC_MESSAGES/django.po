@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-12-22 06:10+0000\n"
+"PO-Revision-Date: 2018-12-24 09:02+0000\n"
 "Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -441,7 +441,7 @@ msgstr "不使用时不能选中组件列表。"
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr "在您未分配任何电子邮箱地址时，您不能提交翻译。"
+msgstr "您无法提交翻译，因为您没有分配任何电子邮箱地址。"
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of only whitespace."
@@ -641,7 +641,7 @@ msgstr "语言一致性"
 msgid ""
 "This addon ensures that all components within one project have translation "
 "to same languages."
-msgstr "这一插件确保项目中所有组件已被全部翻译成一门语言。"
+msgstr "这一插件确保项目中所有组件都已翻译成同一门语言。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -684,7 +684,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
-msgstr "将导入的新翻译标记为“需要编辑”"
+msgstr "将导入的新译文标记为“需要编辑”"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -697,7 +697,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "将未更改的翻译标记为“需要编辑”"
+msgstr "将未更改的译文标记为“需要编辑”"
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -706,8 +706,8 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"每当一个新的翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标记"
-"为需要编辑。这样您就可以简单地筛选并编辑开发者创建的翻译。"
+"每当一个新的翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate "
+"中被标记为需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
 
 #: weblate/addons/forms.py:51
 msgid "Name of generated file"
@@ -760,7 +760,7 @@ msgstr "文件格式"
 
 #: weblate/addons/forms.py:134 weblate/trans/models/component.py:238
 msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr "对于某些格式来说自动检查有可能失败并且会比较慢。"
+msgstr "对于某些格式来说自动检查有可能会失败并且速度较慢。"
 
 #: weblate/addons/forms.py:139
 msgid "Customize the component name"
@@ -772,7 +772,7 @@ msgstr "指定单语种译文模版文件名"
 
 #: weblate/addons/forms.py:147
 msgid "Keep empty for bilingual translation files."
-msgstr "为双语翻译文件保留空。"
+msgstr "保持双语翻译文件空白。"
 
 #: weblate/addons/forms.py:150
 msgid "Define the base file for new translations"
@@ -782,7 +782,7 @@ msgstr "为新的翻译条目指定译文模版文件"
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr "用于创建新翻译的文件名。对于 gettext，请选择 .pot 文件。"
+msgstr "用于创建新翻译的文件名。对于 gettext 格式，请选择 .pot 文件。"
 
 #: weblate/addons/forms.py:159 weblate/trans/models/component.py:404
 msgid "Language filter"
@@ -792,7 +792,7 @@ msgstr "语言筛选"
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
-msgstr "正则表达式可用于在扫描文件掩码时筛选翻译。"
+msgstr "正则表达式可用于在扫描文件掩码时筛选译文。"
 
 #: weblate/addons/forms.py:169
 msgid "Remove components for non existing files"
@@ -1570,7 +1570,7 @@ msgstr "译文最大长度"
 
 #: weblate/checks/chars.py:359
 msgid "Translation should not exceed given length"
-msgstr "翻译应该不超过给定长度"
+msgstr "译文不应超过给定长度"
 
 #: weblate/checks/chars.py:379
 msgid "Trailing semicolon"
@@ -3263,7 +3263,7 @@ msgstr "匹配文件例子"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr "每种语言使用一个文件夹并在其中包含相应组件的翻译文件。"
+msgstr "每种语言各使用一个文件夹并在其中包含相应组件的翻译文件。"
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
@@ -3802,9 +3802,8 @@ msgstr "开始处理"
 
 #: weblate/templates/component.html:181 weblate/templates/project.html:239
 #: weblate/templates/translation.html:248 weblate/trans/models/change.py:233
-#, fuzzy
 msgid "Mass state change"
-msgstr "大量状态变化"
+msgstr "质状态变化"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:241
 #: weblate/templates/translation.html:250
@@ -5413,7 +5412,7 @@ msgstr "Weblatte 不能在更新代码库时合并上游更改。"
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr "Weblatte 不能在更新代码库时解析翻译文件。"
+msgstr "Weblatte 不能在更新翻译文件时解析这些翻译文件。"
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -5427,9 +5426,7 @@ msgstr "出错"
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
-msgstr ""
-"VCS 代码库相较于上游有许多变化。请手动合并更改或者设置 push 来自动化这一操"
-"作。"
+msgstr "VCS 代码库相较于上游有许多变化。请手动合并更改或者设置推送来自动化这一操作。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -6300,7 +6297,7 @@ msgstr "此字符串的翻译已改变了。请检查您的更改。"
 
 #: weblate/trans/forms.py:536
 msgid "Translation text too long!"
-msgstr "翻译文本太长！"
+msgstr "译文文本太长！"
 
 #: weblate/trans/forms.py:590 weblate/trans/forms.py:1056
 msgid "Merge method"
@@ -6709,7 +6706,7 @@ msgstr "翻译键值"
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
-msgstr "用于标识翻译文件中的字符串的键。可能会应用特定的文件格式规则。"
+msgstr "【键】用于标识翻译文件中的字符串。可能会应用特定的文件格式规则。"
 
 #: weblate/trans/forms.py:1788
 msgid "Source language text"
@@ -6763,10 +6760,8 @@ msgid "Could not update the repository."
 msgstr "无法更新代码库。"
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Unused base file for new translations."
-msgstr "未在新翻译中使用的新译文模版文件。"
+msgstr "未在新翻译中使用新译文模版文件。"
 
 #: weblate/trans/models/alert.py:157
 msgid "Could not parse translation files."
@@ -6854,7 +6849,7 @@ msgstr "已提交变更"
 
 #: weblate/trans/models/change.py:216
 msgid "Pushed changes"
-msgstr "已推送变更"
+msgstr "已推送更改"
 
 #: weblate/trans/models/change.py:217
 msgid "Reset repository"
@@ -6979,7 +6974,7 @@ msgstr "代码库推送 URL"
 
 #: weblate/trans/models/component.py:158
 msgid "URL of a push repository, pushing is disabled if empty."
-msgstr "代码库推送网址，留空则停用推送。"
+msgstr "代码库推送 URL，留空则停用推送。"
 
 #: weblate/trans/models/component.py:163
 msgid "Repository browser"
@@ -7235,7 +7230,7 @@ msgstr "无效的 Weblate 项目链接，使用 weblate://project/component。"
 
 #: weblate/trans/models/component.py:1166
 msgid "Push URL is not used when repository is linked!"
-msgstr "在连接仓库时未使用推送URL！"
+msgstr "在连接仓库时未使用推送 URL！"
 
 #: weblate/trans/models/component.py:1172
 msgid "Export URL is not used when repository is linked!"
@@ -7278,7 +7273,7 @@ msgstr "解析 %d 匹配文件失败！"
 
 #: weblate/trans/models/component.py:1249
 msgid "Format of base file for new translations was not recognized!"
-msgstr "无法识别新译文模板的格式！"
+msgstr "无法识别新译文模板文件的格式！"
 
 #: weblate/trans/models/component.py:1254
 msgid ""
@@ -8168,7 +8163,7 @@ msgstr "已更新所有代码库。"
 
 #: weblate/trans/views/git.py:81
 msgid "All repositories were pushed."
-msgstr "已上传至所有代码库中。"
+msgstr "已推送至所有代码库中。"
 
 #: weblate/trans/views/git.py:92
 msgid "All repositories have been reset."
@@ -8230,10 +8225,8 @@ msgid "Invalid search query!"
 msgstr "无效的搜索请求！"
 
 #: weblate/trans/views/search.py:264
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "大量状态更改已完成，未更新任何字符串。"
+msgstr "质状态更改已完成，未更新任何字符串。"
 
 #: weblate/trans/views/search.py:266
 #, fuzzy, python-format
