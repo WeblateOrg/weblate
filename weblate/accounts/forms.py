@@ -78,6 +78,7 @@ class PasswordField(forms.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['widget'] = forms.PasswordInput(render_value=False)
         kwargs['max_length'] = 256
+        kwargs['strip'] = False
         super(PasswordField, self).__init__(*args, **kwargs)
 
 
