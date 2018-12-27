@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-27 12:23+0000\n"
-"PO-Revision-Date: 2018-12-04 11:53+0000\n"
+"PO-Revision-Date: 2018-12-27 19:35+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -802,16 +802,12 @@ msgid "All commits into one"
 msgstr "Kaikki komponentit nykyisessä projektissa"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Uusi kieli"
+msgstr "Per kieli"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Profiili"
+msgstr "Per tiedosto"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -1493,10 +1489,8 @@ msgid "Expired"
 msgstr "Vanhentunut"
 
 #: weblate/billing/models.py:153
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Käännetty"
+msgstr "Päättynyt"
 
 #: weblate/billing/models.py:156
 msgid "Billing state"
@@ -1515,10 +1509,8 @@ msgid "In limits"
 msgstr "Rajojen sisällä"
 
 #: weblate/billing/models.py:175
-#, fuzzy
-#| msgid "Perform payment"
 msgid "Grace period for payments"
-msgstr "Suorita maksu"
+msgstr "Siirtymäaika maksuille"
 
 #: weblate/billing/models.py:202
 msgid "Changes in last month"
@@ -3968,10 +3960,8 @@ msgstr "Käyttäjät"
 
 #: weblate/templates/component.html:91 weblate/templates/component.html:223
 #: weblate/templates/project.html:77 weblate/templates/project.html:273
-#, fuzzy
-#| msgid "Filename"
 msgid "Rename"
-msgstr "Tiedostonimi"
+msgstr "Nimeä uudelleen"
 
 #: weblate/templates/component.html:99 weblate/templates/project.html:86
 #: weblate/templates/translation.html:93
@@ -4044,32 +4034,32 @@ msgid "Browse all component changes"
 msgstr "Selaa kaikkia komponentin muutoksia"
 
 #: weblate/templates/component.html:215
-#, fuzzy
-#| msgid "Removed component"
 msgid "Rename component"
-msgstr "Poistettu komponentti"
+msgstr "Nimeä komponentti uudelleen"
 
 #: weblate/templates/component.html:218
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Uudelleennimeäminen muuttaa kaikki URL:it, käyttäjien tulee päivittää "
+"kirjainmerkit ja viittaukset kloonatuissa arkistoissa!"
 
 #: weblate/templates/component.html:230
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "Poistettu komponentti"
+msgstr "Siirrä komponentti"
 
 #: weblate/templates/component.html:233
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Siirtäminen muuttaa kaikki URL:it, käyttäjien tulee päivittää kirjainmerkit "
+"ja viittaukset kloonatuissa arkistoissa!"
 
 #: weblate/templates/component.html:238
 msgid "Move"
-msgstr ""
+msgstr "Siirrä"
 
 #: weblate/templates/component.html:249 weblate/templates/project.html:283
 #: weblate/templates/translate.html:364 weblate/templates/translate.html:368
@@ -4495,18 +4485,14 @@ msgstr ""
 "erillaisten ohjelmistojen kääntämistä eri kielille."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"%(project)s -projektin <a href=\"%(url)s\">suomen kielen käännös</a> "
-"sisältää tällä hetkellä yhteensä %(total)s käännettävää tekstiä, joista "
-"%(percent)s%% on tällä hetkellä käännetty."
+"%(project)s -projektin suomen kielen käännös sisältää tällä hetkellä "
+"yhteensä %(total)s käännettävää tekstiä, joista %(percent)s%% on tällä "
+"hetkellä käännetty."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4566,10 +4552,8 @@ msgid "Translate"
 msgstr "Käännä"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Muut kielet"
+msgstr "Näytä projektin kielet"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5030,7 +5014,7 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
-"Jos et itse aiheuttanut tätä muutosta, ilmoita siitä meille mahdollisimman "
+"Jos et itse aiheuttanut tätä tapahtumaa, tee meille ilmoitus mahdollisimman "
 "pian alla olevasta linkistä löytyvällä lomakkeella:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
@@ -5565,16 +5549,16 @@ msgid "Browse all project changes"
 msgstr "Selaa projektin muutoksia"
 
 #: weblate/templates/project.html:265
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "Poistettu projekti"
+msgstr "Nimeä projekti uudelleen"
 
 #: weblate/templates/project.html:268
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Projektin uuelleennimeäminen muuttaa kaikki URL:it, käyttäjien tulee "
+"päivittää kirjainmerkit ja viittaukset kloonatuista arkistoissa!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5609,6 +5593,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Haussa on liian paljon osumia. Näytetään ja korvataan vain ensimmäiset 250 "
+"osumaa. Jos haluat korvata jäljellä olevat, tee haku uudelleen."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5795,6 +5781,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Jokaisessa julkisessa projektissa pitäisi olla lisenssi määriteltynä "
+"osoittaakseen osallistumisen ehdot."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5865,10 +5853,8 @@ msgstr ""
 "Sinulla ei ole oikeuksia luoda käännöskomponentteja mihinkään projektiin."
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "Asiayhteys"
+msgstr "Jatka"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -5883,20 +5869,16 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ymmärrän seuraukset, poista tämä käännös"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Yhtään käännöskomponenttia ei ole."
+msgstr "Täällä on joitain hälytyksiä käännöskomponentilla"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "Käännös on lisenssoitu FSF:n mukaisesti vapaan lisenssin ehdoilla."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr "Käännetty sisältö pitää julkaista vapaan ohjelmiston lisenssin alla."
+msgstr "Käännös on lisenssoitu OSI:n hyväksymällä lisenssillä."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7135,14 +7117,12 @@ msgid "Repository branch to translate"
 msgstr "Käännettävä arkistohaara"
 
 #: weblate/trans/forms.py:1589
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "Siivoa käännöstiedostot"
+msgstr "Valitse tuotavat käännöstiedostot"
 
 #: weblate/trans/forms.py:1591
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "Määrittele asetukset manuaalisesti"
 
 #: weblate/trans/forms.py:1709
 #, python-format
@@ -7247,10 +7227,8 @@ msgid "Repository has changes."
 msgstr "Arkistossa on muutoksia."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Lähdetekstin tietoja"
+msgstr "Lisenssin tiedot puuttuvat."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7405,22 +7383,16 @@ msgid "Found duplicated language"
 msgstr "Löydetty duplikaattikieli"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "Poistettu projekti"
+msgstr "Uudelleennimetty projekti"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "Poistettu komponentti"
+msgstr "Uudelleennimetty käännöskomponentti"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "Poistettu komponentti"
+msgstr "Siirretty käännöskomponentti"
 
 #: weblate/trans/models/change.py:340
 #, python-format
@@ -7649,10 +7621,8 @@ msgid "Commit message when removing translation"
 msgstr "Commit -viesti kielen poistamisen yhteydessä"
 
 #: weblate/trans/models/component.py:381
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Commit -viesti kielen poistamisen yhteydessä"
+msgstr "Commit -viesti käännöksen mergeämisen yhteydessä"
 
 #: weblate/trans/models/component.py:390
 msgid "Committer name"
