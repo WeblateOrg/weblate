@@ -826,7 +826,8 @@ CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
 )
 CELERY_TASK_ROUTES = {
-    'weblate.trans.search.delete_fulltext': {'queue': 'search'},
-    'weblate.trans.search.update_fulltext': {'queue': 'search'},
-    'weblate.memory.tasks.update_memory_task': {'queue': 'search'},
+    'weblate.trans.search.*': {'queue': 'search'},
+    'weblate.trans.tasks.optimize_fulltext': {'queue': 'search'},
+    'weblate.trans.tasks.cleanup_fulltext': {'queue': 'search'},
+    'weblate.memory.tasks.*': {'queue': 'memory'},
 }
