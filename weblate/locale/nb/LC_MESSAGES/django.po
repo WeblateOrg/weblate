@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-07 09:05+0000\n"
-"PO-Revision-Date: 2018-12-08 07:01+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2018-12-27 12:10+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
 "Language: nb\n"
@@ -1445,10 +1445,8 @@ msgid "Expired"
 msgstr "Utløpt"
 
 #: weblate/billing/models.py:151
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Oversatt"
+msgstr "Avsluttet"
 
 #: weblate/billing/models.py:154
 msgid "Billing state"
@@ -1467,10 +1465,8 @@ msgid "In limits"
 msgstr "Innenfor grensene"
 
 #: weblate/billing/models.py:173
-#, fuzzy
-#| msgid "Perform payment"
 msgid "Grace period for payments"
-msgstr "Utfør betaling"
+msgstr "Betalingsfrist"
 
 #: weblate/billing/models.py:200
 msgid "Changes in last month"
@@ -2567,6 +2563,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate bruker ssh-nøkle for å få tilgang til fjerndepoter.  Den tilhørende "
+"offentlige nøkkel finnes nedenfor.  Du kan bruke den til å gi Weblate "
+"tilgang til et depot."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
@@ -3888,10 +3887,8 @@ msgstr "Brukere"
 
 #: weblate/templates/component.html:89 weblate/templates/component.html:221
 #: weblate/templates/project.html:77 weblate/templates/project.html:272
-#, fuzzy
-#| msgid "Filename"
 msgid "Rename"
-msgstr "Filnavn"
+msgstr "Endre navn"
 
 #: weblate/templates/component.html:97 weblate/templates/project.html:86
 #: weblate/templates/translation.html:91
@@ -3965,28 +3962,28 @@ msgid "Browse all component changes"
 msgstr "Bla gjennom alle komponentendringer"
 
 #: weblate/templates/component.html:213
-#, fuzzy
-#| msgid "Removed component"
 msgid "Rename component"
-msgstr "Fjernet komponent"
+msgstr "Endre navn på komponent"
 
 #: weblate/templates/component.html:216
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Navneendring på komponenten vil endre alle dens URL-er og brukere vil måtte "
+"oppdatere bokmerker eller referanser til klonede depoter!"
 
 #: weblate/templates/component.html:228
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "Fjernet komponent"
+msgstr "Flytt komponent"
 
 #: weblate/templates/component.html:231
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Flytting av komponenten vil endre alle dens URL-er og brukere vil måtte "
+"oppdatere bokmerker eller referanser til klonede depoter!"
 
 #: weblate/templates/component.html:236
 msgid "Move"
@@ -5430,16 +5427,16 @@ msgid "Browse all project changes"
 msgstr "Bla gjennom alle prosjektendringer"
 
 #: weblate/templates/project.html:264
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "Fjernet prosjekt"
+msgstr "Endre navn på prosjekt"
 
 #: weblate/templates/project.html:267
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Navneendring på prosjektet vil endre alle URL-er og brukere vil måtte "
+"oppdatere bokmerker eller referanser til klonede depoter!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5718,10 +5715,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Du har ikke rettigheter til å opprette komponenter i noen prosjekter."
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "Kontekst"
+msgstr "Fortsett"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -6970,13 +6965,10 @@ msgid "Repository branch to translate"
 msgstr "Kildelagergren for oversetting"
 
 #: weblate/trans/forms.py:1587
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "Rydd opp i oversettelsesfiler"
+msgstr "Velg oversettelsesfiler for import"
 
 #: weblate/trans/forms.py:1589
-#, fuzzy
 msgid "Specify configuration manually"
 msgstr "Angi oppsett manuelt"
 
@@ -7234,22 +7226,16 @@ msgid "Found duplicated language"
 msgstr "Fant duplisert språk"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "Fjernet prosjekt"
+msgstr "Endret navn på prosjekt"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "Fjernet komponent"
+msgstr "Endret navn på komponent"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "Fjernet komponent"
+msgstr "Flyttet komponent"
 
 #: weblate/trans/models/change.py:340
 #, python-format
