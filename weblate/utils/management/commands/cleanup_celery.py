@@ -30,11 +30,11 @@ class Command(BaseCommand):
     help = 'removes incompatible celery schedule file'
 
     def handle(self, *args, **options):
-        scheduler = PersistentScheduler(
-            schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
-            app=app
-        )
         try:
+            scheduler = PersistentScheduler(
+                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
+                app=app
+            )
             scheduler.setup_schedule()
         except Exception as error:
             self.stderr.write(
