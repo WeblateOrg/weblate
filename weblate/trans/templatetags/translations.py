@@ -749,3 +749,8 @@ def indicate_alerts(obj):
         alerts = component.alert_set.all()
 
     return {'alerts': alerts, 'component': component}
+
+
+@register.filter
+def replace_english(value, language):
+    return value.replace('English', force_text(language))
