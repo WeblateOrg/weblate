@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-27 12:23+0000\n"
-"PO-Revision-Date: 2018-12-22 12:48+0000\n"
+"PO-Revision-Date: 2018-12-27 19:36+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -775,28 +775,20 @@ msgstr ""
 "parametern --no-wrap radbyter den bara vid radbrytning."
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "Signering av arkivering"
+msgstr "Squasha arkivering"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Alla komponenter i nuvarande projekt"
+msgstr "Alla arkiveringar till en enda"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Nytt språk"
+msgstr "Per språk"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Profil"
+msgstr "Per fil"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -944,14 +936,12 @@ msgstr ""
 "och år av bidrag."
 
 #: weblate/addons/git.py:32
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "Skicka vid incheckning"
+msgstr "Squasha Git arkiveringar"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Squasha Git-arkiveringar innan de pushas."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -4449,18 +4439,13 @@ msgstr ""
 "för att underlätta översättning för både utvecklare och översättare."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Översättningsprojektet för %(project)s</a> till svenska "
-"har för närvarande %(total)s strängar för översättning och är %(percent)s%% "
-"klart."
+"Översättningsprojektet för %(project)s till svenska har för närvarande "
+"%(total)s strängar för översättning och är %(percent)s%% klart."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4516,10 +4501,8 @@ msgid "Translate"
 msgstr "Översätt"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Andra språk"
+msgstr "Visa projektspråk"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5555,6 +5538,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Det fanns för många träffar för sökningen. Visar och ersätter endast de 250 "
+"första. För att ersätta de återstående, utför ersättningen igen."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5743,6 +5728,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Alla offentligt tillgängliga projekt ska ha en licens för att ange vilka "
+"villkor som gäller för bidrag."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5826,20 +5813,16 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Jag förstår konsekvenserna av detta - ta bort översättningen"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Det finns för tillfället inga översättningskomponenter."
+msgstr "Det finns några varningar på denna komponent"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "Översättning är licensierad under en fri licens enligt FSF."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr "Översatt innehåll måste publiceras under en fri licens."
+msgstr "Översättning är licensierad enligt OSI-godkänd licens."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7194,10 +7177,8 @@ msgid "Repository has changes."
 msgstr "Arkivet har ändringar."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Information om källan"
+msgstr "Information om licens saknas."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7583,10 +7564,8 @@ msgid "Commit message when removing translation"
 msgstr "Arkiveringsmeddelande när översättning tas bort"
 
 #: weblate/trans/models/component.py:381
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Arkiveringsmeddelande när översättning tas bort"
+msgstr "Arkiveringsmeddelande när översättning sammanfogas"
 
 #: weblate/trans/models/component.py:390
 msgid "Committer name"
