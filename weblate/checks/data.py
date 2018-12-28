@@ -501,6 +501,7 @@ SAME_BLACKLIST = frozenset((
     'paypal',
     'pdf',
     'pdu',
+    'per',
     'percent',
     'perfume',
     'personal',
