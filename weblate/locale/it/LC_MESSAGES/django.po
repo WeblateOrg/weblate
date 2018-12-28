@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-27 12:23+0000\n"
-"PO-Revision-Date: 2018-12-16 09:22+0000\n"
+"PO-Revision-Date: 2018-12-28 20:47+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -792,28 +792,20 @@ msgstr ""
 "capo automatico."
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "Firma modifiche"
+msgstr "Forza squashing"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Tutti i componenti nel progetto attuale"
+msgstr "Tutti le modifiche in una"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "Other languages"
 msgid "Per language"
-msgstr "Altre lingue"
+msgstr "Per lingua"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Profilo"
+msgstr "Per file"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -963,14 +955,12 @@ msgstr ""
 "contributore e anni di contribuzione."
 
 #: weblate/addons/git.py:32
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "Push su commit"
+msgstr "Modifiche Git squash"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Modifiche git squash prima di forzare le modifiche."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -2011,14 +2001,14 @@ msgstr "Singolare"
 #: weblate/lang/data.py:372 weblate/lang/data.py:380
 msgctxt "Plural form description"
 msgid "Other"
-msgstr "Plurals"
+msgstr "Plurale"
 
 #: weblate/lang/data.py:308 weblate/lang/data.py:315 weblate/lang/data.py:343
 #: weblate/lang/data.py:350 weblate/lang/data.py:359 weblate/lang/data.py:366
 #: weblate/lang/data.py:378
 msgctxt "Plural form description"
 msgid "Few"
-msgstr "Pochi"
+msgstr "Plurale multiplo"
 
 #: weblate/lang/data.py:312 weblate/lang/data.py:320 weblate/lang/data.py:355
 #: weblate/lang/data.py:375
@@ -4486,18 +4476,13 @@ msgstr ""
 "realizzazato per una facile traduzione per sviluppatori e traduttori."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> in Inglese "
-"attualmente contiene %(total)s stringhe da tradurre ed è tradotto al "
-"%(percent)s%%."
+"Il progetto di traduzione di %(project)s in Inglese attualmente contiene "
+"%(total)s stringhe da tradurre ed è tradotto al %(percent)s%%."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4553,10 +4538,8 @@ msgid "Translate"
 msgstr "Traduci"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Altre lingue"
+msgstr "Visualizza lingue progetto"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5603,6 +5586,9 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Ci sono troppe corrispondenze per questa ricerca.\n"
+"Puoi visualizzare e sostituire solo le prime 250 corrispondenze.\n"
+"Per sostituire quelle rimanenti, esegui nuovamente la sostituzione."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5793,6 +5779,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Qualsiasi progetto disponibile deve avere una licenza definita che indica "
+"quali termini applicare alle contribuzioni."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5878,22 +5866,16 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ho compreso le conseguenze. Elimina la traduzione"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Attualmente non ci sono componenti traduzione."
+msgstr "Ci sono alcuni avvisi relativi a questo componente"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "La traduzione è licenziata sotto accordi licenza gratuita a FSF."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr ""
-"Il contenuto tradotto deve essere rilasciato sotto licenza di software "
-"libero."
+msgstr "La traduzione è licenziata sotto licenza approvata OSI."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6109,7 +6091,7 @@ msgstr "Messaggi vicini a questo"
 
 #: weblate/templates/translate.html:234
 msgid "Nearby strings"
-msgstr "Stringhe vicine"
+msgstr "Stringhe simili"
 
 #: weblate/templates/translate.html:239 weblate/templates/translate.html:438
 msgid "Other translations"
@@ -6126,7 +6108,7 @@ msgstr "Suggeriemnto traduzione macchina"
 
 #: weblate/templates/translate.html:245 weblate/trans/forms.py:935
 msgid "Machine translation"
-msgstr "Traduzione macchina"
+msgstr "Traduzione automatica"
 
 #: weblate/templates/translate.html:247
 msgid "Translations of this string in the other languages"
@@ -7251,10 +7233,8 @@ msgid "Repository has changes."
 msgstr "Il repository ha delle modifiche."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Informazione sorgente"
+msgstr "Informazione licenza mancante."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7645,10 +7625,8 @@ msgid "Commit message when removing translation"
 msgstr "Messaggio commit quando rimuovi una traduzione"
 
 #: weblate/trans/models/component.py:381
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Messaggio commit quando rimuovi una traduzione"
+msgstr "Messaggio commit quando unisci una traduzione"
 
 #: weblate/trans/models/component.py:390
 msgid "Committer name"
