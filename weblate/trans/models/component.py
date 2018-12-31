@@ -344,7 +344,7 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Merge style'),
         max_length=10,
         choices=MERGE_CHOICES,
-        default='merge',
+        default=settings.DEFAULT_MERGE_STYLE,
         help_text=ugettext_lazy(
             'Define whether Weblate should merge upstream repository '
             'or rebase changes onto it.'

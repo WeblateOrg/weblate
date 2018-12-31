@@ -394,6 +394,18 @@ Default committer name when creating translation component (see
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
 
+.. setting:: DEFAULT_MERGE_STYLE
+
+DEFAULT_MERGE_STYLE
+-------------------
+
+.. versionadded:: 3.4
+
+Default merge style for new components (see :ref:`component`), choose one of:
+
+* `rebase` - default
+* `merge`
+
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
 DEFAULT_TRANSLATION_PROPAGATION

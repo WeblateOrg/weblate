@@ -306,7 +306,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='merge_style',
-            field=models.CharField(choices=[('merge', 'Merge'), ('rebase', 'Rebase')], default='merge', help_text='Define whether Weblate should merge upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style'),
+            field=models.CharField(choices=[('merge', 'Merge'), ('rebase', 'Rebase')], default=settings.DEFAULT_MERGE_STYLE, help_text='Define whether Weblate should merge upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style'),
         ),
         migrations.AddField(
             model_name='component',

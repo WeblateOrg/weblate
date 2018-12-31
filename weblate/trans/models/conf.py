@@ -162,6 +162,7 @@ class WeblateConf(AppConf):
     DEFAULT_COMMITER_NAME = 'Weblate'
 
     DEFAULT_TRANSLATION_PROPAGATION = True
+    DEFAULT_MERGE_STYLE = 'rebase'
 
     DEFAULT_ACCESS_CONTROL = 0
     DEFAULT_SHARED_TM = True
