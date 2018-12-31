@@ -74,7 +74,7 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`json`         | mono             | no            | no             | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
-| :ref:`i18next`      | mono             | yes           | no             | no            | no             |                         |
+| :ref:`js-i18next`   | mono             | yes           | no             | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`webex`        | mono             | yes           | yes            | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
@@ -560,7 +560,7 @@ Weblate currently supports several variants of JSON translations:
 
 * Simple key / value files.
 * Files with nested keys.
-* :ref:`i18next`
+* :ref:`js-i18next`
 * :ref:`webex`
 
 JSON translations are usually monolingual, so it is recommended to specify base
@@ -596,7 +596,7 @@ Nested files are supported as well (see above for requirements), such file can l
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
-.. _i18next:
+.. _js-i18next:
 
 JSON i18next files
 ------------------
