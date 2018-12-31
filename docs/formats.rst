@@ -74,6 +74,8 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------+----------+---------+----------+-------------------------+
 | :ref:`json`         | mono       | no       | no      | no       |                         |
 +---------------------+------------+----------+---------+----------+-------------------------+
+| :ref:`i18next`      | mono       | no       | no      | no       |                         |
++---------------------+------------+----------+---------+----------+-------------------------+
 | :ref:`webex`        | mono       | yes      | no      | no       |                         |
 +---------------------+------------+----------+---------+----------+-------------------------+
 | :ref:`dotnet`       | mono       | yes      | no      | no       |                         |
@@ -546,11 +548,6 @@ JSON files
     Since Weblate 2.16 and with translate-toolkit at least 2.2.4 nested
     structure JSON files are supported as well.
 
-.. versionchanged:: 2.17
-
-    Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
-    JSON files with plurals are supported as well.
-
 JSON format is used mostly for translating applications implemented in
 Javascript.
 
@@ -558,7 +555,8 @@ Weblate currently supports several variants of JSON translations:
 
 * Simple key / value files.
 * Files with nested keys.
-* The i18next files with support for plurals.
+* :ref:`i18next`
+* :ref:`webex`
 
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
@@ -585,6 +583,50 @@ Nested files are supported as well (see above for requirements), such file can l
 | Base file for new translations | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _i18next:
+
+JSON i18next files
+------------------
+
+.. index::
+    pair: i18next; file format
+
+.. versionchanged:: 2.17
+
+    Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
+    JSON files with plurals are supported as well.
+
+`i18next <https://www.i18next.com/>`_ is an internationalization-framework
+written in and for JavaScript. Weblate supports it's localization files with
+features such as plurals.
+
+i18next translations are monolingual, so it is recommended to specify base file
+with English strings.
+
+Example file:
+
+.. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
+    :language: json
+    :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``langs/*.json``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``langs/en.json``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `i18next JSON file`              |
 +--------------------------------+----------------------------------+
 
 .. seealso::
