@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2018.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-31 13:32+0000\n"
-"PO-Revision-Date: 2018-12-07 15:03+0000\n"
+"PO-Revision-Date: 2019-01-01 14:39+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -777,28 +777,20 @@ msgstr ""
 "com o parâmetro --no-wrap ele quebra apenas em novas linhas."
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "Assinatura do envio"
+msgstr "Squash de commit"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Todos os componentes no projeto atual"
+msgstr "Todos os commits em um só"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Novo idioma"
+msgstr "Por idioma"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Perfil"
+msgstr "Por arquivo"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -946,14 +938,12 @@ msgstr ""
 "colaborador e os anos de contribuição."
 
 #: weblate/addons/git.py:32
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "Levar ao enviar"
+msgstr "Fazer squash de commits Git"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Fazer squash de commits Git antes de fazer push das alterações."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1980,8 +1970,6 @@ msgid "Weblate languages"
 msgstr "Idiomas do Weblate"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "Singular"
@@ -4475,18 +4463,13 @@ msgstr ""
 "tradutores."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">O projeto de tradução para %(project)s</a> em português "
-"do Brasil contém %(total)s textos para traduzir e está %(percent)s%% "
-"completo."
+"O projeto de tradução para %(project)s em inglês atualmente contém %(total)s "
+"textos para traduzir e está %(percent)s%% completo."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4542,10 +4525,8 @@ msgid "Translate"
 msgstr "Traduzir"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Outros idiomas"
+msgstr "Ver idiomas do projeto"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5580,6 +5561,9 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Há muitas correspondências para essa pesquisa. Mostrando e substituindo "
+"apenas os primeiros 250. Para substituir os restantes, por favor, execute a "
+"substituição novamente."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5769,6 +5753,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Qualquer projeto disponível publicamente deve ter licença definida para "
+"indicar quais termos se aplicam às contribuições."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5855,21 +5841,16 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Eu compreendo as consequências, exclua essa tradução"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Não existe atualmente componentes da tradução."
+msgstr "Há alguns alertas neste componente"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "A tradução está licenciada sob uma licença livre, conforme a FSF."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr ""
-"O conteúdo traduzido tem que ser liberado sob uma licença de software livre."
+msgstr "A tradução está licenciada sob uma licença aprovada pela OSI."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7220,10 +7201,8 @@ msgid "Repository has changes."
 msgstr "O repositório tem alterações."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Informações da fonte"
+msgstr "Informações de licença faltando."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7613,10 +7592,8 @@ msgid "Commit message when removing translation"
 msgstr "Mensagem de envio ao remover tradução"
 
 #: weblate/trans/models/component.py:381
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Mensagem de envio ao remover tradução"
+msgstr "Mensagem de envio ao mesclar tradução"
 
 #: weblate/trans/models/component.py:390
 msgid "Committer name"
