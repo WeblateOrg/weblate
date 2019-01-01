@@ -413,6 +413,16 @@ class User(AbstractBaseUser):
         """Compatibility API for admin interface."""
         return self.is_superuser
 
+    @property
+    def first_name(self):
+        """Compatibility API for third party modules."""
+        return ''
+
+    @property
+    def last_name(self):
+        """Compatibility API for third party modules."""
+        return self.full_name
+
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check"""
