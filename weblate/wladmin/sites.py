@@ -157,6 +157,12 @@ class WeblateAdminSite(AdminSite):
         # Django core
         self.register(Site, SiteAdmin)
 
+        # Simple SSO
+        if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+            from simple_sso.sso_server.server import ConsumerAdmin
+            from simple_sso.sso_server.models import Consumer
+            self.register(Consumer, ConsumerAdmin)
+
     @never_cache
     def logout(self, request, extra_context=None):
         if request.method == 'POST':
