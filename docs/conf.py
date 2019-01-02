@@ -24,7 +24,7 @@ sys.path.append(
 # -- Project information -----------------------------------------------------
 
 project = 'Weblate Documentation'
-copyright = '2012 - 2018 Michal Čihař'
+copyright = '2012 - 2019 Michal Čihař'
 author = 'Michal Čihař'
 
 # The short X.Y version
