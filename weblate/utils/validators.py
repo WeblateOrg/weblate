@@ -42,6 +42,10 @@ EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 ALLOWED_IMAGES = frozenset((
     'image/jpeg',
     'image/png',
+    # Not sure if supporting apng is reasonable, but PNG is currently
+    # detectes as apng by Pillow, see
+    # https://github.com/python-pillow/Pillow/pull/3525
+    'image/apng',
 ))
 
 # List of schemes not allowed in editor URL
