@@ -43,7 +43,7 @@ ALLOWED_IMAGES = frozenset((
     'image/jpeg',
     'image/png',
     # Not sure if supporting apng is reasonable, but PNG is currently
-    # detectes as apng by Pillow, see
+    # detected as apng by Pillow, see
     # https://github.com/python-pillow/Pillow/pull/3525
     'image/apng',
 ))
