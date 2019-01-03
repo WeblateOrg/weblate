@@ -5,10 +5,6 @@ Weblate
     :alt: Build status
     :target: https://travis-ci.org/WeblateOrg/weblate
 
-.. image:: https://ci.appveyor.com/api/projects/status/92elnra2etjgfpc8/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/nijel/weblate/branch/master
-    :alt: Build status
-
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
@@ -25,14 +21,6 @@ Weblate
     :target: https://codeclimate.com/github/WeblateOrg/weblate/maintainability
     :alt: Maintainability
 
-.. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
-    :alt: Bountysource
-    :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
-
-.. image:: https://img.shields.io/liberapay/receives/Weblate.svg?logo=liberapay
-    :alt: Liberapay
-    :target: https://liberapay.com/Weblate/
-
 .. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
     :alt: CII Best Practices
     :target: https://bestpractices.coreinfrastructure.org/projects/552
@@ -40,11 +28,7 @@ Weblate
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
     :target: https://pypi.org/project/Weblate/
 
-.. image:: https://www.codetriage.com/weblateorg/weblate/badges/users.svg
-    :target: https://www.codetriage.com/weblateorg/weblate
-
-.. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat
-    :alt: Documentation
+.. image:: https://img.shields.io/readthedocs/weblate.svg 
     :target: https://docs.weblate.org/
 
 Weblate is a free web-based localization tool with tight version control
