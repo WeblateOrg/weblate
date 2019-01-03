@@ -33,35 +33,9 @@ from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import User
 from weblate.gitexport.models import SUPPORTED_VCS
+from weblate.gitexport.utils import find_git_http_backend
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_component
-
-
-GIT_PATHS = [
-    '/usr/lib/git',
-    '/usr/lib/git-core',
-]
-
-
-def find_git_http_backend():
-    """Find git http backend"""
-
-    if hasattr(find_git_http_backend, 'result'):
-        return find_git_http_backend.result
-
-    try:
-        path = subprocess.check_output(['git', '--exec-path']).decode('utf-8')
-        if path:
-            GIT_PATHS.insert(0, path)
-    except OSError:
-        pass
-
-    for path in GIT_PATHS:
-        name = os.path.join(path, 'git-http-backend')
-        if os.path.exists(name):
-            find_git_http_backend.result = name
-            return name
-    return None
 
 
 def response_authenticate():
