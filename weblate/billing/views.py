@@ -18,9 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
-
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render, redirect
@@ -37,13 +34,13 @@ def download_invoice(request, pk):
     if not invoice.ref:
         raise Http404('No reference!')
 
-    permissions = [
-        request.user.has_perm('billing.view', p)
-        for p in invoice.billing.projects.all()
-    ]
+    allowed_billing = Billing.objects.for_user(
+        request.user
+    ).filter(
+        pk=invoice.billing.pk
+    )
 
-    if (not any(permissions) and
-            not invoice.billing.owners.filter(pk=request.user.pk).exists()):
+    if not allowed_billing.exists():
         raise PermissionDenied('Not an owner!')
 
     if not invoice.filename_valid:
