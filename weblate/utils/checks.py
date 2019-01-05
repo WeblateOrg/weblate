@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals, absolute_import
 
+import errno
 from itertools import chain
 import os
 
@@ -285,7 +286,14 @@ def check_perms(app_configs=None, **kwargs):
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             path = os.path.join(dirpath, name)
-            if os.lstat(path).st_uid != uid:
+            try:
+                stat = os.lstat(path)
+            except OSError as error:
+                # File was removed meanwhile
+                if error.errno == errno.ENOENT:
+                    continue
+                raise
+            if stat.st_uid != uid:
                 errors.append(
                     Critical(
                         message.format(path),
