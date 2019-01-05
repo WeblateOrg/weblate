@@ -89,6 +89,7 @@ class SecurityMiddleware(object):
             script.add("'unsafe-inline'")
             script.add(settings.PIWIK_URL)
             image.add(settings.PIWIK_URL)
+            connect.add(settings.PIWIK_URL)
 
         if settings.GOOGLE_ANALYTICS_ID:
             script.add("'unsafe-inline'")
