@@ -2,7 +2,7 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2013.
-# Андрій Бандура <andriykopanytsia@gmail.com>, 2018.
+# Андрій Бандура <andriykopanytsia@gmail.com>, 2018, 2019.
 # Taras <oster.ok@gmail.com>, 2018.
 # Максим Якимчук <xpinovo@gmail.com>, 2018.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-31 13:32+0000\n"
-"PO-Revision-Date: 2018-12-08 07:01+0000\n"
+"PO-Revision-Date: 2019-01-05 12:35+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -798,16 +798,12 @@ msgid "All commits into one"
 msgstr "Усі компоненти у поточному проекті"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Нова мова"
+msgstr "Для мови"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Профіль"
+msgstr "Для файлу"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -1984,15 +1980,11 @@ msgid "Weblate languages"
 msgstr "Weblate мови"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "Однина"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Множина"
@@ -4484,18 +4476,13 @@ msgstr ""
 "перекладачам."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Проект перекладу для %(project)s</a> на українську "
-"наразі містить всього %(total)s рядків для перекладу, з яких %(percent)s%% - "
-"перекладено."
+"Проект перекладу для %(project)s на українську наразі містить всього %(total)"
+"s рядків для перекладу, з яких %(percent)s%% - перекладено."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4554,10 +4541,8 @@ msgid "Translate"
 msgstr "Переклад"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Інші мови"
+msgstr "Переглянути мови проекту"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5585,6 +5570,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Виявлено багато збігів для цього пошуку. Показуються та замінюються лише "
+"перші 250. Щоби замінити решту, виконайте заміну знову."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5852,14 +5839,12 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Я розумію наслідки. Вилучити цей переклад"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Тут містяться поточні компоненти без перекладу."
+msgstr "Існує декілька попереджень для цієї компоненти"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "Переклад ліцензований на умовах вільної ліцензії від ФВПЗ."
 
 #: weblate/templates/trans/embed-alert.html:12
 #, fuzzy
@@ -7214,10 +7199,8 @@ msgid "Repository has changes."
 msgstr "Сховище містить зміни."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Інформація по джерелу"
+msgstr "Інформація про ліцензію відсутня."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
