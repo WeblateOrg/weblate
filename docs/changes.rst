@@ -17,6 +17,7 @@ Released on ? 2019.
 * New addon to squash commits prior to push.
 * Improved displaying of translation changes.
 * Changed default merge style to rebase and made that configurable.
+* Better handle private use subtags in language code.
 
 weblate 3.3
 -----------

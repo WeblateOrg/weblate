@@ -50,6 +50,7 @@ PLURAL_RE = re.compile(
 PLURAL_TITLE = '''
 {name} <i class="fa fa-question-circle text-primary" title="{examples}"></i>
 '''
+COPY_RE = re.compile(r'\([0-9]+\)')
 
 
 def get_plural_type(base_code, pluralequation):
@@ -103,6 +104,13 @@ class LanguageQuerySet(models.QuerySet):
 
     def parse_lang_country(self, code):
         """Parse language and country from locale code."""
+        # Parse private use subtag
+        subtag_pos = code.find('-x-')
+        if subtag_pos != -1:
+            subtag = code[subtag_pos:]
+            code = code[:subtag_pos]
+        else:
+            subtag = ''
         # Parse the string
         if '-' in code:
             lang, country = code.split('-', 1)
@@ -117,7 +125,7 @@ class LanguageQuerySet(models.QuerySet):
             lang = code
             country = None
 
-        return lang, country
+        return lang, country, subtag
 
     @staticmethod
     def sanitize_code(code):
@@ -125,9 +133,13 @@ class LanguageQuerySet(models.QuerySet):
         # Strip b+ prefix from Android
         if code.startswith('b+'):
             code = code[2:]
+
+        # Handle duplicate language files eg. "cs (2)"
+        code = COPY_RE.sub('', code)
+
+        # Remove some unwanted chars
         code = code.replace(' ', '').replace('(', '').replace(')', '')
-        while code and code[-1].isdigit():
-            code = code[:-1]
+
         return code
 
     def aliases_get(self, code):
@@ -175,7 +187,7 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Parse the string
-        lang, country = self.parse_lang_country(code)
+        lang, country, subtags = self.parse_lang_country(code)
 
         # Try "corrected" code
         if country is not None:
@@ -191,6 +203,9 @@ class LanguageQuerySet(models.QuerySet):
             newcode = '{0}_{1}'.format(lang.lower(), country)
         else:
             newcode = lang.lower()
+
+        if subtags:
+            newcode += subtags
 
         ret = self.try_get(code__iexact=newcode)
         if ret is not None:
