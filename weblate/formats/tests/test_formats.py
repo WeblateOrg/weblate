@@ -437,7 +437,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<file target-language="cs">'
     FIND_MATCH = ''
     MASK = 'loc/*/default.xliff'
-    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">'
         b'<source>key</source>'
@@ -455,7 +455,7 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<file target-language="cs">'
     FIND_MATCH = ''
     MASK = 'loc/*/default.xliff'
-    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">'
         b'<source>key</source>'
