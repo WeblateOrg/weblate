@@ -751,6 +751,11 @@ class XliffFormat(TTKitFormat):
         unit.markapproved(False)
         return unit
 
+    @staticmethod
+    def get_language_code(code):
+        """Do any possible formatting needed for language code."""
+        return code.replace('_', '-')
+
 
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')
