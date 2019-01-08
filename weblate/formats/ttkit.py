@@ -206,7 +206,9 @@ class TTKitFormat(TranslationFormat):
         # Set language (needed for some which do not include this)
         if (language_code is not None and
                 self.store.gettargetlanguage() is None):
-            self.store.settargetlanguage(language_code)
+            self.store.settargetlanguage(
+                self.get_language_code(language_code)
+            )
 
     @staticmethod
     def serialize(store):
@@ -301,7 +303,9 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
-        store.settargetlanguage(language.code)
+        store.settargetlanguage(
+            self.get_language_code(language.code)
+        )
         plural = language.plural
 
         for unit in store.units:
