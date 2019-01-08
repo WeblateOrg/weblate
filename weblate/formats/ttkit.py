@@ -304,7 +304,7 @@ class TTKitFormat(TranslationFormat):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         store.settargetlanguage(
-            self.get_language_code(language.code)
+            cls.get_language_code(language.code)
         )
         plural = language.plural
 
