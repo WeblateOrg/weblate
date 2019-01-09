@@ -171,7 +171,18 @@ def get_clean_env(extra=None):
     }
     if extra is not None:
         environ.update(extra)
-    variables = ('PATH', 'LD_LIBRARY_PATH', 'SystemRoot')
+    variables = (
+        'PATH',
+        'LD_LIBRARY_PATH',
+        'LD_PRELOAD',
+        'SystemRoot',
+        # below two are nedded for openshift3 deployment,
+        # where nss_wrapper is used
+        # more on the topic on below link:
+        # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
+        'NSS_WRAPPER_GROUP',
+        'NSS_WRAPPER_PASSWD',
+      )
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]

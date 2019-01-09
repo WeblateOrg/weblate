@@ -21,7 +21,7 @@
         {
             "name": "WEBLATE_REPOSITORY_URL",
             "description": "The URL of the Weblate Git repository.",
-            "value": "https://github.com/GrahamDumpleton/weblate",
+            "value": "https://github.com/WeblateOrg/weblate",
             "required": true
         },
         {
@@ -101,6 +101,12 @@
             "description": "The version of the Python builder.",
             "value": "3.5",
             "required": true
+        },
+        {
+          "name": "REDIS_VERSION",
+          "description": "The version of the Redis cache.",
+          "value": "4-alpine",
+          "required": true
         }
     ],
     "objects": [
@@ -259,6 +265,14 @@
                                     {
                                         "name": "OPENSHIFT_MYSQL_DB_PORT",
                                         "value": "3306"
+                                    },
+                                    {
+                                      "name": "REDIS_HOST",
+                                      "value": "${APPLICATION_NAME}-cache"
+                                    },
+                                    {
+                                      "name": "REDIS_PORT",
+                                      "value": "6379"
                                     }
                                 ],
                                 "volumeMounts": [
@@ -383,6 +397,93 @@
             }
         },
         {
+          "kind": "DeploymentConfig",
+          "apiVersion": "v1",
+          "metadata": {
+            "name": "${APPLICATION_NAME}-cache",
+            "labels": {
+              "app": "${APPLICATION_NAME}"
+            }
+          },
+          "spec": {
+            "strategy": {
+              "type": "Recreate"
+            },
+            "triggers": [
+              {
+                "type": "ConfigChange"
+              },
+              {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                    "redis"
+                  ],
+                  "from": {
+                    "kind": "ImageStreamTag",
+                    "namespace": "openshift",
+                    "name": "redis:${REDIS_VERSION}"
+                  }
+                }
+              }
+            ],
+            "replicas": 1,
+            "selector": {
+              "app": "${APPLICATION_NAME}",
+              "deploymentconfig": "${APPLICATION_NAME}-cache"
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "${APPLICATION_NAME}",
+                  "deploymentconfig": "${APPLICATION_NAME}-cache"
+                }
+              },
+              "spec": {
+                "volumes": [
+                  {
+                    "name": "redis-data",
+                    "persistentVolumeClaim": {
+                      "claimName": "${APPLICATION_NAME}-redis-data"
+                    }
+                  }
+                ],
+                "containers": [
+                  {
+                    "name": "redis",
+                    "image": "redis",
+                    "ports": [
+                      {
+                        "containerPort": 6379,
+                        "protocol": "TCP"
+                      }
+                    ],
+                    "args": [
+                      "redis-server",
+                      "--appendonly",
+                      "yes"
+                    ],
+                    "livenessProbe": {
+                      "timeoutSeconds": 1,
+                      "initialDelaySeconds": 30,
+                      "tcpSocket": {
+                        "port": 6379
+                      }
+                    },
+                    "volumeMounts": [
+                      {
+                        "name": "redis-data",
+                        "mountPath": "/data"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
             "kind": "Service",
             "apiVersion": "v1",
             "metadata": {
@@ -430,6 +531,30 @@
                 }
             }
         },
+        {
+          "kind": "Service",
+          "apiVersion": "v1",
+          "metadata": {
+              "name": "${APPLICATION_NAME}-cache",
+              "labels": {
+                  "app": "${APPLICATION_NAME}"
+              }
+          },
+          "spec": {
+              "ports": [
+                  {
+                      "name": "6379-tcp",
+                      "protocol": "TCP",
+                      "port": 6379,
+                      "targetPort": 6379
+                  }
+              ],
+              "selector": {
+                  "app": "${APPLICATION_NAME}",
+                  "deploymentconfig": "${APPLICATION_NAME}-cache"
+              }
+          }
+      },
         {
             "kind": "Route",
             "apiVersion": "v1",
