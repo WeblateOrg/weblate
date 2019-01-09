@@ -172,9 +172,12 @@ def get_clean_env(extra=None):
     if extra is not None:
         environ.update(extra)
     variables = (
+        # Keep PATH setup
         'PATH',
+        # Keep linker configuration
         'LD_LIBRARY_PATH',
         'LD_PRELOAD',
+        # Needed by Git on Windows
         'SystemRoot',
         # below two are nedded for openshift3 deployment,
         # where nss_wrapper is used
