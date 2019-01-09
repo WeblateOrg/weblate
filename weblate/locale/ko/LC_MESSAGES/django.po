@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-12-31 13:32+0000\n"
-"PO-Revision-Date: 2019-01-05 20:39+0000\n"
+"PO-Revision-Date: 2019-01-09 12:07+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -1438,7 +1438,7 @@ msgstr "시도"
 
 #: weblate/billing/models.py:152 weblate/templates/billing/detail.html:13
 msgid "Expired"
-msgstr "유효시간 초과"
+msgstr "만료된"
 
 #: weblate/billing/models.py:153
 msgid "Terminated"
@@ -1939,8 +1939,6 @@ msgid "Singular"
 msgstr "단수형"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "복수형"
@@ -3927,32 +3925,28 @@ msgid "Browse all component changes"
 msgstr "모든 컴포넌트 변경 사항 찾아보기"
 
 #: weblate/templates/component.html:215
-#, fuzzy
-#| msgid "Removed component"
 msgid "Rename component"
-msgstr "컴포넌트 제거"
+msgstr "컴포넌트 이름 변경"
 
 #: weblate/templates/component.html:218
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
+msgstr "컴포넌트의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 북마크나 참조를 업데이트 해야 합니다!"
 
 #: weblate/templates/component.html:230
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "컴포넌트 제거"
+msgstr "컴포넌트 이동"
 
 #: weblate/templates/component.html:233
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
+msgstr "컴포넌트를 이동하면 도는 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 북마크나 참조를 업데이트 해야 합니다!"
 
 #: weblate/templates/component.html:238
 msgid "Move"
-msgstr ""
+msgstr "이동"
 
 #: weblate/templates/component.html:249 weblate/templates/project.html:283
 #: weblate/templates/translate.html:364 weblate/templates/translate.html:368
@@ -4367,17 +4361,13 @@ msgstr ""
 "%(weblate_name_link)s를 이용하여 번역되고 있습니다."
 
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"영어로 <a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 "
-"%(total)s 개의 문자열을 포함하고 있고 %(percent)s%% 완료 되었습니다."
+"영어로 번역하기 프로젝트 %(project)s은(는) 현재 번역 %(total)s개의 문자열을 포함하고 있고 %(percent)s%%가 "
+"완료되었습니다."
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -4425,10 +4415,8 @@ msgid "Translate"
 msgstr "번역하기"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "다른 언어"
+msgstr "프로젝트 언어 보기"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5413,16 +5401,14 @@ msgid "Browse all project changes"
 msgstr "모든 프로젝트 변경 사항 찾아보기"
 
 #: weblate/templates/project.html:265
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "프로젝트 제거"
+msgstr "프로젝트 이름 변경"
 
 #: weblate/templates/project.html:268
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
+msgstr "프로젝트의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 북마크나 참조를 업데이트 해야 합니다!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5457,6 +5443,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+".이 검색에서 너무 많은 결과가 나타났습니다. 처음 250개만 보여주고 바꿀 수 있습니다. 다른 것들을 이름을 변경하고 싶다면, 교체를 "
+"다시 진행하시길 바랍니다."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5638,7 +5626,7 @@ msgstr ""
 msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
-msgstr ""
+msgstr "공개적으로 사용 가능한 모든 프로젝트는 기여자들에게 적용되는 약관을 가리키는 라이선스를 명시해야 합니다."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5706,10 +5694,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "모든 프로젝트에서 컴포넌트를 생성할 권한이 없습니다."
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "상황・문맥"
+msgstr "계속"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -5724,20 +5710,16 @@ msgid "I understand the consequences, delete this translation"
 msgstr "저는 결과를 이해합니다, 이 번역을 삭제합니다"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "현재 번역 컴포넌트가 없습니다."
+msgstr "이 컴포넌트에 경고가 있습니다"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "번역은 FSF에 따라 자유 라이선스 하에 허가됩니다."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr "번역된 내용은 자유 소프트웨어 라이센스 하에 배포되어야 합니다."
+msgstr "번역은 OSI 승인 라이센스 하에 허가됩니다."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6957,14 +6939,12 @@ msgid "Repository branch to translate"
 msgstr "번역할 저장소 분기"
 
 #: weblate/trans/forms.py:1589
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "번역 파일 정리"
+msgstr "가져올 번역 파일 선택"
 
 #: weblate/trans/forms.py:1591
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "수동으로 구성 지정"
 
 #: weblate/trans/forms.py:1709
 #, python-format
@@ -7070,10 +7050,8 @@ msgid "Repository has changes."
 msgstr "저장소가 변경 사항이 있습니다."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "원본 정보"
+msgstr "라이선스 정보가 누락되었습니다."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7228,22 +7206,16 @@ msgid "Found duplicated language"
 msgstr "중복 언어 발견됨"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "프로젝트 제거"
+msgstr "프로젝트 이름 변경"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "컴포넌트 제거"
+msgstr "컴포넌트 이름 변경"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "컴포넌트 제거"
+msgstr "이동된 컴포넌트"
 
 #: weblate/trans/models/change.py:340
 #, python-format
@@ -7460,10 +7432,8 @@ msgid "Commit message when removing translation"
 msgstr "번역을 삭제할 때 커밋 메시지"
 
 #: weblate/trans/models/component.py:381
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "번역을 삭제할 때 커밋 메시지"
+msgstr "번역을 병합할 때 커밋 메시지"
 
 #: weblate/trans/models/component.py:390
 msgid "Committer name"
