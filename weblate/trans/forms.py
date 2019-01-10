@@ -1467,14 +1467,19 @@ class ComponentSettingsForm(SettingsBaseForm):
                         'commit_pending_age',
                         'merge_style',
                     ),
+                    css_id='vcs',
+                ),
+                Tab(
+                    _('Commit messages'),
                     Fieldset(
                         _('Commit messages'),
+                        Div(template='trans/messages_help.html'),
                         'commit_message',
                         'add_message',
                         'delete_message',
                         'merge_message',
                     ),
-                    css_id='vcs',
+                    css_id='messages',
                 ),
                 Tab(
                     _('Files'),
