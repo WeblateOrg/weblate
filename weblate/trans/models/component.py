@@ -601,7 +601,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 parsed = urlparse(self.repo)
                 if not parsed.hostname:
                     parsed = urlparse('ssh://{}'.format(self.repo))
-                print self.repo, parsed.hostname
                 if parsed.hostname:
                     try:
                         port = parsed.port
