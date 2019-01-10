@@ -426,7 +426,10 @@ class XliffUnit(TTKitUnit):
         """Return source string from a ttkit unit."""
 
         if self.template is not None:
-            return rich_to_xliff_string(self.template.rich_target)
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return rich_to_xliff_string(self.template.rich_target)
+            return rich_to_xliff_string(self.template.rich_source)
         return rich_to_xliff_string(self.unit.rich_source)
 
     @cached_property
