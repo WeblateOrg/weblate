@@ -38,6 +38,8 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
+from six.moves.urllib.parse import urlparse
+
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
@@ -59,6 +61,7 @@ from weblate.trans.signals import (
 )
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.ssh import add_host_key
 from weblate.utils.stats import ComponentStats
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models.alert import ALERTS_IMPORT
@@ -591,8 +594,33 @@ class Component(models.Model, URLMixin, PathMixin):
             return message
         return cleanup_repo_url(self.repo, message)
 
+    def handle_update_error(self, error_text, retry):
+        if 'Host key verification failed' in error_text:
+            if retry:
+                # Add ssh key and retry
+                parsed = urlparse(self.repo)
+                if not parsed.hostname:
+                    parsed = urlparse('ssh://{}'.format(self.repo))
+                print self.repo, parsed.hostname
+                if parsed.hostname:
+                    try:
+                        port = parsed.port
+                    except ValueError:
+                        port = ''
+                    add_host_key(None, parsed.hostname, port)
+                return
+            raise ValidationError({
+                'repo': _(
+                    'Failed to verify SSH host key, please add '
+                    'them in SSH page in the admin interface.'
+                )
+            })
+        raise ValidationError({
+            'repo': _('Failed to fetch repository: %s') % error_text
+        })
+
     @perform_on_link
-    def update_remote_branch(self, validate=False):
+    def update_remote_branch(self, validate=False, retry=True):
         """Pull from remote repository."""
         # Update
         self.log_info('updating repository')
@@ -611,16 +639,8 @@ class Component(models.Model, URLMixin, PathMixin):
             error_text = self.error_text(error)
             self.log_error('failed to update repository: %s', error_text)
             if validate:
-                if 'Host key verification failed' in error_text:
-                    raise ValidationError({
-                        'repo': _(
-                            'Failed to verify SSH host key, please add '
-                            'them in SSH page in the admin interface.'
-                        )
-                    })
-                raise ValidationError({
-                    'repo': _('Failed to fetch repository: %s') % error_text
-                })
+                self.handle_update_error(error_text, retry)
+                return self.update_remote_branch(True, False)
             if self.id:
                 self.add_alert('UpdateFailure', childs=True, error=error_text)
             return False
