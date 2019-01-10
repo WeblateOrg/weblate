@@ -135,7 +135,7 @@ upstream git repository: intact and working copy):
 
 .. seealso::
 
-   :ref:`git-export`
+   :ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-conflicts`
 
 How do I translate several branches at once?
 --------------------------------------------
