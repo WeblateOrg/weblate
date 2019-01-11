@@ -26,8 +26,8 @@
 </p>
 <p>
 {% if language %}
-{% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
 {% filter replace_english:language %}
+{% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
 {% blocktrans %}The translation project for {{ project }} into English currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
 {% endfilter %}
 {% else %}
