@@ -28,14 +28,14 @@ the user making the suggestion).
 You can combine these with :ref:`privileges` into one of the following setups:
 
 * Users suggest and vote for suggestions, a limited group controls what is
-  accepted - To save translations, turn on voting, but not automatic acceptance and 
+  accepted - turn on voting, but automatic acceptance off, and 
   don't let users save translations.
 * Users suggest and vote for suggestions with automatical acceptance
   once the defined number of them agree - turn on voting and set the desired
   number of votes for automatic acceptance.
 * Optional voting for suggestions - you can also turn on voting only, and in
   this case it can optionally be used by users when they are unsure about
-  a translation (they can suggest more of them).
+  a translation by making multiple suggestions.
 
 .. _additional:
 
