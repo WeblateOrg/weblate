@@ -253,7 +253,7 @@ def add_dictionary(request, unit_id):
     results = ''
     words = []
 
-    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
+    if request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             word = Dictionary.objects.create(
