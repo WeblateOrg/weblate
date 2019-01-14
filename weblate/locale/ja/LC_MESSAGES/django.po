@@ -4,7 +4,7 @@
 # Yasuhiko Kamata <belphegor@belbel.or.jp>, 2015, 2018.
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2018.
 # Tetsuro Shimazaki <shimazaki@shima-office.com>, 2018.
-# Ryo Nakano <ryonakaknock3@gmail.com>, 2018.
+# Ryo Nakano <ryonakaknock3@gmail.com>, 2018, 2019.
 # 日本語翻訳貢献者 <vllgwvhm@zat.att.ne.jp>, 2018.
 # minhavoz <vllgwvhm@zat.att.ne.jp>, 2018.
 # Amado Wilkins <epicalert68@gmail.com>, 2018.
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-11 14:21+0000\n"
-"PO-Revision-Date: 2018-12-25 17:09+0000\n"
-"Last-Translator: Amado Wilkins <epicalert68@gmail.com>\n"
+"PO-Revision-Date: 2019-01-14 07:23+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -1975,15 +1975,11 @@ msgid "Weblate languages"
 msgstr "Weblate 言語"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "単数形"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "複数形"
@@ -4456,17 +4452,13 @@ msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">%(project)s の日本語翻訳プロジェクト</a> には、現時点で文"
-"字列が %(total)s 個あり、全体での翻訳は %(percent)s%% 完了しています。"
+"%(project)s の日本語翻訳プロジェクトには、現時点で文字列が %(total)s 個あり、全体での翻訳は %(percent)s%% "
+"完了しています。"
 
 #: weblate/templates/engage.html:34
 #, fuzzy, python-format
@@ -5525,10 +5517,8 @@ msgid "Browse all project changes"
 msgstr "すべてのプロジェクトの変更を参照する"
 
 #: weblate/templates/project.html:265
-#, fuzzy
-#| msgid "Removed project"
 msgid "Rename project"
-msgstr "プロジェクトを削除しました"
+msgstr "プロジェクトの名前を変更"
 
 #: weblate/templates/project.html:268
 msgid ""
@@ -5820,10 +5810,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "どのプロジェクトに対してもコンポーネントを作成する権限がありません。"
 
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "コンテキスト"
+msgstr "続行"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
@@ -7096,10 +7084,8 @@ msgid "Repository branch to translate"
 msgstr "翻訳するリポジトリブランチ"
 
 #: weblate/trans/forms.py:1594
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
-msgstr "翻訳ファイルのクリーンアップ"
+msgstr "インポートする翻訳ファイルを選択"
 
 #: weblate/trans/forms.py:1596
 msgid "Specify configuration manually"
@@ -7363,16 +7349,12 @@ msgid "Found duplicated language"
 msgstr "重複した言語を見つけました"
 
 #: weblate/trans/models/change.py:242
-#, fuzzy
-#| msgid "Removed project"
 msgid "Renamed project"
-msgstr "プロジェクトを削除しました"
+msgstr "プロジェクトの名前を変更しました"
 
 #: weblate/trans/models/change.py:243
-#, fuzzy
-#| msgid "Removed component"
 msgid "Renamed component"
-msgstr "コンポーネントを削除しました"
+msgstr "コンポーネントの名前を変更しました"
 
 #: weblate/trans/models/change.py:244
 #, fuzzy
@@ -7600,10 +7582,8 @@ msgid "Commit message when removing translation"
 msgstr "翻訳削除時のコミットメッセージ"
 
 #: weblate/trans/models/component.py:384
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "翻訳削除時のコミットメッセージ"
+msgstr "翻訳マージの際のコミットメッセージ"
 
 #: weblate/trans/models/component.py:393
 msgid "Committer name"
