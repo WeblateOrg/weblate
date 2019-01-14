@@ -288,6 +288,7 @@ def add_dictionary(request, unit_id):
 
 
 @never_cache
+@session_ratelimit_post('glossary_add')
 def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
