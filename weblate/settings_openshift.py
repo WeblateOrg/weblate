@@ -45,6 +45,9 @@ if 'OPENSHIFT_MYSQL_DB_URL' in os.environ:
             'PASSWORD': os.environ['OPENSHIFT_MYSQL_DB_PASSWORD'],
             'HOST': os.environ['OPENSHIFT_MYSQL_DB_HOST'],
             'PORT': os.environ['OPENSHIFT_MYSQL_DB_PORT'],
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            },
         }
     }
 

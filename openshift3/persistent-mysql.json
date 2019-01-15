@@ -67,6 +67,12 @@
             "required": true
         },
         {
+          "name": "CACHE_VOLUME_SIZE",
+          "description": "Size of the persistent volume for Redis Cache.",
+          "value": "1Gi",
+          "required": true
+        },
+        {
             "name": "DATABASE_VOLUME_SIZE",
             "description": "Size of the persistent volume for the database.",
             "value": "1Gi",
@@ -105,7 +111,14 @@
         {
           "name": "REDIS_VERSION",
           "description": "The version of the Redis cache.",
-          "value": "4-alpine",
+          "value": "3.2",
+          "required": true
+        },
+        {
+          "name": "REDIS_PASSWORD",
+          "description": "Password for the Redis connection user.",
+          "from": "[a-zA-Z0-9]{16}",
+          "generate": "expression",
           "required": true
         }
     ],
@@ -236,7 +249,12 @@
                                     },
                                     {
                                         "name": "DJANGO_ADMIN_PASSWORD",
-                                        "value": "${WEBLATE_ADMIN_PASSWORD}"
+                                        "valueFrom": {
+                                          "secretKeyRef": {
+                                              "key": "weblate-admin-password",
+                                              "name": "weblate-admin-password"
+                                          }
+                                        }
                                     },
                                     {
                                         "name": "DJANGO_ADMIN_EMAIL",
@@ -381,7 +399,12 @@
                                     },
                                     {
                                         "name": "MYSQL_PASSWORD",
-                                        "value": "${DATABASE_PASSWORD}"
+                                        "valueFrom": {
+                                          "secretKeyRef": {
+                                              "key": "db-password",
+                                              "name": "db-password"
+                                          }
+                                        }
                                     }
                                 ],
                                 "volumeMounts": [
@@ -443,7 +466,7 @@
               "spec": {
                 "volumes": [
                   {
-                    "name": "redis-data",
+                    "name": "data",
                     "persistentVolumeClaim": {
                       "claimName": "${APPLICATION_NAME}-redis-data"
                     }
@@ -452,17 +475,13 @@
                 "containers": [
                   {
                     "name": "redis",
-                    "image": "redis",
+                    "image": " ",
+                    "imagePullPolicy": "IfNotPresent",
                     "ports": [
                       {
                         "containerPort": 6379,
                         "protocol": "TCP"
                       }
-                    ],
-                    "args": [
-                      "redis-server",
-                      "--appendonly",
-                      "yes"
                     ],
                     "livenessProbe": {
                       "timeoutSeconds": 1,
@@ -471,16 +490,76 @@
                         "port": 6379
                       }
                     },
+                    "readinessProbe": {
+                      "exec": {
+                        "command": [
+                          "/bin/sh",
+                          "-i",
+                          "-c",
+                          "test \"$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)\" == \"PONG\""
+                        ]
+                      },
+                      "failureThreshold": 3,
+                      "initialDelaySeconds": 5,
+                      "periodSeconds": 10,
+                      "successThreshold": 1,
+                      "timeoutSeconds": 1
+                    },
                     "volumeMounts": [
                       {
-                        "name": "redis-data",
-                        "mountPath": "/data"
+                        "name": "data",
+                        "mountPath": "/var/lib/redis/data"
                       }
+                    ],
+                    "capabilities": {},
+                    "env": [
+                        {
+                            "name": "REDIS_PASSWORD",
+                            "valueFrom": {
+                                "secretKeyRef": {
+                                    "key": "redis-password",
+                                    "name": "redis"
+                                }
+                            }
+                        }
                     ]
                   }
                 ]
               }
             }
+          }
+        },
+        {
+          "apiVersion": "v1",
+          "kind": "Secret",
+          "metadata": {
+              "annotations": {
+                  "template.openshift.io/expose-password": "{.data['redis-password']}"
+              },
+              "name": "redis"
+          },
+          "stringData": {
+              "redis-password": "${REDIS_PASSWORD}"
+          }
+        },
+        {
+          "apiVersion": "v1",
+          "kind": "Secret",
+          "metadata": {
+              "name": "weblate-admin-password"
+          },
+          "stringData": {
+              "weblate-admin-password": "${WEBLATE_ADMIN_PASSWORD}"
+          }
+        },
+        {
+          "apiVersion": "v1",
+          "kind": "Secret",
+          "metadata": {
+              "name": "db-password"
+          },
+          "stringData": {
+              "db-password": "${DATABASE_PASSWORD}"
           }
         },
         {
@@ -532,29 +611,29 @@
             }
         },
         {
-          "kind": "Service",
-          "apiVersion": "v1",
-          "metadata": {
-              "name": "${APPLICATION_NAME}-cache",
-              "labels": {
-                  "app": "${APPLICATION_NAME}"
-              }
-          },
-          "spec": {
-              "ports": [
-                  {
-                      "name": "6379-tcp",
-                      "protocol": "TCP",
-                      "port": 6379,
-                      "targetPort": 6379
-                  }
-              ],
-              "selector": {
-                  "app": "${APPLICATION_NAME}",
-                  "deploymentconfig": "${APPLICATION_NAME}-cache"
-              }
-          }
-      },
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-cache",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "6379-tcp",
+                        "protocol": "TCP",
+                        "port": 6379,
+                        "targetPort": 6379
+                    }
+                ],
+                "selector": {
+                    "app": "${APPLICATION_NAME}",
+                    "deploymentconfig": "${APPLICATION_NAME}-cache"
+                }
+            }
+        },
         {
             "kind": "Route",
             "apiVersion": "v1",
@@ -596,6 +675,26 @@
                 "resources": {
                     "requests": {
                         "storage": "${DATABASE_VOLUME_SIZE}"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "PersistentVolumeClaim",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-redis-data",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "${CACHE_VOLUME_SIZE}"
                     }
                 }
             }
