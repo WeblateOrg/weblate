@@ -1348,7 +1348,7 @@ class ReportsForm(forms.Form):
 class CleanRepoMixin(object):
     def clean_repo(self):
         repo = self.cleaned_data.get('repo')
-        if not repo or not is_repo_link(repo) or not '/' in repo[10:]:
+        if not repo or not is_repo_link(repo) or '/' not in repo[10:]:
             return repo
         project, component = repo[10:].split('/', 1)
         try:
