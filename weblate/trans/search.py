@@ -70,7 +70,7 @@ class Fulltext(WhooshIndex):
         return self.open_index(TargetSchema, name)
 
     @staticmethod
-    def update_source_unit_index(writer, unit):
+    def update_source_unit_index(writer, searcher, unit):
         """Update source index for given unit."""
         if not isinstance(unit, dict):
             unit = {
@@ -79,7 +79,8 @@ class Fulltext(WhooshIndex):
                 'location': unit.location,
                 'pk': unit.pk,
             }
-        writer.update_document(
+        writer.delete_by_term('pk', unit['pk'], searcher)
+        writer.add_document(
             pk=unit['pk'],
             source=force_text(unit['source']),
             context=force_text(unit['context']),
@@ -107,8 +108,9 @@ class Fulltext(WhooshIndex):
         # Update source index
         index = self.get_source_index()
         with index.writer() as writer:
-            for unit in units:
-                self.update_source_unit_index(writer, unit)
+            with writer.searcher() as searcher:
+                for unit in units:
+                    self.update_source_unit_index(writer, searcher, unit)
 
         languages = set([unit['language'] for unit in units])
 
