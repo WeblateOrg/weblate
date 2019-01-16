@@ -242,19 +242,21 @@ class Fulltext(WhooshIndex):
         except IOError:
             return
 
+    def delete_units_index(index, units):
+        with index.writer() as writer:
+            with writer.searcher() as searcher:
+                for pk in units:
+                    writer.delete_by_term('pk', pk, searcher)
+
     def delete_search_units(self, source_units, languages):
         """Delete fulltext index for given set of units."""
         # Update source index
         index = self.get_source_index()
-        with index.writer() as writer:
-            for pk in source_units:
-                writer.delete_by_term('pk', pk)
+        self.delete_units_index(index, source_units)
 
         for lang, units in languages.items():
             index = self.get_target_index(lang)
-            with index.writer() as writer:
-                for pk in units:
-                    writer.delete_by_term('pk', pk)
+            self.delete_units_index(index, units)
 
 
 @app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
