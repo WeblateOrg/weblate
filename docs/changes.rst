@@ -18,6 +18,7 @@ Released on ? 2019.
 * Improved displaying of translation changes.
 * Changed default merge style to rebase and made that configurable.
 * Better handle private use subtags in language code.
+* Improved performance of fulltext index updates.
 
 weblate 3.3
 -----------
