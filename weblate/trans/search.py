@@ -230,18 +230,6 @@ class Fulltext(WhooshIndex):
         if not cls.FAKE:
             delete_fulltext.delay(pk, lang)
 
-    def delete_search_unit(self, pk, lang):
-        try:
-            indexes = (
-                self.get_source_index(),
-                self.get_target_index(lang)
-            )
-            for index in indexes:
-                with AsyncWriter(index) as writer:
-                    writer.delete_by_term('pk', pk)
-        except IOError:
-            return
-
     def delete_units_index(index, units):
         with index.writer() as writer:
             with writer.searcher() as searcher:
