@@ -240,12 +240,16 @@ class Fulltext(WhooshIndex):
     def delete_search_units(self, source_units, languages):
         """Delete fulltext index for given set of units."""
         # Update source index
-        index = self.get_source_index()
-        self.delete_units_index(index, source_units)
+        self.delete_units_index(
+            self.get_source_index()
+            source_units
+        )
 
         for lang, units in languages.items():
-            index = self.get_target_index(lang)
-            self.delete_units_index(index, units)
+            self.delete_units_index(
+                self.get_target_index(lang),
+                units
+            )
 
 
 @app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
