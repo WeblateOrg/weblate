@@ -31,7 +31,6 @@ from celery_batches import Batches
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.query import Or, Term
 from whoosh.index import LockError
-from whoosh.writing import AsyncWriter
 from whoosh import qparser
 
 from django.utils.encoding import force_text
@@ -220,7 +219,9 @@ class Fulltext(WhooshIndex):
             # Filter bad results
             threshold = max([h[1] for h in results]) / 2
             results = [h[0] for h in results if h[1] > threshold]
-            LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
+            LOGGER.debug(
+                'filter %d matches over threshold %d', len(results), threshold
+            )
 
             return results
 
