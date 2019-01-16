@@ -634,5 +634,6 @@ class Metrics(APIView):
             'suggestions': Suggestion.objects.count(),
             'index_updates': get_queue_length('search'),
             'celery_queue': get_queue_length(),
+            'celery_memory_queue': get_queue_length('memory'),
             'name': settings.SITE_TITLE,
         })
