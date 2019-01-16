@@ -231,7 +231,7 @@ class Fulltext(WhooshIndex):
         if not cls.FAKE:
             delete_fulltext.delay(pk, lang)
 
-    def delete_units_index(index, units):
+    def delete_units_index(self, index, units):
         with index.writer() as writer:
             with writer.searcher() as searcher:
                 for pk in units:
