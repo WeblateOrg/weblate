@@ -241,7 +241,7 @@ class Fulltext(WhooshIndex):
         """Delete fulltext index for given set of units."""
         # Update source index
         self.delete_units_index(
-            self.get_source_index()
+            self.get_source_index(),
             source_units
         )
 
