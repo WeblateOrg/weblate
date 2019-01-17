@@ -1808,7 +1808,7 @@ class NewUnitForm(forms.Form):
         self.fields['value'].widget.profile = user.profile
 
 
-class MassStateForm(forms.Form):
+class BulkStateForm(forms.Form):
     type = FilterField(
         required=True,
         initial='all',
@@ -1820,7 +1820,7 @@ class MassStateForm(forms.Form):
     )
 
     def __init__(self, user, obj, *args, **kwargs):
-        super(MassStateForm, self).__init__(*args, **kwargs)
+        super(BulkStateForm, self).__init__(*args, **kwargs)
         excluded = {STATE_EMPTY}
         translation = None
         if isinstance(obj, Translation):

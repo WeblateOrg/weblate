@@ -532,11 +532,11 @@ class ReplaceTest(ViewTestCase):
         )
 
 
-class MassStateTest(ViewTestCase):
+class BulkStateTest(ViewTestCase):
     """Test for mass state change functionality."""
 
     def setUp(self):
-        super(MassStateTest, self).setUp()
+        super(BulkStateTest, self).setUp()
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
@@ -557,7 +557,7 @@ class MassStateTest(ViewTestCase):
         unit = self.get_unit()
         self.assertContains(
             response,
-            'Mass state change completed, 1 string was updated.'
+            'Bulk status change completed, 1 string was updated.'
         )
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
@@ -572,7 +572,7 @@ class MassStateTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Mass state change completed, no strings were updated.'
+            'Bulk status change completed, no strings were updated.'
         )
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)

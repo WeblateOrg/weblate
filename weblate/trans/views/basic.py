@@ -41,7 +41,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
+    ReportsForm, ReplaceForm, NewUnitForm, BulkStateForm, DownloadForm,
     DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
 )
 from weblate.accounts.notifications import notify_new_language
@@ -152,7 +152,7 @@ def show_project(request, project):
 # ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
             'components': components,
@@ -191,7 +191,7 @@ def show_component(request, project, component):
             ).distinct().count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
             'delete_form': optional_form(
@@ -248,7 +248,7 @@ def show_translation(request, project, component, lang):
             'review_form': review_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
             'new_unit_form': NewUnitForm(

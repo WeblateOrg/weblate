@@ -32,7 +32,7 @@ from django.views.decorators.http import require_POST
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
-    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
+    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, BulkStateForm,
 )
 from weblate.trans.models import Unit, Change
 from weblate.utils.views import (
@@ -237,7 +237,7 @@ def state_change(request, project, component=None, lang=None):
     if not request.user.has_perm('translation.auto', obj):
         raise PermissionDenied()
 
-    form = MassStateForm(request.user, obj, request.POST)
+    form = BulkStateForm(request.user, obj, request.POST)
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
@@ -267,10 +267,10 @@ def state_change(request, project, component=None, lang=None):
 
     import_message(
         request, updated,
-        _('Mass state change completed, no strings were updated.'),
+        _('Bulk status change completed, no strings were updated.'),
         ungettext(
-            'Mass state change completed, %d string was updated.',
-            'Mass state change completed, %d strings were updated.',
+            'Bulk status change completed, %d string was updated.',
+            'Bulk status change completed, %d strings were updated.',
             updated
         )
     )
