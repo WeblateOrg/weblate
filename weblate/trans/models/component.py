@@ -827,9 +827,11 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
         # create translation objects for all files
-        self.create_translations(request=request)
-
-        return True
+        try:
+            self.create_translations(request=request)
+            return True
+        except FileParseError:
+            return False
 
     @perform_on_link
     def do_cleanup(self, request=None):
