@@ -766,8 +766,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Add suggestion
             if dbunit.target != unit.target:
-                Suggestion.objects.add(dbunit, unit.target, request)
-                accepted += 1
+                if Suggestion.objects.add(dbunit, unit.target, request):
+                    accepted += 1
+                else:
+                    skipped += 1
             else:
                 skipped += 1
 
