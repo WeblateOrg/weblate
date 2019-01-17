@@ -24,8 +24,6 @@ import os
 import os.path
 import re
 
-from dateutil import parser
-
 import six
 from six.moves.configparser import RawConfigParser
 
@@ -226,10 +224,7 @@ class HgRepository(Repository):
             name, value = line.strip().split(':', 1)
             value = value.strip()
             name = name.lower()
-            if 'date' in name:
-                result[name] = parser.parse(value)
-            else:
-                result[name] = value
+            result[name] = value
 
         result['message'] = '\n'.join(message)
         result['summary'] = message[0]

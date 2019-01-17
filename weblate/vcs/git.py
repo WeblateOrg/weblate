@@ -24,8 +24,6 @@ import email.utils
 import os
 import os.path
 
-from dateutil import parser
-
 from defusedxml import ElementTree
 
 from django.conf import settings
@@ -211,14 +209,11 @@ class GitRepository(Repository):
                     name, value = line.strip().split(':', 1)
                     value = value.strip()
                     name = name.lower()
-                    if 'date' in name:
-                        result[name] = parser.parse(value)
-                    else:
-                        result[name] = value
-                        if '@' in value:
-                            parsed = email.utils.parseaddr(value)
-                            result['{0}_name'.format(name)] = parsed[0]
-                            result['{0}_email'.format(name)] = parsed[1]
+                    result[name] = value
+                    if '@' in value:
+                        parsed = email.utils.parseaddr(value)
+                        result['{0}_name'.format(name)] = parsed[0]
+                        result['{0}_email'.format(name)] = parsed[1]
             else:
                 message.append(line.strip())
 

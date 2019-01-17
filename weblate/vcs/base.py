@@ -28,6 +28,8 @@ import sys
 import subprocess
 import logging
 
+from dateutil import parser
+
 from django.core.cache import cache
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
@@ -289,6 +291,12 @@ class Repository(object):
             result = self._get_revision_info(revision)
             # Keep the cache for one day
             cache.set(key, result, 86400)
+
+        # Parse timestamps into datetime objects
+        for name, value in result.items():
+            if 'date' in name:
+                result[name] = parser.parse(value)
+
         return result
 
     @classmethod
