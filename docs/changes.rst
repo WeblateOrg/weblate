@@ -19,6 +19,7 @@ Released on ? 2019.
 * Changed default merge style to rebase and made that configurable.
 * Better handle private use subtags in language code.
 * Improved performance of fulltext index updates.
+* Extended file upload API to support more parameters.
 
 weblate 3.3
 -----------

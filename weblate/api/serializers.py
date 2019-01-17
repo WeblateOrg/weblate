@@ -346,6 +346,16 @@ class UploadRequestSerializer(ReadOnlySerializer):
     file = serializers.FileField()
     email = serializers.EmailField(required=False)
     author = serializers.CharField(max_length=200, required=False)
+    method = serializers.ChoiceField(
+        choices=('translate', 'approve', 'suggest', 'fuzzy'),
+        required=False,
+        default='translate',
+    )
+    fuzzy = serializers.ChoiceField(
+        choices=('', 'process', 'approve'),
+        required=False,
+        default=''
+    )
 
 
 class RepoRequestSerializer(ReadOnlySerializer):

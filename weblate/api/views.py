@@ -436,11 +436,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
+        user = request.user
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not request.user.has_perm('upload.perform', obj) or
+        if (not user.has_perm('upload.perform', obj) or
                 obj.component.locked):
             raise PermissionDenied()
 
@@ -449,23 +450,35 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
 
-        if (serializer.validated_data['overwrite'] and
-                not request.user.has_perm('upload.overwrite', obj)):
+        if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
+            raise PermissionDenied()
+
+        if (not user.has_perm('unit.edit', obj) and
+                data['method'] in ('translate', 'fuzzy')):
+            raise PermissionDenied()
+        if (not user.has_perm('suggestion.add', obj) and
+                data['method'] == 'suggest'):
+            raise PermissionDenied()
+        if (not user.has_perm('unit.review', obj) and
+                data['method'] == 'approve'):
             raise PermissionDenied()
 
         author = None
         if request.user.has_perm('upload.authorship', obj):
-            email = serializer.validated_data.get('email', None)
-            name = serializer.validated_data.get('author', None)
+            email = data.get('email', None)
+            name = data.get('author', None)
             if email and name:
                 author = '{0} <{1}>'.format(name, email)
 
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
-            serializer.validated_data['file'],
-            serializer.validated_data['overwrite'],
-            author
+            data['file'],
+            data['overwrite'],
+            author,
+            data['method'],
+            data['fuzzy'],
         )
 
         return Response(data={

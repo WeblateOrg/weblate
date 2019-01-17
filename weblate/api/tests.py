@@ -490,6 +490,48 @@ class TranslationAPITest(APIBaseTest):
             }
         )
 
+    def test_upload_suggest(self):
+        self.authenticate()
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle, 'method': 'suggest'},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                'accepted': 1,
+                'count': 5,
+                'not_found': 0,
+                'result': True,
+                'skipped': 0,
+                'total': 5
+            }
+        )
+        self.assertEqual(self.component.project.suggestion_set.count(), 1)
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle, 'method': 'suggest'},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                'accepted': 0,
+                'count': 5,
+                'not_found': 0,
+                'result': False,
+                'skipped': 1,
+                'total': 5
+            }
+        )
+
     def test_upload_invalid(self):
         self.authenticate()
         response = self.client.put(
