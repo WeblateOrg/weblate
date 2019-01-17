@@ -283,7 +283,7 @@ class Repository(object):
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        key = 'rev-info-{}'.format(revision)
+        key = 'rev-info-{}-{}'.format(self.name, revision)
         result = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
