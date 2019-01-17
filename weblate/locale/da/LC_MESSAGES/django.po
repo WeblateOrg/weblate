@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-14 07:23+0000\n"
+"PO-Revision-Date: 2019-01-18 12:37+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -3977,10 +3977,8 @@ msgstr "Gennemgå"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "Masse-tilstandsændring"
+msgstr "Ændring af massestatus"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4453,12 +4451,7 @@ msgstr ""
 "%(total)s strenge til oversættelse, og er %(percent)s%% fuldført."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4468,15 +4461,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">Oversættelsesprojektet for %(project)s</a> indeholder i "
-"øjeblikket %(total)s strenge til oversættelse, og <a href=\"%(lang_url)s"
-"\">bliver oversat til %(languages)s sprog</a>. I alt er %(percent)s%% af "
-"oversættelserne fuldført."
+"Oversættelsesprojektet for %(project)s indeholder i øjeblikket %(total)s "
+"strenge til oversættelse, og bliver oversat til %(languages)s sprog. I alt "
+"er %(percent)s%% af oversættelserne fuldført."
 msgstr[1] ""
-"<a href=\"%(url)s\">Oversættelsesprojektet for %(project)s</a> indeholder i "
-"øjeblikket %(total)s strenge til oversættelse, og <a href=\"%(lang_url)s"
-"\">bliver oversat til %(languages)s sprog</a>. I alt er %(percent)s%% af "
-"oversættelserne fuldført."
+"Oversættelsesprojektet for %(project)s indeholder i øjeblikket %(total)s "
+"strenge til oversættelse, og bliver oversat til %(languages)s sprog. I alt "
+"er %(percent)s%% af oversættelserne fuldført."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5070,10 +5061,8 @@ msgstr "Oversættelsesændring:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Bruger"
+msgstr "Bruger:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5782,17 +5771,13 @@ msgstr ""
 "venligst ændringerne manuelt eller opsæt hooks for at gøre det automatisk."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
-"Grundfilen til nye oversættelser bliver ikke brugt på grund af "
-"komponentindstillinger. Du ville sikkert aktivere automatisk tilføjelse af "
-"nye oversættelser."
+"Grundfilen til nye oversættelser er ikke i brug på grund af "
+"komponentindstillingerne. Du ville sikkert aktivere tilføjelse af nye "
+"oversættelser."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8682,19 +8667,15 @@ msgid "Invalid search query!"
 msgstr "Ugyldig søgeforespørgsel!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Masse-tilstandsændring fuldført, ingen strenge blev opdateret."
+msgstr "Ændring af massestatus fuldført, ingen strenge blev opdateret."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Masse-tilstandsændring fuldført, %d streng blev opdateret."
-msgstr[1] "Masse-tilstandsændring fuldført, %d strenge blev opdateret."
+msgstr[0] "Ændring af massestatus fuldført, %d streng blev opdateret."
+msgstr[1] "Ændring af massestatus fuldført, %d strenge blev opdateret."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 msgid "Settings saved"
@@ -8733,10 +8714,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
