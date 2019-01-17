@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 16:26+0000\n"
-"PO-Revision-Date: 2019-01-12 18:08+0000\n"
+"PO-Revision-Date: 2019-01-17 18:38+0000\n"
 "Last-Translator: Thomas De Rocker <thomasderocker@outlook.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
-">\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4003,10 +4003,8 @@ msgstr "Verwerken"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "Massatoestandswijziging"
+msgstr "Bulk-statuswijziging"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4211,13 +4209,11 @@ msgstr ""
 "doen."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s stem"
-msgstr[1] "%(count)s stemmen"
+msgstr[0] "%(count)s project doorbladeren"
+msgstr[1] "Alle %(count)s projecten doorbladeren"
 
 #: weblate/templates/dashboard/user.html:41
 msgid "Checks overview"
@@ -4485,12 +4481,7 @@ msgstr ""
 "te vertalen tekenreeksen en is %(percent)s %% volledig."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4500,15 +4491,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> bevat momenteel "
-"%(total)s te vertalen tekenreeksen en <a href=\"%(lang_url)s\">wordt "
-"vertaald in %(languages)s talen</a>. Alles samen zijn de vertalingen "
-"%(percent)s%% volledig."
+"Het vertaalproject van %(project)s bevat momenteel %(total)s te vertalen "
+"tekenreeksen en wordt vertaald in %(languages)s taal. Alles samen zijn de "
+"vertalingen %(percent)s %% volledig."
 msgstr[1] ""
-"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> bevat momenteel "
-"%(total)s te vertalen tekenreeksen en <a href=\"%(lang_url)s\">wordt "
-"vertaald in %(languages)s talen</a>. Alles samen zijn de vertalingen "
-"%(percent)s%% volledig."
+"Het vertaalproject van %(project)s bevat momenteel %(total)s te vertalen "
+"tekenreeksen en wordt vertaald in %(languages)s talen. Alles samen zijn de "
+"vertalingen %(percent)s %% volledig."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5109,10 +5098,8 @@ msgstr "Wijziging in de vertaling:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Gebruiker"
+msgstr "Gebruiker:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5832,17 +5819,13 @@ msgstr ""
 "wijzigingen manueel samen of stel hooks in om dit te automatiseren."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
-"Het basisbestand voor nieuwe vertalingen wordt niet gebruikt vanwege "
-"instellingen van het onderdeel. U schakelt best automatisch toevoegen van "
-"nieuwe vertalingen in."
+"Het basisbestand voor nieuwe vertalingen is niet in gebruik door onderdeel-"
+"instellingen. U schakelt best automatisch toevoegen van nieuwe vertalingen "
+"in."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8774,19 +8757,15 @@ msgid "Invalid search query!"
 msgstr "Ongeldige zoekopdracht!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Massatoestandswijziging voltooid, geen tekenreeksen bijgewerkt."
+msgstr "Bulk-statuswijziging voltooid, geen tekenreeksen bijgewerkt."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Massatoestandswijziging voltooid, %d tekenreeks is bijgewerkt."
-msgstr[1] "Massatoestandswijziging voltooid, %d tekenreeksen zijn bijgewerkt."
+msgstr[0] "Bulk-statuswijziging voltooid, %d tekenreeks is bijgewerkt."
+msgstr[1] "Bulk-statuswijziging voltooid, %d tekenreeksen zijn bijgewerkt."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 msgid "Settings saved"
@@ -8825,10 +8804,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8836,11 +8812,11 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"%(count)d tekenreeksen worden vertaald in %(languages)d talen\n"
-"%(percent)d%% voltooid, help ons dit te verbeteren!"
+"%(count)d tekenreeksen worden vertaald in %(languages)d taal\n"
+"%(percent)d %% voltooid, help ons dit te verbeteren!"
 msgstr[1] ""
 "%(count)d tekenreeksen worden vertaald in %(languages)d talen\n"
-"%(percent)d%% voltooid, help ons dit te verbeteren!"
+"%(percent)d %% voltooid, help ons dit te verbeteren!"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
