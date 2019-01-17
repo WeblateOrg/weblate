@@ -349,6 +349,9 @@ Machine translation settings
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+LDAP
+++++
+
 .. envvar:: WEBLATE_AUTH_LDAP_SERVER_URI
 .. envvar:: WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
@@ -370,25 +373,40 @@ Authentication settings
 
         :ref:`ldap-auth`
 
+GitHub
+++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
 
     Enables :ref:`github_auth`.
+
+BitBucket
++++++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET
 
     Enables :ref:`bitbucket_auth`.
 
+Facebook
+++++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_SECRET
 
     Enables :ref:`facebook_auth`.
 
+Google
+++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
 
     Enables :ref:`google_auth`.
+
+GitLab
+++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_SECRET
@@ -396,10 +414,16 @@ Authentication settings
 
     Enables :ref:`gitlab_auth`.
 
+Azure Active Directory
+++++++++++++++++++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
     Enables Azure Active Directory authentication, see :doc:`psa:backends/azuread`.
+
+Azure Active Directory with Tenant support
+++++++++++++++++++++++++++++++++++++++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
@@ -407,6 +431,9 @@ Authentication settings
 
     Enables Azure Active Directory authentication with Tenant support, see
     :doc:`psa:backends/azuread`.
+
+Other authentication settings
++++++++++++++++++++++++++++++
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
