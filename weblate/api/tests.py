@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.core.files import File
 from django.urls import reverse
 
@@ -27,6 +29,7 @@ from weblate.auth.models import User, Group
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Project, Change, Unit, Source
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
+from weblate.utils.state import STATE_TRANSLATED
 
 TEST_PO = get_test_file('cs.po')
 TEST_SCREENSHOT = get_test_file('screenshot.png')
@@ -446,6 +449,12 @@ class TranslationAPITest(APIBaseTest):
                 'total': 5
             }
         )
+        translation = self.component.translation_set.get(language_code='cs')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Ahoj světe!\n')
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        self.assertEqual(self.component.project.suggestion_set.count(), 0)
 
     def test_upload_content(self):
         self.authenticate()
