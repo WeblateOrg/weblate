@@ -535,10 +535,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if unit_change.author_id != author_id:
                 continue
 
-            pounit, add = self.store.find_unit(
-                unit.context,
-                unit.get_source_plurals()[0]
-            )
+            pounit, add = self.store.find_unit(unit.context, unit.source)
 
             unit.pending = False
 
