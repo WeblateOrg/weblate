@@ -1,6 +1,7 @@
 {% load i18n %}
+{% load translations %}
 <code class="git-commit html-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="
 {% blocktrans with commit.revision as hash %}Commit {{ hash }}{% endblocktrans %}<br />
 {% blocktrans with commit.author_name as author and commit.authordate|date:"DATETIME_FORMAT" as date %}Authored by {{ author }} on {{ date }}{% endblocktrans %}<br />
 {{ commit.summary }}
-">{{ commit.shortrevision }}</code>
+">{{ commit.shortrevision }}</code>, {{ commit.authordate|naturaltime }}
