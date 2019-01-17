@@ -823,7 +823,7 @@ Translations
     :form string email: Author email
     :form string author: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``)
-    :form string fuzzy: Fuzzy strings processing (````, ``process``, ``approve``)
+    :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
 
     .. seealso::
 
