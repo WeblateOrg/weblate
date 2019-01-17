@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-01-11 14:21+0000\n"
+"POT-Creation-Date: 2019-01-17 16:26+0000\n"
 "PO-Revision-Date: 2018-12-28 20:47+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -1466,25 +1466,25 @@ msgstr ""
 "Der Benutzer erhält alle Berechtigungen, die durch der Mitgliedschaft in "
 "diesen Gruppen dort enthalten sind."
 
-#: weblate/auth/models.py:504
+#: weblate/auth/models.py:508
 msgid "Email regular expression"
 msgstr "Email Regulärer Ausdruck"
 
-#: weblate/auth/models.py:508
+#: weblate/auth/models.py:512
 msgid "Regular expression used to match user email."
 msgstr ""
 "Regulärer Ausdruck, der zum Vergleich mit der E-Mail-Adresse des Benutzers "
 "genutzt wird."
 
-#: weblate/auth/models.py:513
+#: weblate/auth/models.py:517
 msgid "Group to assign"
 msgstr "Gruppe zuordnen"
 
-#: weblate/auth/models.py:518
+#: weblate/auth/models.py:522
 msgid "Automatic group assignment"
 msgstr "Automatische Gruppenzuordnung"
 
-#: weblate/auth/models.py:519
+#: weblate/auth/models.py:523
 msgid "Automatic group assignments"
 msgstr "Automatische Gruppenzuordnungen"
 
@@ -4108,7 +4108,9 @@ msgstr "Verarbeiten"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-msgid "Mass state change"
+#, fuzzy
+#| msgid "Mass state change"
+msgid "Bulk status change"
 msgstr "Letzte Änderung"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
@@ -4659,12 +4661,12 @@ msgstr "Projektsprachen ansehen"
 msgid "Powered by %(weblate_version_link)s"
 msgstr "Betrieben mit %(weblate_version_link)s"
 
-#: weblate/templates/git-commit-info.html:3
+#: weblate/templates/git-commit-info.html:4
 #, python-format
 msgid "Commit %(hash)s"
 msgstr "%(hash)s einspielen"
 
-#: weblate/templates/git-commit-info.html:4
+#: weblate/templates/git-commit-info.html:5
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "Geschrieben von %(author)s am %(date)s"
@@ -5233,12 +5235,25 @@ msgstr "Übersetzung:"
 msgid "Translation change:"
 msgstr "Übersetzungsänderung:"
 
-#: weblate/templates/mail/changed_translation.html:48
+#: weblate/templates/mail/changed_translation.html:47
 #: weblate/templates/mail/changed_translation.txt:17
-#: weblate/templates/mail/new_comment.html:38
+#: weblate/templates/mail/new_comment.html:36
 #: weblate/templates/mail/new_comment.txt:13
-#: weblate/templates/mail/new_translation.html:38
+#: weblate/templates/mail/new_suggestion.html:48
+#: weblate/templates/mail/new_suggestion.txt:13
+#: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
+#, fuzzy
+#| msgid "User"
+msgid "User:"
+msgstr "Benutzer"
+
+#: weblate/templates/mail/changed_translation.html:54
+#: weblate/templates/mail/changed_translation.txt:21
+#: weblate/templates/mail/new_comment.html:42
+#: weblate/templates/mail/new_comment.txt:17
+#: weblate/templates/mail/new_translation.html:42
+#: weblate/templates/mail/new_translation.txt:19
 msgid "You can edit this string at:"
 msgstr "Diese Zeichenkette kann bearbeitet werden auf:"
 
@@ -5420,8 +5435,8 @@ msgstr ""
 msgid "Suggestion:"
 msgstr "Vorschlag:"
 
-#: weblate/templates/mail/new_suggestion.html:50
-#: weblate/templates/mail/new_suggestion.txt:13
+#: weblate/templates/mail/new_suggestion.html:54
+#: weblate/templates/mail/new_suggestion.txt:17
 msgid "You can review it at:"
 msgstr "Hier können Sie den Vorschlag begutachten:"
 
@@ -5954,9 +5969,13 @@ msgstr ""
 "Hooks ein, um dies zu automatisieren."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
+#, fuzzy
+#| msgid ""
+#| "Base file for new translations is not used because of component settings. "
+#| "You probably want to enable automatic adding of new translations."
 msgid ""
-"Base file for new translations is not used because of component settings. "
-"You probably want to enable automatic adding of new translations."
+"Base file for new translations is not in use due to the component settings. "
+"You probably want to enable adding of new translations."
 msgstr ""
 "Basisdatei für neue Übersetzungen wird aufgrund der Projekteinstellungen "
 "nicht verwendet. Sie sollten wahrscheinlich das automatische Hinzufügen "
@@ -7853,63 +7872,63 @@ msgstr "Fehler beim Push auf entfernten Branch auf %s."
 msgid "Failed to reset to remote branch on %s."
 msgstr "Fehler beim Zurücksetzen des entfernten Zweiges auf %s."
 
-#: weblate/trans/models/component.py:850
+#: weblate/trans/models/component.py:852
 #, python-format
 msgid "Failed to clean the repository on %s."
 msgstr "Bereinigen der Paketquelle fehlgeschlagen auf %s."
 
-#: weblate/trans/models/component.py:927
+#: weblate/trans/models/component.py:929
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Fehler beim Umbasieren des aktuellen Zweiges auf den entfernten Zweig %s."
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:935
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Fehler beim Zusammenführen des entfernten Zweiges nach %s."
 
-#: weblate/trans/models/component.py:1206
+#: weblate/trans/models/component.py:1208
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Ungültiger Verweis zu einem Weblate-Projekt, Verbindung zu einer verbundenen "
 "Paketquelle nicht möglich!"
 
-#: weblate/trans/models/component.py:1213
+#: weblate/trans/models/component.py:1215
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Ungültiger Verweis zu einem Weblate-Projekt, kann nicht auf sich selbst "
 "verweisen!"
 
-#: weblate/trans/models/component.py:1220
+#: weblate/trans/models/component.py:1222
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ungültiger Link zu einem Weblate-Projekt. Muster: weblate://project/"
 "component."
 
-#: weblate/trans/models/component.py:1226
+#: weblate/trans/models/component.py:1228
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL wird nicht verwendet, wenn Repository verknüpft ist!"
 
-#: weblate/trans/models/component.py:1232
+#: weblate/trans/models/component.py:1234
 msgid "Export URL is not used when repository is linked!"
 msgstr "Exportadresse wird nicht verwendet, wenn Paketquelle verknüpft ist!"
 
-#: weblate/trans/models/component.py:1241
+#: weblate/trans/models/component.py:1243
 msgid "The mask did not match any files!"
 msgstr "Es wurden keine auf das Suchmuster passenden Dateien gefunden!"
 
-#: weblate/trans/models/component.py:1249
+#: weblate/trans/models/component.py:1251
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Der Sprachcode für %s ist leer, bitte überprüfen Sie die Dateimaske!"
 
-#: weblate/trans/models/component.py:1254
+#: weblate/trans/models/component.py:1256
 #, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
 msgstr "Sprachcode \"%s\" ist zu lang. Bitte überprüfen Sie die Dateimaske!"
 
-#: weblate/trans/models/component.py:1258
+#: weblate/trans/models/component.py:1260
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7919,26 +7938,26 @@ msgstr ""
 "passen Sie das Suchmuster an und benutzen Sie Komponenten, um "
 "unterschiedliche Ressourcen zu übersetzen."
 
-#: weblate/trans/models/component.py:1277
+#: weblate/trans/models/component.py:1279
 msgid "File does not seem to be valid!"
 msgstr "Dateiinhalt ist ungültig!"
 
-#: weblate/trans/models/component.py:1285
+#: weblate/trans/models/component.py:1287
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format von %d passenden Dateien konnte nicht erkannt werden."
 
-#: weblate/trans/models/component.py:1294
+#: weblate/trans/models/component.py:1296
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Fehler beim Verarbeiten von %d passenden Dateien!"
 
-#: weblate/trans/models/component.py:1309
+#: weblate/trans/models/component.py:1311
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Format der Basisdatei für neue Übersetzungen konnte nicht erkannt werden!"
 
-#: weblate/trans/models/component.py:1314
+#: weblate/trans/models/component.py:1316
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7946,40 +7965,40 @@ msgstr ""
 "Sie haben Weblate für das Hinzufügen neuer Übersetzungsdateien konfiguriert, "
 "jedoch keine zugehörige Basisdatei bereitgestellt!"
 
-#: weblate/trans/models/component.py:1323
+#: weblate/trans/models/component.py:1325
 msgid "You can not use base file with bilingual translation!"
 msgstr "Basisdatei kann nicht mit bilingualen Übersetzungen verwendet werden!"
 
-#: weblate/trans/models/component.py:1328
+#: weblate/trans/models/component.py:1330
 msgid "Using .pot file as base file is not supported!"
 msgstr "Die Verwendung einer .pot-Datei als Basisdatei wird nicht unterstützt!"
 
-#: weblate/trans/models/component.py:1335
+#: weblate/trans/models/component.py:1337
 msgid "Template file not found!"
 msgstr "Vorlagendatei nicht gefunden!"
 
-#: weblate/trans/models/component.py:1341
+#: weblate/trans/models/component.py:1343
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Fehler beim Verarbeiten der Basisdatei: %s"
 
-#: weblate/trans/models/component.py:1351
+#: weblate/trans/models/component.py:1353
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 "Die Vorlagensprache ({0}) stimmt nicht mit der Projektausgangssprache "
 "überein ({1})!"
 
-#: weblate/trans/models/component.py:1358
+#: weblate/trans/models/component.py:1360
 msgid "You can not use monolingual translation without base file!"
 msgstr "Man kann keine einsprachige Übersetzung ohne Basisdatei benutzen!"
 
-#: weblate/trans/models/component.py:1373
+#: weblate/trans/models/component.py:1375
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Aktualisieren der Paketquelle fehlgeschlagen: %s"
 
-#: weblate/trans/models/component.py:1387
+#: weblate/trans/models/component.py:1389
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7987,35 +8006,35 @@ msgstr ""
 "Bitte geben Sie entweder den Link zur Einführungsseite ein oder wählen Sie "
 "eine andere Option für das Hinzufügen von neuen Sprachen."
 
-#: weblate/trans/models/component.py:1394
+#: weblate/trans/models/component.py:1396
 msgid "License URL can not be used without license summary."
 msgstr "Die Lizenz-URL kann nicht ohne den Namen der Lizenz verwendet werden."
 
-#: weblate/trans/models/component.py:1412
+#: weblate/trans/models/component.py:1414
 msgid "Changing version control system is not supported!"
 msgstr "Ändern der Versionsverwaltung wird nicht unterstützt!"
 
-#: weblate/trans/models/component.py:1430
+#: weblate/trans/models/component.py:1432
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Konnte die Dateinamen nicht verifizieren, weil der reguläre Ausdruck nicht "
 "eingehalten wurde."
 
-#: weblate/trans/models/component.py:1442
+#: weblate/trans/models/component.py:1444
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Vorschläge automatisch anzunehmen ist nur möglich, wenn Abstimmen erlaubt "
 "ist!"
 
-#: weblate/trans/models/component.py:1603
+#: weblate/trans/models/component.py:1605
 msgid "Failed to add new translation file!"
 msgstr "Fehler beim Hinzufügen der neuen Übersetzungsdatei!"
 
-#: weblate/trans/models/component.py:1615
+#: weblate/trans/models/component.py:1617
 msgid "Given language is filtered by the language filter!"
 msgstr "Die angegebene Sprache wird durch den Sprachfilter gefiltert!"
 
-#: weblate/trans/models/component.py:1633
+#: weblate/trans/models/component.py:1635
 msgid "Translation file already exists!"
 msgstr "Übersetzungsdatei existiert bereits!"
 
@@ -8692,32 +8711,32 @@ msgid "Please set your full name and email in your profile."
 msgstr ""
 "Bitte stellen Sie im Profil Ihren vollen Namen und Ihre E-Mail-Adresse ein."
 
-#: weblate/trans/views/dictionary.py:47
+#: weblate/trans/views/dictionary.py:49
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s Wörterbuch für %(project)s"
 
-#: weblate/trans/views/dictionary.py:64
+#: weblate/trans/views/dictionary.py:66
 msgid "Dictionaries"
 msgstr "Wörterbücher"
 
-#: weblate/trans/views/dictionary.py:177
+#: weblate/trans/views/dictionary.py:182
 msgid "No words to import found in file."
 msgstr "Keine Wörter zum Importieren in Datei gefunden."
 
-#: weblate/trans/views/dictionary.py:179
+#: weblate/trans/views/dictionary.py:184
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "%d Wort aus hochgeladener Datei importiert."
 msgstr[1] "%d Wörter aus hochgeladener Datei importiert."
 
-#: weblate/trans/views/dictionary.py:187
+#: weblate/trans/views/dictionary.py:192
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Hochladen der Datei fehlgeschlagen: %s"
 
-#: weblate/trans/views/dictionary.py:190 weblate/trans/views/edit.py:576
+#: weblate/trans/views/dictionary.py:195 weblate/trans/views/edit.py:576
 #: weblate/trans/views/search.py:80 weblate/trans/views/search.py:243
 msgid "Failed to process form!"
 msgstr "Fehler beim Verarbeiten des Formulars!"
@@ -8930,15 +8949,19 @@ msgid "Invalid search query!"
 msgstr "Ungültige Suche!"
 
 #: weblate/trans/views/search.py:270
-msgid "Mass state change completed, no strings were updated."
+#, fuzzy
+#| msgid "Mass state change completed, no strings were updated."
+msgid "Bulk status change completed, no strings were updated."
 msgstr ""
 "Suchen und ersetzen abgeschlossen, es wurden keine Zeichenketten "
 "aktualisiert."
 
 #: weblate/trans/views/search.py:272
-#, python-format
-msgid "Mass state change completed, %d string was updated."
-msgid_plural "Mass state change completed, %d strings were updated."
+#, fuzzy, python-format
+#| msgid "Mass state change completed, %d string was updated."
+#| msgid_plural "Mass state change completed, %d strings were updated."
+msgid "Bulk status change completed, %d string was updated."
+msgid_plural "Bulk status change completed, %d strings were updated."
 msgstr[0] "Suchen und ersetzen abgeschlossen, %d Zeichenkette aktualisiert."
 msgstr[1] "Suchen und ersetzen abgeschlossen, %d Zeichenketten aktualisiert."
 
