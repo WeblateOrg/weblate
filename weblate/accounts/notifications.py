@@ -284,7 +284,6 @@ def get_notification_email(language, email, notification,
                 translation_obj.get_absolute_url()
             )
         context['site_title'] = settings.SITE_TITLE
-        context['user'] = user
 
         # Render subject
         subject = render_to_string(
@@ -448,7 +447,6 @@ def send_new_language(profile, component, language, user):
         component,
         {
             'language': language,
-            'user': user,
         },
         user=user
     )
@@ -485,9 +483,7 @@ def send_new_contributor(profile, translation, user):
         'new_contributor',
         translation.component,
         translation,
-        {
-            'user': user,
-        }
+        user=user,
     )
 
 
