@@ -480,17 +480,21 @@ class User(AbstractBaseUser):
         )
         return Project.objects.filter(group__in=groups).distinct()
 
-    def get_author_name(self, email=True):
-        """Return formatted author name with email."""
-        # The < > are replace to avoid tricking Git to use
-        # name as email
-
+    def get_visible_name(self):
         # Get full name from database
         full_name = self.full_name.replace('<', '').replace('>', '')
 
         # Use username if full name is empty
         if full_name == '':
             full_name = self.username.replace('<', '').replace('>', '')
+        return full_name
+
+    def get_author_name(self, email=True):
+        """Return formatted author name with email."""
+        # The < > are replace to avoid tricking Git to use
+        # name as email
+
+        full_name = self.get_visible_name()
 
         # Add email if we are asked for it
         if not email:

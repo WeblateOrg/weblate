@@ -10,6 +10,10 @@
 
 {{ comment.comment }}
 
+{% trans "User:" %}
+
+{{ user.get_visible_name }}
+
 {% trans "You can edit this string at:" %}
 
 {{ current_site_url }}{{ unit.get_absolute_url }}#comments

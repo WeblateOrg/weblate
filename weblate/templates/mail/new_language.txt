@@ -12,6 +12,6 @@
 
 {% trans "Requesting user:" %}
 
-{{ user.full_name }} <{{ user.email }}>
+{{ user.get_visible_name }} <{{ user.email }}>
 
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

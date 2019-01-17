@@ -10,6 +10,10 @@
 
 {{ suggestion.target }}
 
+{% trans "User:" %}
+
+{{ user.get_visible_name }}
+
 {% trans "You can review it at:" %}
 
 {{ current_site_url }}{{ unit.get_absolute_url }}

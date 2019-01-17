@@ -284,6 +284,7 @@ def get_notification_email(language, email, notification,
                 translation_obj.get_absolute_url()
             )
         context['site_title'] = settings.SITE_TITLE
+        context['user'] = user
 
         # Render subject
         subject = render_to_string(
