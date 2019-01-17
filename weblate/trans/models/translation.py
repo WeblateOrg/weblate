@@ -876,13 +876,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Remove file from VCS
-        self.commit_template = 'delete'
-        with self.component.repository.lock:
-            self.component.repository.remove(
-                [self.filename],
-                self.get_commit_message(author),
-                author,
-            )
+        if os.path.exists(self.get_filename()):
+            self.commit_template = 'delete'
+            with self.component.repository.lock:
+                self.component.repository.remove(
+                    [self.filename],
+                    self.get_commit_message(author),
+                    author,
+                )
 
         # Delete from the database
         self.delete()
