@@ -396,6 +396,18 @@ Authentication settings
 
     Enables :ref:`gitlab_auth`.
 
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
+
+    Enables Azure Active Directory authentication, see :doc:`psa:backends/azuread`.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
+
+    Enables Azure Active Directory authentication with Tenant support, see
+    :doc:`psa:backends/azuread`.
+
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
     Disables email authentication when set to any value.
