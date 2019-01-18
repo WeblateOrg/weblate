@@ -701,6 +701,8 @@ class Component(models.Model, URLMixin, PathMixin):
         # Push after possible merge
         if ret:
             self.push_if_needed(request, do_update=False)
+        if not self.repo_needs_push():
+            self.delete_alert('RepositoryChanges', childs=True)
 
         return ret
 
