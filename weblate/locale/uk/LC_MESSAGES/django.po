@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-17 18:38+0000\n"
+"PO-Revision-Date: 2019-01-18 12:37+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -4480,12 +4480,7 @@ msgstr ""
 "%(total)s рядків для перекладу, з яких %(percent)s%% - перекладено."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4495,17 +4490,17 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">Проект перекладу для %(project)s</a> наразі містить "
-"%(total)s рядків для перекладу і <a href=\"%(lang_url)s\">перекладається на "
-"%(languages)s мов</a>. Загалом ці переклади на %(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
+"перекладу і перекладається на %(languages)s мову. Загалом ці переклади на "
+"%(percent)s%% завершені."
 msgstr[1] ""
-"<a href=\"%(url)s\">Проект перекладу для %(project)s</a> наразі містить "
-"%(total)s рядків для перекладу і <a href=\"%(lang_url)s\">перекладається на "
-"%(languages)s мов</a>. Загалом ці переклади на %(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
+"перекладу і перекладається на %(languages)s мови. Загалом ці переклади на "
+"%(percent)s%% завершені."
 msgstr[2] ""
-"<a href=\"%(url)s\">Проект перекладу для %(project)s</a> наразі містить "
-"%(total)s рядків для перекладу і <a href=\"%(lang_url)s\">перекладається на "
-"%(languages)s мов</a>. Загалом ці переклади на %(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
+"перекладу і перекладається на %(languages)s мов. Загалом ці переклади на "
+"%(percent)s%% завершені."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5094,10 +5089,8 @@ msgstr "Зміна перекладу:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Користувач"
+msgstr "Користувач:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5800,17 +5793,12 @@ msgstr ""
 "вручну або налаштуйте автоматизацію."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
 "Базовий файл для нових перекладів не використовується через налаштування "
-"компонент. Вам ймовірно слід увімкнути автоматичне додавання нових "
-"перекладів."
+"компонент. Вам ймовірно слід увімкнути додавання нових перекладів."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8732,15 +8720,11 @@ msgid "Invalid search query!"
 msgstr "Неправильний пошуковий запит!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
 msgstr "Масова зміна стану завершена, жодний рядок не змінено."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
 msgstr[0] "Масова зміна стану завершена, оновлено %d рядок."
@@ -8784,10 +8768,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8795,10 +8776,10 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"перекладається %(count)d рядків на %(languages)d мов\n"
+"перекладається %(count)d рядків на %(languages)d мову\n"
 "%(percent)d%% виконано, допоможіть нам поліпшити!"
 msgstr[1] ""
-"перекладається %(count)d рядків на %(languages)d мов\n"
+"перекладається %(count)d рядків на %(languages)d мови\n"
 "%(percent)d%% виконано, допоможіть нам поліпшити!"
 msgstr[2] ""
 "перекладається %(count)d рядків на %(languages)d мов\n"

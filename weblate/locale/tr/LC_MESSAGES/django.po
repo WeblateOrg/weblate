@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-14 19:35+0000\n"
+"PO-Revision-Date: 2019-01-18 12:37+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -3980,8 +3980,6 @@ msgstr "İşlem"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "Toplu durum değişikliği"
 
@@ -4454,12 +4452,7 @@ msgstr ""
 "satır içeriyor ve %%%(percent)s tamamlandı."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4469,13 +4462,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri için şu anda "
-"%(total)s satır içeriyor ve <a href=\"%(lang_url)s\"> %(languages)s dile "
-"çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
+"%(project)s için çeviri projesi, şu anda çeviri için %(total)s satır "
+"içeriyor ve %(languages)s dile çevriliyor. Genel olarak bu çeviriler "
+"%%%(percent)s oranında tamamlandı."
 msgstr[1] ""
-"<a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri için şu anda "
-"%(total)s satır içeriyor ve <a href=\"%(lang_url)s\"> %(languages)s dile "
-"çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
+"%(project)s için çeviri projesi, şu anda çeviri için %(total)s satır "
+"içeriyor ve %(languages)s dile çevriliyor. Genel olarak, bu çeviriler "
+"%%%(percent)s oranında tamamlandı."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5069,10 +5062,8 @@ msgstr "Çeviri değişimi:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Kullanıcı"
+msgstr "Kullanıcı:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5780,17 +5771,12 @@ msgstr ""
 "olarak birleştirin veya otomatikleştirme kurulumunu yapın."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
-"Yeni çeviriler için taban dosya, bileşen ayarlarından dolayı kullanılamıyor. "
-"Yeni çevirilerin kendiliğinden eklenmesini etkinleştirmek istiyor "
-"olabilirsiniz."
+"Yeni çeviriler için temel dosya bileşen ayarları nedeniyle kullanımda değil. "
+"Muhtemelen yeni çeviri eklemeyi etkinleştirmek istiyorsun."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -6573,15 +6559,15 @@ msgstr "Çevrilmiş satır"
 
 #: weblate/trans/filter.py:35
 msgid "Strings marked for edit"
-msgstr "Düzenlenme için işaretlenen satır"
+msgstr "Düzenlenmesi için işaretlenen satırlar"
 
 #: weblate/trans/filter.py:36
 msgid "Strings with suggestions"
-msgstr "Önerileri olan satır"
+msgstr "Önerileri olan satırlar"
 
 #: weblate/trans/filter.py:37
 msgid "Strings needing action without suggestions"
-msgstr "Eylem bekleyen önerisiz satırlar"
+msgstr "İşlem gerektiren önerisiz satırlar"
 
 #: weblate/trans/filter.py:38
 msgid "Strings with comments"
@@ -6589,7 +6575,7 @@ msgstr "Yorumları olan satırlar"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with any failing checks"
-msgstr "Denetimi gereken kusurlu satırlar"
+msgstr "Kusurlu denetimi olan satırlar"
 
 #: weblate/trans/filter.py:40
 msgid "Approved strings"
@@ -6597,11 +6583,11 @@ msgstr "Onaylanmış satırlar"
 
 #: weblate/trans/filter.py:43
 msgid "Approved strings with suggestions"
-msgstr "Önerileri olan satırlar"
+msgstr "Önerileri olan onaylanmış satırlar"
 
 #: weblate/trans/filter.py:45
 msgid "Strings waiting for review"
-msgstr "Gözden geçirme için bekleyen satırlar"
+msgstr "İncelenmesi için bekleyen satırlar"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with any failing source checks"
@@ -6676,7 +6662,7 @@ msgstr "Gözden geçirme durumu"
 
 #: weblate/trans/forms.py:460
 msgid "Waiting for review"
-msgstr "Gözden geçirme için bekliyor"
+msgstr "İnceleme için bekliyor"
 
 #: weblate/trans/forms.py:519
 msgid "Source string has been changed meanwhile. Please check your changes."
@@ -6702,7 +6688,7 @@ msgstr "Birleştirme yöntemi"
 
 #: weblate/trans/forms.py:592
 msgid "Add as translation needing review"
-msgstr "Gözden geçirilmesi gereken çeviri olarak ekle"
+msgstr "İncelenmesi gereken çeviri olarak ekle"
 
 #: weblate/trans/forms.py:593
 msgid "Add as approved translation"
@@ -6722,7 +6708,7 @@ msgstr "Düzenlenmesi gereken satırların işlenmesi"
 
 #: weblate/trans/forms.py:601
 msgid "Do not import"
-msgstr "İçe aktarma"
+msgstr "İçe aktarma yapma"
 
 #: weblate/trans/forms.py:602
 msgid "Import as string needing edit"
@@ -6829,7 +6815,7 @@ msgstr "Tam satır \"%s\" için arama"
 #: weblate/trans/forms.py:840
 #, python-format
 msgid "Substring search for \"%s\""
-msgstr "\"%s\" için alt satır arama"
+msgstr "\"%s\" için satır içi arama"
 
 #: weblate/trans/forms.py:851
 #, python-brace-format
@@ -6847,7 +6833,7 @@ msgstr "Geri alınan değişiklik bulunamadı."
 
 #: weblate/trans/forms.py:932
 msgid "Automatic translation source"
-msgstr "Kendiliğinden çeviri kaynağı"
+msgstr "Otomatik çeviri kaynağı"
 
 #: weblate/trans/forms.py:934
 msgid "Other translation components"
@@ -6863,7 +6849,7 @@ msgstr "Skor eşiği"
 
 #: weblate/trans/forms.py:977
 msgid "All components in current project"
-msgstr "Şu anki projedeki tüm bileşenler"
+msgstr "Geçerli projedeki tüm bileşenler"
 
 #: weblate/trans/forms.py:1018
 msgid "Invalid integer list!"
@@ -8688,19 +8674,15 @@ msgid "Invalid search query!"
 msgstr "Geçersiz arama sorgusu!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Toplu durum değiştirme tamamlandı, güncellenen satır olmadı."
+msgstr "Toplu durum değişikliği tamamlandı, hiçbir satır güncellenmedi."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Toplu durum değiştirme tamamlandı, %d satır güncellendi."
-msgstr[1] "Toplu durum değiştirme tamamlandı, %d satır güncellendi."
+msgstr[0] "Toplu durum değişikliği tamamlandı, %d satır güncellendi."
+msgstr[1] "Toplu durum değişikliği tamamlandı, %d satır güncellendi."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 msgid "Settings saved"
@@ -8739,10 +8721,7 @@ msgid "{0}%"
 msgstr "%{0}"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8751,10 +8730,10 @@ msgid_plural ""
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
 "%(count)d satır %(languages)d dile çevriliyor\n"
-"%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
+"%%%(percent)d tamamlandı, geliştirilmesine yardım edin!"
 msgstr[1] ""
 "%(count)d satır %(languages)d dile çevriliyor\n"
-"%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
+"%%%(percent)d tamamlandı, geliştirilmesine yardım edin!"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
