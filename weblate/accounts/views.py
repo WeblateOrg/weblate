@@ -924,9 +924,11 @@ def social_complete(request, backend):
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
         return handle_missing_parameter(request, backend, error)
-    except (AuthStateMissing, AuthStateForbidden):
+    except (AuthStateMissing, AuthStateForbidden) as error:
+        report_error(error, request)
         return auth_redirect_state(request)
-    except AuthFailed:
+    except AuthFailed as error:
+        report_error(error, request)
         return auth_fail(request, _(
             'Authentication has failed, probably due to expired token '
             'or connection error.'
@@ -935,7 +937,8 @@ def social_complete(request, backend):
         return auth_fail(
             request, _('Authentication has been cancelled.')
         )
-    except AuthForbidden:
+    except AuthForbidden as error:
+        report_error(error, request)
         return auth_fail(
             request, _('Authentication has been forbidden by server.')
         )
