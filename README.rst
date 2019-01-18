@@ -31,31 +31,31 @@ Weblate
 .. image:: https://img.shields.io/readthedocs/weblate.svg 
     :target: https://docs.weblate.org/
 
-Weblate is a free web-based localization tool with tight version control
-integration. It features simple and clean user interface, propagation of
+Weblate is a copylefted web-based localization tool with tight version control
+integration. It features a simple and clean user interface, propagation of
 translations across components within a project, quality checks and automatic
 linking to source files.
 
-Weblate has its website at https://weblate.org/.
+The Weblate is to be found at https://weblate.org/
 
 Features
 --------
 
-* Easy web based translation
-* Propagation of translations across components (eg. branches) within projects
-* Tight VCS integration - every change is represented by version control commit
-* Usage of Django's admin interface
-* Upload and automatic merging of po files
-* Links to source files for context
-* Message quality checks
-* Tunable access control
-* Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more)
-* Supports Git and Mercurial
+* Easy web based translation.
+* Propagation of translations across components (e.g. branches) within projects.
+* Tight VCS integration - every change is represented by a version control commit.
+* Usage of Django's admin interface.
+* Upload and automatic merging of PO files.
+* Links to source files for context.
+* Message quality checks.
+* Tunable access control.
+* Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more).
+* Git and Mercurial support.
 
 Documentation
 -------------
 
-Detailed documentation is available in ``docs`` directory in the sources.
+Detailed documentation is available in the ``docs`` directory of the sources.
 
 The documentation can be also viewed online on
 https://docs.weblate.org/.
@@ -63,20 +63,20 @@ https://docs.weblate.org/.
 Installation
 ------------
 
-Installation and setup instructions are provided in our manual, check
-quick setup guide:
+Installation and setup instructions are provided in the manual, check
+the quick setup guide:
 
 https://docs.weblate.org/en/latest/admin/quick.html
 
 Bugs
 ----
 
-Please report bugs to https://github.com/WeblateOrg/weblate/issues.
+Please report bugs to https://github.com/WeblateOrg/weblate/issues
 
 License
 -------
 
-Copyright (C) 2012 - 2019 Michal Čihař michal@cihar.com
+Copyright © 2012 - 2019 Michal Čihař michal@cihar.com
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
