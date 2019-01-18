@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-12 18:08+0000\n"
+"PO-Revision-Date: 2019-01-18 12:37+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -3853,8 +3853,6 @@ msgstr "處理"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "大量狀態更動"
 
@@ -4304,12 +4302,7 @@ msgstr ""
 "譯進度約完成 %(percent)s%%。"
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4319,9 +4312,8 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">%(project)s 的翻譯專案</a>目前有 %(total)s 條字串需要翻"
-"譯，<a href=\"%(lang_url)s\">正翻譯成 %(languages)s 種語言</a>。整體而言，翻"
-"譯進度約完成 %(percent)s%%。"
+"%(project)s 的翻譯專案目前有 %(total)s 條字串需要翻譯，正翻譯成 %(languages)s 種語言。整體而言，翻譯進度約完成 "
+"%(percent)s%%。"
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -4900,10 +4892,8 @@ msgstr "翻譯更動："
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "使用者"
+msgstr "使用者："
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5568,15 +5558,10 @@ msgid ""
 msgstr "VCS 軟體庫與上游間沒有同步。請手動合併更動，或是設置掛鈎自動完成作業。"
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
-msgstr ""
-"因為組件設定的緣故而不會使用基底檔新增翻譯。您可能會想啟用自動增加新翻譯。"
+msgstr "因為組件設定的緣故，並未使用新增翻譯用的基底檔。您可能會想啟用以自動加入新翻譯。"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8360,15 +8345,11 @@ msgid "Invalid search query!"
 msgstr "不正確搜尋查詢！"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
 msgstr "大量狀態更動完成，未更新任何字串。"
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
 msgstr[0] "大量狀態更動完成，已更新 %d 條字串。"
@@ -8410,10 +8391,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8421,7 +8399,7 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"需要翻譯 %(count)d 條字串成 %(languages)d 語言 \n"
+"需要翻譯 %(count)d 條字串成 %(languages)d 種語言\n"
 "完成 %(percent)d%%，幫助我們邁進！"
 
 #. Translators: please use your language name instead of English
