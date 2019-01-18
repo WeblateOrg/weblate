@@ -112,5 +112,26 @@ ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS']]
 
 TTF_PATH = os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'weblate', 'ttf')
 
+if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
+    # Example for restricting access to logged in users
+    LOGIN_REQUIRED_URLS = (
+        r'/(.*)$',
+    )
+
+    # In such case you will want to include some of the exceptions
+    LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
+        'WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS',
+        (
+           r'/accounts/(.*)$',      # Required for login
+           r'/admin/login/(.*)$',   # Required for admin login
+           r'/widgets/(.*)$',       # Allowing public access to widgets
+           r'/data/(.*)$',          # Allowing public access to data exports
+           r'/hooks/(.*)$',         # Allowing public access to notification hooks
+           r'/healthz/$',           # Allowing public access to health check
+           r'/api/(.*)$',           # Allowing access to API
+           r'/js/i18n/$',           # Javascript localization
+        ),
+    )
+
 # Import environment variables prefixed with WEBLATE_ as weblate settings
 import_env_vars(os.environ, sys.modules[__name__])
