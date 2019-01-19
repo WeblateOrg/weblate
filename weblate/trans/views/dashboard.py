@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.db.models import Count
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.utils import translation
@@ -50,8 +51,17 @@ def get_untranslated(base, limit=None):
     return result
 
 
-def get_suggestions(request, user, base):
+def get_suggestions(request, user, base, filtered=False):
     """Return suggested translations for user"""
+    if not filtered:
+        non_alerts = base.annotate(
+            alert_count=Count('component__alert__pk')
+        ).filter(
+            alert_count=0
+        )
+        result = get_suggestions(request, user, non_alerts, True)
+        if result:
+            return result
     if user.is_authenticated and user.profile.languages.exists():
         # Remove user subscriptions
         result = get_untranslated(
