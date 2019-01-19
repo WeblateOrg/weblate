@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-14 07:23+0000\n"
+"PO-Revision-Date: 2019-01-20 20:38+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -4019,10 +4019,8 @@ msgstr "Processo"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "Modifica stato di massa"
+msgstr "Modifica stato bulk"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4497,12 +4495,7 @@ msgstr ""
 "%(total)s stringhe da tradurre ed è tradotto al %(percent)s%%."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4512,15 +4505,15 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> attualmente "
-"contiene %(total)s stringhe per la traduzione ed è <a href=\"%(lang_url)s"
-"\">in corso di traduzione in %(languages)s lingue</a>. Nel complesso queste "
-"traduzioni sono tradotte al %(percent)s%%."
+"Il progetto di traduzione di %(project)s attualmente contiene %(total)s "
+"stringhe per la traduzione ed è in corso di traduzione in %(languages)s "
+"lingua.\n"
+"Nel complesso queste traduzioni sono tradotte al %(percent)s%%."
 msgstr[1] ""
-"<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> attualmente "
-"contiene %(total)s stringhe per la traduzione ed è <a href=\"%(lang_url)s"
-"\">in corso di traduzione in %(languages)s lingue</a>. Nel complesso queste "
-"traduzioni sono tradotte al %(percent)s%%."
+"Il progetto di traduzione di %(project)s attualmente contiene %(total)s "
+"stringhe per la traduzione ed è in corso di traduzione in %(languages)s "
+"lingue.\n"
+"Nel complesso queste traduzioni sono tradotte al %(percent)s%%."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5120,10 +5113,8 @@ msgstr "Modifica traduzione:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Utente"
+msgstr "Utente:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5840,17 +5831,13 @@ msgstr ""
 "modifiche manualmente o configura gli agganci per automatizzarli."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
 "Il file di base per le nuove traduzioni non è usato a causa delle "
-"impostazioni del componente. Probabilmente vuoi abilitare l'aggiunta "
-"automatica di nuove traduzioni."
+"impostazioni del componente.\n"
+"Probabilmente vuoi abilitare l'aggiunta di nuove traduzioni."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8784,19 +8771,21 @@ msgid "Invalid search query!"
 msgstr "Richiesta ricerca non valida!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Modifica stato di massa completata. Nessuna stringa aggiornata."
+msgstr ""
+"Modifica stato bulk completata.\n"
+"Nessuna stringa aggiornata."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Modifica stato di massa completata. %d stringa aggiornata."
-msgstr[1] "Modifica stato di massa completata. %d stringhe aggiornate."
+msgstr[0] ""
+"Modifica stato bulk completata.\n"
+"%d stringa aggiornata."
+msgstr[1] ""
+"Modifica stato bulk completata.\n"
+"%d stringhe aggiornate."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 msgid "Settings saved"
@@ -8835,10 +8824,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8847,10 +8833,12 @@ msgid_plural ""
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
 "traduzione di %(count)d stringhe in %(languages)d lingue\n"
-"%(percent)d%% completata. Aiutaci a migliorare!"
+"%(percent)d%% completata. \n"
+"Aiutaci a migliorare!"
 msgstr[1] ""
 "traduzione di %(count)d stringhe in %(languages)d lingue\n"
-"%(percent)d%% completata. Aiutaci a migliorare!"
+"%(percent)d%% completata. \n"
+"Aiutaci a migliorare!"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
