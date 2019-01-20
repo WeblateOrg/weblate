@@ -42,7 +42,6 @@ class GoogleTranslation(MachineTranslation):
         'nb': 'no',
     }
 
-
     def __init__(self):
         """Check configuration."""
         super(GoogleTranslation, self).__init__()

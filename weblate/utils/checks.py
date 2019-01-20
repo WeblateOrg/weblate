@@ -311,7 +311,8 @@ def check_errors(app_configs=None, **kwargs):
         return []
     return [
         Info(
-            'Error collection is not configured, it is highly recommended for production use',
+            'Error collection is not configured, '
+            'it is highly recommended for production use',
             hint=get_doc_url('admin/install', 'collecting-errors'),
             id='weblate.I021',
         )

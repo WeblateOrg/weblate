@@ -39,7 +39,9 @@ from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import create_test_user, wait_for_celery, create_another_user
+from weblate.trans.tests.utils import (
+    create_test_user, wait_for_celery, create_another_user,
+)
 from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 

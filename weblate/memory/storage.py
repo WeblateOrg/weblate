@@ -144,7 +144,9 @@ class TranslationMemory(WhooshIndex):
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
         if extension == '.tmx':
-            result = cls.import_tmx(request, fileobj, langmap, category, origin)
+            result = cls.import_tmx(
+                request, fileobj, langmap, category, origin
+            )
         elif extension == '.json':
             result = cls.import_json(request, fileobj, category, origin)
         else:
@@ -189,7 +191,8 @@ class TranslationMemory(WhooshIndex):
         return found
 
     @classmethod
-    def import_tmx(cls, request, fileobj, langmap=None, category=None, origin=None):
+    def import_tmx(cls, request, fileobj, langmap=None, category=None,
+                   origin=None):
         from weblate.memory.tasks import update_memory_task
         if category is None:
             category = CATEGORY_FILE

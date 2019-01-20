@@ -30,7 +30,9 @@ from weblate.accounts.avatar import get_user_display
 
 
 class URLMixin(object):
-    """Mixin for models providing standard shortcut API for few standard URLs"""
+    """
+    Mixin for models providing standard shortcut API for few standard URLs
+    """
     _reverse_url_name = None
 
     def get_reverse_url_kwargs(self):

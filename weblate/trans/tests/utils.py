@@ -70,6 +70,7 @@ def create_test_user():
         full_name='Weblate Test',
     )
 
+
 def create_another_user():
     return User.objects.create_user(
         'jane',

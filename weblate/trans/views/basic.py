@@ -148,7 +148,6 @@ def show_project(request, project):
                 ProjectRenameForm, user, 'project.edit', obj,
                 request=request, instance=obj
             ),
-# ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,

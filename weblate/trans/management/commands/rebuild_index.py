@@ -89,9 +89,12 @@ class Command(WeblateComponentCommand):
                     self.stdout.write('Processing {} ({}/{})'.format(
                         language.code, index + 1, lang_count
                     ))
-                    with fulltext.get_target_index(language.code).writer() as writer:
+                    index = fulltext.get_target_index(language.code)
+                    with index.writer() as writer:
                         with writer.searcher() as searcher:
-                            units = Unit.objects.filter(translation__language=language)
+                            units = Unit.objects.filter(
+                                translation__language=language
+                            )
                             for unit in units.iterator():
                                 if unit.translation:
                                     fulltext.update_target_unit_index(

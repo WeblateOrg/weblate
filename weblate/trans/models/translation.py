@@ -399,7 +399,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if not self.stats.last_author:
             return None
         from weblate.auth.models import User
-        return User.objects.get(pk=self.stats.last_author).get_author_name(email)
+        return User.objects.get(
+            pk=self.stats.last_author
+        ).get_author_name(email)
 
     def commit_pending(self, reason, request, skip_push=False):
         """Commit any pending changes."""
@@ -578,7 +580,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
-            unit.save(update_fields=['state', 'flags', 'pending'], same_content=True)
+            unit.save(
+                update_fields=['state', 'flags', 'pending'],
+                same_content=True
+            )
 
         # Did we do any updates?
         if not updated:

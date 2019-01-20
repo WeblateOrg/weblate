@@ -81,8 +81,8 @@ class MachineTranslation(object):
         """Hook for backends to allow add authentication headers to request."""
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False, json_body=False,
-                 **kwargs):
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+                 json_body=False, **kwargs):
         """Perform JSON request."""
 
         # JSON body requires using POST

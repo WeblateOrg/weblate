@@ -52,7 +52,7 @@ from weblate.auth.models import User
 
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
-from weblate.langdata.languages  import ALIASES
+from weblate.langdata.languages import ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (

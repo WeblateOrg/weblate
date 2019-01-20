@@ -70,7 +70,7 @@ class AddonList(AddonViewMixin, ListView):
                 if x.can_install(component, self.request.user)
                 and (x.multiple or x.name not in installed)
             ],
-            key=lambda x:x.name
+            key=lambda x: x.name
         )
         return result
 

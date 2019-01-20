@@ -252,7 +252,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
-        return self.on_repo_components(True, 'do_update', request, method=method)
+        return self.on_repo_components(
+            True, 'do_update', request, method=method
+        )
 
     def do_push(self, request=None):
         """Push all Git repos."""
