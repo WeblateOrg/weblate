@@ -790,6 +790,7 @@ class WeblateTranslationTest(FixtureTestCase):
         other.state = STATE_TRANSLATED
         other.save()
         update_fulltext(
+            None,
             pk=other.pk,
             source=force_text(unit.source),
             context=force_text(unit.context),
