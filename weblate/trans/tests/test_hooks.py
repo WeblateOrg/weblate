@@ -456,7 +456,7 @@ BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 }
 '''
 
-PAGURE_PAYLOAD = '''
+PAGURE_PAYLOAD = r'''
 {
     "i": 17,
     "msg": {
