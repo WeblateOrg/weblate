@@ -159,7 +159,7 @@ def check_settings(app_configs, **kwargs):
     """Check for sane settings"""
     errors = []
 
-    if (len(settings.ADMINS) == 0
+    if (not settings.ADMINS
             or 'noreply@weblate.org' in [x[1] for x in settings.ADMINS]):
         errors.append(
             Error(
