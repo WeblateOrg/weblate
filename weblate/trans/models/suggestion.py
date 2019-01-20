@@ -55,9 +55,8 @@ class SuggestionManager(models.Manager):
 
             if same.user == user or not vote:
                 return False
-            else:
-                same.add_vote(unit.translation, request, True)
-                return False
+            same.add_vote(unit.translation, request, True)
+            return False
 
         except ObjectDoesNotExist:
             pass
