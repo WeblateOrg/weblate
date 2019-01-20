@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Viktar Vauchkevich <victorenator@gmail.com>, 2018.
+# Viktar Vauchkevich <victorenator@gmail.com>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2018-12-10 15:09+0000\n"
+"PO-Revision-Date: 2019-01-20 20:37+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.4-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -779,28 +779,20 @@ msgstr ""
 "з параметрам --no-wrap ён пераносіць пасля сімвала новага радка."
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "Подпіс фіксацыі"
+msgstr "Аб'яднанне фіксацый"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Усе кампаненты ў дзейным праекце"
+msgstr "Усе фіксацыі ў адну"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Новая мова"
+msgstr "Для мовы"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Профіль"
+msgstr "Для файла"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -947,14 +939,12 @@ msgstr ""
 "удзелу."
 
 #: weblate/addons/git.py:32
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "Адсылаць пры запісе рэвізіі"
+msgstr "Аб'яднаць Git-фіксацыі"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Аб'яднаць Git-фіксацыі перад штурханнем змен."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1979,18 +1969,14 @@ msgid "Weblate languages"
 msgstr "Мовы Weblate"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
-msgstr "Адзіночны лік"
+msgstr "Адзіночны"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
-msgstr "Множны лік"
+msgstr "Множны"
 
 #: weblate/lang/data.py:307 weblate/lang/data.py:313 weblate/lang/data.py:321
 #: weblate/lang/data.py:325 weblate/lang/data.py:330 weblate/lang/data.py:335
@@ -4004,8 +3990,6 @@ msgstr "Працэс"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "Масавая змена стану"
 
@@ -4473,25 +4457,16 @@ msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Праект перакладу %(project)s</a> на беларускую "
-"ўтрымоўвае %(total)s радкоў на пераклад, з якіх перакладзена %(percent)s%%."
+"Праект перакладу %(project)s на беларускую мову ўтрымоўвае %(total)s радкоў, "
+"з якіх перакладзена %(percent)s%%."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4501,19 +4476,16 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">Праект перакладу %(project)s</a> на дадзены момант "
-"утрымоўвае %(total)s радкоў на пераклад і <a href=\"%(lang_url)s"
-"\">перакладаецца на %(languages)s моў</a>. Агулам пераклады скончаныя на "
+"Праект перакладу %(project)s на дадзены момант утрымоўвае %(total)s радкоў і "
+"перакладаецца на %(languages)s мову. Агулам пераклады скончаныя на "
 "%(percent)s%%."
 msgstr[1] ""
-"<a href=\"%(url)s\">Праект перакладу %(project)s</a> на дадзены момант "
-"утрымоўвае %(total)s радкоў на пераклад і <a href=\"%(lang_url)s"
-"\">перакладаецца на %(languages)s моў</a>. Агулам пераклады скончаныя на "
+"Праект перакладу %(project)s на дадзены момант утрымоўвае %(total)s радкоў і "
+"перакладаецца на %(languages)s мовы. Агулам пераклады скончаныя на "
 "%(percent)s%%."
 msgstr[2] ""
-"<a href=\"%(url)s\">Праект перакладу %(project)s</a> на дадзены момант "
-"утрымоўвае %(total)s радкоў на пераклад і <a href=\"%(lang_url)s"
-"\">перакладаецца на %(languages)s моў</a>. Агулам пераклады скончаныя на "
+"Праект перакладу %(project)s на дадзены момант утрымоўвае %(total)s радкоў і "
+"перакладаецца на %(languages)s моў. Агулам пераклады скончаныя на "
 "%(percent)s%%."
 
 #: weblate/templates/engage.html:38
@@ -4545,10 +4517,8 @@ msgid "Translate"
 msgstr "Перакласці"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Іншыя мовы"
+msgstr "Убачыць мовы праекта"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5105,10 +5075,8 @@ msgstr "Змена ў перакладзе:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Карыстальнік"
+msgstr "Карыстальнік:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5589,6 +5557,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Выяўлена зашмат супадзенняў для гэтага пошуку. Паказваюцца ды замяняюцца "
+"толькі першыя 250. Каб замяніць рэшту, выканайце замену зноў."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5776,6 +5746,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Любы агульнадаступны праект павінен мець ліцэнзію, каб вызначыць умовы "
+"ўнёскаў."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5808,16 +5780,12 @@ msgstr ""
 "аб'яднайце змены ўручную ці наладзьце аўтаматызацыю."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
 "Базавы файл для новых перакладаў не выкарыстоўваецца з-за налады кампанент. "
-"Вам верагодна варта ўключыць аўтаматычнае даданне новых перакладаў."
+"Вам верагодна варта ўключыць аўтаматычнае новых перакладаў."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -5860,30 +5828,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Я разумею наступствы — выдаліць гэты перклад"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Цяпер няма кампанентаў перакладу."
+msgstr "Існуе некалькі папярэджанняў для гэтага кампанента"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "Пераклад ліцэнзаваны на ўмовах вольнай ліцэнзіі ад FSF."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr "Перакладзены кантэнт мае ісці пад вольная ліцэнзіяй."
+msgstr "Пераклад даступны на ўмовах ліцэнзіі, якую ўхваліў OSI."
 
 #: weblate/templates/trans/messages_help.html:4
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
-"Вы можаце выкарыстоўваць Django-шаблоны як у назве файла, так і ў змесце, "
-"напрыклад:"
+"Вы можаце выкарыстоўваць разметку Django-шаблонаў у паведамленнях фіксацый."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7231,10 +7190,8 @@ msgid "Repository has changes."
 msgstr "Рэпазіторыя мае змены."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Інфармацыя пра крыніцу"
+msgstr "Звесткі аб ліцэнзіі адсутныя."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7624,10 +7581,8 @@ msgid "Commit message when removing translation"
 msgstr "Паведамленне рэвізіі пры выдаленні перакладу"
 
 #: weblate/trans/models/component.py:384
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Паведамленне рэвізіі пры выдаленні перакладу"
+msgstr "Паведамленне фіксацыі пры з'яднанні перакладу"
 
 #: weblate/trans/models/component.py:393
 msgid "Committer name"
@@ -8748,15 +8703,11 @@ msgid "Invalid search query!"
 msgstr "Хібны пошукавы запыт!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
 msgstr "Масавая змена стану завершаная — ніводзен радок не зменены."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
 msgstr[0] "Масавая змена стану завершаная — %d радок зменены."
@@ -8800,10 +8751,7 @@ msgid "{0}%"
 msgstr "{0} %"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8811,10 +8759,10 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"перакладзена %(count)d радкоў на %(languages)d моў\n"
+"перакладзена %(count)d радкоў на %(languages)d мову\n"
 "%(percent)d%% зроблена, дапамажыце палепшыць!"
 msgstr[1] ""
-"перакладзена %(count)d радкоў на %(languages)d моў\n"
+"перакладзена %(count)d радкоў на %(languages)d мовы\n"
 "%(percent)d%% зроблена, дапамажыце палепшыць!"
 msgstr[2] ""
 "перакладзена %(count)d радкоў на %(languages)d моў\n"
