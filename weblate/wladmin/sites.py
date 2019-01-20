@@ -109,7 +109,7 @@ class WeblateAdminSite(AdminSite):
         self.register(ContributorAgreement, ContributorAgreementAdmin)
 
         # Show some controls only in debug mode
-        if settings.DEBUG and False:
+        if settings.DEBUG:
             self.register(Translation, TranslationAdmin)
             self.register(Unit, UnitAdmin)
             self.register(Suggestion, SuggestionAdmin)
