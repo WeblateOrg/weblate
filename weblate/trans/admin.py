@@ -152,8 +152,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
 
 class TranslationAdmin(WeblateModelAdmin):
     list_display = [
-        'component', 'language', 'translated', 'total',
-        'fuzzy', 'revision', 'filename'
+        'component', 'language', 'revision', 'filename'
     ]
     search_fields = [
         'component__slug', 'language__code', 'revision', 'filename'
@@ -162,13 +161,12 @@ class TranslationAdmin(WeblateModelAdmin):
 
 
 class UnitAdmin(WeblateModelAdmin):
-    list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
+    list_display = ['source', 'target', 'position', 'state']
     search_fields = ['source', 'target', 'id_hash']
     list_filter = [
         'translation__component',
         'translation__language',
-        'fuzzy',
-        'translated'
+        'state',
     ]
 
 
