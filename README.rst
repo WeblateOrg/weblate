@@ -21,6 +21,10 @@ Weblate
     :target: https://codeclimate.com/github/WeblateOrg/weblate/maintainability
     :alt: Maintainability
 
+.. image:: https://img.shields.io/lgtm/alerts/g/WeblateOrg/weblate.svg?logo=lgtm&logoWidth=18
+   :target: https://lgtm.com/projects/g/WeblateOrg/weblate/alerts/
+   :alt: Total alerts
+
 .. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
     :alt: CII Best Practices
     :target: https://bestpractices.coreinfrastructure.org/projects/552
