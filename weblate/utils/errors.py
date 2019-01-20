@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-import traceback
-
 from django.conf import settings
 from django.utils.encoding import force_text
 

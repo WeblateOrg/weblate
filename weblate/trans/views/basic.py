@@ -28,7 +28,6 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 import django.views.defaults
 

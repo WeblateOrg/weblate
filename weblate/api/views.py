@@ -54,7 +54,6 @@ from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.utils.views import download_translation_file
 from weblate.utils.celery import get_queue_length
-from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats
 from weblate.utils.docs import get_doc_url
 

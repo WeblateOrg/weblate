@@ -25,7 +25,6 @@ from django.forms import HiddenInput
 from django.utils.decorators import method_decorator
 from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
-from django.utils.text import slugify
 
 from weblate.trans.forms import (
     ProjectCreateForm, ComponentCreateForm, ComponentInitCreateForm,

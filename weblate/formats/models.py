@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import traceback
-
 from appconf import AppConf
 
 from django.utils.functional import cached_property

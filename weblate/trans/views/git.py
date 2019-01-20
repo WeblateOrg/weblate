@@ -21,7 +21,6 @@
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
 from filelock import Timeout

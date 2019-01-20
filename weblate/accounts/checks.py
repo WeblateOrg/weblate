@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-import os.path
 from ssl import CertificateError
 
 from django.conf import settings

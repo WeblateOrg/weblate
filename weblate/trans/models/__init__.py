@@ -52,6 +52,7 @@ __all__ = [
     'Comment', 'Vote', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf', 'ContributorAgreement',
+    'Alert',
 ]
 
 

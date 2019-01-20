@@ -42,8 +42,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 
 from weblate.trans.models import (
-    Suggestion, Comment, Unit, Project, Translation, Source, Component,
-    Change,
+    Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.search import Fulltext

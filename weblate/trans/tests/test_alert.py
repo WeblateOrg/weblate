@@ -20,9 +20,6 @@
 
 """Test for automatic translation"""
 
-from django.urls import reverse
-
-from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 
 
