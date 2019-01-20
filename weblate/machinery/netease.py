@@ -20,16 +20,16 @@
 
 from __future__ import unicode_literals
 
+import time
+import random
+from hashlib import sha1
+
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
-
-import time
-import random
-from hashlib import sha1
 
 NETEASE_API_ROOT = 'https://jianwai.netease.com/api/text/trans'
 
