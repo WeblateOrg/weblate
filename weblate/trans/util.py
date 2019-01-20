@@ -185,7 +185,7 @@ def get_clean_env(extra=None):
         # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
         'NSS_WRAPPER_GROUP',
         'NSS_WRAPPER_PASSWD',
-      )
+    )
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
