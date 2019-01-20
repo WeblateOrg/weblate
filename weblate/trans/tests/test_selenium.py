@@ -1109,7 +1109,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def test_alerts(self):
         project = Project.objects.create(name='WeblateOrg', slug='weblateorg')
-        component = Component.objects.create(
+        Component.objects.create(
             name='Duplicates',
             slug='duplicates',
             project=project,
