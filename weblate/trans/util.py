@@ -179,6 +179,10 @@ def get_clean_env(extra=None):
         'LD_PRELOAD',
         # Needed by Git on Windows
         'SystemRoot',
+        # Pass proxy configuration
+        'http_proxy',
+        'HTTPS_PROXY',
+        'NO_PROXY',
         # below two are nedded for openshift3 deployment,
         # where nss_wrapper is used
         # more on the topic on below link:

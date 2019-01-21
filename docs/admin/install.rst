@@ -681,6 +681,19 @@ Django documentation.
         You can verify whether outgoing email is working correctly by using the
         :djadmin:`django:sendtestemail` management command.
 
+HTTP proxy
+++++++++++
+
+Weblate does execute VCS commands and those accept proxy configuration from
+environment. The recommended approach is to define proxy settings in
+:file:`settings.py`:
+
+.. code-block:: python
+
+   import os
+   os.environ['http_proxy'] = "http://proxy.example.com:8080"
+   os.environ['HTTPS_PROXY'] = "http://proxy.example.com:8080"
+
 .. _installation:
 
 Installation
