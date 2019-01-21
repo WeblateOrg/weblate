@@ -27,7 +27,7 @@ from weblate.checks.base import TargetCheck
 PYTHON_PRINTF_MATCH = re.compile(
     r'''
     %(                          # initial %
-          (?:\((?P<key>\w+)\))?    # Python style variables, like %(var)s
+          (?:\((?P<key>[^)]+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
         [+#-]*                  # flags
         (?:\d+)?                # width
