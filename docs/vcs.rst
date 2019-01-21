@@ -239,11 +239,11 @@ Gerrit
 
 .. versionadded:: 2.2
 
-This just adds a thin layer on top of :ref:`vcs-git` to allow push translation
-changes as Gerrit review requests instead of pushing directory to the repository.
-It currently uses the `git-review`_ tool to do the integration.
+Adds a thin layer atop :ref:`vcs-git` to allow pushing translation
+changes as Gerrit review requests, instead of pushing a directory to the repository.
+Currently uses the `git-review`_ tool to do the integration.
 
-Please refer to Gerrit documentation for setting up the repository with
+Please refer to the Gerrit documentation for setting up the repository with
 necessary configuration.
 
 .. _git-review: https://pypi.org/project/git-review/
