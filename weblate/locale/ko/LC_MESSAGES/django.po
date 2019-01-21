@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-12 18:08+0000\n"
+"PO-Revision-Date: 2019-01-21 10:36+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -3912,10 +3912,8 @@ msgstr "처리"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "많은 상태 변경"
+msgstr "일괄 상태 변경"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4377,12 +4375,7 @@ msgstr ""
 "포함하고 있고 %(percent)s%%가 완료되었습니다."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4392,9 +4385,8 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 %(total)s 개의 "
-"문자열을 포함하고 있고, <a href=\"%(lang_url)s\">%(languages)s로 번역</a>되"
-"고 있습니다. 전반적으로, 이 번역은 %(percent)s%% 완료 되었습니다."
+"번역 프로젝트 %(project)s는 현재 번역 %(total)s개의 문자열을 포함하고 있고, %(languages)s로 번역되고 "
+"있습니다. 전반적으로, 이 번역은 %(percent)s%% 완료 되었습니다."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -4986,10 +4978,8 @@ msgstr "번역 변경 사항:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "사용자"
+msgstr "사용자:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5684,16 +5674,10 @@ msgstr ""
 "로 병합하거나 이것이 자동으로 후크되도록 설정하십시오."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
-msgstr ""
-"프로젝트 설정 때문에 새로운 컴포넌트에 대한 기본 파일을 사용할 수 없습니다. "
-"새 번역을 자동으로 추가하기를 원할 것입니다."
+msgstr "프로젝트 설정 때문에 새로운 컴포넌트에 대한 기본 파일을 사용할 수 없습니다. 새 번역을 추가하기를 원할 것입니다."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8538,18 +8522,14 @@ msgid "Invalid search query!"
 msgstr "잘못된 검색 질의!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "매스 상태 변화가 완료되었고, 문자열이 업데이트 되지 않았습니다."
+msgstr "일괄 상태 변화가 완료되었고, 문자열이 업데이트 되지 않았습니다."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "매스 상태 변화가 완료되었고, %d 문자열이 업데이트 되었습니다."
+msgstr[0] "일괄 상태 변화가 완료되었고, %d 문자열이 업데이트 되었습니다."
 
 #: weblate/trans/views/settings.py:47 weblate/trans/views/settings.py:79
 msgid "Settings saved"
@@ -8588,10 +8568,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
