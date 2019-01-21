@@ -142,6 +142,10 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error)
                 words.update(new_words)
+                if len(words) > 1000:
+                    break
+            if len(words) > 1000:
+                break
 
         if '' in words:
             words.remove('')
@@ -156,7 +160,7 @@ class DictionaryManager(models.Manager):
             project=unit.translation.component.project,
             language=unit.translation.language,
             source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
-                '|'.join([re_escape(word) for word in words[:1000]])
+                '|'.join([re_escape(word) for word in words])
             )
         )
 
