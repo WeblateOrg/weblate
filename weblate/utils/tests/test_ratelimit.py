@@ -22,6 +22,7 @@ from time import sleep
 
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage import default_storage
+from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 from django.test import SimpleTestCase
@@ -37,7 +38,7 @@ class RateLimitTest(SimpleTestCase):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
         request.method = 'POST'
-        request.session = {}
+        request.session = SessionStore()
         request._messages = default_storage(request)
         request.user = AnonymousUser()
         return request
