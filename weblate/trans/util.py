@@ -181,6 +181,7 @@ def get_clean_env(extra=None):
         'SystemRoot',
         # Pass proxy configuration
         'http_proxy',
+        'https_proxy',
         'HTTPS_PROXY',
         'NO_PROXY',
         # below two are nedded for openshift3 deployment,
