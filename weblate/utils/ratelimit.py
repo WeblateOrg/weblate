@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from hashlib import md5
-from time import time
 
 from django.conf import settings
 from django.contrib.auth import logout
