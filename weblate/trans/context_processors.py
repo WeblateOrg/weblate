@@ -46,6 +46,7 @@ CONTEXT_SETTINGS = [
     'ENABLE_HOOKS',
     'REGISTRATION_OPEN',
     'STATUS_URL',
+    'LEGAL_URL',
     # Hosted Weblate integration
     'PAYMENT_ENABLED',
 ]
