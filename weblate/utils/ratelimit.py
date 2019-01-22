@@ -64,17 +64,19 @@ def get_rate_setting(scope, suffix):
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
     key = get_cache_key(scope, request)
-    attempts = cache.get(key) or 0
-
-    if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
-        cache.set(key, attempts, get_rate_setting(scope, 'LOCKOUT'))
-        return False
 
     try:
+        # Try to increase cache key
         attempts = cache.incr(key)
     except ValueError:
         # No such key, so set it
         cache.set(key, 1, get_rate_setting(scope, 'WINDOW'))
+        attempts = 1
+
+    if attempts > get_rate_setting(scope, 'ATTEMPTS'):
+        # Set key to longer expiry for lockout period
+        cache.set(key, attempts, get_rate_setting(scope, 'LOCKOUT'))
+        return False
 
     return True
 
