@@ -811,6 +811,13 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
+# Silence some of the Django system checks
+SILENCED_SYSTEM_CHECKS = [
+    # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
+    # as weblate.accounts.middleware.AuthenticationMiddleware
+    'admin.E408',
+]
+
 # Celery worker configuration for testing
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
