@@ -37,12 +37,15 @@ from weblate.utils.request import get_ip_address
 
 def get_cache_key(scope, request=None, address=None):
     """Generate cache key for request."""
-    if address is None:
-        address = get_ip_address(request)
-    return 'ratelimit-{0}-{1}'.format(
-        scope,
-        md5(force_bytes(address)).hexdigest()
-    )
+    if request and request.user.is_authenticated:
+        key = request.user.id
+        origin = 'user'
+    else:
+        if address is None:
+            address = get_ip_address(request)
+        origin = 'ip'
+        key = md5(force_bytes(address)).hexdigest()
+    return 'ratelimit-{0}-{1}-{2}'.format(origin, scope, key)
 
 
 def reset_rate_limit(scope, request=None, address=None):
@@ -81,38 +84,18 @@ def session_ratelimit_post(scope):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
         def rate_wrap(request, *args, **kwargs):
-            if request.method == 'POST':
-                session = request.session
-                now = time()
-                k_timeout = '{}_timeout'.format(scope)
-                k_attempts = '{}_attempts'.format(scope)
-                # Reset expired counter
-                if (k_timeout in session and
-                        k_attempts in session and
-                        session[k_timeout] <= now):
-                    session[k_attempts] = 0
-
-                # Get current attempts
-                attempts = session.get(k_attempts, 0)
-
-                # Did we hit the limit?
-                if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
-                    # Rotate session token
-                    rotate_token(request)
-                    # Logout user
-                    if request.user.is_authenticated:
-                        logout(request)
-                    messages.error(
-                        request,
-                        _('Too many attempts, you have been logged out!')
-                    )
-                    return redirect('login')
-
-                session[k_attempts] = attempts + 1
-                if k_timeout not in session:
-                    window = get_rate_setting(scope, 'WINDOW')
-                    session[k_timeout] = now + window
-
+            if (request.method == 'POST' and
+                    not check_rate_limit(scope, request)):
+                # Rotate session token
+                rotate_token(request)
+                # Logout user
+                if request.user.is_authenticated:
+                    logout(request)
+                messages.error(
+                    request,
+                    _('Too many attempts, you have been logged out!')
+                )
+                return redirect('login')
             return function(request, *args, **kwargs)
         return rate_wrap
     return session_ratelimit_post_inner
