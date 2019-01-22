@@ -54,6 +54,8 @@ your distribution packages:
     https://toolkit.translatehouse.org/
 ``translation-finder`` (>=1.0)
     https://github.com/WeblateOrg/translation-finder
+``diff-match-patch`` (>=20121119)
+    https://github.com/diff-match-patch-python/diff-match-patch
 ``Six`` (>= 1.7.0)
     https://pypi.org/project/six/
 ``filelock`` (>= 3.0.1)
