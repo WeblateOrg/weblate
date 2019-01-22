@@ -694,6 +694,10 @@ environment. The recommended approach is to define proxy settings in
    os.environ['http_proxy'] = "http://proxy.example.com:8080"
    os.environ['HTTPS_PROXY'] = "http://proxy.example.com:8080"
 
+.. seealso::
+
+   `Proxy Environment Variables <https://ec.haxx.se/usingcurl-proxies.html#proxy-environment-variables>`_
+
 .. _installation:
 
 Installation
