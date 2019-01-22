@@ -34,10 +34,13 @@ from weblate.utils import messages
 from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(scope, request=None, address=None):
+def get_cache_key(scope, request=None, address=None, user=None):
     """Generate cache key for request."""
-    if request and request.user.is_authenticated:
-        key = request.user.id
+    if (request and request.user.is_authenticated) or user:
+        if user:
+            key = user.id
+        else:
+            key = request.user.id
         origin = 'user'
     else:
         if address is None:
@@ -47,10 +50,10 @@ def get_cache_key(scope, request=None, address=None):
     return 'ratelimit-{0}-{1}-{2}'.format(origin, scope, key)
 
 
-def reset_rate_limit(scope, request=None, address=None):
+def reset_rate_limit(scope, request=None, address=None, user=None):
     """Resets rate limit."""
     cache.delete(
-        get_cache_key(scope, request, address)
+        get_cache_key(scope, request, address, user)
     )
 
 

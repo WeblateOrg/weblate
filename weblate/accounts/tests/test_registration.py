@@ -507,6 +507,8 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse('confirm'))
 
         # Enter wrong password
+        user = User.objects.get(username='username')
+        reset_rate_limit('confirm', user=user)
         response = self.client.post(
             reverse('confirm'),
             {'password': 'invalid'}
