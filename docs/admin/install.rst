@@ -52,6 +52,8 @@ your distribution packages:
     https://github.com/WeblateOrg/siphashc
 ``translate-toolkit`` (>= 2.3.1)
     https://toolkit.translatehouse.org/
+``translation-finder`` (>=1.0)
+    https://github.com/WeblateOrg/translation-finder
 ``Six`` (>= 1.7.0)
     https://pypi.org/project/six/
 ``filelock`` (>= 3.0.1)

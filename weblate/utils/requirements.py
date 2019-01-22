@@ -208,6 +208,13 @@ def get_versions():
     ))
 
     result.append(get_single(
+        'translation-finder',
+        'https://github.com/WeblateOrg/translation-finder',
+        'translation_finder',
+        '1.0',
+    ))
+
+    result.append(get_single(
         'Whoosh',
         'https://bitbucket.org/mchaput/whoosh/',
         'whoosh',
