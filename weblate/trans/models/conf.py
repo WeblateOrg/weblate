@@ -135,6 +135,9 @@ class WeblateConf(AppConf):
     # URL with status monitoring
     STATUS_URL = None
 
+    # URL with legal docs
+    LEGAL_URL = None
+
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
 

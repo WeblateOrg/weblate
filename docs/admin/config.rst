@@ -568,6 +568,17 @@ Defaults to 0.
     :ref:`rate-limit`,
     :ref:`rate-ip`
 
+.. setting:: LEGAL_URL
+
+LEGAL_URL
+---------
+
+.. versionadded:: 3.5
+
+URL where your Weblate instance shows it's legal documents. This is useful if
+you host your legal documents outside Weblate for embedding inside Weblate
+please see :ref:`legal`.
+
 .. setting:: LOGIN_REQUIRED_URLS
 
 LOGIN_REQUIRED_URLS
