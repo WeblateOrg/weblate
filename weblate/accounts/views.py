@@ -579,7 +579,6 @@ def fake_email_sent(request, reset=False):
     return redirect('email-sent')
 
 
-@session_ratelimit_post('register')
 @never_cache
 def register(request):
     """Registration form."""
