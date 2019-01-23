@@ -1505,8 +1505,8 @@ class ComponentCreateForm(SettingsBaseForm):
         model = Component
         fields = [
             'project', 'name', 'slug', 'vcs', 'repo', 'push', 'repoweb',
-            'branch', 'file_format', 'filemask', 'template', 'new_base',
-            'license', 'new_lang', 'language_regex',
+            'branch', 'file_format', 'filemask', 'template', 'edit_template',
+            'new_base', 'license', 'new_lang', 'language_regex',
         ]
 
 
