@@ -37,7 +37,7 @@ Using docker-compose:
 
 ```
 docker-compose exec weblate weblate list_versions
-docker-compose exec weblate weblate check --deploy
+docker-compose exec --user weblate weblate weblate check --deploy
 ```
 
 **Additional context**
