@@ -14,6 +14,41 @@ Where this is located depends on your database setup.
 The database is the most important storage. Set up regular
 backups of your database, without it all your translation setup will be gone.
 
+Native database backup
+++++++++++++++++++++++
+
+The recommended approach is to do dump of the database using database native
+tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
+better than Django backup and restores complete tables with all data.
+
+You can restore this backup in newer Weblate release, it will perform any
+necessary migrations when running in :djadmin:`django:migrate`. Please consult
+:doc:`admin/upgrade` on more detailed information how to peform upgrade between
+versions.
+
+Django database backup
+++++++++++++++++++++++
+
+Alternatively you can backup database using Django's :djadmin:`django:dumpdata`
+command. That way the backup is database agnostic and can be used in case you
+want to change database backend.
+
+Prior to restoring you need to be running exactly same Weblate version as was
+used when doing backups. This is necessary as the database structure does
+change between releases and you would end up corrupting the data in some way.
+After installing the same version, run all database migrations using
+:djadmin:`django:migrate`.
+
+Once this is done, some entries will be already created in the database and you
+will have them in the database backup as well. The recommended approach is to
+delete such entries manually using management shell (see :ref:`invoke-manage`):
+
+.. code-block:: console
+
+   ./manage.py shell
+   >>> from weblate.auth.models import User
+   >>> User.objects.get(username='anonymous').delete()
+
 Files
 ~~~~~
 
