@@ -355,6 +355,8 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_SERVER_URI
 .. envvar:: WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
 
     LDAP authentication configuration.
 
