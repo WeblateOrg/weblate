@@ -812,7 +812,6 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
-    monolingual = True
     new_translation = '\n'
 
 
