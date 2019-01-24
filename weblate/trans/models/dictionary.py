@@ -83,7 +83,7 @@ class DictionaryManager(models.Manager):
                     continue
                 if method == 'add':
                     # Add word
-                    word = self.create(
+                    self.create(
                         user=request.user,
                         action=Change.ACTION_DICTIONARY_UPLOAD,
                         project=project,
