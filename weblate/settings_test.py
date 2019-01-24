@@ -62,6 +62,11 @@ ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, 'data-test')
+MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
+    DATA_DIR, 'celery', 'beat-schedule'
+)
 
 # Silent logging setup
 LOGGING = {
