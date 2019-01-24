@@ -38,6 +38,7 @@ class GitSquashAddon(BaseAddon):
         )),
     }
     events = (EVENT_PRE_PUSH,)
+    icon = 'compress'
 
     @classmethod
     def can_install(cls, component, user):
