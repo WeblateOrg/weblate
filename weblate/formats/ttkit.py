@@ -438,6 +438,10 @@ class XliffUnit(TTKitUnit):
         if self.unit is None:
             return ''
 
+        # Use source for monolingual files if target is not set
+        if self.template is not None and not self.template.target:
+            return rich_to_xliff_string(self.template.rich_source)
+
         if self.unit.target is None:
             return ''
 
