@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2018.
-# ssantos <ssantos@web.de>, 2018.
+# ssantos <ssantos@web.de>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2018-12-10 15:10+0000\n"
+"PO-Revision-Date: 2019-01-24 07:43+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.4\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -786,28 +786,20 @@ msgstr ""
 "--no-wrap só o faz nas novas linhas."
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "Assinatura das submissões"
+msgstr "Cometer o squashing"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Todos os componentes no projeto atual"
+msgstr "Todas submissões em um"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "Novo idioma"
+msgstr "Por idioma"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "Perfil"
+msgstr "Por ficherio"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -956,14 +948,12 @@ msgstr ""
 "anos de colaboração."
 
 #: weblate/addons/git.py:32
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "Enviar ao submeter"
+msgstr "Submissões squash Git"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Squash Git faz commits antes de empurrar mudanças."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1988,15 +1978,11 @@ msgid "Weblate languages"
 msgstr "Idiomas do Weblate"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "Singular"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Plural"
@@ -4011,10 +3997,8 @@ msgstr "Processar"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "Alteração em massa"
+msgstr "Modificação de estado em massa"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4475,26 +4459,16 @@ msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">O projeto de tradução de %(project)s</a> para Inglês "
-"contém atualmente %(total)s cadeias para traduzir e está %(percent)s%% "
-"concluído."
+"O projeto de tradução de %(project)s</a> para Inglês contém atualmente "
+"%(total)s cadeias para traduzir e está concluído por %(percent)s%%."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4504,15 +4478,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">O projeto de tradução de %(project)s</a> contém projeto "
-"%(total)s cadeias para traduzir e está <a href=\"%(lang_url)s\">a ser "
-"traduzido em %(languages)s idiomas</a>. No total, estas traduções estão "
-"%(percent)s%% concluídas."
+"O projeto de tradução para %(project)s atualmente contém %(total)s strings "
+"para tradução e está sendo traduzido para %(languages)s língua. No geral, "
+"essas traduções são %(percent)s%% completas."
 msgstr[1] ""
-"<a href=\"%(url)s\">O projeto de tradução de %(project)s</a> contém projeto "
-"%(total)s cadeias para traduzir e está <a href=\"%(lang_url)s\">a ser "
-"traduzido em %(languages)s idiomas</a>. No total, estas traduções estão "
-"%(percent)s%% concluídas."
+"O projeto de tradução para %(project)s atualmente contém %(total)s strings "
+"para tradução e está sendo traduzido para %(languages)ss línguas. No geral, "
+"essas traduções são %(percent)s%% completas."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -4542,10 +4514,8 @@ msgid "Translate"
 msgstr "Traduzir"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "Outros idiomas"
+msgstr "Ver idiomas do projeto"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -5107,10 +5077,8 @@ msgstr "Alteração da tradução:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Utilizador"
+msgstr "Utilizador:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5590,6 +5558,9 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Há demasiados correspondências para esta busca. Mostrando e substituindo "
+"apenas os primeiros 250. Para substituir os restantes, faça a substituição "
+"novamente."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -5777,6 +5748,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Qualquer projeto publicamente disponível deve ter uma licença definida para "
+"indicar os termos aplicáveis às contribuições."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5811,17 +5784,12 @@ msgstr ""
 "alterações manualmente ou configure ganchos para automatizar isso."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
 "O ficheiro base para novas traduções não é usado devido às definições do "
-"componente. Provavelmente deseja activar a adição automática de novas "
-"traduções."
+"componente. Provavelmente deseja activar a adição de novas traduções."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -5865,32 +5833,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Compreendo as consequências, apagar esta tradução"
 
 #: weblate/templates/trans/embed-alert.html:5
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "Não há actualmente componentes de tradução."
+msgstr "Existem alguns alertas sobre este componente"
 
 #: weblate/templates/trans/embed-alert.html:10
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "A tradução é licenciada sob licença livre de acordo com a FSF."
 
 #: weblate/templates/trans/embed-alert.html:12
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr ""
-"O conteúdo traduzido tem de ser disponibilizado nos termos de uma licença de "
-"software libre."
+msgstr "A tradução é licenciada sob licença aprovada pela OSI."
 
 #: weblate/templates/trans/messages_help.html:4
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
-"Pode usar modelos de markup Django no nome e no conteúdo do ficheiro, por "
-"exemplo:"
+"Você pode usar a marcação de modelos de Django nas mensagens de submissão."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7235,10 +7192,8 @@ msgid "Repository has changes."
 msgstr "O repositório tem alterações."
 
 #: weblate/trans/models/alert.py:178
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "Informação da fonte"
+msgstr "Falta informação sobre a licença."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7627,10 +7582,8 @@ msgid "Commit message when removing translation"
 msgstr "Mensagem de submissão ao remover tradução"
 
 #: weblate/trans/models/component.py:384
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
-msgstr "Mensagem de submissão ao remover tradução"
+msgstr "Mensagem de submissão quando a fusão de tradução"
 
 #: weblate/trans/models/component.py:393
 msgid "Committer name"
@@ -8733,15 +8686,11 @@ msgid "Invalid search query!"
 msgstr "Procura inválida!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Mudança de estado em massa concluída, sem cadeias actualizadas."
+msgstr "Mudança de estado em massa concluída, nenhuma cadeia foi atualizada."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
 msgstr[0] "Mudança de estado em massa concluída, %d cadeia actualizada."
@@ -8784,10 +8733,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8795,7 +8741,7 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"a traduzir %(count)d cadeias para %(languages)d idiomas\n"
+"a traduzir %(count)d cadeias para %(languages)d idioma\n"
 "%(percent)d%% concluído, ajude-nos a melhorar!"
 msgstr[1] ""
 "a traduzir %(count)d cadeias para %(languages)d idiomas\n"
