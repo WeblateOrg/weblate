@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 3.5
+------------
+
+Released on ? 2019.
+
 weblate 3.4
 -----------
 
