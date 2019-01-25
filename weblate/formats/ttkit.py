@@ -449,7 +449,11 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
-        self.unit.rich_target = xliff_string_to_rich(target)
+        # Use source for monolingual files if target is not set
+        if self.template is not None and not self.template.target:
+            self.template.rich_source = xliff_string_to_rich(target)
+        else:
+            self.unit.rich_target = xliff_string_to_rich(target)
 
     @cached_property
     def xliff_node(self):
