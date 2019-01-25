@@ -95,6 +95,7 @@ class TranslationMemory(WhooshIndex):
             schema=self.index.schema,
             group=qparser.OrGroup.factory(0.9),
             termclass=query.FuzzyTerm,
+            plugins=[],
         )
         self.searcher = None
         self.comparer = Comparer()
