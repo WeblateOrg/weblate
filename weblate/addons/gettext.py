@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import io
 import os
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command, popen_wrapper
 from django.utils.translation import ugettext_lazy as _
 
@@ -202,6 +203,15 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super(MsgmergeAddon, cls).can_install(component, user)
 
     def update_translations(self, component, previous_head):
+        wrap = None
+        try:
+            width = component.addon_set.get(
+                name='weblate.gettext.customize'
+            ).configuration['width']
+            if width != 77:
+                wrap = '--no-wrap'
+        except ObjectDoesNotExist:
+            pass
         cmd = [
             'msgmerge',
             '--backup=none',
@@ -209,9 +219,10 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             'FILE',
             component.get_new_base_filename()
         ]
+        if wrap:
+            cmd.insert(1, wrap)
         for translation in component.translation_set.all():
-            cmd[3] = translation.get_filename()
-            popen_wrapper(cmd)
+            cmd[-2] = translation.get_filename()
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):

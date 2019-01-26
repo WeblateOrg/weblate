@@ -195,7 +195,7 @@ class GettextAddonTest(ViewTestCase):
             os.path.exists(translation.addon_commit_files[0])
         )
 
-    def test_msgmerge(self):
+    def test_msgmerge(self, wrapped=True):
         self.assertTrue(MsgmergeAddon.can_install(self.component, None))
         addon = MsgmergeAddon.create(self.component)
         rev = self.component.repository.last_revision
@@ -205,6 +205,14 @@ class GettextAddonTest(ViewTestCase):
             self.component.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
+        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
+
+    def test_msgmerge_nowrap(self):
+        GettextCustomizeAddon.create(
+            self.component,
+            configuration={'width': -1}
+        )
+        self.test_msgmerge(False)
 
     def test_generate(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
