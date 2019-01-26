@@ -20,11 +20,14 @@
 
 from __future__ import unicode_literals
 
+import subprocess
+
 from django.apps import apps
 from django.utils.functional import cached_property
 
 from weblate.addons.events import EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD
 from weblate.addons.forms import BaseAddonForm
+from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 
@@ -134,6 +137,20 @@ class BaseAddon(object):
 
     def store_post_load(self, translation, store):
         return
+
+    def execute_process(self, component, cmd, env=None):
+        component.log_debug('%s addon exec: %s', self.name, repr(cmd))
+        try:
+            output = subprocess.check_output(
+                cmd,
+                env=get_clean_env(env),
+                cwd=component.full_path,
+                stderr=subprocess.STDOUT,
+            )
+            component.log_debug('exec result: %s', repr(output))
+        except (OSError, subprocess.CalledProcessError) as err:
+            component.log_error('failed to exec %s: %s', repr(cmd), err)
+            raise
 
 
 class TestAddon(BaseAddon):

@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 import io
 import os
-import subprocess
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
@@ -34,7 +33,6 @@ from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.addons.forms import GettextCustomizeForm
 from weblate.formats.exporters import MoExporter
-from weblate.trans.util import get_clean_env
 
 
 class GettextBaseAddon(BaseAddon):
@@ -225,15 +223,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             cmd.insert(1, wrap)
         for translation in component.translation_set.all():
             cmd[-2] = translation.get_filename()
-            try:
-                subprocess.check_output(
-                    cmd,
-                    env=get_clean_env(),
-                    cwd=component.full_path,
-                )
-            except (OSError, subprocess.CalledProcessError) as err:
-                component.log_error('failed to run msgmerge: %s', err)
-                raise
+            self.execute_process(component, cmd)
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
