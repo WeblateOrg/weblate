@@ -215,6 +215,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         cmd = [
             'msgmerge',
             '--backup=none',
+            '--previous',
             '--update',
             'FILE',
             component.get_new_base_filename()
