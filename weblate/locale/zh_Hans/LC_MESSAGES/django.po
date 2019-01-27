@@ -6,13 +6,14 @@
 # Boyuan Yang <073plan@gmail.com>, 2018, 2019.
 # popcorner <memoword@163.com>, 2018.
 # dragonandy <dragonandy@foxmail.com>, 2018.
+# YONGLE <tanyongle0633@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.4\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-17 19:10+0000\n"
-"PO-Revision-Date: 2019-01-18 12:37+0000\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"PO-Revision-Date: 2019-01-27 15:30+0000\n"
+"Last-Translator: YONGLE <tanyongle0633@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -742,28 +743,20 @@ msgstr ""
 "数后，它仅会在换行符处折行。"
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "提交签名"
+msgstr "提交汇并"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "当前项目的所有组件"
+msgstr "所有提交成一个"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "新增语言"
+msgstr "每种语言"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "用户资料"
+msgstr "每个文件"
 
 #: weblate/addons/forms.py:115
 msgid "Sort JSON keys"
@@ -1920,18 +1913,14 @@ msgid "Weblate languages"
 msgstr "Weblate 语言"
 
 #: weblate/lang/data.py:303
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
-msgstr "单数形式"
+msgstr "单数"
 
 #: weblate/lang/data.py:304
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
-msgstr "复数形式"
+msgstr "复数"
 
 #: weblate/lang/data.py:307 weblate/lang/data.py:313 weblate/lang/data.py:321
 #: weblate/lang/data.py:325 weblate/lang/data.py:330 weblate/lang/data.py:335
@@ -3851,10 +3840,8 @@ msgstr "开始处理"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
-msgstr "质状态变化"
+msgstr "批量状态更改"
 
 #: weblate/templates/component.html:185 weblate/templates/project.html:242
 #: weblate/templates/translation.html:252
@@ -4044,12 +4031,10 @@ msgid ""
 msgstr "您需要登录才能翻译，否则您只能提出翻译建议。"
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s 票"
+msgstr[0] "浏览所有 %(count)s1 个项目"
 
 #: weblate/templates/dashboard/user.html:41
 msgid "Checks overview"
@@ -4293,25 +4278,15 @@ msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">翻译项目 %(project)s</a>到简体中文当前有 %(total)s 个字符"
-"串，已完成 %(percent)s%%。"
+"%(project)s1 的翻译项目正翻译成简体中文，目前有 %(total)s 条字符串提供翻译，翻译进度约完成 %(percent)s3%%4。"
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4321,9 +4296,8 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">%(project)s 的翻译项目</a>当前共有 %(total)s 个字符串，"
-"<a href=\"%(lang_url)s\">已翻译为 %(languages)s 种语言</a>。总体而言，翻译已"
-"完成 %(percent)s%% 。"
+"%(project)s1 的翻译项目目前有 %(project)s1 条字符串需要翻译，正翻译成 %(languages)s3 种语言。总体来说，"
+"翻译进度约完成 %(percent)s4%%5。"
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -4349,10 +4323,8 @@ msgid "Translate"
 msgstr "翻译"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "其它语言"
+msgstr "查看项目语言"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -4904,10 +4876,8 @@ msgstr "翻译修改："
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "用户"
+msgstr "用户："
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5365,7 +5335,7 @@ msgstr "请复查并确认本次搜索与替换的结果。"
 msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
-msgstr ""
+msgstr "这个查询有太多匹配项目。优先显示与取代前250项。若要继续取代剩余项目，请再次进行更换。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
