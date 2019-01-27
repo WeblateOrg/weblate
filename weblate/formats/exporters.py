@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.http import HttpResponse
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
@@ -81,13 +82,17 @@ class BaseExporter(object):
             self.language = language
             self.url = url
         self.fieldnames = fieldnames
-        self.storage = self.get_storage()
-        self.storage.setsourcelanguage(
+
+    @cached_property
+    def storage(self):
+        storage = self.get_storage()
+        storage.setsourcelanguage(
             self.project.source_language.code
         )
-        self.storage.settargetlanguage(
+        storage.settargetlanguage(
             self.language.code
         )
+        return storage
 
     def string_filter(self, text):
         return text
