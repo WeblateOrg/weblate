@@ -185,9 +185,10 @@ class PoExporter(BaseExporter):
     content_type = 'text/x-po'
     extension = 'po'
     verbose = _('gettext PO')
+    _storage = pofile
 
     def get_storage(self):
-        store = pofile()
+        store = self._storage()
         plural = self.language.plural
 
         # Set po file header
@@ -267,31 +268,12 @@ class TMXExporter(XMLExporter):
 
 
 @register_exporter
-class MoExporter(BaseExporter):
+class MoExporter(PoExporter):
     name = 'mo'
     content_type = 'application/x-gettext-catalog'
     extension = 'mo'
     verbose = _('gettext MO')
-
-    def get_storage(self):
-        store = mofile()
-        plural = self.language.plural
-
-        # Set po file header
-        store.updateheader(
-            add=True,
-            language=self.language.code,
-            x_generator='Weblate {0}'.format(weblate.VERSION),
-            project_id_version='{0} ({1})'.format(
-                self.language.name, self.project.name
-            ),
-            plural_forms=plural.plural_form,
-            language_team='{0} <{1}>'.format(
-                self.language.name,
-                self.url
-            )
-        )
-        return store
+    _storage = mofile
 
     def add_unit(self, unit):
         if not unit.translated:
