@@ -95,7 +95,8 @@ class ApertiumAPYTranslation(MachineTranslation):
         super(ApertiumAPYTranslation, self).__init__()
         self.url = self.get_server_url()
 
-    def get_server_url(self):
+    @staticmethod
+    def get_server_url():
         """Return URL of a server."""
         if settings.MT_APERTIUM_APY is None:
             raise MissingConfiguration(
