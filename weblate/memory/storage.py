@@ -127,18 +127,20 @@ class TranslationMemory(WhooshIndex):
         return language.code
 
     @staticmethod
-    def get_category(category=None, project=None, user=None):
+    def get_category(category=None, project=None, user=None, use_file=False):
         if project:
             return CATEGORY_PRIVATE_OFFSET + project.pk
         if user:
             return CATEGORY_USER_OFFSET + user.pk
+        if use_file:
+            return CATEGORY_FILE
         return category
 
     @classmethod
     def import_file(cls, request, fileobj, langmap=None, category=None,
-                    project=None, user=None):
+                    project=None, user=None, use_file=False):
         origin = force_text(os.path.basename(fileobj.name)).lower()
-        category = cls.get_category(category, project, user)
+        category = cls.get_category(category, project, user, use_file)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
@@ -263,8 +265,8 @@ class TranslationMemory(WhooshIndex):
             category_filter.append(query.Term('category', CATEGORY_SHARED))
         return query.Or(category_filter)
 
-    def list_documents(self, user=None, project=None):
-        catfilter = self.get_filter(user, project, False, False)
+    def list_documents(self, user=None, project=None, use_file=False):
+        catfilter = self.get_filter(user, project, False, use_file)
         return self.searcher.search(catfilter, limit=None)
 
     def lookup(self, source_language, target_language, text, user,
@@ -288,9 +290,10 @@ class TranslationMemory(WhooshIndex):
                 match['category'], match['origin']
             )
 
-    def delete(self, origin=None, category=None, project=None, user=None):
+    def delete(self, origin=None, category=None, project=None, user=None,
+               use_file=False):
         """Delete entries based on filter."""
-        category = self.get_category(category, project, user)
+        category = self.get_category(category, project, user, use_file)
         with self.writer() as writer:
             if origin:
                 return writer.delete_by_term('origin', origin)

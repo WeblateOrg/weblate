@@ -7,6 +7,7 @@ weblate 3.5
 Released on ? 2019.
 
 * Improved performance of built in translation memory.
+* Added interface to manage global translation memory.
 
 weblate 3.4
 -----------

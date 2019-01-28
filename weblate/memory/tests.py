@@ -293,3 +293,11 @@ class MemoryViewTest(FixtureTestCase):
             follow=True
         )
         self.assertContains(response, 'Import of strings scheduled')
+
+    def test_global_memory_superuser(self):
+        self.user.is_superuser = True
+        self.user.save()
+        self.test_memory(
+            'Number of global entries', False,
+            kwargs={'manage': 'manage'}
+        )
