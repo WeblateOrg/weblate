@@ -430,7 +430,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
@@ -479,7 +480,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @httpretty.activate
     def test_amagama_nolang(self):
@@ -561,7 +563,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
     @httpretty.activate
@@ -701,7 +704,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_DEEPL_KEY='KEY')
     @httpretty.activate

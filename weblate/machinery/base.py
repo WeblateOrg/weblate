@@ -286,7 +286,9 @@ class MachineTranslation(object):
                 language = language.split('_')[0]
                 return self.translate(language, text, unit, request, source)
             if self.supported_languages_error:
-                raise self.supported_languages_error
+                raise MachineTranslationError(
+                    repr(self.supported_languages_error)
+                )
             return []
 
         cache_key = self.translate_cache_key(source, language, text)
