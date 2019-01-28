@@ -95,7 +95,7 @@ PERM_TEMPLATE = '''
 '''
 
 SOURCE_LINK = '''
-<a href="{0}" target="_blank" rel="noopener noreferrer">{1}
+<a href="{0}" target="_blank" rel="noopener noreferrer" class="long-filename">{1}
 <i class="fa fa-external-link"></i></a>
 '''
 
@@ -623,7 +623,6 @@ def get_location_links(profile, unit):
             }
         else:
             link = unit.translation.component.get_repoweb_link(filename, line)
-        location = location.replace('/', '/\u200B')
         if link is None:
             ret.append(escape(location))
         else:

@@ -931,6 +931,3 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 timezone.now()
             )
             self.component.push_if_needed(request)
-
-    def get_display_filename(self):
-        return self.filename.replace('/', '/\u200B')
