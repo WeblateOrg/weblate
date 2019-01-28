@@ -64,6 +64,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """Check whether token is about to expire."""
         return self._token_expiry <= timezone.now()
 
+    def authenticate(self, request):
+        """Hook for backends to allow add authentication headers to request."""
+        request.add_header(
+           'Authorization',
+           'Bearer {0}'.format(self.access_token)
+       )
+
     @property
     def access_token(self):
         """Obtain and caches access token."""
