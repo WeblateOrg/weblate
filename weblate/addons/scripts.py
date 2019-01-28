@@ -56,6 +56,7 @@ class BaseScriptAddon(BaseAddon):
         if env is not None:
             environment.update(env)
         self.execute_process(component, command, environment)
+        self.trigger_alerts(component)
 
     def post_push(self, component):
         self.run_script(component)

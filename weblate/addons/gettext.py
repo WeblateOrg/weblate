@@ -195,6 +195,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         'triggered whenever new changes are pulled from the upstream '
         'repository.'
     )
+    alert = 'MsgmergeAddonError'
 
     @classmethod
     def can_install(cls, component, user):
@@ -228,6 +229,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
             cmd[-2] = filename
             self.execute_process(component, cmd)
+        self.trigger_alerts(component)
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):

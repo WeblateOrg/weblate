@@ -43,10 +43,12 @@ class BaseAddon(object):
     icon = 'cog'
     project_scope = False
     has_summary = False
+    alert = 'AddonScriptError'
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
         self.instance = storage
+        self.alerts = []
 
     def get_summary(self):
         return ''
@@ -150,7 +152,19 @@ class BaseAddon(object):
             component.log_debug('exec result: %s', repr(output))
         except (OSError, subprocess.CalledProcessError) as err:
             component.log_error('failed to exec %s: %s', repr(cmd), err)
-            raise
+            self.alerts.append({
+                'addon': self.name,
+                'command': ' '.join(cmd),
+                'output': getattr(err, 'output', ''),
+                'error': str(err),
+            })
+
+    def trigger_alerts(self, component):
+        if self.alerts:
+            component.add_alert(self.alert, occurences=self.alerts)
+            self.alerts = []
+        else:
+            component.delete_alert(self.alert)
 
 
 class TestAddon(BaseAddon):

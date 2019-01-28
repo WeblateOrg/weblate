@@ -176,3 +176,13 @@ class RepositoryChanges(BaseAlert):
 @register
 class MissingLicense(BaseAlert):
     verbose = _('License information missing.')
+
+
+@register
+class AddonScriptError(MultiAlert):
+    verbose = _('Error when executing addon.')
+
+
+@register
+class MsgmergeAddonError(MultiAlert):
+    verbose = _('Error when executing addon.')
