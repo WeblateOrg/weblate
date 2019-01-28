@@ -70,6 +70,7 @@ class MachineTranslation(object):
         self.request_params = None
         self.comparer = Comparer()
         self.supported_languages = None
+        self.supported_languages_error = None
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -146,6 +147,10 @@ class MachineTranslation(object):
         # Parse JSON
         response = json.loads(text)
 
+        # We should get an object, string usually means an error
+        if isinstance(response, six.string_types):
+            raise Exception(response)
+
         # Return data
         return response
 
@@ -213,6 +218,7 @@ class MachineTranslation(object):
             languages = set(self.download_languages())
         except Exception as exc:
             self.supported_languages = self.default_languages
+            self.supported_languages_error = exc
             self.report_error(
                 exc, request,
                 'Failed to fetch languages from %s, using defaults',
@@ -283,6 +289,8 @@ class MachineTranslation(object):
             if '_' in language:
                 language = language.split('_')[0]
                 return self.translate(language, text, unit, request, source)
+            if self.supported_languages_error:
+                raise self.supported_languages_error
             return []
 
         cache_key = self.translate_cache_key(source, language, text)
