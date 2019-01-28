@@ -3,8 +3,9 @@
 # Simple wrapper to start/stop celery workers
 
 python -m celery -A weblate multi $1 \
-    search celery \
+    search celery memory \
     --pidfile=weblate-%n.pid \
     --logfile=weblate-%n%I.log --loglevel=DEBUG \
-    --concurrency:search=1 --queues:search=search \
-    --beat:celery --concurrency:celery=2 --queues:celery=celery
+    --beat:celery --concurrency:celery=4 --queues:celery=celery --prefetch-multiplier:celery=4 \
+    --concurrency:search=1 --queues:search=search --prefetch-multiplier:search=2000 \
+    --concurrency:memory=1 --queues:memory=memory --prefetch-multiplier:memory=2000
