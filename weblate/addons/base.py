@@ -155,7 +155,7 @@ class BaseAddon(object):
             self.alerts.append({
                 'addon': self.name,
                 'command': ' '.join(cmd),
-                'output': getattr(err, 'output', ''),
+                'output': getattr(err, 'output', '').decode('utf-8'),
                 'error': str(err),
             })
 
