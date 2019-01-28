@@ -11,7 +11,7 @@
 </thead>
 <tbody>
 {% for occurence in occurences %}
-<tr><td>{{ occurence.comand }}</td><td>{{ occurence.error }}</td></tr>
+<tr><td>{{ occurence.command }}</td><td>{{ occurence.error }}</td></tr>
 {% if occurence.output %}
 <tr><td colspan="2"><pre>{{ occurence.output }}</pre></td></tr>
 {% endif %}
