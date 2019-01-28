@@ -147,10 +147,6 @@ class MachineTranslation(object):
         # Parse JSON
         response = json.loads(text)
 
-        # We should get an object, string usually means an error
-        if isinstance(response, six.string_types):
-            raise Exception(response)
-
         # Return data
         return response
 
