@@ -464,18 +464,18 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
                 data['method'] == 'approve'):
             raise PermissionDenied()
 
-        author = None
+        author_name = None
+        author_email = None
         if request.user.has_perm('upload.authorship', obj):
-            email = data.get('email', None)
-            name = data.get('author', None)
-            if email and name:
-                author = '{0} <{1}>'.format(name, email)
+            author_name = data.get('name')
+            author_email = data.get('email')
 
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
             data['file'],
             data['overwrite'],
-            author,
+            author_name,
+            author_email,
             data['method'],
             data['fuzzy'],
         )

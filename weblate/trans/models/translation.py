@@ -782,8 +782,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return (not_found, skipped, accepted, len(store.all_units))
 
-    def merge_upload(self, request, fileobj, overwrite, author=None,
-                     method='translate', fuzzy=''):
+    def merge_upload(self, request, fileobj, overwrite, author_name=None,
+                     author_email=None, method='translate', fuzzy=''):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
@@ -800,10 +800,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.component.template_store
         )
 
-        # Optionally set authorship
-        if author is None:
-            author = request.user.get_author_name()
-
         # Check valid plural forms
         if hasattr(store.store, 'parseheader'):
             header = store.store.parseheader()
@@ -815,19 +811,37 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Formula wrong or missing
                 pass
 
-        if method in ('translate', 'fuzzy', 'approve'):
-            # Merge on units level
-            with self.component.repository.lock:
-                return self.merge_translations(
-                    request,
-                    store,
-                    overwrite,
-                    method,
-                    fuzzy,
-                )
+        # Optionally set authorship
+        orig_user = None
+        if author_email:
+            from weblate.auth.models import User
+            orig_user = request.user
+            request.user = User.objects.get_or_create(
+                email=author_email,
+                defaults={
+                    'username': author_email,
+                    'is_active': False,
+                    'full_name': author_name or author_email,
+                }
+            )[0]
 
-        # Add as sugestions
-        return self.merge_suggestions(request, store, fuzzy)
+        try:
+            if method in ('translate', 'fuzzy', 'approve'):
+                # Merge on units level
+                with self.component.repository.lock:
+                    return self.merge_translations(
+                        request,
+                        store,
+                        overwrite,
+                        method,
+                        fuzzy,
+                    )
+
+            # Add as sugestions
+            return self.merge_suggestions(request, store, fuzzy)
+        finally:
+            if orig_user:
+                request.user = orig_user
 
     def invalidate_cache(self, recurse=True):
         """Invalidate any cached stats."""

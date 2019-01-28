@@ -79,14 +79,11 @@ def upload_translation(request, project, component, lang):
         return redirect(obj)
 
     # Create author name
-    author = None
-    if (request.user.has_perm('upload.authorship', obj) and
-            form.cleaned_data['author_name'] != '' and
-            form.cleaned_data['author_email'] != ''):
-        author = '{0} <{1}>'.format(
-            form.cleaned_data['author_name'],
-            form.cleaned_data['author_email']
-        )
+    author_name = None
+    author_email = None
+    if request.user.has_perm('upload.authorship', obj):
+        author_name = form.cleaned_data['author_name']
+        author_email = form.cleaned_data['author_email']
 
     # Check for overwriting
     overwrite = False
@@ -99,7 +96,8 @@ def upload_translation(request, project, component, lang):
             request,
             request.FILES['file'],
             overwrite,
-            author,
+            author_name,
+            author_email,
             method=form.cleaned_data['method'],
             fuzzy=form.cleaned_data['fuzzy'],
         )

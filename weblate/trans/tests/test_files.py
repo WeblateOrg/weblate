@@ -97,7 +97,7 @@ class ImportTest(ImportBaseTest):
         """Test importing normally."""
         response = self.do_import(
             author_name='Testing User',
-            author_email='noreply@weblate.org'
+            author_email='john@example.com',
         )
         self.assertRedirects(response, self.translation_url)
 
