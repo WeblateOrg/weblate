@@ -45,7 +45,6 @@ class Command(BaseCommand):
 
     def rebuild(self):
         memory = TranslationMemory()
-        memory.open_searcher()
         data = list(memory.searcher.documents())
         memory.empty()
         with memory.writer() as writer:

@@ -52,7 +52,6 @@ class Command(BaseCommand):
             memory_backup(options['indent'])
             return
         memory = TranslationMemory()
-        memory.open_searcher()
         self.stdout.ending = None
         memory.dump(self.stdout, indent=options['indent'])
         self.stdout.write('\n')
