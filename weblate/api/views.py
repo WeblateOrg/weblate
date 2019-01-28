@@ -467,8 +467,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         author_name = None
         author_email = None
         if request.user.has_perm('upload.authorship', obj):
-            author_name = data.get('name')
-            author_email = data.get('email')
+            author_name = data.get('author_name')
+            author_email = data.get('author_email')
 
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
