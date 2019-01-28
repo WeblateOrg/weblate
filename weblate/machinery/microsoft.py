@@ -23,6 +23,8 @@ from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
 
+import six
+
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
@@ -106,7 +108,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         'fa', 'pl', 'pt', 'ro', 'r', 'sm', 'sr-Cyrl', 'sr-Latn', 'sk', 'sl',
         'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi', 'cy']
         """
-        return self.json_req(LIST_URL)
+        response = self.json_req(LIST_URL)
+
+        # We should get an object, string usually means an error
+        if isinstance(response, six.string_types):
+            raise Exception(response)
+
+        return response
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
