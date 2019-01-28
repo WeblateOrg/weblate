@@ -223,7 +223,10 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         if wrap:
             cmd.insert(1, wrap)
         for translation in component.translation_set.all():
-            cmd[-2] = translation.get_filename()
+            filename = translation.get_filename()
+            if not os.path.exists(filename):
+                continue
+            cmd[-2] = filename
             self.execute_process(component, cmd)
 
 
