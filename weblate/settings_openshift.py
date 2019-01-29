@@ -139,6 +139,9 @@ if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
 
+if 'WEBLATE_NO_EMAIL_AUTH' not in os.environ:
+    AUTHENTICATION_BACKENDS += ('social_core.backends.email.EmailAuth',)
+
 # Enable possibility of using other auth providers via configuration
 
 if 'WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY' in os.environ:
