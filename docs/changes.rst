@@ -8,6 +8,7 @@ Released on ? 2019.
 
 * Improved performance of built in translation memory.
 * Added interface to manage global translation memory.
+* Improved alerting on bad component state.
 
 weblate 3.4
 -----------
