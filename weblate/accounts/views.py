@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -102,6 +104,8 @@ CONTACT_SUBJECTS = {
     'hosting': 'Commercial hosting',
     'account': 'Suspicious account activity',
 }
+
+ANCHOR_RE = re.compile(r'^#[a-z]+$')
 
 
 class EmailSentView(TemplateView):
@@ -198,7 +202,7 @@ def avoid_demo(function):
 
 def redirect_profile(page=''):
     url = reverse('profile')
-    if page and page.startswith('#'):
+    if page and ANCHOR_RE.match(page):
         url = url + page
     return HttpResponseRedirect(url)
 
