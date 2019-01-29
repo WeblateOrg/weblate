@@ -148,6 +148,11 @@ class UpdateFailure(ErrorAlert):
 
 
 @register
+class PushFailure(ErrorAlert):
+    verbose = _('Could not push the repository.')
+
+
+@register
 class UnusedNewBase(BaseAlert):
     verbose = _('Unused base file for new translations.')
 

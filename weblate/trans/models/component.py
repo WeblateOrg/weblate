@@ -764,6 +764,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info('pushing to remote repo')
             with self.repository.lock:
                 self.repository.push()
+                if self.id:
+                    self.delete_alert('PushFailure', childs=True)
         except RepositoryException as error:
             error_text = self.error_text(error)
             self.log_error('failed to push on repo: %s', error_text)
@@ -782,6 +784,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 _('Failed to push to remote branch on %s.') %
                 force_text(self)
             )
+            if self.id:
+                self.add_alert('PushFailure', childs=True, error=error_text)
             return False
 
         Change.objects.create(
