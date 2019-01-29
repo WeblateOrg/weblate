@@ -362,8 +362,8 @@ Global privileges
 
 .. note:: 
 
-   Global privileges are not granted to any default role. These are quite
-   powerful and they are quite close to the superuser status - many of them can
+   The global privileges are not granted to any default role. These are
+   powerful and they are quite close to the superuser status - most of them can
    affect all projects on your Weblate installation.
 
 List of groups
