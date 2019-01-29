@@ -514,6 +514,22 @@ real_patterns = [
         name='cleanup_translation',
     ),
 
+    # Whiteboard
+    url(
+        r'^whiteboard/' + PROJECT + '$',
+        weblate.trans.views.manage.whiteboard_project,
+        name='whiteboard_project',
+    ),
+    url(
+        r'^whiteboard/' + COMPONENT + '$',
+        weblate.trans.views.manage.whiteboard_component,
+        name='whiteboard_component',
+    ),
+    url(
+        r'^whiteboard/' + TRANSLATION + '$',
+        weblate.trans.views.manage.whiteboard_translation,
+        name='whiteboard_translation',
+    ),
     # VCS manipulation - remove
     url(
         r'^remove/' + PROJECT + '$',

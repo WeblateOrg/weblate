@@ -30,8 +30,9 @@ from weblate.utils.views import (
 )
 from weblate.trans.forms import (
     DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
+    WhiteboardForm,
 )
-from weblate.trans.models import Change
+from weblate.trans.models import Change, WhiteboardMessage
 from weblate.trans.util import redirect_param
 
 
@@ -154,3 +155,69 @@ def rename_project(request, project):
         ProjectRenameForm, request, obj, 'project.edit',
         project=obj, target=obj.slug, action=Change.ACTION_RENAME_PROJECT
     )
+
+
+@login_required
+@require_POST
+def whiteboard_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
+
+    if not request.user.has_perm('component.edit', obj):
+        raise PermissionDenied()
+
+    form = WhiteboardForm(request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#whiteboard')
+
+    WhiteboardMessage.objects.create(
+        project=obj.component.project,
+        component=obj.component,
+        language=obj.language,
+        **form.cleaned_data
+    )
+
+    return redirect(obj)
+
+
+@login_required
+@require_POST
+def whiteboard_component(request, project, component):
+    obj = get_component(request, project, component)
+
+    if not request.user.has_perm('component.edit', obj):
+        raise PermissionDenied()
+
+    form = WhiteboardForm(request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#whiteboard')
+
+    WhiteboardMessage.objects.create(
+        project=obj.project,
+        component=obj,
+        **form.cleaned_data
+    )
+
+    return redirect(obj)
+
+
+@login_required
+@require_POST
+def whiteboard_project(request, project):
+    obj = get_project(request, project)
+
+    if not request.user.has_perm('project.edit', obj):
+        raise PermissionDenied()
+
+    form = WhiteboardForm(request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, '#whiteboard')
+
+    WhiteboardMessage.objects.create(
+        project=obj,
+        **form.cleaned_data
+    )
+
+    return redirect(obj)

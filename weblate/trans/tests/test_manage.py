@@ -161,3 +161,28 @@ class RenameTest(ViewTestCase):
             self.assertIsNotNone(component.repository.last_remote_revision)
             response = self.client.get(component.get_absolute_url())
             self.assertContains(response, '/projects/xxxx/')
+
+
+class WhiteboardTest(ViewTestCase):
+    data = {'message': 'Whiteboard testing', 'category': 'warning'}
+
+    def perform_test(self, url):
+        response = self.client.post(url, self.data, follow=True)
+        self.assertEqual(response.status_code, 403)
+        self.make_manager()
+        response = self.client.post(url, self.data, follow=True)
+        self.assertContains(response, self.data['message'])
+
+    def test_translation(self):
+        kwargs = {'lang': 'cs'}
+        kwargs.update(self.kw_component)
+        url = reverse('whiteboard_translation', kwargs=kwargs)
+        self.perform_test(url)
+
+    def test_component(self):
+        url = reverse('whiteboard_component', kwargs=self.kw_component)
+        self.perform_test(url)
+
+    def test_project(self):
+        url = reverse('whiteboard_project', kwargs=self.kw_project)
+        self.perform_test(url)

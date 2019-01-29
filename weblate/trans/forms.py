@@ -56,7 +56,7 @@ from weblate.langdata.languages import ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
-    Translation, Component, Unit, Project, Change
+    Translation, Component, Unit, Project, Change, WhiteboardMessage,
 )
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -1888,3 +1888,10 @@ class DeleteForm(forms.Form):
             raise ValidationError(
                 _('The translation name does not match the one to delete!')
             )
+
+
+class WhiteboardForm(forms.ModelForm):
+    """Component base form."""
+    class Meta(object):
+        model = WhiteboardMessage
+        fields = ['message', 'category']
