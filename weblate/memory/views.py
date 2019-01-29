@@ -54,7 +54,7 @@ def check_perm(user, permission, objects):
         # User can edit own translation memory
         return True
     if 'use_file' in objects:
-        return user.is_superuser
+        return user.has_perm('memory.edit')
     return False
 
 

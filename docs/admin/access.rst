@@ -358,6 +358,7 @@ Global privileges
     Add users (global)
     Manage users (global)
     Manage whiteboard (global)
+    Manage translation memory (global)
 
 .. note:: 
 

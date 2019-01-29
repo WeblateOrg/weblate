@@ -106,6 +106,8 @@ GLOBAL_PERMISSIONS = (
     ('user.edit', _('Manage users (global)')),
 
     ('whiteboard.edit', _('Manage whiteboard (global)')),
+
+    ('memory.edit', _('Manage translation memory (global)')),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
