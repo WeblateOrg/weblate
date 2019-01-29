@@ -46,7 +46,7 @@ def cache_perm(func):
         cache_key = (
             func.__name__,
             obj.__class__.__name__,
-            obj.pk,
+            obj.pk if obj is not None else '',
             permission
         )
 
@@ -56,6 +56,16 @@ def cache_perm(func):
         return user.perm_cache[cache_key]
 
     return cache_perm_wrapper
+
+
+@cache_perm
+def check_global_permission(user, permission, obj):
+    """Generic permission check for base classes"""
+    if user.is_superuser:
+        return True
+    return user.groups.filter(
+        roles__permissions__codename=permission
+    ).exists()
 
 
 @cache_perm

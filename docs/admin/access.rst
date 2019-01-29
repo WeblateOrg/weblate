@@ -349,6 +349,22 @@ VCS
     View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
     Update the internal repository [`Administration`, `Manage repository`]
 
+Global privileges 
+    Use management interface (global)
+    Add language definitions (global)
+    Manage language definitions (global)
+    Add groups (global)
+    Manage groups (global)
+    Add users (global)
+    Manage users (global)
+    Manage whiteboard (global)
+
+.. note:: 
+
+   Global privileges are not granted to any default role. These are quite
+   powerful and they are quite close to the superuser status - many of them can
+   affect all projects on your Weblate installation.
+
 List of groups
 ++++++++++++++
 

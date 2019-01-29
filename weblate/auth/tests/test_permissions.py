@@ -21,7 +21,7 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from weblate.auth.models import User
+from weblate.auth.models import User, Role, Group, Permission
 from weblate.trans.models import Project, Comment
 
 
@@ -120,3 +120,21 @@ class PermissionsTest(TestCase):
         self.assertFalse(self.user.has_perm('trans.add_project'))
         # Should have no effect here
         self.test_delete_comment()
+
+    def test_global_perms(self):
+        self.assertTrue(self.superuser.has_perm('management.use'))
+        self.assertFalse(self.admin.has_perm('management.use'))
+        self.assertFalse(self.user.has_perm('management.use'))
+
+    def test_global_perms_granted(self):
+        permission = Permission.objects.get(codename='management.use')
+
+        role = Role.objects.create(name='Nearly superuser')
+        role.permissions.add(permission)
+
+        group = Group.objects.create(name='Nearly superuser')
+        group.roles.add(role)
+
+        self.user.groups.add(group)
+
+        self.assertTrue(self.user.has_perm('management.use'))
