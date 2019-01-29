@@ -224,10 +224,15 @@ def format_translation(value, language, plural=None, diff=None,
 
         parts.append({'title': title, 'content': content})
 
+    checksum = ''
+    if unit is not None:
+        checksum = unit.checksum
+
     return {
         'simple': simple,
         'items': parts,
         'language': language,
+        'checksum': checksum,
     }
 
 
