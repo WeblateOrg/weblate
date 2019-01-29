@@ -8,6 +8,13 @@
     <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
     {% endif %}
     <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">{{ item.content }}</div>
+    {% if unit %}
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-default btn-xs pull-right" data-clipboard-text="{{ item.copy }}">Copy to clipboard</button>
+      </div>
+    </div>
+    {% endif %}
   </div>
   {% endfor %}
 </div>
