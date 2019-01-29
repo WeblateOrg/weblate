@@ -36,6 +36,7 @@ from weblate.trans.feeds import (
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.addons.views
+from weblate.auth.decorators import management_access
 import weblate.checks.views
 import weblate.lang.views
 import weblate.memory.views
@@ -633,22 +634,22 @@ real_patterns = [
     ),
     url(
         r'^(?P<manage>manage)/memory/$',
-        weblate.memory.views.MemoryView.as_view(),
+        management_access(weblate.memory.views.MemoryView.as_view()),
         name='memory',
     ),
     url(
         r'^(?P<manage>manage)/memory/delete/$',
-        weblate.memory.views.DeleteView.as_view(),
+        management_access(weblate.memory.views.DeleteView.as_view()),
         name='memory-delete',
     ),
     url(
         r'^(?P<manage>manage)/memory/upload/$',
-        weblate.memory.views.UploadView.as_view(),
+        management_access(weblate.memory.views.UploadView.as_view()),
         name='memory-upload',
     ),
     url(
         r'^(?P<manage>manage)/memory/download/$',
-        weblate.memory.views.DownloadView.as_view(),
+        management_access(weblate.memory.views.DownloadView.as_view()),
         name='memory-download',
     ),
     url(
