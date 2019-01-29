@@ -25,7 +25,7 @@ from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
 # Import example settings file to get default values for Weblate settings.
 from weblate.settings_example import *  # noqa
 
-from weblate.utils.environment import get_env_list
+from weblate.utils.environment import get_env_list, get_env_map
 
 
 DEBUG = False
@@ -165,6 +165,15 @@ if 'WEBLATE_SOCIAL_AUTH_GITLAB_KEY' in os.environ:
 if 'WEBLATE_SOCIAL_AUTH_GITHUB_KEY' in os.environ:
     AUTHENTICATION_BACKENDS += ('social_core.backends.github.GithubOAuth2',)
     SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+if 'WEBLATE_SOCIAL_AUTH_AUTH0_KEY' in os.environ:
+    AUTHENTICATION_BACKENDS += ('social_core.backends.auth0.Auth0OAuth2',)
+    SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
+
+if 'WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS' in os.environ:
+    auth0_args = get_env_map('WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS')
+    SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = auth0_args
+    os.environ.pop('WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS')
 
 # Azure
 if 'WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY' in os.environ:
