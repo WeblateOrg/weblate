@@ -25,7 +25,7 @@ import shutil
 
 from django.urls import reverse
 
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Project, Component, WhiteboardMessage
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 
@@ -186,3 +186,18 @@ class WhiteboardTest(ViewTestCase):
     def test_project(self):
         url = reverse('whiteboard_project', kwargs=self.kw_project)
         self.perform_test(url)
+
+    def test_delete(self):
+        self.test_project()
+        message = WhiteboardMessage.objects.all()[0]
+        self.client.post(
+            reverse('whiteboard-delete', kwargs={'pk': message.pk})
+        )
+        self.assertEqual(WhiteboardMessage.objects.count(), 0)
+
+    def test_delete_deny(self):
+        message = WhiteboardMessage.objects.create(message='test')
+        self.client.post(
+            reverse('whiteboard-delete', kwargs={'pk': message.pk})
+        )
+        self.assertEqual(WhiteboardMessage.objects.count(), 1)

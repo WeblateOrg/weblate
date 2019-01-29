@@ -21,7 +21,8 @@
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
@@ -221,3 +222,15 @@ def whiteboard_project(request, project):
     )
 
     return redirect(obj)
+
+
+@login_required
+@require_POST
+def whiteboard_delete(request, pk):
+    whiteboard = get_object_or_404(WhiteboardMessage, pk=pk)
+
+    if (request.user.has_perm('component.edit', whiteboard.component)
+            or request.user.has_perm('project.edit', whiteboard.project)):
+        whiteboard.delete()
+
+    return JsonResponse({'responseStatus': 200})

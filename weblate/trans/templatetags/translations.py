@@ -630,8 +630,8 @@ def get_location_links(profile, unit):
     return mark_safe('\n'.join(ret))
 
 
-@register.simple_tag
-def whiteboard_messages(project=None, component=None, language=None):
+@register.simple_tag(takes_context=True)
+def whiteboard_messages(context, project=None, component=None, language=None):
     """Display whiteboard messages for given context"""
     ret = []
 
@@ -639,11 +639,18 @@ def whiteboard_messages(project=None, component=None, language=None):
         project, component, language
     )
 
+    user = context['user']
+
     for whiteboard in whiteboards:
         if whiteboard.message_html:
             content = mark_safe(whiteboard.message)
         else:
             content = mark_safe(urlize(whiteboard.message, autoescape=True))
+
+        can_delete = (
+            user.has_perm('component.edit', whiteboard.component)
+            or user.has_perm('project.edit', whiteboard.project)
+        )
 
         ret.append(
             render_to_string(
@@ -651,6 +658,8 @@ def whiteboard_messages(project=None, component=None, language=None):
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
                     'message':  content,
+                    'whiteboard': whiteboard,
+                    'can_delete': can_delete,
                 }
             )
         )

@@ -816,6 +816,25 @@ $(function () {
     /* Generic tooltips */
     $('.tooltip-control').tooltip();
 
+    /* Whiteboard message discard */
+    $('.alert').on('close.bs.alert', function () {
+        var $this = $(this);
+        var $form = $('#link-post');
+
+        if ($this.data('action')) {
+            $.ajax({
+                type: 'POST',
+                url: $this.data('action'),
+                data: {
+                    csrfmiddlewaretoken: $form.find('input').val(),
+                    id: $this.data('id'),
+                },
+            });
+        }
+        $this.tooltip('destroy');
+    });
+
+
     /* Check ignoring */
     $('.check').on('close.bs.alert', function () {
         var $this = $(this);

@@ -530,6 +530,11 @@ real_patterns = [
         weblate.trans.views.manage.whiteboard_translation,
         name='whiteboard_translation',
     ),
+    url(
+        r'^js/whiteboard/(?P<pk>[0-9]+)/delete/$',
+        weblate.trans.views.manage.whiteboard_delete,
+        name='whiteboard-delete',
+    ),
     # VCS manipulation - remove
     url(
         r'^remove/' + PROJECT + '$',
