@@ -7,7 +7,9 @@
     {% if item.title %}
     <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
     {% endif %}
+    {% if checksum %}
     <div class="pull-right"><button type="button" data-clipboard-target="#source{{ checksum }}{{ forloop.counter0 }}" class="btn btn-danger btn-xs" data-clipboard-text>Copy to clipboard</button></div>
+    {% endif %}
     <div id="source{{ checksum }}{{ forloop.counter0 }}" class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">{{ item.content }}</div>
   </div>
   {% endfor %}
