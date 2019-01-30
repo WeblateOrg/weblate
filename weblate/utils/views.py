@@ -19,10 +19,13 @@
 #
 """Helper methods for views."""
 
+from time import mktime
+
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views.generic.edit import FormView
 from django.shortcuts import get_object_or_404
+from django.utils.http import http_date
 from django.utils.translation import activate, ugettext as _
 
 from weblate.utils import messages
@@ -149,37 +152,42 @@ def download_translation_file(translation, fmt=None, units=None):
         if units is None:
             units = translation.unit_set.all()
         exporter.add_units(units)
-        return exporter.get_response(
+        response = exporter.get_response(
             '{{project}}-{0}-{{language}}.{{extension}}'.format(
                 translation.component.slug
             )
         )
+    else:
+        # Force flushing pending units
+        translation.commit_pending('download', None)
 
-    # Force flushing pending units
-    translation.commit_pending('download', None)
+        srcfilename = translation.get_filename()
 
-    srcfilename = translation.get_filename()
-
-    # Construct file name (do not use real filename as it is usually not
-    # that useful)
-    filename = '{0}-{1}-{2}.{3}'.format(
-        translation.component.project.slug,
-        translation.component.slug,
-        translation.language.code,
-        translation.store.extension
-    )
-
-    # Create response
-    with open(srcfilename, 'rb') as handle:
-        response = HttpResponse(
-            handle.read(),
-            content_type=translation.store.mimetype
+        # Construct file name (do not use real filename as it is usually not
+        # that useful)
+        filename = '{0}-{1}-{2}.{3}'.format(
+            translation.component.project.slug,
+            translation.component.slug,
+            translation.language.code,
+            translation.store.extension
         )
 
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(
-        filename
-    )
+        # Create response
+        with open(srcfilename, 'rb') as handle:
+            response = HttpResponse(
+                handle.read(),
+                content_type=translation.store.mimetype
+            )
+
+        # Fill in response headers
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(
+            filename
+        )
+
+    if translation.stats.last_changed:
+        response['Last-Modified'] = http_date(
+            mktime(translation.stats.last_changed.timetuple())
+        )
 
     return response
 
