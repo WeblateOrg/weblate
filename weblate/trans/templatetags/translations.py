@@ -196,6 +196,9 @@ def format_translation(value, language, plural=None, diff=None,
         # HTML escape
         value = escape(force_text(raw_value))
 
+        # Content of the Copy to clipboard button
+        copy = value
+
         # Format diff if there is any
         value = fmt_diff(value, diff, idx)
 
@@ -222,12 +225,13 @@ def format_translation(value, language, plural=None, diff=None,
         # Join paragraphs
         content = mark_safe(newline.join(paras))
 
-        parts.append({'title': title, 'content': content})
+        parts.append({'title': title, 'content': content, 'copy': copy})
 
     return {
         'simple': simple,
         'items': parts,
         'language': language,
+        'unit': unit,
     }
 
 
