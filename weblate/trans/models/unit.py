@@ -423,7 +423,9 @@ class Unit(models.Model, LoggerMixin):
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
         same_source = (source == self.source and context == self.context)
-        same_state = (state == self.state and not created)
+        same_state = (
+            state == self.state and flags == self.flags and not created
+        )
 
         # Check if we actually need to change anything
         # pylint: disable=too-many-boolean-expressions
