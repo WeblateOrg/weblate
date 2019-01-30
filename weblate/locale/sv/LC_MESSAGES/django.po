@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-01-28 22:19+0000\n"
-"PO-Revision-Date: 2019-01-14 07:23+0000\n"
+"PO-Revision-Date: 2019-01-30 06:16+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -3393,13 +3393,11 @@ msgid "There are no addons currently installed."
 msgstr "Det finns inga tillägg installerade."
 
 #: weblate/templates/addons/addon_list.html:43
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is currently %(count)s addon installed."
 msgid_plural "There are currently %(count)s addons installed."
-msgstr[0] "Det finns %(count)s ej översatt sträng."
-msgstr[1] "Det finns %(count)s ej översatta strängar."
+msgstr[0] "Det finns för närvarande %(count)s tillägg installerat."
+msgstr[1] "Det finns för närvarande %(count)s tillägg installerade."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available addons"
@@ -3989,8 +3987,6 @@ msgstr "Utför"
 
 #: weblate/templates/component.html:183 weblate/templates/project.html:240
 #: weblate/templates/translation.html:250 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "Mass-statusändring"
 
@@ -4084,7 +4080,9 @@ msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
+"Förslag accepteras automatisk som översättning, när det har %(count)s röst."
 msgstr[1] ""
+"Förslag accepteras automatisk som översättning, när det har %(count)s röster."
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
@@ -4190,13 +4188,11 @@ msgstr ""
 "Du måste vara inloggad för att översätta, annars kan du bara ge förslag."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] ", %(count)s röst"
-msgstr[1] ", %(count)s röster"
+msgstr[0] "Utforska %(count)s projekt"
+msgstr[1] "Utforska alla %(count)s projekt"
 
 #: weblate/templates/dashboard/user.html:41
 msgid "Checks overview"
@@ -4461,12 +4457,7 @@ msgstr ""
 "%(total)s strängar för översättning och är %(percent)s%% klart."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4476,15 +4467,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">Översättningsprojektet för %(project)s</a> har för "
-"närvarande %(total)s strängar för översättning och <a href=\"%(lang_url)s"
-"\">översätts till %(languages)s språk</a>. Totalt är dessa översättningar "
-"%(percent)s%% klara."
+"Översättningsprojektet för %(project)s har för närvarande %(total)s strängar "
+"för översättning och översätts till %(languages)s språk. Totalt är dessa "
+"översättningar %(percent)s%% klara."
 msgstr[1] ""
-"<a href=\"%(url)s\">Översättningsprojektet för %(project)s</a> har för "
-"närvarande %(total)s strängar för översättning och <a href=\"%(lang_url)s"
-"\">översätts till %(languages)s språk</a>. Totalt är dessa översättningar "
-"%(percent)s%% klara."
+"Översättningsprojektet för %(project)s har för närvarande %(total)s strängar "
+"för översättning och översätts till %(languages)s språk. Totalt är dessa "
+"översättningar %(percent)s%% klara."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5077,10 +5066,8 @@ msgstr "Översättningsändring:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "Användare"
+msgstr "Användare:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5391,10 +5378,8 @@ msgid "Choose"
 msgstr "Välj"
 
 #: weblate/templates/memory/index.html:13
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Global translation memory"
-msgstr "Ta bort översättningsminne"
+msgstr "Globalt översättningsminne"
 
 #: weblate/templates/memory/index.html:26
 msgid "Translation memory status"
@@ -5418,10 +5403,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Antal poster för %(project)s"
 
 #: weblate/templates/memory/index.html:45
-#, fuzzy
-#| msgid "Number of your entries"
 msgid "Number of global entries"
-msgstr "Antal poster från dig"
+msgstr "Antal globala poster"
 
 #: weblate/templates/memory/index.html:47
 msgid "Number of your entries"
@@ -5713,7 +5696,7 @@ msgstr "Projektinformation"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:4
 msgid "Weblate could not execute script addon."
-msgstr ""
+msgstr "Weblate kunde inte köra skript-tillägget."
 
 #: weblate/templates/trans/alert/addonscripterrror.html:6
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
@@ -5723,10 +5706,8 @@ msgid "The following occurences were found:"
 msgstr "Följande förekomster hittades:"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Command"
-msgstr "Kommentar"
+msgstr "Kommando"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -5815,16 +5796,12 @@ msgstr ""
 "ändringar manuellt eller konfigurera hooks så att det görs automatiskt."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
 msgstr ""
 "Basfilen för nya översättningar används inte p.g.a komponentinställningarna. "
-"Du vill förmodligen aktivera automatisk addering av nya översättningar."
+"Du vill förmodligen aktivera addering av nya översättningar."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -5856,6 +5833,8 @@ msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
 msgstr ""
+"Du kommer att kunna redigera fler alternativ i komponentinställningar när du "
+"har skapat den."
 
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
@@ -6150,13 +6129,11 @@ msgid "Suggested change:"
 msgstr "Föreslagen ändring:"
 
 #: weblate/templates/translate.html:296
-#, fuzzy, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
+#, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
-msgstr[0] ", %(count)s röst"
-msgstr[1] ", %(count)s röster"
+msgstr[0] "%(count)s röst"
+msgstr[1] "%(count)s röster"
 
 #: weblate/templates/translate.html:301
 msgid "Vote for"
@@ -6179,28 +6156,22 @@ msgid "Mark as spam"
 msgstr "Markera som spam"
 
 #: weblate/templates/translate.html:336
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Följande sträng har samma kontext och samma källa."
+msgstr[1] "Följande strängar har samma kontext och samma källa."
 
 #: weblate/templates/translate.html:344
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Följande sträng har olika kontext men samma källa."
+msgstr[1] "Följande strängar har olika kontext men samma källa."
 
 #: weblate/templates/translate.html:352
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Följande sträng har olika källor men samma kontext."
+msgstr[1] "Följande strängar har olika källor men samma kontext."
 
 #: weblate/templates/translate.html:378
 msgid "Service"
@@ -6305,13 +6276,11 @@ msgid "Translation status"
 msgstr "Översättningsstatus"
 
 #: weblate/templates/translation.html:156
-#, fuzzy, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
+#, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] ", %(count)s röst"
-msgstr[1] ", %(count)s röster"
+msgstr[0] "%(count)s ord"
+msgstr[1] "%(count)s ord"
 
 #: weblate/templates/translation.html:163
 msgid "Other components"
@@ -7247,7 +7216,7 @@ msgstr "Information om licens saknas."
 
 #: weblate/trans/models/alert.py:183 weblate/trans/models/alert.py:188
 msgid "Error when executing addon."
-msgstr ""
+msgstr "Fel vid exekvering av tillägg."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -8522,12 +8491,11 @@ msgid "No words to import found in file."
 msgstr "Inga ord att importera hittades i filen."
 
 #: weblate/trans/views/dictionary.py:186
-#, fuzzy, python-format
-#| msgid "Imported %d words from file."
+#, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
-msgstr[0] "Importerade %d ord från fil."
-msgstr[1] "Importerade %d ord från fil."
+msgstr[0] "Importerade %d ord från uppladdade filen."
+msgstr[1] "Importerade %d ord från uppladdade filen."
 
 #: weblate/trans/views/dictionary.py:194
 #, python-format
@@ -8606,12 +8574,11 @@ msgid "Automatic translation completed, no strings were updated."
 msgstr "Automatisk översättning klar. Inga strängar uppdaterade."
 
 #: weblate/trans/views/edit.py:601
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Automatisk översättning klar."
-msgstr[1] "Automatisk översättning klar."
+msgstr[0] "Automatisk översättning klar, %d sträng blev uppdaterad."
+msgstr[1] "Automatisk översättning klar, %d strängar blev uppdaterade."
 
 #: weblate/trans/views/edit.py:633
 msgid "Posted new comment"
@@ -8642,16 +8609,19 @@ msgid "No strings were imported from the uploaded file."
 msgstr "Inga strängar importerades från den uppladdade filen."
 
 #: weblate/trans/views/files.py:108
-#, fuzzy, python-brace-format
-#| msgid "Imported %d words from file."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Importerade %d ord från fil."
-msgstr[1] "Importerade %d ord från fil."
+msgstr[0] ""
+"Bearbetade {0} sträng från de uppladdade filerna (skippade: {1}, hittade "
+"inte: {2}, uppdaterade: {3})."
+msgstr[1] ""
+"Bearbetade {0} strängar från de uppladdade filerna (skippade: {1}, hittade "
+"inte: {2}, uppdaterade: {3})."
 
 #: weblate/trans/views/files.py:120
 #, python-format
@@ -8715,12 +8685,11 @@ msgid "Search and replace completed, no strings were updated."
 msgstr "Sök och ersätt klart, inga strängar har uppdaterats."
 
 #: weblate/trans/views/search.py:135
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Automatisk översättning klar."
-msgstr[1] "Automatisk översättning klar."
+msgstr[0] "Sök och ersätt klar %d sträng uppdaterades."
+msgstr[1] "Sök och ersätt klar %d strängar uppdaterades."
 
 #: weblate/trans/views/search.py:211
 #, python-format
@@ -8736,18 +8705,15 @@ msgid "Invalid search query!"
 msgstr "Ogiltig sökning!"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
 msgstr "Masstillståndsändring klar, inga strängar har uppdaterats."
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Automatic translation completed."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Automatisk översättning klar."
-msgstr[1] "Automatisk översättning klar."
+msgstr[0] "Masstillståndsändring klar, %d sträng har uppdaterats."
+msgstr[1] "Masstillståndsändring klar, %d strängar har uppdaterats."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -8786,10 +8752,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
