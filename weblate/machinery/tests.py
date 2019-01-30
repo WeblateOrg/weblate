@@ -44,7 +44,9 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
-from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
+from weblate.machinery.microsoftterminology import (
+    MicrosoftTerminologyService, MST_API_URL, MST_WSDL_URL,
+)
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.youdao import YoudaoTranslation
@@ -393,7 +395,7 @@ class MachineTranslationTest(TestCase):
         with open(TERMINOLOGY_WDSL, 'rb') as handle:
             httpretty.register_uri(
                 httpretty.GET,
-                'http://api.terminology.microsoft.com/Terminology.svc',
+                MST_WSDL_URL,
                 body=handle.read(),
                 content_type='text/xml',
             )
@@ -410,7 +412,7 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
             httpretty.POST,
-            'http://api.terminology.microsoft.com/Terminology.svc',
+            MST_API_URL,
             body=request_callback,
             content_type='text/xml',
         )
@@ -423,7 +425,7 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
             httpretty.POST,
-            'http://api.terminology.microsoft.com/Terminology.svc',
+            MST_API_URL,
             body='',
             content_type='text/xml',
             status=500,

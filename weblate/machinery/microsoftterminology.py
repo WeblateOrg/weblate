@@ -26,8 +26,8 @@ from zeep import Client
 from weblate.machinery.base import MachineTranslation
 from weblate.lang.data import DEFAULT_LANGS
 
-WSDL_URL = 'http://api.terminology.microsoft.com/Terminology.svc?wsdl'
-WSDL_URL = 'http://api.terminology.microsoft.com/Terminology.svc?singleWsdl'
+MST_API_URL = 'http://api.terminology.microsoft.com/Terminology.svc'
+MST_WSDL_URL = '{}?singleWsdl'.format(MST_API_URL)
 
 
 class MicrosoftTerminologyService(MachineTranslation):
@@ -45,7 +45,7 @@ class MicrosoftTerminologyService(MachineTranslation):
     @cached_property
     def soap(self):
         if MicrosoftTerminologyService.SERVICE is None:
-            MicrosoftTerminologyService.SERVICE = Client(WSDL_URL)
+            MicrosoftTerminologyService.SERVICE = Client(MST_WSDL_URL)
         return MicrosoftTerminologyService.SERVICE
 
     def soap_req(self, name, **kwargs):
