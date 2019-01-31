@@ -44,6 +44,8 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['fetch', 'origin']
     _cmd_push = ['push', 'origin']
+    _cmd_list_changed_files = ['diff', '--name-status']
+
     name = 'Git'
     req_version = '1.6'
     default_branch = 'master'

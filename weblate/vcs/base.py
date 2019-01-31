@@ -76,6 +76,7 @@ class Repository(object):
     _cmd_update_remote = None
     _cmd_push = None
     _cmd_status = ['status']
+    _cmd_list_changed_files = None
 
     name = None
     req_version = None
@@ -419,6 +420,24 @@ class Repository(object):
         This is not universal as refspec is different per vcs.
         """
         raise NotImplementedError()
+
+    def list_changed_files(self, refspec):
+        """List changed files for given refspec.
+
+        This is not universal as refspec is different per vcs.
+        """
+        lines = self.execute(
+            self._cmd_list_changed_files + [refspec],
+            needs_lock=False
+        ).splitlines()
+        # Strip action prefix we do not use
+        return [x[2:] for x in lines]
+
+    def list_upstream_changed_files(self):
+        """List files missing upstream."""
+        return self.list_changed_files(
+            self.ref_to_remote.format(self.get_remote_branch_name())
+        )
 
     def get_remote_branch_name(self):
         return 'origin/{0}'.format(self.branch)

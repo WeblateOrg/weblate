@@ -41,6 +41,8 @@ class HgRepository(Repository):
         'log', '--limit', '1', '--template', '{node}', '--branch', '.'
     ]
     _cmd_update_remote = ['pull', '--branch', '.']
+    _cmd_list_changed_files = ['status', '--rev']
+
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
