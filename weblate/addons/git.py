@@ -117,4 +117,7 @@ class GitSquashAddon(BaseAddon):
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             if repository.needs_commit():
-                repository.execute(['commit', '-m', 'Weblate squashed changes'])
+                repository.execute([
+                    'commit',
+                    '-m', self.get_commit_message(translation.component)
+                ])
