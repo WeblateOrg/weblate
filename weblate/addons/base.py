@@ -166,6 +166,15 @@ class BaseAddon(object):
         else:
             component.delete_alert(self.alert)
 
+    def get_commit_message(self, component):
+        return render_template(
+            component.addon_message,
+            hook_name=self.verbose,
+            project_name=component.project.name,
+            component_name=component.name,
+            url=get_site_url(component.get_absolute_url())
+        )
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
@@ -181,12 +190,6 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
     events = (EVENT_POST_UPDATE, )
-    message = '''Update translation files
-
-Updated by "{{ hook_name }}" hook in Weblate.
-
-Translation: {{ project_name }}/{{ component_name }}
-Translate-URL: {{ url }}'''
 
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
@@ -197,13 +200,7 @@ Translate-URL: {{ url }}'''
             if repository.needs_commit():
                 files = [t.filename for t in component.translation_set.all()]
                 repository.commit(
-                    render_template(
-                        self.message,
-                        hook_name=self.verbose,
-                        project_name=component.project.name,
-                        component_name=component.name,
-                        url=get_site_url(component.get_absolute_url())
-                    ),
+                    self.get_commit_message(component),
                     files=files
                 )
                 component.push_if_needed(None)

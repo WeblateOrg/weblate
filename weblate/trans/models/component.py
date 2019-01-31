@@ -389,6 +389,15 @@ class Component(models.Model, URLMixin, PathMixin):
         validators=[validate_render],
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
+    addon_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when addon makes a change'),
+        help_text=ugettext_lazy(
+            'You can use template language for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_render],
+        default=settings.DEFAULT_ADDON_MESSAGE,
+    )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
         max_length=200,

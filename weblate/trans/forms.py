@@ -1478,6 +1478,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                         'add_message',
                         'delete_message',
                         'merge_message',
+                        'addon_message',
                     ),
                     css_id='messages',
                 ),

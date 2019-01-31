@@ -192,6 +192,13 @@ class WeblateConf(AppConf):
         "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
     )
 
+    DEFAULT_ADDON_MESSAGE = '''Update translation files
+
+Updated by "{{ hook_name }}" hook in Weblate.
+
+Translation: {{ project_name }}/{{ component_name }}
+Translate-URL: {{ url }}'''
+
     DEFAULT_PULL_MESSAGE = (
         'Update from Weblate'
     )

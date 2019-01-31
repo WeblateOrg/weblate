@@ -10,6 +10,7 @@ Released on ? 2019.
 * Added interface to manage global translation memory.
 * Improved alerting on bad component state.
 * Added user interface to manage whiteboard messages.
+* Addon commit message now can be configured.
 
 weblate 3.4
 -----------
