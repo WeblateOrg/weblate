@@ -657,12 +657,9 @@ class GitSquashAddonTest(ViewTestCase):
         repo = self.component.repository
         self.assertEqual(repo.count_outgoing(), 0)
         # Test no-op behavior
-        addon.pre_push(self.component)
+        addon.post_commit(self.get_translation())
         # Make some changes
         self.edit()
-        self.assertEqual(repo.count_outgoing(), 4)
-        # Test squash
-        addon.pre_push(self.component)
         self.assertEqual(repo.count_outgoing(), expected)
 
     def test_languages(self):

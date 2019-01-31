@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_PUSH
+from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.addons.forms import GitSquashForm
 
 
@@ -37,7 +37,7 @@ class GitSquashAddon(BaseAddon):
             'git', 'gerrit', 'subversion', 'github',
         )),
     }
-    events = (EVENT_PRE_PUSH,)
+    events = (EVENT_POST_COMMIT,)
     icon = 'compress'
 
     @classmethod
@@ -106,14 +106,14 @@ class GitSquashAddon(BaseAddon):
                 ['commit', '-m', message, '--', filename]
             )
 
-    def pre_push(self, component):
+    def post_commit(self, translation):
         squash = self.instance.configuration['squash']
-        repository = component.repository
+        repository = translation.component.repository
         if not repository.needs_push():
             return
         method = getattr(self, 'squash_{}'.format(squash))
         with repository.lock:
-            method(component, repository)
+            method(translation.component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             if repository.needs_commit():
