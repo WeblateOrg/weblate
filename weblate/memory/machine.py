@@ -52,7 +52,8 @@ class WeblateMemory(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
-        memory = TranslationMemory()
+        memory = TranslationMemory.get_thread_instance()
+        memory.refresh()
         results = memory.lookup(
             source.code, language.code, text,
             request.user,

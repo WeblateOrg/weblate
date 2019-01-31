@@ -114,6 +114,10 @@ class TranslationMemory(WhooshIndex):
             self.seacher.close()
             del self.__dict__['searcher']
 
+    def refresh(self):
+        if 'seacher' in self.__dict__:
+            self.__dict__['searcher'] = self.seacher.refresh()
+
     def writer(self):
         return self.index.writer()
 
