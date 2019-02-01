@@ -675,6 +675,23 @@ class Component(models.Model, URLMixin, PathMixin):
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
+    def needs_commit_upstream(self):
+        def check_single(changed, component):
+            if self.template and self.template in changed:
+                return True
+            for path in changed:
+                if self.filemask_re.match(path):
+                    return True
+            return False
+
+        changed = self.repo.list_upstream_changed_files()
+        if check_single(changed, self):
+            return True
+        for component in self.get_linked_childs():
+            if check_single(changed, self):
+                return True
+        return False
+
     @perform_on_link
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update"""
@@ -695,8 +712,9 @@ class Component(models.Model, URLMixin, PathMixin):
             if not needs_merge and method != 'rebase':
                 return True
 
-            # commit possible pending changes
-            self.commit_pending('update', request, skip_push=True)
+            # commit possible pending changes if needed
+            if self.needs_commit_upstream():
+                self.commit_pending('update', request, skip_push=True)
 
             # update local branch
             ret = self.update_branch(request, method=method)
