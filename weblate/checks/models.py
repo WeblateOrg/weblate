@@ -31,10 +31,32 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.unitdata import UnitData
 
 
+class CheckManager(models.Manager):
+    # pylint: disable=no-init
+
+    def copy(self, project):
+        """Copy checks to new project
+
+        This is used on moving component to other project and ensures nothing
+        is lost. We don't actually look where the check belongs as it
+        would make the operation really expensive and it should be done in the
+        cleanup cron job.
+        """
+        for check in self.all():
+            Check.objects.create(
+                project=project,
+                check=check.check,
+                ignore=check.ignore,
+                content_hash=check.content_hash,
+            )
+
+
 @python_2_unicode_compatible
 class Check(UnitData):
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
+
+    objects = CheckManager()
 
     @cached_property
     def check_obj(self):

@@ -1551,9 +1551,16 @@ class Component(models.Model, URLMixin, PathMixin):
         elif changed_git:
             self.create_translations()
 
-        # Copy suggestions to new project
+        # Handle moving between projects
         if changed_project:
+            from weblate.trans.tasks import cleanup_project
+            # Copy suggestions and comments to new project
             old.project.suggestion_set.copy(self.project)
+            old.project.comment_set.copy(self.project)
+            old.project.check_set.copy(self.project)
+            # Schedule cleanup for both projects
+            cleanup_project.delay(old.project.pk)
+            cleanup_project.delay(self.project.pk)
 
         self.update_alerts()
 

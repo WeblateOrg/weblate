@@ -12,6 +12,7 @@ Released on ? 2019.
 * Added user interface to manage whiteboard messages.
 * Addon commit message now can be configured.
 * Reduce number of commits when updating upstream repository.
+* Fixed possible metadata loss when moving component between projects.
 
 weblate 3.4
 -----------
