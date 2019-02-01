@@ -11,6 +11,7 @@ Released on ? 2019.
 * Improved alerting on bad component state.
 * Added user interface to manage whiteboard messages.
 * Addon commit message now can be configured.
+* Reduce number of commits when updating upstream repository.
 
 weblate 3.4
 -----------
