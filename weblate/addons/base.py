@@ -206,6 +206,7 @@ class UpdateBaseAddon(BaseAddon):
                 component.push_if_needed(None)
 
     def post_update(self, component, previous_head):
+        self.commit_pending('addon', None, skip_push=True)
         self.update_translations(component, previous_head)
         self.commit_and_push(component)
 
