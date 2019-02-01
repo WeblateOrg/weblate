@@ -684,7 +684,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     return True
             return False
 
-        changed = self.repo.list_upstream_changed_files()
+        changed = self.repository.list_upstream_changed_files()
         if check_single(changed, self):
             return True
         for component in self.get_linked_childs():
