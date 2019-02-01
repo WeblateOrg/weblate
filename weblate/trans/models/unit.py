@@ -46,6 +46,7 @@ from weblate.trans.mixins import LoggerMixin
 from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
+    parse_flags,
 )
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
@@ -950,11 +951,9 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_flags(self):
         """Return union of own and component flags."""
-        flags = set(
-            self.flags.split(',') +
-            self.source_info.check_flags.split(',') +
-            self.translation.component.all_flags
-        )
+        flags = set(parse_flags(self.flags))
+        flags.update(parse_flags(self.source_info.check_flags))
+        flags.update(self.translation.component.all_flags)
         flags.discard('')
         return flags
 

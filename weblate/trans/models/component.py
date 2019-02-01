@@ -53,7 +53,7 @@ from weblate.utils.licenses import is_osi_approved, is_fsf_approved
 from weblate.utils.render import render_template
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
-    PRIORITY_CHOICES,
+    PRIORITY_CHOICES, parse_flags,
 )
 from weblate.trans.signals import (
     vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add,
@@ -1627,10 +1627,10 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return (
-            self.check_flags.split(',') +
-            list(self.file_format_cls.check_flags)
-        )
+        flags = set(parse_flags(self.check_flags))
+        flags.update(self.file_format_cls.check_flags)
+        flags.discard('')
+        return flags
 
     def can_add_new_language(self):
         """Wrapper to check if we can add new language."""

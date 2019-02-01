@@ -333,3 +333,9 @@ def rich_to_xliff_string(string_elements):
         result += string_without_wrapping_element
 
     return result
+
+
+def parse_flags(flags):
+    """ Parse comma separated list of flags."""
+    for flag in flags.split(','):
+        yield flag.strip()

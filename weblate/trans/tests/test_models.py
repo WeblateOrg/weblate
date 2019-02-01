@@ -330,6 +330,11 @@ class UnitTest(ModelTestCase):
         unit.translate(request, 'other\r\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'other\r\nstring')
 
+    def test_flags(self):
+        unit = Unit.objects.all()[0]
+        unit.flags = 'no-wrap, ignore-same'
+        self.assertEqual(unit.all_flags, {'no-wrap', 'ignore-same'})
+
 
 class WhiteboardMessageTest(ModelTestCase):
     """Test(s) for WhiteboardMessage model."""
