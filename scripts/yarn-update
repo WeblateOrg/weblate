@@ -3,9 +3,9 @@
 
 cd scripts/yarn/
 
-yarn install
+yarn install --check-files
 yarn upgrade-interactive
-yarn run build
+yarn run build --scripts-prepend-node-path
 
 # Bootstrap Datepicker
 cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/bootstrap/css/
