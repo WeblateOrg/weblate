@@ -910,7 +910,10 @@ class AndroidFormat(TTKitFormat):
             return 'zh-rCN'
         if code == 'zh_Hant':
             return 'zh-rTW'
-        return code.replace('-', '_').replace('_', '-r')
+        sanitized = code.replace('-', '_')
+        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
+            return 'b+{}'.format(sanitized.replace('_', '+'))
+        return sanitized.replace('_', '-r')
 
 
 class JSONFormat(TTKitFormat):

@@ -426,6 +426,14 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     BASE = ''
     NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
 
+    def test_get_language_filename(self):
+        self.assertEqual(
+            self.FORMAT.get_language_filename(
+                self.MASK, 'sr_Latn'
+            ),
+            'res/values-b+sr+Latn/strings.xml'
+        )
+
 
 class XliffFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = XliffFormat

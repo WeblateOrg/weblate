@@ -146,6 +146,7 @@ class LanguageQuerySet(models.QuerySet):
         code = code.lower()
         codes = (
             code,
+            code.replace('+', '_'),
             code.replace('-', '_'),
             code.replace('-r', '_'),
             code.replace('_r', '_')
