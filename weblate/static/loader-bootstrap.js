@@ -1328,7 +1328,7 @@ $(function () {
     }
 
     /* Copy to clipboard */
-    var clipboard = new Clipboard('[data-clipboard-text]');
+    var clipboard = new ClipboardJS('[data-clipboard-text]');
     clipboard.on('success', function(e) {
         var $trigger = $(e.trigger);
         // Backup current text
