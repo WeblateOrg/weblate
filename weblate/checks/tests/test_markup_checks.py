@@ -122,6 +122,16 @@ class XMLTagsCheckTest(CheckTestCase):
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
 
+    def test_attributes(self):
+        self.do_test(
+            False,
+            ('<a href="#">a</a>', '<a href="other">z</a>', '')
+        )
+        self.do_test(
+            True,
+            ('<a href="#">a</a>', '<a href="#" onclick="alert()">z</a>', '')
+        )
+
     def test_root(self):
         self.do_test(
             False,

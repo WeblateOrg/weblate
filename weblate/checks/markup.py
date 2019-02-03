@@ -147,7 +147,7 @@ class XMLTagsCheck(BaseXMLCheck):
         # Check if source is XML
         try:
             source_tree, wrap = self.parse_xml(source)
-            source_tags = [x.tag for x in source_tree.iter()]
+            source_tags = [(x.tag, x.keys()) for x in source_tree.iter()]
         except SyntaxError:
             # Source is not valid XML, we give up
             return False
@@ -155,7 +155,7 @@ class XMLTagsCheck(BaseXMLCheck):
         # Check target
         try:
             target_tree = self.parse_xml(target, wrap)
-            target_tags = [x.tag for x in target_tree.iter()]
+            target_tags = [(x.tag, x.keys()) for x in target_tree.iter()]
         except SyntaxError:
             # Target is not valid XML
             return False
