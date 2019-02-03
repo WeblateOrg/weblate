@@ -11,7 +11,7 @@
     {% endif %}
     <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">
       {% if unit %}
-      <button type="button" class="btn btn-default btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}"><i class="fa fa-copy" title="{% trans "Copy to clipboard" %}"></i></button>
+      <button type="button" class="btn btn-default btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
       {% endif %}
       {{ item.content }}
     </div>
