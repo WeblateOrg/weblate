@@ -31,6 +31,7 @@ class AuditLogAdmin(WeblateModelAdmin):
     ]
     search_fields = [
         'user__username',
+        'user__email',
         'address',
         'activity',
     ]
