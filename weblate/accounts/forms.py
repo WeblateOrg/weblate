@@ -584,7 +584,7 @@ class LoginForm(forms.Form):
                         user,
                         self.request,
                         'failed-auth',
-                        method=ugettext('Password'),
+                        method='Password',
                         name=username,
                     )
                 rotate_token(self.request)
@@ -602,7 +602,7 @@ class LoginForm(forms.Form):
                     self.user_cache,
                     self.request,
                     'login',
-                    method=ugettext('Password'),
+                    method='Password',
                     name=username,
                 )
             reset_rate_limit('login', self.request)

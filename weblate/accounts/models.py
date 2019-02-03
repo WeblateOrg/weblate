@@ -28,7 +28,7 @@ from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.encoding import python_2_unicode_compatible
 from django.urls import reverse
 from django.utils import timezone
@@ -170,9 +170,16 @@ class AuditLog(models.Model):
     class Meta(object):
         ordering = ['-timestamp']
 
+    def get_params(self):
+        result = {}
+        result.update(self.params)
+        if 'method' in result:
+            result['method'] = ugettext(result['method'])
+        return result
+
     def get_message(self):
         return ACCOUNT_ACTIVITY[self.activity].format(
-            **self.params
+            **self.get_params()
         )
     get_message.short_description = _('Account activity')
 
