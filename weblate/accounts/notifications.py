@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
@@ -339,7 +340,7 @@ def send_notification_email(language, email, notification,
     enqueue_mails([email])
 
 
-def is_new_login(user, address):
+def is_new_login(user, address, user_agent):
     """Checks whether this login is coming from new device.
 
     This is currently based purely in IP address.
@@ -350,7 +351,9 @@ def is_new_login(user, address):
     if not logins.exists():
         return False
 
-    return not logins.filter(address=address).exists()
+    return not logins.filter(
+        Q(address=address) | Q(user_agent=user_agent)
+    ).exists()
 
 
 def notify_account_activity(user, request, activity, **kwargs):
@@ -360,7 +363,7 @@ def notify_account_activity(user, request, activity, **kwargs):
     address = get_ip_address(request)
     user_agent = get_user_agent(request)
 
-    if activity == 'login' and is_new_login(user, address):
+    if activity == 'login' and is_new_login(user, address, user_agent):
         activity = 'login-new'
 
     audit = AuditLog.objects.create(
