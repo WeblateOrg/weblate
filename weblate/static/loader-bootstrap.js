@@ -996,6 +996,21 @@ $(function () {
             }
         });
 
+        /*
+         * Ensure current editor is reasonably located in the window
+         * - show whole element if moving back
+         * - scroll down if in bottom half of the window
+         */
+        $document.on('focus', '.zen .translation-editor', function() {
+            var current = $window.scrollTop();
+            var row_offset = $(this).parents('tbody').offset().top;
+            if (row_offset < current || row_offset - current > $window.height() / 2) {
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: row_offset
+                }, 100);
+            }
+        });
+
         $document.on('change', '.translation-editor', zenEditor);
         $document.on('change', '.fuzzy_checkbox', zenEditor);
         $document.on('change', '.review_radio', zenEditor);

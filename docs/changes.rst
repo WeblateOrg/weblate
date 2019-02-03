@@ -13,6 +13,7 @@ Released on ? 2019.
 * Addon commit message now can be configured.
 * Reduce number of commits when updating upstream repository.
 * Fixed possible metadata loss when moving component between projects.
+* Improved navigation in the zen mode.
 
 weblate 3.4
 -----------
