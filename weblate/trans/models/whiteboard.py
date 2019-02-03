@@ -108,7 +108,6 @@ class WhiteboardMessage(models.Model):
             ('warning', ugettext_lazy('Warning (yellow)')),
             ('danger', ugettext_lazy('Danger (red)')),
             ('success', ugettext_lazy('Success (green)')),
-            ('primary', ugettext_lazy('Primary (dark blue)')),
         ),
         default='info',
     )
