@@ -109,18 +109,23 @@ data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
 '''
 
 
+class WeblateDateInput(forms.DateInput):
+    def __init__(self, datepicker=True, **kwargs):
+        attrs = {
+            'type': 'date',
+        }
+        if datepicker:
+            attrs['data-provide'] = 'datepicker'
+            attrs['data-date-format'] = 'yyyy-mm-dd'
+        super(WeblateDateInput, self).__init__(
+            attrs=attrs, format='%Y-%m-%d', **kwargs
+        )
+
+
 class WeblateDateField(forms.DateField):
     def __init__(self, datepicker=True, **kwargs):
         if 'widget' not in kwargs:
-            attrs = {
-                'type': 'date',
-            }
-            if datepicker:
-                attrs['data-provide'] = 'datepicker'
-                attrs['data-date-format'] = 'yyyy-mm-dd'
-            kwargs['widget'] = forms.DateInput(
-                attrs=attrs, format='%Y-%m-%d'
-            )
+            kwargs['widget'] = WeblateDateInput(datepicker=datepicker)
         super(WeblateDateField, self).__init__(**kwargs)
 
     def to_python(self, value):
@@ -1896,4 +1901,7 @@ class WhiteboardForm(forms.ModelForm):
     """Component base form."""
     class Meta(object):
         model = WhiteboardMessage
-        fields = ['message', 'category']
+        fields = ['message', 'category', 'expiry']
+        widgets = {
+            'expiry': WeblateDateInput()
+        }

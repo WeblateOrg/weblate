@@ -82,7 +82,7 @@
       {% endif %}
       {% if whiteboard_form %}
       <li role="separator" class="divider"></li>
-      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add whiteboard message" %}</a></li>
+      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a translation message" %}</a></li>
       {% endif %}
       {% if delete_form %}
       <li role="separator" class="divider"></li>
@@ -327,10 +327,11 @@
 <div class="tab-pane" id="whiteboard">
 <form action="{% url 'whiteboard_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add whiteboard message" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add a translation message" %}</h4></div>
 <div class="panel-body">
 {% csrf_token %}
 {{ whiteboard_form|crispy }}
+<p class="help-block">{% trans "The message is shown on the translation page until it's expiry or permanently until deleting." %}</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
