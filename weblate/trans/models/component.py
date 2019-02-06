@@ -1571,7 +1571,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.delete_alert('UnusedNewBase')
 
         if (self.project.access_control == self.project.ACCESS_PUBLIC
-                and not self.license):
+                and not self.license
+                and not getattr(settings, 'LOGIN_REQUIRED_URLS', None)):
             self.add_alert('MissingLicense')
         else:
             self.delete_alert('MissingLicense')
