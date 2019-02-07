@@ -682,8 +682,9 @@ Django documentation.
 
 .. note::
 
-        You can verify whether outgoing email is working correctly by using the
-        :djadmin:`django:sendtestemail` management command.
+   You can verify whether outgoing email is working correctly by using the
+   :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
+   for instructions how to invoke it in different environments).
 
 HTTP proxy
 ++++++++++
@@ -1058,6 +1059,7 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 .. seealso::
 
     :ref:`installation`,
+    :ref:`out-mail`,
     :std:setting:`django:DEFAULT_FROM_EMAIL`,
     :std:setting:`django:SERVER_EMAIL`
 
