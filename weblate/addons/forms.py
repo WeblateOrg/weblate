@@ -109,6 +109,14 @@ class GitSquashForm(BaseAddonForm):
         required=True,
     )
 
+    def __init__(self, *args, **kwargs):
+        super(GitSquashForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('squash'),
+            Div(template='addons/squash_help.html'),
+        )
+
 
 class JSONCustomizeForm(BaseAddonForm):
     sort_keys = forms.BooleanField(
