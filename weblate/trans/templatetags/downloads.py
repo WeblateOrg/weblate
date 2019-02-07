@@ -14,7 +14,7 @@ def translation_download_url(context):
     kwargs['project'] = project.slug
     component = context.get('component')
     if component != None:
-        kwargs['component'] = component['slug']
+        kwargs['component'] = component.slug
 
     url = reverse('download_translation', kwargs=kwargs) 
 
@@ -25,7 +25,7 @@ def translation_download_url(context):
         
     language = context.get('language')
     if language != None:
-        query_params.append(f'lang={language["code"]}')
+        query_params.append(f'lang={language.code}')
 
     if len(query_params) > 0:
         url += '?'

@@ -30,6 +30,8 @@ from weblate.trans.util import sort_objects
 from weblate.utils.views import get_project
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
+from weblate.formats.exporters import list_exporters
+
 
 
 def show_languages(request):
@@ -124,5 +126,6 @@ def show_project(request, lang, project):
             'title': '{0} - {1}'.format(pobj, obj),
             'show_only_component': True,
             'search_form': SiteSearchForm(),
+            'exporters': list_exporters()
         }
     )

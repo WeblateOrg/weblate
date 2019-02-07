@@ -33,7 +33,8 @@ from weblate.utils.views import (
 )
 
 
-def download_translation(request, project, component, lang):
+def download_translation(request, project, component):
+    lang = request.GET['lang']
     obj = get_translation(request, project, component, lang)
 
     kwargs = {}
