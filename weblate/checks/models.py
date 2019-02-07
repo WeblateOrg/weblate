@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from appconf import AppConf
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -29,6 +31,49 @@ from django.utils.functional import cached_property
 from weblate.checks import CHECKS
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.unitdata import UnitData
+
+
+class WeblateChecksConf(AppConf):
+    # List of quality checks
+    CHECK_LIST = (
+        'weblate.checks.same.SameCheck',
+        'weblate.checks.chars.BeginNewlineCheck',
+        'weblate.checks.chars.EndNewlineCheck',
+        'weblate.checks.chars.BeginSpaceCheck',
+        'weblate.checks.chars.EndSpaceCheck',
+        'weblate.checks.chars.EndStopCheck',
+        'weblate.checks.chars.EndColonCheck',
+        'weblate.checks.chars.EndQuestionCheck',
+        'weblate.checks.chars.EndExclamationCheck',
+        'weblate.checks.chars.EndEllipsisCheck',
+        'weblate.checks.chars.EndSemicolonCheck',
+        'weblate.checks.chars.MaxLengthCheck',
+        'weblate.checks.format.PythonFormatCheck',
+        'weblate.checks.format.PythonBraceFormatCheck',
+        'weblate.checks.format.PHPFormatCheck',
+        'weblate.checks.format.CFormatCheck',
+        'weblate.checks.format.PerlFormatCheck',
+        'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.CSharpFormatCheck',
+        'weblate.checks.format.JavaFormatCheck',
+        'weblate.checks.format.JavaMessageFormatCheck',
+        'weblate.checks.angularjs.AngularJSInterpolationCheck',
+        'weblate.checks.consistency.PluralsCheck',
+        'weblate.checks.consistency.SamePluralsCheck',
+        'weblate.checks.consistency.ConsistencyCheck',
+        'weblate.checks.consistency.TranslatedCheck',
+        'weblate.checks.chars.NewlineCountingCheck',
+        'weblate.checks.markup.BBCodeCheck',
+        'weblate.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.checks.markup.XMLValidityCheck',
+        'weblate.checks.markup.XMLTagsCheck',
+        'weblate.checks.source.OptionalPluralCheck',
+        'weblate.checks.source.EllipsisCheck',
+        'weblate.checks.source.MultipleFailingCheck',
+    )
+
+    class Meta(object):
+        prefix = ''
 
 
 class CheckManager(models.Manager):
