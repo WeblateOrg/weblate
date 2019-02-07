@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,7 +46,7 @@ class Alert(models.Model):
     component = models.ForeignKey(
         'Component', on_delete=models.deletion.CASCADE
     )
-    timestamp = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=150)
     details = JSONField(default={})
 
@@ -148,6 +148,11 @@ class UpdateFailure(ErrorAlert):
 
 
 @register
+class PushFailure(ErrorAlert):
+    verbose = _('Could not push the repository.')
+
+
+@register
 class UnusedNewBase(BaseAlert):
     verbose = _('Unused base file for new translations.')
 
@@ -171,3 +176,18 @@ class RepositoryOutdated(BaseAlert):
 @register
 class RepositoryChanges(BaseAlert):
     verbose = _('Repository has changes.')
+
+
+@register
+class MissingLicense(BaseAlert):
+    verbose = _('License information missing.')
+
+
+@register
+class AddonScriptError(MultiAlert):
+    verbose = _('Error when executing addon.')
+
+
+@register
+class MsgmergeAddonError(MultiAlert):
+    verbose = _('Error when executing addon.')

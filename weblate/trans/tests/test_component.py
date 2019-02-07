@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -390,10 +390,11 @@ class ComponentChangeTest(RepoTestCase):
         component = self.create_component()
 
         # Create and verify suggestion
+        unit = Unit.objects.all()[0]
         Suggestion.objects.create(
             project=component.project,
-            content_hash=1,
-            language=component.translation_set.all()[0].language,
+            content_hash=unit.content_hash,
+            language=unit.translation.language,
         )
         self.assertEqual(component.project.suggestion_set.count(), 1)
 
@@ -402,6 +403,7 @@ class ComponentChangeTest(RepoTestCase):
         self.assertTrue(os.path.exists(old_path))
 
         # Crete target project
+        original = component.project
         second = Project.objects.create(
             name='Test2',
             slug='test2',
@@ -420,6 +422,7 @@ class ComponentChangeTest(RepoTestCase):
         self.assertNotEqual(old_path, new_path)
 
         # Check suggestion has been copied
+        self.assertEqual(original.suggestion_set.count(), 0)
         self.assertEqual(component.project.suggestion_set.count(), 1)
 
     def test_change_to_mono(self):

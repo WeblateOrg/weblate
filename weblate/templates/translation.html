@@ -6,7 +6,9 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
-<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
+{% indicate_alerts object %}
+</li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
@@ -77,6 +79,10 @@
       {% endif %}
       {% if user_can_see_repository_status %}
       <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Repository maintenance" %}</a></li>
+      {% endif %}
+      {% if whiteboard_form %}
+      <li role="separator" class="divider"></li>
+      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a translation message" %}</a></li>
       {% endif %}
       {% if delete_form %}
       <li role="separator" class="divider"></li>
@@ -245,7 +251,7 @@
 {% if mass_state_form %}
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change state of all strings matching given type at once." %}</p>
 {% csrf_token %}
@@ -310,6 +316,25 @@
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Upload" %}" class="btn btn-default" />
+</div>
+</form>
+
+</div>
+</div>
+{% endif %}
+
+{% if whiteboard_form %}
+<div class="tab-pane" id="whiteboard">
+<form action="{% url 'whiteboard_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add a translation message" %}</h4></div>
+<div class="panel-body">
+{% csrf_token %}
+{{ whiteboard_form|crispy }}
+<p class="help-block">{% trans "The message is shown on the translation page until it's expiry or permanently until deleting." %}</p>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
 </div>
 </form>
 

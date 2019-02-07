@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,9 +28,13 @@ EVENT_POST_ADD = 5
 EVENT_UNIT_PRE_CREATE = 6
 EVENT_STORE_POST_LOAD = 7
 EVENT_UNIT_POST_SAVE = 8
+EVENT_PRE_UPDATE = 9
+EVENT_PRE_PUSH = 10
 
 EVENT_CHOICES = (
+    (EVENT_PRE_PUSH, 'pre push'),
     (EVENT_POST_PUSH, 'post push'),
+    (EVENT_PRE_UPDATE, 'pre update'),
     (EVENT_POST_UPDATE, 'post update'),
     (EVENT_PRE_COMMIT, 'pre commit'),
     (EVENT_POST_COMMIT, 'post commit'),

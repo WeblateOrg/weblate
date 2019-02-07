@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,7 +42,7 @@ class WeblateConf(AppConf):
     RATELIMIT_SEARCH_WINDOW = 60
     RATELIMIT_SEARCH_LOCKOUT = 60
 
-    RATELIMIT_TRANSLATE_ATTEMPTS = 12
+    RATELIMIT_TRANSLATE_ATTEMPTS = 20
     RATELIMIT_TRANSLATE_WINDOW = 60
 
     class Meta(object):

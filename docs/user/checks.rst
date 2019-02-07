@@ -439,6 +439,44 @@ not desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+
+.. _check-md-reflink:
+
+Markdown link references
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Markdown link references does not match source.
+
+.. seealso::
+
+   `Markdown links`_
+
+.. _check-md-link:
+
+Markdown links
+~~~~~~~~~~~~~~
+
+Markdown links do not match source.
+
+.. seealso::
+
+   `Markdown links`_
+
+
+.. _check-md-syntax:
+
+Markdown syntax
+~~~~~~~~~~~~~~~
+
+Markdown syntax does not match source
+
+.. seealso::
+   
+   `Markdown span elements`_
+
+.. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
+.. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
+
 Source checks
 -------------
 

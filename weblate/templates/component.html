@@ -6,7 +6,9 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+{% indicate_alerts object %}
+</li>
 
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.project.slug component=object.slug widget='svg' color='badge' extension='svg' %}" />
@@ -77,6 +79,9 @@
       {% endif %}
       <li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
       <li><a href="{% url 'memory' project=object.project.slug %}">{% trans "Translation memory" %}</a></li>
+      {% if whiteboard_form %}
+      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a component message" %}</a></li>
+      {% endif %}
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
@@ -178,7 +183,7 @@
 {% if mass_state_form %}
 <form action="{% url 'state-change' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change state of all strings matching given type at once." %}</p>
 {% csrf_token %}
@@ -200,6 +205,25 @@
 </div>
 
 {% include "activity-tab.html" %}
+
+{% if whiteboard_form %}
+<div class="tab-pane" id="whiteboard">
+<form action="{% url 'whiteboard_component' project=object.project.slug component=object.slug %}" method="post">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add a component message" %}</h4></div>
+<div class="panel-body">
+{% csrf_token %}
+{{ whiteboard_form|crispy }}
+<p class="help-block">{% trans "The message is shown on all translations within the component until it's expiry or permanently until deleting." %}</p>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+</div>
+</form>
+
+</div>
+</div>
+{% endif %}
 
 {% if delete_form %}
 {% include "trans/delete-form.html" %}

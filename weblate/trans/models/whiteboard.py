@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,6 +23,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from weblate.lang.models import Language
@@ -31,7 +32,9 @@ from weblate.lang.models import Language
 class WhiteboardManager(models.Manager):
     def context_filter(self, project=None, component=None, language=None):
         """Filter whiteboard messages by context."""
-        base = self.all()
+        base = self.filter(
+            Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
+        )
 
         if language and project is None and component is None:
             return base.filter(
@@ -108,9 +111,18 @@ class WhiteboardMessage(models.Model):
             ('warning', ugettext_lazy('Warning (yellow)')),
             ('danger', ugettext_lazy('Danger (red)')),
             ('success', ugettext_lazy('Success (green)')),
-            ('primary', ugettext_lazy('Primary (dark blue)')),
         ),
         default='info',
+    )
+    expiry = models.DateField(
+        null=True,
+        blank=True,
+        db_index=True,
+        verbose_name=ugettext_lazy('Expiry date'),
+        help_text=ugettext_lazy(
+            'The message will be not shown after this date. '
+            'Use for announcements such as deadline for next release.'
+        ),
     )
 
     objects = WhiteboardManager()

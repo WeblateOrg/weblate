@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,11 +20,16 @@
 
 from __future__ import unicode_literals
 
+import subprocess
+
 from django.apps import apps
 from django.utils.functional import cached_property
 
 from weblate.addons.events import EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD
 from weblate.addons.forms import BaseAddonForm
+from weblate.trans.util import get_clean_env
+from weblate.utils.render import render_template
+from weblate.utils.site import get_site_url
 
 
 class BaseAddon(object):
@@ -38,10 +43,12 @@ class BaseAddon(object):
     icon = 'cog'
     project_scope = False
     has_summary = False
+    alert = 'AddonScriptError'
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
         self.instance = storage
+        self.alerts = []
 
     def get_summary(self):
         return ''
@@ -106,7 +113,13 @@ class BaseAddon(object):
                 return False
         return True
 
+    def pre_push(self, component):
+        return
+
     def post_push(self, component):
+        return
+
+    def pre_update(self, component):
         return
 
     def post_update(self, component, previous_head):
@@ -127,6 +140,41 @@ class BaseAddon(object):
     def store_post_load(self, translation, store):
         return
 
+    def execute_process(self, component, cmd, env=None):
+        component.log_debug('%s addon exec: %s', self.name, repr(cmd))
+        try:
+            output = subprocess.check_output(
+                cmd,
+                env=get_clean_env(env),
+                cwd=component.full_path,
+                stderr=subprocess.STDOUT,
+            )
+            component.log_debug('exec result: %s', repr(output))
+        except (OSError, subprocess.CalledProcessError) as err:
+            component.log_error('failed to exec %s: %s', repr(cmd), err)
+            self.alerts.append({
+                'addon': self.name,
+                'command': ' '.join(cmd),
+                'output': getattr(err, 'output', '').decode('utf-8'),
+                'error': str(err),
+            })
+
+    def trigger_alerts(self, component):
+        if self.alerts:
+            component.add_alert(self.alert, occurences=self.alerts)
+            self.alerts = []
+        else:
+            component.delete_alert(self.alert)
+
+    def get_commit_message(self, component):
+        return render_template(
+            component.addon_message,
+            hook_name=self.verbose,
+            project_name=component.project.name,
+            component_name=component.name,
+            url=get_site_url(component.get_absolute_url())
+        )
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
@@ -142,9 +190,6 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
     events = (EVENT_POST_UPDATE, )
-    message = '''Update translation files
-
-Updated by {name} hook in Weblate.'''
 
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
@@ -155,14 +200,29 @@ Updated by {name} hook in Weblate.'''
             if repository.needs_commit():
                 files = [t.filename for t in component.translation_set.all()]
                 repository.commit(
-                    self.message.format(name=self.verbose),
+                    self.get_commit_message(component),
                     files=files
                 )
                 component.push_if_needed(None)
 
     def post_update(self, component, previous_head):
+        component.commit_pending('addon', None, skip_push=True)
         self.update_translations(component, previous_head)
         self.commit_and_push(component)
+
+
+class TestException(Exception):
+    pass
+
+
+class TestCrashAddon(UpdateBaseAddon):
+    """Testing addong doing nothing."""
+    name = 'weblate.base.crash'
+    verbose = 'Crash test addon'
+    description = 'Crash test addon'
+
+    def update_translations(self, component, previous_head):
+        raise TestException('Test error')
 
 
 class StoreBaseAddon(BaseAddon):

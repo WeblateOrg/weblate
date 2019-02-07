@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,6 +20,7 @@
 """Provide user friendly names for social authentication methods."""
 from __future__ import unicode_literals
 from django import template
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -28,7 +29,11 @@ SOCIALS = {
     'amazon': {'name': 'Amazon', 'fa_icon': 'amazon'},
     'azuread-oauth2': {'name': 'Azure', 'fa_icon': 'windows'},
     'google': {'name': 'Google', 'fa_icon': 'google'},
-    'google-oauth2': {'name': 'Google', 'fa_icon': 'google'},
+    'google-oauth2': {
+        'name': 'Google',
+        'image': 'btn_google_light_normal_ios.svg',
+        'image_class': 'google-image',
+    },
     'google-plus': {'name': 'Google+', 'fa_icon': 'google-plus'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
     'github-enterprise': {'name': 'GitHub Enterprise', 'fa_icon': 'github'},
@@ -47,11 +52,16 @@ SOCIALS = {
 
 FA_SOCIAL_TEMPLATE = '''
 <i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>
-{separator}
-{name}
 '''
 FL_SOCIAL_TEMPLATE = '''
 <span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>
+'''
+IMAGE_SOCIAL_TEMPLATE = '''
+<img class="{image_class} fa-lg {extra_class}" src="{image}" />
+'''
+
+SOCIAL_TEMPLATE = '''
+{icon}
 {separator}
 {name}
 '''
@@ -72,11 +82,14 @@ def auth_name(auth, extra_class='fa-4x', separator='<br />'):
         params.update(SOCIALS[auth])
 
     if 'fl_icon' in params:
-        html_template = FL_SOCIAL_TEMPLATE
+        params['icon'] = FL_SOCIAL_TEMPLATE.format(**params)
+    elif 'image' in params:
+        params['image'] = staticfiles_storage.url(params['image'])
+        params['icon'] = IMAGE_SOCIAL_TEMPLATE.format(**params)
     else:
-        html_template = FA_SOCIAL_TEMPLATE
+        params['icon'] = FA_SOCIAL_TEMPLATE.format(**params)
 
-    return mark_safe(html_template.format(**params))
+    return mark_safe(SOCIAL_TEMPLATE.format(**params))
 
 
 def get_auth_name(auth):

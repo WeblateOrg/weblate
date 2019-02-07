@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,8 +24,6 @@ import email.utils
 import os
 import os.path
 
-from dateutil import parser
-
 from defusedxml import ElementTree
 
 from django.conf import settings
@@ -46,6 +44,8 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['fetch', 'origin']
     _cmd_push = ['push', 'origin']
+    _cmd_list_changed_files = ['diff', '--name-status']
+
     name = 'Git'
     req_version = '1.6'
     default_branch = 'master'
@@ -106,7 +106,7 @@ class GitRepository(Repository):
         if abort:
             self.execute(['rebase', '--abort'])
         else:
-            self.execute(['rebase', 'origin/{0}'.format(self.branch)])
+            self.execute(['rebase', self.get_remote_branch_name()])
 
     def has_rev(self, rev):
         try:
@@ -115,7 +115,7 @@ class GitRepository(Repository):
         except RepositoryException:
             return False
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
         tmp = 'weblate-merge-tmp'
         if abort:
@@ -131,7 +131,7 @@ class GitRepository(Repository):
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
             # changes merged into Weblate)
-            remote = 'origin/{}'.format(self.branch)
+            remote = self.get_remote_branch_name()
             # Create local branch for upstream
             self.execute(['branch', tmp, remote])
             # Checkout upstream branch
@@ -140,7 +140,7 @@ class GitRepository(Repository):
             cmd = [
                 'merge',
                 '--message',
-                "Merge branch '{}' into Weblate".format(remote),
+                message or "Merge branch '{}' into Weblate".format(remote),
             ]
             cmd.extend(self._get_gpg_sign())
             cmd.append(self.branch)
@@ -211,14 +211,11 @@ class GitRepository(Repository):
                     name, value = line.strip().split(':', 1)
                     value = value.strip()
                     name = name.lower()
-                    if 'date' in name:
-                        result[name] = parser.parse(value)
-                    else:
-                        result[name] = value
-                        if '@' in value:
-                            parsed = email.utils.parseaddr(value)
-                            result['{0}_name'.format(name)] = parsed[0]
-                            result['{0}_email'.format(name)] = parsed[1]
+                    result[name] = value
+                    if '@' in value:
+                        parsed = email.utils.parseaddr(value)
+                        result['{0}_name'.format(name)] = parsed[0]
+                        result['{0}_email'.format(name)] = parsed[1]
             else:
                 message.append(line.strip())
 
@@ -469,7 +466,7 @@ class SubversionRepository(GitRepository):
             args.insert(0, revision)
         cls._popen(['svn', 'clone'] + args)
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Rebases. Git-svn does not support merge."""
         self.rebase(abort)
 

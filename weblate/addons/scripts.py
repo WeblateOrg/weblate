@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,10 +21,8 @@
 from __future__ import unicode_literals
 
 import os
-import subprocess
 
 from weblate.addons.base import BaseAddon
-from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
 
 
@@ -57,19 +55,8 @@ class BaseScriptAddon(BaseAddon):
             environment['WL_LANGUAGE'] = translation.language_code
         if env is not None:
             environment.update(env)
-        try:
-            subprocess.check_call(
-                command,
-                env=get_clean_env(environment),
-                cwd=component.full_path,
-            )
-        except (OSError, subprocess.CalledProcessError) as err:
-            component.log_error(
-                'failed to run hook script %s: %s',
-                self.script,
-                err
-            )
-            raise
+        self.execute_process(component, command, environment)
+        self.trigger_alerts(component)
 
     def post_push(self, component):
         self.run_script(component)

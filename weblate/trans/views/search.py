@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,7 +32,7 @@ from django.views.decorators.http import require_POST
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
-    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
+    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, BulkStateForm,
 )
 from weblate.trans.models import Unit, Change
 from weblate.utils.views import (
@@ -89,6 +89,11 @@ def search_replace(request, project, component=None, lang=None):
     updated = 0
     if matching.exists():
         confirm = ReplaceConfirmForm(matching, request.POST)
+        limited = False
+
+        if matching.count() > 300:
+            matching = matching.order_by('id')[:250]
+            limited = True
 
         if not confirm.is_valid():
             for unit in matching:
@@ -100,6 +105,7 @@ def search_replace(request, project, component=None, lang=None):
                 'search_query': search_text,
                 'replacement': replacement,
                 'form': form,
+                'limited': limited,
                 'confirm': ReplaceConfirmForm(matching),
             })
             return render(
@@ -231,7 +237,7 @@ def state_change(request, project, component=None, lang=None):
     if not request.user.has_perm('translation.auto', obj):
         raise PermissionDenied()
 
-    form = MassStateForm(request.user, obj, request.POST)
+    form = BulkStateForm(request.user, obj, request.POST)
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
@@ -261,10 +267,10 @@ def state_change(request, project, component=None, lang=None):
 
     import_message(
         request, updated,
-        _('Mass state change completed, no strings were updated.'),
+        _('Bulk status change completed, no strings were updated.'),
         ungettext(
-            'Mass state change completed, %d string was updated.',
-            'Mass state change completed, %d strings were updated.',
+            'Bulk status change completed, %d string was updated.',
+            'Bulk status change completed, %d strings were updated.',
             updated
         )
     )

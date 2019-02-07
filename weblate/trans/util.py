@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -171,7 +171,26 @@ def get_clean_env(extra=None):
     }
     if extra is not None:
         environ.update(extra)
-    variables = ('PATH', 'LD_LIBRARY_PATH', 'SystemRoot')
+    variables = (
+        # Keep PATH setup
+        'PATH',
+        # Keep linker configuration
+        'LD_LIBRARY_PATH',
+        'LD_PRELOAD',
+        # Needed by Git on Windows
+        'SystemRoot',
+        # Pass proxy configuration
+        'http_proxy',
+        'https_proxy',
+        'HTTPS_PROXY',
+        'NO_PROXY',
+        # below two are nedded for openshift3 deployment,
+        # where nss_wrapper is used
+        # more on the topic on below link:
+        # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
+        'NSS_WRAPPER_GROUP',
+        'NSS_WRAPPER_PASSWD',
+    )
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
@@ -314,3 +333,9 @@ def rich_to_xliff_string(string_elements):
         result += string_without_wrapping_element
 
     return result
+
+
+def parse_flags(flags):
+    """ Parse comma separated list of flags."""
+    for flag in flags.split(','):
+        yield flag.strip()

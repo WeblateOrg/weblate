@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,6 +46,7 @@ from weblate.trans.mixins import LoggerMixin
 from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
+    parse_flags,
 )
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
@@ -71,44 +72,6 @@ SIMPLE_FILTERS = {
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
 
 NEWLINES = re.compile(r'\r\n|\r|\n')
-
-
-class UnitManager(models.Manager):
-    @staticmethod
-    def update_from_unit(translation, unit, pos):
-        """
-        Process translation toolkit unit and stores/updates database entry.
-        """
-        # Get basic unit data
-        id_hash = unit.id_hash
-        created = False
-
-        # Try getting existing unit
-        try:
-            dbunit = translation.unit_set.get(id_hash=id_hash)
-        except Unit.MultipleObjectsReturned:
-            # Some inconsistency (possibly race condition), try to recover
-            translation.unit_set.filter(id_hash=id_hash).delete()
-            dbunit = None
-        except Unit.DoesNotExist:
-            dbunit = None
-
-        # Create unit if it does not exist
-        if dbunit is None:
-            dbunit = Unit(
-                translation=translation,
-                id_hash=id_hash,
-                content_hash=unit.content_hash,
-                source=unit.source,
-                context=unit.context
-            )
-            created = True
-
-        # Update all details
-        dbunit.update_from_unit(unit, pos, created, translation.component)
-
-        # Return result
-        return dbunit, created
 
 
 class UnitQuerySet(models.QuerySet):
@@ -326,6 +289,13 @@ class UnitQuerySet(models.QuerySet):
 
         raise Unit.DoesNotExist('No matching unit found!')
 
+    def data_filter(self, matches):
+        queries = (
+            Q(content_hash=m[0]) & Q(translation__language_id=m[1])
+            for m in matches
+        )
+        return self.filter(functools.reduce(lambda x, y: x | y, queries))
+
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
@@ -360,7 +330,7 @@ class Unit(models.Model, LoggerMixin):
 
     pending = models.BooleanField(default=False)
 
-    objects = UnitManager.from_queryset(UnitQuerySet)()
+    objects = UnitQuerySet.as_manager()
 
     class Meta(object):
         ordering = ['priority', 'position']
@@ -425,8 +395,9 @@ class Unit(models.Model, LoggerMixin):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
-    def update_from_unit(self, unit, pos, created, component):
+    def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
+        component = self.translation.component
         self.is_batch_update = True
         # Get unit attributes
         location = unit.locations
@@ -460,7 +431,9 @@ class Unit(models.Model, LoggerMixin):
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
         same_source = (source == self.source and context == self.context)
-        same_state = (state == self.state and not created)
+        same_state = (
+            state == self.state and flags == self.flags and not created
+        )
 
         # Check if we actually need to change anything
         # pylint: disable=too-many-boolean-expressions
@@ -475,9 +448,7 @@ class Unit(models.Model, LoggerMixin):
             return
 
         # Ensure we track source string
-        source_info, source_created = Source.objects.get_or_create(
-            id_hash=self.id_hash, component=component
-        )
+        source_info, source_created = component.get_source(self.id_hash)
         contentsum_changed = self.content_hash != content_hash
 
         self.__dict__['source_info'] = source_info
@@ -987,11 +958,9 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_flags(self):
         """Return union of own and component flags."""
-        flags = set(
-            self.flags.split(',') +
-            self.source_info.check_flags.split(',') +
-            self.translation.component.all_flags
-        )
+        flags = set(parse_flags(self.flags))
+        flags.update(parse_flags(self.source_info.check_flags))
+        flags.update(self.translation.component.all_flags)
         flags.discard('')
         return flags
 

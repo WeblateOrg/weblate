@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if component.locked %}
+<i class="fa fa-lock text-warning" aria-hidden="true" title="{% trans "This translation is currently locked for updates." %}"></i>
+{% endif %}
+
+{% if alerts %}
+<a href="{{ component.get_absolute_url }}#alerts">
+<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "There are some alerts on this component" %}"></i>
+</a>
+{% endif %}
+
+{% if component.fsf_approved_license %}
+<i class="fa fa-thumbs-o-up text-success" aria-hidden="true" title="{% trans "Translation is licensed under free license according to FSF." %}"></i>
+{% elif component.osi_approved_license %}
+<i class="fa fa-thumbs-o-up text-success" aria-hidden="true" title="{% trans "Translation is licensed under OSI approved license." %}"></i>
+{% endif %}

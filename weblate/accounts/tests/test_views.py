@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -57,7 +57,6 @@ class ViewTest(TestCase):
         user.full_name = 'First Second'
         user.email = 'noreply@example.com'
         user.save()
-        Profile.objects.get_or_create(user=user)
         return user
 
     @override_settings(

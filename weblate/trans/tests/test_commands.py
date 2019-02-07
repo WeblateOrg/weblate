@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -607,12 +607,12 @@ class SuggestionCommandTest(RepoTestCase):
         self.assertEqual(profile.suggested, 1)
 
     def test_missing_user(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
+        call_command(
             'add_suggestions', 'test', 'test', 'cs', TEST_PO,
             author='foo@example.org',
         )
+        profile = Profile.objects.get(user__email='foo@example.org')
+        self.assertEqual(profile.suggested, 1)
 
     def test_missing_project(self):
         self.assertRaises(

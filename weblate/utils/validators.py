@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,6 +42,10 @@ EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 ALLOWED_IMAGES = frozenset((
     'image/jpeg',
     'image/png',
+    # Not sure if supporting apng is reasonable, but PNG is currently
+    # detected as apng by Pillow, see
+    # https://github.com/python-pillow/Pillow/pull/3525
+    'image/apng',
 ))
 
 # List of schemes not allowed in editor URL

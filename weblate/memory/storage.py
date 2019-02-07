@@ -24,8 +24,8 @@ import json
 import os.path
 
 from django.utils.encoding import force_text
+from django.utils.functional import cached_property
 from django.utils.translation import pgettext, ugettext as _
-
 
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
@@ -95,25 +95,28 @@ class TranslationMemory(WhooshIndex):
             schema=self.index.schema,
             group=qparser.OrGroup.factory(0.9),
             termclass=query.FuzzyTerm,
+            plugins=[],
         )
-        self.searcher = None
         self.comparer = Comparer()
 
     def __del__(self):
         self.close()
 
-    def open_searcher(self):
-        if self.searcher is None:
-            self.searcher = self.index.searcher()
+    @cached_property
+    def searcher(self):
+        return self.index.searcher()
 
     def doc_count(self):
-        self.open_searcher()
         return self.searcher.doc_count()
 
     def close(self):
-        if self.searcher is not None:
-            self.searcher.close()
-            self.searcher = None
+        if 'seacher' in self.__dict__:
+            self.seacher.close()
+            del self.__dict__['searcher']
+
+    def refresh(self):
+        if 'seacher' in self.__dict__:
+            self.__dict__['searcher'] = self.seacher.refresh()
 
     def writer(self):
         return self.index.writer()
@@ -128,23 +131,27 @@ class TranslationMemory(WhooshIndex):
         return language.code
 
     @staticmethod
-    def get_category(category=None, project=None, user=None):
+    def get_category(category=None, project=None, user=None, use_file=False):
         if project:
             return CATEGORY_PRIVATE_OFFSET + project.pk
         if user:
             return CATEGORY_USER_OFFSET + user.pk
+        if use_file:
+            return CATEGORY_FILE
         return category
 
     @classmethod
     def import_file(cls, request, fileobj, langmap=None, category=None,
-                    project=None, user=None):
+                    project=None, user=None, use_file=False):
         origin = force_text(os.path.basename(fileobj.name)).lower()
-        category = cls.get_category(category, project, user)
+        category = cls.get_category(category, project, user, use_file)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
         if extension == '.tmx':
-            result = cls.import_tmx(request, fileobj, langmap, category, origin)
+            result = cls.import_tmx(
+                request, fileobj, langmap, category, origin
+            )
         elif extension == '.json':
             result = cls.import_json(request, fileobj, category, origin)
         else:
@@ -189,7 +196,8 @@ class TranslationMemory(WhooshIndex):
         return found
 
     @classmethod
-    def import_tmx(cls, request, fileobj, langmap=None, category=None, origin=None):
+    def import_tmx(cls, request, fileobj, langmap=None, category=None,
+                   origin=None):
         from weblate.memory.tasks import update_memory_task
         if category is None:
             category = CATEGORY_FILE
@@ -261,9 +269,8 @@ class TranslationMemory(WhooshIndex):
             category_filter.append(query.Term('category', CATEGORY_SHARED))
         return query.Or(category_filter)
 
-    def list_documents(self, user=None, project=None):
-        catfilter = self.get_filter(user, project, False, False)
-        self.open_searcher()
+    def list_documents(self, user=None, project=None, use_file=False):
+        catfilter = self.get_filter(user, project, False, use_file)
         return self.searcher.search(catfilter, limit=None)
 
     def lookup(self, source_language, target_language, text, user,
@@ -273,7 +280,6 @@ class TranslationMemory(WhooshIndex):
             query.Term('target_language', target_language),
             self.get_filter(user, project, use_shared, True),
         ])
-        self.open_searcher()
         text_query = self.parser.parse(text)
         matches = self.searcher.search(
             text_query, filter=langfilter, limit=20000
@@ -288,9 +294,10 @@ class TranslationMemory(WhooshIndex):
                 match['category'], match['origin']
             )
 
-    def delete(self, origin=None, category=None, project=None, user=None):
+    def delete(self, origin=None, category=None, project=None, user=None,
+               use_file=False):
         """Delete entries based on filter."""
-        category = self.get_category(category, project, user)
+        category = self.get_category(category, project, user, use_file)
         with self.writer() as writer:
             if origin:
                 return writer.delete_by_term('origin', origin)
@@ -298,19 +305,17 @@ class TranslationMemory(WhooshIndex):
 
     def empty(self):
         """Recreates translation memory."""
+        self.close()
         self.cleanup()
         self.index = self.open_index()
-        self.searcher = None
 
     def get_values(self, field):
-        self.open_searcher()
         return [
             force_text(x) for x in self.searcher.reader().field_terms(field)
         ]
 
     def dump(self, handle, indent=2):
         """Dump memory content to JSON file."""
-        self.open_searcher()
         json.dump(
             list(self.searcher.documents()),
             handle,

@@ -349,9 +349,14 @@ Machine translation settings
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+LDAP
+++++
+
 .. envvar:: WEBLATE_AUTH_LDAP_SERVER_URI
 .. envvar:: WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
+.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
 
     LDAP authentication configuration.
 
@@ -370,31 +375,67 @@ Authentication settings
 
         :ref:`ldap-auth`
 
+GitHub
+++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
 
     Enables :ref:`github_auth`.
+
+BitBucket
++++++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET
 
     Enables :ref:`bitbucket_auth`.
 
+Facebook
+++++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_FACEBOOK_SECRET
 
     Enables :ref:`facebook_auth`.
+
+Google
+++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
 
     Enables :ref:`google_auth`.
 
+GitLab
+++++++
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_API_URL
 
     Enables :ref:`gitlab_auth`.
+
+Azure Active Directory
+++++++++++++++++++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
+
+    Enables Azure Active Directory authentication, see :doc:`psa:backends/azuread`.
+
+Azure Active Directory with Tenant support
+++++++++++++++++++++++++++++++++++++++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
+
+    Enables Azure Active Directory authentication with Tenant support, see
+    :doc:`psa:backends/azuread`.
+
+Other authentication settings
++++++++++++++++++++++++++++++
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
@@ -611,7 +652,7 @@ with the following command:
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
     # Install Weblate 2.10
-    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.3 --no-git
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.4 --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
 this instance. Feel free to specify a different name.
@@ -660,21 +701,6 @@ Retrieve the generated admin password using the following command:
 .. code-block:: sh
 
     rhc -aweblate ssh credentials
-
-Indexing Offloading
-~~~~~~~~~~~~~~~~~~~
-
-To enable the preconfigured indexing offloading you need to add the Cron cartridge to your program and restart it:
-
-.. code-block:: sh
-
-    rhc -aweblate add-cartridge cron
-    rhc -aweblate app stop
-    rhc -aweblate app start
-
-The fulltext search index will then be updated every 5 minutes.
-Restarting with ``rhc restart`` instead, will not enable indexing offloading in Weblate.
-You can verify that indexing offloading is indeed enabled by visiting the URL ``/admin/performance/`` of your program.
 
 Pending Changes
 ~~~~~~~~~~~~~~~

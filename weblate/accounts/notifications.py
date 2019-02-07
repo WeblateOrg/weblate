@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
@@ -284,6 +285,7 @@ def get_notification_email(language, email, notification,
                 translation_obj.get_absolute_url()
             )
         context['site_title'] = settings.SITE_TITLE
+        context['user'] = user
 
         # Render subject
         subject = render_to_string(
@@ -338,7 +340,7 @@ def send_notification_email(language, email, notification,
     enqueue_mails([email])
 
 
-def is_new_login(user, address):
+def is_new_login(user, address, user_agent):
     """Checks whether this login is coming from new device.
 
     This is currently based purely in IP address.
@@ -349,7 +351,9 @@ def is_new_login(user, address):
     if not logins.exists():
         return False
 
-    return not logins.filter(address=address).exists()
+    return not logins.filter(
+        Q(address=address) | Q(user_agent=user_agent)
+    ).exists()
 
 
 def notify_account_activity(user, request, activity, **kwargs):
@@ -359,7 +363,7 @@ def notify_account_activity(user, request, activity, **kwargs):
     address = get_ip_address(request)
     user_agent = get_user_agent(request)
 
-    if activity == 'login' and is_new_login(user, address):
+    if activity == 'login' and is_new_login(user, address, user_agent):
         activity = 'login-new'
 
     audit = AuditLog.objects.create(
@@ -367,9 +371,8 @@ def notify_account_activity(user, request, activity, **kwargs):
     )
 
     if audit.should_notify():
-        profile = Profile.objects.get_or_create(user=user)[0]
         send_notification_email(
-            profile.language,
+            user.profile.language,
             user.email,
             'account_activity',
             context={
@@ -448,7 +451,6 @@ def send_new_language(profile, component, language, user):
         component,
         {
             'language': language,
-            'user': user,
         },
         user=user
     )
@@ -485,9 +487,7 @@ def send_new_contributor(profile, translation, user):
         'new_contributor',
         translation.component,
         translation,
-        {
-            'user': user,
-        }
+        user=user,
     )
 
 

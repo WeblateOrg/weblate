@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,7 +27,9 @@ except ImportError:
     from django.utils.encoding import force_text as get_display
 
 from django.urls import reverse
-from django.utils.translation import ugettext as _, pgettext, get_language
+from django.utils.translation import (
+    ugettext as _, pgettext, get_language, ungettext,
+)
 from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
@@ -311,8 +313,13 @@ class NormalWidget(BitmapWidget):
         )
         self.render_text(
             # Translators: please keep the text short to fit into widget
-            _('translating %(count)d strings into %(languages)d languages\n'
-              '%(percent)d%% complete, help us improve!'),
+            ungettext(
+                'translating %(count)d strings into %(languages)d language\n'
+                '%(percent)d%% complete, help us improve!',
+                'translating %(count)d strings into %(languages)d languages\n'
+                '%(percent)d%% complete, help us improve!',
+                self.languages
+            ),
             # Translators: please use your language name instead of English
             # and keep the text short to fit into widget
             _('translating %(count)d strings into English\n%(percent)d%%'

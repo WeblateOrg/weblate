@@ -11,7 +11,9 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
-<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
+<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a>
+{% indicate_alerts object %}
+</li>
 <li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
 <li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
 {% endblock %}
@@ -234,7 +236,7 @@
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
 {% if others.exists %}
-<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
+<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurences" %} <span class="badge">{{ others.exists }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
@@ -431,9 +433,6 @@
   <div class="panel-body">
   {% if unit.suggestions %}
   <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
-  {% endif %}
-  {% if others.count %}
-  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
   {% show_checks unit.translation.component.project checks user %}
   {% if comments %}

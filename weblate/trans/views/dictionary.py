@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
@@ -37,7 +38,10 @@ from weblate.lang.models import Language
 from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
-from weblate.trans.forms import WordForm, DictUploadForm, LetterForm, OneWordForm
+from weblate.trans.forms import (
+    WordForm, DictUploadForm, LetterForm, OneWordForm,
+)
+from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import get_project, import_message
 from weblate.utils.views import get_paginator
 
@@ -122,6 +126,7 @@ def edit_dictionary(request, project, lang, pk):
 
 
 @require_POST
+@login_required
 def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
     if not request.user.has_perm('glossary.delete', prj):
@@ -156,6 +161,8 @@ def delete_dictionary(request, project, lang, pk):
 
 
 @require_POST
+@login_required
+@session_ratelimit_post('glossary_upload')
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
     if not request.user.has_perm('glossary.upload', prj):
@@ -234,6 +241,9 @@ def download_dictionary(request, project, lang):
     )
 
 
+@require_POST
+@login_required
+@session_ratelimit_post('glossary_add')
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
@@ -245,7 +255,7 @@ def add_dictionary(request, unit_id):
     results = ''
     words = []
 
-    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
+    if request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             word = Dictionary.objects.create(
@@ -280,6 +290,7 @@ def add_dictionary(request, unit_id):
 
 
 @never_cache
+@session_ratelimit_post('glossary_add')
 def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)

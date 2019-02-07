@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,6 @@ from celery_batches import Batches
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.query import Or, Term
 from whoosh.index import LockError
-from whoosh.writing import AsyncWriter
 from whoosh import qparser
 
 from django.utils.encoding import force_text
@@ -71,7 +70,7 @@ class Fulltext(WhooshIndex):
         return self.open_index(TargetSchema, name)
 
     @staticmethod
-    def update_source_unit_index(writer, unit):
+    def update_source_unit_index(writer, searcher, unit):
         """Update source index for given unit."""
         if not isinstance(unit, dict):
             unit = {
@@ -80,7 +79,8 @@ class Fulltext(WhooshIndex):
                 'location': unit.location,
                 'pk': unit.pk,
             }
-        writer.update_document(
+        writer.delete_by_term('pk', unit['pk'], searcher)
+        writer.add_document(
             pk=unit['pk'],
             source=force_text(unit['source']),
             context=force_text(unit['context']),
@@ -88,7 +88,7 @@ class Fulltext(WhooshIndex):
         )
 
     @staticmethod
-    def update_target_unit_index(writer, unit):
+    def update_target_unit_index(writer, searcher, unit):
         """Update target index for given unit."""
         if not isinstance(unit, dict):
             unit = {
@@ -96,7 +96,8 @@ class Fulltext(WhooshIndex):
                 'target': unit.target,
                 'comment': unit.comment,
             }
-        writer.update_document(
+        writer.delete_by_term('pk', unit['pk'], searcher)
+        writer.add_document(
             pk=unit['pk'],
             target=force_text(unit['target']),
             comment=force_text(unit['comment']),
@@ -108,8 +109,9 @@ class Fulltext(WhooshIndex):
         # Update source index
         index = self.get_source_index()
         with index.writer() as writer:
-            for unit in units:
-                self.update_source_unit_index(writer, unit)
+            with writer.searcher() as searcher:
+                for unit in units:
+                    self.update_source_unit_index(writer, searcher, unit)
 
         languages = set([unit['language'] for unit in units])
 
@@ -117,10 +119,11 @@ class Fulltext(WhooshIndex):
         for language in languages:
             index = self.get_target_index(language)
             with index.writer() as writer:
-                for unit in units:
-                    if unit['language'] != language:
-                        continue
-                    self.update_target_unit_index(writer, unit)
+                with writer.searcher() as searcher:
+                    for unit in units:
+                        if unit['language'] != language:
+                            continue
+                        self.update_target_unit_index(writer, searcher, unit)
 
     @classmethod
     def update_index_unit(cls, unit):
@@ -220,7 +223,9 @@ class Fulltext(WhooshIndex):
             # Filter bad results
             threshold = max([h[1] for h in results]) / 2
             results = [h[0] for h in results if h[1] > threshold]
-            LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
+            LOGGER.debug(
+                'filter %d matches over threshold %d', len(results), threshold
+            )
 
             return results
 
@@ -230,31 +235,26 @@ class Fulltext(WhooshIndex):
         if not cls.FAKE:
             delete_fulltext.delay(pk, lang)
 
-    def delete_search_unit(self, pk, lang):
-        try:
-            indexes = (
-                self.get_source_index(),
-                self.get_target_index(lang)
-            )
-            for index in indexes:
-                with AsyncWriter(index) as writer:
-                    writer.delete_by_term('pk', pk)
-        except IOError:
-            return
+    @staticmethod
+    def delete_units_index(index, units):
+        with index.writer() as writer:
+            with writer.searcher() as searcher:
+                for pk in units:
+                    writer.delete_by_term('pk', pk, searcher)
 
     def delete_search_units(self, source_units, languages):
         """Delete fulltext index for given set of units."""
         # Update source index
-        index = self.get_source_index()
-        with index.writer() as writer:
-            for pk in source_units:
-                writer.delete_by_term('pk', pk)
+        self.delete_units_index(
+            self.get_source_index(),
+            source_units
+        )
 
         for lang, units in languages.items():
-            index = self.get_target_index(lang)
-            with index.writer() as writer:
-                for pk in units:
-                    writer.delete_by_term('pk', pk)
+            self.delete_units_index(
+                self.get_target_index(lang),
+                units
+            )
 
 
 @app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)

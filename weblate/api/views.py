@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -54,7 +54,6 @@ from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.utils.views import download_translation_file
 from weblate.utils.celery import get_queue_length
-from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats
 from weblate.utils.docs import get_doc_url
 
@@ -436,11 +435,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
+        user = request.user
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not request.user.has_perm('upload.perform', obj) or
+        if (not user.has_perm('upload.perform', obj) or
                 obj.component.locked):
             raise PermissionDenied()
 
@@ -449,19 +449,35 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
 
-        if (serializer.validated_data['overwrite'] and
-                not request.user.has_perm('upload.overwrite', obj)):
+        if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
             raise PermissionDenied()
 
-        can_author = request.user.has_perm('upload.authorship', obj)
+        if (not user.has_perm('unit.edit', obj) and
+                data['method'] in ('translate', 'fuzzy')):
+            raise PermissionDenied()
+        if (not user.has_perm('suggestion.add', obj) and
+                data['method'] == 'suggest'):
+            raise PermissionDenied()
+        if (not user.has_perm('unit.review', obj) and
+                data['method'] == 'approve'):
+            raise PermissionDenied()
+
+        author_name = None
+        author_email = None
+        if request.user.has_perm('upload.authorship', obj):
+            author_name = data.get('author_name')
+            author_email = data.get('author_email')
 
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
-            serializer.validated_data['file'],
-            serializer.validated_data['overwrite'],
-            serializer.validated_data.get('email', None) if can_author else None,
-            serializer.validated_data.get('author', None) if can_author else None,
+            data['file'],
+            data['overwrite'],
+            author_name,
+            author_email,
+            data['method'],
+            data['fuzzy'],
         )
 
         return Response(data={
@@ -634,5 +650,6 @@ class Metrics(APIView):
             'suggestions': Suggestion.objects.count(),
             'index_updates': get_queue_length('search'),
             'celery_queue': get_queue_length(),
+            'celery_memory_queue': get_queue_length('memory'),
             'name': settings.SITE_TITLE,
         })

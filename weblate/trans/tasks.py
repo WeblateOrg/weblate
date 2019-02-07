@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,8 +42,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 
 from weblate.trans.models import (
-    Suggestion, Comment, Unit, Project, Translation, Source, Component,
-    Change,
+    Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.search import Fulltext
@@ -310,6 +309,12 @@ def repository_alerts(threshold=10):
             component.delete_alert('RepositoryChanges', childs=True)
 
 
+@app.task
+def component_alerts():
+    for component in Component.objects.iterator():
+        component.update_alerts()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -326,6 +331,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         repository_alerts.s(),
         name='repository-alerts',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        component_alerts.s(),
+        name='component-alerts',
     )
     sender.add_periodic_task(
         3600 * 24,

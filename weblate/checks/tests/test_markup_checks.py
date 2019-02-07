@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,6 +27,9 @@ from weblate.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
     XMLValidityCheck,
+    MarkdownRefLinkCheck,
+    MarkdownLinkCheck,
+    MarkdownSyntaxCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 
@@ -122,6 +125,16 @@ class XMLTagsCheckTest(CheckTestCase):
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
 
+    def test_attributes(self):
+        self.do_test(
+            False,
+            ('<a href="#">a</a>', '<a href="other">z</a>', '')
+        )
+        self.do_test(
+            True,
+            ('<a href="#">a</a>', '<a href="#" onclick="alert()">z</a>', '')
+        )
+
     def test_root(self):
         self.do_test(
             False,
@@ -138,4 +151,58 @@ class XMLTagsCheckTest(CheckTestCase):
                 '<?xml version="1.0" encoding="UTF-8"?><a>test</a>',
                 ''
             ),
+        )
+
+
+class MarkdownRefLinkCheckTest(CheckTestCase):
+    check = MarkdownRefLinkCheck()
+
+    def setUp(self):
+        super(MarkdownRefLinkCheckTest, self).setUp()
+        self.test_good_matching = ('[a][a1]', '[b][a1]', 'md-text')
+        self.test_good_none = ('string', 'string', 'md-text')
+        self.test_good_flag = ('[a][a1]', '[b][a2]', '')
+        self.test_failure_1 = ('[a][a1]', '[b][a2]', 'md-text')
+
+
+class MarkdownLinkCheckTest(CheckTestCase):
+    check = MarkdownLinkCheck()
+
+    def setUp(self):
+        super(MarkdownLinkCheckTest, self).setUp()
+        self.test_good_matching = (
+            '[Use Weblate](https://weblate.org/)',
+            '[Použij Weblate](https://weblate.org/)',
+            'md-text'
+        )
+        self.test_good_none = ('string', 'string', 'md-text')
+        self.test_failure_1 = (
+            '[Use Weblate](https://weblate.org/)',
+            '[Použij Weblate]',
+            'md-text'
+        )
+
+
+class MarkdownSyntaxCheckTest(CheckTestCase):
+    check = MarkdownSyntaxCheck()
+
+    def setUp(self):
+        super(MarkdownSyntaxCheckTest, self).setUp()
+        self.test_good_matching = ('**string**', '**string**', 'md-text')
+        self.test_good_none = ('string', 'string', 'md-text')
+        self.test_good_flag = ('**string**', 'string', '')
+        self.test_failure_1 = ('**string**', '*string*', 'md-text')
+        self.test_failure_2 = ('~~string~~', '*string*', 'md-text')
+        self.test_failure_3 = ('_string_', '*string*', 'md-text')
+        self.test_highlight = (
+            'md-text',
+            '**string** ~~strike~~ `code`',
+            [
+                (0, 2, '**'),
+                (8, 10, '**'),
+                (11, 13, '~~'),
+                (19, 21, '~~'),
+                (22, 23, '`'),
+                (27, 28, '`'),
+            ]
         )

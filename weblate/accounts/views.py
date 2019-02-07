@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,8 @@
 #
 
 from __future__ import unicode_literals
+
+import re
 
 from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
@@ -63,7 +65,7 @@ from weblate.accounts.forms import (
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang, Profile
+from weblate.accounts.models import set_lang
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -102,6 +104,8 @@ CONTACT_SUBJECTS = {
     'hosting': 'Commercial hosting',
     'account': 'Suspicious account activity',
 }
+
+ANCHOR_RE = re.compile(r'^#[a-z]+$')
 
 
 class EmailSentView(TemplateView):
@@ -198,7 +202,7 @@ def avoid_demo(function):
 
 def redirect_profile(page=''):
     url = reverse('profile')
-    if page and page.startswith('#'):
+    if page and ANCHOR_RE.match(page):
         url = url + page
     return HttpResponseRedirect(url)
 
@@ -465,7 +469,6 @@ def hosting(request):
 def user_page(request, user):
     """User details page."""
     user = get_object_or_404(User, username=user)
-    profile = Profile.objects.get_or_create(user=user)[0]
 
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(
@@ -485,7 +488,7 @@ def user_page(request, user):
         request,
         'accounts/user.html',
         {
-            'page_profile': profile,
+            'page_profile': user.profile,
             'page_user': user,
             'last_changes': last_changes,
             'last_changes_url': urlencode(
@@ -580,7 +583,6 @@ def fake_email_sent(request, reset=False):
     return redirect('email-sent')
 
 
-@session_ratelimit_post('register')
 @never_cache
 def register(request):
     """Registration form."""
@@ -840,7 +842,7 @@ class SuggestionView(ListView):
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
         result['page_user'] = user
-        result['page_profile'] = Profile.objects.get_or_create(user=user)[0]
+        result['page_profile'] = user.profile
         return result
 
 
@@ -925,9 +927,11 @@ def social_complete(request, backend):
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
         return handle_missing_parameter(request, backend, error)
-    except (AuthStateMissing, AuthStateForbidden):
+    except (AuthStateMissing, AuthStateForbidden) as error:
+        report_error(error, request)
         return auth_redirect_state(request)
-    except AuthFailed:
+    except AuthFailed as error:
+        report_error(error, request)
         return auth_fail(request, _(
             'Authentication has failed, probably due to expired token '
             'or connection error.'
@@ -936,7 +940,8 @@ def social_complete(request, backend):
         return auth_fail(
             request, _('Authentication has been cancelled.')
         )
-    except AuthForbidden:
+    except AuthForbidden as error:
+        report_error(error, request)
         return auth_fail(
             request, _('Authentication has been forbidden by server.')
         )

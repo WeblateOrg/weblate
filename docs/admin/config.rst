@@ -250,20 +250,12 @@ For example you can enable only few of them:
         'weblate.checks.chars.MaxLengthCheck',
         'weblate.checks.format.PythonFormatCheck',
         'weblate.checks.format.PythonBraceFormatCheck',
-        'weblate.checks.format.PHPFormatCheck',
-        'weblate.checks.format.CFormatCheck',
-        'weblate.checks.format.PerlFormatCheck',
-        'weblate.checks.format.JavascriptFormatCheck',
-        'weblate.checks.format.CSharpFormatCheck',
-        'weblate.checks.format.JavaFormatCheck',
-        'weblate.checks.consistency.SamePluralsCheck',
         'weblate.checks.consistency.PluralsCheck',
+        'weblate.checks.consistency.SamePluralsCheck',
         'weblate.checks.consistency.ConsistencyCheck',
         'weblate.checks.consistency.TranslatedCheck',
         'weblate.checks.chars.NewlineCountingCheck',
-        'weblate.checks.markup.BBCodeCheck',
         'weblate.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.checks.markup.XMLTagsCheck',
         'weblate.checks.source.OptionalPluralCheck',
         'weblate.checks.source.EllipsisCheck',
         'weblate.checks.source.MultipleFailingCheck',
@@ -393,6 +385,18 @@ Default committer name when creating translation component (see
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
+
+.. setting:: DEFAULT_MERGE_STYLE
+
+DEFAULT_MERGE_STYLE
+-------------------
+
+.. versionadded:: 3.4
+
+Default merge style for new components (see :ref:`component`), choose one of:
+
+* `rebase` - default
+* `merge`
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -555,6 +559,17 @@ Defaults to 0.
 
     :ref:`rate-limit`,
     :ref:`rate-ip`
+
+.. setting:: LEGAL_URL
+
+LEGAL_URL
+---------
+
+.. versionadded:: 3.5
+
+URL where your Weblate instance shows it's legal documents. This is useful if
+you host your legal documents outside Weblate for embedding inside Weblate
+please see :ref:`legal`.
 
 .. setting:: LOGIN_REQUIRED_URLS
 

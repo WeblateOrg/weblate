@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -230,7 +230,7 @@ class Change(models.Model, UserDisplayMixin):
         ),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
         (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
-        (ACTION_MASS_STATE, ugettext_lazy('Mass state change')),
+        (ACTION_MASS_STATE, ugettext_lazy('Bulk status change')),
         (ACTION_ACCESS_EDIT, ugettext_lazy('Changed visibility')),
         (ACTION_ADD_USER, ugettext_lazy('Added user')),
         (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),

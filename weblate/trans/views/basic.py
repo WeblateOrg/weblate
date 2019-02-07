@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,7 +28,6 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 import django.views.defaults
 
@@ -41,8 +40,9 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
+    ReportsForm, ReplaceForm, NewUnitForm, BulkStateForm, DownloadForm,
     DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
+    WhiteboardForm,
 )
 from weblate.accounts.notifications import notify_new_language
 from weblate.utils.views import (
@@ -88,44 +88,19 @@ def show_engage(request, project, lang=None):
     else:
         stats_obj = obj.stats
 
-    context = {
-        'allow_index': True,
-        'object': obj,
-        'project': obj,
-        'languages': stats_obj.languages,
-        'total': obj.stats.source_strings,
-        'percent': stats_obj.translated_percent,
-        'url': obj.get_absolute_url(),
-        'lang_url': obj.get_absolute_url() + '#languages',
-        'language': language,
-        'title': _('Get involved in {0}!').format(obj),
-    }
-
-    # Render text
-    if language is None:
-        status_text = _(
-            '<a href="%(url)s">Translation project for %(project)s</a> '
-            'currently contains %(total)s strings for translation and is '
-            '<a href="%(lang_url)s">being translated into %(languages)s '
-            'languages</a>. Overall, these translations are %(percent)s%% '
-            'complete.'
-        )
-    else:
-        # Translators: line of text in engagement page, please use your
-        # language name instead of English
-        status_text = _('<a href="%(url)s">Translation project for '
-                        '%(project)s</a> into English currently contains '
-                        '%(total)s strings for translation and is '
-                        '%(percent)s%% complete.')
-        if 'English' in status_text:
-            status_text = status_text.replace('English', language.name)
-
-    context['status_text'] = mark_safe(status_text % context)
-
     return render(
         request,
         'engage.html',
-        context
+        {
+            'allow_index': True,
+            'object': obj,
+            'project': obj,
+            'languages': stats_obj.languages,
+            'total': obj.stats.source_strings,
+            'percent': stats_obj.translated_percent,
+            'language': language,
+            'title': _('Get involved in {0}!').format(obj),
+        }
     )
 
 
@@ -167,6 +142,9 @@ def show_project(request, project):
                 translation__component__project=obj
             ).distinct().count(),
             'search_form': SearchForm(),
+            'whiteboard_form': optional_form(
+                WhiteboardForm, user, 'project.edit', obj
+            ),
             'delete_form': optional_form(
                 DeleteForm, user, 'project.edit', obj, obj=obj
             ),
@@ -174,10 +152,9 @@ def show_project(request, project):
                 ProjectRenameForm, user, 'project.edit', obj,
                 request=request, instance=obj
             ),
-# ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
             'components': components,
@@ -216,8 +193,11 @@ def show_component(request, project, component):
             ).distinct().count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
+            ),
+            'whiteboard_form': optional_form(
+                WhiteboardForm, user, 'component.edit', obj
             ),
             'delete_form': optional_form(
                 DeleteForm, user, 'component.edit', obj, obj=obj
@@ -273,7 +253,7 @@ def show_translation(request, project, component, lang):
             'review_form': review_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'mass_state_form': optional_form(
-                MassStateForm, user, 'translation.auto', obj,
+                BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
             'new_unit_form': NewUnitForm(
@@ -281,6 +261,9 @@ def show_translation(request, project, component, lang):
                 initial={
                     'value': Unit(translation=obj, id_hash=-1),
                 },
+            ),
+            'whiteboard_form': optional_form(
+                WhiteboardForm, user, 'component.edit', obj
             ),
             'delete_form': optional_form(
                 DeleteForm, user, 'translation.delete', obj, obj=obj

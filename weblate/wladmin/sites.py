@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -109,7 +109,7 @@ class WeblateAdminSite(AdminSite):
         self.register(ContributorAgreement, ContributorAgreementAdmin)
 
         # Show some controls only in debug mode
-        if settings.DEBUG and False:
+        if settings.DEBUG:
             self.register(Translation, TranslationAdmin)
             self.register(Unit, UnitAdmin)
             self.register(Suggestion, SuggestionAdmin)
@@ -156,6 +156,12 @@ class WeblateAdminSite(AdminSite):
 
         # Django core
         self.register(Site, SiteAdmin)
+
+        # Simple SSO
+        if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+            from simple_sso.sso_server.server import ConsumerAdmin
+            from simple_sso.sso_server.models import Consumer
+            self.register(Consumer, ConsumerAdmin)
 
     @never_cache
     def logout(self, request, extra_context=None):

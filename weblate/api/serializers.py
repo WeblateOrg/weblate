@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -344,8 +344,18 @@ class LockRequestSerializer(ReadOnlySerializer):
 class UploadRequestSerializer(ReadOnlySerializer):
     overwrite = serializers.BooleanField()
     file = serializers.FileField()
-    email = serializers.EmailField(required=False)
-    author = serializers.CharField(max_length=200, required=False)
+    author_email = serializers.EmailField(required=False)
+    author_name = serializers.CharField(max_length=200, required=False)
+    method = serializers.ChoiceField(
+        choices=('translate', 'approve', 'suggest', 'fuzzy'),
+        required=False,
+        default='translate',
+    )
+    fuzzy = serializers.ChoiceField(
+        choices=('', 'process', 'approve'),
+        required=False,
+        default=''
+    )
 
 
 class RepoRequestSerializer(ReadOnlySerializer):

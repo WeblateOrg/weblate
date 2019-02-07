@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -52,21 +52,15 @@ class Command(WeblateTranslationCommand):
         # Get translation object
         translation = self.get_translation(**options)
 
-        # Get user
-        try:
-            user = User.objects.get(email=options['author'])
-        except User.DoesNotExist:
-            raise CommandError('Import user does not exist!')
-
         # Create fake request object
         request = HttpRequest()
-        request.user = user
+        request.user = None
 
         # Process import
         try:
             translation.merge_upload(
                 request, options['file'], False, method='suggest',
-                author=user.get_author_name(),
+                author_email=options['author']
             )
         except IOError:
             raise CommandError('Failed to import translation file!')

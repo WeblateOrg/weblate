@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,17 +28,14 @@ from weblate.machinery.base import MachineTranslation, MissingConfiguration
 LANGUAGE_MAP = {
     'ca': 'cat',
     'cy': 'cym',
-    'en': 'eng',
     'eo': 'epo',
     'gl': 'glg',
     'bs': 'hbs_BS',
-    'is': 'isl',
     'es': 'spa',
     'en': 'eng',
     'en_US': 'eng',
     'en_UK': 'eng',
     'nl': 'nld',
-    'ro': 'ron',
     'de': 'deu',
     'fr': 'fra',
     'sl': 'slv',
@@ -98,7 +95,8 @@ class ApertiumAPYTranslation(MachineTranslation):
         super(ApertiumAPYTranslation, self).__init__()
         self.url = self.get_server_url()
 
-    def get_server_url(self):
+    @staticmethod
+    def get_server_url():
         """Return URL of a server."""
         if settings.MT_APERTIUM_APY is None:
             raise MissingConfiguration(

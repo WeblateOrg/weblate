@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,10 +25,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.models import Profile
 from weblate.checks.models import Check
-from weblate.lang.models import Language
-from weblate.trans.models import Project, Unit
 from weblate.utils.requirements import get_versions, get_optional_versions
-from weblate.utils.stats import prefetch_stats, GlobalStats
+from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 

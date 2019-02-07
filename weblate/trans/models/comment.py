@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -56,6 +56,23 @@ class CommentManager(models.Manager):
             user,
             unit.translation.component.report_source_bugs
         )
+
+    def copy(self, project):
+        """Copy comments to new project
+
+        This is used on moving component to other project and ensures nothing
+        is lost. We don't actually look where the comment belongs as it
+        would make the operation really expensive and it should be done in the
+        cleanup cron job.
+        """
+        for comment in self.all():
+            Comment.objects.create(
+                project=project,
+                comment=comment.comment,
+                content_hash=comment.content_hash,
+                user=comment.user,
+                language=comment.language,
+            )
 
 
 @python_2_unicode_compatible

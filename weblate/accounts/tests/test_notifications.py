@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -266,9 +266,8 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         self.assert_notify_mailbox(mail.outbox[0])
 
     def test_notify_html_language(self):
-        profile = Profile.objects.get(user=self.user)
-        profile.language = 'cs'
-        profile.save()
+        self.user.profile.language = 'cs'
+        self.user.profile.save()
         request = self.get_request('/')
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)

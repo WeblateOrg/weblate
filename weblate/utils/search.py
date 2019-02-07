@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,9 @@
 from __future__ import unicode_literals
 
 from jellyfish import damerau_levenshtein_distance
-from jellyfish._jellyfish import damerau_levenshtein_distance as py_damerau_levenshtein_distance
+from jellyfish._jellyfish import (
+    damerau_levenshtein_distance as py_damerau_levenshtein_distance,
+)
 
 
 class Comparer(object):

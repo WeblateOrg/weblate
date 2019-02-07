@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,7 @@ from six import StringIO
 
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
-from weblate.addons.base import TestAddon
+from weblate.addons.base import TestAddon, TestCrashAddon, TestException
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
@@ -45,9 +45,10 @@ from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
     GettextCustomizeAddon, GettextAuthorComments,
 )
+from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
-from weblate.addons.models import Addon
+from weblate.addons.models import Addon, ADDONS
 from weblate.lang.models import Language
 from weblate.trans.models import Unit, Translation
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -145,6 +146,17 @@ class IntegrationTest(ViewTestCase):
             commit
         )
 
+    def test_crash(self):
+        self.component.addons_cache = {}
+        addon = TestCrashAddon.create(self.component)
+        ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
+
+        with self.assertRaises(TestException):
+            addon.post_update(self.component, '')
+
+        with self.assertRaises(TestException):
+            self.component.update_branch()
+
 
 class GettextAddonTest(ViewTestCase):
     def create_component(self):
@@ -183,7 +195,7 @@ class GettextAddonTest(ViewTestCase):
             os.path.exists(translation.addon_commit_files[0])
         )
 
-    def test_msgmerge(self):
+    def test_msgmerge(self, wrapped=True):
         self.assertTrue(MsgmergeAddon.can_install(self.component, None))
         addon = MsgmergeAddon.create(self.component)
         rev = self.component.repository.last_revision
@@ -193,6 +205,14 @@ class GettextAddonTest(ViewTestCase):
             self.component.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
+        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
+
+    def test_msgmerge_nowrap(self):
+        GettextCustomizeAddon.create(
+            self.component,
+            configuration={'width': -1}
+        )
+        self.test_msgmerge(False)
 
     def test_generate(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
@@ -613,3 +633,41 @@ class LanguageConsistencyTest(ViewTestCase):
         # Trigger post update signal, should do nothing
         addon.post_update(self.component, '')
         self.assertEqual(Translation.objects.count(), 8)
+
+
+class GitSquashAddonTest(ViewTestCase):
+    def create(self, mode):
+        self.assertTrue(GitSquashAddon.can_install(self.component, None))
+        return GitSquashAddon.create(
+            self.component, configuration={'squash': mode}
+        )
+
+    def edit(self):
+        for lang in ('cs', 'de'):
+            self.change_unit('Nazdar svete!\n', 'Hello, world!\n', lang)
+            self.component.commit_pending('test', None)
+            self.change_unit(
+                'Diky za pouziti Weblate.', 'Thank you for using Weblate.',
+                lang
+            )
+            self.component.commit_pending('test', None)
+
+    def test_squash(self, mode='all', expected=1):
+        addon = self.create(mode)
+        repo = self.component.repository
+        self.assertEqual(repo.count_outgoing(), 0)
+        # Test no-op behavior
+        addon.post_commit(self.get_translation())
+        # Make some changes
+        self.edit()
+        self.assertEqual(repo.count_outgoing(), expected)
+
+    def test_languages(self):
+        self.test_squash('language', 2)
+
+    def test_files(self):
+        self.test_squash('file', 2)
+
+    def test_mo(self):
+        GenerateMoAddon.create(self.component)
+        self.test_squash('file', 3)

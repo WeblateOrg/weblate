@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -300,8 +300,8 @@ PLURAL_MAPPINGS = (
 PLURAL_NAMES = {
     PLURAL_NONE: ('',),
     PLURAL_ONE_OTHER: (
-        pgettext_lazy('Plural form description', 'One'),
-        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'Singular'),
+        pgettext_lazy('Plural form description', 'Plural'),
     ),
     PLURAL_ONE_FEW_OTHER: (
         pgettext_lazy('Plural form description', 'One'),

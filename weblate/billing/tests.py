@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -49,7 +49,9 @@ class BillingTest(TestCase):
             password='kill',
             email='noreply@example.net'
         )
-        self.plan = Plan.objects.create(name='test', limit_projects=1, price=1.0)
+        self.plan = Plan.objects.create(
+            name='test', limit_projects=1, price=1.0
+        )
         self.billing = Billing.objects.create(plan=self.plan)
         self.invoice = Invoice.objects.create(
             billing=self.billing,

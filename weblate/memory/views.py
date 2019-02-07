@@ -42,6 +42,8 @@ CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 def get_objects(request, kwargs):
     if 'project' in kwargs:
         return {'project': get_project(request, kwargs['project'])}
+    if 'manage' in kwargs:
+        return {'use_file': True}
     return {'user': request.user}
 
 
@@ -51,6 +53,8 @@ def check_perm(user, permission, objects):
     if 'user' in objects:
         # User can edit own translation memory
         return True
+    if 'use_file' in objects:
+        return user.has_perm('memory.edit')
     return False
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,7 +29,6 @@ from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
 
 from django.core.cache import cache
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.http import urlencode
 
@@ -71,6 +70,7 @@ class MachineTranslation(object):
         self.request_params = None
         self.comparer = Comparer()
         self.supported_languages = None
+        self.supported_languages_error = None
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
@@ -82,8 +82,8 @@ class MachineTranslation(object):
         """Hook for backends to allow add authentication headers to request."""
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False, json_body=False,
-                 **kwargs):
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+                 json_body=False, **kwargs):
         """Perform JSON request."""
 
         # JSON body requires using POST
@@ -214,6 +214,7 @@ class MachineTranslation(object):
             languages = set(self.download_languages())
         except Exception as exc:
             self.supported_languages = self.default_languages
+            self.supported_languages_error = exc
             self.report_error(
                 exc, request,
                 'Failed to fetch languages from %s, using defaults',
@@ -284,6 +285,10 @@ class MachineTranslation(object):
             if '_' in language:
                 language = language.split('_')[0]
                 return self.translate(language, text, unit, request, source)
+            if self.supported_languages_error:
+                raise MachineTranslationError(
+                    repr(self.supported_languages_error)
+                )
             return []
 
         cache_key = self.translate_cache_key(source, language, text)

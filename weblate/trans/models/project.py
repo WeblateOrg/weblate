@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,7 +28,6 @@ from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
-from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.lang.models import Language, get_english_lang
@@ -165,14 +164,6 @@ class Project(models.Model, URLMixin, PathMixin):
             group = self.group_set.get(name='{0}{1}'.format(self.name, group))
             user.groups.remove(group)
 
-    def clean(self):
-        try:
-            self.create_path()
-        except OSError as exc:
-            raise ValidationError(
-                _('Could not create project directory: %s') % str(exc)
-            )
-
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
@@ -261,7 +252,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
-        return self.on_repo_components(True, 'do_update', request, method=method)
+        return self.on_repo_components(
+            True, 'do_update', request, method=method
+        )
 
     def do_push(self, request=None):
         """Push all Git repos."""

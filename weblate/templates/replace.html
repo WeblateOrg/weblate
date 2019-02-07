@@ -18,6 +18,11 @@
 {% trans "Please review and confirm the search and replace results." as msg %}
 {% show_message "info" msg %}
 
+{% if limited %}
+{% trans "There are too many matches for this search. Showing and replacing only first 250 ones. To replace remaining ones, please perform the replacement again." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
+
 <form method="POST">
 {% csrf_token %}
 {{ form.search.as_hidden }}

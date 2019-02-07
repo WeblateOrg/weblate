@@ -19,7 +19,6 @@ without interaction unless some merge conflict occurs.
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repository whenever they are committed at Weblate.
-4. Optionally set up a cron job for :djadmin:`commit_pending`.
 
 .. seealso::
 
@@ -136,7 +135,7 @@ upstream git repository: intact and working copy):
 
 .. seealso::
 
-   :ref:`git-export`
+   :ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-conflicts`
 
 How do I translate several branches at once?
 --------------------------------------------
@@ -468,8 +467,8 @@ Does Weblate support other VCS than Git and Mercurial?
 ------------------------------------------------------
 
 Weblate currently does not have native support for anything other than
-:ref:`vcs-git` (with extended support for :ref:`vcs-github` and
-:ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is possible to write
+:ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit`
+and :ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
 
 You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -30,11 +30,11 @@ class Command(BaseCommand):
     help = 'removes incompatible celery schedule file'
 
     def handle(self, *args, **options):
-        scheduler = PersistentScheduler(
-            schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
-            app=app
-        )
         try:
+            scheduler = PersistentScheduler(
+                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
+                app=app
+            )
             scheduler.setup_schedule()
         except Exception as error:
             self.stderr.write(

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,6 +27,8 @@ import os.path
 import sys
 import subprocess
 import logging
+
+from dateutil import parser
 
 from django.core.cache import cache
 from django.utils.encoding import force_text
@@ -74,6 +76,7 @@ class Repository(object):
     _cmd_update_remote = None
     _cmd_push = None
     _cmd_status = ['status']
+    _cmd_list_changed_files = None
 
     name = None
     req_version = None
@@ -241,7 +244,7 @@ class Repository(object):
         """Reset working copy to match remote branch."""
         raise NotImplementedError()
 
-    def merge(self, abort=False):
+    def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
         raise NotImplementedError()
 
@@ -283,12 +286,18 @@ class Repository(object):
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        key = 'rev-info-{}'.format(revision)
+        key = 'rev-info-{}-{}'.format(self.name, revision)
         result = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
             # Keep the cache for one day
             cache.set(key, result, 86400)
+
+        # Parse timestamps into datetime objects
+        for name, value in result.items():
+            if 'date' in name:
+                result[name] = parser.parse(value)
+
         return result
 
     @classmethod
@@ -411,6 +420,24 @@ class Repository(object):
         This is not universal as refspec is different per vcs.
         """
         raise NotImplementedError()
+
+    def list_changed_files(self, refspec):
+        """List changed files for given refspec.
+
+        This is not universal as refspec is different per vcs.
+        """
+        lines = self.execute(
+            self._cmd_list_changed_files + [refspec],
+            needs_lock=False
+        ).splitlines()
+        # Strip action prefix we do not use
+        return [x[2:] for x in lines]
+
+    def list_upstream_changed_files(self):
+        """List files missing upstream."""
+        return self.list_changed_files(
+            self.ref_to_remote.format(self.get_remote_branch_name())
+        )
 
     def get_remote_branch_name(self):
         return 'origin/{0}'.format(self.branch)

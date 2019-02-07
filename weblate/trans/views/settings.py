@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,7 +41,9 @@ def change_project(request, project):
         raise Http404()
 
     if request.method == 'POST':
-        settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
+        settings_form = ProjectSettingsForm(
+            request, request.POST, instance=obj
+        )
         if settings_form.is_valid():
             settings_form.save()
             messages.success(request, _('Settings saved'))

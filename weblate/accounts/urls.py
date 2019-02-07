@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.conf.urls import url, include
 
 import social_django.views
@@ -98,3 +99,9 @@ urlpatterns = [
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
     url(r'', include((social_urls, 'social_auth'), namespace='social')),
 ]
+
+if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+    # pylint: disable=wrong-import-position
+    from simple_sso.sso_server.server import Server
+    server = Server()
+    urlpatterns.append(url(r'^sso/', include(server.get_urls())))

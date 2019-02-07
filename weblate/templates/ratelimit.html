@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load translations %}
+
+{% documentation_icon 'user/translating' 'user-rate' right=True %}
+{% trans "You have recently performed too many operations and your request has been rate limited." %}
+{% if do_logout %}
+{% trans "You have been logged out, please login and try again later." %}
+{% else %}
+{% trans "Please try again later." %}
+{% endif %}
+<div class="clearfix"></div>

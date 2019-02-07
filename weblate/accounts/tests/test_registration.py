@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -507,6 +507,8 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse('confirm'))
 
         # Enter wrong password
+        user = User.objects.get(username='username')
+        reset_rate_limit('confirm', user=user)
         response = self.client.post(
             reverse('confirm'),
             {'password': 'invalid'}

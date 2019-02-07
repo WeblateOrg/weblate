@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,7 +39,8 @@ class TMServerTranslation(MachineTranslation):
         super(TMServerTranslation, self).__init__()
         self.url = self.get_server_url()
 
-    def get_server_url(self):
+    @staticmethod
+    def get_server_url():
         """Return URL of a server."""
         if settings.MT_TMSERVER is None:
             raise MissingConfiguration(
@@ -95,5 +96,6 @@ class AmagamaTranslation(TMServerTranslation):
     """Specific instance of tmserver ran by Virtaal authors."""
     name = 'Amagama'
 
-    def get_server_url(self):
+    @staticmethod
+    def get_server_url():
         return AMAGAMA_LIVE

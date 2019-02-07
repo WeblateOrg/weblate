@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -115,6 +115,8 @@ class BillingQuerySet(models.QuerySet):
         )
 
     def for_user(self, user):
+        if user.is_superuser:
+            return self.all().order_by('state')
         return self.filter(
             Q(projects__in=user.projects_with_perm('billing.view')) |
             Q(owners=user)
@@ -126,6 +128,7 @@ class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_EXPIRED = 2
+    STATE_TERMINATED = 3
 
     EXPIRING_STATES = (STATE_TRIAL,)
 
@@ -147,6 +150,7 @@ class Billing(models.Model):
             (STATE_ACTIVE, _('Active')),
             (STATE_TRIAL, _('Trial')),
             (STATE_EXPIRED, _('Expired')),
+            (STATE_TERMINATED, _('Terminated')),
         ),
         default=STATE_ACTIVE,
         verbose_name=_('Billing state'),

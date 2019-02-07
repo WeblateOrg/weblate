@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,9 +44,9 @@ class Command(BaseCommand):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--name-template',
-            default='%s',
+            default='{{ component }}',
             help=(
-                'Python formatting string, transforming the filemask '
+                'Template string, transforming the filemask '
                 'match to a project name'
             )
         )
@@ -54,8 +54,16 @@ class Command(BaseCommand):
             '--base-file-template',
             default='',
             help=(
-                'Python formatting string, transforming the filemask '
+                'Template string, transforming the filemask '
                 'match to a monolingual base file name'
+            )
+        )
+        parser.add_argument(
+            '--new-base-template',
+            default='',
+            help=(
+                'Template string, transforming the filemask '
+                'match to a base file name for new translations'
             )
         )
         parser.add_argument(
@@ -147,6 +155,7 @@ class Command(BaseCommand):
         self.main_component = None
         self.name_template = None
         self.base_file_template = None
+        self.new_base_template = None
         self.vcs = None
         self.push_url = None
         self.logger = LOGGER
@@ -192,6 +201,7 @@ class Command(BaseCommand):
         self.license_url = options['license_url']
         self.push_on_commit = options['push_on_commit']
         self.base_file_template = options['base_file_template']
+        self.new_base_template = options['new_base_template']
         if '%s' in self.base_file_template:
             self.base_file_template = self.base_file_template.replace(
                 '%s', '{{ component }}'
@@ -284,6 +294,7 @@ class Command(BaseCommand):
                 self.name_template,
                 self.language_regex,
                 self.base_file_template,
+                self.new_base_template,
                 self.file_format,
                 path=path
             )

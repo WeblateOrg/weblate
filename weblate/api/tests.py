@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.core.files import File
 from django.urls import reverse
 
@@ -27,6 +29,7 @@ from weblate.auth.models import User, Group
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Project, Change, Unit, Source
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
+from weblate.utils.state import STATE_TRANSLATED
 
 TEST_PO = get_test_file('cs.po')
 TEST_SCREENSHOT = get_test_file('screenshot.png')
@@ -446,6 +449,12 @@ class TranslationAPITest(APIBaseTest):
                 'total': 5
             }
         )
+        translation = self.component.translation_set.get(language_code='cs')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Ahoj světe!\n')
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        self.assertEqual(self.component.project.suggestion_set.count(), 0)
 
     def test_upload_content(self):
         self.authenticate()
@@ -477,6 +486,48 @@ class TranslationAPITest(APIBaseTest):
                 'not_found': 0,
                 'result': True,
                 'skipped': 0,
+                'total': 5
+            }
+        )
+
+    def test_upload_suggest(self):
+        self.authenticate()
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle, 'method': 'suggest'},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                'accepted': 1,
+                'count': 5,
+                'not_found': 0,
+                'result': True,
+                'skipped': 0,
+                'total': 5
+            }
+        )
+        self.assertEqual(self.component.project.suggestion_set.count(), 1)
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle, 'method': 'suggest'},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                'accepted': 0,
+                'count': 5,
+                'not_found': 0,
+                'result': False,
+                'skipped': 1,
                 'total': 5
             }
         )

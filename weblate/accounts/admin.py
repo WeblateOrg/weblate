@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,6 +31,7 @@ class AuditLogAdmin(WeblateModelAdmin):
     ]
     search_fields = [
         'user__username',
+        'user__email',
         'address',
         'activity',
     ]

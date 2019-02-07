@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from itertools import islice
 import re
 
 from django.urls import reverse
@@ -83,7 +84,7 @@ class DictionaryManager(models.Manager):
                     continue
                 if method == 'add':
                     # Add word
-                    word = self.create(
+                    self.create(
                         user=request.user,
                         action=Change.ACTION_DICTIONARY_UPLOAD,
                         project=project,
@@ -142,6 +143,10 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error)
                 words.update(new_words)
+                if len(words) > 1000:
+                    break
+            if len(words) > 1000:
+                break
 
         if '' in words:
             words.remove('')
@@ -156,7 +161,7 @@ class DictionaryManager(models.Manager):
             project=unit.translation.component.project,
             language=unit.translation.language,
             source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
-                '|'.join([re_escape(word) for word in words])
+                '|'.join([re_escape(word) for word in islice(words, 1000)])
             )
         )
 

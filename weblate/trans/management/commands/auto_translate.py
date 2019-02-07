@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,7 +24,6 @@ from django.core.management.base import CommandError
 from django.http.request import HttpRequest
 
 from weblate.auth.models import User
-from weblate.accounts.models import Profile
 from weblate.trans.models import Component
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
@@ -101,7 +100,6 @@ class Command(WeblateTranslationCommand):
         # Get user
         try:
             user = User.objects.get(username=options['user'])
-            Profile.objects.get_or_create(user=user)
         except User.DoesNotExist:
             raise CommandError('User does not exist!')
 

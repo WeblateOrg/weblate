@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -33,13 +33,15 @@ from django.utils.functional import cached_property
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
     EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
-    EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD,
+    EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD, EVENT_PRE_UPDATE,
+    EVENT_PRE_PUSH,
 )
 
 from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    translation_post_add, unit_pre_create, store_post_load,
+    translation_post_add, unit_pre_create, store_post_load, vcs_pre_update,
+    vcs_pre_push,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
@@ -131,22 +133,39 @@ class AddonsConf(AppConf):
         'weblate.addons.generate.GenerateFileAddon',
         'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',
+        'weblate.addons.git.GitSquashAddon',
     )
 
     class Meta(object):
         prefix = 'WEBLATE'
 
 
+@receiver(vcs_pre_push)
+def pre_push(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
+        component.log_info('running pre_push addon: %s', addon.name)
+        addon.addon.pre_push(component)
+
+
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
+        component.log_info('running post_push addon: %s', addon.name)
         addon.addon.post_push(component)
 
 
 @receiver(vcs_post_update)
 def post_update(sender, component, previous_head, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
+        component.log_info('running post_update addon: %s', addon.name)
         addon.addon.post_update(component, previous_head)
+
+
+@receiver(vcs_pre_update)
+def pre_update(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
+        component.log_info('running pre_update addon: %s', addon.name)
+        addon.addon.pre_update(component)
 
 
 @receiver(vcs_pre_commit)
@@ -155,6 +174,7 @@ def pre_commit(sender, translation, author, **kwargs):
         translation.component, EVENT_PRE_COMMIT
     )
     for addon in addons:
+        translation.log_info('running pre_commit addon: %s', addon.name)
         addon.addon.pre_commit(translation, author)
 
 
@@ -164,6 +184,7 @@ def post_commit(sender, translation, **kwargs):
         translation.component, EVENT_POST_COMMIT
     )
     for addon in addons:
+        translation.log_info('running post_commit addon: %s', addon.name)
         addon.addon.post_commit(translation)
 
 
@@ -173,6 +194,7 @@ def post_add(sender, translation, **kwargs):
         translation.component, EVENT_POST_ADD
     )
     for addon in addons:
+        translation.log_info('running post_add addon: %s', addon.name)
         addon.addon.post_add(translation)
 
 
@@ -182,6 +204,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.component, EVENT_UNIT_PRE_CREATE
     )
     for addon in addons:
+        unit.translation.log_info('running unit_pre_create addon: %s', addon.name)
         addon.addon.unit_pre_create(unit)
 
 
@@ -192,6 +215,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
     for addon in addons:
+        instance.translation.log_info('running unit_post_save addon: %s', addon.name)
         addon.addon.unit_post_save(instance, created)
 
 
@@ -201,4 +225,5 @@ def store_post_load_handler(sender, translation, store, **kwargs):
         translation.component, EVENT_STORE_POST_LOAD
     )
     for addon in addons:
+        translation.log_info('running store_post_load addon: %s', addon.name)
         addon.addon.store_post_load(translation, store)

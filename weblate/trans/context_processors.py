@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -46,6 +46,7 @@ CONTEXT_SETTINGS = [
     'ENABLE_HOOKS',
     'REGISTRATION_OPEN',
     'STATUS_URL',
+    'LEGAL_URL',
     # Hosted Weblate integration
     'PAYMENT_ENABLED',
 ]

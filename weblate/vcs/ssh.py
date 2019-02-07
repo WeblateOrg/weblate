@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -131,10 +131,8 @@ def generate_ssh_key(request):
         )
 
 
-def add_host_key(request):
+def add_host_key(request, host, port=''):
     """Add host key for a host."""
-    host = request.POST.get('host', '')
-    port = request.POST.get('port', '')
     if not host:
         messages.error(request, _('Invalid host name given!'))
     else:

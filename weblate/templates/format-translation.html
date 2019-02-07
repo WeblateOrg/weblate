@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if simple %}
 <span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
 {% else %}
@@ -7,7 +9,12 @@
     {% if item.title %}
     <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
     {% endif %}
-    <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">{{ item.content }}</div>
+    <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">
+      {% if unit %}
+      <button type="button" class="btn btn-default btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+      {% endif %}
+      {{ item.content }}
+    </div>
   </div>
   {% endfor %}
 </div>

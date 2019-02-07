@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -78,6 +78,7 @@ class PasswordField(forms.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['widget'] = forms.PasswordInput(render_value=False)
         kwargs['max_length'] = 256
+        kwargs['strip'] = False
         super(PasswordField, self).__init__(*args, **kwargs)
 
 
@@ -433,18 +434,18 @@ class SetPasswordForm(DjangoSetPasswordForm):
         self.user.set_password(password)
         self.user.save(update_fields=['password'])
 
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(request, self.user)
+
+        # Change key for current session
+        request.session.cycle_key()
+
+        # Invalidate password reset codes
+        invalidate_reset_codes(self.user)
+
         if delete_session:
             request.session.flush()
-        else:
-            # Updating the password logs out all other sessions for the user
-            # except the current one.
-            update_session_auth_hash(request, self.user)
-
-            # Change key for current session
-            request.session.cycle_key()
-
-            # Invalidate password reset codes
-            invalidate_reset_codes(self.user)
 
         messages.success(
             request,
@@ -583,7 +584,7 @@ class LoginForm(forms.Form):
                         user,
                         self.request,
                         'failed-auth',
-                        method=ugettext('Password'),
+                        method='Password',
                         name=username,
                     )
                 rotate_token(self.request)
@@ -601,7 +602,7 @@ class LoginForm(forms.Form):
                     self.user_cache,
                     self.request,
                     'login',
-                    method=ugettext('Password'),
+                    method='Password',
                     name=username,
                 )
             reset_rate_limit('login', self.request)

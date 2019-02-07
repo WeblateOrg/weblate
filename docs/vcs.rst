@@ -4,7 +4,8 @@ Version control integration
 ===========================
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
-:ref:`vcs-github`) and :ref:`vcs-mercurial` as version control backends.
+:ref:`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and
+:ref:`vcs-mercurial` as version control backends.
 
 .. _vcs-repos:
 
@@ -100,10 +101,10 @@ or by enforcing it in VCS configuration, for example:
 
 .. note::
 
-    The proxy setting needs to be done in the same context which is used to execute
-    Weblate. For the environment it should be set for both server and cron
-    jobs. The VCS configuration has to be set for the user which is running
-    Weblate.
+    The proxy setting needs to be done in the same context which is used to
+    execute Weblate. For the environment it should be set for both wsgi and
+    Celery servers. The VCS configuration has to be set for the user which is
+    running Weblate.
 
 .. seealso::
 
@@ -230,6 +231,22 @@ store it into :file:`~/.config/hub`.
     Use the username you configured :guilabel:`hub` with as :setting:`GITHUB_USERNAME`.
 
 .. _hub: https://hub.github.com/
+
+.. _vcs-gerrit:
+
+Gerrit
+------
+
+.. versionadded:: 2.2
+
+Adds a thin layer atop :ref:`vcs-git` to allow pushing translation
+changes as Gerrit review requests, instead of pushing a directory to the repository.
+Currently uses the `git-review`_ tool to do the integration.
+
+Please refer to the Gerrit documentation for setting up the repository with
+necessary configuration.
+
+.. _git-review: https://pypi.org/project/git-review/
 
 .. _vcs-mercurial:
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -52,7 +52,6 @@ class Command(BaseCommand):
             memory_backup(options['indent'])
             return
         memory = TranslationMemory()
-        memory.open_searcher()
         self.stdout.ending = None
         memory.dump(self.stdout, indent=options['indent'])
         self.stdout.write('\n')

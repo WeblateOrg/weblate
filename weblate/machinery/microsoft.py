@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,8 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.utils import timezone
+
+import six
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
@@ -64,6 +66,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """Check whether token is about to expire."""
         return self._token_expiry <= timezone.now()
 
+    def authenticate(self, request):
+        """Hook for backends to allow add authentication headers to request."""
+        request.add_header(
+           'Authorization',
+           'Bearer {0}'.format(self.access_token)
+       )
+
     @property
     def access_token(self):
         """Obtain and caches access token."""
@@ -99,7 +108,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         'fa', 'pl', 'pt', 'ro', 'r', 'sm', 'sr-Cyrl', 'sr-Latn', 'sk', 'sl',
         'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi', 'cy']
         """
-        return self.json_req(LIST_URL)
+        response = self.json_req(LIST_URL)
+
+        # We should get an object, string usually means an error
+        if isinstance(response, six.string_types):
+            raise Exception(response)
+
+        return response
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""

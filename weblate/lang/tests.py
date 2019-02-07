@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -359,6 +359,16 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
         self.assertIn(expected, lang.get_html())
         # Check name
         self.assertEqual(force_text(lang), name)
+
+    def test_private_use(self, code='de-x-a123', expected='de-x-a123'):
+        lang = Language.objects.auto_get_or_create(code, create=False)
+        self.assertEqual(lang.code, expected)
+        Language.objects.create(name='Test', code=code)
+        lang = Language.objects.auto_get_or_create(code, create=False)
+        self.assertEqual(lang.code, code)
+
+    def test_private_country(self):
+        self.test_private_use('en-US-x-twain', 'en_US-x-twain')
 
 
 class CommandTest(TestCase):

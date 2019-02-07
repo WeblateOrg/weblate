@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -91,6 +91,26 @@ PERMISSIONS = (
     ('vcs.view', _('View upstream repository location')),
     ('vcs.update', _('Update the internal repository')),
 )
+
+# Permissions which are not scoped per project
+GLOBAL_PERMISSIONS = (
+    ('management.use', _('Use management interface (global)')),
+
+    ('language.add', _('Add language definitions (global)')),
+    ('language.edit', _('Manage language definitions (global)')),
+
+    ('group.add', _('Add groups (global)')),
+    ('group.edit', _('Manage groups (global)')),
+
+    ('user.add', _('Add users (global)')),
+    ('user.edit', _('Manage users (global)')),
+
+    ('whiteboard.edit', _('Manage whiteboard (global)')),
+
+    ('memory.edit', _('Manage translation memory (global)')),
+)
+
+GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 
 def filter_perms(prefix):

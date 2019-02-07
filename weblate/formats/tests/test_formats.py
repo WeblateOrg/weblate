@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -424,7 +424,15 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FIND_CONTEXT = 'hello'
     FIND_MATCH = 'Hello, world!\n'
     BASE = ''
-    NEW_UNIT_MATCH = b'\n<string name="key">Source string</string>\n'
+    NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
+
+    def test_get_language_filename(self):
+        self.assertEqual(
+            self.FORMAT.get_language_filename(
+                self.MASK, 'sr_Latn'
+            ),
+            'res/values-b+sr+Latn/strings.xml'
+        )
 
 
 class XliffFormatTest(XMLMixin, AutoFormatTest):
@@ -437,7 +445,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<file target-language="cs">'
     FIND_MATCH = ''
     MASK = 'loc/*/default.xliff'
-    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">'
         b'<source>key</source>'
@@ -455,7 +463,7 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<file target-language="cs">'
     FIND_MATCH = ''
     MASK = 'loc/*/default.xliff'
-    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">'
         b'<source>key</source>'
@@ -524,7 +532,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<TS version="2.0" language="cs">'
     FIND_MATCH = 'Ahoj svete!\n'
     NEW_UNIT_MATCH = (
-        b'\n<message><source>key</source>'
+        b'<message><source>key</source>'
         b'<translation>Source string</translation>\n    </message>'
     )
 
@@ -547,7 +555,7 @@ class DTDFormatTest(AutoFormatTest):
     MATCH = '<!ENTITY'
     FIND = 'hello'
     FIND_MATCH = ''
-    NEW_UNIT_MATCH = b'\n<!ENTITY key "Source string">\n'
+    NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
 
 
 class WindowsRCFormatTest(AutoFormatTest):

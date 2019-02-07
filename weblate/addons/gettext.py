@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,7 +23,8 @@ from __future__ import unicode_literals
 import io
 import os
 
-from django.core.management.utils import find_command, popen_wrapper
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.management.utils import find_command
 from django.utils.translation import ugettext_lazy as _
 
 from translate.storage.po import pofile
@@ -43,9 +44,13 @@ class GettextBaseAddon(BaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        # Check extension to cover the auto format
-        if not component.filemask.endswith('.po'):
-            return False
+        # Check actual store to cover the auto format
+        if component.file_format == 'auto':
+            if not component.translation_set.exists():
+                return False
+            translation = component.translation_set.all()[0]
+            if not isinstance(translation.store.store, pofile):
+                return False
         return super(GettextBaseAddon, cls).can_install(component, user)
 
 
@@ -190,29 +195,44 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         'triggered whenever new changes are pulled from the upstream '
         'repository.'
     )
+    alert = 'MsgmergeAddonError'
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.new_base.endswith('.pot'):
-            return False
-        if find_command('msgmerge') is None:
+        if not component.new_base or find_command('msgmerge') is None:
             return False
         return super(MsgmergeAddon, cls).can_install(component, user)
 
     def update_translations(self, component, previous_head):
+        wrap = None
+        try:
+            width = component.addon_set.get(
+                name='weblate.gettext.customize'
+            ).configuration['width']
+            if width != 77:
+                wrap = '--no-wrap'
+        except ObjectDoesNotExist:
+            pass
         cmd = [
             'msgmerge',
             '--backup=none',
+            '--previous',
             '--update',
             'FILE',
             component.get_new_base_filename()
         ]
+        if wrap:
+            cmd.insert(1, wrap)
         for translation in component.translation_set.all():
-            cmd[3] = translation.get_filename()
-            popen_wrapper(cmd)
+            filename = translation.get_filename()
+            if not os.path.exists(filename):
+                continue
+            cmd[-2] = filename
+            self.execute_process(component, cmd)
+        self.trigger_alerts(component)
 
 
-class GettextCustomizeAddon(StoreBaseAddon):
+class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
     name = 'weblate.gettext.customize'
     verbose = _('Customize gettext output')
     description = _(
@@ -220,11 +240,6 @@ class GettextCustomizeAddon(StoreBaseAddon):
         'line wrapping.'
     )
     settings_form = GettextCustomizeForm
-    compat = {
-        'file_format': frozenset((
-            'auto', 'po', 'po-mono',
-        )),
-    }
 
     @staticmethod
     def is_store_compatible(store):

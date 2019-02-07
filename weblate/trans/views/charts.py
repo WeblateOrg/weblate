@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -74,7 +74,9 @@ def get_json_stats(request, days, step, project=None, component=None,
         language = None
         user = None
 
-    key = cache_key(days, step, project, component, translation, language, user)
+    key = cache_key(
+        days, step, project, component, translation, language, user
+    )
     result = cache.get(key)
     if not result or True:
         # Get actual stats

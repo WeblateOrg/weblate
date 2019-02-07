@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -97,7 +97,7 @@ class ImportTest(ImportBaseTest):
         """Test importing normally."""
         response = self.do_import(
             author_name='Testing User',
-            author_email='noreply@weblate.org'
+            author_email='john@example.com',
         )
         self.assertRedirects(response, self.translation_url)
 

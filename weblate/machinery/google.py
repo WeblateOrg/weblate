@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,7 +41,6 @@ class GoogleTranslation(MachineTranslation):
         'jv': 'jw',
         'nb': 'no',
     }
-
 
     def __init__(self):
         """Check configuration."""

@@ -66,6 +66,9 @@
       <li role="separator" class="divider"></li>
       {% endif %}
       <li><a href="{% url 'memory' project=object.slug %}">{% trans "Translation memory" %}</a></li>
+      {% if whiteboard_form %}
+      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a project message" %}</a></li>
+      {% endif %}
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
@@ -125,6 +128,7 @@
 <tr>
 <th>
 <a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a>
+{% indicate_alerts prj %}
 {% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}The repository for this component is linked to {{ target }}.{% endblocktrans %}">{% trans "link" %}</span>{% endif %}
 </th>
 <td class="progress-cell">{% translation_progress prj %}</td>
@@ -183,7 +187,7 @@
 <tbody>
 {% for stats in language_stats %}
 <tr>
-<th><a href="{% url 'project-language' lang=stats.language.code project=object.slug %}">{{ stats.language.name }}</a></th>
+<th><a href="{% url 'project-language' lang=stats.language.code project=object.slug %}">{{ stats.language }}</a></th>
 <td class="progress-cell">{% translation_progress stats %}</td>
 <td class="percent">{{ stats.translated_percent }}%</td>
 <td class="progress-cell">{% words_progress stats %}</td>
@@ -246,7 +250,7 @@
 {% if mass_state_form %}
 <form action="{% url 'state-change' project=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change state of all strings matching given type at once." %}</p>
 {% csrf_token %}
@@ -259,6 +263,25 @@
 </form>
 {% endif %}
 
+</div>
+{% endif %}
+
+{% if whiteboard_form %}
+<div class="tab-pane" id="whiteboard">
+<form action="{% url 'whiteboard_project' project=object.slug %}" method="post">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add a project message" %}</h4></div>
+<div class="panel-body">
+{% csrf_token %}
+{{ whiteboard_form|crispy }}
+<p class="help-block">{% trans "The message is shown on all translations within the project until it's expiry or permanently until deleting." %}</p>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+</div>
+</form>
+
+</div>
 </div>
 {% endif %}
 

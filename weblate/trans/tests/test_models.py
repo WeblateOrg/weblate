@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,14 +23,11 @@
 
 import os
 import shutil
-import tempfile
 
 from django.core.management.color import no_style
 from django.db import connection
 from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
-from django.test.utils import override_settings
-from django.core.exceptions import ValidationError
 
 from weblate.auth.models import User, Group
 from weblate.checks.models import Check
@@ -121,25 +118,6 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         Project.objects.all().delete()
         self.assertFalse(os.path.exists(project.full_path))
-
-    def test_wrong_path(self):
-        project = self.create_project()
-
-        # Create temporary file and try to use
-        # it as data directory
-        temp = tempfile.NamedTemporaryFile()
-        try:
-            with override_settings(DATA_DIR=temp.name):
-                # Invalidate cache
-                project.invalidate_path_cache()
-
-                self.assertRaisesMessage(
-                    ValidationError,
-                    'Could not create project directory',
-                    project.full_clean
-                )
-        finally:
-            temp.close()
 
     def test_acl(self):
         """Test for ACL handling."""
@@ -351,6 +329,11 @@ class UnitTest(ModelTestCase):
         self.assertEqual(unit.target, 'new\r\nstring')
         unit.translate(request, 'other\r\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'other\r\nstring')
+
+    def test_flags(self):
+        unit = Unit.objects.all()[0]
+        unit.flags = 'no-wrap, ignore-same'
+        self.assertEqual(unit.all_flags, {'no-wrap', 'ignore-same'})
 
 
 class WhiteboardMessageTest(ModelTestCase):

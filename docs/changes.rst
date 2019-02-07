@@ -1,14 +1,39 @@
 Changes
 =======
 
-weblate 3.4
------------
+weblate 3.5
+------------
 
 Released on ? 2019.
 
+* Improved performance of built in translation memory.
+* Added interface to manage global translation memory.
+* Improved alerting on bad component state.
+* Added user interface to manage whiteboard messages.
+* Addon commit message now can be configured.
+* Reduce number of commits when updating upstream repository.
+* Fixed possible metadata loss when moving component between projects.
+* Improved navigation in the zen mode.
+
+weblate 3.4
+-----------
+
+Released on January 22nd 2019.
+
 * Added support for XLIFF placeholders.
 * Celery can now utilize multiple task queues.
-* Added suppport for renaming and moving projects and components.
+* Added support for renaming and moving projects and components.
+* Include chars counts in reports.
+* Added guided adding of translation components with automatic detection of translation files.
+* Customizable merge commit messages for Git.
+* Added visual indication of component alerts in navigation.
+* Improved performance of loading translation files.
+* New addon to squash commits prior to push.
+* Improved displaying of translation changes.
+* Changed default merge style to rebase and made that configurable.
+* Better handle private use subtags in language code.
+* Improved performance of fulltext index updates.
+* Extended file upload API to support more parameters.
 
 weblate 3.3
 -----------

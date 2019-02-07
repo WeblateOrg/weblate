@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import os.path
 import shutil
+import threading
 
 from django.utils.functional import cached_property
 
@@ -35,6 +36,7 @@ class WhooshIndex(object):
     """Whoosh index abstraction to ease manipulation."""
     LOCATION = 'index'
     SCHEMA = None
+    THREAD = threading.local()
 
     @classmethod
     def cleanup(cls):
@@ -54,3 +56,11 @@ class WhooshIndex(object):
         except (OSError, EmptyIndexError):
             self.storage.create()
             return self.storage.create_index(schema, name)
+
+    @classmethod
+    def get_thread_instance(cls):
+        try:
+            return cls.THREAD.instance
+        except AttributeError:
+            cls.THREAD.instance = cls()
+            return cls.THREAD.instance

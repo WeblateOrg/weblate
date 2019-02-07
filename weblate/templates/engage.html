@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load translations %}
 
 {% block breadcrumbs_container %}
 {% endblock %}
@@ -24,7 +25,14 @@
 {% blocktrans %}{{ project }} is being translated using {{ weblate_name_link }}, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
 </p>
 <p>
-{{ status_text }}
+{% if language %}
+{% filter replace_english:language %}
+{% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
+{% blocktrans %}The translation project for {{ project }} into English currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
+{% endfilter %}
+{% else %}
+{% blocktrans count languages=languages  %}The translation project for {{ project }} currently contains {{ total }} strings for translation and is being translated into {{ languages }} language. Overall, these translations are {{ percent }}% complete.{% plural %}The translation project for {{ project }} currently contains {{ total }} strings for translation and is being translated into {{ languages }} languages. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
+{% endif %}
 </p>
 <p>
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
@@ -34,13 +42,18 @@
 {% trans "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
 </p>
 {% endif %}
+{% if not user.is_authenticated %}
 <p>
 {% blocktrans %}Once you have activated your account, proceed to the translation section.{% endblocktrans %}
 </p>
+{% endif %}
 
 <p>
-<a href="{% url 'register' %}" class="btn btn-success btn-lg">{% trans "Register" %}</a>
-<a href="{{ url }}" class="btn btn-success btn-lg">{% trans "Translate" %}</a>
+{% if not user.is_authenticated %}
+<a href="{% url 'register' %}" class="btn btn-success btn-lg"><i class="fa fa-sign-in"></i> {% trans "Register" %}</a>
+{% endif %}
+<a id="engage-project" href="{{ object.get_absolute_url }}" class="btn btn-success btn-lg"><i class="fa fa-edit"></i> {% trans "Translate" %}</a>
+<a href="{{ object.get_absolute_url }}#languages" class="btn btn-success btn-lg"><i class="fa fa-language"></i> {% trans "View project languages" %}</a>
 </p>
 
 </div>

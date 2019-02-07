@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -502,10 +502,10 @@ LOGGING = {
             'level': 'INFO',
         },
         # Logging VCS operations
-        # 'weblate.vcs': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
-        # },
+        'weblate.vcs': {
+            'handlers': [DEFAULT_LOG],
+            'level': 'WARNING',
+        },
         # Python Social Auth logging
         # 'social': {
         #     'handlers': [DEFAULT_LOG],
@@ -692,6 +692,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.chars.ZeroWidthSpaceCheck',
 #     'weblate.checks.markup.XMLValidityCheck',
 #     'weblate.checks.markup.XMLTagsCheck',
+#     'weblate.checks.markup.MarkdownRefLinkCheck',
+#     'weblate.checks.markup.MarkdownLinkCheck',
+#     'weblate.checks.markup.MarkdownSyntaxCheck',
 #     'weblate.checks.source.OptionalPluralCheck',
 #     'weblate.checks.source.EllipsisCheck',
 #     'weblate.checks.source.MultipleFailingCheck',
@@ -721,6 +724,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.generate.GenerateFileAddon',
 #     'weblate.addons.json.JSONCustomizeAddon',
 #     'weblate.addons.properties.PropertiesSortAddon',
+#     'weblate.addons.git.GitSquashAddon',
 # )
 
 # E-mail address that error messages come from.
@@ -810,6 +814,13 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
+# Silence some of the Django system checks
+SILENCED_SYSTEM_CHECKS = [
+    # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
+    # as weblate.accounts.middleware.AuthenticationMiddleware
+    'admin.E408',
+]
+
 # Celery worker configuration for testing
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
@@ -825,6 +836,8 @@ CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
 )
 CELERY_TASK_ROUTES = {
-    'weblate.trans.search.delete_fulltext': {'queue': 'search'},
-    'weblate.trans.search.update_fulltext': {'queue': 'search'},
+    'weblate.trans.search.*': {'queue': 'search'},
+    'weblate.trans.tasks.optimize_fulltext': {'queue': 'search'},
+    'weblate.trans.tasks.cleanup_fulltext': {'queue': 'search'},
+    'weblate.memory.tasks.*': {'queue': 'memory'},
 }

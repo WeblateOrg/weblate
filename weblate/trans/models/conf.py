@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -64,44 +64,6 @@ class WeblateConf(AppConf):
     # Automatically update vcs repositories daily
     AUTO_UPDATE = False
 
-    # List of quality checks
-    CHECK_LIST = (
-        'weblate.checks.same.SameCheck',
-        'weblate.checks.chars.BeginNewlineCheck',
-        'weblate.checks.chars.EndNewlineCheck',
-        'weblate.checks.chars.BeginSpaceCheck',
-        'weblate.checks.chars.EndSpaceCheck',
-        'weblate.checks.chars.EndStopCheck',
-        'weblate.checks.chars.EndColonCheck',
-        'weblate.checks.chars.EndQuestionCheck',
-        'weblate.checks.chars.EndExclamationCheck',
-        'weblate.checks.chars.EndEllipsisCheck',
-        'weblate.checks.chars.EndSemicolonCheck',
-        'weblate.checks.chars.MaxLengthCheck',
-        'weblate.checks.format.PythonFormatCheck',
-        'weblate.checks.format.PythonBraceFormatCheck',
-        'weblate.checks.format.PHPFormatCheck',
-        'weblate.checks.format.CFormatCheck',
-        'weblate.checks.format.PerlFormatCheck',
-        'weblate.checks.format.JavascriptFormatCheck',
-        'weblate.checks.format.CSharpFormatCheck',
-        'weblate.checks.format.JavaFormatCheck',
-        'weblate.checks.format.JavaMessageFormatCheck',
-        'weblate.checks.angularjs.AngularJSInterpolationCheck',
-        'weblate.checks.consistency.PluralsCheck',
-        'weblate.checks.consistency.SamePluralsCheck',
-        'weblate.checks.consistency.ConsistencyCheck',
-        'weblate.checks.consistency.TranslatedCheck',
-        'weblate.checks.chars.NewlineCountingCheck',
-        'weblate.checks.markup.BBCodeCheck',
-        'weblate.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.checks.markup.XMLValidityCheck',
-        'weblate.checks.markup.XMLTagsCheck',
-        'weblate.checks.source.OptionalPluralCheck',
-        'weblate.checks.source.EllipsisCheck',
-        'weblate.checks.source.MultipleFailingCheck',
-    )
-
     # List of automatic fixups
     AUTOFIX_LIST = (
         'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
@@ -135,6 +97,9 @@ class WeblateConf(AppConf):
     # URL with status monitoring
     STATUS_URL = None
 
+    # URL with legal docs
+    LEGAL_URL = None
+
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
 
@@ -162,6 +127,7 @@ class WeblateConf(AppConf):
     DEFAULT_COMMITER_NAME = 'Weblate'
 
     DEFAULT_TRANSLATION_PROPAGATION = True
+    DEFAULT_MERGE_STYLE = 'rebase'
 
     DEFAULT_ACCESS_CONTROL = 0
     DEFAULT_SHARED_TM = True
@@ -183,6 +149,17 @@ class WeblateConf(AppConf):
     DEFAULT_DELETE_MESSAGE = (
         'Deleted translation using Weblate ({{ language_name }})\n\n'
     )
+
+    DEFAULT_MERGE_MESSAGE = (
+        "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
+    )
+
+    DEFAULT_ADDON_MESSAGE = '''Update translation files
+
+Updated by "{{ hook_name }}" hook in Weblate.
+
+Translation: {{ project_name }}/{{ component_name }}
+Translate-URL: {{ url }}'''
 
     DEFAULT_PULL_MESSAGE = (
         'Update from Weblate'

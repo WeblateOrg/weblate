@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,13 +21,13 @@
 from __future__ import unicode_literals
 
 from hashlib import md5
-from time import time
 
 from django.conf import settings
 from django.contrib.auth import logout
 from django.core.cache import cache
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.translation import ugettext as _
 
@@ -35,20 +35,26 @@ from weblate.utils import messages
 from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(scope, request=None, address=None):
+def get_cache_key(scope, request=None, address=None, user=None):
     """Generate cache key for request."""
-    if address is None:
-        address = get_ip_address(request)
-    return 'ratelimit-{0}-{1}'.format(
-        scope,
-        md5(force_bytes(address)).hexdigest()
-    )
+    if (request and request.user.is_authenticated) or user:
+        if user:
+            key = user.id
+        else:
+            key = request.user.id
+        origin = 'user'
+    else:
+        if address is None:
+            address = get_ip_address(request)
+        origin = 'ip'
+        key = md5(force_bytes(address)).hexdigest()
+    return 'ratelimit-{0}-{1}-{2}'.format(origin, scope, key)
 
 
-def reset_rate_limit(scope, request=None, address=None):
+def reset_rate_limit(scope, request=None, address=None, user=None):
     """Resets rate limit."""
     cache.delete(
-        get_cache_key(scope, request, address)
+        get_cache_key(scope, request, address, user)
     )
 
 
@@ -62,17 +68,19 @@ def get_rate_setting(scope, suffix):
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
     key = get_cache_key(scope, request)
-    attempts = cache.get(key) or 0
-
-    if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
-        cache.set(key, attempts, get_rate_setting(scope, 'LOCKOUT'))
-        return False
 
     try:
+        # Try to increase cache key
         attempts = cache.incr(key)
     except ValueError:
         # No such key, so set it
         cache.set(key, 1, get_rate_setting(scope, 'WINDOW'))
+        attempts = 1
+
+    if attempts > get_rate_setting(scope, 'ATTEMPTS'):
+        # Set key to longer expiry for lockout period
+        cache.set(key, attempts, get_rate_setting(scope, 'LOCKOUT'))
+        return False
 
     return True
 
@@ -81,38 +89,19 @@ def session_ratelimit_post(scope):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
         def rate_wrap(request, *args, **kwargs):
-            if request.method == 'POST':
-                session = request.session
-                now = time()
-                k_timeout = '{}_timeout'.format(scope)
-                k_attempts = '{}_attempts'.format(scope)
-                # Reset expired counter
-                if (k_timeout in session and
-                        k_attempts in session and
-                        session[k_timeout] <= now):
-                    session[k_attempts] = 0
-
-                # Get current attempts
-                attempts = session.get(k_attempts, 0)
-
-                # Did we hit the limit?
-                if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
-                    # Rotate session token
-                    rotate_token(request)
-                    # Logout user
-                    if request.user.is_authenticated:
-                        logout(request)
-                    messages.error(
-                        request,
-                        _('Too many attempts, you have been logged out!')
-                    )
-                    return redirect('login')
-
-                session[k_attempts] = attempts + 1
-                if k_timeout not in session:
-                    window = get_rate_setting(scope, 'WINDOW')
-                    session[k_timeout] = now + window
-
+            if (request.method == 'POST' and
+                    not check_rate_limit(scope, request)):
+                # Rotate session token
+                rotate_token(request)
+                # Logout user
+                do_logout = request.user.is_authenticated
+                if do_logout:
+                    logout(request)
+                messages.error(
+                    request,
+                    render_to_string('ratelimit.html', {'do_logout': do_logout})
+                )
+                return redirect('login')
             return function(request, *args, **kwargs)
         return rate_wrap
     return session_ratelimit_post_inner

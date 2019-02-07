@@ -25,4 +25,5 @@ Administrators guide
     whiteboard
     componentlists
     optionals
+    customize
     admin

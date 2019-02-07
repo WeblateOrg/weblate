@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,10 +20,14 @@
 
 """Test for management views."""
 
+import os.path
+import shutil
+
 from django.urls import reverse
 
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Project, Component, WhiteboardMessage
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.data import data_dir
 
 
 class RemovalTest(ViewTestCase):
@@ -133,8 +137,14 @@ class RenameTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.slug, 'xxxx')
         self.assertIsNotNone(component.repository.last_remote_revision)
+        response = self.client.get(component.get_absolute_url())
+        self.assertContains(response, '/projects/test/xxxx/')
 
     def test_rename_project(self):
+        # Remove stale dir from previous tests
+        target = os.path.join(data_dir('vcs'), 'xxxx')
+        if os.path.exists(target):
+            shutil.rmtree(target)
         self.make_manager()
         self.assertContains(
             self.client.get(reverse('project', kwargs=self.kw_project)),
@@ -145,5 +155,49 @@ class RenameTest(ViewTestCase):
             {'slug': 'xxxx'}
         )
         self.assertRedirects(response, '/projects/xxxx/')
-        self.project.refresh_from_db()
-        self.assertEqual(self.project.slug, 'xxxx')
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(project.slug, 'xxxx')
+        for component in project.component_set.all():
+            self.assertIsNotNone(component.repository.last_remote_revision)
+            response = self.client.get(component.get_absolute_url())
+            self.assertContains(response, '/projects/xxxx/')
+
+
+class WhiteboardTest(ViewTestCase):
+    data = {'message': 'Whiteboard testing', 'category': 'warning'}
+
+    def perform_test(self, url):
+        response = self.client.post(url, self.data, follow=True)
+        self.assertEqual(response.status_code, 403)
+        self.make_manager()
+        response = self.client.post(url, self.data, follow=True)
+        self.assertContains(response, self.data['message'])
+
+    def test_translation(self):
+        kwargs = {'lang': 'cs'}
+        kwargs.update(self.kw_component)
+        url = reverse('whiteboard_translation', kwargs=kwargs)
+        self.perform_test(url)
+
+    def test_component(self):
+        url = reverse('whiteboard_component', kwargs=self.kw_component)
+        self.perform_test(url)
+
+    def test_project(self):
+        url = reverse('whiteboard_project', kwargs=self.kw_project)
+        self.perform_test(url)
+
+    def test_delete(self):
+        self.test_project()
+        message = WhiteboardMessage.objects.all()[0]
+        self.client.post(
+            reverse('whiteboard-delete', kwargs={'pk': message.pk})
+        )
+        self.assertEqual(WhiteboardMessage.objects.count(), 0)
+
+    def test_delete_deny(self):
+        message = WhiteboardMessage.objects.create(message='test')
+        self.client.post(
+            reverse('whiteboard-delete', kwargs={'pk': message.pk})
+        )
+        self.assertEqual(WhiteboardMessage.objects.count(), 1)

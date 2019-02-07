@@ -816,6 +816,25 @@ $(function () {
     /* Generic tooltips */
     $('.tooltip-control').tooltip();
 
+    /* Whiteboard message discard */
+    $('.alert').on('close.bs.alert', function () {
+        var $this = $(this);
+        var $form = $('#link-post');
+
+        if ($this.data('action')) {
+            $.ajax({
+                type: 'POST',
+                url: $this.data('action'),
+                data: {
+                    csrfmiddlewaretoken: $form.find('input').val(),
+                    id: $this.data('id'),
+                },
+            });
+        }
+        $this.tooltip('destroy');
+    });
+
+
     /* Check ignoring */
     $('.check').on('close.bs.alert', function () {
         var $this = $(this);
@@ -974,6 +993,21 @@ $(function () {
                         initEditor();
                     }
                 );
+            }
+        });
+
+        /*
+         * Ensure current editor is reasonably located in the window
+         * - show whole element if moving back
+         * - scroll down if in bottom half of the window
+         */
+        $document.on('focus', '.zen .translation-editor', function() {
+            var current = $window.scrollTop();
+            var row_offset = $(this).parents('tbody').offset().top;
+            if (row_offset < current || row_offset - current > $window.height() / 2) {
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: row_offset
+                }, 100);
             }
         });
 
@@ -1309,7 +1343,7 @@ $(function () {
     }
 
     /* Copy to clipboard */
-    var clipboard = new Clipboard('[data-clipboard-text]');
+    var clipboard = new ClipboardJS('[data-clipboard-text]');
     clipboard.on('success', function(e) {
         var $trigger = $(e.trigger);
         // Backup current text

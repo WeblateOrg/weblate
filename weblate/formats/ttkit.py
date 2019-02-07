@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -206,7 +206,9 @@ class TTKitFormat(TranslationFormat):
         # Set language (needed for some which do not include this)
         if (language_code is not None and
                 self.store.gettargetlanguage() is None):
-            self.store.settargetlanguage(language_code)
+            self.store.settargetlanguage(
+                self.get_language_code(language_code)
+            )
 
     @staticmethod
     def serialize(store):
@@ -301,7 +303,9 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
-        store.settargetlanguage(language.code)
+        store.settargetlanguage(
+            cls.get_language_code(language.code)
+        )
         plural = language.plural
 
         for unit in store.units:
@@ -422,7 +426,10 @@ class XliffUnit(TTKitUnit):
         """Return source string from a ttkit unit."""
 
         if self.template is not None:
-            return rich_to_xliff_string(self.template.rich_target)
+            # Use target if set, otherwise fall back to source
+            if self.template.target:
+                return rich_to_xliff_string(self.template.rich_target)
+            return rich_to_xliff_string(self.template.rich_source)
         return rich_to_xliff_string(self.unit.rich_source)
 
     @cached_property
@@ -431,6 +438,10 @@ class XliffUnit(TTKitUnit):
         if self.unit is None:
             return ''
 
+        # Use source for monolingual files if target is not set
+        if self.template is not None and not self.template.target:
+            return rich_to_xliff_string(self.template.rich_source)
+
         if self.unit.target is None:
             return ''
 
@@ -438,7 +449,11 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
-        self.unit.rich_target = xliff_string_to_rich(target)
+        # Use source for monolingual files if target is not set
+        if self.template is not None and not self.template.target:
+            self.template.rich_source = xliff_string_to_rich(target)
+        else:
+            self.unit.rich_target = xliff_string_to_rich(target)
 
     @cached_property
     def xliff_node(self):
@@ -747,6 +762,11 @@ class XliffFormat(TTKitFormat):
         unit.markapproved(False)
         return unit
 
+    @staticmethod
+    def get_language_code(code):
+        """Do any possible formatting needed for language code."""
+        return code.replace('_', '-')
+
 
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')
@@ -800,7 +820,6 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
-    monolingual = True
     new_translation = '\n'
 
 
@@ -891,7 +910,10 @@ class AndroidFormat(TTKitFormat):
             return 'zh-rCN'
         if code == 'zh_Hant':
             return 'zh-rTW'
-        return code.replace('-', '_').replace('_', '-r')
+        sanitized = code.replace('-', '_')
+        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
+            return 'b+{}'.format(sanitized.replace('_', '+'))
+        return sanitized.replace('_', '-r')
 
 
 class JSONFormat(TTKitFormat):

@@ -42,6 +42,12 @@
 {% format_translation unit.target unit.translation.language unit.translation.plural oldunit.target %}
 </td>
 </tr>
+
+<tr>
+<th>{% trans "User:" %}</th>
+<td>{{ user.get_visible_name }}</td>
+</tr>
+
 </table>
 
 <p>

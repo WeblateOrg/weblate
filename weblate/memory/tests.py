@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -293,3 +293,11 @@ class MemoryViewTest(FixtureTestCase):
             follow=True
         )
         self.assertContains(response, 'Import of strings scheduled')
+
+    def test_global_memory_superuser(self):
+        self.user.is_superuser = True
+        self.user.save()
+        self.test_memory(
+            'Number of global entries', False,
+            kwargs={'manage': 'manage'}
+        )

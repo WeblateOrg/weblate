@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,6 +36,7 @@ from weblate.trans.feeds import (
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.addons.views
+from weblate.auth.decorators import management_access
 import weblate.checks.views
 import weblate.lang.views
 import weblate.memory.views
@@ -520,6 +521,27 @@ real_patterns = [
         name='cleanup_translation',
     ),
 
+    # Whiteboard
+    url(
+        r'^whiteboard/' + PROJECT + '$',
+        weblate.trans.views.manage.whiteboard_project,
+        name='whiteboard_project',
+    ),
+    url(
+        r'^whiteboard/' + COMPONENT + '$',
+        weblate.trans.views.manage.whiteboard_component,
+        name='whiteboard_component',
+    ),
+    url(
+        r'^whiteboard/' + TRANSLATION + '$',
+        weblate.trans.views.manage.whiteboard_translation,
+        name='whiteboard_translation',
+    ),
+    url(
+        r'^js/whiteboard/(?P<pk>[0-9]+)/delete/$',
+        weblate.trans.views.manage.whiteboard_delete,
+        name='whiteboard-delete',
+    ),
     # VCS manipulation - remove
     url(
         r'^remove/' + PROJECT + '$',
@@ -636,6 +658,26 @@ real_patterns = [
     url(
         r'^memory/download/$',
         weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
+    ),
+    url(
+        r'^(?P<manage>manage)/memory/$',
+        management_access(weblate.memory.views.MemoryView.as_view()),
+        name='memory',
+    ),
+    url(
+        r'^(?P<manage>manage)/memory/delete/$',
+        management_access(weblate.memory.views.DeleteView.as_view()),
+        name='memory-delete',
+    ),
+    url(
+        r'^(?P<manage>manage)/memory/upload/$',
+        management_access(weblate.memory.views.UploadView.as_view()),
+        name='memory-upload',
+    ),
+    url(
+        r'^(?P<manage>manage)/memory/download/$',
+        management_access(weblate.memory.views.DownloadView.as_view()),
         name='memory-download',
     ),
     url(

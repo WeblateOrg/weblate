@@ -33,6 +33,9 @@
 {% get_translate_url trans as translate_url %}
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% elif show_only_component %}{{ trans.component.name }}{% elif show_language == 3 or show_language == 4 %}{{ trans }}{% else %}{{ trans.component }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}</a>
+{% if show_language != 1 %}
+{% indicate_alerts trans %}
+{% endif %}
 {% if trans.is_template %}<span class="badge pull-right flip tooltip-control" title="{% trans "This translation is being used as source strings within this component." %}">{% trans "source" %}</span>{% endif %}
 </th>
 <td class="progress-cell">{% translation_progress trans %}</td>

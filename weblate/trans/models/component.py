@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -38,6 +38,8 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
+from six.moves.urllib.parse import urlparse
+
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
@@ -47,15 +49,19 @@ from weblate.utils import messages
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
+from weblate.utils.licenses import is_osi_approved, is_fsf_approved
+from weblate.utils.render import render_template
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
-    PRIORITY_CHOICES,
+    PRIORITY_CHOICES, parse_flags,
 )
 from weblate.trans.signals import (
-    vcs_post_push, vcs_post_update, translation_post_add
+    vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add,
+    vcs_pre_push,
 )
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.ssh import add_host_key
 from weblate.utils.stats import ComponentStats
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models.alert import ALERTS_IMPORT
@@ -341,7 +347,7 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Merge style'),
         max_length=10,
         choices=MERGE_CHOICES,
-        default='merge',
+        default=settings.DEFAULT_MERGE_STYLE,
         help_text=ugettext_lazy(
             'Define whether Weblate should merge upstream repository '
             'or rebase changes onto it.'
@@ -373,6 +379,24 @@ class Component(models.Model, URLMixin, PathMixin):
         ),
         validators=[validate_render],
         default=settings.DEFAULT_DELETE_MESSAGE,
+    )
+    merge_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when merging translation'),
+        help_text=ugettext_lazy(
+            'You can use template language for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_render],
+        default=settings.DEFAULT_MERGE_MESSAGE,
+    )
+    addon_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when addon makes a change'),
+        help_text=ugettext_lazy(
+            'You can use template language for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_render],
+        default=settings.DEFAULT_ADDON_MESSAGE,
     )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
@@ -444,6 +468,20 @@ class Component(models.Model, URLMixin, PathMixin):
         self.alerts_trigger = {}
         self.updated_sources = {}
         self.old_component = copy(self)
+        self._sources = None
+
+    def get_source(self, id_hash):
+        """Cached access to source information."""
+        if not self._sources:
+            self._sources = {
+                source.id_hash: source for source in self.source_set.all()
+            }
+        try:
+            return self._sources[id_hash], False
+        except KeyError:
+            source = self.source_set.create(id_hash=id_hash)
+            self._sources[id_hash] = source
+            return source, True
 
     @property
     def filemask_re(self):
@@ -565,8 +603,32 @@ class Component(models.Model, URLMixin, PathMixin):
             return message
         return cleanup_repo_url(self.repo, message)
 
+    def handle_update_error(self, error_text, retry):
+        if 'Host key verification failed' in error_text:
+            if retry:
+                # Add ssh key and retry
+                parsed = urlparse(self.repo)
+                if not parsed.hostname:
+                    parsed = urlparse('ssh://{}'.format(self.repo))
+                if parsed.hostname:
+                    try:
+                        port = parsed.port
+                    except ValueError:
+                        port = ''
+                    add_host_key(None, parsed.hostname, port)
+                return
+            raise ValidationError({
+                'repo': _(
+                    'Failed to verify SSH host key, please add '
+                    'them in SSH page in the admin interface.'
+                )
+            })
+        raise ValidationError({
+            'repo': _('Failed to fetch repository: %s') % error_text
+        })
+
     @perform_on_link
-    def update_remote_branch(self, validate=False):
+    def update_remote_branch(self, validate=False, retry=True):
         """Pull from remote repository."""
         # Update
         self.log_info('updating repository')
@@ -585,16 +647,8 @@ class Component(models.Model, URLMixin, PathMixin):
             error_text = self.error_text(error)
             self.log_error('failed to update repository: %s', error_text)
             if validate:
-                if 'Host key verification failed' in error_text:
-                    raise ValidationError({
-                        'repo': _(
-                            'Failed to verify SSH host key, please add '
-                            'them in SSH page in the admin interface.'
-                        )
-                    })
-                raise ValidationError({
-                    'repo': _('Failed to fetch repository: %s') % error_text
-                })
+                self.handle_update_error(error_text, retry)
+                return self.update_remote_branch(True, False)
             if self.id:
                 self.add_alert('UpdateFailure', childs=True, error=error_text)
             return False
@@ -621,6 +675,23 @@ class Component(models.Model, URLMixin, PathMixin):
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
+    def needs_commit_upstream(self):
+        def check_single(changed, component):
+            if self.template and self.template in changed:
+                return True
+            for path in changed:
+                if self.filemask_re.match(path):
+                    return True
+            return False
+
+        changed = self.repository.list_upstream_changed_files()
+        if check_single(changed, self):
+            return True
+        for component in self.get_linked_childs():
+            if check_single(changed, self):
+                return True
+        return False
+
     @perform_on_link
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update"""
@@ -641,8 +712,9 @@ class Component(models.Model, URLMixin, PathMixin):
             if not needs_merge and method != 'rebase':
                 return True
 
-            # commit possible pending changes
-            self.commit_pending('update', request, skip_push=True)
+            # commit possible pending changes if needed
+            if self.needs_commit_upstream():
+                self.commit_pending('update', request, skip_push=True)
 
             # update local branch
             ret = self.update_branch(request, method=method)
@@ -656,6 +728,8 @@ class Component(models.Model, URLMixin, PathMixin):
         # Push after possible merge
         if ret:
             self.push_if_needed(request, do_update=False)
+        if not self.repo_needs_push():
+            self.delete_alert('RepositoryChanges', childs=True)
 
         return ret
 
@@ -707,11 +781,18 @@ class Component(models.Model, URLMixin, PathMixin):
             if self.repo_needs_merge():
                 return False
 
+        # Send pre push signal
+        vcs_pre_push.send(sender=self.__class__, component=self)
+        for component in self.get_linked_childs():
+            vcs_pre_push.send(sender=component.__class__, component=component)
+
         # Do actual push
         try:
             self.log_info('pushing to remote repo')
             with self.repository.lock:
                 self.repository.push()
+                if self.id:
+                    self.delete_alert('PushFailure', childs=True)
         except RepositoryException as error:
             error_text = self.error_text(error)
             self.log_error('failed to push on repo: %s', error_text)
@@ -730,6 +811,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 _('Failed to push to remote branch on %s.') %
                 force_text(self)
             )
+            if self.id:
+                self.add_alert('PushFailure', childs=True, error=error_text)
             return False
 
         Change.objects.create(
@@ -777,9 +860,11 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
         # create translation objects for all files
-        self.create_translations(request=request)
-
-        return True
+        try:
+            self.create_translations(request=request)
+            return True
+        except FileParseError:
+            return False
 
     @perform_on_link
     def do_cleanup(self, request=None):
@@ -864,6 +949,12 @@ class Component(models.Model, URLMixin, PathMixin):
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
+        # run pre update hook
+        vcs_pre_update.send(sender=self.__class__, component=self)
+        for component in self.get_linked_childs():
+            vcs_pre_update.send(
+                sender=component.__class__, component=component
+            )
 
         # Merge/rebase
         if method == 'rebase':
@@ -871,17 +962,21 @@ class Component(models.Model, URLMixin, PathMixin):
             error_msg = _('Failed to rebase our branch onto remote branch %s.')
             action = Change.ACTION_REBASE
             action_failed = Change.ACTION_FAILED_REBASE
+            kwargs = {}
         else:
             method = self.repository.merge
             error_msg = _('Failed to merge remote branch into %s.')
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
+            kwargs = {
+                'message': render_template(self.merge_message, component=self)
+            }
 
         with self.repository.lock:
             try:
                 previous_head = self.repository.last_revision
                 # Try to merge it
-                method()
+                method(**kwargs)
                 self.log_info('%s remote into repo', self.merge_style)
             except RepositoryException as error:
                 # In case merge has failer recover
@@ -1299,6 +1394,24 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise ValidationError({'template': msg})
 
+    def clean_repo(self):
+        self.set_default_branch()
+
+        # Baild out on failed repo validation
+        if self.repo is None:
+            return
+
+        # Validate VCS repo
+        try:
+            self.sync_git_repo(True)
+        except RepositoryException as exc:
+            msg = _('Failed to update repository: %s') % self.error_text(exc)
+            raise ValidationError({'repo': msg})
+
+        # Push repo is not used with link
+        if self.is_repo_link:
+            self.clean_repo_link()
+
     def clean(self):
         """Validator fetches repository
 
@@ -1321,8 +1434,6 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.project_id is None:
             return
 
-        self.set_default_branch()
-
         # Check if we should rename
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -1336,25 +1447,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 msg = _('Changing version control system is not supported!')
                 raise ValidationError({'vcs': msg})
 
-        # Check file format
-        if self.file_format not in FILE_FORMATS:
-            msg = _('Unsupported file format: {0}').format(self.file_format)
-            raise ValidationError({'file_format': msg})
-
-        # Baild out on failed repo validation
-        if self.repo is None:
-            return
-
-        # Validate VCS repo
-        try:
-            self.sync_git_repo(True)
-        except RepositoryException as exc:
-            msg = _('Failed to update repository: %s') % self.error_text(exc)
-            raise ValidationError({'repo': msg})
-
-        # Push repo is not used with link
-        if self.is_repo_link:
-            self.clean_repo_link()
+        self.clean_repo()
 
         # Template validation
         self.clean_template()
@@ -1458,14 +1551,31 @@ class Component(models.Model, URLMixin, PathMixin):
         elif changed_git:
             self.create_translations()
 
-        # Copy suggestions to new project
+        # Handle moving between projects
         if changed_project:
+            from weblate.trans.tasks import cleanup_project
+            # Copy suggestions and comments to new project
             old.project.suggestion_set.copy(self.project)
+            old.project.comment_set.copy(self.project)
+            old.project.check_set.copy(self.project)
+            # Schedule cleanup for both projects
+            cleanup_project.delay(old.project.pk)
+            cleanup_project.delay(self.project.pk)
 
+        self.update_alerts()
+
+    def update_alerts(self):
         if self.new_lang != 'add' and self.new_base:
             self.add_alert('UnusedNewBase')
         else:
             self.delete_alert('UnusedNewBase')
+
+        if (self.project.access_control == self.project.ACCESS_PUBLIC
+                and not self.license
+                and not getattr(settings, 'LOGIN_REQUIRED_URLS', None)):
+            self.add_alert('MissingLicense')
+        else:
+            self.delete_alert('MissingLicense')
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""
@@ -1497,7 +1607,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def has_template(self):
         """Return true if component is using template for translation"""
         monolingual = self.file_format_cls.monolingual
-        return ((monolingual or monolingual is None) and self.template)
+        return (monolingual or monolingual is None) and self.template
 
     def load_template_store(self):
         """Load translate-toolkit store for template."""
@@ -1518,10 +1628,10 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return (
-            self.check_flags.split(',') +
-            list(self.file_format_cls.check_flags)
-        )
+        flags = set(parse_flags(self.check_flags))
+        flags.update(self.file_format_cls.check_flags)
+        flags.discard('')
+        return flags
 
     def can_add_new_language(self):
         """Wrapper to check if we can add new language."""
@@ -1568,30 +1678,31 @@ class Component(models.Model, URLMixin, PathMixin):
 
         file_format.add_language(fullname, language, base_filename)
 
-        translation = Translation.objects.create(
-            component=self,
-            language=language,
-            plural=language.plural,
-            filename=filename,
-            language_code=format_code,
-        )
-        if send_signal:
-            translation_post_add.send(
-                sender=self.__class__,
-                translation=translation
+        with transaction.atomic():
+            translation = Translation.objects.create(
+                component=self,
+                language=language,
+                plural=language.plural,
+                filename=filename,
+                language_code=format_code,
             )
-        translation.check_sync(force=True, request=request)
-        translation.commit_template = 'add'
-        translation.git_commit(
-            request,
-            request.user.get_author_name()
-            if request else 'Weblate <noreply@weblate.org>',
-            timezone.now(),
-            force_new=True,
-        )
-        self.run_target_checks()
-        translation.invalidate_cache()
-        return True
+            if send_signal:
+                translation_post_add.send(
+                    sender=self.__class__,
+                    translation=translation
+                )
+            translation.check_sync(force=True, request=request)
+            translation.commit_template = 'add'
+            translation.git_commit(
+                request,
+                request.user.get_author_name()
+                if request else 'Weblate <noreply@weblate.org>',
+                timezone.now(),
+                force_new=True,
+            )
+            self.run_target_checks()
+            translation.invalidate_cache()
+            return True
 
     def do_lock(self, user, lock=True):
         """Lock or unlock component."""
@@ -1610,6 +1721,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def run_target_checks(self):
         """Run batch executed target checks"""
+        from weblate.trans.models import Unit
+        have_check = set()
+        need_update = set()
         for check, check_obj in CHECKS.items():
             if not check_obj.target or not check_obj.batch_update:
                 continue
@@ -1634,6 +1748,29 @@ class Component(models.Model, URLMixin, PathMixin):
                     check=check,
                     defaults={'ignore': False},
                 )[0]
+                have_check.add((
+                    item['content_hash'], item['translation__language']
+                ))
                 existing.discard(instance.pk)
             # Remove stale instances
-            Check.objects.filter(pk__in=existing).delete()
+            todelete = Check.objects.filter(pk__in=existing)
+            need_update.update(todelete.values_list('content_hash', 'language_id'))
+            todelete.delete()
+        # Update has_failing_check flag
+        allunits = Unit.objects.filter(
+            translation__component__project=self.project
+        )
+        if have_check:
+            allunits.data_filter(have_check).update(has_failing_check=True)
+            self.project.invalidate_cache()
+        if need_update:
+            for unit in allunits.data_filter(need_update):
+                unit.update_has_failing_check()
+
+    @cached_property
+    def osi_approved_license(self):
+        return is_osi_approved(self.license)
+
+    @cached_property
+    def fsf_approved_license(self):
+        return is_fsf_approved(self.license)

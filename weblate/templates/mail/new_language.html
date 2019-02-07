@@ -30,7 +30,7 @@
 </th>
 
 <td>
-{{ language.name }} ({{ language.code }})
+{{ language }} ({{ language.code }})
 </td>
 </tr>
 <tr>
@@ -41,7 +41,7 @@
 </th>
 
 <td>
-<a href="mailto:{{ user.email }}">{{ user.full_name }}</a>
+<a href="mailto:{{ user.email }}">{{ user.get_visible_name }}</a>
 </td>
 </tr>
 

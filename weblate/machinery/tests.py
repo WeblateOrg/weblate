@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,7 +44,9 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
-from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
+from weblate.machinery.microsoftterminology import (
+    MicrosoftTerminologyService, MST_API_URL, MST_WSDL_URL,
+)
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.youdao import YoudaoTranslation
@@ -393,7 +395,7 @@ class MachineTranslationTest(TestCase):
         with open(TERMINOLOGY_WDSL, 'rb') as handle:
             httpretty.register_uri(
                 httpretty.GET,
-                'http://api.terminology.microsoft.com/Terminology.svc',
+                MST_WSDL_URL,
                 body=handle.read(),
                 content_type='text/xml',
             )
@@ -410,7 +412,7 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
             httpretty.POST,
-            'http://api.terminology.microsoft.com/Terminology.svc',
+            MST_API_URL,
             body=request_callback,
             content_type='text/xml',
         )
@@ -423,14 +425,15 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
             httpretty.POST,
-            'http://api.terminology.microsoft.com/Terminology.svc',
+            MST_API_URL,
             body='',
             content_type='text/xml',
             status=500,
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
@@ -479,7 +482,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @httpretty.activate
     def test_amagama_nolang(self):
@@ -561,7 +565,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
     @httpretty.activate
@@ -701,7 +706,8 @@ class MachineTranslationTest(TestCase):
         )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
-        self.assert_translate(machine, empty=True)
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, empty=True)
 
     @override_settings(MT_DEEPL_KEY='KEY')
     @httpretty.activate
@@ -790,6 +796,7 @@ class WeblateTranslationTest(FixtureTestCase):
         other.state = STATE_TRANSLATED
         other.save()
         update_fulltext(
+            None,
             pk=other.pk,
             source=force_text(unit.source),
             context=force_text(unit.context),

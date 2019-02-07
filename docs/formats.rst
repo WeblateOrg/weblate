@@ -51,44 +51,51 @@ Translation types capabilities
 
 Below are listed capabilities of all supported formats.
 
-+---------------------+------------+----------+---------+----------+-------------------------+
-| Format              | Linguality | Comments | Context | Location | Additional states [#a]_ |
-+=====================+============+==========+=========+==========+=========================+
-| :ref:`gettext`      | bilingual  | yes      | yes     | yes      | needs editing           |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`mono_gettext` | mono       | yes      | yes     | yes      | needs editing           |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`xliff`        | both       | yes      | yes     | yes      | needs editing, approved |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`javaprop`     | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`joomla`       | mono       | yes      | no      | yes      |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`qtling`       | both       | yes      | no      | yes      | needs editing           |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`aresource`    | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`apple`        | bilingual  | yes      | no      |          |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`php`          | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`json`         | mono       | no       | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`webex`        | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`dotnet`       | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`csv`          | mono       | yes      | yes     | yes      | needs editing           |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`yaml`         | mono       | yes      | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`dtd`          | mono       | no       | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`winrc`        | mono       |          | no      | no       |                         |
-+---------------------+------------+----------+---------+----------+-------------------------+
-| :ref:`xlsx`         | mono       | yes      | yes     | yes      | needs editing           |
-+---------------------+------------+----------+---------+----------+-------------------------+
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| Format              | Linguality [#m]_ | Plurals [#p]_ | Comments [#n]_ | Context [#c]_ | Location [#l]_ | Additional states [#a]_ |
++=====================+==================+===============+================+===============+================+=========================+
+| :ref:`gettext`      | bilingual        | yes           | yes            | yes           | yes            | needs editing           |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`mono_gettext` | mono             | yes           | yes            | yes           | yes            | needs editing           |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`xliff`        | both             | yes           | yes            | yes           | yes            | needs editing, approved |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`javaprop`     | both             | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`joomla`       | mono             | no            | yes            | no            | yes            |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`qtling`       | both             | yes           | yes            | no            | yes            | needs editing           |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`aresource`    | mono             | yes           | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`apple`        | bilingual        | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`php`          | mono             | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`json`         | mono             | no            | no             | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`js-i18next`   | mono             | yes           | no             | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`webex`        | mono             | yes           | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`dotnet`       | mono             | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`csv`          | mono             | no            | yes            | yes           | yes            | needs editing           |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`yaml`         | mono             | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`dtd`          | mono             | no            | no             | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`winrc`        | mono             | no            | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`xlsx`         | mono             | no            | yes            | yes           | yes            | needs editing           |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 
+.. [#m] See :ref:`bimono`
+.. [#p] Plurals are necessary to properly localize strings with variable count.
+.. [#n] Comments can be used to pass additional information about string to translate.
+.. [#c] Context is used to differentiate same strings used in different scope (eg. `Sun` can be used as abbreviated name of day or as a name of our closest star).
+.. [#l] Location of string in source code might help skilled translators to figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to not translated and translated.
 
 .. _gettext:
@@ -546,11 +553,6 @@ JSON files
     Since Weblate 2.16 and with translate-toolkit at least 2.2.4 nested
     structure JSON files are supported as well.
 
-.. versionchanged:: 2.17
-
-    Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
-    JSON files with plurals are supported as well.
-
 JSON format is used mostly for translating applications implemented in
 Javascript.
 
@@ -558,7 +560,8 @@ Weblate currently supports several variants of JSON translations:
 
 * Simple key / value files.
 * Files with nested keys.
-* The i18next files with support for plurals.
+* :ref:`js-i18next`
+* :ref:`webex`
 
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
@@ -585,6 +588,50 @@ Nested files are supported as well (see above for requirements), such file can l
 | Base file for new translations | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _js-i18next:
+
+JSON i18next files
+------------------
+
+.. index::
+    pair: i18next; file format
+
+.. versionchanged:: 2.17
+
+    Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
+    JSON files with plurals are supported as well.
+
+`i18next <https://www.i18next.com/>`_ is an internationalization-framework
+written in and for JavaScript. Weblate supports it's localization files with
+features such as plurals.
+
+i18next translations are monolingual, so it is recommended to specify base file
+with English strings.
+
+Example file:
+
+.. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
+    :language: json
+    :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``langs/*.json``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``langs/en.json``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `i18next JSON file`              |
 +--------------------------------+----------------------------------+
 
 .. seealso::

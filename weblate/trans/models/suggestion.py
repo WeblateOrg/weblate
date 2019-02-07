@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -55,9 +55,8 @@ class SuggestionManager(models.Manager):
 
             if same.user == user or not vote:
                 return False
-            else:
-                same.add_vote(unit.translation, request, True)
-                return False
+            same.add_vote(unit.translation, request, True)
+            return False
 
         except ObjectDoesNotExist:
             pass

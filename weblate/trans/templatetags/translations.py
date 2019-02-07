@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -95,7 +95,7 @@ PERM_TEMPLATE = '''
 '''
 
 SOURCE_LINK = '''
-<a href="{0}" target="_blank" rel="noopener noreferrer">{1}
+<a href="{0}" target="_blank" rel="noopener noreferrer" class="long-filename">{1}
 <i class="fa fa-external-link"></i></a>
 '''
 
@@ -196,6 +196,9 @@ def format_translation(value, language, plural=None, diff=None,
         # HTML escape
         value = escape(force_text(raw_value))
 
+        # Content of the Copy to clipboard button
+        copy = value
+
         # Format diff if there is any
         value = fmt_diff(value, diff, idx)
 
@@ -222,12 +225,13 @@ def format_translation(value, language, plural=None, diff=None,
         # Join paragraphs
         content = mark_safe(newline.join(paras))
 
-        parts.append({'title': title, 'content': content})
+        parts.append({'title': title, 'content': content, 'copy': copy})
 
     return {
         'simple': simple,
         'items': parts,
         'language': language,
+        'unit': unit,
     }
 
 
@@ -623,7 +627,6 @@ def get_location_links(profile, unit):
             }
         else:
             link = unit.translation.component.get_repoweb_link(filename, line)
-        location = location.replace('/', '/\u200B')
         if link is None:
             ret.append(escape(location))
         else:
@@ -631,8 +634,8 @@ def get_location_links(profile, unit):
     return mark_safe('\n'.join(ret))
 
 
-@register.simple_tag
-def whiteboard_messages(project=None, component=None, language=None):
+@register.simple_tag(takes_context=True)
+def whiteboard_messages(context, project=None, component=None, language=None):
     """Display whiteboard messages for given context"""
     ret = []
 
@@ -640,11 +643,18 @@ def whiteboard_messages(project=None, component=None, language=None):
         project, component, language
     )
 
+    user = context['user']
+
     for whiteboard in whiteboards:
         if whiteboard.message_html:
             content = mark_safe(whiteboard.message)
         else:
             content = mark_safe(urlize(whiteboard.message, autoescape=True))
+
+        can_delete = (
+            user.has_perm('component.edit', whiteboard.component)
+            or user.has_perm('project.edit', whiteboard.project)
+        )
 
         ret.append(
             render_to_string(
@@ -652,6 +662,8 @@ def whiteboard_messages(project=None, component=None, language=None):
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
                     'message':  content,
+                    'whiteboard': whiteboard,
+                    'can_delete': can_delete,
                 }
             )
         )
@@ -733,3 +745,24 @@ def get_translate_url(context, translation):
 def get_filter_name(name):
     names = dict(get_filter_choice(True))
     return names[name]
+
+
+@register.inclusion_tag('trans/embed-alert.html')
+def indicate_alerts(obj):
+    alerts = None
+    component = None
+
+    if isinstance(obj, Translation):
+        component = obj.component
+    elif isinstance(obj, Component):
+        component = obj
+
+    if component:
+        alerts = component.alert_set.all()
+
+    return {'alerts': alerts, 'component': component}
+
+
+@register.filter
+def replace_english(value, language):
+    return value.replace('English', force_text(language))

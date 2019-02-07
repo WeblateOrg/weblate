@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,7 +39,9 @@ from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import create_test_user, wait_for_celery, create_another_user
+from weblate.trans.tests.utils import (
+    create_test_user, wait_for_celery, create_another_user,
+)
 from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 
@@ -149,17 +151,17 @@ class ViewTestCase(RepoTestCase):
         setattr(request, '_messages', messages)
         return request
 
-    def get_translation(self):
+    def get_translation(self, language='cs'):
         return self.component.translation_set.get(
-            language_code='cs'
+            language_code=language
         )
 
-    def get_unit(self, source='Hello, world!\n'):
-        translation = self.get_translation()
+    def get_unit(self, source='Hello, world!\n', language='cs'):
+        translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
-    def change_unit(self, target):
-        unit = self.get_unit()
+    def change_unit(self, target, source='Hello, world!\n', language='cs'):
+        unit = self.get_unit(source, language)
         unit.target = target
         unit.save_backend(self.get_request('/'))
 

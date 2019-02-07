@@ -8,7 +8,11 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
+{% elif use_file %}
+<li><a href="">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'memory' manage='manage' %}">{% trans "Global translation memory" %}</a></li>
 {% else %}
+<li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>
 <li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
 {% endif %}
 {% endblock %}
@@ -34,7 +38,15 @@
   </tr>
   {% endif %}
   <tr>
-  <th>{% if project %}{% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}{% else %}{% trans "Number of your entries" %}{% endif %}</th>
+  <th>
+    {% if project %}
+      {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
+    {% elif use_file %}
+      {% trans "Number of global entries" %}
+    {% else %}
+      {% trans "Number of your entries" %}
+    {% endif %}
+  </th>
   <td>{{ num_entries }}</td>
   </tr>
   <tr>

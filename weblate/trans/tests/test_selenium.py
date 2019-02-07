@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -87,7 +87,7 @@ TEST_BACKENDS = (
 
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     caps = {
-        'browserName': 'chrome',
+        'browserName': 'firefox',
         'platform': 'Windows 10',
     }
     driver = None
@@ -826,12 +826,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Status widgets')
         self.screenshot('promote.png')
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('engage-link')
-            )
+            self.click(self.driver.find_element_by_id('engage-link'))
         self.screenshot('engage.png')
         with self.wait_for_page_load():
-            self.click('Translation project for WeblateOrg')
+            self.click(self.driver.find_element_by_id('engage-project'))
 
         # Glossary
         self.click('Glossaries')
@@ -1040,7 +1038,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Add project
         self.driver.find_element_by_id('id_name').send_keys('WeblateOrg')
-        self.driver.find_element_by_id('id_slug').send_keys('weblateorg')
         self.driver.find_element_by_id(
             'id_web'
         ).send_keys(
@@ -1069,12 +1066,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Add component
         self.driver.find_element_by_id('id_name').send_keys('Language names')
-        self.driver.find_element_by_id('id_slug').send_keys('languages')
         self.driver.find_element_by_id(
             'id_repo'
         ).send_keys(
             'https://github.com/WeblateOrg/demo.git'
         )
+        self.screenshot('user-add-component-init.png')
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+
+        self.screenshot('user-add-component-discovery.png')
+        self.driver.find_element_by_id('id_id_discovery_0_1').click()
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+
         self.driver.find_element_by_id(
             'id_repoweb'
         ).send_keys(
@@ -1104,7 +1109,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def test_alerts(self):
         project = Project.objects.create(name='WeblateOrg', slug='weblateorg')
-        component = Component.objects.create(
+        Component.objects.create(
             name='Duplicates',
             slug='duplicates',
             project=project,
