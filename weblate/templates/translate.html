@@ -236,7 +236,7 @@
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
 {% if others.exists %}
-<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
+<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurences" %} <span class="badge">{{ others.exists }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
