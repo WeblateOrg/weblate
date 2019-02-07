@@ -289,6 +289,13 @@ class UnitQuerySet(models.QuerySet):
 
         raise Unit.DoesNotExist('No matching unit found!')
 
+    def data_filter(self, matches):
+        queries = (
+            Q(contenthash=m[0]) & Q(translation__language_id=m[1])
+            for m in matches
+        )
+        return self.filter(functools.reduce(lambda x, y: x | y, queries))
+
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):

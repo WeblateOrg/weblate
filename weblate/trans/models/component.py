@@ -1721,6 +1721,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def run_target_checks(self):
         """Run batch executed target checks"""
+        from weblate.trans.models import Unit
+        have_check = set()
+        need_update = set()
         for check, check_obj in CHECKS.items():
             if not check_obj.target or not check_obj.batch_update:
                 continue
@@ -1745,9 +1748,24 @@ class Component(models.Model, URLMixin, PathMixin):
                     check=check,
                     defaults={'ignore': False},
                 )[0]
+                have_check.add((
+                    item['content_hash'], item['translation__language']
+                ))
                 existing.discard(instance.pk)
             # Remove stale instances
-            Check.objects.filter(pk__in=existing).delete()
+            todelete = Check.objects.filter(pk__in=existing)
+            need_update.update(todelete.values_list('content_hash', 'language_id'))
+            todelete.delete()
+        # Update has_failing_check flag
+        allunits = Unit.objects.filter(
+            translation__component__project=self.project
+        )
+        if have_check:
+            allunits.data_filter(have_check).update(has_failing_check=True)
+            self.project.invalidate_cache()
+        if need_update:
+            for unit in allunits.data_filter(need_update):
+                unit.update_has_failing_check()
 
     @cached_property
     def osi_approved_license(self):
