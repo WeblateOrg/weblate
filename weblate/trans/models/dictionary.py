@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from itertools import islice
 import re
 
 from django.urls import reverse
@@ -160,7 +161,7 @@ class DictionaryManager(models.Manager):
             project=unit.translation.component.project,
             language=unit.translation.language,
             source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
-                '|'.join([re_escape(word) for word in words])
+                '|'.join([re_escape(word) for word in islice(words, 1000)])
             )
         )
 
