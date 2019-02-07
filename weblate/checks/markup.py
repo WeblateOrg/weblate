@@ -258,11 +258,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
         return None
 
     def check_single(self, source, target, unit):
-        src_match = MD_SYNTAX.findall(source)
-        tgt_match = MD_SYNTAX.findall(target)
-
-        src_tags = {self.extract_match(x) for x in src_match}
-        tgt_tags = {self.extract_match(x) for x in tgt_match}
+        src_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(source)}
+        tgt_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(target)}
 
         return src_tags != tgt_tags
 
