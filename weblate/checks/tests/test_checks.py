@@ -92,6 +92,7 @@ class CheckTestCase(TestCase):
         self.test_good_matching = ('string', 'string', '')
         self.test_good_none = ('string', 'string', '')
         self.test_good_ignore = ()
+        self.test_good_flag = ()
         self.test_failure_1 = ()
         self.test_failure_2 = ()
         self.test_failure_3 = ()
@@ -140,6 +141,17 @@ class CheckTestCase(TestCase):
 
     def test_single_failure_3(self):
         self.do_test(True, self.test_failure_3)
+
+    def test_check_good_flag(self):
+        if self.check is None or not self.test_good_flag:
+            return
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_flag[0]],
+                [self.test_good_flag[1]],
+                MockUnit(None, self.test_good_flag[2])
+            )
+        )
 
     def test_check_good_matching_singular(self):
         if self.check is None:

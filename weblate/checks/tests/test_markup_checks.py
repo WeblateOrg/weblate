@@ -27,6 +27,7 @@ from weblate.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
     XMLValidityCheck,
+    MarkdownRefLinkCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 
@@ -149,3 +150,14 @@ class XMLTagsCheckTest(CheckTestCase):
                 ''
             ),
         )
+
+
+class MarkdownRefLinkCheckTest(CheckTestCase):
+    check = MarkdownRefLinkCheck()
+
+    def setUp(self):
+        super(MarkdownRefLinkCheckTest, self).setUp()
+        self.test_good_matching = ('[a][a1]', '[b][a1]', 'md-text')
+        self.test_good_none = ('string', 'string', 'md-text')
+        self.test_good_flag = ('[a][a1]', '[b][a2]', '')
+        self.test_failure_1 = ('[a][a1]', '[b][a2]', 'md-text')

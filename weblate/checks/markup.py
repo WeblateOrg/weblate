@@ -33,6 +33,12 @@ BBCODE_MATCH = re.compile(
     re.MULTILINE
 )
 
+MD_REFLINK = re.compile(
+    r'^!?\[('
+    r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
+    r')\]\s*\[([^^\]]*)\]'
+)
+
 XML_MATCH = re.compile(r'<[^>]+>')
 XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
 
@@ -176,3 +182,28 @@ class XMLTagsCheck(BaseXMLCheck):
         for match in XML_ENTITY_MATCH.finditer(source):
             ret.append((match.start(), match.end(), match.group()))
         return ret
+
+
+class MarkdownBaseCheck(TargetCheck):
+    default_disabled = True
+
+    def __init__(self):
+        super(MarkdownBaseCheck, self).__init__()
+        self.enable_string = 'md-text'
+
+
+class MarkdownRefLinkCheck(MarkdownBaseCheck):
+    check_id = 'md-reflink'
+    name = _('Markdown link references')
+    description = _('Markdown link references does not match source')
+
+    def check_single(self, source, target, unit):
+        src_match = MD_REFLINK.findall(source)
+        if not src_match:
+            return False
+        tgt_match = MD_REFLINK.findall(target)
+
+        src_tags = {x[1] for x in src_match}
+        tgt_tags = {x[1] for x in tgt_match}
+
+        return src_tags != tgt_tags
