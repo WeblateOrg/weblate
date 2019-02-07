@@ -27,6 +27,7 @@ from django.contrib.auth import logout
 from django.core.cache import cache
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.translation import ugettext as _
 
@@ -93,11 +94,12 @@ def session_ratelimit_post(scope):
                 # Rotate session token
                 rotate_token(request)
                 # Logout user
-                if request.user.is_authenticated:
+                do_logout = request.user.is_authenticated
+                if do_logout:
                     logout(request)
                 messages.error(
                     request,
-                    _('Too many attempts, you have been logged out!')
+                    render_to_string('ratelimit.html', {'do_logout': do_logout})
                 )
                 return redirect('login')
             return function(request, *args, **kwargs)

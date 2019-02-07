@@ -243,3 +243,16 @@ Useful in several situations like consolidating translation
 between different components (for example website and application) or when
 bootstrapping translation for a new component using existing translations
 (translation memory).
+
+.. _user-rate:
+
+Rate limiting
+-------------
+
+To avoid abuse of the interface, there is rate limiting applied to several
+operations like searching, sending contact form or translating. In case you are
+are hit by this, you are blocked for certain period until you can perform the
+operation again.
+
+The default limits are described in the administrative manual in
+:ref:`rate-limit`, but can be tweaked by configuration.
