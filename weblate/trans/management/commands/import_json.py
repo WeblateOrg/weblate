@@ -108,7 +108,6 @@ class Command(BaseCommand):
             for field in Component._meta.get_fields()
             if field.editable and not field.rel
         ])
-        allfields.discard('slug')
 
         # Handle dumps from API
         if 'results' in data:
@@ -142,7 +141,7 @@ class Command(BaseCommand):
                     continue
                 if options['update']:
                     for key in item:
-                        if key not in allfields:
+                        if key not in allfields or key == 'slug':
                             continue
                         setattr(component, key, item[key])
                     component.save()
@@ -152,7 +151,8 @@ class Command(BaseCommand):
                 )
 
             except Component.DoesNotExist:
-                component = Component(**item)
+                params = {key: item[key] for key in allfields if key in item}
+                component = Component(**params)
                 try:
                     component.full_clean()
                 except ValidationError as error:
