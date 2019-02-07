@@ -291,7 +291,7 @@ class UnitQuerySet(models.QuerySet):
 
     def data_filter(self, matches):
         queries = (
-            Q(contenthash=m[0]) & Q(translation__language_id=m[1])
+            Q(content_hash=m[0]) & Q(translation__language_id=m[1])
             for m in matches
         )
         return self.filter(functools.reduce(lambda x, y: x | y, queries))
