@@ -103,6 +103,13 @@ class Command(BaseCommand):
         finally:
             options['json-file'].close()
 
+        allfields = set([
+            field.name
+            for field in Component._meta.get_fields()
+            if field.editable and not field.rel
+        ])
+        allfields.discard('slug')
+
         # Handle dumps from API
         if 'results' in data:
             data = data['results']
@@ -135,7 +142,7 @@ class Command(BaseCommand):
                     continue
                 if options['update']:
                     for key in item:
-                        if key in ('project', 'slug'):
+                        if key not in allfields:
                             continue
                         setattr(component, key, item[key])
                     component.save()
