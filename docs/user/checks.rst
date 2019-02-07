@@ -462,7 +462,20 @@ Markdown links do not match source.
 
    `Markdown links`_
 
+
+.. _check-md-syntax:
+
+Markdown syntax
+~~~~~~~~~~~~~~~
+
+Markdown syntax does not match source
+
+.. seealso::
+   
+   `Markdown span elements`_
+
 .. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
+.. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
 
 Source checks
 -------------

@@ -29,6 +29,7 @@ from weblate.checks.markup import (
     XMLValidityCheck,
     MarkdownRefLinkCheck,
     MarkdownLinkCheck,
+    MarkdownSyntaxCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 
@@ -179,4 +180,29 @@ class MarkdownLinkCheckTest(CheckTestCase):
             '[Use Weblate](https://weblate.org/)',
             '[Použij Weblate]',
             'md-text'
+        )
+
+
+class MarkdownSyntaxCheckTest(CheckTestCase):
+    check = MarkdownSyntaxCheck()
+
+    def setUp(self):
+        super(MarkdownSyntaxCheckTest, self).setUp()
+        self.test_good_matching = ('**string**', '**string**', 'md-text')
+        self.test_good_none = ('string', 'string', 'md-text')
+        self.test_good_flag = ('**string**', 'string', '')
+        self.test_failure_1 = ('**string**', '*string*', 'md-text')
+        self.test_failure_2 = ('~~string~~', '*string*', 'md-text')
+        self.test_failure_3 = ('_string_', '*string*', 'md-text')
+        self.test_highlight = (
+            'md-text',
+            '**string** ~~strike~~ `code`',
+            [
+                (0, 2, '**'),
+                (8, 10, '**'),
+                (11, 13, '~~'),
+                (19, 21, '~~'),
+                (22, 23, '`'),
+                (27, 28, '`'),
+            ]
         )

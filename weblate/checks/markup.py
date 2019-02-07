@@ -45,6 +45,19 @@ MD_REFLINK = re.compile(
     r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
     r')\]\s*\[([^^\]]*)\]'
 )
+MD_SYNTAX = re.compile(
+    r'(_{2})(?:[\s\S]+?)_{2}(?!_)'  # __word__
+    r'|'
+    r'(\*{2})(?:[\s\S]+?)\*{2}(?!\*)'  # **word**
+    r'|'
+    r'\b(_)(?:(?:__|[^_])+?)_\b'  # _word_
+    r'|'
+    r'(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)'  # *word*
+    r'|'
+    r'(`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)'  # `code`
+    r'|'
+    r'(~~)(?=\S)(?:[\s\S]*?\S)~~' # ~~word~~
+)
 
 XML_MATCH = re.compile(r'<[^>]+>')
 XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
@@ -230,3 +243,41 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         # We don't check actual link targets as those might
         # be localized as well (consider links to Wikipedia)
         return len(src_match) != len(tgt_match)
+
+
+class MarkdownSyntaxCheck(MarkdownBaseCheck):
+    check_id = 'md-syntax'
+    name = _('Markdown syntax')
+    description = _('Markdown syntax does not match source')
+
+    @staticmethod
+    def extract_match(match):
+        for i in range(6):
+            if match[i]:
+                return match[i]
+        return None
+
+    def check_single(self, source, target, unit):
+        src_match = MD_SYNTAX.findall(source)
+        tgt_match = MD_SYNTAX.findall(target)
+
+        src_tags = {self.extract_match(x) for x in src_match}
+        tgt_tags = {self.extract_match(x) for x in tgt_match}
+
+        return src_tags != tgt_tags
+
+    def check_highlight(self, source, unit):
+        if self.should_skip(unit):
+            return []
+        ret = []
+        for match in MD_SYNTAX.finditer(source):
+            value = ''
+            for i in range(6):
+                value = match.group(i + 1)
+                if value:
+                    break
+            start = match.start()
+            end = match.end()
+            ret.append((start, start + len(value), value))
+            ret.append((end - len(value), end, value))
+        return ret
