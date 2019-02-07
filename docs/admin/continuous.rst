@@ -1,7 +1,7 @@
 .. _continuous-translation:
 
-Continuous translation
-======================
+Continuous localization
+=======================
 
 There is infrastructure in place so that your translation closely follows
 development. This way translators can work on translations the entire time,
