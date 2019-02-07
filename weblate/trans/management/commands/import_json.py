@@ -103,6 +103,10 @@ class Command(BaseCommand):
         finally:
             options['json-file'].close()
 
+        # Handle dumps from API
+        if 'results' in data:
+            data = data['results']
+
         for item in data:
             if ('filemask' not in item or
                     'name' not in item):
