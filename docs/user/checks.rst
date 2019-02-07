@@ -451,6 +451,17 @@ Markdown link references does not match source.
 
    `Markdown links`_
 
+.. _check-md-link:
+
+Markdown links
+~~~~~~~~~~~~~~
+
+Markdown links do not match source.
+
+.. seealso::
+
+   `Markdown links`_
+
 .. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
 
 Source checks

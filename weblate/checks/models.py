@@ -68,6 +68,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.markup.XMLValidityCheck',
         'weblate.checks.markup.XMLTagsCheck',
         'weblate.checks.markup.MarkdownRefLinkCheck',
+        'weblate.checks.markup.MarkdownLinkCheck',
         'weblate.checks.source.OptionalPluralCheck',
         'weblate.checks.source.EllipsisCheck',
         'weblate.checks.source.MultipleFailingCheck',

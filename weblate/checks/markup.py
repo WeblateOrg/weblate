@@ -33,8 +33,15 @@ BBCODE_MATCH = re.compile(
     re.MULTILINE
 )
 
-MD_REFLINK = re.compile(
+MD_LINK = re.compile(
     r'^!?\[('
+    r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
+    r')\]\('
+    r'''\s*(<)?([\s\S]*?)(?(2)>)(?:\s+['"]([\s\S]*?)['"])?\s*'''
+    r'\)'
+)
+MD_REFLINK = re.compile(
+    r'!?\[('
     r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
     r')\]\s*\[([^^\]]*)\]'
 )
@@ -207,3 +214,19 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
         tgt_tags = {x[1] for x in tgt_match}
 
         return src_tags != tgt_tags
+
+
+class MarkdownLinkCheck(MarkdownBaseCheck):
+    check_id = 'md-link'
+    name = _('Markdown links')
+    description = _('Markdown links do not match source')
+
+    def check_single(self, source, target, unit):
+        src_match = MD_LINK.findall(source)
+        if not src_match:
+            return False
+        tgt_match = MD_LINK.findall(target)
+
+        # We don't check actual link targets as those might
+        # be localized as well (consider links to Wikipedia)
+        return len(src_match) != len(tgt_match)
