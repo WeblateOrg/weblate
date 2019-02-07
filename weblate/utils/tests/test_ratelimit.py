@@ -104,6 +104,29 @@ class RateLimitTest(SimpleTestCase):
         )
 
     @override_settings(
+        RATELIMIT_ATTEMPTS=2,
+        RATELIMIT_WINDOW=2,
+        RATELIMIT_LOCKOUT=100,
+    )
+    def test_interval(self):
+        request = self.get_request()
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        sleep(1)
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        sleep(1)
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        sleep(1)
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+
+    @override_settings(
         RATELIMIT_ATTEMPTS=1,
         RATELIMIT_WINDOW=1,
         RATELIMIT_LOCKOUT=1,
