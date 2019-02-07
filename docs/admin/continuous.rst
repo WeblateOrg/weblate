@@ -238,6 +238,18 @@ and GitLab (with username :guilabel:`weblate` named
 give it permission to push to your repository. Let us know when you've done
 so and we will enable pushing changes from Hosted Weblate for you.
 
+Protected branches
+++++++++++++++++++
+
+If you are using Weblate on protected branch, you can configure it to use pull
+requests and perform actual review on the translations (what might be
+problematic for languages you do not know). Alternative approach is to to waive
+this limitation for the Weblate push user.
+
+For example on GitHub this can be done in the repository configuration:
+
+.. image:: /images/github-protected.png
+
 .. _merge-rebase:
 
 Merge or rebase
