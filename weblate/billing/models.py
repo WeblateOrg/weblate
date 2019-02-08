@@ -377,11 +377,8 @@ class Billing(models.Model):
             self.save(skip_limits=True)
 
     def save(self, *args, **kwargs):
-        if not kwargs.pop('skip_limits', False):
-            if self.pk:
-                self.check_limits(save=False)
-            else:
-                self.paid = (self.state == Billing.STATE_TRIAL)
+        if not kwargs.pop('skip_limits', False) and self.pk:
+            self.check_limits(save=False)
         super(Billing, self).save(*args, **kwargs)
 
     def is_active(self):
