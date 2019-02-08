@@ -106,7 +106,7 @@ class Command(BaseCommand):
         allfields = set([
             field.name
             for field in Component._meta.get_fields()
-            if field.editable and not field.rel
+            if field.editable and not field.is_relation
         ])
 
         # Handle dumps from API
@@ -128,11 +128,9 @@ class Command(BaseCommand):
                     )
                 item['repo'] = main_component.get_repo_link_url()
 
-            item['project'] = project
-
             try:
                 component = Component.objects.get(
-                    slug=item['slug'], project=item['project']
+                    slug=item['slug'], project=project
                 )
                 self.stderr.write(
                     'Component {0} already exists'.format(component)
@@ -152,7 +150,7 @@ class Command(BaseCommand):
 
             except Component.DoesNotExist:
                 params = {key: item[key] for key in allfields if key in item}
-                component = Component(**params)
+                component = Component(project=project, **params)
                 try:
                     component.full_clean()
                 except ValidationError as error:
