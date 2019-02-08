@@ -203,7 +203,7 @@ class TranslationMemory(WhooshIndex):
             category = CATEGORY_FILE
         try:
             storage = tmxfile.parsefile(fileobj)
-        except SyntaxError as error:
+        except (SyntaxError, AssertionError) as error:
             report_error(error, request)
             raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
