@@ -160,7 +160,7 @@ class Billing(models.Model):
         verbose_name=_('Trial expiry date'),
     )
     paid = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name=_('Paid'),
         editable=False,
     )
