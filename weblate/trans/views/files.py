@@ -20,22 +20,36 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import ugettext as _, ungettext
-from django.utils.encoding import force_text
 from django.shortcuts import redirect
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from django.views.decorators.http import require_POST
-
+from weblate.trans.forms import DownloadForm, get_upload_form
+from weblate.trans.models import Project
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.trans.forms import get_upload_form, DownloadForm
-from weblate.utils.views import (
-    get_translation, download_translation_file, show_form_errors,
-)
+from weblate.utils.views import (download_translation_file, get_translation,
+                                 show_form_errors)
 
 
-def download_translation(request, project, component):
-    lang = request.GET['lang']
-    obj = get_translation(request, project, component, lang)
+def download_translation(request, project, component=None):
+    projectRecord = Project.objects.get(slug=project)
+
+    if 'lang' in request.GET:
+        languages = [request.GET['lang']]
+    else:
+        languages = [langRecord.code for langRecord in projectRecord.languages]
+
+    translations = []
+
+
+    for lang in languages:
+        if component == None:
+            for projectsComponent in projectRecord.component_set.all():
+                translations.append(get_translation(request, project, projectsComponent.slug, lang))
+        else:
+            translations.append(get_translation(request, project, component, lang))
 
     kwargs = {}
 
@@ -44,15 +58,11 @@ def download_translation(request, project, component):
         if not form.is_valid():
             show_form_errors(request, form)
             return redirect(obj)
-
-        kwargs['units'] = obj.unit_set.search(
-            form.cleaned_data,
-            translation=obj,
-        )
+        
+        kwargs['form_cleaned_data'] = form.cleaned_data
         kwargs['fmt'] = form.cleaned_data['format']
 
-    return download_translation_file(obj, **kwargs)
-
+    return download_translation_files(translations, **kwargs)
 
 @require_POST
 def upload_translation(request, project, component, lang):

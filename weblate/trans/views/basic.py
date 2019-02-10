@@ -161,6 +161,7 @@ def show_project(request, project):
             'licenses': ', '.join(
                 sorted(set([x.license for x in all_components if x.license]))
             ),
+            'exporters': list_exporters()
         }
     )
 
