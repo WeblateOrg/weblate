@@ -174,7 +174,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             testdata = handle.read()
 
         # Create test file
-        testfile = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Write test data to file
         with open(testfile, 'wb') as handle:
