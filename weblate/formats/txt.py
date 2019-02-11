@@ -22,6 +22,7 @@
 from __future__ import unicode_literals
 
 from collections import OrderedDict
+from glob import glob
 from itertools import chain
 import os
 
@@ -83,9 +84,8 @@ class MultiParser(object):
         result = OrderedDict()
         for name, flags in self.filenames:
             filename = self.get_filename(name)
-            if not os.path.exists(filename):
-                continue
-            result[filename] = TextParser(filename, flags)
+            for match in sorted(glob(filename)):
+                result[match] = TextParser(match, flags)
         return result
 
     def get_filename(self, name):
@@ -98,6 +98,7 @@ class AppStoreParser(MultiParser):
         ('short_description.txt', 'max-length:80'),
         ('full_description.txt', 'max-length:4000'),
         ('video.txt', 'url'),
+        ('changelogs/*.txt', 'max-length:500'),
     )
 
 
