@@ -252,7 +252,7 @@ class Repository(object):
         """Rebase working copy on top of remote branch."""
         raise NotImplementedError()
 
-    def needs_commit(self, filename=None):
+    def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
         raise NotImplementedError()
 

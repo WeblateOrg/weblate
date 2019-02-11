@@ -155,12 +155,9 @@ class GitRepository(Repository):
         if self.has_branch(tmp):
             self.execute(['branch', '-D', tmp])
 
-    def needs_commit(self, filename=None):
+    def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
-        if filename is None:
-            cmd = ['status', '--porcelain']
-        else:
-            cmd = ['status', '--porcelain', '--', filename]
+        cmd = ['status', '--porcelain', '--'] + filenames
         with self.lock:
             status = self.execute(cmd)
         return status != ''
