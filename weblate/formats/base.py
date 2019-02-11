@@ -400,11 +400,6 @@ class TranslationFormat(object):
 
             yield set_fuzzy, unit
 
-    @classmethod
-    def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from a store"""
-        raise NotImplementedError()
-
     def create_unit(self, key, source):
         raise NotImplementedError()
 
