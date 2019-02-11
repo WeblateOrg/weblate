@@ -20,12 +20,10 @@
 
 from __future__ import unicode_literals
 
-import re
-
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import (
-    TargetCheck, TargetCheckWithFlag, CountingCheck
+    TargetCheck, TargetCheckParametrized, CountingCheck
 )
 
 
@@ -352,24 +350,17 @@ class ZeroWidthSpaceCheck(TargetCheck):
         return ('\u200b' in target) != ('\u200b' in source)
 
 
-class MaxLengthCheck(TargetCheckWithFlag):
+class MaxLengthCheck(TargetCheckParametrized):
     """Check for maximum length of translation."""
     check_id = 'max-length'
     name = _('Maximum length of translation')
     description = _('Translation should not exceed given length')
     severity = 'danger'
+    default_disabled = True
 
-    FLAGS_PAIR_RE = re.compile(r'\b([-\w]+):(\w+)\b')
-
-    def check_target(self, sources, targets, unit):
-        check_pair = set(self.FLAGS_PAIR_RE.findall('\n'.join(unit.all_flags)))
-        if check_pair:
-            check_value = max(
-                {(x) for x in check_pair if x[0] == self.check_id},
-                key=lambda v: int(v[1])
-            )[1]
-            return len(targets[0]) > int(check_value)
-        return False
+    def check_target_params(self, sources, targets, unit, values):
+        max_length = max((int(value) for value in values))
+        return any((len(target) > max_length for target in targets))
 
 
 class EndSemicolonCheck(TargetCheck):

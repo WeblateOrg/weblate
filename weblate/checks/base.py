@@ -165,14 +165,24 @@ class SourceCheck(Check):
         raise NotImplementedError()
 
 
-class TargetCheckWithFlag(Check):
+class TargetCheckParametrized(Check):
     """Basic class for target checks with flag value."""
     default_disabled = True
     target = True
 
+    def __init__(self):
+        super(TargetCheckParametrized, self).__init__()
+        self.enable_prefix = '{}:'.format(self.enable_string)
+
     def check_target(self, sources, targets, unit):
         """Check flag value"""
-        raise NotImplementedError()
+        values = []
+        for flag in unit.all_flags:
+            if flag.startswith(self.enable_prefix):
+                values.append(flag[len(self.enable_prefix):])
+        if values:
+            return self.check_target_params(sources, targets, unit, values)
+        return False
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""
