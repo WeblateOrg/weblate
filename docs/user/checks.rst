@@ -477,6 +477,15 @@ Markdown syntax does not match source
 .. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
 .. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
 
+.. _check-url:
+
+URL
+~~~
+
+The translation does not contain an URL. This is triggered only in case the
+unit is marked as containing URL. In that case the translation has to be a
+valid URL.
+
 Source checks
 -------------
 
