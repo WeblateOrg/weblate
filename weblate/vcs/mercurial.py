@@ -174,7 +174,7 @@ class HgRepository(Repository):
 
     def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
-        cmd = ['status', '--'] + filenames
+        cmd = ('status', '--') + filenames
         status = self.execute(cmd, needs_lock=False)
         return status != ''
 

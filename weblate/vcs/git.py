@@ -157,7 +157,7 @@ class GitRepository(Repository):
 
     def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
-        cmd = ['status', '--porcelain', '--'] + filenames
+        cmd = ('status', '--porcelain', '--') + filenames
         with self.lock:
             status = self.execute(cmd)
         return status != ''
