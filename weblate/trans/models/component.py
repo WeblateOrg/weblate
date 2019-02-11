@@ -1762,7 +1762,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         if have_check:
             allunits.data_filter(have_check).update(has_failing_check=True)
-            self.project.invalidate_cache()
+            self.project.stats.invalidate()
         if need_update:
             for unit in allunits.data_filter(need_update):
                 unit.update_has_failing_check()

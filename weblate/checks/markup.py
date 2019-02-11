@@ -24,6 +24,9 @@ import re
 
 from defusedxml import lxml
 
+from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheck
@@ -278,3 +281,23 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
             ret.append((start, start + len(value), value))
             ret.append((end - len(value), end, value))
         return ret
+
+
+class URLCheck(TargetCheck):
+    check_id = 'url'
+    name = _('URL')
+    description = _('The translation does not contain an URL')
+    default_disabled = True
+
+    @cached_property
+    def validator(self):
+        return URLValidator()
+
+    def check_single(self, source, target, unit):
+        if not source:
+            return False
+        try:
+            self.validator(target)
+            return False
+        except ValidationError:
+            return True

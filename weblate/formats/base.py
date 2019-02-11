@@ -212,6 +212,11 @@ class TranslationFormat(object):
         # Remember template
         self.template_store = template_store
 
+    def get_filenames(self):
+        if isinstance(self.storefile, six.string_types):
+            return [self.storefile]
+        return [self.storefile.name]
+
     @classmethod
     def load(cls, storefile):
         raise NotImplementedError()

@@ -172,12 +172,9 @@ class HgRepository(Repository):
                     raise
                 self.execute(['commit', '--message', 'Merge'])
 
-    def needs_commit(self, filename=None):
+    def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
-        if filename is None:
-            cmd = ['status']
-        else:
-            cmd = ['status', '--', filename]
+        cmd = ('status', '--') + filenames
         status = self.execute(cmd, needs_lock=False)
         return status != ''
 

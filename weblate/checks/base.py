@@ -31,7 +31,6 @@ class Check(object):
     ignore_untranslated = True
     default_disabled = False
     severity = 'info'
-    enable_check_value = False
     batch_update = False
 
     def get_identifier(self):
@@ -62,10 +61,6 @@ class Check(object):
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""
-        if self.enable_check_value:
-            return self.check_target_unit_with_flag(
-                sources, targets, unit
-            )
         if self.should_skip(unit):
             return False
         # No checking of not translated units
@@ -170,15 +165,24 @@ class SourceCheck(Check):
         raise NotImplementedError()
 
 
-class TargetCheckWithFlag(Check):
+class TargetCheckParametrized(Check):
     """Basic class for target checks with flag value."""
     default_disabled = True
-    enable_check_value = True
     target = True
 
-    def check_target_unit_with_flag(self, sources, targets, unit):
+    def __init__(self):
+        super(TargetCheckParametrized, self).__init__()
+        self.enable_prefix = '{}:'.format(self.enable_string)
+
+    def check_target(self, sources, targets, unit):
         """Check flag value"""
-        raise NotImplementedError()
+        values = []
+        for flag in unit.all_flags:
+            if flag.startswith(self.enable_prefix):
+                values.append(flag[len(self.enable_prefix):])
+        if values:
+            return self.check_target_params(sources, targets, unit, values)
+        return False
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""

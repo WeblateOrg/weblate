@@ -473,7 +473,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Create list of files to commit
-        files = [self.filename]
+        files = self.store.get_filenames()
 
         # Do actual commit
         self.component.repository.commit(
@@ -491,7 +491,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Check whether there are some not committed changes."""
         return (
             self.unit_set.filter(pending=True).exists() or
-            self.component.repository.needs_commit(self.filename)
+            self.repo_needs_commit()
         )
 
     def repo_needs_merge(self):
@@ -500,19 +500,24 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_push(self):
         return self.component.repo_needs_push()
 
+    def repo_needs_commit(self):
+        return self.component.repository.needs_commit(
+            *self.store.get_filenames()
+        )
+
     def git_commit(self, request, author, timestamp, skip_push=False,
                    force_new=False):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
         with repository.lock:
             # Is there something for commit?
-            if not force_new and not repository.needs_commit(self.filename):
+            if not force_new and not self.repo_needs_commit():
                 return False
 
             # Do actual commit with git lock
             self.log_info(
                 'committing %s as %s',
-                self.filename,
+                self.store.get_filenames(),
                 author
             )
             Change.objects.create(
@@ -888,7 +893,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Log
         self.log_info(
             'removing %s as %s',
-            self.filename,
+            self.store.get_filenames(),
             author
         )
 
@@ -897,7 +902,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.commit_template = 'delete'
             with self.component.repository.lock:
                 self.component.repository.remove(
-                    [self.filename],
+                    self.store.get_filenames(),
                     self.get_commit_message(author),
                     author,
                 )

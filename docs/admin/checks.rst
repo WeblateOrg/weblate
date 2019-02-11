@@ -36,6 +36,8 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
     Treat text as Mardown document.
 ``dos-eol``
     Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
+``url``
+    The string should consist of URL only.
 ``max-length:N``
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
