@@ -294,23 +294,22 @@ class TranslationFormat(object):
         """Update store header if available."""
         return
 
-    def save_content(self, handle):
-        """Stores content to file."""
-        raise NotImplementedError()
-
-    def save(self):
-        """Save underlaying store to disk."""
-        dirname, basename = os.path.split(self.storefile)
+    def save_atomic(self, filename, callback):
+        dirname, basename = os.path.split(filename)
         temp = tempfile.NamedTemporaryFile(
             prefix=basename, dir=dirname, delete=False
         )
         try:
-            self.save_content(temp)
+            callback(temp)
             temp.close()
-            move_atomic(temp.name, self.storefile)
+            move_atomic(temp.name, filename)
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
+
+    def save(self):
+        """Save underlaying store to disk."""
+        raise NotImplementedError()
 
     @cached_property
     def mono_units(self):

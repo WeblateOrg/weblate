@@ -268,6 +268,10 @@ class TTKitFormat(TranslationFormat):
         """Stores content to file."""
         self.store.serialize(handle)
 
+    def save(self):
+        """Save underlaying store to disk."""
+        self.save_atomic(self.storefile, self.save_content)
+
     @property
     def mimetype(self):
         """Return most common mime type for format."""
