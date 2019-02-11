@@ -93,6 +93,7 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.DTDFormat',
         'weblate.formats.ttkit.WindowsRCFormat',
         'weblate.formats.external.XlsxFormat',
+        'weblate.formats.txt.AppStoreFormat',
     )
 
     class Meta(object):

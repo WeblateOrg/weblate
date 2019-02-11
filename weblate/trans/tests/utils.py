@@ -427,6 +427,13 @@ class RepoTestMixin(object):
             'dtd/en.dtd',
         )
 
+    def create_appstore(self):
+        return self._create_component(
+            'appstore',
+            'metadata/*/short_description.txt',
+            'metadata/en-US/short_description.txt',
+        )
+
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
         return Component.objects.create(

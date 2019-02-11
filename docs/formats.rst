@@ -90,6 +90,8 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`xlsx`         | mono             | no            | yes            | yes           | yes            | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`appstore`     | mono             | no            | no             | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -852,6 +854,41 @@ Example Windows RC file:
 +--------------------------------+----------------------------------+
 
 .. seealso:: :doc:`tt:formats/rc`
+
+.. _appstore:
+
+App store metadata files
+------------------------
+
+.. versionadded:: 3.5
+
+Weblate can translate metadata used for publishing apps in various app stores.
+Currently it is known to be compatible with following tools:
+
+* `Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-publisher>`_
+* `Fastlane <https://fastlane.tools/>`_
+
+The metadata consist of several text files which Weblate will present as
+separate strings to translate. 
+
+.. note::
+   
+   The current implementation limitation is that the file
+   :file:`short_description.txt` has to be present for every translated
+   language, otherwise Weblate will not discover it.
+
++---------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                          |
++================================+==========================================+
+| File mask                      | ``metadata/*/short_description.txt``     |
++--------------------------------+------------------------------------------+
+| Monolingual base language file | ``metadata/en_US/short_description.txt`` |
++--------------------------------+------------------------------------------+
+| Base file for new translations | ``metadata/en_US/short_description.txt`` |
++--------------------------------+------------------------------------------+
+| File format                    | `Market metadata text files`             |
++--------------------------------+------------------------------------------+
+
 
 .. _xlsx:
 

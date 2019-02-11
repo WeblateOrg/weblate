@@ -15,6 +15,7 @@ Released on ? 2019.
 * Fixed possible metadata loss when moving component between projects.
 * Improved navigation in the zen mode.
 * Added several new quality checks (Markdown related and URL).
+* Added support for app store metadata files.
 
 weblate 3.4
 -----------
