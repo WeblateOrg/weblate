@@ -138,7 +138,7 @@ class TranslationUnit(object):
 
     def is_translated(self):
         """Check whether unit is translated."""
-        raise NotImplementedError()
+        return bool(self.target)
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
