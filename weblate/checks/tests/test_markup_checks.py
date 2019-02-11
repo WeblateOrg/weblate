@@ -30,6 +30,7 @@ from weblate.checks.markup import (
     MarkdownRefLinkCheck,
     MarkdownLinkCheck,
     MarkdownSyntaxCheck,
+    URLCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 
@@ -206,3 +207,17 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (27, 28, '`'),
             ]
         )
+
+
+class URLCheckTest(CheckTestCase):
+    check = URLCheck()
+
+    def setUp(self):
+        super(URLCheckTest, self).setUp()
+        url = 'https://weblate.org/'
+        self.test_good_matching = (url, url, 'url')
+        self.test_good_none = (url, url, 'url')
+        self.test_good_flag = ('string', 'string', '')
+        self.test_failure_1 = (url, 'https:weblate.org/', 'url')
+        self.test_failure_2 = (url, 'weblate.org/', 'url')
+        self.test_failure_3 = (url, 'weblate', 'url')

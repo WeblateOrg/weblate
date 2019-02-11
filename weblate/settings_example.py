@@ -695,6 +695,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.markup.MarkdownRefLinkCheck',
 #     'weblate.checks.markup.MarkdownLinkCheck',
 #     'weblate.checks.markup.MarkdownSyntaxCheck',
+#     'weblate.checks.markup.URLCheck',
 #     'weblate.checks.source.OptionalPluralCheck',
 #     'weblate.checks.source.EllipsisCheck',
 #     'weblate.checks.source.MultipleFailingCheck',
