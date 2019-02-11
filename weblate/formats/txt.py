@@ -63,7 +63,7 @@ class TextSerializer(object):
     def __call__(self, handle):
         for unit in self.units:
             handle.write(unit.text.encode('utf-8'))
-            handle.write('\n')
+            handle.write(b'\n')
 
 
 class MultiParser(object):
