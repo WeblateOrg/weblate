@@ -407,3 +407,7 @@ class TranslationFormat(object):
         unit = self.create_unit(key, source)
         self.add_unit(unit)
         self.save()
+
+    @classmethod
+    def get_class(cls):
+        raise NotImplementedError()
