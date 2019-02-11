@@ -105,7 +105,7 @@ def commit_pending(hours=None, pks=None, logger=None):
         if last_change > age:
             continue
 
-        if not component.repo_needs_commit():
+        if not component.needs_commit():
             continue
 
         if logger:

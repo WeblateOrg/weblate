@@ -196,7 +196,7 @@ class WeblateViewSet(DownloadViewSet):
             raise PermissionDenied()
 
         data = {
-            'needs_commit': obj.repo_needs_commit(),
+            'needs_commit': obj.needs_commit(),
             'needs_merge': obj.repo_needs_merge(),
             'needs_push': obj.repo_needs_push(),
         }

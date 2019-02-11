@@ -99,8 +99,8 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
             'Nazdar svete!\n'
         )
         # We should have some change to commit
-        self.assertTrue(self.component.repo_needs_commit())
+        self.assertTrue(self.component.needs_commit())
         # Remove account
         self.test_removal()
         # Changes should be committed
-        self.assertFalse(self.component.repo_needs_commit())
+        self.assertFalse(self.component.needs_commit())

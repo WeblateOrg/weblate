@@ -487,7 +487,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Store updated hash
         self.store_hash()
 
-    def repo_needs_commit(self):
+    def needs_commit(self):
         """Check whether there are some not committed changes."""
         return (
             self.unit_set.filter(pending=True).exists() or

@@ -1577,12 +1577,9 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert('MissingLicense')
 
-    def repo_needs_commit(self):
+    def needs_commit(self):
         """Check whether there are some not committed changes"""
-        for translation in self.translation_set.all():
-            if translation.unit_set.filter(pending=True).exists():
-                return True
-        return self.repository.needs_commit()
+        return any((t.needs_commit() for t in self.translation_set.all()))
 
     def repo_needs_merge(self):
         """Check whether there is something to merge from remote repository"""

@@ -114,7 +114,7 @@ class MultiRepoTest(ViewTestCase):
         translation.git_commit(
             self.request, 'TEST <test@example.net>', timezone.now(),
         )
-        self.assertFalse(translation.repo_needs_commit())
+        self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
     def test_propagate(self):

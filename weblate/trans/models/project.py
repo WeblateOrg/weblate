@@ -222,10 +222,10 @@ class Project(models.Model, URLMixin, PathMixin):
             translation__component__project=self
         ).distinct()
 
-    def repo_needs_commit(self):
+    def needs_commit(self):
         """Check whether there are any uncommitted changes."""
         for component in self.component_set.all():
-            if component.repo_needs_commit():
+            if component.needs_commit():
                 return True
         return False
 

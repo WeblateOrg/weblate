@@ -690,15 +690,15 @@ class EditComplexTest(ViewTestCase):
         )
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
-        self.assertTrue(self.translation.repo_needs_commit())
-        self.assertTrue(self.component.repo_needs_commit())
-        self.assertTrue(self.component.project.repo_needs_commit())
+        self.assertTrue(self.translation.needs_commit())
+        self.assertTrue(self.component.needs_commit())
+        self.assertTrue(self.component.project.needs_commit())
 
         self.translation.commit_pending('test', self.get_request('/'))
 
-        self.assertFalse(self.translation.repo_needs_commit())
-        self.assertFalse(self.component.repo_needs_commit())
-        self.assertFalse(self.component.project.repo_needs_commit())
+        self.assertFalse(self.translation.needs_commit())
+        self.assertFalse(self.component.needs_commit())
+        self.assertFalse(self.component.project.needs_commit())
 
         self.assertTrue(self.translation.repo_needs_push())
         self.assertTrue(self.component.repo_needs_push())

@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
-{% with object.repo_needs_commit as needs_commit %}
+{% with object.needs_commit as needs_commit %}
 
 {% perm 'vcs.commit' project as user_can_commit_translation %}
 {% perm 'vcs.update' project as user_can_update_translation %}
