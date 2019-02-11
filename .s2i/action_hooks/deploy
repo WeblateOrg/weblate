@@ -22,3 +22,10 @@ if [ -f /opt/app-root/data/markers/setup ]; then
 else
     powershift image setup
 fi
+
+# This is due to known python bug: https://bugzilla.redhat.com/show_bug.cgi?id=1430327
+if [ -n ${LD_LIBRARY_PATH}; then
+  export LD_LIBRARY_PATH="/opt/rh/rh-python35/root/usr/lib64:${LD_LIBRARY_PATH}"
+else
+  export LD_LIBRARY_PATH="/opt/rh/rh-python35/root/usr/lib64"
+fi
