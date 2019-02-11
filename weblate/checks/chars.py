@@ -358,11 +358,10 @@ class MaxLengthCheck(TargetCheckWithFlag):
     name = _('Maximum length of translation')
     description = _('Translation should not exceed given length')
     severity = 'danger'
-    default_disabled = True
 
     FLAGS_PAIR_RE = re.compile(r'\b([-\w]+):(\w+)\b')
 
-    def check_target_unit_with_flag(self, sources, targets, unit):
+    def check_target(self, sources, targets, unit):
         check_pair = set(self.FLAGS_PAIR_RE.findall('\n'.join(unit.all_flags)))
         if check_pair:
             check_value = max(
