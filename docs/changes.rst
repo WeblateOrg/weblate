@@ -14,6 +14,7 @@ Released on ? 2019.
 * Reduce number of commits when updating upstream repository.
 * Fixed possible metadata loss when moving component between projects.
 * Improved navigation in the zen mode.
+* Added several new quality checks (Markdown related and URL).
 
 weblate 3.4
 -----------
