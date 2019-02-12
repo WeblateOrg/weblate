@@ -1589,7 +1589,7 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
             if same_repo.exists():
                 component = same_repo[0]
                 data['repo'] = component.get_repo_link_url()
-                data['branch'] = component.branch
+                data['branch'] = ''
                 self.clean_instance(data)
 
     def clean(self):
