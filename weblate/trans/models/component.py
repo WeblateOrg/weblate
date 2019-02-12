@@ -1228,7 +1228,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def set_default_branch(self):
         """Set default VCS branch if empty"""
-        if self.branch == '':
+        if not self.branch and not self.is_repo_link:
             self.branch = VCS_REGISTRY[self.vcs].default_branch
 
     def clean_repo_link(self):
@@ -1259,6 +1259,10 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.push != '':
             raise ValidationError(
                 {'push': _('Push URL is not used when repository is linked!')}
+            )
+        if self.branch:
+            raise ValidationError(
+                {'branch': _('Repository branch is not used when repository is linked!')}
             )
         if self.git_export != '':
             raise ValidationError(
