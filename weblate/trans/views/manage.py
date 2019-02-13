@@ -69,6 +69,7 @@ def remove_component(request, project, component):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
+    obj.stats.invalidate()
     obj.delete()
     messages.success(request, _('Translation component has been removed.'))
     Change.objects.create(
@@ -102,6 +103,7 @@ def remove_project(request, project):
         author=request.user
     )
 
+    obj.stats.invalidate()
     obj.delete()
     messages.success(request, _('Project has been removed.'))
 
@@ -117,7 +119,13 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
-    form.save()
+    # Invalidate old stats
+    obj.stats.invalidate()
+
+    obj = form.save()
+    # Invalidate new stats
+    obj.stats.invalidate()
+
     Change.objects.create(
         user=request.user,
         author=request.user,

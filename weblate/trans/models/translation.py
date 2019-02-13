@@ -908,6 +908,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
 
         # Delete from the database
+        self.stats.invalidate()
         self.delete()
 
         # Record change
