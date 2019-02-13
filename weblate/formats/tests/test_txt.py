@@ -40,7 +40,7 @@ class AppStoreFormatTest(AutoFormatTest):
     FIND = 'Hello world'
     FIND_CONTEXT = 'short_description.txt:1'
     FIND_MATCH = 'Hello world'
-    MATCH = '\n'
+    MATCH = None
     BASE = APPSTORE_FILE
 
     def parse_file(self, filename):

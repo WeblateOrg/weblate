@@ -233,9 +233,12 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             Language.objects.get(code='cs'),
             self.BASE
         )
-        with open(out, 'r') as handle:
-            data = handle.read()
-        self.assertTrue(self.MATCH in data)
+        if self.MATCH is None:
+            self.assertTrue(os.path.isdir(out))
+        else:
+            with open(out, 'r') as handle:
+                data = handle.read()
+            self.assertTrue(self.MATCH in data)
 
     def test_get_language_filename(self):
         self.assertEqual(
