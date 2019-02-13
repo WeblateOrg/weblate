@@ -162,8 +162,11 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         super(AutoFormatTest, self).tearDown()
         self.remove_temp()
 
+    def parse_file(self, filename):
+        return self.FORMAT(filename)
+
     def test_parse(self):
-        storage = self.FORMAT(self.FILE)
+        storage = self.parse_file(self.FILE)
         self.assertEqual(len(storage.all_units), self.COUNT)
         self.assertEqual(storage.mimetype, self.MIME)
         self.assertEqual(storage.extension, self.EXT)
@@ -181,7 +184,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             handle.write(testdata)
 
         # Parse test file
-        storage = self.FORMAT(testfile)
+        storage = self.parse_file(testfile)
 
         if edit:
             units = storage.all_units
@@ -213,7 +216,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         self.assertEqual(testdata.strip(), newdata.strip())
 
     def test_find(self):
-        storage = self.FORMAT(self.FILE)
+        storage = self.parse_file(self.FILE)
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
@@ -257,7 +260,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             handle.write(testdata)
 
         # Parse test file
-        storage = self.FORMAT(testfile)
+        storage = self.parse_file(testfile)
 
         # Add new unit
         storage.new_unit('key', 'Source string')
@@ -295,7 +298,7 @@ class PoFormatTest(AutoFormatTest):
 
     def load_plural(self, filename):
         with open(filename, 'rb') as handle:
-            store = self.FORMAT(handle)
+            store = self.parse_file(handle)
             return store.get_plural(Language.objects.get(code='he'))
 
     def test_plurals(self):

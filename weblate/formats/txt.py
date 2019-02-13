@@ -74,7 +74,7 @@ class MultiParser(object):
         if not isinstance(storefile, six.string_types):
             raise ValueError('Needs string as a storefile!')
 
-        self.base = os.path.dirname(storefile)
+        self.base = storefile
         self.parsers = self.load_parser()
         self.units = list(chain.from_iterable(
             parser.units for parser in self.parsers.values()
@@ -164,8 +164,7 @@ class AppStoreFormat(TranslationFormat):
     @classmethod
     def create_new_file(cls, filename, language, base):
         """Handle creation of new translation file."""
-        with open(base, 'rb') as handle, open(filename, 'wb') as output:
-            output.write(handle.read())
+        os.makedirs(filename)
 
     def add_unit(self, ttkit_unit):
         """Add new unit to underlaying store."""
@@ -193,6 +192,8 @@ class AppStoreFormat(TranslationFormat):
     @classmethod
     def is_valid_base_for_new(cls, base, monolingual):
         """Check whether base is valid."""
+        if not base:
+            return True
         try:
             AppStoreParser(base)
             return True

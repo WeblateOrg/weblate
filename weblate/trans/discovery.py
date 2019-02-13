@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from itertools import chain
 import os
 import re
 
@@ -70,8 +71,8 @@ class ComponentDiscovery(object):
         """Return matched files together with match groups and mask."""
         result = []
         base = os.path.realpath(self.path)
-        for root, dummy, filenames in os.walk(self.path, followlinks=True):
-            for filename in filenames:
+        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
+            for filename in chain(filenames, dirnames):
                 fullname = os.path.join(root, filename)
 
                 # Skip files outside our root

@@ -430,8 +430,8 @@ class RepoTestMixin(object):
     def create_appstore(self):
         return self._create_component(
             'appstore',
-            'metadata/*/short_description.txt',
-            'metadata/en-US/short_description.txt',
+            'metadata/*',
+            'metadata/en-US',
         )
 
     def create_link(self, **kwargs):

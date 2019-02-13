@@ -20,6 +20,8 @@
 """File format specific behavior."""
 from __future__ import unicode_literals
 
+import os.path
+
 from weblate.formats.txt import AppStoreFormat
 from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.trans.tests.utils import get_test_file
@@ -33,10 +35,13 @@ class AppStoreFormatTest(AutoFormatTest):
     MIME = 'text/plain'
     EXT = 'txt'
     COUNT = 1
-    MASK = 'market/*/short_description.txt'
-    EXPECTED_PATH = 'market/cs_CZ/short_description.txt'
+    MASK = 'market/*'
+    EXPECTED_PATH = 'market/cs_CZ'
     FIND = 'Hello world'
     FIND_CONTEXT = 'short_description.txt:1'
     FIND_MATCH = 'Hello world'
     MATCH = '\n'
     BASE = APPSTORE_FILE
+
+    def parse_file(self, filename):
+        return self.FORMAT(os.path.dirname(filename))

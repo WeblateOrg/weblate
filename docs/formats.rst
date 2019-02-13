@@ -875,23 +875,17 @@ Currently it is known to be compatible with following tools:
 The metadata consist of several text files which Weblate will present as
 separate strings to translate. 
 
-.. note::
-   
-   The current implementation limitation is that the file
-   :file:`short_description.txt` has to be present for every translated
-   language, otherwise Weblate will not discover it.
-
-+---------------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                          |
-+================================+==========================================+
-| File mask                      | ``metadata/*/short_description.txt``     |
-+--------------------------------+------------------------------------------+
-| Monolingual base language file | ``metadata/en_US/short_description.txt`` |
-+--------------------------------+------------------------------------------+
-| Base file for new translations | ``metadata/en_US/short_description.txt`` |
-+--------------------------------+------------------------------------------+
-| File format                    | `Market metadata text files`             |
-+--------------------------------+------------------------------------------+
++--------------------------------+----------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``metadata/*``                   |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``metadata/en_US``               |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``metadata/en_US``               |
++--------------------------------+----------------------------------+
+| File format                    | `Market metadata text files`     |
++--------------------------------+----------------------------------+
 
 
 .. _xlsx:
