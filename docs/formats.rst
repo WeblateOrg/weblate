@@ -224,6 +224,10 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
 Translations states
 +++++++++++++++++++
 
+.. versionchanged:: 3.3
+
+   Weblate did ignore the state attribute prior to the 3.3 release.
+
 The ``state`` attribute in the file is partially processed and mapped to needs
 edit state in Weblate (the following states are used to flag the string as
 needing edit if there is some target present: ``new``, ``needs-translation``,
