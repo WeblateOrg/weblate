@@ -50,10 +50,13 @@ class TextItem(object):
 
 class TextParser(object):
     """Simple text parser returning all content as single unit."""
-    def __init__(self, storefile, flags=None):
+    def __init__(self, storefile, filename=None, flags=None):
         with open(storefile, 'rb') as handle:
             content = handle.read().decode('utf-8')
-        self.filename = os.path.basename(storefile)
+        if filename:
+            self.filename = filename
+        else:
+            self.filename = os.path.basename(storefile)
         self.units = [TextItem(self.filename, 1, content.strip(), flags)]
 
 
@@ -85,7 +88,9 @@ class MultiParser(object):
         for name, flags in self.filenames:
             filename = self.get_filename(name)
             for match in sorted(glob(filename)):
-                result[match] = TextParser(match, flags)
+                result[match] = TextParser(
+                    match, os.path.relpath(match, self.base), flags
+                )
         return result
 
     def get_filename(self, name):
