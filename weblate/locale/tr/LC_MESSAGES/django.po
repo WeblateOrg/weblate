@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-14 13:39+0000\n"
-"PO-Revision-Date: 2019-02-14 13:39+0000\n"
+"PO-Revision-Date: 2019-02-14 20:15+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -1163,47 +1163,39 @@ msgstr "İç havuzu güncelle"
 
 #: weblate/auth/data.py:97
 msgid "Use management interface (global)"
-msgstr ""
+msgstr "Yönetim arayüzünü kullan (genel)"
 
 #: weblate/auth/data.py:99
 msgid "Add language definitions (global)"
-msgstr ""
+msgstr "Dil tanımları ekle (genel)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "Dilleri yönetme"
+msgstr "Dil tanımlarını yönet (genel)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
-msgstr ""
+msgstr "Grup ekle (genel)"
 
 #: weblate/auth/data.py:103
 msgid "Manage groups (global)"
-msgstr ""
+msgstr "Grupları yönet (genel)"
 
 #: weblate/auth/data.py:105
 msgid "Add users (global)"
-msgstr ""
+msgstr "Kullanıcı ekle (genel)"
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "Kullanıcıları yönet"
+msgstr "Kullanıcıları yönet (genel)"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
-msgstr ""
+msgstr "Beyaz tahtayı yönet (genel)"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "Çeviri belleğini yönet"
+msgstr "Çeviri belleğini yönet (genel)"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
@@ -1830,37 +1822,27 @@ msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
 #: weblate/checks/markup.py:220
 msgid "Markdown link references"
-msgstr ""
+msgstr "Markdown bağlantı referansları"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "Çevirideki BBcode kaynakla eşleşmiyor"
+msgstr "Markdown bağlantı referansları kaynakla eşleşmiyor"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Markdown kodu"
+msgstr "Markdown bağlantıları"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
+msgstr "Markdown bağlantıları kaynakla eşleşmiyor"
 
 #: weblate/checks/markup.py:253
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Markdown kodu"
+msgstr "Markdown sözdizimi"
 
 #: weblate/checks/markup.py:254
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "C biçim satırı kaynakla eşleşmiyor"
+msgstr "Markdown sözdizimi kaynakla eşleşmiyor"
 
 #: weblate/checks/markup.py:288 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -1869,10 +1851,8 @@ msgid "URL"
 msgstr "URL"
 
 #: weblate/checks/markup.py:289
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation does not contain an URL"
-msgstr "Çeviri geçerli XML değil"
+msgstr "Çeviri bir URL içermiyor"
 
 #: weblate/checks/same.py:148
 msgid "Unchanged translation"
@@ -2053,7 +2033,7 @@ msgstr "RC dosyası"
 
 #: weblate/formats/txt.py:151
 msgid "App store metadata files"
-msgstr ""
+msgstr "Uygulama mağazası meta veri dosyaları"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -3615,7 +3595,7 @@ msgstr "Proje URL kısaltması"
 msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
-msgstr ""
+msgstr "Bu depodaki tüm bileşenlerden tüm Weblate işlemeleri işlenecek."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -3624,6 +3604,9 @@ msgid ""
 "information it is recommended to customize the commit message to include "
 "this."
 msgstr ""
+"Sonuçta ortaya çıkan işlemeler tüm işleme mesajlarını içerecek ve işleme "
+"yazarlığı korunmayacaktır. Yazarlık bilgisini eklemek istiyorsanız, bu "
+"iletiyi eklemek için işleme iletisini özelleştirmeniz önerilir."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4022,10 +4005,8 @@ msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "Tüm bileşenler"
+msgstr "Bileşen mesajı ekle"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4113,6 +4094,8 @@ msgid ""
 "The message is shown on all translations within the component until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Mesaj, süresi doluncaya kadar veya silinene kadar sürekli olarak bileşen "
+"içindeki tüm çevirilerde gösterilir."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4406,16 +4389,13 @@ msgid "Notification hooks"
 msgstr "Bildirim kancaları"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
-"Bildirim kancalarıyla, Weblate, geliştiricileriniz tarafından yapılan "
-"değişiklikleri kendiliğinden aktaracak ve kesintisiz çevirilere izin verecek."
+"Bildirim kancalarıyla Weblate, geliştiricileriniz tarafından yapılan "
+"değişiklikleri otomatik olarak içe aktaracak ve sürekli yerelleştirmeye izin "
+"verecektir."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4628,7 +4608,7 @@ msgstr "%(weblate_version_link)s tarafından desteklenmektedir"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Panoya kopyala"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5602,10 +5582,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:70 weblate/templates/project.html:263
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add a project message"
-msgstr "Proje erişimini yönet"
+msgstr "Proje mesajı ekle"
 
 #: weblate/templates/project.html:93 weblate/templates/translation.html:101
 msgid "Share on Facebook"
@@ -5645,6 +5623,8 @@ msgid ""
 "The message is shown on all translations within the project until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Mesaj, süresi doluncaya kadar veya silinene kadar kalıcı olarak proje "
+"içindeki tüm çevirilerde gösterilir."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5688,18 +5668,15 @@ msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
 msgstr ""
+"Son zamanlarda çok fazla işlem yaptınız ve isteğiniz oranla sınırlandırıldı."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please login and try again later."
-msgstr "Çok fazla ileti gönderildi, lütfen daha sonra yeniden deneyin!"
+msgstr "Oturumunuz kapatıldı, lütfen giriş yapın ve daha sonra tekrar deneyin."
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr "Çok fazla arama sorgusu, lütfen daha sonra yeniden deneyin."
+msgstr "Lütfen daha sonra tekrar deneyiniz."
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
@@ -5928,11 +5905,8 @@ msgid "Filename"
 msgstr "Dosya adı"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate, havuzu güncellerken yukarı akış değişiklikleri alamadı."
+msgstr "Weblate, yukarı akış havuzundaki değişiklikleri zorlayamadı."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -6238,10 +6212,8 @@ msgid "Nearby strings"
 msgstr "Yakındaki satırlar"
 
 #: weblate/templates/translate.html:239
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurences"
-msgstr "Son gerçekleşme"
+msgstr "Diğer olaylar"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
 #: weblate/templates/unit-details.html:13
@@ -6428,10 +6400,8 @@ msgid "Add new translation string"
 msgstr "Yeni çeviri satırı ekle"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add a translation message"
-msgstr "Çeviri olarak ekle"
+msgstr "Çeviri mesajı ekle"
 
 #: weblate/templates/translation.html:119 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -6510,6 +6480,8 @@ msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
 msgstr ""
+"Mesaj süresi doluncaya kadar veya silinene kadar sürekli olarak çeviri "
+"sayfasında gösterilir."
 
 #: weblate/templates/translation.html:378
 #: weblate/templates/translation.html:425
@@ -7364,10 +7336,8 @@ msgid "Could not update the repository."
 msgstr "Havuz güncellenemedi."
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not push the repository."
-msgstr "Havuz güncellenemedi."
+msgstr "Havuz itilemedi."
 
 #: weblate/trans/models/alert.py:157
 msgid "Unused base file for new translations."
@@ -7789,10 +7759,8 @@ msgid "Commit message when merging translation"
 msgstr "Çeviriyi birleştirirken mesaj gönder"
 
 #: weblate/trans/models/component.py:393
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
-msgstr "Çeviri eklenirken iletiyi işle"
+msgstr "Eklenti değişiklik yaptığında mesaj gönder"
 
 #: weblate/trans/models/component.py:402
 msgid "Committer name"
@@ -7887,10 +7855,8 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
 #: weblate/trans/models/component.py:1265
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
+msgstr "Havuz bağlandığında havuz dalı kullanılmaz!"
 
 #: weblate/trans/models/component.py:1271
 msgid "Export URL is not used when repository is linked!"
@@ -8191,16 +8157,16 @@ msgid "Success (green)"
 msgstr "Başarı (yeşil)"
 
 #: weblate/trans/models/whiteboard.py:121
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "Deneme bitiş tarihi"
+msgstr "Bitiş tarihi"
 
 #: weblate/trans/models/whiteboard.py:123
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
 msgstr ""
+"Mesaj bu tarihten sonra gösterilmeyecek. Bir sonraki sürüm için son tarih "
+"gibi duyurular için kullanın."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8532,10 +8498,8 @@ msgid "RST text"
 msgstr "RST metni"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Mardown text"
-msgstr "Markdown kodu"
+msgstr "Markdown metni"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
