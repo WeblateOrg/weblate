@@ -833,6 +833,7 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
 )
