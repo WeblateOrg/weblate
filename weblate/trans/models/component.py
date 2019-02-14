@@ -1084,6 +1084,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.add_alert(alert, occurences=self.alerts_trigger[alert])
             else:
                 self.delete_alert(alert)
+        self.alerts_trigger = {}
 
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False, skip_checks=False):
