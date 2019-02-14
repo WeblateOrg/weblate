@@ -70,3 +70,26 @@ class XliffPlaceholdersTest(TestCase):
         )
         store.units[0].rich_source = xliff_string_to_rich(string)
         self.assertEqual(source, bytes(store))
+
+    def test_xliff_roundtrip_unknown(self):
+        source = b'''<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Translation Test">
+    <body>
+      <group id="body">
+        <trans-unit id="1761676329" size-unit="char" translate="yes" xml:space="preserve">
+          <source>T: <mrk mtype="protected">%s</mrk></source>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
+'''
+        store = xlifffile.parsestring(source)
+        string = rich_to_xliff_string(store.units[0].rich_source)
+        self.assertEqual(
+            'T: <mrk mtype="protected">%s</mrk>',
+            string
+        )
+        store.units[0].rich_source = xliff_string_to_rich(string)
+        self.assertEqual(source, bytes(store))

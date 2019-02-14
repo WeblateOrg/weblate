@@ -326,9 +326,18 @@ def rich_to_xliff_string(string_elements):
 
     result = ''
     for string_element in string_elements:
+        # Create dummy root element
         xml = etree.Element(u'e')
+        # Inject placeable from translate-toolkit
         strelem_to_xml(xml, string_element)
+        # Remove any possible namespace
+        for child in xml:
+            if child.tag.startswith('{'):
+                child.tag = child.tag[child.tag.index('}') + 1:]
+        etree.cleanup_namespaces(xml)
+        # Convert to string
         string_xml = etree.tostring(xml, encoding="unicode")
+        # Strip dummy root element
         string_without_wrapping_element = string_xml[3:][:-4]
         result += string_without_wrapping_element
 
