@@ -455,7 +455,7 @@ class XliffUnit(TTKitUnit):
         """Set translation unit target."""
         # Use source for monolingual files if target is not set
         if self.template is not None and not self.template.target:
-            self.template.rich_source = xliff_string_to_rich(target)
+            self.unit.rich_source = xliff_string_to_rich(target)
         else:
             self.unit.rich_target = xliff_string_to_rich(target)
 
