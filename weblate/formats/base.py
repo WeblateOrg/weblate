@@ -296,6 +296,8 @@ class TranslationFormat(object):
 
     def save_atomic(self, filename, callback):
         dirname, basename = os.path.split(filename)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
         temp = tempfile.NamedTemporaryFile(
             prefix=basename, dir=dirname, delete=False
         )
