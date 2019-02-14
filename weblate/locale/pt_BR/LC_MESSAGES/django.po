@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019.
 # RD WebDesign <weblate@rdwebdesign.com.br>, 2019.
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-14 13:39+0000\n"
-"PO-Revision-Date: 2019-01-29 10:29+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2019-02-14 20:15+0000\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -778,11 +778,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:101
 msgid "Commit squashing"
-msgstr "Squash de commit"
+msgstr "Eliminando envios"
 
 #: weblate/addons/forms.py:104
 msgid "All commits into one"
-msgstr "Todos os commits em um só"
+msgstr "Todos os envios em um só"
 
 #: weblate/addons/forms.py:105
 msgid "Per language"
@@ -912,7 +912,7 @@ msgid ""
 msgstr ""
 "Atualiza todos os arquivos PO para corresponderem ao modelo POT usando o "
 "msgmerge. Isto é ativado sempre que novas alterações forem trazidas do "
-"repositório \"upstream\"."
+"repositório upstream."
 
 #: weblate/addons/gettext.py:237
 msgid "Customize gettext output"
@@ -939,11 +939,11 @@ msgstr ""
 
 #: weblate/addons/git.py:32
 msgid "Squash Git commits"
-msgstr "Fazer squash de commits Git"
+msgstr "Eliminar envios Git"
 
 #: weblate/addons/git.py:33
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Fazer squash de commits Git antes de fazer push das alterações."
+msgstr "Eliminar envios Git antes de levar as alterações."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1148,7 +1148,7 @@ msgstr "Enviar as alterações para o repositório interno"
 
 #: weblate/auth/data.py:89
 msgid "Push change from the internal repository"
-msgstr "Trazer as alterações do repositório interno"
+msgstr "Levar as alterações do repositório interno"
 
 #: weblate/auth/data.py:90
 msgid "Reset changes in the internal repository"
@@ -1156,7 +1156,7 @@ msgstr "Redefinir as alterações no repositório interno"
 
 #: weblate/auth/data.py:91
 msgid "View upstream repository location"
-msgstr "Visualizar localização do repositório \"upstream\""
+msgstr "Visualizar localização do repositório upstream"
 
 #: weblate/auth/data.py:92
 msgid "Update the internal repository"
@@ -1164,47 +1164,39 @@ msgstr "Atualizar o repositório interno"
 
 #: weblate/auth/data.py:97
 msgid "Use management interface (global)"
-msgstr ""
+msgstr "Usar interface de gerenciamento (global)"
 
 #: weblate/auth/data.py:99
 msgid "Add language definitions (global)"
-msgstr ""
+msgstr "Adicionar definições de idioma (global)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "Gerenciar idiomas"
+msgstr "Gerenciar definições de idiomas (global)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
-msgstr ""
+msgstr "Adicionar grupos (global)"
 
 #: weblate/auth/data.py:103
 msgid "Manage groups (global)"
-msgstr ""
+msgstr "Gerenciar grupos (global)"
 
 #: weblate/auth/data.py:105
 msgid "Add users (global)"
-msgstr ""
+msgstr "Adicionar usuários (global)"
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "Gerenciar usuários"
+msgstr "Gerenciar usuários (global)"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
 msgstr ""
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "Gerenciar memória de tradução"
+msgstr "Gerenciar memória de tradução (global)"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
@@ -1834,37 +1826,27 @@ msgstr "As etiquetas XML na tradução não correspondem com a fonte"
 
 #: weblate/checks/markup.py:220
 msgid "Markdown link references"
-msgstr ""
+msgstr "Referências de links Markdown"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "O BBcode na tradução não corresponde com a fonte"
+msgstr "As referências de links Markdown não correspondem com a fonte"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Código Markdown"
+msgstr "Links Markdown"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr "As etiquetas XML na tradução não correspondem com a fonte"
+msgstr "Os links Markdown não correspondem com a fonte"
 
 #: weblate/checks/markup.py:253
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Código Markdown"
+msgstr "Sintaxe Markdown"
 
 #: weblate/checks/markup.py:254
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "O formato do texto C não corresponde com a fonte"
+msgstr "A sintaxe Markdown não corresponde com a fonte"
 
 #: weblate/checks/markup.py:288 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -1873,10 +1855,8 @@ msgid "URL"
 msgstr "URL"
 
 #: weblate/checks/markup.py:289
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation does not contain an URL"
-msgstr "A tradução não é um XML válido"
+msgstr "A tradução não contém uma URL válida"
 
 #: weblate/checks/same.py:148
 msgid "Unchanged translation"
@@ -2057,7 +2037,7 @@ msgstr "Arquivo RC"
 
 #: weblate/formats/txt.py:151
 msgid "App store metadata files"
-msgstr ""
+msgstr "Arquivos de metadados de loja de aplicativos"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -2715,7 +2695,7 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Todos os commits feitos com Weblate são assinados com a chave GPG "
+"Todos os envios feitos com Weblate são assinados com a chave GPG "
 "%(gpg_key_id)s, para a qual a chave pública correspondente é encontrada "
 "abaixo."
 
@@ -3633,6 +3613,8 @@ msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
 msgstr ""
+"Todos os envios do Weblate de todos os componentes neste repositório serão "
+"eliminados."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -3641,6 +3623,9 @@ msgid ""
 "information it is recommended to customize the commit message to include "
 "this."
 msgstr ""
+"O envio resultante irá incluir todas as mensagens de envio e a autoria do "
+"envio não será preservada. Se você deseja incluir a informação de autoria é "
+"recomendado personalizar a mensagem de envio para incluir isto."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4039,10 +4024,8 @@ msgid "Screenshots"
 msgstr "Capturas de tela"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "Todos os componentes"
+msgstr "Adicionar um componente de mensagem"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4130,6 +4113,8 @@ msgid ""
 "The message is shown on all translations within the component until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"A mensagem é exibida em todas as traduções dentro do componente até sua "
+"expiração ou permanentemente até sua exclusão."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4426,10 +4411,6 @@ msgid "Notification hooks"
 msgstr "Ganchos de notificação"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
@@ -4650,7 +4631,7 @@ msgstr "Desenvolvido com %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiar para a área de transferência"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5621,10 +5602,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:70 weblate/templates/project.html:263
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add a project message"
-msgstr "Gerenciar acesso ao projeto"
+msgstr "Adicionar uma mensagem do projeto"
 
 #: weblate/templates/project.html:93 weblate/templates/translation.html:101
 msgid "Share on Facebook"
@@ -5664,6 +5643,8 @@ msgid ""
 "The message is shown on all translations within the project until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"A mensagem será exibida em todas as traduções dentro do projeto até sua "
+"expiração ou permanentemente até sua exclusão."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5707,6 +5688,7 @@ msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
 msgstr ""
+"Você executou recentemente muitas operações e sua solicitação foi limitada."
 
 #: weblate/templates/ratelimit.html:7
 #, fuzzy
@@ -5715,10 +5697,8 @@ msgid "You have been logged out, please login and try again later."
 msgstr "Muitas mensagens enviadas, tente novamente mais tarde!"
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr "Muitas consultas de pesquisa, tente novamente mais tarde."
+msgstr "Tente novamente mais tarde."
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
@@ -5952,22 +5932,17 @@ msgid "Filename"
 msgstr "Nome de arquivo"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
-"O Weblate não conseguiu buscar as alterações no upstream ao atualizar o "
-"repositório."
+"O Weblate não conseguiu levar as alterações para o repositório upstream."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"O repositório VCS tem muitas mudanças em comparação com o upstream. Por "
-"favor, mescle as alterações manualmente ou configure o push para automatizar "
-"isso."
+"O repositório VCS tem muitas alterações em comparação com o upstream. Mescle "
+"as alterações manualmente ou configure para levar automaticamente isso."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -5975,7 +5950,7 @@ msgid ""
 "changes manually or set up hooks to automate this."
 msgstr ""
 "O repositório VCS não está atualizado em relação ao upstream. Por favor, "
-"mescle as alterações manualmente ou configure hooks para automatizar isso."
+"mescle as alterações manualmente ou configure ganchos para automatizar isso."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -6049,7 +6024,7 @@ msgstr "A tradução está licenciada sob uma licença aprovada pela OSI."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
-msgstr "Você pode usar a marcação de modelos Django nas mensagens de commit."
+msgstr "Você pode usar a marcação de modelos Django nas mensagens de envio."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6266,10 +6241,8 @@ msgid "Nearby strings"
 msgstr "Textos próximos"
 
 #: weblate/templates/translate.html:239
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurences"
-msgstr "Última ocorrência"
+msgstr "Outras ocorrências"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
 #: weblate/templates/unit-details.html:13
@@ -6456,10 +6429,8 @@ msgid "Add new translation string"
 msgstr "Adicionar novo texto de tradução"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add a translation message"
-msgstr "Adicionar como tradução"
+msgstr "Adicionar uma mensagem de tradução"
 
 #: weblate/templates/translation.html:119 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -6539,6 +6510,8 @@ msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
 msgstr ""
+"A mensagem é exibida na página de tradução até sua expiração ou "
+"permanentemente até sua exclusão."
 
 #: weblate/templates/translation.html:378
 #: weblate/templates/translation.html:425
@@ -7237,7 +7210,7 @@ msgstr "Básico"
 
 #: weblate/trans/forms.py:1439
 msgid "Upstream links"
-msgstr "Links \"upstream\""
+msgstr "Links upstream"
 
 #: weblate/trans/forms.py:1453
 msgid "Translation settings"
@@ -7394,10 +7367,8 @@ msgid "Could not update the repository."
 msgstr "Não foi possível atualizar o repositório."
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not push the repository."
-msgstr "Não foi possível atualizar o repositório."
+msgstr "Não foi possível levar o repositório."
 
 #: weblate/trans/models/alert.py:157
 msgid "Unused base file for new translations."
@@ -7790,7 +7761,7 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Define se o Weblate deve mesclar o repositório \"upstream\" ou reajustar as "
+"Define se o Weblate deve mesclar o repositório upstream ou reajustar as "
 "alterações dele."
 
 #: weblate/trans/models/component.py:357
@@ -7839,7 +7810,7 @@ msgstr "Levar ao enviar"
 
 #: weblate/trans/models/component.py:415
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Define se o repositório deve ser levado ao \"upstream\" a cada envio."
+msgstr "Define se o repositório deve ser levado ao upstream a cada envio."
 
 #: weblate/trans/models/component.py:419
 msgid "Age of changes to commit"
@@ -7849,7 +7820,7 @@ msgstr "Idade das alterações a enviar"
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Tempo em horas após o qual qualquer alteração pendente será enviado ao VCS."
+"Tempo em horas após o qual qualquer alteração pendente será enviada ao VCS."
 
 #: weblate/trans/models/component.py:442
 msgid "Components with higher priority are offered first to translators."
@@ -7917,13 +7888,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1261
 msgid "Push URL is not used when repository is linked!"
-msgstr "A URL de atualização não é usada quando o repositório está associado!"
+msgstr "A URL para levar não é usada quando o repositório está associado!"
 
 #: weblate/trans/models/component.py:1265
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "URL de exportação não é usada quando o repositório está associado!"
+msgstr "O ramo do repositório não é usado quando o repositório está associado!"
 
 #: weblate/trans/models/component.py:1271
 msgid "Export URL is not used when repository is linked!"
@@ -8231,16 +8200,16 @@ msgid "Success (green)"
 msgstr "Sucesso (verde)"
 
 #: weblate/trans/models/whiteboard.py:121
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "Data de validade do teste"
+msgstr "Data de expiração"
 
 #: weblate/trans/models/whiteboard.py:123
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
 msgstr ""
+"A mensagem não será exibida após esta data. Use para anúncios como datas "
+"limite para a próxima versão."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8572,10 +8541,8 @@ msgid "RST text"
 msgstr "Texto RST"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Mardown text"
-msgstr "Código Markdown"
+msgstr "Texto Markdown"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
@@ -8892,7 +8859,7 @@ msgstr "Todos os repositórios foram atualizados."
 
 #: weblate/trans/views/git.py:80
 msgid "All repositories were pushed."
-msgstr "Todos os repositórios foram atualizados."
+msgstr "Todos os repositórios foram levados."
 
 #: weblate/trans/views/git.py:91
 msgid "All repositories have been reset."
