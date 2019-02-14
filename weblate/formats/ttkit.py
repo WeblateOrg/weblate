@@ -508,9 +508,7 @@ class XliffUnit(TTKitUnit):
         We replace translate-toolkit logic here as the isfuzzy
         is pretty much wrong there, see is_fuzzy docs.
         """
-        if self.unit is None:
-            return False
-        return bool(self.unit.target)
+        return bool(self.target)
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
