@@ -157,6 +157,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
                     self.FORMAT.format_id
                 )
             )
+        self.maxDiff = None
 
     def tearDown(self):
         super(AutoFormatTest, self).tearDown()
@@ -453,9 +454,9 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     MASK = 'loc/*/default.xliff'
     EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
-        b'<trans-unit xml:space="preserve" id="key" approved="no">'
-        b'<source>key</source>'
-        b'<target state="translated">Source string</target></trans-unit>'
+        b'<trans-unit xml:space="preserve" id="key" approved="no">',
+        b'<source>key</source>',
+        b'<target state="translated">Source string</target>',
     )
 
 
@@ -471,9 +472,9 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
     MASK = 'loc/*/default.xliff'
     EXPECTED_PATH = 'loc/cs-CZ/default.xliff'
     NEW_UNIT_MATCH = (
-        b'<trans-unit xml:space="preserve" id="key" approved="no">'
-        b'<source>key</source>'
-        b'<target state="translated">Source string</target></trans-unit>'
+        b'<trans-unit xml:space="preserve" id="key" approved="no">',
+        b'<source>key</source>',
+        b'<target state="translated">Source string</target>',
     )
 
 
@@ -538,8 +539,8 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<TS version="2.0" language="cs">'
     FIND_MATCH = 'Ahoj svete!\n'
     NEW_UNIT_MATCH = (
-        b'<message><source>key</source>'
-        b'<translation>Source string</translation>\n    </message>'
+        b'<source>key</source>',
+        b'<translation>Source string</translation>',
     )
 
     def assert_same(self, newdata, testdata):
