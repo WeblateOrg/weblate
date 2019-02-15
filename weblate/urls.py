@@ -53,6 +53,7 @@ import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.files
 import weblate.trans.views.git
+import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.lock
 import weblate.trans.views.manage
@@ -753,17 +754,17 @@ real_patterns = [
     # Notification hooks
     url(
         r'^hooks/update/' + COMPONENT + '$',
-        weblate.trans.views.api.update_component,
+        weblate.trans.views.hooks.update_component,
         name='hook-component',
     ),
     url(
         r'^hooks/update/' + PROJECT + '$',
-        weblate.trans.views.api.update_project,
+        weblate.trans.views.hooks.update_project,
         name='hook-project',
     ),
     url(
         r'^hooks/(?P<service>github|gitlab|bitbucket|pagure)/$',
-        weblate.trans.views.api.vcs_service_hook,
+        weblate.trans.views.hooks.vcs_service_hook,
         name='webhook',
     ),
 
