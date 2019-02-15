@@ -87,7 +87,7 @@ TEST_BACKENDS = (
 
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     caps = {
-        'browserName': 'firefox',
+        'browserName': 'chrome',
         'platform': 'Windows 10',
     }
     driver = None
