@@ -83,11 +83,14 @@ class MultiParser(object):
             parser.units for parser in self.parsers.values()
         ))
 
+    def file_key(self, filename):
+        return filename
+
     def load_parser(self):
         result = OrderedDict()
         for name, flags in self.filenames:
             filename = self.get_filename(name)
-            for match in sorted(glob(filename)):
+            for match in sorted(glob(filename), key=self.file_key):
                 result[match] = TextParser(
                     match, os.path.relpath(match, self.base), flags
                 )
@@ -107,6 +110,15 @@ class AppStoreParser(MultiParser):
         ('video.txt', 'url'),
         ('changelogs/*.txt', 'max-length:500'),
     )
+
+    def file_key(self, filename):
+        parts = filename.rsplit('changelogs/', 1)
+        if len(parts) == 2:
+            try:
+                return -int(parts[1].split('.')[0])
+            except ValueError:
+                pass
+        return filename
 
 
 class TextUnit(TranslationUnit):
