@@ -182,6 +182,11 @@ class MarkdownLinkCheckTest(CheckTestCase):
             '[Použij Weblate]',
             'md-text'
         )
+        self.test_failure_2 = (
+            '[Use Weblate](https://weblate.org/)',
+            '[Použij Weblate] (https://weblate.org/)',
+            'md-text'
+        )
 
 
 class MarkdownSyntaxCheckTest(CheckTestCase):
