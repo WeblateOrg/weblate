@@ -92,6 +92,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     }
     driver = None
     image_path = None
+    port = 9090
 
     def set_test_status(self, passed=True):
         connection = HTTPConnection("saucelabs.com")
