@@ -48,6 +48,12 @@ repository, merge it into upstream and fix any conflicts.  Once you push changes
 back, Weblate will be able to use the merged version without any other special
 actions.
 
+.. note::
+
+   Depending on your setup, access to the repository might need authentication.
+   When using Weblate built in :ref:`git-exporter`, you authenticate with your
+   username and the API key.
+
 .. code-block:: sh
 
     # Commit all pending changes in Weblate, you can do this in the UI as well
