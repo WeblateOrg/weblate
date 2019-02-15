@@ -57,6 +57,8 @@ class AddonQuerySet(models.QuerySet):
             Q(component=component) & Q(project_scope=False)
         ) | (
             Q(component__project=component.project) & Q(project_scope=True)
+        ) | (
+            Q(component__linked_component=component) & Q(repo_scope=True)
         ))
 
     def filter_event(self, component, event):
@@ -78,6 +80,7 @@ class Addon(models.Model):
     configuration = JSONField()
     state = JSONField()
     project_scope = models.BooleanField(default=False, db_index=True)
+    repo_scope = models.BooleanField(default=False, db_index=True)
 
     objects = AddonQuerySet.as_manager()
 

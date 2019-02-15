@@ -4,6 +4,9 @@
 {% if addon.project_scope %}
 <span class="badge pull-right flip text-tooltip" title="{% trans "This addon operates on whole project, it is enough to install it on one component." %}">{% trans "project wide" %}</span>
 {% endif %}
+{% if addon.repo_scope %}
+<span class="badge pull-right flip text-tooltip" title="{% trans "This addon operates on all components sharing this repository." %}">{% trans "repository wide" %}</span>
+{% endif %}
 <i class="fa fa-{{ addon.icon }}"></i> 
 {{ addon.verbose }}
 </h4>

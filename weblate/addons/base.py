@@ -42,6 +42,7 @@ class BaseAddon(object):
     description = 'Base addon'
     icon = 'cog'
     project_scope = False
+    repo_scope = False
     has_summary = False
     alert = 'AddonScriptError'
 
