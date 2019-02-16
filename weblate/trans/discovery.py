@@ -205,6 +205,7 @@ class ComponentDiscovery(object):
             'slug': slug,
             'template': match['base_file'],
             'filemask': match['mask'],
+            'new_base': match['new_base'],
             'file_format': self.file_format,
             'language_regex': self.language_re,
         })
