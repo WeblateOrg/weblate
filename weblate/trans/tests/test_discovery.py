@@ -189,3 +189,18 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+
+    def test_multi_language(self):
+        discovery = ComponentDiscovery(
+            self.component,
+            r'localization/(?P<language>[^/]*)/'
+            r'(?P<component>[^/]*)\.(?P=language)\.po',
+            '{{ component }}',
+        )
+        created, matched, deleted = discovery.perform()
+        self.assertEqual(len(created), 1)
+        self.assertEqual(
+            created[0][0]['mask'], 'localization/*/component.*.po'
+        )
+        self.assertEqual(len(matched), 0)
+        self.assertEqual(len(deleted), 0)
