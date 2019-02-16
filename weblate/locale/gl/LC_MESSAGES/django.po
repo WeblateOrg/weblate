@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-14 13:39+0000\n"
-"PO-Revision-Date: 2019-02-07 15:11+0000\n"
+"PO-Revision-Date: 2019-02-16 21:31+0000\n"
 "Last-Translator: Iván Seoane <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
 "gl/>\n"
@@ -586,16 +586,12 @@ msgid "User with reviewer permissions"
 msgstr "Usuario cos permisos de revisor"
 
 #: weblate/accounts/views.py:558
-#, fuzzy
-#| msgid "Login to Weblate"
 msgid "Log in to use Weblate."
-msgstr "Acceso a Weblate"
+msgstr "Iniciar a sesión para empregar o Weblate."
 
 #: weblate/accounts/views.py:574
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Thank you for using Weblate."
-msgstr "Grazas por usar Weblate!"
+msgstr "Grazas por empregar o Weblate."
 
 #: weblate/accounts/views.py:661 weblate/templates/accounts/email.html:17
 msgid "Register email"
@@ -639,10 +635,8 @@ msgid "Can not change authentication for demo!"
 msgstr "Non é posíbel muda-la autentificación para a versión de proba!"
 
 #: weblate/accounts/views.py:910
-#, fuzzy
-#| msgid "Registration date"
 msgid "New registrations are disabled!"
-msgstr "Data de rexistro"
+msgstr "Os novos rexistros están desactivados!"
 
 #: weblate/accounts/views.py:936
 msgid ""
@@ -652,14 +646,12 @@ msgstr ""
 "da conexión."
 
 #: weblate/accounts/views.py:941
-#, fuzzy
 msgid "Authentication has been cancelled."
-msgstr "Contexto da tradución"
+msgstr "Desbotouse a autentificación."
 
 #: weblate/accounts/views.py:946
-#, fuzzy
 msgid "Authentication has been forbidden by server."
-msgstr "Contexto da tradución"
+msgstr "O servidor prohibiu a autentificación."
 
 #: weblate/accounts/views.py:950
 msgid ""
@@ -693,10 +685,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Comments"
 msgid "Component discovery"
-msgstr "Comentarios"
+msgstr "Descubrimento de compoñentes"
 
 #: weblate/addons/discovery.py:37
 msgid ""
@@ -763,9 +753,8 @@ msgstr ""
 "polos desenvolvedores que non son traducidas."
 
 #: weblate/addons/forms.py:51
-#, fuzzy
 msgid "Name of generated file"
-msgstr "Fallou o procesamento do formulario!"
+msgstr "Nome do ficheiro xerado"
 
 #: weblate/addons/forms.py:56
 msgid "Content of generated file"
@@ -1104,7 +1093,7 @@ msgstr "Segundo apelido"
 
 #: weblate/auth/data.py:58
 msgid "Download reports"
-msgstr "Descarregar informes"
+msgstr "Baixar informes"
 
 #: weblate/auth/data.py:60
 #, fuzzy
@@ -3997,7 +3986,7 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
-msgstr "Descarregar factura"
+msgstr "Baixar factura"
 
 #: weblate/templates/billing/detail.html:71
 msgid "Not available"
@@ -4192,11 +4181,11 @@ msgstr "Actividade"
 
 #: weblate/templates/component.html:45 weblate/templates/project.html:38
 msgid "Download statistics (CSV)"
-msgstr "Descarregar estatísticas (CSV)"
+msgstr "Baixar estatísticas (CSV)"
 
 #: weblate/templates/component.html:46 weblate/templates/project.html:39
 msgid "Download statistics (JSON)"
-msgstr "Descarregar estatísticas (JSON)"
+msgstr "Baixar estatísticas (JSON)"
 
 #: weblate/templates/component.html:48
 #, fuzzy
@@ -4795,26 +4784,16 @@ msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">O proxecto de tradución para %(project)s</a> en galego "
-"actualmente contén %(total)s cadeas para traducción e está %(percent)s%% "
-"completo."
+"O proxecto de tradución de %(project)s</a> ó inglés contén actualmente "
+"%(total)s cadeas para traducir e está rematado nun %(percent)s%%."
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4824,15 +4803,13 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">O proxecto de tradución para %(project)s</a> actualmente "
-"contén %(total)s cadeas para tradución e <a href=\"%(lang_url)s\">é "
-"traducido a %(languages)s linguas</a>. En xeral, estas traducións están "
-"%(percent)s%% completas."
+"O proxecto de tradución para %(project)s</a> actualmente contén %(total)s "
+"cadeas para tradución e é traducido a %(languages)s linguas</a>. En xeral, "
+"estas traducións están %(percent)s%% completas."
 msgstr[1] ""
-"<a href=\"%(url)s\">O proxecto de tradución para %(project)s</a> actualmente "
-"contén %(total)s cadeas para tradución e <a href=\"%(lang_url)s\">é "
-"traducido a %(languages)s linguas</a>. En xeral, estas traducións están "
-"%(percent)s%% completas."
+"O proxecto de tradución para %(project)s</a> actualmente contén %(total)s "
+"cadeas para tradución e é traducido a %(languages)s linguas</a>. En xeral, "
+"estas traducións están %(percent)s%% completas."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5867,11 +5844,11 @@ msgstr "Número de total das aportacións"
 
 #: weblate/templates/memory/index.html:58
 msgid "Download as JSON"
-msgstr "Descarrega coma JSON"
+msgstr "Baixar coma JSON"
 
 #: weblate/templates/memory/index.html:59
 msgid "Download as TMX"
-msgstr "Descarrega coma TMX"
+msgstr "Baixar coma TMX"
 
 #: weblate/templates/memory/index.html:67
 msgid "Import translation memory"
@@ -6779,22 +6756,22 @@ msgstr "Fallou a tradución"
 #: weblate/templates/translation-download.html:6
 #, python-format
 msgid "Download original translation file (%(format)s)"
-msgstr "Descarregar ficheiro da tradución de orixe (%(format)s)"
+msgstr "Baixar ficheiro da tradución de orixe (%(format)s)"
 
 #: weblate/templates/translation-download.html:9
 #, python-format
 msgid "Download translation file as %(format)s"
-msgstr "Descarregar ficheiro da tradución coma %(format)s"
+msgstr "Baixar ficheiro da tradución coma %(format)s"
 
 #: weblate/templates/translation-download.html:14
 #, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "Descarregar cadeas que precisan de acción coma %(format)s"
+msgstr "Baixar cadeas que precisan de acción coma %(format)s"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:291
 msgid "Customize download"
-msgstr "Persoaliza-la descarrega"
+msgstr "Persoalizar a baixada"
 
 #: weblate/templates/translation-download.html:21
 msgid "Upload translation"
@@ -6844,7 +6821,7 @@ msgstr "Ficheiro da tradución"
 #: weblate/templates/translation.html:190
 #: weblate/templates/translation.html:297
 msgid "Download"
-msgstr "Descarregar"
+msgstr "Baixar"
 
 #: weblate/templates/translation.html:207
 msgid "Browse all translation changes"
