@@ -72,7 +72,7 @@ your distribution packages:
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 ``PIL`` or ``Pillow`` library
     https://python-pillow.org/
-``lxml`` (>= 3.1.0)
+``lxml`` (>= 3.5.0)
     https://lxml.de/
 ``defusedxml`` (>= 0.4)
     https://bitbucket.org/tiran/defusedxml

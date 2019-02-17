@@ -256,7 +256,7 @@ def get_versions():
         'lxml',
         'https://lxml.de/',
         'lxml.etree',
-        '3.1.0',
+        '3.5.0',
     ))
 
     result.append(get_single(
