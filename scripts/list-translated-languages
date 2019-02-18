@@ -35,6 +35,8 @@ def main():
             code = lang['code'].replace('_', '-').lower()
             if code == 'be-latn':
                 code = 'be@latin'
+            elif code == 'nb-no':
+                code = 'nb'
             languages.append(code)
     languages.sort()
     print 'Expected setup:'
