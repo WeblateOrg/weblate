@@ -505,13 +505,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             *self.store.get_filenames()
         )
 
-    def git_commit(self, request, author, timestamp, skip_push=False,
-                   force_new=False):
+    def git_commit(self, request, author, timestamp, skip_push=False):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
         with repository.lock:
             # Is there something for commit?
-            if not force_new and not self.repo_needs_commit():
+            if not self.repo_needs_commit():
                 return False
 
             # Do actual commit with git lock

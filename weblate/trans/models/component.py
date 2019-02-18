@@ -1700,7 +1700,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 request.user.get_author_name()
                 if request else 'Weblate <noreply@weblate.org>',
                 timezone.now(),
-                force_new=True,
             )
             self.run_target_checks()
             translation.invalidate_cache()
