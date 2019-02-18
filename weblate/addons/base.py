@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from itertools import chain
 import subprocess
 
 from django.apps import apps
@@ -199,7 +200,10 @@ class UpdateBaseAddon(BaseAddon):
         repository = component.repository
         with repository.lock:
             if repository.needs_commit():
-                files = [t.filename for t in component.translation_set.all()]
+                files = list(chain.from_iterable((
+                    translation.store.get_filenames()
+                    for translation in component.translation_set.all()
+                )))
                 repository.commit(
                     self.get_commit_message(component),
                     files=files
