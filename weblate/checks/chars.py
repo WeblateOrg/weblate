@@ -167,7 +167,7 @@ class EndColonCheck(TargetCheck):
         ' :', ' : ',
         '&nbsp;:', '&nbsp;: ',
         '\u00A0:', '\u00A0: ',
-        '\u202F:' '\u202F: '
+        '\u202F:', '\u202F: '
     )
     severity = 'warning'
 
