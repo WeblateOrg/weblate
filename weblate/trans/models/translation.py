@@ -489,10 +489,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
-        return (
-            self.unit_set.filter(pending=True).exists() or
-            self.repo_needs_commit()
-        )
+        return self.unit_set.filter(pending=True).exists()
 
     def repo_needs_merge(self):
         return self.component.repo_needs_merge()
