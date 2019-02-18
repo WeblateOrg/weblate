@@ -193,7 +193,7 @@ class AppStoreFormat(TranslationFormat):
         """Save underlaying store to disk."""
         for filename in self.get_filenames():
             serializer = TextSerializer(
-                os.path.basename(filename), self.store.units
+                self.store.parsers[filename].filename, self.store.units
             )
             self.save_atomic(filename, serializer)
 
