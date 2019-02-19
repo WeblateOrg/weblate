@@ -110,7 +110,7 @@ class GitSquashAddon(BaseAddon):
 
     def post_commit(self, translation):
         component = translation.component
-        if (component.self.repo_needs_merge()
+        if (component.repo_needs_merge()
                 and not component.update_branch(method='rebase')):
             return
         squash = self.instance.configuration['squash']
