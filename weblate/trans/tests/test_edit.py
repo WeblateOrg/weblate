@@ -34,6 +34,10 @@ from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 class EditTest(ViewTestCase):
     """Test for manipulating translation."""
     has_plurals = True
+    source = 'Hello, world!\n'
+    target = 'Nazdar svete!\n'
+    second_target = 'Ahoj svete!\n'
+    already_translated = 0
 
     def setUp(self):
         super(EditTest, self).setUp()
@@ -41,43 +45,34 @@ class EditTest(ViewTestCase):
         self.translate_url = reverse('translate', kwargs=self.kw_translation)
 
     def test_edit(self):
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        response = self.edit_unit(self.source, self.target)
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
-        unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        unit = self.get_unit(source=self.source)
+        self.assertEqual(unit.target, self.target)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assert_backend(1)
+        self.assert_backend(self.already_translated + 1)
 
         # Test that second edit with no change does not break anything
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        response = self.edit_unit(self.source, self.target)
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
-        unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        unit = self.get_unit(source=self.source)
+        self.assertEqual(unit.target, self.target)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assert_backend(1)
+        self.assert_backend(self.already_translated + 1)
 
         # Test that third edit still works
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Ahoj svete!\n'
-        )
+        response = self.edit_unit(self.source, self.second_target)
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
-        unit = self.get_unit()
-        self.assertEqual(unit.target, 'Ahoj svete!\n')
+        unit = self.get_unit(source=self.source)
+        self.assertEqual(unit.target, self.second_target)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assert_backend(1)
+        self.assert_backend(self.already_translated + 1)
 
     def test_plurals(self):
         """Test plural editing."""
@@ -111,34 +106,22 @@ class EditTest(ViewTestCase):
 
     def test_fuzzy(self):
         """Test for fuzzy flag handling."""
-        unit = self.get_unit()
+        unit = self.get_unit(source=self.source)
         self.assertNotEqual(unit.state, STATE_FUZZY)
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            fuzzy='yes',
-            review='10',
-        )
-        unit = self.get_unit()
+        self.edit_unit(self.source, self.target, fuzzy='yes', review='10')
+        unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-        )
-        unit = self.get_unit()
+        self.edit_unit(self.source, self.target)
+        unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            fuzzy='yes'
-        )
-        unit = self.get_unit()
+        self.edit_unit(self.source, self.target, fuzzy='yes')
+        unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
 
 
@@ -384,6 +367,17 @@ class EditJavaTest(EditTest):
 
     def create_component(self):
         return self.create_java()
+
+
+class EditAppStoreTest(EditTest):
+    has_plurals = False
+    source = 'Weblate - continuous localization'
+    target = 'Weblate - průběžná lokalizace'
+    second_target = 'Weblate - průběžný překlad'
+    already_translated = 1
+
+    def create_component(self):
+        return self.create_appstore()
 
 
 class EditXliffComplexTest(EditTest):
