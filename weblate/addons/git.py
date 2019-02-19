@@ -109,17 +109,20 @@ class GitSquashAddon(BaseAddon):
             )
 
     def post_commit(self, translation):
+        component = translation.component
+        if (component.self.repo_needs_merge()
+                and not component.update_branch(method='rebase')):
+            return
         squash = self.instance.configuration['squash']
-        repository = translation.component.repository
+        repository = component.repository
         if not repository.needs_push():
             return
         method = getattr(self, 'squash_{}'.format(squash))
         with repository.lock:
-            method(translation.component, repository)
+            method(component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             if repository.needs_commit():
                 repository.execute([
-                    'commit',
-                    '-m', self.get_commit_message(translation.component)
+                    'commit', '-m', self.get_commit_message(component)
                 ])
