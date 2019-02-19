@@ -61,10 +61,9 @@ class GitSquashAddon(BaseAddon):
         for origin in [component] + list(component.get_linked_childs()):
             for translation in origin.translation_set.all():
                 code = translation.language.code
-                if code in languages:
-                    languages[code].extend(translation.store.get_filenames())
-                else:
-                    languages[code] = translation.store.get_filenames()
+                if code not in languages:
+                    languages[code] = []
+                languages[code].extend(translation.store.get_filenames())
         return languages
 
     def squash_language(self, component, repository):
