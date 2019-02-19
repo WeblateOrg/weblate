@@ -72,6 +72,8 @@ class GitSquashAddon(BaseAddon):
 
         messages = {}
         for code, filenames in languages.items():
+            if not filenames:
+                continue
             messages[code] = repository.execute([
                 'log', '--format=%B', '{}..HEAD'.format(remote), '--'
             ] + filenames)
