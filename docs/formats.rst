@@ -66,7 +66,7 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`qtling`       | both             | yes           | yes            | no            | yes            | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
-| :ref:`aresource`    | mono             | yes           | yes            | no            | no             |                         |
+| :ref:`aresource`    | mono             | yes           | yes [#x]_      | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`apple`        | bilingual        | no            | yes            | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
@@ -99,6 +99,7 @@ Below are listed capabilities of all supported formats.
 .. [#c] Context is used to differentiate same strings used in different scope (eg. `Sun` can be used as abbreviated name of day or as a name of our closest star).
 .. [#l] Location of string in source code might help skilled translators to figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to not translated and translated.
+.. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
 
 .. _gettext:
 
