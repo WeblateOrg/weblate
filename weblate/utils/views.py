@@ -20,6 +20,8 @@
 """Helper methods for views."""
 
 from time import mktime
+import os
+from zipfile import ZipFile
 
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -161,7 +163,27 @@ def download_translation_file(translation, fmt=None, units=None):
         # Force flushing pending units
         translation.commit_pending('download', None)
 
-        srcfilename = translation.get_filename()
+        filenames = translation.store.get_filenames()
+
+        if len(filenames) == 1:
+            extension = translation.store.extension
+            # Create response
+            with open(srcfilename, 'rb') as handle:
+                response = HttpResponse(
+                    handle.read(),
+                    content_type=translation.store.mimetype
+                )
+        else:
+            extension = 'zip'
+            response = HttpResponse(content_type='application/zip')
+            root = translation.get_filename()
+            with ZipFile(response, 'w') as zipfile:
+                for filename in filenames:
+                    with open(filename, 'rb') as handle:
+                        zipfile.writestr(
+                            os.path.relpath(filename, root),
+                            handle.read()
+                        )
 
         # Construct file name (do not use real filename as it is usually not
         # that useful)
@@ -169,15 +191,8 @@ def download_translation_file(translation, fmt=None, units=None):
             translation.component.project.slug,
             translation.component.slug,
             translation.language.code,
-            translation.store.extension
+            extension
         )
-
-        # Create response
-        with open(srcfilename, 'rb') as handle:
-            response = HttpResponse(
-                handle.read(),
-                content_type=translation.store.mimetype
-            )
 
         # Fill in response headers
         response['Content-Disposition'] = 'attachment; filename={0}'.format(

@@ -115,7 +115,7 @@ class ComponentTest(RepoTestCase):
     def test_create_appstore(self):
         component = self.create_appstore()
         self.verify_component(
-            component, 1, 'en-US', 3, 'Weblate - continuous localization'
+            component, 2, 'cs', 3, 'Weblate - continuous localization'
         )
 
     def test_create_po_pot(self):
