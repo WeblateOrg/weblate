@@ -16,7 +16,7 @@
 {% with source.get_source_checks as checks %}
 {% if checks %}
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Strings to check" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Strings status" %}</h4></div>
 <div class="list-group">
 {% for c in checks %}
 <a class="list-group-item list-group-item-{{ c.3 }}" href="{{ review_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
