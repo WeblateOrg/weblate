@@ -28,6 +28,8 @@ import re
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
+from lxml.etree import XMLSyntaxError
+
 import six
 
 from translate.misc import quote
@@ -453,11 +455,15 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
+        try:
+            converted = xliff_string_to_rich(target)
+        except XMLSyntaxError:
+            converted = target
         # Use source for monolingual files if target is not set
         if self.template is not None and not self.template.target:
-            self.unit.rich_source = xliff_string_to_rich(target)
+            self.unit.rich_source = converted
         else:
-            self.unit.rich_target = xliff_string_to_rich(target)
+            self.unit.rich_target = converted
 
     @cached_property
     def xliff_node(self):

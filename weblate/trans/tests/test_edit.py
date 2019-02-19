@@ -402,6 +402,13 @@ class EditXliffComplexTest(EditTest):
     def create_component(self):
         return self.create_xliff('complex')
 
+    def test_invalid_xml(self):
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar & svete!\n'
+        )
+        self.assert_backend(1)
+
 
 class EditXliffResnameTest(EditTest):
     has_plurals = False
