@@ -357,7 +357,8 @@ class ExportTest(ViewTestCase):
     test_match_1 = 'Weblate Hello World 2016'
     test_match_2 = 'Nazdar svete!'
     test_header = 'attachment; filename=test-test-cs.po'
-    test_source = 'Orangutan has %d bananas'
+    test_source = 'Orangutan has %d banana'
+    test_source_plural = 'Orangutan has %d bananas'
 
     def create_component(self):
         # Needs to create PO file to have language pack option
@@ -392,6 +393,7 @@ class ExportTest(ViewTestCase):
     def test_export_po(self):
         response = self.export_format('po')
         self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
         self.assertContains(
             response, '/projects/test/test/cs/'
         )
@@ -399,6 +401,7 @@ class ExportTest(ViewTestCase):
     def test_export_po_todo(self):
         response = self.export_format('po', type='todo')
         self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
         self.assertContains(
             response, '/projects/test/test/cs/'
         )
@@ -410,6 +413,7 @@ class ExportTest(ViewTestCase):
     def test_export_xliff(self):
         response = self.export_format('xliff')
         self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
 
     def test_export_xliff11(self):
         response = self.export_format('xliff11')
@@ -442,6 +446,7 @@ class ExportMultifileTest(ExportTest):
     test_match_2 = b'PK\005\006'
     test_header = 'attachment; filename=test-test-cs.zip'
     test_source = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
+    test_source_plural = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
 
     def create_component(self):
         return self.create_appstore()
