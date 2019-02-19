@@ -168,7 +168,7 @@ def download_translation_file(translation, fmt=None, units=None):
         if len(filenames) == 1:
             extension = translation.store.extension
             # Create response
-            with open(srcfilename, 'rb') as handle:
+            with open(filenames[0], 'rb') as handle:
                 response = HttpResponse(
                     handle.read(),
                     content_type=translation.store.mimetype
