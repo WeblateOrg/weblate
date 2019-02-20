@@ -20,6 +20,8 @@
 
 """Test for notification hooks."""
 
+from __future__ import unicode_literals
+
 import json
 
 from django.urls import reverse
@@ -393,6 +395,84 @@ BITBUCKET_PAYLOAD_HOSTED = r'''
       }
     ]
   }
+}
+'''
+
+BITBUCKET_PAYLOAD_SERVER = r'''
+{
+    "eventKey": "repo:refs_changed",
+    "date": "2019-02-20T03:28:49+0000",
+    "actor": {
+        "name": "joe.blogs",
+        "emailAddress": "joe.bloggs@example.com",
+        "id": 160,
+        "displayName": "Joe Bloggs",
+        "active": true,
+        "slug": "joe.blogs",
+        "type": "NORMAL",
+        "links": {
+            "self": [
+                {
+                    "href": "https://bitbucket.example.com/users/joe.blogs"
+                }
+            ]
+        }
+    },
+    "repository": {
+        "slug": "my-repo",
+        "id": 3944,
+        "name": "my-repo",
+        "scmId": "git",
+        "state": "AVAILABLE",
+        "statusMessage": "Available",
+        "forkable": true,
+        "project": {
+            "key": "SANDPIT",
+            "id": 205,
+            "name": "Sandpit",
+            "description": "sandpit project",
+            "public": false,
+            "type": "NORMAL",
+            "links": {
+                "self": [
+                    {
+                        "href": "https://bitbucket.example.com/projects/SANDPIT"
+                    }
+                ]
+            }
+        },
+        "public": false,
+        "links": {
+            "clone": [
+                {
+                    "href": "https://bitbucket.example.com/scm/sandpit/my-repo.git",
+                    "name": "http"
+                },
+                {
+                    "href": "ssh://git@bitbucket.example.com:7999/sandpit/my-repo.git",
+                    "name": "ssh"
+                }
+            ],
+            "self": [
+                {
+                    "href": "https://bitbucket.example.com/projects/SANDPIT/repos/my-repo/browse"
+                }
+            ]
+        }
+    },
+    "changes": [
+        {
+            "ref": {
+                "id": "refs/heads/master",
+                "displayId": "master",
+                "type": "BRANCH"
+            },
+            "refId": "refs/heads/master",
+            "fromHash": "fdff3f418a8e3d25d6c8cb80776d6ac142bef800",
+            "toHash": "7cb42185f7d8eab95f5fac3de2648a16361ecf34",
+            "type": "UPDATE"
+        }
+    ]
 }
 '''
 
@@ -943,6 +1023,21 @@ class BitbucketBackendTest(HookBackendTestCase):
                     'hg::ssh://hg@bitbucket.org/team_name/repo_name',
                     'hg::https://api.bitbucket.org/team_name/repo_name',
                     'hg::https://bitbucket.org/team_name/repo_name'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+    def test_server(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_SERVER,
+            {
+                'branch': 'master',
+                'full_name': 'SANDPIT/my-repo.git',
+                'repo_url': 'https://bitbucket.example.com/projects/SANDPIT/repos/my-repo/browse',
+                'repos': [
+                    'https://bitbucket.example.com/scm/sandpit/my-repo.git',
+                    'ssh://git@bitbucket.example.com:7999/sandpit/my-repo.git',
                 ],
                 'service_long_name': 'Bitbucket'
             }

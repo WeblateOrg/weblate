@@ -41,22 +41,12 @@ from weblate.logger import LOGGER
 
 
 BITBUCKET_GIT_REPOS = (
-    'ssh://git@bitbucket.org/%(owner)s/%(slug)s.git',
-    'git@bitbucket.org:%(owner)s/%(slug)s.git',
-    'https://bitbucket.org/%(owner)s/%(slug)s.git',
-)
-
-BITBUCKET_HG_REPOS = (
-    'https://bitbucket.org/%(owner)s/%(slug)s',
-    'ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
-    'hg::ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
-    'hg::https://bitbucket.org/%(owner)s/%(slug)s',
-)
-
-BITBUCKET_REPOS = (
     'ssh://git@{server}/{full_name}.git',
     'git@{server}:{full_name}.git',
     'https://{server}/{full_name}.git',
+)
+
+BITBUCKET_HG_REPOS = (
     'https://{server}/{full_name}',
     'ssh://hg@{server}/{full_name}',
     'hg::ssh://hg@{server}/{full_name}',
@@ -156,6 +146,7 @@ def vcs_service_hook(request, service):
     hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
+    service_data = hook_helper(data)
     try:
         service_data = hook_helper(data)
     except Exception as error:
@@ -219,43 +210,54 @@ def vcs_service_hook(request, service):
     ))
 
 
-def bitbucket_webhook_helper(data):
-    """API to handle webhooks from Bitbucket"""
-    if 'full_name' in data['repository']:
-        full_name = data['repository']['full_name']
-    else:
-        full_name = data['repository']['fullName']
-    if 'html' in data['repository']['links']:
-        repo_url = data['repository']['links']['html']['href']
-    else:
-        repo_url = data['repository']['links']['self'][0]['href']
+def bitbucket_extract_changes(data):
+    if 'changes' in data:
+        return data['changes']
+    if 'push' in data:
+        return data['push']['changes']
+    if 'commits' in data:
+        return data['commits']
+    return {}
 
-    repo_servers = set(('bitbucket.org',))
-    repo_servers.add(urlparse(repo_url).hostname)
 
-    repos = [
-        repo.format(full_name=full_name, server=server)
-        for repo in BITBUCKET_REPOS
-        for server in repo_servers
-    ]
-
-    branch = None
-
-    changes = data['push']['changes']
-
+def bitbucket_extract_branch(data):
+    changes = bitbucket_extract_changes(data)
     if changes:
-        if changes[-1]['new']:
-            branch = changes[-1]['new']['name']
-        elif changes[-1]['old']:
-            branch = changes[-1]['old']['name']
+        last = changes[-1]
+        if 'branch' in last:
+            return last['branch']
+        if last.get('new'):
+            return changes[-1]['new']['name']
+        if last.get('old'):
+            return changes[-1]['old']['name']
+        if 'ref' in last:
+            return last['ref']['displayId']
+    return None
 
-    return {
-        'service_long_name': 'Bitbucket',
-        'repo_url': repo_url,
-        'repos': repos,
-        'branch': branch,
-        'full_name': '{}.git'.format(full_name),
-    }
+
+def bitbucket_extract_full_name(repository):
+    if 'full_name' in repository:
+        return repository['full_name']
+    if 'fullName' in repository:
+        return repository['fullName']
+    if 'owner' in repository and 'slug' in repository:
+        return '{}/{}'.format(repository['owner'], repository['slug'])
+    if 'project' in repository and 'slug' in repository:
+        return '{}/{}'.format(
+            repository['project']['key'], repository['slug']
+        )
+    raise ValueError('Could not determine repository full name')
+
+
+def bitbucket_extract_repo_url(data, repository):
+    if 'links' in repository:
+        if 'html' in data['repository']['links']:
+            return repository['links']['html']['href']
+        else:
+            return repository['links']['self'][0]['href']
+    if 'canon_url' in data:
+        return '{}{}'.format(data['canon_url'], repository['absolute_url'])
+    raise ValueError('Could not determine repository URL')
 
 
 @register_hook
@@ -263,38 +265,40 @@ def bitbucket_hook_helper(data):
     """API to handle service hooks from Bitbucket."""
     if 'diagnostics' in data:
         return None
-    if 'push' in data:
-        return bitbucket_webhook_helper(data)
 
-    # Parse owner, branch and repository name
-    owner = data['repository']['owner']
-    slug = data['repository']['slug']
-    if data['commits']:
-        branch = data['commits'][-1]['branch']
-    else:
-        branch = None
-    params = {'owner': owner, 'slug': slug}
+    repository = data['repository']
+    full_name = bitbucket_extract_full_name(repository)
+    repo_url = bitbucket_extract_repo_url(data, repository)
 
-    # Construct possible repository URLs
-    if data['repository']['scm'] == 'git':
-        repos = [repo % params for repo in BITBUCKET_GIT_REPOS]
-    elif data['repository']['scm'] == 'hg':
-        repos = [repo % params for repo in BITBUCKET_HG_REPOS]
+    # Extract repository links
+    if 'links' in repository and 'clone' in repository['links']:
+        repos = [val['href'] for val in repository['links']['clone']]
     else:
-        LOGGER.error(
-            'unsupported repository: %s',
-            repr(data['repository'])
-        )
+        repo_servers = set(('bitbucket.org', urlparse(repo_url).hostname))
+        repos = []
+        if 'scm' not in data['repository']:
+            templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS
+        elif data['repository']['scm'] == 'hg':
+            templates = BITBUCKET_HG_REPOS
+        else:
+            templates = BITBUCKET_GIT_REPOS
+        # Construct possible repository URLs
+        for repo in templates:
+            repos.extend((
+                repo.format(full_name=full_name, server=server)
+                for server in repo_servers
+            ))
+
+    if not repos:
+        LOGGER.error('unsupported repository: %s', repr(data['repository']))
         raise ValueError('unsupported repository')
 
     return {
         'service_long_name': 'Bitbucket',
-        'repo_url': ''.join([
-            data['canon_url'], data['repository']['absolute_url']
-        ]),
+        'repo_url': repo_url,
         'repos': repos,
-        'branch': branch,
-        'full_name': '{}/{}.git'.format(owner, slug),
+        'branch': bitbucket_extract_branch(data),
+        'full_name': '{}.git'.format(full_name),
     }
 
 
