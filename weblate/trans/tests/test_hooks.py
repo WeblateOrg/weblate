@@ -887,7 +887,12 @@ class HookBackendTestCase(SimpleTestCase):
     def assert_hook(self, payload, expected):
         self.maxDiff = None
         handler = HOOK_HANDLERS[self.hook]
-        self.assertEqual(handler(json.loads(payload)), expected)
+        result = handler(json.loads(payload))
+        if result:
+            result['repos'] = list(sorted(result['repos']))
+        if expected:
+            expected['repos'] = list(sorted(expected['repos']))
+        self.assertEqual(expected, result)
 
 
 class BitbucketBackendTest(HookBackendTestCase):
