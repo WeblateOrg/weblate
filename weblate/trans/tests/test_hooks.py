@@ -20,9 +20,13 @@
 
 """Test for notification hooks."""
 
+import json
+
 from django.urls import reverse
+from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
+from weblate.trans.views.hooks import HOOK_HANDLERS
 from weblate.trans.tests.test_views import ViewTestCase
 
 GITHUB_PAYLOAD = '''
@@ -795,4 +799,151 @@ class HooksViewTest(ViewTestCase):
             response,
             'Hook working',
             status_code=200
+        )
+
+
+class HookBackendTestCase(SimpleTestCase):
+    hook = None
+    def assert_hook(self, payload, expected):
+        self.maxDiff = None
+        handler = HOOK_HANDLERS[self.hook]
+        self.assertEqual(handler(json.loads(payload)), expected)
+
+
+class BitbucketBackendTest(HookBackendTestCase):
+    hook = 'bitbucket'
+
+    def test_ping(self):
+        self.assert_hook(b'{"diagnostics": "ping"}', None)
+
+    def test_git(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_GIT,
+            {
+                'branch': 'master',
+                'full_name': 'marcus/project-x.git',
+                'repo_url': 'https://bitbucket.org/marcus/project-x/',
+                'repos': [
+                    'ssh://git@bitbucket.org/marcus/project-x.git',
+                    'git@bitbucket.org:marcus/project-x.git',
+                    'https://bitbucket.org/marcus/project-x.git'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+    def test_hg(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_HG,
+            {
+                'branch': 'featureA',
+                'full_name': 'marcus/project-x.git',
+                'repo_url': 'https://bitbucket.org/marcus/project-x/',
+                'repos': [
+                    'https://bitbucket.org/marcus/project-x',
+                    'ssh://hg@bitbucket.org/marcus/project-x',
+                    'hg::ssh://hg@bitbucket.org/marcus/project-x',
+                    'hg::https://bitbucket.org/marcus/project-x'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+
+    def test_hg_no_commit(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_HG_NO_COMMIT,
+            {
+                'branch': None,
+                'full_name': 'marcus/project-x.git',
+                'repo_url': 'https://bitbucket.org/marcus/project-x/',
+                'repos': [
+                    'https://bitbucket.org/marcus/project-x',
+                    'ssh://hg@bitbucket.org/marcus/project-x',
+                    'hg::ssh://hg@bitbucket.org/marcus/project-x',
+                    'hg::https://bitbucket.org/marcus/project-x'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+    def test_webhook(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_WEBHOOK,
+            {
+                'branch': 'name-of-branch',
+                'full_name': 'team_name/repo_name.git',
+                'repo_url': 'https://api.bitbucket.org/bitbucket/bitbucket',
+                'repos': [
+                    'ssh://git@api.bitbucket.org/team_name/repo_name.git',
+                    'ssh://git@bitbucket.org/team_name/repo_name.git',
+                    'git@api.bitbucket.org:team_name/repo_name.git',
+                    'git@bitbucket.org:team_name/repo_name.git',
+                    'https://api.bitbucket.org/team_name/repo_name.git',
+                    'https://bitbucket.org/team_name/repo_name.git',
+                    'https://api.bitbucket.org/team_name/repo_name',
+                    'https://bitbucket.org/team_name/repo_name',
+                    'ssh://hg@api.bitbucket.org/team_name/repo_name',
+                    'ssh://hg@bitbucket.org/team_name/repo_name',
+                    'hg::ssh://hg@api.bitbucket.org/team_name/repo_name',
+                    'hg::ssh://hg@bitbucket.org/team_name/repo_name',
+                    'hg::https://api.bitbucket.org/team_name/repo_name',
+                    'hg::https://bitbucket.org/team_name/repo_name'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+    def test_hosted(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_HOSTED,
+            {
+                'branch': 'develop',
+                'full_name': '~DSNOECK/weblate-training.git',
+                'repo_url': 'https://bitbucket.example.com/weblate-training/browse',
+                'repos': [
+                    'ssh://git@bitbucket.org/~DSNOECK/weblate-training.git',
+                    'ssh://git@bitbucket.example.com/~DSNOECK/weblate-training.git',
+                    'git@bitbucket.org:~DSNOECK/weblate-training.git',
+                    'git@bitbucket.example.com:~DSNOECK/weblate-training.git',
+                    'https://bitbucket.org/~DSNOECK/weblate-training.git',
+                    'https://bitbucket.example.com/~DSNOECK/weblate-training.git',
+                    'https://bitbucket.org/~DSNOECK/weblate-training',
+                    'https://bitbucket.example.com/~DSNOECK/weblate-training',
+                    'ssh://hg@bitbucket.org/~DSNOECK/weblate-training',
+                    'ssh://hg@bitbucket.example.com/~DSNOECK/weblate-training',
+                    'hg::ssh://hg@bitbucket.org/~DSNOECK/weblate-training',
+                    'hg::ssh://hg@bitbucket.example.com/~DSNOECK/weblate-training',
+                    'hg::https://bitbucket.org/~DSNOECK/weblate-training',
+                    'hg::https://bitbucket.example.com/~DSNOECK/weblate-training'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
+        )
+
+    def test_webhook_closed(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_WEBHOOK_CLOSED,
+            {
+                'branch': 'name-of-branch',
+                'full_name': 'team_name/repo_name.git',
+                'repo_url': 'https://api.bitbucket.org/bitbucket/bitbucket',
+                'repos': [
+                    'ssh://git@api.bitbucket.org/team_name/repo_name.git',
+                    'ssh://git@bitbucket.org/team_name/repo_name.git',
+                    'git@api.bitbucket.org:team_name/repo_name.git',
+                    'git@bitbucket.org:team_name/repo_name.git',
+                    'https://api.bitbucket.org/team_name/repo_name.git',
+                    'https://bitbucket.org/team_name/repo_name.git',
+                    'https://api.bitbucket.org/team_name/repo_name',
+                    'https://bitbucket.org/team_name/repo_name',
+                    'ssh://hg@api.bitbucket.org/team_name/repo_name',
+                    'ssh://hg@bitbucket.org/team_name/repo_name',
+                    'hg::ssh://hg@api.bitbucket.org/team_name/repo_name',
+                    'hg::ssh://hg@bitbucket.org/team_name/repo_name',
+                    'hg::https://api.bitbucket.org/team_name/repo_name',
+                    'hg::https://bitbucket.org/team_name/repo_name'
+                ],
+                'service_long_name': 'Bitbucket'
+            }
         )
