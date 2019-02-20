@@ -146,7 +146,6 @@ def vcs_service_hook(request, service):
     hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
-    service_data = hook_helper(data)
     try:
         service_data = hook_helper(data)
     except Exception as error:
