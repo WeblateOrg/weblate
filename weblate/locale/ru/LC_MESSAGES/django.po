@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-14 13:39+0000\n"
-"PO-Revision-Date: 2019-02-20 13:05+0000\n"
+"PO-Revision-Date: 2019-02-20 13:14+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -5896,7 +5896,9 @@ msgstr ""
 
 #: weblate/templates/trans/alert/mergefailure.html:4
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Weblate не смог объединить изменения при обновлении репозитория."
+msgstr ""
+"Weblate не смог объединить изменения верхнего репозитория при обновлении "
+"данног репозитория."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -5926,16 +5928,17 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"Репозиторий VCS имеет множество изменений по сравнению с выгружаемым. "
-"Объедините изменения вручную или настройте push, чтобы автоматизировать это."
+"Репозиторий VCS имеет множество изменений по сравнению с верхним "
+"репозиторием. Объедините изменения вручную или настройте отправку, чтобы "
+"автоматизировать это."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Репозиторий VCS не обновляется с выгружаемым. Объедините изменения вручную "
-"или настройте автоматизацию."
+"Репозиторий VCS не обновляется с верхним репозиторием. Объедините изменения "
+"вручную или настройте автоматизацию."
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
 msgid ""
@@ -7342,7 +7345,7 @@ msgstr "Дубликат перевода."
 
 #: weblate/trans/models/alert.py:142
 msgid "Could not merge the repository."
-msgstr "Не удалось смёржить репозиторий."
+msgstr "Не удалось объединить репозиторий."
 
 #: weblate/trans/models/alert.py:147
 msgid "Could not update the repository."
@@ -7450,7 +7453,7 @@ msgstr "По измененим произведён коммит"
 
 #: weblate/trans/models/change.py:216
 msgid "Pushed changes"
-msgstr "Изменения запушены"
+msgstr "Изменения отправлены"
 
 #: weblate/trans/models/change.py:217
 msgid "Reset repository"
@@ -7466,7 +7469,7 @@ msgstr "Репозиторий перезбазирован"
 
 #: weblate/trans/models/change.py:220
 msgid "Failed merge on repository"
-msgstr "Не удалось смержить репозиторий"
+msgstr "Не удалось объединить репозиторий"
 
 #: weblate/trans/models/change.py:221
 msgid "Failed rebase on repository"
@@ -7569,7 +7572,7 @@ msgstr "Язык не добавлен"
 
 #: weblate/trans/models/component.py:85
 msgid "Merge"
-msgstr "Слияние"
+msgstr "Объединить"
 
 #: weblate/trans/models/component.py:161
 msgid "Repository push URL"
@@ -7742,8 +7745,8 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Должен ли Weblate сливать (merge) удаленный репозиторий или перебазировать "
-"(rebase) изменения в него."
+"Должен ли Weblate объединить с верхним репозиторием или перебазировать "
+"изменения в него."
 
 #: weblate/trans/models/component.py:357
 msgid "Commit message when translating"
@@ -8838,7 +8841,7 @@ msgstr[2] ""
 #: weblate/trans/views/files.py:120
 #, python-format
 msgid "File content merge failed: %s"
-msgstr "Ошибка слияния содержимого файла: %s"
+msgstr "Ошибка при объединении содержания файла: %s"
 
 #: weblate/trans/views/git.py:44
 msgid "Failed to lock the repository, another operation in progress."
@@ -8854,7 +8857,7 @@ msgstr "Все репозитории обновлены."
 
 #: weblate/trans/views/git.py:80
 msgid "All repositories were pushed."
-msgstr "Все репозитории запушены."
+msgstr "Все репозитории отправлены."
 
 #: weblate/trans/views/git.py:91
 msgid "All repositories have been reset."
