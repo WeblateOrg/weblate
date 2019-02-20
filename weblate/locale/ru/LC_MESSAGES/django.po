@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-14 13:39+0000\n"
-"PO-Revision-Date: 2019-02-20 12:52+0000\n"
+"PO-Revision-Date: 2019-02-20 13:05+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -4810,7 +4810,7 @@ msgstr "Статус репозитория"
 
 #: weblate/templates/js/git-status.html:21
 msgid "There are some uncommitted changes!"
-msgstr "Есть незафиксированные изменения!"
+msgstr "Есть изменения, по которым не произведён коммит!"
 
 #: weblate/templates/js/git-status.html:25
 msgid "There has been a merge failure in the repository"
@@ -7446,7 +7446,7 @@ msgstr "Обнаружена дублирующаяся строка"
 
 #: weblate/trans/models/change.py:215
 msgid "Committed changes"
-msgstr "Изменения закоммичены"
+msgstr "По измененим произведён коммит"
 
 #: weblate/trans/models/change.py:216
 msgid "Pushed changes"
@@ -7798,7 +7798,9 @@ msgstr "Возраст изменений для коммита"
 #: weblate/trans/models/component.py:422
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "Время в часах, после которого изменения будут закоммичены в VCS."
+msgstr ""
+"Время в часах, после которого по любым ожидающим изменениям будет произведён "
+"коммит в VCS."
 
 #: weblate/trans/models/component.py:442
 msgid "Components with higher priority are offered first to translators."
@@ -8844,7 +8846,7 @@ msgstr "Невозможно заблокировать репозиторий, 
 
 #: weblate/trans/views/git.py:56
 msgid "All pending translations were committed."
-msgstr "Все ожидающие переводы закоммичены."
+msgstr "По всем ожидающим переводам произедён коммит."
 
 #: weblate/trans/views/git.py:68
 msgid "All repositories were updated."
