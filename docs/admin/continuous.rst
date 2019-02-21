@@ -47,32 +47,6 @@ source. Either use hooks (see :ref:`hooks`) or just regularly run
 Whenever Weblate updates the repository, the :guilabel:`Post-update script`
 hooks are executed.
 
-With Gettext PO files, you might get bit by conflicts in PO file
-headers. To avoid it, you can use the shipped merge driver
-(:file:`examples/git-merge-gettext-po`). Use it by putting the following
-configuration in your :file:`.gitconfig`:
-
-.. code-block:: ini
-
-   [merge "merge-gettext-po"]
-     name = merge driver for Gettext PO files
-     driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
-
-Then enable its use by defining proper attributes in the given repository (e.g. in
-:file:`.git/info/attributes`)::
-
-    *.po merge=merge-gettext-po
-
-.. note::
-
-    This merge driver assumes changes in POT files always are done in the
-    attemptedly merged branch.
-
-.. versionchanged:: 2.9
-
-    This merge driver is now automatically installed for all Weblate internal
-    repositories.
-
 .. _avoid-merge-conflicts:
 
 Avoiding merge conflicts

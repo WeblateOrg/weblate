@@ -1,5 +1,24 @@
 #!/bin/sh
 
+# With Gettext PO files, you might get bit by conflicts in PO file
+# headers. To avoid it, you can use the this merge driver. Use it by
+# putting the following configuration in your .gitconfig:
+#
+#  [merge "merge-gettext-po"]
+#     name = merge driver for Gettext PO files
+#     driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
+#
+# Then enable its use by defining proper attributes in the given repository (e.g. in
+# .git/info/attributes:
+#
+#    *.po merge=merge-gettext-po
+#
+# This merge driver assumes changes in POT files always are done in the
+# attemptedly merged branch.
+#
+# This merge driver is now automatically installed for all Weblate internal
+# repositories.
+
 # Usage: git-merge-gettext-po %O %A %B
 # First param is merge ancestors version
 # Second param is current version
