@@ -218,6 +218,10 @@ of the Python libraries on the system.
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
+        # Install database backend for PostgreSQL
+        pip install psycopg2-binary
+        # Install database backend for MySQL
+        pip install mysqlclient
 
 5. Create your settings (in this example it would be in
    :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
@@ -322,6 +326,11 @@ need to install several Python modules manually using pip:
     # Optional for OCR support
     apt-get install tesseract-ocr libtesseract-dev libleptonica-dev cython
     pip install tesserocr
+
+    # Install database backend for PostgreSQL
+    pip install psycopg2-binary
+    # Install database backend for MySQL
+    pip install mysqlclient
 
 For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
 

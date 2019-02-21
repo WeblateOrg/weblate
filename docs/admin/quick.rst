@@ -74,6 +74,10 @@ development server.
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
+        # Install database backend for PostgreSQL
+        pip install psycopg2-binary
+        # Install database backend for MySQL
+        pip install mysqlclient
 
 #. Copy the file :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings-example.py`
    to :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
