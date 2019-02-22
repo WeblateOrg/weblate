@@ -272,4 +272,6 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
-        self.assertIn('lang="cs"', mail.outbox[0].alternatives[0][0])
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertIn('lang="cs"', content)
+        self.assertIn('změněno', content)

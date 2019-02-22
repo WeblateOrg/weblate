@@ -371,13 +371,16 @@ def notify_account_activity(user, request, activity, **kwargs):
     )
 
     if audit.should_notify():
+        # Here we do not call the get*message methods to avoid
+        # evaluating here in request locales. We need to that later in
+        # the template with mail locale.
         send_notification_email(
             user.profile.language,
             user.email,
             'account_activity',
             context={
-                'message': audit.get_message(),
-                'extra_message': audit.get_extra_message(),
+                'message': audit.get_message,
+                'extra_message': audit.get_extra_message,
                 'address': address,
                 'user_agent': user_agent,
             },
