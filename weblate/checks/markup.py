@@ -243,9 +243,21 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
             return False
         tgt_match = MD_LINK.findall(target)
 
-        # We don't check actual link targets as those might
-        # be localized as well (consider links to Wikipedia)
-        return len(src_match) != len(tgt_match)
+        # Check number of links
+        if len(src_match) != len(tgt_match):
+            return True
+
+        # We don't check actual remote link targets as those might
+        # be localized as well (consider links to Wikipedia).
+        # Instead we check
+        link_start = ('.', '#')
+        tgt_anchors = set((
+            x[2] for x in tgt_match if x[2] and x[2][0] in link_start
+        ))
+        src_anchors = set((
+            x[2] for x in src_match if x[2] and x[2][0] in link_start
+        ))
+        return tgt_anchors != src_anchors
 
 
 class MarkdownSyntaxCheck(MarkdownBaseCheck):
