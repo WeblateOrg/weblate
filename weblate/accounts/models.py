@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 
 import datetime
 
+from appconf import AppConf
+
 from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
@@ -559,3 +561,28 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         Token.objects.create(user=instance, key=get_random_string(40))
         # Create profile
         Profile.objects.create(user=instance)
+
+
+class WeblateAccountsConf(AppConf):
+    """Accounts settings."""
+    # Disable avatars
+    ENABLE_AVATARS = True
+
+    # Avatar URL prefix
+    AVATAR_URL_PREFIX = 'https://www.gravatar.com/'
+
+    # Avatar fallback image
+    # See http://en.gravatar.com/site/implement/images/ for available choices
+    AVATAR_DEFAULT_IMAGE = 'identicon'
+
+    # Enable registrations
+    REGISTRATION_OPEN = True
+
+    # Registration email filter
+    REGISTRATION_EMAIL_MATCH = '.*'
+
+    # Captcha for registrations
+    REGISTRATION_CAPTCHA = True
+
+    class Meta(object):
+        prefix = ''

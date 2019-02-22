@@ -706,5 +706,8 @@ class WeblateAuthConf(AppConf):
     AUTH_VALIDATE_PERMS = False
     AUTH_RESTRICT_ADMINS = {}
 
+    # Anonymous user name
+    ANONYMOUS_USER_NAME = 'anonymous'
+
     class Meta(object):
         prefix = ''

@@ -75,18 +75,6 @@ class WeblateConf(AppConf):
     # Font for charts and widgets
     TTF_PATH = os.path.join(settings.BASE_DIR, 'weblate', 'ttf')
 
-    # Anonymous user name
-    ANONYMOUS_USER_NAME = 'anonymous'
-
-    # Enable registrations
-    REGISTRATION_OPEN = True
-
-    # Registration email filter
-    REGISTRATION_EMAIL_MATCH = '.*'
-
-    # Captcha for registrations
-    REGISTRATION_CAPTCHA = True
-
     # Matomo
     PIWIK_SITE_ID = None
     PIWIK_URL = None
@@ -99,19 +87,6 @@ class WeblateConf(AppConf):
 
     # URL with legal docs
     LEGAL_URL = None
-
-    # Use simple language codes for default language/country combinations
-    SIMPLIFY_LANGUAGES = True
-
-    # Disable avatars
-    ENABLE_AVATARS = True
-
-    # Avatar URL prefix
-    AVATAR_URL_PREFIX = 'https://www.gravatar.com/'
-
-    # Avatar fallback image
-    # See http://en.gravatar.com/site/implement/images/ for available choices
-    AVATAR_DEFAULT_IMAGE = 'identicon'
 
     # Is the site using https
     ENABLE_HTTPS = False
