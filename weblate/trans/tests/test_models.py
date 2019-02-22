@@ -28,6 +28,7 @@ from django.core.management.color import no_style
 from django.db import connection
 from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
+from django.test.utils import override_settings
 
 from weblate.auth.models import User, Group
 from weblate.checks.models import Check
@@ -334,6 +335,37 @@ class UnitTest(ModelTestCase):
         unit = Unit.objects.all()[0]
         unit.flags = 'no-wrap, ignore-same'
         self.assertEqual(unit.all_flags, {'no-wrap', 'ignore-same'})
+
+    def test_get_max_length_no_pk(self):
+        unit = Unit.objects.all()[0]
+        unit.pk = False
+        self.assertEqual(unit.get_max_length(), 10000)
+
+    def test_get_max_length_empty_source_default_fallback(self):
+        unit = Unit.objects.all()[0]
+        unit.pk = True
+        unit.source = ''
+        self.assertEqual(unit.get_max_length(), 100)
+
+    def test_get_max_length_default_fallback(self):
+        unit = Unit.objects.all()[0]
+        unit.pk = True
+        unit.source = 'My test source'
+        self.assertEqual(unit.get_max_length(), 140)
+
+    @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
+    def test_get_max_length_empty_source_disabled_default_fallback(self):
+        unit = Unit.objects.all()[0]
+        unit.pk = True
+        unit.source = ''
+        self.assertEqual(unit.get_max_length(), 10000)
+
+    @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
+    def test_get_max_length_disabled_default_fallback(self):
+        unit = Unit.objects.all()[0]
+        unit.pk = True
+        unit.source = 'My test source'
+        self.assertEqual(unit.get_max_length(), 10000)
 
 
 class WhiteboardMessageTest(ModelTestCase):

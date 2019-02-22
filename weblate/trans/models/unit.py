@@ -1010,8 +1010,10 @@ class Unit(models.Model, LoggerMixin):
                     return int(flag[11:])
                 except ValueError:
                     continue
-        # Fallback to reasonably big value
-        return max(100, len(self.get_source_plurals()[0]) * 10)
+        if settings.LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH:
+            # Fallback to reasonably big value
+            return max(100, len(self.get_source_plurals()[0]) * 10)
+        return 10000
 
     def get_target_hash(self):
         return calculate_hash(None, self.target)
