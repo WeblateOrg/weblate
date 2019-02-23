@@ -193,6 +193,16 @@ class MarkdownLinkCheckTest(CheckTestCase):
             'md-text'
         )
 
+    def test_template(self):
+        self.do_test(
+            False,
+            (
+                '[translate]({{ site.baseurl }}/docs/Translation/) here',
+                'Die [übersetzen]({{ site.baseurl }}/docs/Translation/)',
+                'md-text',
+            ),
+        )
+
 
 class MarkdownSyntaxCheckTest(CheckTestCase):
     check = MarkdownSyntaxCheck()

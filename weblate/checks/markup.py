@@ -249,8 +249,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
 
         # We don't check actual remote link targets as those might
         # be localized as well (consider links to Wikipedia).
-        # Instead we check
-        link_start = ('.', '#')
+        # Instead we check only relative links and templated ones.
+        link_start = ('.', '#', '{')
         tgt_anchors = set((
             x[2] for x in tgt_match if x[2] and x[2][0] in link_start
         ))
