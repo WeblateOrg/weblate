@@ -22,6 +22,8 @@
 Tests for user handling.
 """
 
+from __future__ import unicode_literals
+
 from django.core import mail
 from django.test.utils import override_settings
 
