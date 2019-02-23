@@ -191,3 +191,8 @@ class AddonScriptError(MultiAlert):
 @register
 class MsgmergeAddonError(MultiAlert):
     verbose = _('Error when executing addon.')
+
+
+@register
+class MonolingualTranslation(BaseAlert):
+    verbose = _('Misconfigured monolingual translation.')

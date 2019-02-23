@@ -1570,6 +1570,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_alerts()
 
     def update_alerts(self):
+        from weblate.trans.models import Unit
         if self.new_lang != 'add' and self.new_base:
             self.add_alert('UnusedNewBase')
         else:
@@ -1581,6 +1582,19 @@ class Component(models.Model, URLMixin, PathMixin):
             self.add_alert('MissingLicense')
         else:
             self.delete_alert('MissingLicense')
+
+        source_space = Unit.objects.filter(
+            translation__component=self,
+            source__contains=' '
+        ).exists
+        target_space = Unit.objects.filter(
+            translation__component=self,
+            target__contains=' '
+        ).exists
+        if not self.template and not source_space() and target_space():
+            self.add_alert('MonolingualTranslation')
+        else:
+            self.delete_alert('MonolingualTranslation')
 
     def needs_commit(self):
         """Check whether there are some not committed changes"""

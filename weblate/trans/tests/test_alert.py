@@ -74,3 +74,29 @@ class AlertTest(ViewTestCase):
         component.license = 'license'
         component.update_alerts()
         self.assertFalse(has_license_alert(component))
+
+    def test_monolingual(self):
+        component = self.component
+        component.update_alerts()
+        self.assertFalse(
+            component.alert_set.filter(name='MonolingualTranslation').exists()
+        )
+
+
+class MonolingualAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_mono()
+
+    def test_monolingual(self):
+        def has_monolingual_alert(component):
+            return component.alert_set.filter(
+                name='MonolingualTranslation'
+            ).exists()
+
+        component = self.component
+        component.update_alerts()
+        self.assertFalse(has_monolingual_alert(component))
+
+        self.component.template = ''
+        self.component.save()
+        self.assertTrue(has_monolingual_alert(component))
