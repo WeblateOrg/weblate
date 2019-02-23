@@ -653,6 +653,11 @@ ENABLE_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
+# By default the length of a given translation is limited to the length of
+# the source string * 10 characters. Set this option to False to allow longer
+# translations (up to 10.000 characters)
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
+
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
 

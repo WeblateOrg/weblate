@@ -571,6 +571,15 @@ URL where your Weblate instance shows it's legal documents. This is useful if
 you host your legal documents outside Weblate for embedding inside Weblate
 please see :ref:`legal`.
 
+.. setting:: LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+-----------------------------------------
+
+By default the length of a given translation is limited to the length of the source string * 10 characters. Set this option to False to allow longer translations (up to 10.000 characters) irrespective of the source length.
+
+Defaults to True.
+
 .. setting:: LOGIN_REQUIRED_URLS
 
 LOGIN_REQUIRED_URLS
