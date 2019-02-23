@@ -50,6 +50,7 @@ before_script:
   - ./cc-test-reporter before-build
 # commands to run tests
 script:
+  - ./manage.py compilemessages
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
