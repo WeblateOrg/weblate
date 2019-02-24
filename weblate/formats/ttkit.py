@@ -399,7 +399,7 @@ class PoUnit(TTKitUnit):
         """
         if self.template is not None:
             # Monolingual PO files
-            return self.template.getid()
+            return self.template.source or self.template.getcontext()
         return super(PoUnit, self).context
 
     @cached_property
