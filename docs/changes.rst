@@ -17,6 +17,7 @@ Released on ? 2019.
 * Added several new quality checks (Markdown related and URL).
 * Added support for app store metadata files.
 * Added support for toggling GitHub or Gerrit integration.
+* Added check for Kashida letters.
 
 weblate 3.4
 -----------

@@ -477,6 +477,19 @@ Markdown syntax does not match source
 .. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
 .. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
 
+
+.. _check-kashida:
+
+Kashida letter used
+~~~~~~~~~~~~~~~~~~~
+
+The decorative Kashida letters should not be used in translation. These are
+also known as Tatweel.
+
+.. seealso::
+
+   `Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_
+
 .. _check-url:
 
 URL

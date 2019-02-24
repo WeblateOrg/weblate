@@ -48,6 +48,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.chars.EndEllipsisCheck',
         'weblate.checks.chars.EndSemicolonCheck',
         'weblate.checks.chars.MaxLengthCheck',
+        'weblate.checks.chars.KashidaCheck',
         'weblate.checks.format.PythonFormatCheck',
         'weblate.checks.format.PythonBraceFormatCheck',
         'weblate.checks.format.PHPFormatCheck',

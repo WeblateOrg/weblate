@@ -26,6 +26,11 @@ from weblate.checks.base import (
     TargetCheck, TargetCheckParametrized, CountingCheck
 )
 
+KASHIDA_CHARS = (
+    '\u0640', '\uFCF2', '\uFCF3', '\uFCF4', '\uFE71', '\uFE77', '\uFE79',
+    '\uFE7B', '\uFE7D', '\uFE7F'
+)
+
 
 class BeginNewlineCheck(TargetCheck):
     """Check for newlines at beginning."""
@@ -375,3 +380,14 @@ class EndSemicolonCheck(TargetCheck):
             # Complement to question mark check
             return False
         return self.check_chars(source, target, -1, [';'])
+
+
+class KashidaCheck(TargetCheck):
+    check_id = 'kashida'
+    name = _('Kashida used')
+    description = _('The decorative kashida letters should not be used'
+    )
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        return any((x in target for x in KASHIDA_CHARS))
