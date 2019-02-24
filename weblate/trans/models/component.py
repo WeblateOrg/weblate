@@ -137,7 +137,9 @@ class Component(models.Model, URLMixin, PathMixin):
         max_length=20,
         help_text=ugettext_lazy(
             'Version control system to use to access your '
-            'repository with translations.'
+            'repository with translations. You can also choose '
+            'additional integration with third party providers to '
+            'submit merge requests.'
         ),
         choices=VCS_REGISTRY.get_choices(),
         default=settings.DEFAULT_VCS,

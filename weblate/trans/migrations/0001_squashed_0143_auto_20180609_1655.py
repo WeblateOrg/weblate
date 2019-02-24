@@ -316,7 +316,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='vcs',
-            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
+            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations. You can also choose additional integration with third party providers to submit merge requests.', max_length=20, verbose_name='Version control system'),
         ),
         migrations.AddField(
             model_name='component',
