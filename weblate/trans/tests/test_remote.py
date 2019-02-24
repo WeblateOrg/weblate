@@ -87,7 +87,7 @@ class MultiRepoTest(ViewTestCase):
             new_base='',
             branch=self._branch,
         )
-        self.request = self.get_request('/')
+        self.request = self.get_request()
 
     def push_first(self, propagate=True, newtext='Nazdar svete!\n'):
         """Change and pushes first component."""

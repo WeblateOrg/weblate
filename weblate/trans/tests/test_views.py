@@ -144,7 +144,7 @@ class ViewTestCase(RepoTestCase):
 
     def get_request(self, *args, **kwargs):
         """Wrapper to get fake request object."""
-        request = self.factory.get(*args, **kwargs)
+        request = self.factory.get('/')
         request.user = self.user
         setattr(request, 'session', 'session')
         messages = FallbackStorage(request)
@@ -163,7 +163,7 @@ class ViewTestCase(RepoTestCase):
     def change_unit(self, target, source='Hello, world!\n', language='cs'):
         unit = self.get_unit(source, language)
         unit.target = target
-        unit.save_backend(self.get_request('/'))
+        unit.save_backend(self.get_request())
 
     def edit_unit(self, source, target, **kwargs):
         """Do edit single unit using web interface."""
@@ -298,7 +298,7 @@ class TranslationManipulationTest(ViewTestCase):
         self.assertTrue(
             self.component.add_new_language(
                 Language.objects.get(code='af'),
-                self.get_request('/')
+                self.get_request()
             )
         )
         self.assertTrue(
@@ -311,7 +311,7 @@ class TranslationManipulationTest(ViewTestCase):
         self.assertFalse(
             self.component.add_new_language(
                 Language.objects.get(code='de'),
-                self.get_request('/')
+                self.get_request()
             )
         )
 
@@ -321,7 +321,7 @@ class TranslationManipulationTest(ViewTestCase):
         self.assertFalse(
             self.component.add_new_language(
                 Language.objects.get(code='de'),
-                self.get_request('/')
+                self.get_request()
             )
         )
 

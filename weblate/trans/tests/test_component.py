@@ -725,7 +725,7 @@ class ComponentEditTest(ViewTestCase):
         del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request('/')
+        request = self.get_request()
 
         self.assertTrue(
             unit.translate(request, ['Empty'], STATE_TRANSLATED)
@@ -751,7 +751,7 @@ class ComponentEditMonoTest(ComponentEditTest):
         del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request('/')
+        request = self.get_request()
 
         self.assertTrue(
             unit.translate(request, ['Empty'], STATE_TRANSLATED)

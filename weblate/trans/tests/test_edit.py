@@ -683,7 +683,7 @@ class EditComplexTest(ViewTestCase):
         self.assertTrue(self.component.needs_commit())
         self.assertTrue(self.component.project.needs_commit())
 
-        self.translation.commit_pending('test', self.get_request('/'))
+        self.translation.commit_pending('test', self.get_request())
 
         self.assertFalse(self.translation.needs_commit())
         self.assertFalse(self.component.needs_commit())
@@ -693,7 +693,7 @@ class EditComplexTest(ViewTestCase):
         self.assertTrue(self.component.repo_needs_push())
         self.assertTrue(self.component.project.repo_needs_push())
 
-        self.translation.do_push(self.get_request('/'))
+        self.translation.do_push(self.get_request())
 
         self.assertFalse(self.translation.repo_needs_push())
         self.assertFalse(self.component.repo_needs_push())

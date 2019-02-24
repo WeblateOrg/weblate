@@ -262,7 +262,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         )
 
     def test_notify_account(self):
-        request = self.get_request('/')
+        request = self.get_request()
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
@@ -270,7 +270,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def test_notify_html_language(self):
         self.user.profile.language = 'cs'
         self.user.profile.save()
-        request = self.get_request('/')
+        request = self.get_request()
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
