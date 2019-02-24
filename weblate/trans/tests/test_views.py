@@ -142,10 +142,10 @@ class ViewTestCase(RepoTestCase):
         # Project privileges
         self.project.add_user(self.user, '@Administration')
 
-    def get_request(self, *args, **kwargs):
+    def get_request(self, user=None):
         """Wrapper to get fake request object."""
         request = self.factory.get('/')
-        request.user = self.user
+        request.user = user if user else self.user
         setattr(request, 'session', 'session')
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
@@ -160,10 +160,11 @@ class ViewTestCase(RepoTestCase):
         translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
-    def change_unit(self, target, source='Hello, world!\n', language='cs'):
+    def change_unit(self, target, source='Hello, world!\n', language='cs',
+                    user=None):
         unit = self.get_unit(source, language)
         unit.target = target
-        unit.save_backend(self.get_request())
+        unit.save_backend(self.get_request(user=user))
 
     def edit_unit(self, source, target, **kwargs):
         """Do edit single unit using web interface."""
