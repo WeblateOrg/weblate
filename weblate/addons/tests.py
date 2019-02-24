@@ -648,7 +648,7 @@ class GitSquashAddonTest(ViewTestCase):
             self.component.commit_pending('test', None)
             self.change_unit(
                 'Diky za pouziti Weblate.', 'Thank you for using Weblate.',
-                lang
+                lang, user=self.anotheruser
             )
             self.component.commit_pending('test', None)
 
