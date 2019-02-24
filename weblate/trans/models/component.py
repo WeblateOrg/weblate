@@ -1444,14 +1444,6 @@ class Component(models.Model, URLMixin, PathMixin):
             old = Component.objects.get(pk=self.id)
             self.check_rename(old, validate=True)
 
-            if old.vcs != self.vcs:
-                # This could work, but the problem is that before changed
-                # object is saved the linked repos still see old vcs leading
-                # to horrible mess. Changing vcs from the manage.py shell
-                # works fine though.
-                msg = _('Changing version control system is not supported!')
-                raise ValidationError({'vcs': msg})
-
         self.clean_repo()
 
         # Template validation
@@ -1514,6 +1506,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
+                (old.vcs != self.vcs) or
                 (old.repo != self.repo) or
                 (old.branch != self.branch) or
                 (old.filemask != self.filemask) or

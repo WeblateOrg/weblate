@@ -1403,6 +1403,8 @@ class ComponentSettingsForm(SettingsBaseForm):
             'delete_message',
             'merge_message',
             'addon_message',
+
+            'vcs',
             'repo',
             'branch',
             'push',
@@ -1462,6 +1464,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                     Fieldset(
                         _('Locations'),
                         Div(template='trans/repo_help.html'),
+                        'vcs',
                         'repo',
                         'branch',
                         'push',
@@ -1504,6 +1507,12 @@ class ComponentSettingsForm(SettingsBaseForm):
                 template='layout/pills.html',
             )
         )
+        vcses = ('git', 'gerrit', 'github')
+        if self.instance.vcs not in vcses:
+            vcses = (self.instance.vcs, )
+        self.fields['vcs'].choices = [
+            c for c in self.fields['vcs'].choices if c[0] in vcses
+        ]
 
 
 class ComponentCreateForm(SettingsBaseForm):

@@ -16,6 +16,7 @@ Released on ? 2019.
 * Improved navigation in the zen mode.
 * Added several new quality checks (Markdown related and URL).
 * Added support for app store metadata files.
+* Added support for toggling GitHub or Gerrit integration.
 
 weblate 3.4
 -----------
