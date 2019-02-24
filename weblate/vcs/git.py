@@ -125,8 +125,7 @@ class GitRepository(Repository):
             # Checkout original branch (we might be on tmp)
             self.execute(['checkout', self.branch])
         else:
-            if self.has_branch(tmp):
-                self.execute(['branch', '-D', tmp])
+            self.delete_branch(tmp)
             # We don't do simple git merge origin/branch as that leads
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
@@ -152,8 +151,11 @@ class GitRepository(Repository):
             self.execute(['merge', tmp])
 
         # Delete temporary branch
-        if self.has_branch(tmp):
-            self.execute(['branch', '-D', tmp])
+        self.delete_branch(tmp)
+
+    def delete_branch(self, name):
+        if self.has_branch(name):
+            self.execute(['branch', '-D', name])
 
     def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
