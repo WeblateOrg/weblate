@@ -671,3 +671,12 @@ class GitSquashAddonTest(ViewTestCase):
     def test_mo(self):
         GenerateMoAddon.create(self.component)
         self.test_squash('file', 3)
+
+    def test_author(self):
+        self.test_squash('author', 2)
+        # Add commit which can not be squashed
+        self.change_unit(
+            'Diky za pouzivani Weblate.', 'Thank you for using Weblate.',
+        )
+        self.component.commit_pending('test', None)
+        self.assertEqual(self.component.repository.count_outgoing(), 3)

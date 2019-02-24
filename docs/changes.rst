@@ -18,6 +18,7 @@ Released on ? 2019.
 * Added support for app store metadata files.
 * Added support for toggling GitHub or Gerrit integration.
 * Added check for Kashida letters.
+* Added option to squash commits based on authors.
 
 weblate 3.4
 -----------

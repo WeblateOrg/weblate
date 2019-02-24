@@ -204,6 +204,9 @@ class Repository(object):
     @cached_property
     def last_revision(self):
         """Return last local revision."""
+        return self.get_last_revision()
+
+    def get_last_revision(self):
         return self.execute(self._cmd_last_revision, needs_lock=False)
 
     @cached_property

@@ -104,6 +104,7 @@ class GitSquashForm(BaseAddonForm):
             ('all', _('All commits into one')),
             ('language', _('Per language')),
             ('file', _('Per file')),
+            ('author', _('Per author')),
         ),
         initial='all',
         required=True,

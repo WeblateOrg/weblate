@@ -20,11 +20,17 @@
 
 from __future__ import unicode_literals
 
+from collections import OrderedDict
+
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.addons.forms import GitSquashForm
+
+from weblate.utils.errors import report_error
+
+from weblate.vcs.base import RepositoryException
 
 
 class GitSquashAddon(BaseAddon):
@@ -47,14 +53,18 @@ class GitSquashAddon(BaseAddon):
             return False
         return super(GitSquashAddon, cls).can_install(component, user)
 
-    def squash_all(self, component, repository):
+    def squash_all(self, component, repository, base=None, author=None):
         with repository.lock:
-            remote = repository.get_remote_branch_name()
+            remote = base if base else repository.get_remote_branch_name()
             message = repository.execute([
                 'log', '--format=%B', '{}..HEAD'.format(remote)
             ])
             repository.execute(['reset', '--soft', remote])
-            repository.execute(['commit', '-m', message])
+            cmd = ['commit', '-m', message]
+            if author:
+                cmd.append('--author')
+                cmd.append(author)
+            repository.execute(cmd)
 
     def get_filenames(self, component):
         languages = {}
@@ -107,6 +117,59 @@ class GitSquashAddon(BaseAddon):
             repository.execute(
                 ['commit', '-m', message, '--', filename]
             )
+
+    def squash_author(self, component, repository):
+        remote = repository.get_remote_branch_name()
+        # Get list of pending commits with authors
+        commits = [
+            x.split(None, 1) for x in reversed(repository.execute([
+                'log', '--format=%H %aE', '{}..HEAD'.format(remote),
+            ]).splitlines())
+        ]
+
+        tmp = 'weblate-squash-tmp'
+        repository.delete_branch(tmp)
+        try:
+            # Create local branch for upstream
+            repository.execute(['branch', tmp, remote])
+            # Checkout upstream branch
+            repository.execute(['checkout', tmp])
+            while commits:
+                commit, author = commits.pop(0)
+                # Remember current revision for final squash
+                base = repository.get_last_revision()
+                # Cherry pick current commit (this should work
+                # unless something is messed up)
+                repository.execute(['cherry-pick', commit])
+                handled = []
+                # Pick other commits by same author
+                for i, other in enumerate(commits):
+                    if other[1] != author:
+                        continue
+                    try:
+                        repository.execute(['cherry-pick', other[0]])
+                        handled.append(i)
+                    except RepositoryException:
+                        # If fails, continue to another author, we will
+                        # pick this commit later (it depends on some other)
+                        repository.execute(['cherry-pick', '--abort'])
+                        break
+                # Remove processed commits from list
+                for i in reversed(handled):
+                    del commits[i]
+                # Squash all current commits from one author
+                self.squash_all(component, repository, base, author)
+
+            # Update working copy with squashed commits
+            repository.execute(['checkout', repository.branch])
+            repository.execute(['reset', '--hard', tmp])
+            repository.delete_branch(tmp)
+
+        except RepositoryException as error:
+            report_error(error)
+            # Revert to original branch without any changes
+            repository.execute(['checkout', repository.branch])
+            repository.delete_branch(tmp)
 
     def post_commit(self, translation):
         component = translation.component
