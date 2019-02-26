@@ -242,6 +242,7 @@ def ocr_extract(api, image, strings):
         for part in parts:
             for match in difflib.get_close_matches(part, strings, cutoff=0.9):
                 yield match
+    api.Clear()
 
 
 @login_required
