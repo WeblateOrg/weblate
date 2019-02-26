@@ -27,6 +27,7 @@ from translate.storage.lisa import LISAfile
 from translate.storage.resx import RESXFile
 
 from weblate.addons.base import UpdateBaseAddon
+from weblate.formats.ttkit import TTKitFormat
 
 
 class CleanupAddon(UpdateBaseAddon):
@@ -45,7 +46,8 @@ class CleanupAddon(UpdateBaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.has_template():
+        if (not component.has_template()
+                or not isinstance(component.template_store, TTKitFormat)):
             return False
         return super(CleanupAddon, cls).can_install(component, user)
 
