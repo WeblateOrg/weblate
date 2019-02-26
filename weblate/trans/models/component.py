@@ -1679,13 +1679,14 @@ class Component(models.Model, URLMixin, PathMixin):
         # the processing of new language can take some time and user
         # can submit again)
         if os.path.exists(fullname):
-            translation = Translation.objects.check_sync(
-                self, language, format_code, filename, request=request
-            )
-            self.run_target_checks()
-            translation.invalidate_cache()
-            messages.error(request, _('Translation file already exists!'))
-            return False
+            with transaction.atomic():
+                translation = Translation.objects.check_sync(
+                    self, language, format_code, filename, request=request
+                )
+                self.run_target_checks()
+                translation.invalidate_cache()
+                messages.error(request, _('Translation file already exists!'))
+                return False
 
         file_format.add_language(fullname, language, base_filename)
 
