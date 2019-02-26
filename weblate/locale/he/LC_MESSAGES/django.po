@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-24 20:40+0000\n"
-"PO-Revision-Date: 2019-02-20 15:14+0000\n"
+"PO-Revision-Date: 2019-02-26 17:19+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -768,10 +768,8 @@ msgid "Per file"
 msgstr "לפי קובץ"
 
 #: weblate/addons/forms.py:107
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "מחבר אחרון"
+msgstr "לפי מחבר"
 
 #: weblate/addons/forms.py:124
 msgid "Sort JSON keys"
@@ -1660,11 +1658,11 @@ msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה 
 
 #: weblate/checks/chars.py:387
 msgid "Kashida used"
-msgstr ""
+msgstr "נעשה שימוש בקשידה"
 
 #: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "אין סיבה להשתמש באותיות קשידה לעיטור"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -3377,18 +3375,12 @@ msgid "project wide"
 msgstr "כלל המיזם"
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid ""
-#| "All Weblate commits from all components within this repository will be "
-#| "squashed."
 msgid "This addon operates on all components sharing this repository."
-msgstr "כל ההגשות מצד Weblate מכל הרכיבים שבמאגר זה יימעכו."
+msgstr "תוספת זו פועלת על כל הרכיבים שחולקים את המאגר הזה."
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "פרטי מאגר"
+msgstr "לכל המאגר"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3545,20 +3537,15 @@ msgid ""
 msgstr "כל ההגשות מצד Weblate מכל הרכיבים שבמאגר זה יימעכו."
 
 #: weblate/templates/addons/squash_help.html:7
-#, fuzzy
-#| msgid ""
-#| "The resulting commits will include all commit messages and the commit "
-#| "authorship will not be preserved. If you want to include authorship "
-#| "information it is recommended to customize the commit message to include "
-#| "this."
 msgid ""
 "The resulting commits will include all commit messages and the commit "
 "authorship will not be preserved for all but per author squash. If you want "
 "to include authorship information it is recommended to customize the commit "
 "message to include this."
 msgstr ""
-"ההגשות המתקבלות יכללו את כל הודעות ההגשה והבעלות על ההגשות לא תישמר. אם "
-"ברצונך לכלול נתוני בעלות מומלץ להתאים את הודעת ההגשה כדי שתכלול זאת."
+"ההגשות המתקבלות יכללו את כל הודעות ההגשה והבעלות על ההגשות לא תישמר עבור "
+"הכול אלא רק עבור מעיכה לפי משתמש. אם ברצונך לכלול נתוני בעלות מומלץ להתאים "
+"את הודעת ההגשה כדי שתכלול זאת."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -5720,10 +5707,8 @@ msgid "No matching source strings found."
 msgstr "לא נמצאו מחרוזות מקור תואמות."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:155
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "מצב שירות"
+msgstr "מצב מחרוזות"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:179
 msgid "Project Information"
@@ -5798,13 +5783,11 @@ msgstr ""
 msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
-msgstr ""
+msgstr "רכיב התרגום נראה כאילו הוא חד־לשוני, אך לא כך הוא מוגדר."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add monolingual base language file in component setting."
-msgstr "קובץ בסיס שפה חד לשוני"
+msgstr "נא להוסיף קובץ בסיס שפה חד־לשוני בהגדרות הרכיב."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -7256,10 +7239,8 @@ msgid "Error when executing addon."
 msgstr "הפעלת התוסף נכשלה."
 
 #: weblate/trans/models/alert.py:198
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "הורדה לצורך תרגום לא מקוון."
+msgstr "תרגום חד־לשוני עם הגדרות לקויות."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7451,14 +7432,13 @@ msgid "Merge"
 msgstr "מיזוג"
 
 #: weblate/trans/models/component.py:139
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with translations."
 msgid ""
 "Version control system to use to access your repository with translations. "
 "You can also choose additional integration with third party providers to "
 "submit merge requests."
-msgstr "מערכת ניהול גרסאות לשימוש לטובת גישה למאגר שלך עם התרגומים."
+msgstr ""
+"מערכת ניהול גרסאות לשימוש לטובת גישה למאגר שלך עם התרגומים. ניתן לבחור שילוב "
+"נוסף מול ספקי צד שלישי להגשת בקשות מיזוג."
 
 #: weblate/trans/models/component.py:163
 msgid "Repository push URL"
