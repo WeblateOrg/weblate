@@ -475,26 +475,21 @@ Caching server setup
 ~~~~~~~~~~~~~~~~~~~~
 
 Using Redis is strongly recommended by Weblate and you have to provide a Redis
-instance when running Weblate in Docker. Additionally Memcached is supported
-for compatibility with older deployments.
+instance when running Weblate in Docker.
 
 .. seealso:: :ref:`production-cache`
 
 .. envvar:: REDIS_HOST
 
-   The memcached server hostname or IP address. Defaults to ``cache``.
+   The Redis server hostname or IP address. Defaults to ``cache``.
 
 .. envvar:: REDIS_PORT
 
-    The Memcached server port. Defaults to ``6379``.
+    The Redis server port. Defaults to ``6379``.
 
-.. envvar:: MEMCACHED_HOST
+.. envvar:: REDIS_DB
 
-   The Memcached server hostname or IP address. Defaults to ``cache``.
-
-.. envvar:: MEMCACHED_PORT
-
-    The Memcached server port. Defaults to ``11211``.
+    The Redis database number, defaults to ``1``.
 
 Email server setup
 ~~~~~~~~~~~~~~~~~~
