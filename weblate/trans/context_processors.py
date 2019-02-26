@@ -96,11 +96,11 @@ def weblate_context(request):
 
     if settings.OFFER_HOSTING:
         description = _(
-            'Hosted Weblate, the place to translate your software project.'
+            'Hosted Weblate, the place to localize your software project.'
         )
     else:
         description = _(
-            'This site runs Weblate for translating various software projects.'
+            'This site runs Weblate for localizing various software projects.'
         )
 
     weblate_url = URL_BASE % weblate.VERSION
