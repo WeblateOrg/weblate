@@ -38,6 +38,11 @@ while read line; do
     esac
 done < requirements-optional.txt
 
+# For openshift deployment we will also install all requirements for
+# social-auth-core package, otherwise OpenID providers would not work
+
+pip install 'social-auth-core[openidconnect]>=3.1.0'
+
 # Install MySQL and PostgreSQL Python packages.
 
 echo " -----> Installing Python database client packages."

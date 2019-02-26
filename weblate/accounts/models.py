@@ -584,5 +584,9 @@ class WeblateAccountsConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
+    # Auth0 provider default image & title on login page
+    SOCIAL_AUTH_AUTH0_IMAGE = 'btn_auth0_badge.png'
+    SOCIAL_AUTH_AUTH0_TITLE = 'Auth0'
+
     class Meta(object):
         prefix = ''

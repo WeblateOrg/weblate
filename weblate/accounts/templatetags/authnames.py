@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from django import template
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.safestring import mark_safe
+from django.conf import settings
 
 register = template.Library()
 
@@ -48,6 +49,11 @@ SOCIALS = {
     'facebook': {'name': 'Facebook', 'fa_icon': 'facebook'},
     'twitter': {'name': 'Twitter', 'fa_icon': 'twitter'},
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
+    'auth0': {
+      'name': settings.SOCIAL_AUTH_AUTH0_TITLE,
+      'image': settings.SOCIAL_AUTH_AUTH0_IMAGE,
+      'image_class': 'google-image',
+    },
 }
 
 FA_SOCIAL_TEMPLATE = '''
@@ -84,7 +90,8 @@ def auth_name(auth, extra_class='fa-4x', separator='<br />'):
     if 'fl_icon' in params:
         params['icon'] = FL_SOCIAL_TEMPLATE.format(**params)
     elif 'image' in params:
-        params['image'] = staticfiles_storage.url(params['image'])
+        if not params['image'].startswith('http'):
+            params['image'] = staticfiles_storage.url(params['image'])
         params['icon'] = IMAGE_SOCIAL_TEMPLATE.format(**params)
     else:
         params['icon'] = FA_SOCIAL_TEMPLATE.format(**params)
