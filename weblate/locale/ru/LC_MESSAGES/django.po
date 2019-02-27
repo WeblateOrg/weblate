@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 07:02+0000\n"
-"PO-Revision-Date: 2019-02-26 21:11+0000\n"
+"PO-Revision-Date: 2019-02-27 18:01+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.5-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -700,7 +700,7 @@ msgstr "Эта надстройка исполняет скрипт."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Отмечать новые исходные строки как «Необходима правка»"
+msgstr "Отмечать новые исходные строки как «На правку»"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -708,13 +708,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Когда новая исходная строка импортируется из VCS, она помечается как "
-"«Необходима правка» в Weblate. Таким образом, вы можете легко фильтровать и "
-"править исходные строки, добавленные разработчиками."
+"Когда новая исходная строка импортируется из VCS, она помечается как «На "
+"правку» в Weblate. Таким образом, вы можете легко фильтровать и править "
+"исходные строки, добавленные разработчиками."
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Пометить новые переводы как «Необходима правка»"
+msgstr "Пометить новые переводы как «На правку»"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -723,12 +723,12 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Всякий раз, когда новая переводимая строка импортируется из VCS, она "
-"помечается как «Необходима правка» в Weblate. Таким образом, вы можете легко "
+"помечается как «На правку» в Weblate. Таким образом, вы можете легко "
 "фильтровать и править переводы, созданные разработчиками."
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Отмечать неизмененные переводы как «Необходима правка»"
+msgstr "Отмечать неизмененные переводы как «На правку»"
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -738,9 +738,8 @@ msgid ""
 "not translated."
 msgstr ""
 "Когда новую переводимую строку импортируют из VCS, и она совпадает с "
-"исходными строками, её помечают в Weblate как «Необходима правка». Это "
-"особенно удобно для файловых форматов, содержащих все строки, даже "
-"непереведённые."
+"исходными строками, её помечают в Weblate как «На правку». Это особенно "
+"удобно для файловых форматов, содержащих все строки, даже непереведённые."
 
 #: weblate/addons/forms.py:51
 msgid "Name of generated file"
@@ -1107,7 +1106,7 @@ msgstr "Добавить новую строку"
 
 #: weblate/auth/data.py:77
 msgid "Ignore failing check"
-msgstr "Игнорировать проваленную проверку"
+msgstr "Игнорировать сбойную проверку"
 
 #: weblate/auth/data.py:78
 msgid "Edit strings"
@@ -1494,7 +1493,7 @@ msgstr "Владельцы счетов"
 
 #: weblate/billing/models.py:150
 msgid "Active"
-msgstr "Активно"
+msgstr "Активный"
 
 #: weblate/billing/models.py:151
 msgid "Trial"
@@ -1502,11 +1501,11 @@ msgstr "Пробный"
 
 #: weblate/billing/models.py:152 weblate/templates/billing/detail.html:13
 msgid "Expired"
-msgstr "Срок истёк"
+msgstr "Истёкший"
 
 #: weblate/billing/models.py:153
 msgid "Terminated"
-msgstr "Прекращён"
+msgstr "Прекращённый"
 
 #: weblate/billing/models.py:156
 msgid "Billing state"
@@ -1835,11 +1834,11 @@ msgstr "Символические ссылки Markdown-разметки не �
 
 #: weblate/checks/markup.py:237
 msgid "Markdown links"
-msgstr "Ссылки разметки Markdown"
+msgstr "Ссылки Markdown-разметки"
 
 #: weblate/checks/markup.py:238
 msgid "Markdown links do not match source"
-msgstr "Ссылки разметки Markdown не соответствуют источнику"
+msgstr "Ссылки Markdown-разметки не соответствуют источнику"
 
 #: weblate/checks/markup.py:265
 msgid "Markdown syntax"
@@ -1888,18 +1887,18 @@ msgstr ""
 
 #: weblate/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Множество проваленных проверок"
+msgstr "Множество сбойных проверок"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "Переводы на несколько языков имеют проваленные проверки"
+msgstr "Переводы на несколько языков имеют сбойные проверки"
 
 #: weblate/checks/views.py:74 weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/legend.html:16
 #: weblate/templates/progress.html:11 weblate/templates/project.html:51
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:572
 msgid "Failing checks"
-msgstr "Проверки провалены"
+msgstr "Проверки сбойны"
 
 #: weblate/formats/auto.py:77
 msgid "Automatic detection"
@@ -2776,7 +2775,7 @@ msgstr "Сделанные переводы"
 
 #: weblate/templates/about/stats.html:114
 msgid "Failing checks found"
-msgstr "Найдены проваленные проверки"
+msgstr "Найдены сбойные проверки"
 
 #: weblate/templates/about/stats.html:118
 #: weblate/templates/language-project.html:26
@@ -3911,8 +3910,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Проверки могут помочь определить проблемные переводы или исходные строки, "
-"которые трудно перевести."
+"Проверки могут помочь идентифицировать проблемные переводы или исходные "
+"строки, которые трудно перевести."
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
@@ -4658,7 +4657,7 @@ msgstr "Коммит с хэшем %(hash)s"
 #: weblate/templates/git-commit-info.html:5
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
-msgstr "Опубликовано %(author)s в %(date)s"
+msgstr "Авторство принадлежит %(author)s в %(date)s"
 
 #: weblate/templates/glossary-embed.html:9
 msgid "Copy word into translation"
@@ -4987,7 +4986,7 @@ msgstr "Годно"
 #: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
 #: weblate/utils/state.py:32
 msgid "Needs editing"
-msgstr "Необходима правка"
+msgstr "На правку"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -5012,17 +5011,15 @@ msgstr "Слова"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
-msgstr "Необходима правка"
+msgstr "На правку"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
 msgctxt "Number of failing checks"
 msgid "Checks"
-msgstr "Проверить"
+msgstr "На проверку"
 
 #: weblate/templates/list-translations.html:13
 #: weblate/templates/list-translations.html:25
@@ -5418,11 +5415,11 @@ msgstr "Произошла ошибка разбора в %(component)s на %(s
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
-msgstr "Файл с ошибками"
+msgstr "Сбойный файл"
 
 #: weblate/templates/mail/parse_error.txt:9
 msgid "Failing file:"
-msgstr "Файл с ошибками:"
+msgstr "Сбойный файл:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
@@ -6182,7 +6179,7 @@ msgstr "Копирует исходную строку"
 
 #: weblate/templates/translate.html:115
 msgid "Toggle edit needed flag"
-msgstr "Переключать флаг «Необходима правка»"
+msgstr "Переключать флаг «На правку»"
 
 #: weblate/templates/translate.html:119
 msgid "Editing source string"
@@ -6554,7 +6551,7 @@ msgstr "Итого"
 
 #: weblate/templates/translation.html:431
 msgid "Failing check"
-msgstr "Проваленная проверка"
+msgstr "Сбойная проверка"
 
 #: weblate/templates/translation.html:446
 msgid "Last activity"
@@ -6744,16 +6741,12 @@ msgid "Trailing and leading whitespace"
 msgstr "Лишние пробелы в начале и конце"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "Hosted Weblate - место, чтобы локализовать ваш проект программного "
 "обеспечения."
 
 #: weblate/trans/context_processors.py:103
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Этот сайт работает на Weblate для локализации разнообразных проектов "
@@ -6803,7 +6796,7 @@ msgstr "Строки с комментариями"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with any failing checks"
-msgstr "Строки с любыми проваленными проверками"
+msgstr "Строки с любыми сбойными проверками"
 
 #: weblate/trans/filter.py:40
 msgid "Approved strings"
@@ -6819,7 +6812,7 @@ msgstr "Строки, ожидающие рецензирования"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with any failing source checks"
-msgstr "Исходные строки с любыми проваленными проверками"
+msgstr "Строки с любыми сбойными проверками источника"
 
 #: weblate/trans/filter.py:54
 msgid "Strings with source comments"
@@ -6882,8 +6875,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Строки обычно помечаются как «Необходима правка» после обновления исходной "
-"строки или когда помечено вручную."
+"Строки обычно помечаются как «На правку» после обновления исходной строки "
+"или когда помечено вручную."
 
 #: weblate/trans/forms.py:462
 msgid "Review state"
@@ -6929,7 +6922,7 @@ msgstr "Добавить перевод как \"небходима правка
 
 #: weblate/trans/forms.py:604
 msgid "Processing of strings needing edit"
-msgstr "Обработка строк, отмеченных как «Необходима правка»"
+msgstr "Обработка строк, отмеченных как «На правку»"
 
 #: weblate/trans/forms.py:606
 msgid "Do not import"
@@ -6937,7 +6930,7 @@ msgstr "Не импортировать"
 
 #: weblate/trans/forms.py:607
 msgid "Import as string needing edit"
-msgstr "Импортировать строки, как отмеченные «Необходима правка»"
+msgstr "Импортировать строки, как отмеченные «На правку»"
 
 #: weblate/trans/forms.py:608
 msgid "Import as translated"
@@ -6985,7 +6978,7 @@ msgstr "Подстрока"
 
 #: weblate/trans/forms.py:751
 msgid "Exact match"
-msgstr "Точное совпадение (с учётом регистра)"
+msgstr "Точное соответствие"
 
 #: weblate/trans/forms.py:756
 msgid "Please choose a valid search type."
@@ -7035,7 +7028,7 @@ msgstr "Полнотекстовый поиск для \"%s\""
 #: weblate/trans/forms.py:843
 #, python-format
 msgid "Search for exact string \"%s\""
-msgstr "Поиск точного совпадения с \"%s\""
+msgstr "Поиск точной строки \"%s\""
 
 #: weblate/trans/forms.py:845
 #, python-format
@@ -8526,7 +8519,7 @@ msgstr "Сообщение не переведено"
 
 #: weblate/trans/templatetags/translations.py:573
 msgid "Message has failing checks"
-msgstr "Сообщение имеет проваленные проверки"
+msgstr "Сообщение имеет сбойные проверки"
 
 #: weblate/trans/templatetags/translations.py:578
 msgid "Message is approved"
@@ -8776,7 +8769,7 @@ msgstr "У вас нет привилегий для добавления пре
 
 #: weblate/trans/views/edit.py:197
 msgid "Your suggestion has been identified as spam!"
-msgstr "Ваше предложение распознано как спам!"
+msgstr "Ваше предложение идентифицировано как спам!"
 
 #: weblate/trans/views/edit.py:209
 msgid "Your suggestion already exists!"
