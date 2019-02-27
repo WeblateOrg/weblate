@@ -54,7 +54,7 @@ class XlsxFormat(CSVFormat):
         workbook = Workbook()
         worksheet = workbook.active
 
-        worksheet.title = self.store.targetlanguage
+        worksheet.title = self.store.targetlanguage or 'Weblate'
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
