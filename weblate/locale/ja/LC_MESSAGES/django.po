@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 18:02+0000\n"
-"PO-Revision-Date: 2019-02-23 12:18+0000\n"
+"PO-Revision-Date: 2019-02-28 02:46+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -244,45 +244,39 @@ msgstr "パスワードリセットを確認し、パスワードを無効化し
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "今後、{method} ({name}) を使用してログインできるようになりました。"
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "今後、{method} ({name}) を使用してログインできないようになりました。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "認証しました ({method} ({name}) 。"
+msgstr "{method} ({name}) を使用してログインしました。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "新しいデバイスから認証しました ({method}:{name}) 。"
+msgstr "{method} ({name}) を使用して、新しいデバイスからログインしました。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
+msgstr "誰かがお使いの電子メールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "{method} ({name}) を使用してログインできません。"
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr "認証の失敗回数が規定値を超過したため、アカウントがロックされました。"
+msgstr "一定回数ログインに失敗したため、アカウントがロックされました。"
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -294,24 +288,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 現在の、サービス利用規約の内容に合意しました。"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "入力したパスワードが無効です。"
+msgstr "今後、パスワードを使用してログインできるようになりました。"
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "パスワードをお忘れですか？"
+msgstr "パスワードを使用してログインしました。"
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "パスワードを使用して、新しいデバイスからログインしました。"
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "パスワードを使用してログインできません。"
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -807,34 +797,24 @@ msgstr ""
 "no-wrap パラメータを指定すると、改行文字でのみ改行します。"
 
 #: weblate/addons/forms.py:101
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Commit squashing"
-msgstr "コミットへの署名"
+msgstr "スカッシュ コミット"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "現在のプロジェクトにおけるすべてのコンポーネント"
+msgstr "すべてのコミットを 1 つにする"
 
 #: weblate/addons/forms.py:105
-#, fuzzy
-#| msgid "New language"
 msgid "Per language"
-msgstr "新しい言語"
+msgstr "言語ごとにコミットする"
 
 #: weblate/addons/forms.py:106
-#, fuzzy
-#| msgid "Profile"
 msgid "Per file"
-msgstr "プロフィール"
+msgstr "ファイルごとにコミットする"
 
 #: weblate/addons/forms.py:107
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "直前の作者"
+msgstr "作成者ごとにコミットする"
 
 #: weblate/addons/forms.py:124
 msgid "Sort JSON keys"
@@ -974,14 +954,12 @@ msgid ""
 msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢献年を追加します。"
 
 #: weblate/addons/git.py:38
-#, fuzzy
-#| msgid "Push on commit"
 msgid "Squash Git commits"
-msgstr "コミット時にプッシュする"
+msgstr "Git コミットをスカッシュ"
 
 #: weblate/addons/git.py:39
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "変更をプッシュする前に、Git コミットをスカッシュします。"
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1189,7 +1167,7 @@ msgstr "内部リポジトリからの変更点のプッシュ"
 
 #: weblate/auth/data.py:90
 msgid "Reset changes in the internal repository"
-msgstr "内部リポジトリ内の変更点のリセット"
+msgstr "内部リポジトリの変更点のリセット"
 
 #: weblate/auth/data.py:91
 msgid "View upstream repository location"
@@ -1551,10 +1529,8 @@ msgid "Expired"
 msgstr "期限切れ"
 
 #: weblate/billing/models.py:153
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "翻訳済"
+msgstr "終了"
 
 #: weblate/billing/models.py:156
 msgid "Billing state"
@@ -1573,10 +1549,8 @@ msgid "In limits"
 msgstr "制限内"
 
 #: weblate/billing/models.py:175
-#, fuzzy
-#| msgid "Perform payment"
 msgid "Grace period for payments"
-msgstr "支払いの実施"
+msgstr "支払い猶予期間の終了"
 
 #: weblate/billing/models.py:202
 msgid "Changes in last month"
@@ -1741,11 +1715,11 @@ msgstr "原文と翻訳で一致しない文末のセミコロン"
 
 #: weblate/checks/chars.py:387
 msgid "Kashida used"
-msgstr ""
+msgstr "カシーダの使用"
 
 #: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "装飾的なカシーダが使用されている翻訳"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -1878,37 +1852,27 @@ msgstr "原文と XML タグが合致していないもの"
 
 #: weblate/checks/markup.py:220
 msgid "Markdown link references"
-msgstr ""
+msgstr "マークダウンの参照リンク"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "原文と BBcode が合致しないもの"
+msgstr "原文とマークダウンの参照リンクが合致しないもの"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "マークダウンコード"
+msgstr "マークダウンのリンク"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr "原文と XML タグが合致していないもの"
+msgstr "原文とマークダウンのリンクが合致していないもの"
 
 #: weblate/checks/markup.py:265
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "マークダウンコード"
+msgstr "マークダウンのシンタックス"
 
 #: weblate/checks/markup.py:266
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "原文と C 言語の書式文字列が合致していないもの"
+msgstr "原文とマークダウンのシンタックスが合致していないもの"
 
 #: weblate/checks/markup.py:300 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -1917,10 +1881,8 @@ msgid "URL"
 msgstr "URL"
 
 #: weblate/checks/markup.py:301
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation does not contain an URL"
-msgstr "翻訳が XML として正しくないもの"
+msgstr "URL を含んでいない翻訳"
 
 #: weblate/checks/same.py:148
 msgid "Unchanged translation"
@@ -2099,7 +2061,7 @@ msgstr "RC ファイル"
 
 #: weblate/formats/txt.py:170
 msgid "App store metadata files"
-msgstr ""
+msgstr "アプリストア メタデータファイル"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -2739,6 +2701,8 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate は、リモートリポジトリにアクセスするのに SSH キーを使用します。一致する公開鍵は以下の通りです。Weblate "
+"にリポジトリへのアクセスを許可する際にご利用いただけます。"
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
@@ -3506,9 +3470,7 @@ msgstr "アドオンの設定"
 msgid ""
 "This addon operates on whole project, it is enough to install it on one "
 "component."
-msgstr ""
-"このアドオンはプロジェクト全体に対して動作します。1 つのコンポーネントにイン"
-"ストールすれば十分です。"
+msgstr "このアドオンは、プロジェクト全体に対して動作します。1 つのコンポーネントにインストールすれば十分です。"
 
 #: weblate/templates/addons/addon_head.html:5
 msgid "project wide"
@@ -3516,13 +3478,11 @@ msgstr "プロジェクト全体"
 
 #: weblate/templates/addons/addon_head.html:8
 msgid "This addon operates on all components sharing this repository."
-msgstr ""
+msgstr "このアドオンは、このリポジトリを共有するすべてのコンポーネントに対して動作します。"
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "リポジトリの詳細"
+msgstr "リポジトリ全体"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3650,9 +3610,7 @@ msgstr "コンポーネントには何もマッチしませんでした！"
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
-msgstr ""
-"ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することが"
-"できます。例:"
+msgstr "ファイル名と内容の両方で、Django テンプレートのマークアップを使用できます。例:"
 
 #: weblate/templates/addons/generate_help.html:11
 msgid "Percents translated"
@@ -3679,7 +3637,7 @@ msgstr "プロジェクト URL スラッグ"
 msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
-msgstr ""
+msgstr "このリポジトリ内のすべてのコンポーネントのすべての Weblate のコミットをスカッシュします。"
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -4086,10 +4044,8 @@ msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "すべてのコンポーネント"
+msgstr "コンポーネントのメッセージを追加"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4171,13 +4127,13 @@ msgstr ""
 
 #: weblate/templates/component.html:204 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
-msgstr "すべてのコンポーネントの変更を参照する"
+msgstr "すべてのコンポーネントの変更を参照"
 
 #: weblate/templates/component.html:217
 msgid ""
 "The message is shown on all translations within the component until it's "
 "expiry or permanently until deleting."
-msgstr ""
+msgstr "メッセージは、期限が切れるか完全に削除されるまで、コンポーネント内のすべての翻訳において表示されます。"
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4188,22 +4144,21 @@ msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"コンポーネントの名前を変更すると、そのすべての URL も変更します。ユーザはブックマークやクローンしたリポジトリの参照先を更新する必要があります！"
 
 #: weblate/templates/component.html:252
-#, fuzzy
-#| msgid "Removed component"
 msgid "Move component"
-msgstr "コンポーネントを削除しました"
+msgstr "コンポーネントを移動"
 
 #: weblate/templates/component.html:255
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
+msgstr "コンポーネントを移動すると、そのすべての URL も変更します。ユーザはブックマークやクローンしたリポジトリの参照先を更新する必要があります！"
 
 #: weblate/templates/component.html:260
 msgid "Move"
-msgstr ""
+msgstr "移動"
 
 #: weblate/templates/component.html:271 weblate/templates/project.html:305
 #: weblate/templates/translate.html:364 weblate/templates/translate.html:368
@@ -4464,16 +4419,10 @@ msgid "Notification hooks"
 msgstr "通知フック"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
-msgstr ""
-"通知フックを利用することで、 Weblate は開発者が実施した変更を自動的に取り込"
-"み、途切れることなく翻訳を実施できるようになります。"
+msgstr "通知フックを利用することで、Weblate は開発者が実施した変更を自動的に取り込み、継続的な現地化を実施できるようになります。"
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4631,12 +4580,7 @@ msgstr ""
 "全体での翻訳は %(percent)s%% 完了しています。"
 
 #: weblate/templates/engage.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-#| "contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
-#| "\">being translated into %(languages)s languages</a>. Overall, these "
-#| "translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains %(total)s strings "
 "for translation and is being translated into %(languages)s language. "
@@ -4646,10 +4590,8 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"<a href=\"%(url)s\">%(project)s に対する翻訳プロジェクト</a> には、現時点で翻"
-"訳用の文字列が %(total)s 個あり、 <a href=\"%(lang_url)s\">%(languages)s 種類"
-"の言語に翻訳されています</a> 。また、全体では翻訳が %(percent)s%% 完了してい"
-"ます。"
+"%(project)s の翻訳プロジェクトには、現時点で翻訳用の文字列が %(total)s 個あり、%(languages)s "
+"種類の言語に翻訳されています。また、全体では翻訳が %(percent)s%% 完了しています。"
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -4678,10 +4620,8 @@ msgid "Translate"
 msgstr "翻訳"
 
 #: weblate/templates/engage.html:56
-#, fuzzy
-#| msgid "Other languages"
 msgid "View project languages"
-msgstr "その他の言語"
+msgstr "プロジェクトの言語を参照"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -4690,7 +4630,7 @@ msgstr "Powered by %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "クリップボードにコピー"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5067,8 +5007,6 @@ msgstr "単語数"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
 msgstr "要編集"
@@ -5259,10 +5197,8 @@ msgstr "翻訳文の変更:"
 #: weblate/templates/mail/new_suggestion.txt:13
 #: weblate/templates/mail/new_translation.html:36
 #: weblate/templates/mail/new_translation.txt:15
-#, fuzzy
-#| msgid "User"
 msgid "User:"
-msgstr "ユーザ"
+msgstr "ユーザ:"
 
 #: weblate/templates/mail/changed_translation.html:54
 #: weblate/templates/mail/changed_translation.txt:21
@@ -5685,10 +5621,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:70 weblate/templates/project.html:263
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add a project message"
-msgstr "プロジェクトのアクセスの管理"
+msgstr "プロジェクト メッセージを追加"
 
 #: weblate/templates/project.html:93 weblate/templates/translation.html:101
 msgid "Share on Facebook"
@@ -5728,7 +5662,7 @@ msgstr "すべてのプロジェクトの変更を参照する"
 msgid ""
 "The message is shown on all translations within the project until it's "
 "expiry or permanently until deleting."
-msgstr ""
+msgstr "メッセージは、期限が切れるか完全に削除されるまで、プロジェクト内のすべての翻訳において表示されます。"
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5739,6 +5673,7 @@ msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"プロジェクトの名前を変更すると、そのすべての URL も変更します。ユーザはブックマークやクローンしたリポジトリの参照先を更新する必要があります！"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5768,19 +5703,15 @@ msgstr "原文の単語の数"
 msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
-msgstr ""
+msgstr "許容範囲を超える回数の操作を行ったため、リクエストが利用制限にかかりました。"
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please login and try again later."
-msgstr "メッセージを送りすぎです。しばらくしてから再送信してください！"
+msgstr "ログアウトされました。しばらくしてから再度ログインしてお試しください。"
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr "問い合わせ回数が多すぎます。しばらく待ってから再実施してください。"
+msgstr "しばらくしてから再度お試しください。"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
@@ -5791,10 +5722,12 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"この検索用語に一致する項目が多すぎます。最初の 250 "
+"項目のみを表示・置き換えしています。残りの項目を置き換えるには、置き換えをもう一度実行してください。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
-msgstr "割り当てた原文"
+msgstr "割り当てられた原文"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
@@ -5916,10 +5849,8 @@ msgid "No matching source strings found."
 msgstr "該当する原文が見つかりませんでした。"
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:155
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "サービスの状態"
+msgstr "文字列の状態"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:179
 msgid "Project Information"
@@ -5927,7 +5858,7 @@ msgstr "プロジェクト情報"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:4
 msgid "Weblate could not execute script addon."
-msgstr ""
+msgstr "Weblate はスクリプト アドオンを実行できません。"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:6
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
@@ -5937,10 +5868,8 @@ msgid "The following occurences were found:"
 msgstr "次のような現象が起きました:"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Command"
-msgstr "コメント"
+msgstr "コマンド"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -5994,19 +5923,17 @@ msgstr ""
 msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
-msgstr ""
+msgstr "公表されているすべてのプロジェクトは、ライセンスを明確にして、貢献者に適用される条件を示すべきです。"
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
-msgstr ""
+msgstr "翻訳コンポーネントは単一言語のようですが、そのように構成されていません。"
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add monolingual base language file in component setting."
-msgstr "単一言語のベース言語ファイル"
+msgstr "コンポーネントの設定で、単一言語のベース言語ファイルを追加してください。"
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -6019,12 +5946,8 @@ msgid "Filename"
 msgstr "ファイル名"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
-msgstr ""
-"Weblate はリポジトリの更新中にアップストリームの変更を取得できませんでした。"
+msgstr "Weblate は変更をアップストリームのリポジトリにプッシュできませんでした。"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -6044,16 +5967,10 @@ msgstr ""
 "ださい。"
 
 #: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
 msgid ""
 "Base file for new translations is not in use due to the component settings. "
 "You probably want to enable adding of new translations."
-msgstr ""
-"新しい翻訳の基本ファイルはコンポーネントの設定が原因で使用できません。新しい"
-"翻訳の自動追加を有効にしてください。"
+msgstr "新しい翻訳の基本ファイルはコンポーネントの設定が原因で使用できません。新しい翻訳の追加を有効にしてください。"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -6084,7 +6001,7 @@ msgstr "どのプロジェクトに対してもコンポーネントを作成す
 msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
-msgstr ""
+msgstr "コンポーネントを作成すると、コンポーネントの設定でオプションをさらに編集できるようになります。"
 
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
@@ -6103,32 +6020,20 @@ msgid "I understand the consequences, delete this translation"
 msgstr "結果を理解して、翻訳を削除します"
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are some alerts on this component"
-msgstr "現時点では翻訳コンポーネントがありません。"
+msgstr "コンポーネントに注意すべき項目があります"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "翻訳された内容は、FSF に準じたフリーソフトウェアのライセンスでリリースされます。"
 
 #: weblate/templates/trans/embed-alert.html:16
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid "Translation is licensed under OSI approved license."
-msgstr ""
-"翻訳された内容は、フリーソフトウェアのライセンスでリリースされなければなりま"
-"せん。"
+msgstr "翻訳された内容は、OSI が承認したライセンスでリリースされます。"
 
 #: weblate/templates/trans/messages_help.html:4
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django templates markup in the commit messages."
-msgstr ""
-"ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することが"
-"できます。例:"
+msgstr "コミットメッセージで、Django テンプレートのマークアップを使用できます。"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -6345,10 +6250,8 @@ msgid "Nearby strings"
 msgstr "近くにある文字列"
 
 #: weblate/templates/translate.html:239
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurences"
-msgstr "直近の発生日時"
+msgstr "その他の出現箇所"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
 #: weblate/templates/unit-details.html:13
@@ -6534,10 +6437,8 @@ msgid "Add new translation string"
 msgstr "新しい翻訳文字列として追加"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add a translation message"
-msgstr "翻訳として追加"
+msgstr "翻訳メッセージを追加"
 
 #: weblate/templates/translation.html:119 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -6614,7 +6515,7 @@ msgstr "アップロードされたファイルは現在の翻訳にマージさ
 msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
-msgstr ""
+msgstr "メッセージは、期限が切れるか完全に削除されるまで、翻訳ページにおいて表示されます。"
 
 #: weblate/templates/translation.html:378
 msgid "Review"
@@ -6829,20 +6730,12 @@ msgid "Trailing and leading whitespace"
 msgstr "文頭と文末の空白"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr ""
-"この Weblate インスタンスでは、様々なフリーソフトウェアプロジェクトの翻訳文を"
-"提供しています。"
+msgstr "Hosted Weblate では、ソフトウェアプロジェクトの現地化を行っています。"
 
 #: weblate/trans/context_processors.py:103
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
-msgstr ""
-"このサイトは Weblate を利用して以下のソフトウェアプロジェクトの翻訳を行ってい"
-"ます。"
+msgstr "このサイトは Weblate を利用して以下のソフトウェアプロジェクトの現地化を行っています。"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
 #, python-format
@@ -7465,10 +7358,8 @@ msgid "Could not update the repository."
 msgstr "リポジトリを更新できません。"
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not push the repository."
-msgstr "リポジトリを更新できません。"
+msgstr "リポジトリをプッシュできません。"
 
 #: weblate/trans/models/alert.py:157
 msgid "Unused base file for new translations."
@@ -7491,20 +7382,16 @@ msgid "Repository has changes."
 msgstr "リポジトリに変更があります。"
 
 #: weblate/trans/models/alert.py:183
-#, fuzzy
-#| msgid "Source information"
 msgid "License information missing."
-msgstr "原文の情報"
+msgstr "ライセンス情報がありません。"
 
 #: weblate/trans/models/alert.py:188 weblate/trans/models/alert.py:193
 msgid "Error when executing addon."
-msgstr ""
+msgstr "アドオンの実行時にエラーが発生しました。"
 
 #: weblate/trans/models/alert.py:198
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "オフライン翻訳用にダウンロードします。"
+msgstr "単一言語の翻訳は間違って設定されています。"
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7667,10 +7554,8 @@ msgid "Renamed component"
 msgstr "コンポーネントの名前を変更しました"
 
 #: weblate/trans/models/change.py:244
-#, fuzzy
-#| msgid "Removed component"
 msgid "Moved component"
-msgstr "コンポーネントを削除しました"
+msgstr "コンポーネントを移動しました"
 
 #: weblate/trans/models/change.py:340
 #, python-format
@@ -7908,10 +7793,8 @@ msgid "Commit message when merging translation"
 msgstr "翻訳マージの際のコミットメッセージ"
 
 #: weblate/trans/models/component.py:395
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
-msgstr "翻訳追加時のコミットメッセージ"
+msgstr "アドオンが変更を行った際のコミットメッセージ"
 
 #: weblate/trans/models/component.py:404
 msgid "Committer name"
@@ -8009,10 +7892,8 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "リポジトリがリンクされている場合、送信先の URL は使用されません！"
 
 #: weblate/trans/models/component.py:1268
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "リポジトリがリンクされている場合、エクスポート URL は使用されません！"
+msgstr "リポジトリがリンクされている場合、リポジトリ ブランチは使用されません！"
 
 #: weblate/trans/models/component.py:1274
 msgid "Export URL is not used when repository is linked!"
@@ -8315,7 +8196,7 @@ msgstr "期限"
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
-msgstr ""
+msgstr "メッセージは、指定した日付以降は表示されなくなります。次のリリースの期限などのアナウンスメント用にお使いください。"
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8633,10 +8514,8 @@ msgid "RST text"
 msgstr "RST テキスト"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Mardown text"
-msgstr "マークダウンコード"
+msgstr "マークダウン テキスト"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
@@ -9003,7 +8882,7 @@ msgstr "%s の検索"
 
 #: weblate/trans/views/search.py:218
 msgid "Too many search queries, please try again later."
-msgstr "問い合わせ回数が多すぎます。しばらく待ってから再実施してください。"
+msgstr "問い合わせ回数が多すぎます。しばらくしてから再度お試しください。"
 
 #: weblate/trans/views/search.py:221
 msgid "Invalid search query!"
@@ -9060,10 +8939,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -9071,9 +8947,8 @@ msgid_plural ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
-"%(count)d 個の文字列を %(languages)d 種類の言語に翻訳\n"
-"していて、現在 %(percent)d%% 完了しています。\n"
-"改善にご協力ください！"
+"%(count)d 個の文字列を %(languages)d 言語に翻訳していて、\n"
+"現在 %(percent)d%% 完了しています。改善にご協力ください！"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
@@ -9083,9 +8958,8 @@ msgid ""
 "translating %(count)d strings into English\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
-"%(count)d 個の文字列を英語に翻訳\n"
-"していて、現在 %(percent)d%% 完了しています。\n"
-"改善にご協力ください！"
+"%(count)d 個の文字列を英語に翻訳していて、\n"
+"現在 %(percent)d%% 完了しています。改善にご協力ください！"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:346
@@ -9094,7 +8968,7 @@ msgid ""
 "translation\n"
 "%(percent)d%% done"
 msgstr ""
-"翻訳は\n"
+"翻訳\n"
 "%(percent)d%% 完了"
 
 #. Translators: please use your language name instead of English
