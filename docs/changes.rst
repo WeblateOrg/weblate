@@ -19,6 +19,7 @@ Released on ? 2019.
 * Added support for toggling GitHub or Gerrit integration.
 * Added check for Kashida letters.
 * Added option to squash commits based on authors.
+* Improved support for xlsx file format.
 
 weblate 3.4
 -----------

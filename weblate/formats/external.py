@@ -112,3 +112,24 @@ class XlsxFormat(CSVFormat):
 
         # Load the file as CSV
         return super(XlsxFormat, cls).parse_store(BytesIOMode(name, content))
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    @property
+    def extension(self):
+        """Return most common file extension for format."""
+        return 'xlsx'
+
+    @classmethod
+    def create_new_file(cls, filename, language, base):
+        """Handle creation of new translation file."""
+        if not base:
+            raise ValueError('Not supported')
+        # Parse file
+        store = cls.parse_store(base)
+        cls.untranslate_store(store, language)
+        with open(filename, 'wb') as handle:
+            XlsxFormat(store).save_content(handle)
