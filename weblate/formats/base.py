@@ -176,7 +176,6 @@ class TranslationFormat(object):
     monolingual = None
     check_flags = ()
     unit_class = TranslationUnit
-    new_translation = None
     autoload = ()
     can_add_unit = True
 
