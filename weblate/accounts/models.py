@@ -60,28 +60,28 @@ ACCOUNT_ACTIVITY = {
         'Password reset has been confirmed and password has been disabled.'
     ),
     'auth-connect': _(
-        'Authentication ({method}:{name}) has been added.'
+        'You can now log in using {method} ({name}).'
     ),
     'auth-disconnect': _(
-        'Authentication ({method}:{name}) has been removed.'
+        'You can no longer log in using {method} ({name}).'
     ),
     'login': _(
-        'Authenticated ({method}:{name}).'
+        'Logged on using {method} ({name}).'
     ),
     'login-new': _(
-        'Authenticated ({method}:{name}) from new device.'
+        'Logged on using {method} ({name}) from a new device.'
     ),
     'register': _(
         'Somebody has attempted to register with your email.'
     ),
     'connect': _(
-        'Somebody has attempted to add your email to existing account.'
+        'Somebody has attempted to register using your email address.'
     ),
     'failed-auth': _(
-        'Failed authentication attempt ({method}:{name}).'
+        'Could not log in using {method} ({name}).'
     ),
     'locked': _(
-        'Account locked due to excessive failed authentication attempts.'
+        'Account locked due to many failed logins.'
     ),
     'removed': _(
         'Account and all private data have been removed.'
@@ -89,6 +89,15 @@ ACCOUNT_ACTIVITY = {
     'tos': _(
         'Agreement with Terms of Service {date}.'
     ),
+}
+# Override activty messages based on method
+ACCOUNT_ACTIVITY_METHOD = {
+    'password': {
+        'auth-connect': _('You can now log in using password.'),
+        'login': _('Logged on using password.'),
+        'login-new': _('Logged on using password from a new device.'),
+        'failed-auth': _('Could not log in using password.'),
+    }
 }
 
 EXTRA_MESSAGES = {
@@ -180,9 +189,13 @@ class AuditLog(models.Model):
         return result
 
     def get_message(self):
-        return ACCOUNT_ACTIVITY[self.activity].format(
-            **self.get_params()
-        )
+        method = self.params.get('method')
+        activity = self.activity
+        if activity in ACCOUNT_ACTIVITY_METHOD.get(method, {}):
+            message = ACCOUNT_ACTIVITY_METHOD[method][activity]
+        else:
+            message = ACCOUNT_ACTIVITY[activity]
+        return message.format(**self.get_params())
     get_message.short_description = _('Account activity')
 
     def get_extra_message(self):
