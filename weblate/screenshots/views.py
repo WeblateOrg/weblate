@@ -30,8 +30,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from PIL import Image
 
+from weblate.utils.locale import c_locale
+
 try:
-    from tesserocr import PyTessBaseAPI, RIL
+    with c_locale():
+        from tesserocr import PyTessBaseAPI, RIL
     HAS_OCR = True
 except ImportError:
     HAS_OCR = False
@@ -273,7 +276,7 @@ def ocr_search(request, pk):
     results = set()
 
     # Extract and match strings
-    with PyTessBaseAPI() as api:
+    with c_locale(), PyTessBaseAPI() as api:
         for image in (original_image, scaled_image):
             for match in ocr_extract(api, image, strings):
                 results.add(sources[match])
