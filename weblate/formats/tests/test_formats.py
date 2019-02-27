@@ -201,9 +201,9 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         # Check if content matches
         if edit:
             with self.assertRaises(AssertionError):
-                self.assert_same(force_text(newdata), force_text(testdata))
+                self.assert_same(newdata, testdata)
         else:
-            self.assert_same(force_text(newdata), force_text(testdata))
+            self.assert_same(newdata, testdata)
 
     def test_edit(self):
         self.test_save(True)
@@ -214,7 +214,10 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content
         aware comparing of translation files.
         """
-        self.assertEqual(testdata.strip(), newdata.strip())
+        self.assertEqual(
+            force_text(testdata).strip(),
+            force_text(newdata).strip()
+        )
 
     def test_find(self):
         storage = self.parse_file(self.FILE)
@@ -237,7 +240,11 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
-            with open(out, 'r') as handle:
+            if isinstance(self.MATCH, bytes):
+                mode = 'rb'
+            else:
+                mode = 'r'
+            with open(out, mode) as handle:
                 data = handle.read()
             self.assertTrue(self.MATCH in data)
 
@@ -283,7 +290,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
 
 class XMLMixin(object):
     def assert_same(self, newdata, testdata):
-        self.assertXMLEqual(newdata, testdata)
+        self.assertXMLEqual(force_text(newdata), force_text(testdata))
 
 
 class PoFormatTest(AutoFormatTest):
@@ -340,8 +347,8 @@ class PropertiesFormatTest(AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            newdata.strip().splitlines(),
-            testdata.strip().splitlines(),
+            force_text(newdata).strip().splitlines(),
+            force_text(testdata).strip().splitlines(),
         )
 
 
@@ -373,7 +380,7 @@ class JSONFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
 
     def assert_same(self, newdata, testdata):
-        self.assertJSONEqual(newdata, testdata)
+        self.assertJSONEqual(force_text(newdata), force_text(testdata))
 
 
 class JSONNestedFormatTest(JSONFormatTest):
@@ -511,12 +518,12 @@ class YAMLFormatTest(AutoFormatTest):
     MATCH = 'weblate:'
     NEW_UNIT_MATCH = b'\nkey: Source string\n'
 
-    def assert_same(self, newdata, testdata, equal=True):
+    def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
-            newdata.replace("'", '"').strip().splitlines(),
-            testdata.strip().splitlines(),
+            force_text(newdata).replace("'", '"').strip().splitlines(),
+            force_text(testdata).strip().splitlines(),
         )
 
 
@@ -545,8 +552,8 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
-        newdata = newdata.replace('<!DOCTYPE TS>', '')
-        testdata = testdata.replace('<!DOCTYPE TS>', '')
+        newdata = force_text(newdata).replace('<!DOCTYPE TS>', '')
+        testdata = force_text(testdata).replace('<!DOCTYPE TS>', '')
         super(TSFormatTest, self).assert_same(newdata, testdata)
 
 
