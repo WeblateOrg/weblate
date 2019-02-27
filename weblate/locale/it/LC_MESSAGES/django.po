@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-27 07:02+0000\n"
+"POT-Creation-Date: 2019-02-27 18:02+0000\n"
 "PO-Revision-Date: 2019-02-14 20:15+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
@@ -245,22 +245,24 @@ msgstr ""
 
 #: weblate/accounts/models.py:63
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been added."
-msgstr "È stata aggiunta l'aggiunta autentificazione {method} {name}."
+msgid "You can now log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been removed."
-msgstr "E' stata rimossa l'autentificazione {method} {name}."
+msgid "You can no longer log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:69
-#, python-brace-format
-msgid "Authenticated ({method}:{name})."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name})."
+msgid "Logged on using {method} ({name})."
 msgstr "Autenticazione completata con {method} {name}."
 
 #: weblate/accounts/models.py:72
-#, python-brace-format
-msgid "Authenticated ({method}:{name}) from new device."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name}) from new device."
+msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Autenticazione completata con {method} ({name}) dal nuovo dispositivo."
 
 #: weblate/accounts/models.py:75
@@ -268,17 +270,20 @@ msgid "Somebody has attempted to register with your email."
 msgstr "Qualcuno ha tentato di registrarsi con la tua email."
 
 #: weblate/accounts/models.py:78
-msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
-"Qualcuno ha tentato di aggiungere la tua email ad un account già esistente."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register using your email address."
+msgstr "Qualcuno ha tentato di registrarsi con la tua email."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
-msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Tentativo di autentificazione fallito con {method} ({name})."
+msgid "Could not log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:84
-msgid "Account locked due to excessive failed authentication attempts."
+#, fuzzy
+#| msgid "Account locked due to excessive failed authentication attempts."
+msgid "Account locked due to many failed logins."
 msgstr ""
 "Account bloccato a causa di eccessivi tentativi di autentificazioni falliti."
 
@@ -292,22 +297,42 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Accordo con i termini del servizio {date}."
 
 #: weblate/accounts/models.py:96
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "You can now log in using password."
+msgstr "Hai inserito una password non valida."
+
+#: weblate/accounts/models.py:97
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "Logged on using password."
+msgstr "Hai dimenticato la password?"
+
+#: weblate/accounts/models.py:98
+msgid "Logged on using password from a new device."
+msgstr ""
+
+#: weblate/accounts/models.py:99
+msgid "Could not log in using password."
+msgstr ""
+
+#: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
 msgstr "Per ripristinare l'accesso al tuo account, reimpostare la password."
 
-#: weblate/accounts/models.py:186 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:199 weblate/templates/accounts/profile.html:217
 msgid "Account activity"
 msgstr "Attività account"
 
-#: weblate/accounts/models.py:295
+#: weblate/accounts/models.py:308
 msgid "Interface Language"
 msgstr "Lingua interfaccia"
 
-#: weblate/accounts/models.py:302
+#: weblate/accounts/models.py:315
 msgid "Translated languages"
 msgstr "Lingue traduzioni"
 
-#: weblate/accounts/models.py:305
+#: weblate/accounts/models.py:318
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
@@ -315,11 +340,11 @@ msgstr ""
 "Scegli in quale lingue preferisci tradurre. Queste ti verranno elencate "
 "nella pagina principale per facilitare l'accesso alle traduzioni scelte."
 
-#: weblate/accounts/models.py:312
+#: weblate/accounts/models.py:325
 msgid "Secondary languages"
 msgstr "Lingue secondarie"
 
-#: weblate/accounts/models.py:314
+#: weblate/accounts/models.py:327
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -327,23 +352,23 @@ msgstr ""
 "Scegli le lingue che comprendi: le stringhe in quelle lingue verranno "
 "visualizzate in aggiunta a quelle sorgenti."
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:338
 msgid "Hide completed translations on the dashboard"
 msgstr "Nascondi la traduzione completa dalla vista totale"
 
-#: weblate/accounts/models.py:329
+#: weblate/accounts/models.py:342
 msgid "Show secondary translations in zen mode"
 msgstr "Visualizza le traduzioni secondarie in modalità zen"
 
-#: weblate/accounts/models.py:333
+#: weblate/accounts/models.py:346
 msgid "Hide source if there is secondary language"
 msgstr "Nascondi i sorgenti se ci sono lingue secondarie"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:352
 msgid "Editor link"
 msgstr "Modifica collegamento"
 
-#: weblate/accounts/models.py:341
+#: weblate/accounts/models.py:354
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -356,23 +381,23 @@ msgstr ""
 "come nome file e segnaposto della linea. Di solito qualcosa tipo editor://"
 "open/?file=%(file)s&line=%(line)s è una buona opzione."
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:365
 msgid "Translation editor mode"
 msgstr "Modo modifica traduzione"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:367
 msgid "Full editor"
 msgstr "Modifica completa"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:368
 msgid "Zen mode"
 msgstr "Modo Zen"
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:375
 msgid "Special characters"
 msgstr "Caratteri speciali"
 
-#: weblate/accounts/models.py:364
+#: weblate/accounts/models.py:377
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -382,43 +407,43 @@ msgstr ""
 "tastiera visiva durante la traduzione. Può essere utile per i caratteri "
 "usati frequentemente ma è difficile digitare sulla tastiera."
 
-#: weblate/accounts/models.py:377 weblate/templates/dashboard/user.html:13
+#: weblate/accounts/models.py:390 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
 msgstr "Traduzioni monitorate"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:14
+#: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
 msgstr "Le tue lingue"
 
-#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:17
+#: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
 msgstr "Elenchi componenti"
 
-#: weblate/accounts/models.py:380 weblate/auth/models.py:138
+#: weblate/accounts/models.py:393 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
 msgstr "Elenco componenti"
 
-#: weblate/accounts/models.py:381 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:394 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
 msgstr "Traduzioni suggerite"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:411
 msgid "Default dashboard view"
 msgstr "Vista predefinita scheda principale"
 
-#: weblate/accounts/models.py:404
+#: weblate/accounts/models.py:417
 msgid "Default component list"
 msgstr "Eelnco componenti predefinito"
 
-#: weblate/accounts/models.py:412 weblate/templates/accounts/profile.html:80
+#: weblate/accounts/models.py:425 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
 msgid "Watched projects"
 msgstr "Progetti monitorati"
 
-#: weblate/accounts/models.py:414
+#: weblate/accounts/models.py:427
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -426,44 +451,44 @@ msgstr ""
 "Puoi ricevere le notifiche per i progetti monitorati che vengono "
 "visualizzati nella scheda principale per impostazione predefinita."
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:434
 msgid "Notification on any translation"
 msgstr "Notifica qualsiasi traduzione"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:438
 msgid "Notification on new string to translate"
 msgstr "Notifica nuove stringhe da tradurre"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:442
 msgid "Notification on new suggestion"
 msgstr "Notifica nuovi suggerimenti"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:446
 msgid "Notification on new contributor"
 msgstr "Notifica nuovi contributori"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:450
 msgid "Notification on new comment"
 msgstr "Notifica nuovi commenti"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:454
 msgid "Notification on merge failure"
 msgstr "Notifica fallimenti unioni"
 
-#: weblate/accounts/models.py:445
+#: weblate/accounts/models.py:458
 msgid "Notification on new language request"
 msgstr "Notifica richieste di nuove lingue"
 
-#: weblate/accounts/models.py:491
+#: weblate/accounts/models.py:504
 msgid "Component list must be chosen when used as default."
 msgstr ""
 "L'elenco componenti deve essere selezionato quando usato come predefinito."
 
-#: weblate/accounts/models.py:497
+#: weblate/accounts/models.py:510
 msgid "Component list can not be chosen when unused."
 msgstr "L'elenco componenti non può essere selezionato quando non è usato."
 
-#: weblate/accounts/models.py:549
+#: weblate/accounts/models.py:562
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -1964,103 +1989,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:677
 msgid "Gettext PO file"
 msgstr "File PO Gettext"
 
-#: weblate/formats/ttkit.py:732
+#: weblate/formats/ttkit.py:733
 msgid "Gettext PO file (monolingual)"
 msgstr "File PO Gettetx (mono lingua)"
 
-#: weblate/formats/ttkit.py:745
+#: weblate/formats/ttkit.py:746
 msgid "Qt Linguist Translation File"
 msgstr "File traduzione QT Linguist"
 
-#: weblate/formats/ttkit.py:761
+#: weblate/formats/ttkit.py:762
 msgid "XLIFF Translation File"
 msgstr "File traduzione XLIFF"
 
-#: weblate/formats/ttkit.py:780
+#: weblate/formats/ttkit.py:781
 msgid "XLIFF Translation File with PO extensions"
 msgstr "File traduzione XLIFF con estensioni PO"
 
-#: weblate/formats/ttkit.py:808
+#: weblate/formats/ttkit.py:809
 msgid "OS X Strings"
 msgstr "Stringhe OS X"
 
-#: weblate/formats/ttkit.py:821
+#: weblate/formats/ttkit.py:822
 msgid "OS X Strings (UTF-8)"
 msgstr "Stringhe OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:828
+#: weblate/formats/ttkit.py:829
 msgid "Java Properties (UTF-8)"
 msgstr "Proprietà java (UTF-8)"
 
-#: weblate/formats/ttkit.py:835
+#: weblate/formats/ttkit.py:836
 msgid "Java Properties (UTF-16)"
 msgstr "Proprietà Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:841
+#: weblate/formats/ttkit.py:842
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Propietà java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:858
+#: weblate/formats/ttkit.py:859
 msgid "Joomla Language File"
 msgstr "File lingua Joomia"
 
-#: weblate/formats/ttkit.py:867
+#: weblate/formats/ttkit.py:868
 msgid "PHP strings"
 msgstr "Stringhe PHP"
 
-#: weblate/formats/ttkit.py:886
+#: weblate/formats/ttkit.py:887
 msgid ".Net resource file"
 msgstr "File risorse .Net"
 
-#: weblate/formats/ttkit.py:896
+#: weblate/formats/ttkit.py:897
 msgid "Android String Resource"
 msgstr "Stringhe risorse Android"
 
-#: weblate/formats/ttkit.py:928
+#: weblate/formats/ttkit.py:929
 msgid "JSON file"
 msgstr "File JSON"
 
-#: weblate/formats/ttkit.py:947
+#: weblate/formats/ttkit.py:948
 msgid "JSON nested structure file"
 msgstr "File struttura annidata JSON"
 
-#: weblate/formats/ttkit.py:953
+#: weblate/formats/ttkit.py:954
 msgid "WebExtension JSON file"
 msgstr "File JSON WebExtension"
 
-#: weblate/formats/ttkit.py:961
+#: weblate/formats/ttkit.py:962
 msgid "i18next JSON file"
 msgstr "File JSON i18next"
 
-#: weblate/formats/ttkit.py:967
+#: weblate/formats/ttkit.py:968
 msgid "CSV file"
 msgstr "File CSV"
 
-#: weblate/formats/ttkit.py:1033
+#: weblate/formats/ttkit.py:1034
 msgid "Simple CSV file"
 msgstr "File CSV semplice"
 
-#: weblate/formats/ttkit.py:1069
+#: weblate/formats/ttkit.py:1070
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "File CSV semplice (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1075
+#: weblate/formats/ttkit.py:1076
 msgid "YAML file"
 msgstr "File YAML"
 
-#: weblate/formats/ttkit.py:1094
+#: weblate/formats/ttkit.py:1095
 msgid "Ruby YAML file"
 msgstr "File YAML Ruby"
 
-#: weblate/formats/ttkit.py:1101
+#: weblate/formats/ttkit.py:1102
 msgid "DTD file"
 msgstr "File DTD"
 
-#: weblate/formats/ttkit.py:1127
+#: weblate/formats/ttkit.py:1128
 msgid "RC file"
 msgstr "File RC"
 
@@ -2531,23 +2556,23 @@ msgstr "Immagine"
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr "Carica immagini JPEG o PNG fino a 2000x2000 pixel."
 
-#: weblate/screenshots/views.py:99
+#: weblate/screenshots/views.py:102
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
 "Lo screenshot è stato caricato, puoi ora assegnarlo alle stringhe di origine."
 
-#: weblate/screenshots/views.py:106
+#: weblate/screenshots/views.py:109
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
 "Il caricamento dello screenshot non è riuscito, si prega di correggere gli "
 "errori qui sotto."
 
-#: weblate/screenshots/views.py:162
+#: weblate/screenshots/views.py:165
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "La cattura schermo %s è stata eliminata."
 
-#: weblate/screenshots/views.py:182
+#: weblate/screenshots/views.py:185
 msgid "Source has been removed."
 msgstr "Il sorgente è stato rimosso."
 
@@ -9433,6 +9458,20 @@ msgstr "Rapporti"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Errore fallita dismissione configurazione!"
+
+#~ msgid "Authentication ({method}:{name}) has been added."
+#~ msgstr "È stata aggiunta l'aggiunta autentificazione {method} {name}."
+
+#~ msgid "Authentication ({method}:{name}) has been removed."
+#~ msgstr "E' stata rimossa l'autentificazione {method} {name}."
+
+#~ msgid "Somebody has attempted to add your email to existing account."
+#~ msgstr ""
+#~ "Qualcuno ha tentato di aggiungere la tua email ad un account già "
+#~ "esistente."
+
+#~ msgid "Failed authentication attempt ({method}:{name})."
+#~ msgstr "Tentativo di autentificazione fallito con {method} ({name})."
 
 #~ msgctxt "Number of strings needing review"
 #~ msgid "Review"

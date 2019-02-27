@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-27 07:02+0000\n"
+"POT-Creation-Date: 2019-02-27 18:02+0000\n"
 "PO-Revision-Date: 2019-02-23 12:18+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -243,22 +243,24 @@ msgstr "パスワードリセットを確認し、パスワードを無効化し
 
 #: weblate/accounts/models.py:63
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been added."
-msgstr "認証 ({method}:{name}) を追加しました。"
+msgid "You can now log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been removed."
-msgstr "認証 ({method}:{name}) を削除しました。"
+msgid "You can no longer log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:69
-#, python-brace-format
-msgid "Authenticated ({method}:{name})."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name})."
+msgid "Logged on using {method} ({name})."
 msgstr "認証しました ({method} ({name}) 。"
 
 #: weblate/accounts/models.py:72
-#, python-brace-format
-msgid "Authenticated ({method}:{name}) from new device."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name}) from new device."
+msgid "Logged on using {method} ({name}) from a new device."
 msgstr "新しいデバイスから認証しました ({method}:{name}) 。"
 
 #: weblate/accounts/models.py:75
@@ -266,18 +268,20 @@ msgid "Somebody has attempted to register with your email."
 msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:78
-msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
-"誰かが既存のアカウントに対して、あなたの電子メールアドレスを追加しようとしま"
-"した。"
+#, fuzzy
+#| msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register using your email address."
+msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
-msgid "Failed authentication attempt ({method}:{name})."
-msgstr "認証が失敗しました ({method} ({name}) 。"
+msgid "Could not log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:84
-msgid "Account locked due to excessive failed authentication attempts."
+#, fuzzy
+#| msgid "Account locked due to excessive failed authentication attempts."
+msgid "Account locked due to many failed logins."
 msgstr "認証の失敗回数が規定値を超過したため、アカウントがロックされました。"
 
 #: weblate/accounts/models.py:87
@@ -290,24 +294,44 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 現在の、サービス利用規約の内容に合意しました。"
 
 #: weblate/accounts/models.py:96
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "You can now log in using password."
+msgstr "入力したパスワードが無効です。"
+
+#: weblate/accounts/models.py:97
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "Logged on using password."
+msgstr "パスワードをお忘れですか？"
+
+#: weblate/accounts/models.py:98
+msgid "Logged on using password from a new device."
+msgstr ""
+
+#: weblate/accounts/models.py:99
+msgid "Could not log in using password."
+msgstr ""
+
+#: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 "アカウントに再度アクセスできるようにするには、パスワードをリセットする必要が"
 "あります。"
 
-#: weblate/accounts/models.py:186 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:199 weblate/templates/accounts/profile.html:217
 msgid "Account activity"
 msgstr "アカウントの活動状況"
 
-#: weblate/accounts/models.py:295
+#: weblate/accounts/models.py:308
 msgid "Interface Language"
 msgstr "表示言語"
 
-#: weblate/accounts/models.py:302
+#: weblate/accounts/models.py:315
 msgid "Translated languages"
 msgstr "翻訳言語"
 
-#: weblate/accounts/models.py:305
+#: weblate/accounts/models.py:318
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
@@ -315,11 +339,11 @@ msgstr ""
 "翻訳する言語を選択してください。選択した言語はダッシュボードから簡単にアクセ"
 "スして翻訳できます。"
 
-#: weblate/accounts/models.py:312
+#: weblate/accounts/models.py:325
 msgid "Secondary languages"
 msgstr "第 2 言語"
 
-#: weblate/accounts/models.py:314
+#: weblate/accounts/models.py:327
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -327,23 +351,23 @@ msgstr ""
 "理解できる言語を選択すると、それらの言語の文字列が原文と共に表示されるように"
 "なります。"
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:338
 msgid "Hide completed translations on the dashboard"
 msgstr "ダッシュボードでは翻訳済みを表示しない"
 
-#: weblate/accounts/models.py:329
+#: weblate/accounts/models.py:342
 msgid "Show secondary translations in zen mode"
 msgstr "Zen モードで第 2 言語を表示する"
 
-#: weblate/accounts/models.py:333
+#: weblate/accounts/models.py:346
 msgid "Hide source if there is secondary language"
 msgstr "第 2 言語を設定した場合は原文を表示しない"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:352
 msgid "Editor link"
 msgstr "エディタ リンク"
 
-#: weblate/accounts/models.py:341
+#: weblate/accounts/models.py:354
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -356,23 +380,23 @@ msgstr ""
 "して使用できます。一般的には editor://open/?file=%(file)s&line=%(line)s が良"
 "いでしょう。"
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:365
 msgid "Translation editor mode"
 msgstr "翻訳エディタ モード"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:367
 msgid "Full editor"
 msgstr "フル エディタ"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:368
 msgid "Zen mode"
 msgstr "Zen モード"
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:375
 msgid "Special characters"
 msgstr "特殊文字"
 
-#: weblate/accounts/models.py:364
+#: weblate/accounts/models.py:377
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -381,43 +405,43 @@ msgstr ""
 "翻訳中にビジュアル キーボードに表示する、特殊文字を指定します。キーボードから"
 "の入力が面倒でよく使用する文字には便利です。"
 
-#: weblate/accounts/models.py:377 weblate/templates/dashboard/user.html:13
+#: weblate/accounts/models.py:390 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
 msgstr "監視中の翻訳"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:14
+#: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
 msgstr "お使いの言語"
 
-#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:17
+#: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
 msgstr "コンポーネントリスト"
 
-#: weblate/accounts/models.py:380 weblate/auth/models.py:138
+#: weblate/accounts/models.py:393 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
 msgstr "コンポーネントリスト"
 
-#: weblate/accounts/models.py:381 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:394 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
 msgstr "翻訳の提案"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:411
 msgid "Default dashboard view"
 msgstr "デフォルトのダッシュボードビュー"
 
-#: weblate/accounts/models.py:404
+#: weblate/accounts/models.py:417
 msgid "Default component list"
 msgstr "デフォルトのコンポーネントリスト"
 
-#: weblate/accounts/models.py:412 weblate/templates/accounts/profile.html:80
+#: weblate/accounts/models.py:425 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
 msgid "Watched projects"
 msgstr "監視中のプロジェクト"
 
-#: weblate/accounts/models.py:414
+#: weblate/accounts/models.py:427
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -425,44 +449,44 @@ msgstr ""
 "監視中のプロジェクトから通知を受け取り、デフォルトでダッシュボードに表示しま"
 "す。"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:434
 msgid "Notification on any translation"
 msgstr "すべての翻訳"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:438
 msgid "Notification on new string to translate"
 msgstr "原文の追加"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:442
 msgid "Notification on new suggestion"
 msgstr "新しい提案"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:446
 msgid "Notification on new contributor"
 msgstr "新しい貢献者"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:450
 msgid "Notification on new comment"
 msgstr "新しいコメント"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:454
 msgid "Notification on merge failure"
 msgstr "マージの失敗"
 
-#: weblate/accounts/models.py:445
+#: weblate/accounts/models.py:458
 msgid "Notification on new language request"
 msgstr "新しい言語の要求"
 
-#: weblate/accounts/models.py:491
+#: weblate/accounts/models.py:504
 msgid "Component list must be chosen when used as default."
 msgstr ""
 "デフォルトで使用するには、必ずコンポーネントリストを選択する必要があります。"
 
-#: weblate/accounts/models.py:497
+#: weblate/accounts/models.py:510
 msgid "Component list can not be chosen when unused."
 msgstr "コンポーネントリストを使用しない場合は選択できません。"
 
-#: weblate/accounts/models.py:549
+#: weblate/accounts/models.py:562
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -1973,103 +1997,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:677
 msgid "Gettext PO file"
 msgstr "Gettext PO ファイル"
 
-#: weblate/formats/ttkit.py:732
+#: weblate/formats/ttkit.py:733
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO ファイル (単一言語)"
 
-#: weblate/formats/ttkit.py:745
+#: weblate/formats/ttkit.py:746
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:761
+#: weblate/formats/ttkit.py:762
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:780
+#: weblate/formats/ttkit.py:781
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO 拡張付きの XLIFF 翻訳ファイル"
 
-#: weblate/formats/ttkit.py:808
+#: weblate/formats/ttkit.py:809
 msgid "OS X Strings"
 msgstr "OS X の文字列"
 
-#: weblate/formats/ttkit.py:821
+#: weblate/formats/ttkit.py:822
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X の文字列 (UTF-8)"
 
-#: weblate/formats/ttkit.py:828
+#: weblate/formats/ttkit.py:829
 msgid "Java Properties (UTF-8)"
 msgstr "Java プロパティファイル (UTF-8)"
 
-#: weblate/formats/ttkit.py:835
+#: weblate/formats/ttkit.py:836
 msgid "Java Properties (UTF-16)"
 msgstr "Java プロパティファイル (UTF-16)"
 
-#: weblate/formats/ttkit.py:841
+#: weblate/formats/ttkit.py:842
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java プロパティファイル (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:858
+#: weblate/formats/ttkit.py:859
 msgid "Joomla Language File"
 msgstr "Joomla 言語ファイル"
 
-#: weblate/formats/ttkit.py:867
+#: weblate/formats/ttkit.py:868
 msgid "PHP strings"
 msgstr "PHP 文字列"
 
-#: weblate/formats/ttkit.py:886
+#: weblate/formats/ttkit.py:887
 msgid ".Net resource file"
 msgstr ".Net リソース ファイル"
 
-#: weblate/formats/ttkit.py:896
+#: weblate/formats/ttkit.py:897
 msgid "Android String Resource"
 msgstr "Android 文字列リソース"
 
-#: weblate/formats/ttkit.py:928
+#: weblate/formats/ttkit.py:929
 msgid "JSON file"
 msgstr "JSON ファイル"
 
-#: weblate/formats/ttkit.py:947
+#: weblate/formats/ttkit.py:948
 msgid "JSON nested structure file"
 msgstr "JSON ネスト型構造ファイル"
 
-#: weblate/formats/ttkit.py:953
+#: weblate/formats/ttkit.py:954
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON ファイル"
 
-#: weblate/formats/ttkit.py:961
+#: weblate/formats/ttkit.py:962
 msgid "i18next JSON file"
 msgstr "i18next JSON ファイル"
 
-#: weblate/formats/ttkit.py:967
+#: weblate/formats/ttkit.py:968
 msgid "CSV file"
 msgstr "CSV ファイル"
 
-#: weblate/formats/ttkit.py:1033
+#: weblate/formats/ttkit.py:1034
 msgid "Simple CSV file"
 msgstr "シンプルな CSV ファイル"
 
-#: weblate/formats/ttkit.py:1069
+#: weblate/formats/ttkit.py:1070
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "シンプルな CSV ファイル (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1075
+#: weblate/formats/ttkit.py:1076
 msgid "YAML file"
 msgstr "YAML ファイル"
 
-#: weblate/formats/ttkit.py:1094
+#: weblate/formats/ttkit.py:1095
 msgid "Ruby YAML file"
 msgstr "Ruby YAML ファイル"
 
-#: weblate/formats/ttkit.py:1101
+#: weblate/formats/ttkit.py:1102
 msgid "DTD file"
 msgstr "DTD ファイル"
 
-#: weblate/formats/ttkit.py:1127
+#: weblate/formats/ttkit.py:1128
 msgid "RC file"
 msgstr "RC ファイル"
 
@@ -2537,24 +2561,24 @@ msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr ""
 "2000x2000 ピクセル以下の JPEG または PNG 画像をアップロードしてください。"
 
-#: weblate/screenshots/views.py:99
+#: weblate/screenshots/views.py:102
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
 "スクリーンショットをアップロードしました。これを原文に指定することができま"
 "す。"
 
-#: weblate/screenshots/views.py:106
+#: weblate/screenshots/views.py:109
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
 "スクリーンショットのアップロードに失敗しました。下記のエラーを修正してくださ"
 "い。"
 
-#: weblate/screenshots/views.py:162
+#: weblate/screenshots/views.py:165
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "スクリーンショット %s を削除しました。"
 
-#: weblate/screenshots/views.py:182
+#: weblate/screenshots/views.py:185
 msgid "Source has been removed."
 msgstr "原文を削除しました。"
 
@@ -9368,6 +9392,20 @@ msgstr "レポート"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "設定エラーを隠す処理に失敗しました！"
+
+#~ msgid "Authentication ({method}:{name}) has been added."
+#~ msgstr "認証 ({method}:{name}) を追加しました。"
+
+#~ msgid "Authentication ({method}:{name}) has been removed."
+#~ msgstr "認証 ({method}:{name}) を削除しました。"
+
+#~ msgid "Somebody has attempted to add your email to existing account."
+#~ msgstr ""
+#~ "誰かが既存のアカウントに対して、あなたの電子メールアドレスを追加しようとし"
+#~ "ました。"
+
+#~ msgid "Failed authentication attempt ({method}:{name})."
+#~ msgstr "認証が失敗しました ({method} ({name}) 。"
 
 #~ msgctxt "Number of strings needing review"
 #~ msgid "Review"

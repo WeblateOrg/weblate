@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-27 07:02+0000\n"
+"POT-Creation-Date: 2019-02-27 18:02+0000\n"
 "PO-Revision-Date: 2019-02-26 17:19+0000\n"
 "Last-Translator: Mister X <piko88@freemail.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -237,22 +237,24 @@ msgstr "A jelszó visszaállítása megerősítve, és a jelszó le lett tiltva.
 
 #: weblate/accounts/models.py:63
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been added."
-msgstr "Hitelesítés ({method}:{name}) hozzáadva."
+msgid "You can now log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Hitelesítés ({method}:{name}) el lett távolítva."
+msgid "You can no longer log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:69
-#, python-brace-format
-msgid "Authenticated ({method}:{name})."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name})."
+msgid "Logged on using {method} ({name})."
 msgstr "Hitelesített ({method}:{name})."
 
 #: weblate/accounts/models.py:72
-#, python-brace-format
-msgid "Authenticated ({method}:{name}) from new device."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name}) from new device."
+msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Hitelesített ({method}:{name}) új eszközről."
 
 #: weblate/accounts/models.py:75
@@ -260,16 +262,20 @@ msgid "Somebody has attempted to register with your email."
 msgstr "Valaki megpróbált az Ön e-mail címével regisztrálni."
 
 #: weblate/accounts/models.py:78
-msgid "Somebody has attempted to add your email to existing account."
-msgstr "Valaki megpróbálta hozzáadni az e-mail címét egy már létező fiókhoz."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register using your email address."
+msgstr "Valaki megpróbált az Ön e-mail címével regisztrálni."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
-msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Sikertelen hitelesítési kísérlet ({method}1:{name}2)."
+msgid "Could not log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:84
-msgid "Account locked due to excessive failed authentication attempts."
+#, fuzzy
+#| msgid "Account locked due to excessive failed authentication attempts."
+msgid "Account locked due to many failed logins."
 msgstr "A fiók zárolva lett a túl sok sikertelen hitelesítési kísérlet miatt."
 
 #: weblate/accounts/models.py:87
@@ -282,23 +288,43 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Megállapodása a Szolgáltatási feltételekkel {date}."
 
 #: weblate/accounts/models.py:96
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "You can now log in using password."
+msgstr "Érvénytelen jelszót adott meg."
+
+#: weblate/accounts/models.py:97
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "Logged on using password."
+msgstr "Elfelejtette a jelszavát?"
+
+#: weblate/accounts/models.py:98
+msgid "Logged on using password from a new device."
+msgstr ""
+
+#: weblate/accounts/models.py:99
+msgid "Could not log in using password."
+msgstr ""
+
+#: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 "A fiókjához való hozzáférés helyreállításához kérjen jelszó visszaállítást."
 
-#: weblate/accounts/models.py:186 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:199 weblate/templates/accounts/profile.html:217
 msgid "Account activity"
 msgstr "Fióktevékenység"
 
-#: weblate/accounts/models.py:295
+#: weblate/accounts/models.py:308
 msgid "Interface Language"
 msgstr "Felhasználói felület nyelve"
 
-#: weblate/accounts/models.py:302
+#: weblate/accounts/models.py:315
 msgid "Translated languages"
 msgstr "Fordított nyelvek"
 
-#: weblate/accounts/models.py:305
+#: weblate/accounts/models.py:318
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
@@ -307,11 +333,11 @@ msgstr ""
 "majd meg automatikusan az Áttekintő oldalon, így a fordítások könnyen "
 "elérhetőek."
 
-#: weblate/accounts/models.py:312
+#: weblate/accounts/models.py:325
 msgid "Secondary languages"
 msgstr "Másodlagos nyelvek"
 
-#: weblate/accounts/models.py:314
+#: weblate/accounts/models.py:327
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -319,23 +345,23 @@ msgstr ""
 "Adja meg az ön által megértett nyelveket, az ilyen nyelvű szövegek is meg "
 "fognak jelenni a forrásszöveg mellett."
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:338
 msgid "Hide completed translations on the dashboard"
 msgstr "Lefordított szövegek elrejtése az Áttekintő oldalról"
 
-#: weblate/accounts/models.py:329
+#: weblate/accounts/models.py:342
 msgid "Show secondary translations in zen mode"
 msgstr "Másodlagos fordítások megjelenítése Zen módban"
 
-#: weblate/accounts/models.py:333
+#: weblate/accounts/models.py:346
 msgid "Hide source if there is secondary language"
 msgstr "Forrásszöveg elrejtése, ha van másodlagos nyelv"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:352
 msgid "Editor link"
 msgstr "Szerkesztő hivatkozás"
 
-#: weblate/accounts/models.py:341
+#: weblate/accounts/models.py:354
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -344,66 +370,66 @@ msgid ""
 "%(line)s is good option."
 msgstr ""
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:365
 msgid "Translation editor mode"
 msgstr "Fordítási szerkesztő mód"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:367
 msgid "Full editor"
 msgstr "Megnyitás teljes szerkesztőben"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:368
 msgid "Zen mode"
 msgstr "Szerkesztés Zen módban"
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:375
 msgid "Special characters"
 msgstr "Speciális karakterek"
 
-#: weblate/accounts/models.py:364
+#: weblate/accounts/models.py:377
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
 
-#: weblate/accounts/models.py:377 weblate/templates/dashboard/user.html:13
+#: weblate/accounts/models.py:390 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
 msgstr "Figyelt fordítások"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:14
+#: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
 msgstr "Nyelveid"
 
-#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:17
+#: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
 msgstr "Összetevőlista"
 
-#: weblate/accounts/models.py:380 weblate/auth/models.py:138
+#: weblate/accounts/models.py:393 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
 msgstr "Összetevőlista"
 
-#: weblate/accounts/models.py:381 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:394 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
 msgstr "Ajánlott fordítások"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:411
 msgid "Default dashboard view"
 msgstr "Alapértelmezett vezérlőpult áttekintő"
 
-#: weblate/accounts/models.py:404
+#: weblate/accounts/models.py:417
 msgid "Default component list"
 msgstr "Alapértelmezett összetevőlista"
 
-#: weblate/accounts/models.py:412 weblate/templates/accounts/profile.html:80
+#: weblate/accounts/models.py:425 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
 msgid "Watched projects"
 msgstr "Figyelt projektek"
 
-#: weblate/accounts/models.py:414
+#: weblate/accounts/models.py:427
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -411,44 +437,44 @@ msgstr ""
 "Értesítéseket kaphat a figyelt projektekről, és azok alapértelmezetten "
 "megjelennek a vezérlőpulton."
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:434
 msgid "Notification on any translation"
 msgstr "Értesítés bármilyen fordításról"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:438
 msgid "Notification on new string to translate"
 msgstr "Értesítés új lefordítandó szövegről"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:442
 msgid "Notification on new suggestion"
 msgstr "Értesítés új javaslatról"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:446
 msgid "Notification on new contributor"
 msgstr "Értesítés új résztvevőről"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:450
 msgid "Notification on new comment"
 msgstr "Értesítés új megjegyzésről"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:454
 msgid "Notification on merge failure"
 msgstr "Értesítés összefésülési hibáról"
 
-#: weblate/accounts/models.py:445
+#: weblate/accounts/models.py:458
 msgid "Notification on new language request"
 msgstr "Értesítés új nyelv kéréséről"
 
-#: weblate/accounts/models.py:491
+#: weblate/accounts/models.py:504
 msgid "Component list must be chosen when used as default."
 msgstr ""
 "Az összetevőlistát ki kell választani, ha alapértelmezettként használják."
 
-#: weblate/accounts/models.py:497
+#: weblate/accounts/models.py:510
 msgid "Component list can not be chosen when unused."
 msgstr "Az összetevőlistát nem kell kiválasztani, ha nem használják."
 
-#: weblate/accounts/models.py:549
+#: weblate/accounts/models.py:562
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -1910,103 +1936,103 @@ msgstr ""
 msgid "Excel Open XML"
 msgstr ""
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:677
 msgid "Gettext PO file"
 msgstr "Gettext PO fájl"
 
-#: weblate/formats/ttkit.py:732
+#: weblate/formats/ttkit.py:733
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO fájl (egynyelvű)"
 
-#: weblate/formats/ttkit.py:745
+#: weblate/formats/ttkit.py:746
 msgid "Qt Linguist Translation File"
 msgstr "QT Linguist fordítási fájl"
 
-#: weblate/formats/ttkit.py:761
+#: weblate/formats/ttkit.py:762
 msgid "XLIFF Translation File"
 msgstr "XLIFF fordítási fájl"
 
-#: weblate/formats/ttkit.py:780
+#: weblate/formats/ttkit.py:781
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF fordítási fájl"
 
-#: weblate/formats/ttkit.py:808
+#: weblate/formats/ttkit.py:809
 msgid "OS X Strings"
 msgstr "OS X karakterláncok"
 
-#: weblate/formats/ttkit.py:821
+#: weblate/formats/ttkit.py:822
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X karakterláncok (UTF-8)"
 
-#: weblate/formats/ttkit.py:828
+#: weblate/formats/ttkit.py:829
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/formats/ttkit.py:835
+#: weblate/formats/ttkit.py:836
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/formats/ttkit.py:841
+#: weblate/formats/ttkit.py:842
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:858
+#: weblate/formats/ttkit.py:859
 msgid "Joomla Language File"
 msgstr ""
 
-#: weblate/formats/ttkit.py:867
+#: weblate/formats/ttkit.py:868
 msgid "PHP strings"
 msgstr "PHP karakterláncok"
 
-#: weblate/formats/ttkit.py:886
+#: weblate/formats/ttkit.py:887
 msgid ".Net resource file"
 msgstr ".Net resource fájl"
 
-#: weblate/formats/ttkit.py:896
+#: weblate/formats/ttkit.py:897
 msgid "Android String Resource"
 msgstr "Android szövegerőforrás"
 
-#: weblate/formats/ttkit.py:928
+#: weblate/formats/ttkit.py:929
 msgid "JSON file"
 msgstr "JSON fájl"
 
-#: weblate/formats/ttkit.py:947
+#: weblate/formats/ttkit.py:948
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:953
+#: weblate/formats/ttkit.py:954
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:961
+#: weblate/formats/ttkit.py:962
 msgid "i18next JSON file"
 msgstr "i18next JSON fájl"
 
-#: weblate/formats/ttkit.py:967
+#: weblate/formats/ttkit.py:968
 msgid "CSV file"
 msgstr "CSV fájl"
 
-#: weblate/formats/ttkit.py:1033
+#: weblate/formats/ttkit.py:1034
 msgid "Simple CSV file"
 msgstr "Egyszerű CSV fájl"
 
-#: weblate/formats/ttkit.py:1069
+#: weblate/formats/ttkit.py:1070
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Egyszerű CSV fájl (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1075
+#: weblate/formats/ttkit.py:1076
 msgid "YAML file"
 msgstr "YAML fájl"
 
-#: weblate/formats/ttkit.py:1094
+#: weblate/formats/ttkit.py:1095
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1101
+#: weblate/formats/ttkit.py:1102
 msgid "DTD file"
 msgstr "DTD fájl"
 
-#: weblate/formats/ttkit.py:1127
+#: weblate/formats/ttkit.py:1128
 msgid "RC file"
 msgstr "RC fájl"
 
@@ -2457,20 +2483,20 @@ msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr ""
 "Töltsön fel JPEG vagy PNG képeket legfeljebb 2000×2000 képpont méretben."
 
-#: weblate/screenshots/views.py:99
+#: weblate/screenshots/views.py:102
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
 
-#: weblate/screenshots/views.py:106
+#: weblate/screenshots/views.py:109
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
 
-#: weblate/screenshots/views.py:162
+#: weblate/screenshots/views.py:165
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "A %s képernyőkép törölve lett."
 
-#: weblate/screenshots/views.py:182
+#: weblate/screenshots/views.py:185
 msgid "Source has been removed."
 msgstr "A forrás eltávolítva."
 
@@ -9121,6 +9147,19 @@ msgstr "Jelentések"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfigurációs hiba elutasítása nem sikerült!"
+
+#~ msgid "Authentication ({method}:{name}) has been added."
+#~ msgstr "Hitelesítés ({method}:{name}) hozzáadva."
+
+#~ msgid "Authentication ({method}:{name}) has been removed."
+#~ msgstr "Hitelesítés ({method}:{name}) el lett távolítva."
+
+#~ msgid "Somebody has attempted to add your email to existing account."
+#~ msgstr ""
+#~ "Valaki megpróbálta hozzáadni az e-mail címét egy már létező fiókhoz."
+
+#~ msgid "Failed authentication attempt ({method}:{name})."
+#~ msgstr "Sikertelen hitelesítési kísérlet ({method}1:{name}2)."
 
 #~ msgctxt "Number of strings needing review"
 #~ msgid "Review"

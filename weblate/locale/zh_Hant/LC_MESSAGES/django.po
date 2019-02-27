@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-27 07:02+0000\n"
+"POT-Creation-Date: 2019-02-27 18:02+0000\n"
 "PO-Revision-Date: 2019-01-29 10:29+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -225,22 +225,24 @@ msgstr "已確認密碼重設，密碼已停用。"
 
 #: weblate/accounts/models.py:63
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been added."
-msgstr "已加入 ({method}:{name}) 的身份核對方式。"
+msgid "You can now log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
-msgid "Authentication ({method}:{name}) has been removed."
-msgstr "已移除身份核對方式 ({method}:{name})。"
+msgid "You can no longer log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:69
-#, python-brace-format
-msgid "Authenticated ({method}:{name})."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name})."
+msgid "Logged on using {method} ({name})."
 msgstr "已通過身份核對 ({method}:{name})。"
 
 #: weblate/accounts/models.py:72
-#, python-brace-format
-msgid "Authenticated ({method}:{name}) from new device."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated ({method}:{name}) from new device."
+msgid "Logged on using {method} ({name}) from a new device."
 msgstr "已從新裝置通過身份核對 ({method}:{name})。"
 
 #: weblate/accounts/models.py:75
@@ -248,16 +250,20 @@ msgid "Somebody has attempted to register with your email."
 msgstr "有人嘗試註冊您的電子郵件。"
 
 #: weblate/accounts/models.py:78
-msgid "Somebody has attempted to add your email to existing account."
-msgstr "有人嘗試將您的電子郵件加入既有的帳號中。"
+#, fuzzy
+#| msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register using your email address."
+msgstr "有人嘗試註冊您的電子郵件。"
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
-msgid "Failed authentication attempt ({method}:{name})."
-msgstr "試圖核對身份失敗 ({method}:{name})。"
+msgid "Could not log in using {method} ({name})."
+msgstr ""
 
 #: weblate/accounts/models.py:84
-msgid "Account locked due to excessive failed authentication attempts."
+#, fuzzy
+#| msgid "Account locked due to excessive failed authentication attempts."
+msgid "Account locked due to many failed logins."
 msgstr "由於身份核對失敗太多次而鎖定帳號。"
 
 #: weblate/accounts/models.py:87
@@ -270,55 +276,75 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "服務條款協議書 {date}。"
 
 #: weblate/accounts/models.py:96
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "You can now log in using password."
+msgstr "您所輸入的密碼無效。"
+
+#: weblate/accounts/models.py:97
+#, fuzzy
+#| msgid "Forgot your password?"
+msgid "Logged on using password."
+msgstr "忘記您的密碼？"
+
+#: weblate/accounts/models.py:98
+msgid "Logged on using password from a new device."
+msgstr ""
+
+#: weblate/accounts/models.py:99
+msgid "Could not log in using password."
+msgstr ""
+
+#: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
 msgstr "若要還原您的帳號存取權，請重設您的密碼。"
 
-#: weblate/accounts/models.py:186 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:199 weblate/templates/accounts/profile.html:217
 msgid "Account activity"
 msgstr "帳號活動"
 
-#: weblate/accounts/models.py:295
+#: weblate/accounts/models.py:308
 msgid "Interface Language"
 msgstr "介面語言"
 
-#: weblate/accounts/models.py:302
+#: weblate/accounts/models.py:315
 msgid "Translated languages"
 msgstr "想翻譯成哪些語言"
 
-#: weblate/accounts/models.py:305
+#: weblate/accounts/models.py:318
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
 "請選擇您翻譯時的偏好語言。這些語言將會顯示在控制面板以方便您存取選擇的翻譯。"
 
-#: weblate/accounts/models.py:312
+#: weblate/accounts/models.py:325
 msgid "Secondary languages"
 msgstr "第二語言"
 
-#: weblate/accounts/models.py:314
+#: weblate/accounts/models.py:327
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr "請選擇您可以理解的語言，這些語言的字串會跟著來源字串附帶顯示給您參考。"
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:338
 msgid "Hide completed translations on the dashboard"
 msgstr "於控制面板中隱藏已完成的翻譯"
 
-#: weblate/accounts/models.py:329
+#: weblate/accounts/models.py:342
 msgid "Show secondary translations in zen mode"
 msgstr "在禪心模式中顯示第二語言翻譯"
 
-#: weblate/accounts/models.py:333
+#: weblate/accounts/models.py:346
 msgid "Hide source if there is secondary language"
 msgstr "若有第二語言時隱藏來源語言"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:352
 msgid "Editor link"
 msgstr "編輯器連結"
 
-#: weblate/accounts/models.py:341
+#: weblate/accounts/models.py:354
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -330,23 +356,23 @@ msgstr ""
 "檔名設為 %(file)s、列號設為 %(line)s。通常像這樣 editor://open/?file="
 "%(file)s&line=%(line)s 看起來還不錯。"
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:365
 msgid "Translation editor mode"
 msgstr "翻譯編輯器模式"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:367
 msgid "Full editor"
 msgstr "完整編輯器"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:368
 msgid "Zen mode"
 msgstr "禪心模式"
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:375
 msgid "Special characters"
 msgstr "特殊字元"
 
-#: weblate/accounts/models.py:364
+#: weblate/accounts/models.py:377
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -355,85 +381,85 @@ msgstr ""
 "您可以指定翻譯時視覺畫面鍵盤中要顯示的附加特殊字元。對於您經常使用卻又很難用"
 "鍵盤輸入的字元來說很好用。"
 
-#: weblate/accounts/models.py:377 weblate/templates/dashboard/user.html:13
+#: weblate/accounts/models.py:390 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
 msgstr "關注翻譯"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:14
+#: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
 msgstr "您的語言"
 
-#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:17
+#: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
 msgstr "組件列表"
 
-#: weblate/accounts/models.py:380 weblate/auth/models.py:138
+#: weblate/accounts/models.py:393 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
 msgstr "組件列表"
 
-#: weblate/accounts/models.py:381 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:394 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
 msgstr "建議的翻譯"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:411
 msgid "Default dashboard view"
 msgstr "預設控制面板檢視"
 
-#: weblate/accounts/models.py:404
+#: weblate/accounts/models.py:417
 msgid "Default component list"
 msgstr "預設組件列表"
 
-#: weblate/accounts/models.py:412 weblate/templates/accounts/profile.html:80
+#: weblate/accounts/models.py:425 weblate/templates/accounts/profile.html:80
 #: weblate/templates/base.html:113
 msgid "Watched projects"
 msgstr "關注專案"
 
-#: weblate/accounts/models.py:414
+#: weblate/accounts/models.py:427
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr "您可以接收關注專案的通知，預設情況下通知會顯示在控制面板中。"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:434
 msgid "Notification on any translation"
 msgstr "當有任何翻譯時通知"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:438
 msgid "Notification on new string to translate"
 msgstr "當有新字串可翻譯時通知"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:442
 msgid "Notification on new suggestion"
 msgstr "當有新的建議時通知"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:446
 msgid "Notification on new contributor"
 msgstr "當有新的貢獻者時通知"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:450
 msgid "Notification on new comment"
 msgstr "當有新的評註時請通知"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:454
 msgid "Notification on merge failure"
 msgstr "當合併失敗時通知"
 
-#: weblate/accounts/models.py:445
+#: weblate/accounts/models.py:458
 msgid "Notification on new language request"
 msgstr "當有新的語言申請時通知"
 
-#: weblate/accounts/models.py:491
+#: weblate/accounts/models.py:504
 msgid "Component list must be chosen when used as default."
 msgstr "若組件列表作預設使用時則必須選取。"
 
-#: weblate/accounts/models.py:497
+#: weblate/accounts/models.py:510
 msgid "Component list can not be chosen when unused."
 msgstr "若沒有使用組件列表則不能選擇。"
 
-#: weblate/accounts/models.py:549
+#: weblate/accounts/models.py:562
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -1910,103 +1936,103 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:677
 msgid "Gettext PO file"
 msgstr "Gettext PO 檔"
 
-#: weblate/formats/ttkit.py:732
+#: weblate/formats/ttkit.py:733
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 檔（單語）"
 
-#: weblate/formats/ttkit.py:745
+#: weblate/formats/ttkit.py:746
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻譯檔"
 
-#: weblate/formats/ttkit.py:761
+#: weblate/formats/ttkit.py:762
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻譯檔"
 
-#: weblate/formats/ttkit.py:780
+#: weblate/formats/ttkit.py:781
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF 翻譯檔，附 PO 擴展"
 
-#: weblate/formats/ttkit.py:808
+#: weblate/formats/ttkit.py:809
 msgid "OS X Strings"
 msgstr "OS X 字串"
 
-#: weblate/formats/ttkit.py:821
+#: weblate/formats/ttkit.py:822
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 字串 (UTF-8)"
 
-#: weblate/formats/ttkit.py:828
+#: weblate/formats/ttkit.py:829
 msgid "Java Properties (UTF-8)"
 msgstr "Java 屬性（UTF-8）"
 
-#: weblate/formats/ttkit.py:835
+#: weblate/formats/ttkit.py:836
 msgid "Java Properties (UTF-16)"
 msgstr "Java 屬性（UTF-16）"
 
-#: weblate/formats/ttkit.py:841
+#: weblate/formats/ttkit.py:842
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java 屬性（ISO-8859-1）"
 
-#: weblate/formats/ttkit.py:858
+#: weblate/formats/ttkit.py:859
 msgid "Joomla Language File"
 msgstr "Joomla 語言檔"
 
-#: weblate/formats/ttkit.py:867
+#: weblate/formats/ttkit.py:868
 msgid "PHP strings"
 msgstr "PHP 字串"
 
-#: weblate/formats/ttkit.py:886
+#: weblate/formats/ttkit.py:887
 msgid ".Net resource file"
 msgstr ".Net 資源檔"
 
-#: weblate/formats/ttkit.py:896
+#: weblate/formats/ttkit.py:897
 msgid "Android String Resource"
 msgstr "Android 字串資源"
 
-#: weblate/formats/ttkit.py:928
+#: weblate/formats/ttkit.py:929
 msgid "JSON file"
 msgstr "JSON 檔"
 
-#: weblate/formats/ttkit.py:947
+#: weblate/formats/ttkit.py:948
 msgid "JSON nested structure file"
 msgstr "JSON 巢狀結構檔"
 
-#: weblate/formats/ttkit.py:953
+#: weblate/formats/ttkit.py:954
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 檔"
 
-#: weblate/formats/ttkit.py:961
+#: weblate/formats/ttkit.py:962
 msgid "i18next JSON file"
 msgstr "i18next JSON 檔案"
 
-#: weblate/formats/ttkit.py:967
+#: weblate/formats/ttkit.py:968
 msgid "CSV file"
 msgstr "CSV 檔"
 
-#: weblate/formats/ttkit.py:1033
+#: weblate/formats/ttkit.py:1034
 msgid "Simple CSV file"
 msgstr "簡單 CSV 檔"
 
-#: weblate/formats/ttkit.py:1069
+#: weblate/formats/ttkit.py:1070
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "簡單 CSV 檔（ISO-8859-1）"
 
-#: weblate/formats/ttkit.py:1075
+#: weblate/formats/ttkit.py:1076
 msgid "YAML file"
 msgstr "YAML 檔"
 
-#: weblate/formats/ttkit.py:1094
+#: weblate/formats/ttkit.py:1095
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 檔"
 
-#: weblate/formats/ttkit.py:1101
+#: weblate/formats/ttkit.py:1102
 msgid "DTD file"
 msgstr "DTD 檔"
 
-#: weblate/formats/ttkit.py:1127
+#: weblate/formats/ttkit.py:1128
 msgid "RC file"
 msgstr "RC 檔"
 
@@ -2464,20 +2490,20 @@ msgstr "影像"
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr "上傳 JPEG 或 PNG 影像，最大可接受 2000x2000 像素。"
 
-#: weblate/screenshots/views.py:99
+#: weblate/screenshots/views.py:102
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "畫面快照已上傳，您現在可以將其指派給來源字串。"
 
-#: weblate/screenshots/views.py:106
+#: weblate/screenshots/views.py:109
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr "上傳畫面快照失敗，請嘗試修正下列錯誤。"
 
-#: weblate/screenshots/views.py:162
+#: weblate/screenshots/views.py:165
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "%s 畫面快照已刪除。"
 
-#: weblate/screenshots/views.py:182
+#: weblate/screenshots/views.py:185
 msgid "Source has been removed."
 msgstr "來源已移除。"
 
@@ -9005,6 +9031,18 @@ msgstr "回報"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
+
+#~ msgid "Authentication ({method}:{name}) has been added."
+#~ msgstr "已加入 ({method}:{name}) 的身份核對方式。"
+
+#~ msgid "Authentication ({method}:{name}) has been removed."
+#~ msgstr "已移除身份核對方式 ({method}:{name})。"
+
+#~ msgid "Somebody has attempted to add your email to existing account."
+#~ msgstr "有人嘗試將您的電子郵件加入既有的帳號中。"
+
+#~ msgid "Failed authentication attempt ({method}:{name})."
+#~ msgstr "試圖核對身份失敗 ({method}:{name})。"
 
 #~ msgctxt "Number of strings needing review"
 #~ msgid "Review"
