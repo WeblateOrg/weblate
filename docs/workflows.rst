@@ -27,7 +27,7 @@ Each translated string can be in following states:
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
     on the file format.
-Needs edit
+Needs editing
     Translation needs editing, this is usually result of source string change.
     The translation is stored in the file, depending on the file format it might
     be marked as needing edit (eg. fuzzy flag).
