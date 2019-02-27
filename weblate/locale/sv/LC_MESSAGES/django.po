@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 18:02+0000\n"
-"PO-Revision-Date: 2019-02-26 17:19+0000\n"
-"Last-Translator: Filip Bengtsson <filipbengtsson@live.se>\n"
+"PO-Revision-Date: 2019-02-28 11:50+0000\n"
+"Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
 "Language: sv\n"
@@ -238,43 +238,37 @@ msgstr ""
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Du kan nu logga in med {metoden} ({namn})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Du kan inte längre logga in med {metoden} ({namn})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Autentiserad ({method}:{name})."
+msgstr "Inloggad med {metoden} ({namn})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Autentiserad ({method}:{name}) från ny enhet."
+msgstr "Inloggad med {metoden} ({namn}) från en ny enhet."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Någon har försökt att registrera sig med din mejl."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Någon har försökt att registrera sig med din mejl."
+msgstr "Någon har försökt att registrera sig med din mejladress."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "Kunde inte logga in med {metoden} ({namn})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
 msgstr "Kontot låst på grund av för många misslyckade inloggningsförsök."
 
@@ -288,24 +282,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Avtal med villkor för tjänsten {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Du har angett ett felaktigt lösenord."
+msgstr "Du kan nu logga in med lösenord."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Glömt lösenord?"
+msgstr "Inloggad med lösenord."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Inloggad med lösenord från en ny enhet."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Kunde inte logga in med lösenord."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -726,7 +716,7 @@ msgstr "Detta tillägg exekverar ett skript."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Markera nya källsträngar med \"Behöver redigering\""
+msgstr "Markera nya källsträngar med \"Behöver åtgärdas\""
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -735,12 +725,12 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "När nya källsträngar importeras från VCS så kommer de att markeras med "
-"'redigering behövs' i Weblate. Med hjälp av detta kan du enkelt filtrera och "
+"'behöver åtgärdas' i Weblate. Med hjälp av detta kan du enkelt filtrera och "
 "redigera källsträngar som har lagts till av utvecklarna."
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Markera nya översättningar med \"Behöver redigering\""
+msgstr "Markera nya översättningar med \"Behöver åtgärdas\""
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -749,12 +739,12 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "När en ny översättningsbar sträng importeras från VCS så kommer den att "
-"markeras med 'redigering behövs' i Weblate. Med hjälp av detta kan du enkelt "
+"markeras med 'behöver åtgärdas' i Weblate. Med hjälp av detta kan du enkelt "
 "filtrera och redigera översättningar som har skapats av utvecklarna."
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Markera oförändrade översättningar med \"Behöver redigering\""
+msgstr "Markera oförändrade översättningar med \"Behöver åtgärdas\""
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -764,7 +754,7 @@ msgid ""
 "not translated."
 msgstr ""
 "När en ny översättningsbar sträng importeras från VCS som matchar en "
-"källsträng så kommer den att markeras med 'redigering behövs' i Weblate. "
+"källsträng så kommer den att markeras med 'behöver åtgärdas' i Weblate. "
 "Detta är speciellt användbart för filformat som inkluderar alla strängar, "
 "även om de inte är översatta."
 
@@ -1922,18 +1912,18 @@ msgstr "Strängen använder tre punkter (...) istället för ellipstecknet (…)
 
 #: weblate/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Flera kontroller som misslyckats"
+msgstr "Flera fallerande kontroller"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "Översättningarna i flera språk har kontroller som misslyckats"
+msgstr "Översättningarna i flera språk har fallerande kontroller"
 
 #: weblate/checks/views.py:74 weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/legend.html:16
 #: weblate/templates/progress.html:11 weblate/templates/project.html:51
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:572
 msgid "Failing checks"
-msgstr "Kontroller som misslyckats"
+msgstr "Fallerande kontroller"
 
 #: weblate/formats/auto.py:77
 msgid "Automatic detection"
@@ -3491,13 +3481,11 @@ msgstr "hela projektet"
 
 #: weblate/templates/addons/addon_head.html:8
 msgid "This addon operates on all components sharing this repository."
-msgstr ""
+msgstr "Detta tillägg gäller för alla komponenter som delar detta arkiv."
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "Databasuppgifter"
+msgstr "hela arkivet"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3654,6 +3642,8 @@ msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
 msgstr ""
+"Alla Weblate-arkiveringar från alla komponenter inom detta arkiv kommer att "
+"squashas."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -4060,10 +4050,8 @@ msgid "Screenshots"
 msgstr "Skärmdumpar"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "Alla komponenter"
+msgstr "Lägg till ett komponentmeddelande"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4151,6 +4139,8 @@ msgid ""
 "The message is shown on all translations within the component until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Meddelandet visas på alla översättningar inom komponenten så länge det är "
+"giltigt eller permanent tills du tar bort det."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4442,10 +4432,6 @@ msgid "Notification hooks"
 msgstr "Aviseringskopplingar"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
@@ -4663,7 +4649,7 @@ msgstr "Drivs av %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopiera till Urklipp"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5006,7 +4992,7 @@ msgstr "Bra"
 #: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
 #: weblate/utils/state.py:32
 msgid "Needs editing"
-msgstr "Behöver redigering"
+msgstr "Behöver åtgärdas"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -5031,11 +5017,9 @@ msgstr "Ord"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
-msgstr "Behöver redigering"
+msgstr "Behöver redigeras"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -5639,10 +5623,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:70 weblate/templates/project.html:263
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add a project message"
-msgstr "Hantera projektåtkomst"
+msgstr "Lägg till ett projektmeddelande"
 
 #: weblate/templates/project.html:93 weblate/templates/translation.html:101
 msgid "Share on Facebook"
@@ -5682,6 +5664,8 @@ msgid ""
 "The message is shown on all translations within the project until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Meddelandet visas på alla översättningar inom projektet så länge det är "
+"giltigt eller permanent tills du tar bort det."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5724,18 +5708,16 @@ msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
 msgstr ""
+"Du har utfört alltför många operationer på kort tid och din begäran har "
+"därför blivit hastighetsbegränsad."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please login and try again later."
-msgstr "För många meddelanden skickade. Vänligen försök igen senare!"
+msgstr "Du har loggats ut, vänligen logga in och försök igen senare."
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr "För många sökfrågor, försök igen senare."
+msgstr "Försök igen senare."
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
@@ -5874,10 +5856,8 @@ msgid "No matching source strings found."
 msgstr "Inga matchande källsträngar hittades."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:155
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Driftinformation"
+msgstr "Strängstatus"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:179
 msgid "Project Information"
@@ -5961,12 +5941,12 @@ msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
 msgstr ""
+"Översättningskomponenten ser ut som enspråkig, men den är inte konfigurerad "
+"som en sådan."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add monolingual base language file in component setting."
-msgstr "Enspråkig basspråkfil"
+msgstr "Lägg till enspråkiga basspråksfilen i komponentinställningarna."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5981,12 +5961,8 @@ msgid "Filename"
 msgstr "Filnamn"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
-msgstr ""
-"Weblate kunde inte hämta uppströmsändringar vid uppdatering av arkivet."
+msgstr "Weblate kunde inte pusha ändringar till arkivet uppströms."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -6186,7 +6162,7 @@ msgstr "Tillgängliga kortkommandon:"
 
 #: weblate/templates/translate.html:107
 msgid "Unmark review needed flag and save"
-msgstr "Ta bort 'Behöver redigering'-flaggan och spara"
+msgstr "Ta bort 'Behöver åtgärdas'-flaggan och spara"
 
 #: weblate/templates/translate.html:108
 msgid "Strings navigation"
@@ -6218,7 +6194,7 @@ msgstr "Kopierar källsträngen"
 
 #: weblate/templates/translate.html:115
 msgid "Toggle edit needed flag"
-msgstr "Växlar 'Behöver redigering'-flaggan"
+msgstr "Växlar 'Behöver åtgärdas'-flaggan"
 
 #: weblate/templates/translate.html:119
 msgid "Editing source string"
@@ -6292,10 +6268,8 @@ msgid "Nearby strings"
 msgstr "Närliggande strängar"
 
 #: weblate/templates/translate.html:239
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurences"
-msgstr "Sista förekomsten"
+msgstr "Andra förekomster"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
 #: weblate/templates/unit-details.html:13
@@ -6481,10 +6455,8 @@ msgid "Add new translation string"
 msgstr "Lägg till ny översättningssträng"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add a translation message"
-msgstr "Lägg till som översättning"
+msgstr "Lägg till ett översättningsmeddelande"
 
 #: weblate/templates/translation.html:119 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -6565,6 +6537,8 @@ msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
 msgstr ""
+"Meddelandet visas på översättningssidan så länge det är giltigt eller "
+"permanent tills det tas bort."
 
 #: weblate/templates/translation.html:378
 msgid "Review"
@@ -6588,7 +6562,7 @@ msgstr "Totalt"
 
 #: weblate/templates/translation.html:431
 msgid "Failing check"
-msgstr "Kontroll som misslyckats"
+msgstr "Fallerad kontroll"
 
 #: weblate/templates/translation.html:446
 msgid "Last activity"
@@ -6778,14 +6752,10 @@ msgid "Trailing and leading whitespace"
 msgstr "Avslutande och inledande mellanslag"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, platsen för översättning av ditt projekt."
 
 #: weblate/trans/context_processors.py:103
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Webbplatsen använder Weblate för att översätta diverse programvaruprojekt."
@@ -6834,7 +6804,7 @@ msgstr "Strängar med kommentarer"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with any failing checks"
-msgstr "Strängar med kontroller som misslyckats"
+msgstr "Strängar med fallerande kontroller"
 
 #: weblate/trans/filter.py:40
 msgid "Approved strings"
@@ -6913,8 +6883,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Strängar är normalt flaggade med \"Behöver redigering\" efter att "
-"källsträngen uppdaterats, eller när flaggan satts manuellt."
+"Strängar är normalt flaggade med \"Behöver åtgärdas\" efter att källsträngen "
+"uppdaterats, eller när flaggan satts manuellt."
 
 #: weblate/trans/forms.py:462
 msgid "Review state"
@@ -6957,11 +6927,11 @@ msgstr "Lägg till som förslag"
 
 #: weblate/trans/forms.py:600
 msgid "Add as translation needing edit"
-msgstr "Lägg till som översättning som behöver redigering"
+msgstr "Lägg till som översättning som behöver åtgärdas"
 
 #: weblate/trans/forms.py:604
 msgid "Processing of strings needing edit"
-msgstr "Behandling av strängar som behöver redigering"
+msgstr "Behandling av strängar som behöver åtgärdas"
 
 #: weblate/trans/forms.py:606
 msgid "Do not import"
@@ -6969,7 +6939,7 @@ msgstr "Importera inte"
 
 #: weblate/trans/forms.py:607
 msgid "Import as string needing edit"
-msgstr "Importera som sträng som behöver redigering"
+msgstr "Importera som sträng som behöver åtgärdas"
 
 #: weblate/trans/forms.py:608
 msgid "Import as translated"
@@ -7417,10 +7387,8 @@ msgid "Could not update the repository."
 msgstr "Kunde inte uppdatera arkivet."
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not push the repository."
-msgstr "Kunde inte uppdatera arkivet."
+msgstr "Kunde inte pusha arkivet."
 
 #: weblate/trans/models/alert.py:157
 msgid "Unused base file for new translations."
@@ -7451,10 +7419,8 @@ msgid "Error when executing addon."
 msgstr "Fel vid exekvering av tillägg."
 
 #: weblate/trans/models/alert.py:198
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "Ladda ner för att översätta nerkopplat."
+msgstr "Felaktigt konfigurerad enspråkig översättning."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7646,16 +7612,14 @@ msgid "Merge"
 msgstr "Sammanfoga"
 
 #: weblate/trans/models/component.py:139
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with translations."
 msgid ""
 "Version control system to use to access your repository with translations. "
 "You can also choose additional integration with third party providers to "
 "submit merge requests."
 msgstr ""
 "Versionshanteringssystem som ska användas för att komma åt ditt arkiv med "
-"översättningar."
+"översättningar. Du kan också välja ytterligare integration med "
+"tredjepartsleverantörer för att skicka merge-förfrågningar."
 
 #: weblate/trans/models/component.py:163
 msgid "Repository push URL"
@@ -7857,10 +7821,8 @@ msgid "Commit message when merging translation"
 msgstr "Arkiveringsmeddelande när översättning sammanfogas"
 
 #: weblate/trans/models/component.py:395
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
-msgstr "Arkiveringsmeddelande när översättning läggs till"
+msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
 
 #: weblate/trans/models/component.py:404
 msgid "Committer name"
@@ -7955,10 +7917,8 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "Push-URL används inte när arkivet är länkat!"
 
 #: weblate/trans/models/component.py:1268
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "Export-URL används inte när arkivet är länkat!"
+msgstr "Arkivgren används inte när arkivet är länkat!"
 
 #: weblate/trans/models/component.py:1274
 msgid "Export URL is not used when repository is linked!"
@@ -8255,16 +8215,16 @@ msgid "Success (green)"
 msgstr "Åtgärd lyckades (grön)"
 
 #: weblate/trans/models/whiteboard.py:121
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "Slutdatum för provperiod"
+msgstr "Slutdatum"
 
 #: weblate/trans/models/whiteboard.py:123
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
 msgstr ""
+"Meddelandet kommer inte att visas efter detta datum. Använd t.ex. för "
+"meddelanden om deadline för nästa release."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8535,7 +8495,7 @@ msgstr "Inte översatt"
 
 #: weblate/trans/templatetags/translations.py:563
 msgid "Message needs edit"
-msgstr "Meddelandet behöver redigering"
+msgstr "Meddelandet behöver redigeras"
 
 #: weblate/trans/templatetags/translations.py:568
 msgid "Message is not translated"
@@ -8596,10 +8556,8 @@ msgid "RST text"
 msgstr "RST-text"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Mardown text"
-msgstr "Markdown-kod"
+msgstr "Markdown-text"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
@@ -8808,7 +8766,7 @@ msgstr "Följande rättningar utfördes på översättningen: %s"
 #: weblate/trans/views/edit.py:253
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
-msgstr "Några kontroller har misslyckats på din översättning: {0}"
+msgstr "Några kontroller har fallerat för din översättning: {0}"
 
 #: weblate/trans/views/edit.py:305
 msgid "Invalid merge request!"
