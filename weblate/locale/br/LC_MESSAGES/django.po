@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-24 20:40+0000\n"
+"POT-Creation-Date: 2019-02-27 07:02+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -719,13 +719,13 @@ msgid ""
 "username is already in use for another account."
 msgstr ""
 
-#: weblate/addons/cleanup.py:34
+#: weblate/addons/cleanup.py:35
 #, fuzzy
 #| msgid "Translation"
 msgid "Cleanup translation files"
 msgstr "Troidigezh"
 
-#: weblate/addons/cleanup.py:36
+#: weblate/addons/cleanup.py:37
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -5592,8 +5592,9 @@ msgid "Good"
 msgstr ""
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:464
-#: weblate/trans/templatetags/translations.py:531 weblate/utils/state.py:32
+#: weblate/templates/translation.html:425 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/utils/state.py:32
 #, fuzzy
 #| msgid "review"
 msgid "Needs editing"
@@ -5628,9 +5629,11 @@ msgstr "ger"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-msgctxt "Number of strings needing review"
-msgid "Review"
-msgstr "Adwelet"
+#, fuzzy
+#| msgid "review"
+msgctxt "Number of strings needing edit"
+msgid "Needs editing"
+msgstr "adwelet"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -7344,7 +7347,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:378
-#: weblate/templates/translation.html:425
 msgid "Review"
 msgstr "Adwelet"
 
@@ -7593,7 +7595,7 @@ msgstr ""
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
-msgid "Hosted Weblate, the place to translate your software project."
+msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "Herberc'hiañ a ra staliadur Weblate troidigezhioù evit meur a raktres "
 "meziantoù frank."
@@ -7603,7 +7605,7 @@ msgstr ""
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
-msgid "This site runs Weblate for translating various software projects."
+msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Herberc'hiañ a ra staliadur Weblate troidigezhioù evit meur a raktres "
 "meziantoù frank."
@@ -9064,7 +9066,7 @@ msgstr "Kregiñ gant un droidigezh nevez"
 msgid "Given language is filtered by the language filter!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1687
+#: weblate/trans/models/component.py:1688
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file already exists!"
@@ -10423,6 +10425,10 @@ msgstr "Danevelloù"
 #| msgid "Start new translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#~ msgctxt "Number of strings needing review"
+#~ msgid "Review"
+#~ msgstr "Adwelet"
 
 #~ msgid "Strings to check"
 #~ msgstr "Neudennadoù da wiriañ"

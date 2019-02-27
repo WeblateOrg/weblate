@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-24 20:40+0000\n"
+"POT-Creation-Date: 2019-02-27 07:02+0000\n"
 "PO-Revision-Date: 2018-07-23 11:06+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -680,13 +680,13 @@ msgid ""
 "username is already in use for another account."
 msgstr ""
 
-#: weblate/addons/cleanup.py:34
+#: weblate/addons/cleanup.py:35
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Cleanup translation files"
 msgstr "Tập tin dịch kiểu XLIFF"
 
-#: weblate/addons/cleanup.py:36
+#: weblate/addons/cleanup.py:37
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -5253,8 +5253,9 @@ msgid "Good"
 msgstr ""
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:464
-#: weblate/trans/templatetags/translations.py:531 weblate/utils/state.py:32
+#: weblate/templates/translation.html:425 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/utils/state.py:32
 #, fuzzy
 #| msgid "Overview"
 msgid "Needs editing"
@@ -5289,8 +5290,8 @@ msgstr ""
 #: weblate/templates/list-translations.html:23
 #, fuzzy
 #| msgid "Overview"
-msgctxt "Number of strings needing review"
-msgid "Review"
+msgctxt "Number of strings needing edit"
+msgid "Needs editing"
 msgstr "Tổng quan"
 
 #: weblate/templates/list-translations.html:12
@@ -6898,7 +6899,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:378
-#: weblate/templates/translation.html:425
 msgid "Review"
 msgstr ""
 
@@ -7123,11 +7123,11 @@ msgid "Trailing and leading whitespace"
 msgstr ""
 
 #: weblate/trans/context_processors.py:99
-msgid "Hosted Weblate, the place to translate your software project."
+msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 
 #: weblate/trans/context_processors.py:103
-msgid "This site runs Weblate for translating various software projects."
+msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
@@ -8507,7 +8507,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 msgid "Given language is filtered by the language filter!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1687
+#: weblate/trans/models/component.py:1688
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Translation file already exists!"
@@ -9800,6 +9800,12 @@ msgstr ""
 #| msgid "Notification on any translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#~| msgid "Overview"
+#~ msgctxt "Number of strings needing review"
+#~ msgid "Review"
+#~ msgstr "Tổng quan"
 
 #, fuzzy
 #~| msgid "Notification on any translation"

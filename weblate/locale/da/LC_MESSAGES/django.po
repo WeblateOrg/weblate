@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-24 20:40+0000\n"
+"POT-Creation-Date: 2019-02-27 07:02+0000\n"
 "PO-Revision-Date: 2019-02-27 06:33+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -645,11 +645,11 @@ msgstr ""
 "Kunne ikke fuldføre registrering. Den givne godkendelse, e-mail eller bruger "
 "er allerede i brug i en anden konto."
 
-#: weblate/addons/cleanup.py:34
+#: weblate/addons/cleanup.py:35
 msgid "Cleanup translation files"
 msgstr "Ryd op i oversættelsesfiler"
 
-#: weblate/addons/cleanup.py:36
+#: weblate/addons/cleanup.py:37
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -4986,8 +4986,9 @@ msgid "Good"
 msgstr "God"
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:464
-#: weblate/trans/templatetags/translations.py:531 weblate/utils/state.py:32
+#: weblate/templates/translation.html:425 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr "Behøver redigering"
 
@@ -5014,9 +5015,11 @@ msgstr "Ord"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-msgctxt "Number of strings needing review"
-msgid "Review"
-msgstr "Gennemgang"
+#, fuzzy
+#| msgid "Needs editing"
+msgctxt "Number of strings needing edit"
+msgid "Needs editing"
+msgstr "Behøver redigering"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -6545,7 +6548,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:378
-#: weblate/templates/translation.html:425
 msgid "Review"
 msgstr "Gennemgang"
 
@@ -6757,11 +6759,15 @@ msgid "Trailing and leading whitespace"
 msgstr "Efterstillede og foranstillede mellemrum"
 
 #: weblate/trans/context_processors.py:99
-msgid "Hosted Weblate, the place to translate your software project."
+#, fuzzy
+#| msgid "Hosted Weblate, the place to translate your software project."
+msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, stedet til at oversætte dit softwareprojekt."
 
 #: weblate/trans/context_processors.py:103
-msgid "This site runs Weblate for translating various software projects."
+#, fuzzy
+#| msgid "This site runs Weblate for translating various software projects."
+msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Webstedet bruger Weblate til at oversætte forskellige softwareprojekter."
 
@@ -8052,7 +8058,7 @@ msgstr "Kunne ikke tilføje ny oversættelsesfil!"
 msgid "Given language is filtered by the language filter!"
 msgstr "Givne sprog filtreres af sprogfilteret!"
 
-#: weblate/trans/models/component.py:1687
+#: weblate/trans/models/component.py:1688
 msgid "Translation file already exists!"
 msgstr "Oversættelsesfilen findes allerede!"
 
@@ -9328,6 +9334,10 @@ msgstr "Rapporter"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Kunne ikke afvise konfigurationsfejl!"
+
+#~ msgctxt "Number of strings needing review"
+#~ msgid "Review"
+#~ msgstr "Gennemgang"
 
 #~ msgid "Strings to check"
 #~ msgstr "Strenge som skal tjekkes"

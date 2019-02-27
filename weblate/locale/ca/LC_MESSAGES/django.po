@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-24 20:40+0000\n"
+"POT-Creation-Date: 2019-02-27 07:02+0000\n"
 "PO-Revision-Date: 2019-02-16 04:48+0000\n"
 "Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -657,11 +657,11 @@ msgid ""
 "username is already in use for another account."
 msgstr ""
 
-#: weblate/addons/cleanup.py:34
+#: weblate/addons/cleanup.py:35
 msgid "Cleanup translation files"
 msgstr "Neteja els fitxers de traducció"
 
-#: weblate/addons/cleanup.py:36
+#: weblate/addons/cleanup.py:37
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -5135,8 +5135,9 @@ msgid "Good"
 msgstr "Bones"
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:464
-#: weblate/trans/templatetags/translations.py:531 weblate/utils/state.py:32
+#: weblate/templates/translation.html:425 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr "Cal revisar"
 
@@ -5165,9 +5166,11 @@ msgstr "Paraules"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-msgctxt "Number of strings needing review"
-msgid "Review"
-msgstr "Revisió"
+#, fuzzy
+#| msgid "Needs editing"
+msgctxt "Number of strings needing edit"
+msgid "Needs editing"
+msgstr "Cal revisar"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -6841,7 +6844,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:378
-#: weblate/templates/translation.html:425
 msgid "Review"
 msgstr "Revisió"
 
@@ -7059,11 +7061,15 @@ msgid "Trailing and leading whitespace"
 msgstr ""
 
 #: weblate/trans/context_processors.py:99
-msgid "Hosted Weblate, the place to translate your software project."
+#, fuzzy
+#| msgid "Hosted Weblate, the place to translate your software project."
+msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, el lloc on traduir el vostre projecte de programari."
 
 #: weblate/trans/context_processors.py:103
-msgid "This site runs Weblate for translating various software projects."
+#, fuzzy
+#| msgid "This site runs Weblate for translating various software projects."
+msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Aquest lloc utilitza Weblate per traduir diversos projectes de programari."
 
@@ -8480,7 +8486,7 @@ msgstr "Error en desar la traducció!"
 msgid "Given language is filtered by the language filter!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1687
+#: weblate/trans/models/component.py:1688
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation file already exists!"
@@ -9860,6 +9866,10 @@ msgstr "Informes"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Errors de configuració"
+
+#~ msgctxt "Number of strings needing review"
+#~ msgid "Review"
+#~ msgstr "Revisió"
 
 #~ msgid "Strings to check"
 #~ msgstr "Cadenes a revisar"

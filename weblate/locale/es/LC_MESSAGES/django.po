@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-24 20:40+0000\n"
+"POT-Creation-Date: 2019-02-27 07:02+0000\n"
 "PO-Revision-Date: 2019-02-26 17:19+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
@@ -662,11 +662,11 @@ msgstr ""
 "No se completó el registro. La autenticación, correo electrónico o el nombre "
 "de usuario ya está asociado con otra cuenta."
 
-#: weblate/addons/cleanup.py:34
+#: weblate/addons/cleanup.py:35
 msgid "Cleanup translation files"
 msgstr "Limpieza de archivos de traducción"
 
-#: weblate/addons/cleanup.py:36
+#: weblate/addons/cleanup.py:37
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -5138,8 +5138,9 @@ msgid "Good"
 msgstr "Bueno"
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:464
-#: weblate/trans/templatetags/translations.py:531 weblate/utils/state.py:32
+#: weblate/templates/translation.html:425 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr "Necesita edición"
 
@@ -5166,9 +5167,11 @@ msgstr "Palabras"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-msgctxt "Number of strings needing review"
-msgid "Review"
-msgstr "Revisión"
+#, fuzzy
+#| msgid "Needs editing"
+msgctxt "Number of strings needing edit"
+msgid "Needs editing"
+msgstr "Necesita edición"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -6729,7 +6732,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:378
-#: weblate/templates/translation.html:425
 msgid "Review"
 msgstr "Revisión"
 
@@ -6943,11 +6945,15 @@ msgid "Trailing and leading whitespace"
 msgstr "Espacio al principio y al final"
 
 #: weblate/trans/context_processors.py:99
-msgid "Hosted Weblate, the place to translate your software project."
+#, fuzzy
+#| msgid "Hosted Weblate, the place to translate your software project."
+msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, el lugar para traducir sus proyectos de software."
 
 #: weblate/trans/context_processors.py:103
-msgid "This site runs Weblate for translating various software projects."
+#, fuzzy
+#| msgid "This site runs Weblate for translating various software projects."
+msgid "This site runs Weblate for localizing various software projects."
 msgstr "Este sitio ejecuta Weblate para traducir varios proyectos de software."
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
@@ -8298,7 +8304,7 @@ msgstr "¡Falló al añadir un nuevo archivo de traducción!"
 msgid "Given language is filtered by the language filter!"
 msgstr "¡El lenguaje dado se pasa por un filtro de lenguaje!"
 
-#: weblate/trans/models/component.py:1687
+#: weblate/trans/models/component.py:1688
 msgid "Translation file already exists!"
 msgstr "¡Ya existe un archivo de traducción!"
 
@@ -9605,6 +9611,10 @@ msgstr "Informes"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "¡No se pudo descartar el error de configuración!"
+
+#~ msgctxt "Number of strings needing review"
+#~ msgid "Review"
+#~ msgstr "Revisión"
 
 #~ msgid "Strings to check"
 #~ msgstr "Cadenas a revisar"
