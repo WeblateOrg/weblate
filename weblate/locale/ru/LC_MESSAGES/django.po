@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 18:02+0000\n"
-"PO-Revision-Date: 2019-02-27 18:01+0000\n"
+"PO-Revision-Date: 2019-02-28 11:50+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.5-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -237,47 +237,39 @@ msgstr "Сброс пароля подтвержден, и пароль откл
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Вы можете теперь войти используя {method} ({name})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Вы больше не можете войти используя {method} ({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Аутентифицировано ({method}:{name})."
+msgstr "Вошёл в систему используя {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Аутентифицировано ({method}:{name}) с нового устройства."
+msgstr "Вошёл в систему используя {method} ({name}) с нового устройства."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Кто-то пробовал зарегистрироваться с вашей э-почтой."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Кто-то пробовал зарегистрироваться с вашей э-почтой."
+msgstr "Кто-то пробовал зарегистрироваться используя адрес вашей э-почты."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "Не удалось войти используя {method} ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Учётная запись заблокирована из-за чрезмерного числа неудачных попыток "
-"аутентификации."
+msgstr "Учётная запись заблокирована из-за многих неудачных попыток войти."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -289,24 +281,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Согласие с Условиями обслуживания {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Вы ввели недопустимый пароль."
+msgstr "Вы можете теперь войти используя пароль."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Забыли пароль?"
+msgstr "Вошёл используя пароль."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Вошёл в систему, используя пароль с нового устройства."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Не удалось войти используя пароль."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -368,10 +356,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
-"Укажите настраиваемый URL, используемый как ссылка, чтобы открывать исходный "
-"код. Можно использовать %(branch)s для ветви, %(file)s и %(line)s, как имя "
-"файла и строчные заполнители. Обычно что-то вроде editor://open/?file="
-"%(file)s&line=%(line)s является хорошей опцией."
+"Введите настраиваемый URL, который будет использоваться как ссылка для "
+"открытия исходного кода. Можно использовать %(branch)s для ветви, %(file)s и "
+"%(line)s, как имя файла и строчные заполнители. Обычно что-то вроде editor://"
+"open/?file=%(file)s&line=%(line)s является хорошей опцией."
 
 #: weblate/accounts/models.py:365
 msgid "Translation editor mode"
@@ -1614,7 +1602,7 @@ msgstr "Источник и перевод не начинаются оба с �
 
 #: weblate/checks/chars.py:49
 msgid "Trailing newline"
-msgstr "Лишняя пустая строка в конце"
+msgstr "Пустая строка в конце"
 
 #: weblate/checks/chars.py:50
 msgid "Source and translation do not both end with a newline"
@@ -1630,7 +1618,7 @@ msgstr "Источник и перевод не начинаются оба од
 
 #: weblate/checks/chars.py:89
 msgid "Trailing space"
-msgstr "Лишние пробелы в конце"
+msgstr "Пробелы в конце"
 
 #: weblate/checks/chars.py:90
 msgid "Source and translation do not both end with a space"
@@ -1638,7 +1626,7 @@ msgstr "Источник и перевод не заканчиваются об�
 
 #: weblate/checks/chars.py:121
 msgid "Trailing stop"
-msgstr "Лишняя точка в конце"
+msgstr "Точка в конце"
 
 #: weblate/checks/chars.py:122
 msgid "Source and translation do not both end with a full stop"
@@ -1646,7 +1634,7 @@ msgstr "Источник и перевод не заканчиваются об�
 
 #: weblate/checks/chars.py:166
 msgid "Trailing colon"
-msgstr "Лишнее двоеточие в конце"
+msgstr "Двоеточие в конце"
 
 #: weblate/checks/chars.py:168
 msgid ""
@@ -1656,7 +1644,7 @@ msgstr "Источник и перевод не заканчиваются об�
 
 #: weblate/checks/chars.py:223
 msgid "Trailing question"
-msgstr "Лишний вопросительный знак в конце"
+msgstr "Вопросительный знак в конце"
 
 #: weblate/checks/chars.py:225
 msgid ""
@@ -1666,7 +1654,7 @@ msgstr "Источник и перевод не заканчиваются об�
 
 #: weblate/checks/chars.py:280
 msgid "Trailing exclamation"
-msgstr "Лишний восклицательный знак в конце"
+msgstr "Восклицательный знак в конце"
 
 #: weblate/checks/chars.py:282
 msgid ""
@@ -1676,7 +1664,7 @@ msgstr "Источник и перевод не заканчиваются об�
 
 #: weblate/checks/chars.py:321 weblate/trans/autofixes/chars.py:40
 msgid "Trailing ellipsis"
-msgstr "Лишнее многоточие в конце"
+msgstr "Многоточие в конце"
 
 #: weblate/checks/chars.py:322
 msgid "Source and translation do not both end with an ellipsis"
@@ -1708,7 +1696,7 @@ msgstr "Перевод не должен превышать заданную д�
 
 #: weblate/checks/chars.py:374
 msgid "Trailing semicolon"
-msgstr "Лишняя точка с запятой в конце"
+msgstr "Точка с запятой в конце"
 
 #: weblate/checks/chars.py:375
 msgid "Source and translation do not both end with a semicolon"
@@ -2376,8 +2364,8 @@ msgid ""
 "This site uses Matomo to analyze website traffic. It honours &quot;Do Not "
 "Track&quot; settings in your browser."
 msgstr ""
-"Сайт использует Matomo для анализа трафика. Это учитывает параметр &quot;Не "
-"отслеживать&quot; вашего браузера."
+"Сайт использует Matomo для анализа трафика веб-сайта. Это учитывает параметр "
+"«Не отслеживать» вашего браузера."
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
@@ -6764,7 +6752,7 @@ msgstr "Апострофы в Java MessageFormat"
 
 #: weblate/trans/autofixes/whitespace.py:35
 msgid "Trailing and leading whitespace"
-msgstr "Лишние пробелы в начале и конце"
+msgstr "Пробелы в начале и конце"
 
 #: weblate/trans/context_processors.py:99
 msgid "Hosted Weblate, the place to localize your software project."
@@ -7478,7 +7466,7 @@ msgstr "Перевод выгружен"
 
 #: weblate/trans/models/change.py:208
 msgid "Glossary added"
-msgstr "Глоссарий добавлен"
+msgstr "Добавлено в глоссарий"
 
 #: weblate/trans/models/change.py:209
 msgid "Glossary updated"
