@@ -470,7 +470,7 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL server port. Defaults to none (uses the default value).
 
-.. envvvar:: POSTGRES_SSL_MODE
+.. envvar:: POSTGRES_SSL_MODE
 
    Configure how PostgreSQL handles SSL in connection to the server, for possible choices see
    `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_
