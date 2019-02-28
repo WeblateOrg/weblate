@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 18:02+0000\n"
-"PO-Revision-Date: 2019-02-27 18:01+0000\n"
+"PO-Revision-Date: 2019-02-28 11:50+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -237,47 +237,39 @@ msgstr "Parola sıfırlama onaylandı ve parola devre dışı kılındı."
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Şimdi {method} ({name}) ile oturum açabilirsiniz."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Artık {method} ({name}) kullanarak oturum açamazsınız."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Kimlik doğrulandı ({method}:{name})."
+msgstr "{method} ({name}) kullanılarak oturum açıldı."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Yeni aygıttan kimlik doğrulandı ({method}:{name})."
+msgstr "Yeni bir cihazdan {method} ({name}) kullanarak oturum açtınız."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Birisi sizin epostanızla kaydolmaya çalıştı."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Birisi sizin epostanızla kaydolmaya çalıştı."
+msgstr "Birisi e-posta adresinizi kullanarak kaydolmaya çalıştı."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "{method} ({name}) kullanılarak oturum açılamadı."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Hesap çok fazla sayıda başarısız kimlik doğrulama girişimi nedeniyle "
-"kilitlendi."
+msgstr "Birçok başarısız oturum açma nedeniyle hesap kilitlendi."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -289,24 +281,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Hizmet Şartları'nın kabulü {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Geçersiz bir parola girdiniz."
+msgstr "Şimdi parolanızı kullanarak oturum açabilirsiniz."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Parolanızı mı unuttunuz?"
+msgstr "Parola kullanarak oturum açıldı."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Yeni bir cihazdan parola kullanılarak oturum açıldı."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Parola kullanılarak oturum açılamadı."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -581,7 +569,7 @@ msgstr "İletişim"
 msgid "Please log in using your personal account to request hosting."
 msgstr ""
 "Lütfen barındırma isteğinde bulunmak için kişisel hesabınızı kullanarak "
-"giriş yapın."
+"oturum açın."
 
 #: weblate/accounts/views.py:464 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
@@ -2660,14 +2648,14 @@ msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
-"Ticari barındırma mümkündür, ücretimiz aylık 19 EUR'dan başlar, lütfen daha "
-"çok ayrıntı için temasa geçin."
+"Aylık 19 EUR'dan başlayan fiyatlarla ticari barındırma da yapılır, lütfen "
+"daha fazla bilgi için iletişime geçiniz."
 
 #: weblate/templates/about/index.html:44
 #: weblate/templates/accounts/hosting.html:42
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
-msgstr "Proje barındırma için sorun"
+msgstr "Proje barındırmak için danışın"
 
 #: weblate/templates/about/index.html:45
 #: weblate/templates/billing/overview.html:19
@@ -2680,12 +2668,12 @@ msgstr "Barındırma planlarını göster"
 #: weblate/templates/billing/overview.html:23
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
-msgstr "Yeni hosting planı satın alın"
+msgstr "Yeni barındırma planı satın al"
 
 #: weblate/templates/about/index.html:49
 #: weblate/templates/accounts/hosting.html:34
 msgid "Contact us for commercial hosting"
-msgstr "Ticari barındırma için bizimle iletişime geçin"
+msgstr "Ticari barındırma için bizimle iletişime geçiniz"
 
 #: weblate/templates/about/index.html:57
 msgid "Versions"
@@ -2983,8 +2971,8 @@ msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 msgstr ""
-"Lütfen projenizin bu sitede proje barındırma için uygun nitelikte olup "
-"olmadığını önceden kontrol edin."
+"Lütfen projenizin bu sitede barındırılması için uygun olup olmadığını "
+"önceden kontrol ediniz."
 
 #: weblate/templates/accounts/hosting.html:16
 msgid "Conditions for gratis hosting"
@@ -3028,7 +3016,7 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
-"Ticari barındırma mı arıyorsunuz? Fiyatlarımıza ayda %(price)s EUR ile "
+"Ticari barındırma mı arıyorsunuz? Fiyatlarımız ayda %(price)s EUR ile "
 "başlıyor."
 
 #: weblate/templates/accounts/login.html:14
