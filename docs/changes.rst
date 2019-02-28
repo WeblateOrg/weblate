@@ -21,6 +21,7 @@ Released on ? 2019.
 * Added option to squash commits based on authors.
 * Improved support for xlsx file format.
 * Compatibility with tesseract 4.0.
+* Billing addon now removes projects for unpaid billings after 45 days.
 
 weblate 3.4
 -----------

@@ -159,6 +159,10 @@ class Billing(models.Model):
         blank=True, null=True, default=None,
         verbose_name=_('Trial expiry date'),
     )
+    removal = models.DateTimeField(
+        blank=True, null=True, default=None,
+        verbose_name=_('Scheduled removal'),
+    )
     paid = models.BooleanField(
         default=True,
         verbose_name=_('Paid'),
@@ -357,6 +361,7 @@ class Billing(models.Model):
         if self.check_expiry():
             self.state = Billing.STATE_EXPIRED
             self.expiry = None
+            self.removal = timezone.now() + timedelta(days=30)
             modified = True
 
         if self.state not in Billing.EXPIRING_STATES and self.expiry:

@@ -20,9 +20,12 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from datetime import timedelta
+
 from celery.schedules import crontab
 
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.auth.models import User
@@ -84,6 +87,28 @@ def notify_expired():
             )
 
 
+@app.task
+def schedule_removal():
+    removal = timezone.now() + timedelta(days=15)
+    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+        if bill.check_payment_status(30):
+            continue
+        bill.removal = removal
+        bill.save(update_fields=['removal'])
+
+
+@app.task
+def perform_removal():
+    for bill in Billing.objects.filter(removal__lte=timezone.now()):
+        for prj in bill.projects.iterator():
+            prj.log_warning('removing due to unpaid billing')
+            prj.stats.invalidate()
+            prj.delete()
+        bill.removal = None
+        bill.state = Billing.STATE_TERMINATED
+        bill.save()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -100,6 +125,16 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         billing_notify.s(),
         name='billing-notify',
+    )
+    sender.add_periodic_task(
+        crontab(hour=1, minute=0, day_of_week='monday,thursday'),
+        perform_removal.s(),
+        name='perform-removal',
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=0, day_of_week='monday,thursday'),
+        schedule_removal.s(),
+        name='schedule-removal',
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=30, day_of_week='monday,thursday'),

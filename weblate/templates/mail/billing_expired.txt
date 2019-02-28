@@ -10,5 +10,9 @@ This billing plan covers following projects:
 * {{ project }}: {{ current_site_url }}{{ project.get_absolute_url }}">
 {% endfor %}
 
+{% if billing.removal %}
+{% blocktrans with removal=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all your projects will be removed on {{ removal }}.{% endblocktrans %}
+{% endif %}
+
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}
 

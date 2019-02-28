@@ -33,6 +33,9 @@ from six import StringIO
 
 from weblate.auth.models import User
 from weblate.billing.models import Plan, Billing, Invoice
+from weblate.billing.tasks import (
+    notify_expired, schedule_removal, perform_removal,
+)
 from weblate.trans.models import Project
 
 
@@ -53,6 +56,7 @@ class BillingTest(TestCase):
             name='test', limit_projects=1, price=1.0
         )
         self.billing = Billing.objects.create(plan=self.plan)
+        self.billing.owners.add(self.user)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
@@ -217,3 +221,53 @@ class BillingTest(TestCase):
             reverse('invoice-download', kwargs={'pk': invoice.pk})
         )
         self.assertEqual(404, response.status_code)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX='')
+    def test_expiry(self):
+        self.add_project()
+
+        # Paid
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        self.assertEqual(len(mail.outbox), 0)
+        self.billing.refresh_from_db()
+        self.assertIsNone(self.billing.removal)
+
+        # Not paid
+        self.invoice.start -= timedelta(days=14)
+        self.invoice.end -= timedelta(days=14)
+        self.invoice.save()
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        self.assertEqual(len(mail.outbox), 1)
+        self.billing.refresh_from_db()
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your billing plan has expired'
+        )
+
+        # Not paid for long
+        self.invoice.start -= timedelta(days=30)
+        self.invoice.end -= timedelta(days=30)
+        self.invoice.save()
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        self.assertEqual(len(mail.outbox), 1)
+        self.billing.refresh_from_db()
+        self.assertIsNotNone(self.billing.removal)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your translation project is scheduled for removal'
+        )
+
+        # Final removal
+        self.billing.removal = timezone.now() - timedelta(days=30)
+        self.billing.save()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertEqual(self.billing.projects.count(), 0)

@@ -1,2 +1,6 @@
 {% load i18n %}
+{% if billing.removal %}
+{% trans "Your translation project is scheduled for removal" %}
+{% else %}
 {% trans "Your billing plan has expired" %}
+{% endif %}
