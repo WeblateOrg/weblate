@@ -38,6 +38,6 @@ class Command(BaseCommand):
             scheduler.setup_schedule()
         except Exception as error:
             self.stderr.write(
-                'Removing corrupted schedule file: {:r}'.format(error)
+                'Removing corrupted schedule file: {!r}'.format(error)
             )
             scheduler._remove_db()
