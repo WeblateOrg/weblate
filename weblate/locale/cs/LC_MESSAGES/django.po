@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-28 11:51+0000\n"
-"PO-Revision-Date: 2019-02-24 22:10+0000\n"
+"PO-Revision-Date: 2019-02-28 21:46+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -237,45 +237,39 @@ msgstr "Obnovení zapomenutého hesla bylo potvrzeno a heslo bylo vypnuto."
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Od teď se můžete přihlásit prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Od teď se nemůžete přihlásit prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Přihlášeno ({method}:{name})."
+msgstr "Přihlášení prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Přihlášeno ({method}:{name}) z nového zařízení."
+msgstr "Přihlášení prostřednictvím {method} ({name}) z nového zařízení."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Někdo se pokusil zaregistrovat s vaším e-mailem."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Někdo se pokusil zaregistrovat s vaším e-mailem."
+msgstr "Někdo se pokusil zaregistrovat pomocí vaší e-mailové adresy."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "Nepodařilo se přihlásit prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr "Účet byl uzamčen kvůli příliš mnoho chybným pokusům o přihlášení."
+msgstr "Účet byl uzamčen kvůli příliš mnoho chybným přihlášením."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -287,24 +281,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Souhlas s Všeobecnými smluvními podmínkami {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Zadali jste nesprávné heslo."
+msgstr "Od teď se můžete přihlásit prostřednictvím hesla."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Zapomněli jste heslo?"
+msgstr "Přihlášení pomocí hesla."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Přihlášení pomocí hesla z nového zařízení."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Nepodařilo se přihlásit pomocí hesla."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -3631,7 +3621,7 @@ msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
 msgstr ""
-"Všechy zápisy Weblate ze všech komponent v tomto repozitáři budou sloučeny."
+"Všechy zápisy Weblate ze všech součástí v tomto repozitáři budou sloučeny."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -3640,6 +3630,9 @@ msgid ""
 "to include authorship information it is recommended to customize the commit "
 "message to include this."
 msgstr ""
+"Výsledný zápis bude obsahovat všechny zprávy zápisů a nebude zachováno jeho "
+"autorství (kromě sloučení podle autora). Pokud chcete zahrnout informace o "
+"autorství, upravte šablodnu zprávy pro zápis, aby ho obsahovala."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4037,10 +4030,8 @@ msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "Všechny součásti"
+msgstr "Přidat zprávu pro součást"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4126,6 +4117,8 @@ msgid ""
 "The message is shown on all translations within the component until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Zpráva bude zobrazena pro všechny překlady v této součásti do jejího "
+"ukončení nebo smazání."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4424,16 +4417,12 @@ msgid "Notification hooks"
 msgstr "Upozorňovací háčky"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
 "Pomocí upozorňovacích háčků bude Weblate automaticky načítat změny provedené "
-"vývojáři a usnadnit tak průběžné překládání."
+"vývojáři a usnadnit tak průběžnou lokalizaci."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4651,7 +4640,7 @@ msgstr "Provozováno na %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopírovat do schránky"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5017,8 +5006,6 @@ msgstr "Slova"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
 msgstr "Potřebuje upravit"
@@ -5621,10 +5608,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:70 weblate/templates/project.html:263
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Add a project message"
-msgstr "Spravovat přístupy k projektu"
+msgstr "Přidat zprávu pro projekt"
 
 #: weblate/templates/project.html:93 weblate/templates/translation.html:101
 msgid "Share on Facebook"
@@ -5664,6 +5649,8 @@ msgid ""
 "The message is shown on all translations within the project until it's "
 "expiry or permanently until deleting."
 msgstr ""
+"Zpráva bude zobrazena pro všechny překlady v tomto projektu do jejího "
+"ukončení nebo smazání."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5705,21 +5692,15 @@ msgstr "Počet zdrojových slov"
 msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
-msgstr ""
+msgstr "Bylo provedeno příliš mnoho požadavků a došlo k jeho omezení."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please login and try again later."
-msgstr "Bylo odesláno příliš mnoho zpráv, zkuste to prosím později!"
+msgstr "Došlo k odhlášení. Prosím přihlaste se a zkuste to znovu později."
 
 #: weblate/templates/ratelimit.html:9
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "Please try again later."
-msgstr ""
-"Zadáno příliš mnoho vyhledávacích dotazů bezprostředně po sobě, zkuste to "
-"prosím později."
+msgstr "Prosím, zkuste to později."
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
@@ -5856,10 +5837,8 @@ msgid "No matching source strings found."
 msgstr "Nenalezeny žádné odpovídající zdrojové řetězce."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:155
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Stav služby"
+msgstr "Stav řetězce"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:179
 msgid "Project Information"
@@ -5939,13 +5918,13 @@ msgstr ""
 msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
-msgstr ""
+msgstr "Součást překladu vypadá jako jednojazyčná, ale není tak nastavena."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add monolingual base language file in component setting."
-msgstr "Základní soubor pro jednojazyčné překlady"
+msgstr ""
+"Prosím nastavte základní soubor pro jednojazyčné překlady v natavení "
+"součásti."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -5958,11 +5937,8 @@ msgid "Filename"
 msgstr "Název souboru"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate se při aktualizaci repozitáře nepodařilo načíst jeho změny."
+msgstr "Weblate se nepodařilo odeslat změny do repozitáře."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -6266,10 +6242,8 @@ msgid "Nearby strings"
 msgstr "Okolní řetězce"
 
 #: weblate/templates/translate.html:239
-#, fuzzy
-#| msgid "Last occurrence"
 msgid "Other occurences"
-msgstr "Minulý výskyt"
+msgstr "Další výskyty"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
 #: weblate/templates/unit-details.html:13
@@ -6460,10 +6434,8 @@ msgid "Add new translation string"
 msgstr "Přidat nový řetězec k překladu"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add a translation message"
-msgstr "Přidat jako překlad"
+msgstr "Přidat zprávu pro překlad"
 
 #: weblate/templates/translation.html:119 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -6543,7 +6515,7 @@ msgstr "Nahraný soubor bude sloučen se stávajícími překlady."
 msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
-msgstr ""
+msgstr "Zpráva bude zobrazena pr tento překlad do jejího ukončení nebo smazání."
 
 #: weblate/templates/translation.html:378
 msgid "Review"
@@ -6757,17 +6729,14 @@ msgid "Trailing and leading whitespace"
 msgstr "Koncové a uvozující mezery"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Hostované Weblate – místo pro překládání vašeho softwarového projektu."
+msgstr "Hostované Weblate – místo pro lokalizaci vašeho softwarového projektu."
 
 #: weblate/trans/context_processors.py:103
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
-"Na těchto stránkách jsou překlány různé softwarové projekty pomocí Weblate."
+"Na těchto stránkách jsou lokalizovány různé softwarové projekty pomocí "
+"Weblate."
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
 #, python-format
@@ -7393,10 +7362,8 @@ msgid "Could not update the repository."
 msgstr "Nepodařilo se aktualizovat repozitář."
 
 #: weblate/trans/models/alert.py:152
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not push the repository."
-msgstr "Nepodařilo se aktualizovat repozitář."
+msgstr "Nepodařilo se odeslat repozitář."
 
 #: weblate/trans/models/alert.py:157
 msgid "Unused base file for new translations."
@@ -7427,10 +7394,8 @@ msgid "Error when executing addon."
 msgstr "Chyba při spuštění doplňku."
 
 #: weblate/trans/models/alert.py:198
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "Stáhnout pro překládání v počítači."
+msgstr "Nenastavený jednojazyčný překlad."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7622,14 +7587,14 @@ msgid "Merge"
 msgstr "Sloučit"
 
 #: weblate/trans/models/component.py:139
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with translations."
 msgid ""
 "Version control system to use to access your repository with translations. "
 "You can also choose additional integration with third party providers to "
 "submit merge requests."
-msgstr "Verzovací systém který používáte pro váš repozitář s překlady."
+msgstr ""
+"Verzovací systém který používáte pro váš repozitář s překlady. Můžete si "
+"také vybrat integraci s dalšími službami pro odesílání požadavků pro "
+"sloučení."
 
 #: weblate/trans/models/component.py:163
 msgid "Repository push URL"
@@ -7832,10 +7797,8 @@ msgid "Commit message when merging translation"
 msgstr "Zpráva k zápisu při slučování překladu"
 
 #: weblate/trans/models/component.py:395
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
-msgstr "Zpráva k zápisu při přidání překladu"
+msgstr "Zpráva k zápisu při změně provedené doplňkem"
 
 #: weblate/trans/models/component.py:404
 msgid "Committer name"
@@ -7928,10 +7891,8 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
 
 #: weblate/trans/models/component.py:1268
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "URL pro export se nepoužije pro odkazované repozitáře!"
+msgstr "Větev repozitáře se nepoužije pro odkazované repozitáře!"
 
 #: weblate/trans/models/component.py:1274
 msgid "Export URL is not used when repository is linked!"
@@ -8228,16 +8189,16 @@ msgid "Success (green)"
 msgstr "Úspěch (zelená)"
 
 #: weblate/trans/models/whiteboard.py:121
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "Datum skončení zkušební verze"
+msgstr "Datum ukončení"
 
 #: weblate/trans/models/whiteboard.py:123
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
 msgstr ""
+"Zpráva nebude zobrazena po tomto datu. Použijte například pro oznámení "
+"termínu ukončení překladů dalšího vydání."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8583,10 +8544,8 @@ msgid "RST text"
 msgstr "RST text"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown text"
-msgstr "Markdown kód"
+msgstr "Markdown text"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
