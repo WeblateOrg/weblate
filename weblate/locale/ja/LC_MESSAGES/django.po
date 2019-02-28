@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-28 21:48+0000\n"
-"PO-Revision-Date: 2019-02-28 21:46+0000\n"
+"PO-Revision-Date: 2019-03-01 08:35+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -1537,10 +1537,8 @@ msgid "Trial expiry date"
 msgstr "試用期限満了日"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "アカウント削除"
+msgstr "削除予定"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -1552,7 +1550,7 @@ msgstr "制限内"
 
 #: weblate/billing/models.py:179
 msgid "Grace period for payments"
-msgstr "支払い猶予期間の終了"
+msgstr "支払い猶予期間"
 
 #: weblate/billing/models.py:206
 msgid "Changes in last month"
@@ -3369,7 +3367,7 @@ msgstr "認証プロバイダに転送します。"
 
 #: weblate/templates/accounts/register.html:18
 msgid "Please read our Terms of Service prior to registration."
-msgstr "登録を行なう前に、 サービス利用規約 をお読みください。"
+msgstr "登録を行なう前に、サービス利用規約をお読みください。"
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4121,8 +4119,6 @@ msgstr "実行"
 
 #: weblate/templates/component.html:186 weblate/templates/project.html:243
 #: weblate/templates/translation.html:254 weblate/trans/models/change.py:233
-#, fuzzy
-#| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "状態の一括変更"
 
@@ -5175,11 +5171,11 @@ msgstr "この課金プランは、以下のプロジェクトを含みます:"
 msgid ""
 "If you don't perform the payment, all your projects will be removed on "
 "%(removal)s."
-msgstr ""
+msgstr "お支払いいただけない場合、%(removal)s にご自身のすべてのプロジェクトを削除します。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "翻訳プロジェクトの削除が予定されています"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your billing plan has expired"
@@ -7322,7 +7318,7 @@ msgstr "インポートする翻訳ファイルを選択"
 
 #: weblate/trans/forms.py:1612
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "設定を指定"
 
 #: weblate/trans/forms.py:1730
 #, python-format
@@ -8938,18 +8934,14 @@ msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
 
 #: weblate/trans/views/search.py:270
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
 msgstr "状態の一括変更が完了しました。文字列は更新されていません。"
 
 #: weblate/trans/views/search.py:272
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "状態の一括変更が完了しました。 %d 個の文字列を更新しました。"
+msgstr[0] "状態の一括変更が完了しました。%d 個の文字列を更新しました。"
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
