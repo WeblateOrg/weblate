@@ -337,12 +337,12 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
 
-    def check_payment_status(self):
+    def check_payment_status(self, grace=None):
         """Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
-        end = timezone.now() - timedelta(days=self.grace_period)
+        end = timezone.now() - timedelta(days=grace or self.grace_period)
         return (
             self.plan.is_free or
             self.invoice_set.filter(end__gte=end).exists() or
@@ -350,13 +350,8 @@ class Billing(models.Model):
         )
 
     def check_limits(self, grace=30, save=True):
-        due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
-        paid = (
-            self.plan.is_free or
-            self.invoice_set.filter(end__gt=due_date).exists() or
-            self.state == Billing.STATE_TRIAL
-        )
+        paid = self.check_payment_status(grace)
         modified = False
 
         if self.check_expiry():
