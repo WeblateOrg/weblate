@@ -591,7 +591,7 @@ In order to use the GitHub's pull-request feature, you must initialize hub confi
 
 .. code-block:: sh
 
-    docker-compose exec weblate bash
+    docker-compose exec --user weblate weblate bash
     cd
     HOME=/app/data/home hub clone octocat/Spoon-Knife
 
