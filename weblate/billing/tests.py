@@ -34,7 +34,7 @@ from six import StringIO
 from weblate.auth.models import User
 from weblate.billing.models import Plan, Billing, Invoice
 from weblate.billing.tasks import (
-    notify_expired, schedule_removal, perform_removal,
+    notify_expired, schedule_removal, perform_removal, billing_alert,
 )
 from weblate.trans.models import Project
 
@@ -230,6 +230,7 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
+        billing_alert()
         self.assertEqual(len(mail.outbox), 0)
         self.billing.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -241,6 +242,7 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
+        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.billing.refresh_from_db()
         self.assertIsNone(self.billing.removal)
@@ -256,6 +258,7 @@ class BillingTest(TestCase):
         schedule_removal()
         notify_expired()
         perform_removal()
+        billing_alert()
         self.assertEqual(len(mail.outbox), 1)
         self.billing.refresh_from_db()
         self.assertIsNotNone(self.billing.removal)
