@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-28 11:51+0000\n"
+"POT-Creation-Date: 2019-02-28 21:48+0000\n"
 "PO-Revision-Date: 2019-02-26 17:19+0000\n"
 "Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -1387,7 +1387,7 @@ msgid "From component list"
 msgstr "컴포넌트 목록에서"
 
 #: weblate/auth/models.py:133 weblate/billing/admin.py:54
-#: weblate/billing/models.py:234 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:238 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:138 weblate/trans/views/basic.py:71
@@ -1403,7 +1403,7 @@ msgstr "언어 선택"
 msgid "All languages"
 msgstr "모든 언어"
 
-#: weblate/auth/models.py:154 weblate/billing/models.py:269
+#: weblate/auth/models.py:154 weblate/billing/models.py:273
 #: weblate/lang/models.py:385 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1517,57 +1517,63 @@ msgid "Trial expiry date"
 msgstr "시험 만료일"
 
 #: weblate/billing/models.py:164
+#, fuzzy
+#| msgid "Account removal"
+msgid "Scheduled removal"
+msgstr "회원 탈퇴"
+
+#: weblate/billing/models.py:168
 msgid "Paid"
 msgstr "유료"
 
-#: weblate/billing/models.py:170
+#: weblate/billing/models.py:174
 msgid "In limits"
 msgstr "제한 있음"
 
-#: weblate/billing/models.py:175
+#: weblate/billing/models.py:179
 msgid "Grace period for payments"
 msgstr "결제 유예 기간"
 
-#: weblate/billing/models.py:202
+#: weblate/billing/models.py:206
 msgid "Changes in last month"
 msgstr "저번 달에 변경됨"
 
-#: weblate/billing/models.py:206
+#: weblate/billing/models.py:210
 msgid "Changes in last quarter"
 msgstr "저번 쿼터에 변경됨"
 
-#: weblate/billing/models.py:210
+#: weblate/billing/models.py:214
 msgid "Changes in last year"
 msgstr "지난 1년간의 활동"
 
-#: weblate/billing/models.py:224 weblate/trans/admin.py:111
+#: weblate/billing/models.py:228 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "버전 컨트롤 시스템 저장소"
 
-#: weblate/billing/models.py:246 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:250 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:760
 msgid "Source strings"
 msgstr "원본 문자열"
 
-#: weblate/billing/models.py:257 weblate/trans/admin.py:102
+#: weblate/billing/models.py:261 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "원본 단어"
 
-#: weblate/billing/models.py:304 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:308 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "문자열의 갯수"
 
-#: weblate/billing/models.py:311
+#: weblate/billing/models.py:315
 msgid "N/A"
 msgstr "없음"
 
-#: weblate/billing/models.py:312 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:316 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "최근 청구서"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:338
+#: weblate/billing/models.py:342
 msgid "In display limits"
 msgstr "표시 제한"
 
@@ -5088,7 +5094,19 @@ msgstr ""
 msgid "This billing plan covers following projects:"
 msgstr "이 결제 플랜은 다음 프로젝트를 포함합니다:"
 
-#: weblate/templates/mail/billing_expired_subject.txt:2
+#: weblate/templates/mail/billing_expired.html:25
+#: weblate/templates/mail/billing_expired.txt:14
+#, python-format
+msgid ""
+"If you don't perform the payment, all your projects will be removed on "
+"%(removal)s."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:3
+msgid "Your translation project is scheduled for removal"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your billing plan has expired"
 msgstr "당신의 결제 플랜이 만료되었습니다"
 

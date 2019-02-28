@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-28 11:51+0000\n"
+"POT-Creation-Date: 2019-02-28 21:48+0000\n"
 "PO-Revision-Date: 2019-01-29 10:29+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1377,7 +1377,7 @@ msgid "From component list"
 msgstr "取自組件列表"
 
 #: weblate/auth/models.py:133 weblate/billing/admin.py:54
-#: weblate/billing/models.py:234 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:238 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:138 weblate/trans/views/basic.py:71
@@ -1393,7 +1393,7 @@ msgstr "語言選取"
 msgid "All languages"
 msgstr "所有語言"
 
-#: weblate/auth/models.py:154 weblate/billing/models.py:269
+#: weblate/auth/models.py:154 weblate/billing/models.py:273
 #: weblate/lang/models.py:385 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1507,57 +1507,63 @@ msgid "Trial expiry date"
 msgstr "試驗截止日期"
 
 #: weblate/billing/models.py:164
+#, fuzzy
+#| msgid "Account removal"
+msgid "Scheduled removal"
+msgstr "帳號移除"
+
+#: weblate/billing/models.py:168
 msgid "Paid"
 msgstr "已支付"
 
-#: weblate/billing/models.py:170
+#: weblate/billing/models.py:174
 msgid "In limits"
 msgstr "限制之內"
 
-#: weblate/billing/models.py:175
+#: weblate/billing/models.py:179
 msgid "Grace period for payments"
 msgstr "支付的寬限期"
 
-#: weblate/billing/models.py:202
+#: weblate/billing/models.py:206
 msgid "Changes in last month"
 msgstr "近一個月的更動"
 
-#: weblate/billing/models.py:206
+#: weblate/billing/models.py:210
 msgid "Changes in last quarter"
 msgstr "近三個月的更動"
 
-#: weblate/billing/models.py:210
+#: weblate/billing/models.py:214
 msgid "Changes in last year"
 msgstr "近一年內的更動"
 
-#: weblate/billing/models.py:224 weblate/trans/admin.py:111
+#: weblate/billing/models.py:228 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "VCS 儲存庫數"
 
-#: weblate/billing/models.py:246 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:250 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:760
 msgid "Source strings"
 msgstr "來源字串數"
 
-#: weblate/billing/models.py:257 weblate/trans/admin.py:102
+#: weblate/billing/models.py:261 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "來源單字數"
 
-#: weblate/billing/models.py:304 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:308 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "字串數目"
 
-#: weblate/billing/models.py:311
+#: weblate/billing/models.py:315
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:312 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:316 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "最近收據"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:338
+#: weblate/billing/models.py:342
 msgid "In display limits"
 msgstr "顯示畫面限制"
 
@@ -5027,7 +5033,19 @@ msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請
 msgid "This billing plan covers following projects:"
 msgstr "本付費方案包含下列專案："
 
-#: weblate/templates/mail/billing_expired_subject.txt:2
+#: weblate/templates/mail/billing_expired.html:25
+#: weblate/templates/mail/billing_expired.txt:14
+#, python-format
+msgid ""
+"If you don't perform the payment, all your projects will be removed on "
+"%(removal)s."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:3
+msgid "Your translation project is scheduled for removal"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your billing plan has expired"
 msgstr "您的付費方案已過期"
 

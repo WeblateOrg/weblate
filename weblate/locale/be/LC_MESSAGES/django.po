@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-28 11:51+0000\n"
+"POT-Creation-Date: 2019-02-28 21:48+0000\n"
 "PO-Revision-Date: 2019-02-01 15:25+0000\n"
 "Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -1428,7 +1428,7 @@ msgid "From component list"
 msgstr "Са спісу кампанентаў"
 
 #: weblate/auth/models.py:133 weblate/billing/admin.py:54
-#: weblate/billing/models.py:234 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:238 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:138 weblate/trans/views/basic.py:71
@@ -1444,7 +1444,7 @@ msgstr "Выбар мовы"
 msgid "All languages"
 msgstr "Усе мовы"
 
-#: weblate/auth/models.py:154 weblate/billing/models.py:269
+#: weblate/auth/models.py:154 weblate/billing/models.py:273
 #: weblate/lang/models.py:385 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
@@ -1559,57 +1559,63 @@ msgid "Trial expiry date"
 msgstr "Тэрмін пробнай версіі"
 
 #: weblate/billing/models.py:164
+#, fuzzy
+#| msgid "Account removal"
+msgid "Scheduled removal"
+msgstr "Выдаленне конту"
+
+#: weblate/billing/models.py:168
 msgid "Paid"
 msgstr "Аплачаны"
 
-#: weblate/billing/models.py:170
+#: weblate/billing/models.py:174
 msgid "In limits"
 msgstr "У межах"
 
-#: weblate/billing/models.py:175
+#: weblate/billing/models.py:179
 msgid "Grace period for payments"
 msgstr "Льготны перыяд для аплат"
 
-#: weblate/billing/models.py:202
+#: weblate/billing/models.py:206
 msgid "Changes in last month"
 msgstr "Змен за апошні месяц"
 
-#: weblate/billing/models.py:206
+#: weblate/billing/models.py:210
 msgid "Changes in last quarter"
 msgstr "Змен за апошні кватрал"
 
-#: weblate/billing/models.py:210
+#: weblate/billing/models.py:214
 msgid "Changes in last year"
 msgstr "Змены за апошні год"
 
-#: weblate/billing/models.py:224 weblate/trans/admin.py:111
+#: weblate/billing/models.py:228 weblate/trans/admin.py:111
 msgid "VCS repositories"
 msgstr "VCS-рэпазіторыі"
 
-#: weblate/billing/models.py:246 weblate/templates/about/stats.html:86
+#: weblate/billing/models.py:250 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:98 weblate/trans/forms.py:760
 msgid "Source strings"
 msgstr "Зыходныя радкі"
 
-#: weblate/billing/models.py:257 weblate/trans/admin.py:102
+#: weblate/billing/models.py:261 weblate/trans/admin.py:102
 msgid "Source words"
 msgstr "Зыходныя словы"
 
-#: weblate/billing/models.py:304 weblate/templates/addons/generate_help.html:13
+#: weblate/billing/models.py:308 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Колькасць радкоў"
 
-#: weblate/billing/models.py:311
+#: weblate/billing/models.py:315
 msgid "N/A"
 msgstr "Н/Д"
 
-#: weblate/billing/models.py:312 weblate/templates/billing/status.html:24
+#: weblate/billing/models.py:316 weblate/templates/billing/status.html:24
 msgid "Last invoice"
 msgstr "Апошні рахунак"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:338
+#: weblate/billing/models.py:342
 msgid "In display limits"
 msgstr "У межах экрана"
 
@@ -5213,7 +5219,19 @@ msgstr ""
 msgid "This billing plan covers following projects:"
 msgstr "Гэты тарыфны пран ахоплівае наступныя праекты:"
 
-#: weblate/templates/mail/billing_expired_subject.txt:2
+#: weblate/templates/mail/billing_expired.html:25
+#: weblate/templates/mail/billing_expired.txt:14
+#, python-format
+msgid ""
+"If you don't perform the payment, all your projects will be removed on "
+"%(removal)s."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:3
+msgid "Your translation project is scheduled for removal"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your billing plan has expired"
 msgstr "Ваш тарыфны план мінуў"
 
