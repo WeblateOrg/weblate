@@ -72,7 +72,7 @@ class WhiteboardMessage(models.Model):
     message_html = models.BooleanField(
         verbose_name=ugettext_lazy('Render as HTML'),
         help_text=ugettext_lazy(
-            'When disabled, URLs will be converted to links and '
+            'When turned off, URLs will be converted to links and '
             'any markup will be escaped.'
         ),
         blank=True,
@@ -121,7 +121,7 @@ class WhiteboardMessage(models.Model):
         verbose_name=ugettext_lazy('Expiry date'),
         help_text=ugettext_lazy(
             'The message will be not shown after this date. '
-            'Use for announcements such as deadline for next release.'
+            'Use it to announce string freeze and translation deadline for next release.'
         ),
     )
 
