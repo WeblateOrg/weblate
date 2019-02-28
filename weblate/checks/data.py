@@ -592,6 +592,7 @@ SAME_BLACKLIST = frozenset((
     'roadmap',
     'robot',
     'role',
+    'roles',
     'root',
     'route',
     'routine',
