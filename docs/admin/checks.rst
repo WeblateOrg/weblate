@@ -33,7 +33,7 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
 ``md-text``
-    Treat text as Mardown document.
+    Treat text as Markdown document.
 ``dos-eol``
     Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``url``
