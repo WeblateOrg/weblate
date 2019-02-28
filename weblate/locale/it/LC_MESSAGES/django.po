@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-02-27 18:02+0000\n"
-"PO-Revision-Date: 2019-02-14 20:15+0000\n"
+"PO-Revision-Date: 2019-02-28 11:50+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -246,46 +246,39 @@ msgstr ""
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Puoi accedere via {method} ({name})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Non puoi più accedere usando {method} ({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Autenticazione completata con {method} {name}."
+msgstr "Accesso completato con {method} {name}."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Autenticazione completata con {method} ({name}) dal nuovo dispositivo."
+msgstr "Accesso completato da un nuovo dispositivo con {method} ({name})."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Qualcuno ha tentato di registrarsi con la tua email."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Qualcuno ha tentato di registrarsi con la tua email."
+msgstr "Qualcuno ha tentato di registrarsi usando la tua email."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "Impossibile accedere usando  {method} ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Account bloccato a causa di eccessivi tentativi di autentificazioni falliti."
+msgstr "Account bloccato a causa di eccessivi tentativi di accesso falliti."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -297,24 +290,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Accordo con i termini del servizio {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Hai inserito una password non valida."
+msgstr "Ora puoi accedere usando la password."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Hai dimenticato la password?"
+msgstr "Accesso effettuato con password."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Accesso da un nuovo dispositivo con password."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Impossibile accedere usando la password."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -832,10 +821,8 @@ msgid "Per file"
 msgstr "Per file"
 
 #: weblate/addons/forms.py:107
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "Ultimo autore"
+msgstr "Per autore"
 
 #: weblate/addons/forms.py:124
 msgid "Sort JSON keys"
@@ -1745,11 +1732,11 @@ msgstr "Sorgente e traduzione non finiscono entrambe con punto e virgola"
 
 #: weblate/checks/chars.py:387
 msgid "Kashida used"
-msgstr ""
+msgstr "Usato Kashida"
 
 #: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "Non dovrebbero essere usate le lettere decorative kashida"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -3517,20 +3504,12 @@ msgid "project wide"
 msgstr "progetto ampio"
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid ""
-#| "All Weblate commits from all components within this repository will be "
-#| "squashed."
 msgid "This addon operates on all components sharing this repository."
-msgstr ""
-"Tutti le modifiche da tutti i componenti all'interno di questo repository "
-"verranno compresse."
+msgstr "Questo componente opera su tutti i componenti condivisi nel repository."
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "Dettagli repository"
+msgstr "Repository ampio"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3695,12 +3674,6 @@ msgstr ""
 "verranno compresse."
 
 #: weblate/templates/addons/squash_help.html:7
-#, fuzzy
-#| msgid ""
-#| "The resulting commits will include all commit messages and the commit "
-#| "authorship will not be preserved. If you want to include authorship "
-#| "information it is recommended to customize the commit message to include "
-#| "this."
 msgid ""
 "The resulting commits will include all commit messages and the commit "
 "authorship will not be preserved for all but per author squash. If you want "
@@ -3708,7 +3681,8 @@ msgid ""
 "message to include this."
 msgstr ""
 "Le modifiche risultanti includeranno tutti i messaggi di modifica ma l'info "
-"sull'autore della modifica non verrà conservata. \n"
+"sull'autore della modifica non verrà conservata per tutti ma per autore "
+"modifica. \n"
 "Se vuoi includere informazioni sull'autore, ti consigliamo di personalizzare "
 "il messaggio di modifica per includerlo."
 
@@ -5087,11 +5061,9 @@ msgstr "Parole"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
-msgstr "Richiede revisione"
+msgstr "Richiede verifica"
 
 #: weblate/templates/list-translations.html:12
 #: weblate/templates/list-translations.html:24
@@ -5941,10 +5913,8 @@ msgid "No matching source strings found."
 msgstr "Nessuna corrispondenza stringhe sorgenti trovata."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:155
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Stato del servizio"
+msgstr "Stato stringhe"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:179
 msgid "Project Information"
@@ -6029,12 +5999,11 @@ msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
 msgstr ""
+"Il componente traduzione sembra monolingua, ma non è configurato come tale."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Please add monolingual base language file in component setting."
-msgstr "File lingua a base monolingua"
+msgstr "Aggiungi file base monolingua nelle impostazione del componenete."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -6848,15 +6817,11 @@ msgid "Trailing and leading whitespace"
 msgstr "Spazi inziali e finali"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
-"Hostato su Weblate, l'hosting per le traduzioni del tuo progetto software."
+"Hostato su Weblate, l'host per le traduzioni dei tuoi progetti software."
 
 #: weblate/trans/context_processors.py:103
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
 msgstr "Questo sito usa Weblate per la traduzioni di vari progetti software."
 
@@ -7526,10 +7491,8 @@ msgid "Error when executing addon."
 msgstr "Errore nell'esecuzione dell'addon."
 
 #: weblate/trans/models/alert.py:198
-#, fuzzy
-#| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
-msgstr "Download per una traduzione offline."
+msgstr "Traduzione monolingua con configurazione errata."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7721,16 +7684,15 @@ msgid "Merge"
 msgstr "Unisci"
 
 #: weblate/trans/models/component.py:139
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with translations."
 msgid ""
 "Version control system to use to access your repository with translations. "
 "You can also choose additional integration with third party providers to "
 "submit merge requests."
 msgstr ""
 "Sistema controllo versione da usare per accedere al repository con le "
-"traduzioni."
+"traduzioni.\n"
+"Puoi anche scegliere l'integrazione con provider di terze parti per "
+"includere richieste di integrazione dei contenuti."
 
 #: weblate/trans/models/component.py:163
 msgid "Repository push URL"
