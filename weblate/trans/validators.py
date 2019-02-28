@@ -29,7 +29,7 @@ EXTRA_FLAGS = {
 }
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
-EXTRA_FLAGS['md-text'] = ugettext_lazy('Mardown text')
+EXTRA_FLAGS['md-text'] = ugettext_lazy('Markdown text')
 EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
 EXTRA_FLAGS['dos-eol'] = ugettext_lazy('DOS end of lines')
 EXTRA_FLAGS['url'] = ugettext_lazy('URL')
