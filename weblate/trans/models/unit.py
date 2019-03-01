@@ -27,6 +27,7 @@ import re
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
@@ -553,14 +554,8 @@ class Unit(models.Model, LoggerMixin):
 
         # Commit possible previous changes on this unit
         if self.pending:
-            try:
-                change = self.change_set.content().order_by('-timestamp')[0]
-            except IndexError as error:
-                # This is probably bug in the change data, fallback by using
-                # any change entry
-                report_error(error, request)
-                change = self.change_set.all().order_by('-timestamp')[0]
-            if change.author_id != request.user.id:
+            change_author = self.get_last_content_change(request)[0]
+            if change_author.id != request.user.id:
                 self.translation.commit_pending('pending unit', request)
 
         # Propagate to other projects
@@ -1017,3 +1012,17 @@ class Unit(models.Model, LoggerMixin):
 
     def get_target_hash(self):
         return calculate_hash(None, self.target)
+
+    def get_last_content_change(self, request):
+        """Wrapper to get last content change metadata
+
+        Used when commiting pending changes, needs to handle and report
+        inconsistencies from past releases.
+        """
+        from weblate.auth.models import get_anonymous
+        try:
+            change = self.change_set.content().order_by('-timestamp')[0]
+            return change.author or get_anonymous(), change.timestamp
+        except IndexError as error:
+            report_error(error, request, level='error')
+            return get_anonymous(), timezone.now()

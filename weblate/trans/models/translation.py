@@ -416,9 +416,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Find oldest change break loop if there is none left
                 try:
                     unit = self.unit_set.filter(
-                        pending=True,
-                        change__action__in=Change.ACTIONS_CONTENT,
-                        change__user__isnull=False,
+                        pending=True
                     ).annotate(
                         Max('change__timestamp')
                     ).order_by(
@@ -426,19 +424,18 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     )[0]
                 except IndexError:
                     break
-                # Can not use get as there can be more with same timestamp
-                change = unit.change_set.content().filter(
-                    timestamp=unit.change__timestamp__max
-                )[0]
 
-                author_name = change.author.get_author_name()
+                # Get last change metadata
+                change = unit.get_last_content_change(request)
+
+                author_name = change[0].get_author_name()
 
                 # Flush pending units for this author
-                self.update_units(author_name, change.author.id)
+                self.update_units(author_name, change[0].id)
 
                 # Commit changes
                 self.git_commit(
-                    request, author_name, change.timestamp, skip_push=skip_push
+                    request, author_name, change[1], skip_push=skip_push
                 )
 
         # Update stats (the translated flag might have changed)
