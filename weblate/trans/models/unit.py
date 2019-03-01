@@ -493,8 +493,7 @@ class Unit(models.Model, LoggerMixin):
             self.update_has_suggestion()
 
         # Track updated sources for source checks
-        if ((source_created or not same_source) and
-                self.id_hash not in component.updated_sources):
+        if source_created or not same_source:
             component.updated_sources[self.id_hash] = self
 
     def is_plural(self):
