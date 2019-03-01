@@ -105,7 +105,7 @@ class Source(models.Model):
             'component': self.component.slug,
         })
 
-    def run_checks(self, unit=None):
+    def run_checks(self, unit=None, project=None):
         """Update checks for this unit."""
         if unit is None:
             try:
@@ -115,7 +115,8 @@ class Source(models.Model):
 
         content_hash = unit.content_hash
         src = unit.get_source_plurals()
-        project = self.component.project
+        if project is None:
+            project = self.component.project
 
         # Fetch old checks
         old_checks = set(

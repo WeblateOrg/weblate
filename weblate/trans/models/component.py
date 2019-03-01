@@ -1057,7 +1057,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def update_source_checks(self):
         for unit in self.updated_sources.values():
-            unit.source_info.run_checks(unit)
+            unit.source_info.run_checks(unit, self.project)
         self.updated_sources = {}
 
     def trigger_alert(self, name, **kwargs):
