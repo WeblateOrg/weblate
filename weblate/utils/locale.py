@@ -27,7 +27,7 @@ from contextlib import contextmanager
 @contextmanager
 def c_locale():
     """Context to execute something in C locale."""
-    default = ('C', 'UTF-8')
+    default = ('en_US', 'UTF-8')
     try:
         currlocale = getlocale()
         if not currlocale[0]:
