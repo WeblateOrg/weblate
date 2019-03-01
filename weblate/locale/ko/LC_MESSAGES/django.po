@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 송태섭 <xotjq237@gmail.com>, 2018, 2019.
 # Kyeong Su Shin <cdac1234@gmail.com>, 2018.
+# k ks <kmshts@naver.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-02-26 17:19+0000\n"
-"Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
+"PO-Revision-Date: 2019-03-01 18:01+0000\n"
+"Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -230,45 +231,39 @@ msgstr "비밀번호 재설정이 확인되어 비밀번호가 비활성화 되�
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "이제부터 {method} ({name}) 을(를) 사용하여 로그인 할 수 있습니다."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "이제부터 {method} ({name}) 을(를) 사용하여 로그인 할 수 없습니다."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "{method} ({name}) 이 인증되었습니다."
+msgstr "{method} ({name}) 을(를) 이용하여 로그인 했습니다."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "새 기기에서 {method} ({name}) 이 인증되었습니다."
+msgstr "새 장치에서 {method} ({name}) 을(를) 사용하여 로그인했습니다."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하려 했습니다."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
 msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하려 했습니다."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "{method} ({name}) 을(를) 사용하여 로그인 할 수 없습니다."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr "확인 절차에 실패한 횟수가 초과되어 계정이 비활성화 되었습니다."
+msgstr "로그인 실패로 계정이 잠겼습니다."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -280,24 +275,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 에 서비스 이용 약관의 내용에 합의했습니다."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "잘못된 비밀번호를 입력하였습니다."
+msgstr "이제 비밀번호를 사용하여 로그인 할 수 있습니다."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "비밀번호를 잊어 버렸습니까?"
+msgstr "암호를 사용하여 로그인하십시오."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "암호를 사용하여 새 장치에서 로그인했습니다."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "암호를 사용하여 로그인 할 수 없습니다."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -1517,10 +1508,8 @@ msgid "Trial expiry date"
 msgstr "시험 만료일"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "회원 탈퇴"
+msgstr "삭제 예정"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -4944,8 +4933,6 @@ msgstr "단어"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
 msgstr "수정이 필요함"
@@ -5096,26 +5083,25 @@ msgstr "이 결제 플랜은 다음 프로젝트를 포함합니다:"
 
 #: weblate/templates/mail/billing_expired.html:25
 #: weblate/templates/mail/billing_expired.txt:14
+#, fuzzy
 msgid "All projects covered by this billing plan have been removed."
-msgstr ""
+msgstr "이 요금 청구 계획에 포함된 모든 프로젝트가 삭제되었습니다."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
-msgstr ""
+msgstr "지불하지 않으면 %(removal)s 에서 본인의 모든 프로젝트가 삭제됩니다."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Your translation project was removed"
-msgstr "번역 컴포넌트가 삭제되었습니다."
+msgstr "번역 프로젝트가 삭제되었습니다"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "번역 프로젝트가 삭제될 예정입니다"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -6671,17 +6657,14 @@ msgid "Trailing and leading whitespace"
 msgstr "앞쪽 뒤쪽 공백"
 
 #: weblate/trans/context_processors.py:99
-#, fuzzy
-#| msgid "Hosted Weblate, the place to translate your software project."
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Hosted Weblate, 당신의 소프트웨어 프로젝트를 번역하는 곳."
+msgstr "Hosted Weblate는 소프트웨어 프로젝트를 현지화하는 곳입니다."
 
 #: weblate/trans/context_processors.py:103
 #, fuzzy
 #| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
-msgstr ""
-"이 사이트는 다양한 소프르웨어 프로젝트를 번역하기 위해 Weblate를 실행합니다."
+msgstr "이 사이트는 Weblate을 이용하여 다음???의 소프트웨어 프로젝트의 현지화를 실시하고 있습니다."
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:76
 #, python-format
@@ -7735,10 +7718,8 @@ msgid "Commit message when merging translation"
 msgstr "번역을 병합할 때 커밋 메시지"
 
 #: weblate/trans/models/component.py:395
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
-msgstr "번역을 추가할 때 커밋 메시지"
+msgstr "기능이 변경했을 때 커밋 메시지"
 
 #: weblate/trans/models/component.py:404
 msgid "Committer name"
@@ -7833,10 +7814,8 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "저장소가 연결될때 URL 밀기는 사용될수 없습니다!"
 
 #: weblate/trans/models/component.py:1268
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is not used when repository is linked!"
-msgstr "저장소가 연결될때 URL 내보내기는 사용할수 없습니다!"
+msgstr "저장소가 연결된 경우 저장소 분기는 사용되지 않습니다!"
 
 #: weblate/trans/models/component.py:1274
 msgid "Export URL is not used when repository is linked!"
@@ -8124,16 +8103,14 @@ msgid "Success (green)"
 msgstr "성공 (초록색)"
 
 #: weblate/trans/models/whiteboard.py:121
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "시험 만료일"
+msgstr "만료일"
 
 #: weblate/trans/models/whiteboard.py:123
 msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
-msgstr ""
+msgstr "이 날짜 이후에는 메시지가 표시되지 않습니다. 다음 발매 마감일과 같은 공지사항에 사용하십시오."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8451,10 +8428,8 @@ msgid "RST text"
 msgstr "RST 텍스트"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown text"
-msgstr "마크다운 코드"
+msgstr "마크다운 글자"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
