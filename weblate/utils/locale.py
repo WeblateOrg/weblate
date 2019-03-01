@@ -34,6 +34,7 @@ def c_locale():
     ]
     try:
         currlocale = getlocale()
+        print('Orig locale {}'.format(currlocale))
         if currlocale[0]:
             locales.insert(0, currlocale)
     except Error:
