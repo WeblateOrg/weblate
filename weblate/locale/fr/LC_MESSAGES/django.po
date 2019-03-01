@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-02-28 21:48+0000\n"
+"POT-Creation-Date: 2019-03-01 08:41+0000\n"
 "PO-Revision-Date: 2019-03-01 08:35+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -5283,19 +5283,33 @@ msgstr "Ce plan de facturation couvre les projets suivants :"
 
 #: weblate/templates/mail/billing_expired.html:25
 #: weblate/templates/mail/billing_expired.txt:14
-#, python-format
+msgid "All projects covered by this billing plan have been removed."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired.html:27
+#: weblate/templates/mail/billing_expired.txt:16
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't perform the payment, all your projects will be removed on "
+#| "%(removal)s."
 msgid ""
-"If you don't perform the payment, all your projects will be removed on "
-"%(removal)s."
+"If you don't perform the payment, all projects within this billing plan will "
+"be removed on %(removal)s."
 msgstr ""
 "Si vous ne procédez pas au règlement, tous vos projets seront supprimés le "
 "%(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-msgid "Your translation project is scheduled for removal"
+#, fuzzy
+#| msgid "Your translation project is scheduled for removal"
+msgid "Your translation project was removed"
 msgstr "Votre projet de traduction sera supprimé à la date planifiée"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
+msgid "Your translation project is scheduled for removal"
+msgstr "Votre projet de traduction sera supprimé à la date planifiée"
+
+#: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
 msgstr "Votre plan de facturation a expiré"
 
