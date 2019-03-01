@@ -44,7 +44,7 @@ def c_locale():
     yield
     for currlocale in locales:
         try:
-            setlocale(LC_ALL, currlocale)
+            print('SET {} -> {}'.format(currlocale, setlocale(LC_ALL, currlocale)))
         except Error:
             continue
         if getlocale()[0]:
