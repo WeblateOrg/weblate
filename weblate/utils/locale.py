@@ -20,20 +20,30 @@
 
 from __future__ import absolute_import
 
-from locale import setlocale, getlocale, LC_ALL
+from locale import setlocale, getlocale, LC_ALL, Error
 from contextlib import contextmanager
 
 
 @contextmanager
 def c_locale():
     """Context to execute something in C locale."""
-    default = ('en_US', 'UTF-8')
+    locales = [
+        ('C', 'UTF-8'),
+        ('en_US', 'UTF-8'),
+        '',
+    ]
     try:
         currlocale = getlocale()
-        if not currlocale[0]:
-            currlocale = default
-    except ValueError:
-        currlocale = default
+        if currlocale[0]:
+            locales.insert(0, currlocale)
+    except Error:
+        pass
     setlocale(LC_ALL, 'C')
     yield
-    setlocale(LC_ALL, currlocale)
+    for currlocale in locales:
+        try:
+            setlocale(LC_ALL, currlocale)
+        except Error:
+            continue
+        if getlocale()[0]:
+            break
