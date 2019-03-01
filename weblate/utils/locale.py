@@ -27,10 +27,13 @@ from contextlib import contextmanager
 @contextmanager
 def c_locale():
     """Context to execute something in C locale."""
+    default = ('C', 'UTF-8')
     try:
         currlocale = getlocale()
+        if not currlocale[0]:
+            currlocale = default
     except ValueError:
-        currlocale = ('C', 'UTF-8')
-    setlocale(LC_ALL, "C")
+        currlocale = default
+    setlocale(LC_ALL, 'C')
     yield
     setlocale(LC_ALL, currlocale)
