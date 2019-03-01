@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-03-01 08:36+0000\n"
+"PO-Revision-Date: 2019-03-01 18:01+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.5-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -2556,7 +2556,7 @@ msgstr "Войти"
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
 msgid ""
 "However, the following translation projects are available on this server:"
-msgstr "Однако, на этом сервере доступны следующие проекты переводов:"
+msgstr "Однако, на этом сервере доступны следующие переводческие проекты:"
 
 #: weblate/templates/404.html:5 weblate/trans/views/basic.py:294
 msgid "Page Not Found"
@@ -2966,7 +2966,7 @@ msgstr ""
 #: weblate/templates/accounts/register.html:47 weblate/templates/base.html:139
 #: weblate/templates/engage.html:53
 msgid "Register"
-msgstr "Регистрация"
+msgstr "Зарегистрироваться"
 
 #: weblate/templates/accounts/hosting.html:12
 msgid ""
@@ -3688,7 +3688,7 @@ msgstr "Добавить"
 #: weblate/templates/base.html:149 weblate/templates/billing/status.html:39
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
-msgstr "Добавить новый проект для перевода"
+msgstr "Добавить новый переводческий проект"
 
 #: weblate/templates/base.html:150 weblate/templates/project.html:139
 #: weblate/templates/trans/component_form.html:26
@@ -4601,7 +4601,7 @@ msgid ""
 "The translation project for %(project)s into English currently contains "
 "%(total)s strings for translation and is %(percent)s%% complete."
 msgstr ""
-"Проект перевода для %(project)s на английском языке в настоящий момент "
+"Переводческий проект для %(project)s на русском языке в настоящий момент "
 "содержит %(total)s строк и готов на %(percent)s%%."
 
 #: weblate/templates/engage.html:34
@@ -4615,17 +4615,17 @@ msgid_plural ""
 "for translation and is being translated into %(languages)s languages. "
 "Overall, these translations are %(percent)s%% complete."
 msgstr[0] ""
-"Проект перевода %(project)s в настоящий момент содержит %(total)s строк для "
-"перевода и переводится на %(languages)s язык. В целом, эти переводы готовы "
-"на %(percent)s%%."
+"Переводческий проект %(project)s в настоящий момент содержит %(total)s строк "
+"для перевода и переводится на %(languages)s язык. В целом, эти переводы "
+"готовы на %(percent)s%%."
 msgstr[1] ""
-"Проект перевода %(project)s в настоящий момент содержит %(total)s строк для "
-"перевода и переводится на %(languages)s языка. В целом, эти переводы готовы "
-"на %(percent)s%%."
+"Переводческий проект %(project)s в настоящий момент содержит %(total)s строк "
+"для перевода и переводится на %(languages)s языка. В целом, эти переводы "
+"готовы на %(percent)s%%."
 msgstr[2] ""
-"Проект перевода %(project)s в настоящий момент содержит %(total)s строк для "
-"перевода и переводится на %(languages)s языков. В целом, эти переводы готовы "
-"на %(percent)s%%."
+"Переводческий проект %(project)s в настоящий момент содержит %(total)s строк "
+"для перевода и переводится на %(languages)s языков. В целом, эти переводы "
+"готовы на %(percent)s%%."
 
 #: weblate/templates/engage.html:38
 #, python-format
@@ -5178,29 +5178,25 @@ msgstr "Этот тарифный план покрывает следующие
 #: weblate/templates/mail/billing_expired.html:25
 #: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
-msgstr ""
+msgstr "Все проекты, охватываемые данным тарифным планом, были удалены."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all your projects will be removed on "
-#| "%(removal)s."
+#, python-format
 msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
-"Если вы не выполните оплату, все ваши проекты будут удалены на %(removal)s."
+"Если вы не выполните оплату, все проекты с этим тарифным планом будут "
+"удалены на %(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Your translation project was removed"
-msgstr "Ваш проект перевода запланирован для удаления"
+msgstr "Ваш переводческий проект был удалён"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr "Ваш проект перевода запланирован для удаления"
+msgstr "Ваш переводческий проект запланирован для удаления"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -6662,7 +6658,7 @@ msgstr "Виджеты"
 
 #: weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
-msgstr "Продвижение проектов перевода"
+msgstr "Продвижение переводческих проектов"
 
 #: weblate/templates/widgets.html:14
 #, python-format
@@ -6678,7 +6674,7 @@ msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Кроме продвижения всего проекта переводов, вы также можете выбрать "
+"Кроме продвижения всего переводческого проекта, вы также можете выбрать "
 "определённый язык или компонент для продвижения:"
 
 #: weblate/templates/widgets.html:24
@@ -6692,8 +6688,8 @@ msgid ""
 "new contributors."
 msgstr ""
 "Вы можете использовать следующие виджеты для продвижения перевода своего "
-"проекта. Они помогут сделать ваши переводы заметнее и привлечь новых "
-"участников."
+"проекта. Они помогут сделать ваши переводческие проекты заметнее и привлечь "
+"новых участников."
 
 #: weblate/templates/widgets.html:31
 #, python-format
