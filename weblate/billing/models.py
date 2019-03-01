@@ -384,6 +384,12 @@ class Billing(models.Model):
     def is_active(self):
         return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
 
+    def get_notify_users(self):
+        users = self.owners.distinct()
+        for project in self.projects.all():
+            users |= User.objects.having_perm('billing.view', project)
+        return users
+
 
 @python_2_unicode_compatible
 class Invoice(models.Model):

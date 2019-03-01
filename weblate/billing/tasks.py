@@ -24,6 +24,7 @@ from datetime import timedelta
 
 from celery.schedules import crontab
 
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 
@@ -67,14 +68,14 @@ def billing_notify():
 
 @app.task
 def notify_expired():
-    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
-        if bill.check_payment_status():
+    possible_billings = Billing.objects.filter(
+        Q(state=Billing.STATE_ACTIVE) | Q(removal__isnull=False)
+    )
+    for bill in possible_billings:
+        if bill.state != Billing.STATE_TRIAL and bill.check_payment_status():
             continue
-        users = bill.owners.distinct()
-        for project in bill.projects.all():
-            users |= User.objects.having_perm('billing.view', project)
 
-        for user in users:
+        for user in bill.get_notify_users():
             send_notification_email(
                 user.profile.language,
                 user.email,
@@ -100,6 +101,18 @@ def schedule_removal():
 @app.task
 def perform_removal():
     for bill in Billing.objects.filter(removal__lte=timezone.now()):
+        for user in bill.get_notify_users():
+            send_notification_email(
+                user.profile.language,
+                user.email,
+                'billing_expired',
+                context={
+                    'billing': bill,
+                    'billing_url': get_site_url(reverse('billing')),
+                    'final_removal': True,
+                },
+                info=bill,
+            )
         for prj in bill.projects.iterator():
             prj.log_warning('removing due to unpaid billing')
             prj.stats.invalidate()
