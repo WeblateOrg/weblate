@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-02-28 11:50+0000\n"
+"PO-Revision-Date: 2019-03-01 18:01+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -1535,10 +1535,8 @@ msgid "Trial expiry date"
 msgstr "Slutdatum för provperiod"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Kontoborttagning"
+msgstr "Schemalagd borttagning"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -3658,6 +3656,11 @@ msgid ""
 "to include authorship information it is recommended to customize the commit "
 "message to include this."
 msgstr ""
+"Den resulterande arkiveringen kommer att innehålla alla "
+"arkiveringsmeddelanden och författarskapet för arkiveringarna kommer inte "
+"att bevaras förutom för varje författar-squash. Om du vill inkludera "
+"information om författarskap bör du anpassa arkiveringsmeddelandet till att "
+"inkludera detta."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -5174,7 +5177,7 @@ msgstr "Faktureringsplanen täcker följande projekt:"
 #: weblate/templates/mail/billing_expired.html:25
 #: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
-msgstr ""
+msgstr "Alla projekt som omfattas av denna faktureringsplan har tagits bort."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
@@ -5183,16 +5186,16 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Om du inte utför betalningen, tas alla projekt inom denna faktureringsplan "
+"bort %(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Your translation project was removed"
-msgstr "Översättningskomponenten har tagits bort."
+msgstr "Ditt översättningsprojekt togs bort"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "Ditt översättningsprojekt är schemalagt för borttagning"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -8585,8 +8588,6 @@ msgid "RST text"
 msgstr "RST-text"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Mardown text"
 msgid "Markdown text"
 msgstr "Markdown-text"
 
