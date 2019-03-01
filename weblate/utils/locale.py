@@ -39,6 +39,7 @@ def c_locale():
     except Error:
         pass
     setlocale(LC_ALL, 'C')
+    print('Locale reset to C')
     yield
     for currlocale in locales:
         try:
@@ -46,4 +47,5 @@ def c_locale():
         except Error:
             continue
         if getlocale()[0]:
+            print('Reverted locale to {}'.format(getlocale()))
             break
