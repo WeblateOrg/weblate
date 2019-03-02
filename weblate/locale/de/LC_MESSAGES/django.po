@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-02-26 17:19+0000\n"
-"Last-Translator: C. Rüdinger <Mail-an-CR@web.de>\n"
+"PO-Revision-Date: 2019-03-02 13:34+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -250,47 +250,40 @@ msgstr ""
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Sie können sich jetzt per {method} anmelden ({name})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Sie können sich nicht mehr per {method} anmelden ({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Authentifiziert ({method}:{name})."
+msgstr "Per {method} angemeldet ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Authentifiziert ({method}:{name}) von neuem Gerät."
+msgstr "Von einem neuen Gerät angemeldet per {method} ({Name})."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Jemand hat versucht, sich mit Ihrer E-Mail-Adresse zu registrieren."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
 msgstr "Jemand hat versucht, sich mit Ihrer E-Mail-Adresse zu registrieren."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "Sie können sich nicht anmelden unter {method} ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
 msgstr ""
-"Benutzerkonto ist wegen zu vielen fehlgeschlagenen "
-"Authentifizierungsversuchen gesperrt."
+"Benutzerkonto ist wegen zu vielen fehlgeschlagenen Anmeldungen gesperrt."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -302,24 +295,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Einverständniserklärung zu den Nutzungsbedingungen {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Sie haben ein falsches Passwort eingegeben."
+msgstr "Sie können sich nun mit einem Passwort anmelden."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Passwort vergessen?"
+msgstr "Per Passwort angemeldet."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Mit Passwort von einem neuen Gerät angemeldet."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "Die Anmeldung mit dem Passwort konnte nicht durchgeführt werden."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -1593,10 +1582,8 @@ msgid "Trial expiry date"
 msgstr "Ablaufdatum der Testversion"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Konto löschen"
+msgstr "Entfernung vorgesehen"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -3781,6 +3768,10 @@ msgid ""
 "to include authorship information it is recommended to customize the commit "
 "message to include this."
 msgstr ""
+"Die resultierenden Commits beinhalten alle Commit-Nachrichten und die Commit-"
+"Autorenschaft wird nicht für alle außer durch Author Squash beibehalten. "
+"Wenn Sie Informationen zur Autorenschaft einbeziehen möchten, wird "
+"empfohlen, die Commit-Meldung so anzupassen, dass sie diese enthält."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4577,10 +4568,6 @@ msgid "Notification hooks"
 msgstr "Benachrichtigungs-Hooks"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
@@ -5194,8 +5181,6 @@ msgstr "Wörter"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
 msgstr "Bearbeitung erforderlich"
@@ -5353,6 +5338,7 @@ msgstr "Dieser Abrechnungsplan deckt folgende Projekte ab:"
 #: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
 msgstr ""
+"Alle Projekte, die unter diesen Fakturierungsplan fallen, wurden entfernt."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
@@ -5361,16 +5347,16 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Wenn Sie die Zahlung nicht ausführen, werden alle Projekte innerhalb dieses "
+"Abrechnungsplans am %(removal)s entfernt."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Your translation project was removed"
-msgstr "Die Übersetzungskomponente wurde entfernt."
+msgstr "Ihr Übersetzungsprojekt wurde entfernt"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "Ihr Übersetzungsprojekt ist zur Entfernung vorgesehen"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -6160,6 +6146,8 @@ msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
 msgstr ""
+"Die Übersetzungskomponente sieht einsprachig aus, ist aber nicht so "
+"konfiguriert."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add monolingual base language file in component setting."
@@ -6783,6 +6771,8 @@ msgid ""
 "The message is shown on the translation page until it's expiry or "
 "permanently until deleting."
 msgstr ""
+"Die Nachricht wird auf der Übersetzungsseite bis zum Ablauf oder dauerhaft "
+"bis zum Löschen angezeigt."
 
 #: weblate/templates/translation.html:378
 msgid "Review"
@@ -8525,6 +8515,8 @@ msgid ""
 "The message will be not shown after this date. Use for announcements such as "
 "deadline for next release."
 msgstr ""
+"Nach diesem Datum wird die Meldung nicht mehr angezeigt. Für Ankündigungen "
+"zu verwenden, wie z.B. Frist für die nächste Veröffentlichung."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
