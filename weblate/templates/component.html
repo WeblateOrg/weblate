@@ -30,7 +30,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
-  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   {% if object.alert_set.all %}
   <li><a href="#alerts" data-toggle="tab">{% trans "Alerts" %}</a></li>
   {% endif %}
@@ -103,7 +103,7 @@
     </a>
     <ul class="dropdown-menu">
 {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
-      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
+      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
       <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
       <li><a href="{% url 'engage' project=object.project.slug %}">{% trans "Engage page" %}</a></li>
       <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
@@ -170,7 +170,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace a string in all strings at once. The search is a simple substring case sensitive search." %}</p>
+<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -185,7 +185,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change state of all strings matching given type at once." %}</p>
+<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% csrf_token %}
 {{ mass_state_form|crispy }}
 </div>
@@ -214,7 +214,7 @@
 <div class="panel-body">
 {% csrf_token %}
 {{ whiteboard_form|crispy }}
-<p class="help-block">{% trans "The message is shown on all translations within the component until it's expiry or permanently until deleting." %}</p>
+<p class="help-block">{% trans "The message is shown for all translations within the component, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
@@ -285,7 +285,7 @@
 </h4>
 </div>
 <div class="panel-body">
-<p>{% trans "Credits list all translators who have contributed to this component in a given time period. It can be useful for including in your documentation or application to thank translators." %}</p>
+<p>{% trans "Lists all translators contributing to this component in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}</p>
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
@@ -304,7 +304,7 @@
 </h4>
 </div>
 <div class="panel-body">
-<p>{% trans "Reports number of strings and words translated by each translator." %}</p>
+<p>{% trans "Reports the number of strings and words translated by each translator." %}</p>
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
