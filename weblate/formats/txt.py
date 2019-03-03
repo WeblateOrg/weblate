@@ -106,7 +106,7 @@ class AppStoreParser(MultiParser):
         ('short_description.txt', 'max-length:80'),
         ('full_description.txt', 'max-length:4000'),
         ('description.txt', 'max-length:4000'),
-        ('keywords.txt', ''),
+        ('keywords.txt', 'max-length:100'),
         ('video.txt', 'url'),
         ('changelogs/*.txt', 'max-length:500'),
     )
