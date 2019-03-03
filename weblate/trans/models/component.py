@@ -1055,10 +1055,49 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return sorted(matches)
 
-    def update_source_checks(self):
+    def update_source_checks(self, skip_batch_checks=False):
         for unit in self.updated_sources.values():
-            unit.source_info.run_checks(unit, self.project)
+            unit.source_info.run_checks(unit, self.project, batch=True)
         self.updated_sources = {}
+
+        if skip_batch_checks:
+            return
+
+        for check, check_obj in CHECKS.items():
+            if not check_obj.source or not check_obj.batch_update:
+                continue
+            self.log_info('running batch check: %s', check)
+            # List of triggered checks
+            data = check_obj.check_source_project(self.project)
+            self.log_info('data: %d', len(data))
+            # Fetch existing check instances
+            existing = set(
+                Check.objects.filter(
+                    project=self.project,
+                    language=None,
+                    check=check
+                ).values_list(
+                    'content_hash', flat=True
+                )
+            )
+            self.log_info('existing: %d', len(existing))
+            # Create new check instances
+            for item in data:
+                content_hash = item['content_hash']
+                if content_hash in existing:
+                    existing.discard(content_hash)
+                else:
+                    Check.objects.create(
+                        content_hash=content_hash,
+                        project=self.project,
+                        language_id=None,
+                        check=check,
+                        ignore=False,
+                    )
+            # Remove stale instances
+            self.log_info('existing delete: %d', len(existing))
+            Check.objects.filter(pk__in=existing).delete()
+            self.log_info('done')
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
@@ -1163,10 +1202,6 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     todelete.delete()
 
-        if self.updated_sources:
-            self.log_info('running source checks')
-            self.update_source_checks()
-
         self.update_import_alerts()
 
         # Process linked repos
@@ -1183,6 +1218,10 @@ class Component(models.Model, URLMixin, PathMixin):
         # Run target checks (consistency)
         if not skip_checks:
             self.run_target_checks()
+
+        if self.updated_sources:
+            self.log_info('running source checks')
+            self.update_source_checks(skip_checks)
 
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
@@ -1684,6 +1723,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self, language, format_code, filename, request=request
                 )
                 self.run_target_checks()
+                self.update_source_checks()
                 translation.invalidate_cache()
                 messages.error(request, _('Translation file already exists!'))
                 return False
@@ -1712,6 +1752,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 timezone.now(),
             )
             self.run_target_checks()
+            self.update_source_checks()
             translation.invalidate_cache()
             return True
 

@@ -105,7 +105,7 @@ class Source(models.Model):
             'component': self.component.slug,
         })
 
-    def run_checks(self, unit=None, project=None):
+    def run_checks(self, unit=None, project=None, batch=False):
         """Update checks for this unit."""
         if unit is None:
             try:
@@ -129,6 +129,11 @@ class Source(models.Model):
 
         # Run all source checks
         for check, check_obj in CHECKS.items():
+            if batch and check_obj.batch_update:
+                if check in old_checks:
+                    # Do not remove batch checks in batch processing
+                    old_checks.remove(check)
+                continue
             if check_obj.source and check_obj.check_source(src, unit):
                 if check in old_checks:
                     # We already have this check
