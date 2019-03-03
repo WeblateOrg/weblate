@@ -162,7 +162,7 @@ def notify_new_translation(unit, oldunit, user):
     )
     for subscription in subscriptions:
         mails.append(
-            send_any_translation(subscription, unit, oldunit)
+            send_any_translation(subscription, unit, oldunit, user)
         )
 
     enqueue_mails(mails)
@@ -427,7 +427,7 @@ def send_user(profile, notification, component, display_obj,
     return None
 
 
-def send_any_translation(profile, unit, oldunit):
+def send_any_translation(profile, unit, oldunit, user):
     """Send notification on translation."""
     if oldunit.translated:
         template = 'changed_translation'
@@ -441,7 +441,8 @@ def send_any_translation(profile, unit, oldunit):
         {
             'unit': unit,
             'oldunit': oldunit,
-        }
+        },
+        user=user
     )
 
 
@@ -479,7 +480,8 @@ def send_new_suggestion(profile, translation, suggestion, unit):
         {
             'suggestion': suggestion,
             'unit': unit,
-        }
+        },
+        user=suggestion.user
     )
 
 
