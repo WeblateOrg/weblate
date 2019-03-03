@@ -816,10 +816,7 @@ class Unit(models.Model, LoggerMixin):
                                  invalidate=False):
         """Update flag counting failing checks."""
         if has_checks is None:
-            has_checks = (
-                self.state >= STATE_TRANSLATED and
-                self.active_checks().exists()
-            )
+            has_checks = self.active_checks().exists()
 
         # Change attribute if it has changed
         if has_checks != self.has_failing_check:
