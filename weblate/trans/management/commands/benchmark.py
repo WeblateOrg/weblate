@@ -55,6 +55,11 @@ class Command(BaseCommand):
             help='template monolingual files',
         )
         parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='delete after testing',
+        )
+        parser.add_argument(
             '--format',
             default='auto',
             help='file format',
@@ -95,4 +100,5 @@ class Command(BaseCommand):
         stats.sort_stats(options['profile_sort'])
         stats.print_stats(options['profile_filter'], options['profile_count'])
         # Delete after testing
-        component.delete()
+        if options['delete']:
+            component.delete()
