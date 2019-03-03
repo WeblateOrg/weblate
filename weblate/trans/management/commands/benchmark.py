@@ -55,6 +55,11 @@ class Command(BaseCommand):
             help='template monolingual files',
         )
         parser.add_argument(
+            '--format',
+            default='auto',
+            help='file format',
+        )
+        parser.add_argument(
             'project',
             help='Existing project slug for tests',
         )
@@ -83,6 +88,7 @@ class Command(BaseCommand):
             repo=options['repo'],
             filemask=options['mask'],
             template=options['template'],
+            file_format=options['format'],
             project=project
         )
         stats = pstats.Stats(profiler, stream=self.stdout)
