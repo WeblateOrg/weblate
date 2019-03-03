@@ -380,7 +380,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.get_translate_url(), self.checksum
         )
 
-    def get_unit_state(self, unit, created):
+    def get_unit_state(self, unit):
         """Calculate translated and fuzzy status"""
         translated = unit.is_translated()
         # We need to keep approved/fuzzy state for formats which do not
@@ -407,7 +407,7 @@ class Unit(models.Model, LoggerMixin):
         source = unit.source
         context = unit.context
         comment = unit.comments
-        state = self.get_unit_state(unit, created)
+        state = self.get_unit_state(unit)
         previous_source = unit.previous_source
         content_hash = unit.content_hash
 
@@ -432,14 +432,11 @@ class Unit(models.Model, LoggerMixin):
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
         same_source = (source == self.source and context == self.context)
-        same_state = (
-            state == self.state and flags == self.flags and not created
-        )
+        same_state = (state == self.state and flags == self.flags)
 
         # Check if we actually need to change anything
         # pylint: disable=too-many-boolean-expressions
-        if (not created and
-                location == self.location and
+        if (location == self.location and
                 flags == self.flags and
                 same_source and same_target and same_state and
                 comment == self.comment and
@@ -709,7 +706,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(same_state, same_content, force_insert)
+            self.run_checks(same_state, same_content)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
@@ -775,39 +772,15 @@ class Unit(models.Model, LoggerMixin):
             language=None,
         )
 
-    def get_checks_to_run(self, same_state, is_new):
-        """
-        Returns list of checks to run on state change.
-
-        Returns tuple of checks to run and whether to do cleanup.
-        """
-        if self.translation.is_template:
-            # Run only source checks on template, this is done later
-            return {}, True
-        elif (not same_state or is_new) and self.state < STATE_TRANSLATED:
-            # The consistency check will be run as batch
-            if is_new and self.is_batch_update:
-                return {}, False
-            # Check whether there is any message with same source
-            same_source_exists = False
-            for unit in self.same_source_units:
-                if unit.state >= STATE_TRANSLATED:
-                    same_source_exists = True
-                    break
-
-            # Delete all checks if only message with this source is fuzzy
-            if not same_source_exists:
-                return {}, True
-        return {x: y for x, y in CHECKS.data.items() if y.target}, True
-
-    def run_checks(self, same_state=True, same_content=True, is_new=False):
+    def run_checks(self, same_state=True, same_content=True):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
 
-        checks_to_run, cleanup_checks = self.get_checks_to_run(
-            same_state, is_new
-        )
+        if self.translation.is_template:
+            checks_to_run = {}
+        else:
+            checks_to_run = CHECKS.data
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -838,7 +811,7 @@ class Unit(models.Model, LoggerMixin):
                     has_checks = True
 
         # Delete no longer failing checks
-        if cleanup_checks and old_checks:
+        if old_checks:
             was_change = True
             Check.objects.filter(
                 content_hash=content_hash,
@@ -848,7 +821,7 @@ class Unit(models.Model, LoggerMixin):
             ).delete()
 
         # Update failing checks flag
-        if was_change or is_new or not same_content:
+        if was_change or not same_content:
             self.update_has_failing_check(was_change, has_checks)
 
     def update_has_failing_check(self, recurse=False, has_checks=None,
