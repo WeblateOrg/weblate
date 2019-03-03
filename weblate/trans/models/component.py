@@ -51,6 +51,7 @@ from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import is_osi_approved, is_fsf_approved
 from weblate.utils.render import render_template
+from weblate.utils.unitdata import filter_query
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
     PRIORITY_CHOICES, parse_flags,
@@ -1219,6 +1220,10 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.updated_sources:
             self.update_source_checks(skip_checks)
 
+        # Update unit flags
+        if not skip_checks:
+            self.update_unit_flags()
+
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
             cleanup_project.delay(self.project.pk)
@@ -1720,6 +1725,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 self.run_target_checks()
                 self.update_source_checks()
+                self.update_unit_flags()
                 translation.invalidate_cache()
                 messages.error(request, _('Translation file already exists!'))
                 return False
@@ -1749,6 +1755,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.run_target_checks()
             self.update_source_checks()
+            self.update_unit_flags()
             translation.invalidate_cache()
             return True
 
@@ -1767,11 +1774,27 @@ class Component(models.Model, URLMixin, PathMixin):
             return None
         return self.translation_set.get(filename=self.template)
 
+    def update_unit_flags(self):
+        from weblate.trans.models import Unit
+        units = Unit.objects.filter(
+            translation__component__project=self.project
+        )
+        updates = (
+            ('has_failing_check', 'checks_check'),
+            ('has_comment', 'trans_comment'),
+            ('has_suggestion', 'trans_suggestion'),
+        )
+        for flag, table in updates:
+            self.log_debug('updating unit flag: %s', flag)
+            unit_ids = set(
+                filter_query(units, table).values_list('id', flat=True)
+            )
+            units.filter(id__in=unit_ids).update(**{flag: True})
+            units.exclude(id__in=unit_ids).update(**{flag: False})
+        self.log_debug('all unit flags updated')
+
     def run_target_checks(self):
         """Run batch executed target checks"""
-        from weblate.trans.models import Unit
-        have_check = set()
-        need_update = set()
         for check, check_obj in CHECKS.items():
             if not check_obj.target or not check_obj.batch_update:
                 continue
@@ -1796,24 +1819,9 @@ class Component(models.Model, URLMixin, PathMixin):
                     check=check,
                     defaults={'ignore': False},
                 )[0]
-                have_check.add((
-                    item['content_hash'], item['translation__language']
-                ))
                 existing.discard(instance.pk)
             # Remove stale instances
-            todelete = Check.objects.filter(pk__in=existing)
-            need_update.update(todelete.values_list('content_hash', 'language_id'))
-            todelete.delete()
-        # Update has_failing_check flag
-        allunits = Unit.objects.filter(
-            translation__component__project=self.project
-        )
-        if have_check:
-            allunits.data_filter(have_check).update(has_failing_check=True)
-            self.project.stats.invalidate()
-        if need_update:
-            for unit in allunits.data_filter(need_update):
-                unit.update_has_failing_check()
+            Check.objects.filter(pk__in=existing).delete()
 
     @cached_property
     def osi_approved_license(self):

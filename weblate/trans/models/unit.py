@@ -290,13 +290,6 @@ class UnitQuerySet(models.QuerySet):
 
         raise Unit.DoesNotExist('No matching unit found!')
 
-    def data_filter(self, matches):
-        queries = (
-            Q(content_hash=m[0]) & Q(translation__language_id=m[1])
-            for m in matches
-        )
-        return self.filter(functools.reduce(lambda x, y: x | y, queries))
-
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
@@ -447,7 +440,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Ensure we track source string
         source_info, source_created = component.get_source(self.id_hash)
-        contentsum_changed = self.content_hash != content_hash
 
         self.__dict__['source_info'] = source_info
 
@@ -484,10 +476,6 @@ class Unit(models.Model, LoggerMixin):
                 action=Change.ACTION_NEW_SOURCE,
                 unit=self,
             )
-        if contentsum_changed:
-            self.update_has_failing_check(recurse=False)
-            self.update_has_comment()
-            self.update_has_suggestion()
 
         # Track updated sources for source checks
         if source_created or not same_source:
@@ -821,7 +809,7 @@ class Unit(models.Model, LoggerMixin):
             ).delete()
 
         # Update failing checks flag
-        if was_change or not same_content:
+        if not self.is_batch_update and (was_change or not same_content):
             self.update_has_failing_check(was_change, has_checks)
 
     def update_has_failing_check(self, recurse=False, has_checks=None,
