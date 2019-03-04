@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-02-28 11:50+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
+"PO-Revision-Date: 2019-03-05 13:34+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
 "Language: it\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:122
@@ -256,12 +256,12 @@ msgstr "Non puoi più accedere usando {method} ({name})."
 #: weblate/accounts/models.py:69
 #, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Accesso completato con {method} {name}."
+msgstr "Accesso eseguito utilizzando {method} ({name})."
 
 #: weblate/accounts/models.py:72
 #, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Accesso completato da un nuovo dispositivo con {method} ({name})."
+msgstr "Accesso eseguito da un nuovo dispositivo utilizzando {method} ({name})."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -295,11 +295,11 @@ msgstr "Ora puoi accedere usando la password."
 
 #: weblate/accounts/models.py:97
 msgid "Logged on using password."
-msgstr "Accesso effettuato con password."
+msgstr "Accesso eseguito con password."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr "Accesso da un nuovo dispositivo con password."
+msgstr "Accesso da un nuovo dispositivo eseguito con password."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
@@ -515,11 +515,11 @@ msgstr "Il collegamennto di registrazione è stato invalidato."
 
 #: weblate/accounts/pipeline.py:319
 msgid "You can not complete registration while logged in!"
-msgstr "Non puoi compeltare la registrazione mentre sei connesso!"
+msgstr "Non puoi completare la registrazione mentre sei connesso!"
 
 #: weblate/accounts/pipeline.py:324
 msgid "You can confirm your registration only while logged in!"
-msgstr "Puoi confermare la registrazione solo una volta connesso!"
+msgstr "Puoi confermare la registrazione solo quando sei connesso!"
 
 #: weblate/accounts/pipeline.py:461
 #, python-brace-format
@@ -1550,10 +1550,8 @@ msgid "Trial expiry date"
 msgstr "Data scadenza prova"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Rimozione account"
+msgstr "Rimozione pianificata"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -2402,8 +2400,7 @@ msgstr ""
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
-"Questo sito utilizza Google Analytics per analizzare il traffico del sito "
-"web."
+"Questo sito utilizza Google Analytics per analizzare il traffico effettuato."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -2426,16 +2423,16 @@ msgid ""
 "At Weblate, security is seriously to maintain an environment that values the "
 "privacy of our users."
 msgstr ""
-"In Weblate, la sicurezza è seria per mantenere un ambiente che valorizza la "
-"privacy dei nostri utenti."
+"In Weblate, la sicurezza è seriamente presa in considerazione per mantenere "
+"un ambiente che valorizzi la privacy dei nostri utenti."
 
 #: weblate/legal/templates/legal/security.html:28
 msgid ""
 "Weblate development follows The Linux Foundation Core Infrastructure "
 "Initiative Best Practices."
 msgstr ""
-"Lo sviluppo di Weblate segue la Best Practices Initiative "
-"dell'infrastruttura di base Linux Foundation."
+"Lo sviluppo di Weblate segue la best practices della Linux Foundation (CII - "
+"Core Infrastructure Initiative)."
 
 #: weblate/legal/templates/legal/security.html:38
 msgid "Security FAQ"
@@ -2528,7 +2525,7 @@ msgstr "Elementi eliminati."
 
 #: weblate/memory/views.py:96
 msgid "Import of strings scheduled."
-msgstr "Importa come stringhe pianificate."
+msgstr "Importartazione delle stringhe pianificata."
 
 #: weblate/memory/views.py:113
 msgid "File processed, the entries will appear shortly."
@@ -3759,7 +3756,7 @@ msgstr "Stato del servizio"
 #: weblate/templates/base.html:184
 #, python-format
 msgid "Logged in as %(user)s"
-msgstr "Collegato come  %(user)s"
+msgstr "Connesso come  %(user)s"
 
 #: weblate/templates/base.html:187
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -5222,6 +5219,7 @@ msgstr "Questo piano di fatturazione include i seguenti progetti:"
 #: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
 msgstr ""
+"Tutti i progetti coperti da questo piano di fatturazione sono stati rimossi."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
@@ -5230,16 +5228,16 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Se non si esegue il pagamento, tutti i progetti all'interno di questo piano "
+"di fatturazione verranno rimosso il %(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Your translation project was removed"
-msgstr "Il componente traduzione è stato rimosso."
+msgstr "Il tuo progetto di traduzione è stato rimosso"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "E' pianificata la rimozione del progetto di traduzione"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -5796,9 +5794,7 @@ msgstr ""
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please login and try again later."
-msgstr ""
-"Ti sei scollegato.\n"
-"Accedi o riprova più tardi."
+msgstr "Sei stato disconnesso. Per favore accedi e riprova."
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
@@ -8684,10 +8680,8 @@ msgid "RST text"
 msgstr "Testo RST"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Mardown text"
 msgid "Markdown text"
-msgstr "Testo markdown"
+msgstr "Testo Markdown"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
