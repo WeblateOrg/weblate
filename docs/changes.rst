@@ -8,6 +8,7 @@ Released on ? 2019.
 
 * Fixed Celery systemd unit example.
 * Fixed notifications from http repositories with login.
+* Localization updates.
 
 weblate 3.5
 ------------
