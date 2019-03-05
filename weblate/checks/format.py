@@ -219,8 +219,8 @@ class BaseFormatCheck(TargetCheck):
             if x[0] != '%'
         ]
         if src_matches:
-            uses_position = max(
-                [self.is_position_based(x) for x in src_matches]
+            uses_position = any(
+                (self.is_position_based(x) for x in src_matches)
             )
 
         tgt_matches = [
