@@ -1,6 +1,14 @@
 Changes
 =======
 
+weblate 3.5.1
+------------
+
+Released on ? 2019.
+
+* Fixed Celery systemd unit example.
+* Fixed notifications from http repositories with login.
+
 weblate 3.5
 ------------
 
