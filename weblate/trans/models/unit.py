@@ -776,6 +776,7 @@ class Unit(models.Model, LoggerMixin):
         project = self.translation.component.project
         language = self.translation.language
         old_checks = set(self.checks().values_list('check', flat=True))
+        create = []
 
         # Run all target checks
         for check, check_obj in checks_to_run.items():
@@ -788,15 +789,18 @@ class Unit(models.Model, LoggerMixin):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    Check.objects.create(
+                    create.append(Check(
                         content_hash=content_hash,
                         project=project,
                         language=language,
                         ignore=False,
                         check=check,
-                    )
+                    ))
                     was_change = True
                     has_checks = True
+
+        if create:
+            Check.objects.bulk_create(create)
 
         # Delete no longer failing checks
         if old_checks:

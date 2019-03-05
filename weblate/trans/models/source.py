@@ -126,6 +126,7 @@ class Source(models.Model):
                 language=None
             ).values_list('check', flat=True)
         )
+        create = []
 
         # Run all source checks
         for check, check_obj in CHECKS.items():
@@ -140,13 +141,16 @@ class Source(models.Model):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    Check.objects.create(
+                    create.append(Check(
                         content_hash=content_hash,
                         project=project,
                         language=None,
                         ignore=False,
                         check=check
-                    )
+                    ))
+
+        if create:
+            Check.objects.bulk_create(create)
 
         # Remove stale checks
         if old_checks:

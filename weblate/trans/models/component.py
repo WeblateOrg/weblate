@@ -25,10 +25,12 @@ from glob import glob
 import os
 import time
 import fnmatch
+import functools
 import re
 
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
@@ -1065,6 +1067,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if skip_batch_checks:
             return
 
+        create = []
         for check, check_obj in CHECKS.items():
             if not check_obj.source or not check_obj.batch_update:
                 continue
@@ -1087,15 +1090,19 @@ class Component(models.Model, URLMixin, PathMixin):
                 if content_hash in existing:
                     existing.discard(content_hash)
                 else:
-                    Check.objects.create(
+                    create.append(Check(
                         content_hash=content_hash,
                         project=self.project,
                         language_id=None,
                         check=check,
                         ignore=False,
-                    )
+                    ))
             # Remove stale instances
-            Check.objects.filter(pk__in=existing).delete()
+            if existing:
+                Check.objects.filter(pk__in=existing).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create(create)
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
@@ -1795,6 +1802,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def run_target_checks(self):
         """Run batch executed target checks"""
+        create = []
         for check, check_obj in CHECKS.items():
             if not check_obj.target or not check_obj.batch_update:
                 continue
@@ -1807,21 +1815,34 @@ class Component(models.Model, URLMixin, PathMixin):
                     project=self.project,
                     check=check
                 ).values_list(
-                    'pk', flat=True
+                    'content_hash', 'language_id'
                 )
             )
             # Create new check instances
             for item in data:
-                instance = Check.objects.get_or_create(
-                    content_hash=item['content_hash'],
-                    project=self.project,
-                    language_id=item['translation__language'],
-                    check=check,
-                    defaults={'ignore': False},
-                )[0]
-                existing.discard(instance.pk)
+                key = (item['content_hash'], item['translation__language'])
+                if key in existing:
+                    existing.discard(key)
+                else:
+                    create.append(Check(
+                        content_hash=item['content_hash'],
+                        project=self.project,
+                        language_id=item['translation__language'],
+                        check=check,
+                        ignore=False,
+                    ))
             # Remove stale instances
-            Check.objects.filter(pk__in=existing).delete()
+            if existing:
+                query = functools.reduce(
+                    lambda q, value:
+                    q | (Q(content_hash=value[0]) & Q(language_id=value[1])),
+                    existing,
+                    Q()
+                )
+                Check.objects.filter(query).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create(create)
 
     @cached_property
     def osi_approved_license(self):
