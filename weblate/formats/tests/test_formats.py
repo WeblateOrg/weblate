@@ -146,7 +146,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
     FIND_CONTEXT = ''
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
-    allow_database_queries = True
+    allow_database_queries = '__all__'
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()
