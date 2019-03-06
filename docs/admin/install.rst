@@ -207,7 +207,7 @@ of the Python libraries on the system.
 
    .. code-block:: sh
 
-        virtualenv ~/weblate-env
+        virtualenv --python=python3 ~/weblate-env
         . ~/weblate-env/bin/activate
 
 4. Install Weblate including all dependencies, you can also use ``pip`` to install
@@ -224,12 +224,12 @@ of the Python libraries on the system.
         pip install mysqlclient
 
 5. Create your settings (in this example it would be in
-   :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
+   :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
    based on the :file:`settings_example.py` in the same directory).
 6. You can now run Weblate commands using :command:`weblate` command, see
    :ref:`manage`.
 7. To run webserver, use the wsgi wrapper installed with Weblate (in this case
-   it is :file:`~/weblate-env/lib/python2.7/site-packages/weblate/wsgi.py`).
+   it is :file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`).
    Don't forget to set the Python search path to your virtualenv as well (for
    example using ``virtualenv = /home/user/weblate-env`` in uWSGI).
 
@@ -426,7 +426,7 @@ your :file:`.bash_profile` file or executed somehow:
 
 .. code-block:: sh
 
-    export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+    export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH"
 
 This configuration makes the installed libraries available to Python.
 
