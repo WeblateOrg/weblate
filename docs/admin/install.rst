@@ -195,7 +195,7 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install python3-pip python3-virtualenv
+        apt install python3-pip python3-virtualenv virtualenv
 
         # openSUSE/SLES:
         zypper install python3-pip python3-virtualenv
