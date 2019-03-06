@@ -8,6 +8,7 @@ Released on ? 2019.
 
 * Fixed Celery systemd unit example.
 * Fixed notifications from http repositories with login.
+* Fixed race condition in editing source string for monolingual translations.
 * Localization updates.
 
 weblate 3.5
