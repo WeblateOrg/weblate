@@ -235,8 +235,8 @@
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
-{% if others.exists %}
-<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurences" %} <span class="badge">{{ others.exists }}</span></a></li>
+{% if others.total %}
+<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurences" %} <span class="badge">{{ others.total }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
@@ -319,7 +319,7 @@
 </div>
 {% endif %}
 
-{% if others.exists %}
+{% if others.total %}
 <div class="tab-pane" id="others">
 <table class="table table-condensed">
     <thead>
@@ -427,7 +427,7 @@
 <div class="col-sm-3 small">
 
 {% with unit.active_checks as checks %}
-{% if checks or unit.suggestions or others.count %}
+{% if checks or unit.suggestions %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">

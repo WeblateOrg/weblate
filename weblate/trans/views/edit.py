@@ -53,8 +53,7 @@ from weblate.utils.ratelimit import session_ratelimit_post
 def get_other_units(unit):
     """Returns other units to show while translating."""
     result = {
-        'count': 0,
-        'exists': False,
+        'total': 0,
         'same': [],
         'matching': [],
         'context': [],
@@ -95,8 +94,7 @@ def get_other_units(unit):
         elif item.context == unit.context:
             result['context'].append(item)
 
-    result['count'] = len(result['matching'])
-    result['exists'] = sum(
+    result['total'] = sum(
         [len(result[x]) for x in ('matching', 'source', 'context')]
     )
 
