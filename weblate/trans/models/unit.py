@@ -622,36 +622,26 @@ class Unit(models.Model, LoggerMixin):
         ).exclude(
             id=self.id
         )
-        # Update source, number of words and content_hash
-        same_source.update(
-            source=self.source,
-            num_words=self.num_words,
-            content_hash=self.content_hash
-        )
-        # Find reverted units
-        reverted = same_source.filter(
-            state=STATE_FUZZY,
-            previous_source=self.source
-        )
-        reverted_ids = set(reverted.values_list('id', flat=True))
-        reverted.update(
-            state=STATE_TRANSLATED,
-            previous_source=''
-        )
-        # Set fuzzy on changed
-        same_source.filter(
-            state__gte=STATE_TRANSLATED
-        ).exclude(
-            id__in=reverted_ids
-        ).update(
-            state=STATE_FUZZY,
-            previous_source=previous_source,
-        )
-        # Update source index and stats
         for unit in same_source.iterator():
+            # Update source, number of words and content_hash
+            unit.source = self.source
+            unit.num_words = self.num_words
+            unit.content_hash = self.content_hash
+            # Find reverted units
+            if (unit.state == STATE_FUZZY
+                    and unit.previous_source == self.source):
+                # Unset fuzzy on reverted
+                unit.state = STATE_TRANSLATED
+                unit.previous_source = ''
+            elif unit.state >= STATE_TRANSLATED:
+                # Set fuzzy on changed
+                unit.state = STATE_FUZZY
+                unit.previous_source = previous_source
+
+            # Update source index and stats
             unit.update_has_comment()
             unit.update_has_suggestion()
-            unit.run_checks(False, False)
+            unit.save()
             Fulltext.update_index_unit(unit)
             Change.objects.create(
                 unit=unit,
