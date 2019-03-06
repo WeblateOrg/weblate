@@ -233,13 +233,13 @@
 <ul class="nav nav-pills translation-tabs">
 <li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if unit.suggestions %}
-<li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
+<li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a></li>
 {% endif %}
 {% if others.total %}
 <li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurences" %} <span class="badge">{{ others.total }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments|length }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
@@ -432,11 +432,11 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
-  <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
+  <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions|length }}</span></div>
   {% endif %}
   {% show_checks unit.translation.component.project checks user %}
   {% if comments %}
-  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments.count }}</span></div>
+  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments|length }}</span></div>
   {% endif %}
   </div>
 </div>
