@@ -46,7 +46,7 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python3-pip python3-virtualenv
+        apt install python3-pip python3-virtualenv
 
         # openSUSE/SLES:
         zypper install python3-pip python3-virtualenv
@@ -125,7 +125,7 @@ Installing from sources
 
    .. code-block:: sh
 
-        virtualenv .venv
+        virtualenv --python=python3 .venv
         . .venv/bin/activate
         pip install -r /path/to/weblate/requirements.txt
 

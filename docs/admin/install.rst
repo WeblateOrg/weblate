@@ -195,7 +195,7 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python3-pip python3-virtualenv
+        apt install python3-pip python3-virtualenv
 
         # openSUSE/SLES:
         zypper install python3-pip python3-virtualenv
@@ -278,11 +278,11 @@ Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 
 On recent releases of Debian or Ubuntu, most of the requirements are already packaged, to
-install them you can use apt-get:
+install them you can use apt:
 
 .. code-block:: sh
 
-    apt-get install python3-pip python3-django translate-toolkit \
+    apt install python3-pip python3-django translate-toolkit \
         python3-whoosh python3-pil \
         git mercurial \
         python3-django-compressor python3-django-crispy-forms \
@@ -291,11 +291,11 @@ install them you can use apt-get:
     # Optional packages for database backend:
 
     # For PostgreSQL
-    apt-get install python3-psycopg2
+    apt install python3-psycopg2
     # For MySQL on Ubuntu (if using the Ubuntu package for Django)
-    apt-get install python3-pymysql
+    apt install python3-pymysql
     # For MySQL on Debian (or Ubuntu if using upstream Django packages)
-    apt-get install python3-mysqldb
+    apt install python3-mysqldb
 
 On older releases, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
@@ -303,7 +303,7 @@ need to install several Python modules manually using pip:
 .. code-block:: sh
 
     # Dependencies for ``python-social-auth``
-    apt-get install python3-requests-oauthlib python3-six python3-openid
+    apt install python3-requests-oauthlib python3-six python3-openid
 
     # Social auth
     pip install social-auth-core
@@ -320,11 +320,11 @@ need to install several Python modules manually using pip:
 
     # In case the ``python-django-compressor`` package is missing,
     # Try installing it by its older name, or by using pip:
-    apt-get install python3-compressor
+    apt install python3-compressor
     pip install django_compressor
 
     # Optional for OCR support
-    apt-get install tesseract-ocr libtesseract-dev libleptonica-dev cython
+    apt install tesseract-ocr libtesseract-dev libleptonica-dev cython
     pip install tesserocr
 
     # Install database backend for PostgreSQL
@@ -344,25 +344,25 @@ you might need additional components:
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    apt-get install nginx uwsgi uwsgi-plugin-python3
+    apt install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
-    apt-get install apache2 libapache2-mod-wsgi
+    apt install apache2 libapache2-mod-wsgi
 
     # Caching backend: Redis
-    apt-get install redis-server
+    apt install redis-server
 
     # Database option 1: PostgreSQL
-    apt-get install postgresql
+    apt install postgresql
 
     # Database option 2: MariaDB
-    apt-get install mariadb-server
+    apt install mariadb-server
 
     # Database option 3: MySQL
-    apt-get install mysql-server
+    apt install mysql-server
 
     # SMTP server
-    apt-get install exim4
+    apt install exim4
 
     # GitHub PR support: ``hub``
     # See https://hub.github.com/
