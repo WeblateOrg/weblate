@@ -1119,7 +1119,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def update_import_alerts(self):
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
-                self.add_alert(alert, occurences=self.alerts_trigger[alert])
+                self.add_alert(alert, occurrences=self.alerts_trigger[alert])
             else:
                 self.delete_alert(alert)
         self.alerts_trigger = {}

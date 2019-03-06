@@ -166,7 +166,7 @@ class BaseAddon(object):
 
     def trigger_alerts(self, component):
         if self.alerts:
-            component.add_alert(self.alert, occurences=self.alerts)
+            component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
         else:
             component.delete_alert(self.alert)
