@@ -181,7 +181,7 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential
 
         # openSUSE/SLES:
         zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
