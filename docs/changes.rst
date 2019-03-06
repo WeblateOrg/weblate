@@ -11,6 +11,7 @@ Released on ? 2019.
 * Fixed race condition in editing source string for monolingual translations.
 * Include output of failed addon execution in the logs.
 * Improved validation of choices for adding new language.
+* Allow to edit file format in component settings.
 * Localization updates.
 
 weblate 3.5

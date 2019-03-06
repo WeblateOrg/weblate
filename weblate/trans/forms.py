@@ -1413,6 +1413,7 @@ class ComponentSettingsForm(SettingsBaseForm):
             'commit_pending_age',
             'merge_style',
 
+            'file_format',
             'edit_template',
             'new_lang',
             'new_base',
@@ -1494,11 +1495,18 @@ class ComponentSettingsForm(SettingsBaseForm):
                 Tab(
                     _('Files'),
                     Fieldset(
-                        _('Languages processing'),
+                        _('Translation files'),
+                        'file_format',
                         'filemask',
                         'language_regex',
+                    ),
+                    Fieldset(
+                        _('Monolingual translations'),
                         'template',
                         'edit_template',
+                    ),
+                    Fieldset(
+                        _('Adding new languages'),
                         'new_base',
                         'new_lang',
                     ),
