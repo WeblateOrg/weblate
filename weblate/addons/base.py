@@ -153,11 +153,14 @@ class BaseAddon(object):
             )
             component.log_debug('exec result: %s', repr(output))
         except (OSError, subprocess.CalledProcessError) as err:
+            output = getattr(err, 'output', '').decode('utf-8')
             component.log_error('failed to exec %s: %s', repr(cmd), err)
+            for line in output.splitlines():
+                component.log_error('program output: %s', line)
             self.alerts.append({
                 'addon': self.name,
                 'command': ' '.join(cmd),
-                'output': getattr(err, 'output', '').decode('utf-8'),
+                'output': output,
                 'error': str(err),
             })
 
