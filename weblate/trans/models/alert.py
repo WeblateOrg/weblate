@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -120,7 +121,7 @@ class MultiAlert(BaseAlert):
                     occurence[target] = obj.objects.get(
                         **{lookup: occurence[key]}
                     )
-                except Language.DoesNotExist:
+                except ObjectDoesNotExist:
                     occurence[target] = None
         return occurences
 
