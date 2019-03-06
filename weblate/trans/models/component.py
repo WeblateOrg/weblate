@@ -1391,7 +1391,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     'You have configured Weblate to add new translation '
                     'files, but did not provide base file to do that!'
                 )
-            raise ValidationError({'new_base': message})
+            raise ValidationError({'new_base': message, 'new_lang': message})
 
     def clean_template(self):
         """Validate template value."""
