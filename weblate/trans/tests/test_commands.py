@@ -345,7 +345,7 @@ class ImportProjectTest(RepoTestCase):
 
 
 class BasicCommandTest(SimpleTestCase):
-    allow_database_queries = '__all__'
+    databases = '__all__'
 
     def test_versions(self):
         output = StringIO()
