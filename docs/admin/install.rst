@@ -181,13 +181,13 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev
 
         # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
         # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
 2. Install ``pip`` and ``virtualenv``. Usually they are shipped by your distribution or
    with Python:
@@ -195,13 +195,13 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python-pip python-virtualenv
+        apt-get install python3-pip python3-virtualenv
 
         # openSUSE/SLES:
-        zypper install python-pip python-virtualenv
+        zypper install python3-pip python3-virtualenv
 
         # Fedora/RHEL/CentOS:
-        dnf install python-pip python-virtualenv
+        dnf install python3-pip python3-virtualenv
 
 3. Create and activate virtualenv for Weblate:
 
@@ -282,20 +282,20 @@ install them you can use apt-get:
 
 .. code-block:: sh
 
-    apt-get install python-pip python-django translate-toolkit \
-        python-whoosh python-pil \
+    apt-get install python3-pip python3-django translate-toolkit \
+        python3-whoosh python3-pil \
         git mercurial \
-        python-django-compressor python-django-crispy-forms \
-        python-djangorestframework python-dateutil python-celery
+        python3-django-compressor python3-django-crispy-forms \
+        python3-djangorestframework python3-dateutil python3-celery
 
     # Optional packages for database backend:
 
     # For PostgreSQL
-    apt-get install python-psycopg2
+    apt-get install python3-psycopg2
     # For MySQL on Ubuntu (if using the Ubuntu package for Django)
-    apt-get install python-pymysql
+    apt-get install python3-pymysql
     # For MySQL on Debian (or Ubuntu if using upstream Django packages)
-    apt-get install python-mysqldb
+    apt-get install python3-mysqldb
 
 On older releases, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
@@ -303,7 +303,7 @@ need to install several Python modules manually using pip:
 .. code-block:: sh
 
     # Dependencies for ``python-social-auth``
-    apt-get install python-requests-oauthlib python-six python-openid
+    apt-get install python3-requests-oauthlib python3-six python3-openid
 
     # Social auth
     pip install social-auth-core
@@ -320,7 +320,7 @@ need to install several Python modules manually using pip:
 
     # In case the ``python-django-compressor`` package is missing,
     # Try installing it by its older name, or by using pip:
-    apt-get install python-compressor
+    apt-get install python3-compressor
     pip install django_compressor
 
     # Optional for OCR support
@@ -344,7 +344,7 @@ you might need additional components:
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    apt-get install nginx uwsgi uwsgi-plugin-python
+    apt-get install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
     apt-get install apache2 libapache2-mod-wsgi
@@ -377,15 +377,15 @@ Most of requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-Django translate-toolkit \
-        python-Whoosh python-Pillow \
-        python-social-auth-core python-social-auth-app-django \
-        Git mercurial python-pyuca \
-        python-dateutil python-celery
+    zypper install python3-Django translate-toolkit \
+        python3-Whoosh python3-Pillow \
+        python3-social-auth-core python3-social-auth-app-django \
+        Git mercurial python3-pyuca \
+        python3-dateutil python3-celery
 
     # Optional for database backend
-    zypper install python-psycopg2      # For PostgreSQL
-    zypper install python-MySQL-python  # For MySQL
+    zypper install python3-psycopg2      # For PostgreSQL
+    zypper install python3-MySQL-python  # For MySQL
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -393,7 +393,7 @@ you might need additional components:
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    zypper install nginx uwsgi uwsgi-plugin-python
+    zypper install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
     zypper install apache2 apache2-mod_wsgi

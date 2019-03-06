@@ -32,13 +32,13 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev
 
         # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
         # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
 #. Install pip and virtualenv. Usually they are shipped by your distribution or
    with Python:
@@ -46,19 +46,19 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python-pip python-virtualenv
+        apt-get install python3-pip python3-virtualenv
 
         # openSUSE/SLES:
-        zypper install python-pip python-virtualenv
+        zypper install python3-pip python3-virtualenv
 
         # Fedora/RHEL/CentOS:
-        dnf install python-pip python-virtualenv
+        dnf install python3-pip python3-virtualenv
 
 #. Create the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv ~/weblate-env
+        virtualenv --python=python3 ~/weblate-env
      
 #. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
         
