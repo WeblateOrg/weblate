@@ -92,13 +92,15 @@ class CheckManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        checks = []
         for check in self.all():
-            Check.objects.create(
+            checks.append(Check(
                 project=project,
                 check=check.check,
                 ignore=check.ignore,
                 content_hash=check.content_hash,
-            )
+            ))
+        self.bulk_create(checks)
 
     def bulk_create_ignore(self, objs):
         """Wrapper to bulk_create to ignore existing entries."""

@@ -65,14 +65,16 @@ class CommentManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        comments = []
         for comment in self.all():
-            Comment.objects.create(
+            comments.append(Comment(
                 project=project,
                 comment=comment.comment,
                 content_hash=comment.content_hash,
                 user=comment.user,
                 language=comment.language,
-            )
+            ))
+        self.bulk_create(comments)
 
 
 @python_2_unicode_compatible

@@ -111,14 +111,16 @@ class SuggestionManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        suggestions = []
         for suggestion in self.all():
-            Suggestion.objects.create(
+            suggestions.append(Suggestion(
                 project=project,
                 target=suggestion.target,
                 content_hash=suggestion.content_hash,
                 user=suggestion.user,
                 language=suggestion.language,
-            )
+            ))
+        self.bulk_create(suggestions)
 
 
 @python_2_unicode_compatible
