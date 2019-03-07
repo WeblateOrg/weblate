@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-07 08:11+0000\n"
-"PO-Revision-Date: 2019-03-06 15:11+0000\n"
+"PO-Revision-Date: 2019-03-07 14:55+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
 ">\n"
@@ -563,7 +563,7 @@ msgstr "Tym kóp habarlar jiberilgen, áreketti keıin qaıtalańyz!"
 #: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:159
 #: weblate/templates/footer.html:9
 msgid "Contact"
-msgstr "Bizben baılanysý"
+msgstr "Habarlasý"
 
 #: weblate/accounts/views.py:436
 msgid "Please log in using your personal account to request hosting."
@@ -2519,7 +2519,7 @@ msgstr ""
 #: weblate/templates/404.html:19
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr ""
+msgstr "Izdegen joba joq nemese jarıaly qoljetimdi emes."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:326
 msgid "Internal Server Error"
@@ -2534,11 +2534,14 @@ msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
+"Server saýalyńyzǵa qyzmet kórsetkende kúrdeli máselelerge kez boldy. "
+"Jattyqtyrylǵan meshinder bul máseleni sheshý jolynda."
 
 #: weblate/templates/500.html:16
 #, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
 msgstr ""
+"Eger kómek qajet bolsa, bul qatege %(error_id)s retinde silteýińiz múmkin."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -2554,19 +2557,26 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
+"Weblate bul - nusqalardy basqarý júıesimen tyǵyz biriktirilgen ýeb-"
+"tehnologıalarǵa negizdelgen tárjimelik qural. Ol qarapaıym jáne taza "
+"paıdalanýshylyq ınterfeısin, quramdastar boıynsha tárjimelerdi taratýdy, "
+"sapa tekserýlerdi jáne qaınar faıldarǵa avtomatty baılanystyrýdy qamtıdy."
 
 #: weblate/templates/about/index.html:20
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
 msgstr ""
+"Weblate týraly kóbirek aqparatty %(weblate_link)s saıtynan tabýǵa bolady."
 
 #: weblate/templates/about/index.html:22
 msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr ""
+"Weblate - erkin baǵdarlamalyq jasaqtama, eriktiler arqyly jasalady, degenmen "
+"demeýlerdi qabyldaıdy."
 
 #: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
-msgstr ""
+msgstr "Weblate úshin demeý"
 
 #: weblate/templates/about/index.html:33
 msgid "Hosting translations"
@@ -2576,10 +2586,12 @@ msgstr "Tárjimeler hostıńi"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"Bul Weblate danasynda ártúrli erkin baǵdarlamalyq jasaqtama jobalary úshin "
+"tárjimeler ornalastyrylady."
 
 #: weblate/templates/about/index.html:37
 msgid "Weblate can host your project as well, please get in touch."
-msgstr ""
+msgstr "Weblate sizdiń jobańyzdy da ornalastyra alady, baılanysta bolyńyz."
 
 #: weblate/templates/about/index.html:40
 msgid ""
@@ -2617,7 +2629,7 @@ msgstr "Nusqalar"
 
 #: weblate/templates/about/index.html:73
 msgid "Weblate owes its existence to these projects."
-msgstr ""
+msgstr "Weblate bolýy osy jobalarǵa mindetti."
 
 #: weblate/templates/about/keys.html:7 weblate/templates/base.html:161
 #: weblate/trans/views/about.py:113
@@ -2633,6 +2645,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Qashyqtaǵy repozıtorılarǵa qatynaý úshin Weblate SSH-kiltin paıdalanady. "
+"Tıisti ashyq kilt tómende kórsetilgen, ony Weblate úshin repozıtorıǵa "
+"qatynas berý úshin paıdalanýǵa bolady."
 
 #: weblate/templates/about/keys.html:31
 msgid "SSH key not available."
@@ -2648,6 +2663,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"Weblate arqyly jasalǵan barlyq komıttеrge GPG-kiltpen %(gpg_key_id)s qol "
+"qoıylǵan, oǵan sáıkes ashyq kilt tómende tabylady."
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
@@ -2769,6 +2786,8 @@ msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Muny tek ne istep jatqanyńyzdy bilip paıdalanyńyz, ony qosqanda bul jobaǵa "
+"qatynaý keri qaıtarylý múmkin."
 
 #: weblate/templates/access_control_description.html:11
 msgid "Permissions are not managed in Weblate."
@@ -2796,7 +2815,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
-msgstr ""
+msgstr "Osy serverdiń óńdeýshilerine munda habarlasýǵa bolady."
 
 #: weblate/templates/accounts/contact.html:13
 #, python-format
@@ -3271,7 +3290,7 @@ msgstr ""
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
-msgstr ""
+msgstr "Kóbirek egjeıler úshin bizge habarlasýyńyzǵa bolady."
 
 #: weblate/templates/accounts/removal.html:17
 msgid "Account removal"
@@ -4926,7 +4945,7 @@ msgstr ""
 #: weblate/templates/mail/remove.html:23 weblate/templates/mail/remove.txt:9
 #: weblate/templates/mail/reset.html:23 weblate/templates/mail/reset.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
+msgstr "Tirkelýde aqaý bolsa, bizge habarlasyńyz:"
 
 #: weblate/templates/mail/activation_subject.txt:4
 #, python-format
@@ -4947,15 +4966,17 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
+"Tólem josparynyń merzimi aıaqtaldy, eger qyzmet paıdalanýdy jalǵastyrǵyńyz "
+"kelse, ony kelesi silteme arqyly uzartyńyz:"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
-msgstr ""
+msgstr "Bul tólem jospary kelesi jobalardy qamtıdy:"
 
 #: weblate/templates/mail/billing_expired.html:25
 #: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
-msgstr ""
+msgstr "Osy tólem josparymen qamtylǵan barlyq jobalar alastaldy."
 
 #: weblate/templates/mail/billing_expired.html:27
 #: weblate/templates/mail/billing_expired.txt:16
@@ -4964,18 +4985,20 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Tólemdi oryndamasańyz, osy tólem josparyndaǵy barlyq jobalar %(removal)s "
+"kezinde alastalady."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
-msgstr ""
+msgstr "Tárjimelik jobańyz alastaldy"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "Tárjimelik jobańyz alastaýǵa josparlanǵan"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Tólem josparyńyzdyń merzimi aıaqtaldy"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -6969,23 +6992,16 @@ msgid "Commit messages"
 msgstr "Komit habarlary"
 
 #: weblate/trans/forms.py:1498
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation files"
-msgstr "Tárjime faıly"
+msgstr "Tárjime faıldary"
 
 #: weblate/trans/forms.py:1504
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Monolingual translations"
-msgstr "Tárjimeler hostıńi"
+msgstr "Birtildi tárjimeler"
 
 #: weblate/trans/forms.py:1509
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Adding new languages"
-msgstr "Tilderdi basqarý"
+msgstr "Jańa tilderdi ústeý"
 
 #: weblate/trans/forms.py:1546 weblate/trans/models/component.py:123
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:58
@@ -7000,7 +7016,7 @@ msgstr ""
 #: weblate/trans/forms.py:1551 weblate/trans/models/component.py:128
 #: weblate/trans/models/componentlist.py:48
 msgid "Name used in URLs and file names."
-msgstr ""
+msgstr "URL-darda jáne faıldar atynda paıdalanylatyn ataý."
 
 #: weblate/trans/forms.py:1558 weblate/trans/models/component.py:136
 msgid "Version control system"
@@ -7312,7 +7328,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:79
 msgid "Use contact form"
-msgstr ""
+msgstr "Habar pishinin paıdalanyńyz"
 
 #: weblate/trans/models/component.py:80
 msgid "Point to translation instructions URL"
