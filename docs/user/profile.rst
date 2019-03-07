@@ -114,8 +114,8 @@ Account
 +++++++
 
 On the :guilabel:`Account` tab you can configure basic aspects of your account,
-connect various services which you can use to login into Weblate or completely
-remove your account.
+connect various services which you can use to login into Weblate, completely
+remove your account or download your user data.
 
 .. note:: 
    
