@@ -49,11 +49,12 @@ class Source(models.Model):
         blank=True,
     )
     context = models.TextField(default='', blank=True)
+    
+    ordering = ('id', )
 
     class Meta(object):
         app_label = 'trans'
         unique_together = ('id_hash', 'component')
-        ordering = ('id', )
 
     @cached_property
     def units_model(self):

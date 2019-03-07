@@ -113,12 +113,12 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_units(self, queryset):
         return Unit.objects.filter(
             translation__component__project__in=queryset
-        ).order_by('priority', 'position')
+        ).order_by(*Unit.ordering)
 
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(
             component__project__in=queryset
-        )
+        ).order_by(*Translation.ordering)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """Wrapper to sort languages by localized names"""
@@ -142,12 +142,12 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_units(self, queryset):
         return Unit.objects.filter(
             translation__component__in=queryset
-        ).order_by('priority', 'position') 
+        ).order_by(*Unit.ordering)
 
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(
             component__in=queryset
-        )
+        ).order_by(*Translation.ordering)
 
 
 class TranslationAdmin(WeblateModelAdmin):

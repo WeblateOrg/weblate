@@ -54,8 +54,9 @@ class ContributorAgreement(models.Model):
 
     objects = ContributorAgreementManager()
 
+    ordering = ['user__username']
+    
     class Meta(object):
-        ordering = ['user__username']
         unique_together = [('user', 'component')]
 
     def __str__(self):

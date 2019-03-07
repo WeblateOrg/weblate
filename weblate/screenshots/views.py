@@ -68,7 +68,9 @@ class ScreenshotList(ListView, ComponentViewMixin):
 
     def get_queryset(self):
         self.kwargs['component'] = self.get_component()
-        return Screenshot.objects.filter(component=self.kwargs['component'])
+        return Screenshot.objects.filter(
+            component=self.kwargs['component']
+        ).order_by(*Screenshot.ordering)
 
     def get_context_data(self):
         result = super(ScreenshotList, self).get_context_data()

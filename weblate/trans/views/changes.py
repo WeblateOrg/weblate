@@ -204,7 +204,9 @@ class ChangesView(ListView):
 
         if self.user is not None:
             result = result.filter(user=self.user)
-
+        
+        result = result.order_by(*Change.ordering)
+        
         return result
 
 

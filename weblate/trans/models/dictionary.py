@@ -175,8 +175,9 @@ class Dictionary(models.Model):
 
     objects = DictionaryManager()
 
+    ordering = ['source']
+    
     class Meta(object):
-        ordering = ['source']
         app_label = 'trans'
 
     def __str__(self):

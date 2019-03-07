@@ -59,10 +59,11 @@ class ComponentList(models.Model):
 
     components = models.ManyToManyField('Component', blank=True)
 
+    ordering = ['name']
+
     class Meta(object):
         verbose_name = _('Component list')
         verbose_name_plural = _('Component lists')
-        ordering = ['name']
 
     def tab_slug(self):
         return "list-" + self.slug

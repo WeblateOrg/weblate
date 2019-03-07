@@ -189,24 +189,24 @@ def search(request, project=None, component=None, lang=None):
         if component:
             units = Unit.objects.filter(
                 translation__component=obj
-                ).order_by('priority', 'position') 
+                )
         elif project:
             units = Unit.objects.filter(
                 translation__component__project=obj
-                ).order_by('priority', 'position') 
+                )
         else:
             allowed_projects = request.user.allowed_projects
             units = Unit.objects.filter(
                 translation__component__project__in=allowed_projects
-            ).order_by('priority', 'position') 
+            )
         units = units.search(
             search_form.cleaned_data,
             **search_kwargs
-        )
+        ).order_by(*Unit.ordering)
         if lang:
             units = units.filter(
                 translation__language=context['language']
-            )
+            ).order_by(*Unit.ordering)
 
         units = get_paginator(request, units)
 

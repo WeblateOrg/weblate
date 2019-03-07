@@ -59,7 +59,7 @@ def show_language(request, lang):
 
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj
-    )[:10]
+    ).order_by(*Change.ordering)[:10]
     projects = request.user.allowed_projects
     dicts = projects.filter(
         dictionary__language=obj
@@ -99,7 +99,7 @@ def show_project(request, lang, project):
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj,
         component__project=pobj
-    )[:10]
+    ).order_by(*Change.ordering)[:10]
 
     # Paginate translations.
     translation_list = obj.translation_set.prefetch().filter(

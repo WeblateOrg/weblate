@@ -587,7 +587,9 @@ class EditComplexTest(ViewTestCase):
             target_2
         )
         unit = self.get_unit()
-        changes = Change.objects.content().filter(unit=unit)
+        changes = Change.objects.content().filter(
+            unit=unit
+        ).order_by(*Change.ordering)
         self.assertEqual(changes[1].target, target)
         self.assertEqual(changes[0].target, target_2)
         self.assert_backend(1)
@@ -606,7 +608,9 @@ class EditComplexTest(ViewTestCase):
         unit2 = self.get_unit(
             source='Thank you for using Weblate.'
         )
-        change = Change.objects.filter(unit=unit2)[0]
+        change = Change.objects.filter(
+            unit=unit2
+        ).order_by(*Change.ordering)[0]
         response = self.client.get(
             self.translate_url,
             {'checksum': unit.checksum, 'revert': change.id}

@@ -131,8 +131,9 @@ class Project(models.Model, URLMixin, PathMixin):
     is_lockable = True
     _reverse_url_name = 'project'
 
+    ordering = ['name']
+    
     class Meta(object):
-        ordering = ['name']
         app_label = 'trans'
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')

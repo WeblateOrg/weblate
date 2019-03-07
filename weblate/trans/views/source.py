@@ -79,7 +79,7 @@ def review_source(request, project, component):
             source.language,
             ignored
         )
-
+    sources = sources.order_by(*Unit.ordering)
     sources = get_paginator(request, sources)
 
     return render(
@@ -187,7 +187,7 @@ def matrix(request, project, component):
     if show:
         languages = Language.objects.filter(
             code__in=form.cleaned_data['lang']
-        )
+        ).order_by(*Language.ordering)
         language_codes = ','.join(languages.values_list('code', flat=True))
 
     return render(

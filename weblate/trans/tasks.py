@@ -186,7 +186,7 @@ def cleanup_language_data(project):
                 translation__component__project=project
             ).values(
                 'content_hash'
-            ).distinct().order_by('priority', 'position')
+            ).distinct()
 
             # Remove checks, suggestions and comments for deleted units
             for obj in Check, Suggestion, Comment:
@@ -239,7 +239,7 @@ def cleanup_suggestions():
                 target=suggestion.target
             ).exclude(
                 id=suggestion.id
-            )
+            ).order_by(*Suggestion.ordering)
             if sugs.exists():
                 suggestion.delete_log(
                     anonymous_user,

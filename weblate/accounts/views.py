@@ -273,7 +273,7 @@ def user_profile(request):
         project__in=request.user.allowed_projects
     ).exclude(
         license=''
-    )
+    ).order_by(*Component.ordering)
 
     result = render(
         request,
@@ -473,7 +473,7 @@ def user_page(request, user):
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(
         user=user,
-    )
+    ).order_by(*Change.ordering)
 
     # Last user activity
     last_changes = all_changes[:10]
@@ -482,7 +482,9 @@ def user_page(request, user):
     user_projects_ids = set(all_changes.values_list(
         'translation__component__project', flat=True
     ))
-    user_projects = Project.objects.filter(id__in=user_projects_ids)
+    user_projects = Project.objects.filter(
+        id__in=user_projects_ids
+    ).order_by(*Project.ordering)
 
     return render(
         request,
@@ -833,7 +835,7 @@ class SuggestionView(ListView):
         return Suggestion.objects.filter(
             user=user,
             project__in=self.request.user.allowed_projects
-        )
+        ).order_by(*Suggestion.ordering)
 
     def get_context_data(self):
         result = super(SuggestionView, self).get_context_data()

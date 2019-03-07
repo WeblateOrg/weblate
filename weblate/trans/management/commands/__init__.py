@@ -70,10 +70,10 @@ class WeblateComponentCommand(WeblateCommand):
     def get_units(self, **options):
         """Return list of units matching parameters."""
         if options['all']:
-            return Unit.objects.all()
+            return Unit.objects.all().order_by(*Unit.ordering)
         return Unit.objects.filter(
             translation__component__in=self.get_components(**options)
-        ).order_by('priority', 'position')
+        ).order_by(*Unit.ordering)
 
     def iterate_units(self, **options):
         """Memory effective iteration over units."""

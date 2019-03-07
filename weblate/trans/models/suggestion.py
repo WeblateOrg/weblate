@@ -142,9 +142,10 @@ class Suggestion(UnitData, UserDisplayMixin):
 
     objects = SuggestionManager()
 
+    ordering = ['-timestamp']
+
     class Meta(object):
         app_label = 'trans'
-        ordering = ['-timestamp']
         index_together = [
             ('project', 'language', 'content_hash'),
         ]

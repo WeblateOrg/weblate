@@ -35,7 +35,10 @@ from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
-from weblate.trans.models import Translation, ComponentList, Change, Unit
+from weblate.trans.models import (
+    Translation, ComponentList, 
+    Change, Unit, Component
+)
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
@@ -120,7 +123,9 @@ def show_project(request, project):
     )
 
     # Paginate components of project.
-    all_components = obj.component_set.select_related()
+    all_components = obj.component_set.select_related().order_by(
+        *Component.ordering
+    )
     components = prefetch_stats(get_paginator(
         request, all_components
     ))
@@ -357,7 +362,10 @@ def new_language(request, project, component):
 
         if form.is_valid():
             langs = form.cleaned_data['lang']
-            for language in Language.objects.filter(code__in=langs):
+            languages = Language.objects.filter(
+                code__in=langs
+            ).order_by(*Language.ordering)
+            for language in languages:
                 if obj.new_lang == 'contact':
                     notify_new_language(obj, language, request.user)
                     messages.success(

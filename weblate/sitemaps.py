@@ -61,7 +61,7 @@ class ProjectSitemap(WeblateSitemap):
     def items(self):
         return Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by(*Project.ordering)
 
 
 class ComponentSitemap(WeblateSitemap):
@@ -70,7 +70,7 @@ class ComponentSitemap(WeblateSitemap):
     def items(self):
         return Component.objects.prefetch().filter(
             project__access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by(*Component.ordering)
 
 
 class TranslationSitemap(WeblateSitemap):
@@ -79,7 +79,7 @@ class TranslationSitemap(WeblateSitemap):
     def items(self):
         return Translation.objects.prefetch().filter(
             component__project__access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by(*Translation.ordering)
 
 
 class EngageSitemap(ProjectSitemap):
@@ -99,7 +99,7 @@ class EngageLangSitemap(Sitemap):
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by(*Project.ordering)
         for project in projects:
             for lang in project.languages:
                 ret.append((project, lang))

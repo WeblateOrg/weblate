@@ -57,8 +57,7 @@ class Screenshot(models.Model, UserDisplayMixin):
         on_delete=models.deletion.SET_NULL
     )
 
-    class Meta(object):
-        ordering = ['name']
+    ordering = ['name']
 
     def __str__(self):
         return self.name

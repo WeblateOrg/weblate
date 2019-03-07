@@ -332,8 +332,9 @@ class Change(models.Model, UserDisplayMixin):
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
+    ordering = ['-timestamp']
+
     class Meta(object):
-        ordering = ['-timestamp']
         app_label = 'trans'
 
     def __str__(self):

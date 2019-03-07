@@ -178,8 +178,7 @@ class AuditLog(models.Model):
 
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
-    class Meta(object):
-        ordering = ['-timestamp']
+    ordering = ['-timestamp']
 
     def get_params(self):
         result = {}

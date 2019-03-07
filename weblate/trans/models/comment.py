@@ -86,8 +86,10 @@ class Comment(UnitData, UserDisplayMixin):
 
     objects = CommentManager()
 
+    ordering = ['timestamp']
+    
     class Meta(object):
-        ordering = ['timestamp']
+        
         app_label = 'trans'
         index_together = [
             ('project', 'language', 'content_hash'),

@@ -73,8 +73,7 @@ class Plan(models.Model):
 
     objects = PlanQuerySet.as_manager()
 
-    class Meta(object):
-        ordering = ['price']
+    ordering = ['price']
 
     def __str__(self):
         return self.name
@@ -420,8 +419,7 @@ class Invoice(models.Model):
     # with payment processor
     payment = JSONField(editable=False, default={})
 
-    class Meta(object):
-        ordering = ['billing', '-start']
+    ordering = ['billing', '-start']
 
     def __str__(self):
         return '{0} - {1}: {2}'.format(

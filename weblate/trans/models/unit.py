@@ -117,7 +117,7 @@ class UnitQuerySet(models.QuerySet):
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
-            )
+            ).order_by(*Comment.ordering)
             if project is not None:
                 coms = coms.filter(project=project)
             coms = coms.values_list('content_hash', flat=True)
@@ -238,7 +238,7 @@ class UnitQuerySet(models.QuerySet):
                     params
                 )
             )
-        return result
+        return result.order_by(*Unit.ordering)
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
@@ -332,6 +332,8 @@ class Unit(models.Model, LoggerMixin):
     pending = models.BooleanField(default=False)
 
     objects = UnitQuerySet.as_manager()
+
+    ordering = ['priority', 'position']
 
     class Meta(object):
         app_label = 'trans'
@@ -620,7 +622,7 @@ class Unit(models.Model, LoggerMixin):
             id_hash=self.id_hash,
         ).exclude(
             id=self.id
-        )
+        ).order_by(*Unit.ordering)
         # Update source, number of words and content_hash
         same_source.update(
             source=self.source,
@@ -731,7 +733,7 @@ class Unit(models.Model, LoggerMixin):
             content_hash=self.content_hash,
             project=self.translation.component.project,
             language=self.translation.language
-        )
+        ).order_by(*Suggestion.ordering)
 
     def checks(self):
         """Return all checks for this unit (even ignored)."""
@@ -774,7 +776,7 @@ class Unit(models.Model, LoggerMixin):
             project=self.translation.component.project,
         ).filter(
             Q(language=self.translation.language) | Q(language=None),
-        )
+        ).order_by(*Comment.ordering)
 
     def get_source_comments(self):
         """Return list of target comments."""
@@ -782,7 +784,7 @@ class Unit(models.Model, LoggerMixin):
             content_hash=self.content_hash,
             project=self.translation.component.project,
             language=None,
-        )
+        ).order_by(*Comment.ordering)
 
     def get_checks_to_run(self, same_state, is_new):
         """
@@ -911,7 +913,7 @@ class Unit(models.Model, LoggerMixin):
             translation=self.translation,
             position__gte=self.position - settings.NEARBY_MESSAGES,
             position__lte=self.position + settings.NEARBY_MESSAGES,
-        ).order_by('priority', 'position')
+        ).order_by(*Unit.ordering)
 
     @transaction.atomic
     def translate(self, request, new_target, new_state, change_action=None,
@@ -976,7 +978,7 @@ class Unit(models.Model, LoggerMixin):
                 state__gte=STATE_TRANSLATED,
                 translation__component=self.translation.component,
                 translation__language__in=secondary_langs,
-            )
+            ).order_by(*Unit.ordering)
         )
 
     @property

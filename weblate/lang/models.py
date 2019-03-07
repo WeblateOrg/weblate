@@ -377,10 +377,11 @@ class Language(models.Model):
         ),
     )
 
+    ordering = ['name']
+
     objects = LanguageQuerySet.as_manager()
 
     class Meta(object):
-        ordering = ['name']
         verbose_name = ugettext_lazy('Language')
         verbose_name_plural = ugettext_lazy('Languages')
 
@@ -531,8 +532,9 @@ class Plural(models.Model):
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
+    ordering = ['source']
+    
     class Meta(object):
-        ordering = ['source']
         verbose_name = ugettext_lazy('Plural form')
         verbose_name_plural = ugettext_lazy('Plural forms')
 

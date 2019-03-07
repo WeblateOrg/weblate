@@ -450,8 +450,9 @@ class Component(models.Model, URLMixin, PathMixin):
     is_lockable = True
     _reverse_url_name = 'component'
 
+    ordering = ['priority', 'project__name', 'name']
+
     class Meta(object):
-        ordering = ['priority', 'project__name', 'name']
         unique_together = (
             ('project', 'name'),
             ('project', 'slug'),
@@ -1807,7 +1808,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Update has_failing_check flag
         allunits = Unit.objects.filter(
             translation__component__project=self.project
-        ).order_by('priority', 'position') 
+        ).order_by(*Unit.ordering)
         if have_check:
             allunits.data_filter(have_check).update(has_failing_check=True)
             self.project.stats.invalidate()

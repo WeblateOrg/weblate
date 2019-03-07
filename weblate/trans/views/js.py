@@ -154,7 +154,7 @@ def git_status_project(request, project):
             'changes': Change.objects.filter(
                 component__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
-            )[:10],
+            ).order_by(*Change.ordering)[:10],
             'statuses': statuses,
         }
     )
@@ -179,7 +179,7 @@ def git_status_component(request, project, component):
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 component=target,
-            )[:10],
+            ).order_by(*Change.ordering)[:10],
             'statuses': [(None, obj.repository.status)],
         }
     )
@@ -205,7 +205,7 @@ def git_status_translation(request, project, component, lang):
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 component=target,
-            )[:10],
+            ).order_by(*Change.ordering)[:10],
             'statuses': [(None, obj.component.repository.status)],
         }
     )
@@ -229,7 +229,7 @@ def get_detail(request, project, component, checksum):
         units = Unit.objects.filter(
             id_hash=checksum_to_hash(checksum),
             translation__component=component
-        ).order_by('priority', 'position') 
+        ).order_by(*Unit.ordering)
     except ValueError:
         raise Http404('Non existing unit!')
     try:

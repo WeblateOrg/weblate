@@ -105,7 +105,7 @@ def edit_dictionary(request, project, lang, pk):
 
     last_changes = Change.objects.last_changes(request.user).filter(
         dictionary=word,
-    )[:10]
+    ).order_by(*Change.ordering)[:10]
 
     return render(
         request,
@@ -273,7 +273,9 @@ def add_dictionary(request, unit_id):
                 {
                     'glossary': (
                         Dictionary.objects.get_words(unit) |
-                        Dictionary.objects.filter(project=prj, pk__in=words)
+                        Dictionary.objects.filter(
+                            project=prj, pk__in=words
+                        ).order_by(*Dictionary.ordering)
                     ),
                     'unit': unit,
                     'user': request.user,
@@ -342,7 +344,7 @@ def show_dictionary(request, project, lang):
     last_changes = Change.objects.last_changes(request.user).filter(
         dictionary__project=prj,
         dictionary__language=lang
-    )[:10]
+    ).order_by(*Change.ordering)[:10]
 
     return render(
         request,
