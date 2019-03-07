@@ -647,7 +647,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 1)
 
         # Ignore check
-        check_id = unit.checks()[0].id
+        check_id = unit.active_checks()[0].id
         response = self.client.get(
             reverse('js-ignore-check', kwargs={'check_id': check_id})
         )

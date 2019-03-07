@@ -474,6 +474,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.updated_sources = {}
         self.old_component = copy(self)
         self._sources = None
+        self.checks_cache = None
 
     def get_source(self, id_hash):
         """Cached access to source information."""
@@ -1141,6 +1142,18 @@ class Component(models.Model, URLMixin, PathMixin):
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
+        self.checks_cache = {}
+        check_values = Check.objects.filter(
+            project=self.project
+        ).values_list(
+            'content_hash', 'language_id', 'check'
+        )
+        for check in check_values:
+            key = (check[0], check[1])
+            if key not in self.checks_cache:
+                self.checks_cache[key] = [check[2]]
+            else:
+                self.checks_cache[key].append(check[2])
         translations = {}
         languages = {}
         try:
@@ -1245,6 +1258,7 @@ class Component(models.Model, URLMixin, PathMixin):
             if translation.notify_new_string:
                 notify_new_string(translation)
 
+        self.checks_cache = None
         self.log_info('updating completed')
 
     def get_lang_code(self, path):
