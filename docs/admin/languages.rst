@@ -5,7 +5,7 @@ Language definitions
 
 To properly present different translations, Weblate needs some
 info about languages used. Currently definitions for
-about 200 languages are included, and the definition includes
+about 350 languages are included, and the definition includes
 language name, text direction, plural definitions and language code.
 
 Parsing language codes
