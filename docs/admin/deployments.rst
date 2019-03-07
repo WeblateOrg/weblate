@@ -496,6 +496,10 @@ instance when running Weblate in Docker.
 
     The Redis database number, defaults to ``1``.
 
+.. envvar:: REDIS_PASSWORD
+   
+    The Redis server password, not used by default.
+
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 
