@@ -709,16 +709,19 @@ class Unit(models.Model, LoggerMixin):
             language=self.translation.language
         )
 
-    def checks(self):
+    def checks(self, values=False):
         """Return all checks names for this unit (even ignored)."""
-        if self.translation.component.checks_cache is not None:
+        if values and self.translation.component.checks_cache is not None:
             key = (self.content_hash, self.translation.language_id)
             return self.translation.component.checks_cache.get(key, [])
-        return Check.objects.filter(
+        result = Check.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.component.project,
             language=self.translation.language
-        ).values_list('check', flat=True)
+        )
+        if values:
+            return result.values_list('check', flat=True)
+        return result
 
     def source_checks(self):
         """Return all source checks for this unit (even ignored)."""
@@ -778,7 +781,7 @@ class Unit(models.Model, LoggerMixin):
         content_hash = self.content_hash
         project = self.translation.component.project
         language = self.translation.language
-        old_checks = set(self.checks())
+        old_checks = set(self.checks(True))
         create = []
 
         # Run all target checks
