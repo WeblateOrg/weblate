@@ -119,13 +119,18 @@ class Source(models.Model):
             project = self.component.project
 
         # Fetch old checks
-        old_checks = set(
-            Check.objects.filter(
-                content_hash=content_hash,
-                project=project,
-                language=None
-            ).values_list('check', flat=True)
-        )
+        if self.component.checks_cache is not None:
+            old_checks = self.component.checks_cache.get(
+                (content_hash, None), []
+            )
+        else:
+            old_checks = set(
+                Check.objects.filter(
+                    content_hash=content_hash,
+                    project=project,
+                    language=None
+                ).values_list('check', flat=True)
+            )
         create = []
 
         # Run all source checks
