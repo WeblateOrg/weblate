@@ -184,7 +184,9 @@ def cleanup_language_data(project):
             units = Unit.objects.filter(
                 translation__language=lang,
                 translation__component__project=project
-            ).values('content_hash').distinct()
+            ).values(
+                'content_hash'
+            ).distinct().order_by('priority', 'position')
 
             # Remove checks, suggestions and comments for deleted units
             for obj in Check, Suggestion, Comment:

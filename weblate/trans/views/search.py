@@ -187,14 +187,18 @@ def search(request, project=None, component=None, lang=None):
     if not is_ratelimited and request.GET and search_form.is_valid():
         # Filter results by ACL
         if component:
-            units = Unit.objects.filter(translation__component=obj)
+            units = Unit.objects.filter(
+                translation__component=obj
+                ).order_by('priority', 'position') 
         elif project:
-            units = Unit.objects.filter(translation__component__project=obj)
+            units = Unit.objects.filter(
+                translation__component__project=obj
+                ).order_by('priority', 'position') 
         else:
             allowed_projects = request.user.allowed_projects
             units = Unit.objects.filter(
                 translation__component__project__in=allowed_projects
-            )
+            ).order_by('priority', 'position') 
         units = units.search(
             search_form.cleaned_data,
             **search_kwargs

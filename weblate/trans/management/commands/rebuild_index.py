@@ -94,7 +94,7 @@ class Command(WeblateComponentCommand):
                         with writer.searcher() as searcher:
                             units = Unit.objects.filter(
                                 translation__language=language
-                            )
+                            ).order_by('priority', 'position')
                             for unit in units.iterator():
                                 if unit.translation:
                                     fulltext.update_target_unit_index(

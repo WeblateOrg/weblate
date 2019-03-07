@@ -229,7 +229,7 @@ def get_detail(request, project, component, checksum):
         units = Unit.objects.filter(
             id_hash=checksum_to_hash(checksum),
             translation__component=component
-        )
+        ).order_by('priority', 'position') 
     except ValueError:
         raise Http404('Non existing unit!')
     try:

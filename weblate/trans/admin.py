@@ -113,7 +113,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_units(self, queryset):
         return Unit.objects.filter(
             translation__component__project__in=queryset
-        )
+        ).order_by('priority', 'position')
 
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(
@@ -142,7 +142,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_units(self, queryset):
         return Unit.objects.filter(
             translation__component__in=queryset
-        )
+        ).order_by('priority', 'position') 
 
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(

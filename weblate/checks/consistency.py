@@ -89,7 +89,7 @@ class ConsistencyCheck(TargetCheck):
             Count('target', distinct=True)
         ).filter(
             target__count__gt=1
-        )
+        ).order_by('priority', 'position')
 
     def check_target_unit(self, sources, targets, unit):
         # Do not check consistency if user asked not to have it

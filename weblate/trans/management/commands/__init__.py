@@ -73,7 +73,7 @@ class WeblateComponentCommand(WeblateCommand):
             return Unit.objects.all()
         return Unit.objects.filter(
             translation__component__in=self.get_components(**options)
-        )
+        ).order_by('priority', 'position')
 
     def iterate_units(self, **options):
         """Memory effective iteration over units."""

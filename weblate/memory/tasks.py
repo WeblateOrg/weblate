@@ -53,7 +53,7 @@ def import_memory(project_id):
     units = Unit.objects.filter(
         translation__component__project_id=project_id,
         state__gte=STATE_TRANSLATED,
-    )
+    ).order_by('priority', 'position')
     for unit in units.iterator():
         update_memory(None, unit)
 

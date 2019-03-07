@@ -334,7 +334,6 @@ class Unit(models.Model, LoggerMixin):
     objects = UnitQuerySet.as_manager()
 
     class Meta(object):
-        ordering = ['priority', 'position']
         app_label = 'trans'
         unique_together = ('translation', 'id_hash')
         index_together = [
@@ -912,7 +911,7 @@ class Unit(models.Model, LoggerMixin):
             translation=self.translation,
             position__gte=self.position - settings.NEARBY_MESSAGES,
             position__lte=self.position + settings.NEARBY_MESSAGES,
-        )
+        ).order_by('priority', 'position')
 
     @transaction.atomic
     def translate(self, request, new_target, new_state, change_action=None,

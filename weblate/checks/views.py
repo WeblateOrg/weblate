@@ -161,7 +161,9 @@ def show_check_project(request, name, project):
             ).values(
                 'translation__component__slug',
                 'translation__component__project__slug'
-            ).annotate(count=Count('id'))
+            ).annotate(
+                count=Count('id')
+            ).order_by('priority', 'position')
             units |= res
     if check.source:
         checks = allchecks.filter(
@@ -183,7 +185,9 @@ def show_check_project(request, name, project):
             ).values(
                 'translation__component__slug',
                 'translation__component__project__slug'
-            ).annotate(count=Count('id'))
+            ).annotate(
+                count=Count('id')
+            ).order_by('priority', 'position') 
             units |= res
 
     counts = {}
@@ -273,7 +277,9 @@ def show_check_component(request, name, project, component):
                 translation__language=lang,
             ).values(
                 'translation__language__code'
-            ).annotate(count=Count('id'))
+            ).annotate(
+                count=Count('id')
+            ).order_by('priority', 'position') 
             units |= res
 
     counts = {}

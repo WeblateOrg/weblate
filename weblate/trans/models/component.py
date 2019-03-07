@@ -1807,7 +1807,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Update has_failing_check flag
         allunits = Unit.objects.filter(
             translation__component__project=self.project
-        )
+        ).order_by('priority', 'position') 
         if have_check:
             allunits.data_filter(have_check).update(has_failing_check=True)
             self.project.stats.invalidate()
