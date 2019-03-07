@@ -1103,7 +1103,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 Check.objects.filter(pk__in=existing).delete()
         # Create new checks
         if create:
-            Check.objects.bulk_create(create)
+            Check.objects.bulk_create_ignore(create)
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
@@ -1856,7 +1856,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 Check.objects.filter(query).delete()
         # Create new checks
         if create:
-            Check.objects.bulk_create(create)
+            Check.objects.bulk_create_ignore(create)
 
     @cached_property
     def osi_approved_license(self):

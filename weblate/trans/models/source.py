@@ -155,7 +155,7 @@ class Source(models.Model):
                     ))
 
         if create:
-            Check.objects.bulk_create(create)
+            Check.objects.bulk_create_ignore(create)
 
         # Remove stale checks
         if old_checks:

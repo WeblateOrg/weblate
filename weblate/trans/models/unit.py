@@ -803,7 +803,7 @@ class Unit(models.Model, LoggerMixin):
                     has_checks = True
 
         if create:
-            Check.objects.bulk_create(create)
+            Check.objects.bulk_create_ignore(create)
 
         # Delete no longer failing checks
         if old_checks:

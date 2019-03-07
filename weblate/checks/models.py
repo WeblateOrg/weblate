@@ -100,6 +100,17 @@ class CheckManager(models.Manager):
                 content_hash=check.content_hash,
             )
 
+    def bulk_create_ignore(self, objs):
+        """Wrapper to bulk_create to ignore existing entries."""
+        try:
+            self.bulk_create(objs)
+        except IntegrityError:
+            for obj in objs:
+                try:
+                    obj.save()
+                except IntegrityError:
+                    continue
+
 
 @python_2_unicode_compatible
 class Check(UnitData):
