@@ -26,6 +26,15 @@ from django.db import models
 
 from weblate.lang.models import Language
 
+WHERE_HASH = '{0}.content_hash = trans_unit.content_hash'
+WHERE_PROJECT = '{0}.project_id = trans_component.project_id'
+WHERE_LANGUAGE = '{0}.language_id = trans_translation.language_id'
+WHERE_LANGUAGE_WILDCARD = '''
+    {0}.language_id = trans_translation.language_id
+    OR
+    {0}.language_id IS NULL
+'''
+
 
 class UnitData(models.Model):
     content_hash = models.BigIntegerField()
@@ -58,3 +67,18 @@ class UnitData(models.Model):
             'translation__component__project',
             'translation__language'
         )
+
+
+def filter_query(queryset, table):
+    """Filter Unit query to matching UnitData objects.
+
+    Ideally we would use something based on multiple column foreign keys, but
+    that is currently not supported by Django and would not handle NULL values
+    in a way we need.
+    """
+    where = [WHERE_HASH.format(table), WHERE_PROJECT.format(table)]
+    if table == 'trans_comment':
+        where.append(WHERE_LANGUAGE_WILDCARD.format(table))
+    else:
+        where.append(WHERE_LANGUAGE.format(table))
+    return queryset.extra(tables=[table], where=where)

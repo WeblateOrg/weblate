@@ -25,10 +25,12 @@ from glob import glob
 import os
 import time
 import fnmatch
+import functools
 import re
 
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
@@ -51,6 +53,7 @@ from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import is_osi_approved, is_fsf_approved
 from weblate.utils.render import render_template
+from weblate.utils.unitdata import filter_query
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
     PRIORITY_CHOICES, parse_flags,
@@ -1064,6 +1067,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if skip_batch_checks:
             return
 
+        create = []
         for check, check_obj in CHECKS.items():
             if not check_obj.source or not check_obj.batch_update:
                 continue
@@ -1086,15 +1090,19 @@ class Component(models.Model, URLMixin, PathMixin):
                 if content_hash in existing:
                     existing.discard(content_hash)
                 else:
-                    Check.objects.create(
+                    create.append(Check(
                         content_hash=content_hash,
                         project=self.project,
                         language_id=None,
                         check=check,
                         ignore=False,
-                    )
+                    ))
             # Remove stale instances
-            Check.objects.filter(pk__in=existing).delete()
+            if existing:
+                Check.objects.filter(pk__in=existing).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create(create)
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
@@ -1218,6 +1226,10 @@ class Component(models.Model, URLMixin, PathMixin):
 
         if self.updated_sources:
             self.update_source_checks(skip_checks)
+
+        # Update unit flags
+        if not skip_checks:
+            self.update_unit_flags()
 
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
@@ -1720,6 +1732,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 self.run_target_checks()
                 self.update_source_checks()
+                self.update_unit_flags()
                 translation.invalidate_cache()
                 messages.error(request, _('Translation file already exists!'))
                 return False
@@ -1749,6 +1762,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.run_target_checks()
             self.update_source_checks()
+            self.update_unit_flags()
             translation.invalidate_cache()
             return True
 
@@ -1767,11 +1781,28 @@ class Component(models.Model, URLMixin, PathMixin):
             return None
         return self.translation_set.get(filename=self.template)
 
+    def update_unit_flags(self):
+        from weblate.trans.models import Unit
+        units = Unit.objects.filter(
+            translation__component__project=self.project
+        )
+        updates = (
+            ('has_failing_check', 'checks_check'),
+            ('has_comment', 'trans_comment'),
+            ('has_suggestion', 'trans_suggestion'),
+        )
+        for flag, table in updates:
+            self.log_debug('updating unit flag: %s', flag)
+            unit_ids = set(
+                filter_query(units, table).values_list('id', flat=True)
+            )
+            units.filter(id__in=unit_ids).update(**{flag: True})
+            units.exclude(id__in=unit_ids).update(**{flag: False})
+        self.log_debug('all unit flags updated')
+
     def run_target_checks(self):
         """Run batch executed target checks"""
-        from weblate.trans.models import Unit
-        have_check = set()
-        need_update = set()
+        create = []
         for check, check_obj in CHECKS.items():
             if not check_obj.target or not check_obj.batch_update:
                 continue
@@ -1784,36 +1815,34 @@ class Component(models.Model, URLMixin, PathMixin):
                     project=self.project,
                     check=check
                 ).values_list(
-                    'pk', flat=True
+                    'content_hash', 'language_id'
                 )
             )
             # Create new check instances
             for item in data:
-                instance = Check.objects.get_or_create(
-                    content_hash=item['content_hash'],
-                    project=self.project,
-                    language_id=item['translation__language'],
-                    check=check,
-                    defaults={'ignore': False},
-                )[0]
-                have_check.add((
-                    item['content_hash'], item['translation__language']
-                ))
-                existing.discard(instance.pk)
+                key = (item['content_hash'], item['translation__language'])
+                if key in existing:
+                    existing.discard(key)
+                else:
+                    create.append(Check(
+                        content_hash=item['content_hash'],
+                        project=self.project,
+                        language_id=item['translation__language'],
+                        check=check,
+                        ignore=False,
+                    ))
             # Remove stale instances
-            todelete = Check.objects.filter(pk__in=existing)
-            need_update.update(todelete.values_list('content_hash', 'language_id'))
-            todelete.delete()
-        # Update has_failing_check flag
-        allunits = Unit.objects.filter(
-            translation__component__project=self.project
-        )
-        if have_check:
-            allunits.data_filter(have_check).update(has_failing_check=True)
-            self.project.stats.invalidate()
-        if need_update:
-            for unit in allunits.data_filter(need_update):
-                unit.update_has_failing_check()
+            if existing:
+                query = functools.reduce(
+                    lambda q, value:
+                    q | (Q(content_hash=value[0]) & Q(language_id=value[1])),
+                    existing,
+                    Q()
+                )
+                Check.objects.filter(query).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create(create)
 
     @cached_property
     def osi_approved_license(self):

@@ -122,7 +122,8 @@ class EditTest(ViewTestCase):
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
-        self.assertFalse(unit.has_failing_check)
+        # Should have was translated check
+        self.assertTrue(unit.has_failing_check)
 
 
 class EditValidationTest(ViewTestCase):

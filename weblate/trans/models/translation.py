@@ -312,9 +312,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 newunit = Unit(
                     translation=self,
                     id_hash=id_hash,
-                    content_hash=unit.content_hash,
-                    source=unit.source,
-                    context=unit.context
+                    state=-1,
                 )
                 is_new = True
 
@@ -574,7 +572,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
-            state = unit.get_unit_state(pounit, False)
+            state = unit.get_unit_state(pounit)
             flags = pounit.flags
             if state != unit.state or flags != unit.flags:
                 unit.state = state
