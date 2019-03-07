@@ -10,8 +10,8 @@
 <tr><th>{% trans "Command" %}</th><th>{% trans "Error" %}</th></tr>
 </thead>
 <tbody>
-{% for occurrence in occurences %}
-<tr><td>{{ occurrence.command }}</td><td>{{ occurence.error }}</td></tr>
+{% for occurrence in occurrences %}
+<tr><td>{{ occurrence.command }}</td><td>{{ occurrence.error }}</td></tr>
 {% if occurrence.output %}
 <tr><td colspan="2"><pre>{{ occurrence.output }}</pre></td></tr>
 {% endif %}

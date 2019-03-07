@@ -10,12 +10,12 @@
 <tr><th>{% trans "Language" %}</th><th>{% trans "Source" %}</th></tr>
 </thead>
 <tbody>
-{% for occurrence in occurences %}
+{% for occurrence in occurrences %}
 <tr>
 <td>{{ occurrence.language }}</td>
 <td>
 {% if occurrence.unit  %}
-<a href="{{ occurrence.unit.get_absolute_url }}">{% format_translation occurence.unit.source occurence.unit.translation.component.project.source_language %}</a>
+<a href="{{ occurrence.unit.get_absolute_url }}">{% format_translation occurrence.unit.source occurrence.unit.translation.component.project.source_language %}</a>
 {% else %}
 {{ occurrence.source }}
 {% endif %}

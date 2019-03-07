@@ -99,21 +99,21 @@ class ErrorAlert(BaseAlert):
 class MultiAlert(BaseAlert):
     def __init__(self, instance, occurrences):
         super(MultiAlert, self).__init__(instance)
-        self.occurrences = self.process_occurences(occurences)
+        self.occurrences = self.process_occurrences(occurrences)
 
     def get_context(self):
         result = super(MultiAlert, self).get_context()
-        result['occurrences'] = self.occurences
+        result['occurrences'] = self.occurrences
         return result
 
-    def process_occurrences(self, occurences):
+    def process_occurrences(self, occurrences):
         from weblate.lang.models import Language
         from weblate.trans.models import Unit
         processors = (
             ('language_code', 'language', Language, 'code'),
             ('unit_pk', 'unit', Unit, 'pk'),
         )
-        for occurrence in occurences:
+        for occurrence in occurrences:
             for key, target, obj, lookup in processors:
                 if key not in occurrence:
                     continue
