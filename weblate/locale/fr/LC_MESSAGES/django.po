@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-07 08:11+0000\n"
-"PO-Revision-Date: 2019-03-06 15:11+0000\n"
+"PO-Revision-Date: 2019-03-07 14:55+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -695,7 +695,7 @@ msgid ""
 "in the base file."
 msgstr ""
 "Mettre à jour tous les fichiers de traduction pour qu’ils correspondent au "
-"fichier monolingue de base. Pour la plupart des formats de fichier, cela "
+"fichier mono-langue de base. Pour la plupart des formats de fichier, cela "
 "signifie supprimer les clés de traduction désuètes."
 
 #: weblate/addons/consistency.py:33
@@ -869,7 +869,7 @@ msgstr "Personnaliser le nom du composant"
 
 #: weblate/addons/forms.py:167
 msgid "Define the monolingual base filename"
-msgstr "Définir le nom du fichier de base monolingue"
+msgstr "Définir le nom du fichier de base mono-langue"
 
 #: weblate/addons/forms.py:170
 msgid "Keep empty for bilingual translation files."
@@ -2024,7 +2024,7 @@ msgstr "Fichier PO Gettext"
 
 #: weblate/formats/ttkit.py:733
 msgid "Gettext PO file (monolingual)"
-msgstr "Fichier PO Gettext (monolingue)"
+msgstr "Fichier PO Gettext (mono-langue)"
 
 #: weblate/formats/ttkit.py:746
 msgid "Qt Linguist Translation File"
@@ -3661,7 +3661,7 @@ msgid ""
 "monolingual base filename, for example:"
 msgstr ""
 "Vous pouvez utiliser le balisage de gabarit Django à la fois dans le nom du "
-"composant et le nom de fichier de base monolingue, par exemple :"
+"composant et le nom de fichier de base mono-langue, par exemple :"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -4347,7 +4347,7 @@ msgstr "Tout utilisateur connecté peut contribuer."
 
 #: weblate/templates/component_info.html:31
 msgid "The translation is using monolingual files."
-msgstr "La traduction utilise des fichiers monolingues."
+msgstr "La traduction utilise des fichiers mono-langues."
 
 #: weblate/templates/component_info.html:33
 msgid "The translation base language can be edited."
@@ -4393,7 +4393,7 @@ msgstr "Dépôt contenant les traductions Weblate"
 #: weblate/templates/component_info.html:98
 #: weblate/trans/models/component.py:214
 msgid "Monolingual base language file"
-msgstr "Fichier de langue de base monolingue"
+msgstr "Fichier de langue de base mono-langue"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
@@ -5263,7 +5263,7 @@ msgstr "Votre inscription sur %(site_title)s"
 
 #: weblate/templates/mail/base.html:34 weblate/templates/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
-msgstr "Envoyé par la plateforme de traduction Weblate"
+msgstr "Envoyé par la plateforme de traduction Weblate."
 
 #: weblate/templates/mail/base.html:36
 msgid "Change subscription settings"
@@ -5378,7 +5378,7 @@ msgstr "Résumé des traductions : "
 #: weblate/templates/mail/footer.html:23 weblate/templates/mail/footer.txt:9
 #, python-format
 msgid "You can translate at %(translation_url)s"
-msgstr "Vous pouvez contribuer à cette traduction sur %(translation_url)s"
+msgstr "Vous pouvez contribuer à cette traduction sur %(translation_url)s."
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
@@ -6098,14 +6098,14 @@ msgid ""
 "The translation component looks like monolingual, but it is not configured "
 "like that."
 msgstr ""
-"Le composant de traduction semble être monolingue mais il n'est pas "
+"Le composant de traduction semble être mono-langue mais il n'est pas "
 "paramétré de cette façon."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add monolingual base language file in component setting."
 msgstr ""
-"Veuillez ajouter un fichier de langue de base monolingue dans le paramétrage "
-"du composant."
+"Veuillez ajouter un fichier de langue de base mono-langue dans le "
+"paramétrage du composant."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -7432,22 +7432,16 @@ msgid "Commit messages"
 msgstr "Messages d’archivage"
 
 #: weblate/trans/forms.py:1498
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation files"
-msgstr "Fichier de traduction"
+msgstr "Fichiers de traduction"
 
 #: weblate/trans/forms.py:1504
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Monolingual translations"
-msgstr "Hébergement de traductions"
+msgstr "Traductions mono-langue"
 
 #: weblate/trans/forms.py:1509
-#, fuzzy
-#| msgid "Add new language"
 msgid "Adding new languages"
-msgstr "Ajout d'une langue"
+msgstr "Ajout de nouvelles langues en cours"
 
 #: weblate/trans/forms.py:1546 weblate/trans/models/component.py:123
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:58
@@ -7612,7 +7606,7 @@ msgstr "Erreur à l'exécution du greffon."
 
 #: weblate/trans/models/alert.py:199
 msgid "Misconfigured monolingual translation."
-msgstr "Traduction monolingue incorrectement paramétrée."
+msgstr "Traduction mono-langue incorrectement paramétrée."
 
 #: weblate/trans/models/change.py:198
 msgid "Resource update"
@@ -7752,7 +7746,7 @@ msgstr "Traduction approuvée"
 
 #: weblate/trans/models/change.py:238
 msgid "Marked for edit"
-msgstr "Marqué pour modification"
+msgstr "Marqué comme À vérifier"
 
 #: weblate/trans/models/change.py:239
 msgid "Removed component"
@@ -7873,7 +7867,7 @@ msgid ""
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
 "Nom du fichier de base des traductions, qui contient toutes les chaînes et "
-"leur source ; recommandé pour les formats de traduction monolingue."
+"leur source ; recommandé pour les formats de traduction mono-langue."
 
 #: weblate/trans/models/component.py:224
 msgid "Edit base file"
@@ -7884,7 +7878,7 @@ msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
 "Les utilisateurs pourront-ils ou non modifier le fichier de base dans les "
-"traductions monolingues."
+"traductions mono-langues."
 
 #: weblate/trans/models/component.py:232
 msgid "Base file for new translations"
@@ -8209,7 +8203,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1435
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
-"Vous ne pouvez pas utiliser une traduction monolingue sans un fichier de "
+"Vous ne pouvez pas utiliser une traduction mono-langue sans un fichier de "
 "base !"
 
 #: weblate/trans/models/component.py:1450
