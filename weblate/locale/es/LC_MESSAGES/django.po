@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.5\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-01 08:41+0000\n"
-"PO-Revision-Date: 2019-02-26 17:19+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2019-03-07 08:01+0000\n"
+"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.5.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -240,46 +240,40 @@ msgstr ""
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "Ahora puedes iniciar sesión usando {method} ({name})."
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "Ya no puedes iniciar sesión usando {method} ({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Autenticado ({method}:{name})."
+msgstr "Conectado usando {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Autenticado ({method}:{name}) desde un nuevo dispositivo."
+msgstr "Conectado usando {method} ({name}) desde un nuevo dispositivo."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
 msgstr "Alguien ha intentado registrarse con su correo electrónico."
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Alguien ha intentado registrarse con su correo electrónico."
+msgstr ""
+"Alguien ha intentado registrarse usando su dirección de correo electrónico."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "No se ha podido iniciar sesión con {method}. ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Cuenta bloqueada debido a excesivos intentos fallidos de autenticación."
+msgstr "Cuenta bloqueada por muchos inicios de sesión fallidos."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -291,24 +285,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Acuerdo con los Términos de Servicio {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Ha introducido una contraseña no válida."
+msgstr "Ahora puede iniciar sesión usando una contraseña."
 
 #: weblate/accounts/models.py:97
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "¿Olvidó su contraseña?"
+msgstr "Iniciar sesión con una contraseña."
 
 #: weblate/accounts/models.py:98
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "Conectado usando contraseña de un dispositivo nuevo."
 
 #: weblate/accounts/models.py:99
 msgid "Could not log in using password."
-msgstr ""
+msgstr "No se pudo iniciar sesión usando una contraseña."
 
 #: weblate/accounts/models.py:105
 msgid "To restore access to your account, please reset your password."
@@ -651,10 +641,10 @@ msgid "Authentication failed due to invalid session state."
 msgstr "Falló la autenticación debido a un estado de sesión no válido."
 
 #: weblate/accounts/views.py:896
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
-msgstr "Puede añadir otras direcciones de correo en la pestaña Autenticación."
+msgstr ""
+"¡Sin dirección de correo electrónico del servicio de autenticación de "
+"terceros!"
 
 #: weblate/accounts/views.py:905
 msgid "Can not change authentication for demo!"
@@ -840,10 +830,8 @@ msgid "Per file"
 msgstr "Por archivo"
 
 #: weblate/addons/forms.py:107
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "Último autor"
+msgstr "Por autor"
 
 #: weblate/addons/forms.py:124
 msgid "Sort JSON keys"
@@ -1222,47 +1210,39 @@ msgstr "Actualizar el repositorio interno"
 
 #: weblate/auth/data.py:97
 msgid "Use management interface (global)"
-msgstr ""
+msgstr "Interfaz de gestión de uso (global)"
 
 #: weblate/auth/data.py:99
 msgid "Add language definitions (global)"
-msgstr ""
+msgstr "Añadir definiciones de lenguaje (globales)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "Administrar idiomas"
+msgstr "Gestionar definiciones de idiomas (global)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
-msgstr ""
+msgstr "Añadir grupos (global)"
 
 #: weblate/auth/data.py:103
 msgid "Manage groups (global)"
-msgstr ""
+msgstr "Gestionar grupos (global)"
 
 #: weblate/auth/data.py:105
 msgid "Add users (global)"
-msgstr ""
+msgstr "Añadir usuarios (global)"
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "Administrar usuarios"
+msgstr "Gestionar usuarios (global)"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
-msgstr ""
+msgstr "Gestionar la pizarra (global)"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "Gestionar la memoria de traducción"
+msgstr "Gestionar la memoria de traducción (global)"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
@@ -1585,10 +1565,8 @@ msgid "Trial expiry date"
 msgstr "Fecha de caducidad de la prueba"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Eliminación de cuenta"
+msgstr "Eliminación programada"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -1775,11 +1753,11 @@ msgstr "Sólo uno de original y traducción finaliza con un punto y coma"
 
 #: weblate/checks/chars.py:387
 msgid "Kashida used"
-msgstr ""
+msgstr "Kashida utilizado"
 
 #: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "Las letras decorativas kashida no deben usarse"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -1913,32 +1891,24 @@ msgstr ""
 
 #: weblate/checks/markup.py:220
 msgid "Markdown link references"
-msgstr ""
+msgstr "Referencias de enlace de descuento"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "El BBCode en la traducción no coincide con aquél en el original"
+msgstr ""
+"Las referencias de enlace de descuento no coinciden con la fuente original"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Código Markdown"
+msgstr "Enlaces de descuento"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr ""
-"Las etiquetas XML en la traducción no coincide con aquellas en el original"
+msgstr "Los enlaces de descuento no coinciden con la fuente original"
 
 #: weblate/checks/markup.py:265
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Código Markdown"
+msgstr "Sintaxis de Markdown"
 
 #: weblate/checks/markup.py:266
 #, fuzzy
