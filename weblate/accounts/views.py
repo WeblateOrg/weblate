@@ -683,7 +683,7 @@ def password(request):
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
             # Clear flag forcing user to set password
-            redirect_page = '#auth'
+            redirect_page = '#account'
             if 'show_set_password' in request.session:
                 del request.session['show_set_password']
                 redirect_page = ''
