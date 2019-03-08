@@ -14,6 +14,7 @@ Released on ? 2019.
 * Allow to edit file format in component settings.
 * Update installation instructions to prefer Python 3.
 * Performance and consistency improvements for loading translations.
+* Make Microsoft Terminology service compatible with current zeep releases.
 * Localization updates.
 
 weblate 3.5
