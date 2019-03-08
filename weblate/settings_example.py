@@ -100,6 +100,7 @@ LANGUAGES = (
     ('id', 'Indonesia'),
     ('it', 'Italiano'),
     ('ja', '日本語'),
+    ('kk', 'Қазақ тілі'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),
     ('nb', 'Norsk bokmål'),
