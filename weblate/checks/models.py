@@ -22,8 +22,7 @@ from __future__ import unicode_literals
 
 from appconf import AppConf
 
-from django.db import models
-from django.db import IntegrityError
+from django.db import models, transaction, IntegrityError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
@@ -104,13 +103,19 @@ class CheckManager(models.Manager):
         self.bulk_create(checks)
 
     def bulk_create_ignore(self, objs):
-        """Wrapper to bulk_create to ignore existing entries."""
+        """Wrapper to bulk_create to ignore existing entries.
+
+        Once we require Django 2.2 this can be replaced with
+        bulk_create(ignore_conflicts=True).
+        """
         try:
-            self.bulk_create(objs)
+            with transaction.atomic():
+                self.bulk_create(objs)
         except IntegrityError:
             for obj in objs:
                 try:
-                    obj.save()
+                    with transaction.atomic():
+                        obj.save()
                 except IntegrityError:
                     continue
 
