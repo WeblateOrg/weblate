@@ -79,8 +79,8 @@ development server.
         # Install database backend for MySQL
         pip install mysqlclient
 
-#. Copy the file :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings-example.py`
-   to :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
+#. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
+   to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
 
 #. Optionally, adjust the values in the new :file:`settings.py` file.
 
