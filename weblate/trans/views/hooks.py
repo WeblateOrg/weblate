@@ -312,7 +312,7 @@ def github_hook_helper(data):
     if 'ref' not in data and 'zen' in data:
         return None
     # Ignore GitHub application manipulations
-    if data.get('action') in ('created', 'added', 'deleted'):
+    if data.get('action') in ('created', 'added', 'deleted', 'removed'):
         return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
