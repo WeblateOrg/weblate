@@ -561,7 +561,7 @@ JSON files
     structure JSON files are supported as well.
 
 JSON format is used mostly for translating applications implemented in
-Javascript.
+JavaScript.
 
 Weblate currently supports several variants of JSON translations:
 

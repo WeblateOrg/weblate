@@ -685,7 +685,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.format.PHPFormatCheck',
 #     'weblate.checks.format.CFormatCheck',
 #     'weblate.checks.format.PerlFormatCheck',
-#     'weblate.checks.format.JavascriptFormatCheck',
+#     'weblate.checks.format.JavaScriptFormatCheck',
 #     'weblate.checks.format.CSharpFormatCheck',
 #     'weblate.checks.format.JavaFormatCheck',
 #     'weblate.checks.format.JavaMessageFormatCheck',
@@ -817,7 +817,7 @@ REST_FRAMEWORK = {
 #    r'/hooks/(.*)$',           # Allowing public access to notification hooks
 #    r'/healthz/$',             # Allowing public access to health check
 #    r'/api/(.*)$',             # Allowing access to API
-#    r'/js/i18n/$',             # Javascript localization
+#    r'/js/i18n/$',             # JavaScript localization
 #    r'/contact/$',             # Optional for contact form
 #    r'/legal/(.*)$',           # Optional for legal app
 # )

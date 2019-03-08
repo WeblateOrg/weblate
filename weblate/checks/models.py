@@ -54,7 +54,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.format.PHPFormatCheck',
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
-        'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.JavaScriptFormatCheck',
         'weblate.checks.format.CSharpFormatCheck',
         'weblate.checks.format.JavaFormatCheck',
         'weblate.checks.format.JavaMessageFormatCheck',

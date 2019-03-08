@@ -132,7 +132,7 @@ if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
            r'/hooks/(.*)$',         # Allowing public access to notification hooks
            r'/healthz/$',           # Allowing public access to health check
            r'/api/(.*)$',           # Allowing access to API
-           r'/js/i18n/$',           # Javascript localization
+           r'/js/i18n/$',           # JavaScript localization
         ),
     )
 
