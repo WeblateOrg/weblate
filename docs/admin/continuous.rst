@@ -211,11 +211,11 @@ and GitLab (with username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
 give it permission to push to your repository.
 
-The user is added to the repository (in some cases this happens immediately,
-on GitHub it typically happens after accepting invitations what happens
-automatically every hour), you can configure your component push URL (see
-:ref:`component`) and enjoy Weblate automatically pushing changes to your
-repository.
+The user is added to the repository (in some cases this happens immediately, on
+GitHub it typically happens after accepting invitations what happens
+automatically every hour), you can configure your component push URL to a ssh
+URL of your repository (see :ref:`component`) and enjoy Weblate automatically
+pushing changes to your repository.
 
 In case you do not want direct pushes by Weblate, there is support for GitHub
 pull requests or Gerrit reviews, you can activate these by choosing `GitHub` or
