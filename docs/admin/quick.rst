@@ -46,7 +46,7 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install python3-pip python3-virtualenv virtualevn
+        apt install python3-pip python3-virtualenv virtualenv
 
         # openSUSE/SLES:
         zypper install python3-pip python3-virtualenv
