@@ -77,6 +77,7 @@ development server.
         # Install database backend for PostgreSQL
         pip install psycopg2-binary
         # Install database backend for MySQL
+        apt install default-libmysqlclient-dev
         pip install mysqlclient
 
 #. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
