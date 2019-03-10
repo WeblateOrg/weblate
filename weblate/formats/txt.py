@@ -203,7 +203,6 @@ class AppStoreFormat(TranslationFormat):
         return [
             self.store.get_filename(unit.filename)
             for unit in self.store.units
-            if unit.text
         ]
 
     @classmethod
