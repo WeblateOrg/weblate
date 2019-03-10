@@ -221,17 +221,19 @@ action with `hub`_ to finish the configuration, for example:
 
 .. code-block:: sh
 
+    # DATA_DIR is set in Weblate settings.py, set it accordingy.
+    # Is is /app/data in Docker
     HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
 
-The `hub`_ will ask you for your GitHub credentials, retrieve a token and
-store it into :file:`~/.config/hub`. (While using the docker image, this file need to be readable by `weblate` user)
+The `hub`_ will ask you for your GitHub credentials, retrieve a token and store
+it into :file:`~/.config/hub`. This file has to be readable by user running
+Weblate.
 
 .. note::
 
-    In order to be able to use automatic pull-request, the VCS system need to be set to `github` into the component. 
-    For docker images, this component is only avaiable while `WEBLATE_GITHUB_USERNAME` is set.
-    Use the username you configured :guilabel:`hub` with as :setting:`GITHUB_USERNAME`.
-    On docker images, `DATA_DIR` may not be set! You can export it temporary: `export DATA_DIR=/app/data`
+    Use the username you configured :guilabel:`hub` with as
+    :setting:`GITHUB_USERNAME` (:envvar:`WEBLATE_GITHUB_USERNAME` for the
+    Docker image).
 
 .. _hub: https://hub.github.com/
 
