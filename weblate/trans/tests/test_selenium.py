@@ -511,7 +511,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.click(
                     self.driver.find_element_by_id('settings-button')
                 )
-            self.click('Authentication')
+            self.click('Account')
             self.screenshot('authentication.png')
         finally:
             social_django.utils.BACKENDS = orig_backends

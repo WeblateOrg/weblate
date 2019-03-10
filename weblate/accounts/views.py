@@ -24,7 +24,7 @@ import re
 
 from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
 from django.conf import settings
 from django.middleware.csrf import rotate_token
@@ -683,7 +683,7 @@ def password(request):
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
             # Clear flag forcing user to set password
-            redirect_page = '#auth'
+            redirect_page = '#account'
             if 'show_set_password' in request.session:
                 del request.session['show_set_password']
                 redirect_page = ''
@@ -801,6 +801,46 @@ def reset_api_key(request):
         )
 
     return redirect_profile('#api')
+
+
+@require_POST
+@login_required
+@avoid_demo
+@session_ratelimit_post('userdata')
+def userdata(request):
+    def dump_object(obj, *attrs):
+        return {attr: getattr(obj, attr) for attr in attrs}
+
+    user = request.user
+    profile = request.user.profile
+
+    result = {
+        'basic': dump_object(
+            user,
+            'username', 'full_name', 'email', 'date_joined'
+        ),
+        'profile': dump_object(
+            profile,
+            'language',
+            'suggested', 'translated', 'uploaded',
+            'hide_completed', 'secondary_in_zen', 'hide_source_secondary',
+            'editor_link', 'translate_mode', 'special_chars',
+            'dashboard_view', 'dashboard_component_list',
+        ),
+        'auditlog': [
+            dump_object(log, 'address', 'user_agent', 'timestamp', 'activity')
+            for log in user.auditlog_set.all()
+        ]
+    }
+    result['profile']['languages'] = [
+        lang.code for lang in profile.languages.all()
+    ]
+    result['profile']['secondary_languages'] = [
+        lang.code for lang in profile.secondary_languages.all()
+    ]
+    response = JsonResponse(result)
+    response['Content-Disposition'] = 'attachment; filename="weblate.json"'
+    return response
 
 
 @require_POST

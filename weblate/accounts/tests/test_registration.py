@@ -522,7 +522,7 @@ class RegistrationTest(BaseRegistrationTest):
             follow=True
         )
         self.assertRedirects(
-            response, '{0}#auth'.format(reverse('profile'))
+            response, '{0}#account'.format(reverse('profile'))
         )
 
         # Check database models
@@ -627,7 +627,7 @@ class RegistrationTest(BaseRegistrationTest):
             follow=True
         )
         # We should fallback to default URL
-        self.assertRedirects(response, '/accounts/profile/#auth')
+        self.assertRedirects(response, '/accounts/profile/#account')
 
     @httpretty.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)

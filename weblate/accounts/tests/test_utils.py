@@ -27,6 +27,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 
 from weblate.accounts.pipeline import slugify_username
+from weblate.accounts.tasks import cleanup_social_auth, cleanup_auditlog
 
 
 class PipelineTest(TestCase):
@@ -55,3 +56,11 @@ class PipelineTest(TestCase):
             slugify_username('..test'),
             'test'
         )
+
+
+class TasksTest(TestCase):
+    def test_cleanup_social_auth(self):
+        cleanup_social_auth()
+
+    def test_cleanup_auditlog(self):
+        cleanup_auditlog()

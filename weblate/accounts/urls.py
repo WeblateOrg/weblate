@@ -78,6 +78,7 @@ urlpatterns = [
         name='logout'
     ),
     url(r'^profile/', weblate.accounts.views.user_profile, name='profile'),
+    url(r'^userdata/', weblate.accounts.views.userdata, name='userdata'),
     url(
         r'^watch/(?P<project>[^/]+)/',
         weblate.accounts.views.watch,

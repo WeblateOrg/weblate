@@ -290,7 +290,7 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = \
 SOCIAL_AUTH_EMAIL_FORM_URL = \
     '{0}/accounts/email/'.format(URL_PREFIX)
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
-    '{0}/accounts/profile/#auth'.format(URL_PREFIX)
+    '{0}/accounts/profile/#account'.format(URL_PREFIX)
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'weblate.accounts.pipeline.slugify_username'

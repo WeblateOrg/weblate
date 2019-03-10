@@ -36,6 +36,18 @@ User name of user for defining privileges of not logged in user.
 
     :ref:`privileges`
 
+.. setting:: AUDITLOG_EXPIRY
+
+AUDITLOG_EXPIRY
+---------------
+
+.. versionadded:: 3.6
+
+How long (in days) Weblate should keep audit log containing information about account
+activity.
+
+Defaults to 180 days.
+
 .. setting:: AUTH_LOCK_ATTEMPTS
 
 AUTH_LOCK_ATTEMPTS
