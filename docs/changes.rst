@@ -4,7 +4,7 @@ Changes
 weblate 3.5.1
 -------------
 
-Released on ? 2019.
+Released on March 10th 2019.
 
 * Fixed Celery systemd unit example.
 * Fixed notifications from http repositories with login.
