@@ -49,3 +49,8 @@ class Command(BaseCommand):
             )
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + '.db')
+            scheduler = PersistentScheduler(
+                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
+                app=app
+            )
+            scheduler.setup_schedule()
