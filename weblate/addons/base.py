@@ -45,7 +45,7 @@ class BaseAddon(object):
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert = 'AddonScriptError'
+    alert = None
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
