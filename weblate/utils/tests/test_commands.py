@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from glob import glob
 import os
 
 from django.core.management import call_command
@@ -37,9 +38,7 @@ class CommandTests(SimpleTestCase, TempDirMixin):
         self.remove_temp()
 
     def check_beat(self):
-        self.assertTrue(
-            os.path.exists(self.beat) or os.path.exists(self.beat_db)
-        )
+        self.assertTrue(glob(self.beat + '*'))
 
     def test_none(self):
         with override_settings(CELERY_BEAT_SCHEDULE_FILENAME=self.beat):
