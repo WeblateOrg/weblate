@@ -45,6 +45,9 @@ class SuggestionManager(models.Manager):
         """Create new suggestion for this unit."""
         user = request.user
 
+        if unit.translated and unit.target == target:
+            return False
+
         try:
             same = self.get(
                 target=target,
