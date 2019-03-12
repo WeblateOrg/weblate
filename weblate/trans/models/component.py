@@ -593,13 +593,18 @@ class Component(models.Model, URLMixin, PathMixin):
                 return self.linked_component.get_repoweb_link(filename, line)
             return None
 
+        if self.is_repo_link:
+            repo_branch = self.linked_component.branch
+        else:
+            repo_branch = self.branch
+
         return self.repoweb % {
             'file': filename,
             '../file': filename.split('/', 1)[-1],
             '../../file': filename.split('/', 2)[-1],
             '../../../file': filename.split('/', 3)[-1],
             'line': line,
-            'branch': self.branch
+            'branch': repo_branch
         }
 
     def error_text(self, error):
