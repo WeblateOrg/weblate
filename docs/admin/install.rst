@@ -1002,17 +1002,6 @@ variable, for example:
         }
     }
 
-Alternatively, you can also use Memcached:
-
-.. code-block:: python
-
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '127.0.0.1:11211',
-        }
-    }
-
 .. seealso::
 
     :ref:`production-cache-avatar`,
@@ -1575,4 +1564,4 @@ Other notes
 +++++++++++
 
 Don't forget to move other services Weblate might have been using like
-Redis, Memcached, Cron jobs or custom authentication backends.
+Redis, Cron jobs or custom authentication backends.
