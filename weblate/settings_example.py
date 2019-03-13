@@ -747,7 +747,6 @@ ALLOWED_HOSTS = []
 
 # Example configuration for caching
 # CACHES = {
-# Recommended redis + hiredis:
 #     'default': {
 #         'BACKEND': 'django_redis.cache.RedisCache',
 #         'LOCATION': 'redis://127.0.0.1:6379/0',
@@ -758,11 +757,6 @@ ALLOWED_HOSTS = []
 #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
 #             'PARSER_CLASS': 'redis.connection.HiredisParser',
 #         }
-#     },
-# Memcached alternative:
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
