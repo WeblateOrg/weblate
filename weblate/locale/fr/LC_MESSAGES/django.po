@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-13 15:16+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -3759,6 +3759,8 @@ msgid ""
 "Resulting commits will include all original commit messages, but lose commit "
 "authorship, unless \\"
 msgstr ""
+"Les commits résultants incluront tous les messages de commit originaux, mais "
+"perdront la paternité de commit, sauf si \\"
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4060,7 +4062,7 @@ msgstr "Traductions"
 #: weblate/templates/component.html:33 weblate/templates/project.html:28
 #: weblate/templates/translation.html:34
 msgid "Info"
-msgstr "Info"
+msgstr "Infos"
 
 #: weblate/templates/component.html:35
 msgid "Alerts"
@@ -4217,16 +4219,12 @@ msgstr "Veuillez vous connecter pour contribuer à la traduction"
 
 #: weblate/templates/component.html:173 weblate/templates/project.html:230
 #: weblate/templates/translation.html:241
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all strings at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Vous pouvez remplacer une chaîne partout en une seule fois. La recherche "
-"s’effectue sur les sous-chaînes et est sensible à la casse."
+"Vous pouvez substituer toutes les itérations d'une chaîne. La recherche s’"
+"effectue sur les sous-chaînes et est sensible à la casse."
 
 #: weblate/templates/component.html:178 weblate/templates/component.html:193
 #: weblate/templates/project.html:235 weblate/templates/project.html:250
@@ -4243,8 +4241,6 @@ msgid "Bulk status change"
 msgstr "Modification en masse d'état"
 
 #: weblate/templates/component.html:188
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Vous pouvez modifier d’un coup l’état de toutes les chaînes correspondantes "
@@ -4255,16 +4251,12 @@ msgid "Browse all component changes"
 msgstr "Parcourir les modifications pour tous les composants"
 
 #: weblate/templates/component.html:217
-#, fuzzy
-#| msgid ""
-#| "The message is shown on all translations within the component until it's "
-#| "expiry or permanently until deleting."
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Le message est affiché sur toutes les traductions du composant jusqu’à son "
-"expiration ou de façon permanente jusqu’à sa suppression."
+"Le message est affiché pour toutes les traductions du composant, jusqu’à son "
+"expiration donnée ou de façon permanente jusqu’à sa suppression."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4329,37 +4321,27 @@ msgid "Contributor stats"
 msgstr "Statistiques du contributeur"
 
 #: weblate/templates/component.html:307
-#, fuzzy
-#| msgid "Reports number of strings and words translated by each translator."
 msgid "Reports the number of strings and words translated by each translator."
-msgstr ""
-"Affiche le nombre de chaînes et de mots traduits par chaque traducteur."
+msgstr "Affiche le nombre de chaînes et de mots traduits par chaque traducteur."
 
 #: weblate/templates/component_info.html:11
 msgid "Translation process"
 msgstr "Processus de traduction"
 
 #: weblate/templates/component_info.html:15
-#, fuzzy
-#| msgid "Translations can be made only through suggesting."
 msgid "Translations can only be done through suggestions."
-msgstr "Les traductions ne sont possibles qu’en saisissant des suggestions."
+msgstr ""
+"Les traductions peuvent être seulement faites à travers les suggestions."
 
 #: weblate/templates/component_info.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s vote."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
+#, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Les suggestions sont acceptées automatiquement dès qu'elles obtiennent "
-"%(count)s vote."
+"Les suggestions avec un vote sont acceptées automatiquement en tant que "
+"traduction."
 msgstr[1] ""
 "Les suggestions sont acceptées automatiquement dès qu'elles obtiennent "
 "%(count)s votes."
