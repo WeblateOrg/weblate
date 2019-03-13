@@ -152,7 +152,7 @@ class Component(models.Model, URLMixin, PathMixin):
         max_length=200,
         help_text=ugettext_lazy(
             'URL of a repository, use weblate://project/component '
-            'to share it with other components.'
+            'to share it with other component.'
         ),
     )
     linked_component = models.ForeignKey(
@@ -255,7 +255,7 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Locked'),
         default=False,
         help_text=ugettext_lazy(
-            'Locked a component from having any translation updates.'
+            'Locked component will not get any translation updates.'
         )
     )
     allow_translation_propagation = models.BooleanField(

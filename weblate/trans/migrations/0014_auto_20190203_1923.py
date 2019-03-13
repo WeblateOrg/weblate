@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='whiteboardmessage',
             name='expiry',
-            field=models.DateField(blank=True, db_index=True, help_text='The message will be not shown after this date. Use for announcements such as deadline for next release.', null=True, verbose_name='Expiry date'),
+            field=models.DateField(blank=True, db_index=True, help_text='The message will be not shown after this date. Use it to announce string freeze and translation deadline for next release.', null=True, verbose_name='Expiry date'),
         ),
         migrations.AlterField(
             model_name='whiteboardmessage',

@@ -1543,12 +1543,12 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
     name = forms.CharField(
         label=_('Component name'),
         max_length=settings.COMPONENT_NAME_LENGTH,
-        help_text=_('Name to display')
+        help_text=_('Displayed name')
     )
     slug = forms.SlugField(
         label=_('URL slug'),
         max_length=settings.COMPONENT_NAME_LENGTH,
-        help_text=_('Name used in URLs and file names.')
+        help_text=_('Name used in URLs and filenames.')
     )
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(),
