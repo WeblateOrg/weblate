@@ -73,8 +73,9 @@ class BaseAddon(object):
         storage = apps.get_model('addons', 'Addon').objects.create(
             component=component, name=cls.name, **kwargs
         )
-        storage.configure_events(cls.events)
-        return cls(storage)
+        result = cls(storage)
+        result.post_configure()
+        return result
 
     @classmethod
     def get_add_form(cls, component, **kwargs):
@@ -101,6 +102,9 @@ class BaseAddon(object):
         """Saves configuration."""
         self.instance.configuration = settings
         self.instance.save()
+        self.post_configure()
+
+    def post_configure(self):
         self.instance.configure_events(self.events)
 
     def save_state(self):
