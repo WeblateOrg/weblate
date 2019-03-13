@@ -342,11 +342,11 @@ function processMachineTranslation(data) {
                 var key = getNumericKey(idx);
 
                 $(this).find('.mt-number').html(
-                    ' <span class="badge kbd-badge" title="' +
+                    ' <kbd title="' +
                     interpolate(gettext('Ctrl+M then %s'), [key]) +
                     '">' +
                     key +
-                    '</span>'
+                    '</kbd>'
                 );
                 Mousetrap.bindGlobal(
                     ['ctrl+m ' + key, 'command+m ' + key],
@@ -887,11 +887,11 @@ $(function () {
                 let key = getNumericKey(idx);
 
                 $(this).find('.highlight-number').html(
-                    '<span class="badge kbd-badge" title="' +
+                    '<kbd title="' +
                     interpolate(gettext('Ctrl/Command+%s'), [key]) +
                     '">' +
                     key +
-                    '</span>'
+                    '</kbd>'
                 );
 
                 Mousetrap.bindGlobal(
@@ -1141,11 +1141,11 @@ $(function () {
                 let key = getNumericKey(idx);
 
                 $(this).find('.check-number').html(
-                    ' <span class="badge kbd-badge" title="' +
+                    ' <kbd title="' +
                     interpolate(gettext('Ctrl+I then %s'), [key]) +
                     '">' +
                     key +
-                    '</span>'
+                    '</kbd>'
                 );
 
                 Mousetrap.bindGlobal(
