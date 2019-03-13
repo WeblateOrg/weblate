@@ -82,5 +82,5 @@ def filter_query(queryset, table):
     else:
         where.append(WHERE_LANGUAGE.format(table))
     if table == 'checks_check':
-        where.append('checks_check.ignored = 0')
+        where.append('checks_check.ignore = 0')
     return queryset.extra(tables=[table], where=where)
