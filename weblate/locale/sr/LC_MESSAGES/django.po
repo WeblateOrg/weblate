@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-03 01:23+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -906,7 +906,7 @@ msgid "Regular expression to match translation files"
 msgstr "Регуларни израз који се користи за поклапање корисникове е-адресе."
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr ""
 
@@ -8410,12 +8410,6 @@ msgstr "Додај заставице за преглед за нове прев
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "Report format"
-msgid "Fileformat"
-msgstr "Формат извештаја"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr ""
@@ -8677,7 +8671,7 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -8695,7 +8689,7 @@ msgstr "Није успело додавање фајла превода!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Add review flag for new translated strings"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Додај заставице за преглед за нове преведене ниске"
 
 #: weblate/trans/models/component.py:1421
@@ -10116,6 +10110,11 @@ msgstr "Извештаји"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Грешке поставе"
+
+#, fuzzy
+#~| msgid "Report format"
+#~ msgid "Fileformat"
+#~ msgstr "Формат извештаја"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Проверите математику и покушајте поново са новим изразом."

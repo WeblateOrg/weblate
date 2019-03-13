@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
@@ -829,7 +829,7 @@ msgid "Regular expression to match translation files"
 msgstr "Fili i përkthimit"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr ""
 
@@ -7993,12 +7993,6 @@ msgstr "Vargje të përkthyera"
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "Repository"
-msgid "Fileformat"
-msgstr "Depozita"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr ""
@@ -8252,7 +8246,7 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -8270,7 +8264,7 @@ msgstr "Kërko përkthim të ri"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Translated strings"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Vargje të përkthyera"
 
 #: weblate/trans/models/component.py:1421
@@ -9614,6 +9608,11 @@ msgstr "Raporte"
 #| msgid "Request new translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Kërko përkthim të ri"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Fileformat"
+#~ msgstr "Depozita"
 
 #, fuzzy
 #~| msgid "Weblate translations"

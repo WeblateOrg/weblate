@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-01 08:35+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -879,7 +879,7 @@ msgid "Regular expression to match translation files"
 msgstr "Expresión regular empregada para coincidir cos archivos da tradución"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 #, fuzzy
 #| msgid "C format"
 msgid "File format"
@@ -8301,12 +8301,6 @@ msgstr "Non ten permisos para gardar as traducións!"
 msgid "Base file for new translations"
 msgstr "Fallou a tradución"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "C format"
-msgid "Fileformat"
-msgstr "Formato C"
-
 #: weblate/trans/models/component.py:255
 #, fuzzy
 #| msgid "Lock"
@@ -8616,7 +8610,7 @@ msgstr ""
 "para traducir recursos diferentes."
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -8634,7 +8628,7 @@ msgstr "Fallou ao procesar os %d ficheiros atopados!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Failed translation"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Fallou a tradución"
 
 #: weblate/trans/models/component.py:1421
@@ -10097,6 +10091,11 @@ msgstr "Informes"
 #| msgid "New password confirmation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Confirmación do novo contrasinal"
+
+#, fuzzy
+#~| msgid "C format"
+#~ msgid "Fileformat"
+#~ msgstr "Formato C"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Revise os seus cálculos e ténteo de novo cunha nova expresión."

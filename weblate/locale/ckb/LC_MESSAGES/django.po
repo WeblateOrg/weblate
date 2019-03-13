@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2017-08-22 09:50+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Kurdish Sorani <https://hosted.weblate.org/projects/weblate/"
@@ -849,7 +849,7 @@ msgid "Regular expression to match translation files"
 msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "فۆڕماتی پەڕگە"
 
@@ -7952,12 +7952,6 @@ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەر�
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "فۆڕماتی پەڕگە"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "داخراوە"
@@ -8213,7 +8207,7 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -8231,7 +8225,7 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Project is now open for translation updates."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #: weblate/trans/models/component.py:1421
@@ -9571,6 +9565,11 @@ msgstr "ڕاپۆرتەکان"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "فۆڕماتی پەڕگە"
 
 #, fuzzy
 #~| msgid "Suggested translations"

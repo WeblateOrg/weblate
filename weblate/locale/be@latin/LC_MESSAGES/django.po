@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-01-31 07:04+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -873,7 +873,7 @@ msgid "Regular expression to match translation files"
 msgstr "Rehuliarny vyraz dlia vydzialiennia fajlaŭ pierakladu"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Farmat fajla"
 
@@ -7897,12 +7897,6 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "Bazavy fajl dlia novych pierakladaŭ"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Farmat fajla"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Blakіravana"
@@ -8231,7 +8225,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Vydaje na toje, što fajl nievalіdny!"
 
 #: weblate/trans/models/component.py:1393
@@ -8249,7 +8243,7 @@ msgstr "Nie ŭdalosia pračytać %d trapnych fajlaŭ!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Niavykarystany bazavy fajl dlia novych pierakladaŭ."
 
 #: weblate/trans/models/component.py:1421
@@ -9656,6 +9650,11 @@ msgstr "Spravazdačy"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Nie atrymalasia adchilić pamylku kanfihuracyi!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Farmat fajla"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Praviercie aryfmietyku i pasprabujcie znoŭ z novym vyrazam."

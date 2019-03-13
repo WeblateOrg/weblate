@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-01-28 21:55+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Asturian <https://hosted.weblate.org/projects/weblate/master/"
@@ -849,7 +849,7 @@ msgid "Regular expression to match translation files"
 msgstr "Espresión regular  a alcontrar nos ficheros de traducción"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr ""
 
@@ -7765,12 +7765,6 @@ msgstr "Añadir bandera de revisión a les cadenes traducíes nueves"
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "Perl format"
-msgid "Fileformat"
-msgstr "Formatu Perl"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr ""
@@ -8026,7 +8020,7 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -8044,7 +8038,7 @@ msgstr "¡Fallu al amestar el ficheru de traducción nuevu!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Add review flag for new translated strings"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Añadir bandera de revisión a les cadenes traducíes nueves"
 
 #: weblate/trans/models/component.py:1421
@@ -9364,6 +9358,11 @@ msgstr ""
 #| msgid "Failed to add new translation file!"
 msgid "Failed to dismiss configuration error!"
 msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
+
+#, fuzzy
+#~| msgid "Perl format"
+#~ msgid "Fileformat"
+#~ msgstr "Formatu Perl"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Revisa los cálculos y tenta con una nueva espresión."

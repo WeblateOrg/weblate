@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-01 18:01+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -833,7 +833,7 @@ msgid "Regular expression to match translation files"
 msgstr "번역 파일과 일치하는 정규 표현식"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "파일 유형"
 
@@ -7681,12 +7681,6 @@ msgstr "어떤 사용자라도 단일 언어 번역을 위해 기반 언어를 �
 msgid "Base file for new translations"
 msgstr "새로운 번역가를 위한 기본 파일"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "파일 유형"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "잠김"
@@ -8001,7 +7995,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "파일이 올바르지 않습니다!"
 
 #: weblate/trans/models/component.py:1393
@@ -8019,7 +8013,7 @@ msgstr "%d개의 일치하는 파일 구문 분석 실패!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "새 번역을 위해 사용되지 않는 기본 파일."
 
 #: weblate/trans/models/component.py:1421
@@ -9363,6 +9357,11 @@ msgstr "보고"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류를 버리지 못했습니다!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "파일 유형"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "계산 결과가 잘못되었습니다. 새로운 계산식을 다시 적용 하십시오."

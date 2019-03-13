@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-13 13:57+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.5.1\n"
 
 #: weblate/accounts/avatar.py:122
@@ -848,7 +848,7 @@ msgid "Regular expression to match translation files"
 msgstr "Регулярное выражение для сопоставления с файлами перевода"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Формат файла"
 
@@ -7804,12 +7804,6 @@ msgstr "Смогут ли пользователи править базовый
 msgid "Base file for new translations"
 msgstr "Базовый файл для новых переводов"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Формат файла"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Заблокировано"
@@ -8134,7 +8128,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Файл не выглядит действительным!"
 
 #: weblate/trans/models/component.py:1393
@@ -8152,7 +8146,7 @@ msgstr "Не удалось разобрать %d сопоставленных �
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Неиспользуемый базовый файл для новых переводов."
 
 #: weblate/trans/models/component.py:1421
@@ -9563,6 +9557,11 @@ msgstr "Отчёты"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Скрыть ошибку конфигурации не удалось!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Формат файла"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Проверьте вычисления и повторите попытку с новым выражением."

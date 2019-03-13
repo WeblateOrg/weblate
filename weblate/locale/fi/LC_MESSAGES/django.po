@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2018-12-27 19:35+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -878,7 +878,7 @@ msgid "Regular expression to match translation files"
 msgstr "Säännöllinen lauseke jolla etsitään oikeat käännöstiedostot"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Tiedostomuoto"
 
@@ -7937,12 +7937,6 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "kantatiedosto uusille käännöksille"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Tiedostomuoto"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Lukittu"
@@ -8271,7 +8265,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Tiedosto ei näytä olevan voimassa!"
 
 #: weblate/trans/models/component.py:1393
@@ -8289,7 +8283,7 @@ msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Käyttämätön uusien käännösten kantatiedosto."
 
 #: weblate/trans/models/component.py:1421
@@ -9678,6 +9672,11 @@ msgstr "Raportit"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Asetusvirheen hylkääminen epäonnistui!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Tiedostomuoto"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr ""

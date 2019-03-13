@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-08 14:59+0000\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -903,7 +903,7 @@ msgid "Regular expression to match translation files"
 msgstr "Regulárny výraz použitý pre kontrolu užívateľovho emailu."
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Formát súborov"
 
@@ -8731,12 +8731,6 @@ msgstr "Či môžu užívatelia upravovať základný súbor pre jednojazyčné 
 msgid "Base file for new translations"
 msgstr "Základný súbor pre nové preklady"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Formát súborov"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Zamknuté"
@@ -9055,7 +9049,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Súbor nevyzerá ako platný!"
 
 #: weblate/trans/models/component.py:1393
@@ -9073,7 +9067,7 @@ msgstr "Nepodarilo zo spracovať %d súborov!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Base file for new translations"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Základný súbor pre nové preklady"
 
 #: weblate/trans/models/component.py:1421
@@ -10552,6 +10546,11 @@ msgstr "Správy"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Chyby v nastavení"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Formát súborov"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Prosím, skontrolujte Váš výpočet a skúste to znovu s novým výrazom."

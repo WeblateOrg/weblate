@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -906,7 +906,7 @@ msgid "Regular expression to match translation files"
 msgstr "Bu tərcüməni geri qaytar"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Fayl formatı"
 
@@ -8901,12 +8901,6 @@ msgstr "İki dilli tərcüməsi olan baza faylını istifadə edə bilməzsiniz!
 msgid "Base file for new translations"
 msgstr "Yeni tərcümələr üçün baza faylı"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Fayl formatı"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Kilidləndi"
@@ -9209,7 +9203,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Fayl keçərli(valid) görünmür!"
 
 #: weblate/trans/models/component.py:1393
@@ -9227,7 +9221,7 @@ msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Base file for new translations"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Yeni tərcümələr üçün baza faylı"
 
 #: weblate/trans/models/component.py:1421
@@ -10737,6 +10731,11 @@ msgstr "Hesabatlar"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfiqurasiya xətaları"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Fayl formatı"
 
 #, fuzzy
 #~| msgid "Please check your math and try again."

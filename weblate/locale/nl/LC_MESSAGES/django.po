@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-08 14:59+0000\n"
 "Last-Translator: Thomas De Rocker <thomasderocker@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
@@ -855,7 +855,7 @@ msgid "Regular expression to match translation files"
 msgstr "Reguliere expressie om vertaalbestanden te vinden"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Bestandsformaat"
 
@@ -7861,12 +7861,6 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "Basisbestand voor nieuwe vertalingen"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "Bestandsformaat"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Vergrendeld"
@@ -8198,7 +8192,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Bestand lijkt ongeldig!"
 
 #: weblate/trans/models/component.py:1393
@@ -8216,7 +8210,7 @@ msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Niet-gebruikt basisbestand voor nieuwe vertalingen."
 
 #: weblate/trans/models/component.py:1421
@@ -9605,6 +9599,11 @@ msgstr "Rapporten"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Configuratiefout verwerpen mislukt!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Bestandsformaat"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Controleer uw wiskunde en probeer het met een nieuwe expressie."

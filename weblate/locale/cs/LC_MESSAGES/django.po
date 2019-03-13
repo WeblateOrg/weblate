@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-13 13:57+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -825,7 +825,7 @@ msgid "Regular expression to match translation files"
 msgstr "Regulární výraz pro hledání shody s překladovými soubory"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "Formát souborů"
 
@@ -7666,10 +7666,6 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "Základní soubor pro nové překlady"
 
-#: weblate/trans/models/component.py:244
-msgid "Fileformat"
-msgstr "Formát souborů"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "Zamknuté"
@@ -7965,7 +7961,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "Soubor nevypadá jako platný!"
 
 #: weblate/trans/models/component.py:1393
@@ -7980,7 +7976,9 @@ msgid "Could not parse %d matched files."
 msgstr "Nepodařilo ze zpracovat %d souborů!"
 
 #: weblate/trans/models/component.py:1417
-msgid "Unrecognized base file format for new translations."
+#, fuzzy
+#| msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Nepoužitý základní soubor pro nové překlady."
 
 #: weblate/trans/models/component.py:1421
@@ -9370,6 +9368,9 @@ msgstr "Zprávy"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Nepodařilo se pominout chybu v nastavení!"
+
+#~ msgid "Fileformat"
+#~ msgstr "Formát souborů"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Prosím zkontrolujte svůj výpočet a zkuste to znovu s novým výrazem."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2018-07-23 11:06+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
@@ -828,7 +828,7 @@ msgid "Regular expression to match translation files"
 msgstr ""
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr ""
 
@@ -7426,12 +7426,6 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File mask"
-msgid "Fileformat"
-msgstr "Datoteka maske"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr ""
@@ -7677,7 +7671,7 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1385
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr ""
 
 #: weblate/trans/models/component.py:1393
@@ -7695,7 +7689,7 @@ msgstr "Sakrij dovršene prijevode u nadzornoj ploči"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Hide completed translations on the dashboard"
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "Sakrij dovršene prijevode u nadzornoj ploči"
 
 #: weblate/trans/models/component.py:1421
@@ -9012,6 +9006,11 @@ msgstr ""
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "File mask"
+#~ msgid "Fileformat"
+#~ msgstr "Datoteka maske"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "Provjerite svoju matematiku i pokušajte ponovno s novim izrazom."

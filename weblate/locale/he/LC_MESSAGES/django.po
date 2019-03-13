@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-03-13 12:47+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -827,7 +827,7 @@ msgid "Regular expression to match translation files"
 msgstr "ביטוי רגולרי להתאמת קובצי תרגום"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "תבנית קובץ"
 
@@ -7633,12 +7633,6 @@ msgstr "האם משתמשים יוכלו לערוך קובץ בסיס עבור �
 msgid "Base file for new translations"
 msgstr "קובץ בסיס לתרגומים חדשים"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "תבנית קובץ"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "נעול"
@@ -7946,7 +7940,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "נראה כי הקובץ אינו תקני!"
 
 #: weblate/trans/models/component.py:1393
@@ -7964,7 +7958,7 @@ msgstr "ניתוח %d הקבצים שנמצאו נכשל!"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "קובץ בסיס שאינו בשימוש לטובת תרגומים חדשים."
 
 #: weblate/trans/models/component.py:1421
@@ -9370,6 +9364,11 @@ msgstr "דיווחים"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "ההתעלמות משגיאות התצורה נכשלה!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "תבנית קובץ"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "נא לבדוק את החישובים שלך ולנסות שוב עם ביטוי חדש."

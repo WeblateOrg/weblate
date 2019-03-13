@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 13:38+0000\n"
+"POT-Creation-Date: 2019-03-13 13:58+0000\n"
 "PO-Revision-Date: 2019-01-28 21:55+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -830,7 +830,7 @@ msgid "Regular expression to match translation files"
 msgstr "用于匹配翻译文件的正则表达式"
 
 #: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:244
 msgid "File format"
 msgstr "文件格式"
 
@@ -7577,12 +7577,6 @@ msgstr "用户是否可以编辑译文模版文件以进行单语种翻译。"
 msgid "Base file for new translations"
 msgstr "新翻译的译文模版文件"
 
-#: weblate/trans/models/component.py:244
-#, fuzzy
-#| msgid "File format"
-msgid "Fileformat"
-msgstr "文件格式"
-
 #: weblate/trans/models/component.py:255
 msgid "Locked"
 msgstr "已锁定"
@@ -7884,7 +7878,7 @@ msgstr "单个语言还有更多文件（%s），请调整掩码并使用组件�
 #: weblate/trans/models/component.py:1385
 #, fuzzy
 #| msgid "File does not seem to be valid!"
-msgid "This File seems to be valid."
+msgid "This file seems to be invalid."
 msgstr "文件看起来无效！"
 
 #: weblate/trans/models/component.py:1393
@@ -7902,7 +7896,7 @@ msgstr "解析 %d 匹配文件失败！"
 #: weblate/trans/models/component.py:1417
 #, fuzzy
 #| msgid "Unused base file for new translations."
-msgid "Unrecognized base file format for new translations."
+msgid "Unrecognized base file for new translations."
 msgstr "未在新翻译中使用新译文模版文件。"
 
 #: weblate/trans/models/component.py:1421
@@ -9234,6 +9228,11 @@ msgstr "报告"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "排除配置错误时失败！"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "文件格式"
 
 #~ msgid "Please check your math and try again with new expression."
 #~ msgstr "请检查您的计算结果并使用新的表达式再试一次。"
