@@ -54,7 +54,7 @@ class UniqueEmailMixin(object):
     validate_unique_mail = False
 
     def clean_email(self):
-        """Validate that the supplied email address is unique for the site. """
+        """Validate that the supplied email address is not in use on this site."""
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
@@ -230,7 +230,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
             Fieldset(
                 _('Component wide notifications'),
                 HTML(escape(_(
-                    'You will receive notification on every such event'
+                    'You will receive a notification for every such event'
                     ' in your watched projects.'
                 ))),
                 'subscribe_merge_failure',
@@ -239,7 +239,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
             Fieldset(
                 _('Translation notifications'),
                 HTML(escape(_(
-                    'You will receive these notifications only for your'
+                    'You will only receive these notifications for your'
                     ' translated languages in your watched projects.'
                 ))),
                 'subscribe_any_translation',
@@ -296,7 +296,7 @@ class UserForm(forms.ModelForm):
     email = forms.ChoiceField(
         label=_('Email'),
         help_text=_(
-            'You can add another email address on the Authentication tab.'
+            'You can add another email address in the Authentication tab.'
         ),
         choices=(
             ('', ''),
@@ -347,7 +347,7 @@ class ContactForm(forms.Form):
         required=True,
         help_text=_(
             'Please contact us in English, otherwise we might '
-            'be unable to understand your request.'
+            'be unable to process your request.'
         ),
         max_length=2000,
         widget=forms.Textarea
@@ -407,7 +407,7 @@ class RegistrationForm(EmailForm):
     def clean(self):
         if not check_rate_limit('registration', self.request):
             raise forms.ValidationError(
-                _('Too many registration attempts from this location!')
+                _('Too many failed registration attempts from this location!')
             )
         return self.cleaned_data
 
@@ -487,7 +487,7 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
-                _('Please check your math and try again with new expression.')
+                _('That was not correct, please try again.')
             )
 
         if self.form.is_valid():
@@ -550,7 +550,7 @@ class LoginForm(forms.Form):
     )
 
     error_messages = {
-        'invalid_login': _("Please enter a correct username and password. "
+        'invalid_login': _("Please enter the correct username and password. "
                            "Note that both fields may be case-sensitive."),
         'inactive': _("This account is inactive."),
     }
@@ -641,13 +641,13 @@ class HostingForm(forms.Form):
     repo = forms.CharField(
         label=_('Source code repository'),
         help_text=_(
-            'URL of source code repository for example Git or Mercurial.'
+            'URL of source code repository, for example Git or Mercurial.'
         ),
         required=True,
         max_length=200,
     )
     mask = forms.CharField(
-        label=_('File mask'),
+        label=_('Filemask'),
         help_text=_(
             'Path of files to translate, use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
