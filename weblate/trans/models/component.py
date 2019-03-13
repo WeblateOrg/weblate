@@ -241,7 +241,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
     )
     file_format = models.CharField(
-        verbose_name=ugettext_lazy('Fileformat'),
+        verbose_name=ugettext_lazy('File format'),
         max_length=50,
         default='auto',
         choices=FILE_FORMATS.get_choices(),
