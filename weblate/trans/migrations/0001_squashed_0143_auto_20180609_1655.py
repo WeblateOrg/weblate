@@ -311,7 +311,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No language additions')], default='add', help_text='How to handle requests for creating new translations. Please note that the available choices depends on the fileformat.', max_length=10, verbose_name='New translation'),
+            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No language additions')], default='add', help_text='How to handle requests for creating new translations. Please note that the available choices depends on the file format.', max_length=10, verbose_name='New translation'),
         ),
         migrations.AddField(
             model_name='component',
