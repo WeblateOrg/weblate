@@ -237,9 +237,12 @@ Translation license
     License of the translation, (does not need to be the same as the source code license).
 License URL
     URL where users can find the actual text of a license in full.
-New language
+New translation
     How to handle requests for creation of new languages. Please note that the
     availability of choices depends on the file format, see :ref:`formats`.
+Language code style
+   Customize language code used to generate the filename for translations
+   created by Weblate, see :ref:`new-translations` for more details.
 Merge style
     You can configure how updates from the upstream repository are handled.
     This might not be supported for some VCSs. See :ref:`merge-rebase` for

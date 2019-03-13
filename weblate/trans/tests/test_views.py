@@ -346,6 +346,8 @@ class TranslationManipulationTest(ViewTestCase):
 
 
 class NewLangTest(ViewTestCase):
+    expected_lang_code = 'pt_BR'
+
     def create_component(self):
         return self.create_po_new_base(new_lang='add')
 
@@ -525,8 +527,33 @@ class NewLangTest(ViewTestCase):
             'The given language is filtered by the language filter.',
         )
 
+    def test_add_code(self):
+        def perform(style, code, expected):
+            self.component.language_code_style = style
+            self.component.save()
+
+            self.assertFalse(
+                self.component.translation_set.filter(
+                    language__code=code
+                ).exists()
+            )
+            self.client.post(
+                reverse('new-language', kwargs=self.kw_component),
+                {'lang': code},
+            )
+            translation = self.component.translation_set.get(language__code=code)
+            self.assertEqual(translation.language_code, expected)
+            translation.remove(self.user)
+
+        perform('', 'pt_BR', self.expected_lang_code)
+        perform('posix', 'pt_BR', 'pt_BR')
+        perform('bcp', 'pt_BR', 'pt-BR')
+        perform('android', 'pt_BR', 'pt-rBR')
+
 
 class AndroidNewLangTest(NewLangTest):
+    expected_lang_code = 'pt-rBR'
+
     def create_component(self):
         return self.create_android(new_lang='add')
 

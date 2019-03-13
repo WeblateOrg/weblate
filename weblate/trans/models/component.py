@@ -84,6 +84,13 @@ NEW_LANG_CHOICES = (
     ('add', ugettext_lazy('Automatically add language file')),
     ('none', ugettext_lazy('No language additions')),
 )
+LANGUAGE_CODE_STYLE_CHOICES = (
+    ('', ugettext_lazy('Default based on the file format')),
+    ('posix', ugettext_lazy('POSIX style using hyphen as a separator')),
+    ('bcp', ugettext_lazy('BCP style using underscore as a separator')),
+    ('android', ugettext_lazy('Android style')),
+)
+
 MERGE_CHOICES = (
     ('merge', ugettext_lazy('Merge')),
     ('rebase', ugettext_lazy('Rebase')),
@@ -344,6 +351,17 @@ class Component(models.Model, URLMixin, PathMixin):
             'How to handle requests for creating new translations. '
             'Please note that the available choices depend on '
             'the file format.'
+        ),
+    )
+    language_code_style = models.CharField(
+        verbose_name=ugettext_lazy('Language code style'),
+        max_length=10,
+        choices=LANGUAGE_CODE_STYLE_CHOICES,
+        default='',
+        blank=True,
+        help_text=ugettext_lazy(
+            'Customize language code used to generate the filename for '
+            'translations created by Weblate.'
         ),
     )
 
@@ -1726,7 +1744,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Language code from Weblate
         code = language.code
         # Language code used for file
-        format_code = file_format.get_language_code(code)
+        format_code = file_format.get_language_code(
+            code, self.language_code_style
+        )
 
         if re.match(self.language_regex, format_code) is None:
             messages.error(
