@@ -61,12 +61,19 @@ class RegistrationTestMixin(object):
         live_url = getattr(self, 'live_server_url', None)
 
         # Parse URL
-        line = ''
         for line in mail.outbox[0].body.splitlines():
-            if live_url and line.startswith(live_url):
-                return line
-            if line.startswith('http://example.com'):
-                return line[18:]
+            if 'verification_code' not in line:
+                continue
+            if '(' in line and ')' in line:
+                result = line[line.index('(') + 1:line.index(')')]
+            elif '<' in line and '>' in line:
+                result = line[line.index('<') + 1:line.index('>')]
+            else:
+                continue
+            if live_url and result.startswith(live_url):
+                return result
+            if result.startswith('http://example.com'):
+                return result[18:]
 
         self.fail('Confirmation URL not found')
         return ''
