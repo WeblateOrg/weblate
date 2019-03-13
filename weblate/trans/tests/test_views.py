@@ -522,7 +522,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Given language is filtered by the language filter!',
+            'The given language is filtered by the language filter.',
         )
 
 

@@ -463,7 +463,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = 'foo/x.po'
         self.assertRaisesMessage(
             ValidationError,
-            'File mask does not contain * as a language placeholder!',
+            'Filemask does not contain * as a language placeholder!',
             self.component.full_clean
         )
 
@@ -472,7 +472,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = 'foo/*.po'
         self.assertRaisesMessage(
             ValidationError,
-            'The mask did not match any files!',
+            'The filemask did not match any files.',
             self.component.full_clean
         )
 
@@ -481,7 +481,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
             ValidationError,
-            'Format of 2 matched files could not be recognized.',
+            'Could not recognize the format of 2 matching files.',
             self.component.full_clean
         )
 
@@ -523,8 +523,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid link to a Weblate project, '
-            'can not link to self!',
+            'Invalid link to a Weblate project, cannot link to self!',
             self.component.full_clean
         )
 
@@ -537,7 +536,7 @@ class ComponentValidationTest(RepoTestCase):
         project.template = 'not-existing'
         self.assertRaisesMessage(
             ValidationError,
-            'Template file not found!',
+            'Could not find template file.',
             project.full_clean
         )
 
@@ -589,8 +588,9 @@ class ComponentValidationTest(RepoTestCase):
         )
         self.assertRaisesMessage(
             ValidationError,
-            'Got empty language code for '
-            'Solution/Project/Resources.resx, please check filemask!',
+            'The language code for '
+            'Solution/Project/Resources.resx'
+            ' was empty, please check the filemask.',
             component.clean_lang_codes,
             [
                 'Solution/Project/Resources.resx',

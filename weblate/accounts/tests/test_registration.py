@@ -140,7 +140,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register()
         self.assertContains(
             response,
-            'Please check your math and try again'
+            'That was not correct, please try again.'
         )
 
     @override_settings(REGISTRATION_CAPTCHA=True)
@@ -301,7 +301,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertContains(
             response,
-            'Please check your math and try again'
+            'That was not correct, please try again.'
         )
         self.assertEqual(len(mail.outbox), 0)
 
