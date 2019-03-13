@@ -480,7 +480,7 @@ folder:
         web-app/tgol-web-app/src/main/resources/i18n/**-I18N_*.properties
 
 Example of more complex parsing of filenames to get correct component and
-language out of file name like
+language out of filename like
 ``src/security/Numerous_security_holes_in_0.10.1.de.po``:
 
 .. code-block:: sh

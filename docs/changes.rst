@@ -636,7 +636,7 @@ Released on Feb 19th 2015.
 * Support for deleting comments.
 * Added own SVG badge.
 * Added support for Google Analytics.
-* Improved handling of translation file names.
+* Improved handling of translation filenames.
 * Added support for monolingual JSON translations.
 * Record component locking in a history.
 * Support for editing source (template) language for monolingual translations.
