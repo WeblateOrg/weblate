@@ -1,5 +1,0 @@
-{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Good news," %}
-
-{% blocktrans with user.get_visible_name as username %}The user {{ username }} has just made a first contribution to {{ translation }} at {{ site_title }}.{% endblocktrans %}
-
-{% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

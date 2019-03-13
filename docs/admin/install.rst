@@ -86,6 +86,8 @@ your distribution packages:
     https://www.django-rest-framework.org/
 ``user-agents`` (>= 1.1.0)
     https://github.com/selwin/python-user-agents
+``html2text`` (>= 2018.1.9)
+    https://pypi.org/project/html2text/
 ``pyuca`` (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
 ``phply`` (optional for PHP support)

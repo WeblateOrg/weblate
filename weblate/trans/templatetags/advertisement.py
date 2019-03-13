@@ -30,10 +30,6 @@ register = template.Library()
 
 DONATE = 'https://weblate.org/donate/'
 WEBLATE = 'https://weblate.org/'
-TEXT_CHOICES = (
-    (_('Support Weblate at {0}'), DONATE),
-    (_('More information about Weblate can be found at {0}'), WEBLATE),
-)
 HTML_CHOICES = (
     (_('Support Weblate'), DONATE),
     (_('More information about Weblate'), WEBLATE),
@@ -41,14 +37,7 @@ HTML_CHOICES = (
 
 
 @register.simple_tag
-def get_advertisement_text_mail():
-    """Return advertisement text."""
-    text, url = choice(TEXT_CHOICES)
-    return text.format(url)
-
-
-@register.simple_tag
-def get_advertisement_html_mail():
+def get_advertisement_link():
     """Return advertisement text."""
     text, url = choice(HTML_CHOICES)
     return mark_safe(

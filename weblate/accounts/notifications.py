@@ -26,6 +26,8 @@ from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
+from html2text import html2text
+
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
 from weblate.celery import app
@@ -294,14 +296,11 @@ def get_notification_email(language, email, notification,
         ).strip()
 
         # Render body
-        body = render_to_string(
-            'mail/{0}.txt'.format(notification),
-            context
-        )
         html_body = render_to_string(
             'mail/{0}.html'.format(notification),
             context
         )
+        body = html2text(html_body)
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
