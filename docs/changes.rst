@@ -8,6 +8,7 @@ Released on ? 2019.
 
 * Add support for downloading user data.
 * Addons are now automatically triggered upon installation.
+* Improved instructions for resolving merge conflicts.
 
 weblate 3.5.1
 -------------
