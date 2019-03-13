@@ -6,6 +6,8 @@ weblate 3.6
 
 Released on ? 2019.
 
+* Addons are now automatically triggered upon installation.
+
 weblate 3.5.1
 -------------
 

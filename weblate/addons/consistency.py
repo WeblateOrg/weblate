@@ -38,15 +38,6 @@ class LangaugeConsistencyAddon(BaseAddon):
     icon = 'language'
     project_scope = True
 
-    @classmethod
-    def create(cls, component, **kwargs):
-        result = super(LangaugeConsistencyAddon, cls).create(
-            component, **kwargs
-        )
-        for target in component.project.component_set.all():
-            result.post_update(target, '')
-        return result
-
     def ensure_all_have(self, project, languages):
         for language in languages:
             for component in project.component_set.all():

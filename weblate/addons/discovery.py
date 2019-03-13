@@ -51,10 +51,6 @@ class DiscoveryAddon(BaseAddon):
     def post_update(self, component, previous_head):
         self.perform()
 
-    def configure(self, settings):
-        super(DiscoveryAddon, self).configure(settings)
-        self.perform()
-
     def perform(self):
         self.discovery.perform(
             remove=self.instance.configuration['remove'],

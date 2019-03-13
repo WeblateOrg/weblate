@@ -26,7 +26,10 @@ import subprocess
 from django.apps import apps
 from django.utils.functional import cached_property
 
-from weblate.addons.events import EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD
+from weblate.addons.events import (
+    EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD, EVENT_POST_COMMIT,
+    EVENT_POST_PUSH,
+)
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
@@ -105,7 +108,24 @@ class BaseAddon(object):
         self.post_configure()
 
     def post_configure(self):
+        # Configure events to current status
         self.instance.configure_events(self.events)
+
+        # Trigger post events to ensure direct processing
+        if self.project_scope:
+            components = self.instance.component.project.component_set.all()
+        else:
+            components = [self.instance.component]
+        translations = self.instance.component.translation_set.all()
+        if EVENT_POST_COMMIT in self.events:
+            for translation in translations:
+                self.post_commit(translation)
+        if EVENT_POST_UPDATE in self.events:
+            for component in components:
+                self.post_update(component, None)
+        if EVENT_POST_PUSH in self.events:
+            for component in components:
+                self.post_push(component)
 
     def save_state(self):
         """Saves addon state information."""
@@ -234,7 +254,8 @@ class TestCrashAddon(UpdateBaseAddon):
     description = 'Crash test addon'
 
     def update_translations(self, component, previous_head):
-        raise TestException('Test error')
+        if previous_head:
+            raise TestException('Test error')
 
 
 class StoreBaseAddon(BaseAddon):
