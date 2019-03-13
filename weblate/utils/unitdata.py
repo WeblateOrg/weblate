@@ -81,4 +81,6 @@ def filter_query(queryset, table):
         where.append(WHERE_LANGUAGE_WILDCARD.format(table))
     else:
         where.append(WHERE_LANGUAGE.format(table))
+    if table == 'checks_check':
+        where.append('checks_check.ignored = 0')
     return queryset.extra(tables=[table], where=where)
