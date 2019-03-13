@@ -487,6 +487,7 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
+                # Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
                 _('That was not correct, please try again.')
             )
 
