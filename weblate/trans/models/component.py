@@ -1382,7 +1382,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 if not self.file_format_cls.is_valid(parsed.store):
                     errors.append('{0}: {1}'.format(
-                        match, _('This File seems to be valid.')
+                        match, _('This file seems to be invalid.')
                     ))
             except ValueError:
                 notrecognized.append(match)
@@ -1414,7 +1414,7 @@ class Component(models.Model, URLMixin, PathMixin):
             filename = self.get_new_base_filename()
             if filename:
                 message = _(
-                    'Unrecognized base file format for new translations.'
+                    'Unrecognized base file for new translations.'
                 )
             else:
                 message = _(
