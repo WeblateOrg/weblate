@@ -342,7 +342,7 @@ class Component(models.Model, URLMixin, PathMixin):
         default='add',
         help_text=ugettext_lazy(
             'How to handle requests for creating new translations. '
-            'Please note that the available choices depends on '
+            'Please note that the available choices depend on '
             'the file format.'
         ),
     )
