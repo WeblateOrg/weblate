@@ -47,6 +47,9 @@ class TextItem(object):
     def location(self):
         return '{}:{}'.format(self.filename, self.line)
 
+    def getid(self):
+        return self.location
+
 
 class TextParser(object):
     """Simple text parser returning all content as single unit."""

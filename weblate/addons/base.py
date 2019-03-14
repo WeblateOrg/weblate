@@ -220,6 +220,10 @@ class UpdateBaseAddon(BaseAddon):
     """
     events = (EVENT_POST_UPDATE, )
 
+    def __init__(self, storage=None):
+        super(UpdateBaseAddon, self).__init__(storage)
+        self.extra_files = []
+
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
 
@@ -230,7 +234,7 @@ class UpdateBaseAddon(BaseAddon):
                 files = list(chain.from_iterable((
                     translation.store.get_filenames()
                     for translation in component.translation_set.all()
-                )))
+                ))) + self.extra_files
                 repository.commit(
                     self.get_commit_message(component),
                     files=files

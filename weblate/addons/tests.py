@@ -249,6 +249,25 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn('Stojan Jakotyc', content)
 
 
+class AppStoreAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_appstore()
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = CleanupAddon.create(self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, '')
+        self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, '')
+        commit = self.component.repository.show(
+            self.component.repository.last_revision
+        )
+        self.assertIn('cs/changelogs/100000.txt', commit)
+
+
 class AndroidAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_android(suffix='-not-synced', new_lang='add')
