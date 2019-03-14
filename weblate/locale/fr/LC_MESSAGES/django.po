@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-13 15:48+0000\n"
-"PO-Revision-Date: 2019-03-14 06:50+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2019-03-14 09:22+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -3571,11 +3571,11 @@ msgid ""
 "component."
 msgstr ""
 "Ce greffon est utilisé pour l’ensemble du projet, l’installer sur un "
-"composant est suffisant."
+"composant suffit."
 
 #: weblate/templates/addons/addon_head.html:5
 msgid "project wide"
-msgstr "à l’échelle du projet"
+msgstr "sur l'ensemble du projet"
 
 #: weblate/templates/addons/addon_head.html:8
 msgid "This addon is used for all components sharing this repository."
@@ -3755,9 +3755,9 @@ msgid ""
 "authorship, unless \"Per author\" is selected, or you customize the commit "
 "message to include it."
 msgstr ""
-"Les archivages résultants incluront tous les messages d'archivage originaux, "
+"Les archivages résultants incluront tous les messages d'archivage originaux "
 "mais perdront la paternité de l'archivage, sauf si \"Par auteur\" est "
-"sélectionné, our si vous personnalisez le message de commit pour l'inclure."
+"sélectionné ou si vous personnalisez le message d'archivage pour l'inclure."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4369,7 +4369,7 @@ msgstr "La traduction utilise des fichiers mono-langues."
 
 #: weblate/templates/component_info.html:33
 msgid "The translation base language is editable."
-msgstr "Le langage de base de la traduction est modifié."
+msgstr "La traduction dans la langue de base est modifiable."
 
 #: weblate/templates/component_info.html:35
 msgid "The translation base language can not be edited."
@@ -5717,16 +5717,16 @@ msgstr "Parcourir les modifications pour tout le projet"
 #: weblate/templates/project.html:245 weblate/templates/translation.html:256
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
-"Vous pouvez modifier d’un coup l’état de toutes les chaînes correspondantes "
-"à un type donné."
+"Vous pouvez modifier, en une fois, l’état de toutes les chaînes pour un type "
+"donné."
 
 #: weblate/templates/project.html:267
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Le message est affiché pour toutes les traductions du proje,t jusqu’à son "
-"expiration donnée, ou de façon permanente jusqu’à ce qu'il soit supprimé."
+"Le message est affiché pour toutes les traductions du projet jusqu’à ce "
+"qu'il expire ou qu'il soit supprimé."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -6017,7 +6017,7 @@ msgstr ""
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 "Veuillez ajouter un fichier de langue de base mono-langue dans les "
-"paramétrages du composant."
+"paramètres du composant."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -6128,19 +6128,19 @@ msgid "Typical workflow for fixing merge conflicts:"
 msgstr "Workflow type pour corriger les conflits de fusion :"
 
 #: weblate/templates/trans/merge_instructions.html:10
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "Archiver dans le dépôt local les modifications en attente"
+msgstr ""
+"Archiver toutes les modifications en attente dans Weblate et verrouiller le "
+"composant."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr "Ajout du dépôt exporté Weblate en tant que dépôt distant."
+msgstr "Ajouter le dépôt Weblate exporté en tant que dépôt distant."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
+msgstr "Fusionner les modifications Weblate et résoudre les conflits."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
@@ -6150,6 +6150,8 @@ msgstr "Pousser les modifications dans le dépôt amont."
 msgid ""
 "Weblate now should be able to see updated repository and you can unlock it."
 msgstr ""
+"Désormais Weblate doit voir le dépôt mis à jour et vous pouvez le "
+"déverrouiller."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -6643,8 +6645,8 @@ msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "permanently until it is deleted."
 msgstr ""
-"Le message est affiché sur la page de traduction, jusqu’à son expiration "
-"donnée, ou de façon permanente jusqu’à ce qu'il soit effacé."
+"Le message est affiché sur la page de traduction jusqu'à ce qu'il expire ou "
+"qu'il soit supprimé."
 
 #: weblate/templates/translation.html:378
 msgid "Review"
@@ -7763,8 +7765,7 @@ msgstr "URL pour l’envoi du dépôt"
 
 #: weblate/trans/models/component.py:169
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr ""
-"URL d’un dépôt pour l’envoi, la transmission est désactivée si ceci est vide."
+msgstr "URL d’un dépôt pour l’envoi, si vide la transmission est désactivée."
 
 #: weblate/trans/models/component.py:174
 msgid "Repository browser"
@@ -7844,10 +7845,8 @@ msgid "Locked"
 msgstr "Verrouillé"
 
 #: weblate/trans/models/component.py:258
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "Locked component will not get any translation updates."
-msgstr "Le composant est maintenant ouvert aux mises à jour de traduction."
+msgstr "Un composant verrouillé ne recevra aucune mise à jour."
 
 #: weblate/trans/models/component.py:262
 msgid "Allow translation propagation"
@@ -7870,10 +7869,8 @@ msgid "Whether Weblate should keep track of old translations."
 msgstr "Weblate doit-il ou non conserver une trace des anciennes traductions."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Turn on suggestions"
-msgstr "Suggestions en attente"
+msgstr "Activer les suggestions"
 
 #: weblate/trans/models/component.py:281
 msgid "Whether to allow translation suggestions at all."
@@ -7920,10 +7917,6 @@ msgid "Optional URL with license details."
 msgstr "URL pour les détails de la licence (optionnel)."
 
 #: weblate/trans/models/component.py:332
-#, fuzzy
-#| msgid ""
-#| "Agreement which needs to be approved before user can translate this "
-#| "component."
 msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
@@ -8013,7 +8006,7 @@ msgid ""
 "Regular expression used to filter translation when scanning for filemask."
 msgstr ""
 "Expression rationnelle utilisée pour filtrer la traduction lors de la "
-"recherche d’un masque de fichier."
+"recherche d’un motif de fichier."
 
 #: weblate/trans/models/component.py:447
 msgid "Components with higher priority are offered first to translators."
