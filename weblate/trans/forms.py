@@ -1416,6 +1416,7 @@ class ComponentSettingsForm(SettingsBaseForm):
             'file_format',
             'edit_template',
             'new_lang',
+            'language_code_style',
             'new_base',
             'filemask',
             'template',
@@ -1509,6 +1510,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                         _('Adding new languages'),
                         'new_base',
                         'new_lang',
+                        'language_code_style',
                     ),
                     css_id='files',
                 ),
@@ -1530,7 +1532,8 @@ class ComponentCreateForm(SettingsBaseForm):
         fields = [
             'project', 'name', 'slug', 'vcs', 'repo', 'push', 'repoweb',
             'branch', 'file_format', 'filemask', 'template', 'edit_template',
-            'new_base', 'license', 'new_lang', 'language_regex',
+            'new_base', 'license', 'new_lang', 'language_code_style',
+            'language_regex',
         ]
 
 

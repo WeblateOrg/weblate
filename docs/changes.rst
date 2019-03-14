@@ -10,6 +10,7 @@ Released on ? 2019.
 * Addons are now automatically triggered upon installation.
 * Improved instructions for resolving merge conflicts.
 * Cleanup addon is now compatible with app store metadata translations.
+* Configurable language code syntax when adding new translations.
 
 weblate 3.5.1
 -------------
