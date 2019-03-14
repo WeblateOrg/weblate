@@ -375,7 +375,7 @@ class EditAppStoreTest(EditTest):
     source = 'Weblate - continuous localization'
     target = 'Weblate - průběžná lokalizace'
     second_target = 'Weblate - průběžný překlad'
-    already_translated = 1
+    already_translated = 2
 
     def create_component(self):
         return self.create_appstore()
