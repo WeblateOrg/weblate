@@ -74,9 +74,13 @@ Version specific instructions
 Upgrade from 2.x
 ~~~~~~~~~~~~~~~~
 
-If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
-:ref:`weblate3:upgrade_3`) and the continue upgrading in the 3.x series.
-Upgrades skipping this step are not supported and will break.
+If you are upgrading from 2.x release, always first upgrade to 3.0.1 and the
+continue upgrading in the 3.x series.  Upgrades skipping this step are not
+supported and will break.
+
+.. seealso::
+
+   `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_
 
 .. _up-3-1:
 

@@ -370,7 +370,7 @@ for a production setup, you should do some adjustments. Many of them have quite
 a big impact on performance. Please check :ref:`production` for more details,
 especially:
 
-* :ref:`production-indexing`
+* Configure Celery for executing background tasks (see :ref:`celery`)
 * :ref:`production-cache`
 * :ref:`production-database`
 * :ref:`production-debug`

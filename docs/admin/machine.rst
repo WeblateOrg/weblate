@@ -142,10 +142,6 @@ Microsoft Cognitive Services Translator
 
 .. versionadded:: 2.10
 
-.. note::
-
-    This is replacement service for :ref:`ms-translate`.
-
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
