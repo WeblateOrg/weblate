@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 15:48+0000\n"
+"POT-Creation-Date: 2019-03-14 09:22+0000\n"
 "PO-Revision-Date: 2018-05-21 11:19+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -735,11 +735,11 @@ msgstr ""
 "Регистрацията Ви не беше успешна! Тези данни за удостоверяване, е-поща или "
 "потребителско име, вече се използват от друг акаунт!"
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "Почистване на файловете за превод"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2378,7 +2378,7 @@ msgstr "Файл DTD"
 msgid "RC file"
 msgstr "Файл RC"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr ""
 
@@ -4159,6 +4159,7 @@ msgstr "Чакащ за преглед"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 #, fuzzy
 #| msgid "Translation key"
 msgid "Translation memory"
@@ -5832,6 +5833,12 @@ msgstr "Заявен език:"
 #: weblate/templates/mail/new_language.html:39
 msgid "Requested by:"
 msgstr "Заявен от:"
+
+#: weblate/templates/mail/new_language.html:49
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "Коментар към превода"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -8515,7 +8522,7 @@ msgstr ""
 #| "availability of choices depends on the file format."
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
-"available choices depends on the file format."
+"available choices depend on the file format."
 msgstr ""
 "Какво да прави системата при заявка за създаване на нов превод. Имайте "
 "предвид, че възможностите за избор зависят от формата на файловете."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 15:48+0000\n"
+"POT-Creation-Date: 2019-03-14 09:22+0000\n"
 "PO-Revision-Date: 2019-03-01 08:35+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -691,11 +691,11 @@ msgstr ""
 "فشل إكمال تسجيل حسابك! إنَّ هذه المصادقة أو البريد الإلكتروني أو اسم المستخدم "
 "مستعمل سابقاً مع حساب آخَر."
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "تنظيف ملفات الترجمة"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2100,7 +2100,7 @@ msgstr "ملف DTD"
 msgid "RC file"
 msgstr "ملف RC"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr ""
 
@@ -3747,6 +3747,7 @@ msgstr "معاينة الفوترة"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 msgid "Translation memory"
 msgstr "ذاكرة الترجمة"
 
@@ -5364,6 +5365,12 @@ msgstr "اللغة المطلوبة:"
 #: weblate/templates/mail/new_language.html:39
 msgid "Requested by:"
 msgstr "مطلوبة مِن طرف :"
+
+#: weblate/templates/mail/new_language.html:49
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "تعليق الترجمة"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -7779,7 +7786,7 @@ msgstr ""
 #: weblate/trans/models/component.py:344
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
-"available choices depends on the file format."
+"available choices depend on the file format."
 msgstr ""
 
 #: weblate/trans/models/component.py:352

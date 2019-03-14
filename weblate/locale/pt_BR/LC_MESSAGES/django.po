@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 15:48+0000\n"
+"POT-Creation-Date: 2019-03-14 09:22+0000\n"
 "PO-Revision-Date: 2019-03-14 09:22+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -663,11 +663,11 @@ msgstr ""
 "Não foi possível ao completar o registro. A autenticação, e-mail ou nome de "
 "usuário fornecido já está em uso por outra conta."
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "Limpar arquivos de tradução"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2068,7 +2068,7 @@ msgstr "Arquivo DTD"
 msgid "RC file"
 msgstr "Arquivo RC"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr "Arquivos de metadados de loja de aplicativos"
 
@@ -3758,6 +3758,7 @@ msgstr "Resumo da cobrança"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 msgid "Translation memory"
 msgstr "Memória de tradução"
 
@@ -4252,7 +4253,8 @@ msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "As sugestões com um voto são aceitas automaticamente como traduções."
+msgstr[0] ""
+"As sugestões com um voto são aceitas automaticamente como traduções."
 msgstr[1] ""
 "As sugestões são aceitas automaticamente como traduções ao terem %(count)s "
 "votos."
@@ -5332,6 +5334,12 @@ msgstr "Idioma solicitado:"
 #: weblate/templates/mail/new_language.html:39
 msgid "Requested by:"
 msgstr "Solicitado por:"
+
+#: weblate/templates/mail/new_language.html:49
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "Comentário da tradução"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -7687,8 +7695,8 @@ msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
 msgstr ""
-"Nome do arquivo da base de traduções, contendo todos os textos e suas fontes;"
-" é recomendado para formatos de tradução monolíngues."
+"Nome do arquivo da base de traduções, contendo todos os textos e suas "
+"fontes; é recomendado para formatos de tradução monolíngues."
 
 #: weblate/trans/models/component.py:227
 msgid "Edit base file"
@@ -7790,9 +7798,13 @@ msgstr ""
 "traduzir este componente."
 
 #: weblate/trans/models/component.py:344
+#, fuzzy
+#| msgid ""
+#| "How to handle requests for creating new translations. Please note that "
+#| "the available choices depends on the file format."
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
-"available choices depends on the file format."
+"available choices depend on the file format."
 msgstr ""
 "Como lidar as requisições para criar novas traduções. Note que as escolhas "
 "disponíveis dependem do formato de arquivo."

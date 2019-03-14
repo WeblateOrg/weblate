@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 15:48+0000\n"
+"POT-Creation-Date: 2019-03-14 09:22+0000\n"
 "PO-Revision-Date: 2019-03-14 09:21+0000\n"
 "Last-Translator: Thomas De Rocker <thomasderocker@outlook.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
-"\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
+">\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -663,11 +663,11 @@ msgstr ""
 "Kon registratie niet voltooien. De opgegeven verificatie, e-mail of "
 "gebruikersnaam is al in gebruik voor een andere account."
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "Vertaalbestanden opruimen"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2077,7 +2077,7 @@ msgstr "DTD-bestand"
 msgid "RC file"
 msgstr "RC-bestand"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr "App-store metadata-bestanden"
 
@@ -3762,6 +3762,7 @@ msgstr "Facturatie-overzicht"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 msgid "Translation memory"
 msgstr "Vertaalgeheugen"
 
@@ -4258,10 +4259,11 @@ msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "Suggesties met één stem worden automatisch aanvaard als vertalingen."
+msgstr[0] ""
+"Suggesties met één stem worden automatisch aanvaard als vertalingen."
 msgstr[1] ""
-"Suggesties worden automatisch aanvaard als vertalingen van zodra ze %(count)"
-"s stemmen hebben."
+"Suggesties worden automatisch aanvaard als vertalingen van zodra ze "
+"%(count)s stemmen hebben."
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
@@ -5348,6 +5350,12 @@ msgstr "Aangevraagde taal:"
 msgid "Requested by:"
 msgstr "Aangevraagd door:"
 
+#: weblate/templates/mail/new_language.html:49
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "Opmerking bij vertaling"
+
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
 msgid "New language request in %(translation)s"
@@ -5916,7 +5924,8 @@ msgstr ""
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr "Het vertaalonderdeel ziet er enkeltalig uit, maar is niet zo ingesteld."
+msgstr ""
+"Het vertaalonderdeel ziet er enkeltalig uit, maar is niet zo ingesteld."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
@@ -7715,8 +7724,8 @@ msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
 msgstr ""
-"Bestandsnaam van vertaalbasisbestand dat alle tekenreeksen en hun bron bevat;"
-" het wordt aanbevolen voor enkeltalige vertaalformaten."
+"Bestandsnaam van vertaalbasisbestand dat alle tekenreeksen en hun bron "
+"bevat; het wordt aanbevolen voor enkeltalige vertaalformaten."
 
 #: weblate/trans/models/component.py:227
 msgid "Edit base file"
@@ -7818,9 +7827,13 @@ msgstr ""
 "onderdeel kan vertalen."
 
 #: weblate/trans/models/component.py:344
+#, fuzzy
+#| msgid ""
+#| "How to handle requests for creating new translations. Please note that "
+#| "the available choices depends on the file format."
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
-"available choices depends on the file format."
+"available choices depend on the file format."
 msgstr ""
 "Hoe aanvragen voor nieuwe vertalingen behandeld worden. Merk op dat de "
 "beschikbare opties afhankelijk zijn van het bestandsformaat."

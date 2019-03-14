@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-13 15:48+0000\n"
+"POT-Creation-Date: 2019-03-14 09:22+0000\n"
 "PO-Revision-Date: 2019-01-29 10:29+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -672,11 +672,11 @@ msgstr ""
 "無法完成註冊。您所提供的身份核對資訊、電子郵件、使用者名稱等，皆已有其他帳號"
 "使用中。"
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "清理翻譯檔"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2070,7 +2070,7 @@ msgstr "DTD 檔"
 msgid "RC file"
 msgstr "RC 檔"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr ""
 
@@ -3687,6 +3687,7 @@ msgstr "帳單概覽"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 msgid "Translation memory"
 msgstr "翻譯記憶"
 
@@ -5241,6 +5242,12 @@ msgstr "請求的語言："
 #: weblate/templates/mail/new_language.html:39
 msgid "Requested by:"
 msgstr "請求者："
+
+#: weblate/templates/mail/new_language.html:49
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "翻譯評註"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -7667,7 +7674,7 @@ msgstr "使用者必須先同意協議才能翻譯此組件。"
 #| "availability of choices depends on the file format."
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
-"available choices depends on the file format."
+"available choices depend on the file format."
 msgstr "處理新翻譯建立請求的方式。請注意，可用選項會隨檔案格式而有不同。"
 
 #: weblate/trans/models/component.py:352
