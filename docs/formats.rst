@@ -885,7 +885,7 @@ separate strings to translate.
 +--------------------------------+----------------------------------+
 | Base file for new translations | ``metadata/en_US``               |
 +--------------------------------+----------------------------------+
-| File format                    | `Market metadata text files`     |
+| File format                    | `App store metadata files`       |
 +--------------------------------+----------------------------------+
 
 
