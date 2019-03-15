@@ -237,17 +237,22 @@ class GitRepository(Repository):
 
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
-        # Add files
+        # Add files (some of them might not be in the index)
         if files is not None:
             self.execute(['add', '--force', '--'] + files)
 
         # Build the commit command
         cmd = ['commit', '--message', message]
-        if author is not None:
+        if author:
             cmd.extend(['--author', author])
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
         cmd.extend(self._get_gpg_sign())
+
+        # Add files to cmdline as more might be already in the index
+        cmd.append('--')
+        if files:
+            cmd.extend([f for f in files if os.path.exists(f)])
         # Execute it
         self.execute(cmd)
         # Clean cache
