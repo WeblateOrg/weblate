@@ -60,11 +60,7 @@ class GitSquashAddon(BaseAddon):
                 'log', '--format=%B', '{}..HEAD'.format(remote)
             ])
             repository.execute(['reset', '--soft', remote])
-            cmd = ['commit', '-m', message]
-            if author:
-                cmd.append('--author')
-                cmd.append(author)
-            repository.execute(cmd)
+            repository.commit(message, author)
 
     def get_filenames(self, component):
         languages = {}
@@ -93,9 +89,7 @@ class GitSquashAddon(BaseAddon):
         for code, message in messages.items():
             if not message:
                 continue
-            repository.execute(
-                ['commit', '-m', message, '--'] + languages[code]
-            )
+            repository.commit(message, files=languages[code])
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -114,9 +108,7 @@ class GitSquashAddon(BaseAddon):
         for filename, message in messages.items():
             if not message:
                 continue
-            repository.execute(
-                ['commit', '-m', message, '--', filename]
-            )
+            repository.commit(message, files=[filename])
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -186,6 +178,4 @@ class GitSquashAddon(BaseAddon):
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             if repository.needs_commit():
-                repository.execute([
-                    'commit', '-m', self.get_commit_message(component)
-                ])
+                repository.commit(self.get_commit_message(component))
