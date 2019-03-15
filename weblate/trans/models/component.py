@@ -942,7 +942,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Process linked projects
         for component in self.get_linked_childs():
-            component.commit_pending(reason, request, True, skip_push=True)
+            component.commit_pending(
+                reason, request, from_link=True, skip_push=True
+            )
 
         if not from_link and not skip_push:
             self.push_if_needed(request)
