@@ -762,6 +762,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return ret
 
+    @perform_on_link
     def push_if_needed(self, request, do_update=True):
         """Wrapper to push if needed
 
