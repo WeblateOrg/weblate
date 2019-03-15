@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-14 09:22+0000\n"
-"PO-Revision-Date: 2019-03-14 09:22+0000\n"
+"PO-Revision-Date: 2019-03-16 13:22+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.5.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -3680,20 +3680,14 @@ msgstr ""
 "об'єднані."
 
 #: weblate/templates/addons/squash_help.html:7
-#, fuzzy
-#| msgid ""
-#| "The resulting commits will include all commit messages and the commit "
-#| "authorship will not be preserved for all but per author squash. If you "
-#| "want to include authorship information it is recommended to customize the "
-#| "commit message to include this."
 msgid ""
 "Resulting commits will include all original commit messages, but lose commit "
 "authorship, unless \"Per author\" is selected, or you customize the commit "
 "message to include it."
 msgstr ""
-"Об'єднавчі подання міститимуть усі повідомлення подань, а їхні авторства не "
-"будуть збережені (крім об'єднання авторів). Якщо потрібно долучити відомості "
-"про авторство, підправте повідомлення про подання, щоби вписати ці дані."
+"Об'єднавчі подання міститимуть усі початкові повідомлення подань, а їхні "
+"авторства не будуть збережені,  хіба буде обрано „За автором“ або "
+"налаштовано повідомлення подання для його включення."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4150,15 +4144,11 @@ msgstr "Увійдіть для початку нового перекладу"
 
 #: weblate/templates/component.html:173 weblate/templates/project.html:230
 #: weblate/templates/translation.html:241
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all strings at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Ви можете замінити рядок скрізь за один раз. Цей пошук є простим пошуком "
+"Ви можете замінити всі примірники рядка. Цей пошук є простим пошуком "
 "підрядка із врахуванням регістру."
 
 #: weblate/templates/component.html:178 weblate/templates/component.html:193
@@ -4231,19 +4221,14 @@ msgid "Credits"
 msgstr "Подяки"
 
 #: weblate/templates/component.html:288
-#, fuzzy
-#| msgid ""
-#| "Credits list all translators who have contributed to this component in a "
-#| "given time period. It can be useful for including in your documentation "
-#| "or application to thank translators."
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Пункт „Подяки“ виводить список усіх перекладачів, які були задіяні в цій "
-"компоненті в зазначений проміжок часу. Огляд може бути корисний для "
-"інтеграції документації або програми для подяки перекладачам."
+"Перераховує усіх перекладачів, які були залучені до цієї компоненти в "
+"зазначений проміжок часу. Може придатися для включення в документацію або у "
+"програму, щоб  подякувати перекладачам та створити відгуки для них."
 
 #: weblate/templates/component.html:292 weblate/templates/component.html:311
 #: weblate/wladmin/templates/admin/ssh.html:36
@@ -4273,8 +4258,8 @@ msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Пропозиції автоматично приймаються як переклади лише, коли вони мають "
-"%(count)s голос."
+"Пропозиції автоматично приймаються як переклади лише, коли вони мають 1 "
+"голос."
 msgstr[1] ""
 "Пропозиції автоматично приймаються як переклади лише, коли вони мають "
 "%(count)s голоси."
@@ -4287,16 +4272,12 @@ msgid "Translations can be made directly."
 msgstr "Переклади можуть бути зроблені безпосередньо."
 
 #: weblate/templates/component_info.html:20
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "Переклади можуть бути зроблені безпосередньо."
+msgstr "Можна робити пропозиції стосовно перекладу."
 
 #: weblate/templates/component_info.html:22
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Translation suggestions are turned off."
-msgstr "Пропозиції машинного перекладу"
+msgstr "Пропозиції стосовно перекладу вимкнені."
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -5360,10 +5341,8 @@ msgid "Requested by:"
 msgstr "Запитано:"
 
 #: weblate/templates/mail/new_language.html:49
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translation component:"
-msgstr "Коментар до перекладу"
+msgstr "Компонента перекладу:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -6028,33 +6007,32 @@ msgstr "Переклад здійснюється за ліцензією, як�
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts:"
-msgstr ""
+msgstr "Типовий робочий процес для усунення конфліктів злиття:"
 
 #: weblate/templates/trans/merge_instructions.html:10
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "Надіслати заплановані зміни у локальне сховище"
+msgstr ""
+"Надсилання запланованих змін у локальне сховище та блокування компоненти "
+"перекладу."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr ""
+msgstr "Додати експортоване сховище Weblate як дистанційне."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
+msgstr "Об'єднатися змінити Weblate і розв'язати будь-які конфлікти."
 
 #: weblate/templates/trans/merge_instructions.html:22
-#, fuzzy
-#| msgid "Push changes to the remote repository"
 msgid "Push changes into upstream repository."
-msgstr "Проштовхнути зміни у віддаленому сховищі"
+msgstr "Проштовхнути зміни у верхнє сховище."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
 "Weblate now should be able to see updated repository and you can unlock it."
 msgstr ""
+"Тепер Weblate повинен бачити оновлене сховище і ви зможете його розблокувати."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -7624,10 +7602,8 @@ msgid "Automatically add language file"
 msgstr "Автоматично додати мовний файл"
 
 #: weblate/trans/models/component.py:85
-#, fuzzy
-#| msgid "Add language definitions (global)"
 msgid "No language additions"
-msgstr "Додати визначення мов (глобальне)"
+msgstr "Відсутні мовні доповнення"
 
 #: weblate/trans/models/component.py:88
 msgid "Merge"
@@ -7730,10 +7706,8 @@ msgid "Locked"
 msgstr "Заблоковано"
 
 #: weblate/trans/models/component.py:258
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "Locked component will not get any translation updates."
-msgstr "Компонент наразі відкрито для оновлення перекладів."
+msgstr "Заблокована компонента не отримає жодних оновлень перекладу."
 
 #: weblate/trans/models/component.py:262
 msgid "Allow translation propagation"
@@ -7751,16 +7725,12 @@ msgid "Save translation history"
 msgstr "Зберегти історію перекладів"
 
 #: weblate/trans/models/component.py:274
-#, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
 msgid "Whether Weblate should keep track of old translations."
-msgstr "Чи повинен Weblate зберігати історію перекладів"
+msgstr "Чи повинен Weblate відстежувати старі переклади."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Turn on suggestions"
-msgstr "Неперевірені пропозиції"
+msgstr "Увімкнути пропозиції"
 
 #: weblate/trans/models/component.py:281
 msgid "Whether to allow translation suggestions at all."
@@ -7814,16 +7784,12 @@ msgstr ""
 "перекладати цей компонент."
 
 #: weblate/trans/models/component.py:344
-#, fuzzy
-#| msgid ""
-#| "How to handle requests for creating new translations. Please note that "
-#| "the available choices depends on the file format."
 msgid ""
 "How to handle requests for creating new translations. Please note that the "
 "available choices depend on the file format."
 msgstr ""
-"Як опрацьовувати запити на нові переклади. Деякі параметри можуть бути "
-"недоступними залежно від формату файлів."
+"Як опрацьовувати запити на нові переклади. Зверніть увагу, що доступні "
+"варіанти залежать від формату файлів."
 
 #: weblate/trans/models/component.py:352
 msgid "Merge style"
@@ -7914,10 +7880,9 @@ msgstr ""
 "в інтерфейсі адміністратора."
 
 #: weblate/trans/models/component.py:638
-#, fuzzy, python-format
-#| msgid "Could not push the repository."
+#, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Не вдалося відправити сховище."
+msgstr "Не вдалося вибрати сховище: %s"
 
 #: weblate/trans/models/component.py:775
 #, python-format
@@ -7972,16 +7937,12 @@ msgid "Push URL is not used for linked repositories."
 msgstr "URL для надсилання не використовується для пов'язаних сховищ."
 
 #: weblate/trans/models/component.py:1334
-#, fuzzy
-#| msgid "Repository branch is not used when repository is linked!"
 msgid "Repository branch is not used for linked repositories."
-msgstr "Гілка сховища не використовується, коли сховище пов'язане!"
+msgstr "Гілка сховища не використовується для зв'язаних сховищ."
 
 #: weblate/trans/models/component.py:1340
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Export URL is not used for linked repositories."
-msgstr "URL експорту не вживається, коли сховище пов'язане!"
+msgstr "URL експорту не вживається для зв'язаних сховищ."
 
 #: weblate/trans/models/component.py:1349
 msgid "The filemask did not match any files."
@@ -8011,10 +7972,9 @@ msgid "This file seems to be invalid."
 msgstr "Файл, здається, невірний."
 
 #: weblate/trans/models/component.py:1393
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not recognize the format of %d matching files."
-msgstr "Не вдалося розібрати файли перекладу."
+msgstr "Не вдалося розпізнати формат %d відповідних файлів."
 
 #: weblate/trans/models/component.py:1402
 #, python-format
@@ -8276,16 +8236,12 @@ msgid "Expiry date"
 msgstr "Термін дії"
 
 #: weblate/trans/models/whiteboard.py:123
-#, fuzzy
-#| msgid ""
-#| "The message will be not shown after this date. Use for announcements such "
-#| "as deadline for next release."
 msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Повідомлення не буде показуватися після цієї дати. Використовуйте для таких "
-"оголошень, як реченець для наступного випуску."
+"Повідомлення не буде показуватися після цієї дати. Використовуйте його, щоб "
+"оголосити про блокування рядків та реченець перекладу для наступного випуску."
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
