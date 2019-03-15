@@ -141,7 +141,7 @@ class GitRepository(Repository):
                 '--message',
                 message or "Merge branch '{}' into Weblate".format(remote),
             ]
-            cmd.extend(self._get_gpg_sign())
+            cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.branch)
             self.execute(cmd)
             # Checkout branch with Weblate changes
@@ -172,7 +172,7 @@ class GitRepository(Repository):
         return self.execute(['show', revision], needs_lock=False)
 
     @staticmethod
-    def _get_gpg_sign():
+    def get_gpg_sign_args():
         sign_key = get_gpg_sign_key()
         if sign_key:
             return ['--gpg-sign={}'.format(sign_key)]
@@ -247,7 +247,7 @@ class GitRepository(Repository):
             cmd.extend(['--author', author])
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
-        cmd.extend(self._get_gpg_sign())
+        cmd.extend(self.get_gpg_sign_args())
 
         # Add files to cmdline as more might be already in the index
         cmd.append('--')
