@@ -86,8 +86,8 @@ NEW_LANG_CHOICES = (
 )
 LANGUAGE_CODE_STYLE_CHOICES = (
     ('', ugettext_lazy('Default based on the file format')),
-    ('posix', ugettext_lazy('POSIX style using hyphen as a separator')),
-    ('bcp', ugettext_lazy('BCP style using underscore as a separator')),
+    ('posix', ugettext_lazy('POSIX style using underscore as a separator')),
+    ('bcp', ugettext_lazy('BCP style using hyphen as a separator')),
     ('android', ugettext_lazy('Android style')),
 )
 

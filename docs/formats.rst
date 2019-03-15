@@ -951,10 +951,10 @@ in generated filenames:
 
 Default based on the file format
    Dependent on file format, for most of them POSIX is used.
-POSIX style using hyphen as a separator
+POSIX style using underscore as a separator
    Typically used by Gettext and related tools, produces language codes like
    `pt-BR`.
-BCP style using underscore as a separator
+BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
    `pt_BR`.
 Android style

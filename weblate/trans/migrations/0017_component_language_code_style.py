@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='language_code_style',
-            field=models.CharField(blank=True, choices=[('', 'Default based on the file format'), ('posix', 'POSIX style using hyphen as a separator'), ('bcp', 'BCP style using underscore as a separator'), ('android', 'Android style')], default='', help_text='Customize language code used to generate the filename for translations created by Weblate.', max_length=10, verbose_name='Language code style'),
+            field=models.CharField(blank=True, choices=[('', 'Default based on the file format'), ('posix', 'POSIX style using underscore as a separator'), ('bcp', 'BCP style using hyphen as a separator'), ('android', 'Android style')], default='', help_text='Customize language code used to generate the filename for translations created by Weblate.', max_length=10, verbose_name='Language code style'),
         ),
     ]
