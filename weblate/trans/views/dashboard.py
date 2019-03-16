@@ -247,7 +247,9 @@ def dashboard_user(request):
                 get_paginator(request, user_translations)
             ),
             'componentlists': componentlists,
-            'all_componentlists': prefetch_stats(ComponentList.objects.all()),
+            'all_componentlists': prefetch_stats(ComponentList.objects.filter(
+                components__project__in=request.user.allowed_projects
+            )).distinct(),
             'active_tab_slug': active_tab_slug,
         }
     )
