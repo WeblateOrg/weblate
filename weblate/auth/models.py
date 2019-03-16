@@ -28,7 +28,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
 from django.db.models.signals import (
-    post_save, post_migrate, pre_delete, m2m_changed
+    post_save, pre_delete, m2m_changed
 )
 from django.dispatch import receiver
 from django.http import Http404
@@ -558,13 +558,8 @@ def create_groups(update):
             project.save()
 
 
-@receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
-    """Create groups."""
-    if sender.label != 'weblate_auth':
-        return
-
-    # Create default groups
+    """Create default groups."""
     create_groups(False)
 
 

@@ -38,7 +38,6 @@ from django.utils.translation import (
 )
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
-from django.db.models.signals import post_migrate
 
 from weblate.lang import data
 from weblate.langdata import languages
@@ -349,12 +348,10 @@ class LanguageQuerySet(models.QuerySet):
         return self.filter(translation__pk__gt=0).distinct()
 
 
-@receiver(post_migrate)
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
-    if sender.label == 'lang':
-        with transaction.atomic():
-            Language.objects.setup(False)
+    with transaction.atomic():
+        Language.objects.setup(False)
 
 
 @python_2_unicode_compatible
