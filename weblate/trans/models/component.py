@@ -938,7 +938,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # If we're not recursing, call on parent
         if not from_link and self.is_repo_link:
             return self.linked_component.commit_pending(
-                reason, request, True, skip_push=skip_push
+                reason, request, skip_push=skip_push
             )
 
         # Commit all translations
