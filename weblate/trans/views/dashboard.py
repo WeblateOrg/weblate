@@ -198,7 +198,10 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.filter(show_dashboard=True))
+    componentlists = list(ComponentList.objects.filter(
+        show_dashboard=True,
+        components__project__in=request.user.allowed_projects
+    ).distinct())
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
