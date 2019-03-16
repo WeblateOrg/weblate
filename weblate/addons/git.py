@@ -59,7 +59,7 @@ class GitSquashAddon(BaseAddon):
             message = repository.execute([
                 'log', '--format=%B', '{}..HEAD'.format(remote)
             ])
-            repository.execute(['reset', '--soft', remote])
+            repository.execute(['reset', '--mixed', remote])
             repository.commit(message, author)
 
     def get_filenames(self, component):
@@ -84,7 +84,7 @@ class GitSquashAddon(BaseAddon):
                 'log', '--format=%B', '{}..HEAD'.format(remote), '--'
             ] + filenames)
 
-        repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--mixed', remote])
 
         for code, message in messages.items():
             if not message:
@@ -103,7 +103,7 @@ class GitSquashAddon(BaseAddon):
                     '--', filename
                 ])
 
-        repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--mixed', remote])
 
         for filename, message in messages.items():
             if not message:
