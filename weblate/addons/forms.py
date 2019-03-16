@@ -167,7 +167,7 @@ class DiscoveryForm(BaseAddonForm):
         label=_('Define the monolingual base filename'),
         initial='',
         required=False,
-        help_text=_('Keep empty for bilingual translation files.'),
+        help_text=_('Leave empty for bilingual translation files.'),
     )
     new_base_template = forms.CharField(
         label=_('Define the base file for new translations'),

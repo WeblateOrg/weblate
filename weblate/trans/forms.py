@@ -636,12 +636,12 @@ class ExtraUploadForm(UploadForm):
     author_name = forms.CharField(
         label=_('Author name'),
         required=False,
-        help_text=_('Keep empty for using currently logged in user.')
+        help_text=_('Leave empty for using currently logged in user.')
     )
     author_email = forms.EmailField(
         label=_('Author email'),
         required=False,
-        help_text=_('Keep empty for using currently logged in user.')
+        help_text=_('Leave empty for using currently logged in user.')
     )
 
 
