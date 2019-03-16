@@ -523,7 +523,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid link to a Weblate project, cannot link it to itself!'
+            'Invalid link to a Weblate project, cannot link it to itself!',
             self.component.full_clean
         )
 
