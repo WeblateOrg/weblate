@@ -772,9 +772,14 @@ class Component(models.Model, URLMixin, PathMixin):
         * Configured push
         * Whether there is something to push
         """
-        if (not self.push_on_commit
-                or not self.can_push()
-                or not self.repo_needs_push()):
+        if not self.push_on_commit:
+            self.log_debug('skipped push: push on commit disabled')
+            return
+        if not self.can_push():
+            self.log_debug('skipped push: upstream not configured')
+            return
+        if not self.repo_needs_push():
+            self.log_debug('skipped push: nothing to push')
             return
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(request, force_commit=False, do_update=do_update)
