@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-16 13:23+0000\n"
-"PO-Revision-Date: 2019-01-28 21:55+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2019-03-21 07:49+0000\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -62,10 +62,6 @@ msgid "Component wide notifications"
 msgstr "组件全局通知"
 
 #: weblate/accounts/forms.py:233
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
@@ -76,10 +72,6 @@ msgid "Translation notifications"
 msgstr "翻译通知"
 
 #: weblate/accounts/forms.py:242
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -91,8 +83,6 @@ msgid "Email"
 msgstr "电子邮箱"
 
 #: weblate/accounts/forms.py:299
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "You can add another email address in the Authentication tab."
 msgstr "您可以在身份验证选项卡中添加其他电子邮箱。"
 
@@ -115,24 +105,18 @@ msgid "Message"
 msgstr "消息"
 
 #: weblate/accounts/forms.py:349
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to understand "
-#| "your request."
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
-msgstr "请使用英语与我们联系，否则我们可能无法理解您的请求。"
+msgstr "请使用英语与我们联系，否则我们可能无法处理您的请求。"
 
 #: weblate/accounts/forms.py:372
 msgid "Activation email will be sent here."
 msgstr "激活邮件将发送到这里。"
 
 #: weblate/accounts/forms.py:410
-#, fuzzy
-#| msgid "Too many registration attempts from this location!"
 msgid "Too many failed registration attempts from this location!"
-msgstr "来自该地址的注册尝试过多！"
+msgstr "来自该地址的失败注册尝试过多！"
 
 #: weblate/accounts/forms.py:417
 msgid "New password"
@@ -155,10 +139,8 @@ msgstr "%s 是多少？"
 
 #. Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
 #: weblate/accounts/forms.py:491
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "That was not correct, please try again."
-msgstr "发送了太多搜索请求，请稍后再试。"
+msgstr "输入不正确，请重试。"
 
 #: weblate/accounts/forms.py:515
 msgid "Current password"
@@ -182,10 +164,6 @@ msgid "Password"
 msgstr "密码"
 
 #: weblate/accounts/forms.py:554
-#, fuzzy
-#| msgid ""
-#| "Please enter a correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid ""
 "Please enter the correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -215,16 +193,12 @@ msgid "Source code repository"
 msgstr "源代码库"
 
 #: weblate/accounts/forms.py:645
-#, fuzzy
-#| msgid "URL of source code repository for example Git or Mercurial."
 msgid "URL of source code repository, for example Git or Mercurial."
 msgstr "代码库的公开网址，例如 Git 或 Mercurial 代码库。"
 
 #: weblate/accounts/forms.py:651 weblate/templates/component_info.html:93
 #: weblate/templates/trans/discover-choice.html:2
 #: weblate/trans/models/component.py:214
-#, fuzzy
-#| msgid "File mask"
 msgid "Filemask"
 msgstr "文件掩码"
 
@@ -259,18 +233,17 @@ msgstr "密码重置请求已确认，密码已被禁用。"
 #: weblate/accounts/models.py:63
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr ""
+msgstr "您现在可以使用 {method} 登录 {name}。"
 
 #: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr ""
+msgstr "您不再可以使用 {method} 登录 {name}。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "已使用 ({method}:{name}) 验证身份。"
+msgstr "已使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:72
 #, fuzzy, python-brace-format
