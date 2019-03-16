@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-16 13:23+0000\n"
-"PO-Revision-Date: 2019-03-16 13:22+0000\n"
+"PO-Revision-Date: 2019-03-21 07:50+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -295,16 +295,13 @@ msgid "Somebody has attempted to register using your email address."
 msgstr "Noen har prøvd å registrere med din e-post."
 
 #: weblate/accounts/models.py:81
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr "Kunne ikke logge inn med {method}{name}."
+msgstr "Kunne ikke logge inn med {method} ({name})."
 
 #: weblate/accounts/models.py:84
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Konto låst på grunn av for mange mislykkede identitetsbekreftelsesforsøk."
+msgstr "Konto låst på grunn av mange mislykkede identitetsbekreftelsesforsøk."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
@@ -5712,7 +5709,7 @@ msgstr "Kodelageret for denne komponenten er lenket til %(target)s."
 
 #: weblate/templates/project.html:122
 msgid "link"
-msgstr "lenke"
+msgstr "Lenket"
 
 #: weblate/templates/project.html:131
 msgid "There are currently no translation components."
@@ -7790,20 +7787,22 @@ msgid "No language additions"
 msgstr "Dine språk"
 
 #: weblate/trans/models/component.py:88
+#, fuzzy
 msgid "Default based on the file format"
-msgstr ""
+msgstr "Forvalg basert på filformatet"
 
 #: weblate/trans/models/component.py:89
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "POSIX-stil med understrek som inndeler"
 
 #: weblate/trans/models/component.py:90
+#, fuzzy
 msgid "BCP style using hyphen as a separator"
-msgstr ""
+msgstr "BCP-stil med bindestrek som inndeler"
 
 #: weblate/trans/models/component.py:91
 msgid "Android style"
-msgstr ""
+msgstr "Android-stil"
 
 #: weblate/trans/models/component.py:95
 msgid "Merge"
@@ -8032,10 +8031,13 @@ msgid "Language code style"
 msgstr "Språkkoder"
 
 #: weblate/trans/models/component.py:363
+#, fuzzy
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
+"Tilpass språkkode brukt til å generere filnavn for oversettelser opprettet "
+"av Weblate."
 
 #: weblate/trans/models/component.py:370
 msgid "Merge style"
