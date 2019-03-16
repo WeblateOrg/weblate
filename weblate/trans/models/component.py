@@ -1352,7 +1352,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )}
             )
         for setting in ('push', 'branch', 'git_export', 'push_on_commit'):
-            if getattr(self, setting):
+            if getattr(self, setting, None):
                 raise ValidationError({
                     setting: _(
                         'Option is not available for linked repositories.'
