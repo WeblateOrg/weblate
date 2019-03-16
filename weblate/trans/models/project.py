@@ -55,7 +55,7 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Project name'),
         max_length=60,
         unique=True,
-        help_text=ugettext_lazy('Displayed name')
+        help_text=ugettext_lazy('Display name')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),

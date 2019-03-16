@@ -1546,7 +1546,7 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
     name = forms.CharField(
         label=_('Component name'),
         max_length=settings.COMPONENT_NAME_LENGTH,
-        help_text=_('Displayed name')
+        help_text=_('Display name')
     )
     slug = forms.SlugField(
         label=_('URL slug'),

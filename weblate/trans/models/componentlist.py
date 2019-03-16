@@ -38,7 +38,7 @@ class ComponentList(models.Model):
         verbose_name=_('Component list name'),
         max_length=100,
         unique=True,
-        help_text=_('Displayed name')
+        help_text=_('Display name')
     )
 
     slug = models.SlugField(

@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
             name='Project',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Displayed name', max_length=60, unique=True, verbose_name='Project name')),
+                ('name', models.CharField(help_text='Display name', max_length=60, unique=True, verbose_name='Project name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=60, unique=True, verbose_name='URL slug')),
                 ('web', models.URLField(help_text='Main website of translated project.', verbose_name='Project website')),
                 ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list')),
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
             name='Component',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Displayed name', max_length=100, verbose_name='Component name')),
+                ('name', models.CharField(help_text='Display name', max_length=100, verbose_name='Component name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=100, verbose_name='URL slug')),
                 ('repo', models.CharField(help_text='URL of a repository, use weblate://project/component to share it with other component.', max_length=200, verbose_name='Source code repository')),
                 ('push', models.CharField(blank=True, help_text='URL of a push repository, pushing is turned off if empty.', max_length=200, verbose_name='Repository push URL')),
@@ -357,7 +357,7 @@ class Migration(migrations.Migration):
             name='ComponentList',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Displayed name', max_length=100, unique=True, verbose_name='Component list name')),
+                ('name', models.CharField(help_text='Display name', max_length=100, unique=True, verbose_name='Component list name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=100, unique=True, verbose_name='URL slug')),
                 ('components', models.ManyToManyField(to='trans.Component', blank=True)),
             ],

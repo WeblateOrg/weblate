@@ -130,7 +130,7 @@ class Component(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
         max_length=settings.COMPONENT_NAME_LENGTH,
-        help_text=ugettext_lazy('Displayed name')
+        help_text=ugettext_lazy('Display name')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
