@@ -404,5 +404,8 @@ def show_component_list(request, name):
         'component-list.html',
         {
             'object': obj,
+            'components': obj.components.filter(
+                project__in=request.user.allowed_projects
+            )
         }
     )
