@@ -1351,21 +1351,13 @@ class Component(models.Model, URLMixin, PathMixin):
                     'use weblate://project/component.'
                 )}
             )
-        if self.push != '':
-            raise ValidationError(
-                {'push': _('Push URL is not used for linked repositories.')}
-            )
-        if self.branch:
-            raise ValidationError(
-                {'branch': _('Repository branch is not used for linked repositories.')}
-            )
-        if self.git_export != '':
-            raise ValidationError(
-                {
-                    'git_export':
-                        _('Export URL is not used for linked repositories.')
-                }
-            )
+        for setting in ('push', 'branch', 'git_export', 'push_on_commit'):
+            if getattr(self, setting):
+                raise ValidationError({
+                    setting: _(
+                        'Option is not available for linked repositories.'
+                    )
+                })
         self.linked_component = Component.objects.get_linked(self.repo)
 
     def clean_lang_codes(self, matches):
