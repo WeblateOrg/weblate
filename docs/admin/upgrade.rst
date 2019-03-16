@@ -157,6 +157,11 @@ Notable configuration or dependencies changes:
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
+.. note::
+
+   Weblate will support Python 2 util 4.0 release currently scheduled on April
+   2020. This is in line with Django dropping support for Python 2.
+
 Weblate currently supports both Python 2.7 and 3.x. Upgrading existing
 installations is supported, but you should pay attention to some data stored on
 the disk as it might be incompatible between these two.
