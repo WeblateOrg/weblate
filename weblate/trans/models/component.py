@@ -197,8 +197,8 @@ class Component(models.Model, URLMixin, PathMixin):
     report_source_bugs = models.EmailField(
         verbose_name=ugettext_lazy('Source string bug reporting address'),
         help_text=ugettext_lazy(
-            'Email address errors in source strings will be reported to. '
-            'Keep empty for no emails.'
+            'Email address for reports on errors in source strings. '
+            'Leave empty for no emails.'
         ),
         max_length=254,
         blank=True,
