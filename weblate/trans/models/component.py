@@ -1336,7 +1336,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise ValidationError(
                     {'repo': _(
                         'Invalid link to a Weblate project, '
-                        'cannot link to self!'
+                        'cannot link it to itself!'
                     )}
                 )
         except (Component.DoesNotExist, ValueError):
