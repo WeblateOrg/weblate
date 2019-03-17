@@ -1598,6 +1598,8 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
         instance = Component(**params)
         instance.clean_fields(exclude=('filemask',))
         instance.validate_unique()
+        if instance.is_repo_link:
+            instance.push_on_commit = False
         instance.clean_repo()
         self.instance = instance
 
