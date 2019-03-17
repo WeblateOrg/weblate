@@ -5,21 +5,22 @@
 # Андрій Бандура <andriykopanytsia@gmail.com>, 2018, 2019.
 # Taras <oster.ok@gmail.com>, 2018, 2019.
 # Максим Якимчук <xpinovo@gmail.com>, 2018.
+# Olexandr Nesterenko <olexn@ukr.net>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-16 13:23+0000\n"
-"PO-Revision-Date: 2019-03-16 13:22+0000\n"
-"Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
+"PO-Revision-Date: 2019-03-21 07:50+0000\n"
+"Last-Translator: Olexandr Nesterenko <olexn@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -853,10 +854,8 @@ msgid "Define the monolingual base filename"
 msgstr "Визначити назву базового файлу для одномовного перекладу"
 
 #: weblate/addons/forms.py:170
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
-msgstr "Збережіть порожнім для двомовних файлів перекладу."
+msgstr "Лишіть порожнім для двомовних файлів перекладу."
 
 #: weblate/addons/forms.py:173
 msgid "Define the base file for new translations"
@@ -6031,10 +6030,6 @@ msgid "Push changes into upstream repository."
 msgstr "Проштовхнути зміни у верхнє сховище."
 
 #: weblate/templates/trans/merge_instructions.html:26
-#, fuzzy
-#| msgid ""
-#| "Weblate now should be able to see updated repository and you can unlock "
-#| "it."
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
@@ -6508,10 +6503,6 @@ msgstr ""
 "застосовує їх у цьому проекті."
 
 #: weblate/templates/translation.html:276
-#, fuzzy
-#| msgid ""
-#| "You can add new a translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
@@ -6959,10 +6950,8 @@ msgid "Author name"
 msgstr "Ім’я автора"
 
 #: weblate/trans/forms.py:639 weblate/trans/forms.py:644
-#, fuzzy
-#| msgid "Keep empty for using currently logged in user."
 msgid "Leave empty for using currently logged in user."
-msgstr "Залишити порожнім для використання імені активного користувача."
+msgstr "Лишити порожнім для використання імені активного користувача."
 
 #: weblate/trans/forms.py:642
 msgid "Author email"
@@ -7633,7 +7622,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:91
 msgid "Android style"
-msgstr ""
+msgstr "Стиль Android"
 
 #: weblate/trans/models/component.py:95
 msgid "Merge"
@@ -7692,16 +7681,12 @@ msgid "Source string bug reporting address"
 msgstr "Адреса для повідомлень про помилки у рядках"
 
 #: weblate/trans/models/component.py:200
-#, fuzzy
-#| msgid ""
-#| "Email address errors in source strings will be reported to. Keep empty "
-#| "for no emails."
 msgid ""
 "Email address for reports on errors in source strings. Leave empty for no "
 "emails."
 msgstr ""
-"Адреса ел. пошти, куди відправляти повідомлення про помилки в ключах. "
-"Залиште поле порожнім, щоб не отримувати листів."
+"Адреса e-mail для звітів про помилки в джерельному коді. Залиште поле "
+"порожнім, щоб не отримувати листів."
 
 #: weblate/trans/models/component.py:218
 msgid ""
@@ -7967,12 +7952,10 @@ msgstr ""
 "зв'язане сховище!"
 
 #: weblate/trans/models/component.py:1338
-#, fuzzy
-#| msgid "Invalid link to a Weblate project, cannot link to self!"
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Неправильне посилання на проект Weblate, неможливо створити посилання на "
-"нього!"
+"самого себе!"
 
 #: weblate/trans/models/component.py:1345
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -8933,8 +8916,6 @@ msgid "File content merge failed: %s"
 msgstr "Не вдалося об'єднати вміст файлу: %s"
 
 #: weblate/trans/views/git.py:44
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation in progress."
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr "Не вдалося заблокувати сховище, триває інша операція."
 
