@@ -1351,8 +1351,8 @@ class Component(models.Model, URLMixin, PathMixin):
                     'use weblate://project/component.'
                 )}
             )
-        for setting in ('push', 'branch', 'git_export', 'push_on_commit'):
-            if getattr(self, setting, None):
+        for setting in ('push', 'branch', 'git_export'):
+            if getattr(self, setting):
                 raise ValidationError({
                     setting: _(
                         'Option is not available for linked repositories.'
