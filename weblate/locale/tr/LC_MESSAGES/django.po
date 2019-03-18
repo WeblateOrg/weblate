@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-16 13:23+0000\n"
-"PO-Revision-Date: 2019-03-16 13:22+0000\n"
+"PO-Revision-Date: 2019-03-21 07:50+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -844,8 +844,6 @@ msgid "Define the monolingual base filename"
 msgstr "Tek dil taban dosya adını tanımla"
 
 #: weblate/addons/forms.py:170
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "İki dilli çeviri dosyaları için boş bırakın."
 
@@ -3480,25 +3478,19 @@ msgid "Configure addon"
 msgstr "Eklentiyi yapılandır"
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid ""
-#| "This addon operates on whole project, it is enough to install it on one "
-#| "component."
 msgid ""
 "This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
-"Bu eklenti proje genelinde çalışır, yalnızca bir bileşende kurmak yeterlidir."
+"Bu eklenti tüm proje için kullanılıyor, bir bileşen için yüklemek yeterli."
 
 #: weblate/templates/addons/addon_head.html:5
 msgid "project wide"
 msgstr "proje geneli"
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "This addon operates on all components sharing this repository."
 msgid "This addon is used for all components sharing this repository."
-msgstr "Bu eklenti bu havuzu paylaşan tüm bileşenlerde çalışır."
+msgstr "Bu eklenti, bu depoyu paylaşan tüm bileşenler için kullanılır."
 
 #: weblate/templates/addons/addon_head.html:8
 msgid "repository wide"
@@ -3659,21 +3651,14 @@ msgid ""
 msgstr "Bu depodaki tüm bileşenlerden tüm Weblate işlemeleri işlenecek."
 
 #: weblate/templates/addons/squash_help.html:7
-#, fuzzy
-#| msgid ""
-#| "The resulting commits will include all commit messages and the commit "
-#| "authorship will not be preserved for all but per author squash. If you "
-#| "want to include authorship information it is recommended to customize the "
-#| "commit message to include this."
 msgid ""
 "Resulting commits will include all original commit messages, but lose commit "
 "authorship, unless \"Per author\" is selected, or you customize the commit "
 "message to include it."
 msgstr ""
-"Sonuçta ortaya çıkan işlemeler tüm işleme mesajlarını içerecek ve işleme "
-"yazarı yazar başına değil, herkes için korunmayacaktır. Yazarlık bilgisini "
-"eklemek istiyorsanız, bu iletiyi eklemek için işleme iletisini "
-"özelleştirmeniz önerilir."
+"Sonuçta ortaya çıkan işlemeler, tüm orijinal işleme mesajlarını içerecektir, "
+"ancak \"Yazar başına\" seçilmediği sürece işleme yazarlığını kaybedersiniz "
+"veya onay mesajını dahil etmek için özelleştirirsiniz."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4168,16 +4153,12 @@ msgid "Browse all component changes"
 msgstr "Tüm bileşen değişikliklerine gözat"
 
 #: weblate/templates/component.html:217
-#, fuzzy
-#| msgid ""
-#| "The message is shown on all translations within the component until it's "
-#| "expiry or permanently until deleting."
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Mesaj, süresi doluncaya kadar veya silinene kadar sürekli olarak bileşen "
-"içindeki tüm çevirilerde gösterilir."
+"Mesaj, süresi doluncaya kadar veya silinene kadar kalıcı olarak bileşen "
+"içindeki tüm çeviriler için gösterilir."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4219,19 +4200,14 @@ msgid "Credits"
 msgstr "Katkıda Bulunanlar"
 
 #: weblate/templates/component.html:288
-#, fuzzy
-#| msgid ""
-#| "Credits list all translators who have contributed to this component in a "
-#| "given time period. It can be useful for including in your documentation "
-#| "or application to thank translators."
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Katkıda bulunanlar, verilen süre içinde bu bileşen için katkıda bulunan tüm "
-"çevirmenleri listeler. Çevirmenlere teşekkür etmek için belgelerinize veya "
-"uygulamanıza dahil etmeniz yararlı olabilir."
+"Belirli bir zaman diliminde bu bileşene katkıda bulunan tüm çevirmenleri "
+"listeler. Çevirmenlere teşekkür etmek ve onlara geri bildirim üretmek için, "
+"belgelere veya uygulamanın kendisine dahil etmek için kullanışlıdır."
 
 #: weblate/templates/component.html:292 weblate/templates/component.html:311
 #: weblate/wladmin/templates/admin/ssh.html:36
@@ -4243,54 +4219,40 @@ msgid "Contributor stats"
 msgstr "Katılımcı istatistikleri"
 
 #: weblate/templates/component.html:307
-#, fuzzy
-#| msgid "Reports number of strings and words translated by each translator."
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
-"Her çevirmen tarafından tercüme edilmiş satır ve kelime sayılarını raporlar."
+"Her çevirmen tarafından çevrilen satır ve kelimelerin sayısını rapor eder."
 
 #: weblate/templates/component_info.html:11
 msgid "Translation process"
 msgstr "Çeviri işleyişi"
 
 #: weblate/templates/component_info.html:15
-#, fuzzy
-#| msgid "Translations can be made only through suggesting."
 msgid "Translations can only be done through suggestions."
-msgstr "Çeviriler yalnızca önerme yoluyla yapılabilir."
+msgstr "Çeviri sadece öneri yoluyla yapılabilir."
 
 #: weblate/templates/component_info.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s vote."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
+#, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] ""
-"Önerilerin %(count)s oyu olunca çeviri olarak kendiliğinden kabul edilir."
+msgstr[0] "Bir oy kullanan öneriler otomatik olarak çeviri olarak kabul edilir."
 msgstr[1] ""
-"Önerilerin %(count)s oyu olunca çeviri olarak kendiliğinden kabul edilir."
+"%(count)s oy aldıktan sonra öneriler otomatik olarak çeviri olarak kabul "
+"edilir."
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
 msgstr "Çeviri doğrudan yapılabilir."
 
 #: weblate/templates/component_info.html:20
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "Çeviri doğrudan yapılabilir."
+msgstr "Çeviri önerileri yapılabilir."
 
 #: weblate/templates/component_info.html:22
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Translation suggestions are turned off."
-msgstr "Makine çevirisi önerileri"
+msgstr "Çeviri önerileri kapatıldı."
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -4301,26 +4263,20 @@ msgid "Any authenticated user can contribute."
 msgstr "Kimliği doğrulanmış her kullanıcı katkıda bulunabilir."
 
 #: weblate/templates/component_info.html:31
-#, fuzzy
-#| msgid "The translation is using monolingual files."
 msgid "The translation uses monolingual files."
-msgstr "Çeviri tek dilli dosyaları kullanıyor."
+msgstr "Çeviri tek dilli dosyaları kullanır."
 
 #: weblate/templates/component_info.html:33
-#, fuzzy
-#| msgid "The translation base language can be edited."
 msgid "The translation base language is editable."
-msgstr "Çeviri taban dili düzenlenebilir."
+msgstr "Çeviri temel dili düzenlenebilir."
 
 #: weblate/templates/component_info.html:35
 msgid "The translation base language can not be edited."
 msgstr "Çeviri taban dili düzenlenemez."
 
 #: weblate/templates/component_info.html:38
-#, fuzzy
-#| msgid "The translation is using bilingual files."
 msgid "The translation uses bilingual files."
-msgstr "Çeviri iki dilli dosyaları kullanıyor."
+msgstr "Çeviri iki dilli dosyaları kullanır."
 
 #: weblate/templates/component_info.html:46 weblate/templates/project.html:159
 #: weblate/trans/models/component.py:320
@@ -4348,10 +4304,8 @@ msgid "Repository branch"
 msgstr "Havuz dalı"
 
 #: weblate/templates/component_info.html:85
-#, fuzzy
-#| msgid "Repository containing Weblate translations:"
 msgid "Repository containing Weblate translations"
-msgstr "Weblate çevirilerini içeren havuz:"
+msgstr "Weblate çevirilerini içeren havuz"
 
 #: weblate/templates/component_info.html:98
 #: weblate/trans/models/component.py:224
@@ -5366,10 +5320,8 @@ msgid "Requested by:"
 msgstr "İsteyen:"
 
 #: weblate/templates/mail/new_language.html:49
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translation component:"
-msgstr "Çeviri yorumu"
+msgstr "Çeviri bileşeni:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5646,11 +5598,9 @@ msgid "Browse all project changes"
 msgstr "Tüm proje değişikliklerine gözat"
 
 #: weblate/templates/project.html:245 weblate/templates/translation.html:256
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
-"Verilen türle eşleşen tüm satırların durumunu aynı anda değiştirebilirsiniz."
+"Verilen türle eşleşen tüm satırların durumunu bir kerede değiştirebilirsiniz."
 
 #: weblate/templates/project.html:267
 #, fuzzy
