@@ -12,6 +12,7 @@ Released on ? 2019.
 * Cleanup addon is now compatible with app store metadata translations.
 * Configurable language code syntax when adding new translations.
 * Warn about using Python 2 with planned termination of support in April 2020.
+* Extract special chars from the source string for visual keyboard.
 
 weblate 3.5.1
 -------------

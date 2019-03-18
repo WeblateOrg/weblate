@@ -268,7 +268,7 @@ class PluralTextarea(forms.Textarea):
                 char
             )
             for name, char, value in
-            get_special_chars(language, profile.special_chars)
+            get_special_chars(language, profile.special_chars, unit.source)
         ]
 
         groups.append(
