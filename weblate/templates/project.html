@@ -119,7 +119,7 @@
 <th>
 <a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a>
 {% indicate_alerts prj %}
-{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}The repository for this component is linked to {{ target }}.{% endblocktrans %}">{% trans "link" %}</span>{% endif %}
+{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}This component is linked to the {{ target }} repository.{% endblocktrans %}">{% trans "Linked" %}</span>{% endif %}
 </th>
 <td class="progress-cell">{% translation_progress prj %}</td>
 <td class="percent">{{ prj.stats.translated_percent }}%</td>
