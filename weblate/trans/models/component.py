@@ -1661,15 +1661,13 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert('MissingLicense')
 
-        source_space = Unit.objects.filter(
-            translation__component=self,
-            source__contains=' '
-        ).exists
-        target_space = Unit.objects.filter(
-            translation__component=self,
-            target__contains=' '
-        ).exists
-        if not self.template and not source_space() and target_space():
+        allunits = Unit.objects.filter(translation__component=self)
+        source_space = allunits.filter(source__contains=' ')
+        target_space = allunits.filter(target__contains=' ')
+        if (not self.template and
+                allunits.count() > 10 and
+                not source_space.exists() and
+                target_space.exists()):
             self.add_alert('MonolingualTranslation')
         else:
             self.delete_alert('MonolingualTranslation')
