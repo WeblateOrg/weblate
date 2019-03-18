@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-16 13:23+0000\n"
-"PO-Revision-Date: 2019-03-14 16:16+0000\n"
+"PO-Revision-Date: 2019-03-21 07:50+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -819,8 +819,6 @@ msgid "Define the monolingual base filename"
 msgstr "הגדרת שם קובץ בסיס השפה החד לשוני"
 
 #: weblate/addons/forms.py:170
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "ניתן להשאיר ריק לקובצי תרגום דו־לשוניים."
 
@@ -4041,16 +4039,12 @@ msgstr "נא להיכנס כדי להתחיל תרגום חדש"
 
 #: weblate/templates/component.html:173 weblate/templates/project.html:230
 #: weblate/templates/translation.html:241
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all strings at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"ניתן להחליף ביטוי בכל המחרוזות בבת אחת. החיפוש הוא חיפוש תת־מחרוזת תלוי "
-"רישיות פשוט."
+"ניתן להחליף את כל המופעים של מחרוזת כלשהי בבת אחת. החיפוש הוא חיפוש תת־"
+"מחרוזת תלוי רישיות פשוט."
 
 #: weblate/templates/component.html:178 weblate/templates/component.html:193
 #: weblate/templates/project.html:235 weblate/templates/project.html:250
@@ -4067,8 +4061,6 @@ msgid "Bulk status change"
 msgstr "שינוי מצב כמותי"
 
 #: weblate/templates/component.html:188
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching a given type at once."
 msgstr "ניתן לשנות את מצבן של כל המחרוזות שתואמות לסוג מסוים בו זמנית."
 
@@ -4077,15 +4069,12 @@ msgid "Browse all component changes"
 msgstr "עיון בכל השינויים ברכיבים"
 
 #: weblate/templates/component.html:217
-#, fuzzy
-#| msgid ""
-#| "The message is shown on all translations within the component until it's "
-#| "expiry or permanently until deleting."
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"ההודעה תופיע בכל התרגומים שברכיב הזה עד לתפוגה או באופן קבוע עד למחיקה."
+"ההודעה תופיע עבור כל התרגומים שברכיב הזה עד לתפוגה שצוינה או באופן קבוע עד "
+"למחיקה."
 
 #: weblate/templates/component.html:237
 msgid "Rename component"
@@ -4149,8 +4138,6 @@ msgid "Contributor stats"
 msgstr "סטטיסטיקת תורמים"
 
 #: weblate/templates/component.html:307
-#, fuzzy
-#| msgid "Reports number of strings and words translated by each translator."
 msgid "Reports the number of strings and words translated by each translator."
 msgstr "מדווחת על מספר המחרוזות והמילים שתורגמו על ידי כל מתרגם."
 
@@ -4159,24 +4146,16 @@ msgid "Translation process"
 msgstr "תהליך תרגום"
 
 #: weblate/templates/component_info.html:15
-#, fuzzy
-#| msgid "Translations can be made only through suggesting."
 msgid "Translations can only be done through suggestions."
 msgstr "ניתן להגיש תרגומים רק באמצעות הצעות."
 
 #: weblate/templates/component_info.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s vote."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
+#, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת קול אחד."
+msgstr[0] "הצעות עם קול אחד מתקבלות אוטומטית כתרגומים."
 msgstr[1] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
 msgstr[2] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
 msgstr[3] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
@@ -4186,16 +4165,12 @@ msgid "Translations can be made directly."
 msgstr "ניתן לתרגם ישירות."
 
 #: weblate/templates/component_info.html:20
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "ניתן לתרגם ישירות."
+msgstr "ניתן להגיש הצעות לתרגום."
 
 #: weblate/templates/component_info.html:22
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Translation suggestions are turned off."
-msgstr "הצעות מתרגומי מכונה"
+msgstr "הצעות לתרגומים כבויות."
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -4206,14 +4181,10 @@ msgid "Any authenticated user can contribute."
 msgstr "כל משתמש שעבר אימות יכול לתרום."
 
 #: weblate/templates/component_info.html:31
-#, fuzzy
-#| msgid "The translation is using monolingual files."
 msgid "The translation uses monolingual files."
 msgstr "התרגום משתמש בקבצים חד־לשוניים."
 
 #: weblate/templates/component_info.html:33
-#, fuzzy
-#| msgid "The translation base language can be edited."
 msgid "The translation base language is editable."
 msgstr "שפת הבסיס זמינה לעריכה."
 
@@ -4222,8 +4193,6 @@ msgid "The translation base language can not be edited."
 msgstr "שפת הבסיס אינה זמינה לעריכה."
 
 #: weblate/templates/component_info.html:38
-#, fuzzy
-#| msgid "The translation is using bilingual files."
 msgid "The translation uses bilingual files."
 msgstr "התרגום משתמש בקבצים דו־לשוניים."
 
@@ -4253,10 +4222,8 @@ msgid "Repository branch"
 msgstr "ענף מאגר"
 
 #: weblate/templates/component_info.html:85
-#, fuzzy
-#| msgid "Repository containing Weblate translations:"
 msgid "Repository containing Weblate translations"
-msgstr "מאגר שמכיל תרגומי Weblate:"
+msgstr "מאגר שמכיל תרגומי Weblate"
 
 #: weblate/templates/component_info.html:98
 #: weblate/trans/models/component.py:224
@@ -5253,10 +5220,8 @@ msgid "Requested by:"
 msgstr "הבקשה הוגשה על ידי:"
 
 #: weblate/templates/mail/new_language.html:49
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translation component:"
-msgstr "הערת תרגום"
+msgstr "רכיב תרגום:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5520,21 +5485,16 @@ msgid "Browse all project changes"
 msgstr "עיון בכל השינויים במיזם"
 
 #: weblate/templates/project.html:245 weblate/templates/translation.html:256
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching given type at once."
 msgstr "ניתן לשנות את מצבן של כל המחרוזות שתואמות לסוג מסוים בו זמנית."
 
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid ""
-#| "The message is shown on all translations within the project until it's "
-#| "expiry or permanently until deleting."
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"ההודעה מופיעה בכל התרגומים בתוך המיזם עד לתפוגה או באופן קבוע עד למחיקה."
+"ההודעה מופיעה עבור כל התרגומים בתוך המיזם עד לתפוגה שצוינה או באופן קבוע עד "
+"למחיקה."
 
 #: weblate/templates/project.html:287
 msgid "Rename project"
@@ -5800,8 +5760,6 @@ msgid ""
 msgstr "רכיב התרגום נראה כאילו הוא חד־לשוני, אך לא כך הוא מוגדר."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Please add monolingual base language file in component setting."
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "נא להוסיף קובץ בסיס שפה חד־לשוני בהגדרות הרכיב."
 
@@ -5906,11 +5864,9 @@ msgid "Typical workflow for fixing merge conflicts:"
 msgstr "אופן פעילות אופייני לטיפול בסתירות מיזוג:"
 
 #: weblate/templates/trans/merge_instructions.html:10
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "הגשת השינויים הממתינים למאגר המקומי"
+msgstr "הגשת השינויים הממתינים ב־Weblate ונעילת רכיב התרגום."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
@@ -5921,20 +5877,14 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr "מיזוג שינויים ב־Weblate ופתרון של סתירות."
 
 #: weblate/templates/trans/merge_instructions.html:22
-#, fuzzy
-#| msgid "Push changes to the remote repository"
 msgid "Push changes into upstream repository."
-msgstr "דחיפת השינויים אל המאגר המרוחק"
+msgstr "דחיפת השינויים אל מאגר המקור."
 
 #: weblate/templates/trans/merge_instructions.html:26
-#, fuzzy
-#| msgid ""
-#| "Weblate now should be able to see updated repository and you can unlock "
-#| "it."
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
-"עכשיו ל־Weblate אמורה להיות אפשרות לצפות במאגר העדכני ולאפשר לך לשחרר אותו."
+"מעכשיו ל־Weblate אמורה להיות אפשרות לצפות במאגר העדכני ולאפשר לך לשחרר אותו."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -6404,21 +6354,12 @@ msgstr ""
 "התרגומים הטובים ביותר ולהחיל אותם על המיזם הזה."
 
 #: weblate/templates/translation.html:276
-#, fuzzy
-#| msgid ""
-#| "You can add new translation string here, it will automatically appear in "
-#| "all translations."
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
 msgstr "ניתן להוסיף כאן מחרוזת תרגום חדשה, היא תופיע אוטומטית בכל התרגומים."
 
 #: weblate/templates/translation.html:310
-#, fuzzy
-#| msgid ""
-#| "The uploaded file will be merged with the current translation. In case "
-#| "you want to overwrite already translated strings, don't forget to enable "
-#| "it."
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
@@ -6852,8 +6793,6 @@ msgid "Author name"
 msgstr "שם מחבר"
 
 #: weblate/trans/forms.py:639 weblate/trans/forms.py:644
-#, fuzzy
-#| msgid "Keep empty for using currently logged in user."
 msgid "Leave empty for using currently logged in user."
 msgstr "להשאיר ריק לציון המשתמש שמחובר כעת."
 
@@ -7158,10 +7097,8 @@ msgstr "הוספת שפות חדשות"
 
 #: weblate/trans/forms.py:1549 weblate/trans/models/component.py:133
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:58
-#, fuzzy
-#| msgid "Displayed languages"
 msgid "Display name"
-msgstr "שפות מוצגות"
+msgstr "שם תצוגה"
 
 #: weblate/trans/forms.py:1552 weblate/trans/models/component.py:136
 #: weblate/trans/models/componentlist.py:45 weblate/trans/models/project.py:61
@@ -7499,55 +7436,44 @@ msgid "Automatically add language file"
 msgstr "הוספת קובץ השפה אוטומטית"
 
 #: weblate/trans/models/component.py:85
-#, fuzzy
-#| msgid "Add language definitions (global)"
 msgid "No language additions"
-msgstr "הוספת הגדרות שפה (כללי)"
+msgstr "אין תוספת שפות"
 
 #: weblate/trans/models/component.py:88
 msgid "Default based on the file format"
-msgstr ""
+msgstr "בררת מחדל על בסיס סוג הקובץ"
 
 #: weblate/trans/models/component.py:89
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד"
 
 #: weblate/trans/models/component.py:90
 msgid "BCP style using hyphen as a separator"
-msgstr ""
+msgstr "סגנון BCP שמשתמש במינוס כמפריד"
 
 #: weblate/trans/models/component.py:91
 msgid "Android style"
-msgstr ""
+msgstr "סגנון Android"
 
 #: weblate/trans/models/component.py:95
 msgid "Merge"
 msgstr "מיזוג"
 
 #: weblate/trans/models/component.py:149
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository with "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"מערכת ניהול גרסאות לשימוש לטובת גישה למאגר שלך עם התרגומים. ניתן לבחור שילוב "
-"נוסף מול ספקי צד שלישי להגשת בקשות מיזוג."
+"מערכת ניהול גרסאות לשימוש לטובת גישה למאגר שלך שמכיל תרגומים. ניתן לבחור "
+"שילוב נוסף מול ספקי צד שלישי להגשת בקשות מיזוג."
 
 #: weblate/trans/models/component.py:161
-#, fuzzy
-#| msgid ""
-#| "URL of a repository, use weblate://project/component for sharing with "
-#| "other component."
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"כתובת של מאגר, יש להשתמש ב־weblate://project/component לצורך שיתוף עם רכיב "
+"כתובת של מאגר, יש להשתמש ב־weblate://project/component כדי לשתף אותו עם רכיב "
 "אחר."
 
 #: weblate/trans/models/component.py:173
@@ -7555,8 +7481,6 @@ msgid "Repository push URL"
 msgstr "כתובת הדחיפה למאגר"
 
 #: weblate/trans/models/component.py:176
-#, fuzzy
-#| msgid "URL of a push repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr "כתובת של מאגר לדחיפה, הדחיפה מושבתת אם שדה זה ריק."
 
@@ -7578,8 +7502,6 @@ msgid "Exported repository URL"
 msgstr "כתובת מאגר מיוצא"
 
 #: weblate/trans/models/component.py:193
-#, fuzzy
-#| msgid "URL of a repository where users can fetch changes from Weblate"
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr "כתובת של מאגר ממנו יכולים משתמשים לקבל שינויים מ־Weblate"
 
@@ -7750,6 +7672,7 @@ msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
+"ניתן להתאים את קוד השפה כדי לייצר שם קובץ לתרגומים שנוצרו על ידי Weblate."
 
 #: weblate/trans/models/component.py:370
 msgid "Merge style"
