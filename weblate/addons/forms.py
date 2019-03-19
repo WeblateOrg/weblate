@@ -46,6 +46,27 @@ class BaseAddonForm(forms.Form):
         return self._addon.instance
 
 
+class GenerateMoForm(BaseAddonForm):
+    path = forms.CharField(
+        label=_('Path of generated MO file'),
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(GenerateMoForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('path'),
+        )
+
+    def test_render(self, value):
+        translation = self._addon.instance.component.translation_set.all()[0]
+        validate_render(value, translation=translation)
+
+    def clean_path(self):
+        self.test_render(self.cleaned_data['path'])
+        return self.cleaned_data['path']
+
 class GenerateForm(BaseAddonForm):
     filename = forms.CharField(
         label=_('Name of generated file'),
