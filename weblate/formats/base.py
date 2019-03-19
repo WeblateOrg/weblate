@@ -179,6 +179,7 @@ class TranslationFormat(object):
     autoload = ()
     can_add_unit = True
     language_format = 'posix'
+    simple_filename = True
 
     @classmethod
     def get_identifier(cls):

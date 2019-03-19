@@ -232,7 +232,7 @@ class UpdateBaseAddon(BaseAddon):
         with repository.lock:
             if repository.needs_commit():
                 files = list(chain.from_iterable((
-                    translation.store.get_filenames()
+                    translation.filenames
                     for translation in component.translation_set.all()
                 ))) + self.extra_files
                 repository.commit(

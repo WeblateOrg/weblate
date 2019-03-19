@@ -468,7 +468,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Create list of files to commit
-        files = self.store.get_filenames()
+        files = self.filenames
 
         # Do actual commit
         self.component.repository.commit(
@@ -492,10 +492,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_push(self):
         return self.component.repo_needs_push()
 
+    @cached_property
+    def filenames(self):
+        if self.component.file_format_cls.simple_filename:
+            return [self.get_filename()]
+        return self.store.get_filenames()
+
     def repo_needs_commit(self):
-        return self.component.repository.needs_commit(
-            *self.store.get_filenames()
-        )
+        return self.component.repository.needs_commit(*self.filenames)
 
     def git_commit(self, request, author, timestamp, skip_push=False):
         """Wrapper for committing translation to git."""
@@ -506,11 +510,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 return False
 
             # Do actual commit with git lock
-            self.log_info(
-                'committing %s as %s',
-                self.store.get_filenames(),
-                author
-            )
+            self.log_info('committing %s as %s', self.filenames, author)
             Change.objects.create(
                 action=Change.ACTION_COMMIT,
                 translation=self,
@@ -882,18 +882,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Remove translation from the VCS"""
         author = user.get_author_name()
         # Log
-        self.log_info(
-            'removing %s as %s',
-            self.store.get_filenames(),
-            author
-        )
+        self.log_info('removing %s as %s', self.filenames, author)
 
         # Remove file from VCS
         if os.path.exists(self.get_filename()):
             self.commit_template = 'delete'
             with self.component.repository.lock:
                 self.component.repository.remove(
-                    self.store.get_filenames(),
+                    self.filenames,
                     self.get_commit_message(author),
                     author,
                 )

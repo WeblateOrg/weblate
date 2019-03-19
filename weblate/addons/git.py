@@ -69,7 +69,7 @@ class GitSquashAddon(BaseAddon):
                 code = translation.language.code
                 if code not in languages:
                     languages[code] = []
-                languages[code].extend(translation.store.get_filenames())
+                languages[code].extend(translation.filenames)
         return languages
 
     def squash_language(self, component, repository):

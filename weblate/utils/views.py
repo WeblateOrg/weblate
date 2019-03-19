@@ -163,7 +163,7 @@ def download_translation_file(translation, fmt=None, units=None):
         # Force flushing pending units
         translation.commit_pending('download', None)
 
-        filenames = translation.store.get_filenames()
+        filenames = translation.filenames
 
         if len(filenames) == 1:
             extension = translation.store.extension

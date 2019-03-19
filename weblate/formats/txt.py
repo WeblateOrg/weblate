@@ -175,6 +175,7 @@ class AppStoreFormat(TranslationFormat):
     can_add_unit = False
     monolingual = True
     unit_class = TextUnit
+    simple_filename = False
 
     @classmethod
     def load(cls, storefile):
