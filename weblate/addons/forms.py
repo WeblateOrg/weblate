@@ -33,7 +33,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
 from weblate.utils.render import validate_render
-from weblate.utils.validators import validate_re
+from weblate.utils.validators import validate_re, validate_filename
 
 
 class BaseAddonForm(forms.Form):
@@ -72,6 +72,7 @@ class GenerateForm(BaseAddonForm):
 
     def clean_filename(self):
         self.test_render(self.cleaned_data['filename'])
+        validate_filename(self.cleaned_data['filename'])
         return self.cleaned_data['filename']
 
     def clean_template(self):

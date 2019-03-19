@@ -245,3 +245,10 @@ def validate_pluraleq(value):
         raise ValidationError(
             _('Failed to evaluate plural equation: {}').format(error)
         )
+
+
+def validate_filename(value):
+    if '../' in value or '..\\' in value:
+        raise ValidationError(
+            _('Filename can not contain reference to a parent directory.')
+        )
