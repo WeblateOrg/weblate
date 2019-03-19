@@ -70,17 +70,18 @@ class GenerateMoAddon(GettextBaseAddon):
         output = translation.get_filename()[:-2] + 'mo'
 
         if self.instance.configuration['path']:
-             mo_name = os.path.basename(output)
-             if mo_name:
-                 mo_path = os.path.dirname(output)
-                 if not mo_path:
-                    mo_path = ''
+            mo_name = os.path.basename(output)
+            if mo_name:
+                mo_path = os.path.dirname(output)
+                if not mo_path:
+                   mo_path = ''
 
-                 output = os.path.join(
-                     mo_path,
-                     self.instance.configuration['path'],
-                     mo_name
-                 )
+                output = os.path.join(
+                    mo_path,
+                    self.instance.configuration['path'],
+                    mo_name
+                )
+
         with open(output, 'wb') as handle:
             handle.write(exporter.serialize())
         translation.addon_commit_files.append(output)
