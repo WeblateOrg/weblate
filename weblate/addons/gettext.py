@@ -74,7 +74,7 @@ class GenerateMoAddon(GettextBaseAddon):
             if mo_name:
                 mo_path = os.path.dirname(output)
                 if not mo_path:
-                   mo_path = ''
+                    mo_path = ''
 
                 output = os.path.join(
                     mo_path,
