@@ -171,19 +171,34 @@ class ReportsTest(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
-            '<table>\n'
-            '<tr><th>Name</th><th>Email</th>'
-            '<th>Chars total</th>'
-            '<th>Words total</th><th>Count total</th>'
-            '<th>Chars new</th><th>Words new</th><th>Count new</th>'
-            '<th>Chars edited</th><th>Words edited</th><th>Count edited</th>'
-            '</tr>'
-            '\n'
-            '<tr>\n<td>Weblate Test</td>\n'
-            '<td>weblate@example.org</td>\n'
-            '<td>14</td>\n'
-            '<td>2</td>\n<td>1</td>\n'
-            '<td>14</td>\n<td>2</td>\n<td>1</td>\n'
-            '<td>0</td>\n<td>0</td>\n<td>0</td>\n'
-            '\n</tr>\n</table>'
+            '''
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Chars total</th>
+        <th>Words total</th>
+        <th>Count total</th>
+        <th>Chars new</th>
+        <th>Words new</th>
+        <th>Count new</th>
+        <th>Chars edited</th>
+        <th>Words edited</th>
+        <th>Count edited</th>
+    </tr>
+    <tr>
+        <td>Weblate Test</td>
+        <td>weblate@example.org</td>
+        <td>14</td>
+        <td>2</td>
+        <td>1</td>
+        <td>14</td>
+        <td>2</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+</table>
+'''
         )
