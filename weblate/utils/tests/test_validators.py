@@ -23,7 +23,7 @@ from unittest import TestCase
 from django.core.exceptions import ValidationError
 
 from weblate.utils.validators import (
-    validate_editor, clean_fullname, validate_fullname,
+    validate_editor, clean_fullname, validate_fullname, validate_filename,
 )
 
 
@@ -97,3 +97,16 @@ class FullNameCleanTest(TestCase):
             validate_fullname,
             'ahoj\x00bar'
         )
+
+
+class FilenameTest(TestCase):
+    def test_parent(self):
+        with self.assertRaises(ValidationError):
+            validate_filename('../path')
+
+    def test_absolute(self):
+        with self.assertRaises(ValidationError):
+            validate_filename('/path')
+
+    def test_good(self):
+        validate_filename('path/file')
