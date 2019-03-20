@@ -252,3 +252,5 @@ def validate_filename(value):
         raise ValidationError(
             _('Filename can not contain reference to a parent directory.')
         )
+    if os.path.isabs(value):
+        raise ValidationError(_('Filename can not be an absolute path.'))
