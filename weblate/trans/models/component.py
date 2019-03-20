@@ -348,9 +348,7 @@ class Component(models.Model, URLMixin, PathMixin):
         choices=NEW_LANG_CHOICES,
         default='add',
         help_text=ugettext_lazy(
-            'How to handle requests for creating new translations. '
-            'Please note that the available choices depend on '
-            'the file format.'
+            'How to handle requests for creating new translations.'
         ),
     )
     language_code_style = models.CharField(
@@ -1362,7 +1360,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_lang_codes(self, matches):
         """Validate that there are no double language codes"""
-        if not matches and not self.can_add_new_language():
+        if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
                 {'filemask': _('The filemask did not match any files.')}
             )
@@ -1428,7 +1426,10 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_new_lang(self):
         """Validate new language choices."""
-        if self.new_lang == 'add' and not self.is_valid_base_for_new():
+        # Validate if new base is configured or language adding is set
+        if not self.new_base and self.new_lang != 'add':
+            return
+        if not self.is_valid_base_for_new():
             filename = self.get_new_base_filename()
             if filename:
                 message = _(
@@ -1649,11 +1650,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def update_alerts(self):
         from weblate.trans.models import Unit
-        if self.new_lang != 'add' and self.new_base:
-            self.add_alert('UnusedNewBase')
-        else:
-            self.delete_alert('UnusedNewBase')
-
         if (self.project.access_control == self.project.ACCESS_PUBLIC
                 and not self.license
                 and not getattr(settings, 'LOGIN_REQUIRED_URLS', None)):
@@ -1725,16 +1721,23 @@ class Component(models.Model, URLMixin, PathMixin):
         flags.discard('')
         return flags
 
-    def can_add_new_language(self):
-        """Wrapper to check if a new language can be added."""
-        if self.new_lang != 'add':
+    def can_add_new_language(self, request):
+        """Wrapper to check if a new language can be added.
+
+        Generic users can add only if configured, in other situations
+        it works if there is valid new base.
+        """
+        # The request is None in case of consistency or cli invocation
+        if (self.new_lang != 'add' and
+                request is not None and
+                not request.user.has_perm('component.edit', self)):
             return False
 
         return self.is_valid_base_for_new()
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
-        if not self.can_add_new_language():
+        if not self.can_add_new_language(request):
             messages.error(request, _('Could not add new translation file.'))
             return False
 

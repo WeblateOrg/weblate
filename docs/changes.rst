@@ -14,6 +14,7 @@ Released on ? 2019.
 * Warn about using Python 2 with planned termination of support in April 2020.
 * Extract special chars from the source string for visual keyboard.
 * Extended contributor stats to reflect both source and target counts.
+* Admins and consistency addons can now add translations even if disabled for users.
 
 weblate 3.5.1
 -------------

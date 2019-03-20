@@ -238,8 +238,7 @@ Translation license
 License URL
     URL where users can find the actual text of a license in full.
 New translation
-    How to handle requests for creation of new languages. Please note that the
-    availability of choices depends on the file format, see :ref:`formats`.
+    How to handle requests for creation of new languages. See :ref:`adding-translation`.
 Language code style
    Customize language code used to generate the filename for translations
    created by Weblate, see :ref:`new-translations` for more details.
