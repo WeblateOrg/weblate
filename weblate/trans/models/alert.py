@@ -154,11 +154,6 @@ class PushFailure(ErrorAlert):
 
 
 @register
-class UnusedNewBase(BaseAlert):
-    verbose = _('Unused base file for new translations.')
-
-
-@register
 class ParseError(MultiAlert):
     verbose = _('Could not parse translation files.')
     on_import = True

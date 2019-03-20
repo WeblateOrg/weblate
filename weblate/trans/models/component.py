@@ -1650,11 +1650,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def update_alerts(self):
         from weblate.trans.models import Unit
-        if self.new_lang != 'add' and self.new_base:
-            self.add_alert('UnusedNewBase')
-        else:
-            self.delete_alert('UnusedNewBase')
-
         if (self.project.access_control == self.project.ACCESS_PUBLIC
                 and not self.license
                 and not getattr(settings, 'LOGIN_REQUIRED_URLS', None)):

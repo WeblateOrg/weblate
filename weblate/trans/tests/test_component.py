@@ -550,18 +550,9 @@ class ComponentValidationTest(RepoTestCase):
         self.component.save()
 
         self.component.full_clean()
-        # Check that it warns about unused pot
-        self.assertTrue(
-            self.component.alert_set.filter(name='UnusedNewBase').exists()
-        )
 
         self.component.new_lang = 'add'
         self.component.save()
-
-        # The alert should be gone
-        self.assertFalse(
-            self.component.alert_set.filter(name='UnusedNewBase').exists()
-        )
 
         # Check that it doesn't warn about not supported format
         self.component.full_clean()
