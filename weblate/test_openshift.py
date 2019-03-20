@@ -37,7 +37,8 @@ class OpenShiftTest(TestCase):
         for var in cleanup_vars:
             if var in os.environ:
                 del os.environ[var]
-        self.assertRaises(ValueError, get_openshift_secret_key)
+        with self.assertRaises(ValueError):
+            get_openshift_secret_key()
 
     def test_key_stored(self):
         os.environ['OPENSHIFT_SECRET_TOKEN'] = 'TEST TOKEN'

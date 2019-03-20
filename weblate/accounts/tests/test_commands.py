@@ -82,11 +82,8 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
 
     def test_changesite_new(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'changesite', get_name=True, site_id=2
-        )
+        with self.assertRaises(CommandError):
+            call_command('changesite', get_name=True, site_id=2)
         call_command('changesite', set_name='test.weblate.org', site_id=2)
         self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
 

@@ -119,11 +119,8 @@ class ImportProjectTest(RepoTestCase):
         self.test_import_main_1('second-po')
 
     def test_import_main_invalid(self):
-        self.assertRaises(
-            CommandError,
-            self.test_import_main_1,
-            'x-po',
-        )
+        with self.assertRaises(CommandError):
+            self.test_import_main_1('x-po')
 
     def test_import_filter(self):
         project = self.create_project()
@@ -166,26 +163,24 @@ class ImportProjectTest(RepoTestCase):
         )
 
     def test_import_re_missing(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            r'(?P<name>[^/-]*)/.*\.po'
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                r'(?P<name>[^/-]*)/.*\.po'
+            )
 
     def test_import_re_wrong(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            r'(?P<name>[^/-]*'
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                r'(?P<name>[^/-]*'
+            )
 
     def test_import_po(self):
         project = self.create_project()
@@ -201,16 +196,15 @@ class ImportProjectTest(RepoTestCase):
 
     def test_import_invalid(self):
         project = self.create_project()
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            '**/*.po',
-            file_format='INVALID'
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                '**/*.po',
+                file_format='INVALID'
+            )
         self.assertEqual(project.component_set.count(), 0)
 
     def test_import_aresource(self):
@@ -275,42 +269,39 @@ class ImportProjectTest(RepoTestCase):
 
     def test_import_missing_project(self):
         """Test of correct handling of missing project."""
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            '**/*.po',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                '**/*.po',
+            )
 
     def test_import_missing_wildcard(self):
         """Test of correct handling of missing wildcard."""
         self.create_project()
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            '*/*.po',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                '*/*.po',
+            )
 
     def test_import_wrong_vcs(self):
         """Test of correct handling of wrong vcs."""
         self.create_project()
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.git_repo_path,
-            'master',
-            '**/*.po',
-            vcs='nonexisting',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.git_repo_path,
+                'master',
+                '**/*.po',
+                vcs='nonexisting',
+            )
 
     def test_import_mercurial(self):
         """Test importing Mercurial project"""
@@ -332,16 +323,15 @@ class ImportProjectTest(RepoTestCase):
         if not HgRepository.is_supported():
             raise SkipTest('Mercurial not available!')
         self.create_project()
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_project',
-            'test',
-            self.mercurial_repo_path,
-            'default',
-            '*/**.po',
-            vcs='mercurial'
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_project',
+                'test',
+                self.mercurial_repo_path,
+                'default',
+                '*/**.po',
+                vcs='mercurial'
+            )
 
 
 class BasicCommandTest(SimpleTestCase):
@@ -423,18 +413,12 @@ class CheckGitTest(ViewTestCase):
         )
 
     def test_nonexisting_project(self):
-        self.assertRaises(
-            CommandError,
-            self.do_test,
-            'notest',
-        )
+        with self.assertRaises(CommandError):
+            self.do_test('notest')
 
     def test_nonexisting_component(self):
-        self.assertRaises(
-            CommandError,
-            self.do_test,
-            'test/notest',
-        )
+        with self.assertRaises(CommandError):
+            self.do_test('test/notest')
 
 
 class CommitPendingTest(CheckGitTest):
@@ -615,11 +599,8 @@ class SuggestionCommandTest(RepoTestCase):
         self.assertEqual(profile.suggested, 1)
 
     def test_missing_project(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'add_suggestions', 'test', 'xxx', 'cs', TEST_PO,
-        )
+        with self.assertRaises(CommandError):
+            call_command('add_suggestions', 'test', 'xxx', 'cs', TEST_PO)
 
 
 class ImportCommandTest(RepoTestCase):
@@ -665,14 +646,13 @@ class ImportCommandTest(RepoTestCase):
             '--project', 'test',
             TEST_COMPONENTS,
         )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_json',
-            '--main-component', 'test',
-            '--project', 'test',
-            TEST_COMPONENTS,
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--main-component', 'test',
+                '--project', 'test',
+                TEST_COMPONENTS,
+            )
 
     def test_import_ignore(self):
         output = StringIO()
@@ -717,40 +697,36 @@ class ImportCommandTest(RepoTestCase):
         )
 
     def test_invalid_file(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_json',
-            '--main-component', 'test',
-            '--project', 'test',
-            TEST_PO,
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--main-component', 'test',
+                '--project', 'test',
+                TEST_PO,
+            )
 
     def test_nonexisting_project(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_json',
-            '--main-component', 'test',
-            '--project', 'test2',
-            '/nonexisting/dfile',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--main-component', 'test',
+                '--project', 'test2',
+                '/nonexisting/dfile',
+            )
 
     def test_nonexisting_component(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_json',
-            '--main-component', 'test2',
-            '--project', 'test',
-            '/nonexisting/dfile',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--main-component', 'test2',
+                '--project', 'test',
+                '/nonexisting/dfile',
+            )
 
     def test_missing_component(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'import_json',
-            '--project', 'test',
-            '/nonexisting/dfile',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_json',
+                '--project', 'test',
+                '/nonexisting/dfile',
+            )

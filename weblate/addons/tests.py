@@ -518,36 +518,32 @@ class CommandTest(ViewTestCase):
 
     def test_install_addon_wrong(self):
         output = StringIO()
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.nonexisting',
-            '--configuration', '{"width":77}',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{}',
-            stdout=output,
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{"width":-65535}',
-            stderr=output,
-        )
+        with self.assertRaises(CommandError):
+            call_command (
+                'install_addon', '--all',
+                '--addon', 'weblate.gettext.nonexisting',
+                '--configuration', '{"width":77}',
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'install_addon', '--all',
+                '--addon', 'weblate.gettext.customize',
+                '--configuration', '{',
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'install_addon', '--all',
+                '--addon', 'weblate.gettext.customize',
+                '--configuration', '{}',
+                stdout=output,
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'install_addon', '--all',
+                '--addon', 'weblate.gettext.customize',
+                '--configuration', '{"width":-65535}',
+                stderr=output,
+            )
 
 
 class DiscoveryTest(ViewTestCase):

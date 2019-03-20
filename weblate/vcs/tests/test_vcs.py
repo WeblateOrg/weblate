@@ -211,7 +211,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.add_remote_commit(conflict=True)
         self.test_commit()
         if self._can_push:
-            self.assertRaises(RepositoryException, self.test_merge)
+            with self.assertRaises(RepositoryException):
+                self.test_merge()
         else:
             self.test_merge()
 
@@ -219,7 +220,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.add_remote_commit(conflict=True)
         self.test_commit()
         if self._can_push:
-            self.assertRaises(RepositoryException, self.test_rebase)
+            with self.assertRaises(RepositoryException):
+                self.test_rebase()
         else:
             self.test_rebase()
 
@@ -336,13 +338,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         )
 
         # Check invalid commit
-        with self.repo.lock:
-            self.assertRaises(
-                RepositoryException,
-                self.repo.commit,
-                'test commit',
-                'Foo <bar@example.com>',
-            )
+        with self.repo.lock, self.assertRaises(RepositoryException):
+            self.repo.commit('test commit', 'Foo <bar@example.com>')
 
     def test_remove(self):
         with self.repo.lock:
@@ -402,11 +399,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.configure_branch(self._class.default_branch)
 
-            self.assertRaises(
-                RepositoryException,
-                self.repo.configure_branch,
-                'branch'
-            )
+            with self.assertRaises(RepositoryException):
+                self.repo.configure_branch('branch')
 
     def test_get_file(self):
         self.assertIn(

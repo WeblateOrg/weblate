@@ -145,24 +145,18 @@ class BillingTest(TestCase):
             amount=30
         )
         # Full overlap
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Start overlap
         invoice.start = self.invoice.end + timedelta(days=1)
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Zero interval
         invoice.end = self.invoice.end + timedelta(days=1)
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Valid after existing
         invoice.end = self.invoice.end + timedelta(days=2)
@@ -171,10 +165,8 @@ class BillingTest(TestCase):
         # End overlap
         invoice.start = self.invoice.start - timedelta(days=4)
         invoice.end = self.invoice.end
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Valid before existing
         invoice.end = self.invoice.start - timedelta(days=1)
