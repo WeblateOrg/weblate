@@ -348,9 +348,7 @@ class Component(models.Model, URLMixin, PathMixin):
         choices=NEW_LANG_CHOICES,
         default='add',
         help_text=ugettext_lazy(
-            'How to handle requests for creating new translations. '
-            'Please note that the available choices depend on '
-            'the file format.'
+            'How to handle requests for creating new translations.'
         ),
     )
     language_code_style = models.CharField(
