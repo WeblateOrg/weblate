@@ -37,6 +37,7 @@ COUNTS_DATA = [{
     'words': 2,
     'words_edit': 0,
     'words_new': 2,
+    'chars': 14,
     'chars_edit': 0,
     'chars_new': 14,
     'email': 'weblate@example.org'
@@ -172,6 +173,7 @@ class ReportsTest(ViewTestCase):
             response.content.decode('utf-8'),
             '<table>\n'
             '<tr><th>Name</th><th>Email</th>'
+            '<th>Chars total</th>'
             '<th>Words total</th><th>Count total</th>'
             '<th>Chars new</th><th>Words new</th><th>Count new</th>'
             '<th>Chars edited</th><th>Words edited</th><th>Count edited</th>'
@@ -179,6 +181,7 @@ class ReportsTest(ViewTestCase):
             '\n'
             '<tr>\n<td>Weblate Test</td>\n'
             '<td>weblate@example.org</td>\n'
+            '<td>14</td>\n'
             '<td>2</td>\n<td>1</td>\n'
             '<td>14</td>\n<td>2</td>\n<td>1</td>\n'
             '<td>0</td>\n<td>0</td>\n<td>0</td>\n'

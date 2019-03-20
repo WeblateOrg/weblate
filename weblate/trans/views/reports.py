@@ -42,6 +42,7 @@ RST_HEADING = ' '.join([
     '=' * 12,
     '=' * 12,
     '=' * 12,
+    '=' * 12,
 ])
 
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
@@ -156,23 +157,32 @@ def generate_counts(component, start_date, end_date):
                 result[email] = {
                     'name': name,
                     'email': email,
+
+                    'chars': 0,
                     'words': 0,
                     'count': 0,
+
                     'chars_new': 0,
                     'words_new': 0,
                     'count_new': 0,
+
                     'chars_edit': 0,
                     'words_edit': 0,
                     'count_edit': 0,
                 }
+            tgt_chars = len(target)
+            tgt_words = len(target.split())
+
+            result[email]['chars'] += tgt_chars
             result[email]['words'] += words
             result[email]['count'] += 1
+
             if action == Change.ACTION_NEW:
-                result[email]['chars_new'] += len(target)
+                result[email]['chars_new'] += tgt_chars
                 result[email]['words_new'] += words
                 result[email]['count_new'] += 1
             else:
-                result[email]['chars_edit'] += len(target)
+                result[email]['chars_edit'] += tgt_chars
                 result[email]['words_edit'] += words
                 result[email]['count_edit'] += 1
 
@@ -206,6 +216,7 @@ def get_counts(request, project, component):
     headers = (
         'Name',
         'Email',
+        'Chars total',
         'Words total',
         'Count total',
         'Chars new',
@@ -249,6 +260,7 @@ def get_counts(request, project, component):
             ''.join((
                 cell_name.format(item['name']),
                 cell_name.format(item['email']),
+                cell_count.format(item['chars']),
                 cell_count.format(item['words']),
                 cell_count.format(item['count']),
                 cell_count.format(item['chars_new']),
