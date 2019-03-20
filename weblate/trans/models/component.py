@@ -1426,7 +1426,10 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_new_lang(self):
         """Validate new language choices."""
-        if self.new_lang == 'add' and not self.is_valid_base_for_new():
+        # Validate if new base is configured or language adding is set
+        if not self.new_base and self.new_lang != 'add':
+            return
+        if not self.is_valid_base_for_new():
             filename = self.get_new_base_filename()
             if filename:
                 message = _(
