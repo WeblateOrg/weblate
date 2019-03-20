@@ -1360,7 +1360,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_lang_codes(self, matches):
         """Validate that there are no double language codes"""
-        if not matches and not self.can_add_new_language():
+        if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
                 {'filemask': _('The filemask did not match any files.')}
             )
@@ -1726,16 +1726,23 @@ class Component(models.Model, URLMixin, PathMixin):
         flags.discard('')
         return flags
 
-    def can_add_new_language(self):
-        """Wrapper to check if a new language can be added."""
-        if self.new_lang != 'add':
+    def can_add_new_language(self, request):
+        """Wrapper to check if a new language can be added.
+
+        Generic users can add only if configured, in other situations
+        it works if there is valid new base.
+        """
+        # The request is None in case of consistency or cli invocation
+        if (self.new_lang != 'add' and
+                request is not None and
+                not request.user.has_perm('component.edit', self)):
             return False
 
         return self.is_valid_base_for_new()
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
-        if not self.can_add_new_language():
+        if not self.can_add_new_language(request):
             messages.error(request, _('Could not add new translation file.'))
             return False
 

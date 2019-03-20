@@ -328,7 +328,19 @@ class TranslationManipulationTest(ViewTestCase):
         self.component.save()
         self.assertFalse(
             self.component.add_new_language(
-                Language.objects.get(code='de'),
+                Language.objects.get(code='af'),
+                self.get_request()
+            )
+        )
+
+    def test_model_add_superuser(self):
+        self.component.new_lang = 'contact'
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertTrue(
+            self.component.add_new_language(
+                Language.objects.get(code='af'),
                 self.get_request()
             )
         )
@@ -398,8 +410,11 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
-        # Add manager to receive notifications
-        self.make_manager()
+        # Subscribe to receive notifications
+        self.anotheruser.profile.subscribe_new_language = True
+        self.anotheruser.profile.save()
+        self.anotheruser.profile.subscriptions.add(self.project)
+
         self.component.new_lang = 'contact'
         self.component.save()
 

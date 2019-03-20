@@ -351,6 +351,7 @@ def new_language(request, project, component):
     obj = get_component(request, project, component)
 
     form_class = get_new_language_form(request, obj)
+    can_add = obj.can_add_new_language(request)
 
     if request.method == 'POST':
         form = form_class(obj, request.POST)
@@ -358,7 +359,9 @@ def new_language(request, project, component):
         if form.is_valid():
             langs = form.cleaned_data['lang']
             for language in Language.objects.filter(code__in=langs):
-                if obj.new_lang == 'contact':
+                if can_add:
+                    obj.add_new_language(language, request)
+                elif obj.new_lang == 'contact':
                     notify_new_language(obj, language, request.user)
                     messages.success(
                         request,
@@ -367,8 +370,6 @@ def new_language(request, project, component):
                             "sent to the project's maintainers."
                         )
                     )
-                elif obj.new_lang == 'add':
-                    obj.add_new_language(language, request)
             return redirect(obj)
         else:
             messages.error(
@@ -385,6 +386,7 @@ def new_language(request, project, component):
             'object': obj,
             'project': obj.project,
             'form': form,
+            'can_add': can_add,
         }
     )
 
