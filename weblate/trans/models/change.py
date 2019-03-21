@@ -314,6 +314,12 @@ class Change(models.Model, UserDisplayMixin):
     dictionary = models.ForeignKey(
         'Dictionary', null=True, on_delete=models.deletion.CASCADE
     )
+    comment = models.ForeignKey(
+        'Comment', null=True, on_delete=models.deletion.CASCADE
+    )
+    suggestion = models.ForeignKey(
+        'Suggestion', null=True, on_delete=models.deletion.CASCADE
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )

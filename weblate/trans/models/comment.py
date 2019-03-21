@@ -43,6 +43,7 @@ class CommentManager(models.Manager):
         )
         Change.objects.create(
             unit=unit,
+            comment=new_comment,
             action=Change.ACTION_COMMENT,
             user=user,
             author=user

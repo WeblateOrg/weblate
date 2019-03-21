@@ -81,6 +81,7 @@ class SuggestionManager(models.Manager):
         for aunit in suggestion.related_units:
             Change.objects.create(
                 unit=aunit,
+                suggestion=suggestion,
                 action=Change.ACTION_SUGGESTION,
                 user=user,
                 target=target,
