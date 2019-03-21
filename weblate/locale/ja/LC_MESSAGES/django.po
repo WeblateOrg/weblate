@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 08:00+0000\n"
-"PO-Revision-Date: 2019-03-21 13:49+0000\n"
+"PO-Revision-Date: 2019-03-21 20:46+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -83,7 +83,7 @@ msgstr "監視中のプロジェクトで、翻訳設定した言語のみ通知
 #: weblate/accounts/forms.py:297 weblate/accounts/forms.py:371
 #: weblate/auth/models.py:315 weblate/templates/manage-access.html:25
 msgid "Email"
-msgstr "電子メール"
+msgstr "メール アドレス"
 
 #: weblate/accounts/forms.py:299
 msgid "You can add another email address in the Authentication tab."
@@ -99,7 +99,7 @@ msgstr "お名前"
 
 #: weblate/accounts/forms.py:342 weblate/accounts/forms.py:629
 msgid "Your email"
-msgstr "電子メールアドレス"
+msgstr "メール アドレス"
 
 #: weblate/accounts/forms.py:346 weblate/trans/models/whiteboard.py:70
 #: weblate/wladmin/templates/admin/performance.html:30
@@ -396,7 +396,7 @@ msgstr "監視中の翻訳"
 
 #: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
-msgstr "お使いの言語"
+msgstr "あなたの母国語"
 
 #: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
@@ -415,7 +415,7 @@ msgstr "翻訳の提案"
 
 #: weblate/accounts/models.py:411
 msgid "Default dashboard view"
-msgstr "デフォルトのダッシュボード ビュー"
+msgstr "デフォルトのダッシュボード画面"
 
 #: weblate/accounts/models.py:417
 msgid "Default component list"
@@ -475,7 +475,7 @@ msgstr "コンポーネントリストを使用しない場合は選択できま
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr "電子メールアドレスが設定されていないため、翻訳を送信できません。"
+msgstr "メール アドレスが未登録なので、翻訳を送信できません。"
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of only whitespace."
@@ -517,9 +517,7 @@ msgstr "登録処理はログイン中のみ確認できます！"
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
-"あなたの電子メールアドレスは、もはや確認済みのアカウントに属していません。 "
-"{0} に変更しました。"
+msgstr "ご使用のメールアドレスは、すでに確認済みのアカウントに入っていません。{0} に変更しました。"
 
 #: weblate/accounts/views.py:123 weblate/accounts/views.py:732
 #: weblate/accounts/views.py:781 weblate/templates/accounts/reset.html:7
@@ -545,7 +543,7 @@ msgstr "管理者にメッセージを送信しました。"
 
 #: weblate/accounts/views.py:189
 msgid "You cannot change demo account on the demo server."
-msgstr "デモサーバ内では、デモアカウントを変更できません。"
+msgstr "デモ サーバでは、デモ アカウントを変更できません。"
 
 #: weblate/accounts/views.py:253
 msgid "Your profile has been updated."
@@ -600,7 +598,7 @@ msgstr "Weblate のご利用ありがとうございました。"
 
 #: weblate/accounts/views.py:661 weblate/templates/accounts/email.html:17
 msgid "Register email"
-msgstr "メールアドレスの登録"
+msgstr "メール アドレスの登録"
 
 #: weblate/accounts/views.py:702 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:127
@@ -613,7 +611,7 @@ msgstr "パスワードのリセットはすでに完了しています！"
 
 #: weblate/accounts/views.py:748
 msgid "Can not reset password, email authentication is disabled!"
-msgstr "パスワードをリセットできません。電子メール認証が無効化されています！"
+msgstr "パスワードをリセットできません。メール認証は無効です！"
 
 #: weblate/accounts/views.py:917
 msgid ""
@@ -625,7 +623,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:927
 msgid "Authentication failed due to invalid session state."
-msgstr "セッション状態が正しくないため、認証に失敗しました。"
+msgstr "セッション状態が無効なので認証に失敗しました。"
 
 #: weblate/accounts/views.py:936
 msgid "Got no e-mail address from third party authentication service!"
@@ -637,12 +635,12 @@ msgstr "デモ環境の場合、認証を変更できません！"
 
 #: weblate/accounts/views.py:950
 msgid "New registrations are disabled!"
-msgstr "新規登録は無効化されています！"
+msgstr "新規登録は無効です！"
 
 #: weblate/accounts/views.py:976
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
-msgstr "認証が失敗しました。トークンの期限切れか、接続エラーと思われます。"
+msgstr "認証が失敗しました。トークンの期限切れか、接続エラーでしょう。"
 
 #: weblate/accounts/views.py:981
 msgid "Authentication has been cancelled."
@@ -743,7 +741,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:78
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "変更されていない翻訳に \"要編集\" フラグを付ける"
+msgstr "未変更の翻訳に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -937,7 +935,7 @@ msgstr "改行処理など、 gettext の出力動作をカスタマイズでき
 
 #: weblate/addons/gettext.py:258
 msgid "Contributors in comment"
-msgstr "コメント内の貢献者情報"
+msgstr "コメントの貢献者"
 
 #: weblate/addons/gettext.py:260
 msgid ""
@@ -2607,9 +2605,7 @@ msgstr "Weblate に関する詳細情報は %(weblate_link)s にあります。"
 
 #: weblate/templates/about/index.html:22
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr ""
-"Weblate はボランティアによって作成されたフリーソフトウェアです。寄付も受け付"
-"けております。"
+msgstr "Weblate はボランティアにより作成されたリブレ ソフトウェアです、寄付を受け付けています。"
 
 #: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
@@ -4329,9 +4325,7 @@ msgstr "校正の概要"
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
-msgstr ""
-"設定で言語を選択すると、監視対象のプロジェクト内で選択した言語に対する翻訳の"
-"概要が表示されます。"
+msgstr "環境設定で翻訳したい言語を選択して、監視中のプロジェクトの概要に翻訳可能な言語を表示します。"
 
 #: weblate/templates/dashboard/user.html:61
 #: weblate/templates/dashboard/user.html:74
@@ -6307,7 +6301,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:432
 msgid "Things to check"
-msgstr "チェックすべきもの"
+msgstr "検査項目"
 
 #: weblate/templates/translate.html:453
 msgid "Manage glossary"
@@ -6382,7 +6376,7 @@ msgstr "自動翻訳"
 
 #: weblate/templates/translation.html:67 weblate/templates/translation.html:274
 msgid "Add new translation string"
-msgstr "新しい翻訳文字列として追加"
+msgstr "新しい原文の追加"
 
 #: weblate/templates/translation.html:85 weblate/templates/translation.html:330
 msgid "Add a translation message"
@@ -6703,7 +6697,7 @@ msgstr "未翻訳の文字列"
 
 #: weblate/trans/filter.py:33
 msgid "Strings needing action"
-msgstr "何らかの作業が必要な文字列"
+msgstr "校正が必要な文字列"
 
 #: weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -6711,7 +6705,7 @@ msgstr "翻訳済みの文字列"
 
 #: weblate/trans/filter.py:35
 msgid "Strings marked for edit"
-msgstr "要編集としてマークされている文字列"
+msgstr "要編集マーク付きの文字列"
 
 #: weblate/trans/filter.py:36
 msgid "Strings with suggestions"
@@ -6719,7 +6713,7 @@ msgstr "提案がある文字列"
 
 #: weblate/trans/filter.py:37
 msgid "Strings needing action without suggestions"
-msgstr "提案の無い、何らかの作業が必要な文字列"
+msgstr "提案はなく、校正が必要な文字列"
 
 #: weblate/trans/filter.py:38
 msgid "Strings with comments"
@@ -6727,7 +6721,7 @@ msgstr "コメントがある文字列"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with any failing checks"
-msgstr "何らかのチェックに失敗した文字列"
+msgstr "適正検査に不合格した文字列"
 
 #: weblate/trans/filter.py:40
 msgid "Approved strings"
@@ -6743,7 +6737,7 @@ msgstr "査読待ちの文字列"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with any failing source checks"
-msgstr "何らかの原文チェックに失敗した文字列"
+msgstr "原文検査に不合格した文字列"
 
 #: weblate/trans/filter.py:54
 msgid "Strings with source comments"
@@ -6751,7 +6745,7 @@ msgstr "原文コメントがある文字列"
 
 #: weblate/trans/forms.py:161
 msgid "Invalid checksum specified!"
-msgstr "指定したチェックサムが正しくありません！"
+msgstr "チェックサムの不一致！"
 
 #: weblate/trans/forms.py:171
 msgid "No matching user found."
@@ -7951,21 +7945,16 @@ msgid "Can not validate file matches due to invalid regular expression."
 msgstr "正規表現が正しくないため、ファイルマッチを検証できません。"
 
 #: weblate/trans/models/component.py:1560
-#, fuzzy
-#| msgid ""
-#| "Automatically accepting suggestions can work only with voting enabled!"
 msgid "Accepting suggestions automatically only works with voting turned on."
-msgstr "提案の自動採用は、投票機能が有効化されている場合にのみ動作します！"
+msgstr "提案の自動採用は、投票機能が有効の場合のみ自動採用されます。"
 
 #: weblate/trans/models/component.py:1741
 msgid "Could not add new translation file."
 msgstr "新しい翻訳ファイルを追加できません。"
 
 #: weblate/trans/models/component.py:1755
-#, fuzzy
-#| msgid "Given language is filtered by the language filter!"
 msgid "The given language is filtered by the language filter."
-msgstr "ご指定の言語は言語フィルタで除外されています！"
+msgstr "指定した言語は、言語フィルタで除外されました。"
 
 #: weblate/trans/models/component.py:1776
 msgid "Translation file already exists!"
@@ -8112,16 +8101,10 @@ msgid "Render as HTML"
 msgstr "HTML として表示"
 
 #: weblate/trans/models/whiteboard.py:75
-#, fuzzy
-#| msgid ""
-#| "When disabled, URLs will be converted to links and any markup will be "
-#| "escaped."
 msgid ""
 "When turned off, URLs will be converted to links and any markup will be "
 "escaped."
-msgstr ""
-"選択を外すと、 URL はリンクに変換され、マークアップ文字がエスケープ処理される"
-"ようになります。"
+msgstr "無効にすると、URL はリンクに変換され、マークアップ文字はエスケープ処理されます。"
 
 #: weblate/trans/models/whiteboard.py:105
 msgid "Category"
@@ -8152,16 +8135,10 @@ msgid "Expiry date"
 msgstr "期限"
 
 #: weblate/trans/models/whiteboard.py:123
-#, fuzzy
-#| msgid ""
-#| "The message will be not shown after this date. Use for announcements such "
-#| "as deadline for next release."
 msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
-msgstr ""
-"メッセージは、指定した日付以降は表示されなくなります。次のリリースの期限など"
-"のアナウンスメント用にお使いください。"
+msgstr "メッセージは、指定した日付以降は表示しません。次のリリースのための文字列の変更停止と締め切りの告知にご利用ください。"
 
 #: weblate/trans/models/whiteboard.py:132
 msgid "Whiteboard message"
@@ -8477,8 +8454,6 @@ msgid "XML text"
 msgstr "XML テキスト"
 
 #: weblate/trans/validators.py:34
-#, fuzzy
-#| msgid "DOS end of lines"
 msgid "DOS line endings"
 msgstr "DOS 形式の改行"
 
@@ -8487,22 +8462,14 @@ msgid "Automatically detect Java MessageFormat"
 msgstr "Java MessageFormat の自動検出"
 
 #: weblate/trans/validators.py:47
-#, fuzzy
-#| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
-msgstr "ファイルマスク内に言語プレースホルダ * が含まれていません！"
+msgstr "ファイルマスクに言語プレースホルダーとして * が含まれていません！"
 
 #: weblate/trans/validators.py:55
-#, fuzzy
-#| msgid ""
-#| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
-#| "suggestion."
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
-msgstr ""
-"自動採用の設定に 1 の値を指定することはできません。すべてのユーザが提案に投票"
-"できてしまうためです。"
+msgstr "自動承認に 1 の値は使用できません。自分自身の提案に投票できるようになるからです。"
 
 #: weblate/trans/validators.py:68
 #, python-format
@@ -8535,7 +8502,7 @@ msgstr "このプロジェクトにユーザを追加しました。"
 
 #: weblate/trans/views/acl.py:142
 msgid "Failed to find group to add a user!"
-msgstr "ユーザを追加するためのグループが見つかりませんでした！"
+msgstr "ユーザを追加するグループが見つかりません！"
 
 #: weblate/trans/views/acl.py:172
 msgid "User has been removed from this project."
@@ -8587,15 +8554,15 @@ msgstr "%s による変更"
 
 #: weblate/trans/views/changes.py:147
 msgid "Failed to find matching project!"
-msgstr "一致するプロジェクトは見つかりませんでした！"
+msgstr "一致するプロジェクトは見つかりません！"
 
 #: weblate/trans/views/changes.py:160
 msgid "Failed to find matching language!"
-msgstr "一致する言語は見つかりませんでした！"
+msgstr "一致する言語は見つかりません！"
 
 #: weblate/trans/views/changes.py:173
 msgid "Failed to find matching user!"
-msgstr "一致するユーザは見つかりませんでした！"
+msgstr "一致するユーザは見つかりません！"
 
 #: weblate/trans/views/charts.py:108
 #, python-brace-format
@@ -8686,7 +8653,7 @@ msgstr "以下の修正が翻訳に適用されます: %s"
 #: weblate/trans/views/edit.py:251
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
-msgstr "翻訳文内でいくつかのチェックが失敗しました: {0}"
+msgstr "翻訳を検査したところ問題がありました: {0}"
 
 #: weblate/trans/views/edit.py:303
 msgid "Invalid merge request!"
@@ -8776,10 +8743,8 @@ msgid "File content merge failed: %s"
 msgstr "ファイル内容のマージに失敗しました: %s"
 
 #: weblate/trans/views/git.py:44
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation in progress."
 msgid "Failed to lock the repository, another operation is in progress."
-msgstr "リポジトリのロックに失敗しました。他の処理が実行されています。"
+msgstr "リポジトリのロックに失敗しました。他の処理が実行中です。"
 
 #: weblate/trans/views/git.py:56
 msgid "All pending translations were committed."
@@ -8949,7 +8914,7 @@ msgstr "翻訳済"
 
 #: weblate/utils/render.py:85
 msgid "Failed to render template: {}"
-msgstr "テンプレートの描画に失敗しました: {}"
+msgstr "テンプレートの表示に失敗しました: {}"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
@@ -9018,7 +8983,7 @@ msgstr "このメールアドレスは許可されていません。"
 
 #: weblate/utils/validators.py:246
 msgid "Failed to evaluate plural equation: {}"
-msgstr "複数形判定式の評価に失敗しました: {}"
+msgstr "複数形に問題があります: {}"
 
 #: weblate/utils/validators.py:253
 msgid "Filename can not contain reference to a parent directory."
@@ -9062,7 +9027,7 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:171
 msgid "Failed to fetch public key for a host!"
-msgstr "ホストに対する公開鍵の取得に失敗しました！"
+msgstr "ホストの公開鍵を取得できません！"
 
 #: weblate/vcs/ssh.py:179 weblate/vcs/ssh.py:184
 #, python-format
@@ -9233,7 +9198,7 @@ msgstr "レポート"
 
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
-msgstr "設定エラーを隠す処理に失敗しました！"
+msgstr "設定エラーを無視できません！"
 
 #~ msgid "link"
 #~ msgstr "リンク"
