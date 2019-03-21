@@ -40,13 +40,13 @@ from weblate.accounts.notifications import (
     notify_new_language,
 )
 from weblate.trans.tests.test_views import (
-    FixtureTestCase, RegistrationTestMixin,
+    ViewTestCase, RegistrationTestMixin,
 )
 from weblate.trans.models import Suggestion, Comment, Change
 from weblate.lang.models import Language
 
 
-class NotificationTest(FixtureTestCase, RegistrationTestMixin):
+class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def setUp(self):
         super(NotificationTest, self).setUp()
         self.user.email = 'noreply+notify@weblate.org'
@@ -232,8 +232,15 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def test_notify_new_comment_mention(self):
         self.test_notify_new_comment(
             2,
-            'Hello @{} and @invalid'.format(self.user.username)
+            'Hello @{} and @invalid'.format(self.anotheruser.username)
         )
+
+    def test_notify_new_comment_author(self):
+        self.edit_unit('Hello, world!\n', 'Ahoj svete!\n')
+        change = self.get_unit().change_set.content().order_by('-timestamp')[0]
+        change.author = self.anotheruser
+        change.save()
+        self.test_notify_new_comment(2)
 
     def test_notify_account(self):
         request = self.get_request()

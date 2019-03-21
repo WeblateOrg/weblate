@@ -265,6 +265,16 @@ def notify_new_comment(change):
         )
         users.add(mentioned.pk)
 
+    # Notify last author
+    last_author = unit.get_last_content_change(None, silent=True)[0]
+    if (not last_author.is_anonymous and
+            not last_author.is_demo and
+            last_author.pk not in users):
+        mails.append(
+            send_new_comment(last_author.profile, unit, comment, user)
+        )
+        users.add(last_author.pk)
+
     # Notify upstream
     if comment.language is None and report_source_bugs:
         send_notification_email(

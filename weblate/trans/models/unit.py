@@ -968,7 +968,7 @@ class Unit(models.Model, LoggerMixin):
     def get_target_hash(self):
         return calculate_hash(None, self.target)
 
-    def get_last_content_change(self, request):
+    def get_last_content_change(self, request, silent=False):
         """Wrapper to get last content change metadata
 
         Used when commiting pending changes, needs to handle and report
@@ -979,5 +979,6 @@ class Unit(models.Model, LoggerMixin):
             change = self.change_set.content().order_by('-timestamp')[0]
             return change.author or get_anonymous(), change.timestamp
         except IndexError as error:
-            report_error(error, request, level='error')
+            if not silent:
+                report_error(error, request, level='error')
             return get_anonymous(), timezone.now()
