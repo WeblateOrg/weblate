@@ -181,7 +181,7 @@ var _rollbarConfig = {
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans with user=user.profile.get_user_name %}Logged in as {{ user }}{% endblocktrans %}</a></li>
+            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans %}Logged in as {{ user }}{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
             {% if has_billing %}
             <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
