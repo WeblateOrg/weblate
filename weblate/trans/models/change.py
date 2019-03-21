@@ -195,6 +195,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_COMPONENT = 43
     ACTION_NEW_STRING = 44
     ACTION_NEW_CONTRIBUTOR = 45
+    ACTION_MESSAGE = 46
+    ACTION_ALERT = 47
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -245,7 +247,9 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, ugettext_lazy('Renamed component')),
         (ACTION_MOVE_COMPONENT, ugettext_lazy('Moved component')),
         (ACTION_NEW_STRING, ugettext_lazy('New string to translate')),
-        (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor'))
+        (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor')),
+        (ACTION_MESSAGE, ugettext_lazy('New whiteboard message')),
+        (ACTION_ALERT, ugettext_lazy('New component alert')),
     )
 
     ACTIONS_REVERTABLE = frozenset((
@@ -310,6 +314,12 @@ class Change(models.Model, UserDisplayMixin):
     )
     suggestion = models.ForeignKey(
         'Suggestion', null=True, on_delete=models.deletion.SET_NULL
+    )
+    whiteboard = models.ForeignKey(
+        'WhiteboardMessage', null=True, on_delete=models.deletion.SET_NULL
+    )
+    alert = models.ForeignKey(
+        'Alert', null=True, on_delete=models.deletion.SET_NULL
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE

@@ -26,6 +26,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
+
 from weblate.lang.models import Language
 
 
@@ -143,3 +144,16 @@ class WhiteboardMessage(models.Model):
             )
         if not self.project and self.component:
             self.project = self.component.project
+
+    def save(self, *args, **kwargs):
+        is_new = (not self.id)
+        super(WhiteboardMessage, self).save(*args, **kwargs)
+        if is_new:
+            from weblate.trans.models import Change
+            Change.objects.create(
+                action=Change.ACTION_MESSAGE,
+                project=self.project,
+                component=self.component,
+                alert=self,
+                target=self.message
+            )
