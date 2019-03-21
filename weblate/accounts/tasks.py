@@ -24,6 +24,7 @@ from datetime import timedelta
 import time
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 
 from social_django.models import Partial, Code
@@ -63,7 +64,7 @@ def cleanup_auditlog():
     ).delete()
 
 
-@app.task
+@app.task(autoretry_for=(ObjectDoesNotExist,))
 def notify_change(change_id):
     from weblate.trans.models import Change
     change = Change.objects.get(pk=change_id)
