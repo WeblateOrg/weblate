@@ -886,13 +886,8 @@ $(function () {
             if (idx < 10) {
                 let key = getNumericKey(idx);
 
-                $(this).find('.highlight-number').html(
-                    '<kbd title="' +
-                    interpolate(gettext('Ctrl/Command+%s'), [key]) +
-                    '">' +
-                    key +
-                    '</kbd>'
-                );
+                $(this).attr('title', interpolate(gettext('Ctrl/Command+%s'), [key]));
+                $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
 
                 Mousetrap.bindGlobal(
                     ['ctrl+' + key, 'command+' + key],
@@ -905,7 +900,14 @@ $(function () {
                 $this.find('.highlight-number').html('');
             }
         });
+        $('.highlight-number').hide();
     }
+    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+        $('.highlight-number').show();
+    }, 'keydown');
+    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+        $('.highlight-number').hide();
+    }, 'keyup');
 
     /* Widgets selector */
     $('.select-tab').on('change', function (e) {
