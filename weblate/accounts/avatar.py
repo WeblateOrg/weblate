@@ -120,6 +120,7 @@ def get_user_display(user, icon=True, link=False):
     if user is None:
         # None user, probably remotely triggered action
         full_name = pgettext('No known user', 'None')
+        username = 'none'
     else:
         # Get full name
         full_name = user.full_name
@@ -127,10 +128,11 @@ def get_user_display(user, icon=True, link=False):
         # Use user name if full name is empty
         if full_name.strip() == '':
             full_name = user.username
+        username = user.username
 
     # Escape HTML
     full_name = escape(full_name)
-    username = escape(user.username)
+    username = escape(username)
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
