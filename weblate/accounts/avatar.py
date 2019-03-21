@@ -130,6 +130,7 @@ def get_user_display(user, icon=True, link=False):
 
     # Escape HTML
     full_name = escape(full_name)
+    username = escape(user.username)
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
@@ -140,14 +141,18 @@ def get_user_display(user, icon=True, link=False):
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
 
-        full_name = '<img src="{avatar}" class="avatar" /> {name}'.format(
-            name=full_name,
+        username = '<img src="{avatar}" class="avatar" /> {name}'.format(
+            name=username,
             avatar=avatar
         )
 
     if link and user is not None:
-        return mark_safe('<a href="{link}">{name}</a>'.format(
+        return mark_safe('<a href="{link}" title="{name}">{username}</a>'.format(
             name=full_name,
+            username=username,
             link=reverse('user_page', kwargs={'user': user.username}),
         ))
-    return mark_safe(full_name)
+    return mark_safe('<span title="{name}">{username}</span>'.format(
+        name=full_name,
+        username=username,
+    ))
