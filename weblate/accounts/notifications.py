@@ -31,6 +31,7 @@ from html2text import html2text
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
 from weblate.celery import app
+from weblate.lang.models import Language
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
@@ -138,8 +139,12 @@ def notify_new_string(change):
     enqueue_mails(mails)
 
 
-def notify_new_language(component, language, user):
+def notify_new_language(change):
     """Notify subscribed users about new language requests"""
+    component = change.component
+    language = Language.objects.get(code=change.details['language'])
+    user = change.user
+    was_added = change.action == change.ACTION_ADDED_LANGUAGE
     mails = []
     subscriptions = Profile.objects.subscribed_new_language(
         component.project,
@@ -148,14 +153,16 @@ def notify_new_language(component, language, user):
     users = set()
     for subscription in subscriptions:
         mails.append(
-            send_new_language(subscription, component, language, user)
+            send_new_language(
+                subscription, component, language, user, was_added
+            )
         )
         users.add(subscription.user_id)
 
     for owner in User.objects.all_admins(component.project):
         mails.append(
             send_new_language(
-                owner.profile, component, language, user
+                owner.profile, component, language, user, was_added
             )
         )
 
@@ -401,7 +408,7 @@ def send_any_translation(profile, unit, old_target, user):
     )
 
 
-def send_new_language(profile, component, language, user):
+def send_new_language(profile, component, language, user, was_added):
     """Send notification on new language request."""
     return send_user(
         profile,
@@ -410,6 +417,7 @@ def send_new_language(profile, component, language, user):
         component,
         {
             'language': language,
+            'was_added': was_added,
         },
         user=user
     )

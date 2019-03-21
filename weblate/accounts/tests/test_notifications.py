@@ -151,11 +151,12 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_new_language(self):
         second_user = self.second_user()
-        notify_new_language(
-            self.component,
-            Language.objects.filter(code='de'),
-            second_user
+        change = Change(
+            user=second_user,
+            component=self.component,
+            details={'language': 'de'}
         )
+        notify_new_language(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -166,11 +167,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(second_user, '@Administration')
-        notify_new_language(
-            self.component,
-            Language.objects.filter(code='de'),
-            second_user,
-        )
+        notify_new_language(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 3)

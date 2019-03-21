@@ -70,6 +70,7 @@ def notify_change(change_id):
     from weblate.accounts.notifications import (
         notify_merge_failure, notify_parse_error, notify_new_string,
         notify_new_contributor, notify_new_suggestion, notify_new_comment,
+        notify_new_translation, notify_new_language,
     )
     change = Change.objects.get(pk=change_id)
     if change.action in (Change.ACTION_FAILED_MERGE, Change.ACTION_FAILED_REBASE):
@@ -86,6 +87,9 @@ def notify_change(change_id):
         notify_new_comment(change)
     elif change.action in Cahnge.ACTIONS_CONTENT:
         notify_new_translation(change)
+    elif change.action in (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE):
+        notify_new_language(change)
+
 
 
 @app.task(autoretry_for=(ObjectDoesNotExist,))

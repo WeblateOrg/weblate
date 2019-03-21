@@ -28,6 +28,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 
 import six.moves
 
+from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
@@ -197,6 +198,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_NEW_CONTRIBUTOR = 45
     ACTION_MESSAGE = 46
     ACTION_ALERT = 47
+    ACTION_ADDED_LANGUAGE = 48
+    ACTION_REQUESTED_LANGUAGE = 49
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -250,6 +253,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor')),
         (ACTION_MESSAGE, ugettext_lazy('New whiteboard message')),
         (ACTION_ALERT, ugettext_lazy('New component alert')),
+        (ACTION_ADDED_LANGUAGE, ugettext_lazy('Added new language')),
+        (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
     )
 
     ACTIONS_REVERTABLE = frozenset((
@@ -419,6 +424,11 @@ class Change(models.Model, UserDisplayMixin):
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']
+        elif self.action in (self.ACTION_ADDED_LANGUAGE, self.ACTION_REQUESTED_LANGUAGE):
+            try:
+                return Language.objects.get(code=self.details['language'])
+            except Language.DoesNotExist:
+                return self.details['language']
         return ''
 
     def save(self, *args, **kwargs):

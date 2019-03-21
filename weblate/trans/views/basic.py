@@ -44,7 +44,6 @@ from weblate.trans.forms import (
     DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
     WhiteboardForm,
 )
-from weblate.accounts.notifications import notify_new_language
 from weblate.utils.views import (
     get_project, get_component, get_translation,
     try_set_language,
@@ -358,11 +357,24 @@ def new_language(request, project, component):
 
         if form.is_valid():
             langs = form.cleaned_data['lang']
+            kwargs = {
+                'user': request.user,
+                'author': request.user,
+                'details': {},
+            }
             for language in Language.objects.filter(code__in=langs):
+                kwargs['details']['language'] = language.code
                 if can_add:
                     obj.add_new_language(language, request)
+                    Change.objects.create(
+                        action=Change.ACTION_ADDED_LANGUAGE,
+                        **kwargs
+                    )
                 elif obj.new_lang == 'contact':
-                    notify_new_language(obj, language, request.user)
+                    Change.objects.create(
+                        action=Change.ACTION_REQUESTED_LANGUAGE,
+                        **kwargs
+                    )
                     messages.success(
                         request,
                         _(
