@@ -649,6 +649,13 @@ class Unit(models.Model, LoggerMixin):
         if not user_changes.exists():
             from weblate.accounts.notifications import notify_new_contributor
             notify_new_contributor(self, user)
+            Change.objects.create(
+                unit=self,
+                action=Change.ACTION_NEW_CONTRIBUTOR,
+                user=user,
+                author=author,
+                **kwargs
+            )
 
         # Action type to store
         if change_action is not None:

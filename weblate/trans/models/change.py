@@ -193,6 +193,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_RENAME_PROJECT = 41
     ACTION_RENAME_COMPONENT = 42
     ACTION_MOVE_COMPONENT = 43
+    ACTION_NEW_STRING = 44
+    ACTION_NEW_CONTRIBUTOR = 45
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -242,6 +244,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_PROJECT, ugettext_lazy('Renamed project')),
         (ACTION_RENAME_COMPONENT, ugettext_lazy('Renamed component')),
         (ACTION_MOVE_COMPONENT, ugettext_lazy('Moved component')),
+        (ACTION_NEW_STRING, ugettext_lazy('New string to translate')),
+        (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor'))
     )
 
     ACTIONS_COMPONENT = frozenset((

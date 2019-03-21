@@ -353,6 +353,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author=user
         )
 
+        if was_new:
+            Change.objects.create(
+                translation=self,
+                action=Change.ACTION_NEW_STRING,
+                user=user,
+                author=user
+            )
+
         # Notify subscribed users
         self.notify_new_string = was_new
 
