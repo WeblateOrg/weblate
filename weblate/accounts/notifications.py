@@ -244,7 +244,7 @@ def notify_new_comment(change):
     user = change.user
     report_source_bugs = unit.translation.component.report_source_bugs
     mails = []
-    users = set()
+    users = {user.pk}
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.component.project,
         comment.language,
