@@ -85,11 +85,10 @@ def notify_change(change_id):
         notify_new_suggestion(change)
     elif change.action == Change.ACTION_COMMENT:
         notify_new_comment(change)
-    elif change.action in Cahnge.ACTIONS_CONTENT:
+    elif change.action in Change.ACTIONS_CONTENT:
         notify_new_translation(change)
     elif change.action in (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE):
         notify_new_language(change)
-
 
 
 @app.task(autoretry_for=(ObjectDoesNotExist,))
