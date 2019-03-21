@@ -73,6 +73,7 @@ class BaseAddon(object):
     @classmethod
     def create(cls, component, **kwargs):
         kwargs['project_scope'] = cls.project_scope
+        kwargs['repo_scope'] = cls.repo_scope
         storage = apps.get_model('addons', 'Addon').objects.create(
             component=component, name=cls.name, **kwargs
         )
