@@ -248,19 +248,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor'))
     )
 
-    ACTIONS_COMPONENT = frozenset((
-        ACTION_LOCK,
-        ACTION_UNLOCK,
-        ACTION_DUPLICATE_STRING,
-        ACTION_PUSH,
-        ACTION_RESET,
-        ACTION_MERGE,
-        ACTION_REBASE,
-        ACTION_FAILED_MERGE,
-        ACTION_FAILED_REBASE,
-        ACTION_FAILED_PUSH,
-    ))
-
     ACTIONS_REVERTABLE = frozenset((
         ACTION_ACCEPT,
         ACTION_REVERT,
