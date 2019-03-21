@@ -244,6 +244,7 @@ def notify_new_comment(change):
     user = change.user
     report_source_bugs = unit.translation.component.report_source_bugs
     mails = []
+    users = set()
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.component.project,
         comment.language,
@@ -253,12 +254,16 @@ def notify_new_comment(change):
         mails.append(
             send_new_comment(subscription, unit, comment, user)
         )
+        users.add(subscription.user.pk)
 
     # Notify mentioned users
     for mentioned in comment.get_mentions():
+        if mentioned.pk in users:
+            continue
         mails.append(
             send_new_comment(mentioned.profile, unit, comment, user)
         )
+        users.add(mentioned.pk)
 
     # Notify upstream
     if comment.language is None and report_source_bugs:
