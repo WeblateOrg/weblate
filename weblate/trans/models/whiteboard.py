@@ -154,6 +154,6 @@ class WhiteboardMessage(models.Model):
                 action=Change.ACTION_MESSAGE,
                 project=self.project,
                 component=self.component,
-                alert=self,
+                whiteboard=self,
                 target=self.message
             )
