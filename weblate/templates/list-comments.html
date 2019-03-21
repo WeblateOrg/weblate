@@ -25,6 +25,6 @@
 <div class="clearfix"></div>
 {% endif %}
 <div class="list-group">
-<div class="list-group-item{% if not comment.language %} list-group-item-warning{% endif %}" dir="auto">{{ comment.comment|urlize|linebreaks }}</div>
+<div class="list-group-item{% if not comment.language %} list-group-item-warning{% endif %}" dir="auto">{% render_comment comment %}</div>
 </div>
 {% endfor %}
