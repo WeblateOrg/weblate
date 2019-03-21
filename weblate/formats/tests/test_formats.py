@@ -22,8 +22,10 @@ from __future__ import unicode_literals
 
 from io import BytesIO
 import os.path
+import re
 from unittest import TestCase, SkipTest
 
+import django
 from django.test import SimpleTestCase
 from django.utils.encoding import force_text
 
@@ -147,6 +149,9 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
     databases = '__all__'
+
+    if not re.match(r"3.[0-9].[0-9]", django.get_version()):
+        allow_database_queries = True
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()
