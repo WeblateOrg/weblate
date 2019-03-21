@@ -422,6 +422,7 @@ class Change(models.Model, UserDisplayMixin):
         return ''
 
     def save(self, *args, **kwargs):
+        from weblate.accounts.tasks import notify_change
         if self.unit:
             self.translation = self.unit.translation
         if self.translation:
@@ -431,3 +432,4 @@ class Change(models.Model, UserDisplayMixin):
         if self.dictionary:
             self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
+        notify_change.delay(self.pk)

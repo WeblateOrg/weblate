@@ -63,6 +63,12 @@ def cleanup_auditlog():
     ).delete()
 
 
+@app.task
+def notify_change(change_id):
+    from weblate.trans.models import Change
+    change = Change.objects.get(pk=change_id)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
