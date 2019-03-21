@@ -25,6 +25,7 @@ import datetime
 from appconf import AppConf
 
 from django.db import models
+from django.db.models import Q
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in

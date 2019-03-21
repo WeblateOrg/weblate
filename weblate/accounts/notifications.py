@@ -21,7 +21,6 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
-from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
