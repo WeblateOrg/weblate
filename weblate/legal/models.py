@@ -26,7 +26,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from weblate.accounts.notifications import notify_account_activity
+from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
 
 
@@ -56,7 +56,7 @@ class Agreement(models.Model):
 
     def make_current(self, request):
         if not self.is_current():
-            notify_account_activity(
+            AuditLog.objects.create(
                 self.user, request, 'tos', date=TOS_DATE.isoformat()
             )
             self.tos = TOS_DATE

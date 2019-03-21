@@ -65,7 +65,7 @@ from weblate.accounts.forms import (
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang
+from weblate.accounts.models import set_lang, AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -76,7 +76,6 @@ from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
 )
-from weblate.accounts.notifications import notify_account_activity
 
 CONTACT_TEMPLATE = '''
 Message from %(name)s <%(email)s>:
@@ -595,7 +594,7 @@ def register(request):
         if ((captcha is None or captcha.is_valid()) and
                 form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
-                notify_account_activity(
+                AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'connect'
@@ -641,7 +640,7 @@ def email_login(request):
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             email_user = form.cleaned_data['email_user']
             if email_user and email_user != request.user:
-                notify_account_activity(
+                AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'connect'
@@ -760,12 +759,12 @@ def reset_password(request):
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             if form.cleaned_data['email_user']:
-                rate_limited = notify_account_activity(
+                audit = AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'reset-request'
                 )
-                if not rate_limited:
+                if not audit.check_rate_limit(request):
                     store_userid(request, True)
                     return social_complete(request, 'email')
             return fake_email_sent(request, True)

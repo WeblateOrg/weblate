@@ -28,7 +28,7 @@ from django.core import mail
 from django.test.utils import override_settings
 
 from weblate.auth.models import User
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, AuditLog
 from weblate.accounts.notifications import (
     notify_merge_failure,
     notify_parse_error,
@@ -38,7 +38,6 @@ from weblate.accounts.notifications import (
     notify_new_translation,
     notify_new_contributor,
     notify_new_language,
-    notify_account_activity,
 )
 from weblate.trans.tests.test_views import (
     FixtureTestCase, RegistrationTestMixin,
@@ -235,7 +234,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_account(self):
         request = self.get_request()
-        notify_account_activity(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
 
@@ -243,7 +242,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         self.user.profile.language = 'cs'
         self.user.profile.save()
         request = self.get_request()
-        notify_account_activity(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
         content = mail.outbox[0].alternatives[0][0]

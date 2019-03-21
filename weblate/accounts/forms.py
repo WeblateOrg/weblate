@@ -36,10 +36,9 @@ from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, AuditLog
 from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.accounts.captcha import MathCaptcha
-from weblate.accounts.notifications import notify_account_activity
 from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.util import sort_choices
@@ -423,7 +422,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
     # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
-        notify_account_activity(
+        AuditLog.objects.create(
             self.user,
             request,
             'password',
@@ -581,13 +580,14 @@ class LoginForm(forms.Form):
             )
             if self.user_cache is None:
                 for user in try_get_user(username, True):
-                    notify_account_activity(
+                    audit = AuditLog.objects.create(
                         user,
                         self.request,
                         'failed-auth',
                         method='Password',
                         name=username,
                     )
+                    audit.check_rate_limit(self.request)
                 rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
@@ -599,7 +599,7 @@ class LoginForm(forms.Form):
                     code='inactive',
                 )
             else:
-                notify_account_activity(
+                AuditLog.objects.create(
                     self.user_cache,
                     self.request,
                     'login',

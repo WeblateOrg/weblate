@@ -27,8 +27,7 @@ from social_django.models import Code
 
 from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
-from weblate.accounts.models import VerifiedEmail
-from weblate.accounts.notifications import notify_account_activity
+from weblate.accounts.models import VerifiedEmail, AuditLog
 
 
 def remove_user(user, request):
@@ -38,7 +37,7 @@ def remove_user(user, request):
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
-    notify_account_activity(user, request, 'removed')
+    AuditLog.objects.create(user, request, 'removed')
 
     # Remove any email validation codes
     invalidate_reset_codes(user)

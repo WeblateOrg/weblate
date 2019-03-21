@@ -29,7 +29,6 @@ from django.utils.timezone import now
 
 from social_django.models import Partial, Code
 
-from weblate.accounts.models import AuditLog
 from weblate.celery import app
 
 
@@ -59,6 +58,7 @@ def cleanup_social_auth():
 @app.task
 def cleanup_auditlog():
     """Cleanup old auditlog entries."""
+    from weblate.accounts.models import AuditLog
     AuditLog.objects.filter(
         timestamp__lt=now() - timedelta(days=settings.AUDITLOG_EXPIRY)
     ).delete()
@@ -86,6 +86,25 @@ def notify_change(change_id):
         notify_new_comment(change)
     elif change.action in Cahnge.ACTIONS_CONTENT:
         notify_new_translation(change)
+
+
+@app.task(autoretry_for=(ObjectDoesNotExist,))
+def notify_auditlog(log_id):
+    from weblate.accounts.models import AuditLog
+    from weblate.accounts.notifications import send_notification_email
+    audit = AuditLog.objects.get(pk=log_id)
+    send_notification_email(
+        audit.user.profile.language,
+        audit.user.email,
+        'account_activity',
+        context={
+            'message': audit.get_message,
+            'extra_message': audit.get_extra_message,
+            'address': audit.address,
+            'user_agent': audit.user_agent,
+        },
+        info='{0} from {1}'.format(audit.activity, audit.address),
+    )
 
 
 @app.on_after_finalize.connect
