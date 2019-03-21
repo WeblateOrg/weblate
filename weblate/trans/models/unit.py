@@ -654,7 +654,6 @@ class Unit(models.Model, LoggerMixin):
                 action=Change.ACTION_NEW_CONTRIBUTOR,
                 user=user,
                 author=author,
-                **kwargs
             )
 
         # Action type to store
