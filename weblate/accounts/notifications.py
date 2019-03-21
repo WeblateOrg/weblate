@@ -254,6 +254,12 @@ def notify_new_comment(change):
             send_new_comment(subscription, unit, comment, user)
         )
 
+    # Notify mentioned users
+    for mentioned in comment.get_mentions():
+        mails.append(
+            send_new_comment(mentioned.profile, unit, comment, user)
+        )
+
     # Notify upstream
     if comment.language is None and report_source_bugs:
         send_notification_email(

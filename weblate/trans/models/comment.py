@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -27,6 +29,9 @@ from django.utils.encoding import python_2_unicode_compatible
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
+
+
+MENTIONS_RE = re.compile(r'@([^\s]+)\b', re.UNICODE)
 
 
 class CommentManager(models.Manager):
@@ -92,3 +97,11 @@ class Comment(UnitData, UserDisplayMixin):
             self.content_hash,
             self.user.username if self.user else 'unknown',
         )
+
+    def get_mentions(self):
+        from weblate.auth.models import User
+        for match in MENTIONS_RE.findall(self.comment):
+            try:
+                yield User.objects.get(username=match)
+            except User.DoesNotExist:
+                continue

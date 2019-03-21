@@ -16,6 +16,7 @@ Released on ? 2019.
 * Extended contributor stats to reflect both source and target counts.
 * Admins and consistency addons can now add translations even if disabled for users.
 * Fixed description of toggle disabling ``Language-Team`` header manipulation.
+* Notify users mentioned in comments.
 
 weblate 3.5.1
 -------------

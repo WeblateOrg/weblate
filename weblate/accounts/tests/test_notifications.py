@@ -204,14 +204,14 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             '[Weblate] New suggestion in Test/Test - Czech'
         )
 
-    def test_notify_new_comment(self, expected=1):
+    def test_notify_new_comment(self, expected=1, comment='Foo'):
         unit = self.get_unit()
         change = Change(
             unit=unit,
             comment=Comment.objects.create(
                 content_hash=unit.content_hash,
                 project=unit.translation.component.project,
-                comment='Foo'
+                comment=comment,
             ),
             user=self.second_user()
         )
@@ -228,6 +228,12 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         self.component.report_source_bugs = 'noreply@weblate.org'
         self.component.save()
         self.test_notify_new_comment(2)
+
+    def test_notify_new_comment_mention(self):
+        self.test_notify_new_comment(
+            2,
+            'Hello @{} and @invalid'.format(self.user.username)
+        )
 
     def test_notify_account(self):
         request = self.get_request()
