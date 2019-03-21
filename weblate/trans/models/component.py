@@ -962,13 +962,6 @@ class Component(models.Model, URLMixin, PathMixin):
             filename = self.template
         else:
             filename = translation.filename
-        from weblate.accounts.notifications import notify_parse_error
-        notify_parse_error(
-            self,
-            translation,
-            error_message,
-            filename
-        )
         self.trigger_alert(
             'ParseError', error=error_message, filename=filename
         )
@@ -1034,10 +1027,6 @@ class Component(models.Model, URLMixin, PathMixin):
                         }
                     )
                     self.add_alert('MergeFailure', childs=True, error=error)
-
-                # Notify subscribers and admins
-                from weblate.accounts.notifications import notify_merge_failure
-                notify_merge_failure(self, error, status)
 
                 # Reset repo back
                 method(abort=True)
@@ -1285,15 +1274,9 @@ class Component(models.Model, URLMixin, PathMixin):
             from weblate.trans.tasks import cleanup_project
             cleanup_project.delay(self.project.pk)
 
-        from weblate.accounts.notifications import notify_new_string
         # First invalidate all caches
         for translation in translations.values():
             translation.invalidate_cache()
-        # Now send notifications to avoid calculating component stats
-        # several times
-        for translation in translations.values():
-            if translation.notify_new_string:
-                notify_new_string(translation)
 
         self.checks_cache = None
         self.log_info('updating completed')

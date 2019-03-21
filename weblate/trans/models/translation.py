@@ -113,7 +113,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         super(Translation, self).__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
-        self.notify_new_string = False
         self.commit_template = ''
 
     @cached_property
@@ -245,8 +244,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         else:
             return
 
-        self.notify_new_string = False
-
         self.log_info('processing %s, %s', self.filename, reason)
 
         # List of created units (used for cleanup and duplicates detection)
@@ -360,9 +357,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 user=user,
                 author=user
             )
-
-        # Notify subscribed users
-        self.notify_new_string = was_new
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()

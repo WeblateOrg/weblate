@@ -67,7 +67,25 @@ def cleanup_auditlog():
 @app.task(autoretry_for=(ObjectDoesNotExist,))
 def notify_change(change_id):
     from weblate.trans.models import Change
+    from weblate.accounts.notifications import (
+        notify_merge_failure, notify_parse_error, notify_new_string,
+        notify_new_contributor, notify_new_suggestion, notify_new_comment,
+    )
     change = Change.objects.get(pk=change_id)
+    if change.action in (Change.ACTION_FAILED_MERGE, Change.ACTION_FAILED_REBASE):
+        notify_merge_failure(change)
+    elif change.action == Change.ACTION_PARSE_ERROR:
+        notify_parse_error(change)
+    elif change.action == Change.ACTION_NEW_STRING:
+        notify_new_string(change)
+    elif change.action == Change.ACTION_NEW_CONTRIBUTOR:
+        notify_new_contributor(change)
+    elif change.action == Change.ACTION_SUGGESTION:
+        notify_new_suggestion(change)
+    elif change.action == Change.ACTION_COMMENT:
+        notify_new_comment(change)
+    elif change.action in Cahnge.ACTIONS_CONTENT:
+        notify_new_translation(change)
 
 
 @app.on_after_finalize.connect

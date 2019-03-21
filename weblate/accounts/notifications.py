@@ -37,8 +37,11 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 
 
-def notify_merge_failure(component, error, status):
+def notify_merge_failure(change):
     """Notification on merge failure."""
+    component = change.component
+    error = change.details.get('error', '')
+    status = change.details.get('status', '')
     subscriptions = Profile.objects.subscribed_merge_failure(
         component.project,
     )
@@ -74,8 +77,12 @@ def notify_merge_failure(component, error, status):
     enqueue_mails(mails)
 
 
-def notify_parse_error(component, translation, error, filename):
+def notify_parse_error(change):
     """Notification on parse error."""
+    component = change.component
+    translation = change.translation
+    error = change.details.get('error', '')
+    filename = change.details.get('filename', '')
     subscriptions = Profile.objects.subscribed_merge_failure(
         component.project,
     )
@@ -116,8 +123,9 @@ def notify_parse_error(component, translation, error, filename):
     enqueue_mails(mails)
 
 
-def notify_new_string(translation):
+def notify_new_string(change):
     """Notification on new string to translate."""
+    translation = change.translation
     mails = []
     subscriptions = Profile.objects.subscribed_new_string(
         translation.component.project, translation.language
@@ -154,8 +162,11 @@ def notify_new_language(component, language, user):
     enqueue_mails(mails)
 
 
-def notify_new_translation(unit, oldunit, user):
+def notify_new_translation(change):
     """Notify subscribed users about new translation"""
+    unit = change.unit
+    user = change.user
+    old_target = change.old
     mails = []
     subscriptions = Profile.objects.subscribed_any_translation(
         unit.translation.component.project,
@@ -164,14 +175,16 @@ def notify_new_translation(unit, oldunit, user):
     )
     for subscription in subscriptions:
         mails.append(
-            send_any_translation(subscription, unit, oldunit, user)
+            send_any_translation(subscription, unit, old_target, user)
         )
 
     enqueue_mails(mails)
 
 
-def notify_new_contributor(unit, user):
+def notify_new_contributor(change):
     """Notify about new contributor."""
+    unit = change.unit
+    user = change.user
     mails = []
     subscriptions = Profile.objects.subscribed_new_contributor(
         unit.translation.component.project,
@@ -189,8 +202,13 @@ def notify_new_contributor(unit, user):
     enqueue_mails(mails)
 
 
-def notify_new_suggestion(unit, suggestion, user):
+def notify_new_suggestion(change):
     """Notify about new suggestion."""
+    unit = change.unit
+    suggestion = change.suggestion
+    if not suggestion:
+        return
+    user = change.user
     mails = []
     subscriptions = Profile.objects.subscribed_new_suggestion(
         unit.translation.component.project,
@@ -210,8 +228,14 @@ def notify_new_suggestion(unit, suggestion, user):
     enqueue_mails(mails)
 
 
-def notify_new_comment(unit, comment, user, report_source_bugs):
+def notify_new_comment(change):
     """Notify about new comment."""
+    unit = change.unit
+    comment = change.comment
+    if not comment:
+        return
+    user = change.user
+    report_source_bugs = unit.translation.component.report_source_bugs
     mails = []
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.component.project,
@@ -224,7 +248,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
         )
 
     # Notify upstream
-    if comment.language is None and report_source_bugs != '':
+    if comment.language is None and report_source_bugs:
         send_notification_email(
             'en',
             report_source_bugs,
@@ -426,20 +450,16 @@ def send_user(profile, notification, component, display_obj,
     return None
 
 
-def send_any_translation(profile, unit, oldunit, user):
+def send_any_translation(profile, unit, old_target, user):
     """Send notification on translation."""
-    if oldunit.translated:
-        template = 'changed_translation'
-    else:
-        template = 'new_translation'
     return send_user(
         profile,
-        template,
+        'changed_translation',
         unit.translation.component,
         unit.translation,
         {
             'unit': unit,
-            'oldunit': oldunit,
+            'old_target': old_target,
         },
         user=user
     )

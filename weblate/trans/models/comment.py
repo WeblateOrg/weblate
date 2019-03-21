@@ -49,15 +49,6 @@ class CommentManager(models.Manager):
             author=user
         )
 
-        # Notify subscribed users
-        from weblate.accounts.notifications import notify_new_comment
-        notify_new_comment(
-            unit,
-            new_comment,
-            user,
-            unit.translation.component.report_source_bugs
-        )
-
     def copy(self, project):
         """Copy comments to new project
 

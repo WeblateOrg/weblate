@@ -1,4 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
+{% if old_target %}
 {% blocktrans %}Changed translation in {{ translation }}{% endblocktrans %}
+{% else %}
+{% blocktrans %}New translation in {{ translation }}{% endblocktrans %}
+{% endif %}
 {% endautoescape %}
