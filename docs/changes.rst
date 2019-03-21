@@ -15,6 +15,7 @@ Released on ? 2019.
 * Extract special chars from the source string for visual keyboard.
 * Extended contributor stats to reflect both source and target counts.
 * Admins and consistency addons can now add translations even if disabled for users.
+* Fixed description of toggle disabling ``Language-Team`` header manipulation.
 
 weblate 3.5.1
 -------------

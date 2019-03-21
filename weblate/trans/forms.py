@@ -1689,7 +1689,7 @@ class ProjectSettingsForm(SettingsBaseForm):
             'web',
             'mail',
             'instructions',
-            'set_translation_team',
+            'set_language_team',
             'use_shared_tm',
             'enable_hooks',
             'source_language',

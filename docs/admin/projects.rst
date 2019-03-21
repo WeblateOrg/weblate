@@ -103,8 +103,8 @@ Mailing list
     Mailing list where translators can discuss or comment translations.
 Translation instructions
     URL to more site with more detailed instructions for translators.
-Set Translation-Team header
-    Whether Weblate should manage the Translation-Team header (this is a
+Set Language-Team header
+    Whether Weblate should manage the ``Language-Team`` header (this is a
     :ref:`gettext` only feature right now).
 Use shared translation memory
     Whether to use shared translation memory, see :ref:`shared-tm` for more details.
@@ -127,8 +127,8 @@ Adjusting interaction
 +++++++++++++++++++++
 
 There are also additional features which you can control, like automatic
-pushing of changes (see also :ref:`push-changes`) or
-maintainership of the Translation-Team header.
+pushing of changes (see also :ref:`push-changes`) or maintainership of the
+``Language-Team`` header.
 
 .. _component:
 

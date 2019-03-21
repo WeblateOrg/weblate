@@ -603,7 +603,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         }
 
         # Optionally store language team with link to website
-        if self.component.project.set_translation_team:
+        if self.component.project.set_language_team:
             headers['language_team'] = '{0} <{1}>'.format(
                 self.language.name,
                 get_site_url(self.get_absolute_url())
