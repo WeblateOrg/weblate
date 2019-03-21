@@ -976,6 +976,10 @@ class Component(models.Model, URLMixin, PathMixin):
             Change.objects.create(
                 component=self,
                 action=Change.ACTION_PARSE_ERROR,
+                details={
+                    'error_message': error_message,
+                    'filename': filename,
+                }
             )
         raise FileParseError(error_message)
 
@@ -1024,6 +1028,10 @@ class Component(models.Model, URLMixin, PathMixin):
                     Change.objects.create(
                         component=self, action=action_failed, target=error,
                         user=request.user if request else None,
+                        details={
+                            'error': error,
+                            'status': status,
+                        }
                     )
                     self.add_alert('MergeFailure', childs=True, error=error)
 
