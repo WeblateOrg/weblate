@@ -773,9 +773,7 @@ def replace_english(value, language):
 def render_comment(comment):
     mentioned = comment.get_mentions()
     result = linebreaks(urlize(comment.comment, autoescape=True))
-    print result
     for user in mentioned:
-        print user, '@{}'.format(user.username)
         result = result.replace(
             '@{}'.format(user.username),
             get_user_display(user, icon=False, link=True),
