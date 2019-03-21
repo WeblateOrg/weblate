@@ -441,6 +441,11 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add(self):
+        # Subscribe to receive notifications
+        self.anotheruser.profile.subscribe_new_language = True
+        self.anotheruser.profile.save()
+        self.anotheruser.profile.subscriptions.add(self.project)
+
         self.assertFalse(
             self.component.translation_set.filter(
                 language__code='af'
@@ -465,6 +470,13 @@ class NewLangTest(ViewTestCase):
             self.component.translation_set.filter(
                 language__code='af'
             ).exists()
+        )
+
+        # Verify mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New language added to Test/Test',
         )
 
         # Not selected language

@@ -360,6 +360,7 @@ def new_language(request, project, component):
             kwargs = {
                 'user': request.user,
                 'author': request.user,
+                'component': obj,
                 'details': {},
             }
             for language in Language.objects.filter(code__in=langs):

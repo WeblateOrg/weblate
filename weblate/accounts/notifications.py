@@ -160,6 +160,8 @@ def notify_new_language(change):
         users.add(subscription.user_id)
 
     for owner in User.objects.all_admins(component.project):
+        if owner.id in users:
+            continue
         mails.append(
             send_new_language(
                 owner.profile, component, language, user, was_added
