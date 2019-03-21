@@ -31,7 +31,7 @@ from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
 
 
-MENTIONS_RE = re.compile(r'@([^\s]+)\b', re.UNICODE)
+MENTIONS_RE = re.compile(r'@([\w.@+-]+)\b', re.UNICODE)
 
 
 class CommentManager(models.Manager):
