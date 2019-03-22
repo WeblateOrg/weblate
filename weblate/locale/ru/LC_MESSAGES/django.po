@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-21 13:48+0000\n"
+"PO-Revision-Date: 2019-03-24 16:10+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -319,7 +319,7 @@ msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
-"Выберите, какие языки вы предпочитаете переводить. Они будут предлагаться "
+"Выберите, какие переводимые языки вы предпочитаете. Они будут предлагаться "
 "вам на панели управления для более лёгкого доступа к выбранным переводам."
 
 #: weblate/accounts/models.py:373
@@ -439,7 +439,7 @@ msgstr "Уведомление о любом переводе"
 
 #: weblate/accounts/models.py:486
 msgid "Notification on new string to translate"
-msgstr "Уведомление о новой строке для перевода"
+msgstr "Уведомление о новой переводимой строке"
 
 #: weblate/accounts/models.py:490
 msgid "Notification on new suggestion"
@@ -5288,17 +5288,13 @@ msgid "New contributor in %(translation)s"
 msgstr "Новый участник в %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a new translation on %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(translation)s at %(site_title)s."
-msgstr "Сделан новый перевод в %(translation)s на %(site_title)s."
+msgstr "Новый язык был добавлен в %(translation)s на %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:19
-#, fuzzy
-#| msgid "Used languages"
 msgid "Added language:"
-msgstr "Используемые языки"
+msgstr "Добавленный язык:"
 
 #: weblate/templates/mail/new_language.html:24
 #, python-format
@@ -5336,10 +5332,9 @@ msgid "Translation component:"
 msgstr "Компонент перевода:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language added to %(translation)s"
-msgstr "Запрос нового языка для %(translation)s"
+msgstr "Новый язык добавлен в %(translation)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
 #, python-format
@@ -5350,13 +5345,12 @@ msgstr "Запрос нового языка для %(translation)s"
 #, python-format
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
-msgstr ""
-"Появились новые строки для перевода в %(translation)s на %(site_title)s."
+msgstr "Появились новые переводимые строки в %(translation)s на %(site_title)s."
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Новая строка для перевода в %(translation)s"
+msgstr "Новая переводимая строка в %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:11
 #, python-format
@@ -7562,40 +7556,28 @@ msgid "Moved component"
 msgstr "Компонент перемещён"
 
 #: weblate/trans/models/change.py:252
-#, fuzzy
-#| msgid "Strings to translate"
 msgid "New string to translate"
-msgstr "Строки для перевода"
+msgstr "Новая переводимая строка"
 
 #: weblate/trans/models/change.py:253
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "New contributor"
-msgstr "Cмотреть соглашение участников"
+msgstr "Новый участник"
 
 #: weblate/trans/models/change.py:254
-#, fuzzy
-#| msgid "Whiteboard message"
 msgid "New whiteboard message"
-msgstr "Сообщение на совместной доске"
+msgstr "Новое сообщение на совместной доске"
 
 #: weblate/trans/models/change.py:255
-#, fuzzy
-#| msgid "From component list"
 msgid "New component alert"
-msgstr "Из списка компонентов"
+msgstr "Оповещение о новом компоненте"
 
 #: weblate/trans/models/change.py:256
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Added new language"
-msgstr "Добавление новых языков"
+msgstr "Добавлен новый язык"
 
 #: weblate/trans/models/change.py:257
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested new language"
-msgstr "Запрашиваемый язык:"
+msgstr "Запрошен новый язык"
 
 #: weblate/trans/models/change.py:352
 #, python-format
