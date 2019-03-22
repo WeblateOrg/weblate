@@ -232,7 +232,7 @@ def perform_translation(unit, form, request):
     # Should we skip to next entry
     if not saved:
         revert_rate_limit('translate', request)
-        return False
+        return True
 
     # Warn about applied fixups
     if fixups:
