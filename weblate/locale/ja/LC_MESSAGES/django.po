@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-22 03:09+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2019-03-24 16:10+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -79,7 +79,7 @@ msgstr "翻訳の通知"
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
-msgstr "監視中のプロジェクトで、翻訳設定した言語のみ通知が届きます。"
+msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:315 weblate/templates/manage-access.html:25
@@ -276,7 +276,7 @@ msgstr "{method} ({name}) を使用してログインできません。"
 
 #: weblate/accounts/models.py:87
 msgid "Account locked due to many failed logins."
-msgstr "何度もログインに失敗したので、アカウントをロックしました"
+msgstr "何度もログインに失敗したので、アカウントをロックしました。"
 
 #: weblate/accounts/models.py:90
 msgid "Account and all private data have been removed."
@@ -337,13 +337,11 @@ msgstr "第 2 言語"
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
-msgstr ""
-"理解できる言語を選択すると、それらの言語の文字列が原文と共に表示されるように"
-"なります。"
+msgstr "理解できる言語を選択すると、翻訳する言語の文字列が原文と並んで表示します。"
 
 #: weblate/accounts/models.py:386
 msgid "Hide completed translations on the dashboard"
-msgstr "ダッシュボードでは翻訳済みを表示しない"
+msgstr "ダッシュボードに翻訳済みを表示しない"
 
 #: weblate/accounts/models.py:390
 msgid "Show secondary translations in zen mode"
@@ -406,7 +404,7 @@ msgstr "あなたの母国語"
 #: weblate/accounts/models.py:440 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
-msgstr "コンポーネントリスト"
+msgstr "複数のコンポーネント リスト"
 
 #: weblate/accounts/models.py:441 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
@@ -1222,7 +1220,7 @@ msgstr "リポジトリのアクセス"
 #: weblate/auth/data.py:147
 msgctxt "Access control role"
 msgid "Power user"
-msgstr "パワーユーザ"
+msgstr "パワー ユーザ"
 
 #: weblate/auth/data.py:155
 msgctxt "Access control role"
@@ -2612,9 +2610,7 @@ msgstr "Weblate に関する詳細情報は %(weblate_link)s にあります。"
 
 #: weblate/templates/about/index.html:22
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr ""
-"Weblate はボランティアにより作成されたリブレ ソフトウェアです、寄付を受け付け"
-"ています。"
+msgstr "Weblate はボランティアが作成したリブレ ソフトウェアです、寄付をお願いしています。"
 
 #: weblate/templates/about/index.html:26 weblate/templates/footer.html:11
 msgid "Donate to Weblate"
@@ -3177,7 +3173,7 @@ msgstr "通知設定"
 
 #: weblate/templates/accounts/profile.html:93
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr "設定した言語については、選択した通知を受け取れます。"
+msgstr "登録した言語は、選択した通知を受け取ります。"
 
 #: weblate/templates/accounts/profile.html:106
 msgid "Your name and email will appear as author on the commits."
@@ -5273,12 +5269,9 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s 内での新しい貢献者"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a new translation on %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(translation)s at %(site_title)s."
-msgstr ""
-"%(site_title)s の %(translation)s において、新しい翻訳が追加されました。"
+msgstr "%(site_title)s の %(translation)s に、新しい翻訳が追加されました。"
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
@@ -5322,10 +5315,9 @@ msgid "Translation component:"
 msgstr "翻訳文のコメント:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language added to %(translation)s"
-msgstr "%(translation)s に追加された新しい言語"
+msgstr "%(translation)s に、新しい言語が追加されました"
 
 #: weblate/templates/mail/new_language_subject.txt:6
 #, python-format
@@ -7550,14 +7542,10 @@ msgid "New whiteboard message"
 msgstr "新しいホワイトボード メッセージ"
 
 #: weblate/trans/models/change.py:255
-#, fuzzy
-#| msgid "From component list"
 msgid "New component alert"
 msgstr "新しいコンポーネントの警告"
 
 #: weblate/trans/models/change.py:256
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Added new language"
 msgstr "新しい言語の追加"
 
