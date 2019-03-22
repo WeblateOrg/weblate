@@ -533,7 +533,7 @@ class Plural(models.Model):
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
     ordering = ['source']
-    
+ 
     class Meta(object):
         verbose_name = ugettext_lazy('Plural form')
         verbose_name_plural = ugettext_lazy('Plural forms')

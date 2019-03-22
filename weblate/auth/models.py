@@ -526,7 +526,7 @@ class AutoGroup(models.Model):
     )
 
     ordering = ('group__name', )
-        
+
     class Meta(object):
         verbose_name = _('Automatic group assignment')
         verbose_name_plural = _('Automatic group assignments')

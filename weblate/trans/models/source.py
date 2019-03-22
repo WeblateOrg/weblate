@@ -48,8 +48,7 @@ class Source(models.Model):
         validators=[validate_check_flags],
         blank=True,
     )
-    context = models.TextField(default='', blank=True)
-    
+    context = models.TextField(default='', blank=True) 
     ordering = ('id', )
 
     class Meta(object):

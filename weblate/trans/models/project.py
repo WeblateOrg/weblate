@@ -132,7 +132,7 @@ class Project(models.Model, URLMixin, PathMixin):
     _reverse_url_name = 'project'
 
     ordering = ['name']
-    
+ 
     class Meta(object):
         app_label = 'trans'
         verbose_name = ugettext_lazy('Project')

@@ -36,8 +36,7 @@ from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
 from weblate.trans.models import (
-    Translation, ComponentList, 
-    Change, Unit, Component
+    Translation, ComponentList, Change, Unit, Component
 )
 from weblate.lang.models import Language
 from weblate.trans.forms import (

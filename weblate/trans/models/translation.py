@@ -101,8 +101,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
     is_lockable = False
-    _reverse_url_name = 'translation'
-    
+    _reverse_url_name = 'translation' 
     ordering = ['language__name']
 
     class Meta(object):
