@@ -243,34 +243,25 @@ interface.
 Some of the checks are not useful for all projects, so you are welcome to
 adjust the list list of checks to be performed on your installation.
 
-For example you can enable only few of them:
+By default all built in quality checks (see :ref:`checks`) are enabled, you can
+use this setting to change this. Also the :ref:`sample-configuration` comes
+with this setting commented out to use default value. This enables you to get
+new checks automatically enabled on upgrade.
+
+You can disable all checks:
+
+.. code-block:: python
+
+    CHECK_LIST = ()
+
+You can enable only few of them:
 
 .. code-block:: python
 
     CHECK_LIST = (
-        'weblate.checks.same.SameCheck',
         'weblate.checks.chars.BeginNewlineCheck',
         'weblate.checks.chars.EndNewlineCheck',
-        'weblate.checks.chars.BeginSpaceCheck',
-        'weblate.checks.chars.EndSpaceCheck',
-        'weblate.checks.chars.EndStopCheck',
-        'weblate.checks.chars.EndColonCheck',
-        'weblate.checks.chars.EndQuestionCheck',
-        'weblate.checks.chars.EndExclamationCheck',
-        'weblate.checks.chars.EndEllipsisCheck',
-        'weblate.checks.chars.EndSemicolonCheck',
         'weblate.checks.chars.MaxLengthCheck',
-        'weblate.checks.format.PythonFormatCheck',
-        'weblate.checks.format.PythonBraceFormatCheck',
-        'weblate.checks.consistency.PluralsCheck',
-        'weblate.checks.consistency.SamePluralsCheck',
-        'weblate.checks.consistency.ConsistencyCheck',
-        'weblate.checks.consistency.TranslatedCheck',
-        'weblate.checks.chars.NewlineCountingCheck',
-        'weblate.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.checks.source.OptionalPluralCheck',
-        'weblate.checks.source.EllipsisCheck',
-        'weblate.checks.source.MultipleFailingCheck',
     )
 
 .. note::
