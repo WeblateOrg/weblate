@@ -72,7 +72,6 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             'testpassword'
         )
 
-    @override_settings(ADMINS=(('Weblate test', 'noreply@weblate.org'), ))
     def test_notify_merge_failure(self):
         change = Change(
             component=self.component,
@@ -83,8 +82,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         notify_merge_failure(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Merge failure in Test/Test'
@@ -94,10 +93,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.component.project.add_user(self.second_user(), '@Administration')
         notify_merge_failure(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
-    @override_settings(ADMINS=(('Weblate test', 'noreply@weblate.org'), ))
     def test_notify_parse_error(self):
         change = Change(
             component=self.component,
@@ -109,8 +107,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         notify_parse_error(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Parse error in Test/Test'
@@ -120,8 +118,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.component.project.add_user(self.second_user(), '@Administration')
         notify_parse_error(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
     def test_notify_new_string(self):
         change = Change(translation=self.get_translation())
