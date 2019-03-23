@@ -60,20 +60,6 @@ def notify_merge_failure(change):
             )
         )
 
-    # Notify admins
-    mails.append(
-        get_notification_email(
-            'en',
-            'ADMINS',
-            'merge_failure',
-            component,
-            {
-                'component': component,
-                'status': status,
-                'error': error,
-            }
-        )
-    )
     enqueue_mails(mails)
 
 
@@ -105,21 +91,6 @@ def notify_parse_error(change):
             )
         )
 
-    # Notify admins
-    mails.append(
-        get_notification_email(
-            'en',
-            'ADMINS',
-            'parse_error',
-            translation if translation is not None else component,
-            {
-                'component': component,
-                'translation': translation,
-                'error': error,
-                'filename': filename,
-            }
-        )
-    )
     enqueue_mails(mails)
 
 
