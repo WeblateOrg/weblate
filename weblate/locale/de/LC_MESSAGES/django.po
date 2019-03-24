@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-24 16:09+0000\n"
+"PO-Revision-Date: 2019-03-25 21:39+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -7845,16 +7845,12 @@ msgstr ""
 "Drittanbietern wählen, um Merge Requests zu übermitteln."
 
 #: weblate/trans/models/component.py:161
-#, fuzzy
-#| msgid ""
-#| "URL of a repository, use weblate://project/component for sharing with "
-#| "other component."
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"Adresse einer Paketquelle; mit weblate://projektname/komponente verweisen "
-"Sie auf die Paketquelle einer anderen Komponente."
+"URL einer Paketquelle; mit weblate://projektname/komponente verweisen Sie "
+"auf die Paketquelle einer anderen Komponente."
 
 #: weblate/trans/models/component.py:173
 msgid "Repository push URL"
@@ -8186,83 +8182,63 @@ msgid "The language code for %s was empty, please check the filemask."
 msgstr "Der Sprachcode für %s ist leer, bitte überprüfen Sie die Dateimaske."
 
 #: weblate/trans/models/component.py:1369
-#, fuzzy, python-format
-#| msgid "Language code \"%s\" is too long, please check filemask!"
+#, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr "Sprachcode \"%s\" ist zu lang. Bitte überprüfen Sie die Dateimaske!"
+msgstr "Der Sprachcode \"%s\" ist zu lang. Bitte überprüfen Sie die Dateimaske."
 
 #: weblate/trans/models/component.py:1373
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language (%s), please adjust the mask and "
-#| "use components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
 "Es wurden mehrere Dateien für eine einzelne Sprache (%s) gefunden, bitte "
-"passen Sie das Suchmuster an und benutzen Sie Komponenten, um "
+"passen Sie das Dateimaske an und benutzen Sie Komponenten, um "
 "unterschiedliche Ressourcen zu übersetzen."
 
 #: weblate/trans/models/component.py:1392
-#, fuzzy
-#| msgid "File does not seem to be valid!"
 msgid "This file seems to be invalid."
-msgstr "Dateiinhalt ist ungültig!"
+msgstr "Diese Datei scheint ungültig zu sein."
 
 #: weblate/trans/models/component.py:1400
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not recognize the format of %d matching files."
-msgstr "Übersetzungsdateien konnten nicht analysiert werden."
+msgstr ""
+"Das Format von %d übereinstimmenden Dateien konnte nicht erkannt werden."
 
 #: weblate/trans/models/component.py:1409
-#, fuzzy, python-format
-#| msgid "Failed to parse %d matched files!"
+#, python-format
 msgid "Could not parse %d matched files."
-msgstr "Fehler beim Verarbeiten von %d passenden Dateien!"
+msgstr "Konnte %d passende Dateien nicht analysieren."
 
 #: weblate/trans/models/component.py:1427
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Unrecognized base file for new translations."
-msgstr "Nicht verwendete Basisdatei für neue Übersetzungen."
+msgstr "Nicht erkannte Basisdatei für neue Übersetzungen."
 
 #: weblate/trans/models/component.py:1431
-#, fuzzy
-#| msgid ""
-#| "You have configured Weblate to add new translation files, but did not "
-#| "provide base file to do that!"
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
-"Sie haben Weblate für das Hinzufügen neuer Übersetzungsdateien konfiguriert, "
-"jedoch keine zugehörige Basisdatei bereitgestellt!"
+"Sie haben Weblate für das Hinzufügen neuer Übersetzungsdateien eingerichtet, "
+"jedoch keine zugehörige Basisdatei bereitgestellt."
 
 #: weblate/trans/models/component.py:1440
-#, fuzzy
-#| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
-msgstr "Basisdatei kann nicht mit bilingualen Übersetzungen verwendet werden!"
+msgstr "Basisdatei kann nicht für bilinguale Übersetzungen verwendet werden."
 
 #: weblate/trans/models/component.py:1445
-#, fuzzy
-#| msgid "Using .pot file as base file is not supported!"
 msgid "Using a .pot file as base file is unsupported."
-msgstr "Die Verwendung einer .pot-Datei als Basisdatei wird nicht unterstützt!"
+msgstr "Die Verwendung einer .pot-Datei als Basisdatei wird nicht unterstützt."
 
 #: weblate/trans/models/component.py:1452
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find template file."
-msgstr "Konnte rückgängig gemachte Änderung nicht finden."
+msgstr "Die Vorlagendatei konnte nicht gefunden werden."
 
 #: weblate/trans/models/component.py:1458
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Übersetzungsdateien konnten nicht analysiert werden."
+msgstr "Übersetzungsbasisdatei %s konnte nicht analysiert werden"
 
 #: weblate/trans/models/component.py:1468
 #, python-brace-format
@@ -8272,32 +8248,24 @@ msgstr ""
 "überein ({1})!"
 
 #: weblate/trans/models/component.py:1475
-#, fuzzy
-#| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Man kann keine einsprachige Übersetzung ohne Basisdatei benutzen!"
+msgstr ""
+"Sie können eine einsprachige Übersetzung nicht ohne Basisdatei verwenden."
 
 #: weblate/trans/models/component.py:1490
-#, fuzzy, python-format
-#| msgid "Could not update the repository."
+#, python-format
 msgid "Could not update repository: %s"
-msgstr "Das Repository konnte nicht aktualisiert werden."
+msgstr "Konnte das Repository %s nicht aktualisieren"
 
 #: weblate/trans/models/component.py:1504
-#, fuzzy
-#| msgid ""
-#| "Please either fill in instructions URL or use different option for adding "
-#| "new language."
 msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
-"Bitte geben Sie entweder den Link zur Einführungsseite ein oder wählen Sie "
+"Bitte geben Sie entweder die URL zur Einführungsseite ein oder verwenden Sie "
 "eine andere Option für das Hinzufügen von neuen Sprachen."
 
 #: weblate/trans/models/component.py:1511
-#, fuzzy
-#| msgid "License URL can not be used without license summary."
 msgid "License URL can not be used without a license summary."
 msgstr "Die Lizenz-URL kann nicht ohne den Namen der Lizenz verwendet werden."
 
@@ -8308,25 +8276,18 @@ msgstr ""
 "eingehalten wurde."
 
 #: weblate/trans/models/component.py:1551
-#, fuzzy
-#| msgid ""
-#| "Automatically accepting suggestions can work only with voting enabled!"
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
-"Vorschläge automatisch anzunehmen ist nur möglich, wenn Abstimmen erlaubt "
-"ist!"
+"Die automatische Annahme von Vorschlägen funktioniert nur bei "
+"eingeschalteter Abstimmfunktion."
 
 #: weblate/trans/models/component.py:1732
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Could not add new translation file."
-msgstr "Übersetzungsdateien konnten nicht analysiert werden."
+msgstr "Es konnte keine neue Übersetzungsdatei hinzugefügt werden."
 
 #: weblate/trans/models/component.py:1746
-#, fuzzy
-#| msgid "Given language is filtered by the language filter!"
 msgid "The given language is filtered by the language filter."
-msgstr "Die angegebene Sprache wird durch den Sprachfilter gefiltert!"
+msgstr "Die angegebene Sprache wird durch den Sprachfilter gefiltert."
 
 #: weblate/trans/models/component.py:1767
 msgid "Translation file already exists!"
@@ -8480,10 +8441,6 @@ msgid "Render as HTML"
 msgstr "Als HTML übergeben"
 
 #: weblate/trans/models/whiteboard.py:76
-#, fuzzy
-#| msgid ""
-#| "When disabled, URLs will be converted to links and any markup will be "
-#| "escaped."
 msgid ""
 "When turned off, URLs will be converted to links and any markup will be "
 "escaped."
@@ -8520,16 +8477,13 @@ msgid "Expiry date"
 msgstr "Ablaufdatum"
 
 #: weblate/trans/models/whiteboard.py:124
-#, fuzzy
-#| msgid ""
-#| "The message will be not shown after this date. Use for announcements such "
-#| "as deadline for next release."
 msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Nach diesem Datum wird die Meldung nicht mehr angezeigt. Für Ankündigungen "
-"zu verwenden, wie z.B. Frist für die nächste Veröffentlichung."
+"Nach diesem Datum wird die Meldung nicht mehr angezeigt. Benutzen Sie es, um "
+"das Einfrieren von Zeichenketten und die Übersetzungsfrist für die nächste "
+"Version anzukündigen."
 
 #: weblate/trans/models/whiteboard.py:133
 msgid "Whiteboard message"
@@ -8859,32 +8813,24 @@ msgid "XML text"
 msgstr "XML-Text"
 
 #: weblate/trans/validators.py:34
-#, fuzzy
-#| msgid "DOS end of lines"
 msgid "DOS line endings"
-msgstr "DOS Zeilenende"
+msgstr "DOS-Linienenden"
 
 #: weblate/trans/validators.py:37
 msgid "Automatically detect Java MessageFormat"
 msgstr "Automatisches Erkennen von Java MessageFormat"
 
 #: weblate/trans/validators.py:47
-#, fuzzy
-#| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
-msgstr "Dateimaske enthält kein * als Platzhalter für die Sprachen!"
+msgstr "Dateimaske enthält kein * als Sprachplatzhalter!"
 
 #: weblate/trans/validators.py:55
-#, fuzzy
-#| msgid ""
-#| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
-#| "suggestion."
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
-"Wert von 1 ist für automatisches Akzeptieren nicht erlaubt, da jeder Nutzer "
-"automatisch für seinen eigenen Vorschlag stimmt."
+"Ein Wert von 1 ist für die Autoakzeptanz nicht erlaubt, da er es den "
+"Benutzern ermöglichen würde, über ihre eigenen Vorschläge abzustimmen."
 
 #: weblate/trans/validators.py:68
 #, python-format
@@ -9174,8 +9120,6 @@ msgid "File content merge failed: %s"
 msgstr "Zusammenführung des Dateiinhalts fehlgeschlagen: %s"
 
 #: weblate/trans/views/git.py:44
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation in progress."
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr ""
 "Fehler beim Sperren der Paketquelle, ein anderer Vorgang ist in Bearbeitung."
