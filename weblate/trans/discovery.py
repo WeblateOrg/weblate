@@ -31,7 +31,7 @@ from django.utils.text import slugify
 
 from weblate.celery import app
 from weblate.logger import LOGGER
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component, Project, Change
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
 
@@ -217,7 +217,7 @@ class ComponentDiscovery(object):
             create_component.delay(**kwargs)
             return None
 
-        return Component.objects.create(**kwargs)
+        return create_component_real(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
@@ -297,7 +297,16 @@ class ComponentDiscovery(object):
         return created, matched, deleted
 
 
+def create_component_real(**kwargs):
+    component = Component.objects.create(**kwargs)
+    Change.objects.create(
+        action=Change.ACTION_CREATE_COMPONENT,
+        component=component,
+    )
+    return component
+
+
 @app.task
 def create_component(**kwargs):
     kwargs['project'] = Project.objects.get(pk=kwargs['project'])
-    Component.objects.create(**kwargs)
+    create_component_real(**kwargs)

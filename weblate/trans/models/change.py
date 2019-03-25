@@ -200,6 +200,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ALERT = 47
     ACTION_ADDED_LANGUAGE = 48
     ACTION_REQUESTED_LANGUAGE = 49
+    ACTION_CREATE_PROJECT = 50
+    ACTION_CREATE_COMPONENT = 51
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -255,6 +257,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_ALERT, ugettext_lazy('New component alert')),
         (ACTION_ADDED_LANGUAGE, ugettext_lazy('Added new language')),
         (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
+        (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),
+        (ACTION_CREATE_COMPONENT, ugettext_lazy('Created component')),
     )
 
     ACTIONS_REVERTABLE = frozenset((
