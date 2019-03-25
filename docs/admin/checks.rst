@@ -75,7 +75,7 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
 ``ignore-c-format``
     Skip the "C format" quality check.
 ``ignore-javascript-format``
-    Skip the "Javascript format" quality check.
+    Skip the "JavaScript format" quality check.
 ``ignore-optional-plural``
     Skip the "Optional plural" quality check.
 ``ignore-end-exclamation``

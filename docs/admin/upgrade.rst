@@ -74,9 +74,13 @@ Version specific instructions
 Upgrade from 2.x
 ~~~~~~~~~~~~~~~~
 
-If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
-:ref:`weblate3:upgrade_3`) and the continue upgrading in the 3.x series.
-Upgrades skipping this step are not supported and will break.
+If you are upgrading from 2.x release, always first upgrade to 3.0.1 and the
+continue upgrading in the 3.x series.  Upgrades skipping this step are not
+supported and will break.
+
+.. seealso::
+
+   `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_
 
 .. _up-3-1:
 
@@ -152,6 +156,11 @@ Notable configuration or dependencies changes:
 
 Upgrading from Python 2 to Python 3
 -----------------------------------
+
+.. note::
+
+   Weblate will support Python 2 util 4.0 release currently scheduled on April
+   2020. This is in line with Django dropping support for Python 2.
 
 Weblate currently supports both Python 2.7 and 3.x. Upgrading existing
 installations is supported, but you should pay attention to some data stored on

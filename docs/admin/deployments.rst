@@ -496,6 +496,10 @@ instance when running Weblate in Docker.
 
     The Redis database number, defaults to ``1``.
 
+.. envvar:: REDIS_PASSWORD
+   
+    The Redis server password, not used by default.
+
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 
@@ -652,7 +656,7 @@ with the following command:
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
     # Install Weblate 2.10
-    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.5 --no-git
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.5.1 --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
 this instance. Feel free to specify a different name.

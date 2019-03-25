@@ -89,7 +89,7 @@ class ConsistencyCheck(TargetCheck):
             Count('target', distinct=True)
         ).filter(
             target__count__gt=1
-        ).order_by(*Unit.ordering)
+        )
 
     def check_target_unit(self, sources, targets, unit):
         # Do not check consistency if user asked not to have it
@@ -116,6 +116,18 @@ class TranslatedCheck(TargetCheck):
     )
     ignore_untranslated = False
     severity = 'warning'
+    batch_update = True
+
+    def check_target_project(self, project):
+        """Batch check for whole project."""
+        from weblate.trans.models import Unit, Change
+        return Unit.objects.filter(
+            translation__component__project=project,
+            change__action__in=Change.ACTIONS_CONTENT,
+            state__lt=STATE_TRANSLATED,
+        ).values(
+            'content_hash', 'translation__language'
+        )
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:

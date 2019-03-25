@@ -27,7 +27,7 @@ from weblate.machinery.base import MachineTranslation
 from weblate.lang.data import DEFAULT_LANGS
 
 MST_API_URL = 'http://api.terminology.microsoft.com/Terminology.svc'
-MST_WSDL_URL = '{}?singleWsdl'.format(MST_API_URL)
+MST_WSDL_URL = '{}?wsdl'.format(MST_API_URL)
 
 
 class MicrosoftTerminologyService(MachineTranslation):

@@ -81,7 +81,7 @@ var _rollbarConfig = {
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
-  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_profile %}{{ page_profile.get_user_name }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
+  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_user %}{{ page_user }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
 {% block extra_meta %}
@@ -181,7 +181,7 @@ var _rollbarConfig = {
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans with user=user.profile.get_user_name %}Logged in as {{ user }}{% endblocktrans %}</a></li>
+            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans %}Logged in as {{ user }}{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
             {% if has_billing %}
             <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>

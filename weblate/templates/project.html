@@ -25,7 +25,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
   <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
-  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
@@ -119,7 +119,7 @@
 <th>
 <a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a>
 {% indicate_alerts prj %}
-{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}The repository for this component is linked to {{ target }}.{% endblocktrans %}">{% trans "link" %}</span>{% endif %}
+{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}This component is linked to the {{ target }} repository.{% endblocktrans %}">{% trans "Linked" %}</span>{% endif %}
 </th>
 <td class="progress-cell">{% translation_progress prj %}</td>
 <td class="percent">{{ prj.stats.translated_percent }}%</td>
@@ -227,7 +227,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace a string in all strings at once. The search is a simple substring case sensitive search." %}</p>
+<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -242,7 +242,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change state of all strings matching given type at once." %}</p>
+<p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% csrf_token %}
 {{ mass_state_form|crispy }}
 </div>
@@ -264,7 +264,7 @@
 <div class="panel-body">
 {% csrf_token %}
 {{ whiteboard_form|crispy }}
-<p class="help-block">{% trans "The message is shown on all translations within the project until it's expiry or permanently until deleting." %}</p>
+<p class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-default" />

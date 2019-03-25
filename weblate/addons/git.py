@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-from collections import OrderedDict
-
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -59,12 +57,8 @@ class GitSquashAddon(BaseAddon):
             message = repository.execute([
                 'log', '--format=%B', '{}..HEAD'.format(remote)
             ])
-            repository.execute(['reset', '--soft', remote])
-            cmd = ['commit', '-m', message]
-            if author:
-                cmd.append('--author')
-                cmd.append(author)
-            repository.execute(cmd)
+            repository.execute(['reset', '--mixed', remote])
+            repository.commit(message, author)
 
     def get_filenames(self, component):
         languages = {}
@@ -73,7 +67,7 @@ class GitSquashAddon(BaseAddon):
                 code = translation.language.code
                 if code not in languages:
                     languages[code] = []
-                languages[code].extend(translation.store.get_filenames())
+                languages[code].extend(translation.filenames)
         return languages
 
     def squash_language(self, component, repository):
@@ -88,14 +82,12 @@ class GitSquashAddon(BaseAddon):
                 'log', '--format=%B', '{}..HEAD'.format(remote), '--'
             ] + filenames)
 
-        repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--mixed', remote])
 
         for code, message in messages.items():
             if not message:
                 continue
-            repository.execute(
-                ['commit', '-m', message, '--'] + languages[code]
-            )
+            repository.commit(message, files=languages[code])
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -109,14 +101,12 @@ class GitSquashAddon(BaseAddon):
                     '--', filename
                 ])
 
-        repository.execute(['reset', '--soft', remote])
+        repository.execute(['reset', '--mixed', remote])
 
         for filename, message in messages.items():
             if not message:
                 continue
-            repository.execute(
-                ['commit', '-m', message, '--', filename]
-            )
+            repository.commit(message, files=[filename])
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -126,6 +116,7 @@ class GitSquashAddon(BaseAddon):
                 'log', '--format=%H %aE', '{}..HEAD'.format(remote),
             ]).splitlines())
         ]
+        gpg_sign = repository.get_gpg_sign_args()
 
         tmp = 'weblate-squash-tmp'
         repository.delete_branch(tmp)
@@ -140,14 +131,14 @@ class GitSquashAddon(BaseAddon):
                 base = repository.get_last_revision()
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
-                repository.execute(['cherry-pick', commit])
+                repository.execute(['cherry-pick', commit] + gpg_sign)
                 handled = []
                 # Pick other commits by same author
                 for i, other in enumerate(commits):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(['cherry-pick', other[0]])
+                        repository.execute(['cherry-pick', other[0]] + gpg_sign)
                         handled.append(i)
                     except RepositoryException:
                         # If fails, continue to another author, we will
@@ -186,6 +177,4 @@ class GitSquashAddon(BaseAddon):
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             if repository.needs_commit():
-                repository.execute([
-                    'commit', '-m', self.get_commit_message(component)
-                ])
+                repository.commit(self.get_commit_message(component))

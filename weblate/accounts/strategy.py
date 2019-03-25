@@ -55,7 +55,7 @@ class WeblateStrategy(DjangoStrategy):
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
         if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
-            data['next'] = '{0}#auth'.format(reverse('profile'))
+            data['next'] = '{0}#account'.format(reverse('profile'))
         return data
 
     def build_absolute_uri(self, path=None):

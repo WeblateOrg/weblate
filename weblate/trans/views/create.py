@@ -30,7 +30,7 @@ from weblate.trans.forms import (
     ProjectCreateForm, ComponentCreateForm, ComponentInitCreateForm,
     ComponentDiscoverForm,
 )
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Project, Component, Change
 
 
 class BaseCreateView(CreateView):
@@ -77,6 +77,12 @@ class CreateProject(BaseCreateView):
             self.object.save()
         if not self.request.user.is_superuser:
             self.object.add_user(self.request.user, '@Administration')
+        Change.objects.create(
+            action=Change.ACTION_CREATE_PROJECT,
+            project=self.object,
+            user=self.request.user,
+            author=self.request.user,
+        )
         return result
 
     def can_create(self):
@@ -134,7 +140,14 @@ class CreateComponent(BaseCreateView):
 
     def form_valid(self, form):
         if self.stage == 'create':
-            return super(CreateComponent, self).form_valid(form)
+            result = super(CreateComponent, self).form_valid(form)
+            Change.objects.create(
+                action=Change.ACTION_CREATE_COMPONENT,
+                component=self.object,
+                user=self.request.user,
+                author=self.request.user,
+            )
+            return result
         elif self.stage == 'discover':
             # Move to create
             self.initial = form.cleaned_data

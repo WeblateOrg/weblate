@@ -35,6 +35,7 @@ class AuditLogAdmin(WeblateModelAdmin):
         'address',
         'activity',
     ]
+    date_hierarchy = 'timestamp'
 
 
 class ProfileAdmin(WeblateModelAdmin):

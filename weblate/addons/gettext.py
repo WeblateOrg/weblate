@@ -90,7 +90,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
     def can_install(cls, component, user):
         if not super(UpdateLinguasAddon, cls).can_install(component, user):
             return False
-        if not component.can_add_new_language():
+        if not component.is_valid_base_for_new():
             return False
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
@@ -148,7 +148,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     def can_install(cls, component, user):
         if not super(UpdateConfigureAddon, cls).can_install(component, user):
             return False
-        if not component.can_add_new_language():
+        if not component.is_valid_base_for_new():
             return False
         for name in cls.get_configure_paths(component):
             if not os.path.exists(name):

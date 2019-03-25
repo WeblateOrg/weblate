@@ -65,6 +65,20 @@ def get_rate_setting(scope, suffix):
     return getattr(settings, 'RATELIMIT_{}'.format(suffix))
 
 
+def revert_rate_limit(scope, request):
+    """Revert rate limit to previous state.
+
+    This can be used when rate limiting POST, but ignoring some events.
+    """
+    key = get_cache_key(scope, request)
+
+    try:
+        # Try to decrease cache key
+        attempts = cache.decr(key)
+    except ValueError:
+        pass
+
+
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
     key = get_cache_key(scope, request)

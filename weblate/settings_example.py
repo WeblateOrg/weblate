@@ -100,6 +100,7 @@ LANGUAGES = (
     ('id', 'Indonesia'),
     ('it', 'Italiano'),
     ('ja', '日本語'),
+    ('kk', 'Қазақ тілі'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),
     ('nb', 'Norsk bokmål'),
@@ -289,7 +290,7 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = \
 SOCIAL_AUTH_EMAIL_FORM_URL = \
     '{0}/accounts/email/'.format(URL_PREFIX)
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
-    '{0}/accounts/profile/#auth'.format(URL_PREFIX)
+    '{0}/accounts/profile/#account'.format(URL_PREFIX)
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'weblate.accounts.pipeline.slugify_username'
@@ -684,7 +685,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.format.PHPFormatCheck',
 #     'weblate.checks.format.CFormatCheck',
 #     'weblate.checks.format.PerlFormatCheck',
-#     'weblate.checks.format.JavascriptFormatCheck',
+#     'weblate.checks.format.JavaScriptFormatCheck',
 #     'weblate.checks.format.CSharpFormatCheck',
 #     'weblate.checks.format.JavaFormatCheck',
 #     'weblate.checks.format.JavaMessageFormatCheck',
@@ -746,7 +747,6 @@ ALLOWED_HOSTS = []
 
 # Example configuration for caching
 # CACHES = {
-# Recommended redis + hiredis:
 #     'default': {
 #         'BACKEND': 'django_redis.cache.RedisCache',
 #         'LOCATION': 'redis://127.0.0.1:6379/0',
@@ -757,11 +757,6 @@ ALLOWED_HOSTS = []
 #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
 #             'PARSER_CLASS': 'redis.connection.HiredisParser',
 #         }
-#     },
-# Memcached alternative:
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -816,7 +811,7 @@ REST_FRAMEWORK = {
 #    r'/hooks/(.*)$',           # Allowing public access to notification hooks
 #    r'/healthz/$',             # Allowing public access to health check
 #    r'/api/(.*)$',             # Allowing access to API
-#    r'/js/i18n/$',             # Javascript localization
+#    r'/js/i18n/$',             # JavaScript localization
 #    r'/contact/$',             # Optional for contact form
 #    r'/legal/(.*)$',           # Optional for legal app
 # )

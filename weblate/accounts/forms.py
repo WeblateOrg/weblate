@@ -36,10 +36,9 @@ from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, AuditLog
 from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.accounts.captcha import MathCaptcha
-from weblate.accounts.notifications import notify_account_activity
 from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.util import sort_choices
@@ -54,7 +53,7 @@ class UniqueEmailMixin(object):
     validate_unique_mail = False
 
     def clean_email(self):
-        """Validate that the supplied email address is unique for the site. """
+        """Validate that the supplied email address is not in use on this site."""
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
@@ -230,7 +229,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
             Fieldset(
                 _('Component wide notifications'),
                 HTML(escape(_(
-                    'You will receive notification on every such event'
+                    'You will receive a notification for every such event'
                     ' in your watched projects.'
                 ))),
                 'subscribe_merge_failure',
@@ -239,7 +238,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
             Fieldset(
                 _('Translation notifications'),
                 HTML(escape(_(
-                    'You will receive these notifications only for your'
+                    'You will only receive these notifications for your'
                     ' translated languages in your watched projects.'
                 ))),
                 'subscribe_any_translation',
@@ -296,7 +295,7 @@ class UserForm(forms.ModelForm):
     email = forms.ChoiceField(
         label=_('Email'),
         help_text=_(
-            'You can add another email address on the Authentication tab.'
+            'You can add another email address in the Authentication tab.'
         ),
         choices=(
             ('', ''),
@@ -347,7 +346,7 @@ class ContactForm(forms.Form):
         required=True,
         help_text=_(
             'Please contact us in English, otherwise we might '
-            'be unable to understand your request.'
+            'be unable to process your request.'
         ),
         max_length=2000,
         widget=forms.Textarea
@@ -407,7 +406,7 @@ class RegistrationForm(EmailForm):
     def clean(self):
         if not check_rate_limit('registration', self.request):
             raise forms.ValidationError(
-                _('Too many registration attempts from this location!')
+                _('Too many failed registration attempts from this location!')
             )
         return self.cleaned_data
 
@@ -423,7 +422,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
     # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
-        notify_account_activity(
+        AuditLog.objects.create(
             self.user,
             request,
             'password',
@@ -487,7 +486,8 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
-                _('Please check your math and try again with new expression.')
+                # Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
+                _('That was not correct, please try again.')
             )
 
         if self.form.is_valid():
@@ -550,7 +550,7 @@ class LoginForm(forms.Form):
     )
 
     error_messages = {
-        'invalid_login': _("Please enter a correct username and password. "
+        'invalid_login': _("Please enter the correct username and password. "
                            "Note that both fields may be case-sensitive."),
         'inactive': _("This account is inactive."),
     }
@@ -580,13 +580,14 @@ class LoginForm(forms.Form):
             )
             if self.user_cache is None:
                 for user in try_get_user(username, True):
-                    notify_account_activity(
+                    audit = AuditLog.objects.create(
                         user,
                         self.request,
                         'failed-auth',
                         method='Password',
                         name=username,
                     )
+                    audit.check_rate_limit(self.request)
                 rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
@@ -598,7 +599,7 @@ class LoginForm(forms.Form):
                     code='inactive',
                 )
             else:
-                notify_account_activity(
+                AuditLog.objects.create(
                     self.user_cache,
                     self.request,
                     'login',
@@ -641,13 +642,13 @@ class HostingForm(forms.Form):
     repo = forms.CharField(
         label=_('Source code repository'),
         help_text=_(
-            'URL of source code repository for example Git or Mercurial.'
+            'URL of source code repository, for example Git or Mercurial.'
         ),
         required=True,
         max_length=200,
     )
     mask = forms.CharField(
-        label=_('File mask'),
+        label=_('Filemask'),
         help_text=_(
             'Path of files to translate, use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'

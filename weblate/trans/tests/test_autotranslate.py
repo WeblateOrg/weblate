@@ -106,15 +106,8 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_command_add_error(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            'test',
-            'test',
-            'ia',
-            add=True,
-        )
+        with self.assertRaises(CommandError):
+            call_command('auto_translate', 'test', 'test', 'ia', add=True)
 
     def test_command_mt(self):
         call_command(
@@ -126,24 +119,15 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_command_mt_error(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            '--mt', 'invalid',
-            'test',
-            'test',
-            'ia',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            '--threshold', 'invalid',
-            'test',
-            'test',
-            'ia',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'auto_translate', '--mt', 'invalid', 'test', 'test', 'ia'
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'auto_translate', '--threshold', 'invalid',
+                'test', 'test', 'ia'
+            )
 
     def test_command_add(self):
         self.component.file_format = 'po'
@@ -175,41 +159,20 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_command_errors(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            'test',
-            'test',
-            'cs',
-            user='invalid',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            'test',
-            'test',
-            'cs',
-            source='invalid',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            'test',
-            'test',
-            'cs',
-            source='test/invalid',
-        )
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'auto_translate',
-            'test',
-            'test',
-            'xxx',
-        )
+        with self.assertRaises(CommandError):
+            call_command(
+                'auto_translate', 'test', 'test', 'cs', user='invalid'
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'auto_translate', 'test', 'test', 'cs', source='invalid'
+            )
+        with self.assertRaises(CommandError):
+            call_command(
+                'auto_translate', 'test', 'test', 'cs', source='test/invalid'
+            )
+        with self.assertRaises(CommandError):
+            call_command('auto_translate', 'test', 'test', 'xxx')
 
 
 class AutoTranslationMtTest(ViewTestCase):

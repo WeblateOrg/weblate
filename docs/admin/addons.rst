@@ -299,4 +299,4 @@ In many cases you might want to automatically do some changes to the translation
 before it is committed to the repository. The pre commit script is exactly the
 place to achieve this.
 
-It is passed a single parameter consisting of file name of current translation.
+It is passed a single parameter consisting of filename of current translation.

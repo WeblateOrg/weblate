@@ -1,6 +1,6 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
 
 {% block content %}
 <p>
@@ -24,16 +24,6 @@
 {{ status }}
 </pre>
 
-{% with component.get_export_url as export_url %}
-{% if export_url %}
-<p>
-{% trans "Repository with Weblate translations:" %}
-<code class="git-repo">{{ export_url }}</code>
-</p>
-{% endif %}
-{% endwith %}
-
-<p><a href="{% documentation "faq" "merge" %}">{% trans "Check our FAQ for info how to resolve this." %}</a></p>
-
+{% include "trans/merge_instructions.html" %}
 
 {% endblock %}

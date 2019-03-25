@@ -4,8 +4,8 @@
 {% if object %}
 {{ object }} @ {{ site_title }}
 {% else %}
-{% if page_profile %}
-{{ page_profile.get_user_name }} @ {{ site_title }}
+{% if page_user %}
+{{ page_user }} @ {{ site_title }}
 {% else %}
 {% if site_title %}
 {{ site_title }}

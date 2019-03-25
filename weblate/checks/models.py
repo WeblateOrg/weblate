@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from appconf import AppConf
 
-from django.db import models
+from django.db import models, transaction, IntegrityError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
@@ -54,7 +54,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.format.PHPFormatCheck',
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
-        'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.JavaScriptFormatCheck',
         'weblate.checks.format.CSharpFormatCheck',
         'weblate.checks.format.JavaFormatCheck',
         'weblate.checks.format.JavaMessageFormatCheck',
@@ -92,13 +92,32 @@ class CheckManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        checks = []
         for check in self.all():
-            Check.objects.create(
+            checks.append(Check(
                 project=project,
                 check=check.check,
                 ignore=check.ignore,
                 content_hash=check.content_hash,
-            )
+            ))
+        self.bulk_create(checks)
+
+    def bulk_create_ignore(self, objs):
+        """Wrapper to bulk_create to ignore existing entries.
+
+        Once we require Django 2.2 this can be replaced with
+        bulk_create(ignore_conflicts=True).
+        """
+        try:
+            with transaction.atomic():
+                self.bulk_create(objs)
+        except IntegrityError:
+            for obj in objs:
+                try:
+                    with transaction.atomic():
+                        obj.save()
+                except IntegrityError:
+                    continue
 
 
 @python_2_unicode_compatible

@@ -28,7 +28,7 @@ copyright = '2012 - 2019 Michal Čihař'
 author = 'Michal Čihař'
 
 # The short X.Y version
-version = '3.5.1'
+version = '3.6'
 # The full version, including alpha/beta/rc tags
 release = version
 
@@ -189,7 +189,6 @@ graphviz_output_format = 'svg'
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.5', None),
     'python2': ('https://docs.python.org/2.7', None),
-    'weblate3': ('https://docs.weblate.org/en/weblate-3.0.1/', None),
     'django': ('https://docs.djangoproject.com/en/stable/', 'https://docs.djangoproject.com/en/stable/_objects/'),
     'psa': ('https://python-social-auth.readthedocs.io/en/latest/', None),
     'tt': ('http://docs.translatehouse.org/projects/translate-toolkit/en/latest/', None),

@@ -332,7 +332,7 @@ class ViewTest(TestCase):
             }
         )
 
-        self.assertRedirects(response, reverse('profile') + '#auth')
+        self.assertRedirects(response, reverse('profile') + '#account')
         self.assertTrue(
             User.objects.get(username='testuser').check_password('1pa$$word!')
         )
@@ -363,6 +363,7 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(reverse('profile'))
         self.assertContains(response, 'action="/accounts/profile/"')
         self.assertContains(response, 'name="secondary_languages"')
+        self.assertContains(response, reverse('userdata'))
 
         # Save profile
         response = self.client.post(
@@ -379,3 +380,15 @@ class ProfileTest(FixtureTestCase):
             }
         )
         self.assertRedirects(response, reverse('profile'))
+
+    def test_userdata(self):
+        response = self.client.post(reverse('userdata'))
+        self.assertContains(response, 'basic')
+
+        # Add more languages
+        self.user.profile.languages.add(Language.objects.get(code='pl'))
+        self.user.profile.secondary_languages.add(Language.objects.get(code='de'))
+        self.user.profile.secondary_languages.add(Language.objects.get(code='uk'))
+        response = self.client.post(reverse('userdata'))
+        self.assertContains(response, '"pl"')
+        self.assertContains(response, '"de"')

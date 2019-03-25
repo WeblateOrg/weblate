@@ -33,7 +33,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
 from weblate.utils.render import validate_render
-from weblate.utils.validators import validate_re
+from weblate.utils.validators import validate_re, validate_filename
 
 
 class BaseAddonForm(forms.Form):
@@ -72,6 +72,7 @@ class GenerateForm(BaseAddonForm):
 
     def clean_filename(self):
         self.test_render(self.cleaned_data['filename'])
+        validate_filename(self.cleaned_data['filename'])
         return self.cleaned_data['filename']
 
     def clean_template(self):
@@ -167,7 +168,7 @@ class DiscoveryForm(BaseAddonForm):
         label=_('Define the monolingual base filename'),
         initial='',
         required=False,
-        help_text=_('Keep empty for bilingual translation files.'),
+        help_text=_('Leave empty for bilingual translation files.'),
     )
     new_base_template = forms.CharField(
         label=_('Define the base file for new translations'),

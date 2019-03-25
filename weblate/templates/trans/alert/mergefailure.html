@@ -1,8 +1,7 @@
 {% load i18n %}
-{% load translations %}
 
 <p>{% trans "Weblate could not merge upstream changes while updating the repository." %}</p>
 
 <pre>{{ error }}</pre>
 
-<p><a href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for info on how to resolve this." %}</a></p>
+{% include "trans/merge_instructions.html" %}

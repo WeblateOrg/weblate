@@ -45,6 +45,9 @@ class SuggestionManager(models.Manager):
         """Create new suggestion for this unit."""
         user = request.user
 
+        if unit.translated and unit.target == target:
+            return False
+
         try:
             same = self.get(
                 target=target,
@@ -78,6 +81,7 @@ class SuggestionManager(models.Manager):
         for aunit in suggestion.related_units:
             Change.objects.create(
                 unit=aunit,
+                suggestion=suggestion,
                 action=Change.ACTION_SUGGESTION,
                 user=user,
                 target=target,
@@ -91,10 +95,6 @@ class SuggestionManager(models.Manager):
                 request,
                 True
             )
-
-        # Notify subscribed users
-        from weblate.accounts.notifications import notify_new_suggestion
-        notify_new_suggestion(unit, suggestion, user)
 
         # Update suggestion stats
         if user is not None:
@@ -111,14 +111,16 @@ class SuggestionManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        suggestions = []
         for suggestion in self.all():
-            Suggestion.objects.create(
+            suggestions.append(Suggestion(
                 project=project,
                 target=suggestion.target,
                 content_hash=suggestion.content_hash,
                 user=suggestion.user,
                 language=suggestion.language,
-            )
+            ))
+        self.bulk_create(suggestions)
 
 
 @python_2_unicode_compatible

@@ -55,7 +55,7 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Project name'),
         max_length=60,
         unique=True,
-        help_text=ugettext_lazy('Name to display')
+        help_text=ugettext_lazy('Display name')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
@@ -79,11 +79,11 @@ class Project(models.Model, URLMixin, PathMixin):
         help_text=ugettext_lazy('URL with instructions for translators.'),
     )
 
-    set_translation_team = models.BooleanField(
-        verbose_name=ugettext_lazy('Set \"Translation-Team\" header'),
+    set_language_team = models.BooleanField(
+        verbose_name=ugettext_lazy('Set \"Language-Team\" header'),
         default=True,
         help_text=ugettext_lazy(
-            'Lets Weblate update the \"Translation-Team\" file header '
+            'Lets Weblate update the \"Language-Team\" file header '
             'of your project.'
         ),
     )

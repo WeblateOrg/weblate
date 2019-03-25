@@ -163,7 +163,7 @@ def download_translation_file(translation, fmt=None, units=None):
         # Force flushing pending units
         translation.commit_pending('download', None)
 
-        filenames = translation.store.get_filenames()
+        filenames = translation.filenames
 
         if len(filenames) == 1:
             extension = translation.store.extension
@@ -185,7 +185,7 @@ def download_translation_file(translation, fmt=None, units=None):
                             handle.read()
                         )
 
-        # Construct file name (do not use real filename as it is usually not
+        # Construct filename (do not use real filename as it is usually not
         # that useful)
         filename = '{0}-{1}-{2}.{3}'.format(
             translation.component.project.slug,

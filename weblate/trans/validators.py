@@ -31,7 +31,7 @@ EXTRA_FLAGS = {
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 EXTRA_FLAGS['md-text'] = ugettext_lazy('Markdown text')
 EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
-EXTRA_FLAGS['dos-eol'] = ugettext_lazy('DOS end of lines')
+EXTRA_FLAGS['dos-eol'] = ugettext_lazy('DOS line endings')
 EXTRA_FLAGS['url'] = ugettext_lazy('URL')
 EXTRA_FLAGS['auto-java-messageformat'] = ugettext_lazy(
     'Automatically detect Java MessageFormat'
@@ -41,10 +41,10 @@ IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 
 def validate_filemask(val):
-    """Validate file mask that it contains *."""
+    """Validate that filemask contains *."""
     if '*' not in val:
         raise ValidationError(
-            _('File mask does not contain * as a language placeholder!')
+            _('Filemask does not contain * as a language placeholder!')
         )
 
 
@@ -52,8 +52,8 @@ def validate_autoaccept(val):
     """Validate correct value for autoaccept."""
     if val == 1:
         raise ValidationError(_(
-            'Value of 1 is not allowed for autoaccept as '
-            'every user gives vote to his suggestion.'
+            'A value of 1 is not allowed for autoaccept as '
+            'it would permit users to vote on their own suggestions.'
         ))
 
 

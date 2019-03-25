@@ -54,11 +54,8 @@ class CommandTest(TestCase, TempDirMixin):
 
     def test_createadmin_twice(self):
         call_command('createadmin')
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'createadmin'
-        )
+        with self.assertRaises(CommandError):
+            call_command('createadmin')
 
     def test_createadmin_update(self):
         call_command('createadmin', update=True)

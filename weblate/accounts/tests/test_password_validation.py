@@ -35,15 +35,9 @@ class ValidationTest(TestCase):
         self.assertIsNone(self.validate('123'))
 
     def test_chars_whitespace(self):
-        self.assertRaises(
-            ValidationError,
-            self.validate,
-            ' \r\n\t'
-        )
+        with self.assertRaises(ValidationError):
+            self.validate(' \r\n\t')
 
     def test_chars_same(self):
-        self.assertRaises(
-            ValidationError,
-            self.validate,
-            'x' * 10
-        )
+        with self.assertRaises(ValidationError):
+            self.validate('x' * 10)

@@ -561,7 +561,7 @@ JSON files
     structure JSON files are supported as well.
 
 JSON format is used mostly for translating applications implemented in
-Javascript.
+JavaScript.
 
 Weblate currently supports several variants of JSON translations:
 
@@ -885,7 +885,7 @@ separate strings to translate.
 +--------------------------------+----------------------------------+
 | Base file for new translations | ``metadata/en_US``               |
 +--------------------------------+----------------------------------+
-| File format                    | `Market metadata text files`     |
+| File format                    | `App store metadata files`       |
 +--------------------------------+----------------------------------+
 
 
@@ -945,3 +945,18 @@ exiting translations will be removed from the file when doing so.
 When :guilabel:`Base file for new translations` is empty and file format
 supports it, empty file is created where new strings will be added once they are
 translated.
+
+The :guilabel:`Language code style` allows you to customize language code used
+in generated filenames:
+
+Default based on the file format
+   Dependent on file format, for most of them POSIX is used.
+POSIX style using underscore as a separator
+   Typically used by Gettext and related tools, produces language codes like
+   `pt-BR`.
+BCP style using hyphen as a separator
+   Typically used on web platforms, produces language codes like
+   `pt_BR`.
+Android style
+   Used only on Android apps, produces language codes like
+   `pt-rBR`.

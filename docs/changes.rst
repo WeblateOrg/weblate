@@ -1,13 +1,37 @@
 Changes
 =======
 
-weblate 3.5.1
-------------
+weblate 3.6
+-----------
 
 Released on ? 2019.
 
+* Add support for downloading user data.
+* Addons are now automatically triggered upon installation.
+* Improved instructions for resolving merge conflicts.
+* Cleanup addon is now compatible with app store metadata translations.
+* Configurable language code syntax when adding new translations.
+* Warn about using Python 2 with planned termination of support in April 2020.
+* Extract special chars from the source string for visual keyboard.
+* Extended contributor stats to reflect both source and target counts.
+* Admins and consistency addons can now add translations even if disabled for users.
+* Fixed description of toggle disabling ``Language-Team`` header manipulation.
+* Notify users mentioned in comments.
+
+weblate 3.5.1
+-------------
+
+Released on March 10th 2019.
+
 * Fixed Celery systemd unit example.
 * Fixed notifications from http repositories with login.
+* Fixed race condition in editing source string for monolingual translations.
+* Include output of failed addon execution in the logs.
+* Improved validation of choices for adding new language.
+* Allow to edit file format in component settings.
+* Update installation instructions to prefer Python 3.
+* Performance and consistency improvements for loading translations.
+* Make Microsoft Terminology service compatible with current zeep releases.
 * Localization updates.
 
 weblate 3.5
@@ -620,7 +644,7 @@ Released on Feb 19th 2015.
 * Support for deleting comments.
 * Added own SVG badge.
 * Added support for Google Analytics.
-* Improved handling of translation file names.
+* Improved handling of translation filenames.
 * Added support for monolingual JSON translations.
 * Record component locking in a history.
 * Support for editing source (template) language for monolingual translations.

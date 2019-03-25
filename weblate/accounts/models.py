@@ -25,6 +25,7 @@ import datetime
 from appconf import AppConf
 
 from django.db import models
+from django.db.models import Q
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
@@ -41,6 +42,7 @@ from rest_framework.authtoken.models import Token
 
 from social_django.models import UserSocialAuth
 
+from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.utils import messages
@@ -48,6 +50,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
+from weblate.utils.request import get_ip_address, get_user_agent
 
 ACCOUNT_ACTIVITY = {
     'password': _(
@@ -120,13 +123,32 @@ NOTIFY_ACTIVITY = frozenset((
 
 
 class AuditLogManager(models.Manager):
-    def create(self, user, activity, address, user_agent, **params):
+    def is_new_login(self, user, address, user_agent):
+        """Checks whether this login is coming from new device.
+
+        This is currently based purely in IP address.
+        """
+        logins = self.filter(user=user, activity='login-new')
+
+        # First login
+        if not logins.exists():
+            return False
+
+        return not logins.filter(
+            Q(address=address) | Q(user_agent=user_agent)
+        ).exists()
+
+    def create(self, user, request, activity, **params):
+        address = get_ip_address(request)
+        user_agent = get_user_agent(request)
+        if activity == 'login' and self.is_new_login(user, address, user_agent):
+            activity = 'login-new'
         return super(AuditLogManager, self).create(
             user=user,
             activity=activity,
             address=address,
             user_agent=user_agent,
-            params=params
+            params=params,
         )
 
 
@@ -213,6 +235,32 @@ class AuditLog(models.Model):
             self.user.username,
             self.address
         )
+
+    def check_rate_limit(self, request):
+        """Check whether the activity should be rate limited."""
+        if self.activity == 'failed-auth' and self.user.has_usable_password():
+            failures = AuditLog.objects.get_after(
+                self.user, 'login', 'failed-auth'
+            )
+            if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+                self.user.set_unusable_password()
+                self.user.save(update_fields=['password'])
+                AuditLog.objects.create(self.user, request, 'locked')
+                return True
+
+        elif self.activity == 'reset-request':
+            failures = AuditLog.objects.get_after(
+                self.user, 'login', 'reset-request'
+            )
+            if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+                return True
+
+        return False
+
+    def save(self, *args, **kwargs):
+        super(AuditLog, self).save(*args, **kwargs)
+        if self.should_notify():
+            notify_auditlog.delay(self.pk)
 
 
 @python_2_unicode_compatible
@@ -595,6 +643,9 @@ class WeblateAccountsConf(AppConf):
 
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
+
+    # How long to keep auditlog entries
+    AUDITLOG_EXPIRY = 180
 
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = 'btn_auth0_badge.png'

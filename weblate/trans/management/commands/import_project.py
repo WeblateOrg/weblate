@@ -55,7 +55,7 @@ class Command(BaseCommand):
             default='',
             help=(
                 'Template string, transforming the filemask '
-                'match to a monolingual base file name'
+                'match to a monolingual base filename'
             )
         )
         parser.add_argument(
@@ -63,7 +63,7 @@ class Command(BaseCommand):
             default='',
             help=(
                 'Template string, transforming the filemask '
-                'match to a base file name for new translations'
+                'match to a base filename for new translations'
             )
         )
         parser.add_argument(

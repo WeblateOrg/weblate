@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 3.5\n"
+"Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-03-01 08:41+0000\n"
+"POT-Creation-Date: 2019-03-21 20:46+0000\n"
 "PO-Revision-Date: 2018-08-22 20:38+0000\n"
 "Last-Translator: DPap <nothingface0@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -24,13 +24,13 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Κανένας"
 
-#: weblate/accounts/forms.py:69
+#: weblate/accounts/forms.py:68
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr "Αυτή η ηλεκτρονική διεύθυνση υπάρχει ήδη. Δώστε μια διαφορετική."
 
-#: weblate/accounts/forms.py:103 weblate/auth/models.py:300
+#: weblate/accounts/forms.py:102 weblate/auth/models.py:300
 #: weblate/utils/validators.py:227
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -39,109 +39,129 @@ msgstr ""
 "Το όνομα χρήστη μπορεί να περιέχει μόνο γράμματα, αριθμούς ή τους ακόλουθους "
 "χαρακτήρες: @ . + - _"
 
-#: weblate/accounts/forms.py:106 weblate/templates/accounts/login.html:26
+#: weblate/accounts/forms.py:105 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
 #: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
-#: weblate/accounts/forms.py:121
+#: weblate/accounts/forms.py:120
 msgid "This username is already taken. Please choose another."
 msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε άλλο."
 
-#: weblate/accounts/forms.py:136 weblate/auth/models.py:309
+#: weblate/accounts/forms.py:135 weblate/auth/models.py:309
 #: weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Πλήρες όνομα"
 
-#: weblate/accounts/forms.py:231
+#: weblate/accounts/forms.py:230
 msgid "Component wide notifications"
 msgstr "Ευρείες ειδοποιήσεις περιεχομένου"
 
-#: weblate/accounts/forms.py:233
+#: weblate/accounts/forms.py:232
+#, fuzzy
+#| msgid ""
+#| "You will receive notification on every such event in your watched "
+#| "projects."
 msgid ""
-"You will receive notification on every such event in your watched projects."
+"You will receive a notification for every such event in your watched "
+"projects."
 msgstr ""
 "Θα λάβετε ειδοποίηση για κάθε τέτοιο συμβάν από τα παρακολουθούμενα έργα σας."
 
-#: weblate/accounts/forms.py:240
+#: weblate/accounts/forms.py:239
 msgid "Translation notifications"
 msgstr "Ειδοποιήσεις μετάφρασης"
 
-#: weblate/accounts/forms.py:242
+#: weblate/accounts/forms.py:241
+#, fuzzy
+#| msgid ""
+#| "You will receive these notifications only for your translated languages "
+#| "in your watched projects."
 msgid ""
-"You will receive these notifications only for your translated languages in "
+"You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
 "θα λάβετε αυτές τις ειδοποιήσεις μόνο για τις μεταφραζόμενες γλώσσες σας στα "
 "παρακολουθούμενα έργα σας."
 
-#: weblate/accounts/forms.py:297 weblate/accounts/forms.py:371
+#: weblate/accounts/forms.py:296 weblate/accounts/forms.py:370
 #: weblate/auth/models.py:315 weblate/templates/manage-access.html:25
 msgid "Email"
 msgstr "Ηλεκτρονική διευθυνση"
 
-#: weblate/accounts/forms.py:299
-msgid "You can add another email address on the Authentication tab."
+#: weblate/accounts/forms.py:298
+#, fuzzy
+#| msgid "You can add another email address on the Authentication tab."
+msgid "You can add another email address in the Authentication tab."
 msgstr ""
 "Μπορείτε να προσθέσετε άλλη ηλεκτρονική διευθύνση στην καρτέλα Πιστοποίησης."
 
-#: weblate/accounts/forms.py:332
+#: weblate/accounts/forms.py:331
 msgid "Subject"
 msgstr "Θέμα"
 
-#: weblate/accounts/forms.py:337 weblate/accounts/forms.py:623
+#: weblate/accounts/forms.py:336 weblate/accounts/forms.py:624
 msgid "Your name"
 msgstr "Το όνομά σας"
 
-#: weblate/accounts/forms.py:342 weblate/accounts/forms.py:628
+#: weblate/accounts/forms.py:341 weblate/accounts/forms.py:629
 msgid "Your email"
 msgstr "Η ηλεκτρονική σας διευθυνση"
 
-#: weblate/accounts/forms.py:346 weblate/trans/models/whiteboard.py:70
+#: weblate/accounts/forms.py:345 weblate/trans/models/whiteboard.py:71
 #: weblate/wladmin/templates/admin/performance.html:30
 #: weblate/wladmin/templates/admin/performance.html:67
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: weblate/accounts/forms.py:349
+#: weblate/accounts/forms.py:348
+#, fuzzy
+#| msgid ""
+#| "Please contact us in English, otherwise we might be unable to understand "
+#| "your request."
 msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
+"Please contact us in English, otherwise we might be unable to process your "
+"request."
 msgstr ""
 "Επικοινωνήστε μαζί μας στα Αγγλικά, διαφορετικά δεν θα μπορέσουμε να "
 "καταλάβουμε το αίτημά σας."
 
-#: weblate/accounts/forms.py:372
+#: weblate/accounts/forms.py:371
 msgid "Activation email will be sent here."
 msgstr "Η ηλεκτρονική επιστολή ενεργοποίησης θα σταλεί εδώ."
 
-#: weblate/accounts/forms.py:410
-msgid "Too many registration attempts from this location!"
+#: weblate/accounts/forms.py:409
+#, fuzzy
+#| msgid "Too many registration attempts from this location!"
+msgid "Too many failed registration attempts from this location!"
 msgstr "Πάρα πολλές προσπάθειες εγγραφής από αυτήν την τοποθεσία!"
 
-#: weblate/accounts/forms.py:417
+#: weblate/accounts/forms.py:416
 msgid "New password"
 msgstr "Νέο συνθηματικό"
 
-#: weblate/accounts/forms.py:421
+#: weblate/accounts/forms.py:420
 msgid "New password confirmation"
 msgstr "Επιβεβαίωση νέου συνθηματικού"
 
-#: weblate/accounts/forms.py:452
+#: weblate/accounts/forms.py:451
 msgid "Your password has been changed."
 msgstr "Το συνθηματικό σας έχει αλλάξει."
 
-#: weblate/accounts/forms.py:480
+#: weblate/accounts/forms.py:479
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "Τι είναι το %s;"
 
+#. Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
 #: weblate/accounts/forms.py:490
-msgid "Please check your math and try again with new expression."
-msgstr "Ελέγξτε τα μαθηματικά σας και δοκιμαστε ξανά με νέα έκφραση."
+#, fuzzy
+#| msgid "Too many messages sent, please try again later!"
+msgid "That was not correct, please try again."
+msgstr "Πάρα πολλά απεσταλμένα μηνύματα, παρακαλώ δοκιμάστε αργότερα!"
 
 #: weblate/accounts/forms.py:514
 msgid "Current password"
@@ -162,13 +182,17 @@ msgid "Username or email"
 msgstr "Όνομα χρήστη ή ηλεκτρονική διεύθυνση"
 
 #: weblate/accounts/forms.py:549 weblate/templates/accounts/login.html:27
-#: weblate/templates/accounts/profile.html:127
+#: weblate/templates/accounts/profile.html:124
 msgid "Password"
 msgstr "Κωδικός"
 
 #: weblate/accounts/forms.py:553
+#, fuzzy
+#| msgid ""
+#| "Please enter a correct username and password. Note that both fields may "
+#| "be case-sensitive."
 msgid ""
-"Please enter a correct username and password. Note that both fields may be "
+"Please enter the correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
 "Εισάγετε ένα σωστό παρωνύμιο και συνθηματικό. Σημειώστε ότι και τα δύο πεδία "
@@ -182,33 +206,37 @@ msgstr "Αυτός ο λογαριασμός είναι απενεργοποιη
 msgid "Too many authentication attempts from this location!"
 msgstr "Πάρα πολλές προσπάθειες πιστοποίησης από αυτήν την τοποθεσία!"
 
-#: weblate/accounts/forms.py:632 weblate/templates/addons/generate_help.html:21
+#: weblate/accounts/forms.py:633 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:55
 msgid "Project name"
 msgstr "Όνομα έργου"
 
-#: weblate/accounts/forms.py:637 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:638 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:67
 msgid "Project website"
 msgstr "Ιστοσελίδα έργου"
 
-#: weblate/accounts/forms.py:642 weblate/trans/forms.py:1559
-#: weblate/trans/models/component.py:148
+#: weblate/accounts/forms.py:643 weblate/trans/forms.py:1570
+#: weblate/trans/models/component.py:158
 msgid "Source code repository"
 msgstr "Αποθετήριο πηγαίου κώδικα"
 
-#: weblate/accounts/forms.py:644
-msgid "URL of source code repository for example Git or Mercurial."
+#: weblate/accounts/forms.py:645
+#, fuzzy
+#| msgid "URL of source code repository for example Git or Mercurial."
+msgid "URL of source code repository, for example Git or Mercurial."
 msgstr ""
 "Το URL του αποθετηρίου κώδικα προέλευσης για παράδειγμα Git ή Mercurial."
 
-#: weblate/accounts/forms.py:650 weblate/templates/component_info.html:93
+#: weblate/accounts/forms.py:651 weblate/templates/component_info.html:93
 #: weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/models/component.py:204
-msgid "File mask"
+#: weblate/trans/models/component.py:214
+#, fuzzy
+#| msgid "File mask"
+msgid "Filemask"
 msgstr "Μάσκα αρχείου"
 
-#: weblate/accounts/forms.py:652
+#: weblate/accounts/forms.py:653
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -216,117 +244,117 @@ msgstr ""
 "Διαδρομή αρχείων για μετάφραση, χρήση του * αντί για κωδικό γλώσσας, για "
 "παράδειγμα: po/*.po ή locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:660
+#: weblate/accounts/forms.py:661
 msgid "Additional message"
 msgstr "Πρόσθετο μήνυμα"
 
-#: weblate/accounts/forms.py:665
+#: weblate/accounts/forms.py:666
 msgid "Please describe the project and your relation to it."
 msgstr ""
 
-#: weblate/accounts/models.py:54
+#: weblate/accounts/models.py:57
 msgid "Password has been changed."
 msgstr "Το συνθηματικό έχει αλλαχτεί."
 
-#: weblate/accounts/models.py:57
+#: weblate/accounts/models.py:60
 msgid "Password reset has been requested."
 msgstr "Έχει γίνει αίτηση επαναφοράς συνθηματικού."
 
-#: weblate/accounts/models.py:60
+#: weblate/accounts/models.py:63
 msgid "Password reset has been confirmed and password has been disabled."
 msgstr ""
 "Η επαναφορά συνθηματικού έχει επιβεβαιωθεί και το προηγούμενο συνθηματικό "
 "έχει απενεργοποιηθεί."
 
-#: weblate/accounts/models.py:63
+#: weblate/accounts/models.py:66
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
 msgstr ""
 
-#: weblate/accounts/models.py:66
+#: weblate/accounts/models.py:69
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
 msgstr ""
 
-#: weblate/accounts/models.py:69
+#: weblate/accounts/models.py:72
 #, fuzzy, python-brace-format
 #| msgid "Authenticated ({method}:{name})."
 msgid "Logged on using {method} ({name})."
 msgstr "Επιτυχής πιστοποίηση ({method}:{name})."
 
-#: weblate/accounts/models.py:72
+#: weblate/accounts/models.py:75
 #, fuzzy, python-brace-format
 #| msgid "Authenticated ({method}:{name}) from new device."
 msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Επιτυχής πιστοποίηση ({method}:{name}) από νέα συσκευή."
 
-#: weblate/accounts/models.py:75
+#: weblate/accounts/models.py:78
 msgid "Somebody has attempted to register with your email."
 msgstr "Κάποιος προσπάθησε να καταχωρηθεί με το email σας."
 
-#: weblate/accounts/models.py:78
+#: weblate/accounts/models.py:81
 #, fuzzy
 #| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
 msgstr "Κάποιος προσπάθησε να καταχωρηθεί με το email σας."
 
-#: weblate/accounts/models.py:81
+#: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
 msgstr ""
 
-#: weblate/accounts/models.py:84
+#: weblate/accounts/models.py:87
 #, fuzzy
 #| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
 msgstr "Ο λογαριασμός κλειδώθηκε λόγω πολλών αποτυχημένων πιστοποιήσεων."
 
-#: weblate/accounts/models.py:87
+#: weblate/accounts/models.py:90
 msgid "Account and all private data have been removed."
 msgstr "Ο λογαριασμός και όλα τα προσωπικά δεδομένα έχουν διαγραφεί."
 
-#: weblate/accounts/models.py:90
+#: weblate/accounts/models.py:93
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
 msgstr "Συμφωνητικό με τους Όρους Χρήσης {date}."
 
-#: weblate/accounts/models.py:96
+#: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
 msgstr "Έχετε εισαγάγει έναν μη έγκυρο κωδικό πρόσβασης."
 
-#: weblate/accounts/models.py:97
+#: weblate/accounts/models.py:100
 #, fuzzy
 #| msgid "Set my password"
 msgid "Logged on using password."
 msgstr "Ορισμός του συνθηματικού μου"
 
-#: weblate/accounts/models.py:98
+#: weblate/accounts/models.py:101
 msgid "Logged on using password from a new device."
 msgstr ""
 
-#: weblate/accounts/models.py:99
+#: weblate/accounts/models.py:102
 msgid "Could not log in using password."
 msgstr ""
 
-#: weblate/accounts/models.py:105
+#: weblate/accounts/models.py:108
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 
-#: weblate/accounts/models.py:199 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:221 weblate/templates/accounts/profile.html:225
 msgid "Account activity"
 msgstr "Δραστηριότητα λογαριασμού"
 
-#: weblate/accounts/models.py:308
+#: weblate/accounts/models.py:356
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:363
 msgid "Translated languages"
 msgstr "Μεταφρασμένες γλώσσες"
 
-#: weblate/accounts/models.py:318
+#: weblate/accounts/models.py:366
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
@@ -335,11 +363,11 @@ msgstr ""
 "εσάς στον κεντρικό πίνακα για να έχετε ευκολότερη πρόσβαση στις επιλεγμένες "
 "μεταφράσεις."
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:373
 msgid "Secondary languages"
 msgstr "Δευτερεύουσες γλώσσες"
 
-#: weblate/accounts/models.py:327
+#: weblate/accounts/models.py:375
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -347,23 +375,23 @@ msgstr ""
 "Επιλέξτε γλώσσες που μπορείτε να καταλάβετε, κείμενα σε αυτές τις γλώσσες θα "
 "εμφανίζονται μαζί με το κείμενο προέλευσης."
 
-#: weblate/accounts/models.py:338
+#: weblate/accounts/models.py:386
 msgid "Hide completed translations on the dashboard"
 msgstr "Απόκρυψη ολοκληρωμένων μεταφράσεων στον Κεντρικό πίνακα"
 
-#: weblate/accounts/models.py:342
+#: weblate/accounts/models.py:390
 msgid "Show secondary translations in zen mode"
 msgstr "Προβολή δευτερευόντων μεταφράσεων σε κατάσταση ζεν"
 
-#: weblate/accounts/models.py:346
+#: weblate/accounts/models.py:394
 msgid "Hide source if there is secondary language"
 msgstr "Απόκρυψη προέλευση αν υπάρχει δευτερεύουσα γλώσσα"
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:400
 msgid "Editor link"
 msgstr "Σύνδεσμος επεξεργαστή"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:402
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -376,29 +404,29 @@ msgstr ""
 "το %(line)s ως όνομα αρχείου και χωροθέτες γραμμής. Συνήθως κάτι σαν το "
 "editor://open/?file=%(file)s&line=%(line)s είναι καλή επιλογή."
 
-#: weblate/accounts/models.py:365
+#: weblate/accounts/models.py:413
 #, fuzzy
 #| msgid "Translations made"
 msgid "Translation editor mode"
 msgstr "Μεταφράσεις που έγιναν"
 
-#: weblate/accounts/models.py:367
+#: weblate/accounts/models.py:415
 #, fuzzy
 #| msgid "Open in full editor"
 msgid "Full editor"
 msgstr "Άνοιγμα στον πλήρη επεξεργαστή"
 
-#: weblate/accounts/models.py:368
+#: weblate/accounts/models.py:416
 #, fuzzy
 #| msgid "Edit in Zen mode"
 msgid "Zen mode"
 msgstr "Επεξεργασία σε κατάσταση Ζεν"
 
-#: weblate/accounts/models.py:375
+#: weblate/accounts/models.py:423
 msgid "Special characters"
 msgstr "Ειδικοί χαρακτήρες"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:425
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -409,43 +437,43 @@ msgstr ""
 "χαρακτήρες που χρησιμοποιείτε συχνά αλλά είναι δύσκολο να γραφτούν στο "
 "πληκτρολόγιό σας."
 
-#: weblate/accounts/models.py:390 weblate/templates/dashboard/user.html:13
+#: weblate/accounts/models.py:438 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
 msgstr "Παρακολουθούμενες μεταφράσεις"
 
-#: weblate/accounts/models.py:391 weblate/templates/dashboard/user.html:14
+#: weblate/accounts/models.py:439 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
 msgstr "Οι γλώσσες σας"
 
-#: weblate/accounts/models.py:392 weblate/templates/dashboard/user.html:17
+#: weblate/accounts/models.py:440 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
 msgid "Component lists"
 msgstr "Λίστες περιεχομένου"
 
-#: weblate/accounts/models.py:393 weblate/auth/models.py:138
+#: weblate/accounts/models.py:441 weblate/auth/models.py:138
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
 msgstr "Λίστα περιεχομένου"
 
-#: weblate/accounts/models.py:394 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
 msgstr "Προτεινόμενες μεταφράσεις"
 
-#: weblate/accounts/models.py:411
+#: weblate/accounts/models.py:459
 msgid "Default dashboard view"
 msgstr "Προεπιλεγμένη προβολή κεντρικού πίνακα"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:465
 msgid "Default component list"
 msgstr "Προεπιλεγμένη λίστα περιεχομένου"
 
-#: weblate/accounts/models.py:425 weblate/templates/accounts/profile.html:80
+#: weblate/accounts/models.py:473 weblate/templates/accounts/profile.html:79
 #: weblate/templates/base.html:113
 msgid "Watched projects"
 msgstr "Παρακολουθούμενα έργα"
 
-#: weblate/accounts/models.py:427
+#: weblate/accounts/models.py:475
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -453,49 +481,49 @@ msgstr ""
 "Μπορείτε να λάβετε ειδοποιήσεις για παρακολουθούμενα έργα και θα "
 "εμφανίζονται στον κεντρικό πίνακα ως προεπιλογή."
 
-#: weblate/accounts/models.py:434
+#: weblate/accounts/models.py:482
 msgid "Notification on any translation"
 msgstr "Ειδοποίηση για οποιαδήποτε μετάφραση"
 
-#: weblate/accounts/models.py:438
+#: weblate/accounts/models.py:486
 msgid "Notification on new string to translate"
 msgstr "Ειδοποίηση για νέο κείμενο για μετάφραση"
 
-#: weblate/accounts/models.py:442
+#: weblate/accounts/models.py:490
 msgid "Notification on new suggestion"
 msgstr "Ειδοποίηση για νέα πρόταση"
 
-#: weblate/accounts/models.py:446
+#: weblate/accounts/models.py:494
 msgid "Notification on new contributor"
 msgstr "Ειδοποίηση για νέα συμβολή"
 
-#: weblate/accounts/models.py:450
+#: weblate/accounts/models.py:498
 msgid "Notification on new comment"
 msgstr "Ειδοποίηση για νέο σχόλιο"
 
-#: weblate/accounts/models.py:454
+#: weblate/accounts/models.py:502
 msgid "Notification on merge failure"
 msgstr "Ειδοποίηση για σφάλμα ένωσης"
 
-#: weblate/accounts/models.py:458
+#: weblate/accounts/models.py:506
 msgid "Notification on new language request"
 msgstr "Ειδοποίηση για νέο αίτημα γλώσσας"
 
-#: weblate/accounts/models.py:504
+#: weblate/accounts/models.py:552
 #, fuzzy
 #| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
 msgstr ""
 "Η λίστα περιεχομένων πρέπει να επιλέγεται όταν χρησιμοποιείται ως προεπιλογή."
 
-#: weblate/accounts/models.py:510
+#: weblate/accounts/models.py:558
 #, fuzzy
 #| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
 msgstr ""
 "Η λίστα περιεχομένων δεν πρέπει να επιλέγεται όταν δεν χρησιμοποιείται."
 
-#: weblate/accounts/models.py:562
+#: weblate/accounts/models.py:610
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -527,138 +555,138 @@ msgstr ""
 "Το συνθηματικό σας δεν μπορεί να ταιριάζει σε συνθηματικό που είχατε "
 "χρησιμοποιήσει στο παρελθόν."
 
-#: weblate/accounts/pipeline.py:300
+#: weblate/accounts/pipeline.py:298
 msgid "You can not complete password reset while logged in!"
 msgstr ""
 "Δεν μπορείτε να ολοκληρώσετε την επαναφορά συνθηματικού καθώς είστε "
 "συνδεμένος!"
 
-#: weblate/accounts/pipeline.py:304 weblate/accounts/pipeline.py:328
+#: weblate/accounts/pipeline.py:302 weblate/accounts/pipeline.py:326
 msgid "The registration link has been invalidated."
 msgstr "Ο σύνδεσμος εγγραφής έχει ακυρωθεί."
 
-#: weblate/accounts/pipeline.py:319
+#: weblate/accounts/pipeline.py:317
 msgid "You can not complete registration while logged in!"
 msgstr "Δεν μπορείτε να ολοκληρώσετε την εγγραφή καθώς είστε συνδεμένος!"
 
-#: weblate/accounts/pipeline.py:324
+#: weblate/accounts/pipeline.py:322
 msgid "You can confirm your registration only while logged in!"
 msgstr "Μπορείτε να επιβεβαιώσετε την εγγραφή σας μόνο καθώς είστε συνδεμένος!"
 
-#: weblate/accounts/pipeline.py:461
+#: weblate/accounts/pipeline.py:459
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
 "Το email σας δεν ανήκει πια σε επιβεβαιωμένο λογαριασμό, έχει αλλάξει σε {0}."
 
-#: weblate/accounts/views.py:123 weblate/accounts/views.py:732
-#: weblate/accounts/views.py:781 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:122 weblate/accounts/views.py:731
+#: weblate/accounts/views.py:780 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:27
 msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
-#: weblate/accounts/views.py:126
+#: weblate/accounts/views.py:125
 msgid "Remove account"
 msgstr "Απομάκρυνση λογαριασμού"
 
-#: weblate/accounts/views.py:129 weblate/accounts/views.py:623
+#: weblate/accounts/views.py:128 weblate/accounts/views.py:622
 msgid "User registration"
 msgstr "Εγγραφή χρήστη"
 
-#: weblate/accounts/views.py:163
+#: weblate/accounts/views.py:162
 msgid "Message could not be sent to administrator!"
 msgstr "Το μήνυμα δεν εστάλει στον διαχειριστή!"
 
-#: weblate/accounts/views.py:181
+#: weblate/accounts/views.py:180
 msgid "Message has been sent to administrator."
 msgstr "Το μήνυμα εστάλει στον διαχειριστή."
 
-#: weblate/accounts/views.py:189
+#: weblate/accounts/views.py:188
 msgid "You cannot change demo account on the demo server."
 msgstr ""
 "Δεν μπορείτε να αλλάξετε το δοκιμαστικό λογαριασμό στον δοκιμαστικό "
 "διακομιστή."
 
-#: weblate/accounts/views.py:253
+#: weblate/accounts/views.py:252
 msgid "Your profile has been updated."
 msgstr "Το προφίλ σας έχει ενημερωθεί."
 
-#: weblate/accounts/views.py:289
+#: weblate/accounts/views.py:288
 msgid "User profile"
 msgstr "Προφίλ χρήστη"
 
-#: weblate/accounts/views.py:317
+#: weblate/accounts/views.py:316
 msgid "Your account has been removed."
 msgstr "Ο λογαριασμός σας απομακρύνθηκε."
 
-#: weblate/accounts/views.py:397
+#: weblate/accounts/views.py:396
 msgid "Too many messages sent, please try again later!"
 msgstr "Πάρα πολλά απεσταλμένα μηνύματα, παρακαλώ δοκιμάστε αργότερα!"
 
-#: weblate/accounts/views.py:423 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:422 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:159
 #: weblate/templates/footer.html:9
 msgid "Contact"
 msgstr "Επικοινωνία"
 
-#: weblate/accounts/views.py:436
+#: weblate/accounts/views.py:435
 msgid "Please log in using your personal account to request hosting."
 msgstr ""
 
-#: weblate/accounts/views.py:464 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:463 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Φιλοξενία"
 
-#: weblate/accounts/views.py:537 weblate/templates/accounts/login.html:67
+#: weblate/accounts/views.py:536 weblate/templates/accounts/login.html:67
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:141
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: weblate/accounts/views.py:539
+#: weblate/accounts/views.py:538
 #, fuzzy
 #| msgid "Manage users"
 msgid "Standard user"
 msgstr "Διαχείριση χρηστών"
 
-#: weblate/accounts/views.py:540
+#: weblate/accounts/views.py:539
 #, fuzzy
 #| msgid "Filtered permissions"
 msgid "User with reviewer permissions"
 msgstr "Φιλτραρισμένες αδειοδοτήσεις"
 
-#: weblate/accounts/views.py:558
+#: weblate/accounts/views.py:557
 #, fuzzy
 #| msgid "Login to Weblate"
 msgid "Log in to use Weblate."
 msgstr "Σύνδεση στο Weblate"
 
-#: weblate/accounts/views.py:574
+#: weblate/accounts/views.py:573
 #, fuzzy
 #| msgid "Thanks for using Weblate!"
 msgid "Thank you for using Weblate."
 msgstr "Ευχαριστούμε που χρησιμποιείτε το Weblate!"
 
-#: weblate/accounts/views.py:661 weblate/templates/accounts/email.html:17
+#: weblate/accounts/views.py:660 weblate/templates/accounts/email.html:17
 msgid "Register email"
 msgstr "Εγγραφή ηλεκτρονικής διεύθυνσης"
 
-#: weblate/accounts/views.py:702 weblate/templates/accounts/password.html:13
-#: weblate/templates/accounts/profile.html:130
+#: weblate/accounts/views.py:701 weblate/templates/accounts/password.html:13
+#: weblate/templates/accounts/profile.html:127
 msgid "Change password"
 msgstr "Αλλαγή κωδικού"
 
-#: weblate/accounts/views.py:717
+#: weblate/accounts/views.py:716
 msgid "Password reset has been already completed!"
 msgstr "Η αλλαγή συνθηματικού έχει ήδη ολοκληρωθεί!"
 
-#: weblate/accounts/views.py:748
+#: weblate/accounts/views.py:747
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
 "Αδύνατη η επαναφορά του κωδικού πρόσβασης, η πιστοποίηση ηλεκτρονικής "
 "αλληλογραφίας είναι απενεργοποιημένη!"
 
-#: weblate/accounts/views.py:877
+#: weblate/accounts/views.py:916
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -666,40 +694,40 @@ msgstr ""
 "Απέτυχε η επιβεβαίωση της εγγραφής σας! Πιθανόν το τεκμήριο επιβεβαίωσης "
 "έχει λήξει. Δοκιμάστε ξανά την εγγραφή."
 
-#: weblate/accounts/views.py:887
+#: weblate/accounts/views.py:926
 msgid "Authentication failed due to invalid session state."
 msgstr "Η πιστοποίηση απέτυχε λόγω μη έγκυρης κατάστασης συνεδρίας."
 
-#: weblate/accounts/views.py:896
+#: weblate/accounts/views.py:935
 #, fuzzy
 #| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service!"
 msgstr ""
 "Μπορείτε να προσθέσετε άλλη ηλεκτρονική διευθύνση στην καρτέλα Πιστοποίησης."
 
-#: weblate/accounts/views.py:905
+#: weblate/accounts/views.py:944
 msgid "Can not change authentication for demo!"
 msgstr "Δεν μπορεί να αλλάξει η πιστοποίηση στην επίδειξη!"
 
-#: weblate/accounts/views.py:910
+#: weblate/accounts/views.py:949
 msgid "New registrations are disabled!"
 msgstr "Οι νέες εγγραφές έχουν απενεργοποιηθεί!"
 
-#: weblate/accounts/views.py:936
+#: weblate/accounts/views.py:975
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Η πιστοποίηση απέτυχε, πιθανά λόγω εκπνοής τεκμηρίου ή σφάλματος σύνδεσης."
 
-#: weblate/accounts/views.py:941
+#: weblate/accounts/views.py:980
 msgid "Authentication has been cancelled."
 msgstr "Η πιστοποίηση έχει ακυρωθεί."
 
-#: weblate/accounts/views.py:946
+#: weblate/accounts/views.py:985
 msgid "Authentication has been forbidden by server."
 msgstr "Η πιστοποίηση έχει απαγορευτεί από τον εξυπηρετητή."
 
-#: weblate/accounts/views.py:950
+#: weblate/accounts/views.py:989
 #, fuzzy
 #| msgid ""
 #| "Failed to complete your registration! This authentication, email or "
@@ -711,11 +739,11 @@ msgstr ""
 "Αποτυχία ολοκλήρωσης της εγγραφής σας! Αυτή η πιστοποίηση, το email ή το "
 "παρωνύμιο, είναι ήδη συσχετισμένα με διαφορετικό λογαριασμό!"
 
-#: weblate/addons/cleanup.py:35
+#: weblate/addons/cleanup.py:38
 msgid "Cleanup translation files"
 msgstr "Εκκαθάριση αρχείων μετάφρασης"
 
-#: weblate/addons/cleanup.py:37
+#: weblate/addons/cleanup.py:40
 #, fuzzy
 #| msgid ""
 #| "Update all translation files to match the monolingual base file. In most "
@@ -820,73 +848,73 @@ msgstr "Όνομα του δημιουργημένου αρχείου"
 msgid "Content of generated file"
 msgstr ""
 
-#: weblate/addons/forms.py:84
+#: weblate/addons/forms.py:85
 msgid "Long lines wrapping"
 msgstr ""
 
-#: weblate/addons/forms.py:86
+#: weblate/addons/forms.py:87
 msgid "Wrap lines at 77 chars and at newlines"
 msgstr ""
 
-#: weblate/addons/forms.py:87
+#: weblate/addons/forms.py:88
 #, fuzzy
 #| msgid "Trailing newline"
 msgid "Only wrap lines at newlines"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: weblate/addons/forms.py:88
+#: weblate/addons/forms.py:89
 msgid "No line wrapping"
 msgstr ""
 
-#: weblate/addons/forms.py:93
+#: weblate/addons/forms.py:94
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
 
-#: weblate/addons/forms.py:101
+#: weblate/addons/forms.py:102
 #, fuzzy
 #| msgid "C format string"
 msgid "Commit squashing"
 msgstr "Κείμενο μορφής C"
 
-#: weblate/addons/forms.py:104
+#: weblate/addons/forms.py:105
 #, fuzzy
 #| msgid "All components in current project"
 msgid "All commits into one"
 msgstr "Όλα τα περιεχόμενα στο τρέχον έργο"
 
-#: weblate/addons/forms.py:105
+#: weblate/addons/forms.py:106
 #, fuzzy
 #| msgid "New language"
 msgid "Per language"
 msgstr "Νέα Γλώσσα"
 
-#: weblate/addons/forms.py:106
+#: weblate/addons/forms.py:107
 #, fuzzy
 #| msgid "Profile"
 msgid "Per file"
 msgstr "Προφίλ"
 
-#: weblate/addons/forms.py:107
+#: weblate/addons/forms.py:108
 #, fuzzy
 #| msgid "Last author"
 msgid "Per author"
 msgstr "Τελευταίος συγγραφέας"
 
-#: weblate/addons/forms.py:124
+#: weblate/addons/forms.py:125
 #, fuzzy
 #| msgid "SSH keys"
 msgid "Sort JSON keys"
 msgstr "Κλειδιά SSH"
 
-#: weblate/addons/forms.py:128
+#: weblate/addons/forms.py:129
 #, fuzzy
 #| msgid "Documentation"
 msgid "JSON indentation"
 msgstr "Τεκμηρίωση"
 
-#: weblate/addons/forms.py:148
+#: weblate/addons/forms.py:149
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
@@ -894,42 +922,42 @@ msgstr ""
 "Κανονική έκφραση που χρησιμοποιείται για ταίριασμα ηλεκτρονικής "
 "αλληλογραφίας χρήστη."
 
-#: weblate/addons/forms.py:152 weblate/templates/trans/discover-choice.html:2
-#: weblate/trans/forms.py:580 weblate/trans/models/component.py:241
+#: weblate/addons/forms.py:153 weblate/templates/trans/discover-choice.html:2
+#: weblate/trans/forms.py:580 weblate/trans/models/component.py:251
 msgid "File format"
 msgstr "Μορφή αρχείου"
 
-#: weblate/addons/forms.py:157 weblate/trans/models/component.py:246
+#: weblate/addons/forms.py:158 weblate/trans/models/component.py:256
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Η αυτόματη ανίχνευση μπορεί να αποτύχει για ορισμένες μορφές και είναι "
 "σχετικά αργή."
 
-#: weblate/addons/forms.py:162
+#: weblate/addons/forms.py:163
 #, fuzzy
 #| msgid "Component name"
 msgid "Customize the component name"
 msgstr "Όνομα περιεχομένου"
 
-#: weblate/addons/forms.py:167
+#: weblate/addons/forms.py:168
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
 msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 
-#: weblate/addons/forms.py:170
+#: weblate/addons/forms.py:171
 #, fuzzy
 #| msgid "The request for machine translation has failed."
-msgid "Keep empty for bilingual translation files."
+msgid "Leave empty for bilingual translation files."
 msgstr "Το αίτημα για μηχανική μετάφραση απέτυχε."
 
-#: weblate/addons/forms.py:173
+#: weblate/addons/forms.py:174
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
 msgstr "Αρχείο Βάση για νέες μεταφράσεις"
 
-#: weblate/addons/forms.py:177 weblate/trans/models/component.py:236
+#: weblate/addons/forms.py:178 weblate/trans/models/component.py:246
 #, fuzzy
 #| msgid ""
 #| "Filename of file which is used for creating new translations. For Gettext "
@@ -941,11 +969,11 @@ msgstr ""
 "Το όνομα αρχείου του αρχείου που χρησιμοποιείται για δημιουργία νέων "
 "μεταφράσεων. Για Gettext επιλέξτε αρχείο .pot."
 
-#: weblate/addons/forms.py:182 weblate/trans/models/component.py:430
+#: weblate/addons/forms.py:183 weblate/trans/models/component.py:449
 msgid "Language filter"
 msgstr "Φίλτρο γλώσσας"
 
-#: weblate/addons/forms.py:187 weblate/trans/models/component.py:434
+#: weblate/addons/forms.py:188
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
@@ -953,23 +981,23 @@ msgstr ""
 "Κανονική έκφραση που χρησιμοποιείται για φιλτράρισμα μετάφρασης κατά τη "
 "σάρωση για μάσκα αρχείου."
 
-#: weblate/addons/forms.py:192
+#: weblate/addons/forms.py:193
 msgid "Remove components for non existing files"
 msgstr ""
 
-#: weblate/addons/forms.py:196
+#: weblate/addons/forms.py:197
 msgid "I confirm that the above matches look correct"
 msgstr ""
 
-#: weblate/addons/forms.py:259
+#: weblate/addons/forms.py:260
 msgid "Please review and confirm matched components."
 msgstr ""
 
-#: weblate/addons/generate.py:36
+#: weblate/addons/generate.py:38
 msgid "Statistics generator"
 msgstr "Δημιουργός στατιστικών"
 
-#: weblate/addons/generate.py:38
+#: weblate/addons/generate.py:40
 #, fuzzy
 #| msgid ""
 #| "This addon generates file with detailed information about the translation."
@@ -1041,13 +1069,13 @@ msgid ""
 "of contributions."
 msgstr ""
 
-#: weblate/addons/git.py:38
+#: weblate/addons/git.py:36
 #, fuzzy
 #| msgid "Push on commit"
 msgid "Squash Git commits"
 msgstr "Προώθηση πράξης"
 
-#: weblate/addons/git.py:39
+#: weblate/addons/git.py:37
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
 
@@ -1078,7 +1106,7 @@ msgstr "Ορίστηκε μη έγκυρο όνομα πρόσθετου!"
 msgid "Personal info"
 msgstr "Προσωπικές πληροφορίες"
 
-#: weblate/auth/admin.py:95 weblate/templates/accounts/profile.html:27
+#: weblate/auth/admin.py:95
 msgid "Authentication"
 msgstr "Πιστοποίηση"
 
@@ -1569,7 +1597,7 @@ msgid "Permission"
 msgstr "Αδειοδοτήσεις"
 
 #: weblate/auth/models.py:80 weblate/auth/models.py:109
-#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1431
+#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1433
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1627,7 +1655,7 @@ msgstr "Λίστα περιεχομένου"
 #: weblate/billing/models.py:238 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:31
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:138 weblate/trans/views/basic.py:71
+#: weblate/trans/models/project.py:138 weblate/trans/views/basic.py:70
 msgid "Projects"
 msgstr "Έργα"
 
@@ -1643,14 +1671,14 @@ msgid "All languages"
 msgstr "Όλες οι γλώσσες"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:273
-#: weblate/lang/models.py:385 weblate/lang/views.py:46
+#: weblate/lang/models.py:382 weblate/lang/views.py:46
 #: weblate/templates/accounts/profile.html:23
-#: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:124
+#: weblate/templates/accounts/profile.html:37 weblate/templates/base.html:124
 #: weblate/templates/language.html:6 weblate/templates/languages.html:6
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:872 weblate/trans/forms.py:1161
-#: weblate/trans/forms.py:1788
+#: weblate/trans/forms.py:1799
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -1735,7 +1763,7 @@ msgstr "Αυτόματες συσχετίσεις ομάδας"
 msgid "Owners"
 msgstr "Ιδιοκτήτες"
 
-#: weblate/billing/models.py:138 weblate/templates/billing/detail.html:19
+#: weblate/billing/models.py:138 weblate/templates/billing/detail.html:20
 msgid "Billing plan"
 msgstr "Σχέδιο κοστολόγησης"
 
@@ -1759,7 +1787,7 @@ msgstr "Ενεργό"
 msgid "Trial"
 msgstr "Δοκιμή"
 
-#: weblate/billing/models.py:152 weblate/templates/billing/detail.html:13
+#: weblate/billing/models.py:152 weblate/templates/billing/detail.html:14
 msgid "Expired"
 msgstr "Έληξε"
 
@@ -2059,12 +2087,12 @@ msgid "Perl format string does not match source"
 msgstr "Το κείμενο μορφής PHP δεν ταιριάζει με την προέλευση"
 
 #: weblate/checks/format.py:309
-msgid "Javascript format"
-msgstr "Μορφή Javascript"
+msgid "JavaScript format"
+msgstr "Μορφή JavaScript"
 
 #: weblate/checks/format.py:310
-msgid "Javascript format string does not match source"
-msgstr "Το κείμενο μορφής Javascript δεν ταιριάζει με την προέλευση"
+msgid "JavaScript format string does not match source"
+msgstr "Το κείμενο μορφής JavaScript δεν ταιριάζει με την προέλευση"
 
 #: weblate/checks/format.py:316
 msgid "Python brace format"
@@ -2088,9 +2116,9 @@ msgstr "Το κείμενο μορφής C δεν ταιριάζει με την
 
 #: weblate/checks/format.py:338
 #, fuzzy
-#| msgid "Javascript format"
+#| msgid "JavaScript format"
 msgid "Java format"
-msgstr "Μορφή Javascript"
+msgstr "Μορφή JavaScript"
 
 #: weblate/checks/format.py:339
 #, fuzzy
@@ -2100,9 +2128,9 @@ msgstr "Το κείμενο μορφής C δεν ταιριάζει με την
 
 #: weblate/checks/format.py:349
 #, fuzzy
-#| msgid "Javascript format"
+#| msgid "JavaScript format"
 msgid "Java MessageFormat"
-msgstr "Μορφή Javascript"
+msgstr "Μορφή JavaScript"
 
 #: weblate/checks/format.py:350
 #, fuzzy
@@ -2190,30 +2218,30 @@ msgstr "Μη αλλαγμένη μετάφραση"
 msgid "Source and translation are identical"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: weblate/checks/source.py:37
+#: weblate/checks/source.py:38
 msgid "Optional plural"
 msgstr "Προαιρετικός πληθυντικός"
 
-#: weblate/checks/source.py:39
+#: weblate/checks/source.py:40
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "Το κείμενο χρησιμοποιείται προαιρετικά ως πληθυντικός αλλά δεν "
 "χρησιμοποιούνται πληθυντικές μορφές"
 
-#: weblate/checks/source.py:52
+#: weblate/checks/source.py:53
 msgid "Ellipsis"
 msgstr "Έλλειψη"
 
-#: weblate/checks/source.py:54
+#: weblate/checks/source.py:55
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Το κείμενο χρησιμοποιεί τρεις τελείες (...) αντί για χαρακτήρα έλλειψης (…)"
 
-#: weblate/checks/source.py:66
+#: weblate/checks/source.py:67
 msgid "Multiple failing checks"
 msgstr "Πολλαπλοί αποτυχημένοι έλεγχοι"
 
-#: weblate/checks/source.py:68
+#: weblate/checks/source.py:69
 msgid "The translations in several languages have failing checks"
 msgstr "Η μετάφραση σε αρκετές γλώσσες έχει εσφαλμένους ελέγχους"
 
@@ -2228,44 +2256,44 @@ msgstr "Αποτυχημένοι έλεγχοι"
 msgid "Automatic detection"
 msgstr "Αυτόματη ανίχνευση"
 
-#: weblate/formats/exporters.py:192
+#: weblate/formats/exporters.py:194
 #, fuzzy
 #| msgid "Gettext (PO)"
 msgid "gettext PO"
 msgstr "Gettext (PO)"
 
-#: weblate/formats/exporters.py:235
+#: weblate/formats/exporters.py:237
 #, fuzzy
 #| msgid "Download translation as Gettext PO"
 msgid "XLIFF with gettext extensions"
 msgstr "Λήψη μετάφρασης ως Gettext PO"
 
-#: weblate/formats/exporters.py:247
+#: weblate/formats/exporters.py:249
 msgid "XLIFF 1.1"
 msgstr ""
 
-#: weblate/formats/exporters.py:258
+#: weblate/formats/exporters.py:260
 msgid "TBX"
 msgstr ""
 
-#: weblate/formats/exporters.py:269
+#: weblate/formats/exporters.py:271
 msgid "TMX"
 msgstr ""
 
-#: weblate/formats/exporters.py:280
+#: weblate/formats/exporters.py:282
 #, fuzzy
 #| msgid "Gettext (PO)"
 msgid "gettext MO"
 msgstr "Gettext (PO)"
 
-#: weblate/formats/exporters.py:294
+#: weblate/formats/exporters.py:296
 #, fuzzy
 #| msgctxt "Per project access control group"
 #| msgid "VCS"
 msgid "CSV"
 msgstr "VCS"
 
-#: weblate/formats/exporters.py:318 weblate/formats/external.py:49
+#: weblate/formats/exporters.py:320 weblate/formats/external.py:49
 msgid "Excel Open XML"
 msgstr ""
 
@@ -2285,101 +2313,101 @@ msgstr "Αρχείο Μετάφρασης Qt Linguist"
 msgid "XLIFF Translation File"
 msgstr "Αρχείο Μετάφρασης XLIFF"
 
-#: weblate/formats/ttkit.py:781
+#: weblate/formats/ttkit.py:777
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Αρχείο Μετάφρασης XLIFF με επεκτάσεις PO"
 
-#: weblate/formats/ttkit.py:809
+#: weblate/formats/ttkit.py:805
 msgid "OS X Strings"
 msgstr "Κείμενα OS X"
 
-#: weblate/formats/ttkit.py:822
+#: weblate/formats/ttkit.py:814
 msgid "OS X Strings (UTF-8)"
 msgstr "Κείμενα OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:829
+#: weblate/formats/ttkit.py:821
 msgid "Java Properties (UTF-8)"
 msgstr "Ιδιότητες Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:836
+#: weblate/formats/ttkit.py:828
 msgid "Java Properties (UTF-16)"
 msgstr "Ιδιότητες Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:842
+#: weblate/formats/ttkit.py:834
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Ιδιότητες Java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:859
+#: weblate/formats/ttkit.py:851
 msgid "Joomla Language File"
 msgstr "Αρχείο γλώσσας Joomla"
 
-#: weblate/formats/ttkit.py:868
+#: weblate/formats/ttkit.py:860
 msgid "PHP strings"
 msgstr "Κείμενα PHP"
 
-#: weblate/formats/ttkit.py:887
+#: weblate/formats/ttkit.py:879
 msgid ".Net resource file"
 msgstr "Αρχείο προέλευσης .Net"
 
-#: weblate/formats/ttkit.py:897
+#: weblate/formats/ttkit.py:889
 msgid "Android String Resource"
 msgstr "Προέλευση Κειμένου Android"
 
-#: weblate/formats/ttkit.py:929
+#: weblate/formats/ttkit.py:909
 msgid "JSON file"
 msgstr "Αρχείο JSON"
 
-#: weblate/formats/ttkit.py:948
+#: weblate/formats/ttkit.py:928
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:954
+#: weblate/formats/ttkit.py:934
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:962
+#: weblate/formats/ttkit.py:942
 #, fuzzy
 #| msgid "JSON file"
 msgid "i18next JSON file"
 msgstr "Αρχείο JSON"
 
-#: weblate/formats/ttkit.py:968
+#: weblate/formats/ttkit.py:948
 msgid "CSV file"
 msgstr "Αρχείο CSV"
 
-#: weblate/formats/ttkit.py:1034
+#: weblate/formats/ttkit.py:1014
 msgid "Simple CSV file"
 msgstr "Απλό αρχείο CSV"
 
-#: weblate/formats/ttkit.py:1070
+#: weblate/formats/ttkit.py:1050
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Απλό αρχείο CSV (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1076
+#: weblate/formats/ttkit.py:1056
 msgid "YAML file"
 msgstr "Αρχείο YAML"
 
-#: weblate/formats/ttkit.py:1095
+#: weblate/formats/ttkit.py:1075
 msgid "Ruby YAML file"
 msgstr "Αρχείο Ruby YAML"
 
-#: weblate/formats/ttkit.py:1102
+#: weblate/formats/ttkit.py:1082
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
 msgstr "Αρχείο CSV"
 
-#: weblate/formats/ttkit.py:1128
+#: weblate/formats/ttkit.py:1108
 #, fuzzy
 #| msgid "CSV file"
 msgid "RC file"
 msgstr "Αρχείο CSV"
 
-#: weblate/formats/txt.py:170
+#: weblate/formats/txt.py:173
 msgid "App store metadata files"
 msgstr ""
 
-#: weblate/lang/apps.py:28
+#: weblate/lang/apps.py:29
 msgid "Weblate languages"
 msgstr "Γλώσσες Weblate"
 
@@ -2443,161 +2471,161 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Τρία"
 
-#: weblate/lang/models.py:364 weblate/templates/addons/generate_help.html:9
+#: weblate/lang/models.py:361 weblate/templates/addons/generate_help.html:9
 #: weblate/templates/language.html:60
 msgid "Language code"
 msgstr "Κωδικός γλώσσας"
 
-#: weblate/lang/models.py:368 weblate/templates/addons/generate_help.html:7
+#: weblate/lang/models.py:365 weblate/templates/addons/generate_help.html:7
 msgid "Language name"
 msgstr "Όνομα γλώσσας"
 
-#: weblate/lang/models.py:371 weblate/templates/language.html:64
+#: weblate/lang/models.py:368 weblate/templates/language.html:64
 msgid "Text direction"
 msgstr "Κατεύθυνση κειμένου"
 
-#: weblate/lang/models.py:375
+#: weblate/lang/models.py:372
 msgid "Left to right"
 msgstr "Αριστερά προς δεξιά"
 
-#: weblate/lang/models.py:376
+#: weblate/lang/models.py:373
 msgid "Right to left"
 msgstr "Δεξιά προς αριστερά"
 
-#: weblate/lang/models.py:384 weblate/templates/dictionaries.html:14
+#: weblate/lang/models.py:381 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:14
 #: weblate/templates/list-translations.html:7
 #: weblate/templates/project.html:172
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:1196 weblate/trans/models/whiteboard.py:98
+#: weblate/trans/forms.py:1196 weblate/trans/models/whiteboard.py:99
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: weblate/lang/models.py:446
+#: weblate/lang/models.py:443
 msgctxt "Plural type"
 msgid "None"
 msgstr "Κανένα"
 
-#: weblate/lang/models.py:450
+#: weblate/lang/models.py:447
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
 msgstr "Ένα/άλλο (κλασικός πληθυντικός)"
 
-#: weblate/lang/models.py:454
+#: weblate/lang/models.py:451
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
 msgstr "Ένα/λίγα/άλλο (Σλαβικές γλώσσες)"
 
-#: weblate/lang/models.py:458
+#: weblate/lang/models.py:455
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "Αραβικές γλώσσες"
 
-#: weblate/lang/models.py:462
+#: weblate/lang/models.py:459
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "Μηδέν/ένα/άλλο"
 
-#: weblate/lang/models.py:466
+#: weblate/lang/models.py:463
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "Ένα/δύο/άλλο"
 
-#: weblate/lang/models.py:470
+#: weblate/lang/models.py:467
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "Ένα/άλλο/δύο"
 
-#: weblate/lang/models.py:474
+#: weblate/lang/models.py:471
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "Ένα/δύο/λίγα/άλλο"
 
-#: weblate/lang/models.py:478
+#: weblate/lang/models.py:475
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "Άλλο/ένα/δύο/λίγα"
 
-#: weblate/lang/models.py:482
+#: weblate/lang/models.py:479
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "Ένα/δύο/τρία/άλλο"
 
-#: weblate/lang/models.py:486
+#: weblate/lang/models.py:483
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "Ένα/άλλο/μηδέν"
 
-#: weblate/lang/models.py:490
+#: weblate/lang/models.py:487
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "Ένα/λίγα/πολλά/άλλο"
 
-#: weblate/lang/models.py:494
+#: weblate/lang/models.py:491
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "Δύο/άλλο"
 
-#: weblate/lang/models.py:498
+#: weblate/lang/models.py:495
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "Ένα/δύο/λίγα/πολλά/άλλο"
 
-#: weblate/lang/models.py:502
+#: weblate/lang/models.py:499
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: weblate/lang/models.py:509
+#: weblate/lang/models.py:506
 msgid "Plural definition source"
 msgstr "Προέλευση ορισμού πληθυντικού"
 
-#: weblate/lang/models.py:511
+#: weblate/lang/models.py:508
 msgid "Default plural"
 msgstr "Προκαθορισμένος πληθυντικός"
 
-#: weblate/lang/models.py:512
+#: weblate/lang/models.py:509
 msgid "Gettext plural formula"
 msgstr ""
 
-#: weblate/lang/models.py:517 weblate/templates/language.html:76
+#: weblate/lang/models.py:514 weblate/templates/language.html:76
 msgid "Number of plurals"
 msgstr "Αριθμός πληθυντικών"
 
-#: weblate/lang/models.py:524 weblate/templates/language.html:96
+#: weblate/lang/models.py:521 weblate/templates/language.html:96
 #: weblate/trans/forms.py:350
 msgid "Plural equation"
 msgstr "Ισότητα πληθυντικού"
 
-#: weblate/lang/models.py:529 weblate/templates/language.html:80
+#: weblate/lang/models.py:526 weblate/templates/language.html:80
 msgid "Plural type"
 msgstr "Τυπος πληθυντικού"
 
-#: weblate/lang/models.py:536
+#: weblate/lang/models.py:533
 msgid "Plural form"
 msgstr "Μορφή πληθυντικού"
 
-#: weblate/lang/models.py:537
+#: weblate/lang/models.py:534
 msgid "Plural forms"
 msgstr "Μορφές πληθυντικού"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:606
+#: weblate/lang/models.py:603
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "Για παράδειγμα: {0}"
 
-#: weblate/lang/models.py:617
+#: weblate/lang/models.py:614
 msgid "Singular"
 msgstr "Ενικός"
 
-#: weblate/lang/models.py:619
+#: weblate/lang/models.py:616
 msgid "Plural"
 msgstr "Πληθυντικός"
 
-#: weblate/lang/models.py:620
+#: weblate/lang/models.py:617
 #, python-format
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
@@ -2900,7 +2928,7 @@ msgid "Source has been removed."
 msgstr "Η προέλευση απομακρύνθηκε."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/basic.py:307
+#: weblate/trans/views/basic.py:306
 msgid "Permission Denied"
 msgstr "Άρνηση Δικαιώματος"
 
@@ -2919,7 +2947,7 @@ msgid ""
 msgstr ""
 "Ωστόσο, τα ακόλουθα έργα μετάφρασης είναι διαθέσιμα σε αυτό το εξυπηρετητή:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:294
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:293
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 
@@ -2932,7 +2960,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Το έργο που αναζητάτε δεν υπάρχει ή δεν είναι δημόσια διαθέσιμο."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:326
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:325
 msgid "Internal Server Error"
 msgstr "Εσωτερικό Σφάλμα Διακομιστή"
 
@@ -3114,7 +3142,7 @@ msgstr "Χρήστης"
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:113 weblate/templates/project.html:173
 #: weblate/templates/translation.html:419
-#: weblate/trans/templatetags/translations.py:546 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:547 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Μεταφράστηκε"
 
@@ -3332,7 +3360,7 @@ msgid "Please fix errors in the registration form."
 msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
 
 #: weblate/templates/accounts/email.html:26
-#: weblate/templates/accounts/profile.html:316
+#: weblate/templates/accounts/profile.html:324
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
@@ -3431,7 +3459,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/login.html:28
-#: weblate/templates/accounts/profile.html:205
+#: weblate/templates/accounts/profile.html:213
 #: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Περιγραφή"
@@ -3500,13 +3528,13 @@ msgstr ""
 msgid "Change my password"
 msgstr "Αλλαγή του κωδικού μου"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:376
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:390
 #: weblate/trans/views/files.py:77
 msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
 
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:53
+#: weblate/templates/accounts/profile.html:52
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -3515,30 +3543,30 @@ msgid "Subscriptions"
 msgstr "Προτάσεις"
 
 #: weblate/templates/accounts/profile.html:26
-#: weblate/templates/accounts/profile.html:104
+#: weblate/templates/accounts/profile.html:103
 msgid "Account"
 msgstr "Λογαριασμός"
 
-#: weblate/templates/accounts/profile.html:28
+#: weblate/templates/accounts/profile.html:27
 msgid "Profile"
 msgstr "Προφίλ"
 
-#: weblate/templates/accounts/profile.html:29
-#: weblate/templates/accounts/profile.html:312
+#: weblate/templates/accounts/profile.html:28
+#: weblate/templates/accounts/profile.html:320
 msgid "Licenses"
 msgstr "Άδειες"
 
-#: weblate/templates/accounts/profile.html:30
-#: weblate/templates/accounts/profile.html:212
+#: weblate/templates/accounts/profile.html:29
+#: weblate/templates/accounts/profile.html:220
 msgid "Audit log"
 msgstr "Εξέταση καταγραφών"
 
-#: weblate/templates/accounts/profile.html:31
-#: weblate/templates/accounts/profile.html:249
+#: weblate/templates/accounts/profile.html:30
+#: weblate/templates/accounts/profile.html:257
 msgid "API access"
 msgstr "Πρόσβαση API"
 
-#: weblate/templates/accounts/profile.html:42
+#: weblate/templates/accounts/profile.html:41
 msgid ""
 "Only languages which are currently being translated are listed. If you want "
 "to translate to another language, please request it first on the project you "
@@ -3548,11 +3576,11 @@ msgstr ""
 "μεταφράσετε σε μια άλλη γλώσσα, ζητήστε τη πρώτα στο έργο που θέλετε να "
 "μεταφράσετε."
 
-#: weblate/templates/accounts/profile.html:46
-#: weblate/templates/accounts/profile.html:59
-#: weblate/templates/accounts/profile.html:86
-#: weblate/templates/accounts/profile.html:97
-#: weblate/templates/accounts/profile.html:110
+#: weblate/templates/accounts/profile.html:45
+#: weblate/templates/accounts/profile.html:58
+#: weblate/templates/accounts/profile.html:85
+#: weblate/templates/accounts/profile.html:96
+#: weblate/templates/accounts/profile.html:109
 #: weblate/templates/addons/addon_detail.html:34
 #: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_dictionary.html:26
@@ -3567,16 +3595,16 @@ msgstr ""
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: weblate/templates/accounts/profile.html:67
+#: weblate/templates/accounts/profile.html:66
 msgid "Managed projects"
 msgstr "Διαχειριζόμενα έργα"
 
-#: weblate/templates/accounts/profile.html:74
+#: weblate/templates/accounts/profile.html:73
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr "Θα λάβετε αυτόματα σημαντικές ειδοποιήσεις για τα διαχειριζόμενα έργα."
 
-#: weblate/templates/accounts/profile.html:83
+#: weblate/templates/accounts/profile.html:82
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
@@ -3584,89 +3612,107 @@ msgstr ""
 "Παρακολουθούμενα έργα εμφανίζονται επίσης στον πίνακα, έτσι επιλέξτε όλα τα "
 "έργα που θέλετε να μεταφράσετε."
 
-#: weblate/templates/accounts/profile.html:91
+#: weblate/templates/accounts/profile.html:90
 msgid "Subscription settings"
 msgstr "Ρυθμίσεις εγγραφής"
 
-#: weblate/templates/accounts/profile.html:94
+#: weblate/templates/accounts/profile.html:93
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 "θα λάβετε τις επιλεγμένες ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για "
 "όλες σας τις γλώσσες."
 
-#: weblate/templates/accounts/profile.html:107
+#: weblate/templates/accounts/profile.html:106
 msgid "Your name and email will appear as author on the commits."
 msgstr ""
 "Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
 "στους συμμετέχοντες."
 
-#: weblate/templates/accounts/profile.html:117
+#: weblate/templates/accounts/profile.html:114
 msgid "Current user identities"
 msgstr "Ταυτότητες τρέχοντος χρήστη"
 
-#: weblate/templates/accounts/profile.html:121
+#: weblate/templates/accounts/profile.html:118
 msgid "Identity"
 msgstr "Ταυτότητα"
 
-#: weblate/templates/accounts/profile.html:122
+#: weblate/templates/accounts/profile.html:119
 msgid "User ID"
 msgstr "Ταυτότητα χρήστη"
 
-#: weblate/templates/accounts/profile.html:123
+#: weblate/templates/accounts/profile.html:120
 #: weblate/templates/last-changes-content.html:10
 msgid "Action"
 msgstr "Ενέργεια"
 
-#: weblate/templates/accounts/profile.html:130
+#: weblate/templates/accounts/profile.html:127
 msgid "Set password"
 msgstr "Ορισμός κωδικού"
 
-#: weblate/templates/accounts/profile.html:139
+#: weblate/templates/accounts/profile.html:136
 msgid "Disconnect"
 msgstr "Αποσύνδεση"
 
-#: weblate/templates/accounts/profile.html:151
+#: weblate/templates/accounts/profile.html:148
 msgid "Add new association"
 msgstr "Προσθήκη νέας συσχέτισης"
 
-#: weblate/templates/accounts/profile.html:161
+#: weblate/templates/accounts/profile.html:158
 #: weblate/templates/component.html:95 weblate/templates/project.html:81
 #: weblate/templates/translation.html:89
 msgid "Removal"
 msgstr "Απομάκρυνση"
 
-#: weblate/templates/accounts/profile.html:164
+#: weblate/templates/accounts/profile.html:161
 #: weblate/templates/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
 msgstr "Η απομάκρυνση του λογαριασμού διαγράφει όλα τα προσωπικά δεδομένα."
 
-#: weblate/templates/accounts/profile.html:167
+#: weblate/templates/accounts/profile.html:164
 msgid "Remove my account"
 msgstr "Απομάκρυνση του λογαριασμού μου"
 
+#: weblate/templates/accounts/profile.html:169
+#, fuzzy
+#| msgid "User agent"
+msgid "User data"
+msgstr "Πράκτορας χρήστη"
+
+#: weblate/templates/accounts/profile.html:172
+#, fuzzy
+#| msgid "Removal of the account deletes all your private data."
+msgid "You can download all your private data."
+msgstr "Η απομάκρυνση του λογαριασμού διαγράφει όλα τα προσωπικά δεδομένα."
+
 #: weblate/templates/accounts/profile.html:175
+#, fuzzy
+#| msgid "Download"
+msgid "Download user data"
+msgstr "Λήψη"
+
+#: weblate/templates/accounts/profile.html:183
 msgid "Your summary"
 msgstr "Η περίληψή σας"
 
-#: weblate/templates/accounts/profile.html:182
+#: weblate/templates/accounts/profile.html:190
 msgid "Your public profile"
 msgstr "Το δημόσιό σας προφίλ"
 
-#: weblate/templates/accounts/profile.html:187
+#: weblate/templates/accounts/profile.html:195
 msgid "Your public appearance on this site."
 msgstr "Η δημόσια εμφάνισή σας σε αυτή τη σελίδα."
 
-#: weblate/templates/accounts/profile.html:193
+#: weblate/templates/accounts/profile.html:201
 msgid "Your avatar"
 msgstr "Η εικόνα σας"
 
-#: weblate/templates/accounts/profile.html:196
+#: weblate/templates/accounts/profile.html:204
 #, fuzzy
 #| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
 msgstr "Τα είδωλα παρέχονται με χρήση του libravatar."
 
-#: weblate/templates/accounts/profile.html:207
+#: weblate/templates/accounts/profile.html:215
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
@@ -3674,34 +3720,34 @@ msgstr ""
 "Ο έλεγχος καταγραφών εμφανίζει σημαντικές αλλαγές στον λογαριασμό σας. Σε "
 "περίπτωση που δείτε κάτι ύποπτο μην διστάσετε να επικοινωνήσετε μαζί μας."
 
-#: weblate/templates/accounts/profile.html:216
+#: weblate/templates/accounts/profile.html:224
 #: weblate/templates/last-changes-content.html:8
 #: weblate/templates/trans/suggestion_list.html:16
 msgid "When"
 msgstr "Όταν"
 
-#: weblate/templates/accounts/profile.html:218
+#: weblate/templates/accounts/profile.html:226
 msgid "IP address"
 msgstr "Διεύθυνση IP"
 
-#: weblate/templates/accounts/profile.html:219
+#: weblate/templates/accounts/profile.html:227
 msgid "User agent"
 msgstr "Πράκτορας χρήστη"
 
-#: weblate/templates/accounts/profile.html:231
-#: weblate/templates/accounts/profile.html:232
+#: weblate/templates/accounts/profile.html:239
+#: weblate/templates/accounts/profile.html:240
 msgid "Hidden"
 msgstr "Κρυφό"
 
-#: weblate/templates/accounts/profile.html:236
+#: weblate/templates/accounts/profile.html:244
 msgid "No recent activity found!"
 msgstr "Δεν βρέθηκε καμία πρόσφατη δραστηριότητα!"
 
-#: weblate/templates/accounts/profile.html:241
+#: weblate/templates/accounts/profile.html:249
 msgid "Report suspicious activity"
 msgstr "Αναφορά ύποπτης δραστηριότητας"
 
-#: weblate/templates/accounts/profile.html:252
+#: weblate/templates/accounts/profile.html:260
 #, fuzzy
 #| msgid ""
 #| "You can control Weblate using HTTP REST API. Please check <a href="
@@ -3713,39 +3759,39 @@ msgstr ""
 "Μπορείτε να ελέγχεται το Weblate με χρήση του HTTP REST API. Δείτε την <a "
 "href=\"%(api_doc)s\">τεκμηρίωση του API</a> για περισσότερες λεπτομέρειες."
 
-#: weblate/templates/accounts/profile.html:255
+#: weblate/templates/accounts/profile.html:263
 msgid "Your personal API key:"
 msgstr "Το προσωπικό σας κλειδί API:"
 
-#: weblate/templates/accounts/profile.html:262
+#: weblate/templates/accounts/profile.html:270
 msgid "Regenerate API key"
 msgstr "Επαναδημιουργία κλειδιού API"
 
-#: weblate/templates/accounts/profile.html:266
+#: weblate/templates/accounts/profile.html:274
 msgid "API root URL:"
 msgstr "Ρίζα URL για το API:"
 
-#: weblate/templates/accounts/profile.html:270
+#: weblate/templates/accounts/profile.html:278
 msgid "API usage example:"
 msgstr "Παράδειγμα χρήσης API:"
 
-#: weblate/templates/accounts/profile.html:282
+#: weblate/templates/accounts/profile.html:290
 msgid "CLI usage example:"
 msgstr "Παράδειγμα χρήσης CLI:"
 
-#: weblate/templates/accounts/profile.html:299
+#: weblate/templates/accounts/profile.html:307
 #, fuzzy
 #| msgid "Reset repository"
 msgid "Accessing Git repositories"
 msgstr "Επαναφορά αποθετηρίου"
 
-#: weblate/templates/accounts/profile.html:301
+#: weblate/templates/accounts/profile.html:309
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:314
+#: weblate/templates/accounts/profile.html:322
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
@@ -3753,13 +3799,13 @@ msgstr ""
 "Δώστε προσοχή στις πληροφορίες αδειοδότησης καθώς αυτές καθορίζουν πως άλλοι "
 "μπορούν να χρησιμοποιήσουν τις μεταφράσεις σας."
 
-#: weblate/templates/accounts/profile.html:320
+#: weblate/templates/accounts/profile.html:328
 #, fuzzy
 #| msgid "Please read following Terms of Service document:"
 msgid "You have agreed to the following as a contributor:"
 msgstr "Παρακαλώ διαβάστε το ακόλουθο έγγραφο Όροι Χρήσης:"
 
-#: weblate/templates/accounts/profile.html:329
+#: weblate/templates/accounts/profile.html:337
 msgid ""
 "Following translations have explicitly specified their licensing and "
 "copyright conditions:"
@@ -3767,16 +3813,16 @@ msgstr ""
 "Οι ακόλουθες μεταφράσεις έχουν σαφώς ορίσει τους όρους αδειοδότησης και "
 "πνευματικών δικαιωμάτων τους:"
 
-#: weblate/templates/accounts/profile.html:332 weblate/templates/data.html:28
+#: weblate/templates/accounts/profile.html:340 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
-#: weblate/templates/list-translations.html:7 weblate/trans/forms.py:1547
-#: weblate/trans/models/component.py:132 weblate/trans/models/component.py:157
-#: weblate/trans/models/project.py:137 weblate/trans/models/whiteboard.py:84
+#: weblate/templates/list-translations.html:7 weblate/trans/forms.py:1558
+#: weblate/trans/models/component.py:142 weblate/trans/models/component.py:167
+#: weblate/trans/models/project.py:137 weblate/trans/models/whiteboard.py:85
 msgid "Project"
 msgstr "Έργο"
 
-#: weblate/templates/accounts/profile.html:332 weblate/trans/forms.py:1435
+#: weblate/templates/accounts/profile.html:340 weblate/trans/forms.py:1437
 msgid "License"
 msgstr "Άδεια"
 
@@ -3888,7 +3934,7 @@ msgstr "Ρύθμιση πρόσθετου"
 
 #: weblate/templates/addons/addon_head.html:5
 msgid ""
-"This addon operates on whole project, it is enough to install it on one "
+"This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
 
@@ -3899,7 +3945,7 @@ msgid "project wide"
 msgstr "Ιστοσελίδα έργου"
 
 #: weblate/templates/addons/addon_head.html:8
-msgid "This addon operates on all components sharing this repository."
+msgid "This addon is used for all components sharing this repository."
 msgstr ""
 
 #: weblate/templates/addons/addon_head.html:8
@@ -4007,7 +4053,7 @@ msgstr ""
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
 #: weblate/templates/project.html:112 weblate/templates/translate.html:326
-#: weblate/trans/models/component.py:460 weblate/trans/models/whiteboard.py:91
+#: weblate/trans/models/component.py:479 weblate/trans/models/whiteboard.py:92
 msgid "Component"
 msgstr "Περιεχόμενο"
 
@@ -4051,8 +4097,8 @@ msgstr "Έχει μεταφραστεί"
 msgid "Number of translated strings"
 msgstr "Αμετάφραστα κείμενα"
 
-#: weblate/templates/addons/generate_help.html:17 weblate/trans/forms.py:1536
-#: weblate/trans/models/component.py:121
+#: weblate/templates/addons/generate_help.html:17 weblate/trans/forms.py:1547
+#: weblate/trans/models/component.py:131
 msgid "Component name"
 msgstr "Όνομα περιεχομένου"
 
@@ -4076,10 +4122,9 @@ msgstr ""
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
-"The resulting commits will include all commit messages and the commit "
-"authorship will not be preserved for all but per author squash. If you want "
-"to include authorship information it is recommended to customize the commit "
-"message to include this."
+"Resulting commits will include all original commit messages, but lose commit "
+"authorship, unless \"Per author\" is selected, or you customize the commit "
+"message to include it."
 msgstr ""
 
 #: weblate/templates/base.html:99
@@ -4165,6 +4210,7 @@ msgstr "Τυχαία κείμενα για επισκόπηση"
 #: weblate/templates/base.html:189 weblate/templates/component.html:81
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:68
+#: weblate/wladmin/templates/admin/weblate-index.html:37
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation memory"
@@ -4210,75 +4256,75 @@ msgid ""
 "past due date or over limits."
 msgstr ""
 
-#: weblate/templates/billing/detail.html:10
+#: weblate/templates/billing/detail.html:11
 msgid "Recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:15
+#: weblate/templates/billing/detail.html:16
 #, fuzzy
 #| msgid "Start date"
 msgid "Past due date"
 msgstr "Ημερομηνία έναρξης"
 
-#: weblate/templates/billing/detail.html:17
+#: weblate/templates/billing/detail.html:18
 #, fuzzy
 #| msgid "In limits"
 msgid "Exceeds limits"
 msgstr "Εντός ορίων"
 
-#: weblate/templates/billing/detail.html:29
+#: weblate/templates/billing/detail.html:30
 #, fuzzy
 #| msgid "Change"
 msgid "Change payment plan"
 msgstr "Αλλαγή"
 
-#: weblate/templates/billing/detail.html:31
+#: weblate/templates/billing/detail.html:32
 #, fuzzy
 #| msgid "Performance"
 msgid "Perform payment"
 msgstr "Απόδοση"
 
-#: weblate/templates/billing/detail.html:36
+#: weblate/templates/billing/detail.html:37
 msgid "Terminate recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:40
+#: weblate/templates/billing/detail.html:41
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 
-#: weblate/templates/billing/detail.html:43
+#: weblate/templates/billing/detail.html:44
 #, fuzzy
 #| msgid "Billing plan"
 msgid "Terminate billing plan"
 msgstr "Σχέδιο κοστολόγησης"
 
-#: weblate/templates/billing/detail.html:51
+#: weblate/templates/billing/detail.html:52
 msgid "Invoices"
 msgstr "Τιμολόγια"
 
-#: weblate/templates/billing/detail.html:55
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice period"
 msgstr "Περίοδος τιμολογίου"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:57
 msgid "Invoice amount"
 msgstr "Ποσό τιμολογίου"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:58
 msgid "Download invoice"
 msgstr "Τιμολόγιο λήψης"
 
-#: weblate/templates/billing/detail.html:71
+#: weblate/templates/billing/detail.html:72
 msgid "Not available"
 msgstr "Μη διαθέσιμο"
 
-#: weblate/templates/billing/detail.html:76
+#: weblate/templates/billing/detail.html:77
 #, fuzzy
 #| msgid "No invoices found!"
 msgid "No invoices found."
 msgstr "Δεν βρέθηκαν τιμολόγια!"
 
-#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1704
+#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1715
 msgid "Billing"
 msgstr "Λογαριασμός"
 
@@ -4363,8 +4409,7 @@ msgid "Check details"
 msgstr "Λεπτομέρειες ελέγχών"
 
 #: weblate/templates/checks.html:28 weblate/templates/component-list.html:14
-#: weblate/templates/component.html:33 weblate/templates/language.html:16
-#: weblate/templates/project.html:28 weblate/templates/translation.html:34
+#: weblate/templates/language.html:16
 msgid "Information"
 msgstr "Πληροφορίες"
 
@@ -4386,7 +4431,7 @@ msgstr ""
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:26
-#: weblate/trans/forms.py:945 weblate/trans/models/component.py:461
+#: weblate/trans/forms.py:945 weblate/trans/models/component.py:480
 msgid "Components"
 msgstr "Περιεχόμενα"
 
@@ -4405,6 +4450,11 @@ msgstr "Αυτόματη συσχέτιση λίστας περιεχομένο�
 #: weblate/templates/trans/suggestion_list.html:17
 msgid "Translations"
 msgstr "Μεταφράσεις"
+
+#: weblate/templates/component.html:33 weblate/templates/project.html:28
+#: weblate/templates/translation.html:34
+msgid "Info"
+msgstr ""
 
 #: weblate/templates/component.html:35
 msgid "Alerts"
@@ -4469,7 +4519,7 @@ msgstr "Εργαλεία"
 #: weblate/templates/component.html:58 weblate/templates/component.html:171
 #: weblate/templates/project.html:48 weblate/templates/project.html:228
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:64
-#: weblate/templates/translation.html:239 weblate/trans/models/change.py:226
+#: weblate/templates/translation.html:239 weblate/trans/models/change.py:233
 msgid "Search and replace"
 msgstr "Αναζήτηση και αντικατάσταση"
 
@@ -4530,9 +4580,10 @@ msgstr "Πλήρες όνομα"
 msgid "Share"
 msgstr "Κοινή χρήση"
 
-#: weblate/templates/component.html:106
-msgid "Share on Facebook!"
-msgstr "Μοιραστείτε στο Facebook!"
+#: weblate/templates/component.html:106 weblate/templates/project.html:93
+#: weblate/templates/translation.html:101
+msgid "Share on Facebook"
+msgstr "Μοιραστείτε στο Facebook"
 
 #: weblate/templates/component.html:107 weblate/templates/project.html:94
 #: weblate/templates/translation.html:102
@@ -4574,7 +4625,7 @@ msgstr "Αρχείο συνδεθείτε για να αποθηκεύσετε �
 #| "You can replace a string in all units at once. The search is a simple "
 #| "substring case sensitive search."
 msgid ""
-"You can replace a string in all strings at once. The search is a simple "
+"You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
 "Μπορείτε να αντικαταστήσετε μια συμβολισειρά σε όλες τις μονάδες ταυτόχρονα. "
@@ -4591,15 +4642,14 @@ msgid "Process"
 msgstr "Διαδικασία"
 
 #: weblate/templates/component.html:186 weblate/templates/project.html:243
-#: weblate/templates/translation.html:254 weblate/trans/models/change.py:233
+#: weblate/templates/translation.html:254 weblate/trans/models/change.py:240
 #, fuzzy
 #| msgid "Last change"
 msgid "Bulk status change"
 msgstr "Τελευταία αλλαγή"
 
-#: weblate/templates/component.html:188 weblate/templates/project.html:245
-#: weblate/templates/translation.html:256
-msgid "You can change state of all strings matching given type at once."
+#: weblate/templates/component.html:188
+msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 
 #: weblate/templates/component.html:204 weblate/templates/js/changes.html:5
@@ -4608,8 +4658,8 @@ msgstr "Αναζήτηση όλων των αλλαγών περιεχομένο
 
 #: weblate/templates/component.html:217
 msgid ""
-"The message is shown on all translations within the component until it's "
-"expiry or permanently until deleting."
+"The message is shown for all translations within the component, until its "
+"given expiry, or permanently until it is deleted."
 msgstr ""
 
 #: weblate/templates/component.html:237
@@ -4651,10 +4701,15 @@ msgid "Credits"
 msgstr "Συντελεστές"
 
 #: weblate/templates/component.html:288
+#, fuzzy
+#| msgid ""
+#| "Credits list all translators who have contributed to this component in a "
+#| "given time period. It can be useful for including in your documentation "
+#| "or application to thank translators."
 msgid ""
-"Credits list all translators who have contributed to this component in a "
-"given time period. It can be useful for including in your documentation or "
-"application to thank translators."
+"Lists all translators contributing to this component in a given time period. "
+"Useful for inclusion in documentation or the app itself, to thank "
+"translators and generate feedback to them."
 msgstr ""
 "Στους συντελεστές εμφανίζονται όλοι οι μεταφραστές που έχουν συνεισφέρει σε "
 "αυτό το περιεχόμενο στη συγκεκριμένη χρονική περίοδο. Μπορεί να είναι "
@@ -4671,7 +4726,9 @@ msgid "Contributor stats"
 msgstr "Στατιστικά διανομέα"
 
 #: weblate/templates/component.html:307
-msgid "Reports number of strings and words translated by each translator."
+#, fuzzy
+#| msgid "Reports number of strings and words translated by each translator."
+msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
 "Αναφέρεται ο αριθμός των κειμένων και λέξεων που μεταφράστηκαν από κάθε "
 "μεταφραστή."
@@ -4681,31 +4738,36 @@ msgid "Translation process"
 msgstr "Διαδικασία μετάφρασης"
 
 #: weblate/templates/component_info.html:15
-msgid "Translations can be made only through suggesting."
-msgstr ""
+#, fuzzy
+#| msgid "Translations can be made directly."
+msgid "Translations can only be done through suggestions."
+msgstr "Οι μεταφράσεις μπορούν να γίνουν άμεσα."
 
 #: weblate/templates/component_info.html:16
-#, python-format
-msgid ""
-"Suggestions are automatically accepted as translations once they have "
-"%(count)s vote."
+#, fuzzy, python-format
+#| msgid "Suggestions are not allowed on this translation!"
+msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Οι προτάσεις δεν επιτρέπονται σε αυτή τη μετάφραση!"
+msgstr[1] "Οι προτάσεις δεν επιτρέπονται σε αυτή τη μετάφραση!"
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
 msgstr "Οι μεταφράσεις μπορούν να γίνουν άμεσα."
 
 #: weblate/templates/component_info.html:20
-msgid "Suggestions to improve translation can be made."
-msgstr "Μπορούν να γίνουν συστάσεις  για βελτίωση της μετάφρασης."
+#, fuzzy
+#| msgid "Translations can be made directly."
+msgid "Translation suggestions can be made."
+msgstr "Οι μεταφράσεις μπορούν να γίνουν άμεσα."
 
 #: weblate/templates/component_info.html:22
-msgid "Suggestions to improve translation are disabled."
-msgstr "Οι συστάσεις για βελτίωση των μεταφράσεων έχουν απενεργοποιηθεί."
+#, fuzzy
+#| msgid "Machine translation suggestions"
+msgid "Translation suggestions are turned off."
+msgstr "Προτάσεις μεταφραστικής μηχανής"
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -4718,13 +4780,13 @@ msgstr ""
 #: weblate/templates/component_info.html:31
 #, fuzzy
 #| msgid "The translation is not valid XML"
-msgid "The translation is using monolingual files."
+msgid "The translation uses monolingual files."
 msgstr "Η μετάφραση δεν είναι έγκυρο XML"
 
 #: weblate/templates/component_info.html:33
 #, fuzzy
 #| msgid "Translation has been removed."
-msgid "The translation base language can be edited."
+msgid "The translation base language is editable."
 msgstr "Η μετάφραση έχει απομακρυνθεί."
 
 #: weblate/templates/component_info.html:35
@@ -4736,17 +4798,17 @@ msgstr "Η μορφή της βάσης μετάφρασης δεν μπορεί
 #: weblate/templates/component_info.html:38
 #, fuzzy
 #| msgid "The translation is not valid XML"
-msgid "The translation is using bilingual files."
+msgid "The translation uses bilingual files."
 msgstr "Η μετάφραση δεν είναι έγκυρο XML"
 
 #: weblate/templates/component_info.html:46 weblate/templates/project.html:159
-#: weblate/trans/models/component.py:310
+#: weblate/trans/models/component.py:320
 msgid "Translation license"
 msgstr "Άδεια μετάφρασης"
 
 #: weblate/templates/component_info.html:59
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/trans/models/component.py:325
+#: weblate/trans/models/component.py:335
 msgid "Contributor agreement"
 msgstr "Συμφωνία συνεισφέροντα"
 
@@ -4759,17 +4821,19 @@ msgstr "Προβολή"
 msgid "Repository"
 msgstr "Αποθετήριο"
 
-#: weblate/templates/component_info.html:73 weblate/trans/forms.py:1567
-#: weblate/trans/models/component.py:197
+#: weblate/templates/component_info.html:73 weblate/trans/forms.py:1578
+#: weblate/trans/models/component.py:207
 msgid "Repository branch"
 msgstr "Κλάδος αποθετηρίου"
 
 #: weblate/templates/component_info.html:85
-msgid "Repository with Weblate translations"
-msgstr "Αποθετήριο με τις μεταφράσεις Weblate"
+#, fuzzy
+#| msgid "Repository containing Weblate translations:"
+msgid "Repository containing Weblate translations"
+msgstr "Αποθετήριο που περιέχει μεταφράσεις Weblate:"
 
 #: weblate/templates/component_info.html:98
-#: weblate/trans/models/component.py:214
+#: weblate/trans/models/component.py:224
 msgid "Monolingual base language file"
 msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 
@@ -5034,7 +5098,7 @@ msgstr "Προέλευση"
 #: weblate/templates/translate.html:256 weblate/templates/translate.html:326
 #: weblate/templates/translate.html:376 weblate/templates/translate.html:462
 #: weblate/trans/forms.py:324 weblate/trans/forms.py:1034
-#: weblate/trans/forms.py:1447
+#: weblate/trans/forms.py:1449
 msgid "Translation"
 msgstr "Μετάφραση"
 
@@ -5363,7 +5427,7 @@ msgid "There has been a merge failure in the repository"
 msgstr "Υπήρξε ένα σφάλμα ένωσης στο αποθετήριο:"
 
 #: weblate/templates/js/git-status.html:27
-#: weblate/templates/trans/alert/mergefailure.html:8
+#: weblate/templates/trans/merge_instructions.html:33
 #, fuzzy
 #| msgid "Check the FAQ for information on how to resolve this."
 msgid "Check the FAQ for info on how to resolve this."
@@ -5422,7 +5486,7 @@ msgid "Push changes to the remote repository"
 msgstr "Προωθήστε τις αλλαγές στο απομακρυσμένο αποθετήριο"
 
 #: weblate/templates/js/git-status.html:154
-#: weblate/trans/models/component.py:86
+#: weblate/trans/models/component.py:96
 msgid "Rebase"
 msgstr "Αναβάθμιση"
 
@@ -5512,7 +5576,7 @@ msgid "No matching activity found."
 msgstr "Δεν βρέθηκε καμία δραστηριότητα που να ταιριάζει."
 
 #: weblate/templates/legend.html:6 weblate/templates/progress.html:5
-#: weblate/trans/forms.py:466 weblate/trans/templatetags/translations.py:541
+#: weblate/trans/forms.py:466 weblate/trans/templatetags/translations.py:542
 #: weblate/utils/state.py:34
 msgid "Approved"
 msgstr ""
@@ -5523,7 +5587,7 @@ msgstr "Καλά"
 
 #: weblate/templates/legend.html:21 weblate/templates/progress.html:14
 #: weblate/templates/translation.html:425 weblate/trans/forms.py:446
-#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:531
+#: weblate/trans/forms.py:464 weblate/trans/templatetags/translations.py:532
 #: weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr "Χρειάζεται επεξεργασία"
@@ -5593,52 +5657,34 @@ msgid "source"
 msgstr "προέλευση"
 
 #: weblate/templates/mail/account_activity.html:7
-#: weblate/templates/mail/account_activity.txt:1
 #: weblate/templates/mail/activation.html:7
-#: weblate/templates/mail/activation.txt:1
 #: weblate/templates/mail/billing_check.html:7
-#: weblate/templates/mail/billing_check.txt:1
 #: weblate/templates/mail/billing_expired.html:7
-#: weblate/templates/mail/billing_expired.txt:1
 #: weblate/templates/mail/changed_translation.html:7
-#: weblate/templates/mail/changed_translation.txt:1
 #: weblate/templates/mail/merge_failure.html:7
-#: weblate/templates/mail/merge_failure.txt:1
 #: weblate/templates/mail/new_comment.html:7
-#: weblate/templates/mail/new_comment.txt:1
 #: weblate/templates/mail/new_language.html:7
-#: weblate/templates/mail/new_language.txt:1
 #: weblate/templates/mail/new_string.html:7
-#: weblate/templates/mail/new_string.txt:1
 #: weblate/templates/mail/new_suggestion.html:7
-#: weblate/templates/mail/new_suggestion.txt:1
-#: weblate/templates/mail/new_translation.html:7
-#: weblate/templates/mail/new_translation.txt:1
 #: weblate/templates/mail/parse_error.html:7
-#: weblate/templates/mail/parse_error.txt:1
-#: weblate/templates/mail/remove.html:7 weblate/templates/mail/remove.txt:1
-#: weblate/templates/mail/reset.html:7 weblate/templates/mail/reset.txt:1
+#: weblate/templates/mail/remove.html:7 weblate/templates/mail/reset.html:7
 msgid "Hi,"
 msgstr "Γεια σας,"
 
 #: weblate/templates/mail/account_activity.html:11
-#: weblate/templates/mail/account_activity.txt:3
 #, python-format
 msgid "There has been a change in your account at %(site_title)s:"
 msgstr "Υπήρξε μια αλλαγή στο λογαριασμό σας στο %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:24
-#: weblate/templates/mail/account_activity.txt:9
 msgid "IP address:"
 msgstr "Διεύθυνση IP:"
 
 #: weblate/templates/mail/account_activity.html:25
-#: weblate/templates/mail/account_activity.txt:10
 msgid "User agent:"
 msgstr "Πράκτορας χρήστη:"
 
 #: weblate/templates/mail/account_activity.html:28
-#: weblate/templates/mail/account_activity.txt:12
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
@@ -5652,7 +5698,6 @@ msgid "Activity on your account at %(site_title)s"
 msgstr "Δραστηριότητα στον λογαριασμό σας στο %(site_title)s"
 
 #: weblate/templates/mail/activation.html:11
-#: weblate/templates/mail/activation.txt:3
 #, python-format
 msgid ""
 "This is an automatic email to help you complete your registration with "
@@ -5662,9 +5707,7 @@ msgstr ""
 "ολοκληρώσετε την εγγραφή σας με το %(site_title)s."
 
 #: weblate/templates/mail/activation.html:15
-#: weblate/templates/mail/activation.txt:5
-#: weblate/templates/mail/remove.html:15 weblate/templates/mail/remove.txt:5
-#: weblate/templates/mail/reset.html:15 weblate/templates/mail/reset.txt:5
+#: weblate/templates/mail/remove.html:15 weblate/templates/mail/reset.html:15
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -5674,9 +5717,7 @@ msgstr ""
 "διευθύνσεων."
 
 #: weblate/templates/mail/activation.html:23
-#: weblate/templates/mail/activation.txt:9
-#: weblate/templates/mail/remove.html:23 weblate/templates/mail/remove.txt:9
-#: weblate/templates/mail/reset.html:23 weblate/templates/mail/reset.txt:9
+#: weblate/templates/mail/remove.html:23 weblate/templates/mail/reset.html:23
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, επικοινωνήστε μαζί μας:"
 
@@ -5685,7 +5726,7 @@ msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, 
 msgid "Your registration on %(site_title)s"
 msgstr "Η εγγραφή σας στο %(site_title)s"
 
-#: weblate/templates/mail/base.html:34 weblate/templates/mail/signature.txt:2
+#: weblate/templates/mail/base.html:34
 msgid "Sent by Weblate translation system"
 msgstr "Απεστάλει από το μεταφραστικό σύστημα Weblate"
 
@@ -5694,7 +5735,6 @@ msgid "Change subscription settings"
 msgstr "Αλλαγή ρυθμίσεων συνδρομής"
 
 #: weblate/templates/mail/billing_expired.html:10
-#: weblate/templates/mail/billing_expired.txt:3
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
@@ -5708,12 +5748,10 @@ msgstr ""
 "Αυτός ο ιστότοπος δημιουργήθηκε χρησιμοποιώντας τα ακόλουθα προγράμματα:"
 
 #: weblate/templates/mail/billing_expired.html:25
-#: weblate/templates/mail/billing_expired.txt:14
 msgid "All projects covered by this billing plan have been removed."
 msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:27
-#: weblate/templates/mail/billing_expired.txt:16
 #, python-format
 msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
@@ -5735,77 +5773,59 @@ msgid "Your billing plan has expired"
 msgstr ""
 
 #: weblate/templates/mail/changed_translation.html:11
-#: weblate/templates/mail/changed_translation.txt:3
 #, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s."
 msgstr "Υπήρξε αλλαγή στη μετάφραση στο %(translation)s στο %(site_title)s."
 
 #: weblate/templates/mail/changed_translation.html:18
-#: weblate/templates/mail/changed_translation.txt:5
 #: weblate/templates/mail/new_comment.html:17
-#: weblate/templates/mail/new_comment.txt:5
 #: weblate/templates/mail/new_suggestion.html:18
-#: weblate/templates/mail/new_suggestion.txt:5
-#: weblate/templates/mail/new_translation.html:18
-#: weblate/templates/mail/new_translation.txt:5
 msgid "Source string:"
 msgstr "Κείμενο προέλευσης:"
 
 #: weblate/templates/mail/changed_translation.html:28
-#: weblate/templates/mail/changed_translation.txt:9
-#: weblate/templates/mail/new_translation.html:28
-#: weblate/templates/mail/new_translation.txt:9
 msgid "Translation:"
 msgstr "Μετάφραση:"
 
-#: weblate/templates/mail/changed_translation.html:38
+#: weblate/templates/mail/changed_translation.html:39
 #: weblate/templates/mail/new_suggestion.html:39
 msgid "Translation change:"
 msgstr "Αλλαγή μετάφρασης:"
 
-#: weblate/templates/mail/changed_translation.html:47
-#: weblate/templates/mail/changed_translation.txt:17
+#: weblate/templates/mail/changed_translation.html:49
 #: weblate/templates/mail/new_comment.html:36
-#: weblate/templates/mail/new_comment.txt:13
 #: weblate/templates/mail/new_suggestion.html:48
-#: weblate/templates/mail/new_suggestion.txt:13
-#: weblate/templates/mail/new_translation.html:36
-#: weblate/templates/mail/new_translation.txt:15
 #, fuzzy
 #| msgid "User"
 msgid "User:"
 msgstr "Χρήστης"
 
-#: weblate/templates/mail/changed_translation.html:54
-#: weblate/templates/mail/changed_translation.txt:21
+#: weblate/templates/mail/changed_translation.html:56
 #: weblate/templates/mail/new_comment.html:42
-#: weblate/templates/mail/new_comment.txt:17
-#: weblate/templates/mail/new_translation.html:42
-#: weblate/templates/mail/new_translation.txt:19
 msgid "You can edit this string at:"
 msgstr "Μπορείτε να επεξεργαστείτε αυτό το κείμενο στο:"
 
-#: weblate/templates/mail/changed_translation.txt:13
-msgid "Previous translation:"
-msgstr "Προηγούμενη μετάφραση:"
-
-#: weblate/templates/mail/changed_translation_subject.txt:3
+#: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
 msgid "Changed translation in %(translation)s"
 msgstr "Αλλαγμένη μετάφραση στο %(translation)s"
 
-#: weblate/templates/mail/footer.html:3 weblate/templates/mail/footer.txt:1
+#: weblate/templates/mail/changed_translation_subject.txt:6
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Νέα μετάφραση σto %(translation)s"
+
+#: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
 msgstr "Περίληψη μετάφρασης:"
 
-#: weblate/templates/mail/footer.html:23 weblate/templates/mail/footer.txt:9
+#: weblate/templates/mail/footer.html:23
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
-#: weblate/templates/mail/merge_failure.txt:3
 #, fuzzy, python-format
 #| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
@@ -5816,27 +5836,6 @@ msgstr "Υπήρξε ένα σφάλμα ένωσης του %(subproject)s στ
 msgid "Error message"
 msgstr "Μήνυμα σφάλματος"
 
-#: weblate/templates/mail/merge_failure.html:30
-#: weblate/templates/mail/merge_failure.txt:13
-msgid "Repository with Weblate translations:"
-msgstr "Αποθετήριο με μεταφράσεις Weblate:"
-
-#: weblate/templates/mail/merge_failure.html:36
-#: weblate/templates/mail/merge_failure.txt:17
-#, fuzzy
-#| msgid "Check our FAQ for information how to resolve this."
-msgid "Check our FAQ for info how to resolve this."
-msgstr "Δείτε τις ΣΑΕ μας για πληροφορίες σχετικά με την επίλυσή του."
-
-#: weblate/templates/mail/merge_failure.txt:5
-#: weblate/templates/mail/parse_error.txt:5
-msgid "Error message:"
-msgstr "Μήνυμα σφάλματος:"
-
-#: weblate/templates/mail/merge_failure.txt:9
-msgid "Repository status:"
-msgstr "Κατάσταση αποθετηρίου:"
-
 #: weblate/templates/mail/merge_failure_subject.txt:3
 #, fuzzy, python-format
 #| msgid "Merge failure in %(subproject)s"
@@ -5844,14 +5843,12 @@ msgid "Merge failure in %(component)s"
 msgstr "Σφάλμα ένωσης στο %(subproject)s"
 
 #: weblate/templates/mail/new_comment.html:11
-#: weblate/templates/mail/new_comment.txt:3
 #, fuzzy, python-format
 #| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
 msgid "There has been a new comment on %(component)s at %(site_title)s."
 msgstr "Υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
-#: weblate/templates/mail/new_comment.txt:9
 msgid "Comment:"
 msgstr "Σχόλιο:"
 
@@ -5862,12 +5859,10 @@ msgid "New comment in %(component)s"
 msgstr "Νέο σχόλιο στο %(subproject)s"
 
 #: weblate/templates/mail/new_contributor.html:7
-#: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
 msgstr ""
 
 #: weblate/templates/mail/new_contributor.html:11
-#: weblate/templates/mail/new_contributor.txt:3
 #, fuzzy, python-format
 #| msgid ""
 #| "User %(username)s has just made a first contribution on %(translation)s "
@@ -5884,8 +5879,20 @@ msgstr ""
 msgid "New contributor in %(translation)s"
 msgstr "Νέα συμβολή στο %(translation)s"
 
-#: weblate/templates/mail/new_language.html:11
-#: weblate/templates/mail/new_language.txt:3
+#: weblate/templates/mail/new_language.html:12
+#, fuzzy, python-format
+#| msgid ""
+#| "There has been a new translation on %(translation)s at %(site_title)s."
+msgid "New language has been added to %(translation)s at %(site_title)s."
+msgstr "Υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
+
+#: weblate/templates/mail/new_language.html:19
+#, fuzzy
+#| msgid "Used languages"
+msgid "Added language:"
+msgstr "Χρησιμοποιημένες γλώσσες"
+
+#: weblate/templates/mail/new_language.html:24
 #, python-format
 msgid ""
 "There has been a request for new language on %(translation)s at "
@@ -5893,7 +5900,7 @@ msgid ""
 msgstr ""
 "Υπήρξε ένα αίτημα για νέα γλώσσα στη %(translation)s στο %(site_title)s."
 
-#: weblate/templates/mail/new_language.html:15
+#: weblate/templates/mail/new_language.html:28
 #, fuzzy
 #| msgid ""
 #| "Please add the language file to VCS, Weblate will automatically discover "
@@ -5905,7 +5912,7 @@ msgstr ""
 "Προσθήκη του αρχείου γλώσσας στο VCS, το Weblate θα το βρει αυτόματα στην "
 "επόμενη ανανέωση."
 
-#: weblate/templates/mail/new_language.html:20
+#: weblate/templates/mail/new_language.html:33
 #, fuzzy
 #| msgid ""
 #| "More information on adding new language files is available in the "
@@ -5917,44 +5924,34 @@ msgstr ""
 "Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
 "διαθέσιμες στην τεκμηρίωση:"
 
-#: weblate/templates/mail/new_language.html:28
-#: weblate/templates/mail/new_language.txt:9
+#: weblate/templates/mail/new_language.html:41
 msgid "Requested language:"
 msgstr "Αιτούμενες γλώσσες:"
 
-#: weblate/templates/mail/new_language.html:39
+#: weblate/templates/mail/new_language.html:53
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requested by:"
 msgstr "Αιτούμενες γλώσσες:"
 
-#: weblate/templates/mail/new_language.txt:5
-msgid ""
-"Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
-msgstr ""
-"Προσθήκη του αρχείου γλώσσας στο VCS, το Weblate θα το βρει αυτόματα στην "
-"επόμενη ανανέωση."
+#: weblate/templates/mail/new_language.html:63
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation component:"
+msgstr "Σχόλιο μετάφρασης"
 
-#: weblate/templates/mail/new_language.txt:7
-msgid ""
-"More information on adding new language files is available in the "
-"documentation:"
-msgstr ""
-"Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
-"διαθέσιμες στην τεκμηρίωση:"
+#: weblate/templates/mail/new_language_subject.txt:4
+#, fuzzy, python-format
+#| msgid "New language request in %(translation)s"
+msgid "New language added to %(translation)s"
+msgstr "Νέο αίτημα γλώσσας στη %(translation)s"
 
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "Αιτούμενος χρήστης:"
-
-#: weblate/templates/mail/new_language_subject.txt:3
+#: weblate/templates/mail/new_language_subject.txt:6
 #, python-format
 msgid "New language request in %(translation)s"
 msgstr "Νέο αίτημα γλώσσας στη %(translation)s"
 
 #: weblate/templates/mail/new_string.html:11
-#: weblate/templates/mail/new_string.txt:3
 #, python-format
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
@@ -5967,7 +5964,6 @@ msgid "New string to translate in %(translation)s"
 msgstr "Νέο κείμενο για μετάφραση στο %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:11
-#: weblate/templates/mail/new_suggestion.txt:3
 #, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
@@ -5975,12 +5971,10 @@ msgstr ""
 "Υπάρχει νέα πρόταση για εκτίμηση στο %(translation)s του %(site_title)s."
 
 #: weblate/templates/mail/new_suggestion.html:28
-#: weblate/templates/mail/new_suggestion.txt:9
 msgid "Suggestion:"
 msgstr "Πρόταση:"
 
 #: weblate/templates/mail/new_suggestion.html:54
-#: weblate/templates/mail/new_suggestion.txt:17
 msgid "You can review it at:"
 msgstr "Μπορείτε να το ελέγξετε στο:"
 
@@ -5989,23 +5983,7 @@ msgstr "Μπορείτε να το ελέγξετε στο:"
 msgid "New suggestion in %(translation)s"
 msgstr "Αυτόματη πρόταση στο %(translation)s"
 
-#: weblate/templates/mail/new_translation.html:11
-#: weblate/templates/mail/new_translation.txt:3
-#, python-format
-msgid "There has been a new translation on %(translation)s at %(site_title)s."
-msgstr "Υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
-
-#: weblate/templates/mail/new_translation.txt:13
-msgid "Previously not translated"
-msgstr "Προηγουμένως δεν μεταφράστηκε"
-
-#: weblate/templates/mail/new_translation_subject.txt:3
-#, python-format
-msgid "New translation in %(translation)s"
-msgstr "Νέα μετάφραση σto %(translation)s"
-
 #: weblate/templates/mail/parse_error.html:11
-#: weblate/templates/mail/parse_error.txt:3
 #, fuzzy, python-format
 #| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
 msgid "There has been a parse error on %(component)s at %(site_title)s."
@@ -6015,17 +5993,13 @@ msgstr "Υπήρξε ένα σφάλμα μετάφρασης του %(subprojec
 msgid "Failing file"
 msgstr "Αποτυχημένο αρχείο"
 
-#: weblate/templates/mail/parse_error.txt:9
-msgid "Failing file:"
-msgstr "Αποτυχημένο αρχείο:"
-
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, fuzzy, python-format
 #| msgid "Parse error in %(subproject)s"
 msgid "Parse error in %(component)s"
 msgstr "Σφάλμα μετάφρασης στο %(subproject)s"
 
-#: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
+#: weblate/templates/mail/remove.html:11
 #, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
 msgstr ""
@@ -6037,7 +6011,7 @@ msgstr ""
 msgid "Account removal on %(site_title)s"
 msgstr "Αφαίρεση λογαριασμού στο %(site_title)s"
 
-#: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
+#: weblate/templates/mail/reset.html:11
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
 msgstr ""
@@ -6047,10 +6021,6 @@ msgstr ""
 #, python-format
 msgid "Password reset on %(site_title)s"
 msgstr "Επαναφορά κωδικού στο %(site_title)s"
-
-#: weblate/templates/mail/signature.txt:4
-msgid "Change subscription settings:"
-msgstr "Αλλαγή ρυθμίσεων συνδρομής:"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -6238,22 +6208,21 @@ msgstr "%(position)s / %(total)s"
 msgid "Add a project message"
 msgstr "Διαχειριζόμενα έργα"
 
-#: weblate/templates/project.html:93 weblate/templates/translation.html:101
-msgid "Share on Facebook"
-msgstr "Μοιραστείτε στο Facebook"
-
 #: weblate/templates/project.html:94
 msgid "Tweet this translation"
 msgstr "Tweet αυτή τη μετάφραση"
 
 #: weblate/templates/project.html:122
-#, python-format
-msgid "The repository for this component is linked to %(target)s."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Push changes to the remote repository"
+msgid "This component is linked to the %(target)s repository."
+msgstr "Προωθήστε τις αλλαγές στο απομακρυσμένο αποθετήριο"
 
 #: weblate/templates/project.html:122
-msgid "link"
-msgstr ""
+#, fuzzy
+#| msgid "Link"
+msgid "Linked"
+msgstr "Σύνδεσμος"
 
 #: weblate/templates/project.html:131
 #, fuzzy
@@ -6273,10 +6242,14 @@ msgstr "Διαχείριση όλων των γλωσσαρίων"
 msgid "Browse all project changes"
 msgstr "Αναζήτηση όλων των αλλαγών έργου"
 
+#: weblate/templates/project.html:245 weblate/templates/translation.html:256
+msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
 #: weblate/templates/project.html:267
 msgid ""
-"The message is shown on all translations within the project until it's "
-"expiry or permanently until deleting."
+"The message is shown for all translations within the project, until its "
+"given expiry, or permanently until it is deleted."
 msgstr ""
 
 #: weblate/templates/project.html:287
@@ -6464,7 +6437,7 @@ msgid "review"
 msgstr "έλεγχος"
 
 #: weblate/templates/source-review.html:26 weblate/trans/forms.py:1222
-#: weblate/trans/models/component.py:442
+#: weblate/trans/models/component.py:461
 msgid "Priority"
 msgstr "Προτεραιότητα"
 
@@ -6496,7 +6469,7 @@ msgstr ""
 #: weblate/templates/trans/alert/parseerror.html:6
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "The following occurences were found:"
+msgid "The following occurrences were found:"
 msgstr "Βρέθηκαν αποτυχημένοι έλεγχοι"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:10
@@ -6548,7 +6521,7 @@ msgid ""
 "translation files."
 msgstr ""
 
-#: weblate/templates/trans/alert/mergefailure.html:4
+#: weblate/templates/trans/alert/mergefailure.html:3
 #, fuzzy
 #| msgid "There has been a merge failure in the repository:"
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -6562,14 +6535,13 @@ msgstr ""
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
-"The translation component looks like monolingual, but it is not configured "
-"like that."
+"The translation component looks monolingual, but it is not set up to be."
 msgstr ""
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 #, fuzzy
 #| msgid "Monolingual base language file"
-msgid "Please add monolingual base language file in component setting."
+msgid "Please add a monolingual base language file in the component settings."
 msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 
 #: weblate/templates/trans/alert/parseerror.html:4
@@ -6603,19 +6575,6 @@ msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-
-#: weblate/templates/trans/alert/unusednewbase.html:2
-#, fuzzy
-#| msgid ""
-#| "Base file for new translations is not used because of component settings. "
-#| "You probably want to enable automatic adding of new translations."
-msgid ""
-"Base file for new translations is not in use due to the component settings. "
-"You probably want to enable adding of new translations."
-msgstr ""
-"Το αρχείο βάσης για νέες μεταφράσεις δεν χρησιμοποιείται λόγω των ρυθμίσεων "
-"του έργου. Πιθανόν να θέλετε να ενεργοποιήσετε την αυτόματη προσθήκη νέων "
-"μεταφράσεων."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -6691,6 +6650,38 @@ msgstr ""
 "Το μεταφρασμένο περιεχόμενο πρέπει να δημοσιεύτεί υπό <a href=\"http://en."
 "wikipedia.org/wiki/Free_software_license\">άδεια ελεύθερης χρήσης</a>."
 
+#: weblate/templates/trans/merge_instructions.html:6
+msgid "Typical workflow for fixing merge conflicts:"
+msgstr ""
+
+#: weblate/templates/trans/merge_instructions.html:10
+#, fuzzy
+#| msgid "Commit pending changes to the local repository"
+msgid ""
+"Commit all pending changes in Weblate and lock the translation component."
+msgstr "Δέσμευση εκκρεμών αλλαγών για το τοπικό αποθετήριο"
+
+#: weblate/templates/trans/merge_instructions.html:14
+msgid "Add Weblate exported repository as a remote."
+msgstr ""
+
+#: weblate/templates/trans/merge_instructions.html:18
+msgid "Merge Weblate changes and resolve any conflicts."
+msgstr ""
+
+#: weblate/templates/trans/merge_instructions.html:22
+#, fuzzy
+#| msgid "Push changes to the remote repository"
+msgid "Push changes into upstream repository."
+msgstr "Προωθήστε τις αλλαγές στο απομακρυσμένο αποθετήριο"
+
+#: weblate/templates/trans/merge_instructions.html:26
+#, fuzzy
+#| msgid "There has been a merge failure in the repository:"
+msgid ""
+"Weblate should now be able to see updated repository and you can unlock it."
+msgstr "Υπήρξε ένα σφάλμα ένωσης στο αποθετήριο:"
+
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
@@ -6733,7 +6724,7 @@ msgstr ""
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:236 weblate/templates/translate.html:435
-#: weblate/trans/forms.py:1449
+#: weblate/trans/forms.py:1451
 msgid "Suggestions"
 msgstr "Προτάσεις"
 
@@ -6900,9 +6891,9 @@ msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
 
-#: weblate/templates/translate.html:211 weblate/trans/views/edit.py:290
-#: weblate/trans/views/edit.py:314 weblate/trans/views/edit.py:340
-#: weblate/trans/views/edit.py:771
+#: weblate/templates/translate.html:211 weblate/trans/views/edit.py:288
+#: weblate/trans/views/edit.py:312 weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:769
 msgid "Insufficient privileges for saving translations."
 msgstr "Ανεπαρκή προνόμια για αποθήκευση μεταφράσεων."
 
@@ -6935,7 +6926,7 @@ msgstr "Κείμενο αναζήτησης"
 #: weblate/templates/translate.html:239
 #, fuzzy
 #| msgid "Last change"
-msgid "Other occurences"
+msgid "Other occurrences"
 msgstr "Τελευταία αλλαγή"
 
 #: weblate/templates/translate.html:242 weblate/templates/translate.html:439
@@ -7127,12 +7118,12 @@ msgstr ""
 msgid "Upload translation"
 msgstr "Αποστολή μετάφρασης"
 
-#: weblate/templates/translation.html:48 weblate/trans/forms.py:1495
+#: weblate/templates/translation.html:48 weblate/trans/forms.py:1497
 msgid "Files"
 msgstr "Αρχεία"
 
 #: weblate/templates/translation.html:61 weblate/templates/translation.html:218
-#: weblate/trans/models/change.py:204
+#: weblate/trans/models/change.py:211
 msgid "Automatic translation"
 msgstr "Αυτόματη μετάφραση"
 
@@ -7201,8 +7192,8 @@ msgstr ""
 
 #: weblate/templates/translation.html:276
 msgid ""
-"You can add new translation string here, it will automatically appear in all "
-"translations."
+"You can add a new translation string here, it will automatically appear in "
+"all translations."
 msgstr ""
 
 #: weblate/templates/translation.html:310
@@ -7212,7 +7203,7 @@ msgstr ""
 #| "to overwrite already translated strings, don't forget to enable it."
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
-"want to overwrite already translated strings, don't forget to enable it."
+"want to overwrite already translated strings, don't forget to turn it on."
 msgstr ""
 "Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση. Στην περίπτωση "
 "που θέλετε να αντικαταστήσετε μεταφρασμένα κείμενα, μην ξεχάσετε να το "
@@ -7226,8 +7217,8 @@ msgstr "Το απεσταλμένο αρχείο θα ενωθεί με την �
 
 #: weblate/templates/translation.html:334
 msgid ""
-"The message is shown on the translation page until it's expiry or "
-"permanently until deleting."
+"The message is shown on the translation page, until its given expiry, or "
+"permanently until it is deleted."
 msgstr ""
 
 #: weblate/templates/translation.html:378
@@ -7402,7 +7393,7 @@ msgstr "URL εικόνας"
 msgid "Open in full editor"
 msgstr "Άνοιγμα στον πλήρη επεξεργαστή"
 
-#: weblate/templates/zen-units.html:73 weblate/trans/views/edit.py:459
+#: weblate/templates/zen-units.html:73 weblate/trans/views/edit.py:457
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "The translation has come to an end."
@@ -7714,7 +7705,9 @@ msgid "Author name"
 msgstr "Όνομα δημιουργού"
 
 #: weblate/trans/forms.py:639 weblate/trans/forms.py:644
-msgid "Keep empty for using currently logged in user."
+#, fuzzy
+#| msgid "Keep empty for using currently logged in user."
+msgid "Leave empty for using currently logged in user."
 msgstr "Αφήστε το κενό για χρήση του ήδη συνδεδεμένου χρήστη."
 
 #: weblate/trans/forms.py:642
@@ -7943,7 +7936,7 @@ msgstr "Επιλέξτε"
 msgid "Higher priority strings are presented to translators earlier."
 msgstr "Κείμενα με υψηλή προτεραιότητα προσφέρονται πρώτα στους μεταφραστές."
 
-#: weblate/trans/forms.py:1239 weblate/trans/models/component.py:298
+#: weblate/trans/forms.py:1239 weblate/trans/models/component.py:308
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation flags"
@@ -8039,69 +8032,85 @@ msgstr ""
 msgid "You do not have permission to access this component!"
 msgstr "Δεν έχετε δικαίωμα να αλλάξετε τον έλεγχο πρόσβασης του έργου."
 
-#: weblate/trans/forms.py:1429
+#: weblate/trans/forms.py:1431
 msgid "Basic"
 msgstr ""
 
-#: weblate/trans/forms.py:1441
+#: weblate/trans/forms.py:1443
 msgid "Upstream links"
 msgstr "Σύνδεσμοι άνω ροής"
 
-#: weblate/trans/forms.py:1455
+#: weblate/trans/forms.py:1457
 msgid "Translation settings"
 msgstr "Ρυθμίσεις μετάφρασης"
 
-#: weblate/trans/forms.py:1463
+#: weblate/trans/forms.py:1465
 msgid "Version control"
 msgstr "Έλεγχος έκδοσης"
 
-#: weblate/trans/forms.py:1465
+#: weblate/trans/forms.py:1467
 #, fuzzy
 #| msgid "Actions"
 msgid "Locations"
 msgstr "Ενέργειες"
 
-#: weblate/trans/forms.py:1474
+#: weblate/trans/forms.py:1476
 #, fuzzy
 #| msgid "Version control system"
 msgid "Version control settings"
 msgstr "Σύστημα ελέγχου έκδοσης"
 
-#: weblate/trans/forms.py:1482 weblate/trans/forms.py:1484
+#: weblate/trans/forms.py:1484 weblate/trans/forms.py:1486
 msgid "Commit messages"
 msgstr "Μηνύματα πράξης"
 
-#: weblate/trans/forms.py:1497
-msgid "Languages processing"
-msgstr "Διεργασία Γλωσσών"
+#: weblate/trans/forms.py:1499
+#, fuzzy
+#| msgid "Translation file"
+msgid "Translation files"
+msgstr "Αρχείο μετάφρασης"
 
-#: weblate/trans/forms.py:1538 weblate/trans/models/component.py:123
+#: weblate/trans/forms.py:1505
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Monolingual translations"
+msgstr "Φιλοξενούμενες μεταφράσεις"
+
+#: weblate/trans/forms.py:1510
+#, fuzzy
+#| msgid "Add new language"
+msgid "Adding new languages"
+msgstr "Προσθήκη νέας γλώσσας"
+
+#: weblate/trans/forms.py:1549 weblate/trans/models/component.py:133
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:58
-msgid "Name to display"
-msgstr "Όνομα για εμφάνιση"
+#, fuzzy
+#| msgid "Used languages"
+msgid "Display name"
+msgstr "Χρησιμοποιημένες γλώσσες"
 
-#: weblate/trans/forms.py:1541 weblate/trans/models/component.py:126
+#: weblate/trans/forms.py:1552 weblate/trans/models/component.py:136
 #: weblate/trans/models/componentlist.py:45 weblate/trans/models/project.py:61
 msgid "URL slug"
 msgstr "Σφαίρα URL"
 
-#: weblate/trans/forms.py:1543 weblate/trans/models/component.py:128
-#: weblate/trans/models/componentlist.py:48
-msgid "Name used in URLs and file names."
+#: weblate/trans/forms.py:1554 weblate/trans/models/component.py:138
+#: weblate/trans/models/componentlist.py:48 weblate/trans/models/project.py:64
+msgid "Name used in URLs and filenames."
 msgstr "Όνομα για χρήση σε URLs και ονόματα αρχείων."
 
-#: weblate/trans/forms.py:1550 weblate/trans/models/component.py:136
+#: weblate/trans/forms.py:1561 weblate/trans/models/component.py:146
 msgid "Version control system"
 msgstr "Σύστημα ελέγχου έκδοσης"
 
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1563
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 "Το σύστημα ελέγχου έκδοσης για να χρησιμοποιηθεί για πρόσβαση του "
 "αποθετηρίου με τις μεταφράσεις."
 
-#: weblate/trans/forms.py:1562 weblate/trans/models/component.py:151
+#: weblate/trans/forms.py:1573
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -8109,416 +8118,480 @@ msgstr ""
 "Το URL ενός αποθετηρίου, χρησιμοποιήστε το weblate://project/subproject για "
 "κοινή χρήση με άλλο περιεχόμενο."
 
-#: weblate/trans/forms.py:1569 weblate/trans/models/component.py:199
+#: weblate/trans/forms.py:1580 weblate/trans/models/component.py:209
 msgid "Repository branch to translate"
 msgstr "Κλάδος αποθετηρίου για μετάφραση"
 
-#: weblate/trans/forms.py:1610
+#: weblate/trans/forms.py:1621
 #, fuzzy
 #| msgid "Cleanup translation files"
 msgid "Choose translation files to import"
 msgstr "Εκκαθάριση αρχείων μετάφρασης"
 
-#: weblate/trans/forms.py:1612
+#: weblate/trans/forms.py:1623
 msgid "Specify configuration manually"
 msgstr ""
 
-#: weblate/trans/forms.py:1730
+#: weblate/trans/forms.py:1741
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
 
-#: weblate/trans/forms.py:1752
+#: weblate/trans/forms.py:1763
 msgid "Search string"
 msgstr "Κείμενο αναζήτησης"
 
-#: weblate/trans/forms.py:1758
+#: weblate/trans/forms.py:1769
 msgid "Replacement string"
 msgstr "Κείμενο αντικατάστασης"
 
-#: weblate/trans/forms.py:1803
+#: weblate/trans/forms.py:1814
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "Μετάφραση"
 
-#: weblate/trans/forms.py:1805
+#: weblate/trans/forms.py:1816
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:1811
+#: weblate/trans/forms.py:1822
 #, fuzzy
 #| msgid "Source language"
 msgid "Source language text"
 msgstr "Γλώσσα προέλευσης"
 
-#: weblate/trans/forms.py:1813
+#: weblate/trans/forms.py:1824
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 
-#: weblate/trans/forms.py:1834
+#: weblate/trans/forms.py:1845
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Δωρεά στο Weblate"
 
-#: weblate/trans/forms.py:1867
+#: weblate/trans/forms.py:1878
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
 msgstr "Συμφωνία συνεισφέροντα"
 
-#: weblate/trans/forms.py:1878
+#: weblate/trans/forms.py:1889
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Name of the translation"
 msgstr "Προσθήκη ως άλλη μετάφραση"
 
-#: weblate/trans/forms.py:1879
+#: weblate/trans/forms.py:1890
 #, fuzzy
 #| msgid "Please log in to save translations."
 msgid "Please type in the name of the translation to confirm."
 msgstr "Αρχείο συνδεθείτε για να αποθηκεύσετε μεταφράσεις."
 
-#: weblate/trans/forms.py:1888
+#: weblate/trans/forms.py:1899
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
 
-#: weblate/trans/forms.py:1905
+#: weblate/trans/forms.py:1916
 #, fuzzy
 #| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
 msgstr "Ο κώδικας BB στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: weblate/trans/models/alert.py:130
+#: weblate/trans/models/alert.py:143
 #, fuzzy
 #| msgid "Notification on new string to translate"
 msgid "Duplicated string for translation."
 msgstr "Ειδοποίηση για νέο κείμενο για μετάφραση"
 
-#: weblate/trans/models/alert.py:136
+#: weblate/trans/models/alert.py:149
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Duplicated translation."
 msgstr "Μεταφράσεις Weblate"
 
-#: weblate/trans/models/alert.py:142
+#: weblate/trans/models/alert.py:155
 #, fuzzy
 #| msgid "Failed merge on repository"
 msgid "Could not merge the repository."
 msgstr "Αποτυχημένη ένωση στο αποθετήριο"
 
-#: weblate/trans/models/alert.py:147
+#: weblate/trans/models/alert.py:160
 #, fuzzy
 #| msgid "Failed to update repository: %s"
 msgid "Could not update the repository."
 msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
-#: weblate/trans/models/alert.py:152
+#: weblate/trans/models/alert.py:165
 #, fuzzy
 #| msgid "Failed to update repository: %s"
 msgid "Could not push the repository."
 msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
-#: weblate/trans/models/alert.py:157
-#, fuzzy
-#| msgid "Base file for new translations"
-msgid "Unused base file for new translations."
-msgstr "Αρχείο Βάση για νέες μεταφράσεις"
-
-#: weblate/trans/models/alert.py:162
+#: weblate/trans/models/alert.py:170
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not parse translation files."
 msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/alert.py:168
+#: weblate/trans/models/alert.py:176
 msgid "Your billing plan has exceeded its limits."
 msgstr ""
 
-#: weblate/trans/models/alert.py:173
+#: weblate/trans/models/alert.py:181
 #, fuzzy
 #| msgid "Repository status"
 msgid "Repository outdated."
 msgstr "Κατάσταση αποθετηρίου"
 
-#: weblate/trans/models/alert.py:178
+#: weblate/trans/models/alert.py:186
 #, fuzzy
 #| msgid "Repository changes"
 msgid "Repository has changes."
 msgstr "Αλλαγές αποθετηρίου"
 
-#: weblate/trans/models/alert.py:183
+#: weblate/trans/models/alert.py:191
 #, fuzzy
 #| msgid "Source information"
 msgid "License information missing."
 msgstr "Πληροφορίες προέλευσης"
 
-#: weblate/trans/models/alert.py:188 weblate/trans/models/alert.py:193
+#: weblate/trans/models/alert.py:196 weblate/trans/models/alert.py:201
 msgid "Error when executing addon."
 msgstr ""
 
-#: weblate/trans/models/alert.py:198
+#: weblate/trans/models/alert.py:206
 #, fuzzy
 #| msgid "Download for an offline translation."
 msgid "Misconfigured monolingual translation."
 msgstr "Λήψη για μια εκτός σύνδεσης μετάφραση."
 
-#: weblate/trans/models/change.py:198
+#: weblate/trans/models/change.py:205
 msgid "Resource update"
 msgstr "Ενημέρωση προέλευσης"
 
-#: weblate/trans/models/change.py:199
+#: weblate/trans/models/change.py:206
 msgid "Translation completed"
 msgstr "Η μετάφραση ολοκληρώθηκε"
 
-#: weblate/trans/models/change.py:200
+#: weblate/trans/models/change.py:207
 msgid "Translation changed"
 msgstr "Η μετάφραση άλλαξε"
 
-#: weblate/trans/models/change.py:201 weblate/trans/models/component.py:336
+#: weblate/trans/models/change.py:208 weblate/trans/models/component.py:346
 msgid "New translation"
 msgstr "Νέα μετάφραση"
 
-#: weblate/trans/models/change.py:202
+#: weblate/trans/models/change.py:209
 msgid "Comment added"
 msgstr "Προστέθηκε σχόλιο"
 
-#: weblate/trans/models/change.py:203
+#: weblate/trans/models/change.py:210
 msgid "Suggestion added"
 msgstr "Προστέθηκαν προτάσεις"
 
-#: weblate/trans/models/change.py:205
+#: weblate/trans/models/change.py:212
 msgid "Suggestion accepted"
 msgstr "Η πρόταση έγινε αποδεκτή"
 
-#: weblate/trans/models/change.py:206
+#: weblate/trans/models/change.py:213
 msgid "Translation reverted"
 msgstr "Η μετάφραση επανήλθε"
 
-#: weblate/trans/models/change.py:207
+#: weblate/trans/models/change.py:214
 msgid "Translation uploaded"
 msgstr "Η μετάφραση απεστάλει"
 
-#: weblate/trans/models/change.py:208
+#: weblate/trans/models/change.py:215
 msgid "Glossary added"
 msgstr "Το Γλωσσάρι προστέθηκε"
 
-#: weblate/trans/models/change.py:209
+#: weblate/trans/models/change.py:216
 msgid "Glossary updated"
 msgstr "Το Γλωσσάρι ενημερώθηκε"
 
-#: weblate/trans/models/change.py:210
+#: weblate/trans/models/change.py:217
 msgid "Glossary uploaded"
 msgstr "Το Γλωσσάρι εστάλει"
 
-#: weblate/trans/models/change.py:211
+#: weblate/trans/models/change.py:218
 msgid "New source string"
 msgstr "Νέο κείμενο προέλευσης"
 
-#: weblate/trans/models/change.py:212
+#: weblate/trans/models/change.py:219
 msgid "Component locked"
 msgstr "Το περιεχόμενο κλειδώθηκε"
 
-#: weblate/trans/models/change.py:213
+#: weblate/trans/models/change.py:220
 msgid "Component unlocked"
 msgstr "Το περιεχόμενο ξεκλειδώθηκε"
 
-#: weblate/trans/models/change.py:214
+#: weblate/trans/models/change.py:221
 #, fuzzy
 #| msgid "Detected duplicate string"
 msgid "Found duplicated string"
 msgstr "Ανιχνεύτηκε διπλοεγγραμμένο κείμενο"
 
-#: weblate/trans/models/change.py:215
+#: weblate/trans/models/change.py:222
 msgid "Committed changes"
 msgstr "Διαπραχθείσες αλλαγές"
 
-#: weblate/trans/models/change.py:216
+#: weblate/trans/models/change.py:223
 msgid "Pushed changes"
 msgstr "Πιεσμένες αλλαγές"
 
-#: weblate/trans/models/change.py:217
+#: weblate/trans/models/change.py:224
 msgid "Reset repository"
 msgstr "Επαναφορά αποθετηρίου"
 
-#: weblate/trans/models/change.py:218
+#: weblate/trans/models/change.py:225
 msgid "Merged repository"
 msgstr "Ενωμένο αποθετήριο"
 
-#: weblate/trans/models/change.py:219
+#: weblate/trans/models/change.py:226
 msgid "Rebased repository"
 msgstr "Επαναβασισμένο αποθετήριο"
 
-#: weblate/trans/models/change.py:220
+#: weblate/trans/models/change.py:227
 msgid "Failed merge on repository"
 msgstr "Αποτυχημένη ένωση στο αποθετήριο"
 
-#: weblate/trans/models/change.py:221
+#: weblate/trans/models/change.py:228
 msgid "Failed rebase on repository"
 msgstr "Αποτυχημένη επαναβάση στο αποθετήριο"
 
-#: weblate/trans/models/change.py:222
+#: weblate/trans/models/change.py:229
 #, fuzzy
 #| msgid "Failed rebase on repository"
 msgid "Failed push on repository"
 msgstr "Αποτυχημένη επαναβάση στο αποθετήριο"
 
-#: weblate/trans/models/change.py:223
+#: weblate/trans/models/change.py:230
 msgid "Parse error"
 msgstr "Σφάλμα Μεταφραστή"
 
-#: weblate/trans/models/change.py:224
+#: weblate/trans/models/change.py:231
 msgid "Removed translation"
 msgstr "Απομακρυσμένη μετάφραση"
 
-#: weblate/trans/models/change.py:225
+#: weblate/trans/models/change.py:232
 msgid "Suggestion removed"
 msgstr "Η πρόταση απομακρύνθηκε"
 
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:236
 #, fuzzy
 #| msgid "Suggestion removed"
 msgid "Suggestion removed during cleanup"
 msgstr "Η πρόταση απομακρύνθηκε"
 
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:238
 #, fuzzy
 #| msgid "Source string age"
 msgid "Source string changed"
 msgstr "Ηλικία κειμένου προέλευσης"
 
-#: weblate/trans/models/change.py:232
+#: weblate/trans/models/change.py:239
 #, fuzzy
 #| msgid "Comment added"
 msgid "New string added"
 msgstr "Προστέθηκε σχόλιο"
 
-#: weblate/trans/models/change.py:234
+#: weblate/trans/models/change.py:241
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed visibility"
 msgstr "Αλλαγές"
 
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:242
 #, fuzzy
 #| msgid "Add new user"
 msgid "Added user"
 msgstr "Προσθήκη νέου χρήστη"
 
-#: weblate/trans/models/change.py:236
+#: weblate/trans/models/change.py:243
 #, fuzzy
 #| msgid "Remove"
 msgid "Removed user"
 msgstr "Απομάκρυνση"
 
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:244
 #, fuzzy
 #| msgid "Translation process"
 msgid "Translation approved"
 msgstr "Διαδικασία μετάφρασης"
 
-#: weblate/trans/models/change.py:238
+#: weblate/trans/models/change.py:245
 #, fuzzy
 #| msgid "Strings marked for review"
 msgid "Marked for edit"
 msgstr "Κείμενα που επισημάνθηκαν για αξιολόγηση"
 
-#: weblate/trans/models/change.py:239
+#: weblate/trans/models/change.py:246
 #, fuzzy
 #| msgid "Other components"
 msgid "Removed component"
 msgstr "Άλλα περιεχόμενα"
 
-#: weblate/trans/models/change.py:240
+#: weblate/trans/models/change.py:247
 #, fuzzy
 #| msgid "Whole project"
 msgid "Removed project"
 msgstr "Ολόκληρο έργο"
 
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:248
 #, fuzzy
 #| msgid "Used languages"
 msgid "Found duplicated language"
 msgstr "Χρησιμοποιημένες γλώσσες"
 
-#: weblate/trans/models/change.py:242
+#: weblate/trans/models/change.py:249
 #, fuzzy
 #| msgid "Whole project"
 msgid "Renamed project"
 msgstr "Ολόκληρο έργο"
 
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:250
 #, fuzzy
 #| msgid "Other components"
 msgid "Renamed component"
 msgstr "Άλλα περιεχόμενα"
 
-#: weblate/trans/models/change.py:244
+#: weblate/trans/models/change.py:251
 #, fuzzy
 #| msgid "Other components"
 msgid "Moved component"
 msgstr "Άλλα περιεχόμενα"
 
-#: weblate/trans/models/change.py:340
+#: weblate/trans/models/change.py:252
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "New string to translate"
+msgstr "Κείμενα για μετάφραση"
+
+#: weblate/trans/models/change.py:253
+#, fuzzy
+#| msgid "Recent contributions"
+msgid "New contributor"
+msgstr "Πρόσφατες συνεισφορές"
+
+#: weblate/trans/models/change.py:254
+#, fuzzy
+#| msgid "Whiteboard message"
+msgid "New whiteboard message"
+msgstr "Μήνυμα Λευκού Πίνακα"
+
+#: weblate/trans/models/change.py:255
+#, fuzzy
+#| msgid "Component list"
+msgid "New component alert"
+msgstr "Λίστα περιεχομένου"
+
+#: weblate/trans/models/change.py:256
+#, fuzzy
+#| msgid "Add new language"
+msgid "Added new language"
+msgstr "Προσθήκη νέας γλώσσας"
+
+#: weblate/trans/models/change.py:257
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested new language"
+msgstr "Αιτούμενες γλώσσες:"
+
+#: weblate/trans/models/change.py:352
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 
-#: weblate/trans/models/component.py:79
+#: weblate/trans/models/component.py:82
 msgid "Use contact form"
 msgstr "Χρήση φόρμας επικοινωνίας"
 
-#: weblate/trans/models/component.py:80
+#: weblate/trans/models/component.py:83
 msgid "Point to translation instructions URL"
 msgstr "Εστιάστε στο URL οδηγιών μετάφρασης"
 
-#: weblate/trans/models/component.py:81
+#: weblate/trans/models/component.py:84
 msgid "Automatically add language file"
 msgstr "Αυτόματη προσθήκη αρχείου γλώσσας"
 
-#: weblate/trans/models/component.py:82
-msgid "No adding of language"
-msgstr "Μαμιά προσθήκη γλώσσας"
-
 #: weblate/trans/models/component.py:85
+#, fuzzy
+#| msgid "Your languages"
+msgid "No language additions"
+msgstr "Οι γλώσσες σας"
+
+#: weblate/trans/models/component.py:88
+msgid "Default based on the file format"
+msgstr ""
+
+#: weblate/trans/models/component.py:89
+msgid "POSIX style using underscore as a separator"
+msgstr ""
+
+#: weblate/trans/models/component.py:90
+msgid "BCP style using hyphen as a separator"
+msgstr ""
+
+#: weblate/trans/models/component.py:91
+#, fuzzy
+#| msgid "Android Resource"
+msgid "Android style"
+msgstr "Προέλευση Android"
+
+#: weblate/trans/models/component.py:95
 msgid "Merge"
 msgstr "Ένωση"
 
-#: weblate/trans/models/component.py:139
+#: weblate/trans/models/component.py:149
 #, fuzzy
 #| msgid ""
 #| "Version control system to use to access your repository with translations."
 msgid ""
-"Version control system to use to access your repository with translations. "
-"You can also choose additional integration with third party providers to "
-"submit merge requests."
+"Version control system to use to access your repository containing "
+"translations. You can also choose additional integration with third party "
+"providers to submit merge requests."
 msgstr ""
 "Το σύστημα ελέγχου έκδοσης για να χρησιμοποιηθεί για πρόσβαση του "
 "αποθετηρίου με τις μεταφράσεις."
 
-#: weblate/trans/models/component.py:163
+#: weblate/trans/models/component.py:161
+#, fuzzy
+#| msgid ""
+#| "URL of a repository, use weblate://project/component for sharing with "
+#| "other component."
+msgid ""
+"URL of a repository, use weblate://project/component to share it with other "
+"component."
+msgstr ""
+"Το URL ενός αποθετηρίου, χρησιμοποιήστε το weblate://project/subproject για "
+"κοινή χρήση με άλλο περιεχόμενο."
+
+#: weblate/trans/models/component.py:173
 msgid "Repository push URL"
 msgstr "URL προώθησης αποθετηρίου"
 
-#: weblate/trans/models/component.py:166
-msgid "URL of a push repository, pushing is disabled if empty."
+#: weblate/trans/models/component.py:176
+#, fuzzy
+#| msgid "URL of a push repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
 "URL για προώθηση ενός αποθετηρίου, η προώθηση είναι απενεργοποιημένη αν "
 "είναι άδειο."
 
-#: weblate/trans/models/component.py:171
+#: weblate/trans/models/component.py:181
 msgid "Repository browser"
 msgstr "Φυλλομετρητής αποθετηρίου"
 
-#: weblate/trans/models/component.py:173
+#: weblate/trans/models/component.py:183
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -8527,29 +8600,37 @@ msgstr ""
 "Σύνδεσμος για φυλλομετρητή αποθετηρίου, χρησιμοποιήστε τα %(branch)s για "
 "κλάδο, %(file)s και %(line)s ως όνομα αρχείου και χαρακτήρες αλλαγής γραμμής."
 
-#: weblate/trans/models/component.py:180
+#: weblate/trans/models/component.py:190
 msgid "Exported repository URL"
 msgstr "URL εξαγόμενου αποθετηρίου"
 
-#: weblate/trans/models/component.py:183
-msgid "URL of a repository where users can fetch changes from Weblate"
+#: weblate/trans/models/component.py:193
+#, fuzzy
+#| msgid "URL of a repository where users can fetch changes from Weblate"
+msgid "URL of repository where users can fetch changes from Weblate"
 msgstr ""
 "URL του αποθετήριοy, όπου οι χρήστες μπορούν να προσκομίσουν τις αλλαγές από "
 "to Weblate"
 
-#: weblate/trans/models/component.py:188
-msgid "Source string bug report address"
+#: weblate/trans/models/component.py:198
+#, fuzzy
+#| msgid "Source string bug report address"
+msgid "Source string bug reporting address"
 msgstr "Διεύθυνση αναφοράς σφάλματος κειμένου προέλευσης"
 
-#: weblate/trans/models/component.py:190
+#: weblate/trans/models/component.py:200
+#, fuzzy
+#| msgid ""
+#| "Email address where errors in source string will be reported, keep empty "
+#| "for no emails."
 msgid ""
-"Email address where errors in source string will be reported, keep empty for "
-"no emails."
+"Email address for reports on errors in source strings. Leave empty for no "
+"emails."
 msgstr ""
 "Ηλεκτρονική διεύθυνση όπου θα αναφερθούν σφάλματα στο κείμενο προέλευσης, "
 "άδειο για καμιά αλληλογραφία."
 
-#: weblate/trans/models/component.py:208
+#: weblate/trans/models/component.py:218
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -8558,43 +8639,53 @@ msgstr ""
 "αντί για κωδικό γλώσσας, για παράδειγμα: po/*.po ή locale/*/LC_MESSAGES/"
 "django.po."
 
-#: weblate/trans/models/component.py:218
+#: weblate/trans/models/component.py:228
+#, fuzzy
+#| msgid ""
+#| "Filename of translations base file, which contains all strings and their "
+#| "source; this is recommended to use for monolingual translation formats."
 msgid ""
-"Filename of translations base file, which contains all strings and their "
-"source; this is recommended to use for monolingual translation formats."
+"Filename of translation base file, containing all strings and their source; "
+"it is recommended for monolingual translation formats."
 msgstr ""
 "Το όνομα αρχείου του αρχείου βάσης της μετάφρασης, που περιέχει όλα τα "
 "κείμενα και την προέλευσή τους, προτείνεται να χρησιμοποιείται για μορφές "
 "μονόγλωσσης μετάφρασης."
 
-#: weblate/trans/models/component.py:224
+#: weblate/trans/models/component.py:234
 msgid "Edit base file"
 msgstr "Επεξεργασία αρχείου βάσης"
 
-#: weblate/trans/models/component.py:227
+#: weblate/trans/models/component.py:237
+#, fuzzy
+#| msgid ""
+#| "Whether users will be able to edit base file for monolingual translations."
 msgid ""
-"Whether users will be able to edit base file for monolingual translations."
+"Whether users will be able to edit the base file for monolingual "
+"translations."
 msgstr ""
 "Αν οι χρήστε θα μπορούν να επεξεργαστούν το αρχείο βάσης για μονόγλωσσες "
 "μετάφρασεις."
 
-#: weblate/trans/models/component.py:232
+#: weblate/trans/models/component.py:242
 msgid "Base file for new translations"
 msgstr "Αρχείο Βάση για νέες μεταφράσεις"
 
-#: weblate/trans/models/component.py:252
+#: weblate/trans/models/component.py:262
 msgid "Locked"
 msgstr "Κλειδωμένο"
 
-#: weblate/trans/models/component.py:255
-msgid "Whether component is locked for translation updates."
-msgstr "Αν το περιεχόμενο είναι κλειδωμένο για μεταφραστικές ενημερώσεις."
+#: weblate/trans/models/component.py:265
+#, fuzzy
+#| msgid "Component is now open for translation updates."
+msgid "Locked component will not get any translation updates."
+msgstr "Το περιεχόμενο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
-#: weblate/trans/models/component.py:259
+#: weblate/trans/models/component.py:269
 msgid "Allow translation propagation"
 msgstr "Δικαίωμα διάδοσης μετάφρασης"
 
-#: weblate/trans/models/component.py:263
+#: weblate/trans/models/component.py:273
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -8602,42 +8693,46 @@ msgstr ""
 "Αν οι ενημερώσεις μετάφρασης σε άλλα περιεχόμενα, θα προκαλέσει αυτόματη "
 "μετάφραση σε αυτό"
 
-#: weblate/trans/models/component.py:268
+#: weblate/trans/models/component.py:278
 msgid "Save translation history"
 msgstr "Αποθήκευση ιστορικού μετάφρασης"
 
-#: weblate/trans/models/component.py:271
-msgid "Whether Weblate should keep history of translations"
+#: weblate/trans/models/component.py:281
+#, fuzzy
+#| msgid "Whether Weblate should keep history of translations"
+msgid "Whether Weblate should keep track of old translations."
 msgstr "Ορίστε αν το Weblate θα πρέπει να ιστορικό των μεταφράσεων"
 
-#: weblate/trans/models/component.py:275
-msgid "Enable suggestions"
+#: weblate/trans/models/component.py:285
+#, fuzzy
+#| msgid "Enable suggestions"
+msgid "Turn on suggestions"
 msgstr "Ενεργοποίηση προτάσεων"
 
-#: weblate/trans/models/component.py:278
+#: weblate/trans/models/component.py:288
 msgid "Whether to allow translation suggestions at all."
 msgstr "Αν θα επιτρέπονται οι προτάσεις μεταφράσεων γενικώς."
 
-#: weblate/trans/models/component.py:282
+#: weblate/trans/models/component.py:292
 msgid "Suggestion voting"
 msgstr "Ψηφοφορία πρότασης"
 
-#: weblate/trans/models/component.py:285
+#: weblate/trans/models/component.py:295
 msgid "Whether users can vote for suggestions."
 msgstr "Ορίστε αν οι χρήστες μπορούν να ψηφίσουν για προτάσεις."
 
-#: weblate/trans/models/component.py:289
+#: weblate/trans/models/component.py:299
 msgid "Autoaccept suggestions"
 msgstr "Αυτόματη αποδοχή προτάσεων"
 
-#: weblate/trans/models/component.py:292
+#: weblate/trans/models/component.py:302
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Αυτόματη αποδοχή προτάσεων με αυτό τον αριθμό ψήφων, χρήση του 0 για "
 "απενεργοποίηση."
 
-#: weblate/trans/models/component.py:301
+#: weblate/trans/models/component.py:311
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -8645,310 +8740,383 @@ msgstr ""
 "Πρόσθετες σημαίες χωρισμένες με κόμμα που επηρεάζουν ελέγχους ποιότητας, "
 "δείτε την τεκμηρίωση για πιθανές τιμές."
 
-#: weblate/trans/models/component.py:315
+#: weblate/trans/models/component.py:325
 msgid "Optional short summary of license used for translations."
 msgstr ""
 "Προαιρετικά μια μικρή περίληψη της άδειας χρησιμοποιείται για τις "
 "μεταφράσεις."
 
-#: weblate/trans/models/component.py:319
+#: weblate/trans/models/component.py:329
 msgid "License URL"
 msgstr "URL άδειας"
 
-#: weblate/trans/models/component.py:322
+#: weblate/trans/models/component.py:332
 msgid "Optional URL with license details."
 msgstr "Προαιρετικό URL με τις λεπτομέρειες της άδειας."
 
-#: weblate/trans/models/component.py:329
+#: weblate/trans/models/component.py:339
+#, fuzzy
+#| msgid ""
+#| "Agreement which needs to be approved before user can translate this "
+#| "component."
 msgid ""
-"Agreement which needs to be approved before user can translate this "
+"User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
 "Η συμφωνία που πρέπει να εγκριθεί πριν ο χρήστης μπορεί να μεταφράσει αυτό "
 "το περιεχόμενο."
 
-#: weblate/trans/models/component.py:341
-msgid ""
-"How to handle requests for creating new translations. Please note that "
-"availability of choices depends on the file format."
-msgstr ""
-"Πως να χειρίζεστε τα αιτήματα για δημιουργία νέων γλωσσών. Σημειώστε ότι η "
-"διαθεσιμότητα των επιλογών εξαρτάται από τη μορφή του αρχείου."
+#: weblate/trans/models/component.py:351
+#, fuzzy
+#| msgid "How to handle requests for creating new languages."
+msgid "How to handle requests for creating new translations."
+msgstr "Πως να χειρίζεστε αιτήσεις για δημιουργία νέων γνωσσών."
 
-#: weblate/trans/models/component.py:349
+#: weblate/trans/models/component.py:355
+#, fuzzy
+#| msgid "Language code"
+msgid "Language code style"
+msgstr "Κωδικός γλώσσας"
+
+#: weblate/trans/models/component.py:361
+msgid ""
+"Customize language code used to generate the filename for translations "
+"created by Weblate."
+msgstr ""
+
+#: weblate/trans/models/component.py:368
 msgid "Merge style"
 msgstr "Ένωση στυλ"
 
-#: weblate/trans/models/component.py:354
+#: weblate/trans/models/component.py:373
+#, fuzzy
+#| msgid ""
+#| "Define whether Weblate should merge upstream repository or rebase changes "
+#| "onto it."
 msgid ""
-"Define whether Weblate should merge upstream repository or rebase changes "
-"onto it."
+"Define whether Weblate should merge the upstream repository or rebase "
+"changes onto it."
 msgstr ""
 "Ορίστε αν το Weblate θα πρέπει να συγχωνεύσει αποστέλοντας το χώρο φύλαξης ή "
 "να αναβαθμίσει τις αλλαγές σε αυτό."
 
-#: weblate/trans/models/component.py:359
+#: weblate/trans/models/component.py:378
 msgid "Commit message when translating"
 msgstr "Δημιουργία μυνήματος κατά την μετάφραση"
 
-#: weblate/trans/models/component.py:361 weblate/trans/models/component.py:370
-#: weblate/trans/models/component.py:379 weblate/trans/models/component.py:388
-#: weblate/trans/models/component.py:397
+#: weblate/trans/models/component.py:380 weblate/trans/models/component.py:389
+#: weblate/trans/models/component.py:398 weblate/trans/models/component.py:407
+#: weblate/trans/models/component.py:416
 #, fuzzy
 #| msgid ""
 #| "You can use format strings for various information, please check "
 #| "documentation for more details."
 msgid ""
-"You can use template language for various information, please check "
+"You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
 "Μπορείτε να χρησιμιοποιήσετε μορφοποιημένα κείμενα για διάφορες πληροφορίες, "
 "για περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
 
-#: weblate/trans/models/component.py:368
+#: weblate/trans/models/component.py:387
 msgid "Commit message when adding translation"
 msgstr "Δημιουργία μηνύματος κατά την προσθήκη μετάφρασης"
 
-#: weblate/trans/models/component.py:377
+#: weblate/trans/models/component.py:396
 msgid "Commit message when removing translation"
 msgstr "Δημιουργία μηνύματος κατά την απομάκρυνση μετάφρασης"
 
-#: weblate/trans/models/component.py:386
+#: weblate/trans/models/component.py:405
 #, fuzzy
 #| msgid "Commit message when removing translation"
 msgid "Commit message when merging translation"
 msgstr "Δημιουργία μηνύματος κατά την απομάκρυνση μετάφρασης"
 
-#: weblate/trans/models/component.py:395
+#: weblate/trans/models/component.py:414
 #, fuzzy
 #| msgid "Commit message when adding translation"
 msgid "Commit message when addon makes a change"
 msgstr "Δημιουργία μηνύματος κατά την προσθήκη μετάφρασης"
 
-#: weblate/trans/models/component.py:404
+#: weblate/trans/models/component.py:423
 msgid "Committer name"
 msgstr "Όνομα πράττοντος"
 
-#: weblate/trans/models/component.py:409
+#: weblate/trans/models/component.py:428
 msgid "Committer email"
 msgstr "Ηλεκτρονική διευθυνση πράττοντος"
 
-#: weblate/trans/models/component.py:414
+#: weblate/trans/models/component.py:433
 msgid "Push on commit"
 msgstr "Προώθηση πράξης"
 
-#: weblate/trans/models/component.py:417
+#: weblate/trans/models/component.py:436
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Αν το αποθετήριο πρέπει να προωθηθεί προς τα πάνω σε κάθε πράξη."
 
-#: weblate/trans/models/component.py:421
+#: weblate/trans/models/component.py:440
 msgid "Age of changes to commit"
 msgstr ""
 
-#: weblate/trans/models/component.py:424
+#: weblate/trans/models/component.py:443
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 
-#: weblate/trans/models/component.py:444
+#: weblate/trans/models/component.py:453
+#, fuzzy
+#| msgid ""
+#| "Regular expression which is used to filter translation when scanning for "
+#| "file mask."
+msgid ""
+"Regular expression used to filter translation when scanning for filemask."
+msgstr ""
+"Κανονική έκφραση που χρησιμοποιείται για φιλτράρισμα μετάφρασης κατά τη "
+"σάρωση για μάσκα αρχείου."
+
+#: weblate/trans/models/component.py:463
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 "Περιεχόμενα με υψηλότερη προτεραιότητα προσφέρονται πρώτα στους μεταφραστές."
 
-#: weblate/trans/models/component.py:624
+#: weblate/trans/models/component.py:649
+#, fuzzy
+#| msgid ""
+#| "Failed to verify SSH host key, please add them in SSH page in the admin "
+#| "interface."
 msgid ""
-"Failed to verify SSH host key, please add them in SSH page in the admin "
+"Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 "Αδύνατη η επιβεβαίωση του κλειδιού φιλοξενίας SSH, προσθέστε τα στη σελίδα "
 "SSH στο περιβάλλον διαχείρισης."
 
-#: weblate/trans/models/component.py:629
-#, python-format
-msgid "Failed to fetch repository: %s"
-msgstr "Απέτυχε η λήψη του αποθετηρίου: %s"
+#: weblate/trans/models/component.py:654
+#, fuzzy, python-format
+#| msgid "Failed to update repository: %s"
+msgid "Could not fetch the repository: %s"
+msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
-#: weblate/trans/models/component.py:766
-#, python-format
-msgid "Push is disabled for %s."
+#: weblate/trans/models/component.py:797
+#, fuzzy, python-format
+#| msgid "Push is disabled for %s."
+msgid "Push is turned off for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: weblate/trans/models/component.py:813
-#, python-format
-msgid "Failed to push to remote branch on %s."
+#: weblate/trans/models/component.py:844
+#, fuzzy, python-format
+#| msgid "Failed to push to remote branch on %s."
+msgid "Could not push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: weblate/trans/models/component.py:854
-#, python-format
-msgid "Failed to reset to remote branch on %s."
+#: weblate/trans/models/component.py:885
+#, fuzzy, python-format
+#| msgid "Failed to reset to remote branch on %s."
+msgid "Could not reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: weblate/trans/models/component.py:887
+#: weblate/trans/models/component.py:918
 #, fuzzy, python-format
 #| msgid "Failed to fetch repository: %s"
-msgid "Failed to clean the repository on %s."
+msgid "Could not clean the repository on %s."
 msgstr "Απέτυχε η λήψη του αποθετηρίου: %s"
 
-#: weblate/trans/models/component.py:964
-#, python-format
-msgid "Failed to rebase our branch onto remote branch %s."
+#: weblate/trans/models/component.py:994
+#, fuzzy, python-format
+#| msgid "Failed to rebase our branch onto remote branch %s."
+msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: weblate/trans/models/component.py:970
-#, python-format
-msgid "Failed to merge remote branch into %s."
+#: weblate/trans/models/component.py:1000
+#, fuzzy, python-format
+#| msgid "Failed to merge remote branch into %s."
+msgid "Could not merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: weblate/trans/models/component.py:1244
-msgid "Invalid link to a Weblate project, can not link to linked repository!"
+#: weblate/trans/models/component.py:1325
+#, fuzzy
+#| msgid ""
+#| "Invalid link to a Weblate project, can not link to linked repository!"
+msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Μη έγκυρος σύνδεσμος έργου Weblate, αδύνατη η σύνδεση με το συνδεδεμένο "
 "αποθετήριο!"
 
-#: weblate/trans/models/component.py:1251
-msgid "Invalid link to a Weblate project, can not link to self!"
+#: weblate/trans/models/component.py:1332
+#, fuzzy
+#| msgid "Invalid link to a Weblate project, can not link to self!"
+msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Μη έγκυρος σύνδεσμος έργου Weblate, αδύνατη η σύνδεση με αυτό!"
 
-#: weblate/trans/models/component.py:1258
+#: weblate/trans/models/component.py:1339
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Μη έγκυρος σύνδεσμος σε ένα έργο Weblate, χρησιμοποιείστε το weblate://"
 "project/component."
 
-#: weblate/trans/models/component.py:1264
-msgid "Push URL is not used when repository is linked!"
-msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
-
-#: weblate/trans/models/component.py:1268
+#: weblate/trans/models/component.py:1347
 #, fuzzy
 #| msgid "Export URL is not used when repository is linked!"
-msgid "Repository branch is not used when repository is linked!"
+msgid "Option is not available for linked repositories."
 msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: weblate/trans/models/component.py:1274
-msgid "Export URL is not used when repository is linked!"
-msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
-
-#: weblate/trans/models/component.py:1283
-msgid "The mask did not match any files!"
+#: weblate/trans/models/component.py:1356
+#, fuzzy
+#| msgid "The mask did not match any files!"
+msgid "The filemask did not match any files."
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: weblate/trans/models/component.py:1291
-#, python-format
-msgid "Got empty language code for %s, please check filemask!"
+#: weblate/trans/models/component.py:1364
+#, fuzzy, python-format
+#| msgid "Got empty language code for %s, please check filemask!"
+msgid "The language code for %s was empty, please check the filemask."
 msgstr "Λήψη άδειου κώδικα γλώσσας για %s, δείτε τη μάσκα αρχείου!"
 
-#: weblate/trans/models/component.py:1296
+#: weblate/trans/models/component.py:1369
 #, fuzzy, python-format
 #| msgid "Language code %s is too long, please check filemask!"
-msgid "Language code \"%s\" is too long, please check filemask!"
+msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Ο κώδικας γλώσσας %s, δείτε τη μάσκα αρχείου!"
 
-#: weblate/trans/models/component.py:1300
-#, python-format
+#: weblate/trans/models/component.py:1373
+#, fuzzy, python-format
+#| msgid ""
+#| "There are more files for single language (%s), please adjust the mask and "
+#| "use components for translating different resources."
 msgid ""
-"There are more files for single language (%s), please adjust the mask and "
-"use components for translating different resources."
+"There are more files for the single language (%s), please adjust the "
+"filemask and use components for translating different resources."
 msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα (%s), προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε περιεχόμενα για μετάφραση διαφορετικών προελεύσεων."
 
-#: weblate/trans/models/component.py:1319
-msgid "File does not seem to be valid!"
+#: weblate/trans/models/component.py:1392
+#, fuzzy
+#| msgid "File does not seem to be valid!"
+msgid "This file seems to be invalid."
 msgstr "Το αρχείο δεν φαίνεται να είναι έγκυρο!"
 
-#: weblate/trans/models/component.py:1327
-#, python-format
-msgid "Format of %d matched files could not be recognized."
-msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
+#: weblate/trans/models/component.py:1400
+#, fuzzy, python-format
+#| msgid "Failed to parse translation base file: %s"
+msgid "Could not recognize the format of %d matching files."
+msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/component.py:1336
-#, python-format
-msgid "Failed to parse %d matched files!"
+#: weblate/trans/models/component.py:1409
+#, fuzzy, python-format
+#| msgid "Failed to parse %d matched files!"
+msgid "Could not parse %d matched files."
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
 
-#: weblate/trans/models/component.py:1351
-msgid "Format of base file for new translations was not recognized!"
-msgstr "Η μορφή του αρχείου βάσης για νέες μεταφράσεις δεν αναγνωρίστηκε!"
+#: weblate/trans/models/component.py:1427
+#, fuzzy
+#| msgid "Base file for new translations"
+msgid "Unrecognized base file for new translations."
+msgstr "Αρχείο Βάση για νέες μεταφράσεις"
 
-#: weblate/trans/models/component.py:1356
+#: weblate/trans/models/component.py:1431
+#, fuzzy
+#| msgid ""
+#| "You have configured Weblate to add new translation files, but did not "
+#| "provide base file to do that!"
 msgid ""
-"You have configured Weblate to add new translation files, but did not "
-"provide base file to do that!"
+"You have set up Weblate to add new translation files, but did not provide a "
+"base file to do that."
 msgstr ""
 "Έχετε ρυθμίσει το Weblate για να προσθέτετε νέα αρχεία μετάφρασης, αλλά δεν "
 "δώσατε αρχείο βάσης για αυτό!"
 
-#: weblate/trans/models/component.py:1365
-msgid "You can not use base file with bilingual translation!"
+#: weblate/trans/models/component.py:1440
+#, fuzzy
+#| msgid "You can not use base file with bilingual translation!"
+msgid "You can not use a base file for bilingual translation."
 msgstr "Δεν μπορείτε να χρησιμοποιήσετε αρχείο βάσης με μονόγλωσση μετάφραση!"
 
-#: weblate/trans/models/component.py:1370
-msgid "Using .pot file as base file is not supported!"
+#: weblate/trans/models/component.py:1445
+#, fuzzy
+#| msgid "Using .pot file as base file is not supported!"
+msgid "Using a .pot file as base file is unsupported."
 msgstr "Η χρήση αρχείου .pot ως αρχείου βάσης δεν υποστηρίζεται!"
 
-#: weblate/trans/models/component.py:1377
-msgid "Template file not found!"
-msgstr "Το αρχείο προτύπου δεν βρέθηκε!"
-
-#: weblate/trans/models/component.py:1383
-#, python-format
-msgid "Failed to parse translation base file: %s"
+#: weblate/trans/models/component.py:1452
+#, fuzzy
+#| msgid "Failed to parse translation base file: %s"
+msgid "Could not find template file."
 msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/component.py:1393
+#: weblate/trans/models/component.py:1458
+#, fuzzy, python-format
+#| msgid "Failed to parse translation base file: %s"
+msgid "Could not parse translation base file: %s"
+msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
+
+#: weblate/trans/models/component.py:1468
 #, fuzzy, python-brace-format
 #| msgid "Template language (%s) does not match project source language (%s)!"
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 "Η γλώσσα προτύπου (%s) δεν ταιριάζει με τη γλώσσα προέλευσης του έργου (%s)!"
 
-#: weblate/trans/models/component.py:1400
-msgid "You can not use monolingual translation without base file!"
+#: weblate/trans/models/component.py:1475
+#, fuzzy
+#| msgid "You can not use monolingual translation without base file!"
+msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 "Δεν μπορείτε να χρησιμοποιήσετε μονόγλωσση μετάφραση χωρίς αρχείο βάσης!"
 
-#: weblate/trans/models/component.py:1415
-#, python-format
-msgid "Failed to update repository: %s"
+#: weblate/trans/models/component.py:1490
+#, fuzzy, python-format
+#| msgid "Failed to update repository: %s"
+msgid "Could not update repository: %s"
 msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
-#: weblate/trans/models/component.py:1429
+#: weblate/trans/models/component.py:1504
+#, fuzzy
+#| msgid ""
+#| "Please either fill in instructions URL or use different option for adding "
+#| "new language."
 msgid ""
-"Please either fill in instructions URL or use different option for adding "
+"Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
 "Είτε συμπληρώστε το URL οδηγιών ή χρησιμοποιήστε διαφορετική επιλογή για "
 "προσθήκη νέας γλώσσας."
 
-#: weblate/trans/models/component.py:1436
-msgid "License URL can not be used without license summary."
+#: weblate/trans/models/component.py:1511
+#, fuzzy
+#| msgid "License URL can not be used without license summary."
+msgid "License URL can not be used without a license summary."
 msgstr ""
 "Το URL της άδειας μπορεί να χρησιμοποιηθεί χωρίς την περίληψη της άδειας."
 
-#: weblate/trans/models/component.py:1464
+#: weblate/trans/models/component.py:1539
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Αδύνατη η επιβεβαίωση ταιριάσματος αρχείων λόγω μη έγκυρης κανονικής "
 "έκφρασης."
 
-#: weblate/trans/models/component.py:1476
-msgid "Automatically accepting suggestions can work only with voting enabled!"
+#: weblate/trans/models/component.py:1551
+#, fuzzy
+#| msgid ""
+#| "Automatically accepting suggestions can work only with voting enabled!"
+msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "Η αυτόματη αποδοχή προτάσεων λειτουργεί μόνο με ενεργές τις ψήφους!"
 
-#: weblate/trans/models/component.py:1657
-msgid "Failed to add new translation file!"
-msgstr "Απέτυχε η προσθήκη του νέου αρχείου μετάφρασης!"
+#: weblate/trans/models/component.py:1732
+#, fuzzy
+#| msgid "Failed to parse translation base file: %s"
+msgid "Could not add new translation file."
+msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/component.py:1669
+#: weblate/trans/models/component.py:1746
 #, fuzzy
 #| msgid "Monolingual base language file"
-msgid "Given language is filtered by the language filter!"
+msgid "The given language is filtered by the language filter."
 msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 
-#: weblate/trans/models/component.py:1688
+#: weblate/trans/models/component.py:1767
 msgid "Translation file already exists!"
 msgstr "Το αρχείο μετάφρασης υπάρχει ήδη!"
 
@@ -8991,12 +9159,6 @@ msgstr "Λίστα περιεχομένου για συσχέτιση"
 msgid "Automatic component list assignments"
 msgstr "Αυτόματες συσχετίσεις λίστας περιεχομένου"
 
-#: weblate/trans/models/project.py:64
-#, fuzzy
-#| msgid "Name used in URLs and file names."
-msgid "Name used in URLs and filenames."
-msgstr "Όνομα για χρήση σε URLs και ονόματα αρχείων."
-
 #: weblate/trans/models/project.py:68
 msgid "Main website of translated project."
 msgstr "Βασική ιστοσελίδα του μεταφρασμένου έργου."
@@ -9019,16 +9181,15 @@ msgstr "URL με Οδηγίες για μεταφραστές."
 
 #: weblate/trans/models/project.py:83
 #, fuzzy
-#| msgid "Set Translation-Team header"
-msgid "Set \"Translation-Team\" header"
+#| msgid "Set Language-Team header"
+msgid "Set \"Language-Team\" header"
 msgstr "Ορισμός επικεφαλής Ομάδας Μετάφρασης"
 
 #: weblate/trans/models/project.py:86
 #, fuzzy
 #| msgid ""
-#| "Whether the Translation-Team in file headers should be updated by Weblate."
-msgid ""
-"Lets Weblate update the \"Translation-Team\" file header of your project."
+#| "Whether the Language-Team in file headers should be updated by Weblate."
+msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
@@ -9087,13 +9248,13 @@ msgid "Language used for source strings in all components"
 msgstr ""
 "Η γλώσσα που χρησιμοποιείται για κείμενα προέλευσης σε όλα τα περιεχόμενα"
 
-#: weblate/trans/models/suggestion.py:167
+#: weblate/trans/models/suggestion.py:169
 #, fuzzy
 #| msgid "Autoaccept suggestions"
 msgid "Failed to accept suggestion!"
 msgstr "Αυτόματη αποδοχή προτάσεων"
 
-#: weblate/trans/models/translation.py:142
+#: weblate/trans/models/translation.py:141
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -9102,72 +9263,72 @@ msgstr ""
 "Το όνομα αρχείου %s δεν βρέθηκε στο αποθετήριο! Για προσθήκη νέας "
 "μετάφρασης, προσθέστε αρχείο γλώσσας στο αποθετήριο."
 
-#: weblate/trans/models/translation.py:151
+#: weblate/trans/models/translation.py:150
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
 
-#: weblate/trans/models/unit.py:351
+#: weblate/trans/models/unit.py:345
 #, fuzzy, python-brace-format
 #| msgid "%(filename)s, translation unit %(position)s"
 msgid "{translation}, string {position}"
 msgstr "%(filename)s, μονάδα μετάφρασης %(position)s"
 
-#: weblate/trans/models/whiteboard.py:73
+#: weblate/trans/models/whiteboard.py:74
 msgid "Render as HTML"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:75
+#: weblate/trans/models/whiteboard.py:76
 msgid ""
-"When disabled, URLs will be converted to links and any markup will be "
+"When turned off, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:105
+#: weblate/trans/models/whiteboard.py:106
 msgid "Category"
 msgstr "Κατηγορία"
 
-#: weblate/trans/models/whiteboard.py:107
+#: weblate/trans/models/whiteboard.py:108
 msgid "Category defines color used for the message."
 msgstr "Η κατηγορία ορίζει το χρώμα που χρησιμοποιείται στο μήνυμα."
 
-#: weblate/trans/models/whiteboard.py:110
+#: weblate/trans/models/whiteboard.py:111
 msgid "Info (light blue)"
 msgstr "Πληροφορία (ανοιχτό μπλε)"
 
-#: weblate/trans/models/whiteboard.py:111
+#: weblate/trans/models/whiteboard.py:112
 msgid "Warning (yellow)"
 msgstr "Προειδοποίηση (κίτρινο)"
 
-#: weblate/trans/models/whiteboard.py:112
+#: weblate/trans/models/whiteboard.py:113
 msgid "Danger (red)"
 msgstr "Κίνδυνος (κόκκινο)"
 
-#: weblate/trans/models/whiteboard.py:113
+#: weblate/trans/models/whiteboard.py:114
 msgid "Success (green)"
 msgstr "Επιτυχία (πράσινο)"
 
-#: weblate/trans/models/whiteboard.py:121
+#: weblate/trans/models/whiteboard.py:122
 #, fuzzy
 #| msgid "Expired"
 msgid "Expiry date"
 msgstr "Έληξε"
 
-#: weblate/trans/models/whiteboard.py:123
+#: weblate/trans/models/whiteboard.py:124
 msgid ""
-"The message will be not shown after this date. Use for announcements such as "
-"deadline for next release."
+"The message will be not shown after this date. Use it to announce string "
+"freeze and translation deadline for next release."
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:132
+#: weblate/trans/models/whiteboard.py:133
 msgid "Whiteboard message"
 msgstr "Μήνυμα Λευκού Πίνακα"
 
-#: weblate/trans/models/whiteboard.py:133
+#: weblate/trans/models/whiteboard.py:134
 msgid "Whiteboard messages"
 msgstr "Μηνύματα Λευκού Πίνακα"
 
-#: weblate/trans/models/whiteboard.py:142
+#: weblate/trans/models/whiteboard.py:143
 msgid "Do not specify both component and project!"
 msgstr "Μη ορίζεται περιεχόμενο και έργο μαζί!"
 
@@ -9227,238 +9388,227 @@ msgid "User configured character: {}"
 msgstr "Χαρακτήρας ορισμένος από το χρήστη {}"
 
 #: weblate/trans/templatetags/advertisement.py:34
-#, python-brace-format
-msgid "Support Weblate at {0}"
-msgstr "Υποστηρίξτε το Weblate στο {0}"
-
-#: weblate/trans/templatetags/advertisement.py:35
-#, python-brace-format
-msgid "More information about Weblate can be found at {0}"
-msgstr ""
-"Περισσότερες πληροφορίες σχετικά με το Weblate μπορούν να βρεθούν στο {0}"
-
-#: weblate/trans/templatetags/advertisement.py:38
 #, fuzzy
 #| msgid "Support Weblate at {0}"
 msgid "Support Weblate"
 msgstr "Υποστηρίξτε το Weblate στο {0}"
 
-#: weblate/trans/templatetags/advertisement.py:39
+#: weblate/trans/templatetags/advertisement.py:35
 msgid "More information about Weblate"
 msgstr "Περισσότερες πληροφορίες για το Weblate"
 
-#: weblate/trans/templatetags/translations.py:77
+#: weblate/trans/templatetags/translations.py:78
 msgid "Good configuration"
 msgstr "Καλή ρύθμιση"
 
-#: weblate/trans/templatetags/translations.py:78
+#: weblate/trans/templatetags/translations.py:79
 msgid "Bad configuration"
 msgstr "Κακή ρύθμιση"
 
-#: weblate/trans/templatetags/translations.py:79
+#: weblate/trans/templatetags/translations.py:80
 msgid "Possible configuration"
 msgstr "Πιθανή ρύθμιση"
 
-#: weblate/trans/templatetags/translations.py:114
+#: weblate/trans/templatetags/translations.py:115
 msgid "Tab character"
 msgstr "Χαρακτήρας στηλοθέτη"
 
-#: weblate/trans/templatetags/translations.py:183
+#: weblate/trans/templatetags/translations.py:184
 msgid "New line"
 msgstr "Νέα γραμμή"
 
-#: weblate/trans/templatetags/translations.py:348
+#: weblate/trans/templatetags/translations.py:349
 msgid "a year ago"
 msgstr "ένα έτος πριν"
 
-#: weblate/trans/templatetags/translations.py:350
+#: weblate/trans/templatetags/translations.py:351
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s έτος πριν"
 msgstr[1] "%(count)s έτη πριν"
 
-#: weblate/trans/templatetags/translations.py:355
+#: weblate/trans/templatetags/translations.py:356
 msgid "a month ago"
 msgstr "ένα μήνα πριν"
 
-#: weblate/trans/templatetags/translations.py:357
+#: weblate/trans/templatetags/translations.py:358
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s μήνας πριν"
 msgstr[1] "%(count)s μήνες πριν"
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:363
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s εβδομάδα πριν"
 msgstr[1] "%(count)s εβδομάδες πριν"
 
-#: weblate/trans/templatetags/translations.py:366
+#: weblate/trans/templatetags/translations.py:367
 msgid "a week ago"
 msgstr "μια εβδομάδα πριν"
 
-#: weblate/trans/templatetags/translations.py:368
+#: weblate/trans/templatetags/translations.py:369
 msgid "yesterday"
 msgstr "χθες"
 
-#: weblate/trans/templatetags/translations.py:370
+#: weblate/trans/templatetags/translations.py:371
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s ημέρα πριν"
 msgstr[1] "%(count)s ημέρες πριν"
 
-#: weblate/trans/templatetags/translations.py:373
-#: weblate/trans/templatetags/translations.py:432
+#: weblate/trans/templatetags/translations.py:374
+#: weblate/trans/templatetags/translations.py:433
 msgid "now"
 msgstr "τώρα"
 
-#: weblate/trans/templatetags/translations.py:376
+#: weblate/trans/templatetags/translations.py:377
 msgid "a second ago"
 msgstr "πριν από ένα δευτερόλεπτο"
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:379
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "πριν από %(count)s δευτερόλεπτο"
 msgstr[1] "πριν από %(count)s δευτερόλεπτα"
 
-#: weblate/trans/templatetags/translations.py:383
+#: weblate/trans/templatetags/translations.py:384
 msgid "a minute ago"
 msgstr "πριν από ένα λεπτό"
 
-#: weblate/trans/templatetags/translations.py:385
+#: weblate/trans/templatetags/translations.py:386
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "πριν από %(count)s λεπτό"
 msgstr[1] "πριν από %(count)s λεπτά"
 
-#: weblate/trans/templatetags/translations.py:390
+#: weblate/trans/templatetags/translations.py:391
 msgid "an hour ago"
 msgstr "πριν από μια ώρα"
 
-#: weblate/trans/templatetags/translations.py:392
+#: weblate/trans/templatetags/translations.py:393
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "πριν από %(count)s ώρα"
 msgstr[1] "πριν από %(count)s ώρες"
 
-#: weblate/trans/templatetags/translations.py:407
+#: weblate/trans/templatetags/translations.py:408
 msgid "a year from now"
 msgstr "ένα έτος από τώρα"
 
-#: weblate/trans/templatetags/translations.py:409
+#: weblate/trans/templatetags/translations.py:410
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s έτος από τώρα"
 msgstr[1] "%(count)s έτη από τώρα"
 
-#: weblate/trans/templatetags/translations.py:414
+#: weblate/trans/templatetags/translations.py:415
 msgid "a month from now"
 msgstr "ένας μήνας από τώρα"
 
-#: weblate/trans/templatetags/translations.py:416
+#: weblate/trans/templatetags/translations.py:417
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s μήνας από τώρα"
 msgstr[1] "%(count)s μήνες από τώρα"
 
-#: weblate/trans/templatetags/translations.py:421
+#: weblate/trans/templatetags/translations.py:422
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s εβδομάδα από τώρα"
 msgstr[1] "%(count)s εβδομάδες από τώρα"
 
-#: weblate/trans/templatetags/translations.py:425
+#: weblate/trans/templatetags/translations.py:426
 msgid "tomorrow"
 msgstr "αύριο"
 
-#: weblate/trans/templatetags/translations.py:427
+#: weblate/trans/templatetags/translations.py:428
 msgid "a week from now"
 msgstr "μια εβδομάδα από τώρα"
 
-#: weblate/trans/templatetags/translations.py:429
+#: weblate/trans/templatetags/translations.py:430
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s ημέρα από τώρα"
 msgstr[1] "%(count)s ημέρες από τώρα"
 
-#: weblate/trans/templatetags/translations.py:435
+#: weblate/trans/templatetags/translations.py:436
 msgid "a second from now"
 msgstr "ένα δευτερόλεπτο από τώρα"
 
-#: weblate/trans/templatetags/translations.py:437
+#: weblate/trans/templatetags/translations.py:438
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s δευτερόλεπτο από τώρα"
 msgstr[1] "%(count)s δευτερόλεπτα από τώρα"
 
-#: weblate/trans/templatetags/translations.py:444
+#: weblate/trans/templatetags/translations.py:445
 msgid "a minute from now"
 msgstr "ένα λεπτό από τώρα"
 
-#: weblate/trans/templatetags/translations.py:446
+#: weblate/trans/templatetags/translations.py:447
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s λεπτό από τώρα"
 msgstr[1] "%(count)s λεπτά από τώρα"
 
-#: weblate/trans/templatetags/translations.py:453
+#: weblate/trans/templatetags/translations.py:454
 msgid "an hour from now"
 msgstr "μία ώρα από τώρα"
 
-#: weblate/trans/templatetags/translations.py:455
+#: weblate/trans/templatetags/translations.py:456
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s ώρα από τώρα"
 msgstr[1] "%(count)s ώρες από τώρα"
 
-#: weblate/trans/templatetags/translations.py:536
+#: weblate/trans/templatetags/translations.py:537
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: weblate/trans/templatetags/translations.py:563
+#: weblate/trans/templatetags/translations.py:564
 #, fuzzy
 #| msgid "Message needs review"
 msgid "Message needs edit"
 msgstr "Μήνυμα που χρειάζεται έλεγχο"
 
-#: weblate/trans/templatetags/translations.py:568
+#: weblate/trans/templatetags/translations.py:569
 msgid "Message is not translated"
 msgstr "Το μήνυμα δεν μεταφράστηκε"
 
-#: weblate/trans/templatetags/translations.py:573
+#: weblate/trans/templatetags/translations.py:574
 msgid "Message has failing checks"
 msgstr "Το μήνυμα έχει αποτυχημένους έλεγχους"
 
-#: weblate/trans/templatetags/translations.py:578
+#: weblate/trans/templatetags/translations.py:579
 #, fuzzy
 #| msgid "Message is translated"
 msgid "Message is approved"
 msgstr "Το μήνυμα μεταφράστηκε"
 
-#: weblate/trans/templatetags/translations.py:583
+#: weblate/trans/templatetags/translations.py:584
 msgid "Message is translated"
 msgstr "Το μήνυμα μεταφράστηκε"
 
-#: weblate/trans/templatetags/translations.py:589
+#: weblate/trans/templatetags/translations.py:590
 msgid "Message has comments"
 msgstr "Το μήνυμα έχει σχόλια"
 
-#: weblate/trans/templatetags/translations.py:609
+#: weblate/trans/templatetags/translations.py:610
 #, fuzzy, python-format
 #| msgid "unit ID %s"
 msgid "string ID %s"
@@ -9508,23 +9658,29 @@ msgid "XML text"
 msgstr "Κείμενο XML"
 
 #: weblate/trans/validators.py:34
-msgid "DOS end of lines"
+msgid "DOS line endings"
 msgstr ""
 
 #: weblate/trans/validators.py:37
 #, fuzzy
-#| msgid "Javascript format"
+#| msgid "JavaScript format"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Μορφή Javascript"
+msgstr "Μορφή JavaScript"
 
 #: weblate/trans/validators.py:47
-msgid "File mask does not contain * as a language placeholder!"
+#, fuzzy
+#| msgid "File mask does not contain * as a language placeholder!"
+msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Η μάσκα αρχείου δεν περιέχει * ως ταυτότητα γλώσσας!"
 
 #: weblate/trans/validators.py:55
+#, fuzzy
+#| msgid ""
+#| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
+#| "suggestion."
 msgid ""
-"Value of 1 is not allowed for autoaccept as every user gives vote to his "
-"suggestion."
+"A value of 1 is not allowed for autoaccept as it would permit users to vote "
+"on their own suggestions."
 msgstr ""
 "Η τιμή 1 δεν επιτρέπεται για αυτόματη αποδοχή καθώς κάθε χρήστης δίνει ψήφο "
 "για την πρότασή του."
@@ -9575,12 +9731,12 @@ msgstr "Ο χρήστης έχει απομακρυνθεί από αυτό το
 msgid "Project access control has been changed."
 msgstr "Ο κωδικός σας έχει αλλαχτεί."
 
-#: weblate/trans/views/basic.py:102
+#: weblate/trans/views/basic.py:101
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Συμμετέχετε στο {0}!"
 
-#: weblate/trans/views/basic.py:366
+#: weblate/trans/views/basic.py:382
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
@@ -9684,107 +9840,107 @@ msgstr[1] "Εισήχθησαν %d λέξεις από το αρχείο."
 msgid "File upload has failed: %s"
 msgstr "Το ανέβασμα του αρχείου απέτυχε: %s"
 
-#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:576
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:574
 #: weblate/trans/views/search.py:80 weblate/trans/views/search.py:243
 msgid "Failed to process form!"
 msgstr "Απέτυχε η προώθηση της φόμρας!"
 
-#: weblate/trans/views/edit.py:157 weblate/trans/views/edit.py:454
+#: weblate/trans/views/edit.py:155 weblate/trans/views/edit.py:452
 msgid "No string matched your search!"
 msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
 
-#: weblate/trans/views/edit.py:181
+#: weblate/trans/views/edit.py:179
 msgid "Your suggestion is empty!"
 msgstr "Η πρότασή σας είναι άδεια!"
 
-#: weblate/trans/views/edit.py:188
+#: weblate/trans/views/edit.py:186
 msgid "You don't have privileges to add suggestions!"
 msgstr "Δεν έχετε δικαιώματα να προσθέσετε προτάσεις!"
 
-#: weblate/trans/views/edit.py:197
+#: weblate/trans/views/edit.py:195
 #, fuzzy
 #| msgid "Your suggestion already exists!"
 msgid "Your suggestion has been identified as spam!"
 msgstr "Η πρότασή σας υπάρχει ήδη!"
 
-#: weblate/trans/views/edit.py:209
+#: weblate/trans/views/edit.py:207
 msgid "Your suggestion already exists!"
 msgstr "Η πρότασή σας υπάρχει ήδη!"
 
-#: weblate/trans/views/edit.py:238
+#: weblate/trans/views/edit.py:236
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Οι ακόλουθες διορθώσεις εφαρμόστηκαν στη μετάφραση: %s"
 
-#: weblate/trans/views/edit.py:253
+#: weblate/trans/views/edit.py:251
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας: {0}"
 
-#: weblate/trans/views/edit.py:305
+#: weblate/trans/views/edit.py:303
 msgid "Invalid merge request!"
 msgstr "Μη έγκυρο αίτημα ένωσης!"
 
-#: weblate/trans/views/edit.py:331
+#: weblate/trans/views/edit.py:329
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
 msgstr "Μη έγκυρο αίτημα ένωσης!"
 
-#: weblate/trans/views/edit.py:345
+#: weblate/trans/views/edit.py:343
 msgid "Can not revert to empty translation!"
 msgstr "Αδύνατη η επαναφορά σε άδεια μετάφραση!"
 
-#: weblate/trans/views/edit.py:363
+#: weblate/trans/views/edit.py:361
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: weblate/trans/views/edit.py:370
+#: weblate/trans/views/edit.py:368
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: weblate/trans/views/edit.py:377
+#: weblate/trans/views/edit.py:375
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Δεν έχετε δικαίωμα να ψηφίσετε για προτάσεις!"
 
-#: weblate/trans/views/edit.py:405
+#: weblate/trans/views/edit.py:403
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: weblate/trans/views/edit.py:517
+#: weblate/trans/views/edit.py:515
 msgid "Invalid search string!"
 msgstr "Μη έγκυρη αναζήτηση κειμένου!"
 
-#: weblate/trans/views/edit.py:599
+#: weblate/trans/views/edit.py:597
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Ολοκλήρωση αυτόματης μετάφρασης, κανένα κείμενο δεν ενημερώθηκε."
 
-#: weblate/trans/views/edit.py:601
+#: weblate/trans/views/edit.py:599
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενο ενημερώθηκε."
 msgstr[1] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενα ενημερώθηκαν."
 
-#: weblate/trans/views/edit.py:633
+#: weblate/trans/views/edit.py:631
 msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
-#: weblate/trans/views/edit.py:635
+#: weblate/trans/views/edit.py:633
 msgid "Failed to add comment!"
 msgstr "Απέτυχε η προσθήκη σχολίου!"
 
-#: weblate/trans/views/edit.py:658
+#: weblate/trans/views/edit.py:656
 msgid "Translation comment has been deleted."
 msgstr "Το σχόλιο της μετάφρασης έχει διαγραφεί."
 
-#: weblate/trans/views/edit.py:816
+#: weblate/trans/views/edit.py:814
 #, fuzzy
 #| msgid "Translation file already exists!"
 msgid "Translation with this key seem to already exist!"
 msgstr "Το αρχείο μετάφρασης υπάρχει ήδη!"
 
-#: weblate/trans/views/edit.py:821
+#: weblate/trans/views/edit.py:819
 #, fuzzy
 #| msgid "Translation comment has been deleted."
 msgid "New string has been added."
@@ -9819,7 +9975,9 @@ msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"
 
 #: weblate/trans/views/git.py:44
-msgid "Failed to lock the repository, another operation in progress."
+#, fuzzy
+#| msgid "Failed to lock the repository, another operation in progress."
+msgid "Failed to lock the repository, another operation is in progress."
 msgstr ""
 "Απέτυχε το κλείδωμα το αποθετηρίου, μια άλλη διαδικασία είναι σε εξέλιξη."
 
@@ -10017,7 +10175,7 @@ msgstr ""
 msgid "translated"
 msgstr "μεταφρασμένο"
 
-#: weblate/utils/render.py:81
+#: weblate/utils/render.py:85
 msgid "Failed to render template: {}"
 msgstr "Απέτυχε η απόδοση του προτύπου: {}"
 
@@ -10094,6 +10252,14 @@ msgstr "Αυτή η διεύθυνση email δεν επιτρέπεται."
 #| msgid "Failed to save translation!"
 msgid "Failed to evaluate plural equation: {}"
 msgstr "Απέτυχε η αποθήκευση της μετάφρασης!"
+
+#: weblate/utils/validators.py:253
+msgid "Filename can not contain reference to a parent directory."
+msgstr ""
+
+#: weblate/utils/validators.py:256
+msgid "Filename can not be an absolute path."
+msgstr ""
 
 #: weblate/utils/views.py:218
 #, python-format
@@ -10318,6 +10484,152 @@ msgstr "Αναφορές"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Σφάλματα ρύθμισης"
+
+#, fuzzy
+#~| msgid ""
+#~| "Base file for new translations is not used because of component "
+#~| "settings. You probably want to enable automatic adding of new "
+#~| "translations."
+#~ msgid ""
+#~ "Base file for new translations is not in use due to the component "
+#~ "settings. You probably want to enable adding of new translations."
+#~ msgstr ""
+#~ "Το αρχείο βάσης για νέες μεταφράσεις δεν χρησιμοποιείται λόγω των "
+#~ "ρυθμίσεων του έργου. Πιθανόν να θέλετε να ενεργοποιήσετε την αυτόματη "
+#~ "προσθήκη νέων μεταφράσεων."
+
+#, fuzzy
+#~| msgid "Base file for new translations"
+#~ msgid "Unused base file for new translations."
+#~ msgstr "Αρχείο Βάση για νέες μεταφράσεις"
+
+#, fuzzy
+#~| msgid ""
+#~| "How to handle requests for creating new translations. Please note that "
+#~| "availability of choices depends on the file format."
+#~ msgid ""
+#~ "How to handle requests for creating new translations. Please note that "
+#~ "the available choices depend on the file format."
+#~ msgstr ""
+#~ "Πως να χειρίζεστε τα αιτήματα για δημιουργία νέων γλωσσών. Σημειώστε ότι "
+#~ "η διαθεσιμότητα των επιλογών εξαρτάται από τη μορφή του αρχείου."
+
+#, fuzzy
+#~| msgid "Push URL is not used when repository is linked!"
+#~ msgid "Push URL is not used for linked repositories."
+#~ msgstr ""
+#~ "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
+
+#, fuzzy
+#~| msgid "Export URL is not used when repository is linked!"
+#~ msgid "Repository branch is not used for linked repositories."
+#~ msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
+
+#, fuzzy
+#~| msgid "File format"
+#~ msgid "Fileformat"
+#~ msgstr "Μορφή αρχείου"
+
+#~ msgid "Please check your math and try again with new expression."
+#~ msgstr "Ελέγξτε τα μαθηματικά σας και δοκιμαστε ξανά με νέα έκφραση."
+
+#~ msgid "Share on Facebook!"
+#~ msgstr "Μοιραστείτε στο Facebook!"
+
+#~ msgid "Suggestions to improve translation can be made."
+#~ msgstr "Μπορούν να γίνουν συστάσεις  για βελτίωση της μετάφρασης."
+
+#~ msgid "Suggestions to improve translation are disabled."
+#~ msgstr "Οι συστάσεις για βελτίωση των μεταφράσεων έχουν απενεργοποιηθεί."
+
+#~ msgid "Repository with Weblate translations"
+#~ msgstr "Αποθετήριο με τις μεταφράσεις Weblate"
+
+#~ msgid "Previous translation:"
+#~ msgstr "Προηγούμενη μετάφραση:"
+
+#~ msgid "Repository with Weblate translations:"
+#~ msgstr "Αποθετήριο με μεταφράσεις Weblate:"
+
+#, fuzzy
+#~| msgid "Check our FAQ for information how to resolve this."
+#~ msgid "Check our FAQ for info how to resolve this."
+#~ msgstr "Δείτε τις ΣΑΕ μας για πληροφορίες σχετικά με την επίλυσή του."
+
+#~ msgid "Error message:"
+#~ msgstr "Μήνυμα σφάλματος:"
+
+#~ msgid "Repository status:"
+#~ msgstr "Κατάσταση αποθετηρίου:"
+
+#~ msgid ""
+#~ "Please add the language file to VCS, Weblate will automatically discover "
+#~ "it on next update."
+#~ msgstr ""
+#~ "Προσθήκη του αρχείου γλώσσας στο VCS, το Weblate θα το βρει αυτόματα στην "
+#~ "επόμενη ανανέωση."
+
+#~ msgid ""
+#~ "More information on adding new language files is available in the "
+#~ "documentation:"
+#~ msgstr ""
+#~ "Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
+#~ "διαθέσιμες στην τεκμηρίωση:"
+
+#~ msgid "Requesting user:"
+#~ msgstr "Αιτούμενος χρήστης:"
+
+#~ msgid "Previously not translated"
+#~ msgstr "Προηγουμένως δεν μεταφράστηκε"
+
+#~ msgid "Failing file:"
+#~ msgstr "Αποτυχημένο αρχείο:"
+
+#~ msgid "Change subscription settings:"
+#~ msgstr "Αλλαγή ρυθμίσεων συνδρομής:"
+
+#~ msgid "Name to display"
+#~ msgstr "Όνομα για εμφάνιση"
+
+#~ msgid "No adding of language"
+#~ msgstr "Μαμιά προσθήκη γλώσσας"
+
+#~ msgid "Whether component is locked for translation updates."
+#~ msgstr "Αν το περιεχόμενο είναι κλειδωμένο για μεταφραστικές ενημερώσεις."
+
+#~ msgid "Enable suggestions"
+#~ msgstr "Ενεργοποίηση προτάσεων"
+
+#~ msgid "Failed to fetch repository: %s"
+#~ msgstr "Απέτυχε η λήψη του αποθετηρίου: %s"
+
+#~ msgid "Format of %d matched files could not be recognized."
+#~ msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
+
+#~ msgid "Format of base file for new translations was not recognized!"
+#~ msgstr "Η μορφή του αρχείου βάσης για νέες μεταφράσεις δεν αναγνωρίστηκε!"
+
+#~ msgid "Template file not found!"
+#~ msgstr "Το αρχείο προτύπου δεν βρέθηκε!"
+
+#~ msgid "Failed to parse translation base file: %s"
+#~ msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
+
+#~ msgid "Failed to update repository: %s"
+#~ msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
+
+#~ msgid "Failed to add new translation file!"
+#~ msgstr "Απέτυχε η προσθήκη του νέου αρχείου μετάφρασης!"
+
+#~ msgid "Support Weblate at {0}"
+#~ msgstr "Υποστηρίξτε το Weblate στο {0}"
+
+#~ msgid "More information about Weblate can be found at {0}"
+#~ msgstr ""
+#~ "Περισσότερες πληροφορίες σχετικά με το Weblate μπορούν να βρεθούν στο {0}"
+
+#~ msgid "Languages processing"
+#~ msgstr "Διεργασία Γλωσσών"
 
 #~ msgid "Authentication ({method}:{name}) has been added."
 #~ msgstr "H πιστοποίηση ({method}:{name}) προστέθηκε."
@@ -12060,9 +12372,6 @@ msgstr "Σφάλματα ρύθμισης"
 #~ msgid "Sotho"
 #~ msgstr "Σοθικά"
 
-#~ msgid "Strings to translate"
-#~ msgstr "Κείμενα για μετάφραση"
-
 #~ msgid "Units to translate"
 #~ msgstr "Μονάδες για μετάφραση"
 
@@ -12408,12 +12717,6 @@ msgstr "Σφάλματα ρύθμισης"
 #~ "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση, δρομολογήθηκαν "
 #~ "%d κείμενα."
 
-#~ msgid "How to handle requests for creating new languages."
-#~ msgstr "Πως να χειρίζεστε αιτήσεις για δημιουργία νέων γνωσσών."
-
-#~ msgid "Suggestions are not allowed on this translation!"
-#~ msgstr "Οι προτάσεις δεν επιτρέπονται σε αυτή τη μετάφραση!"
-
 #~ msgid "You don't have privileges to save templates!"
 #~ msgstr "Δεν έχετε δικαιώματα για να αποθήκευση προτύπων!"
 
@@ -12476,9 +12779,6 @@ msgstr "Σφάλματα ρύθμισης"
 
 #~ msgid "Avatar"
 #~ msgstr "Είδωλο"
-
-#~ msgid "Recent contributions"
-#~ msgstr "Πρόσφατες συνεισφορές"
 
 #~ msgid "Failures"
 #~ msgstr "Αποτυχίες"
@@ -12728,9 +13028,6 @@ msgstr "Σφάλματα ρύθμισης"
 #~ "Υπάρχουν %(words)s λέξεις, από συνολικά %(percent)s&#37; (%(translated)s) "
 #~ "που μεταφράστηκαν."
 
-#~ msgid "Add new language"
-#~ msgstr "Προσθήκη νέας γλώσσας"
-
 #~ msgid "Invalid text direction"
 #~ msgstr "Μη έγκυρη κατεύθυνση κειμένου"
 
@@ -12753,7 +13050,7 @@ msgstr "Σφάλματα ρύθμισης"
 
 #, fuzzy
 #~| msgid "Name used in URLs"
-#~ msgid "Name used in URLs and file names"
+#~ msgid "Name used in URLs and filenames"
 #~ msgstr "Όνομα για χρήση σε URLs"
 
 #~ msgid "Instructions"
@@ -12810,10 +13107,6 @@ msgstr "Σφάλματα ρύθμισης"
 
 #~ msgid "Change your avatar at gravatar.com"
 #~ msgstr "Αλλάξτε το ειδωλό σας στο gravatar.com"
-
-#~| msgid "Android String Resource"
-#~ msgid "Android Resource"
-#~ msgstr "Προέλευση Android"
 
 #~ msgid "Conflict handling"
 #~ msgstr "Χειρισμός διέναιξης"

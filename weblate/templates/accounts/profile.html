@@ -24,7 +24,6 @@
 <li><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
 <li><a data-toggle="tab" href="#subscriptions">{% trans "Subscriptions" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
-<li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
@@ -110,9 +109,7 @@
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
-</div>
 
-<div class="tab-pane" id="auth">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}</h4></div>
 <table class="table">
@@ -165,6 +162,17 @@
    </div>
    <div class="panel-footer">
     <a class="btn btn-danger" href="{% url 'remove' %}"><i class="fa fa-trash"></i> {% trans "Remove my account" %}</a>
+   </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "User data" %}</h4></div>
+  <div class="panel-body">
+
+    <p>{% trans "You can download all your private data." %}</p>
+   </div>
+   <div class="panel-footer">
+    <a class="btn btn-success link-post" href="{% url 'userdata' %}"><i class="fa fa-save"></i> {% trans "Download user data" %}</a>
    </div>
 </div>
 

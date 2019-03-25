@@ -36,12 +36,12 @@ class AlertTest(ViewTestCase):
         self.assertEqual(self.component.alert_set.count(), 3)
         alert = self.component.alert_set.get(name='DuplicateLanguage')
         self.assertEqual(
-            alert.details['occurences'][0]['language_code'],
+            alert.details['occurrences'][0]['language_code'],
             'cs',
         )
         alert = self.component.alert_set.get(name='DuplicateString')
         self.assertEqual(
-            alert.details['occurences'][0]['source'],
+            alert.details['occurrences'][0]['source'],
             'Thank you for using Weblate.'
         )
         alert = self.component.alert_set.get(name='MissingLicense')

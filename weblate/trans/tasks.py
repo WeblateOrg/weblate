@@ -239,7 +239,7 @@ def cleanup_suggestions():
                 target=suggestion.target
             ).exclude(
                 id=suggestion.id
-            ).order_by(*Suggestion.ordering)
+            )
             if sugs.exists():
                 suggestion.delete_log(
                     anonymous_user,

@@ -110,13 +110,17 @@ notifications, like merge failures or new language requests.
 
 .. image:: /images/profile-subscriptions.png
 
-Authentication
-++++++++++++++
+Account
++++++++
 
-On the :guilabel:`Authentication` tab you can connect various services which
-you can use to login into Weblate. List of services depends on Weblate
-configuration, but can include popular sites such as Google, Facebook, GitHub
-or Bitbucket.
+On the :guilabel:`Account` tab you can configure basic aspects of your account,
+connect various services which you can use to login into Weblate, completely
+remove your account or download your user data.
+
+.. note:: 
+   
+   List of services depends on Weblate configuration, but can include popular
+   sites such as Google, Facebook, GitHub or Bitbucket.
 
 .. image:: /images/authentication.png
 

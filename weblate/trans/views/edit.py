@@ -47,14 +47,13 @@ from weblate.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.ratelimit import session_ratelimit_post
+from weblate.utils.ratelimit import session_ratelimit_post, revert_rate_limit
 
 
 def get_other_units(unit):
     """Returns other units to show while translating."""
     result = {
-        'count': 0,
-        'exists': False,
+        'total': 0,
         'same': [],
         'matching': [],
         'context': [],
@@ -95,8 +94,7 @@ def get_other_units(unit):
         elif item.context == unit.context:
             result['context'].append(item)
 
-    result['count'] = len(result['matching'])
-    result['exists'] = sum(
+    result['total'] = sum(
         [len(result[x]) for x in ('matching', 'source', 'context')]
     )
 
@@ -230,6 +228,11 @@ def perform_translation(unit, form, request):
         new_target,
         form.cleaned_data['state']
     )
+
+    # Should we skip to next entry
+    if not saved:
+        revert_rate_limit('translate', request)
+        return True
 
     # Warn about applied fixups
     if fixups:

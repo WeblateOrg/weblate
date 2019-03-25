@@ -74,12 +74,14 @@ class BaseExporter(object):
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
         if translation is not None:
+            self.plural = translation.plural
             self.project = translation.component.project
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
         else:
             self.project = project
             self.language = language
+            self.plural = language.plural
             self.url = url
         self.fieldnames = fieldnames
 
@@ -194,7 +196,7 @@ class PoExporter(BaseExporter):
 
     def get_storage(self):
         store = self._storage()
-        plural = self.language.plural
+        plural = self.plural
 
         # Set po file header
         store.updateheader(

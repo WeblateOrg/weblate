@@ -198,7 +198,10 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.filter(show_dashboard=True))
+    componentlists = list(ComponentList.objects.filter(
+        show_dashboard=True,
+        components__project__in=request.user.allowed_projects
+    ).distinct())
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
@@ -247,7 +250,9 @@ def dashboard_user(request):
                 get_paginator(request, user_translations)
             ),
             'componentlists': componentlists,
-            'all_componentlists': prefetch_stats(ComponentList.objects.all()),
+            'all_componentlists': prefetch_stats(ComponentList.objects.filter(
+                components__project__in=request.user.allowed_projects
+            )).distinct(),
             'active_tab_slug': active_tab_slug,
         }
     )

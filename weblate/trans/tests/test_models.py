@@ -314,7 +314,7 @@ class SourceTest(ModelTestCase):
 
 class UnitTest(ModelTestCase):
     def test_more_like(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.all().order_by(*Unit.ordering)[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 
     def test_newlines(self):

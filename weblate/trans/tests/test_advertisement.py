@@ -22,21 +22,9 @@
 
 from unittest import TestCase
 
-from weblate.trans.templatetags.advertisement import (
-    get_advertisement_text_mail,
-    get_advertisement_html_mail,
-)
+from weblate.trans.templatetags.advertisement import get_advertisement_link
 
 
 class AdvertisementTest(TestCase):
-    def test_text(self):
-        self.assertIn(
-            'https://',
-            get_advertisement_text_mail()
-        )
-
     def test_html(self):
-        self.assertIn(
-            'https://',
-            get_advertisement_html_mail()
-        )
+        self.assertIn('https://', get_advertisement_link())

@@ -24,6 +24,7 @@ from datetime import timedelta
 import time
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 
 from social_django.models import Partial, Code
@@ -54,10 +55,70 @@ def cleanup_social_auth():
     ).delete()
 
 
+@app.task
+def cleanup_auditlog():
+    """Cleanup old auditlog entries."""
+    from weblate.accounts.models import AuditLog
+    AuditLog.objects.filter(
+        timestamp__lt=now() - timedelta(days=settings.AUDITLOG_EXPIRY)
+    ).delete()
+
+
+@app.task(autoretry_for=(ObjectDoesNotExist,))
+def notify_change(change_id):
+    from weblate.trans.models import Change
+    from weblate.accounts.notifications import (
+        notify_merge_failure, notify_parse_error, notify_new_string,
+        notify_new_contributor, notify_new_suggestion, notify_new_comment,
+        notify_new_translation, notify_new_language,
+    )
+    change = Change.objects.get(pk=change_id)
+    if change.action in (Change.ACTION_FAILED_MERGE, Change.ACTION_FAILED_REBASE):
+        notify_merge_failure(change)
+    elif change.action == Change.ACTION_PARSE_ERROR:
+        notify_parse_error(change)
+    elif change.action == Change.ACTION_NEW_STRING:
+        notify_new_string(change)
+    elif change.action == Change.ACTION_NEW_CONTRIBUTOR:
+        notify_new_contributor(change)
+    elif change.action == Change.ACTION_SUGGESTION:
+        notify_new_suggestion(change)
+    elif change.action == Change.ACTION_COMMENT:
+        notify_new_comment(change)
+    elif change.action in Change.ACTIONS_CONTENT:
+        notify_new_translation(change)
+    elif change.action in (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE):
+        notify_new_language(change)
+
+
+@app.task(autoretry_for=(ObjectDoesNotExist,))
+def notify_auditlog(log_id):
+    from weblate.accounts.models import AuditLog
+    from weblate.accounts.notifications import send_notification_email
+    audit = AuditLog.objects.get(pk=log_id)
+    send_notification_email(
+        audit.user.profile.language,
+        audit.user.email,
+        'account_activity',
+        context={
+            'message': audit.get_message,
+            'extra_message': audit.get_extra_message,
+            'address': audit.address,
+            'user_agent': audit.user_agent,
+        },
+        info='{0} from {1}'.format(audit.activity, audit.address),
+    )
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         3600,
         cleanup_social_auth.s(),
         name='social-auth-cleanup',
+    )
+    sender.add_periodic_task(
+        3600,
+        cleanup_auditlog.s(),
+        name='auditlog-cleanup',
     )

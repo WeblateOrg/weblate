@@ -113,7 +113,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         super(Translation, self).__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
-        self.notify_new_string = False
         self.commit_template = ''
 
     @cached_property
@@ -245,8 +244,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         else:
             return
 
-        self.notify_new_string = False
-
         self.log_info('processing %s, %s', self.filename, reason)
 
         # List of created units (used for cleanup and duplicates detection)
@@ -312,9 +309,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 newunit = Unit(
                     translation=self,
                     id_hash=id_hash,
-                    content_hash=unit.content_hash,
-                    source=unit.source,
-                    context=unit.context
+                    state=-1,
                 )
                 is_new = True
 
@@ -355,8 +350,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author=user
         )
 
-        # Notify subscribed users
-        self.notify_new_string = was_new
+        if was_new:
+            Change.objects.create(
+                translation=self,
+                action=Change.ACTION_NEW_STRING,
+                user=user,
+                author=user
+            )
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()
@@ -470,7 +470,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Create list of files to commit
-        files = self.store.get_filenames()
+        files = self.filenames
 
         # Do actual commit
         self.component.repository.commit(
@@ -494,10 +494,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_push(self):
         return self.component.repo_needs_push()
 
+    @cached_property
+    def filenames(self):
+        if self.component.file_format_cls.simple_filename:
+            return [self.get_filename()]
+        return self.store.get_filenames()
+
     def repo_needs_commit(self):
-        return self.component.repository.needs_commit(
-            *self.store.get_filenames()
-        )
+        return self.component.repository.needs_commit(*self.filenames)
 
     def git_commit(self, request, author, timestamp, skip_push=False):
         """Wrapper for committing translation to git."""
@@ -508,11 +512,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 return False
 
             # Do actual commit with git lock
-            self.log_info(
-                'committing %s as %s',
-                self.store.get_filenames(),
-                author
-            )
+            self.log_info('committing %s as %s', self.filenames, author)
             Change.objects.create(
                 action=Change.ACTION_COMMIT,
                 translation=self,
@@ -574,7 +574,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
-            state = unit.get_unit_state(pounit, False)
+            state = unit.get_unit_state(pounit)
             flags = pounit.flags
             if state != unit.state or flags != unit.flags:
                 unit.state = state
@@ -603,7 +603,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         }
 
         # Optionally store language team with link to website
-        if self.component.project.set_translation_team:
+        if self.component.project.set_language_team:
             headers['language_team'] = '{0} <{1}>'.format(
                 self.language.name,
                 get_site_url(self.get_absolute_url())
@@ -884,18 +884,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Remove translation from the VCS"""
         author = user.get_author_name()
         # Log
-        self.log_info(
-            'removing %s as %s',
-            self.store.get_filenames(),
-            author
-        )
+        self.log_info('removing %s as %s', self.filenames, author)
 
         # Remove file from VCS
         if os.path.exists(self.get_filename()):
             self.commit_template = 'delete'
             with self.component.repository.lock:
                 self.component.repository.remove(
-                    self.store.get_filenames(),
+                    self.filenames,
                     self.get_commit_message(author),
                     author,
                 )

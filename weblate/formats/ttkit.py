@@ -764,17 +764,13 @@ class XliffFormat(TTKitFormat):
     loader = xlifffile
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
+    language_format = 'bcp'
 
     def create_unit(self, key, source):
         unit = super(XliffFormat, self).create_unit(key, source)
         unit.marktranslated()
         unit.markapproved(False)
         return unit
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
 
 
 class PoXliffFormat(XliffFormat):
@@ -811,11 +807,7 @@ class StringsFormat(PropertiesBaseFormat):
     loader = ('properties', 'stringsfile')
     new_translation = '\n'.encode('utf-16')
     autoload = ('.strings',)
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
+    language_format = 'bcp'
 
 
 class StringsUtf8Format(StringsFormat):
@@ -910,19 +902,7 @@ class AndroidFormat(TTKitFormat):
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     )
     autoload = (('strings', '.xml'),)
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == 'zh_Hans':
-            return 'zh-rCN'
-        if code == 'zh_Hant':
-            return 'zh-rTW'
-        sanitized = code.replace('-', '_')
-        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
-            return 'b+{}'.format(sanitized.replace('_', '+'))
-        return sanitized.replace('_', '-r')
+    language_format = 'android'
 
 
 class JSONFormat(TTKitFormat):
@@ -1131,6 +1111,7 @@ class WindowsRCFormat(TTKitFormat):
     autoload = ('.rc',)
     unit_class = MonolingualSimpleUnit
     can_add_unit = False
+    language_format = 'bcp'
 
     @property
     def mimetype(self):
@@ -1141,11 +1122,6 @@ class WindowsRCFormat(TTKitFormat):
     def extension(self):
         """Return most common file extension for format."""
         return 'rc'
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
 
     @classmethod
     def get_class(cls):

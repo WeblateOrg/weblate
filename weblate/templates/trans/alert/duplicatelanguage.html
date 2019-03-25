@@ -1,15 +1,15 @@
 {% load i18n %}
 <p>{% trans "The component contains several translation files mapped to single language in Weblate." %}</p>
 
-<p>{% trans "The following occurences were found:" %}</p>
+<p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table table-condensed">
 <thead>
 <tr><th>{% trans "Language" %}</th><th>{% trans "Language codes" %}</th></tr>
 </thead>
 <tbody>
-{% for occurence in occurences %}
-<tr><td>{{ occurence.language }}</td><td>{{ occurence.codes }}</td></tr>
+{% for occurrence in occurrences %}
+<tr><td>{{ occurrence.language }}</td><td>{{ occurrence.codes }}</td></tr>
 {% endfor %}
 </tbody>
 </table>

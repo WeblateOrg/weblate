@@ -38,18 +38,12 @@ class CaptchaTest(TestCase):
 
     def test_tamper(self):
         hashed = hash_question('', 0) + '00'
-        self.assertRaises(
-            ValueError,
-            unhash_question,
-            hashed
-        )
+        with self.assertRaises(ValueError):
+            unhash_question(hashed)
 
     def test_invalid(self):
-        self.assertRaises(
-            ValueError,
-            unhash_question,
-            ''
-        )
+        with self.assertRaises(ValueError):
+            unhash_question('')
 
     def test_object(self):
         captcha = MathCaptcha('1 * 2')
@@ -64,11 +58,8 @@ class CaptchaTest(TestCase):
             captcha.question,
             restored.question
         )
-        self.assertRaises(
-            ValueError,
-            MathCaptcha.from_hash,
-            captcha.hashed[:40]
-        )
+        with self.assertRaises(ValueError):
+            MathCaptcha.from_hash(captcha.hashed[:40])
 
     def test_generate(self):
         """Test generating of captcha for every operator."""

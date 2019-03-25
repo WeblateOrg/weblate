@@ -122,7 +122,8 @@ class EditTest(ViewTestCase):
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
-        self.assertFalse(unit.has_failing_check)
+        # Should have was translated check
+        self.assertTrue(unit.has_failing_check)
 
 
 class EditValidationTest(ViewTestCase):
@@ -374,7 +375,7 @@ class EditAppStoreTest(EditTest):
     source = 'Weblate - continuous localization'
     target = 'Weblate - průběžná lokalizace'
     second_target = 'Weblate - průběžný překlad'
-    already_translated = 1
+    already_translated = 2
 
     def create_component(self):
         return self.create_appstore()
@@ -650,7 +651,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 1)
 
         # Ignore check
-        check_id = unit.checks()[0].id
+        check_id = unit.active_checks()[0].id
         response = self.client.get(
             reverse('js-ignore-check', kwargs={'check_id': check_id})
         )

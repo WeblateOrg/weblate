@@ -221,14 +221,19 @@ action with `hub`_ to finish the configuration, for example:
 
 .. code-block:: sh
 
+    # DATA_DIR is set in Weblate settings.py, set it accordingy.
+    # Is is /app/data in Docker
     HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
 
-The `hub`_ will ask you for your GitHub credentials, retrieve a token and
-store it into :file:`~/.config/hub`.
+The `hub`_ will ask you for your GitHub credentials, retrieve a token and store
+it into :file:`~/.config/hub`. This file has to be readable by user running
+Weblate.
 
 .. note::
 
-    Use the username you configured :guilabel:`hub` with as :setting:`GITHUB_USERNAME`.
+    Use the username you configured :guilabel:`hub` with as
+    :setting:`GITHUB_USERNAME` (:envvar:`WEBLATE_GITHUB_USERNAME` for the
+    Docker image).
 
 .. _hub: https://hub.github.com/
 

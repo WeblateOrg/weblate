@@ -303,11 +303,11 @@ class PerlFormatCheck(BaseFormatCheck):
         return '$' not in string and string != '%'
 
 
-class JavascriptFormatCheck(CFormatCheck):
-    """Check for Javascript format string"""
+class JavaScriptFormatCheck(CFormatCheck):
+    """Check for JavaScript format string"""
     check_id = 'javascript_format'
-    name = _('Javascript format')
-    description = _('Javascript format string does not match source')
+    name = _('JavaScript format')
+    description = _('JavaScript format string does not match source')
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):

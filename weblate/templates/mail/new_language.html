@@ -7,6 +7,19 @@
 {% trans "Hi,"%}
 </p>
 
+{% if was_added %}
+<p>
+{% blocktrans %}New language has been added to {{ translation }} at {{ site_title }}.{% endblocktrans %}
+</p>
+
+<table>
+<tr>
+
+<th>
+{% trans "Added language:" %}
+
+</th>
+{% else %}
 <p>
 {% blocktrans %}There has been a request for new language on {{ translation }} at {{ site_title }}.{% endblocktrans %}
 </p>
@@ -28,6 +41,7 @@
 {% trans "Requested language:" %}
 
 </th>
+{% endif %}
 
 <td>
 {{ language }} ({{ language.code }})
@@ -43,6 +57,11 @@
 <td>
 <a href="mailto:{{ user.email }}">{{ user.get_visible_name }}</a>
 </td>
+</tr>
+
+<tr>
+<th>{% trans "Translation component:" %}</th>
+<td><a href="{{ current_site_url }}{{ translation.get_absolute_url }}">{{ translation }}</a></td>
 </tr>
 
 </table>

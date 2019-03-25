@@ -28,7 +28,7 @@ from django.core import mail
 from django.test.utils import override_settings
 
 from weblate.auth.models import User
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, AuditLog
 from weblate.accounts.notifications import (
     notify_merge_failure,
     notify_parse_error,
@@ -38,16 +38,15 @@ from weblate.accounts.notifications import (
     notify_new_translation,
     notify_new_contributor,
     notify_new_language,
-    notify_account_activity,
 )
 from weblate.trans.tests.test_views import (
-    FixtureTestCase, RegistrationTestMixin,
+    ViewTestCase, RegistrationTestMixin,
 )
-from weblate.trans.models import Suggestion, Comment
+from weblate.trans.models import Suggestion, Comment, Change
 from weblate.lang.models import Language
 
 
-class NotificationTest(FixtureTestCase, RegistrationTestMixin):
+class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def setUp(self):
         super(NotificationTest, self).setUp()
         self.user.email = 'noreply+notify@weblate.org'
@@ -73,16 +72,18 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             'testpassword'
         )
 
-    @override_settings(ADMINS=(('Weblate test', 'noreply@weblate.org'), ))
     def test_notify_merge_failure(self):
-        notify_merge_failure(
-            self.component,
-            'Failed merge',
-            'Error\nstatus'
+        change = Change(
+            component=self.component,
+            details={
+                'error': 'Failed merge',
+                'status': 'Error\nstatus',
+            },
         )
+        notify_merge_failure(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Merge failure in Test/Test'
@@ -90,26 +91,24 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(self.second_user(), '@Administration')
-        notify_merge_failure(
-            self.component,
-            'Failed merge',
-            'Error\nstatus'
-        )
+        notify_merge_failure(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
-    @override_settings(ADMINS=(('Weblate test', 'noreply@weblate.org'), ))
     def test_notify_parse_error(self):
-        notify_parse_error(
-            self.component,
-            self.get_translation(),
-            'Failed merge',
-            'test/file.po',
+        change = Change(
+            component=self.component,
+            translation=self.get_translation(),
+            details={
+                'error': 'Failed merge',
+                'filename': 'test/file.po',
+            },
         )
+        notify_parse_error(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Parse error in Test/Test'
@@ -117,18 +116,14 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(self.second_user(), '@Administration')
-        notify_parse_error(
-            self.component,
-            self.get_translation(),
-            'Error\nstatus',
-            'test/file.po',
-        )
+        notify_parse_error(change)
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
     def test_notify_new_string(self):
-        notify_new_string(self.get_translation())
+        change = Change(translation=self.get_translation())
+        notify_new_string(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -138,15 +133,12 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         )
 
     def test_notify_new_translation(self):
-        unit = self.get_unit()
-        unit2 = self.get_translation().unit_set.get(
-            source='Thank you for using Weblate.'
+        change = Change(
+            unit=self.get_unit(),
+            user=self.second_user(),
+            old='',
         )
-        notify_new_translation(
-            unit,
-            unit2,
-            self.second_user()
-        )
+        notify_new_translation(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -157,11 +149,12 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_new_language(self):
         second_user = self.second_user()
-        notify_new_language(
-            self.component,
-            Language.objects.filter(code='de'),
-            second_user
+        change = Change(
+            user=second_user,
+            component=self.component,
+            details={'language': 'de'}
         )
+        notify_new_language(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -172,21 +165,14 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
         # Add project owner
         self.component.project.add_user(second_user, '@Administration')
-        notify_new_language(
-            self.component,
-            Language.objects.filter(code='de'),
-            second_user,
-        )
+        notify_new_language(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 3)
 
     def test_notify_new_contributor(self):
-        unit = self.get_unit()
-        notify_new_contributor(
-            unit,
-            self.second_user()
-        )
+        change = Change(unit=self.get_unit(), user=self.second_user())
+        notify_new_contributor(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -197,16 +183,17 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_new_suggestion(self):
         unit = self.get_unit()
-        notify_new_suggestion(
-            unit,
-            Suggestion.objects.create(
+        change = Change(
+            unit=unit,
+            suggestion=Suggestion.objects.create(
                 content_hash=unit.content_hash,
                 project=unit.translation.component.project,
                 language=unit.translation.language,
                 target='Foo'
             ),
-            self.second_user()
+            user=self.second_user()
         )
+        notify_new_suggestion(change)
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -215,55 +202,47 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             '[Weblate] New suggestion in Test/Test - Czech'
         )
 
-    def test_notify_new_comment(self):
+    def test_notify_new_comment(self, expected=1, comment='Foo'):
         unit = self.get_unit()
-        notify_new_comment(
-            unit,
-            Comment.objects.create(
+        change = Change(
+            unit=unit,
+            comment=Comment.objects.create(
                 content_hash=unit.content_hash,
                 project=unit.translation.component.project,
-                language=unit.translation.language,
-                comment='Foo'
+                comment=comment,
             ),
-            self.second_user(),
-            ''
+            user=self.second_user()
         )
+        notify_new_comment(change)
 
         # Check mail
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] New comment in Test/Test'
-        )
+        self.assertEqual(len(mail.outbox), expected)
+        for message in mail.outbox:
+            self.assertEqual(
+                message.subject, '[Weblate] New comment in Test/Test'
+            )
 
     def test_notify_new_comment_report(self):
-        unit = self.get_unit()
-        notify_new_comment(
-            unit,
-            Comment.objects.create(
-                content_hash=unit.content_hash,
-                project=unit.translation.component.project,
-                language=None,
-                comment='Foo'
-            ),
-            self.second_user(),
-            'noreply@weblate.org'
+        self.component.report_source_bugs = 'noreply@weblate.org'
+        self.component.save()
+        self.test_notify_new_comment(2)
+
+    def test_notify_new_comment_mention(self):
+        self.test_notify_new_comment(
+            2,
+            'Hello @{} and @invalid'.format(self.anotheruser.username)
         )
 
-        # Check mail
-        self.assertEqual(len(mail.outbox), 2)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] New comment in Test/Test'
-        )
-        self.assertEqual(
-            mail.outbox[1].subject,
-            '[Weblate] New comment in Test/Test'
-        )
+    def test_notify_new_comment_author(self):
+        self.edit_unit('Hello, world!\n', 'Ahoj svete!\n')
+        change = self.get_unit().change_set.content().order_by('-timestamp')[0]
+        change.author = self.anotheruser
+        change.save()
+        self.test_notify_new_comment(2)
 
     def test_notify_account(self):
         request = self.get_request()
-        notify_account_activity(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
 
@@ -271,7 +250,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         self.user.profile.language = 'cs'
         self.user.profile.save()
         request = self.get_request()
-        notify_account_activity(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
         content = mail.outbox[0].alternatives[0][0]

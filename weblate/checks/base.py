@@ -61,10 +61,10 @@ class Check(object):
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""
-        if self.should_skip(unit):
-            return False
         # No checking of not translated units
         if self.ignore_untranslated and not unit.translated:
+            return False
+        if self.should_skip(unit):
             return False
         return self.check_target_unit(sources, targets, unit)
 

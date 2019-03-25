@@ -163,7 +163,7 @@ def show_check_project(request, name, project):
                 'translation__component__project__slug'
             ).annotate(
                 count=Count('id')
-            ).order_by(*Unit.ordering)
+            )
             units |= res
     if check.source:
         checks = allchecks.filter(
@@ -187,7 +187,7 @@ def show_check_project(request, name, project):
                 'translation__component__project__slug'
             ).annotate(
                 count=Count('id')
-            ).order_by(*Unit.ordering)
+            )
             units |= res
 
     counts = {}

@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% with projects=billing.projects.all %}
 <div class="container-fluid">
 <div class="row">
 
@@ -36,7 +37,7 @@
   <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">{% trans "Terminate recurring payment" %}</button>
   {% endif %}
   <button type="submit" name="terminate" value="{{ billing.pk }}" class="btn btn-danger"
-  {% if billing.projects.exists %}
+  {% if projects %}
   title="{% trans "To terminate billing you have to remove all projects first." %}"
   disabled
   {% endif %}
@@ -82,3 +83,4 @@
 </div>
 
 </div>
+{% endwith %}

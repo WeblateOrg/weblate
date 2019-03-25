@@ -22,12 +22,14 @@ from __future__ import unicode_literals
 
 import os
 
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateForm
 from weblate.utils.render import render_template
+from weblate.utils.validators import validate_filename
 
 
 class GenerateFileAddon(BaseAddon):
@@ -50,12 +52,17 @@ class GenerateFileAddon(BaseAddon):
         return super(GenerateFileAddon, cls).can_install(component, user)
 
     def pre_commit(self, translation, author):
+        filename = render_template(
+            self.instance.configuration['filename'],
+            translation=translation
+        )
+        try:
+            validate_filename(filename)
+        except ValidationError:
+            return
         filename = os.path.join(
             self.instance.component.full_path,
-            render_template(
-                self.instance.configuration['filename'],
-                translation=translation
-            )
+            filename
         )
         content = render_template(
             self.instance.configuration['template'],
