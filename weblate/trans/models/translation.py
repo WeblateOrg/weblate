@@ -426,16 +426,16 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     break
 
                 # Get last change metadata
-                change = unit.get_last_content_change(request)
+                author, timestamp  = unit.get_last_content_change(request)
 
-                author_name = change[0].get_author_name()
+                author_name = author.get_author_name()
 
                 # Flush pending units for this author
-                self.update_units(author_name, change[0].id)
+                self.update_units(author_name, author.id)
 
                 # Commit changes
                 self.git_commit(
-                    request, author_name, change[1], skip_push=skip_push
+                    request, author_name, timestamp, skip_push=skip_push
                 )
 
         # Update stats (the translated flag might have changed)
