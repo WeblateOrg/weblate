@@ -19,249 +19,355 @@
 #
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
+from dateutil.relativedelta import relativedelta
+
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.db.models import Q
 from django.template.loader import render_to_string
-from django.utils import translation as django_translation
+from django.utils import translation as django_translation, timezone
+from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
 from html2text import html2text
 
-from weblate.auth.models import User
-from weblate.accounts.models import Profile
 from weblate.celery import app
 from weblate.lang.models import Language
+from weblate.trans.models import Change
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate import VERSION
 from weblate.logger import LOGGER
 
 
-def notify_merge_failure(change):
-    """Notification on merge failure."""
-    component = change.component
-    error = change.details.get('error', '')
-    status = change.details.get('status', '')
-    subscriptions = Profile.objects.subscribed_merge_failure(
-        component.project,
-    )
-    users = set()
-    mails = []
-    for subscription in subscriptions:
-        mails.append(
-            send_merge_failure(subscription, component, error, status)
-        )
-        users.add(subscription.user_id)
+FREQ_NONE = 0
+FREQ_INSTANT = 1
+FREQ_DAILY = 2
+FREQ_WEEKLY = 3
+FREQ_MONTHLY = 4
 
-    for owner in User.objects.all_admins(component.project):
-        mails.append(
-            send_merge_failure(
-                owner.profile, component, error, status
+FREQ_CHOICES = (
+    (FREQ_NONE, _('Disabled')),
+    (FREQ_INSTANT, _('Instant notification')),
+    (FREQ_DAILY, _('Daily digest')),
+    (FREQ_WEEKLY, _('Weekly digest')),
+    (FREQ_MONTHLY, _('Monthly digest')),
+)
+
+SCOPE_DEFAULT = 10
+SCOPE_ADMIN = 20
+SCOPE_PROJECT = 30
+SCOPE_COMPONENT = 40
+
+NOTIFICATIONS = []
+NOTIFICATIONS_ACTIONS = {}
+
+
+def register_notification(handler):
+    """Register notification handler."""
+    NOTIFICATIONS.append(handler)
+    for action in handler.actions:
+        if action not in NOTIFICATIONS_ACTIONS:
+            NOTIFICATIONS_ACTIONS[action] = []
+        NOTIFICATIONS_ACTIONS[action].append(handler)
+    return handler
+
+
+class Notification(object):
+    actions = ()
+    verbose = ''
+    template_name = None
+    filter_languages = False
+
+    def __init__(self, connection):
+        self.connection = connection
+        self.subscription_cache = {}
+
+    def need_language_filter(self, change):
+        return self.filter_languages
+
+    @classmethod
+    def get_choice(cls):
+        return (cls.get_name(), cls.verbose)
+
+    @classmethod
+    def get_name(cls):
+        return force_text(cls.__name__)
+
+    def filter_subscriptions(self, change, users=None):
+        from weblate.accounts.models import Subscription
+        result = Subscription.objects.filter(notification=self.get_name())
+        if users is not None:
+            result = result.filter(user_id__in=users)
+        query = Q(scope=SCOPE_DEFAULT) | Q(scope=SCOPE_ADMIN)
+        if change.component:
+            query |= Q(component=change.component)
+        if change.project:
+            query |= Q(project=change.project)
+        if self.need_language_filter(change):
+            result = result.filter(
+                user__profile__languages=change.translation.language
             )
+        return result.filter(
+            query
+        ).order_by(
+            'user', '-scope'
+        ).select_related(
+            'user__profile'
         )
 
-    enqueue_mails(mails)
+    def get_subscriptions(self, change, users=None):
+        cache_key = (
+            change.component.pk if change.component else None,
+            change.project.pk if change.project else None
+        )
+        if users is not None:
+            cache_key += tuple(sorted(users))
+        if cache_key in self.subscription_cache:
+            return self.subscription_cache[cache_key]
+        result = self.filter_subscriptions(change, users)
+        self.subscription_cache[cache_key] = result
+        return result
 
+    def get_users(self, frequency, change, users=None):
+        last_user = None
+        subscriptions = self.get_subscriptions(change, users)
+        for subscription in subscriptions:
+            if last_user == subscription.user:
+                continue
+            if (subscription.scope == SCOPE_ADMIN and
+                    not subscription.user.has_perm('project.edit', change.project)):
+                continue
+            last_user = subscription.user
+            if subscription.frequency == frequency:
+                yield last_user
 
-def notify_parse_error(change):
-    """Notification on parse error."""
-    component = change.component
-    translation = change.translation
-    error = change.details.get('error', '')
-    filename = change.details.get('filename', '')
-    subscriptions = Profile.objects.subscribed_merge_failure(
-        component.project,
-    )
-    users = set()
-    mails = []
-    for subscription in subscriptions:
-        mails.append(
-            send_parse_error(
-                subscription,
-                component, translation, error, filename
+    def send(self, address, subject, body, headers):
+        email = EmailMultiAlternatives(
+            settings.EMAIL_SUBJECT_PREFIX + subject,
+            html2text(body),
+            to=[address],
+            headers=headers,
+            connection=self.connection,
+        )
+        email.attach_alternative(body, 'text/html')
+        email.send()
+
+    def render_template(self, suffix, context):
+        """Render single mail template with given context"""
+        template_name = 'mail/{}{}'.format(self.template_name, suffix)
+        return render_to_string(template_name, context).strip()
+
+    def get_context(self, change):
+        """Return context for rendering mail"""
+        result = {
+            'change': change,
+            'LANGUAGE_CODE': django_translation.get_language(),
+            'LANGUAGE_BIDI': django_translation.get_language_bidi(),
+            'current_site_url': get_site_url(),
+            'site_title': settings.SITE_TITLE,
+            'notification_name': self.verbose,
+        }
+        # Extract change attributes
+        attribs = (
+            'unit', 'translation', 'component', 'project', 'dictionary',
+            'comment', 'suggestion', 'whiteboard', 'alert',
+            'user',
+            'target', 'old', 'details',
+        )
+        for attrib in attribs:
+            result[attrib] = getattr(change, attrib)
+        if result['translation']:
+            result['translation_url'] = get_site_url(
+                result['translation'].get_absolute_url()
             )
-        )
-        users.add(subscription.user_id)
+        return result
 
-    for owner in User.objects.all_admins(component.project):
-        mails.append(
-            send_parse_error(
-                owner.profile,
-                component, translation, error, filename
+    def get_headers(self, context):
+        headers = {
+            'Auto-Submitted': 'auto-generated',
+            'X-AutoGenerated': 'yes',
+            'Precedence': 'bulk',
+            'X-Mailer': 'Weblate {0}'.format(VERSION),
+            'X-Weblate-Notification': self.get_name()
+        }
+
+        # Reply to header
+        user = context['user']
+        if user and not user.is_anonymous and not user.is_demo:
+            headers['Reply-To'] = user.email
+
+        # References for unit events
+        references = None
+        unit = context['unit']
+        if unit:
+            references = '{0}/{1}/{2}/{3}'.format(
+                unit.translation.component.project.slug,
+                unit.translation.component.slug,
+                unit.translation.language.code,
+                unit.id
             )
-        )
+        if references is not None:
+            references = '<{0}@{1}>'.format(references, get_site_domain())
+            headers['In-Reply-To'] = references
+            headers['References'] = references
+        return headers
 
-    enqueue_mails(mails)
-
-
-def notify_new_string(change):
-    """Notification on new string to translate."""
-    translation = change.translation
-    mails = []
-    subscriptions = Profile.objects.subscribed_new_string(
-        translation.component.project, translation.language
-    )
-    for subscription in subscriptions:
-        mails.append(
-            send_new_string(subscription, translation)
-        )
-
-    enqueue_mails(mails)
-
-
-def notify_new_language(change):
-    """Notify subscribed users about new language requests"""
-    component = change.component
-    language = Language.objects.get(code=change.details['language'])
-    user = change.user
-    was_added = change.action == change.ACTION_ADDED_LANGUAGE
-    mails = []
-    subscriptions = Profile.objects.subscribed_new_language(
-        component.project,
-        user
-    )
-    users = set()
-    for subscription in subscriptions:
-        mails.append(
-            send_new_language(
-                subscription, component, language, user, was_added
+    def send_immediate(self, language, email, change):
+        with django_translation.override('en' if language is None else language):
+            context = self.get_context(change)
+            subject = self.render_template('_subject.txt', context)
+            context['subject'] = subject
+            LOGGER.info(
+                'sending notification %s on %s to %s',
+                self.get_name(), context['component'], email,
             )
-        )
-        users.add(subscription.user_id)
-
-    for owner in User.objects.all_admins(component.project):
-        if owner.id in users:
-            continue
-        mails.append(
-            send_new_language(
-                owner.profile, component, language, user, was_added
+            self.send(
+                email,
+                subject,
+                self.render_template('.html', context),
+                self.get_headers(context),
             )
+
+    def notify_immediate(self, change):
+        for user in self.get_users(FREQ_INSTANT, change):
+            if user.can_access_project(change.project):
+                self.send_immediate(
+                    user.profile.language, user.email, change
+                )
+
+    def notify_digest(self, frequency, changes):
+        notifications = defaultdict(list)
+        for change in changes:
+            for user in self.get_users(frequency, change):
+                notifications[user.pk].append(change)
+        raise NotImplementedError()
+
+    def filter_changes(self, **kwargs):
+        return Change.objects.filter(
+            action__in=self.actions,
+            timestamp__gte=timezone.now() - relativedelta(**kwargs)
         )
 
-    enqueue_mails(mails)
+    def notify_daily(self):
+        self.notify_digest(FREQ_DAILY, self.filter_changes(days=1))
+
+    def notify_weekly(self):
+        self.notify_digest(FREQ_WEEKLY, self.filter_changes(weeks=1))
+
+    def notify_monthly(self):
+        self.notify_digest(FREQ_MONTHLY, self.filter_changes(months=1))
 
 
-def notify_new_translation(change):
-    """Notify subscribed users about new translation"""
-    unit = change.unit
-    user = change.user
-    old_target = change.old
-    mails = []
-    subscriptions = Profile.objects.subscribed_any_translation(
-        unit.translation.component.project,
-        unit.translation.language,
-        user
-    )
-    for subscription in subscriptions:
-        mails.append(
-            send_any_translation(subscription, unit, old_target, user)
+@register_notification
+class MergeFailureNotification(Notification):
+    actions = (Change.ACTION_FAILED_MERGE, Change.ACTION_FAILED_REBASE)
+    verbose = _('Merge failure')
+    template_name = 'merge_failure'
+
+
+@register_notification
+class ParseErrorNotification(Notification):
+    actions = (Change.ACTION_PARSE_ERROR,)
+    verbose = _('Parse error')
+    template_name = 'parse_error'
+
+
+@register_notification
+class NewStringNotificaton(Notification):
+    actions = (Change.ACTION_NEW_STRING,)
+    verbose = _('New string')
+    template_name = 'new_string'
+    filter_languages = True
+
+
+@register_notification
+class NewContributorNotificaton(Notification):
+    actions = (Change.ACTION_NEW_CONTRIBUTOR,)
+    verbose = _('New contributor')
+    template_name = 'new_contributor'
+    filter_languages = True
+
+
+@register_notification
+class NewSuggestionNotificaton(Notification):
+    actions = (Change.ACTION_SUGGESTION,)
+    verbose = _('New suggestion')
+    template_name = 'new_suggestion'
+    filter_languages = True
+
+
+@register_notification
+class LastAuthorCommentNotificaton(Notification):
+    actions = (Change.ACTION_COMMENT,)
+    verbose = _('Comment on authored translation')
+    template_name = 'new_comment'
+
+    def get_users(self, frequency, change, users=None):
+        last_author = change.unit.get_last_content_change(None, silent=True)[0]
+        if last_author.is_anonymous or last_author.is_demo:
+            users = []
+        else:
+            users = [last_author.pk]
+        return super(LastAuthorCommentNotificaton, self).get_users(
+            frequency, change, users
         )
 
-    enqueue_mails(mails)
 
+@register_notification
+class MentionCommentNotificaton(Notification):
+    actions = (Change.ACTION_COMMENT,)
+    verbose = _('Mentioned in comment')
+    template_name = 'new_comment'
 
-def notify_new_contributor(change):
-    """Notify about new contributor."""
-    unit = change.unit
-    user = change.user
-    mails = []
-    subscriptions = Profile.objects.subscribed_new_contributor(
-        unit.translation.component.project,
-        unit.translation.language,
-        user
-    )
-    for subscription in subscriptions:
-        mails.append(
-            send_new_contributor(
-                subscription,
-                unit.translation, user
-            )
+    def get_users(self, frequency, change, users=None):
+        users = [user.pk for user in change.comment.get_mentions()]
+        return super(MentionCommentNotificaton, self).get_users(
+            frequency, change, users
         )
 
-    enqueue_mails(mails)
+
+@register_notification
+class NewCommentNotificaton(Notification):
+    actions = (Change.ACTION_COMMENT,)
+    verbose = _('New comment')
+    template_name = 'new_comment'
+
+    def need_language_filter(self, change):
+        return bool(change.comment.language)
+
+    def notify_immediate(self, change):
+        super(NewCommentNotificaton, self).notify_immediate(change)
+
+        # Notify upstream
+        report_source_bugs = change.component.report_source_bugs
+        if change.comment.language is None and report_source_bugs:
+            self.send_immediate('en', report_source_bugs, change)
 
 
-def notify_new_suggestion(change):
-    """Notify about new suggestion."""
-    unit = change.unit
-    suggestion = change.suggestion
-    if not suggestion:
-        return
-    user = change.user
-    mails = []
-    subscriptions = Profile.objects.subscribed_new_suggestion(
-        unit.translation.component.project,
-        unit.translation.language,
-        user
-    )
-    for subscription in subscriptions:
-        mails.append(
-            send_new_suggestion(
-                subscription,
-                unit.translation,
-                suggestion,
-                unit
-            )
+@register_notification
+class ChangedStringNotificaton(Notification):
+    actions = Change.ACTIONS_CONTENT
+    verbose = _('Changed string')
+    template_name = 'changed_translation'
+
+
+@register_notification
+class NewTranslationNotificaton(Notification):
+    actions = (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE)
+    verbose = _('New language')
+    template_name = 'new_language'
+
+    def get_context(self, change):
+        context = super(NewTranslationNotificaton, self).get_context(change)
+        context['language'] = Language.objects.get(
+            code=change.details['language']
         )
+        context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE
+        return context
 
-    enqueue_mails(mails)
 
-
-def notify_new_comment(change):
-    """Notify about new comment."""
-    unit = change.unit
-    comment = change.comment
-    if not comment:
-        return
-    user = change.user
-    report_source_bugs = unit.translation.component.report_source_bugs
-    mails = []
-    users = {user.pk}
-    subscriptions = Profile.objects.subscribed_new_comment(
-        unit.translation.component.project,
-        comment.language,
-        user
-    )
-    for subscription in subscriptions:
-        mails.append(
-            send_new_comment(subscription, unit, comment, user)
-        )
-        users.add(subscription.user.pk)
-
-    # Notify mentioned users
-    for mentioned in comment.get_mentions():
-        if mentioned.pk in users:
-            continue
-        mails.append(
-            send_new_comment(mentioned.profile, unit, comment, user)
-        )
-        users.add(mentioned.pk)
-
-    # Notify last author
-    last_author = unit.get_last_content_change(None, silent=True)[0]
-    if (not last_author.is_anonymous and
-            not last_author.is_demo and
-            last_author.pk not in users):
-        mails.append(
-            send_new_comment(last_author.profile, unit, comment, user)
-        )
-        users.add(last_author.pk)
-
-    # Notify upstream
-    if comment.language is None and report_source_bugs:
-        send_notification_email(
-            'en',
-            report_source_bugs,
-            'new_comment',
-            unit.translation,
-            {
-                'unit': unit,
-                'comment': comment,
-                'component': unit.translation.component,
-            },
-            user=user,
-        )
-
-    enqueue_mails(mails)
 
 
 def get_notification_email(language, email, notification,
@@ -359,149 +465,7 @@ def send_notification_email(language, email, notification,
         language, email, notification, translation_obj, context, headers,
         user, info
     )
-    enqueue_mails([email])
-
-
-def send_user(profile, notification, component, display_obj,
-              context=None, headers=None, user=None):
-    """Wrapper for sending notifications to user."""
-    if context is None:
-        context = {}
-    if headers is None:
-        headers = {}
-
-    # Check whether user is still allowed to access this project
-    if profile.user.can_access_project(component.project):
-        # Generate notification
-        return get_notification_email(
-            profile.language,
-            profile.user.email,
-            notification,
-            display_obj,
-            context,
-            headers,
-            user=user
-        )
-    return None
-
-
-def send_any_translation(profile, unit, old_target, user):
-    """Send notification on translation."""
-    return send_user(
-        profile,
-        'changed_translation',
-        unit.translation.component,
-        unit.translation,
-        {
-            'unit': unit,
-            'old_target': old_target,
-        },
-        user=user
-    )
-
-
-def send_new_language(profile, component, language, user, was_added):
-    """Send notification on new language request."""
-    return send_user(
-        profile,
-        'new_language',
-        component,
-        component,
-        {
-            'language': language,
-            'was_added': was_added,
-        },
-        user=user
-    )
-
-
-def send_new_string(profile, translation):
-    """Send notification on new strings to translate."""
-    return send_user(
-        profile,
-        'new_string',
-        translation.component,
-        translation,
-    )
-
-
-def send_new_suggestion(profile, translation, suggestion, unit):
-    """Send notification on new suggestion."""
-    return send_user(
-        profile,
-        'new_suggestion',
-        translation.component,
-        translation,
-        {
-            'suggestion': suggestion,
-            'unit': unit,
-        },
-        user=suggestion.user
-    )
-
-
-def send_new_contributor(profile, translation, user):
-    """Send notification on new contributor."""
-    return send_user(
-        profile,
-        'new_contributor',
-        translation.component,
-        translation,
-        user=user,
-    )
-
-
-def send_new_comment(profile, unit, comment, user):
-    """Send notification about new comment."""
-    return send_user(
-        profile,
-        'new_comment',
-        unit.translation.component,
-        unit.translation,
-        {
-            'unit': unit,
-            'comment': comment,
-            'component': unit.translation.component,
-        },
-        user=user,
-    )
-
-
-def send_merge_failure(profile, component, error, status):
-    """Send notification on merge failure."""
-    return send_user(
-        profile,
-        'merge_failure',
-        component,
-        component,
-        {
-            'component': component,
-            'error': error,
-            'status': status,
-        }
-    )
-
-
-def send_parse_error(profile, component, translation, error, filename):
-    """Send notification on parse error."""
-    return send_user(
-        profile,
-        'parse_error',
-        component,
-        translation if translation is not None else component,
-        {
-            'component': component,
-            'translation': translation,
-            'error': error,
-            'filename': filename,
-        }
-    )
-
-
-def enqueue_mails(mails):
-    mails = [mail for mail in mails if mail is not None]
-    if mails:
-        send_mails.delay(mails)
+    send_mails.delay([email])
 
 
 @app.task

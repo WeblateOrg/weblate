@@ -351,6 +351,10 @@ class Change(models.Model, UserDisplayMixin):
         ordering = ['-timestamp']
         app_label = 'trans'
 
+    def __init__(self, *args, **kwargs):
+        self.notify_state = {}
+        super(Change, self).__init__(*args, **kwargs)
+
     def __str__(self):
         return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
             'action': self.get_action_display(),

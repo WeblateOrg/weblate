@@ -42,6 +42,11 @@ from rest_framework.authtoken.models import Token
 
 from social_django.models import UserSocialAuth
 
+from weblate.accounts.data import create_default_notifications
+from weblate.accounts.notifications import (
+    NOTIFICATIONS, FREQ_CHOICES, SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT,
+    SCOPE_COMPONENT,
+)
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -51,6 +56,44 @@ from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 from weblate.utils.request import get_ip_address, get_user_agent
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+    )
+    notification = models.CharField(
+        choices=[n.get_choice() for n in NOTIFICATIONS],
+        max_length=100,
+    )
+    scope = models.IntegerField(
+        choices=(
+            (SCOPE_DEFAULT, 'Defaults'),
+            (SCOPE_ADMIN, 'Admin'),
+            (SCOPE_PROJECT, 'Project'),
+            (SCOPE_COMPONENT, 'Component'),
+        )
+    )
+    frequency = models.IntegerField(
+        choices=FREQ_CHOICES,
+    )
+    project = models.ForeignKey(
+        'trans.Project',
+        on_delete=models.deletion.CASCADE,
+        null=True,
+    )
+    component = models.ForeignKey(
+        'trans.Component',
+        on_delete=models.deletion.CASCADE,
+        null=True,
+    )
+
+    class Meta(object):
+        unique_together = [
+            ('notification', 'scope', 'project', 'component', 'user')
+        ]
+
 
 ACCOUNT_ACTIVITY = {
     'password': _(
@@ -281,70 +324,6 @@ class VerifiedEmail(models.Model):
         )
 
 
-class ProfileManager(models.Manager):
-    """Manager providing shortcuts for subscription queries."""
-    # pylint: disable=no-init
-
-    def subscribed_any_translation(self, project, language, user):
-        return self.filter(
-            subscribe_any_translation=True,
-            subscriptions=project,
-            languages=language
-        ).exclude(
-            user=user
-        )
-
-    def subscribed_new_language(self, project, user):
-        return self.filter(
-            subscribe_new_language=True,
-            subscriptions=project,
-        ).exclude(
-            user=user
-        )
-
-    def subscribed_new_string(self, project, language):
-        return self.filter(
-            subscribe_new_string=True,
-            subscriptions=project,
-            languages=language
-        )
-
-    def subscribed_new_suggestion(self, project, language, user):
-        ret = self.filter(
-            subscribe_new_suggestion=True,
-            subscriptions=project,
-            languages=language
-        )
-        # We don't want to filter out anonymous user
-        if user is not None and user.is_authenticated:
-            ret = ret.exclude(user=user)
-        return ret
-
-    def subscribed_new_contributor(self, project, language, user):
-        return self.filter(
-            subscribe_new_contributor=True,
-            subscriptions=project,
-            languages=language
-        ).exclude(
-            user=user
-        )
-
-    def subscribed_new_comment(self, project, language, user):
-        ret = self.filter(
-            subscribe_new_comment=True,
-            subscriptions=project
-        ).exclude(
-            user=user
-        )
-        # Source comments go to every subscriber
-        if language is not None:
-            ret = ret.filter(languages=language)
-        return ret
-
-    def subscribed_merge_failure(self, project):
-        return self.filter(subscribe_merge_failure=True, subscriptions=project)
-
-
 @python_2_unicode_compatible
 class Profile(models.Model):
     """User profiles storage."""
@@ -517,8 +496,6 @@ class Profile(models.Model):
         'subscribe_new_language',
     )
 
-    objects = ProfileManager()
-
     def __str__(self):
         return self.user.username
 
@@ -622,6 +599,9 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         Token.objects.create(user=instance, key=get_random_string(40))
         # Create profile
         Profile.objects.create(user=instance)
+        # Create subscriptions
+        if not instance.is_anonymous and not instance.is_demo:
+            create_default_notifications(instance)
 
 
 class WeblateAccountsConf(AppConf):

@@ -33,14 +33,14 @@
 </td>
 </tr>
 
-{% if old_target %}
+{% if old %}
 <tr>
 <th>
 {% trans "Translation change:" %}
 </th>
 
 <td>
-{% format_translation unit.target unit.translation.language unit.translation.plural old_target %}
+{% format_translation unit.target unit.translation.language unit.translation.plural old %}
 </td>
 </tr>
 {% endif %}
