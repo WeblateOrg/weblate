@@ -267,15 +267,3 @@ class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
     events = (EVENT_STORE_POST_LOAD,)
     icon = 'wrench'
-
-    @staticmethod
-    def is_store_compatible(store):
-        return False
-
-    @classmethod
-    def can_install(cls, component, user):
-        if (not super(StoreBaseAddon, cls).can_install(component, user) or
-                not component.translation_set.exists()):
-            return False
-        translation = component.translation_set.all()[0]
-        return cls.is_store_compatible(translation.store.store)
