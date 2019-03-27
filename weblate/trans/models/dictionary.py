@@ -31,7 +31,7 @@ from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
 from weblate.checks.same import strip_string
-from weblate.formats.auto import AutoFormat
+from weblate.formats.auto import AutodetectFormat
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
@@ -46,7 +46,7 @@ class DictionaryManager(models.Manager):
     def upload(self, request, project, language, fileobj, method):
         """Handle dictionary upload."""
         from weblate.trans.models.change import Change
-        store = AutoFormat.parse(fileobj)
+        store = AutodetectFormat.parse(fileobj)
 
         ret = 0
 

@@ -31,7 +31,7 @@ import translate.__version__
 from translate.storage.po import pofile
 
 from weblate.lang.models import Language
-from weblate.formats.auto import AutoFormat
+from weblate.formats.auto import AutodetectFormat
 from weblate.formats.ttkit import (
     PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat, JSONFormat,
     JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat, YAMLFormat,
@@ -70,7 +70,7 @@ TEST_HE_THREE = get_test_file('he-three.po')
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass):
         with open(filename, 'rb') as handle:
-            store = AutoFormat.parse(handle)
+            store = AutodetectFormat.parse(handle)
             self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
 
@@ -127,13 +127,13 @@ class AutoLoadTest(TestCase):
             data = handle.read()
 
         handle = BytesIO(data)
-        store = AutoFormat.parse(handle)
-        self.assertIsInstance(store, AutoFormat)
+        store = AutodetectFormat.parse(handle)
+        self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
 
 class AutoFormatTest(SimpleTestCase, TempDirMixin):
-    FORMAT = AutoFormat
+    FORMAT = AutodetectFormat
     FILE = TEST_PO
     BASE = TEST_POT
     MIME = 'text/x-gettext-catalog'

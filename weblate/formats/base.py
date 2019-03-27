@@ -189,7 +189,7 @@ class TranslationFormat(object):
     def parse(cls, storefile, template_store=None, language_code=None):
         """Parse store and returns TranslationFormat instance.
 
-        This wrapper is needed for AutoFormat to be able to return
+        This wrapper is needed for AutodetectFormat to be able to return
         instance of different class."""
         return cls(storefile, template_store, language_code)
 

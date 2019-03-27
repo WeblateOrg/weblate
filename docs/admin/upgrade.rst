@@ -165,6 +165,8 @@ Notable configuration or dependencies changes:
   translation components configuration prior to upgrade. The upgrade should be
   able to gracefully handle most of situations, but can fail in some corner
   cases.
+* If you have manually changed :setting:`WEBLATE_FORMATS`, you will have to remove
+  ``AutoFormat`` from it.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

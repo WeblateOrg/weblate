@@ -7,7 +7,7 @@ import os.path
 from django.conf import settings
 from django.db import migrations
 
-from weblate.formats.auto import AutoFormat
+from weblate.formats.auto import AutodetectFormat
 
 
 def get_path(component):
@@ -32,25 +32,25 @@ def resolve_auto_format(apps, schema_editor):
         path = get_path(component)
         template = None
         if component.template:
-            template = AutoFormat.parse(os.path.join(path, component.template))
+            template = AutodetectFormat.parse(os.path.join(path, component.template))
         try:
             translation = component.translation_set.all()[0]
         except IndexError:
             if template is None and component.new_base:
-                template = AutoFormat.parse(os.path.join(path, component.new_base))
+                template = AutodetectFormat.parse(os.path.join(path, component.new_base))
             if template is not None:
                 update_format(component, template)
                 continue
             raise Exception(
                 'Existing translation component with auto format and '
-                'without any transaltions, can not detect file format. '
+                'without any translations, can not detect file format. '
                 'Please edit the format manually and rerun migration. '
                 'Affected component: {}/{}'.format(
                     component.project.slug,
                     component.slug
                 )
             )
-        store = AutoFormat.parse(os.path.join(path, translation.filename), template)
+        store = AutodetectFormat.parse(os.path.join(path, translation.filename), template)
         update_format(component, store)
 
 
