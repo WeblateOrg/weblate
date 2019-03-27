@@ -278,7 +278,7 @@ def show_translation(request, project, component, lang):
                     pk=obj.pk
                 )
             ),
-            'exporters': list_exporters(),
+            'exporters': list_exporters(obj),
         }
     )
 

@@ -34,7 +34,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
-from weblate.formats.ttkit import TTKitFormat
+from weblate.formats.ttkit import TTKitFormat, PoFormat
 from weblate.formats.external import XlsxFormat
 from weblate.utils.site import get_site_url
 
@@ -57,10 +57,11 @@ def get_exporter(name):
     return EXPORTERS[name]
 
 
-def list_exporters():
+def list_exporters(translation):
     return [
         {'name': x.name, 'verbose': x.verbose}
         for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+        if x.supports(translation)
     ]
 
 
@@ -84,6 +85,10 @@ class BaseExporter(object):
             self.plural = language.plural
             self.url = url
         self.fieldnames = fieldnames
+
+    @staticmethod
+    def supports(translation):
+        return True
 
     @cached_property
     def storage(self):
@@ -286,6 +291,10 @@ class MoExporter(PoExporter):
         if not unit.translated:
             return
         super(MoExporter, self).add_unit(unit)
+
+    @staticmethod
+    def supports(translation):
+        return isinstance(translation.store, PoFormat)
 
 
 @register_exporter
