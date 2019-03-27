@@ -478,10 +478,11 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_fileformat(self):
         """Unknown file format"""
+        self.component.file_format = 'i18next'
         self.component.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
             ValidationError,
-            'Could not recognize the format of 2 matching files.',
+            'Could not parse 2 matched files.',
             self.component.full_clean
         )
 
