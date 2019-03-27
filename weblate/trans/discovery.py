@@ -49,10 +49,9 @@ COPY_ATTRIBUTES = (
 
 
 class ComponentDiscovery(object):
-    def __init__(self, component, match, name_template,
+    def __init__(self, component, match, name_template, file_format,
                  language_regex='^[^.]+$', base_file_template='',
-                 new_base_template='',
-                 file_format='', path=None):
+                 new_base_template='', path=None):
         self.component = component
         if path is None:
             self.path = self.component.full_path
@@ -65,6 +64,15 @@ class ComponentDiscovery(object):
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
+
+    @staticmethod
+    def extract_kwargs(params):
+        """Extract kwargs for discovery from wider dict."""
+        attrs = (
+            'match', 'name_template', 'language_regex', 'base_file_template',
+            'new_base_template', 'file_format'
+        )
+        return {k: v for k, v in params.items() if k in attrs}
 
     def compile_match(self, match):
         parts = match.split('(?P=language)')

@@ -30,9 +30,10 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.component = self.create_component()
         self.discovery = ComponentDiscovery(
             self.component,
-            r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
-            '{{ component|title }}',
-            '^(?!xx).*$',
+            file_format='po',
+            match=r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
+            name_template='{{ component|title }}',
+            language_regex='^(?!xx).*$',
         )
 
     def test_matched_files(self):
@@ -152,9 +153,10 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Create new discover as it caches matches
         discovery = ComponentDiscovery(
             self.component,
-            r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
-            '{{ component|title }}',
-            '^(?!xx).*$',
+            file_format='po',
+            match=r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
+            name_template='{{ component|title }}',
+            language_regex='^(?!xx).*$',
         )
 
         # Test component removal preview
@@ -181,9 +183,10 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Create all components with desired name po
         discovery = ComponentDiscovery(
             self.component,
-            r'[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po',
-            '{{ component|title }}',
-            '^(?!xx).*$',
+            match=r'[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po',
+            name_template='{{ component|title }}',
+            language_regex='^(?!xx).*$',
+            file_format='po',
         )
         created, matched, deleted = discovery.perform()
         self.assertEqual(len(created), 3)
@@ -193,9 +196,10 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_multi_language(self):
         discovery = ComponentDiscovery(
             self.component,
-            r'localization/(?P<language>[^/]*)/'
+            match=r'localization/(?P<language>[^/]*)/'
             r'(?P<component>[^/]*)\.(?P=language)\.po',
-            '{{ component }}',
+            name_template='{{ component }}',
+            file_format='po',
         )
         created, matched, deleted = discovery.perform()
         self.assertEqual(len(created), 1)
