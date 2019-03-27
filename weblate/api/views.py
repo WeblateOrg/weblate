@@ -336,7 +336,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def monolingual_base(self, request, **kwargs):
         obj = self.get_object()
 
-        if not obj.template:
+        if not obj.has_template():
             raise Http404('No template found!')
 
         return self.download_file(
