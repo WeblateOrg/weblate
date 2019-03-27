@@ -34,7 +34,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
-from weblate.formats.ttkit import TTKitFormat, PoFormat
+from weblate.formats.ttkit import TTKitFormat
 from weblate.formats.external import XlsxFormat
 from weblate.utils.site import get_site_url
 
@@ -294,7 +294,7 @@ class MoExporter(PoExporter):
 
     @staticmethod
     def supports(translation):
-        return isinstance(translation.store, PoFormat)
+        return translation.component.file_format == 'po'
 
 
 @register_exporter
