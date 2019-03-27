@@ -52,7 +52,7 @@ class ComponentDiscovery(object):
     def __init__(self, component, match, name_template,
                  language_regex='^[^.]+$', base_file_template='',
                  new_base_template='',
-                 file_format='auto', path=None):
+                 file_format='', path=None):
         self.component = component
         if path is None:
             self.path = self.component.full_path

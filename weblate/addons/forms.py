@@ -152,7 +152,7 @@ class DiscoveryForm(BaseAddonForm):
     file_format = forms.ChoiceField(
         label=_('File format'),
         choices=FILE_FORMATS.get_choices(),
-        initial='auto',
+        initial='po',
         required=True,
         help_text=_(
             'Automatic detection might fail for some formats '

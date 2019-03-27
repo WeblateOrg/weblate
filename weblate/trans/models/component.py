@@ -250,7 +250,7 @@ class Component(models.Model, URLMixin, PathMixin):
     file_format = models.CharField(
         verbose_name=ugettext_lazy('File format'),
         max_length=50,
-        default='auto',
+        default='po',
         choices=FILE_FORMATS.get_choices(),
         help_text=ugettext_lazy(
             'Automatic detection might fail for some formats '

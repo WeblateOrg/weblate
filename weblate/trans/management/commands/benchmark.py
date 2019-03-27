@@ -61,7 +61,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--format',
-            default='auto',
+            default='po',
             help='file format',
         )
         parser.add_argument(

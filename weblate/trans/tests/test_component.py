@@ -76,7 +76,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_dot(self):
         component = self._create_component(
-            'auto',
+            'po',
             './po/*.po',
         )
         self.verify_component(component, 3, 'cs', 4)
@@ -136,7 +136,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_auto_pot(self):
         component = self._create_component(
-            'auto',
+            'po',
             'po/*.po',
             new_base='po/project.pot'
         )
