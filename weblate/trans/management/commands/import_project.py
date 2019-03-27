@@ -290,12 +290,12 @@ class Command(BaseCommand):
         else:
             self.discovery = ComponentDiscovery(
                 component,
-                self.filemask,
-                self.name_template,
-                self.language_regex,
-                self.base_file_template,
-                self.new_base_template,
-                self.file_format,
+                match=self.filemask,
+                name_template=self.name_template,
+                language_regex=self.language_regex,
+                base_file_template=self.base_file_template,
+                new_base_template=self.new_base_template,
+                file_format=self.file_format,
                 path=path
             )
             self.logger.info(
