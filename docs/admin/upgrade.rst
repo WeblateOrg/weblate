@@ -152,6 +152,22 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+
+
+Upgrade from 3.5 to 3.6
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The automatic detection of file format has been removed. Please adjust your
+  translation components configuration prior to upgrade. The upgrade should be
+  able to gracefully handle most of situations, but can fail in some corner
+  cases.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

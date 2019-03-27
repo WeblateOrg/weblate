@@ -17,6 +17,7 @@ Released on ? 2019.
 * Admins and consistency addons can now add translations even if disabled for users.
 * Fixed description of toggle disabling ``Language-Team`` header manipulation.
 * Notify users mentioned in comments.
+* Removed file format autodetection from component setup.
 
 weblate 3.5.1
 -------------
