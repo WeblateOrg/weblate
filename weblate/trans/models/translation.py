@@ -532,7 +532,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
             # Skip changes by other authors
-            change_author = unit.get_last_content_change(request)[0]
+            change_author = unit.get_last_content_change(None)[0]
             if change_author.id != author_id:
                 continue
 
