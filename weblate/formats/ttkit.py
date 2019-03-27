@@ -250,11 +250,24 @@ class TTKitFormat(TranslationFormat):
 
     @classmethod
     def parse_store(cls, storefile):
-        """Parse the store."""
+        """Parse the store.
+
+        Avoid using ttkit parsefile as it swallows failures on empty files."""
         storeclass = cls.get_class()
 
+        # Open file
+        if isinstance(storefile, six.string_types):
+            storefile = open(storefile, 'rb')
+
+        # Read content
+        storestring = storefile.read()
+        storefile.close()
+
         # Parse file
-        store = storeclass.parsefile(storefile)
+        store = storeclass()
+        store.parse(storestring)
+        store.fileobj = storefile
+        store._assignname()
 
         # Apply possible fixups and return
         return cls.fixup(store)
