@@ -313,7 +313,7 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_monolingual(self):
-        self.component.format = 'po-mono'
+        self.component.file_format = 'po-mono'
         self.component.filemask = 'po-mono/*.po'
         self.component.template = 'po-mono/en.po'
         self.component.save()
