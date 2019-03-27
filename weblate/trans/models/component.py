@@ -1383,13 +1383,7 @@ class Component(models.Model, URLMixin, PathMixin):
         dir_path = self.full_path
         for match in matches:
             try:
-                parsed = self.file_format_cls.parse(
-                    os.path.join(dir_path, match),
-                )
-                if not self.file_format_cls.is_valid(parsed.store):
-                    errors.append('{0}: {1}'.format(
-                        match, _('This file seems to be invalid.')
-                    ))
+                self.file_format_cls.parse(os.path.join(dir_path, match))
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
         if errors:
