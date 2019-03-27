@@ -1379,7 +1379,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def clean_files(self, matches):
         """Validate that translation files can be."""
-        notrecognized = []
         errors = []
         dir_path = self.full_path
         for match in matches:
@@ -1391,19 +1390,8 @@ class Component(models.Model, URLMixin, PathMixin):
                     errors.append('{0}: {1}'.format(
                         match, _('This file seems to be invalid.')
                     ))
-            except ValueError:
-                notrecognized.append(match)
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
-        if notrecognized:
-            msg = (
-                _('Could not recognize the format of %d matching files.') %
-                len(notrecognized)
-            )
-            raise ValidationError('{0}\n{1}'.format(
-                msg,
-                '\n'.join(notrecognized)
-            ))
         if errors:
             raise ValidationError('{0}\n{1}'.format(
                 (_('Could not parse %d matched files.') % len(errors)),
