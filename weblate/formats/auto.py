@@ -75,7 +75,7 @@ def try_load(filename, content, original_format, template_store):
 
 class AutodetectFormat(TTKitFormat):
     name = _('Automatic detection')
-    format_id = 'auto'
+    format_id = None
 
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):

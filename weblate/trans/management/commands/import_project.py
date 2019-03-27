@@ -68,8 +68,8 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--file-format',
-            default='auto',
-            help='File format type, defaults to autodetection',
+            default='po',
+            help='File format type, defaults to Gettext PO',
         )
         parser.add_argument(
             '--language-regex',
