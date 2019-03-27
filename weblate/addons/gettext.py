@@ -27,8 +27,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
 from django.utils.translation import ugettext_lazy as _
 
-from translate.storage.po import pofile
-
 from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.addons.forms import GettextCustomizeForm
@@ -37,21 +35,8 @@ from weblate.formats.exporters import MoExporter
 
 class GettextBaseAddon(BaseAddon):
     compat = {
-        'file_format': frozenset((
-            'auto', 'po', 'po-mono',
-        )),
+        'file_format': frozenset(('po', 'po-mono')),
     }
-
-    @classmethod
-    def can_install(cls, component, user):
-        # Check actual store to cover the auto format
-        if component.file_format == 'auto':
-            if not component.translation_set.exists():
-                return False
-            translation = component.translation_set.all()[0]
-            if not isinstance(translation.store.store, pofile):
-                return False
-        return super(GettextBaseAddon, cls).can_install(component, user)
 
 
 class GenerateMoAddon(GettextBaseAddon):
@@ -240,11 +225,6 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
         'line wrapping.'
     )
     settings_form = GettextCustomizeForm
-
-    @staticmethod
-    def is_store_compatible(store):
-        """Needs PO file and recent Translate Toolkit."""
-        return isinstance(store, pofile) and hasattr(store, 'wrapper')
 
     def store_post_load(self, translation, store):
         store.store.wrapper.width = int(

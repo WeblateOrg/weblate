@@ -583,7 +583,7 @@ class DiscoveryTest(ViewTestCase):
             {
                 'name': 'weblate.discovery.discovery',
                 'form': '1',
-                'file_format': 'auto',
+                'file_format': 'po',
                 'match': r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
                 'name_template': '{{ component|title }}',
                 'language_regex': '^(?!xx).*$',
@@ -600,7 +600,7 @@ class DiscoveryTest(ViewTestCase):
                 'name': 'weblate.discovery.discovery',
                 'form': '1',
                 'match': r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
-                'file_format': 'auto',
+                'file_format': 'po',
                 'name_template': '{{ component|title }}',
                 'language_regex': '^(?!xx).*$',
                 'base_file_template': '',

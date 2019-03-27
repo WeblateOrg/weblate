@@ -22,8 +22,6 @@ from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
 
-from translate.storage.jsonl10n import JsonFile
-
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import JSONCustomizeForm
 
@@ -38,14 +36,9 @@ class JSONCustomizeAddon(StoreBaseAddon):
     settings_form = JSONCustomizeForm
     compat = {
         'file_format': frozenset((
-            'auto', 'json', 'json-nested', 'webextension', 'i18next',
+            'json', 'json-nested', 'webextension', 'i18next',
         )),
     }
-
-    @staticmethod
-    def is_store_compatible(store):
-        """Needs JsonFile and recent translate-toolkit."""
-        return isinstance(store, JsonFile) and hasattr(store, 'dump_args')
 
     def store_post_load(self, translation, store):
         config = self.instance.configuration
