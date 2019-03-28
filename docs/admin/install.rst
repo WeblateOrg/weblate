@@ -39,93 +39,71 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-2.7, 3.4 or newer. The following dependencies can be installed using pip or from
-your distribution packages:
+2.7, 3.4 or newer. You can install dependencies using pip or from your
+distribution packages, full list of them is available in :file:`requirements.txt`.
 
-``Django`` (>= 1.11)
+Most notable dependencies:
+
+Django
     https://www.djangoproject.com/
-``Celery`` (>= 4.0)
+Celery
     http://www.celeryproject.org/
-``celery-batches`` (>= 0.2)
-    https://pypi.org/project/celery-batches/
-``siphashc`` (>= 0.8)
-    https://github.com/WeblateOrg/siphashc
-``translate-toolkit`` (>= 2.3.1)
+Translate Toolkit
     https://toolkit.translatehouse.org/
-``translation-finder`` (>=1.0)
+translation-finder
     https://github.com/WeblateOrg/translation-finder
-``diff-match-patch`` (>=20121119)
-    https://github.com/diff-match-patch-python/diff-match-patch
-``Six`` (>= 1.7.0)
-    https://pypi.org/project/six/
-``filelock`` (>= 3.0.1)
-    https://github.com/benediktschmitt/py-filelock
-``Mercurial`` (>= 2.8) (optional for Mercurial repositories support)
-    https://www.mercurial-scm.org/
-``social-auth-core`` (>= 1.3.0)
+Python Social Auth
     https://python-social-auth.readthedocs.io/
-``social-auth-app-django`` (>= 2.0.0)
-    https://python-social-auth.readthedocs.io/
-``django-appconf`` (>= 1.0)
-    https://github.com/django-compressor/django-appconf
-``Whoosh`` (>= 2.7.0)
+Whoosh
     https://bitbucket.org/mchaput/whoosh/wiki/Home
-``PIL`` or ``Pillow`` library
-    https://python-pillow.org/
-``lxml`` (>= 3.5.0)
-    https://lxml.de/
-``defusedxml`` (>= 0.4)
-    https://bitbucket.org/tiran/defusedxml
-``dateutil``
-    https://labix.org/python-dateutil
-``django_compressor`` (>= 2.1.1)
-    https://github.com/django-compressor/django-compressor
-``django-crispy-forms`` (>= 1.6.1)
-    https://django-crispy-forms.readthedocs.io/
-``Django REST Framework`` (>=3.8)
+Django REST Framework
     https://www.django-rest-framework.org/
-``user-agents`` (>= 1.1.0)
-    https://github.com/selwin/python-user-agents
-``html2text`` (>= 2018.1.9)
-    https://pypi.org/project/html2text/
-``pyuca`` (>= 1.1) (optional for proper sorting of strings)
+
+Optional dependecies
+++++++++++++++++++++
+
+Following modules are necessary for some of Weblate features. You can find all
+of them in :file:`requirements-optional.txt`.
+
+``Mercurial`` (optional for Mercurial repositories support)
+    https://www.mercurial-scm.org/
+``pyuca`` (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
 ``phply`` (optional for PHP support)
     https://github.com/viraptor/phply
-Database backend
-    Any database supported in Django will work, see :ref:`database-setup` and
-    backends documentation for more details.
-``pytz`` (optional, but recommended by Django)
-    https://pypi.org/project/pytz/
 ``python-bidi`` (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
-``tesserocr`` (>= 2.0.0) (optional for screenshots OCR)
+``tesserocr`` (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
-``akismet`` (>= 1.0) (optional for suggestion spam protection)
+``akismet`` (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
-``PyYAML`` (>= 3.0) (optional for :ref:`yaml`)
+``PyYAML`` (optional for :ref:`yaml`)
     https://pyyaml.org/
 ``backports.csv`` (needed on Python 2.7)
     https://pypi.org/project/backports.csv/
-``Jellyfish`` (>= 0.6.1)
-    https://github.com/jamesturk/jellyfish
-``openpyxl`` (>=2.5.0) (for XLSX export/import)
+``openpyxl`` (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
-``Zeep`` (>=3.0.0) (optional for :ref:`ms-terminology`)
+``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
+
+Database backend dependencies
++++++++++++++++++++++++++++++
+
+Any database supported in Django will work, see :ref:`database-setup` and
+backends documentation for more details.
 
 Other system requirements
 +++++++++++++++++++++++++
 
 The following dependencies have to be installed on the system:
 
-``Git`` (>= 1.6)
+``Git``
     https://git-scm.com/
 ``hub`` (optional for sending pull requests to GitHub)
     https://hub.github.com/
 ``git-review`` (optional for Gerrit support)
     https://pypi.org/project/git-review/
-``git-svn`` (>= 2.10.0) (optional for Subversion support)
+``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 ``tesseract`` and it's data (optional for screenshots OCR)
     https://github.com/tesseract-ocr/tesseract
