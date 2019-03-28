@@ -62,11 +62,13 @@ class ClassLoader(object):
 
     def load_data(self):
         result = {}
-        for path in getattr(settings, self.name):
-            obj = load_class(path, self.name)
-            if self.construct:
-                obj = obj()
-            result[obj.get_identifier()] = obj
+        value = getattr(settings, self.name)
+        if value:
+            for path in value:
+                obj = load_class(path, self.name)
+                if self.construct:
+                    obj = obj()
+                result[obj.get_identifier()] = obj
         return result
 
     @cached_property
