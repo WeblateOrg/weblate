@@ -5,19 +5,23 @@ Translation Memory
 
 .. versionadded:: 2.20
 
-Weblate comes with a built-in translation memory. It provides you matches
-against it as a :ref:`machine-translation` or in :ref:`auto-translation`.
+Weblate comes with a built-in translation memory.
 
-.. note::
+The translation memory consists of following content:
 
-    Currently the content of the translation memory is not updated by Weblate
-    itself, but you can use it to import your existing TMX files and let
-    Weblate provide these as a machine translations. This will be changed in
-    future release to provide full translation memory experience within
-    Weblate.
+* Manually imported translation memory (see :ref:`memory-user`).
+* Automatically stored translations performed in Weblate (depending on :ref:`memory-scopes`).
+
+The translation memory can be used to get matches:
+
+* In the :ref:`machine-translation` view while translating.
+* Automatically translate strings using :ref:`auto-translation`.
 
 For installation tips, see :ref:`weblate-translation-memory`, however this
 service is enabled by default.
+
+
+.. _memory-scopes:
 
 Translation memory scopes
 -------------------------
