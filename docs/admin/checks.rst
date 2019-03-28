@@ -19,7 +19,7 @@ For example, the following automatic fixup would replace every occurrence of str
     :language: python
 
 To install custom checks, you need to provide a fully-qualified path to the Python class
-in the :setting:`AUTOFIX_LIST`, see :ref:`custom-modules`.
+in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 
 .. _custom-checks:
 
@@ -115,6 +115,9 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
 These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
 
+
+.. _own-checks:
+
 Writing own checks
 ------------------
 
@@ -127,7 +130,7 @@ one if you want to deal with plurals in your code, the latter one does this for
 you). You will find below some examples.
 
 To install custom checks, you need to provide a fully-qualified path to the Python class
-in the :setting:`CHECK_LIST`, see :ref:`custom-modules`.
+in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`.
 
 Checking translation text does not contain "foo"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -146,72 +149,3 @@ language are not same.
 
 .. literalinclude:: ../../examples/check_czech.py
     :language: python
-
-.. _custom-modules:
-
-Using custom modules and classes
---------------------------------
-
-You have implemented code for :ref:`custom-autofix` or :ref:`custom-checks` and
-now it's time to install it into Weblate. That can be achieved by adding its
-fully-qualified path to Python class to appropriate settings.
-
-This means that the module with class needs to be placed somewhere where the Python
-interpreter can import it - either in system path (usually something like
-:file:`/usr/lib/python2.7/site-packages/`) or in Weblate directory, which is
-also added to the interpreter search path.
-
-Assuming you've created :file:`mahongo.py` containing your custom quality check,
-you can place it among Weblate checks in :file:`weblate/trans/checks/` folder
-and then add it as following:
-
-.. code-block:: python
-
-    CHECK_LIST = (
-        'weblate.checks.mahongo.MahongoCheck',
-    )
-
-As you can see, it's a comma-separated path to your module and class name.
-
-Alternatively, you can create a proper Python package out of your customization:
-
-1. Place your Python module with check into folder which will match your 
-   package name. We're using `weblate_custom_checks` in following examples.
-2. Add empty :file:`__init__.py` file to the same directory. This ensures Python
-   can import this whole package.
-3. Write :file:`setup.py` in parent directory to describe your package:
-
-    .. code-block:: python
-
-        from setuptools import setup
-
-        setup(
-            name = "weblate_custom_checks",
-            version = "0.0.1",
-            author = "Michal Cihar",
-            author_email = "michal@cihar.com",
-            description = "Sample Custom check for Weblate.",
-            license = "BSD",
-            keywords = "weblate check example",
-            packages=['weblate_custom_checks'],
-        )
-
-4. Now you can install it using :command:`python setup.py install`
-5. Once installed into system Python path, you can use it from there:
-
-    .. code-block:: python
-
-        CHECK_LIST = (
-            'weblate_custom_checks.mahongo.MahongoCheck',
-        )
-
-
-Overall your module structure should look like:
-
-.. code-block:: text
-
-    weblate_custom_checks
-    ├── setup.py
-    └── weblate_custom_checks
-        ├── __init__.py
-        └── mahongo.py
