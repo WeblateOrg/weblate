@@ -63,7 +63,7 @@
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
-      {% if mass_state_form %}
+      {% if bulk_state_form %}
       <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
       {% endif %}
       {% if user_can_add_unit %}
@@ -253,7 +253,7 @@
 </div>
 {% endif %}
 
-{% if mass_state_form %}
+{% if bulk_state_form %}
 <div class="tab-pane" id="bulk-state">
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
@@ -261,7 +261,7 @@
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% csrf_token %}
-{{ mass_state_form|crispy }}
+{{ bulk_state_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />

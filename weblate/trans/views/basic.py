@@ -152,7 +152,7 @@ def show_project(request, project):
                 request=request, instance=obj
             ),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
@@ -191,7 +191,7 @@ def show_component(request, project, component):
                 translation__component=obj
             ).distinct().count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
@@ -251,7 +251,7 @@ def show_translation(request, project, component, lang):
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
