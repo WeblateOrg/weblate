@@ -29,7 +29,6 @@ from translate.storage.lisa import LISAfile
 from translate.storage.resx import RESXFile
 
 from weblate.addons.base import UpdateBaseAddon
-from weblate.formats.ttkit import TTKitFormat
 from weblate.formats.txt import AppStoreParser
 
 
