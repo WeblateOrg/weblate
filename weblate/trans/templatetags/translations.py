@@ -61,8 +61,9 @@ SPACE_TAB = HIGHLIGTH_SPACE.format(
 )
 
 HL_CHECK = (
-    '<span class="hlcheck">{0}'
+    '<span class="hlcheck">'
     '<span class="highlight-number"></span>'
+    '{0}'
     '</span>'
 )
 
