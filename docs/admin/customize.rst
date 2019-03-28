@@ -122,8 +122,8 @@ appropriate settings (:setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):
 
 .. _custom-addon-modules:
 
-Custom quality checks and auto fixes
-------------------------------------
+Custom addons
+-------------
 
 First place them into your Python module with Weblate customization (see
 :ref:`custom-module`). Then enabled it is just matter of adding its
