@@ -63,6 +63,9 @@
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
+      {% if mass_state_form %}
+      <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
+      {% endif %}
       {% if user_can_add_unit %}
       <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
       {% endif %}
@@ -247,8 +250,11 @@
 </div>
 </div>
 </form>
+</div>
+{% endif %}
 
 {% if mass_state_form %}
+<div class="tab-pane" id="bulk-state">
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
@@ -262,8 +268,6 @@
 </div>
 </div>
 </form>
-{% endif %}
-
 </div>
 {% endif %}
 
