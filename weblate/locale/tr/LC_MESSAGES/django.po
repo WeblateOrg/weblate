@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-25 21:39+0000\n"
-"Last-Translator: Ali Demirtas <alidemirtas94@gmail.com>\n"
+"PO-Revision-Date: 2019-03-28 14:51+0000\n"
+"Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -7814,16 +7814,12 @@ msgid "Merge style"
 msgstr "Birleştirme stili"
 
 #: weblate/trans/models/component.py:373
-#, fuzzy
-#| msgid ""
-#| "Define whether Weblate should merge upstream repository or rebase changes "
-#| "onto it."
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Weblate'in, yukarı akım havuzuna birleştirmesi mi yoksa değişiklikleri onun "
-"üstüne yeniden konumlaması mı gerektiğini tanımla."
+"Weblate'in yukarı akış havuzunu mu birleştirmesi yoksa üzerine değişiklik "
+"yapması gerektiğini tanımlayın."
 
 #: weblate/trans/models/component.py:378
 msgid "Commit message when translating"
@@ -7832,16 +7828,12 @@ msgstr "Çevirirken iletiyi işle"
 #: weblate/trans/models/component.py:380 weblate/trans/models/component.py:389
 #: weblate/trans/models/component.py:398 weblate/trans/models/component.py:407
 #: weblate/trans/models/component.py:416
-#, fuzzy
-#| msgid ""
-#| "You can use template language for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
-"Çeşitli bilgiler için şablon dil kullanabilirsiniz, lütfen daha çok ayrıntı "
-"için belgelere bakın."
+"Çeşitli bilgiler için şablon dilini kullanabilirsiniz, daha fazla ayrıntı "
+"için lütfen belgelere bakın."
 
 #: weblate/trans/models/component.py:387
 msgid "Commit message when adding translation"
@@ -7912,32 +7904,27 @@ msgstr ""
 "sayfasına ekleyin."
 
 #: weblate/trans/models/component.py:654
-#, fuzzy, python-format
-#| msgid "Could not push the repository."
+#, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Havuz itilemedi."
+msgstr "Havuz alınamadı: %s"
 
 #: weblate/trans/models/component.py:797
-#, fuzzy, python-format
-#| msgid "Push is disabled for %s."
+#, python-format
 msgid "Push is turned off for %s."
-msgstr "%s için yollama devre dışı."
+msgstr "%s için yollama kapalı."
 
 #: weblate/trans/models/component.py:844
-#, fuzzy, python-format
-#| msgid "Failed to push to remote branch on %s."
+#, python-format
 msgid "Could not push to remote branch on %s."
-msgstr "%s projesindeki uzak dala yollanamadı."
+msgstr "%s üzerindeki uzak dala yollanamadı."
 
 #: weblate/trans/models/component.py:885
-#, fuzzy, python-format
-#| msgid "Failed to reset to remote branch on %s."
+#, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr "%s projesindeki uzak dal sıfırlanamadı."
+msgstr "%s üzerindeki uzak dal sıfırlanamadı."
 
 #: weblate/trans/models/component.py:918
-#, fuzzy, python-format
-#| msgid "Failed to clean the repository on %s."
+#, python-format
 msgid "Could not clean the repository on %s."
 msgstr "%s üzerindeki havuz temizlenemedi."
 
@@ -7954,12 +7941,10 @@ msgid "Could not merge remote branch into %s."
 msgstr "Uzak dal, %s projesinin içine birleştirilemedi."
 
 #: weblate/trans/models/component.py:1325
-#, fuzzy
-#| msgid ""
-#| "Invalid link to a Weblate project, can not link to linked repository!"
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Weblate projesi için geçersiz bağlantı, bağlantılı havuza bağlantılanamıyor!"
+"Bir Weblate projesine geçersiz bağlantı, bağlantılı depoya bağlantı "
+"kuramıyor!"
 
 #: weblate/trans/models/component.py:1332
 #, fuzzy
@@ -7974,10 +7959,8 @@ msgstr ""
 "kullanın."
 
 #: weblate/trans/models/component.py:1347
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Option is not available for linked repositories."
-msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
+msgstr "Bağlantılı havuzlarda seçenek kullanılamaz."
 
 #: weblate/trans/models/component.py:1356
 #, fuzzy
@@ -8010,10 +7993,8 @@ msgstr ""
 "kaynakları çevirme için bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:1392
-#, fuzzy
-#| msgid "File does not seem to be valid!"
 msgid "This file seems to be invalid."
-msgstr "Dosya geçerli görünmüyor!"
+msgstr "Bu dosya geçersiz görünüyor."
 
 #: weblate/trans/models/component.py:1400
 #, fuzzy, python-format
@@ -8028,10 +8009,8 @@ msgid "Could not parse %d matched files."
 msgstr "%d eşleşen dosya ayrıştırılamadı!"
 
 #: weblate/trans/models/component.py:1427
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Unrecognized base file for new translations."
-msgstr "Yeni çeviriler için kullanılmayan taban dosyası."
+msgstr "Yeni çeviriler için tanınmayan temel dosya."
 
 #: weblate/trans/models/component.py:1431
 #, fuzzy
@@ -8046,22 +8025,16 @@ msgstr ""
 "yapmak için taban dosyayı vermediniz!"
 
 #: weblate/trans/models/component.py:1440
-#, fuzzy
-#| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
-msgstr "İki dilli çevirisi olan taban dosyayı kullanamazsınız!"
+msgstr "İki dilli çeviri için bir temel dosya kullanamazsınız."
 
 #: weblate/trans/models/component.py:1445
-#, fuzzy
-#| msgid "Using .pot file as base file is not supported!"
 msgid "Using a .pot file as base file is unsupported."
-msgstr ".pot dosyasını taban dosya olarak kullanma desteklenmiyor!"
+msgstr "Bir .pot dosyasının temel dosya olarak kullanılması desteklenmez."
 
 #: weblate/trans/models/component.py:1452
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find template file."
-msgstr "Geri alınan değişiklik bulunamadı."
+msgstr "Şablon dosyası bulunamadı."
 
 #: weblate/trans/models/component.py:1458
 #, fuzzy, python-format
@@ -8075,16 +8048,13 @@ msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Şablon dili ({0}) proje kaynak dili ({1}) ile eşleşmiyor!"
 
 #: weblate/trans/models/component.py:1475
-#, fuzzy
-#| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Taban dosya olmadan tek dilli çeviriyi kullanamazsınız!"
+msgstr "Tek dilli bir çeviriyi temel dosya olmadan kullanamazsınız."
 
 #: weblate/trans/models/component.py:1490
-#, fuzzy, python-format
-#| msgid "Could not update the repository."
+#, python-format
 msgid "Could not update repository: %s"
-msgstr "Havuz güncellenemedi."
+msgstr "Depo güncellenemedi: %s"
 
 #: weblate/trans/models/component.py:1504
 #, fuzzy
