@@ -144,6 +144,13 @@ For a bigger setup, it is usually better to create dedicated user for Weblate,
 assign him the SSH key generated in Weblate and grant him access to all
 repositories you want.
 
+Customizing Git configuration
++++++++++++++++++++++++++++++
+
+Weblate invokes all VCS commands with HOME pointed to ``home`` directory in
+:setting:`DATA_DIR`, therefore if you want to edit user configuration, you need
+to do this in ``DATA_DIR/home/.git``.
+
 .. _vcs-git-helpers:
 
 Git remote helpers
