@@ -18,6 +18,7 @@ Released on ? 2019.
 * Fixed description of toggle disabling ``Language-Team`` header manipulation.
 * Notify users mentioned in comments.
 * Removed file format autodetection from component setup.
+* Fixed generating MO file for monolingual PO files.
 
 weblate 3.5.1
 -------------

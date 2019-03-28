@@ -26,7 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
-from translate.storage.mo import mofile, mounit
+from translate.storage.mo import mofile
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
@@ -142,8 +142,6 @@ class BaseExporter(object):
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
-            if isinstance(output, mounit):
-                output.msgctxt = [context]
             if self.set_id:
                 output.setid(context)
         elif self.set_id:
@@ -287,10 +285,45 @@ class MoExporter(PoExporter):
     verbose = _('gettext MO')
     _storage = mofile
 
+    def __init__(self, project=None, language=None, url=None,
+                 translation=None, fieldnames=None):
+        super(MoExporter, self).__init__(
+            project, language, url, translation, fieldnames
+        )
+        # Detect storage properties
+        self.monolingual = False
+        self.use_context = False
+        if translation:
+            self.monolingual = translation.component.has_template()
+        if self.monolingual:
+            for unit in translation.store.all_units:
+                if unit.is_translatable():
+                    self.use_context = not unit.template.source
+                    break
+
     def add_unit(self, unit):
+        # We do not store not translated units
         if not unit.translated:
             return
-        super(MoExporter, self).add_unit(unit)
+        # Parse properties from unit
+        if self.monolingual:
+            if self.use_context:
+                source = ''
+                context = unit.context
+            else:
+                source = self.handle_plurals(unit.context)
+                context = ''
+        else:
+            source = self.handle_plurals(unit.get_source_plurals())
+            context = unit.context
+        # Actually create the unit and set attributes
+        output = self.storage.UnitClass(source)
+        output.target = self.handle_plurals(unit.get_target_plurals())
+        if context:
+            # The setcontext doesn't work on mounit
+            output.msgctxt = [context]
+        # Add unit to the storage
+        self.storage.addunit(output)
 
     @staticmethod
     def supports(translation):
