@@ -46,6 +46,8 @@ Anonymous users can only (if permitted) forward suggestions.  Doing so is still
 available to logged in users, in cases where uncertainty about the translation
 arises, which will prompt another translator to review it.
 
+The suggestions are dialy scanned to remove duplicate ones or the one where
+suggestion matches current translation.
 
 Translating
 -----------
