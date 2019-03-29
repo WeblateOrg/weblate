@@ -267,11 +267,11 @@ def get_counts(request, project, component):
         start = '{0}\n{1} {2}\n{0}'.format(
             RST_HEADING,
             ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
-            ' '.join(['{0:12}'.format(h) for h in headers[2:]]),
+            ' '.join(['{0:20}'.format(h) for h in headers[2:]]),
         )
         row_start = ''
         cell_name = '{0:40} '
-        cell_count = '{0:12} '
+        cell_count = '{0:20} '
         row_end = ''
         mime = 'text/plain'
         end = RST_HEADING
