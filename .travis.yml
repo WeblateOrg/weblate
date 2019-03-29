@@ -6,7 +6,7 @@
 # - Run Selenium tests on current Django
 # - Test setup.py
 #
-dist: trusty
+dist: xenial
 language: python
 python:
   - "3.6"
@@ -79,6 +79,9 @@ matrix:
     - name: "Django 2.1, selenium"
       python: "3.6"
       env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=selenium
+    - name: 'Django 2.1, Python 3.7'
+      python: "3.7"
+      env: CI_DEPS="Django>=2.0,<2.1"
     - name: 'Django 2.0'
       python: "3.6"
       env: CI_DEPS="Django>=2.0,<2.1"
