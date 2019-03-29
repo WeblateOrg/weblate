@@ -148,9 +148,12 @@ def import_message(request, count, message_none, message_ok):
 def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
-            exporter = get_exporter(fmt)(translation=translation)
+            exporter_cls = get_exporter(fmt)
         except KeyError:
             raise Http404('File format not supported')
+        if not exporter_cls.supports(translation):
+            raise Http404('File format not supported')
+        exporter = exporter_cls(translation=translation)
         if units is None:
             units = translation.unit_set.all()
         exporter.add_units(units)
