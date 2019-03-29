@@ -38,13 +38,14 @@ Alternatively you can use the search field to find a specific string or term.
 Suggestions
 -----------
 
-Anonymous users can only (if permitted) forward suggestions.
-Doing so is still available to logged in users, in cases where uncertainty about the translation arises,
-which will prompt another translator to review it.
-
 .. note::
 
-    Permissions might vary depending on your setup, the following describes the default behaviour of Weblate.
+    Actual permissions might vary depending on your Weblate configuration.
+
+Anonymous users can only (if permitted) forward suggestions.  Doing so is still
+available to logged in users, in cases where uncertainty about the translation
+arises, which will prompt another translator to review it.
+
 
 Translating
 -----------
