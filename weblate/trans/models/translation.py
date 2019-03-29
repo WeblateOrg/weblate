@@ -351,6 +351,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         if was_new:
+            self.stats.invalidate()
             Change.objects.create(
                 translation=self,
                 action=Change.ACTION_NEW_STRING,
