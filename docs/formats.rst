@@ -1,7 +1,7 @@
 .. _formats:
 
-Supported formats
-=================
+Supported file formats
+======================
 
 Weblate supports most translation format understood by the translate-toolkit,
 however each format being slightly different, there might be some issues with

@@ -4,14 +4,8 @@ About Weblate
 Project goals
 -------------
 
-Web based localization tool with tight Git integration supporting a wide range
-of file formats, making it easy for translators to contribute.
-
-The translations should be kept within the same repository as the source code and
-the translation process should follow development closely.
-
-There is no plan regarding heavy conflict resolution, as these should be
-handled primarily by Git.
+Web based localization tool with tight :ref:`vcs` supporting a wide range of
+:ref:`formats`, making it easy for translators to contribute.
 
 Project name
 ------------
