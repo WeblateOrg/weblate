@@ -155,7 +155,9 @@ class CleanupAddon(UpdateBaseAddon):
 
         if isinstance(self.template_store, AppStoreParser):
             for translation in self.iterate_translations(component):
-                self.update_appstore(index, translation, translation.store.store)
+                self.update_appstore(
+                    index, translation, translation.store.store
+                )
         elif isinstance(self.template_store, RESXFile):
             if previous_head:
                 content = component.repository.get_file(

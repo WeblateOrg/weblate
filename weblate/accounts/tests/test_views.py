@@ -387,8 +387,12 @@ class ProfileTest(FixtureTestCase):
 
         # Add more languages
         self.user.profile.languages.add(Language.objects.get(code='pl'))
-        self.user.profile.secondary_languages.add(Language.objects.get(code='de'))
-        self.user.profile.secondary_languages.add(Language.objects.get(code='uk'))
+        self.user.profile.secondary_languages.add(
+            Language.objects.get(code='de')
+        )
+        self.user.profile.secondary_languages.add(
+            Language.objects.get(code='uk')
+        )
         response = self.client.post(reverse('userdata'))
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')

@@ -991,7 +991,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Merge/rebase
         if method == 'rebase':
             method = self.repository.rebase
-            error_msg = _('Could not rebase local branch onto remote branch %s.')
+            error_msg = _(
+                'Could not rebase local branch onto remote branch %s.'
+            )
             action = Change.ACTION_REBASE
             action_failed = Change.ACTION_FAILED_REBASE
             kwargs = {}

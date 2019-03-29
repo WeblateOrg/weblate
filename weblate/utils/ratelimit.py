@@ -29,7 +29,6 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
-from django.utils.translation import ugettext as _
 
 from weblate.utils import messages
 from weblate.utils.request import get_ip_address
@@ -74,7 +73,7 @@ def revert_rate_limit(scope, request):
 
     try:
         # Try to decrease cache key
-        attempts = cache.decr(key)
+        cache.decr(key)
     except ValueError:
         pass
 
@@ -113,7 +112,9 @@ def session_ratelimit_post(scope):
                     logout(request)
                 messages.error(
                     request,
-                    render_to_string('ratelimit.html', {'do_logout': do_logout})
+                    render_to_string(
+                        'ratelimit.html', {'do_logout': do_logout}
+                    )
                 )
                 return redirect('login')
             return function(request, *args, **kwargs)

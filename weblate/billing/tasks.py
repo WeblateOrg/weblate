@@ -29,7 +29,6 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.notifications import send_notification_email
-from weblate.auth.models import User
 from weblate.celery import app
 from weblate.billing.models import Billing
 from weblate.utils.site import get_site_url

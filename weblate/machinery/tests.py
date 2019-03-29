@@ -45,7 +45,7 @@ from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
-    MicrosoftTerminologyService, MST_API_URL, MST_WSDL_URL,
+    MicrosoftTerminologyService, MST_API_URL,
 )
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation

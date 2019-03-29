@@ -122,7 +122,8 @@ class WhiteboardMessage(models.Model):
         verbose_name=ugettext_lazy('Expiry date'),
         help_text=ugettext_lazy(
             'The message will be not shown after this date. '
-            'Use it to announce string freeze and translation deadline for next release.'
+            'Use it to announce string freeze and translation '
+            'deadline for next release.'
         ),
     )
 

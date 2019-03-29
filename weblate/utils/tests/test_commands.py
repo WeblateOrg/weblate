@@ -22,11 +22,11 @@ from glob import glob
 import os
 
 from django.core.management import call_command
-from django.core.management.base import CommandError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.trans.tests.utils import TempDirMixin
+
 
 class CommandTests(SimpleTestCase, TempDirMixin):
     def setUp(self):

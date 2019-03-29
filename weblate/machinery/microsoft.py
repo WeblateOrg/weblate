@@ -69,9 +69,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
         request.add_header(
-           'Authorization',
-           'Bearer {0}'.format(self.access_token)
-       )
+            'Authorization',
+            'Bearer {0}'.format(self.access_token)
+        )
 
     @property
     def access_token(self):

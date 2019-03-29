@@ -209,7 +209,10 @@ class GettextAddonTest(ViewTestCase):
             self.component.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
-        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
+        self.assertEqual(
+            'msgid "Try using Weblate demo' in commit,
+            not wrapped
+        )
 
     def test_msgmerge_nowrap(self):
         GettextCustomizeAddon.create(
@@ -519,7 +522,7 @@ class CommandTest(ViewTestCase):
     def test_install_addon_wrong(self):
         output = StringIO()
         with self.assertRaises(CommandError):
-            call_command (
+            call_command(
                 'install_addon', '--all',
                 '--addon', 'weblate.gettext.nonexisting',
                 '--configuration', '{"width":77}',

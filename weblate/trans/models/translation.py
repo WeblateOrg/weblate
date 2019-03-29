@@ -426,7 +426,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     break
 
                 # Get last change metadata
-                author, timestamp  = unit.get_last_content_change(request)
+                author, timestamp = unit.get_last_content_change(request)
 
                 author_name = author.get_author_name()
 

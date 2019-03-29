@@ -568,7 +568,9 @@ class NewLangTest(ViewTestCase):
                 reverse('new-language', kwargs=self.kw_component),
                 {'lang': code},
             )
-            translation = self.component.translation_set.get(language__code=code)
+            translation = self.component.translation_set.get(
+                language__code=code
+            )
             self.assertEqual(translation.language_code, expected)
             translation.remove(self.user)
 

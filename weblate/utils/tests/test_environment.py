@@ -26,6 +26,7 @@ from django.test import SimpleTestCase
 
 from weblate.utils.environment import get_env_list, get_env_map
 
+
 class EnvTest(SimpleTestCase):
     def test_list(self):
         os.environ['TEST_DATA'] = 'foo,bar,baz'

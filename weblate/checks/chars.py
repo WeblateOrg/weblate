@@ -385,8 +385,7 @@ class EndSemicolonCheck(TargetCheck):
 class KashidaCheck(TargetCheck):
     check_id = 'kashida'
     name = _('Kashida used')
-    description = _('The decorative kashida letters should not be used'
-    )
+    description = _('The decorative kashida letters should not be used')
     severity = 'warning'
 
     def check_single(self, source, target, unit):

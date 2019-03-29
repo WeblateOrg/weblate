@@ -138,7 +138,9 @@ class GitSquashAddon(BaseAddon):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(['cherry-pick', other[0]] + gpg_sign)
+                        repository.execute(
+                            ['cherry-pick', other[0]] + gpg_sign
+                        )
                         handled.append(i)
                     except RepositoryException:
                         # If fails, continue to another author, we will

@@ -53,7 +53,9 @@ class UniqueEmailMixin(object):
     validate_unique_mail = False
 
     def clean_email(self):
-        """Validate that the supplied email address is not in use on this site."""
+        """Validate that the supplied email address is not already in use on
+        this site.
+        """
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
@@ -486,7 +488,7 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
-                # Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
+                # Translators: Shown on wrong answer to the mathematics-based CAPTCHA
                 _('That was not correct, please try again.')
             )
 

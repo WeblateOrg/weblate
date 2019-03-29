@@ -388,10 +388,7 @@ class EditXliffComplexTest(EditTest):
         return self.create_xliff('complex')
 
     def test_invalid_xml(self):
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar & svete!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar & svete!\n')
         self.assert_backend(1)
 
 

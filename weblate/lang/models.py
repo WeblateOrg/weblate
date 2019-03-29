@@ -37,7 +37,6 @@ from django.utils.translation import (
     ugettext as _, ugettext_lazy, pgettext_lazy,
 )
 from django.utils.safestring import mark_safe
-from django.dispatch import receiver
 
 from weblate.lang import data
 from weblate.langdata import languages

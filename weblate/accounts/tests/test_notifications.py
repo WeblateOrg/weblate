@@ -25,7 +25,6 @@ Tests for user handling.
 from __future__ import unicode_literals
 
 from django.core import mail
-from django.test.utils import override_settings
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog

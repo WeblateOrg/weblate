@@ -157,7 +157,6 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
                     self.FORMAT.format_id
                 )
             )
-        self.maxDiff = None
 
     def tearDown(self):
         super(AutoFormatTest, self).tearDown()
