@@ -350,14 +350,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author=user
         )
 
-        if was_new:
-            self.stats.invalidate()
-            Change.objects.create(
-                translation=self,
-                action=Change.ACTION_NEW_STRING,
-                user=user,
-                author=user
-            )
+        return was_new
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()

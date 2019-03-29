@@ -1766,7 +1766,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     sender=self.__class__,
                     translation=translation
                 )
-            translation.check_sync(force=True, request=request)
+            was_new = translation.check_sync(force=True, request=request)
             translation.commit_template = 'add'
             translation.git_commit(
                 request,
@@ -1778,6 +1778,16 @@ class Component(models.Model, URLMixin, PathMixin):
             self.update_source_checks()
             self.update_unit_flags()
             translation.invalidate_cache()
+            if was_new:
+                # Create change after flags has been updated and cache
+                # invalidated, otherwise we might be sending notification
+                # with outdated values
+                Change.objects.create(
+                    translation=translation,
+                    action=Change.ACTION_NEW_STRING,
+                    user=request.user,
+                    author=request.user
+                )
             return True
 
     def do_lock(self, user, lock=True):
