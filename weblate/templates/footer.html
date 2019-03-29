@@ -7,7 +7,7 @@
   {% if has_legal %}<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>{% endif %}
   {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
   <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
-  <li><a href="{% documentation 'user/index' %}">{% trans "Documentation" %}</a></li>
+  <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
   <li><a href="{{ donate_url }}">{% trans "Donate to Weblate" %}</a></li>
  </ul>
 </footer>
