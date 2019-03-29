@@ -28,11 +28,10 @@ from django.utils.encoding import force_text
 from html2text import html2text
 
 from weblate.auth.models import User
-from weblate.accounts.models import Profile, AuditLog
+from weblate.accounts.models import Profile
 from weblate.celery import app
 from weblate.lang.models import Language
 from weblate.utils.site import get_site_url, get_site_domain
-from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
 from weblate.logger import LOGGER
 
