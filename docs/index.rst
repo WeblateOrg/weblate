@@ -7,6 +7,7 @@
 
 .. toctree::
     :caption: User docs
+    :maxdepth: 1
 
     user/basic
     user/profile
@@ -24,7 +25,7 @@
 
 .. toctree::
     :caption: Administrator docs
-    :maxdepth: 2
+    :maxdepth: 1
 
     admin/quick
     admin/install
@@ -54,6 +55,7 @@
 
 .. toctree::
     :caption: Contributor docs
+    :maxdepth: 1
 
     about
     contributing
@@ -65,7 +67,7 @@
 .. only:: format_html
 
    Indices and tables
-   ==================
+   ------------------
 
    * :ref:`genindex`
    * :ref:`search`
