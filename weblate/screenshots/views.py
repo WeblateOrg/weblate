@@ -47,18 +47,22 @@ from weblate.utils.views import ComponentViewMixin
 
 
 def try_add_source(request, obj):
-    if 'source' not in request.POST or not request.POST['source'].isdigit():
+    if 'source' not in request.POST:
         return False
 
     try:
         source = Source.objects.get(
-            pk=request.POST['source'],
+            pk=int(request.POST['source']),
             component=obj.component
         )
-        obj.sources.add(source)
-        return True
-    except Source.DoesNotExist:
+    except (Source.DoesNotExist, ValueError):
         return False
+
+    if obj.component_id != source.component_id:
+        return False
+
+    obj.sources.add(source)
+    return True
 
 
 class ScreenshotList(ListView, ComponentViewMixin):
