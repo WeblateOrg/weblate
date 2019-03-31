@@ -114,6 +114,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
         self.commit_template = ''
+        self.was_new = False
 
     @cached_property
     def full_slug(self):
@@ -152,6 +153,19 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     'error': str(error)
                 }
             )
+
+    def notify_new(self, request):
+        if self.was_new:
+            # Create change after flags has been updated and cache
+            # invalidated, otherwise we might be sending notification
+            # with outdated values
+            Change.objects.create(
+                translation=self,
+                action=Change.ACTION_NEW_STRING,
+                user=request.user if request else None,
+                author=request.user if request else None,
+            )
+            self.was_new = False
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -262,7 +276,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.save(update_fields=['plural'])
 
         # Was there change?
-        was_new = False
+        self.was_new = False
         # Position of current unit
         pos = 0
 
@@ -319,8 +333,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # - new and untranslated
             # - newly not translated
             # - newly fuzzy
-            was_new = (
-                was_new or
+            self.was_new = (
+                self.was_new or
                 (
                     newunit.state < STATE_TRANSLATED and
                     (newunit.state != newunit.old_unit.state or is_new)
@@ -349,8 +363,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             user=user,
             author=user
         )
-
-        return was_new
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()
