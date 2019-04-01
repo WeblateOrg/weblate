@@ -648,11 +648,6 @@ def whiteboard_messages(context, project=None, component=None, language=None):
     user = context['user']
 
     for whiteboard in whiteboards:
-        if whiteboard.message_html:
-            content = mark_safe(whiteboard.message)
-        else:
-            content = mark_safe(urlize(whiteboard.message, autoescape=True))
-
         can_delete = (
             user.has_perm('component.edit', whiteboard.component)
             or user.has_perm('project.edit', whiteboard.project)
@@ -663,7 +658,7 @@ def whiteboard_messages(context, project=None, component=None, language=None):
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message':  content,
+                    'message':  whiteboard.render(),
                     'whiteboard': whiteboard,
                     'can_delete': can_delete,
                 }

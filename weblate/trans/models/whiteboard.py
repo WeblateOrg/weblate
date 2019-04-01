@@ -22,6 +22,8 @@
 
 from django.db import models
 from django.db.models import Q
+from django.utils.html import urlize
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
@@ -158,3 +160,8 @@ class WhiteboardMessage(models.Model):
                 whiteboard=self,
                 target=self.message
             )
+
+    def render(self):
+        if self.message_html:
+            return mark_safe(self.message)
+        return mark_safe(urlize(self.message, autoescape=True))

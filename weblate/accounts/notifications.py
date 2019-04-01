@@ -375,6 +375,13 @@ class NewComponentNotificaton(Notification):
     template_name = 'new_component'
 
 
+@register_notification
+class NewWhiteboardMessageNotificaton(Notification):
+    actions = (Change.ACTION_MESSAGE,)
+    verbose = _('New whiteboard message')
+    template_name = 'new_whiteboard'
+
+
 
 def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,

@@ -41,7 +41,7 @@ from weblate.accounts.tasks import notify_change
 from weblate.trans.tests.test_views import (
     ViewTestCase, RegistrationTestMixin,
 )
-from weblate.trans.models import Suggestion, Comment, Change
+from weblate.trans.models import Suggestion, Comment, Change, WhiteboardMessage
 from weblate.lang.models import Language
 
 
@@ -271,6 +271,15 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(
             1, '[Weblate] New translation component Test/Test'
+        )
+
+    def test_notify_new_whiteboard(self):
+        WhiteboardMessage.objects.create(
+            component=self.component,
+            message='Hello word',
+        )
+        self.validate_notifications(
+            2, '[Weblate] New whiteboard message on Test'
         )
 
     def test_notify_account(self):
