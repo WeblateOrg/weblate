@@ -74,6 +74,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             'NewContributorNotificaton',
             'NewSuggestionNotificaton',
             'NewCommentNotificaton',
+            'NewComponentNotificaton',
             'ChangedStringNotificaton',
             'NewTranslationNotificaton',
             'MentionCommentNotificaton',
@@ -262,6 +263,15 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 3)
         mail.outbox = []
         self.test_notify_new_comment(2)
+
+    def test_notify_new_component(self):
+        Change.objects.create(
+            component=self.component,
+            action=Change.ACTION_CREATE_COMPONENT
+        )
+        self.validate_notifications(
+            1, '[Weblate] New translation component Test/Test'
+        )
 
     def test_notify_account(self):
         request = self.get_request()

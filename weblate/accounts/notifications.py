@@ -368,6 +368,12 @@ class NewTranslationNotificaton(Notification):
         return context
 
 
+@register_notification
+class NewComponentNotificaton(Notification):
+    actions = (Change.ACTION_CREATE_COMPONENT,)
+    verbose = _('New translation component')
+    template_name = 'new_component'
+
 
 
 def get_notification_email(language, email, notification,
