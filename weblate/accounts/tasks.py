@@ -64,7 +64,9 @@ def cleanup_auditlog():
     ).delete()
 
 
-@app.task(autoretry_for=(ObjectDoesNotExist,))
+# Retry for not existing object (maybe transaction not yet committed) with
+# delay of 10 minutes growing exponentially
+@app.task(autoretry_for=(ObjectDoesNotExist,), retry_backoff=600)
 def notify_change(change_id):
     from weblate.trans.models import Change
     from weblate.accounts.notifications import (
