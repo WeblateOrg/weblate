@@ -41,7 +41,9 @@ from weblate.accounts.tasks import notify_change
 from weblate.trans.tests.test_views import (
     ViewTestCase, RegistrationTestMixin,
 )
-from weblate.trans.models import Suggestion, Comment, Change, WhiteboardMessage
+from weblate.trans.models import (
+    Suggestion, Comment, Change, WhiteboardMessage, Alert,
+)
 from weblate.lang.models import Language
 
 
@@ -280,6 +282,17 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(
             2, '[Weblate] New whiteboard message on Test'
+        )
+
+    def test_notify_alert(self):
+        self.component.project.add_user(self.user, '@Administration')
+        Alert.objects.create(
+            component=self.component,
+            name='PushFailure',
+            details={'error': 'Some error'}
+        )
+        self.validate_notifications(
+            1, '[Weblate] New alert on Test/Test'
         )
 
     def test_notify_account(self):

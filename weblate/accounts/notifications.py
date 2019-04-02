@@ -382,6 +382,12 @@ class NewWhiteboardMessageNotificaton(Notification):
     template_name = 'new_whiteboard'
 
 
+@register_notification
+class NewAlertNotificaton(Notification):
+    actions = (Change.ACTION_ALERT,)
+    verbose = _('New component alert')
+    template_name = 'new_alert'
+
 
 def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,
