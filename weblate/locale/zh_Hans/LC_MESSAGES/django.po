@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-21 07:49+0000\n"
+"PO-Revision-Date: 2019-04-03 17:27+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -246,31 +246,26 @@ msgid "Logged on using {method} ({name})."
 msgstr "已使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:75
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "已使用 ({method}:{name}) 从新设备验证身份。"
+msgstr "已使用 ({method}:{name}) 从新设备登录。"
 
 #: weblate/accounts/models.py:78
 msgid "Somebody has attempted to register with your email."
 msgstr "有人试图使用您的电子邮箱进行注册。"
 
 #: weblate/accounts/models.py:81
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "有人试图使用您的电子邮箱进行注册。"
+msgstr "有人试图使用您的电子邮箱地址进行注册。"
 
 #: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr ""
+msgstr "无法使用 {method} ({name}) 登录。"
 
 #: weblate/accounts/models.py:87
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr "账户因尝试验证失败次数过多而被锁定。"
+msgstr "账户因登录失败次数过多而被锁定。"
 
 #: weblate/accounts/models.py:90
 msgid "Account and all private data have been removed."
@@ -282,24 +277,20 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "同意服务条款 {date}。"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "您输入的密码无效。"
+msgstr "您现在可以使用密码登录。"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "忘记了密码？"
+msgstr "已使用密码登录。"
 
 #: weblate/accounts/models.py:101
 msgid "Logged on using password from a new device."
-msgstr ""
+msgstr "已使用密码从一台新设备登录。"
 
 #: weblate/accounts/models.py:102
 msgid "Could not log in using password."
-msgstr ""
+msgstr "无法使用密码登录。"
 
 #: weblate/accounts/models.py:108
 msgid "To restore access to your account, please reset your password."
@@ -786,10 +777,8 @@ msgid "Per file"
 msgstr "每个文件"
 
 #: weblate/addons/forms.py:108
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "最后作者"
+msgstr "每个作者"
 
 #: weblate/addons/forms.py:125
 msgid "Sort JSON keys"
@@ -821,8 +810,6 @@ msgid "Define the monolingual base filename"
 msgstr "指定单语种译文模版文件名"
 
 #: weblate/addons/forms.py:171
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "保持双语翻译文件空白。"
 
@@ -1152,47 +1139,39 @@ msgstr "更新内部代码库"
 
 #: weblate/auth/data.py:97
 msgid "Use management interface (global)"
-msgstr ""
+msgstr "使用管理界面（全局）"
 
 #: weblate/auth/data.py:99
 msgid "Add language definitions (global)"
-msgstr ""
+msgstr "添加语言定义（全局）"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "管理语言"
+msgstr "管理语言定义（全局）"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
-msgstr ""
+msgstr "添加组（全局）"
 
 #: weblate/auth/data.py:103
 msgid "Manage groups (global)"
-msgstr ""
+msgstr "管理组（全局）"
 
 #: weblate/auth/data.py:105
 msgid "Add users (global)"
-msgstr ""
+msgstr "添加用户（全局）"
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "管理用户"
+msgstr "管理用户（全局）"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
-msgstr ""
+msgstr "管理白板（全局）"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "管理翻译记忆库"
+msgstr "管理翻译记忆库（全局）"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
@@ -1512,10 +1491,8 @@ msgid "Trial expiry date"
 msgstr "试用过期日期"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "删除账户"
+msgstr "已计划的删除"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -3865,7 +3842,7 @@ msgstr "翻译"
 #: weblate/templates/component.html:33 weblate/templates/project.html:28
 #: weblate/templates/translation.html:34
 msgid "Info"
-msgstr ""
+msgstr "信息"
 
 #: weblate/templates/component.html:35
 msgid "Alerts"
@@ -8513,10 +8490,8 @@ msgid "RST text"
 msgstr "RST 文本"
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown text"
-msgstr "Markdown 代码"
+msgstr "Markdown 文本"
 
 #: weblate/trans/validators.py:33
 msgid "XML text"
@@ -8815,8 +8790,6 @@ msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"
 
 #: weblate/trans/views/git.py:44
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation in progress."
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr "锁定失败，正执行其他操作。"
 
@@ -9064,11 +9037,11 @@ msgstr "计算复数方程失败：{}"
 
 #: weblate/utils/validators.py:253
 msgid "Filename can not contain reference to a parent directory."
-msgstr ""
+msgstr "文件名不能包含指向父目录的引用。"
 
 #: weblate/utils/validators.py:256
 msgid "Filename can not be an absolute path."
-msgstr ""
+msgstr "文件名不能是一个绝对路径。"
 
 #: weblate/utils/views.py:218
 #, python-format
