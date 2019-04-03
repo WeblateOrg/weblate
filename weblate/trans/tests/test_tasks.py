@@ -27,7 +27,31 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class CleanupTest(ViewTestCase):
-    def test_cleanup_suggestions(self):
+    def test_cleanup_suggestions_case_sensitive(self):
+        request = self.get_request()
+        unit = self.get_unit()
+
+        # Add two suggestions
+        Suggestion.objects.add(unit, 'Zkouška', request)
+        Suggestion.objects.add(unit, 'zkouška', request)
+        # This should be ignored
+        Suggestion.objects.add(unit, 'zkouška', request)
+        self.assertEqual(len(unit.suggestions), 2)
+
+        # Perform cleanup, no suggestions should be deleted
+        cleanup_suggestions()
+        unit = self.get_unit()
+        self.assertEqual(len(unit.suggestions), 2)
+
+        # Translate string to one of suggestions
+        unit.translate(request, 'zkouška', STATE_TRANSLATED)
+
+        # The cleanup should remove one
+        cleanup_suggestions()
+        unit = self.get_unit()
+        self.assertEqual(len(unit.suggestions), 1)
+
+    def test_cleanup_suggestions_duplicate(self):
         request = self.get_request()
         unit = self.get_unit()
 
@@ -41,8 +65,10 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(len(unit.suggestions), 2)
 
-        # Translate string to one of suggestions
-        unit.translate(request, 'zkouška', STATE_TRANSLATED)
+        # Create two suggestions with same target
+        for suggestion in unit.suggestions:
+            suggestion.target = 'zkouška'
+            suggestion.save()
 
         # The cleanup should remove one
         cleanup_suggestions()
