@@ -39,12 +39,15 @@ class ComparerTest(TestCase):
         )
 
     def test_unicode(self):
+        # Test fallback to Python implementation in jellyfish
+        # for unicode strings
         self.assertEqual(
             Comparer().similarity('NICHOLASŸ', 'NICHOLAS'),
             88
         )
 
     def test_long(self):
+        # This is expected to raise MemoryError inside jellyfish
         self.assertLessEqual(
             Comparer().similarity('a' * 200000, 'b' * 200000),
             50
