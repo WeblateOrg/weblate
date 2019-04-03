@@ -88,9 +88,6 @@ matrix:
     - name: 'Django 1.11'
       python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12"
-    - name: 'Django pre-release'
-      python: "3.6"
-      env: CI_DEPS="--pre Django"
     - name: 'translate-toolkit pre-release'
       python: "3.6"
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
@@ -103,9 +100,6 @@ matrix:
     - name: "Documentation"
       python: "3.6"
       env: CI_MODE=docs
-  allow_failures:
-    - python: "3.6"
-      env: CI_DEPS="--pre Django"
 addons:
   apt:
     packages:
