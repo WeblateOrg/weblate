@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-26 21:37+0000\n"
+"PO-Revision-Date: 2019-04-03 17:27+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -4297,16 +4297,12 @@ msgid "Translations can be made directly."
 msgstr "Tłumaczenia mogą być dodawane bezpośrednio."
 
 #: weblate/templates/component_info.html:20
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "Tłumaczenia mogą być dodawane bezpośrednio."
+msgstr "Możliwe jest w tłumaczeniu korzystanie z sugestii."
 
 #: weblate/templates/component_info.html:22
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Translation suggestions are turned off."
-msgstr "Sugestie tłumaczenia maszynowego"
+msgstr "Sugestie tłumaczenia są wyłączone."
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -4317,14 +4313,10 @@ msgid "Any authenticated user can contribute."
 msgstr "Każdy uwierzytelniony użytkownik może wnieść swój wkład."
 
 #: weblate/templates/component_info.html:31
-#, fuzzy
-#| msgid "The translation is using monolingual files."
 msgid "The translation uses monolingual files."
-msgstr "Tłumaczenie używa plików jednojęzycznych."
+msgstr "Tłumaczenie wykorzystuje pliki jednojęzyczne."
 
 #: weblate/templates/component_info.html:33
-#, fuzzy
-#| msgid "The translation base language can be edited."
 msgid "The translation base language is editable."
 msgstr "Język bazowy tłumaczenia można edytować."
 
@@ -4333,8 +4325,6 @@ msgid "The translation base language can not be edited."
 msgstr "Język bazowy tłumaczenia nie może być edytowany."
 
 #: weblate/templates/component_info.html:38
-#, fuzzy
-#| msgid "The translation is using bilingual files."
 msgid "The translation uses bilingual files."
 msgstr "Tłumaczenie korzysta z plików dwujęzycznych."
 
@@ -4364,10 +4354,8 @@ msgid "Repository branch"
 msgstr "Gałąź repozytorium"
 
 #: weblate/templates/component_info.html:85
-#, fuzzy
-#| msgid "Repository containing Weblate translations:"
 msgid "Repository containing Weblate translations"
-msgstr "Repozytorium zawierające tłumaczenia Weblate:"
+msgstr "Repozytorium zawierające tłumaczenia Weblate"
 
 #: weblate/templates/component_info.html:98
 #: weblate/trans/models/component.py:224
@@ -4514,10 +4502,6 @@ msgid "Notification hooks"
 msgstr "„Zaczepy” powiadomień"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
@@ -4749,7 +4733,7 @@ msgstr "Napędzane przez %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Skopiuj do schowka"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -5248,7 +5232,7 @@ msgstr "Ten plan rozliczeniowy obejmuje następujące projekty:"
 
 #: weblate/templates/mail/billing_expired.html:25
 msgid "All projects covered by this billing plan have been removed."
-msgstr ""
+msgstr "Wszystkie projekty objęte tym planem rozliczeniowym zostały usunięte."
 
 #: weblate/templates/mail/billing_expired.html:27
 #, python-format
@@ -5256,6 +5240,8 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Jeśli nie wykonasz płatności, wszystkie projekty w ramach tego planu "
+"rozliczeniowego zostaną usunięte %(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -5263,7 +5249,7 @@ msgstr "Twój projekt tłumaczeniowy został usunięty"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "Twój projekt tłumaczenia został zaplanowany do usunięcia"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -5369,19 +5355,13 @@ msgid "New contributor in %(translation)s"
 msgstr "Nowy współtwórca w projekcie %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a new translation on %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(translation)s at %(site_title)s."
-msgstr ""
-"Dodano nowe tłumaczenie w projekcie %(translation)s na stronie "
-"%(site_title)s."
+msgstr "Nowy język został dodany do %(translation)s w %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:19
-#, fuzzy
-#| msgid "Used languages"
 msgid "Added language:"
-msgstr "Wykorzystane języki"
+msgstr "Dodano język:"
 
 #: weblate/templates/mail/new_language.html:24
 #, python-format
@@ -5417,16 +5397,13 @@ msgid "Requested by:"
 msgstr "Zgłoszony przez:"
 
 #: weblate/templates/mail/new_language.html:63
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translation component:"
-msgstr "Komentarz do tłumaczenia"
+msgstr "Składnik tłumaczenia:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language added to %(translation)s"
-msgstr "Żądanie nowego języka w projekcie %(translation)s"
+msgstr "Dodano nowy język do %(translation)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
 #, python-format
