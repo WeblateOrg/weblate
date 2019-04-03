@@ -216,13 +216,14 @@ def cleanup_suggestions():
     for suggestion in suggestions.iterator():
         with transaction.atomic():
             # Remove suggestions with same text as real translation
-            units = Unit.objects.filter(
-                content_hash=suggestion.content_hash,
-                translation__language=suggestion.language,
-                translation__component__project=suggestion.project,
-            )
+            is_different = False
+            # Do not rely on the SQL as MySQL compares strings case insensitive
+            for unit in suggestion.related_units:
+                if unit.target != suggestion.target:
+                    is_different = True
+                    break
 
-            if not units.exclude(target=suggestion.target).exists():
+            if not is_different:
                 suggestion.delete_log(
                     anonymous_user,
                     change=Change.ACTION_SUGGESTION_CLEANUP
@@ -238,11 +239,14 @@ def cleanup_suggestions():
             ).exclude(
                 id=suggestion.id
             )
-            if sugs.exists():
-                suggestion.delete_log(
-                    anonymous_user,
-                    change=Change.ACTION_SUGGESTION_CLEANUP
-                )
+            # Do not rely on the SQL as MySQL compares strings case insensitive
+            for other in sugs:
+                if other.target == suggestion.target:
+                    suggestion.delete_log(
+                        anonymous_user,
+                        change=Change.ACTION_SUGGESTION_CLEANUP
+                    )
+                    break
 
 
 @app.task
