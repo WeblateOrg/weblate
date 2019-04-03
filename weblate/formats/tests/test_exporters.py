@@ -24,7 +24,7 @@ from django.test import TestCase
 from weblate.lang.models import Language, Plural
 from weblate.formats.exporters import (
     PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter,
-    CSVExporter,
+    CSVExporter, XlsxExporter,
 )
 from weblate.trans.models import (
     Dictionary, Project, Component, Translation, Unit,
@@ -209,3 +209,12 @@ class CSVExporterTest(PoExporterTest):
             target='yyy',
         )
         self.assertIn(b'"\'=HYPERLINK', output)
+
+
+class XlsxExporterTest(PoExporterTest):
+    _class = XlsxExporter
+    _has_context = False
+
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        pass
