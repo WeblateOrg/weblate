@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -61,12 +63,10 @@ class GitSquashAddon(BaseAddon):
             repository.commit(message, author)
 
     def get_filenames(self, component):
-        languages = {}
+        languages = defaultdict(list)
         for origin in [component] + list(component.get_linked_childs()):
             for translation in origin.translation_set.all():
                 code = translation.language.code
-                if code not in languages:
-                    languages[code] = []
                 languages[code].extend(translation.filenames)
         return languages
 

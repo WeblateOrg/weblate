@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
 import gettext
 from itertools import chain
 import re
@@ -549,12 +550,10 @@ class Plural(models.Model):
 
     @cached_property
     def examples(self):
-        result = {}
+        result = defaultdict(list)
         func = self.plural_function
         for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
             ret = func(i)
-            if ret not in result:
-                result[ret] = []
             if len(result[ret]) >= 10:
                 continue
             result[ret].append(str(i))

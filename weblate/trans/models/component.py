@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
 from copy import copy
 from glob import glob
 import os
@@ -1174,7 +1175,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
-        self.checks_cache = {}
+        self.checks_cache = defaultdict(list)
         check_values = Check.objects.filter(
             project=self.project
         ).values_list(
@@ -1182,10 +1183,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         for check in check_values:
             key = (check[0], check[1])
-            if key not in self.checks_cache:
-                self.checks_cache[key] = [check[2]]
-            else:
-                self.checks_cache[key].append(check[2])
+            self.checks_cache[key].append(check[2])
         translations = {}
         languages = {}
         try:

@@ -22,6 +22,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from collections import defaultdict
 import functools
 import logging
 from time import sleep
@@ -280,13 +281,11 @@ def delete_fulltext(self, *args):
     fulltext = Fulltext()
 
     units = set()
-    languages = {}
+    languages = defaultdict(set)
     for unit, language in ids:
         units.add(unit)
         if language is None:
             continue
-        if language not in languages:
-            languages[language] = set()
         languages[language].add(unit)
 
     try:
