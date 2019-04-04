@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-04-03 17:27+0000\n"
+"PO-Revision-Date: 2019-04-05 14:05+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -251,26 +251,22 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Você não pode iniciar sessão utilizando {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Autenticação {method} ({name})."
+msgstr "Conectado usando {method} ({name})."
 
 #: weblate/accounts/models.py:75
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Autenticação {method} ({name}) a partir de novo dispositivo."
+msgstr "Conectado usando {method} ({name}) de um novo dispositivo."
 
 #: weblate/accounts/models.py:78
 msgid "Somebody has attempted to register with your email."
 msgstr "Alguém se tentou registar com o seu e-mail."
 
 #: weblate/accounts/models.py:81
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your email address."
-msgstr "Alguém se tentou registar com o seu e-mail."
+msgstr "Alguém tentou-se registrar usando o seu endereço de e-mail."
 
 #: weblate/accounts/models.py:84
 #, python-brace-format
@@ -278,11 +274,8 @@ msgid "Could not log in using {method} ({name})."
 msgstr "Não foi possível iniciar sessão usando {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy
-#| msgid "Account locked due to excessive failed authentication attempts."
 msgid "Account locked due to many failed logins."
-msgstr ""
-"Conta bloqueada devido a demasiadas tentativas de autenticação falhadas."
+msgstr "Conta bloqueada devido a muitos logins falhados."
 
 #: weblate/accounts/models.py:90
 msgid "Account and all private data have been removed."
@@ -294,16 +287,12 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Acordo com os termos do serviço {date}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "You can now log in using password."
-msgstr "Inseriu uma palavra-passe inválida."
+msgstr "Você agora pode iniciar sessão utilizando a palavra-passe."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Esqueceu-se da palavra-passe?"
+msgstr "Sessão iniciada utilizando a palavra-passe."
 
 #: weblate/accounts/models.py:101
 msgid "Logged on using password from a new device."
@@ -829,10 +818,8 @@ msgid "Per file"
 msgstr "Por ficherio"
 
 #: weblate/addons/forms.py:108
-#, fuzzy
-#| msgid "Last author"
 msgid "Per author"
-msgstr "Último autor"
+msgstr "Por autor"
 
 #: weblate/addons/forms.py:125
 msgid "Sort JSON keys"
@@ -866,10 +853,8 @@ msgid "Define the monolingual base filename"
 msgstr "Definir nome do ficheiro monolíngue de base"
 
 #: weblate/addons/forms.py:171
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
-msgstr "Manter vazio para ficheiros de tradução bilingues."
+msgstr "Manter vazio para ficheiros de tradução bilingue."
 
 #: weblate/addons/forms.py:174
 msgid "Define the base file for new translations"
@@ -1216,11 +1201,8 @@ msgid "Add language definitions (global)"
 msgstr "Adicionar definições de idioma (global)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "Gerir idiomas"
+msgstr "Gerir definições de idioma (global)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
@@ -1235,21 +1217,16 @@ msgid "Add users (global)"
 msgstr "Adicionar usuários (global)"
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "Gerir utilizadores"
+msgstr "Gerir usuário (global)"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
 msgstr "Gerir o quadro branco (global)"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "Gerir memória de tradução"
+msgstr "Gerir memória de tradução (global)"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
@@ -1570,10 +1547,8 @@ msgid "Trial expiry date"
 msgstr "Expiração do teste"
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Remoção de conta"
+msgstr "Remoção programada"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -1895,34 +1870,24 @@ msgid "Markdown link references"
 msgstr "Referências de ligação do Markdown"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "O BBcode na tradução não coincide com a fonte"
+msgstr "As referências de link de Markdown não correspondem à fonte"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Código Markdown"
+msgstr "Ligações de Markdown"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr "Etiquetas XML na tradução não coincidem com a fonte"
+msgstr "Ligações do Markdown não corresponden com a fonte"
 
 #: weblate/checks/markup.py:265
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Código Markdown"
+msgstr "Sintaxe de Markdown"
 
 #: weblate/checks/markup.py:266
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "O formato C da cadeia não coincide com a fonte"
+msgstr "A sintaxe de Markdown não corresponde à fonte"
 
 #: weblate/checks/markup.py:300 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -1931,10 +1896,8 @@ msgid "URL"
 msgstr "URL"
 
 #: weblate/checks/markup.py:301
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation does not contain an URL"
-msgstr "A tradução não é XML válido"
+msgstr "A tradução não contém uma URL"
 
 #: weblate/checks/same.py:148
 msgid "Unchanged translation"
@@ -3289,22 +3252,16 @@ msgid "Remove my account"
 msgstr "Remover a minha conta"
 
 #: weblate/templates/accounts/profile.html:169
-#, fuzzy
-#| msgid "User agent"
 msgid "User data"
-msgstr "Agente do utilizador"
+msgstr "Dados de usuário"
 
 #: weblate/templates/accounts/profile.html:172
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
 msgid "You can download all your private data."
-msgstr "A remoção da conta elimina todos os dados privados."
+msgstr "Você pode descarregar todos os seus dados privados."
 
 #: weblate/templates/accounts/profile.html:175
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download user data"
-msgstr "Transferir relatórios"
+msgstr "Descarregar dados do utilizador"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Your summary"
@@ -3537,15 +3494,12 @@ msgid "Configure addon"
 msgstr "Configurar extensão"
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid ""
-#| "This addon operates on whole project, it is enough to install it on one "
-#| "component."
 msgid ""
 "This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
-"Esta extensão actua em todo o projecto, basta instalar num só componente."
+"Este addon é usado para todo o projeto, é suficiente instalá-lo para um só "
+"componente."
 
 #: weblate/templates/addons/addon_head.html:5
 msgid "project wide"
@@ -3558,10 +3512,8 @@ msgstr ""
 "repositório."
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "Detalhes do repositório"
+msgstr "repositório inteiro"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -4133,10 +4085,8 @@ msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
 #: weblate/templates/component.html:83 weblate/templates/component.html:213
-#, fuzzy
-#| msgid "All components"
 msgid "Add a component message"
-msgstr "Todos os componentes"
+msgstr "Adicionar uma mensagem de componente"
 
 #: weblate/templates/component.html:86 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:73
@@ -4188,16 +4138,13 @@ msgstr "Por favor, inicie sessão para iniciar uma tradução"
 
 #: weblate/templates/component.html:173 weblate/templates/project.html:230
 #: weblate/templates/translation.html:241
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all strings at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Pode substituir uma cadeia em todas as cadeias em simultâneo. A procura é "
-"uma simples pesquisa por sub-cadeias sensível a maiúsculas e minúsculas."
+"Você pode substituir todas as instâncias de uma cadeia de caracteres. A "
+"pesquisa é uma simples pesquisa por subcadeias de caracteres e sensível a "
+"maiúsculas e minúsculas."
 
 #: weblate/templates/component.html:178 weblate/templates/component.html:193
 #: weblate/templates/project.html:235 weblate/templates/project.html:250
@@ -4214,11 +4161,10 @@ msgid "Bulk status change"
 msgstr "Modificação de estado em massa"
 
 #: weblate/templates/component.html:188
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
-"Pode alterar o estado de todas as cadeias de um dado tipo em simultâneo."
+"É possível modificar o estado de todas as cadeias de caracteres que "
+"correspondam a um determinado tipo ao mesmo tempo."
 
 #: weblate/templates/component.html:204 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
