@@ -826,7 +826,7 @@ SILENCED_SYSTEM_CHECKS = [
 # Celery worker configuration for testing
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
-CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 # CELERY_TASK_ALWAYS_EAGER = False
 # CELERY_BROKER_URL = 'redis://localhost:6379'
