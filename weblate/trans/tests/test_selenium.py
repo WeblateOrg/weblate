@@ -481,7 +481,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Generate nice changes data
         for day in range(365):
             for i in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
-                change = Change.objects.create()
+                change = Change.objects.create(
+                    action=Change.ACTION_CREATE_PROJECT
+                )
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
