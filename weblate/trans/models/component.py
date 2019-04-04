@@ -1146,9 +1146,13 @@ class Component(models.Model, URLMixin, PathMixin):
                 component.delete_alert(alert)
 
     def add_alert(self, alert, childs=False, **details):
-        obj = self.alert_set.get_or_create(name=alert)[0]
-        obj.details = details
-        obj.save()
+        obj, created = self.alert_set.get_or_create(
+            name=alert,
+            defaults={'details': details}
+        )
+        if not created:
+            obj.details = details
+            obj.save()
         if childs:
             for component in self.get_linked_childs():
                 component.add_alert(alert, **details)
