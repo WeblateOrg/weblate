@@ -164,7 +164,33 @@
                             "kind": "ImageStreamTag",
                             "namespace": "openshift",
                             "name": "python:${PYTHON_VERSION}"
-                        }
+                        },
+                        "env": [
+                            {
+                                "name": "OPENSHIFT_APP_NAME",
+                                "value": "weblate"
+                            },
+                            {
+                                "name": "OPENSHIFT_MYSQL_DB_URL",
+                                "value": "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${APPLICATION_NAME}-db:3306/weblate"
+                            },
+                            {
+                                "name": "OPENSHIFT_MYSQL_DB_USERNAME",
+                                "value": "${DATABASE_USERNAME}"
+                            },
+                            {
+                                "name": "OPENSHIFT_MYSQL_DB_PASSWORD",
+                                "value": "${DATABASE_PASSWORD}"
+                            },
+                            {
+                                "name": "OPENSHIFT_MYSQL_DB_HOST",
+                                "value": "${APPLICATION_NAME}-db"
+                            },
+                            {
+                                "name": "OPENSHIFT_MYSQL_DB_PORT",
+                                "value": "3306"
+                            }
+                        ]
                     }
                 },
                 "output": {
