@@ -390,27 +390,10 @@ class NewAlertNotificaton(Notification):
 
 
 def get_notification_email(language, email, notification,
-                           translation_obj=None, context=None, headers=None,
-                           user=None, info=None):
+                           context=None, info=None):
     """Render notification email."""
     context = context or {}
-    headers = headers or {}
-    references = None
-    if 'unit' in context:
-        unit = context['unit']
-        references = '{0}/{1}/{2}/{3}'.format(
-            unit.translation.component.project.slug,
-            unit.translation.component.slug,
-            unit.translation.language.code,
-            unit.id
-        )
-    if references is not None:
-        references = '<{0}@{1}>'.format(references, get_site_domain())
-        headers['In-Reply-To'] = references
-        headers['References'] = references
-
-    if info is None:
-        info = force_text(translation_obj)
+    headers = {}
 
     LOGGER.info(
         'sending notification %s on %s to %s',
@@ -429,13 +412,7 @@ def get_notification_email(language, email, notification,
 
         # Adjust context
         context['current_site_url'] = get_site_url()
-        if translation_obj is not None:
-            context['translation'] = translation_obj
-            context['translation_url'] = get_site_url(
-                translation_obj.get_absolute_url()
-            )
         context['site_title'] = settings.SITE_TITLE
-        context['user'] = user
 
         # Render subject
         subject = render_to_string(
@@ -456,10 +433,6 @@ def get_notification_email(language, email, notification,
         headers['Precedence'] = 'bulk'
         headers['X-Mailer'] = 'Weblate {0}'.format(VERSION)
 
-        # Reply to header
-        if user is not None:
-            headers['Reply-To'] = user.email
-
         # List of recipients
         if email == 'ADMINS':
             emails = [a[1] for a in settings.ADMINS]
@@ -476,13 +449,11 @@ def get_notification_email(language, email, notification,
         }
 
 
-def send_notification_email(language, email, notification,
-                            translation_obj=None, context=None, headers=None,
-                            user=None, info=None):
+def send_notification_email(language, email, notification, context=None,
+                            info=None):
     """Render and sends notification email."""
     email = get_notification_email(
-        language, email, notification, translation_obj, context, headers,
-        user, info
+        language, email, notification, context, info
     )
     send_mails.delay([email])
 
