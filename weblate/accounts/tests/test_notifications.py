@@ -35,9 +35,11 @@ from weblate.accounts.models import Profile, AuditLog, Subscription
 from weblate.accounts.notifications import (
     FREQ_NONE, FREQ_INSTANT, FREQ_DAILY, FREQ_WEEKLY, FREQ_MONTHLY,
     SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
-    MergeFailureNotification,
+    MergeFailureNotification, NOTIFICATIONS,
 )
-from weblate.accounts.tasks import notify_change
+from weblate.accounts.tasks import (
+    notify_change, notify_daily, notify_weekly, notify_monthly,
+)
 from weblate.trans.tests.test_views import (
     ViewTestCase, RegistrationTestMixin,
 )
@@ -311,6 +313,42 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         content = mail.outbox[0].alternatives[0][0]
         self.assertIn('lang="cs"', content)
         self.assertIn('změněno', content)
+
+    def test_digest(self, frequency=FREQ_DAILY, notify=notify_daily,
+                    change=Change.ACTION_FAILED_MERGE, subj='Merge failure'):
+        Subscription.objects.filter(
+            frequency=FREQ_INSTANT
+        ).update(
+            frequency=frequency
+        )
+        Change.objects.create(
+            component=self.component,
+            details={
+                'error': 'Failed merge',
+                'status': 'Error\nstatus',
+                'language': 'de',
+            },
+            action=change,
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Trigger notification
+        notify()
+        self.validate_notifications(1, '[Weblate] Digest: {}'.format(subj))
+
+    def test_digest_weekly(self):
+        self.test_digest(FREQ_WEEKLY, notify_weekly)
+
+    def test_digest_monthly(self):
+        self.test_digest(FREQ_MONTHLY, notify_monthly)
+
+    def test_diget_new_lang(self):
+        self.test_digest(
+            change=Change.ACTION_REQUESTED_LANGUAGE,
+            subj='New language'
+        )
 
 
 class SubscriptionTest(ViewTestCase):

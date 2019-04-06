@@ -23,6 +23,8 @@ from __future__ import absolute_import, unicode_literals
 from datetime import timedelta
 import time
 
+from celery.schedules import crontab
+
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import get_connection
@@ -79,6 +81,29 @@ def notify_change(change_id):
                 notification.notify_immediate(change)
 
 
+def notify_digest(method):
+    from weblate.accounts.notifications import NOTIFICATIONS
+    with get_connection() as connection:
+        for notification_cls in NOTIFICATIONS:
+            notification = notification_cls(connection)
+            getattr(notification, method)()
+
+
+@app.task
+def notify_daily():
+    notify_digest('notify_daily')
+
+
+@app.task
+def notify_weekly():
+    notify_digest('notify_weekly')
+
+
+@app.task
+def notify_monthly():
+    notify_digest('notify_monthly')
+
+
 @app.task(autoretry_for=(ObjectDoesNotExist,))
 def notify_auditlog(log_id):
     from weblate.accounts.models import AuditLog
@@ -109,4 +134,19 @@ def setup_periodic_tasks(sender, **kwargs):
         3600,
         cleanup_auditlog.s(),
         name='auditlog-cleanup',
+    )
+    sender.add_periodic_task(
+        crontab(hour=1, minute=0),
+        notify_daily.s(),
+        name='notify-daily',
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=0, day_of_week='monday'),
+        notify_weekly.s(),
+        name='notify-weekly',
+    )
+    sender.add_periodic_task(
+        crontab(hour=3, minute=0, day=1),
+        notify_monthly.s(),
+        name='notify-monthly',
     )

@@ -78,6 +78,7 @@ class Notification(object):
     actions = ()
     verbose = ''
     template_name = None
+    digest_template = 'digest'
     filter_languages = False
 
     def __init__(self, connection):
@@ -154,21 +155,26 @@ class Notification(object):
         email.attach_alternative(body, 'text/html')
         email.send()
 
-    def render_template(self, suffix, context):
+    def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context"""
-        template_name = 'mail/{}{}'.format(self.template_name, suffix)
+        template_name = 'mail/{}{}'.format(
+            self.digest_template if digest else self.template_name,
+            suffix
+        )
         return render_to_string(template_name, context).strip()
 
-    def get_context(self, change):
+    def get_context(self, change=None):
         """Return context for rendering mail"""
         result = {
-            'change': change,
             'LANGUAGE_CODE': django_translation.get_language(),
             'LANGUAGE_BIDI': django_translation.get_language_bidi(),
             'current_site_url': get_site_url(),
             'site_title': settings.SITE_TITLE,
             'notification_name': self.verbose,
         }
+        if not change:
+            return result
+        result['change'] = change
         # Extract change attributes
         attribs = (
             'unit', 'translation', 'component', 'project', 'dictionary',
@@ -194,13 +200,13 @@ class Notification(object):
         }
 
         # Reply to header
-        user = context['user']
+        user = context.get('user')
         if user and not user.is_anonymous and not user.is_demo:
             headers['Reply-To'] = user.email
 
         # References for unit events
         references = None
-        unit = context['unit']
+        unit = context.get('unit')
         if unit:
             references = '{0}/{1}/{2}/{3}'.format(
                 unit.translation.component.project.slug,
@@ -237,12 +243,35 @@ class Notification(object):
                     user.profile.language, user.email, change
                 )
 
+    def send_digest(self, language, email, changes):
+        with django_translation.override('en' if language is None else language):
+            context = self.get_context()
+            context['changes'] = changes
+            subject = self.render_template('_subject.txt', context, digest=True)
+            context['subject'] = subject
+            LOGGER.info(
+                'sending digest notification %s on %d changes to %s',
+                self.get_name(), len(changes), email,
+            )
+            self.send(
+                email,
+                subject,
+                self.render_template('.html', context, digest=True),
+                self.get_headers(context),
+            )
+
     def notify_digest(self, frequency, changes):
         notifications = defaultdict(list)
+        users = {}
         for change in changes:
             for user in self.get_users(frequency, change):
-                notifications[user.pk].append(change)
-        raise NotImplementedError()
+                if user.can_access_project(change.project):
+                    notifications[user.pk].append(change)
+                    users[user.pk] = user
+        for user in users.values():
+            self.send_digest(
+                user.profile.language, user.email, notifications[user.pk]
+            )
 
     def filter_changes(self, **kwargs):
         return Change.objects.filter(
@@ -359,12 +388,13 @@ class NewTranslationNotificaton(Notification):
     verbose = _('New language')
     template_name = 'new_language'
 
-    def get_context(self, change):
+    def get_context(self, change=None):
         context = super(NewTranslationNotificaton, self).get_context(change)
-        context['language'] = Language.objects.get(
-            code=change.details['language']
-        )
-        context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE
+        if change:
+            context['language'] = Language.objects.get(
+                code=change.details['language']
+            )
+            context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE
         return context
 
 
