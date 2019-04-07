@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-03-13 12:47+0000\n"
+"PO-Revision-Date: 2019-04-11 00:05+0000\n"
 "Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5.1\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -62,26 +62,18 @@ msgid "Component wide notifications"
 msgstr "Notificaciones a nivel componentes"
 
 #: weblate/accounts/forms.py:232
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
-"Recibirás notificaciones cada vez que suceda un evento en tus proyectos "
-"gestionados."
+"Recibirá una notificación por cada uno de estos eventos en sus proyectos "
+"suscriptos."
 
 #: weblate/accounts/forms.py:239
 msgid "Translation notifications"
 msgstr "Notificaciones de traducción"
 
 #: weblate/accounts/forms.py:241
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -95,8 +87,6 @@ msgid "Email"
 msgstr "Correo electrónico"
 
 #: weblate/accounts/forms.py:298
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "You can add another email address in the Authentication tab."
 msgstr "Puede añadir otras direcciones de correo en la pestaña Autenticación."
 
@@ -119,15 +109,11 @@ msgid "Message"
 msgstr "Mensaje"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to understand "
-#| "your request."
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
-"Contáctenos en inglés, de lo contrario es probable que no comprendamos su "
+"Contáctenos en inglés, de lo contrario es probable que no procesemos su "
 "petición."
 
 #: weblate/accounts/forms.py:371
@@ -135,10 +121,8 @@ msgid "Activation email will be sent here."
 msgstr "El correo de activación se enviará aquí."
 
 #: weblate/accounts/forms.py:409
-#, fuzzy
-#| msgid "Too many registration attempts from this location!"
 msgid "Too many failed registration attempts from this location!"
-msgstr "¡Demasiados intentos de registro desde esta ubicación!"
+msgstr "¡Demasiados intentos de registro fallidos desde esta ubicación!"
 
 #: weblate/accounts/forms.py:416
 msgid "New password"
@@ -161,11 +145,8 @@ msgstr "¿Cuánto es %s?"
 
 #. Translators: 'Shown on wrong answer to the mathematics-based CAPTCHA',
 #: weblate/accounts/forms.py:490
-#, fuzzy
-#| msgid "Too many search queries, please try again later."
 msgid "That was not correct, please try again."
-msgstr ""
-"Demasiadas  peticiones de búsquedas enviadas, por favor, inténtelo más tarde."
+msgstr "Eso no es correcto, intenta de nuevo."
 
 #: weblate/accounts/forms.py:514
 msgid "Current password"
@@ -189,15 +170,11 @@ msgid "Password"
 msgstr "Contraseña"
 
 #: weblate/accounts/forms.py:553
-#, fuzzy
-#| msgid ""
-#| "Please enter a correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid ""
 "Please enter the correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
-"Introduzca un nombre de usuario y contraseña válidos. Ambos campos pueden "
+"Introduzca el nombre de usuario y contraseña válidos. Ambos campos pueden "
 "ser sensibles a mayúsculas y minúsculas."
 
 #: weblate/accounts/forms.py:555
@@ -224,16 +201,12 @@ msgid "Source code repository"
 msgstr "Repositorio de código fuente"
 
 #: weblate/accounts/forms.py:645
-#, fuzzy
-#| msgid "URL of source code repository for example Git or Mercurial."
 msgid "URL of source code repository, for example Git or Mercurial."
 msgstr "URL del repositorio de código fuente. Por ejemplo, Git or Mercurial."
 
 #: weblate/accounts/forms.py:651 weblate/templates/component_info.html:93
 #: weblate/templates/trans/discover-choice.html:2
 #: weblate/trans/models/component.py:214
-#, fuzzy
-#| msgid "File mask"
 msgid "Filemask"
 msgstr "Máscara de archivos"
 
@@ -848,7 +821,7 @@ msgstr "Firma"
 #, fuzzy
 #| msgid "All components in current project"
 msgid "All commits into one"
-msgstr "Todos los componentes en el proyecto actual"
+msgstr "Se envían todos en uno solo"
 
 #: weblate/addons/forms.py:106
 msgid "Per language"
@@ -894,8 +867,6 @@ msgid "Define the monolingual base filename"
 msgstr "Definir el nombre base del archivo monoidioma"
 
 #: weblate/addons/forms.py:171
-#, fuzzy
-#| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "Dejar vacío para archivos de traducción bilingües."
 
@@ -1019,8 +990,9 @@ msgid "Squash Git commits"
 msgstr "Integrar cambios en origen («push») en cada «commit»"
 
 #: weblate/addons/git.py:37
+#, fuzzy
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "GIT de squash se confirma antes de enviar los cambios."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1942,10 +1914,8 @@ msgid "Markdown syntax"
 msgstr "Sintaxis de Markdown"
 
 #: weblate/checks/markup.py:266
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "La cadena en formato C, no coincide con cadena original"
+msgstr "La sintaxis de markdown, no coincide con la fuente"
 
 #: weblate/checks/markup.py:300 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -2140,7 +2110,7 @@ msgstr "Archivo RC"
 
 #: weblate/formats/txt.py:173
 msgid "App store metadata files"
-msgstr ""
+msgstr "Archivos de metadatos de App Store"
 
 #: weblate/lang/apps.py:29
 msgid "Weblate languages"
@@ -2519,13 +2489,12 @@ msgid "How do you store user passwords?"
 msgstr "¿Olvidó su contraseña?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
 msgid ""
 "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC and "
 "SHA-256 with 150000 iterations."
 msgstr ""
-"Weblate almacena todas las contraseñas de usuario cifradas, actualmente "
-"usando PBKDF2, HMAC y SHA-256 con 150000 iteraciones."
+"Weblate almacena todas las contraseñas de usuario cifradas, usando "
+"actualmente PBKDF2, HMAC y SHA-256 con 150000 iteraciones."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
@@ -4139,7 +4108,7 @@ msgstr "Traducciones"
 #: weblate/templates/component.html:33 weblate/templates/project.html:28
 #: weblate/templates/translation.html:34
 msgid "Info"
-msgstr ""
+msgstr "Información"
 
 #: weblate/templates/component.html:35
 msgid "Alerts"
@@ -5426,6 +5395,8 @@ msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(removal)s."
 msgstr ""
+"Si no realiza el pago, todos los proyectos dentro de este plan de "
+"facturación serán borrados en %(removal)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 #, fuzzy
@@ -5435,11 +5406,11 @@ msgstr "La traducción ha sido eliminada."
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr ""
+msgstr "Su proyecto de traducción está programado para ser retirado"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
-msgstr ""
+msgstr "Su plan de facturación ha caducado"
 
 #: weblate/templates/mail/changed_translation.html:11
 #, python-format
@@ -5905,6 +5876,8 @@ msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"¡Renombrar el proyecto cambiará todas las URLs, los usuarios tendrán que "
+"actualizar los marcadores o referencias en los repositorios clonados!"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -5935,6 +5908,8 @@ msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
 msgstr ""
+"Recientemente ha realizado demasiadas operaciones y su solicitud ha sido "
+"limitada."
 
 #: weblate/templates/ratelimit.html:7
 #, fuzzy
@@ -5959,6 +5934,9 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
+"Hay demasiadas coincidencias para esta búsqueda. Mostrando y reemplazando "
+"sólo los primeros 250. Para reemplazar los restantes, por favor, vuelva a "
+"realizar el reemplazo."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -6050,7 +6028,7 @@ msgstr "Esta traducción tiene las actualizaciones bloqueadas."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
-msgstr ""
+msgstr "Pagar las cuentas para desbloquear este proyecto."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -6097,7 +6075,7 @@ msgstr "Información del proyecto"
 
 #: weblate/templates/trans/alert/addonscripterrror.html:4
 msgid "Weblate could not execute script addon."
-msgstr ""
+msgstr "Weblate no pudo ejecutar el complemento de script."
 
 #: weblate/templates/trans/alert/addonscripterrror.html:6
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
@@ -6124,6 +6102,8 @@ msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
 msgstr ""
+"Su plan de facturación ha excedido sus límites. Todavía puede utilizar el "
+"servicio, pero se recomienda que lo actualice."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 #, fuzzy
@@ -6144,6 +6124,8 @@ msgid ""
 "Please fix this by removing one of the duplicated strings from the "
 "translation files."
 msgstr ""
+"Por favor, arregle esto borrando una de las cadenas duplicadas de los "
+"archivos de traducción."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 #, fuzzy
@@ -6156,6 +6138,8 @@ msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
+"Por favor, arregle esto borrando las cadenas duplicadas con el mismo "
+"identificador de los archivos de traducción."
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 #, fuzzy
@@ -6168,11 +6152,15 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
+"Cualquier proyecto disponible al público debería tener una licencia definida "
+"para indicar qué términos se aplican a las contribuciones."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr ""
+"El componente de traducción parece monolingüe, pero no está configurado para "
+"serlo."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 #, fuzzy
@@ -6205,16 +6193,22 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
+"El repositorio VCS tiene muchos cambios en comparación con el anterior. Por "
+"favor, fusione los cambios manualmente o pulse configurar para automatizarlo."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
+"El repositorio VCS no está al día con el anterior. Por favor, fusione los "
+"cambios manualmente o coloque los ganchos para automatizar esto."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
+"Weblate no pudo recuperar los cambios anteriores cuando actualizó el "
+"repositorio."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -6241,6 +6235,8 @@ msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
 msgstr ""
+"Podrá editar más opciones en la configuración de los componentes después de "
+"crearlos."
 
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
@@ -6248,7 +6244,7 @@ msgstr "Continuar"
 
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr ""
+msgstr "¿Está absolutamente seguro?"
 
 #: weblate/templates/trans/delete-form.html:11
 #, fuzzy
@@ -6258,7 +6254,7 @@ msgstr "Se borrarán los siguientes componentes"
 
 #: weblate/templates/trans/delete-form.html:22
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "Entiendo las consecuencias, quitar esta traducción"
 
 #: weblate/templates/trans/embed-alert.html:9
 #, fuzzy
@@ -6268,7 +6264,7 @@ msgstr "!No hay componentes de traducción actualmente!"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Translation is licensed under free license according to FSF."
-msgstr ""
+msgstr "La traducción se licencia bajo licencia libre de acuerdo con la FSF."
 
 #: weblate/templates/trans/embed-alert.html:16
 #, fuzzy
@@ -6280,7 +6276,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts:"
-msgstr ""
+msgstr "Flujo de trabajo típico para arreglar conflictos de fusión:"
 
 #: weblate/templates/trans/merge_instructions.html:10
 #, fuzzy
@@ -6291,11 +6287,11 @@ msgstr "Enviar cambios pendientes del repositorio local"
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr ""
+msgstr "Añada el repositorio exportado de Weblate como un repositorio remoto."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
+msgstr "Fusione los cambios de Weblate y resuelva cualquier conflicto."
 
 #: weblate/templates/trans/merge_instructions.html:22
 #, fuzzy
@@ -6503,6 +6499,7 @@ msgstr ""
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
+"Esta traducción sólo acepta sugerencias y éstas son aprobadas por votación."
 
 #: weblate/templates/translate.html:211 weblate/trans/views/edit.py:288
 #: weblate/trans/views/edit.py:312 weblate/trans/views/edit.py:338
@@ -7617,7 +7614,7 @@ msgstr "Limpieza de archivos de traducción"
 
 #: weblate/trans/forms.py:1623
 msgid "Specify configuration manually"
-msgstr ""
+msgstr "Especificar la configuración manualmente"
 
 #: weblate/trans/forms.py:1741
 #, python-format
@@ -7625,6 +7622,8 @@ msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
+"Debe especificar una licencia para estos componentes para que sean de acceso "
+"público: %s"
 
 #: weblate/trans/forms.py:1763
 msgid "Search string"
@@ -7682,6 +7681,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
+"Esta acción no puede deshacerse. Esto borrará permanentemente la traducción "
+"{} y todo el contenido relacionado."
 
 #: weblate/trans/forms.py:1916
 #, fuzzy
@@ -7727,7 +7728,7 @@ msgstr "No se pudo procesar el archivo de traducción base: %s"
 
 #: weblate/trans/models/alert.py:176
 msgid "Your billing plan has exceeded its limits."
-msgstr ""
+msgstr "Su plan de facturación ha excedido sus límites."
 
 #: weblate/trans/models/alert.py:181
 #, fuzzy
@@ -7749,7 +7750,7 @@ msgstr "Información de origen"
 
 #: weblate/trans/models/alert.py:196 weblate/trans/models/alert.py:201
 msgid "Error when executing addon."
-msgstr ""
+msgstr "Error al ejecutar el complemento."
 
 #: weblate/trans/models/alert.py:206
 #, fuzzy
@@ -7996,15 +7997,15 @@ msgstr "Añadir definiciones de lenguaje (globales)"
 
 #: weblate/trans/models/component.py:88
 msgid "Default based on the file format"
-msgstr ""
+msgstr "Basado en el formato de archivo predefinido"
 
 #: weblate/trans/models/component.py:89
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "Estilo POSIX usando el subrayado como separador"
 
 #: weblate/trans/models/component.py:90
 msgid "BCP style using hyphen as a separator"
-msgstr ""
+msgstr "Estilo BCP usando guión como separador"
 
 #: weblate/trans/models/component.py:91
 #, fuzzy
@@ -8244,6 +8245,8 @@ msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
+"Personalice el código de idioma utilizado para generar el nombre de archivo "
+"de las traducciones creadas por Weblate."
 
 #: weblate/trans/models/component.py:368
 msgid "Merge style"
@@ -8779,6 +8782,9 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
+"El mensaje no se mostrará después de esta fecha. Se usa para anunciar la "
+"congelación de cadenas y la fecha límite de traducción para la próxima "
+"versión."
 
 #: weblate/trans/models/whiteboard.py:133
 msgid "Whiteboard message"
@@ -9682,10 +9688,11 @@ msgstr "Fallo al validar ecuación plural: {}"
 #: weblate/utils/validators.py:253
 msgid "Filename can not contain reference to a parent directory."
 msgstr ""
+"El nombre de archivo no puede contener referencia a un directorio padre."
 
 #: weblate/utils/validators.py:256
 msgid "Filename can not be an absolute path."
-msgstr ""
+msgstr "El nombre de archivo no puede ser una ruta absoluta."
 
 #: weblate/utils/views.py:218
 #, python-format
