@@ -27,8 +27,10 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.db.models import Q
 from django.template.loader import render_to_string
-from django.utils import translation as django_translation, timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+from django.utils.translation import (
+    ugettext_lazy as _, get_language, get_language_bidi, override,
+)
 from django.utils.encoding import force_text
 
 from html2text import html2text
@@ -135,12 +137,13 @@ class Notification(object):
         last_user = None
         subscriptions = self.get_subscriptions(change, users)
         for subscription in subscriptions:
-            if last_user == subscription.user:
+            user = subscription.user
+            if last_user == user:
                 continue
             if (subscription.scope == SCOPE_ADMIN and
-                    not subscription.user.has_perm('project.edit', change.project)):
+                    not user.has_perm('project.edit', change.project)):
                 continue
-            last_user = subscription.user
+            last_user = user
             if subscription.frequency == frequency:
                 yield last_user
 
@@ -166,8 +169,8 @@ class Notification(object):
     def get_context(self, change=None):
         """Return context for rendering mail"""
         result = {
-            'LANGUAGE_CODE': django_translation.get_language(),
-            'LANGUAGE_BIDI': django_translation.get_language_bidi(),
+            'LANGUAGE_CODE': get_language(),
+            'LANGUAGE_BIDI': get_language_bidi(),
             'current_site_url': get_site_url(),
             'site_title': settings.SITE_TITLE,
             'notification_name': self.verbose,
@@ -221,7 +224,7 @@ class Notification(object):
         return headers
 
     def send_immediate(self, language, email, change):
-        with django_translation.override('en' if language is None else language):
+        with override('en' if language is None else language):
             context = self.get_context(change)
             subject = self.render_template('_subject.txt', context)
             context['subject'] = subject
@@ -244,10 +247,12 @@ class Notification(object):
                 )
 
     def send_digest(self, language, email, changes):
-        with django_translation.override('en' if language is None else language):
+        with override('en' if language is None else language):
             context = self.get_context()
             context['changes'] = changes
-            subject = self.render_template('_subject.txt', context, digest=True)
+            subject = self.render_template(
+                '_subject.txt', context, digest=True
+            )
             context['subject'] = subject
             LOGGER.info(
                 'sending digest notification %s on %d changes to %s',
@@ -394,7 +399,9 @@ class NewTranslationNotificaton(Notification):
             context['language'] = Language.objects.get(
                 code=change.details['language']
             )
-            context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE
+            context['was_added'] = (
+                change.action == Change.ACTION_ADDED_LANGUAGE
+            )
         return context
 
 
@@ -432,13 +439,13 @@ def get_notification_email(language, email, notification,
         email
     )
 
-    with django_translation.override('en' if language is None else language):
+    with override('en' if language is None else language):
         # Template name
         context['subject_template'] = 'mail/{0}_subject.txt'.format(
             notification
         )
-        context['LANGUAGE_CODE'] = django_translation.get_language()
-        context['LANGUAGE_BIDI'] = django_translation.get_language_bidi()
+        context['LANGUAGE_CODE'] = get_language()
+        context['LANGUAGE_BIDI'] = get_language_bidi()
 
         # Adjust context
         context['current_site_url'] = get_site_url()

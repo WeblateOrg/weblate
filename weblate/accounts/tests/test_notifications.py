@@ -101,13 +101,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def validate_notifications(self, count, subject):
-        self.assertEqual(len(mail.outbox), count)
         for message in mail.outbox:
             self.assertNotIn('TEMPLATE_BUG', message.subject)
             self.assertNotIn('TEMPLATE_BUG', message.body)
             self.assertNotIn('TEMPLATE_BUG', message.alternatives[0][0])
             if subject:
                 self.assertEqual(message.subject, subject)
+        self.assertEqual(len(mail.outbox), count)
 
     def test_notify_merge_failure(self):
         change = Change.objects.create(
