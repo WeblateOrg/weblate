@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-03-21 20:46+0000\n"
-"PO-Revision-Date: 2019-04-03 17:27+0000\n"
+"PO-Revision-Date: 2019-04-11 00:05+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -1808,34 +1808,24 @@ msgid "Markdown link references"
 msgstr ""
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "Markdown link references does not match source"
-msgstr "译文中的 BBcode 和原文不一致"
+msgstr "Markdown 链接引用和原文不一致"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Markdown 代码"
+msgstr "Markdown 链接"
 
 #: weblate/checks/markup.py:238
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "Markdown links do not match source"
-msgstr "译文中的 XML 标签和原文不一致"
+msgstr "Markdown 链接和原文不一致"
 
 #: weblate/checks/markup.py:265
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Markdown 代码"
+msgstr "Markdown 语法"
 
 #: weblate/checks/markup.py:266
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Markdown syntax does not match source"
-msgstr "C 格式的字符串与源文不匹配"
+msgstr "Markdown 语法与原文不匹配"
 
 #: weblate/checks/markup.py:300 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
@@ -1844,10 +1834,8 @@ msgid "URL"
 msgstr "URL"
 
 #: weblate/checks/markup.py:301
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation does not contain an URL"
-msgstr "该翻译不是有效的 XML"
+msgstr "翻译未包含 URL"
 
 #: weblate/checks/same.py:148
 msgid "Unchanged translation"
@@ -3138,22 +3126,16 @@ msgid "Remove my account"
 msgstr "删除我的账户"
 
 #: weblate/templates/accounts/profile.html:169
-#, fuzzy
-#| msgid "User agent"
 msgid "User data"
-msgstr "用户代理"
+msgstr "用户数据"
 
 #: weblate/templates/accounts/profile.html:172
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
 msgid "You can download all your private data."
-msgstr "删除该账户会清除您的所有个人数据。"
+msgstr "您可以下载您所有的个人数据。"
 
 #: weblate/templates/accounts/profile.html:175
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download user data"
-msgstr "下载报告"
+msgstr "下载用户数据"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Your summary"
@@ -4912,8 +4894,6 @@ msgstr "单词"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:23
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "Number of strings needing edit"
 msgid "Needs editing"
 msgstr "需要编辑"
@@ -8139,14 +8119,10 @@ msgid "Render as HTML"
 msgstr "渲染为 HTML"
 
 #: weblate/trans/models/whiteboard.py:76
-#, fuzzy
-#| msgid ""
-#| "When disabled, URLs will be converted to links and any markup will be "
-#| "escaped."
 msgid ""
 "When turned off, URLs will be converted to links and any markup will be "
 "escaped."
-msgstr "当禁用时，URLs 会被转换为链接，任何标记将被转义。"
+msgstr "当关闭时，URLs 会被转换为链接，任何标记将被转义。"
 
 #: weblate/trans/models/whiteboard.py:106
 msgid "Category"
@@ -8173,16 +8149,14 @@ msgid "Success (green)"
 msgstr "成功 (绿色)"
 
 #: weblate/trans/models/whiteboard.py:122
-#, fuzzy
-#| msgid "Trial expiry date"
 msgid "Expiry date"
-msgstr "试用过期日期"
+msgstr "过期时间"
 
 #: weblate/trans/models/whiteboard.py:124
 msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
-msgstr ""
+msgstr "消息在该日期之后将不会显示。您可以用它公布字符串冻结和下一个版本的翻译截止日期等信息。"
 
 #: weblate/trans/models/whiteboard.py:133
 msgid "Whiteboard message"
@@ -8498,10 +8472,8 @@ msgid "XML text"
 msgstr "XML 文本"
 
 #: weblate/trans/validators.py:34
-#, fuzzy
-#| msgid "DOS end of lines"
 msgid "DOS line endings"
-msgstr "DOS 换行符 (EOL)"
+msgstr "DOS 行尾"
 
 #: weblate/trans/validators.py:37
 msgid "Automatically detect Java MessageFormat"
@@ -8915,10 +8887,7 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:317
-#, fuzzy, python-format
-#| msgid ""
-#| "translating %(count)d strings into %(languages)d languages\n"
-#| "%(percent)d%% complete, help us improve!"
+#, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d language\n"
 "%(percent)d%% complete, help us improve!"
@@ -8927,7 +8896,7 @@ msgid_plural ""
 "%(percent)d%% complete, help us improve!"
 msgstr[0] ""
 "正在翻译 %(count)d 个字符串到 %(languages)d 种语言\n"
-"已完成 %(percent)d%%，帮助我们改善！"
+"已完成 %(percent)d%%，帮助我们进一步改进！"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
