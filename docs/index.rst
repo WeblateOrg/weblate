@@ -59,6 +59,7 @@
 
     about
     contributing
+    debugging
     internals
     license
     legal
