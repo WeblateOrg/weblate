@@ -1260,7 +1260,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 component, pos, len(childs),
             )
             component.create_translations(
-                force, langs, request=request, skip_checks=True
+                force, langs, request=request,
+                skip_checks=(component.project_id == self.project_id)
             )
 
         # Run target checks (consistency)
