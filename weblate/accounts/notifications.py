@@ -98,7 +98,7 @@ class Notification(object):
     def get_name(cls):
         return force_text(cls.__name__)
 
-    def filter_subscriptions(self, change, users=None):
+    def filter_subscriptions(self, change, users, lang_filter):
         from weblate.accounts.models import Subscription
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
@@ -108,7 +108,7 @@ class Notification(object):
             query |= Q(component=change.component)
         if change.project:
             query |= Q(project=change.project)
-        if self.need_language_filter(change):
+        if lang_filter:
             result = result.filter(
                 user__profile__languages=change.translation.language
             )
@@ -120,8 +120,10 @@ class Notification(object):
             'user__profile'
         )
 
-    def get_subscriptions(self, change, users=None):
+    def get_subscriptions(self, change, users):
+        lang_filter = self.need_language_filter(change)
         cache_key = (
+            change.translation.language_id if lang_filter else lang_filter,
             change.component.pk if change.component else None,
             change.project.pk if change.project else None
         )
@@ -129,7 +131,7 @@ class Notification(object):
             cache_key += tuple(sorted(users))
         if cache_key in self.subscription_cache:
             return self.subscription_cache[cache_key]
-        result = self.filter_subscriptions(change, users)
+        result = self.filter_subscriptions(change, users, lang_filter)
         self.subscription_cache[cache_key] = result
         return result
 

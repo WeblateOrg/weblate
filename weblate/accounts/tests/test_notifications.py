@@ -317,7 +317,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_digest(self, frequency=FREQ_DAILY, notify=notify_daily,
                     change=Change.ACTION_FAILED_MERGE, subj='Merge failure'):
         Subscription.objects.filter(
-            frequency=FREQ_INSTANT
+            frequency=FREQ_INSTANT,
+            notification__in=(
+                'MergeFailureNotification', 'NewTranslationNotificaton'
+            ),
         ).update(
             frequency=frequency
         )
