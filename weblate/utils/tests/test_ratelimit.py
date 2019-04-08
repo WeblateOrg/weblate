@@ -114,15 +114,15 @@ class RateLimitTest(SimpleTestCase):
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
             check_rate_limit('test', request)
         )
