@@ -23,7 +23,8 @@ else
     powershift image setup
 fi
 
-echo " -----> Set chmod 600 for id_rsa keys."
-
-chmod 600 /opt/app-root/data/ssh/id_rsa
+if [ -f /opt/app-root/data/ssh/id_rsa ]; then
+  echo " -----> Set chmod 600 for id_rsa keys."
+  chmod 600 /opt/app-root/data/ssh/id_rsa
+fi
 
