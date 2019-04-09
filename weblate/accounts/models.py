@@ -44,8 +44,7 @@ from social_django.models import UserSocialAuth
 
 from weblate.accounts.data import create_default_notifications
 from weblate.accounts.notifications import (
-    NOTIFICATIONS, FREQ_CHOICES, SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT,
-    SCOPE_COMPONENT,
+    NOTIFICATIONS, FREQ_CHOICES, SCOPE_CHOICES,
 )
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
@@ -68,12 +67,7 @@ class Subscription(models.Model):
         max_length=100,
     )
     scope = models.IntegerField(
-        choices=(
-            (SCOPE_DEFAULT, 'Defaults'),
-            (SCOPE_ADMIN, 'Admin'),
-            (SCOPE_PROJECT, 'Project'),
-            (SCOPE_COMPONENT, 'Component'),
-        )
+        choices=SCOPE_CHOICES,
     )
     frequency = models.IntegerField(
         choices=FREQ_CHOICES,

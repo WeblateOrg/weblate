@@ -62,6 +62,13 @@ SCOPE_ADMIN = 20
 SCOPE_PROJECT = 30
 SCOPE_COMPONENT = 40
 
+SCOPE_CHOICES = (
+    (SCOPE_DEFAULT, 'Defaults'),
+    (SCOPE_ADMIN, 'Admin'),
+    (SCOPE_PROJECT, 'Project'),
+    (SCOPE_COMPONENT, 'Component'),
+)
+
 NOTIFICATIONS = []
 NOTIFICATIONS_ACTIONS = {}
 
@@ -89,6 +96,10 @@ class Notification(object):
 
     def need_language_filter(self, change):
         return self.filter_languages
+
+    @staticmethod
+    def get_freq_choices():
+        return FREQ_CHOICES
 
     @classmethod
     def get_choice(cls):
@@ -369,6 +380,7 @@ class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     verbose = _('New comment')
     template_name = 'new_comment'
+    filter_languages = True
 
     def need_language_filter(self, change):
         return bool(change.comment.language)

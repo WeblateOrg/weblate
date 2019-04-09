@@ -25,6 +25,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.conf import settings
 from django.core import mail
+from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile
@@ -396,3 +397,73 @@ class ProfileTest(FixtureTestCase):
         response = self.client.post(reverse('userdata'))
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')
+
+    def test_subscription(self):
+        # Get profile page
+        response = self.client.get(reverse('profile'))
+        self.assertEqual(self.user.subscription_set.count(), 8)
+
+        # Extract current form data
+        data = {}
+        for form in response.context['all_forms']:
+            for field in form:
+                value = field.value()
+                name = field.html_name
+                if value is None:
+                    data[name] = ''
+                elif isinstance(value, list):
+                    data[name] = value
+                else:
+                    data[name] = force_text(value)
+
+        # Save unchanged data
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 8)
+
+        # Remove some subscriptions
+        data['notify-0-notify-LastAuthorCommentNotificaton'] = '0'
+        data['notify-0-notify-MentionCommentNotificaton'] = '0'
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 6)
+
+        # Add some subscriptions
+        data['notify-1-notify-NewWhiteboardMessageNotificaton'] = '1'
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 7)
+
+    def test_subscription_customize(self):
+        # Initial view
+        response = self.client.get(reverse('profile'))
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure project
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_project': self.project.pk}
+        )
+        self.assertContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure component
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_component': self.component.pk}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertContains(response, 'Component: Test/Test')
+        # Configure invalid
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_component': 'a'}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure invalid
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_project': 'a'}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')

@@ -20,9 +20,13 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
 import re
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
@@ -66,6 +70,9 @@ from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, AuditLog
+from weblate.accounts.notifications import (
+    SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
+)
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -74,7 +81,8 @@ from weblate.utils.views import get_project
 from weblate.utils.errors import report_error
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
-    SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
+    UserSettingsForm, DashboardSettingsForm,
+    NotificationForm,
 )
 
 CONTACT_TEMPLATE = '''
@@ -105,6 +113,8 @@ CONTACT_SUBJECTS = {
 }
 
 ANCHOR_RE = re.compile(r'^#[a-z]+$')
+
+NOTIFICATION_PREFIX_TEMPLATE = 'notifications__{}'
 
 
 class EmailSentView(TemplateView):
@@ -206,10 +216,87 @@ def redirect_profile(page=''):
     return HttpResponseRedirect(url)
 
 
+def get_notification_forms(request):
+    user = request.user
+    if request.method == 'POST':
+        for i in range(1000):
+            prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
+            if prefix + '-scope' in request.POST:
+                yield NotificationForm(
+                    request.user,
+                    i > 0,
+                    {},
+                    i == 0,
+                    prefix=prefix,
+                    data=request.POST
+                )
+    else:
+        subscriptions = defaultdict(dict)
+        initials = {}
+
+        # Ensure default and admin scopes are visible
+        for needed in (SCOPE_DEFAULT, SCOPE_ADMIN):
+            key = (needed, None, None)
+            subscriptions[key] = {}
+            initials[key] = {
+                    'scope': needed, 'project': None, 'component': None
+            }
+        active = (SCOPE_DEFAULT, None, None)
+
+        # Include additional scopes from request
+        if 'notify_project' in request.GET:
+            try:
+                project = user.allowed_projects.get(pk=request.GET['notify_project'])
+                active = key = (SCOPE_PROJECT, project.pk, None)
+                subscriptions[key] = {}
+                initials[key] = {
+                    'scope': SCOPE_PROJECT, 'project': project, 'component': None
+                }
+            except (ObjectDoesNotExist, ValueError):
+                pass
+        if 'notify_component' in request.GET:
+            try:
+                component = Component.objects.get(
+                    project__in=user.allowed_projects,
+                    pk=request.GET['notify_component']
+                )
+                active = key = (SCOPE_COMPONENT, None, component.pk)
+                subscriptions[key] = {}
+                initials[key] = {
+                    'scope': SCOPE_COMPONENT, 'project': None, 'component': component
+                }
+            except (ObjectDoesNotExist, ValueError):
+                pass
+
+        # Popupate scopes from the database
+        for subscription in user.subscription_set.all():
+            key = (
+                subscription.scope,
+                subscription.project_id,
+                subscription.component_id,
+            )
+            subscriptions[key][subscription.notification] = subscription.frequency
+            initials[key] = {
+                'scope': subscription.scope,
+                'project': subscription.project,
+                'component': subscription.component,
+            }
+
+        # Generate forms
+        for i, details in enumerate(sorted(subscriptions.items())):
+            yield NotificationForm(
+                user,
+                i > 0,
+                details[1],
+                details[0] == active,
+                initial=initials[details[0]],
+                prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
+            )
+
+
 @never_cache
 @login_required
 def user_profile(request):
-
     profile = request.user.profile
 
     if not request.user.is_demo and not profile.language:
@@ -219,12 +306,12 @@ def user_profile(request):
     form_classes = [
         ProfileForm,
         SubscriptionForm,
-        SubscriptionSettingsForm,
         UserSettingsForm,
         DashboardSettingsForm,
         UserForm,
     ]
     forms = [form.from_request(request) for form in form_classes]
+    forms.extend(get_notification_forms(request))
     all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
@@ -275,10 +362,11 @@ def user_profile(request):
         {
             'languagesform': forms[0],
             'subscriptionform': forms[1],
-            'subscriptionsettingsform': forms[2],
-            'usersettingsform': forms[3],
-            'dashboardsettingsform': forms[4],
-            'userform': forms[5],
+            'usersettingsform': forms[2],
+            'dashboardsettingsform': forms[3],
+            'userform': forms[4],
+            'notification_forms': forms[5:],
+            'all_forms': forms,
             'profile': profile,
             'title': _('User profile'),
             'licenses': license_projects,
@@ -851,6 +939,9 @@ def watch(request, project):
 def unwatch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.remove(obj)
+    request.user.subscription_set.filter(
+        Q(project=obj) | Q(component__project=obj)
+    )
     return redirect(obj)
 
 

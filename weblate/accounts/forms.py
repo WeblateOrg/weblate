@@ -37,10 +37,14 @@ from django.utils.encoding import force_text
 from weblate.auth.models import User
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.models import Profile, AuditLog
+from weblate.accounts.notifications import (
+    NOTIFICATIONS, SCOPE_CHOICES, SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT,
+)
 from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.accounts.captcha import MathCaptcha
 from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
+from weblate.trans.models import Project, Component
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
 from weblate.utils.validators import (
@@ -222,42 +226,6 @@ class SubscriptionForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-
-
-class SubscriptionSettingsForm(ProfileBaseForm):
-    """User subscription management."""
-    class Meta(object):
-        model = Profile
-        fields = Profile.SUBSCRIPTION_FIELDS
-
-    def __init__(self, *args, **kwargs):
-        super(SubscriptionSettingsForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.disable_csrf = True
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Fieldset(
-                _('Component wide notifications'),
-                HTML(escape(_(
-                    'You will receive a notification for every such event'
-                    ' in your watched projects.'
-                ))),
-                'subscribe_merge_failure',
-                'subscribe_new_language',
-            ),
-            Fieldset(
-                _('Translation notifications'),
-                HTML(escape(_(
-                    'You will only receive these notifications for your'
-                    ' translated languages in your watched projects.'
-                ))),
-                'subscribe_any_translation',
-                'subscribe_new_string',
-                'subscribe_new_suggestion',
-                'subscribe_new_contributor',
-                'subscribe_new_comment',
-            ),
-        )
 
 
 class UserSettingsForm(ProfileBaseForm):
@@ -689,3 +657,145 @@ class HostingForm(forms.Form):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
+
+
+class NotificationForm(forms.Form):
+    scope = forms.ChoiceField(
+        choices=SCOPE_CHOICES,
+        widget=forms.HiddenInput,
+        required=True
+    )
+    project = forms.ModelChoiceField(
+        widget=forms.HiddenInput,
+        queryset=Project.objects.none(),
+        required=False,
+    )
+    component = forms.ModelChoiceField(
+        widget=forms.HiddenInput,
+        queryset=Component.objects.none(),
+        required=False,
+    )
+
+    def __init__(self, user, show_default, subscriptions, is_active,
+                 *args, **kwargs):
+        super(NotificationForm, self).__init__(*args, **kwargs)
+        self.user = user
+        self.is_active = is_active
+        self.show_default = show_default
+        self.fields['project'].queryset = user.allowed_projects
+        self.fields['component'].queryset = Component.objects.filter(
+            project__in=user.allowed_projects
+        )
+        language_fields = []
+        component_fields = []
+        for field, notification_cls in self.notification_fields():
+            self.fields[field] = forms.ChoiceField(
+                label=notification_cls.verbose,
+                choices=self.get_choices(
+                    notification_cls, show_default
+                ),
+                required=True,
+                initial=self.get_initial(
+                    notification_cls, subscriptions, show_default
+                ),
+            )
+            if notification_cls.filter_languages:
+                language_fields.append(field)
+            else:
+                component_fields.append(field)
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.label_class = 'col-md-3'
+        self.helper.field_class = 'col-md-9'
+        self.helper.layout = Layout(
+            'scope', 'project', 'component',
+            Fieldset(
+                _('Component wide notifications'),
+                HTML(escape(_(
+                    'You will receive a notification for every such event'
+                    ' in your watched projects.'
+                ))),
+                *component_fields
+            ),
+            Fieldset(
+                _('Translation notifications'),
+                HTML(escape(_(
+                    'You will only receive these notifications for your'
+                    ' translated languages in your watched projects.'
+                ))),
+                *language_fields
+            ),
+        )
+
+    @staticmethod
+    def notification_fields():
+        for notification_cls in NOTIFICATIONS:
+            yield (
+                'notify-{}'.format(notification_cls.get_name()),
+                notification_cls
+            )
+
+    @staticmethod
+    def get_initial(notification_cls, subscriptions, show_default):
+        return subscriptions.get(
+            notification_cls.get_name(),
+            -1 if show_default else 0
+        )
+
+    @staticmethod
+    def get_choices(notification_cls, show_default):
+        result = []
+        if show_default:
+            result.append((-1, _('Use default setting')))
+        result.extend(notification_cls.get_freq_choices())
+        return result
+
+    def get_name(self):
+        if self.is_bound:
+            self.is_valid()
+            params = self.cleaned_data
+        else:
+            params = self.initial
+        scope = params.get('scope', SCOPE_DEFAULT)
+        project = params.get('project', None)
+        component = params.get('component', None)
+        if scope == SCOPE_DEFAULT:
+            return _('Watched projects')
+        if scope == SCOPE_ADMIN:
+            return _('Administered projects')
+        if scope == SCOPE_PROJECT:
+            return _('Project: {}').format(project)
+        return _('Component: {}').format(component)
+
+    def save(self):
+        # Lookup for this form
+        lookup = {
+            'scope': self.cleaned_data['scope'],
+            'project': self.cleaned_data['project'],
+            'component': self.cleaned_data['component'],
+        }
+        handled = set()
+        for field, notification_cls in self.notification_fields():
+            frequency = self.cleaned_data[field]
+            # We do not store defaults or disabled default subscriptions
+            if (frequency == '-1' or
+                    (frequency == '0' and not self.show_default)):
+                continue
+            # Create/Get from database
+            subscription, created = self.user.subscription_set.get_or_create(
+                notification=notification_cls.get_name(),
+                defaults={'frequency': frequency},
+                **lookup
+            )
+            # Update old subscription
+            if not created and subscription.frequency != frequency:
+                subscription.frequency = frequency
+                subscription.save(update_fields=['frequency'])
+            handled.add(subscription.pk)
+        # Delete stale subscriptions
+        self.user.subscription_set.filter(
+            **lookup
+        ).exclude(
+            pk__in=handled
+        ).delete()
