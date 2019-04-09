@@ -168,7 +168,15 @@ class SortedSelect(SortedSelectMixin, forms.Select):
     """Wrapper class to sort choices alphabetically."""
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileBaseForm(forms.ModelForm):
+    @classmethod
+    def from_request(cls, request):
+        if request.method == 'POST':
+            return cls(request.POST, instance=request.user.profile)
+        return cls(instance=request.user.profile)
+
+
+class ProfileForm(ProfileBaseForm):
     """User profile editing."""
     class Meta(object):
         model = Profile
@@ -194,7 +202,7 @@ class ProfileForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class SubscriptionForm(forms.ModelForm):
+class SubscriptionForm(ProfileBaseForm):
     """User subscription management."""
     class Meta(object):
         model = Profile
@@ -216,7 +224,7 @@ class SubscriptionForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class SubscriptionSettingsForm(forms.ModelForm):
+class SubscriptionSettingsForm(ProfileBaseForm):
     """User subscription management."""
     class Meta(object):
         model = Profile
@@ -252,7 +260,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
         )
 
 
-class UserSettingsForm(forms.ModelForm):
+class UserSettingsForm(ProfileBaseForm):
     """User settings form."""
     class Meta(object):
         model = Profile
@@ -272,7 +280,7 @@ class UserSettingsForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class DashboardSettingsForm(forms.ModelForm):
+class DashboardSettingsForm(ProfileBaseForm):
     """Dashboard settings form."""
     class Meta(object):
         model = Profile
@@ -325,6 +333,12 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+
+    @classmethod
+    def from_request(cls, request):
+        if request.method == 'POST':
+            return cls(request.POST, instance=request.user)
+        return cls(instance=request.user)
 
 
 class ContactForm(forms.Form):

@@ -222,14 +222,12 @@ def user_profile(request):
         SubscriptionSettingsForm,
         UserSettingsForm,
         DashboardSettingsForm,
+        UserForm,
     ]
+    forms = [form.from_request(request) for form in form_classes]
     all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
-        # Parse POST params
-        forms = [form(request.POST, instance=profile) for form in form_classes]
-        forms.append(UserForm(request.POST, instance=request.user))
-
         if request.user.is_demo:
             return deny_demo(request)
 
@@ -253,9 +251,6 @@ def user_profile(request):
 
             return response
     else:
-        forms = [form(instance=profile) for form in form_classes]
-        forms.append(UserForm(instance=request.user))
-
         if not request.user.has_usable_password() and 'email' in all_backends:
             messages.warning(
                 request,
