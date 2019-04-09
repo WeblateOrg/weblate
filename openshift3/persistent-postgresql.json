@@ -27,7 +27,7 @@
         {
             "name": "WEBLATE_VOLUME_SIZE",
             "description": "Size of the persistent volume for Weblate.",
-            "value": "1Gi",
+            "value": "10Gi",
             "required": true
         },
         {
@@ -45,7 +45,7 @@
         {
             "name": "WEBLATE_MEMORY_LIMIT",
             "description": "Amount of memory available to Weblate.",
-            "value": "256Mi",
+            "value": "8Gi",
             "required": true
         },
         {
@@ -69,19 +69,19 @@
         {
           "name": "CACHE_VOLUME_SIZE",
           "description": "Size of the persistent volume for Redis Cache.",
-          "value": "1Gi",
+          "value": "10Gi",
           "required": true
         },
         {
             "name": "DATABASE_VOLUME_SIZE",
             "description": "Size of the persistent volume for the database.",
-            "value": "1Gi",
+            "value": "10Gi",
             "required": true
         },
         {
             "name": "DATABASE_MEMORY_LIMIT",
             "description": "Amount of memory available to the database.",
-            "value": "256Mi",
+            "value": "8Gi",
             "required": true
         },
         {
@@ -694,6 +694,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "ReadWriteOnce"
@@ -714,6 +715,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "ReadWriteOnce"
@@ -734,6 +736,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "${WEBLATE_VOLUME_TYPE}"
