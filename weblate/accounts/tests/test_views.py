@@ -401,7 +401,7 @@ class ProfileTest(FixtureTestCase):
     def test_subscription(self):
         # Get profile page
         response = self.client.get(reverse('profile'))
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
         data = {}
@@ -419,20 +419,20 @@ class ProfileTest(FixtureTestCase):
         # Save unchanged data
         response = self.client.post(reverse('profile'), data, follow=True)
         self.assertContains(response, 'Your profile has been updated.')
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Remove some subscriptions
-        data['notify-0-notify-LastAuthorCommentNotificaton'] = '0'
-        data['notify-0-notify-MentionCommentNotificaton'] = '0'
-        response = self.client.post(reverse('profile'), data, follow=True)
-        self.assertContains(response, 'Your profile has been updated.')
-        self.assertEqual(self.user.subscription_set.count(), 6)
-
-        # Add some subscriptions
-        data['notify-1-notify-NewWhiteboardMessageNotificaton'] = '1'
+        data['notifications__0-notify-LastAuthorCommentNotificaton'] = '0'
+        data['notifications__0-notify-MentionCommentNotificaton'] = '0'
         response = self.client.post(reverse('profile'), data, follow=True)
         self.assertContains(response, 'Your profile has been updated.')
         self.assertEqual(self.user.subscription_set.count(), 7)
+
+        # Add some subscriptions
+        data['notifications__1-notify-ChangedStringNotificaton'] = '1'
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
     def test_subscription_customize(self):
         # Initial view
