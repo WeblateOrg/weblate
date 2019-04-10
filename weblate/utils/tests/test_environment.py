@@ -24,7 +24,7 @@ import os
 
 from django.test import SimpleTestCase
 
-from weblate.utils.environment import get_env_list, get_env_map
+from weblate.utils.environment import get_env_list, get_env_map, get_env_bool
 
 
 class EnvTest(SimpleTestCase):
@@ -47,3 +47,19 @@ class EnvTest(SimpleTestCase):
         del os.environ['TEST_DATA']
         self.assertEqual(get_env_map('TEST_DATA'), {})
         self.assertEqual(get_env_map('TEST_DATA', {'x': 'y'}), {'x': 'y'})
+
+    def test_bool(self):
+        os.environ['TEST_DATA'] = '1'
+        self.assertEqual(get_env_bool('TEST_DATA'), True)
+        os.environ['TEST_DATA'] = 'True'
+        self.assertEqual(get_env_bool('TEST_DATA'), True)
+        os.environ['TEST_DATA'] = 'true'
+        self.assertEqual(get_env_bool('TEST_DATA'), True)
+        os.environ['TEST_DATA'] = 'Yes'
+        self.assertEqual(get_env_bool('TEST_DATA'), True)
+        os.environ['TEST_DATA'] = 'no'
+        self.assertEqual(get_env_bool('TEST_DATA'), False)
+        os.environ['TEST_DATA'] = '0'
+        self.assertEqual(get_env_bool('TEST_DATA'), False)
+        del os.environ['TEST_DATA']
+        self.assertEqual(get_env_bool('TEST_DATA'), False)

@@ -39,3 +39,11 @@ def get_env_map(name, default=None):
     if os.environ.get(name):
         return dict(e.split(':') for e in os.environ[name].split(','))
     return default or {}
+
+
+def get_env_bool(name, default=False):
+    """Helper to get boolean value from environment."""
+    if name not in os.environ:
+        return default
+    true_values = {'true', 'yes', '1'}
+    return os.environ[name].lower() in true_values
