@@ -283,7 +283,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             message='Hello word',
         )
         self.validate_notifications(
-            2, '[Weblate] New whiteboard message on Test'
+            1, '[Weblate] New whiteboard message on Test'
+        )
+        mail.outbox = []
+        WhiteboardMessage.objects.create(
+            message='Hello global word',
+        )
+        self.validate_notifications(
+            2, '[Weblate] New whiteboard message at Weblate'
         )
 
     def test_notify_alert(self):
@@ -363,6 +370,7 @@ class SubscriptionTest(ViewTestCase):
         return list(notification.get_users(frequency, change))
 
     def test_scopes(self):
+        self.user.profile.subscriptions.add(self.project)
         # Not subscriptions
         self.user.subscription_set.all().delete()
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)

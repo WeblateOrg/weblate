@@ -89,6 +89,7 @@ class Notification(object):
     template_name = None
     digest_template = 'digest'
     filter_languages = False
+    ignore_watched = False
 
     def __init__(self, connection):
         self.connection = connection
@@ -155,6 +156,11 @@ class Notification(object):
                 continue
             if (subscription.scope == SCOPE_ADMIN and
                     not user.has_perm('project.edit', change.project)):
+                continue
+            if (subscription.scope == SCOPE_DEFAULT and
+                    not self.ignore_watched and
+                    change.project_id is not None and
+                    not user.profile.subscriptions.filter(pk=change.project_id).exists()):
                 continue
             last_user = user
             if subscription.frequency == frequency:
@@ -254,7 +260,8 @@ class Notification(object):
 
     def notify_immediate(self, change):
         for user in self.get_users(FREQ_INSTANT, change):
-            if user.can_access_project(change.project):
+            if (change.project is None or
+                    user.can_access_project(change.project)):
                 self.send_immediate(
                     user.profile.language, user.email, change
                 )
@@ -283,7 +290,8 @@ class Notification(object):
         users = {}
         for change in changes:
             for user in self.get_users(frequency, change):
-                if user.can_access_project(change.project):
+                if (change.project is None or
+                        user.can_access_project(change.project)):
                     notifications[user.pk].append(change)
                     users[user.pk] = user
         for user in users.values():
@@ -350,6 +358,7 @@ class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     verbose = _('Comment on authored translation')
     template_name = 'new_comment'
+    ignore_watched = True
 
     def get_users(self, frequency, change, users=None):
         last_author = change.unit.get_last_content_change(None, silent=True)[0]
@@ -367,6 +376,7 @@ class MentionCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     verbose = _('Mentioned in comment')
     template_name = 'new_comment'
+    ignore_watched = True
 
     def get_users(self, frequency, change, users=None):
         users = [user.pk for user in change.comment.get_mentions()]
