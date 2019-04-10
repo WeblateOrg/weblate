@@ -498,6 +498,10 @@ class Plural(models.Model):
             data.PLURAL_UNKNOWN,
             pgettext_lazy('Plural type', 'Unknown')
         ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER,
+            pgettext_lazy('Plural type', 'Zero/One/two/three/six/other')
+        ),
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
