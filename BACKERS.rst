@@ -9,3 +9,4 @@ List of Weblate supporters from
 * Timon Reinhard
 * `Cassidy James <https://cassidyjames.com/>`_
 * Loic Dachary
+* Marozed
