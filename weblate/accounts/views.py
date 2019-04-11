@@ -66,6 +66,9 @@ from weblate.accounts.forms import (
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
     EmptyConfirmForm,
 )
+from weblate.accounts.notifications import (
+    SCOPE_PROJECT, SCOPE_COMPONENT, FREQ_NONE, NOTIFICATIONS,
+)
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
@@ -77,7 +80,7 @@ from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.trans.models import Change, Project, Component, Suggestion
-from weblate.utils.views import get_project
+from weblate.utils.views import get_project, get_component
 from weblate.utils.errors import report_error
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
@@ -941,8 +944,46 @@ def unwatch(request, project):
     request.user.profile.subscriptions.remove(obj)
     request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
-    )
+    ).delete()
     return redirect(obj)
+
+
+def mute_real(user, **kwargs):
+    for notification_cls in NOTIFICATIONS:
+        if notification_cls.ignore_watched:
+            continue
+        subscription = user.subscription_set.get_or_create(
+            notification=notification_cls.get_name(),
+            defaults={'frequency': FREQ_NONE},
+            **kwargs
+        )[0]
+        if subscription.frequency != FREQ_NONE:
+            subscription.frequency = FREQ_NONE
+            subscription.save(update_fields=['frequency'])
+
+
+@require_POST
+@login_required
+@avoid_demo
+def mute_component(request, project, component):
+    obj = get_component(request, project, component)
+    mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+    return redirect(
+        '{}?notify_component={}#notifications'.format(
+            reverse('profile'), obj.pk
+        )
+    )
+
+
+@require_POST
+@login_required
+@avoid_demo
+def mute_project(request, project):
+    obj = get_project(request, project)
+    mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
+    return redirect(
+        '{}?notify_project={}#notifications'.format(reverse('profile'), obj.pk)
+    )
 
 
 class SuggestionView(ListView):

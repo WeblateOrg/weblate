@@ -467,3 +467,46 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertNotContains(response, 'Project: Test')
         self.assertNotContains(response, 'Component: Test/Test')
+
+    def test_watch(self):
+        self.assertEqual(self.user.profile.subscriptions.count(), 0)
+        self.assertEqual(self.user.subscription_set.count(), 9)
+
+        # Watch project
+        self.client.post(reverse('watch', kwargs=self.kw_project))
+        self.assertEqual(self.user.profile.subscriptions.count(), 1)
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            0
+        )
+
+        # Mute notifications for component
+        self.client.post(reverse('mute', kwargs=self.kw_component))
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                component=self.component
+            ).count(),
+            11
+        )
+
+        # Mute notifications for project
+        self.client.post(reverse('mute', kwargs=self.kw_project))
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            11
+        )
+
+        # Unwatch project
+        self.client.post(reverse('unwatch', kwargs=self.kw_project))
+        self.assertEqual(self.user.profile.subscriptions.count(), 0)
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            0
+        )
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                component=self.component
+            ).count(),
+            0
+        )
+        self.assertEqual(self.user.subscription_set.count(), 9)
