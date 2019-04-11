@@ -596,3 +596,11 @@ class PluralTest(TestCase):
             source=Plural.SOURCE_GETTEXT,
         )
         self.assertEqual(plural.type, data.PLURAL_ONE_FEW_OTHER)
+
+    def test_definitions(self):
+        """Verify consistency of plural definitions."""
+        plurals = [x[1] for x in data.PLURAL_MAPPINGS]
+        choices = [x[0] for x in Plural.PLURAL_CHOICES]
+        for plural in plurals:
+            self.assertIn(plural, choices)
+            self.assertIn(plural, data.PLURAL_NAMES)
