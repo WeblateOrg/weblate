@@ -19,6 +19,10 @@ Released on ? 2019.
 * Notify users mentioned in comments.
 * Removed file format autodetection from component setup.
 * Fixed generating MO file for monolingual PO files.
+* Added digest notifications.
+* Added support for muting component notifications.
+* Added notifications for new alerts, whiteboard messages or components.
+* Notifications for administered projects can now be configured.
 
 weblate 3.5.1
 -------------

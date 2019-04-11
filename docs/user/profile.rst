@@ -94,15 +94,21 @@ list`, you have to select which component list will be displayed from the
 
 .. _subscriptions:
 
-Subscriptions
+Notifications
 +++++++++++++
 
 You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
-You will receive notifications for selected events on chosen projects for
-languages you have indicated for translation (see above).
+You will receive notifications for selected events on watched or administered
+projects.
 
-If you are an owner of some project, you will always receive some important
-notifications, like merge failures or new language requests.
+Some of the notifications are sent only for events in your languages (for
+example about new strings to translate), while some trigger at component level
+(for example merge errors).
+
+You can toggle notifications for watched projects, administered project and it
+can be further tweaked per project and component. To configure (or mute)
+notifications per project or component, visit component page and select
+appropriate choice from the :guilabel:`Watching` menu.
 
 .. note::
 
