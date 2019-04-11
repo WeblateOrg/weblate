@@ -61,14 +61,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.user.save()
         czech = Language.objects.get(code='cs')
         profile = Profile.objects.get(user=self.user)
-        profile.subscribe_any_translation = True
-        profile.subscribe_new_string = True
-        profile.subscribe_new_suggestion = True
-        profile.subscribe_new_contributor = True
-        profile.subscribe_new_comment = True
-        profile.subscribe_new_language = True
-        profile.subscribe_merge_failure = True
-        profile.subscriptions.add(self.project)
+        profile.watched.add(self.project)
         profile.languages.add(czech)
         profile.save()
         notifications = (
@@ -370,7 +363,7 @@ class SubscriptionTest(ViewTestCase):
         return list(notification.get_users(frequency, change))
 
     def test_scopes(self):
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         # Not subscriptions
         self.user.subscription_set.all().delete()
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)

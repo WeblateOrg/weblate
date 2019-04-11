@@ -160,7 +160,7 @@ class Notification(object):
             if (subscription.scope == SCOPE_DEFAULT and
                     not self.ignore_watched and
                     change.project_id is not None and
-                    not user.profile.subscriptions.filter(pk=change.project_id).exists()):
+                    not user.profile.watched.filter(pk=change.project_id).exists()):
                 continue
             last_user = user
             if subscription.frequency == frequency:

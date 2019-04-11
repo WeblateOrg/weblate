@@ -47,7 +47,7 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
-        user.profile.subscriptions.add(Project.objects.create(
+        user.profile.watched.add(Project.objects.create(
             name='name', slug='name'
         ))
 
@@ -72,7 +72,7 @@ class CommandTest(TestCase, TempDirMixin):
             profile.secondary_languages.filter(code='cs').exists()
         )
         self.assertTrue(
-            profile.subscriptions.exists()
+            profile.watched.exists()
         )
 
     def test_changesite(self):

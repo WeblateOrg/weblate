@@ -932,7 +932,7 @@ def userdata(request):
 @avoid_demo
 def watch(request, project):
     obj = get_project(request, project)
-    request.user.profile.subscriptions.add(obj)
+    request.user.profile.watched.add(obj)
     return redirect(obj)
 
 
@@ -941,7 +941,7 @@ def watch(request, project):
 @avoid_demo
 def unwatch(request, project):
     obj = get_project(request, project)
-    request.user.profile.subscriptions.remove(obj)
+    request.user.profile.watched.remove(obj)
     request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
     ).delete()

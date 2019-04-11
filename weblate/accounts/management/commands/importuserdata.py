@@ -40,20 +40,18 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def import_subscriptions(profile, userprofile):
+    def import_watched(profile, userprofile):
         """Import user subscriptions."""
+        if 'watched' not in userprofile:
+            userprofile['watched'] = userprofile['subscriptions']
         # Add subscriptions
-        for subscription in userprofile['subscriptions']:
+        for subscription in userprofile['watched']:
             try:
-                profile.subscriptions.add(
+                profile.watched.add(
                     Project.objects.get(slug=subscription)
                 )
             except Project.DoesNotExist:
                 continue
-
-        # Subscription settings
-        for field in Profile.SUBSCRIPTION_FIELDS:
-            setattr(profile, field, userprofile[field])
 
     @staticmethod
     def update_languages(profile, userprofile):
@@ -102,7 +100,7 @@ class Command(BaseCommand):
                     self.update_languages(profile, userprofile)
 
                 # Add subscriptions
-                self.import_subscriptions(profile, userprofile)
+                self.import_watched(profile, userprofile)
 
                 profile.save()
             except User.DoesNotExist:

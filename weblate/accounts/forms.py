@@ -207,22 +207,22 @@ class ProfileForm(ProfileBaseForm):
 
 
 class SubscriptionForm(ProfileBaseForm):
-    """User subscription management."""
+    """User watched projects management."""
     class Meta(object):
         model = Profile
         fields = (
-            'subscriptions',
+            'watched',
         )
         widgets = {
-            'subscriptions': forms.SelectMultiple
+            'watched': forms.SelectMultiple
         }
 
     def __init__(self, *args, **kwargs):
 
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         user = kwargs['instance'].user
-        self.fields['subscriptions'].required = False
-        self.fields['subscriptions'].queryset = user.allowed_projects
+        self.fields['watched'].required = False
+        self.fields['watched'].queryset = user.allowed_projects
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False

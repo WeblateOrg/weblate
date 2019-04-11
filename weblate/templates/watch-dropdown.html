@@ -1,7 +1,7 @@
 {% load i18n %}
 {% if user.is_authenticated %}
   <li class="pull-right flip">
-  {% if project in user.profile.subscriptions.all %}
+  {% if project in watched_projects %}
     <div class="dropdown">
       <button class="btn btn-link dropdown-toggle" type="button" id="watch_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watching" %}

@@ -151,7 +151,7 @@ class Project(models.Model, URLMixin, PathMixin):
                 group = '@Administration'
         group = self.group_set.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
-        user.profile.subscriptions.add(self)
+        user.profile.watched.add(self)
 
     def remove_user(self, user, group=None):
         """Add user based on username or email address."""

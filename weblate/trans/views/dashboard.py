@@ -66,7 +66,7 @@ def get_suggestions(request, user, base, filtered=False):
         # Remove user subscriptions
         result = get_untranslated(
             base.exclude(
-                component__project__in=user.profile.subscriptions.all()
+                component__project__in=user.profile.watched.all()
             ),
             10
         )
@@ -221,12 +221,12 @@ def dashboard_user(request):
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = user.allowed_projects.filter(
+        watched_projects = user.allowed_projects.filter(
             profile=user.profile
         )
 
         usersubscriptions = user_translations.filter(
-            component__project__in=subscribed_projects
+            component__project__in=watched_projects
         )
 
         if user.profile.hide_completed:

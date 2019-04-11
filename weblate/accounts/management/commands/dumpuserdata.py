@@ -45,12 +45,13 @@ class Command(BaseCommand):
             'language',
             'translated',
             'suggested',
-        ) + Profile.SUBSCRIPTION_FIELDS
+            'uploaded',
+        )
 
         profiles = Profile.objects.select_related(
             'user'
         ).prefetch_related(
-            'subscriptions', 'languages', 'secondary_languages'
+            'watched', 'languages', 'secondary_languages'
         )
 
         for profile in profiles.iterator():
@@ -59,8 +60,8 @@ class Command(BaseCommand):
 
             item = {
                 'username': profile.user.username,
-                'subscriptions': [
-                    p.slug for p in profile.subscriptions.all()
+                'watched': [
+                    p.slug for p in profile.watched.all()
                 ],
                 'languages': [
                     l.code for l in profile.languages.all()

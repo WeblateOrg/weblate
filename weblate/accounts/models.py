@@ -441,7 +441,7 @@ class Profile(models.Model):
         null=True,
     )
 
-    subscriptions = models.ManyToManyField(
+    watched = models.ManyToManyField(
         'trans.Project',
         verbose_name=_('Watched projects'),
         help_text=_(
@@ -449,45 +449,6 @@ class Profile(models.Model):
             'they are shown on the dashboard by default.'
         ),
         blank=True,
-    )
-
-    subscribe_any_translation = models.BooleanField(
-        verbose_name=_('Notification on any translation'),
-        default=False
-    )
-    subscribe_new_string = models.BooleanField(
-        verbose_name=_('Notification on new string to translate'),
-        default=False
-    )
-    subscribe_new_suggestion = models.BooleanField(
-        verbose_name=_('Notification on new suggestion'),
-        default=False
-    )
-    subscribe_new_contributor = models.BooleanField(
-        verbose_name=_('Notification on new contributor'),
-        default=False
-    )
-    subscribe_new_comment = models.BooleanField(
-        verbose_name=_('Notification on new comment'),
-        default=False
-    )
-    subscribe_merge_failure = models.BooleanField(
-        verbose_name=_('Notification on merge failure'),
-        default=False
-    )
-    subscribe_new_language = models.BooleanField(
-        verbose_name=_('Notification on new language request'),
-        default=False
-    )
-
-    SUBSCRIPTION_FIELDS = (
-        'subscribe_any_translation',
-        'subscribe_new_string',
-        'subscribe_new_suggestion',
-        'subscribe_new_contributor',
-        'subscribe_new_comment',
-        'subscribe_merge_failure',
-        'subscribe_new_language',
     )
 
     def __str__(self):

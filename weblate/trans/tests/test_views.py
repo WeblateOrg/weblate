@@ -717,12 +717,12 @@ class HomeViewTest(ViewTestCase):
     def test_subscriptions(self):
         # no subscribed projects at first
         response = self.client.get(reverse('home'))
-        self.assertFalse(len(response.context['subscribed_projects']))
+        self.assertFalse(len(response.context['watched_projects']))
 
         # subscribe a project
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
-        self.assertEqual(len(response.context['subscribed_projects']), 1)
+        self.assertEqual(len(response.context['watched_projects']), 1)
 
     def test_language_filters(self):
         # check language filters
@@ -738,7 +738,7 @@ class HomeViewTest(ViewTestCase):
         self.assertFalse(response.context['usersubscriptions'])
 
         # add a subscription
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
         self.assertEqual(len(response.context['usersubscriptions']), 1)
 
