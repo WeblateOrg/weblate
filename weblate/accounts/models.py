@@ -490,6 +490,39 @@ class Profile(models.Model):
                 _("Component list can not be chosen when unused.")
             })
 
+    def dump_data(self):
+        def dump_object(obj, *attrs):
+            return {attr: getattr(obj, attr) for attr in attrs}
+
+        result = {
+            'basic': dump_object(
+                self.user,
+                'username', 'full_name', 'email', 'date_joined'
+            ),
+            'profile': dump_object(
+                self,
+                'language',
+                'suggested', 'translated', 'uploaded',
+                'hide_completed', 'secondary_in_zen', 'hide_source_secondary',
+                'editor_link', 'translate_mode', 'special_chars',
+                'dashboard_view', 'dashboard_component_list',
+            ),
+            'auditlog': [
+                dump_object(log, 'address', 'user_agent', 'timestamp', 'activity')
+                for log in self.user.auditlog_set.iterator()
+            ]
+        }
+        result['profile']['languages'] = [
+            lang.code for lang in self.languages.iterator()
+        ]
+        result['profile']['secondary_languages'] = [
+            lang.code for lang in self.secondary_languages.iterator()
+        ]
+        result['profile']['watched'] = [
+            project.slug for project in self.watched.iterator()
+        ]
+        return result
+
 
 def set_lang(request, profile):
     """Set session language based on user preferences."""

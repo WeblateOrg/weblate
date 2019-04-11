@@ -22,6 +22,7 @@ import argparse
 import json
 
 from django.core.management.base import BaseCommand
+from django.core.serializers.json import DjangoJSONEncoder
 
 from weblate.accounts.models import Profile
 
@@ -37,16 +38,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create default set of groups and optionally updates them and moves
-        users around to default group.
-        """
         data = []
-        fields = (
-            'language',
-            'translated',
-            'suggested',
-            'uploaded',
-        )
 
         profiles = Profile.objects.select_related(
             'user'
@@ -57,24 +49,7 @@ class Command(BaseCommand):
         for profile in profiles.iterator():
             if not profile.user.is_active:
                 continue
+            data.append(profile.dump_data())
 
-            item = {
-                'username': profile.user.username,
-                'watched': [
-                    p.slug for p in profile.watched.all()
-                ],
-                'languages': [
-                    l.code for l in profile.languages.all()
-                ],
-                'secondary_languages': [
-                    l.code for l in profile.secondary_languages.all()
-                ],
-            }
-
-            for field in fields:
-                item[field] = getattr(profile, field)
-
-            data.append(item)
-
-        json.dump(data, options['json-file'], indent=2)
+        json.dump(data, options['json-file'], indent=2, cls=DjangoJSONEncoder)
         options['json-file'].close()

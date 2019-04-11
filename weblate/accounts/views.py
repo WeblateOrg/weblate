@@ -66,15 +66,13 @@ from weblate.accounts.forms import (
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
     EmptyConfirmForm,
 )
-from weblate.accounts.notifications import (
-    SCOPE_PROJECT, SCOPE_COMPONENT, FREQ_NONE, NOTIFICATIONS,
-)
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, AuditLog
 from weblate.accounts.notifications import (
     SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
+    FREQ_NONE, NOTIFICATIONS,
 )
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
@@ -892,37 +890,7 @@ def reset_api_key(request):
 @avoid_demo
 @session_ratelimit_post('userdata')
 def userdata(request):
-    def dump_object(obj, *attrs):
-        return {attr: getattr(obj, attr) for attr in attrs}
-
-    user = request.user
-    profile = request.user.profile
-
-    result = {
-        'basic': dump_object(
-            user,
-            'username', 'full_name', 'email', 'date_joined'
-        ),
-        'profile': dump_object(
-            profile,
-            'language',
-            'suggested', 'translated', 'uploaded',
-            'hide_completed', 'secondary_in_zen', 'hide_source_secondary',
-            'editor_link', 'translate_mode', 'special_chars',
-            'dashboard_view', 'dashboard_component_list',
-        ),
-        'auditlog': [
-            dump_object(log, 'address', 'user_agent', 'timestamp', 'activity')
-            for log in user.auditlog_set.all()
-        ]
-    }
-    result['profile']['languages'] = [
-        lang.code for lang in profile.languages.all()
-    ]
-    result['profile']['secondary_languages'] = [
-        lang.code for lang in profile.secondary_languages.all()
-    ]
-    response = JsonResponse(result)
+    response = JsonResponse(request.user.profile.dump_data())
     response['Content-Disposition'] = 'attachment; filename="weblate.json"'
     return response
 
