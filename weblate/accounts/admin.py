@@ -46,7 +46,7 @@ class ProfileAdmin(WeblateModelAdmin):
         'user__username', 'user__email', 'user__full_name'
     ]
     list_filter = ['language']
-    filter_horizontal = ('languages', 'secondary_languages', 'subscriptions')
+    filter_horizontal = ('languages', 'secondary_languages', 'watched')
 
 
 class VerifiedEmailAdmin(WeblateModelAdmin):

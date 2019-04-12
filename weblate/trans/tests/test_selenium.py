@@ -312,7 +312,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(self.driver.find_element_by_id('settings-button'))
 
         # Wait for profile to load
-        self.driver.find_element_by_id('subscriptions')
+        self.driver.find_element_by_id('notifications')
 
         # Load translation memory
         self.click(self.driver.find_element_by_id('user-dropdown'))
@@ -1009,7 +1009,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         self.click('Preferences')
         self.screenshot('dashboard-dropdown.png')
-        self.click('Subscriptions')
+        self.click('Notifications')
         self.screenshot('profile-subscriptions.png')
         self.click('Licenses')
         self.screenshot('profile-licenses.png')

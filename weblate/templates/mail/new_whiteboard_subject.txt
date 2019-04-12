@@ -1,0 +1,9 @@
+{% load i18n %}
+{% autoescape off %}
+{% if project %}
+{% blocktrans %}New whiteboard message on {{ project }}{% endblocktrans %}
+{% else %}
+{% blocktrans %}New whiteboard message at {{ site_title }}{% endblocktrans %}
+{% endif %}
+{% endautoescape %}
+

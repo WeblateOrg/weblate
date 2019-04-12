@@ -46,20 +46,20 @@
 <div class="tab-content">
 {% if user.is_authenticated %}
 <div {% active_tab "your-subscriptions" %}>
-{% if subscribed_projects %}
+{% if watched_projects %}
     {% if usersubscriptions %}
         {% include "list-translations.html" with translations=usersubscriptions show_language=2 hide_completed=user.profile.hide_completed %}
         <p>{% include "legend.html" %}</p>
         {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
     {% else %}
-        {% include "list-projects.html" with projects=subscribed_projects %}
+        {% include "list-projects.html" with projects=watched_projects %}
     {% endif %}
 {% else %}
     <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
 {% endif %}
 <p>
     <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
-    <a class="btn btn-default" href="{% url 'profile' %}#subscriptions">{% trans "Manage watched projects" %}</a>
+    <a class="btn btn-default" href="{% url 'profile' %}#notifications">{% trans "Manage watched projects" %}</a>
 </p>
 </div>
 

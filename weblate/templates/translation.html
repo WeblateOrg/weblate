@@ -109,7 +109,7 @@
     </ul>
   </li>
 {% endif %}
-{% with object.component.project as project %}
+{% with project=object.component.project component=object.component %}
 {% include "watch-dropdown.html" %}
 {% endwith %}
 </ul>

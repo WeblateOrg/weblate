@@ -699,6 +699,13 @@ $(function () {
     /* Load correct tab */
     if (location.hash !== '') {
         /* From URL hash */
+        var separator = location.hash.indexOf('__');
+        if (separator != -1) {
+            activeTab = $('[data-toggle=tab][href="' + location.hash.substr(0, separator) + '"]');
+            if (activeTab.length) {
+                activeTab.tab('show');
+            }
+        }
         activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
         if (activeTab.length) {
             activeTab.tab('show');

@@ -410,10 +410,8 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
-        # Subscribe to receive notifications
-        self.anotheruser.profile.subscribe_new_language = True
-        self.anotheruser.profile.save()
-        self.anotheruser.profile.subscriptions.add(self.project)
+        # Make admin to receive notifications
+        self.project.add_user(self.anotheruser, '@Administration')
 
         self.component.new_lang = 'contact'
         self.component.save()
@@ -441,10 +439,8 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add(self):
-        # Subscribe to receive notifications
-        self.anotheruser.profile.subscribe_new_language = True
-        self.anotheruser.profile.save()
-        self.anotheruser.profile.subscriptions.add(self.project)
+        # Make admin to receive notifications
+        self.project.add_user(self.anotheruser, '@Administration')
 
         self.assertFalse(
             self.component.translation_set.filter(
@@ -721,12 +717,12 @@ class HomeViewTest(ViewTestCase):
     def test_subscriptions(self):
         # no subscribed projects at first
         response = self.client.get(reverse('home'))
-        self.assertFalse(len(response.context['subscribed_projects']))
+        self.assertFalse(len(response.context['watched_projects']))
 
         # subscribe a project
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
-        self.assertEqual(len(response.context['subscribed_projects']), 1)
+        self.assertEqual(len(response.context['watched_projects']), 1)
 
     def test_language_filters(self):
         # check language filters
@@ -742,7 +738,7 @@ class HomeViewTest(ViewTestCase):
         self.assertFalse(response.context['usersubscriptions'])
 
         # add a subscription
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
         self.assertEqual(len(response.context['usersubscriptions']), 1)
 

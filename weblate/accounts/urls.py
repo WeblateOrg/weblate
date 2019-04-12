@@ -89,6 +89,16 @@ urlpatterns = [
         weblate.accounts.views.unwatch,
         name='unwatch'
     ),
+    url(
+        r'^mute/(?P<project>[^/]+)/(?P<component>[^/]+)/$',
+        weblate.accounts.views.mute_component,
+        name='mute'
+    ),
+    url(
+        r'^mute/(?P<project>[^/]+)/$',
+        weblate.accounts.views.mute_project,
+        name='mute'
+    ),
     url(r'^remove/$', weblate.accounts.views.user_remove, name='remove'),
     url(r'^confirm/$', weblate.accounts.views.confirm, name='confirm'),
     url(
