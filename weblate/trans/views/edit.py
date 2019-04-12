@@ -253,7 +253,8 @@ def perform_translation(unit, form, request):
         messages.error(
             request,
             _(
-                'Some checks have failed on your translation: {0}'
+                'The translation has been saved, however there '
+                'are some newly failing checks: {0}'
             ).format(
                 ', '.join(
                     [force_text(CHECKS[check].name) for check in newchecks]
