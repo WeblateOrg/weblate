@@ -53,7 +53,7 @@ class LanguageAdmin(WeblateModelAdmin):
                 number=baseplural.number,
                 equation=baseplural.equation,
             )
-        except Language.DoesNotExist:
+        except (Language.DoesNotExist, IndexError):
             lang.plural_set.create(
                 source=Plural.SOURCE_DEFAULT,
                 number=2,
