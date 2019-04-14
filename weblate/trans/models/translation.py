@@ -410,9 +410,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             pk=self.stats.last_author
         ).get_author_name(email)
 
-    def commit_pending(self, reason, request, skip_push=False):
+    def commit_pending(self, reason, request, skip_push=False, force=False):
         """Commit any pending changes."""
-        if not self.unit_set.filter(pending=True).exists():
+        if not force and not self.unit_set.filter(pending=True).exists():
             return False
 
         self.log_info('committing pending changes (%s)', reason)

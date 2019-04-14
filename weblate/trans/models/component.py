@@ -930,27 +930,27 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return list of components which links repository to us."""
         return self.component_set.prefetch()
 
-    def commit_pending(self, reason, request, from_link=False,
-                       skip_push=False):
+    @perform_on_link
+    def commit_pending(self, reason, request, skip_push=False):
         """Check whether there is any translation to be committed."""
+        # Get all translation with pending changes
+        translations = Translation.objects.filter(
+            unit__pending=True,
+        ).filter(
+            Q(component=self) |
+            Q(component__linked_component=self)
+        ).distinct()
 
-        # If we're not recursing, call on parent
-        if not from_link and self.is_repo_link:
-            return self.linked_component.commit_pending(
-                reason, request, skip_push=skip_push
+        # Commit pending changes
+        for translation in translations.iterator():
+            if translation.component_id == self.id:
+                translation.component = self
+            translation.commit_pending(
+                reason, request, skip_push=True, force=True
             )
 
-        # Commit all translations
-        for translation in self.translation_set.iterator():
-            translation.commit_pending(reason, request, skip_push=True)
-
-        # Process linked projects
-        for component in self.get_linked_childs():
-            component.commit_pending(
-                reason, request, from_link=True, skip_push=True
-            )
-
-        if not from_link and not skip_push:
+        # Push if enabled
+        if not skip_push:
             self.push_if_needed(request)
 
         return True
