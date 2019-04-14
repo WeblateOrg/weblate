@@ -890,13 +890,6 @@ class AndroidFormat(TTKitFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
-    # Whitespace is ignored in this format
-    check_flags = (
-        'ignore-begin-space',
-        'ignore-end-space',
-        'ignore-begin-newline',
-        'ignore-end-newline',
-    )
     unit_class = MonolingualIDUnit
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
