@@ -941,7 +941,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
 
         # Commit all translations
-        for translation in self.translation_set.all():
+        for translation in self.translation_set.iterator():
             translation.commit_pending(reason, request, skip_push=True)
 
         # Process linked projects
@@ -1649,7 +1649,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check for uncommitted changes"""
-        return any((t.needs_commit() for t in self.translation_set.all()))
+        return any(
+            (t.needs_commit() for t in self.translation_set.iterator())
+        )
 
     def repo_needs_merge(self):
         """Check for unmerged commits from remote repository"""
