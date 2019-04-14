@@ -50,7 +50,7 @@ FREQ_WEEKLY = 3
 FREQ_MONTHLY = 4
 
 FREQ_CHOICES = (
-    (FREQ_NONE, _('Disabled')),
+    (FREQ_NONE, _('Do not notify')),
     (FREQ_INSTANT, _('Instant notification')),
     (FREQ_DAILY, _('Daily digest')),
     (FREQ_WEEKLY, _('Weekly digest')),
