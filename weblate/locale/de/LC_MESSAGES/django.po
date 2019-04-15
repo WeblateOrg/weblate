@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-14 18:40+0000\n"
+"PO-Revision-Date: 2019-04-16 09:27+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:750
 msgid "Use default setting"
-msgstr ""
+msgstr "Standardeinstellung verwenden"
 
 #: weblate/accounts/forms.py:764 weblate/accounts/models.py:446
 #: weblate/templates/accounts/profile.html:66 weblate/templates/base.html:113
@@ -489,10 +489,8 @@ msgstr ""
 "Adresse zugewiesen ist."
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "Nicht importieren"
+msgstr "Nicht benachrichtigen"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -500,11 +498,11 @@ msgstr "Sofortige Benachrichtigung"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr ""
+msgstr "Tägliche Zusammenfassung"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr ""
+msgstr "Wöchentliche Zusammenfassung"
 
 #: weblate/accounts/notifications.py:57
 msgid "Monthly digest"
@@ -2373,9 +2371,6 @@ msgid "Unknown"
 msgstr "Unbekannt"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/One/two/three/six/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
 msgstr "Null/eins/zwei/drei/sechs/sonstige"
@@ -5456,12 +5451,12 @@ msgstr "Neue Übersetzung in %(translation)s"
 #: weblate/templates/mail/digest.html:11
 #, python-format
 msgid "This is a digest for %(notification_name)s:"
-msgstr ""
+msgstr "Dies ist eine Zusammenfassung für %(notification_name)s:"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr ""
+msgstr "Zusammenfassung: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
@@ -5489,23 +5484,18 @@ msgid "Merge failure in %(component)s"
 msgstr "Zusammenführungsfehler in %(component)s"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr ""
-"Es gab einen Fehler beim Zusammenführen von %(component)s bei %(site_title)s."
+msgstr "Ein neuer Alarm wurde auf %(component)s bei %(site_title)s ausgelöst."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "Warnungen"
+msgstr "Alarm:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Neuer Kommentar in %(component)s"
+msgstr "Neuer Alarm in %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5522,22 +5512,18 @@ msgid "New comment in %(component)s"
 msgstr "Neuer Kommentar in %(component)s"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "Neue Sprache wurde zu %(translation)s bei %(site_title)s hinzugefügt."
+msgstr "Neue Komponente wurde zu %(project)s bei %(site_title)s hinzugefügt."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "Verschobene Komponente"
+msgstr "Komponente hinzugefügt:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Kommentare zur Übersetzung zusammenführen"
+msgstr "Neue Übersetzungskomponente %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5558,24 +5544,20 @@ msgid "New contributor in %(translation)s"
 msgstr "Neuer Übersetzer bei %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "Neue Sprache wurde zu %(translation)s bei %(site_title)s hinzugefügt."
+msgstr "Neue Sprache wurde zu %(component)s bei %(site_title)s hinzugefügt."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "Hinzugefügte Sprache:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
 msgstr ""
-"Es gab eine Anfrage für eine neue Sprache bei %(translation)s auf "
+"Es gab eine Anfrage für eine neue Sprache bei %(component)s auf "
 "%(site_title)s."
 
 #: weblate/templates/mail/new_language.html:28
@@ -5607,16 +5589,14 @@ msgid "Translation component:"
 msgstr "Übersetzungskomponente:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "Neue Sprache hinzugefügt zu %(translation)s"
+msgstr "Neue Sprache hinzugefügt zu %(component)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "Neuer Sprachvorschlag in %(translation)s"
+msgstr "Neuer Sprachvorschlag in %(component)s"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5653,34 +5633,30 @@ msgid "New suggestion in %(translation)s"
 msgstr "Neuer Vorschlag in %(translation)s"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "Neue Sprache wurde zu %(translation)s bei %(site_title)s hinzugefügt."
+msgstr ""
+"Neue Whiteboard-Nachricht wurde zu %(project)s bei %(site_title)s "
+"hinzugefügt."
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "Neue Sprache wurde zu %(translation)s bei %(site_title)s hinzugefügt."
+msgstr "Neue Whiteboard-Nachricht wurde bei %(site_title)s hinzugefügt."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "Nachricht"
+msgstr "Nachricht:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "Neue Whiteboard-Nachricht"
+msgstr "Neue Whiteboard-Nachricht bei %(project)s"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "Neue Whiteboard-Nachricht"
+msgstr "Neue Whiteboard-Nachricht bei %(site_title)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6908,30 +6884,25 @@ msgid "Registration date"
 msgstr "Registriert seit"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
 msgstr "Beobachten"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Alle geschützten Projekte"
+msgstr "Projekt ausblenden %(project)s"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Anzahl der Einträge für %(project)s"
+msgstr "Benachrichtigungen für %(object)s anpassen"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "Anzahl der Einträge für %(project)s"
+msgstr "Benachrichtigungen für %(object)s stumm schalten"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7938,16 +7909,12 @@ msgid "Requested new language"
 msgstr "Neue gewünschte Sprache"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "Projekt erstellen"
+msgstr "Projekt erstellt"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "Komponente erstellen"
+msgstr "Komponente erstellt"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -9166,14 +9133,13 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Folgende Korrekturen erfolgten an der Übersetzung: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr ""
-"In mehreren Sprachen liegen bei den Übersetzungen fehlgeschlagene "
-"Qualitätsprüfungen vor"
+"Die Übersetzung wurde gespeichert, es gibt jedoch einige neue fehlerhafte "
+"Prüfungen: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
