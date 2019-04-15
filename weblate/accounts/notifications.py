@@ -409,6 +409,7 @@ class ChangedStringNotificaton(Notification):
     actions = Change.ACTIONS_CONTENT
     verbose = _('Changed string')
     template_name = 'changed_translation'
+    filter_languages = True
 
 
 @register_notification
