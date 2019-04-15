@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-14 10:04+0000\n"
+"PO-Revision-Date: 2019-04-16 09:27+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
 ">\n"
@@ -227,7 +227,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:750
 msgid "Use default setting"
-msgstr ""
+msgstr "Ádepki parametrdi paıdalaný"
 
 #: weblate/accounts/forms.py:764 weblate/accounts/models.py:446
 #: weblate/templates/accounts/profile.html:66 weblate/templates/base.html:113
@@ -235,23 +235,16 @@ msgid "Watched projects"
 msgstr "Baqylanǵan jobalar"
 
 #: weblate/accounts/forms.py:766
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Administered projects"
-msgstr "Tólemdi jobalar"
+msgstr "Basqarylǵan jobalar"
 
 #: weblate/accounts/forms.py:768
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Project: {}"
 msgid "Project: {}"
 msgstr "Jobalyq: {}"
 
 #: weblate/accounts/forms.py:769
-#, fuzzy
-#| msgid "Component"
 msgid "Component: {}"
-msgstr "Quramdas"
+msgstr "Quramdas: {}"
 
 #: weblate/accounts/models.py:94
 msgid "Password has been changed."
@@ -473,68 +466,52 @@ msgstr ""
 "Eshqandaı e-poshta mekenjaıyn taǵaıyndamaı tárjimelerdi jibere almaısyz."
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "Importtamańyz"
+msgstr "Habarlamańyz"
 
 #: weblate/accounts/notifications.py:54
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Instant notification"
-msgstr "Tárjimelik habarlandyrýlar"
+msgstr "Jedel habarlandyrý"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr ""
+msgstr "Kúndik daıjest"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr ""
+msgstr "Aptalyq daıjest"
 
 #: weblate/accounts/notifications.py:57
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "Aılyq baǵasy"
+msgstr "Aılyq daıjest"
 
 #: weblate/accounts/notifications.py:321
-#, fuzzy
-#| msgid "Merge style"
 msgid "Merge failure"
-msgstr "Biriktirý máneri"
+msgstr "Biriktirý sátsizdigi"
 
 #: weblate/accounts/notifications.py:328 weblate/trans/models/change.py:232
 msgid "Parse error"
 msgstr "Taldaý qatesi"
 
 #: weblate/accounts/notifications.py:335
-#, fuzzy
-#| msgid "New string added"
 msgid "New string"
-msgstr "Jańa jol ústeldi"
+msgstr "Jańa jol"
 
 #: weblate/accounts/notifications.py:343 weblate/trans/models/change.py:255
 msgid "New contributor"
 msgstr "Jańa qatysýshy"
 
 #: weblate/accounts/notifications.py:351
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "New suggestion"
-msgstr "Usynysty saılaý"
+msgstr "Jańa usynys"
 
 #: weblate/accounts/notifications.py:359
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
-msgstr "Tárjime aty"
+msgstr "Avtorlyq tárjime týraly ańǵartpa"
 
 #: weblate/accounts/notifications.py:377
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "Ańǵartpadaǵy qatysýshylar"
+msgstr "Ańǵartpada atap ótilgen"
 
 #: weblate/accounts/notifications.py:391 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -542,22 +519,16 @@ msgid "New comment"
 msgstr "Jańa ańǵartpa"
 
 #: weblate/accounts/notifications.py:410
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "Sodan beri ózgerdi"
+msgstr "Ózgertilgen jol"
 
 #: weblate/accounts/notifications.py:417
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "Til boıynsha"
+msgstr "Jańa til"
 
 #: weblate/accounts/notifications.py:435
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "Jańa tárjimelik quramdasty ústeý"
+msgstr "Jańa tárjimelik quramdas"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2331,12 +2302,9 @@ msgid "Unknown"
 msgstr "Belgisiz"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "Bir/eki/úsh/basqa"
+msgstr "Nól/bir/eki/úsh/alty/basqa"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3211,10 +3179,8 @@ msgid "Preferences"
 msgstr "Teńshelimder"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "Habarlandyrý óńdeýishteri"
+msgstr "Habarlandyrýlar"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3277,10 +3243,8 @@ msgstr ""
 "barlyq tárjimelenetin jobalardy tańdańyz."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "Jaıǵasym joldary"
+msgstr "Habarlandyrý parametrleri"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -5246,10 +5210,8 @@ msgid "Sent by Weblate translation system"
 msgstr "Weblate tárjimelik júıesinen jiberilgen"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "Jazylym parametrlerin ózgertý"
+msgstr "Habarlandyrý parametrlerin ózgertý"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5335,12 +5297,12 @@ msgstr "%(translation)s ishinde jańa tárjime"
 #: weblate/templates/mail/digest.html:11
 #, python-format
 msgid "This is a digest for %(notification_name)s:"
-msgstr ""
+msgstr "Bul %(notification_name)s úshin daıjest:"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr ""
+msgstr "Daıjest: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
@@ -5369,24 +5331,19 @@ msgid "Merge failure in %(component)s"
 msgstr "%(component)s ishinde biriktirý sátsizdigi"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
 msgstr ""
-"%(site_title)s saıtyndaǵy %(component)s boıynsha biriktirý sátsizdigi oryn "
-"aldy."
+"%(site_title)s saıtyndaǵy %(component)s boıynsha jańa eskertý iske qosyldy."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "Eskertýler"
+msgstr "Eskertý:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "%(component)s quramdasynda jańa ańǵartpa"
+msgstr "%(component)s boıynsha jańa eskerý"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5404,22 +5361,18 @@ msgid "New comment in %(component)s"
 msgstr "%(component)s quramdasynda jańa ańǵartpa"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s saıtyndaǵy %(translation)s boıynsha jańa til ústeldi."
+msgstr "%(site_title)s saıtyndaǵy %(project)s boıynsha jańa quramdas ústeldi."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "Quramdas jyljytyldy"
+msgstr "Quramdas ústeldi:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Basqa tárjimelik quramdastar"
+msgstr "Jańa tárjimelik quramdas %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5440,24 +5393,20 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s ishinde jańa qatysýshy"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "%(site_title)s saıtyndaǵy %(translation)s boıynsha jańa til ústeldi."
+msgstr "%(site_title)s saıtyndaǵy %(component)s úshin jańa til ústeldi."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "Ústelgen til:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
 msgstr ""
-"%(site_title)s saıtyndaǵy %(translation)s boıynsha jańa til saýaly oryn aldy."
+"%(site_title)s saıtyndaǵy %(component)s boıynsha jańa til saýaly oryn aldy."
 
 #: weblate/templates/mail/new_language.html:28
 msgid ""
@@ -5487,16 +5436,14 @@ msgid "Translation component:"
 msgstr "Tárjimelik quramdas:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "%(translation)s úshin jańa til ústeldi"
+msgstr "%(component)s úshin jańa til ústeldi"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "%(translation)s ishinde jańa til saýaly"
+msgstr "%(component)s ishinde jańa til saýaly"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5532,34 +5479,29 @@ msgid "New suggestion in %(translation)s"
 msgstr "%(translation)s ishinde jańa usynys"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s saıtyndaǵy %(translation)s boıynsha jańa til ústeldi."
+msgstr ""
+"%(site_title)s saıtyndaǵy %(project)s boıynsha jańa aq taqta habary ústeldi."
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "%(site_title)s saıtyndaǵy %(translation)s boıynsha jańa til ústeldi."
+msgstr "%(site_title)s saıtynda jańa aq taqta habary ústeldi."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "Habar"
+msgstr "Habar:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "Jańa aq taqta habary"
+msgstr "%(project)s boıynsha jańa aq taqta habary"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "Jańa aq taqta habary"
+msgstr "%(site_title)s saıtynda jańa aq taqta habary"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6752,30 +6694,25 @@ msgid "Registration date"
 msgstr "Tirkelý kúni"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
 msgstr "Kúzetteý"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Barlyq qorǵalǵan jobalar"
+msgstr "%(project)s jobasyn kúzettemeý"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "%(project)s úshin jazba sany"
+msgstr "%(object)s úshin habarlandyrýlardy teńsheý"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "%(project)s úshin jazba sany"
+msgstr "%(object)s úshin habarlandyrýlardy óshirý"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7769,16 +7706,12 @@ msgid "Requested new language"
 msgstr "Jańa til týraly saýal"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "Joba jasaý"
+msgstr "Joba jasaldy"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "Quramdas jasaý"
+msgstr "Quramdas jasaldy"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8977,12 +8910,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Tárjime úshin kelesi túzetýler qoldanyldy: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Birneshe tildegi tárjimeler aqaý tekserýlerden turady"
+msgstr "Tárjime saqtaldy, biraq keıbir jańa aqaý tekserýler bar: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
