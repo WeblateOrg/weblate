@@ -6,21 +6,22 @@
 # Andrey <andrey@mailbox.org>, 2018, 2019.
 # Victor K <ktrace@yandex.ru>, 2019.
 # WWWesten <wwwesten@gmail.com>, 2019.
+# Nikolay Parukhin <parukhin@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-14 18:40+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2019-04-16 09:27+0000\n"
+"Last-Translator: Nikolay Parukhin <parukhin@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.6-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -93,7 +94,7 @@ msgstr "Пишите нам по-английски, иначе мы не смо
 
 #: weblate/accounts/forms.py:355
 msgid "Activation email will be sent here."
-msgstr "Письмо для активации отправлено."
+msgstr "Письмо для активации будет отправлено по этому адресу."
 
 #: weblate/accounts/forms.py:393
 msgid "Too many failed registration attempts from this location!"
@@ -465,10 +466,8 @@ msgid ""
 msgstr "Вы не можете отправлять переводы без прикрепленного адреса э-почты."
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "Не импортировать"
+msgstr "Не уведомлять"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -507,16 +506,12 @@ msgid "New suggestion"
 msgstr "Новое предложение"
 
 #: weblate/accounts/notifications.py:359
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
-msgstr "Название перевода"
+msgstr "Комментарий к авторскому переводу"
 
 #: weblate/accounts/notifications.py:377
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "Участники в комментарии"
+msgstr "Упомянутый в комментарии"
 
 #: weblate/accounts/notifications.py:391 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -524,22 +519,16 @@ msgid "New comment"
 msgstr "Новый комментарий"
 
 #: weblate/accounts/notifications.py:410
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "Изменено с"
+msgstr "Измененная строка"
 
 #: weblate/accounts/notifications.py:417
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "По языку"
+msgstr "Новый язык"
 
 #: weblate/accounts/notifications.py:435
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "Добавить новый переводимый компонент"
+msgstr "Новый компонент перевода"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2305,12 +2294,9 @@ msgid "Unknown"
 msgstr "Неизвестно"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "Один/два/три/5+"
+msgstr "Ноль/один/два/три/шесть/другое"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3185,10 +3171,8 @@ msgid "Preferences"
 msgstr "Настройки"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "Обработчики уведомлений"
+msgstr "Уведомления"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3252,10 +3236,8 @@ msgstr ""
 "выберите все проекты, какие вы желаете переводить."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "Строки расположения"
+msgstr "Параметры уведомлений"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -5226,10 +5208,8 @@ msgid "Sent by Weblate translation system"
 msgstr "Отправлено системой переводов Weblate"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "Изменить параметры подписки"
+msgstr "Изменить параметры уведомлений"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5313,12 +5293,12 @@ msgstr "Новый перевод в %(translation)s"
 #: weblate/templates/mail/digest.html:11
 #, python-format
 msgid "This is a digest for %(notification_name)s:"
-msgstr ""
+msgstr "Это дайджест для %(notification_name)s:"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr ""
+msgstr "Дайджест: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
@@ -5345,22 +5325,18 @@ msgid "Merge failure in %(component)s"
 msgstr "Ошибка слияния в %(component)s"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr "Произошла ошибка при слиянии в %(component)s на %(site_title)s."
+msgstr "Сработало новое оповещение на %(component)s на %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "Оповещения"
+msgstr "Оповещение:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Новый комментарий в %(component)s"
+msgstr "Новое оповещение на %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5377,22 +5353,18 @@ msgid "New comment in %(component)s"
 msgstr "Новый комментарий в %(component)s"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "Новый язык был добавлен в %(translation)s на %(site_title)s."
+msgstr "Новый компонент был добавлен в %(project)s на %(site_title)s."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "Компонент перемещен"
+msgstr "Добавлен компонент:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Другие переводимые компоненты"
+msgstr "Новый компонент перевода %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5413,23 +5385,19 @@ msgid "New contributor in %(translation)s"
 msgstr "Новый участник в %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "Новый язык был добавлен в %(translation)s на %(site_title)s."
+msgstr "Новый язык был добавлен в %(component)s на %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "Добавленный язык:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
-msgstr "Здесь был запрос на новый язык в %(translation)s на %(site_title)s."
+msgstr "Здесь был запрос на новый язык в %(component)s на %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:28
 msgid ""
@@ -5460,16 +5428,14 @@ msgid "Translation component:"
 msgstr "Компонент перевода:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "Новый язык добавлен в %(translation)s"
+msgstr "Новый язык добавлен в %(component)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "Запрос нового языка для %(translation)s"
+msgstr "Запрос нового языка для %(component)s"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5504,34 +5470,30 @@ msgid "New suggestion in %(translation)s"
 msgstr "Новое предложение в %(translation)s"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "Новый язык был добавлен в %(translation)s на %(site_title)s."
+msgstr ""
+"Новое сообщение на совместной доске было добавлено в %(project)s на "
+"%(site_title)s."
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "Новый язык был добавлен в %(translation)s на %(site_title)s."
+msgstr "Новое сообщение на совместной доске было добавлено на %(site_title)s."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "Сообщение"
+msgstr "Сообщение:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "Новое сообщение на совместной доске"
+msgstr "Новое сообщение на совместной доске в %(project)s"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "Новое сообщение на совместной доске"
+msgstr "Новое сообщение на совместной доске на %(site_title)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6727,30 +6689,25 @@ msgid "Registration date"
 msgstr "Дата регистрации"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "Отслеживать"
+msgstr "Отслеживание"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Все защищаемые проекты"
+msgstr "Прервать отслеживание проекта %(project)s"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Количество записей для %(project)s"
+msgstr "Настройка уведомлений для %(object)s"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "Количество записей для %(project)s"
+msgstr "Отключить уведомления для %(object)s"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7742,16 +7699,12 @@ msgid "Requested new language"
 msgstr "Запрошен новый язык"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "Создать проект"
+msgstr "Созданный проект"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "Создать компонент"
+msgstr "Созданный компонент"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8963,12 +8916,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "К переводу были применены следующие исправления: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Переводы на несколько языков имеют сбойные проверки"
+msgstr "Перевод был сохранен, однако, есть новые не прошедшие проверки: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
