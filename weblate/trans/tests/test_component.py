@@ -698,6 +698,29 @@ class ComponentErrorTest(RepoTestCase):
             self.component.clean()
 
 
+class LinkedEditTest(ViewTestCase):
+    def create_component(self):
+        return self.create_link()
+
+    def test_linked(self):
+        # Grab current revision
+        start_rev = self.component.repository.last_revision
+
+        # Translate all units
+        request = self.factory.get('/')
+        request.user = self.user
+        for unit in Unit.objects.iterator():
+            unit.translate(request, 'test', STATE_TRANSLATED)
+
+        # No commit now
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+
+        # Commit pending changes
+        self.component.commit_pending('test', None)
+        self.assertNotEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(4, self.component.repository.count_outgoing())
+
+
 class ComponentEditTest(ViewTestCase):
     """Test for error handling"""
     @staticmethod
