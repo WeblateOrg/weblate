@@ -358,7 +358,10 @@ class SubscriptionTest(ViewTestCase):
     notification = MergeFailureNotification
 
     def get_users(self, frequency):
-        change = Change.objects.create(component=self.component)
+        change = Change.objects.create(
+            action=Change.ACTION_FAILED_MERGE,
+            component=self.component
+        )
         notification = self.notification(None)
         return list(notification.get_users(frequency, change))
 
