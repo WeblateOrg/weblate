@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-14 18:40+0000\n"
+"PO-Revision-Date: 2019-04-16 09:27+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -469,10 +469,8 @@ msgstr ""
 "gönderemezsiniz."
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "İçe aktarma yapma"
+msgstr "Bildirim yapma"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -532,10 +530,8 @@ msgid "New language"
 msgstr "Yeni dil"
 
 #: weblate/accounts/notifications.py:435
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "Yeni çeviri bileşeni ekle"
+msgstr "Yeni çeviri bileşeni"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2306,12 +2302,9 @@ msgid "Unknown"
 msgstr "Bilinmiyor"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "Bir/iki/üç/diğer"
+msgstr "Sıfır/bir/iki/üç/altı/diğer"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3183,10 +3176,8 @@ msgid "Preferences"
 msgstr "Tercihler"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "Bildirim kancaları"
+msgstr "Bildirimler"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3249,10 +3240,8 @@ msgstr ""
 "projeleri seçebilirsiniz."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "Yer satırları"
+msgstr "Bildirim ayarları"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -5216,10 +5205,8 @@ msgid "Sent by Weblate translation system"
 msgstr "Weblate çeviri sistemi tarafından gönderildi"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "Abonelik ayarlarını değiştir"
+msgstr "Bildirim ayarlarını değiştir"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5336,23 +5323,18 @@ msgid "Merge failure in %(component)s"
 msgstr "%(component)s içinde birleştirme başarısız"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr ""
-"%(site_title)s sitesinde %(component)s üstünde birleştirme başarısız oldu."
+msgstr "%(site_title)s'de %(component)s'da yeni uyarı tetiklendi."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "Uyarılar"
+msgstr "Uyarı:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "%(component)s içinde yeni yorum"
+msgstr "%(component)s'de yeni uyarı"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5370,22 +5352,18 @@ msgid "New comment in %(component)s"
 msgstr "%(component)s içinde yeni yorum"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s sitesinde %(translation)s projesine yeni dil eklendi."
+msgstr "%(site_title)s'da %(project)s'ne yeni bileşen eklendi."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "Taşınmış bileşen"
+msgstr "Eklenen bileşen:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Diğer çeviri bileşenleri"
+msgstr "Yeni çeviri bileşeni %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5406,24 +5384,20 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s içinde yeni katılımcı"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "%(site_title)s sitesinde %(translation)s projesine yeni dil eklendi."
+msgstr "%(site_title)s sitesinde %(component)s bileşenine yeni dil eklendi."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "Eklenen dil:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
 msgstr ""
-"%(site_title)s sitesinde %(translation)s projesinde yeni dil için bir istek "
+"%(site_title)s sitesinde %(component)s bileşeninde yeni dil için bir istek "
 "oldu."
 
 #: weblate/templates/mail/new_language.html:28
@@ -5454,16 +5428,14 @@ msgid "Translation component:"
 msgstr "Çeviri bileşeni:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "%(translation)s projesine yeni dil eklendi"
+msgstr "%(component)s bileşenine yeni dil eklendi"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "%(translation)s içinde yeni dil isteği"
+msgstr "%(component)s içinde yeni dil isteği"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5500,34 +5472,30 @@ msgid "New suggestion in %(translation)s"
 msgstr "%(translation)s içinde yeni öneri"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s sitesinde %(translation)s projesine yeni dil eklendi."
+msgstr ""
+"%(site_title)s sitesinde %(project)s projesine yeni beyaz tahta mesajı "
+"eklendi."
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "%(site_title)s sitesinde %(translation)s projesine yeni dil eklendi."
+msgstr "%(site_title)s sitesinde yeni beyaz tahta mesajı eklendi."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "İleti"
+msgstr "İleti:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "Yeni beyaz tahta mesajı"
+msgstr "%(project)s projesinde yeni beyaz tahta mesajı"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "Yeni beyaz tahta mesajı"
+msgstr "%(site_title)s sitesinde yeni beyaz tahta mesajı"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6714,30 +6682,25 @@ msgid "Registration date"
 msgstr "Kayıt tarihi"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "İzle"
+msgstr "İzleniyor"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Tüm korunan projeler"
+msgstr "İzlenmeyen proje %(project)s"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "%(project)s için girdi sayısı"
+msgstr "%(object)s için bildirimleri özelleştir"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "%(project)s için girdi sayısı"
+msgstr "%(object)s için bildirimleri sessize al"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7734,16 +7697,12 @@ msgid "Requested new language"
 msgstr "İstenen yeni dil"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "Proje oluştur"
+msgstr "Oluşturulmuş proje"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "Bileşen oluştur"
+msgstr "Oluşturulmuş bileşen"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8046,14 +8005,10 @@ msgstr ""
 "Sonrasında, bekleyen her değişikliğin VCS'ye işleneceği saat cinsinden süre."
 
 #: weblate/trans/models/component.py:454
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression used to filter translation when scanning for filemask."
 msgstr ""
-"Dosya maskesi taranırken çeviriyi süzmek için kullanılan düzenli ifade."
+"Dosya maskesi için taranırken çeviriyi süzmek için kullanılan düzenli ifade."
 
 #: weblate/trans/models/component.py:464
 msgid "Components with higher priority are offered first to translators."
@@ -8137,38 +8092,30 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini kontrol ediniz."
 
 #: weblate/trans/models/component.py:1379
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language (%s), please adjust the mask and "
-#| "use components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
-"Tek dil için daha çok dosya var (%s), lütfen maskeyi ayarlayın ve değişik "
-"kaynakları çevirme için bileşenleri kullanın."
+"Tek dil (%s) için daha fazla dosya var, lütfen dosya düzenini ayarlayın ve "
+"farklı kaynakları çevirmek için bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:1397
-#, fuzzy, python-format
-#| msgid "Failed to parse %d matched files!"
+#, python-format
 msgid "Could not parse %d matched files."
-msgstr "%d eşleşen dosya ayrıştırılamadı!"
+msgstr "%d eşleşmiş dosyalar ayrıştırılamadı."
 
 #: weblate/trans/models/component.py:1415
 msgid "Unrecognized base file for new translations."
 msgstr "Yeni çeviriler için tanınmayan temel dosya."
 
 #: weblate/trans/models/component.py:1419
-#, fuzzy
-#| msgid ""
-#| "You have configured Weblate to add new translation files, but did not "
-#| "provide base file to do that!"
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
-"Weblate'i yeni çeviri dosyalarını eklemek için yapılandırdınız, ancak bunu "
-"yapmak için taban dosyayı vermediniz!"
+"Weblate'i yeni çeviri dosyaları eklemek için ayarladınız, ancak bunu yapmak "
+"için bir temel dosya sağlamadınız."
 
 #: weblate/trans/models/component.py:1428
 msgid "You can not use a base file for bilingual translation."
@@ -8183,10 +8130,9 @@ msgid "Could not find template file."
 msgstr "Şablon dosyası bulunamadı."
 
 #: weblate/trans/models/component.py:1446
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Çeviri dosyaları ayrıştırılamadı."
+msgstr "Çeviri temel dosyası ayrıştırılamadı: %s"
 
 #: weblate/trans/models/component.py:1456
 #, python-brace-format
@@ -8203,16 +8149,12 @@ msgid "Could not update repository: %s"
 msgstr "Depo güncellenemedi: %s"
 
 #: weblate/trans/models/component.py:1492
-#, fuzzy
-#| msgid ""
-#| "Please either fill in instructions URL or use different option for adding "
-#| "new language."
 msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
-"Yeni dil eklemek için lütfen ya yönergeler URL'sindekini doldurun ya da "
-"değişik seçenek kullanın."
+"Lütfen talimat URL'sini doldurun veya yeni bir dil eklemek için farklı bir "
+"seçenek kullanın."
 
 #: weblate/trans/models/component.py:1499
 msgid "License URL can not be used without a license summary."
@@ -8223,25 +8165,16 @@ msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor."
 
 #: weblate/trans/models/component.py:1539
-#, fuzzy
-#| msgid ""
-#| "Automatically accepting suggestions can work only with voting enabled!"
 msgid "Accepting suggestions automatically only works with voting turned on."
-msgstr ""
-"Önerileri kendiliğinden kabul etmek yalnızca oylamanın etkinleştirilmesi ile "
-"çalışabilir!"
+msgstr "Önerileri otomatik olarak kabul etmek yalnızca oylama açıkken çalışır."
 
 #: weblate/trans/models/component.py:1722
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Could not add new translation file."
-msgstr "Çeviri dosyaları ayrıştırılamadı."
+msgstr "Yeni çeviri dosyası eklenemedi."
 
 #: weblate/trans/models/component.py:1736
-#, fuzzy
-#| msgid "Given language is filtered by the language filter!"
 msgid "The given language is filtered by the language filter."
-msgstr "Verilen dil, dil süzgeci tarafından süzülüyor!"
+msgstr "Verilen dil, dil süzgeci tarafından süzülür."
 
 #: weblate/trans/models/component.py:1758
 msgid "Translation file already exists!"
@@ -8770,16 +8703,12 @@ msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Dosya maskesi dil yer tutucusu olarak * içermez!"
 
 #: weblate/trans/validators.py:55
-#, fuzzy
-#| msgid ""
-#| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
-#| "suggestion."
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
-"Her kullanıcı kendi önerisine oy verdiğinden kendiliğinden kabul için 1 "
-"değerine izin verilmez."
+"Kullanıcıların kendi önerileri doğrultusunda oy kullanmasına izin "
+"vereceğinden, otomatik kabul için 1 değerine izin verilmez."
 
 #: weblate/trans/validators.py:68
 #, python-format
@@ -8962,12 +8891,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Şu düzeltmeler çeviriye uygulandı: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Birkaç dildeki çevirilerin denetimde kusurları var"
+msgstr "Çeviri kaydedildi, ancak bazı yeni denetimde kusurlar var: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
