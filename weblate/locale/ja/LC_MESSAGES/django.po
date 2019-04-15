@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-15 12:14+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2019-04-16 09:27+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -241,23 +241,16 @@ msgid "Watched projects"
 msgstr "監視中のプロジェクト"
 
 #: weblate/accounts/forms.py:766
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Administered projects"
-msgstr "課金プロジェクト"
+msgstr "管理中のプロジェクト"
 
 #: weblate/accounts/forms.py:768
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Project: {}"
 msgid "Project: {}"
 msgstr "プロジェクト: {}"
 
 #: weblate/accounts/forms.py:769
-#, fuzzy
-#| msgid "Component"
 msgid "Component: {}"
-msgstr "コンポーネント"
+msgstr "コンポーネント: {}"
 
 #: weblate/accounts/models.py:94
 msgid "Password has been changed."
@@ -479,68 +472,52 @@ msgid ""
 msgstr "メール アドレスが未登録なので、翻訳を送信できません。"
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "インポートしない"
+msgstr "通知しない"
 
 #: weblate/accounts/notifications.py:54
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Instant notification"
-msgstr "翻訳の通知"
+msgstr "インスタント通知"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr "日単位の要約"
+msgstr "1 日のまとめ"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr "週単位の要約"
+msgstr "1 週間のまとめ"
 
 #: weblate/accounts/notifications.py:57
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "月額費用"
+msgstr "1 月間のまとめ"
 
 #: weblate/accounts/notifications.py:321
-#, fuzzy
-#| msgid "Merge file header"
 msgid "Merge failure"
-msgstr "ファイルヘッダのマージ"
+msgstr "マージの失敗"
 
 #: weblate/accounts/notifications.py:328 weblate/trans/models/change.py:232
 msgid "Parse error"
 msgstr "処理エラー"
 
 #: weblate/accounts/notifications.py:335
-#, fuzzy
-#| msgid "New string added"
 msgid "New string"
-msgstr "新しい文字列の追加"
+msgstr "原文の追加"
 
 #: weblate/accounts/notifications.py:343 weblate/trans/models/change.py:255
 msgid "New contributor"
 msgstr "新しい貢献者"
 
 #: weblate/accounts/notifications.py:351
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "New suggestion"
-msgstr "提案への投票"
+msgstr "新しい提案"
 
 #: weblate/accounts/notifications.py:359
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
-msgstr "翻訳名"
+msgstr "翻訳者のコメント"
 
 #: weblate/accounts/notifications.py:377
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "コメントの貢献者"
+msgstr "コメントに記載"
 
 #: weblate/accounts/notifications.py:391 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -548,22 +525,16 @@ msgid "New comment"
 msgstr "新しいコメント"
 
 #: weblate/accounts/notifications.py:410
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "変更日時"
+msgstr "文字列変更"
 
 #: weblate/accounts/notifications.py:417
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "言語ごとにコミットする"
+msgstr "新しい言語"
 
 #: weblate/accounts/notifications.py:435
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "新しい翻訳コンポーネントの追加"
+msgstr "新しい翻訳コンポーネント"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2316,12 +2287,9 @@ msgid "Unknown"
 msgstr "未知"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "1つ/2つ/3つ/その他"
+msgstr "0 / 1 / 2 / 3 / 6 / その他"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3198,10 +3166,8 @@ msgid "Preferences"
 msgstr "設定"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "通知フック"
+msgstr "通知"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3264,10 +3230,8 @@ msgstr ""
 "トをすべて選択してください。"
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "場所文字列"
+msgstr "通知の設定"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -5229,8 +5193,6 @@ msgid "Sent by Weblate translation system"
 msgstr "Weblate 翻訳システムで送信"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
 msgstr "通知設定の変更"
 
@@ -5348,22 +5310,18 @@ msgid "Merge failure in %(component)s"
 msgstr "%(component)s 内でマージに失敗"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr "%(site_title)s の %(component)s において、マージが失敗しました。"
+msgstr "%(site_title)s の %(component)s において、警告が発生しました。"
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "警告"
+msgstr "警告:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "%(component)s 内での新しいコメント"
+msgstr "%(component)s で新しい警告"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5381,22 +5339,18 @@ msgid "New comment in %(component)s"
 msgstr "%(component)s 内での新しいコメント"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s の %(translation)s に、新しい翻訳が追加されました。"
+msgstr "%(site_title)s の %(project)s に、新しいコンポーネントを追加しました。"
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "コンポーネントを移動しました"
+msgstr "追加コンポーネント:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "その他の翻訳コンポーネント"
+msgstr "新しい翻訳のコンポーネント %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5417,25 +5371,19 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s 内での新しい貢献者"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "%(site_title)s の %(translation)s に、新しい翻訳が追加されました。"
+msgstr "%(site_title)s の %(component)s に、新しい言語を追加しました。"
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "追加した言語:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
-msgstr ""
-"%(site_title)s の %(translation)s において、新しい言語がリクエストされまし"
-"た。"
+msgstr "%(site_title)s の %(component)s で、新しい言語がリクエストされました。"
 
 #: weblate/templates/mail/new_language.html:28
 msgid ""
@@ -5466,16 +5414,14 @@ msgid "Translation component:"
 msgstr "翻訳文のコメント:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "%(translation)s に、新しい言語が追加されました"
+msgstr "%(component)s に、新しい言語を追加しました"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "%(translation)s 内での新しい言語リクエスト"
+msgstr "%(component)s で新しい言語のリクエスト"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5512,34 +5458,28 @@ msgid "New suggestion in %(translation)s"
 msgstr "%(translation)s 内での新しい提案"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "%(site_title)s の %(translation)s に、新しい翻訳が追加されました。"
+msgstr "%(site_title)s の %(project)s に、新しいホワイトボード メッセージが追加されました。"
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "%(site_title)s の %(translation)s に、新しい翻訳が追加されました。"
+msgstr "%(site_title)s に、新しいホワイトボード メッセージが追加されました。"
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "メッセージ"
+msgstr "メッセージ:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "新しいホワイトボード メッセージ"
+msgstr "%(project)s の、新しいホワイトボード メッセージ"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "新しいホワイトボード メッセージ"
+msgstr "%(site_title)s の、新しいホワイトボード メッセージ"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6728,30 +6668,25 @@ msgid "Registration date"
 msgstr "ユーザ登録日時"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "監視"
+msgstr "監視中"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "すべての保護プロジェクト"
+msgstr "監視中でないプロジェクト %(project)s"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "%(project)s に対する項目数"
+msgstr "%(object)s の通知を設定"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "%(project)s に対する項目数"
+msgstr "%(object)s の通知を無効"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7738,16 +7673,12 @@ msgid "Requested new language"
 msgstr "リクエストされた新しい言語"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "プロジェクトの作成"
+msgstr "作成したプロジェクト"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "コンポーネントの作成"
+msgstr "作成したコンポーネント"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8919,12 +8850,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "以下の修正が翻訳に適用されます: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "いくつかの言語の翻訳でチェックが失敗しています"
+msgstr "翻訳を保存しましたが、新しくチェックに失敗した項目があります: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
