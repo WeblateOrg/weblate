@@ -19,13 +19,13 @@
 <td>{{ c.get_user_display }}</td>
 {% if not hide_links %}
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
-{% else }%
+{% else %}
 <td>{{ c.get_action_display }}</td>
 {% endif %}
 <td>{{ c.get_details_display }}</td>
 {% if not hide_links %}
 <td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
-{% else }%
+{% else %}
 <td>{{ c.get_translation_display }}</td>
 {% endif %}
 <td></td>
