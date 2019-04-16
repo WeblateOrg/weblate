@@ -61,5 +61,5 @@ def report_spam(text, user_ip, user_agent):
             comment_content=text,
             comment_type='comment'
         )
-    except ProtocolError as error:
+    except (ProtocolError, OSError) as error:
         report_error(error)
