@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-16 09:27+0000\n"
+"PO-Revision-Date: 2019-04-18 16:06+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -498,10 +498,8 @@ msgid "Comment on authored translation"
 msgstr "翻译名称"
 
 #: weblate/accounts/notifications.py:377
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "在注释中添加贡献信息"
+msgstr "在注释中提及"
 
 #: weblate/accounts/notifications.py:391 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -3424,13 +3422,11 @@ msgstr "项目全局"
 
 #: weblate/templates/addons/addon_head.html:8
 msgid "This addon is used for all components sharing this repository."
-msgstr ""
+msgstr "该插件用于共享本仓库的所有组件。"
 
 #: weblate/templates/addons/addon_head.html:8
-#, fuzzy
-#| msgid "Repository details"
 msgid "repository wide"
-msgstr "代码库详细信息"
+msgstr "仓库全局"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -4154,34 +4150,24 @@ msgid "Translations can only be done through suggestions."
 msgstr "只能通过建议来翻译。"
 
 #: weblate/templates/component_info.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s vote."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
+#, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "若建议得票%(count)s，会自动接受为翻译。"
+msgstr[0] "若建议得票达到 %(count)s，会自动接受为翻译。"
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
 msgstr "可以直接翻译。"
 
 #: weblate/templates/component_info.html:20
-#, fuzzy
-#| msgid "Translations can be made directly."
 msgid "Translation suggestions can be made."
-msgstr "可以直接翻译。"
+msgstr "可以提出翻译建议。"
 
 #: weblate/templates/component_info.html:22
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Translation suggestions are turned off."
-msgstr "机器翻译建议"
+msgstr "翻译建议已关闭。"
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -7594,21 +7580,19 @@ msgstr "您的语言"
 
 #: weblate/trans/models/component.py:89
 msgid "Default based on the file format"
-msgstr ""
+msgstr "基于文件格式的默认值"
 
 #: weblate/trans/models/component.py:90
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "POSIX 风格使用下划线作为分隔"
 
 #: weblate/trans/models/component.py:91
 msgid "BCP style using hyphen as a separator"
-msgstr ""
+msgstr "GCP 风格使用连字符作为分隔"
 
 #: weblate/trans/models/component.py:92
-#, fuzzy
-#| msgid "Android String Resource"
 msgid "Android style"
-msgstr "Android 字符串资源"
+msgstr "Android 风格"
 
 #: weblate/trans/models/component.py:96
 msgid "Merge"
@@ -7821,7 +7805,7 @@ msgstr "语言代码"
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
-msgstr ""
+msgstr "自定义 Weblate 创建的用于生成翻译文件名的语言代码。"
 
 #: weblate/trans/models/component.py:369
 msgid "Merge style"
