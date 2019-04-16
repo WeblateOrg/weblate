@@ -237,7 +237,9 @@ class UserManager(BaseUserManager):
         return self.filter(groups__in=groups).distinct()
 
     def having_perm(self, perm, project):
-        """All users having permission on a project."""
+        """All users having explicit permission on a project.
+
+        Note: This intentionally does not list superusers."""
         groups = Group.objects.filter(
             roles__permissions__codename=perm,
             projects=project
