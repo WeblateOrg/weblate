@@ -4,13 +4,14 @@
 # Piotr Sokół <psokol.l10n@gmail.com>, 2016.
 # WaldiS <admin@sto.ugu.pl>, 2018, 2019.
 # Stanisław Krukowski <pet209a1@riseup.net>, 2018, 2019.
+# Piotr Strebski <strebski@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-13 07:05+0000\n"
-"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
+"PO-Revision-Date: 2019-04-17 04:39+0000\n"
+"Last-Translator: Piotr Strebski <strebski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -228,7 +229,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:750
 msgid "Use default setting"
-msgstr ""
+msgstr "Użyj ustawienia domyślnego"
 
 #: weblate/accounts/forms.py:764 weblate/accounts/models.py:446
 #: weblate/templates/accounts/profile.html:66 weblate/templates/base.html:113
@@ -242,17 +243,12 @@ msgid "Administered projects"
 msgstr "Projekty rozliczane"
 
 #: weblate/accounts/forms.py:768
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Project: {}"
 msgid "Project: {}"
-msgstr "Projekt {}"
+msgstr "Projekt: {}"
 
 #: weblate/accounts/forms.py:769
-#, fuzzy
-#| msgid "Component"
 msgid "Component: {}"
-msgstr "Komponent"
+msgstr "Komponent: {}"
 
 #: weblate/accounts/models.py:94
 msgid "Password has been changed."
@@ -476,16 +472,12 @@ msgstr ""
 "Nie możesz przesłać tłumaczeń, ponieważ nie masz przypisanego adresu e-mail."
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "Nie importowanie"
+msgstr "Nie powiadamiaj"
 
 #: weblate/accounts/notifications.py:54
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Instant notification"
-msgstr "Powiadomienia o tłumaczeniu"
+msgstr "Natychmiastowe powiadomienie"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
@@ -496,48 +488,36 @@ msgid "Weekly digest"
 msgstr ""
 
 #: weblate/accounts/notifications.py:57
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "Cena miesięczna"
+msgstr "Przegląd miesięczny"
 
 #: weblate/accounts/notifications.py:321
-#, fuzzy
-#| msgid "Merge file header"
 msgid "Merge failure"
-msgstr "Połączenie nagłówka pliku"
+msgstr "Błąd łączenia"
 
 #: weblate/accounts/notifications.py:328 weblate/trans/models/change.py:232
 msgid "Parse error"
 msgstr "Błąd przetwarzania"
 
 #: weblate/accounts/notifications.py:335
-#, fuzzy
-#| msgid "New string added"
 msgid "New string"
-msgstr "Dodano nowy ciąg"
+msgstr "Nowy ciąg"
 
 #: weblate/accounts/notifications.py:343 weblate/trans/models/change.py:255
 msgid "New contributor"
 msgstr "Nowy współpracownik"
 
 #: weblate/accounts/notifications.py:351
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "New suggestion"
-msgstr "Głosuj na sugestie"
+msgstr "Nowa sugestia"
 
 #: weblate/accounts/notifications.py:359
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
-msgstr "Nazwa tłumaczenia"
+msgstr "Komentarz do tłumaczenia autora"
 
 #: weblate/accounts/notifications.py:377
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "Komentarz współautora"
+msgstr "Wspomniane w komentarzu"
 
 #: weblate/accounts/notifications.py:391 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -545,22 +525,16 @@ msgid "New comment"
 msgstr "Nowy komentarz"
 
 #: weblate/accounts/notifications.py:410
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "Zmienione od"
+msgstr "Zmieniony ciąg"
 
 #: weblate/accounts/notifications.py:417
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "Dla języka"
+msgstr "Nowy język"
 
 #: weblate/accounts/notifications.py:435
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "Dodaj nowy składnik tłumaczeń"
+msgstr "Nowy składnik tłumaczenia"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2348,12 +2322,9 @@ msgid "Unknown"
 msgstr "Nieznany"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "Jeden/dwa/trzy/inne"
+msgstr "Zero/jeden/dwa/trzy/sześć/inne"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3241,10 +3212,8 @@ msgid "Preferences"
 msgstr "Preferencje"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "„Zaczepy” powiadomień"
+msgstr "Powiadomienia"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3308,10 +3277,8 @@ msgstr ""
 "projekty które chcesz tłumaczyć."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "Teksty położenia"
+msgstr "Ustawienia powiadomień"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -5307,10 +5274,8 @@ msgid "Sent by Weblate translation system"
 msgstr "Wysłane przez system tłumaczeń Weblate"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "Zmień ustawienia subskrypcji"
+msgstr "Zmień ustawienia powiadomień"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5433,16 +5398,13 @@ msgid "New alert has been triggered on %(component)s at %(site_title)s."
 msgstr "Wystąpiło nieudane scalanie w %(component)s na %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "Alerty"
+msgstr "Alarm:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Nowy komentarz w %(component)s"
+msgstr "Nowy alarm nt. %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5459,16 +5421,13 @@ msgid "New comment in %(component)s"
 msgstr "Nowy komentarz w %(component)s"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "Nowy język został dodany do %(translation)s w %(site_title)s."
+msgstr "Nowy składnik został dodany do %(project)s w %(site_title)s."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "Przeniesiono komponent"
+msgstr "Dodany składnik:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, fuzzy, python-format
