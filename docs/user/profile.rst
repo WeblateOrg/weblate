@@ -103,7 +103,8 @@ projects.
 
 Some of the notifications are sent only for events in your languages (for
 example about new strings to translate), while some trigger at component level
-(for example merge errors).
+(for example merge errors). These two groups of notifications are visually
+separated in the settings.
 
 You can toggle notifications for watched projects, administered project and it
 can be further tweaked per project and component. To configure (or mute)
