@@ -42,6 +42,7 @@ def is_spam(text, request):
             )
         except OSError as error:
             report_error(error)
+            return True
     return False
 
 
