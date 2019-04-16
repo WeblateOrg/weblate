@@ -189,15 +189,6 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super(MsgmergeAddon, cls).can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        wrap = None
-        try:
-            width = component.addon_set.get(
-                name='weblate.gettext.customize'
-            ).configuration['width']
-            if width != 77:
-                wrap = '--no-wrap'
-        except ObjectDoesNotExist:
-            pass
         cmd = [
             'msgmerge',
             '--backup=none',
@@ -206,8 +197,14 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             'FILE',
             component.get_new_base_filename()
         ]
-        if wrap:
-            cmd.insert(1, wrap)
+        try:
+            width = component.addon_set.get(
+                name='weblate.gettext.customize'
+            ).configuration['width']
+            if width != 77:
+                cmd.insert(1, '--no-wrap')
+        except ObjectDoesNotExist:
+            pass
         for translation in component.translation_set.all():
             filename = translation.get_filename()
             if not os.path.exists(filename):
