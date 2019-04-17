@@ -46,7 +46,7 @@ SOCIALS = {
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
     'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
     'fedora': {'name': 'Fedora', 'fl_icon': 'fedora'},
-    'facebook': {'name': 'Facebook', 'fa_icon': 'facebook'},
+    'facebook': {'name': 'Facebook', 'fa_icon': 'facebook-official'},
     'twitter': {'name': 'Twitter', 'fa_icon': 'twitter'},
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
     'auth0': {
