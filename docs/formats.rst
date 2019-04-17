@@ -871,23 +871,23 @@ Weblate can translate metadata used for publishing apps in various app stores.
 Currently it is known to be compatible with following tools:
 
 * `Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-publisher>`_
-* `Fastlane <https://fastlane.tools/>`_
+* `Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-your-app-metadata>`_
+* `F-Droid <https://f-droid.org/docs/All_About_Descriptions_Graphics_and_Screenshots/>`_
 
 The metadata consist of several text files which Weblate will present as
 separate strings to translate. 
 
-+--------------------------------+----------------------------------+
-| Typical Weblate :ref:`component`                                  |
-+================================+==================================+
-| File mask                      | ``metadata/*``                   |
-+--------------------------------+----------------------------------+
-| Monolingual base language file | ``metadata/en_US``               |
-+--------------------------------+----------------------------------+
-| Base file for new translations | ``metadata/en_US``               |
-+--------------------------------+----------------------------------+
-| File format                    | `App store metadata files`       |
-+--------------------------------+----------------------------------+
-
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``fastlane/android/metadata/*``     |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``fastlane/android/metadata/en-US`` |
++--------------------------------+-------------------------------------+
+| Base file for new translations | ``fastlane/android/metadata/en-US`` |
++--------------------------------+-------------------------------------+
+| File format                    | `App store metadata files`          |
++--------------------------------+-------------------------------------+
 
 .. _xlsx:
 
