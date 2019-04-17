@@ -20,8 +20,15 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.models import Suggestion
-from weblate.trans.tasks import cleanup_suggestions
+from datetime import timedelta
+
+from django.test.utils import override_settings
+from django.utils import timezone
+
+from weblate.trans.models import Suggestion, Comment
+from weblate.trans.tasks import (
+    cleanup_suggestions, cleanup_old_suggestions, cleanup_old_comments,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -74,3 +81,32 @@ class CleanupTest(ViewTestCase):
         cleanup_suggestions()
         unit = self.get_unit()
         self.assertEqual(len(unit.suggestions), 1)
+
+    def test_cleanup_old_suggestions(self, expected=2):
+        request = self.get_request()
+        unit = self.get_unit()
+        Suggestion.objects.add(unit, 'Zkouška', request)
+        Suggestion.objects.all().update(
+            timestamp=timezone.now() - timedelta(days=30)
+        )
+        Suggestion.objects.add(unit, 'Zkouška 2', request)
+        cleanup_old_suggestions()
+        self.assertEqual(Suggestion.objects.count(), expected)
+
+    @override_settings(SUGGESTION_CLEANUP_DAYS=15)
+    def test_cleanup_old_suggestions_enabled(self):
+        self.test_cleanup_old_suggestions(1)
+
+    def test_cleanup_old_comments(self, expected=2):
+        unit = self.get_unit()
+        Comment.objects.add(unit, self.user, None, 'Zkouška')
+        Comment.objects.all().update(
+            timestamp=timezone.now() - timedelta(days=30)
+        )
+        Comment.objects.add(unit, self.user, None, 'Zkouška 2')
+        cleanup_old_comments()
+        self.assertEqual(Comment.objects.count(), expected)
+
+    @override_settings(COMMENT_CLEANUP_DAYS=15)
+    def test_cleanup_old_comments_enabled(self):
+        self.test_cleanup_old_comments(1)

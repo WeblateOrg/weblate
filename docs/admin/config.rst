@@ -275,6 +275,16 @@ You can enable only few of them:
 
    :ref:`checks`, :ref:`custom-checks`
 
+.. setting:: COMMENT_CLEANUP_DAYS
+
+COMMENT_CLEANUP_DAYS
+--------------------
+
+.. versionadded:: 3.6
+
+Automatically delete comments after given number of days. Defaults to
+``None`` what means no deletion at all.
+
 .. setting:: COMMIT_PENDING_HOURS
 
 COMMIT_PENDING_HOURS

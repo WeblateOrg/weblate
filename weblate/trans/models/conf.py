@@ -167,6 +167,7 @@ Translate-URL: {{ url }}'''
     COMPONENT_NAME_LENGTH = 100
 
     SUGGESTION_CLEANUP_DAYS = None
+    COMMENT_CLEANUP_DAYS = None
 
     class Meta(object):
         prefix = ''

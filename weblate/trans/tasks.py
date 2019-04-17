@@ -300,6 +300,14 @@ def cleanup_old_suggestions():
 
 
 @app.task
+def cleanup_old_comments():
+    if not settings.COMMENT_CLEANUP_DAYS:
+        return
+    cutoff = timezone.now() - timedelta(days=settings.COMMENT_CLEANUP_DAYS)
+    Comment.objects.filter(timestamp__lt=cutoff).delete()
+
+
+@app.task
 def repository_alerts(threshold=10):
     non_linked = Component.objects.exclude(repo__startswith='weblate:')
     for component in non_linked.iterator():
@@ -355,6 +363,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         cleanup_old_suggestions.s(),
         name='cleanup-old-suggestions',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_old_comments.s(),
+        name='cleanup-old-comments',
     )
 
     # Following fulltext maintenance tasks should not be

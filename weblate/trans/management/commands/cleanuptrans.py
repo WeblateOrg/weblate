@@ -25,7 +25,7 @@ from weblate.accounts.tasks import cleanup_social_auth
 from weblate.trans.models import Project
 from weblate.trans.tasks import (
     cleanup_fulltext, cleanup_project, cleanup_suggestions,
-    cleanup_stale_repos, cleanup_old_suggestions,
+    cleanup_stale_repos, cleanup_old_suggestions, cleanup_old_comments,
 )
 from weblate.screenshots.tasks import cleanup_screenshot_files
 
@@ -44,3 +44,4 @@ class Command(BaseCommand):
         cleanup_suggestions()
         cleanup_stale_repos()
         cleanup_old_suggestions()
+        cleanup_old_comments()
