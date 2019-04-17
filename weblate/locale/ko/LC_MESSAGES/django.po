@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.6\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-14 19:37+0000\n"
-"PO-Revision-Date: 2019-04-17 03:09+0000\n"
+"PO-Revision-Date: 2019-04-17 04:53+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -5385,22 +5385,18 @@ msgid "New whiteboard message has been added at %(site_title)s."
 msgstr "새로운 화이트보드 메시지가 %(site_title)s 에 추가되었습니다."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "메세지"
+msgstr "메시지:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "화이트보드 메시지"
+msgstr "%(project)s 의 새로운 화이트보드 메시지"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "화이트보드 메시지"
+msgstr "%(site_title)s 의 새로운 화이트보드 메시지"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -5600,16 +5596,13 @@ msgid "Tweet this translation"
 msgstr "이 번역을 트윗하기"
 
 #: weblate/templates/project.html:125
-#, fuzzy, python-format
-#| msgid "The repository for this component is linked to %(target)s."
+#, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "컴포넌트의 저장소는 %(target)s에 연결되었습니다."
+msgstr "이 구성요소는 %(target)s 저장소에 연결됩니다."
 
 #: weblate/templates/project.html:125
-#, fuzzy
-#| msgid "Link"
 msgid "Linked"
-msgstr "링크"
+msgstr "연결됨"
 
 #: weblate/templates/project.html:134
 msgid "There are currently no translation components."
@@ -5628,10 +5621,8 @@ msgid "Browse all project changes"
 msgstr "모든 프로젝트 변경 사항 찾아보기"
 
 #: weblate/templates/project.html:251 weblate/templates/translation.html:262
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching given type at once."
-msgstr "주어진 유형과 일치하는 모든 문자열의 상태를 한번에 바꾸실 수 있습니다."
+msgstr "주어진 유형과 일치하는 모든 문자열의 상태를 한번에 바꿀 수 있습니다."
 
 #: weblate/templates/project.html:272
 #, fuzzy
@@ -5641,9 +5632,7 @@ msgstr "주어진 유형과 일치하는 모든 문자열의 상태를 한번에
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
-msgstr ""
-"메시지는 프로젝트 내 모든 번역에 보여지며 만료되거나 삭제될 때까지 존재합니"
-"다."
+msgstr "메시지는 주어진 번역본이 만료될 때까지 프로젝트 내의 모든 번역본에 대해 표시되거나 삭제 될 때까지 영구적으로 표시됩니다."
 
 #: weblate/templates/project.html:292
 msgid "Rename project"
@@ -5907,19 +5896,13 @@ msgstr ""
 "라이선스를 명시해야 합니다."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
-#, fuzzy
-#| msgid ""
-#| "The translation component looks like monolingual, but it is not "
-#| "configured like that."
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr "번역 컴포넌트가 단일 언어처럼 보이지만, 그렇게 구성되지는 않습니다."
+msgstr "번역 구성요소는 단일 언어로 보이지만 설정할 수는 없습니다."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
-#, fuzzy
-#| msgid "Please add monolingual base language file in component setting."
 msgid "Please add a monolingual base language file in the component settings."
-msgstr "컴포넌트 설정에서 단일 언어 기반 언어 파일을 추가해주세요."
+msgstr "구성요소 설정에 단일 언어 기본 언어 파일을 추가하십시오."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -6014,18 +5997,16 @@ msgstr "번역은 OSI 승인 라이센스 하에 허가됩니다."
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts:"
-msgstr ""
+msgstr "합치기 충돌을 수정하기 위한 일반적인 작업흐름:"
 
 #: weblate/templates/trans/merge_instructions.html:10
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "로컬 저장소의 변경점 커밋하기"
+msgstr "Weblate에서 보류중인 모든 변경사항을 적용하고 번역 구성요소를 잠급니다."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr ""
+msgstr "Weblate에서 내 보낸 저장소를 원격으로 추가합니다."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
