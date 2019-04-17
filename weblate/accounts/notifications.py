@@ -90,6 +90,7 @@ class Notification(object):
     digest_template = 'digest'
     filter_languages = False
     ignore_watched = False
+    required_attr = None
 
     def __init__(self, connection):
         self.connection = connection
@@ -148,6 +149,8 @@ class Notification(object):
         return result
 
     def get_users(self, frequency, change, users=None):
+        if self.required_attr and getattr(change, self.required_attr) is None:
+            return
         last_user = None
         subscriptions = self.get_subscriptions(change, users)
         for subscription in subscriptions:
@@ -351,6 +354,7 @@ class NewSuggestionNotificaton(Notification):
     verbose = _('New suggestion')
     template_name = 'new_suggestion'
     filter_languages = True
+    required_attr = 'suggestion'
 
 
 @register_notification
@@ -359,6 +363,7 @@ class LastAuthorCommentNotificaton(Notification):
     verbose = _('Comment on authored translation')
     template_name = 'new_comment'
     ignore_watched = True
+    required_attr = 'comment'
 
     def get_users(self, frequency, change, users=None):
         last_author = change.unit.get_last_content_change(None, silent=True)[0]
@@ -377,6 +382,7 @@ class MentionCommentNotificaton(Notification):
     verbose = _('Mentioned in comment')
     template_name = 'new_comment'
     ignore_watched = True
+    required_attr = 'comment'
 
     def get_users(self, frequency, change, users=None):
         users = [user.pk for user in change.comment.get_mentions()]
@@ -391,6 +397,7 @@ class NewCommentNotificaton(Notification):
     verbose = _('New comment')
     template_name = 'new_comment'
     filter_languages = True
+    required_attr = 'comment'
 
     def need_language_filter(self, change):
         return bool(change.comment.language)
@@ -442,6 +449,7 @@ class NewWhiteboardMessageNotificaton(Notification):
     actions = (Change.ACTION_MESSAGE,)
     verbose = _('New whiteboard message')
     template_name = 'new_whiteboard'
+    required_attr = 'whiteboard'
 
 
 @register_notification
@@ -449,6 +457,7 @@ class NewAlertNotificaton(Notification):
     actions = (Change.ACTION_ALERT,)
     verbose = _('New component alert')
     template_name = 'new_alert'
+    required_attr = 'alert'
 
 
 def get_notification_email(language, email, notification,
