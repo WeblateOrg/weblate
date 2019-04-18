@@ -6,6 +6,8 @@ weblate 3.7
 
 Released on ? 2019.
 
+* Improved handling of monolingual Xliff files.
+
 weblate 3.6
 -----------
 

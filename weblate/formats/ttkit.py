@@ -461,11 +461,15 @@ class XliffUnit(TTKitUnit):
             converted = xliff_string_to_rich(target)
         except XMLSyntaxError:
             converted = target
-        # Use source for monolingual files if editing template
-        if self.template is not None and not self.parent.is_template:
-            self.unit.rich_source = converted
-        else:
-            self.unit.rich_target = converted
+        if self.template is not None:
+            if not self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.rich_source = converted
+                return
+            if self.unit.source:
+                # Update source if it is already set to keep it in sync
+                self.unit.rich_source = self.template.source
+        self.unit.rich_target = converted
 
     @cached_property
     def xliff_node(self):
