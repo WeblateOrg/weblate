@@ -202,9 +202,10 @@ class TTKitFormat(TranslationFormat):
     loader = ('', '')
     new_translation = None
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         super(TTKitFormat, self).__init__(
-            storefile, template_store, language_code
+            storefile, template_store, language_code, is_template
         )
         # Set language (needed for some which do not include this)
         if (language_code is not None and
@@ -944,9 +945,10 @@ class CSVFormat(TTKitFormat):
     unit_class = CSVUnit
     autoload = ('.csv',)
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         super(CSVFormat, self).__init__(
-            storefile, template_store, language_code
+            storefile, template_store, language_code, is_template
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well

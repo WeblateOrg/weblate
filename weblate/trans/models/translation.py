@@ -219,7 +219,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         store = self.component.file_format_cls.parse(
             self.get_filename(),
             self.component.template_store,
-            language_code=self.language_code
+            language_code=self.language_code,
+            is_template=self.is_template,
         )
         store_post_load.send(
             sender=self.__class__,

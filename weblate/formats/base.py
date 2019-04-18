@@ -186,14 +186,16 @@ class TranslationFormat(object):
         return cls.format_id
 
     @classmethod
-    def parse(cls, storefile, template_store=None, language_code=None):
+    def parse(cls, storefile, template_store=None, language_code=None,
+              is_template=False):
         """Parse store and returns TranslationFormat instance.
 
         This wrapper is needed for AutodetectFormat to be able to return
         instance of different class."""
-        return cls(storefile, template_store, language_code)
+        return cls(storefile, template_store, language_code, is_template)
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         """Create file format object, wrapping up translate-toolkit's store."""
         if (not isinstance(storefile, six.string_types) and
                 not hasattr(storefile, 'mode')):
@@ -212,6 +214,7 @@ class TranslationFormat(object):
 
         # Remember template
         self.template_store = template_store
+        self.is_template = is_template
 
     def get_filenames(self):
         if isinstance(self.storefile, six.string_types):
