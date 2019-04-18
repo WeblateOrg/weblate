@@ -461,8 +461,8 @@ class XliffUnit(TTKitUnit):
             converted = xliff_string_to_rich(target)
         except XMLSyntaxError:
             converted = target
-        # Use source for monolingual files if target is not set
-        if self.template is not None and not self.template.target:
+        # Use source for monolingual files if editing template
+        if self.template is not None and not self.parent.is_template:
             self.unit.rich_source = converted
         else:
             self.unit.rich_target = converted
