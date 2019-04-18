@@ -167,6 +167,8 @@ Notable configuration or dependencies changes:
   cases.
 * If you have manually changed :setting:`WEBLATE_FORMATS`, you will have to remove
   ``AutoFormat`` from it.
+* During the upgrade, the notifications settings need to be converted. This can
+  be lengthty operation in case you have lot of users.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
