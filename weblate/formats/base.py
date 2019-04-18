@@ -61,10 +61,11 @@ class TranslationUnit(object):
     It handles ID/template based translations and other API differences.
     """
 
-    def __init__(self, unit, template=None):
+    def __init__(self, parent, unit, template=None):
         """Create wrapper object."""
         self.unit = unit
         self.template = template
+        self.parent = parent
         if template is not None:
             self.mainunit = template
         else:
@@ -264,7 +265,7 @@ class TranslationFormat(object):
         else:
             add = False
 
-        return (self.unit_class(ttkit_unit, template_ttkit_unit), add)
+        return (self.unit_class(self, ttkit_unit, template_ttkit_unit), add)
 
     @cached_property
     def _source_index(self):
@@ -319,15 +320,17 @@ class TranslationFormat(object):
 
     @cached_property
     def mono_units(self):
-        return [self.unit_class(None, unit) for unit in self.store.units]
+        return [self.unit_class(self, None, unit) for unit in self.store.units]
 
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(unit) for unit in self.store.units]
+            return [self.unit_class(self, unit) for unit in self.store.units]
         return [
-            self.unit_class(self.find_unit_mono(unit.context), unit.template)
+            self.unit_class(
+                self, self.find_unit_mono(unit.context), unit.template
+            )
             for unit in self.template_store.mono_units
         ]
 
