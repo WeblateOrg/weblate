@@ -1818,8 +1818,10 @@ class Component(models.Model, URLMixin, PathMixin):
             unit_ids = set(
                 filter_query(units, table).values_list('id', flat=True)
             )
-            units.filter(id__in=unit_ids).update(**{flag: True})
-            units.exclude(id__in=unit_ids).update(**{flag: False})
+            f_true = {flag: True}
+            f_false = {flag: False}
+            units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
+            units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
         self.log_debug('all unit flags updated')
 
     def run_target_checks(self):
