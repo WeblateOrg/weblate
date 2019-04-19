@@ -47,6 +47,11 @@ COUNTS_DATA = [{
     't_words': 2,
     't_words_edit': 0,
     't_words_new': 2,
+    'count_approve': 0,
+    'words_approve': 0,
+    'chars_approve': 0,
+    't_chars_approve': 0,
+    't_words_approve': 0,
 }]
 
 
@@ -193,6 +198,11 @@ class ReportsTest(ViewTestCase):
         <th>Source chars new</th>
         <th>Target words new</th>
         <th>Target chars new</th>
+        <th>Count approved</th>
+        <th>Source words approved</th>
+        <th>Source chars approved</th>
+        <th>Target words approved</th>
+        <th>Target chars approved</th>
         <th>Count edited</th>
         <th>Source words edited</th>
         <th>Source chars edited</th>
@@ -212,6 +222,11 @@ class ReportsTest(ViewTestCase):
         <td>14</td>
         <td>2</td>
         <td>14</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
