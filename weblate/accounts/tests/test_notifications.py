@@ -186,7 +186,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(
-            3,
+            2,
             '[Weblate] New language request in Test/Test'
         )
 
@@ -255,9 +255,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_new_comment_author(self):
         self.edit_unit('Hello, world!\n', 'Ahoj svete!\n')
         change = self.get_unit().change_set.content().order_by('-timestamp')[0]
-        change.author = self.anotheruser
+        change.user = self.anotheruser
         change.save()
-        self.assertEqual(len(mail.outbox), 3)
+        self.assertEqual(len(mail.outbox), 1)
         mail.outbox = []
         self.test_notify_new_comment(2)
 
