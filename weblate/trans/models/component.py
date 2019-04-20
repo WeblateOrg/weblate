@@ -1599,20 +1599,6 @@ class Component(models.Model, URLMixin, PathMixin):
         # Save/Create object
         super(Component, self).save(*args, **kwargs)
 
-        # Configure git repo if there were changes
-        if changed_git:
-            self.sync_git_repo(skip_push=kwargs.get('force_insert', False))
-
-        # Rescan for possibly new translations if there were changes, needs to
-        # be done after actual creating the object above
-        if changed_setup:
-            self.create_translations(
-                force=True,
-                changed_template=changed_template
-            )
-        elif changed_git:
-            self.create_translations()
-
         # Handle moving between projects
         if changed_project:
             from weblate.trans.tasks import cleanup_project
@@ -1623,6 +1609,28 @@ class Component(models.Model, URLMixin, PathMixin):
             # Schedule cleanup for both projects
             cleanup_project.delay(old.project.pk)
             cleanup_project.delay(self.project.pk)
+
+        from weblate.trans.tasks import component_after_save
+        component_after_save.delay(
+            self.pk, changed_git, changed_setup, changed_template,
+            skip_push=kwargs.get('force_insert', False),
+        )
+
+    def after_save(self, changed_git, changed_setup, changed_template,
+                   skip_push):
+        # Configure git repo if there were changes
+        if changed_git:
+            self.sync_git_repo(skip_push=skip_push)
+
+        # Rescan for possibly new translations if there were changes, needs to
+        # be done after actual creating the object above
+        if changed_setup:
+            self.create_translations(
+                force=True,
+                changed_template=changed_template
+            )
+        elif changed_git:
+            self.create_translations()
 
         self.update_alerts()
 

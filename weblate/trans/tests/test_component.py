@@ -657,8 +657,6 @@ class ComponentErrorTest(RepoTestCase):
 
     def test_invalid_templatename(self):
         self.component.template = 'foo.bar'
-        # Clean class cache, pylint: disable=protected-access
-        del self.component.__dict__['template_store']
 
         with self.assertRaises(FileParseError):
             self.component.template_store
@@ -688,9 +686,6 @@ class ComponentErrorTest(RepoTestCase):
         testfile = os.path.join(self.component.full_path, 'ts-mono', 'en.ts')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
-
-        # Clean class cache, pylint: disable=protected-access
-        del self.component.__dict__['template_store']
 
         with self.assertRaises(FileParseError):
             self.component.template_store
