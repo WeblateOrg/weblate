@@ -231,11 +231,6 @@ class Notification(object):
             'X-Weblate-Notification': self.get_name()
         }
 
-        # Reply to header
-        user = context.get('user')
-        if user and not user.is_anonymous and not user.is_demo:
-            headers['Reply-To'] = user.email
-
         # References for unit events
         references = None
         unit = context.get('unit')
