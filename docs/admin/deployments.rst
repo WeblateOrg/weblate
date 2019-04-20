@@ -652,10 +652,10 @@ with the following command:
 
 .. code-block:: sh
 
-    # Install Git HEAD
+    # Install Git from the development master branch
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
-    # Install Weblate 2.10
+    # Install Weblate release
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.6 --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
