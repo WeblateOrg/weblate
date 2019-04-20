@@ -148,8 +148,14 @@ class Notification(object):
         self.subscription_cache[cache_key] = result
         return result
 
+    def has_required_attrs(self, change):
+        return (
+            self.required_attr and
+            getattr(change, self.required_attr) is None
+        )
+
     def get_users(self, frequency, change, users=None):
-        if self.required_attr and getattr(change, self.required_attr) is None:
+        if self.has_required_attrs(change):
             return
         last_user = None
         subscriptions = self.get_subscriptions(change, users)
@@ -386,6 +392,8 @@ class MentionCommentNotificaton(Notification):
     required_attr = 'comment'
 
     def get_users(self, frequency, change, users=None):
+        if self.has_required_attrs(change):
+            return
         users = [user.pk for user in change.comment.get_mentions()]
         return super(MentionCommentNotificaton, self).get_users(
             frequency, change, users
