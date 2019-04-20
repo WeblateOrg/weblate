@@ -4,7 +4,7 @@ Changes
 weblate 3.6
 -----------
 
-Released on ? 2019.
+Released on April 20th 2019.
 
 * Add support for downloading user data.
 * Addons are now automatically triggered upon installation.
