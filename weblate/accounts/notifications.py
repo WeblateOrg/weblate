@@ -388,7 +388,7 @@ class MentionCommentNotificaton(Notification):
 
     def get_users(self, frequency, change, users=None):
         if self.has_required_attrs(change):
-            return
+            return []
         users = [user.pk for user in change.comment.get_mentions()]
         return super(MentionCommentNotificaton, self).get_users(
             frequency, change, users
