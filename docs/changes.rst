@@ -8,6 +8,7 @@ Released on ? 2019.
 
 * Improved handling of monolingual Xliff files.
 * Fixed digest notifications in some corner cases.
+* Fixed addon script error alert.
 
 weblate 3.6
 -----------
