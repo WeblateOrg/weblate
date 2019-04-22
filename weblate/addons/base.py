@@ -123,7 +123,9 @@ class BaseAddon(object):
                 self.post_commit(translation)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
-                self.post_update(component, None)
+                self.post_update(
+                    component, component.repository.last_revision
+                )
         if EVENT_POST_PUSH in self.events:
             for component in components:
                 self.post_push(component)
