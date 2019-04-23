@@ -9,6 +9,8 @@ Released on ? 2019.
 * Improved handling of monolingual Xliff files.
 * Fixed digest notifications in some corner cases.
 * Fixed addon script error alert.
+* Fixed generating MO file for monolingual PO files.
+* Fixed display of uninstalled checks.
 
 weblate 3.6
 -----------
