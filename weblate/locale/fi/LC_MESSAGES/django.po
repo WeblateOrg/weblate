@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-23 10:44+0000\n"
-"PO-Revision-Date: 2019-04-19 06:26+0000\n"
+"PO-Revision-Date: 2019-04-25 07:50+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1539,7 +1539,7 @@ msgstr "Merkitse käyttäjä epäaktiiviseksi poistamisen sijaan."
 
 #: weblate/auth/models.py:336
 msgid "Date joined"
-msgstr "Päivämäärä jolloin liittynyt"
+msgstr "Liittymispäivämäärä"
 
 #: weblate/auth/models.py:339
 msgid "Groups"
@@ -1576,7 +1576,7 @@ msgstr "Omistajat"
 
 #: weblate/billing/models.py:138 weblate/templates/billing/detail.html:20
 msgid "Billing plan"
-msgstr "Tilaus"
+msgstr "Laskutus"
 
 #: weblate/billing/models.py:142
 msgid "Billed projects"
@@ -1681,11 +1681,11 @@ msgstr ""
 
 #: weblate/checks/chars.py:38
 msgid "Starting newline"
-msgstr "Aloittaa uuden rivin"
+msgstr "Aloitus rivinvaihdolla"
 
 #: weblate/checks/chars.py:39
 msgid "Source and translation do not both start with a newline"
-msgstr "Lähde ja käännös eivät ala uudelta riviltä"
+msgstr "Lähde ja käännös eivät molemmat ala rivinvaihdolla"
 
 #: weblate/checks/chars.py:49
 msgid "Trailing newline"
@@ -1693,7 +1693,7 @@ msgstr "Tekstin jälkeen rivinvaihto"
 
 #: weblate/checks/chars.py:50
 msgid "Source and translation do not both end with a newline"
-msgstr "Lähde ja käännös eivät pääty uudelta riviltä"
+msgstr "Lähde ja käännös eivät molemmat pääty rivinvaihtoon"
 
 #: weblate/checks/chars.py:60
 msgid "Starting spaces"
@@ -1709,7 +1709,7 @@ msgstr "Tekstin jälkeen välilyönti"
 
 #: weblate/checks/chars.py:90
 msgid "Source and translation do not both end with a space"
-msgstr "Lähde ja käännös eivät pääty välilyöntiin"
+msgstr "Lähde ja käännös eivät molemmat pääty välilyöntiin"
 
 #: weblate/checks/chars.py:121
 msgid "Trailing stop"
@@ -1717,7 +1717,7 @@ msgstr "Tekstin jälkeen piste"
 
 #: weblate/checks/chars.py:122
 msgid "Source and translation do not both end with a full stop"
-msgstr "Lähde ja käännös eivät pääty pisteeseen"
+msgstr "Lähde ja käännös eivät molemmat pääty pisteeseen"
 
 #: weblate/checks/chars.py:166
 msgid "Trailing colon"
@@ -1727,7 +1727,9 @@ msgstr "Tekstin jälkeen kaksoispiste"
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
-msgstr "Lähde ja käännös eivät pääty pilkuun tai pilkku on väärässä paikassa"
+msgstr ""
+"Lähde ja käännös eivät molemmat pääty kaksoispisteeseen tai kaksoispiste on "
+"väärässä paikassa"
 
 #: weblate/checks/chars.py:223
 msgid "Trailing question"
@@ -1738,7 +1740,8 @@ msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
-"Lähde ja käännös eivät pääty kysymysmerkkiin tai se ei ole oikeassa paikassa"
+"Lähde ja käännös eivät molemmat pääty kysymysmerkkiin tai se ei ole oikeassa "
+"paikassa"
 
 #: weblate/checks/chars.py:280
 msgid "Trailing exclamation"
@@ -1756,31 +1759,35 @@ msgstr "Lopuksi kolme pistettä"
 
 #: weblate/checks/chars.py:322
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Lähde ja käännös eivät pääty ellipsiin"
+msgstr "Lähde ja käännös eivät molemmat pääty kolmeen pisteeseen"
 
 #: weblate/checks/chars.py:340
 msgid "Mismatched \\n"
-msgstr "Ristiriitaiset \\n"
+msgstr ""
+"Ristiriitaiset \\n"
+":t"
 
 #: weblate/checks/chars.py:341
 msgid "Number of \\n in translation does not match source"
-msgstr "Numero \\n ei vastaa lähdettä"
+msgstr ""
+"\\n"
+":ien lukumäärä käännöksessä ei vastaa lähdettä"
 
 #: weblate/checks/chars.py:348 weblate/trans/autofixes/chars.py:52
 msgid "Zero-width space"
-msgstr "Ei yhtään tilaa"
+msgstr "Nollalevyinen väli"
 
 #: weblate/checks/chars.py:349
 msgid "Translation contains extra zero-width space character"
-msgstr "Käännös sisältää ylimääräisiä välilyöntejä"
+msgstr "Käännös sisältää ylimääräisen nollalevyisen välilyönnin"
 
 #: weblate/checks/chars.py:361
 msgid "Maximum length of translation"
-msgstr "Käännöstekstin maksimi pituus"
+msgstr "Käännöstekstin maksimipituus"
 
 #: weblate/checks/chars.py:362
 msgid "Translation should not exceed given length"
-msgstr "Käännös ei saisi ylittää määrättyä pituutta"
+msgstr "Käännöksen ei tulisi ylittää määrättyä pituutta"
 
 #: weblate/checks/chars.py:374
 msgid "Trailing semicolon"
@@ -1788,15 +1795,15 @@ msgstr "Tekstin jälkeen puolipiste"
 
 #: weblate/checks/chars.py:375
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Lähdeteksti ja käännös eivät pääty puolipisteeseen"
+msgstr "Lähdeteksti ja käännös eivät molemmat pääty puolipisteeseen"
 
 #: weblate/checks/chars.py:387
 msgid "Kashida used"
-msgstr "Kashida -tasausta käytetty"
+msgstr "Kashida-tasausta käytetty"
 
 #: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
-msgstr "Koristeellisia kashida -kirjaimia ei saa käyttää"
+msgstr "Koristeellisia kashida-kirjaimia ei tule käyttää"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -1820,7 +1827,7 @@ msgstr "Epäjohdonmukainen"
 
 #: weblate/checks/consistency.py:74
 msgid "This string has more than one translation in this project"
-msgstr "Tällä tekstillä on enemmäin kuin yksi käännös tässä projektissa"
+msgstr "Tällä tekstillä on useampi kuin yksi käännös tässä projektissa"
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -1832,78 +1839,67 @@ msgstr "Tämä teksti on käännetty aiemmin"
 
 #: weblate/checks/format.py:265
 msgid "Python format"
-msgstr "Python muoto"
+msgstr "Python-muoto"
 
 #: weblate/checks/format.py:266
 msgid "Python format string does not match source"
-msgstr ""
-"Python -muotoilumerkkijonon käännöksen muotoilu ei vastaa lähdetekstin "
-"muotoilua"
+msgstr "Python-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:276
 msgid "PHP format"
-msgstr "PHP muoto"
+msgstr "PHP-muoto"
 
 #: weblate/checks/format.py:277
 msgid "PHP format string does not match source"
-msgstr ""
-"PHP -muotoilumerkkijonon käännöksen muotoilu ei vastaa lähdetekstin muotoilua"
+msgstr "PHP-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:287
 msgid "C format"
-msgstr "C muoto"
+msgstr "C-muoto"
 
 #: weblate/checks/format.py:288
 msgid "C format string does not match source"
-msgstr ""
-"C -kielisen muotoilumerkkijonon käännöksen muotoilu ei vastaa lähdetekstin "
-"muotoilua"
+msgstr "C-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:298
 msgid "Perl format"
-msgstr "Perl -muoto"
+msgstr "Perl-muoto"
 
 #: weblate/checks/format.py:299
 msgid "Perl format string does not match source"
-msgstr "Käännöksen Perl -muotoilu ei vastaa lähdetekstin muotoilua"
+msgstr "Perl-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:309
 msgid "JavaScript format"
-msgstr "JavaScript -muotoilu"
+msgstr "JavaScript-muoto"
 
 #: weblate/checks/format.py:310
 msgid "JavaScript format string does not match source"
-msgstr ""
-"Käännöksen JavaScript -muotoilumerkkijono ei vastaa lähdetekstin muotoilua"
+msgstr "JavaScript-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:316
 msgid "Python brace format"
-msgstr "Python brace muoto"
+msgstr "Python-aaltosuljemuoto"
 
 #: weblate/checks/format.py:317
 msgid "Python brace format string does not match source"
-msgstr ""
-"Python -muotoilumerkkijonon käännöksen muotoilu ei vastaa lähdetekstin "
-"muotoilua"
+msgstr "Python-aaltosuljemuotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:327
 msgid "C# format"
-msgstr "C# -muoto"
+msgstr "C#-muoto"
 
 #: weblate/checks/format.py:328
 msgid "C# format string does not match source"
-msgstr ""
-"Käännöksen C# -muotoilumerkkijonon muoto ei vastaa lähdetekstin muotoilua"
+msgstr "C#-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:338
 msgid "Java format"
-msgstr "Java -muoto"
+msgstr "Java-muoto"
 
 #: weblate/checks/format.py:339
 msgid "Java format string does not match source"
-msgstr ""
-"Käännöksen Java -kielisen muotoilumerkkijonon muoto ei vastaa lähdetekstin "
-"muotoilua"
+msgstr "Java-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:349
 msgid "Java MessageFormat"
@@ -1911,17 +1907,15 @@ msgstr "Java MessageFormat -muoto"
 
 #: weblate/checks/format.py:350
 msgid "Java MessageFormat string does not match source"
-msgstr ""
-"Käännöksen Java MessageFormat -muotoilumerkkijonon muoto ei vastaa "
-"lähdetekstin muotoilua"
+msgstr "Java MessageFormat -muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/markup.py:77
 msgid "Mismatched BBcode"
-msgstr "Ristiriitainen BBcode"
+msgstr "BBcode ei täsmää"
 
 #: weblate/checks/markup.py:78
 msgid "BBcode in translation does not match source"
-msgstr "BBcode käännös ei vastaa lähdettä"
+msgstr "Käännöksen BBcode ei vastaa lähdettä"
 
 #: weblate/checks/markup.py:140
 msgid "Invalid XML markup"
