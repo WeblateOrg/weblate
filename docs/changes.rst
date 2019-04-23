@@ -11,6 +11,7 @@ Released on ? 2019.
 * Fixed addon script error alert.
 * Fixed generating MO file for monolingual PO files.
 * Fixed display of uninstalled checks.
+* Indicate administered projects on project listing.
 
 weblate 3.6
 -----------
