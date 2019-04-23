@@ -1,8 +1,8 @@
 Changes
 =======
 
-weblate 3.7
-------------
+weblate 3.6.1
+-------------
 
 Released on ? 2019.
 
