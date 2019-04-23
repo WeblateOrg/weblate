@@ -152,6 +152,11 @@ class Check(UnitData):
             return self.check_obj.description
         return self.check
 
+    def get_name(self):
+        if self.check_obj:
+            return self.check_obj.name
+        return self.check
+
     def get_severity(self):
         if self.check_obj:
             return self.check_obj.severity
