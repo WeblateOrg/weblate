@@ -29,6 +29,8 @@ import fnmatch
 import functools
 import re
 
+from celery.result import AsyncResult
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
@@ -492,6 +494,24 @@ class Component(models.Model, URLMixin, PathMixin):
         self.old_component = copy(self)
         self._sources = None
         self.checks_cache = None
+
+    @cached_property
+    def update_key(self):
+        return 'component-update-{}'.format(self.pk)
+
+    @cached_property
+    def background_task(self):
+        task_id = cache.get(self.update_key)
+        if not task_id:
+            return None
+        return AsyncResult(task_id)
+
+    def in_progress(self):
+        return (
+            not settings.CELERY_TASK_ALWAYS_EAGER and
+            self.background_task is not None and
+            not self.background_task.ready()
+        )
 
     def get_source(self, id_hash):
         """Cached access to source info."""
@@ -1611,10 +1631,11 @@ class Component(models.Model, URLMixin, PathMixin):
             cleanup_project.delay(self.project.pk)
 
         from weblate.trans.tasks import component_after_save
-        component_after_save.delay(
+        task = component_after_save.delay(
             self.pk, changed_git, changed_setup, changed_template,
             skip_push=kwargs.get('force_insert', False),
         )
+        cache.set(self.update_key, task.id, None)
 
     def after_save(self, changed_git, changed_setup, changed_template,
                    skip_push):
