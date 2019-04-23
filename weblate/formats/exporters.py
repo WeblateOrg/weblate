@@ -311,7 +311,7 @@ class MoExporter(PoExporter):
                 source = ''
                 context = unit.context
             else:
-                source = self.handle_plurals(unit.context)
+                source = unit.context
                 context = ''
         else:
             source = self.handle_plurals(unit.get_source_plurals())
