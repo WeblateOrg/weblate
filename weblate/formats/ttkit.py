@@ -807,7 +807,7 @@ class PropertiesBaseFormat(TTKitFormat):
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _('OS X Strings')
+    name = _('iOS Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
     new_translation = '\n'.encode('utf-16')
@@ -816,7 +816,7 @@ class StringsFormat(PropertiesBaseFormat):
 
 
 class StringsUtf8Format(StringsFormat):
-    name = _('OS X Strings (UTF-8)')
+    name = _('iOS Strings (UTF-8)')
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
     new_translation = '\n'

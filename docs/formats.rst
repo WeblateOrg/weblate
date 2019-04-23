@@ -471,16 +471,16 @@ location from the others :file:`res/values/strings.xml`.
 
 .. _apple:
 
-Apple OS X strings
-------------------
+Apple iOS strings
+-----------------
 
 .. index::
     pair: Apple strings; file format
 
-Apple specific file format for translating applications, used for both OS X
+Apple specific file format for translating applications, used for both iOS
 and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
 
-Apple OS X strings are usually used as bilingual.
+Apple iOS strings are usually used as bilingual.
 
 +---------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                          |
@@ -491,7 +491,7 @@ Apple OS X strings are usually used as bilingual.
 +--------------------------------+------------------------------------------+
 | Base file for new translations | `Empty`                                  |
 +--------------------------------+------------------------------------------+
-| File format                    | `OS X Strings (UTF-8)`                   |
+| File format                    | `iOS Strings (UTF-8)`                    |
 +--------------------------------+------------------------------------------+
 
 .. seealso::

@@ -205,7 +205,7 @@ Adding translation
 
    The important fields here being component name, VCS repository address and
    mask for finding translatable files. Weblate supports a wide range of formats
-   including Gettext PO files, Android resource strings, OS X string properties,
+   including Gettext PO files, Android resource strings, iOS string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 
