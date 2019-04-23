@@ -29,6 +29,7 @@ import fnmatch
 import functools
 import re
 
+from celery import current_task
 from celery.result import AsyncResult
 
 from django.conf import settings
@@ -494,6 +495,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.old_component = copy(self)
         self._sources = None
         self.checks_cache = None
+        self.logs = []
 
     @cached_property
     def update_key(self):
@@ -505,6 +507,15 @@ class Component(models.Model, URLMixin, PathMixin):
         if not task_id:
             return None
         return AsyncResult(task_id)
+
+    def log_hook(self, level, msg, *args):
+        self.logs.append(msg % args)
+        if current_task:
+            cache.set(
+                'task-log-{}'.format(current_task.request.id),
+                self.logs,
+                2 * 3600
+            )
 
     def in_progress(self):
         return (

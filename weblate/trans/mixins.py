@@ -87,22 +87,29 @@ class LoggerMixin(object):
     def full_slug(self):
         return self.slug
 
+    def log_hook(self, level, msg, *args):
+        return
+
     def log_debug(self, msg, *args):
+        self.log_hook('DEBUG', msg, *args)
         return LOGGER.debug(
             ': '.join((self.full_slug, msg)), *args
         )
 
     def log_info(self, msg, *args):
+        self.log_hook('INFO', msg, *args)
         return LOGGER.info(
             ': '.join((self.full_slug, msg)), *args
         )
 
     def log_warning(self, msg, *args):
+        self.log_hook('WARNING', msg, *args)
         return LOGGER.warning(
             ': '.join((self.full_slug, msg)), *args
         )
 
     def log_error(self, msg, *args):
+        self.log_hook('ERROR', msg, *args)
         return LOGGER.error(
             ': '.join((self.full_slug, msg)), *args
         )

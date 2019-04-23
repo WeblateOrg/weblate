@@ -124,6 +124,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.language.code,
         ))
 
+    def log_hook(self, level, msg, *args):
+        self.component.log_hook(
+            level,
+            '{}: {}'.format(self.language.code, msg),
+            *args
+        )
+
     @cached_property
     def is_template(self):
         """Check whether this is template translation
