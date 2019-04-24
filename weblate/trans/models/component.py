@@ -599,29 +599,28 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return URL of exported VCS repository."""
         return self.git_export
 
-    def get_repoweb_link(self, filename, line):
+    def get_repoweb_link(self, filename, line, template=None):
         """Generate link to source code browser for given file and line.
 
         For linked repositories, it is possible to override the linked
         repository path here.
         """
-        if not self.repoweb:
-            if self.is_repo_link:
-                return self.linked_component.get_repoweb_link(filename, line)
+        if not template:
+            template = self.repoweb
+        if self.is_repo_link:
+            return self.linked_component.get_repoweb_link(
+                filename, line, template
+            )
+        if not template:
             return None
 
-        if self.is_repo_link:
-            repo_branch = self.linked_component.branch
-        else:
-            repo_branch = self.branch
-
-        return self.repoweb % {
+        return template % {
             'file': filename,
             '../file': filename.split('/', 1)[-1],
             '../../file': filename.split('/', 2)[-1],
             '../../../file': filename.split('/', 3)[-1],
             'line': line,
-            'branch': repo_branch
+            'branch': self.branch
         }
 
     def error_text(self, error):

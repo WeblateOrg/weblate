@@ -621,14 +621,9 @@ def get_location_links(profile, unit):
         else:
             filename = location_parts[0]
             line = 0
-        if profile.editor_link:
-            link = profile.editor_link % {
-                'file': filename,
-                'line': line,
-                'branch': unit.translation.component.branch
-            }
-        else:
-            link = unit.translation.component.get_repoweb_link(filename, line)
+        link = unit.translation.component.get_repoweb_link(
+            filename, line, profile.editor_link
+        )
         if link is None:
             ret.append(escape(location))
         else:
