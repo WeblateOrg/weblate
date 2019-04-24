@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='addon_message',
-            field=models.TextField(default=settings.DEFAULT_ADDON_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when addon makes a change'),
+            field=models.TextField(default=settings.DEFAULT_ADDON_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when addon makes a change'),
         ),
     ]

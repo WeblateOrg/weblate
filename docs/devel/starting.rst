@@ -45,7 +45,7 @@ great support in Weblate (see :ref:`gettext` file format description).
     licensing first, it might not be suitable for you.
 
 GNU Gettext can be used from variety of languages (C, Python, PHP, Ruby,
-Javascript and much more) and usually the UI frameworks already come with some
+JavaScript and much more) and usually the UI frameworks already come with some
 support for it. The standard usage is though the `gettext()` function call,
 which is often aliased to `_()` to make the code simpler and easier to read.
 

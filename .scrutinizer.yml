@@ -28,6 +28,8 @@ build:
                     -
                         command: export DJANGO_SETTINGS_MODULE=weblate.settings_test
                     -
+                        command: ./manage.py compilemessages
+                    -
                         command: ./manage.py collectstatic --noinput
                     -
                         command: coverage run --source . ./manage.py test

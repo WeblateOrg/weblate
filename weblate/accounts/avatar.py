@@ -120,6 +120,7 @@ def get_user_display(user, icon=True, link=False):
     if user is None:
         # None user, probably remotely triggered action
         full_name = pgettext('No known user', 'None')
+        username = 'none'
     else:
         # Get full name
         full_name = user.full_name
@@ -127,9 +128,11 @@ def get_user_display(user, icon=True, link=False):
         # Use user name if full name is empty
         if full_name.strip() == '':
             full_name = user.username
+        username = user.username
 
     # Escape HTML
     full_name = escape(full_name)
+    username = escape(username)
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
@@ -140,14 +143,20 @@ def get_user_display(user, icon=True, link=False):
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
 
-        full_name = '<img src="{avatar}" class="avatar" /> {name}'.format(
-            name=full_name,
+        username = '<img src="{avatar}" class="avatar" /> {name}'.format(
+            name=username,
             avatar=avatar
         )
 
     if link and user is not None:
-        return mark_safe('<a href="{link}">{name}</a>'.format(
-            name=full_name,
-            link=reverse('user_page', kwargs={'user': user.username}),
-        ))
-    return mark_safe(full_name)
+        return mark_safe(
+            '<a href="{link}" title="{name}">{username}</a>'.format(
+                name=full_name,
+                username=username,
+                link=reverse('user_page', kwargs={'user': user.username}),
+            )
+        )
+    return mark_safe('<span title="{name}">{username}</span>'.format(
+        name=full_name,
+        username=username,
+    ))

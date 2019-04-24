@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load translations %}
-
+{% load permissions %}
 
 <table class="sort table">
 <thead>
@@ -11,8 +11,12 @@
 </tr>
 <tbody>
 {% for prj in projects %}
+{% perm 'project.edit' prj as user_can_edit_project %}
 <tr>
-<th><a href="{{ prj.get_absolute_url }}">{{ prj }}</a></th>
+<th>
+<a href="{{ prj.get_absolute_url }}">{{ prj }}</a>
+{% if user_can_edit_project %}<span class="badge pull-right flip tooltip-control" title="{% trans "You administrate this project." %}">{% trans "Admin" %}</span>{% endif %}
+</th>
 <td class="progress-cell">{% translation_progress prj %}</td>
 <td class="percent">{{ prj.stats.translated_percent }}%</td>
 <td class="progress-cell">{% words_progress prj %}</td>

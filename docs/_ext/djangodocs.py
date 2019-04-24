@@ -14,7 +14,7 @@ def setup(app):
         rolename="setting",
         indextemplate="pair: %s; setting",
     )
-    app.add_description_unit(
+    app.add_object_type(
         directivename="django-admin",
         rolename="djadmin",
         indextemplate="pair: %s; django-admin command",

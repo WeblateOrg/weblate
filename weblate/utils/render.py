@@ -57,11 +57,15 @@ def render_template(template, **kwargs):
         kwargs['component_slug'] = component.slug
         kwargs['component_remote_branch'] = \
             component.repository.get_remote_branch_name()
+        if 'url' not in kwargs:
+            kwargs['url'] = get_site_url(component.get_absolute_url())
         project = component.project
 
     if getattr(project, 'id', None):
         kwargs['project_name'] = project.name
         kwargs['project_slug'] = project.slug
+        if 'url' not in kwargs:
+            kwargs['url'] = get_site_url(project.get_absolute_url())
 
     with override('en'):
         return Template(

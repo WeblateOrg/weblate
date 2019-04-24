@@ -38,7 +38,7 @@ class BillingAdmin(WeblateModelAdmin):
     list_display = (
         'list_projects',
         'list_owners',
-        'plan', 'state',
+        'plan', 'state', 'removal', 'expiry',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'unit_count',
         'display_projects', 'display_repositories', 'display_strings',

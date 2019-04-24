@@ -21,4 +21,10 @@
 {% endfor %}
 </ul>
 
+{% if final_removal %}
+<p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
+{% elif billing.removal %}
+<p><strong>{% blocktrans with removal=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ removal }}.{% endblocktrans %}</strong></p>
+{% endif %}
+
 {% endblock %}

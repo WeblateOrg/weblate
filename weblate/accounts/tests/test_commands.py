@@ -33,8 +33,10 @@ from django.core.management.base import CommandError
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from weblate.trans.tests.utils import TempDirMixin
+from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.accounts.models import Profile
+
+USERDATA_JSON = get_test_file('userdata.json')
 
 
 class CommandTest(TestCase, TempDirMixin):
@@ -47,7 +49,7 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
-        user.profile.subscriptions.add(Project.objects.create(
+        user.profile.watched.add(Project.objects.create(
             name='name', slug='name'
         ))
 
@@ -72,7 +74,23 @@ class CommandTest(TestCase, TempDirMixin):
             profile.secondary_languages.filter(code='cs').exists()
         )
         self.assertTrue(
-            profile.subscriptions.exists()
+            profile.watched.exists()
+        )
+
+    def test_userdata_compat(self):
+        """Test importing user data from pre 3.6 release."""
+        User.objects.create_user('test-3.6', 'test36@example.com', 'x')
+        Project.objects.create(name='test', slug='test')
+        call_command('importuserdata', USERDATA_JSON)
+        profile = Profile.objects.get(user__username='test-3.6')
+        self.assertTrue(
+            profile.languages.filter(code='cs').exists()
+        )
+        self.assertTrue(
+            profile.secondary_languages.filter(code='cs').exists()
+        )
+        self.assertTrue(
+            profile.watched.exists()
         )
 
     def test_changesite(self):
@@ -82,11 +100,8 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
 
     def test_changesite_new(self):
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'changesite', get_name=True, site_id=2
-        )
+        with self.assertRaises(CommandError):
+            call_command('changesite', get_name=True, site_id=2)
         call_command('changesite', set_name='test.weblate.org', site_id=2)
         self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
 

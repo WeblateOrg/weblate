@@ -3,7 +3,7 @@
 Installation instructions
 =========================
 
-Looking for quick installation instructions? See :doc:`admin/quick`.
+Looking for quick installation instructions? See :doc:`quick`.
 
 Hardware requirements
 ---------------------
@@ -39,91 +39,71 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-2.7, 3.4 or newer. The following dependencies can be installed using pip or from
-your distribution packages:
+2.7, 3.4 or newer. You can install dependencies using pip or from your
+distribution packages, full list of them is available in :file:`requirements.txt`.
 
-``Django`` (>= 1.11)
+Most notable dependencies:
+
+Django
     https://www.djangoproject.com/
-``Celery`` (>= 4.0)
+Celery
     http://www.celeryproject.org/
-``celery-batches`` (>= 0.2)
-    https://pypi.org/project/celery-batches/
-``siphashc`` (>= 0.8)
-    https://github.com/WeblateOrg/siphashc
-``translate-toolkit`` (>= 2.3.1)
+Translate Toolkit
     https://toolkit.translatehouse.org/
-``translation-finder`` (>=1.0)
+translation-finder
     https://github.com/WeblateOrg/translation-finder
-``diff-match-patch`` (>=20121119)
-    https://github.com/diff-match-patch-python/diff-match-patch
-``Six`` (>= 1.7.0)
-    https://pypi.org/project/six/
-``filelock`` (>= 3.0.1)
-    https://github.com/benediktschmitt/py-filelock
-``Mercurial`` (>= 2.8) (optional for Mercurial repositories support)
-    https://www.mercurial-scm.org/
-``social-auth-core`` (>= 1.3.0)
+Python Social Auth
     https://python-social-auth.readthedocs.io/
-``social-auth-app-django`` (>= 2.0.0)
-    https://python-social-auth.readthedocs.io/
-``django-appconf`` (>= 1.0)
-    https://github.com/django-compressor/django-appconf
-``Whoosh`` (>= 2.7.0)
+Whoosh
     https://bitbucket.org/mchaput/whoosh/wiki/Home
-``PIL`` or ``Pillow`` library
-    https://python-pillow.org/
-``lxml`` (>= 3.1.0)
-    https://lxml.de/
-``defusedxml`` (>= 0.4)
-    https://bitbucket.org/tiran/defusedxml
-``dateutil``
-    https://labix.org/python-dateutil
-``django_compressor`` (>= 2.1.1)
-    https://github.com/django-compressor/django-compressor
-``django-crispy-forms`` (>= 1.6.1)
-    https://django-crispy-forms.readthedocs.io/
-``Django REST Framework`` (>=3.8)
+Django REST Framework
     https://www.django-rest-framework.org/
-``user-agents`` (>= 1.1.0)
-    https://github.com/selwin/python-user-agents
-``pyuca`` (>= 1.1) (optional for proper sorting of strings)
+
+Optional dependecies
+++++++++++++++++++++
+
+Following modules are necessary for some of Weblate features. You can find all
+of them in :file:`requirements-optional.txt`.
+
+``Mercurial`` (optional for Mercurial repositories support)
+    https://www.mercurial-scm.org/
+``pyuca`` (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
 ``phply`` (optional for PHP support)
     https://github.com/viraptor/phply
-Database backend
-    Any database supported in Django will work, see :ref:`database-setup` and
-    backends documentation for more details.
-``pytz`` (optional, but recommended by Django)
-    https://pypi.org/project/pytz/
 ``python-bidi`` (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
-``tesserocr`` (>= 2.0.0) (optional for screenshots OCR)
+``tesserocr`` (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
-``akismet`` (>= 1.0) (optional for suggestion spam protection)
+``akismet`` (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
-``PyYAML`` (>= 3.0) (optional for :ref:`yaml`)
+``PyYAML`` (optional for :ref:`yaml`)
     https://pyyaml.org/
 ``backports.csv`` (needed on Python 2.7)
     https://pypi.org/project/backports.csv/
-``Jellyfish`` (>= 0.6.1)
-    https://github.com/jamesturk/jellyfish
-``openpyxl`` (>=2.5.0) (for XLSX export/import)
+``openpyxl`` (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
-``Zeep`` (>=3.0.0) (optional for :ref:`ms-terminology`)
+``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
+
+Database backend dependencies
++++++++++++++++++++++++++++++
+
+Any database supported in Django will work, see :ref:`database-setup` and
+backends documentation for more details.
 
 Other system requirements
 +++++++++++++++++++++++++
 
 The following dependencies have to be installed on the system:
 
-``Git`` (>= 1.6)
+``Git``
     https://git-scm.com/
 ``hub`` (optional for sending pull requests to GitHub)
     https://hub.github.com/
 ``git-review`` (optional for Gerrit support)
     https://pypi.org/project/git-review/
-``git-svn`` (>= 2.10.0) (optional for Subversion support)
+``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 ``tesseract`` and it's data (optional for screenshots OCR)
     https://github.com/tesseract-ocr/tesseract
@@ -181,13 +161,13 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential
 
         # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
         # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
 2. Install ``pip`` and ``virtualenv``. Usually they are shipped by your distribution or
    with Python:
@@ -195,19 +175,19 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python-pip python-virtualenv
+        apt install python3-pip python3-virtualenv virtualenv
 
         # openSUSE/SLES:
-        zypper install python-pip python-virtualenv
+        zypper install python3-pip python3-virtualenv
 
         # Fedora/RHEL/CentOS:
-        dnf install python-pip python-virtualenv
+        dnf install python3-pip python3-virtualenv
 
 3. Create and activate virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv ~/weblate-env
+        virtualenv --python=python3 ~/weblate-env
         . ~/weblate-env/bin/activate
 
 4. Install Weblate including all dependencies, you can also use ``pip`` to install
@@ -218,14 +198,19 @@ of the Python libraries on the system.
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
+        # Install database backend for PostgreSQL
+        pip install psycopg2-binary
+        # Install database backend for MySQL
+        apt install default-libmysqlclient-dev
+        pip install mysqlclient
 
 5. Create your settings (in this example it would be in
-   :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
+   :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
    based on the :file:`settings_example.py` in the same directory).
 6. You can now run Weblate commands using :command:`weblate` command, see
    :ref:`manage`.
 7. To run webserver, use the wsgi wrapper installed with Weblate (in this case
-   it is :file:`~/weblate-env/lib/python2.7/site-packages/weblate/wsgi.py`).
+   it is :file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`).
    Don't forget to set the Python search path to your virtualenv as well (for
    example using ``virtualenv = /home/user/weblate-env`` in uWSGI).
 
@@ -274,24 +259,24 @@ Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 
 On recent releases of Debian or Ubuntu, most of the requirements are already packaged, to
-install them you can use apt-get:
+install them you can use apt:
 
 .. code-block:: sh
 
-    apt-get install python-pip python-django translate-toolkit \
-        python-whoosh python-pil \
+    apt install python3-pip python3-django translate-toolkit \
+        python3-whoosh python3-pil \
         git mercurial \
-        python-django-compressor python-django-crispy-forms \
-        python-djangorestframework python-dateutil python-celery
+        python3-django-compressor python3-django-crispy-forms \
+        python3-djangorestframework python3-dateutil python3-celery
 
     # Optional packages for database backend:
 
     # For PostgreSQL
-    apt-get install python-psycopg2
+    apt install python3-psycopg2
     # For MySQL on Ubuntu (if using the Ubuntu package for Django)
-    apt-get install python-pymysql
+    apt install python3-pymysql
     # For MySQL on Debian (or Ubuntu if using upstream Django packages)
-    apt-get install python-mysqldb
+    apt install python3-mysqldb
 
 On older releases, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
@@ -299,7 +284,7 @@ need to install several Python modules manually using pip:
 .. code-block:: sh
 
     # Dependencies for ``python-social-auth``
-    apt-get install python-requests-oauthlib python-six python-openid
+    apt install python3-requests-oauthlib python3-six python3-openid
 
     # Social auth
     pip install social-auth-core
@@ -316,12 +301,18 @@ need to install several Python modules manually using pip:
 
     # In case the ``python-django-compressor`` package is missing,
     # Try installing it by its older name, or by using pip:
-    apt-get install python-compressor
+    apt install python3-compressor
     pip install django_compressor
 
     # Optional for OCR support
-    apt-get install tesseract-ocr libtesseract-dev libleptonica-dev cython
+    apt install tesseract-ocr libtesseract-dev libleptonica-dev cython
     pip install tesserocr
+
+    # Install database backend for PostgreSQL
+    pip install psycopg2-binary
+    # Install database backend for MySQL
+    apt install default-libmysqlclient-dev
+    pip install mysqlclient
 
 For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
 
@@ -335,25 +326,25 @@ you might need additional components:
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    apt-get install nginx uwsgi uwsgi-plugin-python
+    apt install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
-    apt-get install apache2 libapache2-mod-wsgi
+    apt install apache2 libapache2-mod-wsgi
 
     # Caching backend: Redis
-    apt-get install redis-server
+    apt install redis-server
 
     # Database option 1: PostgreSQL
-    apt-get install postgresql
+    apt install postgresql
 
     # Database option 2: MariaDB
-    apt-get install mariadb-server
+    apt install mariadb-server
 
     # Database option 3: MySQL
-    apt-get install mysql-server
+    apt install mysql-server
 
     # SMTP server
-    apt-get install exim4
+    apt install exim4
 
     # GitHub PR support: ``hub``
     # See https://hub.github.com/
@@ -368,15 +359,15 @@ Most of requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-Django translate-toolkit \
-        python-Whoosh python-Pillow \
-        python-social-auth-core python-social-auth-app-django \
-        Git mercurial python-pyuca \
-        python-dateutil python-celery
+    zypper install python3-Django translate-toolkit \
+        python3-Whoosh python3-Pillow \
+        python3-social-auth-core python3-social-auth-app-django \
+        Git mercurial python3-pyuca \
+        python3-dateutil python3-celery
 
     # Optional for database backend
-    zypper install python-psycopg2      # For PostgreSQL
-    zypper install python-MySQL-python  # For MySQL
+    zypper install python3-psycopg2      # For PostgreSQL
+    zypper install python3-MySQL-python  # For MySQL
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -384,7 +375,7 @@ you might need additional components:
 .. code-block:: sh
 
     # Web server option 1: NGINX and uWSGI
-    zypper install nginx uwsgi uwsgi-plugin-python
+    zypper install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
     zypper install apache2 apache2-mod_wsgi
@@ -417,7 +408,7 @@ your :file:`.bash_profile` file or executed somehow:
 
 .. code-block:: sh
 
-    export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+    export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH"
 
 This configuration makes the installed libraries available to Python.
 
@@ -989,17 +980,6 @@ variable, for example:
         }
     }
 
-Alternatively, you can also use Memcached:
-
-.. code-block:: python
-
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '127.0.0.1:11211',
-        }
-    }
-
 .. seealso::
 
     :ref:`production-cache-avatar`,
@@ -1562,4 +1542,4 @@ Other notes
 +++++++++++
 
 Don't forget to move other services Weblate might have been using like
-Redis, Memcached, Cron jobs or custom authentication backends.
+Redis, Cron jobs or custom authentication backends.

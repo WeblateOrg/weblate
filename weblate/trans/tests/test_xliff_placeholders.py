@@ -24,8 +24,10 @@ Tests for XLIFF rich string.
 
 from django.test import TestCase
 
-from weblate.trans.util import xliff_string_to_rich, rich_to_xliff_string
 from translate.storage.placeables.strelem import StringElem
+from translate.storage.xliff import xlifffile
+
+from weblate.trans.util import xliff_string_to_rich, rich_to_xliff_string
 
 
 class XliffPlaceholdersTest(TestCase):
@@ -45,3 +47,49 @@ class XliffPlaceholdersTest(TestCase):
 
             final_string = rich_to_xliff_string(rich)
             self.assertEqual(string, final_string)
+
+    def test_xliff_roundtrip(self):
+        source = b'''<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Translation Test">
+    <body>
+      <group id="body">
+        <trans-unit id="1761676329" size-unit="char" translate="yes" xml:space="preserve">
+          <source>T: <x id="INTERPOLATION" equiv-text="{{ angularExpression }}"/></source>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
+'''
+        store = xlifffile.parsestring(source)
+        string = rich_to_xliff_string(store.units[0].rich_source)
+        self.assertEqual(
+            'T: <x id="INTERPOLATION" equiv-text="{{ angularExpression }}"/>',
+            string
+        )
+        store.units[0].rich_source = xliff_string_to_rich(string)
+        self.assertEqual(source, bytes(store))
+
+    def test_xliff_roundtrip_unknown(self):
+        source = b'''<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Translation Test">
+    <body>
+      <group id="body">
+        <trans-unit id="1761676329" size-unit="char" translate="yes" xml:space="preserve">
+          <source>T: <mrk mtype="protected">%s</mrk></source>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
+'''
+        store = xlifffile.parsestring(source)
+        string = rich_to_xliff_string(store.units[0].rich_source)
+        self.assertEqual(
+            'T: <mrk mtype="protected">%s</mrk>',
+            string
+        )
+        store.units[0].rich_source = xliff_string_to_rich(string)
+        self.assertEqual(source, bytes(store))

@@ -34,14 +34,21 @@ from weblate.utils.views import get_component, show_form_errors
 RST_HEADING = ' '.join([
     '=' * 40,
     '=' * 40,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
-    '=' * 12,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
+    '=' * 20,
 ])
 
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
@@ -147,33 +154,55 @@ def generate_counts(component, start_date, end_date):
             timestamp__range=(start_date, end_date),
         ).values_list(
             'author__email', 'author__full_name', 'unit__num_words', 'action',
-            'target',
+            'target', 'unit__source',
         )
-        for email, name, words, action, target in authors:
-            if words is None:
+        for email, name, src_words, action, target, source in authors:
+            if src_words is None:
                 continue
             if email not in result:
                 result[email] = {
                     'name': name,
                     'email': email,
+
+                    't_chars': 0,
+                    't_words': 0,
+                    'chars': 0,
                     'words': 0,
                     'count': 0,
+
+                    't_chars_new': 0,
+                    't_words_new': 0,
                     'chars_new': 0,
                     'words_new': 0,
                     'count_new': 0,
+
+                    't_chars_edit': 0,
+                    't_words_edit': 0,
                     'chars_edit': 0,
                     'words_edit': 0,
                     'count_edit': 0,
                 }
-            result[email]['words'] += words
+            src_chars = len(source)
+            tgt_chars = len(target)
+            tgt_words = len(target.split())
+
+            result[email]['chars'] += src_chars
+            result[email]['words'] += src_words
+            result[email]['t_chars'] += tgt_chars
+            result[email]['t_words'] += tgt_words
             result[email]['count'] += 1
+
             if action == Change.ACTION_NEW:
-                result[email]['chars_new'] += len(target)
-                result[email]['words_new'] += words
+                result[email]['t_chars_new'] += tgt_chars
+                result[email]['t_words_new'] += tgt_words
+                result[email]['chars_new'] += src_chars
+                result[email]['words_new'] += src_words
                 result[email]['count_new'] += 1
             else:
-                result[email]['chars_edit'] += len(target)
-                result[email]['words_edit'] += words
+                result[email]['t_chars_edit'] += tgt_chars
+                result[email]['t_words_edit'] += tgt_words
+                result[email]['chars_edit'] += src_chars
+                result[email]['words_edit'] += src_words
                 result[email]['count_edit'] += 1
 
     return list(result.values())
@@ -206,14 +235,23 @@ def get_counts(request, project, component):
     headers = (
         'Name',
         'Email',
-        'Words total',
         'Count total',
-        'Chars new',
-        'Words new',
+        'Source words total',
+        'Source chars total',
+        'Target words total',
+        'Target chars total',
+
         'Count new',
-        'Chars edited',
-        'Words edited',
+        'Source words new',
+        'Source chars new',
+        'Target words new',
+        'Target chars new',
+
         'Count edited',
+        'Source words edited',
+        'Source chars edited',
+        'Target words edited',
+        'Target chars edited',
     )
 
     if form.cleaned_data['style'] == 'html':
@@ -229,11 +267,11 @@ def get_counts(request, project, component):
         start = '{0}\n{1} {2}\n{0}'.format(
             RST_HEADING,
             ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
-            ' '.join(['{0:12}'.format(h) for h in headers[2:]]),
+            ' '.join(['{0:20}'.format(h) for h in headers[2:]]),
         )
         row_start = ''
         cell_name = '{0:40} '
-        cell_count = '{0:12} '
+        cell_count = '{0:20} '
         row_end = ''
         mime = 'text/plain'
         end = RST_HEADING
@@ -249,14 +287,24 @@ def get_counts(request, project, component):
             ''.join((
                 cell_name.format(item['name']),
                 cell_name.format(item['email']),
-                cell_count.format(item['words']),
+
                 cell_count.format(item['count']),
-                cell_count.format(item['chars_new']),
-                cell_count.format(item['words_new']),
+                cell_count.format(item['words']),
+                cell_count.format(item['chars']),
+                cell_count.format(item['t_words']),
+                cell_count.format(item['t_chars']),
+
                 cell_count.format(item['count_new']),
-                cell_count.format(item['chars_edit']),
-                cell_count.format(item['words_edit']),
+                cell_count.format(item['words_new']),
+                cell_count.format(item['chars_new']),
+                cell_count.format(item['t_words_new']),
+                cell_count.format(item['t_chars_new']),
+
                 cell_count.format(item['count_edit']),
+                cell_count.format(item['words_edit']),
+                cell_count.format(item['chars_edit']),
+                cell_count.format(item['t_words_edit']),
+                cell_count.format(item['t_chars_edit']),
             ))
         )
         if row_end:

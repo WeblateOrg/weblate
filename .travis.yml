@@ -32,7 +32,7 @@ install:
   - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_DEPS Cython
-  - pip install -r requirements-optional.txt -r requirements-test.txt -r ci/requirements-travis.txt
+  - pip install -r requirements-optional.txt -r requirements-test.txt -r ci/requirements-travis.txt -r docs/requirements.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
@@ -50,6 +50,7 @@ before_script:
   - ./cc-test-reporter before-build
 # commands to run tests
 script:
+  - ./manage.py compilemessages
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
@@ -78,15 +79,19 @@ matrix:
     - name: "Django 2.1, selenium"
       python: "3.6"
       env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=selenium
+    - name: 'Django 2.2'
+      python: "3.6"
+      env: CI_DEPS="Django>=2.0,<2.1"
+    - dist: xenial
+      name: 'Django 2.2, Python 3.7'
+      python: "3.7"
+      env: CI_DEPS="Django>=2.0,<2.1"
     - name: 'Django 2.0'
       python: "3.6"
       env: CI_DEPS="Django>=2.0,<2.1"
     - name: 'Django 1.11'
       python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12"
-    - name: 'Django pre-release'
-      python: "3.6"
-      env: CI_DEPS="--pre Django"
     - name: 'translate-toolkit pre-release'
       python: "3.6"
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
@@ -99,15 +104,14 @@ matrix:
     - name: "Documentation"
       python: "3.6"
       env: CI_MODE=docs
-  allow_failures:
-    - python: "3.6"
-      env: CI_DEPS="--pre Django"
 addons:
   apt:
     packages:
     - git-svn
     - graphviz
     - g++
+    sources:
+    - git-core
   postgresql: "9.6"
   mariadb: "10.3"
 services:

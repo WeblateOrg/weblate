@@ -7,7 +7,7 @@
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>{% include subject_template %}</title>
+  <title>{{ subject }}</title>
   <style>
 .translatetext {
     background-color: #eee;
@@ -33,8 +33,8 @@ th {
 <footer>
     {% trans "Sent by Weblate translation system" %}<br />
     <a href="{{ current_site_url }}{% url 'home' %}">{{ current_site_url }}{% url 'home' %}</a><br />
-    <a href="{{ current_site_url }}{% url 'profile' %}#subscriptions">{% trans "Change subscription settings" %}</a><br />
-    {% get_advertisement_html_mail %}
+    <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Change notification settings" %}</a><br />
+    {% get_advertisement_link %}
 </footer>
  </body>
 </html>

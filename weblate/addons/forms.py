@@ -33,7 +33,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
 from weblate.utils.render import validate_render
-from weblate.utils.validators import validate_re
+from weblate.utils.validators import validate_re, validate_filename
 
 
 class BaseAddonForm(forms.Form):
@@ -72,6 +72,7 @@ class GenerateForm(BaseAddonForm):
 
     def clean_filename(self):
         self.test_render(self.cleaned_data['filename'])
+        validate_filename(self.cleaned_data['filename'])
         return self.cleaned_data['filename']
 
     def clean_template(self):
@@ -104,6 +105,7 @@ class GitSquashForm(BaseAddonForm):
             ('all', _('All commits into one')),
             ('language', _('Per language')),
             ('file', _('Per file')),
+            ('author', _('Per author')),
         ),
         initial='all',
         required=True,
@@ -150,7 +152,7 @@ class DiscoveryForm(BaseAddonForm):
     file_format = forms.ChoiceField(
         label=_('File format'),
         choices=FILE_FORMATS.get_choices(),
-        initial='auto',
+        initial='po',
         required=True,
         help_text=_(
             'Automatic detection might fail for some formats '
@@ -166,7 +168,7 @@ class DiscoveryForm(BaseAddonForm):
         label=_('Define the monolingual base filename'),
         initial='',
         required=False,
-        help_text=_('Keep empty for bilingual translation files.'),
+        help_text=_('Leave empty for bilingual translation files.'),
     )
     new_base_template = forms.CharField(
         label=_('Define the base file for new translations'),
@@ -238,11 +240,7 @@ class DiscoveryForm(BaseAddonForm):
     def discovery(self):
         return ComponentDiscovery(
             self._addon.instance.component,
-            self.cleaned_data['match'],
-            self.cleaned_data['name_template'],
-            self.cleaned_data['language_regex'],
-            self.cleaned_data['base_file_template'],
-            self.cleaned_data['new_base_template'],
+            **ComponentDiscovery.extract_kwargs(self.cleaned_data)
         )
 
     def clean(self):

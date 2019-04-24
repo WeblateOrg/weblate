@@ -1,10 +1,62 @@
 Changes
 =======
 
+weblate 3.6.1
+-------------
+
+Released on ? 2019.
+
+* Improved handling of monolingual Xliff files.
+* Fixed digest notifications in some corner cases.
+* Fixed addon script error alert.
+* Fixed generating MO file for monolingual PO files.
+* Fixed display of uninstalled checks.
+* Indicate administered projects on project listing.
+
+weblate 3.6
+-----------
+
+Released on April 20th 2019.
+
+* Add support for downloading user data.
+* Addons are now automatically triggered upon installation.
+* Improved instructions for resolving merge conflicts.
+* Cleanup addon is now compatible with app store metadata translations.
+* Configurable language code syntax when adding new translations.
+* Warn about using Python 2 with planned termination of support in April 2020.
+* Extract special chars from the source string for visual keyboard.
+* Extended contributor stats to reflect both source and target counts.
+* Admins and consistency addons can now add translations even if disabled for users.
+* Fixed description of toggle disabling ``Language-Team`` header manipulation.
+* Notify users mentioned in comments.
+* Removed file format autodetection from component setup.
+* Fixed generating MO file for monolingual PO files.
+* Added digest notifications.
+* Added support for muting component notifications.
+* Added notifications for new alerts, whiteboard messages or components.
+* Notifications for administered projects can now be configured.
+* Improved handling of three letter language codes.
+
+weblate 3.5.1
+-------------
+
+Released on March 10th 2019.
+
+* Fixed Celery systemd unit example.
+* Fixed notifications from http repositories with login.
+* Fixed race condition in editing source string for monolingual translations.
+* Include output of failed addon execution in the logs.
+* Improved validation of choices for adding new language.
+* Allow to edit file format in component settings.
+* Update installation instructions to prefer Python 3.
+* Performance and consistency improvements for loading translations.
+* Make Microsoft Terminology service compatible with current zeep releases.
+* Localization updates.
+
 weblate 3.5
 ------------
 
-Released on ? 2019.
+Released on March 3rd 2019.
 
 * Improved performance of built in translation memory.
 * Added interface to manage global translation memory.
@@ -14,6 +66,14 @@ Released on ? 2019.
 * Reduce number of commits when updating upstream repository.
 * Fixed possible metadata loss when moving component between projects.
 * Improved navigation in the zen mode.
+* Added several new quality checks (Markdown related and URL).
+* Added support for app store metadata files.
+* Added support for toggling GitHub or Gerrit integration.
+* Added check for Kashida letters.
+* Added option to squash commits based on authors.
+* Improved support for xlsx file format.
+* Compatibility with tesseract 4.0.
+* Billing addon now removes projects for unpaid billings after 45 days.
 
 weblate 3.4
 -----------
@@ -603,7 +663,7 @@ Released on Feb 19th 2015.
 * Support for deleting comments.
 * Added own SVG badge.
 * Added support for Google Analytics.
-* Improved handling of translation file names.
+* Improved handling of translation filenames.
 * Added support for monolingual JSON translations.
 * Record component locking in a history.
 * Support for editing source (template) language for monolingual translations.

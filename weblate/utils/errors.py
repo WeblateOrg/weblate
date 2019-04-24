@@ -37,7 +37,7 @@ except ImportError:
     HAS_RAVEN = False
 
 
-def report_error(error, request=None, extra_data=None):
+def report_error(error, request=None, extra_data=None, level='warning'):
     """Wrapper for error reporting
 
     This can be used for store exceptions in error reporting solutions as
@@ -45,12 +45,12 @@ def report_error(error, request=None, extra_data=None):
     """
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(
-            request=request, extra_data=extra_data, level='warning'
+            request=request, extra_data=extra_data, level=level
         )
 
     if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
         raven_client.captureException(
-            request=request, extra=extra_data, level='warning'
+            request=request, extra=extra_data, level=level
         )
 
     LOGGER.error(

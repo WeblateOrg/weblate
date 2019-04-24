@@ -28,6 +28,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 
 import six.moves
 
+from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
@@ -193,6 +194,14 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_RENAME_PROJECT = 41
     ACTION_RENAME_COMPONENT = 42
     ACTION_MOVE_COMPONENT = 43
+    ACTION_NEW_STRING = 44
+    ACTION_NEW_CONTRIBUTOR = 45
+    ACTION_MESSAGE = 46
+    ACTION_ALERT = 47
+    ACTION_ADDED_LANGUAGE = 48
+    ACTION_REQUESTED_LANGUAGE = 49
+    ACTION_CREATE_PROJECT = 50
+    ACTION_CREATE_COMPONENT = 51
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -242,20 +251,15 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_PROJECT, ugettext_lazy('Renamed project')),
         (ACTION_RENAME_COMPONENT, ugettext_lazy('Renamed component')),
         (ACTION_MOVE_COMPONENT, ugettext_lazy('Moved component')),
+        (ACTION_NEW_STRING, ugettext_lazy('New string to translate')),
+        (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor')),
+        (ACTION_MESSAGE, ugettext_lazy('New whiteboard message')),
+        (ACTION_ALERT, ugettext_lazy('New component alert')),
+        (ACTION_ADDED_LANGUAGE, ugettext_lazy('Added new language')),
+        (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
+        (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),
+        (ACTION_CREATE_COMPONENT, ugettext_lazy('Created component')),
     )
-
-    ACTIONS_COMPONENT = frozenset((
-        ACTION_LOCK,
-        ACTION_UNLOCK,
-        ACTION_DUPLICATE_STRING,
-        ACTION_PUSH,
-        ACTION_RESET,
-        ACTION_MERGE,
-        ACTION_REBASE,
-        ACTION_FAILED_MERGE,
-        ACTION_FAILED_REBASE,
-        ACTION_FAILED_PUSH,
-    ))
 
     ACTIONS_REVERTABLE = frozenset((
         ACTION_ACCEPT,
@@ -274,7 +278,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REVERT,
         ACTION_UPLOAD,
         ACTION_REPLACE,
-        ACTION_NEW_UNIT,
         ACTION_MASS_STATE,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
@@ -314,6 +317,18 @@ class Change(models.Model, UserDisplayMixin):
     dictionary = models.ForeignKey(
         'Dictionary', null=True, on_delete=models.deletion.CASCADE
     )
+    comment = models.ForeignKey(
+        'Comment', null=True, on_delete=models.deletion.SET_NULL
+    )
+    suggestion = models.ForeignKey(
+        'Suggestion', null=True, on_delete=models.deletion.SET_NULL
+    )
+    whiteboard = models.ForeignKey(
+        'WhiteboardMessage', null=True, on_delete=models.deletion.SET_NULL
+    )
+    alert = models.ForeignKey(
+        'Alert', null=True, on_delete=models.deletion.SET_NULL
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
@@ -335,6 +350,10 @@ class Change(models.Model, UserDisplayMixin):
     class Meta(object):
         ordering = ['-timestamp']
         app_label = 'trans'
+
+    def __init__(self, *args, **kwargs):
+        self.notify_state = {}
+        super(Change, self).__init__(*args, **kwargs)
 
     def __str__(self):
         return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
@@ -412,9 +431,15 @@ class Change(models.Model, UserDisplayMixin):
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']
+        elif self.action in (self.ACTION_ADDED_LANGUAGE, self.ACTION_REQUESTED_LANGUAGE):
+            try:
+                return Language.objects.get(code=self.details['language'])
+            except Language.DoesNotExist:
+                return self.details['language']
         return ''
 
     def save(self, *args, **kwargs):
+        from weblate.accounts.tasks import notify_change
         if self.unit:
             self.translation = self.unit.translation
         if self.translation:
@@ -424,3 +449,4 @@ class Change(models.Model, UserDisplayMixin):
         if self.dictionary:
             self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
+        notify_change.delay(self.pk)

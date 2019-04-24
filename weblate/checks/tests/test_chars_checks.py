@@ -33,6 +33,7 @@ from weblate.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
     MaxLengthCheck,
+    KashidaCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
@@ -312,3 +313,14 @@ class EndSemicolonCheckTest(CheckTestCase):
 
     def test_greek(self):
         self.do_test(False, ('Text?', 'Texte;', ''), 'el')
+
+
+class KashidaCheckTest(CheckTestCase):
+    check = KashidaCheck()
+
+    def setUp(self):
+        super(KashidaCheckTest, self).setUp()
+        self.test_good_matching = ('string', 'string', '')
+        self.test_failure_1 = ('string', 'string\u0640', '')
+        self.test_failure_2 = ('string', 'string\uFE79', '')
+        self.test_failure_3 = ('string', 'string\uFE7F', '')

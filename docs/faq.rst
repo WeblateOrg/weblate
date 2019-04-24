@@ -48,16 +48,22 @@ repository, merge it into upstream and fix any conflicts.  Once you push changes
 back, Weblate will be able to use the merged version without any other special
 actions.
 
+.. note::
+
+   Depending on your setup, access to the Weblte repository might require
+   authentication. When using Weblate built in :ref:`git-exporter`, you
+   authenticate with your username and the API key.
+
 .. code-block:: sh
 
     # Commit all pending changes in Weblate, you can do this in the UI as well
     wlc commit
     # Lock translation in Weblate, again this can be done in the UI as well
     wlc lock
-    # Add weblate as remote
-    git remote add weblate https://hosted.weblate.org/git/weblate/website/
+    # Add Weblate as remote
+    git remote add weblate https://hosted.weblate.org/git/project/component/
     # You might need to include credentials in some cases:
-    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/weblate/website/
+    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/project/component/
 
     # Update weblate remote
     git remote update weblate
@@ -82,20 +88,20 @@ branches:
 
 .. code-block:: sh
 
-    # Add and update remotes
-    git remote add weblate-4.7 https://hosted.weblate.org/git/phpmyadmin/4-7/
-    git remote add weblate https://hosted.weblate.org/git/phpmyadmin/master/
-    git remote update weblate-4.7 weblate
+    # Add and update Weblate remotes
+    git remote add weblate-one https://hosted.weblate.org/git/project/one/
+    git remote add weblate-second https://hosted.weblate.org/git/project/second/
+    git remote update weblate-one weblate-second
 
     # Merge QA_4_7 branch
     git checkout QA_4_7
-    git merge weblate-4.7/QA_4_7
+    git merge weblate-one/QA_4_7
     ... # Resolve conflicts
     git commit
 
     # Merge master branch
     git checkout master
-    git merge weblate/master
+    git merge weblates-second/master
     ... # Resolve conflicts
     git commit
 

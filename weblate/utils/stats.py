@@ -56,8 +56,8 @@ SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 def aggregate(stats, item, stats_obj):
     if item == 'last_changed':
-        if stats_obj.last_changed and (not stats['last_changed'] or
-                stats['last_changed'] < stats_obj.last_changed):
+        if (stats_obj.last_changed and (not stats['last_changed'] or
+                stats['last_changed'] < stats_obj.last_changed)):
             stats['last_changed'] = stats_obj.last_changed
             stats['last_author'] = stats_obj.last_author
     elif item == 'last_author':

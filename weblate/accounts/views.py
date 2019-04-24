@@ -20,11 +20,15 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
 import re
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
 from django.conf import settings
 from django.middleware.csrf import rotate_token
@@ -65,18 +69,22 @@ from weblate.accounts.forms import (
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang
+from weblate.accounts.models import set_lang, AuditLog
+from weblate.accounts.notifications import (
+    SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
+    FREQ_NONE, NOTIFICATIONS,
+)
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.trans.models import Change, Project, Component, Suggestion
-from weblate.utils.views import get_project
+from weblate.utils.views import get_project, get_component
 from weblate.utils.errors import report_error
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
-    SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
+    UserSettingsForm, DashboardSettingsForm,
+    NotificationForm,
 )
-from weblate.accounts.notifications import notify_account_activity
 
 CONTACT_TEMPLATE = '''
 Message from %(name)s <%(email)s>:
@@ -106,6 +114,8 @@ CONTACT_SUBJECTS = {
 }
 
 ANCHOR_RE = re.compile(r'^#[a-z]+$')
+
+NOTIFICATION_PREFIX_TEMPLATE = 'notifications__{}'
 
 
 class EmailSentView(TemplateView):
@@ -207,10 +217,87 @@ def redirect_profile(page=''):
     return HttpResponseRedirect(url)
 
 
+def get_notification_forms(request):
+    user = request.user
+    if request.method == 'POST':
+        for i in range(1000):
+            prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
+            if prefix + '-scope' in request.POST:
+                yield NotificationForm(
+                    request.user,
+                    i > 0,
+                    {},
+                    i == 0,
+                    prefix=prefix,
+                    data=request.POST
+                )
+    else:
+        subscriptions = defaultdict(dict)
+        initials = {}
+
+        # Ensure default and admin scopes are visible
+        for needed in (SCOPE_DEFAULT, SCOPE_ADMIN):
+            key = (needed, None, None)
+            subscriptions[key] = {}
+            initials[key] = {
+                    'scope': needed, 'project': None, 'component': None
+            }
+        active = (SCOPE_DEFAULT, None, None)
+
+        # Include additional scopes from request
+        if 'notify_project' in request.GET:
+            try:
+                project = user.allowed_projects.get(pk=request.GET['notify_project'])
+                active = key = (SCOPE_PROJECT, project.pk, None)
+                subscriptions[key] = {}
+                initials[key] = {
+                    'scope': SCOPE_PROJECT, 'project': project, 'component': None
+                }
+            except (ObjectDoesNotExist, ValueError):
+                pass
+        if 'notify_component' in request.GET:
+            try:
+                component = Component.objects.get(
+                    project__in=user.allowed_projects,
+                    pk=request.GET['notify_component']
+                )
+                active = key = (SCOPE_COMPONENT, None, component.pk)
+                subscriptions[key] = {}
+                initials[key] = {
+                    'scope': SCOPE_COMPONENT, 'project': None, 'component': component
+                }
+            except (ObjectDoesNotExist, ValueError):
+                pass
+
+        # Popupate scopes from the database
+        for subscription in user.subscription_set.all():
+            key = (
+                subscription.scope,
+                subscription.project_id,
+                subscription.component_id,
+            )
+            subscriptions[key][subscription.notification] = subscription.frequency
+            initials[key] = {
+                'scope': subscription.scope,
+                'project': subscription.project,
+                'component': subscription.component,
+            }
+
+        # Generate forms
+        for i, details in enumerate(sorted(subscriptions.items())):
+            yield NotificationForm(
+                user,
+                i > 0,
+                details[1],
+                details[0] == active,
+                initial=initials[details[0]],
+                prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
+            )
+
+
 @never_cache
 @login_required
 def user_profile(request):
-
     profile = request.user.profile
 
     if not request.user.is_demo and not profile.language:
@@ -220,17 +307,15 @@ def user_profile(request):
     form_classes = [
         ProfileForm,
         SubscriptionForm,
-        SubscriptionSettingsForm,
         UserSettingsForm,
         DashboardSettingsForm,
+        UserForm,
     ]
+    forms = [form.from_request(request) for form in form_classes]
+    forms.extend(get_notification_forms(request))
     all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
-        # Parse POST params
-        forms = [form(request.POST, instance=profile) for form in form_classes]
-        forms.append(UserForm(request.POST, instance=request.user))
-
         if request.user.is_demo:
             return deny_demo(request)
 
@@ -254,9 +339,6 @@ def user_profile(request):
 
             return response
     else:
-        forms = [form(instance=profile) for form in form_classes]
-        forms.append(UserForm(instance=request.user))
-
         if not request.user.has_usable_password() and 'email' in all_backends:
             messages.warning(
                 request,
@@ -281,16 +363,16 @@ def user_profile(request):
         {
             'languagesform': forms[0],
             'subscriptionform': forms[1],
-            'subscriptionsettingsform': forms[2],
-            'usersettingsform': forms[3],
-            'dashboardsettingsform': forms[4],
-            'userform': forms[5],
+            'usersettingsform': forms[2],
+            'dashboardsettingsform': forms[3],
+            'userform': forms[4],
+            'notification_forms': forms[5:],
+            'all_forms': forms,
             'profile': profile,
             'title': _('User profile'),
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
-            'managed_projects': request.user.owned_projects,
             'auditlog': request.user.auditlog_set.all()[:20],
         }
     )
@@ -595,7 +677,7 @@ def register(request):
         if ((captcha is None or captcha.is_valid()) and
                 form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
-                notify_account_activity(
+                AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'connect'
@@ -641,7 +723,7 @@ def email_login(request):
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             email_user = form.cleaned_data['email_user']
             if email_user and email_user != request.user:
-                notify_account_activity(
+                AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'connect'
@@ -683,7 +765,7 @@ def password(request):
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
             # Clear flag forcing user to set password
-            redirect_page = '#auth'
+            redirect_page = '#account'
             if 'show_set_password' in request.session:
                 del request.session['show_set_password']
                 redirect_page = ''
@@ -760,12 +842,12 @@ def reset_password(request):
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             if form.cleaned_data['email_user']:
-                rate_limited = notify_account_activity(
+                audit = AuditLog.objects.create(
                     form.cleaned_data['email_user'],
                     request,
                     'reset-request'
                 )
-                if not rate_limited:
+                if not audit.check_rate_limit(request):
                     store_userid(request, True)
                     return social_complete(request, 'email')
             return fake_email_sent(request, True)
@@ -806,9 +888,19 @@ def reset_api_key(request):
 @require_POST
 @login_required
 @avoid_demo
+@session_ratelimit_post('userdata')
+def userdata(request):
+    response = JsonResponse(request.user.profile.dump_data())
+    response['Content-Disposition'] = 'attachment; filename="weblate.json"'
+    return response
+
+
+@require_POST
+@login_required
+@avoid_demo
 def watch(request, project):
     obj = get_project(request, project)
-    request.user.profile.subscriptions.add(obj)
+    request.user.profile.watched.add(obj)
     return redirect(obj)
 
 
@@ -817,8 +909,49 @@ def watch(request, project):
 @avoid_demo
 def unwatch(request, project):
     obj = get_project(request, project)
-    request.user.profile.subscriptions.remove(obj)
+    request.user.profile.watched.remove(obj)
+    request.user.subscription_set.filter(
+        Q(project=obj) | Q(component__project=obj)
+    ).delete()
     return redirect(obj)
+
+
+def mute_real(user, **kwargs):
+    for notification_cls in NOTIFICATIONS:
+        if notification_cls.ignore_watched:
+            continue
+        subscription = user.subscription_set.get_or_create(
+            notification=notification_cls.get_name(),
+            defaults={'frequency': FREQ_NONE},
+            **kwargs
+        )[0]
+        if subscription.frequency != FREQ_NONE:
+            subscription.frequency = FREQ_NONE
+            subscription.save(update_fields=['frequency'])
+
+
+@require_POST
+@login_required
+@avoid_demo
+def mute_component(request, project, component):
+    obj = get_component(request, project, component)
+    mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+    return redirect(
+        '{}?notify_component={}#notifications'.format(
+            reverse('profile'), obj.pk
+        )
+    )
+
+
+@require_POST
+@login_required
+@avoid_demo
+def mute_project(request, project):
+    obj = get_project(request, project)
+    mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
+    return redirect(
+        '{}?notify_project={}#notifications'.format(reverse('profile'), obj.pk)
+    )
 
 
 class SuggestionView(ListView):

@@ -185,7 +185,7 @@ class ProjectAPITest(APIBaseTest):
             'api:project-changes',
             self.project_kwargs,
         )
-        self.assertEqual(request.data['count'], 8)
+        self.assertEqual(request.data['count'], 12)
 
     def test_statistics(self):
         request = self.do_request(
@@ -313,7 +313,7 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_monolingual(self):
-        self.component.format = 'po-mono'
+        self.component.file_format = 'po-mono'
         self.component.filemask = 'po-mono/*.po'
         self.component.template = 'po-mono/en.po'
         self.component.save()
@@ -334,7 +334,7 @@ class ComponentAPITest(APIBaseTest):
             'api:component-changes',
             self.component_kwargs,
         )
-        self.assertEqual(request.data['count'], 8)
+        self.assertEqual(request.data['count'], 12)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -591,7 +591,7 @@ class TranslationAPITest(APIBaseTest):
             'api:translation-changes',
             self.translation_kwargs,
         )
-        self.assertEqual(request.data['count'], 5)
+        self.assertEqual(request.data['count'], 6)
 
     def test_units(self):
         request = self.do_request(
@@ -715,7 +715,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse('api:change-list')
         )
-        self.assertEqual(response.data['count'], 8)
+        self.assertEqual(response.data['count'], 12)
 
     def test_get_change(self):
         response = self.client.get(

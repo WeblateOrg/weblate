@@ -55,6 +55,16 @@ class Command(BaseCommand):
             help='template monolingual files',
         )
         parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='delete after testing',
+        )
+        parser.add_argument(
+            '--format',
+            default='po',
+            help='file format',
+        )
+        parser.add_argument(
             'project',
             help='Existing project slug for tests',
         )
@@ -83,10 +93,12 @@ class Command(BaseCommand):
             repo=options['repo'],
             filemask=options['mask'],
             template=options['template'],
+            file_format=options['format'],
             project=project
         )
         stats = pstats.Stats(profiler, stream=self.stdout)
         stats.sort_stats(options['profile_sort'])
         stats.print_stats(options['profile_filter'], options['profile_count'])
         # Delete after testing
-        component.delete()
+        if options['delete']:
+            component.delete()

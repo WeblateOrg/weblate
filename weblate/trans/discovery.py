@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from itertools import chain
 import os
 import re
 
@@ -30,7 +31,7 @@ from django.utils.text import slugify
 
 from weblate.celery import app
 from weblate.logger import LOGGER
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component, Project, Change
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
 
@@ -40,7 +41,7 @@ COPY_ATTRIBUTES = (
     'license_url', 'license', 'agreement',
     'report_source_bugs', 'allow_translation_propagation', 'save_history',
     'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
-    'check_flags', 'new_lang',
+    'check_flags', 'new_lang', 'language_code_style',
     'commit_message', 'add_message', 'delete_message', 'merge_message',
     'committer_name', 'committer_email',
     'push_on_commit', 'commit_pending_age',
@@ -48,16 +49,15 @@ COPY_ATTRIBUTES = (
 
 
 class ComponentDiscovery(object):
-    def __init__(self, component, match, name_template,
+    def __init__(self, component, match, name_template, file_format,
                  language_regex='^[^.]+$', base_file_template='',
-                 new_base_template='',
-                 file_format='auto', path=None):
+                 new_base_template='', path=None):
         self.component = component
         if path is None:
             self.path = self.component.full_path
         else:
             self.path = path
-        self.path_match = re.compile('^' + match + '$')
+        self.path_match = self.compile_match(match)
         self.name_template = name_template
         self.base_file_template = base_file_template
         self.new_base_template = new_base_template
@@ -65,13 +65,34 @@ class ComponentDiscovery(object):
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
 
+    @staticmethod
+    def extract_kwargs(params):
+        """Extract kwargs for discovery from wider dict."""
+        attrs = (
+            'match', 'name_template', 'language_regex', 'base_file_template',
+            'new_base_template', 'file_format'
+        )
+        return {k: v for k, v in params.items() if k in attrs}
+
+    def compile_match(self, match):
+        parts = match.split('(?P=language)')
+        offset = 1
+        while len(parts) > 1:
+            parts[0:2] = [
+                '{}(?P<_language_{}>(?P=language)){}'.format(
+                    parts[0], offset, parts[1]
+                )
+            ]
+            offset += 1
+        return re.compile('^{}$'.format(parts[0]))
+
     @cached_property
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
         base = os.path.realpath(self.path)
-        for root, dummy, filenames in os.walk(self.path, followlinks=True):
-            for filename in filenames:
+        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
+            for filename in chain(filenames, dirnames):
                 fullname = os.path.join(root, filename)
 
                 # Skip files outside our root
@@ -91,10 +112,23 @@ class ComponentDiscovery(object):
                     continue
 
                 # Calculate file mask for match
-                mask = '{}*{}'.format(
-                    path[:matches.start('language')],
-                    path[matches.end('language'):],
-                )
+                replacements = [
+                    (matches.start('language'), matches.end('language'))
+                ]
+                for group in matches.groupdict().keys():
+                    if group.startswith('_language_'):
+                        replacements.append(
+                            (matches.start(group), matches.end(group))
+                        )
+                maskparts = []
+                maskpath = path
+                for start, end in sorted(replacements, reverse=True):
+                    maskparts.append(maskpath[end:])
+                    maskpath = maskpath[:start]
+                maskparts.append(maskpath)
+
+                mask = '*'.join(reversed(maskparts))
+
                 result.append((path, matches.groupdict(), mask))
 
         return result
@@ -179,6 +213,7 @@ class ComponentDiscovery(object):
             'slug': slug,
             'template': match['base_file'],
             'filemask': match['mask'],
+            'new_base': match['new_base'],
             'file_format': self.file_format,
             'language_regex': self.language_re,
         })
@@ -190,7 +225,7 @@ class ComponentDiscovery(object):
             create_component.delay(**kwargs)
             return None
 
-        return Component.objects.create(**kwargs)
+        return create_component_real(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
@@ -270,7 +305,16 @@ class ComponentDiscovery(object):
         return created, matched, deleted
 
 
+def create_component_real(**kwargs):
+    component = Component.objects.create(**kwargs)
+    Change.objects.create(
+        action=Change.ACTION_CREATE_COMPONENT,
+        component=component,
+    )
+    return component
+
+
 @app.task
 def create_component(**kwargs):
     kwargs['project'] = Project.objects.get(pk=kwargs['project'])
-    Component.objects.create(**kwargs)
+    create_component_real(**kwargs)

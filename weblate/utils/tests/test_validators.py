@@ -23,7 +23,7 @@ from unittest import TestCase
 from django.core.exceptions import ValidationError
 
 from weblate.utils.validators import (
-    validate_editor, clean_fullname, validate_fullname,
+    validate_editor, clean_fullname, validate_fullname, validate_filename,
 )
 
 
@@ -37,35 +37,20 @@ class EditorValidatorTest(TestCase):
         )
 
     def test_invalid_format(self):
-        self.assertRaises(
-            ValidationError,
-            validate_editor,
-            'editor://open/?file=%(fle)s&line=%(line)s'
-        )
+        with self.assertRaises(ValidationError):
+            validate_editor('editor://open/?file=%(fle)s&line=%(line)s')
 
     def test_no_scheme(self):
-        self.assertRaises(
-            ValidationError,
-            validate_editor,
-            './local/url'
-        )
+        with self.assertRaises(ValidationError):
+            validate_editor('./local/url')
 
     def test_invalid_scheme(self):
-        self.assertRaises(
-            ValidationError,
-            validate_editor,
-            'javascript:alert(0)'
-        )
-        self.assertRaises(
-            ValidationError,
-            validate_editor,
-            'javaScript:alert(0)'
-        )
-        self.assertRaises(
-            ValidationError,
-            validate_editor,
-            ' javaScript:alert(0)'
-        )
+        with self.assertRaises(ValidationError):
+            validate_editor('javascript:alert(0)')
+        with self.assertRaises(ValidationError):
+            validate_editor('javaScript:alert(0)')
+        with self.assertRaises(ValidationError):
+            validate_editor(' javaScript:alert(0)')
 
 
 class FullNameCleanTest(TestCase):
@@ -92,8 +77,18 @@ class FullNameCleanTest(TestCase):
         )
 
     def test_invalid(self):
-        self.assertRaises(
-            ValidationError,
-            validate_fullname,
-            'ahoj\x00bar'
-        )
+        with self.assertRaises(ValidationError):
+            validate_fullname('ahoj\x00bar')
+
+
+class FilenameTest(TestCase):
+    def test_parent(self):
+        with self.assertRaises(ValidationError):
+            validate_filename('../path')
+
+    def test_absolute(self):
+        with self.assertRaises(ValidationError):
+            validate_filename('/path')
+
+    def test_good(self):
+        validate_filename('path/file')

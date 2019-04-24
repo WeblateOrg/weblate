@@ -20,12 +20,16 @@
 
 from __future__ import unicode_literals
 
+from itertools import chain
 import subprocess
 
 from django.apps import apps
 from django.utils.functional import cached_property
 
-from weblate.addons.events import EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD
+from weblate.addons.events import (
+    EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD, EVENT_POST_COMMIT,
+    EVENT_POST_PUSH,
+)
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
@@ -42,8 +46,9 @@ class BaseAddon(object):
     description = 'Base addon'
     icon = 'cog'
     project_scope = False
+    repo_scope = False
     has_summary = False
-    alert = 'AddonScriptError'
+    alert = None
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
@@ -68,11 +73,13 @@ class BaseAddon(object):
     @classmethod
     def create(cls, component, **kwargs):
         kwargs['project_scope'] = cls.project_scope
+        kwargs['repo_scope'] = cls.repo_scope
         storage = apps.get_model('addons', 'Addon').objects.create(
             component=component, name=cls.name, **kwargs
         )
-        storage.configure_events(cls.events)
-        return cls(storage)
+        result = cls(storage)
+        result.post_configure()
+        return result
 
     @classmethod
     def get_add_form(cls, component, **kwargs):
@@ -99,7 +106,27 @@ class BaseAddon(object):
         """Saves configuration."""
         self.instance.configuration = settings
         self.instance.save()
+        self.post_configure()
+
+    def post_configure(self):
+        # Configure events to current status
         self.instance.configure_events(self.events)
+
+        # Trigger post events to ensure direct processing
+        if self.project_scope:
+            components = self.instance.component.project.component_set.all()
+        else:
+            components = [self.instance.component]
+        translations = self.instance.component.translation_set.all()
+        if EVENT_POST_COMMIT in self.events:
+            for translation in translations:
+                self.post_commit(translation)
+        if EVENT_POST_UPDATE in self.events:
+            for component in components:
+                self.post_update(component, '')
+        if EVENT_POST_PUSH in self.events:
+            for component in components:
+                self.post_push(component)
 
     def save_state(self):
         """Saves addon state information."""
@@ -151,17 +178,20 @@ class BaseAddon(object):
             )
             component.log_debug('exec result: %s', repr(output))
         except (OSError, subprocess.CalledProcessError) as err:
+            output = getattr(err, 'output', '').decode('utf-8')
             component.log_error('failed to exec %s: %s', repr(cmd), err)
+            for line in output.splitlines():
+                component.log_error('program output: %s', line)
             self.alerts.append({
                 'addon': self.name,
                 'command': ' '.join(cmd),
-                'output': getattr(err, 'output', '').decode('utf-8'),
+                'output': output,
                 'error': str(err),
             })
 
     def trigger_alerts(self, component):
         if self.alerts:
-            component.add_alert(self.alert, occurences=self.alerts)
+            component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
         else:
             component.delete_alert(self.alert)
@@ -191,6 +221,10 @@ class UpdateBaseAddon(BaseAddon):
     """
     events = (EVENT_POST_UPDATE, )
 
+    def __init__(self, storage=None):
+        super(UpdateBaseAddon, self).__init__(storage)
+        self.extra_files = []
+
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
 
@@ -198,7 +232,10 @@ class UpdateBaseAddon(BaseAddon):
         repository = component.repository
         with repository.lock:
             if repository.needs_commit():
-                files = [t.filename for t in component.translation_set.all()]
+                files = list(chain.from_iterable((
+                    translation.filenames
+                    for translation in component.translation_set.all()
+                ))) + self.extra_files
                 repository.commit(
                     self.get_commit_message(component),
                     files=files
@@ -222,22 +259,11 @@ class TestCrashAddon(UpdateBaseAddon):
     description = 'Crash test addon'
 
     def update_translations(self, component, previous_head):
-        raise TestException('Test error')
+        if previous_head:
+            raise TestException('Test error')
 
 
 class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
     events = (EVENT_STORE_POST_LOAD,)
     icon = 'wrench'
-
-    @staticmethod
-    def is_store_compatible(store):
-        return False
-
-    @classmethod
-    def can_install(cls, component, user):
-        if (not super(StoreBaseAddon, cls).can_install(component, user) or
-                not component.translation_set.exists()):
-            return False
-        translation = component.translation_set.all()[0]
-        return cls.is_store_compatible(translation.store.store)

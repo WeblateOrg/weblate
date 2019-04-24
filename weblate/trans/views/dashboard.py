@@ -66,7 +66,7 @@ def get_suggestions(request, user, base, filtered=False):
         # Remove user subscriptions
         result = get_untranslated(
             base.exclude(
-                component__project__in=user.profile.subscriptions.all()
+                component__project__in=user.profile.watched.all()
             ),
             10
         )
@@ -198,7 +198,10 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.filter(show_dashboard=True))
+    componentlists = list(ComponentList.objects.filter(
+        show_dashboard=True,
+        components__project__in=request.user.allowed_projects
+    ).distinct())
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
@@ -218,12 +221,12 @@ def dashboard_user(request):
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = user.allowed_projects.filter(
+        watched_projects = user.allowed_projects.filter(
             profile=user.profile
         )
 
         usersubscriptions = user_translations.filter(
-            component__project__in=subscribed_projects
+            component__project__in=watched_projects
         )
 
         if user.profile.hide_completed:
@@ -247,7 +250,9 @@ def dashboard_user(request):
                 get_paginator(request, user_translations)
             ),
             'componentlists': componentlists,
-            'all_componentlists': prefetch_stats(ComponentList.objects.all()),
+            'all_componentlists': prefetch_stats(ComponentList.objects.filter(
+                components__project__in=request.user.allowed_projects
+            )).distinct(),
             'active_tab_slug': active_tab_slug,
         }
     )

@@ -55,7 +55,7 @@ class Command(BaseCommand):
             default='',
             help=(
                 'Template string, transforming the filemask '
-                'match to a monolingual base file name'
+                'match to a monolingual base filename'
             )
         )
         parser.add_argument(
@@ -63,13 +63,13 @@ class Command(BaseCommand):
             default='',
             help=(
                 'Template string, transforming the filemask '
-                'match to a base file name for new translations'
+                'match to a base filename for new translations'
             )
         )
         parser.add_argument(
             '--file-format',
-            default='auto',
-            help='File format type, defaults to autodetection',
+            default='po',
+            help='File format type, defaults to Gettext PO',
         )
         parser.add_argument(
             '--language-regex',
@@ -290,12 +290,12 @@ class Command(BaseCommand):
         else:
             self.discovery = ComponentDiscovery(
                 component,
-                self.filemask,
-                self.name_template,
-                self.language_regex,
-                self.base_file_template,
-                self.new_base_template,
-                self.file_format,
+                match=self.filemask,
+                name_template=self.name_template,
+                language_regex=self.language_regex,
+                base_file_template=self.base_file_template,
+                new_base_template=self.new_base_template,
+                file_format=self.file_format,
                 path=path
             )
             self.logger.info(

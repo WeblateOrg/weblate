@@ -17,9 +17,17 @@
 <tr class="{% cycle 'stripe-odd' 'stripe-even' as rowcolors %}">
 <td> {{ c.timestamp|naturaltime }}</td>
 <td>{{ c.get_user_display }}</td>
+{% if not hide_links %}
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
+{% else %}
+<td>{{ c.get_action_display }}</td>
+{% endif %}
 <td>{{ c.get_details_display }}</td>
+{% if not hide_links %}
 <td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
+{% else %}
+<td>{{ c.get_translation_display }}</td>
+{% endif %}
 <td></td>
 </tr>
 {% if c.can_revert %}
@@ -31,7 +39,7 @@
 {% endif %}
 <td>
 {% perm 'unit.edit' c.unit as user_can_translate %}
-{% if user_can_translate %}
+{% if user_can_translate and not hide_links %}
 <a class="btn btn-xs btn-default" href="{{ c.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
 {% endif %}
 </td>

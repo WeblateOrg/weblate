@@ -90,17 +90,19 @@ def weblate_context(request):
         login_redirect_url = request.get_full_path()
 
     # Load user translations if user is authenticated
-    subscribed_projects = None
-    if request.user.is_authenticated:
-        subscribed_projects = request.user.profile.subscriptions.all()
+    watched_projects = None
+    if hasattr(request, 'user') and request.user.is_authenticated:
+        watched_projects = request.user.allowed_projects.filter(
+            profile=request.user.profile
+        )
 
     if settings.OFFER_HOSTING:
         description = _(
-            'Hosted Weblate, the place to translate your software project.'
+            'Hosted Weblate, the place to localize your software project.'
         )
     else:
         description = _(
-            'This site runs Weblate for translating various software projects.'
+            'This site runs Weblate for localizing various software projects.'
         )
 
     weblate_url = URL_BASE % weblate.VERSION
@@ -135,7 +137,7 @@ def weblate_context(request):
         'has_ocr': weblate.screenshots.views.HAS_OCR,
         'has_antispam': bool(settings.AKISMET_API_KEY),
 
-        'subscribed_projects': subscribed_projects,
+        'watched_projects': watched_projects,
 
         'allow_index': False,
         'configuration_errors': ConfigurationError.objects.filter(

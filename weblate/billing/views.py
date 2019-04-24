@@ -87,7 +87,11 @@ def handle_post(request, billings):
 
 @login_required
 def overview(request):
-    billings = Billing.objects.for_user(request.user)
+    billings = Billing.objects.for_user(
+        request.user
+    ).prefetch_related(
+        'plan', 'projects', 'invoice_set'
+    )
     if request.method == 'POST':
         handle_post(request, billings)
         return redirect('billing')

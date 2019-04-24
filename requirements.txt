@@ -3,13 +3,13 @@ Django>=1.11; python_version >= '3.0'
 siphashc>=0.8
 Whoosh>=2.7.0
 translate-toolkit>=2.3.1
-lxml>=3.1.0
+lxml>=3.5,!=4.3.1
 backports.csv; python_version < '3.0'
 Pillow
 six>=1.7.0
 python-dateutil
-social-auth-core>=2.0.0
-social-auth-app-django>=3.0.0
+social-auth-core>=3.1.0
+social-auth-app-django>=3.1.0
 django-crispy-forms>=1.6.1
 oauthlib>=3.0.0
 django_compressor>=2.1.1
@@ -25,9 +25,9 @@ celery>=4.0
 celery-batches>=0.2
 translation-finder>=1.0
 pathlib2; python_version < '3.4'
+html2text>=2018.1.9
 # The only reason for this strict dependency is same dep in translate-toolkit
 # https://github.com/translate/translate/issues/3843
 diff-match-patch==20121119
-# This is workaround for dependency issues between
-# recent urllib3, requests and botocore
-urllib3<1.24
+# Temporary workaround for requests dependency
+urllib3<1.25

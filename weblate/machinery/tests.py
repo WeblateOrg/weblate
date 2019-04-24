@@ -45,7 +45,7 @@ from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
-    MicrosoftTerminologyService, MST_API_URL, MST_WSDL_URL,
+    MicrosoftTerminologyService, MST_API_URL,
 )
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
@@ -391,45 +391,51 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
-    def register_microsoft_terminology(self):
-        with open(TERMINOLOGY_WDSL, 'rb') as handle:
-            httpretty.register_uri(
-                httpretty.GET,
-                MST_WSDL_URL,
-                body=handle.read(),
-                content_type='text/xml',
-            )
+    def register_microsoft_terminology(self, fail=False):
+        def request_callback_get(request, uri, headers):
+            if request.path == '/Terminology.svc?wsdl':
+                with open(TERMINOLOGY_WDSL, 'rb') as handle:
+                    return (200, headers, handle.read())
+            if request.path.startswith('/Terminology.svc?wsdl='):
+                suffix = request.path[22:]
+                with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
+                    return (200, headers, handle.read())
+            if request.path.startswith('/Terminology.svc?xsd='):
+                suffix = request.path[21:]
+                with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
+                    return (200, headers, handle.read())
 
-    @httpretty.activate
-    def test_microsoft_terminology(self):
-        def request_callback(request, uri, headers):
+        def request_callback_post(request, uri, headers):
+            if fail:
+                return (500, headers, '')
             if b'GetLanguages' in request.body:
                 return (200, headers, TERMINOLOGY_LANGUAGES)
             return (200, headers, TERMINOLOGY_TRANSLATE)
 
-        self.register_microsoft_terminology()
-
-        machine = self.get_machine(MicrosoftTerminologyService)
+        httpretty.register_uri(
+            httpretty.GET,
+            MST_API_URL,
+            body=request_callback_get,
+            content_type='text/xml',
+        )
         httpretty.register_uri(
             httpretty.POST,
             MST_API_URL,
-            body=request_callback,
+            body=request_callback_post,
             content_type='text/xml',
         )
+
+    @httpretty.activate
+    def test_microsoft_terminology(self):
+        self.register_microsoft_terminology()
+        machine = self.get_machine(MicrosoftTerminologyService)
         self.assert_translate(machine)
         self.assert_translate(machine, lang='cs_CZ')
 
     @httpretty.activate
     def test_microsoft_terminology_error(self):
-        self.register_microsoft_terminology()
+        self.register_microsoft_terminology(True)
         machine = self.get_machine(MicrosoftTerminologyService)
-        httpretty.register_uri(
-            httpretty.POST,
-            MST_API_URL,
-            body='',
-            content_type='text/xml',
-            status=500,
-        )
         machine.get_supported_languages(HttpRequest())
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):

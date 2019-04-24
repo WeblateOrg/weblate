@@ -1,0 +1,30 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans %}New alert has been triggered on {{ component }} at {{ site_title }}.{% endblocktrans %}
+</p>
+
+<table>
+<tr>
+
+<th>
+{% trans "Alert:" %}
+</th>
+<td><a href="{{ current_site_url }}{{ component.get_absolute_url }}#alerts">{{ alert }}</a></td>
+</tr>
+
+<tr><td colspan="2">
+{{ alert.render }}
+</td></tr>
+
+</table>
+
+{% endblock %}
+

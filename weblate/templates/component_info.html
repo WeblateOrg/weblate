@@ -12,14 +12,14 @@
 <td colspan="2">
 <ul>
 {% if object.suggestion_voting and object.suggestion_autoaccept %}
-<li>{% trans "Translations can be made only through suggesting." %}</li>
-<li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions are automatically accepted as translations once they have {{ count }} vote.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
+<li>{% trans "Translations can only be done through suggestions." %}</li>
+<li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
 {% else %}
 <li>{% trans "Translations can be made directly." %}</li>
 {% if object.enable_suggestions %}
-<li>{% trans "Suggestions to improve translation can be made." %}</li>
+<li>{% trans "Translation suggestions can be made." %}</li>
 {% else %}
-<li>{% trans "Suggestions to improve translation are disabled." %}</li>
+<li>{% trans "Translation suggestions are turned off." %}</li>
 {% endif %}
 {% endif %}
 {% if object.project.access_control %}
@@ -28,14 +28,14 @@
 <li>{% trans "Any authenticated user can contribute." %}</li>
 {% endif %}
 {% if object.template %}
-<li>{% trans "The translation is using monolingual files." %}</li>
+<li>{% trans "The translation uses monolingual files." %}</li>
 {% if object.edit_template %}
-<li>{% trans "The translation base language can be edited." %}</li>
+<li>{% trans "The translation base language is editable." %}</li>
 {% else %}
 <li>{% trans "The translation base language can not be edited." %}</li>
 {% endif %}
 {% else %}
-<li>{% trans "The translation is using bilingual files." %}</li>
+<li>{% trans "The translation uses bilingual files." %}</li>
 {% endif %}
 </ul>
 </td>
@@ -82,7 +82,7 @@
 {% with object.get_export_url as export_url %}
 {% if export_url %}
 <tr>
-<th>{% trans "Repository with Weblate translations" %}</th>
+<th>{% trans "Repository containing Weblate translations" %}</th>
 <td colspan="2"><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
 </tr>
 {% endif %}
@@ -90,7 +90,7 @@
 {% endif %}
 
 <tr>
-<th>{% trans "File mask" %}</th><td><code>{{ object.filemask }}</code></td>
+<th>{% trans "Filemask" %}</th><td><code>{{ object.filemask }}</code></td>
 </tr>
 
 {% if object.template %}

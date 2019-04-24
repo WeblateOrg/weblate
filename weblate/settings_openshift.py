@@ -25,12 +25,7 @@ from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
 # Import example settings file to get default values for Weblate settings.
 from weblate.settings_example import *  # noqa
 
-
-def get_env_list(name, default=None):
-    """Helper to get list from environment."""
-    if name not in os.environ:
-        return default or []
-    return os.environ[name].split(',')
+from weblate.utils.environment import get_env_list, get_env_map
 
 
 DEBUG = False
@@ -137,9 +132,15 @@ if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
            r'/hooks/(.*)$',         # Allowing public access to notification hooks
            r'/healthz/$',           # Allowing public access to health check
            r'/api/(.*)$',           # Allowing access to API
-           r'/js/i18n/$',           # Javascript localization
+           r'/js/i18n/$',           # JavaScript localization
         ),
     )
+
+# Authentication configuration
+AUTHENTICATION_BACKENDS = ()
+
+if 'WEBLATE_NO_EMAIL_AUTH' not in os.environ:
+    AUTHENTICATION_BACKENDS += ('social_core.backends.email.EmailAuth',)
 
 # Enable possibility of using other auth providers via configuration
 
@@ -160,6 +161,19 @@ if 'WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY' in os.environ:
 if 'WEBLATE_SOCIAL_AUTH_GITLAB_KEY' in os.environ:
     AUTHENTICATION_BACKENDS += ('social_core.backends.gitlab.GitLabOAuth2',)
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
+
+if 'WEBLATE_SOCIAL_AUTH_GITHUB_KEY' in os.environ:
+    AUTHENTICATION_BACKENDS += ('social_core.backends.github.GithubOAuth2',)
+    SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+if 'WEBLATE_SOCIAL_AUTH_AUTH0_KEY' in os.environ:
+    AUTHENTICATION_BACKENDS += ('social_core.backends.auth0.Auth0OAuth2',)
+    SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
+
+if 'WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS' in os.environ:
+    auth0_args = get_env_map('WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS')
+    SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = auth0_args
+    os.environ.pop('WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS')
 
 # Azure
 if 'WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY' in os.environ:

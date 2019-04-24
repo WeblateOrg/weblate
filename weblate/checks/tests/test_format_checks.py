@@ -56,6 +56,13 @@ class PythonFormatCheckTest(CheckTestCase):
             False
         ))
 
+    def test_space_format(self):
+        self.assertTrue(self.check.check_format(
+            '%d % string',
+            '%d % other',
+            False
+        ))
+
     def test_percent_format(self):
         self.assertFalse(self.check.check_format(
             '%d%% string',
@@ -219,6 +226,13 @@ class PHPFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format(
             '%s%% %%',
             '%s%% percent',
+            False
+        ))
+
+    def test_space_format(self):
+        self.assertTrue(self.check.check_format(
+            '%d % string',
+            '%d % other',
             False
         ))
 

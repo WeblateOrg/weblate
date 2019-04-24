@@ -3,18 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Weblate's documentation!
-===================================
-
-Contents:
+.. include:: ../README.rst
 
 .. toctree::
-    :maxdepth: 2
+    :caption: User docs
+    :maxdepth: 1
 
-    about
-    user/index
+    user/basic
+    user/profile
+    user/translating
+    user/files
+    user/checks
     devel/index
-    admin/index
     workflows
     faq
     formats
@@ -22,8 +22,44 @@ Contents:
     api
     wlc
     python
+
+.. toctree::
+    :caption: Administrator docs
+    :maxdepth: 1
+
+    admin/quick
+    admin/install
+    admin/deployments
+    admin/upgrade
+    admin/backup
+    admin/auth
+    admin/access
+    admin/projects
+    admin/languages
+    admin/continuous
+    admin/licensing
+    admin/translating
+    admin/checks
+    admin/machine
+    admin/addons
+    admin/memory
+    admin/config
+    admin/sample
+    admin/management
+    admin/whiteboard
+    admin/componentlists
+    admin/optionals
+    admin/customize
+    admin/admin
     changes
+
+.. toctree::
+    :caption: Contributor docs
+    :maxdepth: 1
+
+    about
     contributing
+    debugging
     internals
     license
     legal
@@ -32,7 +68,7 @@ Contents:
 .. only:: format_html
 
    Indices and tables
-   ==================
+   ------------------
 
    * :ref:`genindex`
    * :ref:`search`

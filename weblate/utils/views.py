@@ -20,6 +20,8 @@
 """Helper methods for views."""
 
 from time import mktime
+import os
+from zipfile import ZipFile
 
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -146,9 +148,12 @@ def import_message(request, count, message_none, message_ok):
 def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
-            exporter = get_exporter(fmt)(translation=translation)
+            exporter_cls = get_exporter(fmt)
         except KeyError:
             raise Http404('File format not supported')
+        if not exporter_cls.supports(translation):
+            raise Http404('File format not supported')
+        exporter = exporter_cls(translation=translation)
         if units is None:
             units = translation.unit_set.all()
         exporter.add_units(units)
@@ -161,23 +166,36 @@ def download_translation_file(translation, fmt=None, units=None):
         # Force flushing pending units
         translation.commit_pending('download', None)
 
-        srcfilename = translation.get_filename()
+        filenames = translation.filenames
 
-        # Construct file name (do not use real filename as it is usually not
+        if len(filenames) == 1:
+            extension = translation.store.extension
+            # Create response
+            with open(filenames[0], 'rb') as handle:
+                response = HttpResponse(
+                    handle.read(),
+                    content_type=translation.store.mimetype
+                )
+        else:
+            extension = 'zip'
+            response = HttpResponse(content_type='application/zip')
+            root = translation.get_filename()
+            with ZipFile(response, 'w') as zipfile:
+                for filename in filenames:
+                    with open(filename, 'rb') as handle:
+                        zipfile.writestr(
+                            os.path.relpath(filename, root),
+                            handle.read()
+                        )
+
+        # Construct filename (do not use real filename as it is usually not
         # that useful)
         filename = '{0}-{1}-{2}.{3}'.format(
             translation.component.project.slug,
             translation.component.slug,
             translation.language.code,
-            translation.store.extension
+            extension
         )
-
-        # Create response
-        with open(srcfilename, 'rb') as handle:
-            response = HttpResponse(
-                handle.read(),
-                content_type=translation.store.mimetype
-            )
 
         # Fill in response headers
         response['Content-Disposition'] = 'attachment; filename={0}'.format(

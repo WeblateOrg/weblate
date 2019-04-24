@@ -25,6 +25,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.conf import settings
 from django.core import mail
+from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile
@@ -332,7 +333,7 @@ class ViewTest(TestCase):
             }
         )
 
-        self.assertRedirects(response, reverse('profile') + '#auth')
+        self.assertRedirects(response, reverse('profile') + '#account')
         self.assertTrue(
             User.objects.get(username='testuser').check_password('1pa$$word!')
         )
@@ -363,6 +364,7 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(reverse('profile'))
         self.assertContains(response, 'action="/accounts/profile/"')
         self.assertContains(response, 'name="secondary_languages"')
+        self.assertContains(response, reverse('userdata'))
 
         # Save profile
         response = self.client.post(
@@ -379,3 +381,132 @@ class ProfileTest(FixtureTestCase):
             }
         )
         self.assertRedirects(response, reverse('profile'))
+
+    def test_userdata(self):
+        response = self.client.post(reverse('userdata'))
+        self.assertContains(response, 'basic')
+
+        # Add more languages
+        self.user.profile.languages.add(Language.objects.get(code='pl'))
+        self.user.profile.secondary_languages.add(
+            Language.objects.get(code='de')
+        )
+        self.user.profile.secondary_languages.add(
+            Language.objects.get(code='uk')
+        )
+        response = self.client.post(reverse('userdata'))
+        self.assertContains(response, '"pl"')
+        self.assertContains(response, '"de"')
+
+    def test_subscription(self):
+        # Get profile page
+        response = self.client.get(reverse('profile'))
+        self.assertEqual(self.user.subscription_set.count(), 9)
+
+        # Extract current form data
+        data = {}
+        for form in response.context['all_forms']:
+            for field in form:
+                value = field.value()
+                name = field.html_name
+                if value is None:
+                    data[name] = ''
+                elif isinstance(value, list):
+                    data[name] = value
+                else:
+                    data[name] = force_text(value)
+
+        # Save unchanged data
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 9)
+
+        # Remove some subscriptions
+        data['notifications__0-notify-LastAuthorCommentNotificaton'] = '0'
+        data['notifications__0-notify-MentionCommentNotificaton'] = '0'
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 7)
+
+        # Add some subscriptions
+        data['notifications__1-notify-ChangedStringNotificaton'] = '1'
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertContains(response, 'Your profile has been updated.')
+        self.assertEqual(self.user.subscription_set.count(), 8)
+
+    def test_subscription_customize(self):
+        # Initial view
+        response = self.client.get(reverse('profile'))
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure project
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_project': self.project.pk}
+        )
+        self.assertContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure component
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_component': self.component.pk}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertContains(response, 'Component: Test/Test')
+        # Configure invalid
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_component': 'a'}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+        # Configure invalid
+        response = self.client.get(
+            reverse('profile'),
+            {'notify_project': 'a'}
+        )
+        self.assertNotContains(response, 'Project: Test')
+        self.assertNotContains(response, 'Component: Test/Test')
+
+    def test_watch(self):
+        self.assertEqual(self.user.profile.watched.count(), 0)
+        self.assertEqual(self.user.subscription_set.count(), 9)
+
+        # Watch project
+        self.client.post(reverse('watch', kwargs=self.kw_project))
+        self.assertEqual(self.user.profile.watched.count(), 1)
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            0
+        )
+
+        # Mute notifications for component
+        self.client.post(reverse('mute', kwargs=self.kw_component))
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                component=self.component
+            ).count(),
+            11
+        )
+
+        # Mute notifications for project
+        self.client.post(reverse('mute', kwargs=self.kw_project))
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            11
+        )
+
+        # Unwatch project
+        self.client.post(reverse('unwatch', kwargs=self.kw_project))
+        self.assertEqual(self.user.profile.watched.count(), 0)
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(),
+            0
+        )
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                component=self.component
+            ).count(),
+            0
+        )
+        self.assertEqual(self.user.subscription_set.count(), 9)

@@ -30,8 +30,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from PIL import Image
 
+from weblate.utils.locale import c_locale
+
 try:
-    from tesserocr import PyTessBaseAPI, RIL
+    with c_locale():
+        from tesserocr import PyTessBaseAPI, RIL
     HAS_OCR = True
 except ImportError:
     HAS_OCR = False
@@ -44,18 +47,22 @@ from weblate.utils.views import ComponentViewMixin
 
 
 def try_add_source(request, obj):
-    if 'source' not in request.POST or not request.POST['source'].isdigit():
+    if 'source' not in request.POST:
         return False
 
     try:
         source = Source.objects.get(
-            pk=request.POST['source'],
+            pk=int(request.POST['source']),
             component=obj.component
         )
-        obj.sources.add(source)
-        return True
-    except Source.DoesNotExist:
+    except (Source.DoesNotExist, ValueError):
         return False
+
+    if obj.component_id != source.component_id:
+        return False
+
+    obj.sources.add(source)
+    return True
 
 
 class ScreenshotList(ListView, ComponentViewMixin):
@@ -242,6 +249,7 @@ def ocr_extract(api, image, strings):
         for part in parts:
             for match in difflib.get_close_matches(part, strings, cutoff=0.9):
                 yield match
+    api.Clear()
 
 
 @login_required
@@ -272,7 +280,7 @@ def ocr_search(request, pk):
     results = set()
 
     # Extract and match strings
-    with PyTessBaseAPI() as api:
+    with c_locale(), PyTessBaseAPI() as api:
         for image in (original_image, scaled_image):
             for match in ocr_extract(api, image, strings):
                 results.add(sources[match])

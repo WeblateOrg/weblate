@@ -20,9 +20,12 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
 import gettext
 from itertools import chain
 import re
+
+from appconf import AppConf
 
 from django.conf import settings
 from django.db import models, transaction
@@ -35,8 +38,6 @@ from django.utils.translation import (
     ugettext as _, ugettext_lazy, pgettext_lazy,
 )
 from django.utils.safestring import mark_safe
-from django.dispatch import receiver
-from django.db.models.signals import post_migrate
 
 from weblate.lang import data
 from weblate.langdata import languages
@@ -139,6 +140,9 @@ class LanguageQuerySet(models.QuerySet):
 
         # Remove some unwanted chars
         code = code.replace(' ', '').replace('(', '').replace(')', '')
+
+        # Strip leading and trailing .
+        code = code.strip('.')
 
         return code
 
@@ -344,12 +348,10 @@ class LanguageQuerySet(models.QuerySet):
         return self.filter(translation__pk__gt=0).distinct()
 
 
-@receiver(post_migrate)
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
-    if sender.label == 'lang':
-        with transaction.atomic():
-            Language.objects.setup(False)
+    with transaction.atomic():
+        Language.objects.setup(False)
 
 
 @python_2_unicode_compatible
@@ -496,6 +498,10 @@ class Plural(models.Model):
             data.PLURAL_UNKNOWN,
             pgettext_lazy('Plural type', 'Unknown')
         ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER,
+            pgettext_lazy('Plural type', 'Zero/one/two/three/six/other')
+        ),
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
@@ -548,12 +554,10 @@ class Plural(models.Model):
 
     @cached_property
     def examples(self):
-        result = {}
+        result = defaultdict(list)
         func = self.plural_function
         for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
             ret = func(i)
-            if ret not in result:
-                result[ret] = []
             if len(result[ret]) >= 10:
                 continue
             result[ret].append(str(i))
@@ -634,3 +638,13 @@ class Plural(models.Model):
                 if self.type != data.PLURAL_UNKNOWN:
                     break
         super(Plural, self).save(*args, **kwargs)
+
+
+class WeblateLanguagesConf(AppConf):
+    """Languages settings."""
+
+    # Use simple language codes for default language/country combinations
+    SIMPLIFY_LANGUAGES = True
+
+    class Meta(object):
+        prefix = ''

@@ -37,9 +37,16 @@ COUNTS_DATA = [{
     'words': 2,
     'words_edit': 0,
     'words_new': 2,
+    'chars': 14,
     'chars_edit': 0,
     'chars_new': 14,
-    'email': 'weblate@example.org'
+    'email': 'weblate@example.org',
+    't_chars': 14,
+    't_chars_edit': 0,
+    't_chars_new': 14,
+    't_words': 2,
+    't_words_edit': 0,
+    't_words_new': 2,
 }]
 
 
@@ -168,19 +175,49 @@ class ReportsTest(ViewTestCase):
     def test_counts_view_html(self):
         response = self.get_counts('html')
         self.assertEqual(response.status_code, 200)
+        self.maxDiff = None
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
-            '<table>\n'
-            '<tr><th>Name</th><th>Email</th>'
-            '<th>Words total</th><th>Count total</th>'
-            '<th>Chars new</th><th>Words new</th><th>Count new</th>'
-            '<th>Chars edited</th><th>Words edited</th><th>Count edited</th>'
-            '</tr>'
-            '\n'
-            '<tr>\n<td>Weblate Test</td>\n'
-            '<td>weblate@example.org</td>\n'
-            '<td>2</td>\n<td>1</td>\n'
-            '<td>14</td>\n<td>2</td>\n<td>1</td>\n'
-            '<td>0</td>\n<td>0</td>\n<td>0</td>\n'
-            '\n</tr>\n</table>'
+            '''
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Count total</th>
+        <th>Source words total</th>
+        <th>Source chars total</th>
+        <th>Target words total</th>
+        <th>Target chars total</th>
+        <th>Count new</th>
+        <th>Source words new</th>
+        <th>Source chars new</th>
+        <th>Target words new</th>
+        <th>Target chars new</th>
+        <th>Count edited</th>
+        <th>Source words edited</th>
+        <th>Source chars edited</th>
+        <th>Target words edited</th>
+        <th>Target chars edited</th>
+    </tr>
+    <tr>
+        <td>Weblate Test</td>
+        <td>weblate@example.org</td>
+        <td>1</td>
+        <td>2</td>
+        <td>14</td>
+        <td>2</td>
+        <td>14</td>
+        <td>1</td>
+        <td>2</td>
+        <td>14</td>
+        <td>2</td>
+        <td>14</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+</table>
+'''
         )

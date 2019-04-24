@@ -1,0 +1,16 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans %}This is a digest for {{ notification_name }}:{% endblocktrans %}
+</p>
+
+{% include "last-changes-content.html" with hide_links=True last_changes=changes %}
+
+{% endblock %}

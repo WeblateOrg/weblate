@@ -8,7 +8,7 @@
 <th colspan="2">{% trans "Translated" %}</th>
 <th class="col-todo" style="display: none">{% trans "Untranslated" context "Number of untranslated strings" %}</th>
 <th class="col-words">{% trans "Words" context "Number of translated words" %}</th>
-<th class="col-fuzzy">{% trans "Review" context "Number of strings needing review" %}</th>
+<th class="col-fuzzy">{% trans "Needs editing" context "Number of strings needing edit" %}</th>
 <th class="col-checks">{% trans "Checks" context "Number of failing checks" %}</th>
 <th class="col-suggestions">{% trans "Suggestions" context "Number of suggestions" %}</th>
 <th class="col-comments">{% trans "Comments" context "Number of comments" %}</th>
@@ -20,7 +20,7 @@
   <ul class="dropdown-menu" id="columns-menu" role="menu">
     <li><a><label><input type="checkbox" id="toggle-todo"> {% trans "Untranslated" context "Number of untranslated strings" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-words" checked="true"> {% trans "Words" context "Number of translated words" %}</label></a></li>
-    <li><a><label><input type="checkbox" id="toggle-fuzzy" checked="true"> {% trans "Review" context "Number of strings needing review" %}</label></a></li>
+    <li><a><label><input type="checkbox" id="toggle-fuzzy" checked="true"> {% trans "Needs editing" context "Number of strings needing edit" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-checks" checked="true"> {% trans "Checks" context "Number of failing checks" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-suggestions" checked="true"> {% trans "Suggestions" context "Number of suggestions" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-comments" checked="true"> {% trans "Comments" context "Number of comments" %} </label></a></li>

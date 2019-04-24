@@ -41,7 +41,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             'file',
-            type=argparse.FileType('r'),
+            type=argparse.FileType('rb'),
             help='File to import (TMX or JSON)',
         )
 

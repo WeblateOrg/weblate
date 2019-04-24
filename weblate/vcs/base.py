@@ -204,6 +204,9 @@ class Repository(object):
     @cached_property
     def last_revision(self):
         """Return last local revision."""
+        return self.get_last_revision()
+
+    def get_last_revision(self):
         return self.execute(self._cmd_last_revision, needs_lock=False)
 
     @cached_property
@@ -349,18 +352,38 @@ class Repository(object):
         """Remove files and creates new revision."""
         raise NotImplementedError()
 
+    @staticmethod
+    def update_hash(objhash, filename, extra=None):
+        with open(filename, 'rb') as handle:
+            data = handle.read()
+        if extra:
+            objhash.update(extra.encode('utf-8'))
+        objhash.update('blob {0}\0'.format(len(data)).encode('ascii'))
+        objhash.update(data)
+
     def get_object_hash(self, path):
-        """Return hash of object in the VCS in a way compatible with Git."""
+        """Return hash of object in the VCS.
+
+        For files in a way compatible with Git, for dirs it behaves differently
+        as we do not need to track some attributes (eg. permissions)."""
         real_path = os.path.join(
             self.path,
             self.resolve_symlinks(path)
         )
         objhash = hashlib.sha1()
 
-        with open(real_path, 'rb') as handle:
-            data = handle.read()
-            objhash.update('blob {0}\0'.format(len(data)).encode('ascii'))
-            objhash.update(data)
+        if os.path.isdir(real_path):
+            files = []
+            for root, dummy, filenames in os.walk(real_path):
+                for filename in filenames:
+                    full_name = os.path.join(root, filename)
+                    files.append((
+                        full_name, os.path.relpath(full_name, self.path)
+                    ))
+            for filename, name in sorted(files):
+                self.update_hash(objhash, filename, name)
+        else:
+            self.update_hash(objhash, real_path)
 
         return objhash.hexdigest()
 

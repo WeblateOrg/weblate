@@ -41,7 +41,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     except Timeout as error:
         messages.error(
             request,
-            _('Failed to lock the repository, another operation in progress.')
+            _('Failed to lock the repository, another operation is in progress.')
         )
         report_error(error, request)
 

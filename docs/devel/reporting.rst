@@ -51,20 +51,35 @@ Contributor stats
 
 Generates the number of translated words and strings by translator name:
 
-.. code-block:: rst
-
-    ======================================== ======================================== ========== ==========
-    Name                                     Email                                    Words      Count     
-    ======================================== ======================================== ========== ==========
-    Michal Čihař                             michal@cihar.com                               2332        421 
-    John Doe                                 john@example.com                                 25          8 
-    ======================================== ======================================== ========== ==========
+.. literalinclude:: reporting-example.rst
+    :language: rst
+    :encoding: utf-8
 
 And it will get rendered as:
 
-    ======================================== ======================================== ========== ==========
-    Name                                     Email                                    Words      Count     
-    ======================================== ======================================== ========== ==========
-    Michal Čihař                             michal@cihar.com                               2332        421 
-    John Doe                                 john@example.com                                 25          8 
-    ======================================== ======================================== ========== ==========
+.. include:: reporting-example.rst
+
+It can be useful if you pay your translators based on amount of work, it gives
+you various stats on translators work.
+
+All stats are available in three variants:
+
+`Total`
+   Overall number of edited strings.
+`New`
+   Newly translated strings which didn't have translation before.
+`Edited`
+   Edited strings which had translation before.
+
+The following metrics are available for each:
+
+`Count`
+   Number of strings.
+`Source words`
+   Number of words in the source string.
+`Source chars`
+   Number of chars in the source string.
+`Target words`
+   Number of words in the translated string.
+`Target chars`
+   Number of chars in the translated string.

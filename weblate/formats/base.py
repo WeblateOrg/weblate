@@ -61,10 +61,11 @@ class TranslationUnit(object):
     It handles ID/template based translations and other API differences.
     """
 
-    def __init__(self, unit, template=None):
+    def __init__(self, parent, unit, template=None):
         """Create wrapper object."""
         self.unit = unit
         self.template = template
+        self.parent = parent
         if template is not None:
             self.mainunit = template
         else:
@@ -138,7 +139,7 @@ class TranslationUnit(object):
 
     def is_translated(self):
         """Check whether unit is translated."""
-        raise NotImplementedError()
+        return bool(self.target)
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
@@ -176,23 +177,26 @@ class TranslationFormat(object):
     monolingual = None
     check_flags = ()
     unit_class = TranslationUnit
-    new_translation = None
     autoload = ()
     can_add_unit = True
+    language_format = 'posix'
+    simple_filename = True
 
     @classmethod
     def get_identifier(cls):
         return cls.format_id
 
     @classmethod
-    def parse(cls, storefile, template_store=None, language_code=None):
+    def parse(cls, storefile, template_store=None, language_code=None,
+              is_template=False):
         """Parse store and returns TranslationFormat instance.
 
-        This wrapper is needed for AutoFormat to be able to return
+        This wrapper is needed for AutodetectFormat to be able to return
         instance of different class."""
-        return cls(storefile, template_store, language_code)
+        return cls(storefile, template_store, language_code, is_template)
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         """Create file format object, wrapping up translate-toolkit's store."""
         if (not isinstance(storefile, six.string_types) and
                 not hasattr(storefile, 'mode')):
@@ -211,6 +215,7 @@ class TranslationFormat(object):
 
         # Remember template
         self.template_store = template_store
+        self.is_template = is_template
 
     def get_filenames(self):
         if isinstance(self.storefile, six.string_types):
@@ -260,7 +265,7 @@ class TranslationFormat(object):
         else:
             add = False
 
-        return (self.unit_class(ttkit_unit, template_ttkit_unit), add)
+        return (self.unit_class(self, ttkit_unit, template_ttkit_unit), add)
 
     @cached_property
     def _source_index(self):
@@ -294,35 +299,38 @@ class TranslationFormat(object):
         """Update store header if available."""
         return
 
-    def save_content(self, handle):
-        """Stores content to file."""
-        raise NotImplementedError()
-
-    def save(self):
-        """Save underlaying store to disk."""
-        dirname, basename = os.path.split(self.storefile)
+    def save_atomic(self, filename, callback):
+        dirname, basename = os.path.split(filename)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
         temp = tempfile.NamedTemporaryFile(
             prefix=basename, dir=dirname, delete=False
         )
         try:
-            self.save_content(temp)
+            callback(temp)
             temp.close()
-            move_atomic(temp.name, self.storefile)
+            move_atomic(temp.name, filename)
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
 
+    def save(self):
+        """Save underlaying store to disk."""
+        raise NotImplementedError()
+
     @cached_property
     def mono_units(self):
-        return [self.unit_class(None, unit) for unit in self.store.units]
+        return [self.unit_class(self, None, unit) for unit in self.store.units]
 
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(unit) for unit in self.store.units]
+            return [self.unit_class(self, unit) for unit in self.store.units]
         return [
-            self.unit_class(self.find_unit_mono(unit.context), unit.template)
+            self.unit_class(
+                self, self.find_unit_mono(unit.context), unit.template
+            )
             for unit in self.template_store.mono_units
         ]
 
@@ -346,10 +354,32 @@ class TranslationFormat(object):
         """Check whether base is valid."""
         raise NotImplementedError()
 
-    @staticmethod
-    def get_language_code(code):
+    @classmethod
+    def get_language_code(cls, code, language_format=None):
         """Do any possible formatting needed for language code."""
+        if not language_format:
+            language_format = cls.language_format
+        return getattr(cls, 'get_language_{}'.format(language_format))(code)
+
+    @staticmethod
+    def get_language_posix(code):
         return code
+
+    @staticmethod
+    def get_language_bcp(code):
+        return code.replace('_', '-')
+
+    @staticmethod
+    def get_language_android(code):
+        # Android doesn't use Hans/Hant, but rather TW/CN variants
+        if code == 'zh_Hans':
+            return 'zh-rCN'
+        if code == 'zh_Hant':
+            return 'zh-rTW'
+        sanitized = code.replace('-', '_')
+        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
+            return 'b+{}'.format(sanitized.replace('_', '+'))
+        return sanitized.replace('_', '-r')
 
     @classmethod
     def get_language_filename(cls, mask, code):
@@ -400,11 +430,6 @@ class TranslationFormat(object):
 
             yield set_fuzzy, unit
 
-    @classmethod
-    def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from a store"""
-        raise NotImplementedError()
-
     def create_unit(self, key, source):
         raise NotImplementedError()
 
@@ -413,3 +438,7 @@ class TranslationFormat(object):
         unit = self.create_unit(key, source)
         self.add_unit(unit)
         self.save()
+
+    @classmethod
+    def get_class(cls):
+        raise NotImplementedError()

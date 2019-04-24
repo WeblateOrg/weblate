@@ -33,12 +33,16 @@ def is_spam(text, request):
             settings.AKISMET_API_KEY,
             get_site_url()
         )
-        return akismet.comment_check(
-            get_ip_address(request),
-            request.META.get('HTTP_USER_AGENT', ''),
-            comment_content=text,
-            comment_type='comment'
-        )
+        try:
+            return akismet.comment_check(
+                get_ip_address(request),
+                request.META.get('HTTP_USER_AGENT', ''),
+                comment_content=text,
+                comment_type='comment'
+            )
+        except OSError as error:
+            report_error(error)
+            return True
     return False
 
 
@@ -57,5 +61,5 @@ def report_spam(text, user_ip, user_agent):
             comment_content=text,
             comment_type='comment'
         )
-    except ProtocolError as error:
+    except (ProtocolError, OSError) as error:
         report_error(error)

@@ -100,6 +100,7 @@ LANGUAGES = (
     ('id', 'Indonesia'),
     ('it', 'Italiano'),
     ('ja', '日本語'),
+    ('kk', 'Қазақ тілі'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),
     ('nb', 'Norsk bokmål'),
@@ -289,7 +290,7 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = \
 SOCIAL_AUTH_EMAIL_FORM_URL = \
     '{0}/accounts/email/'.format(URL_PREFIX)
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
-    '{0}/accounts/profile/#auth'.format(URL_PREFIX)
+    '{0}/accounts/profile/#account'.format(URL_PREFIX)
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'weblate.accounts.pipeline.slugify_username'
@@ -653,6 +654,11 @@ ENABLE_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
+# By default the length of a given translation is limited to the length of
+# the source string * 10 characters. Set this option to False to allow longer
+# translations (up to 10.000 characters)
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
+
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
 
@@ -673,12 +679,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.chars.EndEllipsisCheck',
 #     'weblate.checks.chars.EndSemicolonCheck',
 #     'weblate.checks.chars.MaxLengthCheck',
+#     'weblate.checks.chars.KashidaCheck',
 #     'weblate.checks.format.PythonFormatCheck',
 #     'weblate.checks.format.PythonBraceFormatCheck',
 #     'weblate.checks.format.PHPFormatCheck',
 #     'weblate.checks.format.CFormatCheck',
 #     'weblate.checks.format.PerlFormatCheck',
-#     'weblate.checks.format.JavascriptFormatCheck',
+#     'weblate.checks.format.JavaScriptFormatCheck',
 #     'weblate.checks.format.CSharpFormatCheck',
 #     'weblate.checks.format.JavaFormatCheck',
 #     'weblate.checks.format.JavaMessageFormatCheck',
@@ -740,7 +747,6 @@ ALLOWED_HOSTS = []
 
 # Example configuration for caching
 # CACHES = {
-# Recommended redis + hiredis:
 #     'default': {
 #         'BACKEND': 'django_redis.cache.RedisCache',
 #         'LOCATION': 'redis://127.0.0.1:6379/0',
@@ -751,11 +757,6 @@ ALLOWED_HOSTS = []
 #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
 #             'PARSER_CLASS': 'redis.connection.HiredisParser',
 #         }
-#     },
-# Memcached alternative:
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -810,7 +811,7 @@ REST_FRAMEWORK = {
 #    r'/hooks/(.*)$',           # Allowing public access to notification hooks
 #    r'/healthz/$',             # Allowing public access to health check
 #    r'/api/(.*)$',             # Allowing access to API
-#    r'/js/i18n/$',             # Javascript localization
+#    r'/js/i18n/$',             # JavaScript localization
 #    r'/contact/$',             # Optional for contact form
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
@@ -825,7 +826,7 @@ SILENCED_SYSTEM_CHECKS = [
 # Celery worker configuration for testing
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
-CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 # CELERY_TASK_ALWAYS_EAGER = False
 # CELERY_BROKER_URL = 'redis://localhost:6379'
@@ -833,6 +834,7 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
 )

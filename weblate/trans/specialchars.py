@@ -463,7 +463,7 @@ def format_char(char):
     return name, display, char
 
 
-def get_special_chars(language, additional=''):
+def get_special_chars(language, additional='', source=''):
     """Return list of special characters."""
     for char in settings.SPECIAL_CHARS:
         yield format_char(char)
@@ -489,6 +489,28 @@ def get_special_chars(language, additional=''):
 
     for char in additional:
         yield _('User configured character: {}').format(char), char, char
+
+    rtl = language.direction == 'rtl'
+    for char in set(source):
+        try:
+            name = unicodedata.name(char)
+        except ValueError:
+            continue
+        if 'ARROW' in name:
+            if rtl and 'LEFT' in name:
+                try:
+                    char = unicodedata.lookup(name.replace('LEFT', 'RIGHT'))
+                except KeyError:
+                    continue
+                yield format_char(char)
+            elif rtl and 'RIGHT' in name:
+                try:
+                    char = unicodedata.lookup(name.replace('RIGHT', 'LEFT'))
+                except KeyError:
+                    continue
+                yield format_char(char)
+            else:
+                yield format_char(char)
 
 
 RTL_CHARS_DATA = [format_char(six.unichr(c)) for c in RTL_CHARS]

@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
+
 from celery.beat import PersistentScheduler
 
 from django.conf import settings
@@ -29,6 +31,11 @@ from weblate.celery import app
 class Command(BaseCommand):
     help = 'removes incompatible celery schedule file'
 
+    @staticmethod
+    def try_remove(filename):
+        if os.path.exists(filename):
+            os.remove(filename)
+
     def handle(self, *args, **options):
         try:
             scheduler = PersistentScheduler(
@@ -38,6 +45,12 @@ class Command(BaseCommand):
             scheduler.setup_schedule()
         except Exception as error:
             self.stderr.write(
-                'Removing corrupted schedule file: {:r}'.format(error)
+                'Removing corrupted schedule file: {!r}'.format(error)
             )
-            scheduler._remove_db()
+            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
+            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + '.db')
+            scheduler = PersistentScheduler(
+                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
+                app=app
+            )
+            scheduler.setup_schedule()

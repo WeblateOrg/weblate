@@ -3,15 +3,15 @@
 
 <p>{% trans "Weblate could not parse the translation files while updating the translations." %}</p>
 
-<p>{% trans "The following occurences were found:" %}</p>
+<p>{% trans "The following occurrences were found:" %}</p>
 
 <table class="table table-condensed">
 <thead>
 <tr><th>{% trans "Filename" %}</th><th>{% trans "Error" %}</th></tr>
 </thead>
 <tbody>
-{% for occurence in occurences %}
-<tr><td>{{ occurence.filename }}</td><td>{{ occurence.error }}</td></tr>
+{% for occurrence in occurrences %}
+<tr><td>{{ occurrence.filename }}</td><td>{{ occurrence.error }}</td></tr>
 {% endfor %}
 </tbody>
 </table>

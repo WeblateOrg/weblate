@@ -20,7 +20,6 @@
 
 from __future__ import print_function, unicode_literals
 
-import importlib
 import sys
 from distutils.version import LooseVersion
 
@@ -39,34 +38,26 @@ from weblate.vcs.mercurial import HgRepository
 import weblate
 
 
-def get_version_module(module, name, url, optional=False):
+def get_version_module(name, url, optional=False):
     """Return module object.
 
     On error raises verbose exception with name and URL.
     """
     try:
-        mod = importlib.import_module(module)
-    except ImportError:
+        return pkg_resources.get_distribution(name).version
+    except pkg_resources.DistributionNotFound:
         if optional:
             return None
         raise ImproperlyConfigured(
-            'Failed to import {0}, please install {1} from {2}'.format(
-                module, name, url
-            )
+            'Missing dependency, please install {0} from {1}'.format(name, url)
         )
-    return mod
 
 
-def get_optional_module(result, module, name, url):
+def get_optional_module(result, name, url):
     """Get metadata for optional dependency"""
-    mod = get_version_module(module, name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            pkg_resources.get_distribution(name).version,
-            None,
-        ))
+    version = get_version_module(name, url, True)
+    if version is not None:
+        result.append((name, url, version, None))
 
 
 def get_optional_versions():
@@ -74,24 +65,23 @@ def get_optional_versions():
     result = []
 
     get_optional_module(
-        result, 'pytz', 'pytz', 'https://pypi.org/project/pytz/'
+        result, 'pytz', 'https://pypi.org/project/pytz/'
     )
 
     get_optional_module(
-        result, 'pyuca', 'pyuca', 'https://github.com/jtauber/pyuca'
+        result, 'pyuca', 'https://github.com/jtauber/pyuca'
     )
 
     get_optional_module(
-        result, 'bidi', 'python-bidi',
-        'https://github.com/MeirKriheli/python-bidi'
+        result, 'python-bidi', 'https://github.com/MeirKriheli/python-bidi'
     )
 
     get_optional_module(
-        result, 'yaml', 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
+        result, 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
     )
 
     get_optional_module(
-        result, 'tesserocr', 'tesserocr', 'https://github.com/sirfz/tesserocr'
+        result, 'tesserocr', 'https://github.com/sirfz/tesserocr'
     )
 
     if HgRepository.is_supported():
@@ -129,13 +119,12 @@ def get_optional_versions():
     return result
 
 
-def get_single(name, url, module, required):
+def get_single(name, url, required):
     """Return version information for single module"""
-    get_version_module(module, name, url)
     return (
         name,
         url,
-        pkg_resources.get_distribution(name).version,
+        get_version_module(name, url),
         required,
     )
 
@@ -154,77 +143,66 @@ def get_versions():
     result.append(get_single(
         'Django',
         'https://www.djangoproject.com/',
-        'django',
         '1.11',
     ))
 
     result.append(get_single(
         'Celery',
         'http://www.celeryproject.org/',
-        'celery',
         '4.0',
     ))
 
     result.append(get_single(
         'celery-batches',
         'https://pypi.org/project/celery-batches/',
-        'celery_batches',
         '0.2',
     ))
 
     result.append(get_single(
         'six',
         'https://pypi.org/project/six/',
-        'six',
         '1.7.0',
     ))
 
     result.append(get_single(
         'social-auth-core',
         'https://python-social-auth.readthedocs.io/',
-        'social_core',
-        '2.0.0',
+        '3.1.0',
     ))
 
     result.append(get_single(
         'social-auth-app-django',
         'https://python-social-auth.readthedocs.io/',
-        'social_django',
-        '3.0.0',
+        '3.1.0',
     ))
 
     result.append(get_single(
         'django-appconf',
         'https://github.com/django-compressor/django-appconf',
-        'appconf',
         '1.0'
     ))
 
     result.append(get_single(
         'translate-toolkit',
         'https://toolkit.translatehouse.org/',
-        'translate',
         '2.3.1',
     ))
 
     result.append(get_single(
         'translation-finder',
         'https://github.com/WeblateOrg/translation-finder',
-        'translation_finder',
         '1.0',
     ))
 
     result.append(get_single(
         'Whoosh',
         'https://bitbucket.org/mchaput/whoosh/',
-        'whoosh',
         '2.7',
     ))
 
     result.append(get_single(
         'defusedxml',
         'https://bitbucket.org/tiran/defusedxml',
-        'defusedxml',
         '0.4',
     ))
 
@@ -241,63 +219,54 @@ def get_versions():
     result.append(get_single(
         'Pillow',
         'https://python-pillow.org/',
-        'PIL.Image',
         '1.1.6',
     ))
 
     result.append(get_single(
         'python-dateutil',
         'https://labix.org/python-dateutil',
-        'dateutil',
         '1.0'
     ))
 
     result.append(get_single(
         'lxml',
         'https://lxml.de/',
-        'lxml.etree',
-        '3.1.0',
+        '3.5.0',
     ))
 
     result.append(get_single(
         'django-crispy-forms',
         'https://django-crispy-forms.readthedocs.io/',
-        'crispy_forms',
         '1.6.1',
     ))
 
     result.append(get_single(
         'django_compressor',
         'https://github.com/django-compressor/django-compressor',
-        'compressor',
         '2.1',
     ))
 
     result.append(get_single(
         'djangorestframework',
         'https://www.django-rest-framework.org/',
-        'rest_framework',
         '3.8',
     ))
 
     result.append(get_single(
         'user-agents',
         'https://github.com/selwin/python-user-agents',
-        'user_agents',
         '1.1.0',
     ))
 
     result.append(get_single(
         'jellyfish',
         'https://github.com/jamesturk/jellyfish',
-        'jellyfish',
         '0.6.1',
     ))
 
     result.append(get_single(
         'diff-match-patch',
         'https://github.com/diff-match-patch-python/diff-match-patch',
-        'diff_match_patch',
         '20121119',
     ))
 

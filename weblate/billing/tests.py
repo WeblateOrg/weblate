@@ -33,6 +33,10 @@ from six import StringIO
 
 from weblate.auth.models import User
 from weblate.billing.models import Plan, Billing, Invoice
+from weblate.billing.tasks import (
+    notify_expired, schedule_removal, perform_removal, billing_alert,
+    billing_check,
+)
 from weblate.trans.models import Project
 
 
@@ -53,6 +57,7 @@ class BillingTest(TestCase):
             name='test', limit_projects=1, price=1.0
         )
         self.billing = Billing.objects.create(plan=self.plan)
+        self.billing.owners.add(self.user)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
@@ -140,24 +145,18 @@ class BillingTest(TestCase):
             amount=30
         )
         # Full overlap
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Start overlap
         invoice.start = self.invoice.end + timedelta(days=1)
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Zero interval
         invoice.end = self.invoice.end + timedelta(days=1)
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Valid after existing
         invoice.end = self.invoice.end + timedelta(days=2)
@@ -166,10 +165,8 @@ class BillingTest(TestCase):
         # End overlap
         invoice.start = self.invoice.start - timedelta(days=4)
         invoice.end = self.invoice.end
-        self.assertRaises(
-            ValidationError,
-            invoice.clean
-        )
+        with self.assertRaises(ValidationError):
+            invoice.clean()
 
         # Valid before existing
         invoice.end = self.invoice.start - timedelta(days=1)
@@ -217,3 +214,126 @@ class BillingTest(TestCase):
             reverse('invoice-download', kwargs={'pk': invoice.pk})
         )
         self.assertEqual(404, response.status_code)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX='')
+    def test_expiry(self):
+        self.add_project()
+
+        # Paid
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        billing_alert()
+        self.assertEqual(len(mail.outbox), 0)
+        self.billing.refresh_from_db()
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.projects.count(), 1)
+
+        # Not paid
+        self.invoice.start -= timedelta(days=14)
+        self.invoice.end -= timedelta(days=14)
+        self.invoice.save()
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        billing_alert()
+        self.assertEqual(len(mail.outbox), 1)
+        self.billing.refresh_from_db()
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your billing plan has expired'
+        )
+
+        # Not paid for long
+        self.invoice.start -= timedelta(days=30)
+        self.invoice.end -= timedelta(days=30)
+        self.invoice.save()
+        schedule_removal()
+        notify_expired()
+        perform_removal()
+        billing_alert()
+        self.assertEqual(len(mail.outbox), 1)
+        self.billing.refresh_from_db()
+        self.assertIsNotNone(self.billing.removal)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your translation project is scheduled for removal'
+        )
+
+        # Final removal
+        self.billing.removal = timezone.now() - timedelta(days=30)
+        self.billing.save()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertEqual(self.billing.projects.count(), 0)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your translation project was removed'
+        )
+
+    @override_settings(EMAIL_SUBJECT_PREFIX='')
+    def test_trial(self):
+        self.billing.state = Billing.STATE_TRIAL
+        self.billing.save()
+        self.billing.invoice_set.all().delete()
+        self.add_project()
+
+        # No expiry set
+        billing_check()
+        notify_expired()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Future expiry
+        self.billing.expiry = timezone.now() + timedelta(days=1)
+        self.billing.save()
+        billing_check()
+        notify_expired()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Past expiry
+        self.billing.expiry = timezone.now() - timedelta(days=1)
+        self.billing.save()
+        billing_check()
+        notify_expired()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNotNone(self.billing.removal)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your translation project is scheduled for removal'
+        )
+
+        # Removal
+        self.billing.removal = timezone.now() - timedelta(days=30)
+        self.billing.save()
+        billing_check()
+        perform_removal()
+        self.billing.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertEqual(self.billing.projects.count(), 0)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            'Your translation project was removed'
+        )

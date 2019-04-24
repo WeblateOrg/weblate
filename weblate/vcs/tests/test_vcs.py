@@ -88,7 +88,6 @@ class RepositoryTest(TestCase):
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class = GitRepository
     _vcs = 'git'
-    _can_push = True
     _sets_push = True
 
     def setUp(self):
@@ -100,6 +99,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
         self.create_temp()
         self.repo = self.clone_repo(self.tempdir)
+        self.fixup_repo(self.repo)
+
+    def fixup_repo(self, repo):
+        return
 
     def clone_repo(self, path):
         return self._class.clone(
@@ -116,6 +119,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         tempdir = tempfile.mkdtemp()
         try:
             repo = self.clone_repo(tempdir)
+            self.fixup_repo(repo)
+
             with repo.lock:
                 repo.set_committer('Second Bar', 'second@example.net')
             if conflict:
@@ -210,17 +215,13 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_merge_conflict(self):
         self.add_remote_commit(conflict=True)
         self.test_commit()
-        if self._can_push:
-            self.assertRaises(RepositoryException, self.test_merge)
-        else:
+        with self.assertRaises(RepositoryException):
             self.test_merge()
 
     def test_rebase_conflict(self):
         self.add_remote_commit(conflict=True)
         self.test_commit()
-        if self._can_push:
-            self.assertRaises(RepositoryException, self.test_rebase)
-        else:
+        with self.assertRaises(RepositoryException):
             self.test_rebase()
 
     def test_upstream_changes(self):
@@ -336,13 +337,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         )
 
         # Check invalid commit
-        with self.repo.lock:
-            self.assertRaises(
-                RepositoryException,
-                self.repo.commit,
-                'test commit',
-                'Foo <bar@example.com>',
-            )
+        with self.repo.lock, self.assertRaises(RepositoryException):
+            self.repo.commit('test commit', 'Foo <bar@example.com>')
 
     def test_remove(self):
         with self.repo.lock:
@@ -402,11 +398,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.configure_branch(self._class.default_branch)
 
-            self.assertRaises(
-                RepositoryException,
-                self.repo.configure_branch,
-                'branch'
-            )
+            with self.assertRaises(RepositoryException):
+                self.repo.configure_branch('branch')
 
     def test_get_file(self):
         self.assertIn(
@@ -418,7 +411,22 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository
     _vcs = 'git'
-    _can_push = False
+
+    def fixup_repo(self, repo):
+        # Create commit-msg hook, so that git-review doesn't try
+        # to create one
+        hook = os.path.join(repo.path, '.git', 'hooks', 'commit-msg')
+        with open(hook, 'w') as handle:
+            handle.write('#!/bin/sh\nexit 0\n')
+        os.chmod(hook, 0o755)
+
+    def add_remote_commit(self, conflict=False):
+        # Use Git to create changed upstream repo
+        self._class = GitRepository
+        try:
+            super(VCSGerritTest, self).add_remote_commit(conflict)
+        finally:
+            self._class = GitWithGerritRepository
 
 
 class VCSGithubTest(VCSGitTest):

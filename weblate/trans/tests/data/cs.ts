@@ -13,7 +13,11 @@
     <message numerus="yes">
         <source>Orangutan has %d banana(s).
 </source>
-        <translation type="unfinished"><numerusform /><numerusform /><numerusform /></translation>
+        <translation type="unfinished">
+            <numerusform />
+            <numerusform />
+            <numerusform />
+        </translation>
     </message>
 </context>
 <context>

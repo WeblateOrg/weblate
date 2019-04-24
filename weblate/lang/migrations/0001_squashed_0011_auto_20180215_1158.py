@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('source', models.SmallIntegerField(choices=[(0, 'Default plural'), (1, 'Gettext plural formula')], default=0, verbose_name='Plural definition source')),
                 ('number', models.SmallIntegerField(default=2, verbose_name='Number of plurals')),
                 ('equation', models.CharField(default='n != 1', max_length=400, validators=[weblate.utils.validators.validate_pluraleq], verbose_name='Plural equation')),
-                ('type', models.IntegerField(choices=[(0, 'None'), (1, 'One/other (classic plural)'), (2, 'One/few/other (Slavic languages)'), (3, 'Arabic languages'), (11, 'Zero/one/other'), (4, 'One/two/other'), (14, 'One/other/two'), (6, 'One/two/few/other'), (13, 'Other/one/two/few'), (5, 'One/two/three/other'), (7, 'One/other/zero'), (8, 'One/few/many/other'), (9, 'Two/other'), (10, 'One/two/few/many/other'), (666, 'Unknown')], default=1, editable=False, verbose_name='Plural type')),
+                ('type', models.IntegerField(choices=[(0, 'None'), (1, 'One/other (classic plural)'), (2, 'One/few/other (Slavic languages)'), (3, 'Arabic languages'), (11, 'Zero/one/other'), (4, 'One/two/other'), (14, 'One/other/two'), (6, 'One/two/few/other'), (13, 'Other/one/two/few'), (5, 'One/two/three/other'), (7, 'One/other/zero'), (8, 'One/few/many/other'), (9, 'Two/other'), (10, 'One/two/few/many/other'), (666, 'Unknown'), (12, 'Zero/one/two/three/six/other')], default=1, editable=False, verbose_name='Plural type')),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
             ],
             options={

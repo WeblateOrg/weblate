@@ -61,12 +61,19 @@ class RegistrationTestMixin(object):
         live_url = getattr(self, 'live_server_url', None)
 
         # Parse URL
-        line = ''
         for line in mail.outbox[0].body.splitlines():
-            if live_url and line.startswith(live_url):
-                return line
-            if line.startswith('http://example.com'):
-                return line[18:]
+            if 'verification_code' not in line:
+                continue
+            if '(' in line and ')' in line:
+                result = line[line.index('(') + 1:line.index(')')]
+            elif '<' in line and '>' in line:
+                result = line[line.index('<') + 1:line.index('>')]
+            else:
+                continue
+            if live_url and result.startswith(live_url):
+                return result
+            if result.startswith('http://example.com'):
+                return result[18:]
 
         self.fail('Confirmation URL not found')
         return ''
@@ -142,10 +149,10 @@ class ViewTestCase(RepoTestCase):
         # Project privileges
         self.project.add_user(self.user, '@Administration')
 
-    def get_request(self, *args, **kwargs):
+    def get_request(self, user=None):
         """Wrapper to get fake request object."""
-        request = self.factory.get(*args, **kwargs)
-        request.user = self.user
+        request = self.factory.get('/')
+        request.user = user if user else self.user
         setattr(request, 'session', 'session')
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
@@ -160,10 +167,11 @@ class ViewTestCase(RepoTestCase):
         translation = self.get_translation(language)
         return translation.unit_set.get(source__startswith=source)
 
-    def change_unit(self, target, source='Hello, world!\n', language='cs'):
+    def change_unit(self, target, source='Hello, world!\n', language='cs',
+                    user=None):
         unit = self.get_unit(source, language)
         unit.target = target
-        unit.save_backend(self.get_request('/'))
+        unit.save_backend(self.get_request(user=user))
 
     def edit_unit(self, source, target, **kwargs):
         """Do edit single unit using web interface."""
@@ -298,7 +306,7 @@ class TranslationManipulationTest(ViewTestCase):
         self.assertTrue(
             self.component.add_new_language(
                 Language.objects.get(code='af'),
-                self.get_request('/')
+                self.get_request()
             )
         )
         self.assertTrue(
@@ -311,7 +319,7 @@ class TranslationManipulationTest(ViewTestCase):
         self.assertFalse(
             self.component.add_new_language(
                 Language.objects.get(code='de'),
-                self.get_request('/')
+                self.get_request()
             )
         )
 
@@ -320,8 +328,20 @@ class TranslationManipulationTest(ViewTestCase):
         self.component.save()
         self.assertFalse(
             self.component.add_new_language(
-                Language.objects.get(code='de'),
-                self.get_request('/')
+                Language.objects.get(code='af'),
+                self.get_request()
+            )
+        )
+
+    def test_model_add_superuser(self):
+        self.component.new_lang = 'contact'
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertTrue(
+            self.component.add_new_language(
+                Language.objects.get(code='af'),
+                self.get_request()
             )
         )
 
@@ -338,6 +358,8 @@ class TranslationManipulationTest(ViewTestCase):
 
 
 class NewLangTest(ViewTestCase):
+    expected_lang_code = 'pt_BR'
+
     def create_component(self):
         return self.create_po_new_base(new_lang='add')
 
@@ -388,8 +410,9 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
-        # Add manager to receive notifications
-        self.make_manager()
+        # Make admin to receive notifications
+        self.project.add_user(self.anotheruser, '@Administration')
+
         self.component.new_lang = 'contact'
         self.component.save()
 
@@ -416,6 +439,9 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add(self):
+        # Make admin to receive notifications
+        self.project.add_user(self.anotheruser, '@Administration')
+
         self.assertFalse(
             self.component.translation_set.filter(
                 language__code='af'
@@ -440,6 +466,13 @@ class NewLangTest(ViewTestCase):
             self.component.translation_set.filter(
                 language__code='af'
             ).exists()
+        )
+
+        # Verify mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New language added to Test/Test',
         )
 
         # Not selected language
@@ -514,11 +547,38 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Given language is filtered by the language filter!',
+            'The given language is filtered by the language filter.',
         )
+
+    def test_add_code(self):
+        def perform(style, code, expected):
+            self.component.language_code_style = style
+            self.component.save()
+
+            self.assertFalse(
+                self.component.translation_set.filter(
+                    language__code=code
+                ).exists()
+            )
+            self.client.post(
+                reverse('new-language', kwargs=self.kw_component),
+                {'lang': code},
+            )
+            translation = self.component.translation_set.get(
+                language__code=code
+            )
+            self.assertEqual(translation.language_code, expected)
+            translation.remove(self.user)
+
+        perform('', 'pt_BR', self.expected_lang_code)
+        perform('posix', 'pt_BR', 'pt_BR')
+        perform('bcp', 'pt_BR', 'pt-BR')
+        perform('android', 'pt_BR', 'pt-rBR')
 
 
 class AndroidNewLangTest(NewLangTest):
+    expected_lang_code = 'pt-rBR'
+
     def create_component(self):
         return self.create_android(new_lang='add')
 
@@ -657,12 +717,12 @@ class HomeViewTest(ViewTestCase):
     def test_subscriptions(self):
         # no subscribed projects at first
         response = self.client.get(reverse('home'))
-        self.assertFalse(len(response.context['subscribed_projects']))
+        self.assertFalse(len(response.context['watched_projects']))
 
         # subscribe a project
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
-        self.assertEqual(len(response.context['subscribed_projects']), 1)
+        self.assertEqual(len(response.context['watched_projects']), 1)
 
     def test_language_filters(self):
         # check language filters
@@ -678,7 +738,7 @@ class HomeViewTest(ViewTestCase):
         self.assertFalse(response.context['usersubscriptions'])
 
         # add a subscription
-        self.user.profile.subscriptions.add(self.project)
+        self.user.profile.watched.add(self.project)
         response = self.client.get(reverse('home'))
         self.assertEqual(len(response.context['usersubscriptions']), 1)
 

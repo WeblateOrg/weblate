@@ -28,7 +28,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
 from django.db.models.signals import (
-    post_save, post_migrate, pre_delete, m2m_changed
+    post_save, pre_delete, m2m_changed
 )
 from django.dispatch import receiver
 from django.http import Http404
@@ -237,7 +237,9 @@ class UserManager(BaseUserManager):
         return self.filter(groups__in=groups).distinct()
 
     def having_perm(self, perm, project):
-        """All users having permission on a project."""
+        """All users having explicit permission on a project.
+
+        Note: This intentionally does not list superusers."""
         groups = Group.objects.filter(
             roles__permissions__codename=perm,
             projects=project
@@ -558,13 +560,8 @@ def create_groups(update):
             project.save()
 
 
-@receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
-    """Create groups."""
-    if sender.label != 'weblate_auth':
-        return
-
-    # Create default groups
+    """Create default groups."""
     create_groups(False)
 
 
@@ -705,6 +702,9 @@ class WeblateAuthConf(AppConf):
     """Authentication settings."""
     AUTH_VALIDATE_PERMS = False
     AUTH_RESTRICT_ADMINS = {}
+
+    # Anonymous user name
+    ANONYMOUS_USER_NAME = 'anonymous'
 
     class Meta(object):
         prefix = ''

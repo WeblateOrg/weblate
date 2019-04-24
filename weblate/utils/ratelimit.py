@@ -29,7 +29,6 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
-from django.utils.translation import ugettext as _
 
 from weblate.utils import messages
 from weblate.utils.request import get_ip_address
@@ -63,6 +62,20 @@ def get_rate_setting(scope, suffix):
     if hasattr(settings, key):
         return getattr(settings, key)
     return getattr(settings, 'RATELIMIT_{}'.format(suffix))
+
+
+def revert_rate_limit(scope, request):
+    """Revert rate limit to previous state.
+
+    This can be used when rate limiting POST, but ignoring some events.
+    """
+    key = get_cache_key(scope, request)
+
+    try:
+        # Try to decrease cache key
+        cache.decr(key)
+    except ValueError:
+        pass
 
 
 def check_rate_limit(scope, request):
@@ -99,7 +112,9 @@ def session_ratelimit_post(scope):
                     logout(request)
                 messages.error(
                     request,
-                    render_to_string('ratelimit.html', {'do_logout': do_logout})
+                    render_to_string(
+                        'ratelimit.html', {'do_logout': do_logout}
+                    )
                 )
                 return redirect('login')
             return function(request, *args, **kwargs)

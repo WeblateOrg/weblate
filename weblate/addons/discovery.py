@@ -51,10 +51,6 @@ class DiscoveryAddon(BaseAddon):
     def post_update(self, component, previous_head):
         self.perform()
 
-    def configure(self, settings):
-        super(DiscoveryAddon, self).configure(settings)
-        self.perform()
-
     def perform(self):
         self.discovery.perform(
             remove=self.instance.configuration['remove'],
@@ -75,12 +71,7 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration['new_base_template'] = ''
         return ComponentDiscovery(
             self.instance.component,
-            self.instance.configuration['match'],
-            self.instance.configuration['name_template'],
-            self.instance.configuration['language_regex'],
-            self.instance.configuration['base_file_template'],
-            self.instance.configuration['new_base_template'],
-            self.instance.configuration['file_format'],
+            **ComponentDiscovery.extract_kwargs(self.instance.configuration)
         )
 
     def get_summary(self):

@@ -79,10 +79,6 @@ footer a {
     background-color: #eee;
 }
 
-#preferences ul, #subscriptions ul {
-    list-style: none;
-    padding: 0;
-}
 .pagination {
     margin: 5px 0;
 }
@@ -226,7 +222,7 @@ td .list-group {
 .fa-bitbucket {
     color: #205081;
 }
-.fa-facebook {
+.fa-facebook-official {
     color: #3b5998;
 }
 .fl-opensuse {
@@ -248,13 +244,21 @@ td .list-group {
 .fa-wl-social {
     padding: 7px;
 }
-.kbd-badge {
-	background: #eee !important;
-	color: #444 !important;
-	box-shadow: inset 0 0 1px rgb(255, 255, 255), inset 0 0 .4em rgb(200, 200, 200), 0 .1em 0 rgb(130, 130, 130), 0 .11em 0 rgba(0, 0, 0, .4), 0 .1em .11em rgba(0, 0, 0, .9);
-	-moz-border-radius: .3em;
-	-webkit-border-radius: .3em;
-	border-radius: .3em;
+kbd {
+    background: #eee !important;
+    color: #444 !important;
+    box-shadow: inset 0 0 1px rgb(255, 255, 255), inset 0 0 .4em rgb(200, 200, 200), 0 .1em 0 rgb(130, 130, 130), 0 .11em 0 rgba(0, 0, 0, .4), 0 .1em .11em rgba(0, 0, 0, .9);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    font: monospace;
+    line-height: 7px;
+    margin: 2px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 .zen-unit:nth-child(even) {
     background-color: #f9f9f9;
@@ -349,4 +353,7 @@ legend {
 input[type="date"].form-control, input[type="time"].form-control,
 input[type="datetime-local"].form-control, input[type="month"].form-control {
     line-height: initial;
+}
+.highlight-number {
+    position: absolute;
 }

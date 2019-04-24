@@ -1,12 +1,25 @@
 {% load i18n %}
 {% if user.is_authenticated %}
   <li class="pull-right flip">
-  {% if project in user.profile.subscriptions.all %}
-    <a class="link-post html-tooltip" href="{% url 'unwatch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on dashboard by default." %}">
-      <i class="fa fa-eye-slash" aria-hidden="true"></i> {% trans "Unwatch" %}
-    </a>
+  {% if project in watched_projects %}
+    <div class="dropdown">
+      <button class="btn btn-link dropdown-toggle" type="button" id="watch_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watching" %}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right flip" aria-labelledby="watch_menu">
+        <li><a class="link-post" href="{% url 'unwatch' project=project.slug %}">{% blocktrans %}Unwatch project {{ project }}{% endblocktrans %}</a></li>
+        {% if component %}
+        <li><a href="{% url 'profile' %}?notify_component={{ component.pk }}#notifications">{% blocktrans with object=component %}Customize notifications for {{ object }}{% endblocktrans %}</a></li>
+        <li><a href="{% url 'mute' project=component.project.slug component=component.slug %}" class="link-post">{% blocktrans with object=component %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
+        {% else %}
+        <li><a href="{% url 'profile' %}?notify_project={{ project.pk }}#notifications">{% blocktrans with object=project %}Customize notifications for {{ object }}{% endblocktrans %}</a></li>
+        <li><a href="{% url 'mute' project=project.slug %}" class="link-post">{% blocktrans with object=project %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
+        {% endif %}
+      </ul>
+    </div>
   {% else %}
-    <a class="link-post html-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on dashboard by default." %}">
+    <a class="btn btn-link link-post html-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on dashboard by default." %}">
       <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watch" %}
     </a>
   {% endif %}

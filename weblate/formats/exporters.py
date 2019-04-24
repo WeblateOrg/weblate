@@ -26,7 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
-from translate.storage.mo import mofile, mounit
+from translate.storage.mo import mofile
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
@@ -57,10 +57,11 @@ def get_exporter(name):
     return EXPORTERS[name]
 
 
-def list_exporters():
+def list_exporters(translation):
     return [
         {'name': x.name, 'verbose': x.verbose}
         for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+        if x.supports(translation)
     ]
 
 
@@ -74,14 +75,20 @@ class BaseExporter(object):
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
         if translation is not None:
+            self.plural = translation.plural
             self.project = translation.component.project
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
         else:
             self.project = project
             self.language = language
+            self.plural = language.plural
             self.url = url
         self.fieldnames = fieldnames
+
+    @staticmethod
+    def supports(translation):
+        return True
 
     @cached_property
     def storage(self):
@@ -135,8 +142,6 @@ class BaseExporter(object):
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
-            if isinstance(output, mounit):
-                output.msgctxt = [context]
             if self.set_id:
                 output.setid(context)
         elif self.set_id:
@@ -194,7 +199,7 @@ class PoExporter(BaseExporter):
 
     def get_storage(self):
         store = self._storage()
-        plural = self.language.plural
+        plural = self.plural
 
         # Set po file header
         store.updateheader(
@@ -280,10 +285,49 @@ class MoExporter(PoExporter):
     verbose = _('gettext MO')
     _storage = mofile
 
+    def __init__(self, project=None, language=None, url=None,
+                 translation=None, fieldnames=None):
+        super(MoExporter, self).__init__(
+            project, language, url, translation, fieldnames
+        )
+        # Detect storage properties
+        self.monolingual = False
+        self.use_context = False
+        if translation:
+            self.monolingual = translation.component.has_template()
+        if self.monolingual:
+            for unit in translation.store.all_units:
+                if unit.is_translatable():
+                    self.use_context = not unit.template.source
+                    break
+
     def add_unit(self, unit):
+        # We do not store not translated units
         if not unit.translated:
             return
-        super(MoExporter, self).add_unit(unit)
+        # Parse properties from unit
+        if self.monolingual:
+            if self.use_context:
+                source = ''
+                context = unit.context
+            else:
+                source = unit.context
+                context = ''
+        else:
+            source = self.handle_plurals(unit.get_source_plurals())
+            context = unit.context
+        # Actually create the unit and set attributes
+        output = self.storage.UnitClass(source)
+        output.target = self.handle_plurals(unit.get_target_plurals())
+        if context:
+            # The setcontext doesn't work on mounit
+            output.msgctxt = [context]
+        # Add unit to the storage
+        self.storage.addunit(output)
+
+    @staticmethod
+    def supports(translation):
+        return translation.component.file_format == 'po'
 
 
 @register_exporter

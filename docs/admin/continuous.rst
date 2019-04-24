@@ -47,32 +47,6 @@ source. Either use hooks (see :ref:`hooks`) or just regularly run
 Whenever Weblate updates the repository, the :guilabel:`Post-update script`
 hooks are executed.
 
-With Gettext PO files, you might get bit by conflicts in PO file
-headers. To avoid it, you can use the shipped merge driver
-(:file:`examples/git-merge-gettext-po`). Use it by putting the following
-configuration in your :file:`.gitconfig`:
-
-.. code-block:: ini
-
-   [merge "merge-gettext-po"]
-     name = merge driver for Gettext PO files
-     driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
-
-Then enable its use by defining proper attributes in the given repository (e.g. in
-:file:`.git/info/attributes`)::
-
-    *.po merge=merge-gettext-po
-
-.. note::
-
-    This merge driver assumes changes in POT files always are done in the
-    attemptedly merged branch.
-
-.. versionchanged:: 2.9
-
-    This merge driver is now automatically installed for all Weblate internal
-    repositories.
-
 .. _avoid-merge-conflicts:
 
 Avoiding merge conflicts
@@ -207,9 +181,12 @@ nightly merges as well, by enabling :setting:`AUTO_UPDATE`.
 Pushing changes
 ---------------
 
-Each project can have a push URL set up, and in that case Weblate offers
-a button in the web interface to push changes to the remote repository.
-Weblate can be also be configured to automatically push changes on every commit.
+Each translation component can have a push URL set up (see :ref:`component`),
+and in that case Weblate will be able to push change to the remote repository.
+Weblate can be also be configured to automatically push changes on every commit
+(this is default, see :ref:`component`).  If you do not want changes to be
+pushed automatically, you can do that manually under :guilabel:`Repository
+maintenance` or using API via :option:`wlc push`.
 
 If you are using SSH to push, you will need to have a key without a passphrase
 (or use ssh-agent for Django), and the remote server needs to be verified by you
@@ -235,8 +212,17 @@ Pushing changes from Hosted Weblate
 For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
 and GitLab (with username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
-give it permission to push to your repository. Let us know when you've done
-so and we will enable pushing changes from Hosted Weblate for you.
+give it permission to push to your repository.
+
+The user is added to the repository (in some cases this happens immediately, on
+GitHub it typically happens after accepting invitations what happens
+automatically every hour), you can configure your component push URL to a ssh
+URL of your repository (see :ref:`component`) and enjoy Weblate automatically
+pushing changes to your repository.
+
+In case you do not want direct pushes by Weblate, there is support for GitHub
+pull requests or Gerrit reviews, you can activate these by choosing `GitHub` or
+`Gerrit` as VCS in :ref:`component`.
 
 Protected branches
 ++++++++++++++++++

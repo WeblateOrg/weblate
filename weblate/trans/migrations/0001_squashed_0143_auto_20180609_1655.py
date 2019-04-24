@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
             name='Project',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name to display', max_length=60, unique=True, verbose_name='Project name')),
+                ('name', models.CharField(help_text='Display name', max_length=60, unique=True, verbose_name='Project name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=60, unique=True, verbose_name='URL slug')),
                 ('web', models.URLField(help_text='Main website of translated project.', verbose_name='Project website')),
                 ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list')),
@@ -110,22 +110,22 @@ class Migration(migrations.Migration):
             name='Component',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name to display', max_length=100, verbose_name='Component name')),
-                ('slug', models.SlugField(help_text='Name used in URLs and file names.', max_length=100, verbose_name='URL slug')),
-                ('repo', models.CharField(help_text='URL of a repository, use weblate://project/component for sharing with other component.', max_length=200, verbose_name='Source code repository')),
-                ('push', models.CharField(blank=True, help_text='URL of a push repository, pushing is disabled if empty.', max_length=200, verbose_name='Repository push URL')),
+                ('name', models.CharField(help_text='Display name', max_length=100, verbose_name='Component name')),
+                ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=100, verbose_name='URL slug')),
+                ('repo', models.CharField(help_text='URL of a repository, use weblate://project/component to share it with other component.', max_length=200, verbose_name='Source code repository')),
+                ('push', models.CharField(blank=True, help_text='URL of a push repository, pushing is turned off if empty.', max_length=200, verbose_name='Repository push URL')),
                 ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.utils.validators.validate_repoweb], verbose_name='Repository browser')),
-                ('git_export', models.CharField(blank=True, help_text='URL of a repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported repository URL')),
-                ('report_source_bugs', models.EmailField(blank=True, help_text='Email address where errors in source string will be reported, keep empty for no emails.', max_length=254, verbose_name='Source string bug report address')),
+                ('git_export', models.CharField(blank=True, help_text='URL of repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported repository URL')),
+                ('report_source_bugs', models.EmailField(blank=True, help_text='Email address for reports on errors in source strings. Leave empty for no emails.', max_length=254, verbose_name='Source string bug reporting address')),
                 ('branch', models.CharField(blank=True, default='', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch')),
-                ('filemask', models.CharField(help_text='Path of files to translate relative to repository root, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='File mask')),
-                ('template', models.CharField(blank=True, help_text='Filename of translations base file, which contains all strings and their source; this is recommended to use for monolingual translation formats.', max_length=200, verbose_name='Monolingual base language file')),
+                ('filemask', models.CharField(help_text='Path of files to translate relative to repository root, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='Filemask')),
+                ('template', models.CharField(blank=True, help_text='Filename of translation base file, containing all strings and their source; it is recommended for monolingual translation formats.', max_length=200, verbose_name='Monolingual base language file')),
                 ('new_base', models.CharField(blank=True, help_text='Filename of file used for creating new translations. For gettext choose .pot file.', max_length=200, verbose_name='Base file for new translations')),
-                ('file_format', models.CharField(choices=FILE_FORMATS.get_choices(), default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format')),
-                ('locked', models.BooleanField(default=False, help_text='Whether component is locked for translation updates.', verbose_name='Locked')),
+                ('file_format', models.CharField(choices=FILE_FORMATS.get_choices(), default='po', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format')),
+                ('locked', models.BooleanField(default=False, help_text='Locked component will not get any translation updates.', verbose_name='Locked')),
                 ('allow_translation_propagation', models.BooleanField(db_index=True, default=settings.DEFAULT_TRANSLATION_PROPAGATION, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation')),
-                ('save_history', models.BooleanField(default=True, help_text='Whether Weblate should keep history of translations', verbose_name='Save translation history')),
-                ('enable_suggestions', models.BooleanField(default=True, help_text='Whether to allow translation suggestions at all.', verbose_name='Enable suggestions')),
+                ('save_history', models.BooleanField(default=True, help_text='Whether Weblate should keep track of old translations.', verbose_name='Save translation history')),
+                ('enable_suggestions', models.BooleanField(default=True, help_text='Whether to allow translation suggestions at all.', verbose_name='Turn on suggestions')),
                 ('suggestion_voting', models.BooleanField(default=False, help_text='Whether users can vote for suggestions.', verbose_name='Suggestion voting')),
                 ('suggestion_autoaccept', models.PositiveSmallIntegerField(default=0, help_text='Automatically accept suggestions with this number of votes, use 0 to disable.', validators=[weblate.trans.validators.validate_autoaccept], verbose_name='Autoaccept suggestions')),
                 ('check_flags', models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Translation flags')),
@@ -281,7 +281,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when translating'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AddField(
             model_name='component',
@@ -306,22 +306,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='merge_style',
-            field=models.CharField(choices=[('merge', 'Merge'), ('rebase', 'Rebase')], default=settings.DEFAULT_MERGE_STYLE, help_text='Define whether Weblate should merge upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style'),
+            field=models.CharField(choices=[('merge', 'Merge'), ('rebase', 'Rebase')], default=settings.DEFAULT_MERGE_STYLE, help_text='Define whether Weblate should merge the upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style'),
         ),
         migrations.AddField(
             model_name='component',
             name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='add', help_text='How to handle requests for creating new translations. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New translation'),
+            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No language additions')], default='add', help_text='How to handle requests for creating new translations.', max_length=10, verbose_name='New translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='vcs',
-            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
+            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit merge requests.', max_length=20, verbose_name='Version control system'),
         ),
         migrations.AddField(
             model_name='component',
             name='edit_template',
-            field=models.BooleanField(default=True, help_text='Whether users will be able to edit base file for monolingual translations.', verbose_name='Edit base file'),
+            field=models.BooleanField(default=True, help_text='Whether users will be able to edit the base file for monolingual translations.', verbose_name='Edit base file'),
         ),
         migrations.AddField(
             model_name='change',
@@ -331,12 +331,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='agreement',
-            field=models.TextField(blank=True, default='', help_text='Agreement which needs to be approved before user can translate this component.', verbose_name='Contributor agreement'),
+            field=models.TextField(blank=True, default='', help_text='User agreement which needs to be approved before a user can translate this component.', verbose_name='Contributor agreement'),
         ),
         migrations.AddField(
             model_name='component',
             name='language_regex',
-            field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression which is used to filter translation when scanning for file mask.', max_length=200, verbose_name='Language filter'),
+            field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression used to filter translation when scanning for filemask.', max_length=200, verbose_name='Language filter'),
         ),
         migrations.AddField(
             model_name='project',
@@ -357,8 +357,8 @@ class Migration(migrations.Migration):
             name='ComponentList',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name to display', max_length=100, unique=True, verbose_name='Component list name')),
-                ('slug', models.SlugField(help_text='Name used in URLs and file names.', max_length=100, unique=True, verbose_name='URL slug')),
+                ('name', models.CharField(help_text='Display name', max_length=100, unique=True, verbose_name='Component list name')),
+                ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=100, unique=True, verbose_name='URL slug')),
                 ('components', models.ManyToManyField(to='trans.Component', blank=True)),
             ],
             options={
@@ -379,12 +379,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when adding translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when removing translation'),
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='component',
@@ -472,7 +472,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='whiteboardmessage',
             name='message_html',
-            field=models.BooleanField(default=False, blank=True, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
+            field=models.BooleanField(default=False, blank=True, help_text='When turned off, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
         ),
         migrations.AddField(
             model_name='componentlist',

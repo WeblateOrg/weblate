@@ -427,11 +427,8 @@ class VerifyPluralsTest(TestCase):
     def test_equation(self):
         """Validate that all equations can be parsed by gettext"""
         # Verify we get an error on invalid syntax
-        self.assertRaises(
-            (SyntaxError, ValueError),
-            gettext.c2py,
-            'n==0 ? 1 2'
-        )
+        with self.assertRaises((SyntaxError, ValueError)):
+            gettext.c2py('n==0 ? 1 2')
         for code, dummy, nplurals, pluraleq in self.all_data():
             # Validate plurals can be parsed
             plural = gettext.c2py(pluraleq)
@@ -599,3 +596,11 @@ class PluralTest(TestCase):
             source=Plural.SOURCE_GETTEXT,
         )
         self.assertEqual(plural.type, data.PLURAL_ONE_FEW_OTHER)
+
+    def test_definitions(self):
+        """Verify consistency of plural definitions."""
+        plurals = [x[1] for x in data.PLURAL_MAPPINGS]
+        choices = [x[0] for x in Plural.PLURAL_CHOICES]
+        for plural in plurals:
+            self.assertIn(plural, choices)
+            self.assertIn(plural, data.PLURAL_NAMES)

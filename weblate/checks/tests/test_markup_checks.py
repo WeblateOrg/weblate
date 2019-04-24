@@ -182,6 +182,26 @@ class MarkdownLinkCheckTest(CheckTestCase):
             '[Použij Weblate]',
             'md-text'
         )
+        self.test_failure_2 = (
+            '[Use Weblate](https://weblate.org/)',
+            '[Použij Weblate] (https://weblate.org/)',
+            'md-text'
+        )
+        self.test_failure_3 = (
+            '[Use Weblate](../demo/)',
+            '[Použij Weblate](https://example.com/)',
+            'md-text'
+        )
+
+    def test_template(self):
+        self.do_test(
+            False,
+            (
+                '[translate]({{ site.baseurl }}/docs/Translation/) here',
+                'Die [übersetzen]({{ site.baseurl }}/docs/Translation/)',
+                'md-text',
+            ),
+        )
 
 
 class MarkdownSyntaxCheckTest(CheckTestCase):

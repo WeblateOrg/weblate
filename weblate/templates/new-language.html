@@ -21,11 +21,11 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
-{% if object.new_lang == 'url' %}
+{% if object.new_lang == 'url' and not can_add %}
 <p><a href="{{ object.project.instructions }}">{% trans "Information on how to start translating into another language is to be found in the translator instructions." %}</a></p>
 {% else %}
 <p>{% trans "Please choose the language you want to translate to." %}</p>
-{% if object.new_lang == 'contact' %}
+{% if object.new_lang == 'contact' and not can_add %}
 <p>{% trans "Project maintainers are notified of this request, which prompts them to add the language manually." %}</p>
 {% endif %}
 {{ form|crispy }}

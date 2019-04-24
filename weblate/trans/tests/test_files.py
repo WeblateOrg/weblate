@@ -352,6 +352,14 @@ class XlsxImportTest(CSVImportTest):
 
 class ExportTest(ViewTestCase):
     """Testing of file export."""
+    source = 'Hello, world!\n'
+    target = 'Nazdar svete!\n'
+    test_match_1 = 'Weblate Hello World 2016'
+    test_match_2 = 'Nazdar svete!'
+    test_header = 'attachment; filename=test-test-cs.po'
+    test_source = 'Orangutan has %d banana'
+    test_source_plural = 'Orangutan has %d bananas'
+
     def create_component(self):
         # Needs to create PO file to have language pack option
         return self.create_po()
@@ -359,10 +367,7 @@ class ExportTest(ViewTestCase):
     def setUp(self):
         super(ExportTest, self).setUp()
         # Add some content so that .mo files is non empty
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        self.edit_unit(self.source, self.target)
 
     def test_export(self):
         response = self.client.get(
@@ -371,12 +376,9 @@ class ExportTest(ViewTestCase):
                 kwargs=self.kw_translation
             )
         )
-        self.assertContains(response, 'Weblate Hello World 2016')
-        self.assertContains(response, 'Nazdar svete!')
-        self.assertEqual(
-            response['Content-Disposition'],
-            'attachment; filename=test-test-cs.po'
-        )
+        self.assertContains(response, self.test_match_1)
+        self.assertContains(response, self.test_match_2)
+        self.assertEqual(response['Content-Disposition'], self.test_header)
 
     def export_format(self, fmt, **extra):
         extra['format'] = fmt
@@ -390,42 +392,35 @@ class ExportTest(ViewTestCase):
 
     def test_export_po(self):
         response = self.export_format('po')
-        self.assertContains(
-            response, 'Orangutan has %d bananas'
-        )
+        self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
         self.assertContains(
             response, '/projects/test/test/cs/'
         )
 
     def test_export_po_todo(self):
         response = self.export_format('po', type='todo')
-        self.assertContains(
-            response, 'Orangutan has %d bananas'
-        )
+        self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
         self.assertContains(
             response, '/projects/test/test/cs/'
         )
 
     def test_export_tmx(self):
         response = self.export_format('tmx')
-        self.assertContains(
-            response, 'Orangutan has %d banana'
-        )
+        self.assertContains(response, self.test_source)
 
     def test_export_xliff(self):
         response = self.export_format('xliff')
-        self.assertContains(
-            response, 'Orangutan has %d banana'
-        )
+        self.assertContains(response, self.test_source)
+        self.assertContains(response, self.test_source_plural)
 
     def test_export_xliff11(self):
         response = self.export_format('xliff11')
         self.assertContains(
             response, 'urn:oasis:names:tc:xliff:document:1.1'
         )
-        self.assertContains(
-            response, 'Orangutan has %d banana'
-        )
+        self.assertContains(response, self.test_source)
 
     def test_export_xlsx(self):
         response = self.export_format('xlsx')
@@ -442,6 +437,19 @@ class ExportTest(ViewTestCase):
     def test_export_invalid(self):
         response = self.export_format('invalid')
         self.assertEqual(response.status_code, 302)
+
+
+class ExportMultifileTest(ExportTest):
+    source = 'Weblate - continuous localization'
+    target = 'Weblate - průběžná lokalizace'
+    test_match_1 = b'PK\001\002'
+    test_match_2 = b'PK\005\006'
+    test_header = 'attachment; filename=test-test-cs.zip'
+    test_source = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
+    test_source_plural = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
+
+    def create_component(self):
+        return self.create_appstore()
 
 
 class FormTest(SimpleTestCase):

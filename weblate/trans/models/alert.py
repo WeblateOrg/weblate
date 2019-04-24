@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -64,6 +65,18 @@ class Alert(models.Model):
     def render(self):
         return self.obj.render()
 
+    def save(self, *args, **kwargs):
+        is_new = (not self.id)
+        super(Alert, self).save(*args, **kwargs)
+        if is_new:
+            from weblate.trans.models import Change
+            Change.objects.create(
+                action=Change.ACTION_ALERT,
+                component=self.component,
+                alert=self,
+                target=self.name
+            )
+
 
 class BaseAlert(object):
     verbose = ''
@@ -96,33 +109,33 @@ class ErrorAlert(BaseAlert):
 
 
 class MultiAlert(BaseAlert):
-    def __init__(self, instance, occurences):
+    def __init__(self, instance, occurrences):
         super(MultiAlert, self).__init__(instance)
-        self.occurences = self.process_occurences(occurences)
+        self.occurrences = self.process_occurrences(occurrences)
 
     def get_context(self):
         result = super(MultiAlert, self).get_context()
-        result['occurences'] = self.occurences
+        result['occurrences'] = self.occurrences
         return result
 
-    def process_occurences(self, occurences):
+    def process_occurrences(self, occurrences):
         from weblate.lang.models import Language
         from weblate.trans.models import Unit
         processors = (
             ('language_code', 'language', Language, 'code'),
             ('unit_pk', 'unit', Unit, 'pk'),
         )
-        for occurence in occurences:
+        for occurrence in occurrences:
             for key, target, obj, lookup in processors:
-                if key not in occurence:
+                if key not in occurrence:
                     continue
                 try:
-                    occurence[target] = obj.objects.get(
-                        **{lookup: occurence[key]}
+                    occurrence[target] = obj.objects.get(
+                        **{lookup: occurrence[key]}
                     )
-                except Language.DoesNotExist:
-                    occurence[target] = None
-        return occurences
+                except ObjectDoesNotExist:
+                    occurrence[target] = None
+        return occurrences
 
 
 @register
@@ -150,11 +163,6 @@ class UpdateFailure(ErrorAlert):
 @register
 class PushFailure(ErrorAlert):
     verbose = _('Could not push the repository.')
-
-
-@register
-class UnusedNewBase(BaseAlert):
-    verbose = _('Unused base file for new translations.')
 
 
 @register
@@ -191,3 +199,8 @@ class AddonScriptError(MultiAlert):
 @register
 class MsgmergeAddonError(MultiAlert):
     verbose = _('Error when executing addon.')
+
+
+@register
+class MonolingualTranslation(BaseAlert):
+    verbose = _('Misconfigured monolingual translation.')

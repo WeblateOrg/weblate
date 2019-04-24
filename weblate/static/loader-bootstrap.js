@@ -342,11 +342,11 @@ function processMachineTranslation(data) {
                 var key = getNumericKey(idx);
 
                 $(this).find('.mt-number').html(
-                    ' <span class="badge kbd-badge" title="' +
+                    ' <kbd title="' +
                     interpolate(gettext('Ctrl+M then %s'), [key]) +
                     '">' +
                     key +
-                    '</span>'
+                    '</kbd>'
                 );
                 Mousetrap.bindGlobal(
                     ['ctrl+m ' + key, 'command+m ' + key],
@@ -699,6 +699,13 @@ $(function () {
     /* Load correct tab */
     if (location.hash !== '') {
         /* From URL hash */
+        var separator = location.hash.indexOf('__');
+        if (separator != -1) {
+            activeTab = $('[data-toggle=tab][href="' + location.hash.substr(0, separator) + '"]');
+            if (activeTab.length) {
+                activeTab.tab('show');
+            }
+        }
         activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
         if (activeTab.length) {
             activeTab.tab('show');
@@ -886,13 +893,8 @@ $(function () {
             if (idx < 10) {
                 let key = getNumericKey(idx);
 
-                $(this).find('.highlight-number').html(
-                    '<span class="badge kbd-badge" title="' +
-                    interpolate(gettext('Ctrl/Command+%s'), [key]) +
-                    '">' +
-                    key +
-                    '</span>'
-                );
+                $(this).attr('title', interpolate(gettext('Ctrl/Command+%s'), [key]));
+                $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
 
                 Mousetrap.bindGlobal(
                     ['ctrl+' + key, 'command+' + key],
@@ -905,7 +907,14 @@ $(function () {
                 $this.find('.highlight-number').html('');
             }
         });
+        $('.highlight-number').hide();
     }
+    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+        $('.highlight-number').show();
+    }, 'keydown');
+    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+        $('.highlight-number').hide();
+    }, 'keyup');
 
     /* Widgets selector */
     $('.select-tab').on('change', function (e) {
@@ -1141,11 +1150,11 @@ $(function () {
                 let key = getNumericKey(idx);
 
                 $(this).find('.check-number').html(
-                    ' <span class="badge kbd-badge" title="' +
+                    ' <kbd title="' +
                     interpolate(gettext('Ctrl+I then %s'), [key]) +
                     '">' +
                     key +
-                    '</span>'
+                    '</kbd>'
                 );
 
                 Mousetrap.bindGlobal(

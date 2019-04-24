@@ -29,7 +29,7 @@ PYTHON_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:\((?P<key>[^)]+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
-        [+#-]*                  # flags
+        [ +#-]*                 # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
@@ -44,7 +44,7 @@ PHP_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
-        [+#-]*                  # flags
+        [ +#-]*                 # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
@@ -59,7 +59,7 @@ C_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
-        [+#'-]*                 # flags
+        [ +#'-]*                # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
@@ -219,8 +219,8 @@ class BaseFormatCheck(TargetCheck):
             if x[0] != '%'
         ]
         if src_matches:
-            uses_position = max(
-                [self.is_position_based(x) for x in src_matches]
+            uses_position = any(
+                (self.is_position_based(x) for x in src_matches)
             )
 
         tgt_matches = [
@@ -303,11 +303,11 @@ class PerlFormatCheck(BaseFormatCheck):
         return '$' not in string and string != '%'
 
 
-class JavascriptFormatCheck(CFormatCheck):
-    """Check for Javascript format string"""
+class JavaScriptFormatCheck(CFormatCheck):
+    """Check for JavaScript format string"""
     check_id = 'javascript_format'
-    name = _('Javascript format')
-    description = _('Javascript format string does not match source')
+    name = _('JavaScript format')
+    description = _('JavaScript format string does not match source')
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):

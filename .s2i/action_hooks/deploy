@@ -22,3 +22,9 @@ if [ -f /opt/app-root/data/markers/setup ]; then
 else
     powershift image setup
 fi
+
+if [ -f /opt/app-root/data/ssh/id_rsa ]; then
+  echo " -----> Set chmod 600 for id_rsa keys."
+  chmod 600 /opt/app-root/data/ssh/id_rsa
+fi
+

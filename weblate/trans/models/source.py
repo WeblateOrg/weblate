@@ -105,7 +105,7 @@ class Source(models.Model):
             'component': self.component.slug,
         })
 
-    def run_checks(self, unit=None):
+    def run_checks(self, unit=None, project=None, batch=False):
         """Update checks for this unit."""
         if unit is None:
             try:
@@ -115,32 +115,47 @@ class Source(models.Model):
 
         content_hash = unit.content_hash
         src = unit.get_source_plurals()
-        project = self.component.project
+        if project is None:
+            project = self.component.project
 
         # Fetch old checks
-        old_checks = set(
-            Check.objects.filter(
-                content_hash=content_hash,
-                project=project,
-                language=None
-            ).values_list('check', flat=True)
-        )
+        if self.component.checks_cache is not None:
+            old_checks = self.component.checks_cache.get(
+                (content_hash, None), []
+            )
+        else:
+            old_checks = set(
+                Check.objects.filter(
+                    content_hash=content_hash,
+                    project=project,
+                    language=None
+                ).values_list('check', flat=True)
+            )
+        create = []
 
         # Run all source checks
         for check, check_obj in CHECKS.items():
+            if batch and check_obj.batch_update:
+                if check in old_checks:
+                    # Do not remove batch checks in batch processing
+                    old_checks.remove(check)
+                continue
             if check_obj.source and check_obj.check_source(src, unit):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    Check.objects.create(
+                    create.append(Check(
                         content_hash=content_hash,
                         project=project,
                         language=None,
                         ignore=False,
                         check=check
-                    )
+                    ))
+
+        if create:
+            Check.objects.bulk_create_ignore(create)
 
         # Remove stale checks
         if old_checks:

@@ -28,6 +28,8 @@ import re
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
+from lxml.etree import XMLSyntaxError
+
 import six
 
 from translate.misc import quote
@@ -198,10 +200,12 @@ class KeyValueUnit(TTKitUnit):
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
     loader = ('', '')
+    new_translation = None
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         super(TTKitFormat, self).__init__(
-            storefile, template_store, language_code
+            storefile, template_store, language_code, is_template
         )
         # Set language (needed for some which do not include this)
         if (language_code is not None and
@@ -267,6 +271,10 @@ class TTKitFormat(TranslationFormat):
     def save_content(self, handle):
         """Stores content to file."""
         self.store.serialize(handle)
+
+    def save(self):
+        """Save underlaying store to disk."""
+        self.save_atomic(self.storefile, self.save_content)
 
     @property
     def mimetype(self):
@@ -393,7 +401,7 @@ class PoUnit(TTKitUnit):
         """
         if self.template is not None:
             # Monolingual PO files
-            return self.template.getid()
+            return self.template.source or self.template.getcontext()
         return super(PoUnit, self).context
 
     @cached_property
@@ -449,11 +457,19 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
-        # Use source for monolingual files if target is not set
-        if self.template is not None and not self.template.target:
-            self.template.rich_source = xliff_string_to_rich(target)
-        else:
-            self.unit.rich_target = xliff_string_to_rich(target)
+        try:
+            converted = xliff_string_to_rich(target)
+        except XMLSyntaxError:
+            converted = target
+        if self.template is not None:
+            if not self.parent.is_template:
+                # Use source for monolingual files if editing template
+                self.unit.rich_source = converted
+                return
+            if self.unit.source:
+                # Update source if it is already set to keep it in sync
+                self.unit.rich_source = self.template.source
+        self.unit.rich_target = converted
 
     @cached_property
     def xliff_node(self):
@@ -504,9 +520,7 @@ class XliffUnit(TTKitUnit):
         We replace translate-toolkit logic here as the isfuzzy
         is pretty much wrong there, see is_fuzzy docs.
         """
-        if self.unit is None:
-            return False
-        return bool(self.unit.target)
+        return bool(self.target)
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
@@ -755,17 +769,13 @@ class XliffFormat(TTKitFormat):
     loader = xlifffile
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
+    language_format = 'bcp'
 
     def create_unit(self, key, source):
         unit = super(XliffFormat, self).create_unit(key, source)
         unit.marktranslated()
         unit.markapproved(False)
         return unit
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
 
 
 class PoXliffFormat(XliffFormat):
@@ -797,20 +807,16 @@ class PropertiesBaseFormat(TTKitFormat):
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _('OS X Strings')
+    name = _('iOS Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
     new_translation = '\n'.encode('utf-16')
     autoload = ('.strings',)
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
+    language_format = 'bcp'
 
 
 class StringsUtf8Format(StringsFormat):
-    name = _('OS X Strings (UTF-8)')
+    name = _('iOS Strings (UTF-8)')
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
     new_translation = '\n'
@@ -889,31 +895,12 @@ class AndroidFormat(TTKitFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
-    # Whitespace is ignored in this format
-    check_flags = (
-        'ignore-begin-space',
-        'ignore-end-space',
-        'ignore-begin-newline',
-        'ignore-end-newline',
-    )
     unit_class = MonolingualIDUnit
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     )
     autoload = (('strings', '.xml'),)
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == 'zh_Hans':
-            return 'zh-rCN'
-        if code == 'zh_Hant':
-            return 'zh-rTW'
-        sanitized = code.replace('-', '_')
-        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
-            return 'b+{}'.format(sanitized.replace('_', '+'))
-        return sanitized.replace('_', '-r')
+    language_format = 'android'
 
 
 class JSONFormat(TTKitFormat):
@@ -962,9 +949,10 @@ class CSVFormat(TTKitFormat):
     unit_class = CSVUnit
     autoload = ('.csv',)
 
-    def __init__(self, storefile, template_store=None, language_code=None):
+    def __init__(self, storefile, template_store=None, language_code=None,
+                 is_template=False):
         super(CSVFormat, self).__init__(
-            storefile, template_store, language_code
+            storefile, template_store, language_code, is_template
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -1122,6 +1110,7 @@ class WindowsRCFormat(TTKitFormat):
     autoload = ('.rc',)
     unit_class = MonolingualSimpleUnit
     can_add_unit = False
+    language_format = 'bcp'
 
     @property
     def mimetype(self):
@@ -1132,11 +1121,6 @@ class WindowsRCFormat(TTKitFormat):
     def extension(self):
         """Return most common file extension for format."""
         return 'rc'
-
-    @staticmethod
-    def get_language_code(code):
-        """Do any possible formatting needed for language code."""
-        return code.replace('_', '-')
 
     @classmethod
     def get_class(cls):

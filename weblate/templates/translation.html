@@ -31,7 +31,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
-  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -61,6 +61,9 @@
       {% endif %}
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
+      {% endif %}
+      {% if bulk_state_form %}
+      <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
       {% endif %}
       {% if user_can_add_unit %}
       <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
@@ -105,7 +108,7 @@
     </ul>
   </li>
 {% endif %}
-{% with object.component.project as project %}
+{% with project=object.component.project component=object.component %}
 {% include "watch-dropdown.html" %}
 {% endwith %}
 </ul>
@@ -151,7 +154,7 @@
 <div class="panel-heading">
 <h4 class="panel-title">
 {% documentation_icon 'user/translating' 'strings-to-check' right=True %}
-{% trans "Strings to check" %}
+{% trans "Strings status" %}
 </h4>
 </div>
 <div class="list-group">
@@ -236,7 +239,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace a string in all strings at once. The search is a simple substring case sensitive search." %}</p>
+<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -245,23 +248,24 @@
 </div>
 </div>
 </form>
+</div>
+{% endif %}
 
-{% if mass_state_form %}
+{% if bulk_state_form %}
+<div class="tab-pane" id="bulk-state">
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change state of all strings matching given type at once." %}</p>
+<p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% csrf_token %}
-{{ mass_state_form|crispy }}
+{{ bulk_state_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
 </div>
 </div>
 </form>
-{% endif %}
-
 </div>
 {% endif %}
 
@@ -271,7 +275,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can add new translation string here, it will automatically appear in all translations." %}</p>
+<p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>
@@ -305,7 +309,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
 {% if user_can_overwrite_translation %}
-<p>{% trans "The uploaded file will be merged with the current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
+<p>{% trans "The uploaded file will be merged with the current translation. In case you want to overwrite already translated strings, don't forget to turn it on." %}</p>
 {% else %}
 <p>{% trans "The uploaded file will be merged with the current translation." %}</p>
 {% endif %}
@@ -329,7 +333,7 @@
 <div class="panel-body">
 {% csrf_token %}
 {{ whiteboard_form|crispy }}
-<p class="help-block">{% trans "The message is shown on the translation page until it's expiry or permanently until deleting." %}</p>
+<p class="help-block">{% trans "The message is shown on the translation page, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
@@ -420,7 +424,7 @@
 <td class="number">{{ object.stats.translated_words }}</td>
 </tr>
 <tr>
-<th>{% trans "Review" %}</th>
+<th>{% trans "Needs editing" %}</th>
 <td class="percent">{{ object.stats.fuzzy_percent }}%</td>
 <td class="number">{{ object.stats.fuzzy }}</td>
 <td class="number"></td>

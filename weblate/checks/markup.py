@@ -37,7 +37,7 @@ BBCODE_MATCH = re.compile(
 )
 
 MD_LINK = re.compile(
-    r'^!?\[('
+    r'!?\[('
     r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
     r')\]\('
     r'''\s*(<)?([\s\S]*?)(?(2)>)(?:\s+['"]([\s\S]*?)['"])?\s*'''
@@ -49,17 +49,17 @@ MD_REFLINK = re.compile(
     r')\]\s*\[([^^\]]*)\]'
 )
 MD_SYNTAX = re.compile(
-    r'(_{2})(?:[\s\S]+?)_{2}(?!_)'  # __word__
+    r'(_{2})(?:[\s\S]+?)_{2}(?!_)'        # __word__
     r'|'
-    r'(\*{2})(?:[\s\S]+?)\*{2}(?!\*)'  # **word**
+    r'(\*{2})(?:[\s\S]+?)\*{2}(?!\*)'     # **word**
     r'|'
-    r'\b(_)(?:(?:__|[^_])+?)_\b'  # _word_
+    r'\b(_)(?:(?:__|[^_])+?)_\b'          # _word_
     r'|'
-    r'(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)'  # *word*
+    r'(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)'   # *word*
     r'|'
     r'(`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)'  # `code`
     r'|'
-    r'(~~)(?=\S)(?:[\s\S]*?\S)~~' # ~~word~~
+    r'(~~)(?=\S)(?:[\s\S]*?\S)~~'         # ~~word~~
 )
 
 XML_MATCH = re.compile(r'<[^>]+>')
@@ -243,9 +243,21 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
             return False
         tgt_match = MD_LINK.findall(target)
 
-        # We don't check actual link targets as those might
-        # be localized as well (consider links to Wikipedia)
-        return len(src_match) != len(tgt_match)
+        # Check number of links
+        if len(src_match) != len(tgt_match):
+            return True
+
+        # We don't check actual remote link targets as those might
+        # be localized as well (consider links to Wikipedia).
+        # Instead we check only relative links and templated ones.
+        link_start = ('.', '#', '{')
+        tgt_anchors = set((
+            x[2] for x in tgt_match if x[2] and x[2][0] in link_start
+        ))
+        src_anchors = set((
+            x[2] for x in src_match if x[2] and x[2][0] in link_start
+        ))
+        return tgt_anchors != src_anchors
 
 
 class MarkdownSyntaxCheck(MarkdownBaseCheck):

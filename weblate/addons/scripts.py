@@ -31,6 +31,7 @@ class BaseScriptAddon(BaseAddon):
     icon = 'file-code-o'
     script = None
     add_file = None
+    alert = 'AddonScriptError'
 
     def run_script(self, component=None, translation=None, env=None):
         command = [self.script]

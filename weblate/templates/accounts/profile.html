@@ -22,9 +22,8 @@
 <ul class="nav nav-pills">
 <li class="active"><a data-toggle="tab" href="#languages">{% trans "Languages" %}</a></li>
 <li><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
-<li><a data-toggle="tab" href="#subscriptions">{% trans "Subscriptions" %}</a></li>
+<li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
-<li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
@@ -61,20 +60,7 @@
 </div>
 </div>
 
-<div class="tab-pane" id="subscriptions">
-{% if managed_projects %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Managed projects" %}</h4></div>
-  <div class="panel-body">
-    <div class="list-group">
-{% for project in managed_projects %}
-      <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
-{% endfor %}
-    </div>
-    <p class="helptext">{% trans "You will automatically receive important notifications on managed projects." %}</p>
-  </div>
-</div>
-{% endif %}
+<div class="tab-pane" id="notifications">
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Watched projects" %}</h4></div>
@@ -88,10 +74,27 @@
 </div>
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Subscription settings" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Notification settings" %}</h4></div>
   <div class="panel-body">
-{% crispy subscriptionsettingsform %}
-    <p class="help-block">{% trans "You will receive chosen notifications via email for all your languages." %}</p>
+
+<ul class="nav nav-pills">
+{% for form in notification_forms %}
+    <li {% if form.is_active %}class="active"{% endif %}><a data-toggle="tab" href="#{{ form.prefix }}">{{ form.get_name }}</a></li>
+{% endfor %}
+</ul>
+
+<div class="tab-content">
+
+{% for form in notification_forms %}
+<div class="tab-pane {% if form.is_active %}active{% endif %}" id="{{ form.prefix }}">
+<div class="form-horizontal">
+    {% crispy form %}
+</div>
+</div>
+{% endfor %}
+
+</div>
+
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
@@ -110,9 +113,7 @@
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
-</div>
 
-<div class="tab-pane" id="auth">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}</h4></div>
 <table class="table">
@@ -165,6 +166,17 @@
    </div>
    <div class="panel-footer">
     <a class="btn btn-danger" href="{% url 'remove' %}"><i class="fa fa-trash"></i> {% trans "Remove my account" %}</a>
+   </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "User data" %}</h4></div>
+  <div class="panel-body">
+
+    <p>{% trans "You can download all your private data." %}</p>
+   </div>
+   <div class="panel-footer">
+    <a class="btn btn-success link-post" href="{% url 'userdata' %}"><i class="fa fa-save"></i> {% trans "Download user data" %}</a>
    </div>
 </div>
 

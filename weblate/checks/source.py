@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import re
 
+from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
@@ -68,6 +69,7 @@ class MultipleFailingCheck(SourceCheck):
         'The translations in several languages have failing checks'
     )
     severity = 'warning'
+    batch_update = True
 
     def check_source(self, source, unit):
         related = Language.objects.filter(
@@ -75,3 +77,17 @@ class MultipleFailingCheck(SourceCheck):
             check__project=unit.translation.component.project
         ).distinct()
         return related.count() >= 2
+
+    def check_source_project(self, project):
+        """Batch check for whole project."""
+        from weblate.checks.models import Check
+        return Check.objects.filter(
+            project=project,
+            language__isnull=False,
+        ).values(
+            'content_hash'
+        ).annotate(
+            Count('language')
+        ).filter(
+            language__count__gt=1
+        )

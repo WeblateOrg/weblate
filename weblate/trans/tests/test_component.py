@@ -76,7 +76,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_dot(self):
         component = self._create_component(
-            'auto',
+            'po',
             './po/*.po',
         )
         self.verify_component(component, 3, 'cs', 4)
@@ -112,6 +112,12 @@ class ComponentTest(RepoTestCase):
         component = self.create_ts_mono()
         self.verify_component(component, 2, 'cs', 4)
 
+    def test_create_appstore(self):
+        component = self.create_appstore()
+        self.verify_component(
+            component, 2, 'cs', 3, 'Weblate - continuous localization'
+        )
+
     def test_create_po_pot(self):
         component = self._create_component(
             'po',
@@ -130,7 +136,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_auto_pot(self):
         component = self._create_component(
-            'auto',
+            'po',
             'po/*.po',
             new_base='po/project.pot'
         )
@@ -457,7 +463,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = 'foo/x.po'
         self.assertRaisesMessage(
             ValidationError,
-            'File mask does not contain * as a language placeholder!',
+            'Filemask does not contain * as a language placeholder!',
             self.component.full_clean
         )
 
@@ -466,16 +472,17 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = 'foo/*.po'
         self.assertRaisesMessage(
             ValidationError,
-            'The mask did not match any files!',
+            'The filemask did not match any files.',
             self.component.full_clean
         )
 
     def test_fileformat(self):
         """Unknown file format"""
+        self.component.file_format = 'i18next'
         self.component.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
             ValidationError,
-            'Format of 2 matched files could not be recognized.',
+            'Could not parse 2 matched files.',
             self.component.full_clean
         )
 
@@ -517,8 +524,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid link to a Weblate project, '
-            'can not link to self!',
+            'Invalid link to a Weblate project, cannot link it to itself!',
             self.component.full_clean
         )
 
@@ -531,7 +537,7 @@ class ComponentValidationTest(RepoTestCase):
         project.template = 'not-existing'
         self.assertRaisesMessage(
             ValidationError,
-            'Template file not found!',
+            'Could not find template file.',
             project.full_clean
         )
 
@@ -545,18 +551,9 @@ class ComponentValidationTest(RepoTestCase):
         self.component.save()
 
         self.component.full_clean()
-        # Check that it warns about unused pot
-        self.assertTrue(
-            self.component.alert_set.filter(name='UnusedNewBase').exists()
-        )
 
         self.component.new_lang = 'add'
         self.component.save()
-
-        # The alert should be gone
-        self.assertFalse(
-            self.component.alert_set.filter(name='UnusedNewBase').exists()
-        )
 
         # Check that it doesn't warn about not supported format
         self.component.full_clean()
@@ -583,8 +580,9 @@ class ComponentValidationTest(RepoTestCase):
         )
         self.assertRaisesMessage(
             ValidationError,
-            'Got empty language code for '
-            'Solution/Project/Resources.resx, please check filemask!',
+            'The language code for '
+            'Solution/Project/Resources.resx'
+            ' was empty, please check the filemask.',
             component.clean_lang_codes,
             [
                 'Solution/Project/Resources.resx',
@@ -700,6 +698,29 @@ class ComponentErrorTest(RepoTestCase):
             self.component.clean()
 
 
+class LinkedEditTest(ViewTestCase):
+    def create_component(self):
+        return self.create_link()
+
+    def test_linked(self):
+        # Grab current revision
+        start_rev = self.component.repository.last_revision
+
+        # Translate all units
+        request = self.factory.get('/')
+        request.user = self.user
+        for unit in Unit.objects.iterator():
+            unit.translate(request, 'test', STATE_TRANSLATED)
+
+        # No commit now
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+
+        # Commit pending changes
+        self.component.commit_pending('test', None)
+        self.assertNotEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(4, self.component.repository.count_outgoing())
+
+
 class ComponentEditTest(ViewTestCase):
     """Test for error handling"""
     @staticmethod
@@ -719,7 +740,7 @@ class ComponentEditTest(ViewTestCase):
         del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request('/')
+        request = self.get_request()
 
         self.assertTrue(
             unit.translate(request, ['Empty'], STATE_TRANSLATED)
@@ -745,7 +766,7 @@ class ComponentEditMonoTest(ComponentEditTest):
         del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request('/')
+        request = self.get_request()
 
         self.assertTrue(
             unit.translate(request, ['Empty'], STATE_TRANSLATED)

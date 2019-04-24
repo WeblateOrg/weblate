@@ -125,8 +125,7 @@ class GitRepository(Repository):
             # Checkout original branch (we might be on tmp)
             self.execute(['checkout', self.branch])
         else:
-            if self.has_branch(tmp):
-                self.execute(['branch', '-D', tmp])
+            self.delete_branch(tmp)
             # We don't do simple git merge origin/branch as that leads
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
@@ -142,7 +141,7 @@ class GitRepository(Repository):
                 '--message',
                 message or "Merge branch '{}' into Weblate".format(remote),
             ]
-            cmd.extend(self._get_gpg_sign())
+            cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.branch)
             self.execute(cmd)
             # Checkout branch with Weblate changes
@@ -152,8 +151,11 @@ class GitRepository(Repository):
             self.execute(['merge', tmp])
 
         # Delete temporary branch
-        if self.has_branch(tmp):
-            self.execute(['branch', '-D', tmp])
+        self.delete_branch(tmp)
+
+    def delete_branch(self, name):
+        if self.has_branch(name):
+            self.execute(['branch', '-D', name])
 
     def needs_commit(self, *filenames):
         """Check whether repository needs commit."""
@@ -170,7 +172,7 @@ class GitRepository(Repository):
         return self.execute(['show', revision], needs_lock=False)
 
     @staticmethod
-    def _get_gpg_sign():
+    def get_gpg_sign_args():
         sign_key = get_gpg_sign_key()
         if sign_key:
             return ['--gpg-sign={}'.format(sign_key)]
@@ -235,17 +237,20 @@ class GitRepository(Repository):
 
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
-        # Add files
-        if files is not None:
+        # Add files (some of them might not be in the index)
+        if files:
             self.execute(['add', '--force', '--'] + files)
+        else:
+            self.execute(['add', self.path])
 
         # Build the commit command
         cmd = ['commit', '--message', message]
-        if author is not None:
+        if author:
             cmd.extend(['--author', author])
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
-        cmd.extend(self._get_gpg_sign())
+        cmd.extend(self.get_gpg_sign_args())
+
         # Execute it
         self.execute(cmd)
         # Clean cache
@@ -373,7 +378,8 @@ class GitWithGerritRepository(GitRepository):
         return cls._popen(['review', '--version'], err=True).split()[-1]
 
     def push(self):
-        self.execute(['review', '--yes', self.branch])
+        if self.needs_push():
+            self.execute(['review', '--yes', self.branch])
 
 
 class SubversionRepository(GitRepository):

@@ -103,8 +103,8 @@ Mailing list
     Mailing list where translators can discuss or comment translations.
 Translation instructions
     URL to more site with more detailed instructions for translators.
-Set Translation-Team header
-    Whether Weblate should manage the Translation-Team header (this is a
+Set Language-Team header
+    Whether Weblate should manage the ``Language-Team`` header (this is a
     :ref:`gettext` only feature right now).
 Use shared translation memory
     Whether to use shared translation memory, see :ref:`shared-tm` for more details.
@@ -127,8 +127,8 @@ Adjusting interaction
 +++++++++++++++++++++
 
 There are also additional features which you can control, like automatic
-pushing of changes (see also :ref:`push-changes`) or
-maintainership of the Translation-Team header.
+pushing of changes (see also :ref:`push-changes`) or maintainership of the
+``Language-Team`` header.
 
 .. _component:
 
@@ -237,9 +237,11 @@ Translation license
     License of the translation, (does not need to be the same as the source code license).
 License URL
     URL where users can find the actual text of a license in full.
-New language
-    How to handle requests for creation of new languages. Please note that the
-    availability of choices depends on the file format, see :ref:`formats`.
+New translation
+    How to handle requests for creation of new languages. See :ref:`adding-translation`.
+Language code style
+   Customize language code used to generate the filename for translations
+   created by Weblate, see :ref:`new-translations` for more details.
 Merge style
     You can configure how updates from the upstream repository are handled.
     This might not be supported for some VCSs. See :ref:`merge-rebase` for
@@ -370,7 +372,7 @@ for a production setup, you should do some adjustments. Many of them have quite
 a big impact on performance. Please check :ref:`production` for more details,
 especially:
 
-* :ref:`production-indexing`
+* Configure Celery for executing background tasks (see :ref:`celery`)
 * :ref:`production-cache`
 * :ref:`production-database`
 * :ref:`production-debug`

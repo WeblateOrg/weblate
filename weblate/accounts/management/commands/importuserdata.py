@@ -40,20 +40,16 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def import_subscriptions(profile, userprofile):
+    def import_watched(profile, userprofile):
         """Import user subscriptions."""
         # Add subscriptions
-        for subscription in userprofile['subscriptions']:
+        for subscription in userprofile['watched']:
             try:
-                profile.subscriptions.add(
+                profile.watched.add(
                     Project.objects.get(slug=subscription)
                 )
             except Project.DoesNotExist:
                 continue
-
-        # Subscription settings
-        for field in Profile.SUBSCRIPTION_FIELDS:
-            setattr(profile, field, userprofile[field])
 
     @staticmethod
     def update_languages(profile, userprofile):
@@ -68,6 +64,23 @@ class Command(BaseCommand):
                 Language.objects.auto_get_or_create(lang)
             )
 
+    def handle_compat(self, data):
+        """Compatibility with pre 3.6 dumps."""
+        if 'basic' in data:
+            return
+        data['basic'] = {
+            'username': data['username'],
+        }
+        data['profile'] = {
+            'translated': data['translated'],
+            'suggested': data['suggested'],
+            'language': data['language'],
+            'uploaded': data.get('uploaded', 0),
+            'secondary_languages': data['secondary_languages'],
+            'languages': data['languages'],
+            'watched': data['subscriptions'],
+        }
+
     def handle(self, **options):
         """Create default set of groups.
 
@@ -77,8 +90,10 @@ class Command(BaseCommand):
         options['json-file'].close()
 
         for userprofile in userdata:
+            self.handle_compat(userprofile)
+            username = userprofile['basic']['username']
             try:
-                user = User.objects.get(username=userprofile['username'])
+                user = User.objects.get(username=username)
                 update = False
                 try:
                     profile = Profile.objects.get(user=user)
@@ -88,24 +103,23 @@ class Command(BaseCommand):
                     update = True
                     profile = Profile.objects.create(user=user)
                     self.stdout.write(
-                        'Creating profile for {0}'.format(
-                            userprofile['username']
-                        )
+                        'Creating profile for {0}'.format(username)
                     )
 
                 # Merge stats
-                profile.translated += userprofile['translated']
-                profile.suggested += userprofile['suggested']
+                profile.translated += userprofile['profile']['translated']
+                profile.suggested += userprofile['profile']['suggested']
+                profile.uploaded += userprofile['profile']['uploaded']
 
                 # Update fields if we should
                 if update:
-                    self.update_languages(profile, userprofile)
+                    self.update_languages(profile, userprofile['profile'])
 
                 # Add subscriptions
-                self.import_subscriptions(profile, userprofile)
+                self.import_watched(profile, userprofile['profile'])
 
                 profile.save()
             except User.DoesNotExist:
                 self.stderr.write(
-                    'User not found: {0}\n'.format(userprofile['username'])
+                    'User not found: {0}\n'.format(username)
                 )

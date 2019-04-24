@@ -42,20 +42,20 @@ using :command:`docker exec`:
 
 .. code-block:: sh
 
-    docker exec <container> weblate list_versions
+    docker exec --user weblate <container> weblate list_versions
 
 With :program:`docker-compose` this is quite similar, you just have to use
 :command:`docker-compose exec`:
 
 .. code-block:: sh
 
-    docker-compose exec weblate weblate list_versions
+    docker-compose exec --user weblate weblate weblate list_versions
 
 In case you need to pass some file, you can temporary add a volume:
 
 .. code-block:: sh
 
-    docker-compose exec /tmp:/tmp weblate weblate importusers /tmp/users.json
+    docker-compose exec --user weblate /tmp:/tmp weblate weblate importusers /tmp/users.json
 
 .. seealso::
 
@@ -480,7 +480,7 @@ folder:
         web-app/tgol-web-app/src/main/resources/i18n/**-I18N_*.properties
 
 Example of more complex parsing of filenames to get correct component and
-language out of file name like
+language out of filename like
 ``src/security/Numerous_security_holes_in_0.10.1.de.po``:
 
 .. code-block:: sh

@@ -23,7 +23,6 @@ import argparse
 from django.core.management.base import CommandError
 from django.http.request import HttpRequest
 
-from weblate.auth.models import User
 from weblate.trans.management.commands import WeblateTranslationCommand
 
 

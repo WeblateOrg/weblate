@@ -677,7 +677,7 @@ FONT_CACHE = {}
 
 def is_base(text):
     """Check whether text should use CJK fonts."""
-    return min([ord(char) in BASE_CHARS for char in text])
+    return all((ord(char) in BASE_CHARS for char in text))
 
 
 def get_font(size, bold=False, base_font=True):

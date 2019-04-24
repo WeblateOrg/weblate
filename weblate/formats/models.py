@@ -66,7 +66,6 @@ FILE_FORMATS = FileFormatLoader()
 
 class FormatsConf(AppConf):
     FORMATS = (
-        'weblate.formats.auto.AutoFormat',
         'weblate.formats.ttkit.PoFormat',
         'weblate.formats.ttkit.PoMonoFormat',
         'weblate.formats.ttkit.TSFormat',
@@ -93,6 +92,7 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.DTDFormat',
         'weblate.formats.ttkit.WindowsRCFormat',
         'weblate.formats.external.XlsxFormat',
+        'weblate.formats.txt.AppStoreFormat',
     )
 
     class Meta(object):

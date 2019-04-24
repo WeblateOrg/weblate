@@ -44,7 +44,6 @@ from weblate.trans.forms import (
     DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
     WhiteboardForm,
 )
-from weblate.accounts.notifications import notify_new_language
 from weblate.utils.views import (
     get_project, get_component, get_translation,
     try_set_language,
@@ -153,7 +152,7 @@ def show_project(request, project):
                 request=request, instance=obj
             ),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
@@ -193,7 +192,7 @@ def show_component(request, project, component):
                 translation__component=obj
             ).distinct().count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
@@ -253,7 +252,7 @@ def show_translation(request, project, component, lang):
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
-            'mass_state_form': optional_form(
+            'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,
                 user=user, obj=obj
             ),
@@ -280,7 +279,7 @@ def show_translation(request, project, component, lang):
                     pk=obj.pk
                 )
             ),
-            'exporters': list_exporters(),
+            'exporters': list_exporters(obj),
         }
     )
 
@@ -352,15 +351,32 @@ def new_language(request, project, component):
     obj = get_component(request, project, component)
 
     form_class = get_new_language_form(request, obj)
+    can_add = obj.can_add_new_language(request)
 
     if request.method == 'POST':
         form = form_class(obj, request.POST)
 
         if form.is_valid():
             langs = form.cleaned_data['lang']
+            kwargs = {
+                'user': request.user,
+                'author': request.user,
+                'component': obj,
+                'details': {},
+            }
             for language in Language.objects.filter(code__in=langs):
-                if obj.new_lang == 'contact':
-                    notify_new_language(obj, language, request.user)
+                kwargs['details']['language'] = language.code
+                if can_add:
+                    obj.add_new_language(language, request)
+                    Change.objects.create(
+                        action=Change.ACTION_ADDED_LANGUAGE,
+                        **kwargs
+                    )
+                elif obj.new_lang == 'contact':
+                    Change.objects.create(
+                        action=Change.ACTION_REQUESTED_LANGUAGE,
+                        **kwargs
+                    )
                     messages.success(
                         request,
                         _(
@@ -368,8 +384,6 @@ def new_language(request, project, component):
                             "sent to the project's maintainers."
                         )
                     )
-                elif obj.new_lang == 'add':
-                    obj.add_new_language(language, request)
             return redirect(obj)
         else:
             messages.error(
@@ -386,6 +400,7 @@ def new_language(request, project, component):
             'object': obj,
             'project': obj.project,
             'form': form,
+            'can_add': can_add,
         }
     )
 
@@ -405,5 +420,8 @@ def show_component_list(request, name):
         'component-list.html',
         {
             'object': obj,
+            'components': obj.components.filter(
+                project__in=request.user.allowed_projects
+            )
         }
     )

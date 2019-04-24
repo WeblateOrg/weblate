@@ -36,6 +36,18 @@ User name of user for defining privileges of not logged in user.
 
     :ref:`privileges`
 
+.. setting:: AUDITLOG_EXPIRY
+
+AUDITLOG_EXPIRY
+---------------
+
+.. versionadded:: 3.6
+
+How long (in days) Weblate should keep audit log containing information about account
+activity.
+
+Defaults to 180 days.
+
 .. setting:: AUTH_LOCK_ATTEMPTS
 
 AUTH_LOCK_ATTEMPTS
@@ -231,34 +243,25 @@ interface.
 Some of the checks are not useful for all projects, so you are welcome to
 adjust the list list of checks to be performed on your installation.
 
-For example you can enable only few of them:
+By default all built in quality checks (see :ref:`checks`) are enabled, you can
+use this setting to change this. Also the :ref:`sample-configuration` comes
+with this setting commented out to use default value. This enables you to get
+new checks automatically enabled on upgrade.
+
+You can disable all checks:
+
+.. code-block:: python
+
+    CHECK_LIST = ()
+
+You can enable only few of them:
 
 .. code-block:: python
 
     CHECK_LIST = (
-        'weblate.checks.same.SameCheck',
         'weblate.checks.chars.BeginNewlineCheck',
         'weblate.checks.chars.EndNewlineCheck',
-        'weblate.checks.chars.BeginSpaceCheck',
-        'weblate.checks.chars.EndSpaceCheck',
-        'weblate.checks.chars.EndStopCheck',
-        'weblate.checks.chars.EndColonCheck',
-        'weblate.checks.chars.EndQuestionCheck',
-        'weblate.checks.chars.EndExclamationCheck',
-        'weblate.checks.chars.EndEllipsisCheck',
-        'weblate.checks.chars.EndSemicolonCheck',
         'weblate.checks.chars.MaxLengthCheck',
-        'weblate.checks.format.PythonFormatCheck',
-        'weblate.checks.format.PythonBraceFormatCheck',
-        'weblate.checks.consistency.PluralsCheck',
-        'weblate.checks.consistency.SamePluralsCheck',
-        'weblate.checks.consistency.ConsistencyCheck',
-        'weblate.checks.consistency.TranslatedCheck',
-        'weblate.checks.chars.NewlineCountingCheck',
-        'weblate.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.checks.source.OptionalPluralCheck',
-        'weblate.checks.source.EllipsisCheck',
-        'weblate.checks.source.MultipleFailingCheck',
     )
 
 .. note::
@@ -271,6 +274,16 @@ For example you can enable only few of them:
 .. seealso::
 
    :ref:`checks`, :ref:`custom-checks`
+
+.. setting:: COMMENT_CLEANUP_DAYS
+
+COMMENT_CLEANUP_DAYS
+--------------------
+
+.. versionadded:: 3.6
+
+Automatically delete comments after given number of days. Defaults to
+``None`` what means no deletion at all.
 
 .. setting:: COMMIT_PENDING_HOURS
 
@@ -571,6 +584,15 @@ URL where your Weblate instance shows it's legal documents. This is useful if
 you host your legal documents outside Weblate for embedding inside Weblate
 please see :ref:`legal`.
 
+.. setting:: LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+-----------------------------------------
+
+By default the length of a given translation is limited to the length of the source string * 10 characters. Set this option to False to allow longer translations (up to 10.000 characters) irrespective of the source length.
+
+Defaults to True.
+
 .. setting:: LOGIN_REQUIRED_URLS
 
 LOGIN_REQUIRED_URLS
@@ -605,7 +627,7 @@ Some of exceptions you might want to include:
         r'/data/(.*)$',     # Allowing public access to data exports
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
         r'/api/(.*)$',      # Allowing access to API
-        r'/js/i18n/$',      # Javascript localization
+        r'/js/i18n/$',      # JavaScript localization
     )
 
 .. setting:: MT_SERVICES

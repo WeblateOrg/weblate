@@ -196,7 +196,7 @@ class WeblateViewSet(DownloadViewSet):
             raise PermissionDenied()
 
         data = {
-            'needs_commit': obj.repo_needs_commit(),
+            'needs_commit': obj.needs_commit(),
             'needs_merge': obj.repo_needs_merge(),
             'needs_push': obj.repo_needs_push(),
         }
@@ -336,7 +336,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def monolingual_base(self, request, **kwargs):
         obj = self.get_object()
 
-        if not obj.template:
+        if not obj.has_template():
             raise Http404('No template found!')
 
         return self.download_file(

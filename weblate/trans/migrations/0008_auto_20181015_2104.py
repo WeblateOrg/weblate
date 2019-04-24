@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='component',
             name='language_regex',
-            field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression which is used to filter translation when scanning for file mask.', max_length=500, verbose_name='Language filter'),
+            field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression used to filter translation when scanning for filemask.', max_length=500, verbose_name='Language filter'),
         ),
     ]

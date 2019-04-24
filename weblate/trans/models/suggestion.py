@@ -35,7 +35,6 @@ from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.request import get_ip_address
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class SuggestionManager(models.Manager):
@@ -45,21 +44,22 @@ class SuggestionManager(models.Manager):
         """Create new suggestion for this unit."""
         user = request.user
 
-        try:
-            same = self.get(
-                target=target,
-                content_hash=unit.content_hash,
-                language=unit.translation.language,
-                project=unit.translation.component.project,
-            )
-
-            if same.user == user or not vote:
-                return False
-            same.add_vote(unit.translation, request, True)
+        if unit.translated and unit.target == target:
             return False
 
-        except ObjectDoesNotExist:
-            pass
+        same_suggestions = self.filter(
+            target=target,
+            content_hash=unit.content_hash,
+            language=unit.translation.language,
+            project=unit.translation.component.project,
+        )
+        # Do not rely on the SQL as MySQL compares strings case insensitive
+        for same in same_suggestions:
+            if same.target == target:
+                if same.user == user or not vote:
+                    return False
+                same.add_vote(unit.translation, request, True)
+                return False
 
         # Create the suggestion
         suggestion = self.create(
@@ -78,6 +78,7 @@ class SuggestionManager(models.Manager):
         for aunit in suggestion.related_units:
             Change.objects.create(
                 unit=aunit,
+                suggestion=suggestion,
                 action=Change.ACTION_SUGGESTION,
                 user=user,
                 target=target,
@@ -91,10 +92,6 @@ class SuggestionManager(models.Manager):
                 request,
                 True
             )
-
-        # Notify subscribed users
-        from weblate.accounts.notifications import notify_new_suggestion
-        notify_new_suggestion(unit, suggestion, user)
 
         # Update suggestion stats
         if user is not None:
@@ -111,14 +108,16 @@ class SuggestionManager(models.Manager):
         would make the operation really expensive and it should be done in the
         cleanup cron job.
         """
+        suggestions = []
         for suggestion in self.all():
-            Suggestion.objects.create(
+            suggestions.append(Suggestion(
                 project=project,
                 target=suggestion.target,
                 content_hash=suggestion.content_hash,
                 user=suggestion.user,
                 language=suggestion.language,
-            )
+            ))
+        self.bulk_create(suggestions)
 
 
 @python_2_unicode_compatible

@@ -36,12 +36,12 @@ class AlertTest(ViewTestCase):
         self.assertEqual(self.component.alert_set.count(), 3)
         alert = self.component.alert_set.get(name='DuplicateLanguage')
         self.assertEqual(
-            alert.details['occurences'][0]['language_code'],
+            alert.details['occurrences'][0]['language_code'],
             'cs',
         )
         alert = self.component.alert_set.get(name='DuplicateString')
         self.assertEqual(
-            alert.details['occurences'][0]['source'],
+            alert.details['occurrences'][0]['source'],
             'Thank you for using Weblate.'
         )
         alert = self.component.alert_set.get(name='MissingLicense')
@@ -74,3 +74,29 @@ class AlertTest(ViewTestCase):
         component.license = 'license'
         component.update_alerts()
         self.assertFalse(has_license_alert(component))
+
+    def test_monolingual(self):
+        component = self.component
+        component.update_alerts()
+        self.assertFalse(
+            component.alert_set.filter(name='MonolingualTranslation').exists()
+        )
+
+
+class MonolingualAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_mono()
+
+    def test_monolingual(self):
+        def has_monolingual_alert(component):
+            return component.alert_set.filter(
+                name='MonolingualTranslation'
+            ).exists()
+
+        component = self.component
+        component.update_alerts()
+        self.assertFalse(has_monolingual_alert(component))
+
+        self.component.template = ''
+        self.component.save()
+        self.assertTrue(has_monolingual_alert(component))

@@ -92,6 +92,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     }
     driver = None
     image_path = None
+    port = 9090
 
     def set_test_status(self, passed=True):
         connection = HTTPConnection("saucelabs.com")
@@ -311,7 +312,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(self.driver.find_element_by_id('settings-button'))
 
         # Wait for profile to load
-        self.driver.find_element_by_id('subscriptions')
+        self.driver.find_element_by_id('notifications')
 
         # Load translation memory
         self.click(self.driver.find_element_by_id('user-dropdown'))
@@ -480,7 +481,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Generate nice changes data
         for day in range(365):
             for i in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
-                change = Change.objects.create()
+                change = Change.objects.create(
+                    action=Change.ACTION_CREATE_PROJECT
+                )
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
@@ -510,7 +513,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.click(
                     self.driver.find_element_by_id('settings-button')
                 )
-            self.click('Authentication')
+            self.click('Account')
             self.screenshot('authentication.png')
         finally:
             social_django.utils.BACKENDS = orig_backends
@@ -1006,7 +1009,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         self.click('Preferences')
         self.screenshot('dashboard-dropdown.png')
-        self.click('Subscriptions')
+        self.click('Notifications')
         self.screenshot('profile-subscriptions.png')
         self.click('Licenses')
         self.screenshot('profile-licenses.png')

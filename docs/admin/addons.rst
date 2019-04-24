@@ -197,6 +197,8 @@ List of addons is configured by :setting:`WEBLATE_ADDONS`, to add another addon
 simply include class absolute name in this setting.
 
 
+.. _own-addon:
+
 Writing addon
 +++++++++++++
 
@@ -219,6 +221,8 @@ script with an addon.
 
 .. literalinclude:: ../../weblate/addons/example_pre.py
     :language: python
+
+For installing instructions see :ref:`custom-addon-modules`.
 
 The script is executed with the current directory set to the root of the VCS repository
 for given component.
@@ -299,4 +303,4 @@ In many cases you might want to automatically do some changes to the translation
 before it is committed to the repository. The pre commit script is exactly the
 place to achieve this.
 
-It is passed a single parameter consisting of file name of current translation.
+It is passed a single parameter consisting of filename of current translation.

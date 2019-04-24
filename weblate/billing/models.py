@@ -159,6 +159,10 @@ class Billing(models.Model):
         blank=True, null=True, default=None,
         verbose_name=_('Trial expiry date'),
     )
+    removal = models.DateTimeField(
+        blank=True, null=True, default=None,
+        verbose_name=_('Scheduled removal'),
+    )
     paid = models.BooleanField(
         default=True,
         verbose_name=_('Paid'),
@@ -337,12 +341,12 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
 
-    def check_payment_status(self):
+    def check_payment_status(self, grace=None):
         """Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
-        end = timezone.now() - timedelta(days=self.grace_period)
+        end = timezone.now() - timedelta(days=grace or self.grace_period)
         return (
             self.plan.is_free or
             self.invoice_set.filter(end__gte=end).exists() or
@@ -350,18 +354,14 @@ class Billing(models.Model):
         )
 
     def check_limits(self, grace=30, save=True):
-        due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
-        paid = (
-            self.plan.is_free or
-            self.invoice_set.filter(end__gt=due_date).exists() or
-            self.state == Billing.STATE_TRIAL
-        )
+        paid = self.check_payment_status(grace)
         modified = False
 
         if self.check_expiry():
             self.state = Billing.STATE_EXPIRED
             self.expiry = None
+            self.removal = timezone.now() + timedelta(days=30)
             modified = True
 
         if self.state not in Billing.EXPIRING_STATES and self.expiry:
@@ -383,6 +383,12 @@ class Billing(models.Model):
 
     def is_active(self):
         return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
+
+    def get_notify_users(self):
+        users = self.owners.distinct()
+        for project in self.projects.all():
+            users |= User.objects.having_perm('billing.view', project)
+        return users
 
 
 @python_2_unicode_compatible

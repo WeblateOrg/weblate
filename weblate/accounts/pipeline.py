@@ -37,11 +37,9 @@ from social_core.pipeline.partial import partial
 from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
 from weblate.auth.models import User
-from weblate.accounts.notifications import (
-    send_notification_email, notify_account_activity
-)
+from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
-from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.models import VerifiedEmail, AuditLog
 from weblate.accounts.utils import invalidate_reset_codes
 from weblate.utils import messages
 from weblate.utils.validators import clean_fullname, USERNAME_MATCHER
@@ -160,7 +158,7 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
     if (strategy.request is not None and
             user is not None and
             weblate_action == 'reset'):
-        notify_account_activity(
+        AuditLog.objects.create(
             user,
             strategy.request,
             'reset',
@@ -339,7 +337,7 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
             same = same.exclude(social__user=user)
 
         if same.exists():
-            notify_account_activity(
+            AuditLog.objects.create(
                 same[0].social.user,
                 strategy.request,
                 'connect'
@@ -368,7 +366,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
             action = 'auth-connect'
         else:
             action = 'login'
-        notify_account_activity(
+        AuditLog.objects.create(
             user,
             strategy.request,
             action,
@@ -469,7 +467,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
 def notify_disconnect(strategy, backend, entries, user, **kwargs):
     """Store verified email."""
     for social in entries:
-        notify_account_activity(
+        AuditLog.objects.create(
             user,
             strategy.request,
             'auth-disconnect',

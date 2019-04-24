@@ -30,6 +30,7 @@ from django.test import SimpleTestCase
 from weblate.auth.models import User
 from weblate.utils.ratelimit import (
     reset_rate_limit, check_rate_limit, session_ratelimit_post,
+    revert_rate_limit,
 )
 
 
@@ -79,7 +80,7 @@ class RateLimitTest(SimpleTestCase):
         self.assertFalse(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(2)
         self.assertTrue(
             check_rate_limit('test', request)
         )
@@ -113,16 +114,36 @@ class RateLimitTest(SimpleTestCase):
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
             check_rate_limit('test', request)
         )
-        sleep(1)
+        sleep(1.5)
         self.assertTrue(
+            check_rate_limit('test', request)
+        )
+
+    @override_settings(
+        RATELIMIT_ATTEMPTS=2,
+        RATELIMIT_WINDOW=2,
+    )
+    def test_revert(self):
+        request = self.get_request()
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        revert_rate_limit('test', request)
+        self.assertTrue(
+            check_rate_limit('test', request)
+        )
+        self.assertFalse(
             check_rate_limit('test', request)
         )
 

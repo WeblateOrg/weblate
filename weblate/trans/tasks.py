@@ -105,7 +105,7 @@ def commit_pending(hours=None, pks=None, logger=None):
         if last_change > age:
             continue
 
-        if not component.repo_needs_commit():
+        if not component.needs_commit():
             continue
 
         if logger:
@@ -216,13 +216,14 @@ def cleanup_suggestions():
     for suggestion in suggestions.iterator():
         with transaction.atomic():
             # Remove suggestions with same text as real translation
-            units = Unit.objects.filter(
-                content_hash=suggestion.content_hash,
-                translation__language=suggestion.language,
-                translation__component__project=suggestion.project,
-            )
+            is_different = False
+            # Do not rely on the SQL as MySQL compares strings case insensitive
+            for unit in suggestion.related_units:
+                if unit.target != suggestion.target:
+                    is_different = True
+                    break
 
-            if not units.exclude(target=suggestion.target).exists():
+            if not is_different:
                 suggestion.delete_log(
                     anonymous_user,
                     change=Change.ACTION_SUGGESTION_CLEANUP
@@ -238,11 +239,14 @@ def cleanup_suggestions():
             ).exclude(
                 id=suggestion.id
             )
-            if sugs.exists():
-                suggestion.delete_log(
-                    anonymous_user,
-                    change=Change.ACTION_SUGGESTION_CLEANUP
-                )
+            # Do not rely on the SQL as MySQL compares strings case insensitive
+            for other in sugs:
+                if other.target == suggestion.target:
+                    suggestion.delete_log(
+                        anonymous_user,
+                        change=Change.ACTION_SUGGESTION_CLEANUP
+                    )
+                    break
 
 
 @app.task
@@ -293,6 +297,14 @@ def cleanup_old_suggestions():
         return
     cutoff = timezone.now() - timedelta(days=settings.SUGGESTION_CLEANUP_DAYS)
     Suggestion.objects.filter(timestamp__lt=cutoff).delete()
+
+
+@app.task
+def cleanup_old_comments():
+    if not settings.COMMENT_CLEANUP_DAYS:
+        return
+    cutoff = timezone.now() - timedelta(days=settings.COMMENT_CLEANUP_DAYS)
+    Comment.objects.filter(timestamp__lt=cutoff).delete()
 
 
 @app.task
@@ -351,6 +363,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         cleanup_old_suggestions.s(),
         name='cleanup-old-suggestions',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_old_comments.s(),
+        name='cleanup-old-comments',
     )
 
     # Following fulltext maintenance tasks should not be

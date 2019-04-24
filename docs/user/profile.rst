@@ -92,34 +92,6 @@ list`, you have to select which component list will be displayed from the
 
     :ref:`componentlists`
 
-.. _subscriptions:
-
-Subscriptions
-+++++++++++++
-
-You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
-You will receive notifications for selected events on chosen projects for
-languages you have indicated for translation (see above).
-
-If you are an owner of some project, you will always receive some important
-notifications, like merge failures or new language requests.
-
-.. note::
-
-    You will not receive notifications for actions you've done.
-
-.. image:: /images/profile-subscriptions.png
-
-Authentication
-++++++++++++++
-
-On the :guilabel:`Authentication` tab you can connect various services which
-you can use to login into Weblate. List of services depends on Weblate
-configuration, but can include popular sites such as Google, Facebook, GitHub
-or Bitbucket.
-
-.. image:: /images/authentication.png
-
 Avatar
 ++++++
 
@@ -143,3 +115,42 @@ filename and line placeholders.  Usually something like
 
     You can find more information on registering custom URL protocols for editor in
     `nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_.
+
+.. _subscriptions:
+
+Notifications
+-------------
+
+You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
+You will receive notifications for selected events on watched or administered
+projects.
+
+Some of the notifications are sent only for events in your languages (for
+example about new strings to translate), while some trigger at component level
+(for example merge errors). These two groups of notifications are visually
+separated in the settings.
+
+You can toggle notifications for watched projects, administered project and it
+can be further tweaked per project and component. To configure (or mute)
+notifications per project or component, visit component page and select
+appropriate choice from the :guilabel:`Watching` menu.
+
+.. note::
+
+    You will not receive notifications for actions you've done.
+
+.. image:: /images/profile-subscriptions.png
+
+Account
+-------
+
+On the :guilabel:`Account` tab you can configure basic aspects of your account,
+connect various services which you can use to login into Weblate, completely
+remove your account or download your user data.
+
+.. note:: 
+   
+   List of services depends on Weblate configuration, but can include popular
+   sites such as Google, Facebook, GitHub or Bitbucket.
+
+.. image:: /images/authentication.png

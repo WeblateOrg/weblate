@@ -98,6 +98,9 @@ You need to register an application on GitHub and then tell Weblate all its secr
     SOCIAL_AUTH_GITHUB_SECRET = 'GitHub Client Secret'
     SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 
+The GitHub should be configured to have callback URL as
+``https://example.com/accounts/complete/github/``.
+
 .. seealso::
 
     :doc:`psa:backends/github`

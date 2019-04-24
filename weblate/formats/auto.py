@@ -45,7 +45,7 @@ def detect_filename(filename):
 
 def try_load(filename, content, original_format, template_store):
     """Try to load file by guessing type"""
-    formats = [original_format, AutoFormat]
+    formats = [original_format, AutodetectFormat]
     detected_format = detect_filename(filename)
     if detected_format is not None:
         formats.insert(0, detected_format)
@@ -73,9 +73,9 @@ def try_load(filename, content, original_format, template_store):
     raise failure
 
 
-class AutoFormat(TTKitFormat):
+class AutodetectFormat(TTKitFormat):
     name = _('Automatic detection')
-    format_id = 'auto'
+    format_id = None
 
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):

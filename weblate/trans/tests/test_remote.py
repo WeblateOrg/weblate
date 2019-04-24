@@ -87,7 +87,7 @@ class MultiRepoTest(ViewTestCase):
             new_base='',
             branch=self._branch,
         )
-        self.request = self.get_request('/')
+        self.request = self.get_request()
 
     def push_first(self, propagate=True, newtext='Nazdar svete!\n'):
         """Change and pushes first component."""
@@ -114,7 +114,7 @@ class MultiRepoTest(ViewTestCase):
         translation.git_commit(
             self.request, 'TEST <test@example.net>', timezone.now(),
         )
-        self.assertFalse(translation.repo_needs_commit())
+        self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
     def test_propagate(self):

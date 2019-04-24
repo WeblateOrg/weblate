@@ -27,7 +27,7 @@
         {
             "name": "WEBLATE_VOLUME_SIZE",
             "description": "Size of the persistent volume for Weblate.",
-            "value": "1Gi",
+            "value": "10Gi",
             "required": true
         },
         {
@@ -45,7 +45,7 @@
         {
             "name": "WEBLATE_MEMORY_LIMIT",
             "description": "Amount of memory available to Weblate.",
-            "value": "256Mi",
+            "value": "8Gi",
             "required": true
         },
         {
@@ -69,19 +69,19 @@
         {
           "name": "CACHE_VOLUME_SIZE",
           "description": "Size of the persistent volume for Redis Cache.",
-          "value": "1Gi",
+          "value": "10Gi",
           "required": true
         },
         {
             "name": "DATABASE_VOLUME_SIZE",
             "description": "Size of the persistent volume for the database.",
-            "value": "1Gi",
+            "value": "10Gi",
             "required": true
         },
         {
             "name": "DATABASE_MEMORY_LIMIT",
             "description": "Amount of memory available to the database.",
-            "value": "256Mi",
+            "value": "8Gi",
             "required": true
         },
         {
@@ -164,7 +164,33 @@
                             "kind": "ImageStreamTag",
                             "namespace": "openshift",
                             "name": "python:${PYTHON_VERSION}"
-                        }
+                        },
+                        "env": [
+                            {
+                              "name": "OPENSHIFT_APP_NAME",
+                              "value": "weblate"
+                            },
+                            {
+                                "name": "OPENSHIFT_POSTGRESQL_DB_URL",
+                                "value": "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${APPLICATION_NAME}-db:5432/weblate"
+                            },
+                            {
+                                "name": "OPENSHIFT_POSTGRESQL_DB_USERNAME",
+                                "value": "${DATABASE_USERNAME}"
+                            },
+                            {
+                                "name": "OPENSHIFT_POSTGRESQL_DB_PASSWORD",
+                                "value": "${DATABASE_PASSWORD}"
+                            },
+                            {
+                                "name": "OPENSHIFT_POSTGRESQL_DB_HOST",
+                                "value": "${APPLICATION_NAME}-db"
+                            },
+                            {
+                                "name": "OPENSHIFT_POSTGRESQL_DB_PORT",
+                                "value": "5432"
+                            }
+                        ]
                     }
                 },
                 "output": {
@@ -668,6 +694,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "ReadWriteOnce"
@@ -688,6 +715,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "ReadWriteOnce"
@@ -708,6 +736,7 @@
                     "app": "${APPLICATION_NAME}"
                 }
             },
+            "allowVolumeExpansion": true,
             "spec": {
                 "accessModes": [
                     "${WEBLATE_VOLUME_TYPE}"

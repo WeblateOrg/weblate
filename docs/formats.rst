@@ -1,7 +1,7 @@
 .. _formats:
 
-Supported formats
-=================
+Supported file formats
+======================
 
 Weblate supports most translation format understood by the translate-toolkit,
 however each format being slightly different, there might be some issues with
@@ -66,7 +66,7 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`qtling`       | both             | yes           | yes            | no            | yes            | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
-| :ref:`aresource`    | mono             | yes           | yes            | no            | no             |                         |
+| :ref:`aresource`    | mono             | yes           | yes [#x]_      | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`apple`        | bilingual        | no            | yes            | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
@@ -90,6 +90,8 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`xlsx`         | mono             | no            | yes            | yes           | yes            | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`appstore`     | mono             | no            | no             | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -97,6 +99,7 @@ Below are listed capabilities of all supported formats.
 .. [#c] Context is used to differentiate same strings used in different scope (eg. `Sun` can be used as abbreviated name of day or as a name of our closest star).
 .. [#l] Location of string in source code might help skilled translators to figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to not translated and translated.
+.. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
 
 .. _gettext:
 
@@ -221,6 +224,10 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
 
 Translations states
 +++++++++++++++++++
+
+.. versionchanged:: 3.3
+
+   Weblate did ignore the state attribute prior to the 3.3 release.
 
 The ``state`` attribute in the file is partially processed and mapped to needs
 edit state in Weblate (the following states are used to flag the string as
@@ -464,16 +471,16 @@ location from the others :file:`res/values/strings.xml`.
 
 .. _apple:
 
-Apple OS X strings
-------------------
+Apple iOS strings
+-----------------
 
 .. index::
     pair: Apple strings; file format
 
-Apple specific file format for translating applications, used for both OS X
+Apple specific file format for translating applications, used for both iOS
 and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
 
-Apple OS X strings are usually used as bilingual.
+Apple iOS strings are usually used as bilingual.
 
 +---------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                          |
@@ -484,7 +491,7 @@ Apple OS X strings are usually used as bilingual.
 +--------------------------------+------------------------------------------+
 | Base file for new translations | `Empty`                                  |
 +--------------------------------+------------------------------------------+
-| File format                    | `OS X Strings (UTF-8)`                   |
+| File format                    | `iOS Strings (UTF-8)`                    |
 +--------------------------------+------------------------------------------+
 
 .. seealso::
@@ -554,7 +561,7 @@ JSON files
     structure JSON files are supported as well.
 
 JSON format is used mostly for translating applications implemented in
-Javascript.
+JavaScript.
 
 Weblate currently supports several variants of JSON translations:
 
@@ -853,6 +860,35 @@ Example Windows RC file:
 
 .. seealso:: :doc:`tt:formats/rc`
 
+.. _appstore:
+
+App store metadata files
+------------------------
+
+.. versionadded:: 3.5
+
+Weblate can translate metadata used for publishing apps in various app stores.
+Currently it is known to be compatible with following tools:
+
+* `Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-publisher>`_
+* `Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-your-app-metadata>`_
+* `F-Droid <https://f-droid.org/docs/All_About_Descriptions_Graphics_and_Screenshots/>`_
+
+The metadata consist of several text files which Weblate will present as
+separate strings to translate. 
+
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``fastlane/android/metadata/*``     |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``fastlane/android/metadata/en-US`` |
++--------------------------------+-------------------------------------+
+| Base file for new translations | ``fastlane/android/metadata/en-US`` |
++--------------------------------+-------------------------------------+
+| File format                    | `App store metadata files`          |
++--------------------------------+-------------------------------------+
+
 .. _xlsx:
 
 Excel Open XML
@@ -909,3 +945,18 @@ exiting translations will be removed from the file when doing so.
 When :guilabel:`Base file for new translations` is empty and file format
 supports it, empty file is created where new strings will be added once they are
 translated.
+
+The :guilabel:`Language code style` allows you to customize language code used
+in generated filenames:
+
+Default based on the file format
+   Dependent on file format, for most of them POSIX is used.
+POSIX style using underscore as a separator
+   Typically used by Gettext and related tools, produces language codes like
+   `pt-BR`.
+BCP style using hyphen as a separator
+   Typically used on web platforms, produces language codes like
+   `pt_BR`.
+Android style
+   Used only on Android apps, produces language codes like
+   `pt-rBR`.

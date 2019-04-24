@@ -24,7 +24,7 @@ import re
 
 from datetime import date
 
-from django.utils.html import escape, urlize
+from django.utils.html import escape, urlize, linebreaks
 from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -34,6 +34,7 @@ from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
 
+from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
@@ -60,8 +61,9 @@ SPACE_TAB = HIGHLIGTH_SPACE.format(
 )
 
 HL_CHECK = (
-    '<span class="hlcheck">{0}'
+    '<span class="hlcheck">'
     '<span class="highlight-number"></span>'
+    '{0}'
     '</span>'
 )
 
@@ -619,14 +621,9 @@ def get_location_links(profile, unit):
         else:
             filename = location_parts[0]
             line = 0
-        if profile.editor_link:
-            link = profile.editor_link % {
-                'file': filename,
-                'line': line,
-                'branch': unit.translation.component.branch
-            }
-        else:
-            link = unit.translation.component.get_repoweb_link(filename, line)
+        link = unit.translation.component.get_repoweb_link(
+            filename, line, profile.editor_link
+        )
         if link is None:
             ret.append(escape(location))
         else:
@@ -646,11 +643,6 @@ def whiteboard_messages(context, project=None, component=None, language=None):
     user = context['user']
 
     for whiteboard in whiteboards:
-        if whiteboard.message_html:
-            content = mark_safe(whiteboard.message)
-        else:
-            content = mark_safe(urlize(whiteboard.message, autoescape=True))
-
         can_delete = (
             user.has_perm('component.edit', whiteboard.component)
             or user.has_perm('project.edit', whiteboard.project)
@@ -661,7 +653,7 @@ def whiteboard_messages(context, project=None, component=None, language=None):
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message':  content,
+                    'message':  whiteboard.render(),
                     'whiteboard': whiteboard,
                     'can_delete': can_delete,
                 }
@@ -766,3 +758,15 @@ def indicate_alerts(obj):
 @register.filter
 def replace_english(value, language):
     return value.replace('English', force_text(language))
+
+
+@register.simple_tag
+def render_comment(comment):
+    mentioned = comment.get_mentions()
+    result = linebreaks(urlize(comment.comment, autoescape=True))
+    for user in mentioned:
+        result = result.replace(
+            '@{}'.format(user.username),
+            get_user_display(user, icon=False, link=True),
+        )
+    return mark_safe(result)

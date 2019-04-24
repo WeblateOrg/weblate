@@ -32,13 +32,13 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential
 
         # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
         # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
 
 #. Install pip and virtualenv. Usually they are shipped by your distribution or
    with Python:
@@ -46,19 +46,19 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt-get install python-pip python-virtualenv
+        apt install python3-pip python3-virtualenv virtualenv
 
         # openSUSE/SLES:
-        zypper install python-pip python-virtualenv
+        zypper install python3-pip python3-virtualenv
 
         # Fedora/RHEL/CentOS:
-        dnf install python-pip python-virtualenv
+        dnf install python3-pip python3-virtualenv
 
 #. Create the virtualenv for Weblate:
 
    .. code-block:: sh
 
-        virtualenv ~/weblate-env
+        virtualenv --python=python3 ~/weblate-env
      
 #. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
         
@@ -74,9 +74,14 @@ development server.
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
+        # Install database backend for PostgreSQL
+        pip install psycopg2-binary
+        # Install database backend for MySQL
+        apt install default-libmysqlclient-dev
+        pip install mysqlclient
 
-#. Copy the file :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings-example.py`
-   to :file:`~/weblate-env/lib/python2.7/site-packages/weblate/settings.py`
+#. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
+   to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
 
 #. Optionally, adjust the values in the new :file:`settings.py` file.
 
@@ -121,7 +126,7 @@ Installing from sources
 
    .. code-block:: sh
 
-        virtualenv .venv
+        virtualenv --python=python3 .venv
         . .venv/bin/activate
         pip install -r /path/to/weblate/requirements.txt
 
@@ -200,7 +205,7 @@ Adding translation
 
    The important fields here being component name, VCS repository address and
    mask for finding translatable files. Weblate supports a wide range of formats
-   including Gettext PO files, Android resource strings, OS X string properties,
+   including Gettext PO files, Android resource strings, iOS string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 

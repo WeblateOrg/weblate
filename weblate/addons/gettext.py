@@ -27,8 +27,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
 from django.utils.translation import ugettext_lazy as _
 
-from translate.storage.po import pofile
-
 from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.addons.forms import GettextCustomizeForm
@@ -37,21 +35,8 @@ from weblate.formats.exporters import MoExporter
 
 class GettextBaseAddon(BaseAddon):
     compat = {
-        'file_format': frozenset((
-            'auto', 'po', 'po-mono',
-        )),
+        'file_format': frozenset(('po', 'po-mono')),
     }
-
-    @classmethod
-    def can_install(cls, component, user):
-        # Check actual store to cover the auto format
-        if component.file_format == 'auto':
-            if not component.translation_set.exists():
-                return False
-            translation = component.translation_set.all()[0]
-            if not isinstance(translation.store.store, pofile):
-                return False
-        return super(GettextBaseAddon, cls).can_install(component, user)
 
 
 class GenerateMoAddon(GettextBaseAddon):
@@ -90,7 +75,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
     def can_install(cls, component, user):
         if not super(UpdateLinguasAddon, cls).can_install(component, user):
             return False
-        if not component.can_add_new_language():
+        if not component.is_valid_base_for_new():
             return False
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
@@ -148,7 +133,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     def can_install(cls, component, user):
         if not super(UpdateConfigureAddon, cls).can_install(component, user):
             return False
-        if not component.can_add_new_language():
+        if not component.is_valid_base_for_new():
             return False
         for name in cls.get_configure_paths(component):
             if not os.path.exists(name):
@@ -204,15 +189,6 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super(MsgmergeAddon, cls).can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        wrap = None
-        try:
-            width = component.addon_set.get(
-                name='weblate.gettext.customize'
-            ).configuration['width']
-            if width != 77:
-                wrap = '--no-wrap'
-        except ObjectDoesNotExist:
-            pass
         cmd = [
             'msgmerge',
             '--backup=none',
@@ -221,8 +197,14 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             'FILE',
             component.get_new_base_filename()
         ]
-        if wrap:
-            cmd.insert(1, wrap)
+        try:
+            width = component.addon_set.get(
+                name='weblate.gettext.customize'
+            ).configuration['width']
+            if width != 77:
+                cmd.insert(1, '--no-wrap')
+        except ObjectDoesNotExist:
+            pass
         for translation in component.translation_set.all():
             filename = translation.get_filename()
             if not os.path.exists(filename):
@@ -240,11 +222,6 @@ class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
         'line wrapping.'
     )
     settings_form = GettextCustomizeForm
-
-    @staticmethod
-    def is_store_compatible(store):
-        """Needs PO file and recent Translate Toolkit."""
-        return isinstance(store, pofile) and hasattr(store, 'wrapper')
 
     def store_post_load(self, translation, store):
         store.store.wrapper.width = int(
