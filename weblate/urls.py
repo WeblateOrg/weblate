@@ -761,7 +761,7 @@ real_patterns = [
     # Notification hooks
     url(
         r'^hooks/update/' + COMPONENT_SCOPED_BY_PROJECT + '$',
-        weblate.trans.views.api.update_component,
+        weblate.trans.views.hooks.update_component,
         name='hook-component'
     ),
     url(
