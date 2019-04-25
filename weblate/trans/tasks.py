@@ -338,16 +338,12 @@ def component_after_save(pk, changed_git, changed_setup, changed_template,
 
 @app.task
 def component_removal(pk):
-    obj = Component.objects.get(pk=pk)
-    obj.stats.invalidate()
-    obj.delete()
+    Component.objects.get(pk=pk).delete()
 
 
 @app.task
 def project_removal(pk):
-    obj = Project.objects.get(pk=pk)
-    obj.stats.invalidate()
-    obj.delete()
+    Project.objects.get(pk=pk).delete()
 
 
 @app.on_after_finalize.connect
