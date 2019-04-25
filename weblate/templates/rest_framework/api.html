@@ -1,0 +1,20 @@
+{% extends "rest_framework/base.html" %}
+
+{% load static %}
+
+{% block bootstrap_theme %}
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+{% if LANGUAGE_BIDI %}
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}" />
+{% endif %}
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}" />
+{% endblock %}
+
+{% block branding %}
+{% include "snippets/branding.html" %}
+{% endblock %}
+
+{% block description %}
+{{ block.super }}
+{% endblock %}

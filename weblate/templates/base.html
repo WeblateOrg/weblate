@@ -101,7 +101,7 @@ var _rollbarConfig = {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{% url 'home' %}"><img class="avatar" src="{% static 'weblate-128.png' %}" /> {{ site_title }}</a>
+      {% include "snippets/branding.html" %}
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

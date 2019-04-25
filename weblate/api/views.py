@@ -26,6 +26,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse
 from django.utils.encoding import smart_text
+from django.utils.safestring import mark_safe
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -66,8 +67,8 @@ REPO_OPERATIONS = {
 }
 
 DOC_TEXT = """
-See <a href="{0}">the Weblate's Web API documentation</a> for detailed
-description of the API.
+<p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
+description of the API.</p>
 """
 
 
@@ -91,13 +92,11 @@ def get_view_description(view_cls, html=False):
     else:
         doc_url = get_doc_url('api')
 
-    description = '\n\n'.join((
-        description,
-        DOC_TEXT.format(doc_url)
-    ))
-
     if html:
-        return formatting.markup_description(description)
+        return (
+            formatting.markup_description(description) +
+            mark_safe(DOC_TEXT.format(doc_url))
+        )
     return description
 
 
