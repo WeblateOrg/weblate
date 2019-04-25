@@ -36,6 +36,7 @@ from weblate.trans.forms import (
 from weblate.trans.models import Change, WhiteboardMessage
 from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param
+from weblate.trans.util import render
 
 
 @login_required
@@ -240,3 +241,33 @@ def whiteboard_delete(request, pk):
         whiteboard.delete()
 
     return JsonResponse({'responseStatus': 200})
+
+
+@login_required
+def component_progress(request, project, component):
+    obj = get_component(request, project, component)
+    if not obj.in_progress():
+        return redirect(obj)
+
+    progress, log = obj.get_progress()
+
+    return render(
+        request,
+        'component-progress.html',
+        {
+            'object': obj,
+            'progress': progress,
+            'log': '\n'.join(log),
+        }
+    )
+
+
+@login_required
+def component_progress_js(request, project, component):
+    obj = get_component(request, project, component)
+    progress, log = obj.get_progress()
+    return JsonResponse({
+        'in_progress': obj.in_progress(),
+        'progress': progress,
+        'log': '\n'.join(log)
+    })

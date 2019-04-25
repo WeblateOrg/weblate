@@ -1409,6 +1409,25 @@ $(function () {
 
     });
 
+    /* Component update progress */
+    $('[data-progress-url]').each(function () {
+        var $progress = $(this);
+        var $pre = $progress.find('pre'), $bar = $progress.find('.progress-bar');
+
+        $pre.animate({scrollTop: $pre.get(0).scrollHeight});
+
+        var progress_interval = setInterval(function() {
+            $.get($progress.data('progress-url'), function (data) {
+                $bar.width(data.progress + '%');
+                $pre.text(data.log);
+                $pre.animate({scrollTop: $pre.get(0).scrollHeight});
+                if (! data.in_progress) {
+                    clearInterval(progress_interval);
+                }
+            });
+        }, 1000);
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "

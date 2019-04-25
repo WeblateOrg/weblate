@@ -9,6 +9,7 @@ Released on ? 2019.
 * Added separate Celery queue for notifications.
 * Use consistent look with application for API browsing.
 * Include approved stats in the reports.
+* Report progress when updating translation component.
 
 weblate 3.6.1
 -------------

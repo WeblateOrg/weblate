@@ -496,6 +496,8 @@ class Component(models.Model, URLMixin, PathMixin):
         self._sources = None
         self.checks_cache = None
         self.logs = []
+        self.translations_count = None
+        self.translations_progress = 0
 
     @cached_property
     def update_key(self):
@@ -508,6 +510,27 @@ class Component(models.Model, URLMixin, PathMixin):
             return None
         return AsyncResult(task_id)
 
+    def progress_step(self, progress=None):
+        # No task (eg. eager mode)
+        if not current_task:
+            return
+        # Operate on linked component if needed
+        if self.translations_count is None:
+            if self.linked_component:
+                self.linked_component.progress_step(progress)
+            return
+        # Calculate progress for translations
+        if progress is None:
+            self.translations_progress += 1
+            progress = int(
+                100 * self.translations_progress / self.translations_count
+            )
+        # Store task state
+        current_task.update_state(
+            state='PROGRESS',
+            meta={'progress': progress}
+        )
+
     def log_hook(self, level, msg, *args):
         self.logs.append(msg % args)
         if current_task:
@@ -516,6 +539,24 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.logs,
                 2 * 3600
             )
+
+    def get_progress(self):
+        task = self.background_task
+        if task is None:
+            return 100, []
+        if task.ready():
+            # Completed task
+            progress = 100
+        elif task.state == 'PROGRESS':
+            # In progress
+            progress = task.result['progress']
+        else:
+            # Not yet started
+            progress = 0
+        return (
+            progress,
+            cache.get('task-log-{}'.format(task.id), []),
+        )
 
     def in_progress(self):
         return (
@@ -1225,6 +1266,10 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise
         matches = self.get_mask_matches()
+        self.translations_progress = 0
+        self.translations_count = len(matches) + sum(
+            (c.translation_set.count() for c in self.linked_childs)
+        )
         for pos, path in enumerate(matches):
             with transaction.atomic():
                 code = self.get_lang_code(path)
@@ -1268,6 +1313,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     ).update(
                         state=STATE_TRANSLATED
                     )
+                self.progress_step()
 
         # Delete possibly no longer existing translations
         if langs is None:
@@ -1650,6 +1696,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def after_save(self, changed_git, changed_setup, changed_template,
                    skip_push):
+        self.translations_progress = 0
+        self.translations_count = 0
+        self.progress_step(0)
         # Configure git repo if there were changes
         if changed_git:
             self.sync_git_repo(skip_push=skip_push)
@@ -1665,6 +1714,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.create_translations()
 
         self.update_alerts()
+        self.progress_step(100)
+        self.translations_count = None
 
     def update_alerts(self):
         from weblate.trans.models import Unit

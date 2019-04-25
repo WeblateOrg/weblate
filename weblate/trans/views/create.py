@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.forms import HiddenInput
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
@@ -137,6 +138,12 @@ class CreateComponent(BaseCreateView):
         if not self.initial:
             return super(CreateComponent, self).get_form_kwargs()
         return {'initial': self.initial, 'request': self.request}
+
+    def get_success_url(self):
+        return reverse(
+            'component_progress',
+            kwargs=self.object.get_reverse_url_kwargs()
+        )
 
     def form_valid(self, form):
         if self.stage == 'create':

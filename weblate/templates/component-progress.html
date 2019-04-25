@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+{% indicate_alerts object %}
+</li>
+<li><a href="{% url 'component_progress' project=object.project.slug component=object.slug %}">{% trans "Progress" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary" data-progress-url="{% url 'component_progress_js' project=object.project.slug component=object.slug %}">
+<div class="panel-heading">{% trans "Component is being updated…" %}</div>
+<div class="panel-body">
+
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;"></div>
+</div>
+
+<pre class="update-log">
+{{ log }}
+</pre>
+</div>
+<div class="panel-footer">
+<a href="{% url 'component' project=object.project.slug component=object.slug %}" class="btn btn-success">{% trans "Return to the component" %}</a>
+</div>
+</div>
+
+{% endblock %}
