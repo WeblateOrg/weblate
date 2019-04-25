@@ -894,7 +894,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.log_info('removing %s as %s', self.filenames, author)
 
         # Remove file from VCS
-        if os.path.exists(self.get_filename()):
+        if any((os.path.exists(name) for name in self.filenames)):
             self.commit_template = 'delete'
             with self.component.repository.lock:
                 self.component.repository.remove(
