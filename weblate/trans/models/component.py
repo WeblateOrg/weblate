@@ -714,7 +714,7 @@ class Component(models.Model, URLMixin, PathMixin):
         changed = self.repository.list_upstream_changed_files()
         if check_single(changed, self):
             return True
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             if check_single(changed, self):
                 return True
         return False
@@ -816,7 +816,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Send pre push signal
         vcs_pre_push.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
@@ -854,7 +854,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_post_push.send(
                 sender=component.__class__, component=component
             )
@@ -925,7 +925,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def get_repo_link_url(self):
         return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 
-    def get_linked_childs(self):
+    @cached_property
+    def linked_childs(self):
         """Return list of components which links repository to us."""
         return self.component_set.prefetch()
 
@@ -983,7 +984,7 @@ class Component(models.Model, URLMixin, PathMixin):
             method = self.merge_style
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_pre_update.send(
                 sender=component.__class__, component=component
             )
@@ -1052,7 +1053,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.delete_alert('MergeFailure', childs=True)
             self.delete_alert('RepositoryOutdated', childs=True)
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 vcs_post_update.send(
                     sender=component.__class__,
                     component=component,
@@ -1142,7 +1143,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def delete_alert(self, alert, childs=False):
         self.alert_set.filter(name=alert).delete()
         if childs:
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 component.delete_alert(alert)
 
     def add_alert(self, alert, childs=False, **details):
@@ -1154,7 +1155,7 @@ class Component(models.Model, URLMixin, PathMixin):
             obj.details = details
             obj.save()
         if childs:
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 component.add_alert(alert, **details)
 
     def update_import_alerts(self):
@@ -1252,11 +1253,10 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_import_alerts()
 
         # Process linked repos
-        childs = self.get_linked_childs()
-        for pos, component in enumerate(childs):
+        for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 'updating linked project %s [%d/%d]',
-                component, pos, len(childs),
+                component, pos, len(self.linked_childs),
             )
             component.create_translations(
                 force, langs, request=request,
