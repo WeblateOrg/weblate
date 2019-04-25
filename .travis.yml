@@ -6,10 +6,10 @@
 # - Run Selenium tests on current Django
 # - Test setup.py
 #
-dist: trusty
+dist: xenial
 language: python
 python:
-  - "3.6"
+  - "3.7"
 # build matrix configuration
 env:
   global:
@@ -67,42 +67,29 @@ after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 matrix:
   include:
-    - name: "Django 2.1, sqlite"
-      python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_DATABASE=sqlite
-    - name: "Django 2.1, mysql"
-      python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_DATABASE=mysql
-    - name: "Django 2.1, postgresql"
-      python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_DATABASE=postgresql
-    - name: "Django 2.1, selenium"
-      python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=selenium
-    - name: 'Django 2.2'
-      python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1"
-    - dist: xenial
-      name: 'Django 2.2, Python 3.7'
-      python: "3.7"
-      env: CI_DEPS="Django>=2.0,<2.1"
-    - name: 'Django 2.0'
-      python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1"
-    - name: 'Django 1.11'
+    - name: "Django 2.2, sqlite"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=sqlite
+    - name: "Django 2.2, mysql"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=mysql
+    - name: "Django 2.2, postgresql"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=postgresql
+    - name: "Django 2.2, selenium"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_MODE=selenium
+    - name: 'Django 2.1'
+      env: CI_DEPS="Django>=2.1,<2.2"
+    - name: 'Django 2.2, Python 3.5'
+      python: "3.5"
+      env: CI_DEPS="Django>=2.2,<2.3"
+    - name: 'Django 1.11, Python 2.7'
       python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12"
     - name: 'translate-toolkit pre-release'
-      python: "3.6"
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
     - name: "Setup"
-      python: "3.6"
       env: CI_MODE=setup
     - name: "Migrations"
-      python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1" CI_MODE=migrate
+      env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=migrate
     - name: "Documentation"
-      python: "3.6"
       env: CI_MODE=docs
 addons:
   apt:
