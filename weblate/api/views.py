@@ -651,5 +651,6 @@ class Metrics(APIView):
             'index_updates': get_queue_length('search'),
             'celery_queue': get_queue_length(),
             'celery_memory_queue': get_queue_length('memory'),
+            'celery_notification_queue': get_queue_length('notification'),
             'name': settings.SITE_TITLE,
         })

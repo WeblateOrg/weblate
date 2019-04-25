@@ -6,6 +6,8 @@ weblate 3.7
 
 Released on ? 2019.
 
+* Added separate Celery queue for notifications.
+
 weblate 3.6.1
 -------------
 
