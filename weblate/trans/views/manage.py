@@ -34,6 +34,7 @@ from weblate.trans.forms import (
     WhiteboardForm,
 )
 from weblate.trans.models import Change, WhiteboardMessage
+from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param
 
 
@@ -69,9 +70,8 @@ def remove_component(request, project, component):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
-    obj.stats.invalidate()
-    obj.delete()
-    messages.success(request, _('Translation component has been removed.'))
+    component_removal.delay(obj.pk)
+    messages.success(request, _('Translation component was scheduled for removal.'))
     Change.objects.create(
         project=obj.project,
         action=Change.ACTION_REMOVE_COMPONENT,
@@ -96,16 +96,14 @@ def remove_project(request, project):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
+    project_removal.delay(obj.pk)
+    messages.success(request, _('Project was scheduled for removal.'))
     Change.objects.create(
         action=Change.ACTION_REMOVE_PROJECT,
         target=obj.slug,
         user=request.user,
         author=request.user
     )
-
-    obj.stats.invalidate()
-    obj.delete()
-    messages.success(request, _('Project has been removed.'))
 
     return redirect('home')
 

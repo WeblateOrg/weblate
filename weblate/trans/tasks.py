@@ -336,6 +336,20 @@ def component_after_save(pk, changed_git, changed_setup, changed_template,
     )
 
 
+@app.task
+def component_removal(pk):
+    obj = Component.objects.get(pk=pk)
+    obj.stats.invalidate()
+    obj.delete()
+
+
+@app.task
+def project_removal(pk):
+    obj = Project.objects.get(pk=pk)
+    obj.stats.invalidate()
+    obj.delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
