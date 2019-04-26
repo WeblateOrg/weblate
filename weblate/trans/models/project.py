@@ -207,7 +207,7 @@ class Project(models.Model, URLMixin, PathMixin):
                 for component in old.component_set.all():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
-                    component.get_linked_childs().update(
+                    component.linked_childs.update(
                         repo=new_component.get_repo_link_url()
                     )
 

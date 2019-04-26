@@ -514,6 +514,21 @@ real_patterns = [
         weblate.trans.views.git.cleanup_translation,
         name='cleanup_translation',
     ),
+    url(
+        r'^progress/' + COMPONENT + '$',
+        weblate.trans.views.manage.component_progress,
+        name='component_progress',
+    ),
+    url(
+        r'^progress/' + COMPONENT + 'terminate/$',
+        weblate.trans.views.manage.component_progress_terminate,
+        name='component_progress_terminate',
+    ),
+    url(
+        r'^js/progress/' + COMPONENT + '$',
+        weblate.trans.views.manage.component_progress_js,
+        name='component_progress_js',
+    ),
 
     # Whiteboard
     url(

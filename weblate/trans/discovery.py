@@ -229,7 +229,7 @@ class ComponentDiscovery(object):
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
-        for component in main.get_linked_childs().exclude(pk__in=processed):
+        for component in main.linked_childs.exclude(pk__in=processed):
             if component.has_template():
                 # Valid template?
                 if os.path.exists(component.get_template_filename()):
@@ -282,7 +282,7 @@ class ComponentDiscovery(object):
                 continue
 
             try:
-                found = main.get_linked_childs().filter(
+                found = main.linked_childs.filter(
                     filemask=match['mask']
                 )[0]
                 # Component exists

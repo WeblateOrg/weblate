@@ -327,6 +327,25 @@ def component_alerts():
         component.update_alerts()
 
 
+@app.task
+def component_after_save(pk, changed_git, changed_setup, changed_template,
+                         skip_push):
+    component = Component.objects.get(pk=pk)
+    component.after_save(
+        changed_git, changed_setup, changed_template, skip_push
+    )
+
+
+@app.task
+def component_removal(pk):
+    Component.objects.get(pk=pk).delete()
+
+
+@app.task
+def project_removal(pk):
+    Project.objects.get(pk=pk).delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(

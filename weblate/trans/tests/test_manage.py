@@ -60,7 +60,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {'confirm': 'test/test'}, follow=True)
         self.assertContains(
             response,
-            'component has been removed.',
+            'Translation component was scheduled for removal.'
         )
 
     def test_project(self):
@@ -74,7 +74,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {'confirm': 'test'}, follow=True)
         self.assertContains(
             response,
-            'Project has been removed.',
+            'Project was scheduled for removal.'
         )
 
 

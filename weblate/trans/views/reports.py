@@ -30,26 +30,8 @@ from weblate.trans.forms import ReportsForm
 from weblate.trans.util import redirect_param
 from weblate.utils.views import get_component, show_form_errors
 
-
-RST_HEADING = ' '.join([
-    '=' * 40,
-    '=' * 40,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-    '=' * 20,
-])
+# Header, two longer fields for name and email, shorter fields for numbers
+RST_HEADING = ' '.join(['=' * 40] * 2 + ['=' * 24] * 20)
 
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
 
@@ -147,6 +129,10 @@ def generate_counts(component, start_date, end_date):
     """Generate credits data for given component."""
 
     result = {}
+    action_map = {
+        Change.ACTION_NEW: 'new',
+        Change.ACTION_APPROVE: 'approve',
+    }
 
     for translation in component.translation_set.all():
         authors = Change.objects.content().filter(
@@ -176,6 +162,12 @@ def generate_counts(component, start_date, end_date):
                     'words_new': 0,
                     'count_new': 0,
 
+                    't_chars_approve': 0,
+                    't_words_approve': 0,
+                    'chars_approve': 0,
+                    'words_approve': 0,
+                    'count_approve': 0,
+
                     't_chars_edit': 0,
                     't_words_edit': 0,
                     'chars_edit': 0,
@@ -192,18 +184,13 @@ def generate_counts(component, start_date, end_date):
             result[email]['t_words'] += tgt_words
             result[email]['count'] += 1
 
-            if action == Change.ACTION_NEW:
-                result[email]['t_chars_new'] += tgt_chars
-                result[email]['t_words_new'] += tgt_words
-                result[email]['chars_new'] += src_chars
-                result[email]['words_new'] += src_words
-                result[email]['count_new'] += 1
-            else:
-                result[email]['t_chars_edit'] += tgt_chars
-                result[email]['t_words_edit'] += tgt_words
-                result[email]['chars_edit'] += src_chars
-                result[email]['words_edit'] += src_words
-                result[email]['count_edit'] += 1
+            suffix = action_map.get(action, 'edit')
+
+            result[email]['t_chars_' + suffix] += tgt_chars
+            result[email]['t_words_' + suffix] += tgt_words
+            result[email]['chars_' + suffix] += src_chars
+            result[email]['words_' + suffix] += src_words
+            result[email]['count_' + suffix] += 1
 
     return list(result.values())
 
@@ -247,6 +234,12 @@ def get_counts(request, project, component):
         'Target words new',
         'Target chars new',
 
+        'Count approved',
+        'Source words approved',
+        'Source chars approved',
+        'Target words approved',
+        'Target chars approved',
+
         'Count edited',
         'Source words edited',
         'Source chars edited',
@@ -267,11 +260,11 @@ def get_counts(request, project, component):
         start = '{0}\n{1} {2}\n{0}'.format(
             RST_HEADING,
             ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
-            ' '.join(['{0:20}'.format(h) for h in headers[2:]]),
+            ' '.join(['{0:24}'.format(h) for h in headers[2:]]),
         )
         row_start = ''
         cell_name = '{0:40} '
-        cell_count = '{0:20} '
+        cell_count = '{0:24} '
         row_end = ''
         mime = 'text/plain'
         end = RST_HEADING
@@ -299,6 +292,12 @@ def get_counts(request, project, component):
                 cell_count.format(item['chars_new']),
                 cell_count.format(item['t_words_new']),
                 cell_count.format(item['t_chars_new']),
+
+                cell_count.format(item['count_approve']),
+                cell_count.format(item['words_approve']),
+                cell_count.format(item['chars_approve']),
+                cell_count.format(item['t_words_approve']),
+                cell_count.format(item['t_chars_approve']),
 
                 cell_count.format(item['count_edit']),
                 cell_count.format(item['words_edit']),

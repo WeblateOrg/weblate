@@ -29,6 +29,9 @@ import fnmatch
 import functools
 import re
 
+from celery import current_task
+from celery.result import AsyncResult
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
@@ -492,6 +495,75 @@ class Component(models.Model, URLMixin, PathMixin):
         self.old_component = copy(self)
         self._sources = None
         self.checks_cache = None
+        self.logs = []
+        self.translations_count = None
+        self.translations_progress = 0
+
+    @cached_property
+    def update_key(self):
+        return 'component-update-{}'.format(self.pk)
+
+    @cached_property
+    def background_task(self):
+        task_id = cache.get(self.update_key)
+        if not task_id:
+            return None
+        return AsyncResult(task_id)
+
+    def progress_step(self, progress=None):
+        # No task (eg. eager mode)
+        if not current_task:
+            return
+        # Operate on linked component if needed
+        if self.translations_count is None:
+            if self.linked_component:
+                self.linked_component.progress_step(progress)
+            return
+        # Calculate progress for translations
+        if progress is None:
+            self.translations_progress += 1
+            progress = int(
+                100 * self.translations_progress / self.translations_count
+            )
+        # Store task state
+        current_task.update_state(
+            state='PROGRESS',
+            meta={'progress': progress}
+        )
+
+    def log_hook(self, level, msg, *args):
+        self.logs.append(msg % args)
+        if current_task:
+            cache.set(
+                'task-log-{}'.format(current_task.request.id),
+                self.logs,
+                2 * 3600
+            )
+
+    def get_progress(self):
+        task = self.background_task
+        if task is None:
+            return 100, []
+        if task.ready():
+            # Completed task
+            progress = 100
+        elif task.state == 'PROGRESS':
+            # In progress
+            progress = task.result['progress']
+        else:
+            # Not yet started
+            progress = 0
+        return (
+            progress,
+            cache.get('task-log-{}'.format(task.id), []),
+        )
+
+    def in_progress(self):
+        return (
+            not settings.CELERY_TASK_ALWAYS_EAGER and
+            self.background_task is not None and
+            not self.background_task.ready()
+        )
 
     def get_source(self, id_hash):
         """Cached access to source info."""
@@ -715,7 +787,7 @@ class Component(models.Model, URLMixin, PathMixin):
         changed = self.repository.list_upstream_changed_files()
         if check_single(changed, self):
             return True
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             if check_single(changed, self):
                 return True
         return False
@@ -821,7 +893,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Send pre push signal
         vcs_pre_push.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
@@ -859,7 +931,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_post_push.send(
                 sender=component.__class__, component=component
             )
@@ -930,7 +1002,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def get_repo_link_url(self):
         return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 
-    def get_linked_childs(self):
+    @cached_property
+    def linked_childs(self):
         """Return list of components which links repository to us."""
         return self.component_set.prefetch()
 
@@ -988,7 +1061,7 @@ class Component(models.Model, URLMixin, PathMixin):
             method = self.merge_style
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
-        for component in self.get_linked_childs():
+        for component in self.linked_childs:
             vcs_pre_update.send(
                 sender=component.__class__, component=component
             )
@@ -1057,7 +1130,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.delete_alert('MergeFailure', childs=True)
             self.delete_alert('RepositoryOutdated', childs=True)
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 vcs_post_update.send(
                     sender=component.__class__,
                     component=component,
@@ -1147,7 +1220,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def delete_alert(self, alert, childs=False):
         self.alert_set.filter(name=alert).delete()
         if childs:
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 component.delete_alert(alert)
 
     def add_alert(self, alert, childs=False, **details):
@@ -1159,7 +1232,7 @@ class Component(models.Model, URLMixin, PathMixin):
             obj.details = details
             obj.save()
         if childs:
-            for component in self.get_linked_childs():
+            for component in self.linked_childs:
                 component.add_alert(alert, **details)
 
     def update_import_alerts(self):
@@ -1198,6 +1271,10 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise
         matches = self.get_mask_matches()
+        self.translations_progress = 0
+        self.translations_count = len(matches) + sum(
+            (c.translation_set.count() for c in self.linked_childs)
+        )
         for pos, path in enumerate(matches):
             with transaction.atomic():
                 code = self.get_lang_code(path)
@@ -1241,6 +1318,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     ).update(
                         state=STATE_TRANSLATED
                     )
+                self.progress_step()
 
         # Delete possibly no longer existing translations
         if langs is None:
@@ -1257,11 +1335,10 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_import_alerts()
 
         # Process linked repos
-        childs = self.get_linked_childs()
-        for pos, component in enumerate(childs):
+        for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 'updating linked project %s [%d/%d]',
-                component, pos, len(childs),
+                component, pos, len(self.linked_childs),
             )
             component.create_translations(
                 force, langs, request=request,
@@ -1604,20 +1681,6 @@ class Component(models.Model, URLMixin, PathMixin):
         # Save/Create object
         super(Component, self).save(*args, **kwargs)
 
-        # Configure git repo if there were changes
-        if changed_git:
-            self.sync_git_repo(skip_push=kwargs.get('force_insert', False))
-
-        # Rescan for possibly new translations if there were changes, needs to
-        # be done after actual creating the object above
-        if changed_setup:
-            self.create_translations(
-                force=True,
-                changed_template=changed_template
-            )
-        elif changed_git:
-            self.create_translations()
-
         # Handle moving between projects
         if changed_project:
             from weblate.trans.tasks import cleanup_project
@@ -1629,7 +1692,35 @@ class Component(models.Model, URLMixin, PathMixin):
             cleanup_project.delay(old.project.pk)
             cleanup_project.delay(self.project.pk)
 
+        from weblate.trans.tasks import component_after_save
+        task = component_after_save.delay(
+            self.pk, changed_git, changed_setup, changed_template,
+            skip_push=kwargs.get('force_insert', False),
+        )
+        cache.set(self.update_key, task.id, None)
+
+    def after_save(self, changed_git, changed_setup, changed_template,
+                   skip_push):
+        self.translations_progress = 0
+        self.translations_count = 0
+        self.progress_step(0)
+        # Configure git repo if there were changes
+        if changed_git:
+            self.sync_git_repo(skip_push=skip_push)
+
+        # Rescan for possibly new translations if there were changes, needs to
+        # be done after actual creating the object above
+        if changed_setup:
+            self.create_translations(
+                force=True,
+                changed_template=changed_template
+            )
+        elif changed_git:
+            self.create_translations()
+
         self.update_alerts()
+        self.progress_step(100)
+        self.translations_count = None
 
     def update_alerts(self):
         from weblate.trans.models import Unit

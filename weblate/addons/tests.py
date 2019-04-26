@@ -50,7 +50,7 @@ from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.models import Addon, ADDONS
 from weblate.lang.models import Language
-from weblate.trans.models import Unit, Translation
+from weblate.trans.models import Unit, Translation, Component
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
 
 
@@ -551,7 +551,8 @@ class CommandTest(ViewTestCase):
 
 class DiscoveryTest(ViewTestCase):
     def test_creation(self):
-        self.assertEqual(self.component.get_linked_childs().count(), 0)
+        link = self.component.get_repo_link_url()
+        self.assertEqual(Component.objects.filter(repo=link).count(), 0)
         addon = DiscoveryAddon.create(
             self.component,
             configuration={
@@ -563,9 +564,9 @@ class DiscoveryTest(ViewTestCase):
                 'remove': True,
             },
         )
-        self.assertEqual(self.component.get_linked_childs().count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
         addon.perform()
-        self.assertEqual(self.component.get_linked_childs().count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
 
     def test_form(self):
         self.user.is_superuser = True

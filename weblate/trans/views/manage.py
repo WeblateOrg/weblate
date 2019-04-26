@@ -34,7 +34,9 @@ from weblate.trans.forms import (
     WhiteboardForm,
 )
 from weblate.trans.models import Change, WhiteboardMessage
+from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param
+from weblate.trans.util import render
 
 
 @login_required
@@ -69,9 +71,8 @@ def remove_component(request, project, component):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
-    obj.stats.invalidate()
-    obj.delete()
-    messages.success(request, _('Translation component has been removed.'))
+    component_removal.delay(obj.pk)
+    messages.success(request, _('Translation component was scheduled for removal.'))
     Change.objects.create(
         project=obj.project,
         action=Change.ACTION_REMOVE_COMPONENT,
@@ -96,16 +97,14 @@ def remove_project(request, project):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
+    project_removal.delay(obj.pk)
+    messages.success(request, _('Project was scheduled for removal.'))
     Change.objects.create(
         action=Change.ACTION_REMOVE_PROJECT,
         target=obj.slug,
         user=request.user,
         author=request.user
     )
-
-    obj.stats.invalidate()
-    obj.delete()
-    messages.success(request, _('Project has been removed.'))
 
     return redirect('home')
 
@@ -242,3 +241,43 @@ def whiteboard_delete(request, pk):
         whiteboard.delete()
 
     return JsonResponse({'responseStatus': 200})
+
+
+@login_required
+def component_progress(request, project, component):
+    obj = get_component(request, project, component)
+    if not obj.in_progress():
+        return redirect(obj)
+
+    progress, log = obj.get_progress()
+
+    return render(
+        request,
+        'component-progress.html',
+        {
+            'object': obj,
+            'progress': progress,
+            'log': '\n'.join(log),
+        }
+    )
+
+@require_POST
+@login_required
+def component_progress_terminate(request, project, component):
+    obj = get_component(request, project, component)
+
+    if obj.in_progress and request.user.has_perm('component.edit', obj):
+        obj.background_task.revoke(terminate=True)
+
+    return redirect(obj)
+
+
+@login_required
+def component_progress_js(request, project, component):
+    obj = get_component(request, project, component)
+    progress, log = obj.get_progress()
+    return JsonResponse({
+        'in_progress': obj.in_progress(),
+        'progress': progress,
+        'log': '\n'.join(log)
+    })

@@ -843,4 +843,5 @@ CELERY_TASK_ROUTES = {
     'weblate.trans.tasks.optimize_fulltext': {'queue': 'search'},
     'weblate.trans.tasks.cleanup_fulltext': {'queue': 'search'},
     'weblate.memory.tasks.*': {'queue': 'memory'},
+    'weblate.accounts.tasks.notify_change': {'queue': 'notify'},
 }
