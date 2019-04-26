@@ -26,6 +26,20 @@ from django.utils.translation import override, ugettext as _
 
 from weblate.utils.site import get_site_url
 
+# List of schemes not allowed in editor URL
+# This list is not intededed to be complete, just block
+# the possibly dangerous ones.
+FORBIDDEN_URL_SCHEMES = frozenset((
+    'javascript',
+    'data',
+    'vbscript',
+    'mailto',
+    'ftp',
+    'sms',
+    'tel',
+))
+
+
 class InvalidString(str):
     def __mod__(self, other):
         raise TemplateSyntaxError(_("Undefined variable: \"%s\"") % other)
@@ -89,3 +103,44 @@ def validate_render(value, **kwargs):
         raise ValidationError(
             _('Failed to render template: {}').format(err)
         )
+
+
+def validate_repoweb(val):
+    """Validate whether URL for repository browser is valid.
+
+    It checks whether it can be filled in using format string.
+    """
+    if '%(file)s' in val or '%(line)s' in val:
+        raise ValidationError(_('Please use template instead of format strings'))
+    validate_render(val, filename='file.po', line=9, branch='master')
+
+
+def validate_editor(val):
+    """Validate URL for custom editor link.
+
+    - Check whether it correctly uses format strings.
+    - Check whether scheme is sane.
+    """
+    if not val:
+        return
+    validate_repoweb(val)
+
+    if ':' not in val:
+        raise ValidationError(_('The editor link lacks URL scheme!'))
+
+    scheme = val.split(':', 1)[0]
+
+    # Block forbidden schemes as well as format strings
+    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or '%' in scheme:
+        raise ValidationError(_('Forbidden URL scheme!'))
+
+
+def migrate_repoweb(val):
+    return val % {
+        'file': '{{filename}}',
+        '../file': '{{filename|parentdir}}',
+        '../../file': '{{filename|parentdir|parentdir}}',
+        '../../../file': '{{filename|parentdir|parentdir}}',
+        'line': '{{line}}',
+        'branch': '{{branch}}'
+    }

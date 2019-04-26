@@ -723,7 +723,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'id_repoweb'
         ).send_keys(
             'https://github.com/WeblateOrg/demo/blob/'
-            '%(branch)s/%(file)s#L%(line)s'
+            '{{branch}}/{{filename}}#L{{line}}'
         )
         self.driver.find_element_by_id(
             'id_filemask'
@@ -1087,7 +1087,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'id_repoweb'
         ).send_keys(
             'https://github.com/WeblateOrg/demo/blob/'
-            '%(branch)s/%(file)s#L%(line)s'
+            '{{branch}}/{{filename}}#L{{line}}'
         )
         self.driver.find_element_by_id(
             'id_filemask'

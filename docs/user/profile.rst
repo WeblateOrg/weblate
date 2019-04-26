@@ -105,11 +105,10 @@ Editor link
 By default Weblate does display source code in web browser configured in the
 :ref:`component`. By setting :guilabel:`Editor link` you can override this to
 use your local editor to open the source code where translated strings is being
-used.
+used. You can use :ref:`markup`.
 
-You can use ``%(branch)s`` for branch, ``%(file)s`` and ``%(line)s`` as
-filename and line placeholders.  Usually something like
-``editor://open/?file=%(file)s&line=%(line)s`` is good option.
+Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is a good
+option.
 
 .. seealso::
 

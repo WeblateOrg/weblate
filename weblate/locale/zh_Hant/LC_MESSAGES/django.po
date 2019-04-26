@@ -362,14 +362,13 @@ msgstr "編輯器連結"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
-"請輸入自訂 URL 作為開啟源始碼的連結。您可以利用佔位符將分支設為 %(branch)s、"
-"檔名設為 %(file)s、列號設為 %(line)s。通常像這樣 editor://open/?file="
-"%(file)s&line=%(line)s 看起來還不錯。"
+"請輸入自訂 URL 作為開啟源始碼的連結。您可以利用佔位符將分支設為 {{ branch }}、檔名設為 {{ filename }}、列號設為 {{ "
+"line }}。通常像這樣 editor://open/?file={{ filename }}&line={{ line }} 看起來還不錯。"
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -7544,11 +7543,10 @@ msgstr "儲存庫瀏覽器"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
-"儲存庫瀏覽器的連結，請使用 %(branch)s 作為分支、%(file)s 和 %(line)s 作為檔名"
-"和列數的佔位符。"
+"儲存庫瀏覽器的連結，請使用 {{ branch }} 作為分支、{{ filename }} 和 {{ line }} 作為檔名和列數的佔位符。"
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"

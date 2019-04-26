@@ -385,15 +385,15 @@ msgstr "Modifica collegamento"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
 "Inserisci l'URL personalizzato da usare come collegamento al codice open "
-"source. È possibile utilizzare %(branch)s per il ramo, %(file)s e %(line)s "
-"come nome file e segnaposto della linea. Di solito qualcosa tipo editor://"
-"open/?file=%(file)s&line=%(line)s è una buona opzione."
+"source. È possibile utilizzare {{ branch }} per il ramo, {{ filename }} e {{ "
+"line }} come nome file e segnaposto della linea. Di solito qualcosa tipo "
+"editor://open/?file={{ filename }}&line={{ line }} è una buona opzione."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -7890,11 +7890,11 @@ msgstr "Navigazione repository"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
-"Collegamento per la navigazione in un repository. Usa %(branch)s per il "
-"ramo, %(file)s e %(line)s per nome file e riga."
+"Collegamento per la navigazione in un repository. Usa {{ branch }} per il "
+"ramo, {{ filename }} e {{ line }} per nome file e riga."
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"

@@ -51,7 +51,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
-from weblate.utils.validators import validate_editor
+from weblate.utils.render import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 from weblate.utils.request import get_ip_address, get_user_agent
@@ -373,9 +373,9 @@ class Profile(models.Model):
         verbose_name=_('Editor link'),
         help_text=_(
             'Enter custom URL to be used as link to open source code. '
-            'You can use %(branch)s for branch, '
-            '%(file)s and %(line)s as filename and line placeholders. '
-            'Usually something like editor://open/?file=%(file)s&line=%(line)s'
+            'You can use {{branch}} for branch, '
+            '{{filename}} and  {{line}} as filename and line placeholders. '
+            'Usually something like editor://open/?file={{filename}}&line={{line}}'
             ' is good option.'
         ),
         validators=[validate_editor],

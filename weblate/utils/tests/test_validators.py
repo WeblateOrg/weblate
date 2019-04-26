@@ -23,8 +23,9 @@ from unittest import TestCase
 from django.core.exceptions import ValidationError
 
 from weblate.utils.validators import (
-    validate_editor, clean_fullname, validate_fullname, validate_filename,
+    clean_fullname, validate_fullname, validate_filename,
 )
+from weblate.utils.render import validate_editor
 
 
 class EditorValidatorTest(TestCase):
@@ -33,12 +34,16 @@ class EditorValidatorTest(TestCase):
 
     def test_valid(self):
         self.assertIsNone(
-            validate_editor('editor://open/?file=%(file)s&line=%(line)s')
+            validate_editor('editor://open/?file={{ filename }}&line={{ line }}')
         )
+
+    def test_old_format(self):
+        with self.assertRaises(ValidationError):
+            validate_editor('editor://open/?file=%(file)s&line=%(line)s')
 
     def test_invalid_format(self):
         with self.assertRaises(ValidationError):
-            validate_editor('editor://open/?file=%(fle)s&line=%(line)s')
+            validate_editor('editor://open/?file={{ fle }}&line={{ line }}')
 
     def test_no_scheme(self):
         with self.assertRaises(ValidationError):

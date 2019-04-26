@@ -422,16 +422,16 @@ msgstr "Връзка към редактора"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
 "Въведете свой адрес, който да бъде използван като връзка за достъп до "
-"изходния код. Можете да използвате %(branch)s за клона, %(file)s за файла и "
-"%(line)s за името, а те ще бъдат заместени с истинските стойности.. "
-"Обикновено нещо като: editor://open/?file=%(file)s&line=%(line)s е добър "
-"вариант."
+"изходния код. Можете да използвате {{ branch }} за клона, {{ filename }} за "
+"файла и {{ line }} за името, а те ще бъдат заместени с истинските "
+"стойности.. Обикновено нещо като: editor://open/?file={{ filename }}&line={{ "
+"line }} е добър вариант."
 
 #: weblate/accounts/models.py:386
 #, fuzzy
@@ -8621,12 +8621,12 @@ msgstr "Адрес за разглеждане на хранилището"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
 "Връзка към уеб сайт за разглеждане на хранилището. Можете да използвате "
-"стойностите %(branch)s (клон), %(file)s (файл) и %(line)s (ред) като "
-"променливи, които да бъдат заместени."
+"стойностите {{ branch }} (клон), {{ filename }} (файл) и {{ line }} (ред) "
+"като променливи, които да бъдат заместени."
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"
