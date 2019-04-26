@@ -4,7 +4,7 @@ Changes
 weblate 3.6.1
 -------------
 
-Released on ? 2019.
+Released on April 26th 2019.
 
 * Improved handling of monolingual Xliff files.
 * Fixed digest notifications in some corner cases.
