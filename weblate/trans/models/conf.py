@@ -134,7 +134,7 @@ class WeblateConf(AppConf):
 
     DEFAULT_ADDON_MESSAGE = '''Update translation files
 
-Updated by "{{ hook_name }}" hook in Weblate.
+Updated by "{{ addon_name }}" hook in Weblate.
 
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}'''

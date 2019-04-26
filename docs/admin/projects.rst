@@ -321,6 +321,8 @@ There following variables are available in the component templates:
     Percent of strings with failing checks
 ``{{ author }}``
     Author of current commit, available only in the commit scope.
+``{{ addon_name }}``
+    Name of currently executed addon, available only in the addon commit message.
 
 The following variables are available in the repository browser or editor templates:
 

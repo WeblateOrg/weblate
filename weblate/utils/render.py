@@ -70,6 +70,7 @@ def render_template(template, **kwargs):
         kwargs['stats'] = translation.stats.get_data()
         kwargs['url'] = get_site_url(translation.get_absolute_url())
         component = translation.component
+        kwargs.pop('translation', None)
 
     if getattr(component, 'id', None):
         kwargs['component_name'] = component.name
@@ -79,12 +80,14 @@ def render_template(template, **kwargs):
         if 'url' not in kwargs:
             kwargs['url'] = get_site_url(component.get_absolute_url())
         project = component.project
+        kwargs.pop('component', None)
 
     if getattr(project, 'id', None):
         kwargs['project_name'] = project.name
         kwargs['project_slug'] = project.slug
         if 'url' not in kwargs:
             kwargs['url'] = get_site_url(project.get_absolute_url())
+        kwargs.pop('project', None)
 
     with override('en'):
         return Template(
@@ -103,6 +106,41 @@ def validate_render(value, **kwargs):
         raise ValidationError(
             _('Failed to render template: {}').format(err)
         )
+
+
+def validate_render_component(value, translation=None, **kwargs):
+    from weblate.trans.models import Project, Component, Translation
+    from weblate.lang.models import Language
+    component = Component(
+        project=Project(
+            name='project',
+            slug='project',
+            id=-1,
+        ),
+        name='component',
+        slug='component',
+        branch='master',
+        vcs='git',
+        id=-1,
+    )
+    if translation:
+        kwargs['translation'] = Translation(
+            id=-1,
+            component=component,
+            language_code='xx',
+            language=Language(name='xxx', code='xx'),
+        )
+    else:
+        kwargs['component'] = component
+    validate_render(value, **kwargs)
+
+
+def validate_render_addon(value):
+    validate_render_component(value, hook_name='addon', addon_name='addon')
+
+
+def validate_render_commit(value):
+    validate_render_component(value, translation=True, author='author')
 
 
 def validate_repoweb(val):

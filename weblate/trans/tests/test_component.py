@@ -488,10 +488,10 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_repoweb(self):
         """Invalid repoweb format"""
-        self.component.repoweb = 'http://%(foo)s/%(bar)s/%72'
+        self.component.repoweb = 'http://{{foo}}/{{bar}}/%72'
         self.assertRaisesMessage(
             ValidationError,
-            "Bad format string ('foo')",
+            'Undefined variable: "foo"',
             self.component.full_clean
         )
         self.component.repoweb = ''
