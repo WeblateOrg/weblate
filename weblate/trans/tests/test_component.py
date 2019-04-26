@@ -617,14 +617,10 @@ class ComponentErrorTest(RepoTestCase):
     def setUp(self):
         super(ComponentErrorTest, self).setUp()
         self.component = self.create_ts_mono()
-        # Change to invalid pull/push URL
-        repository = self.component.repository
-        with repository.lock:
-            repository.configure_remote(
-                'file:/dev/null',
-                'file:/dev/null',
-                'master'
-            )
+        # Change to invalid push URL
+        self.component.repo = 'file:/dev/null'
+        self.component.push = 'file:/dev/null'
+        self.component.save()
 
     def test_failed_update(self):
         self.assertFalse(
