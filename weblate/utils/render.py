@@ -21,10 +21,14 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
-from django.template import Template, Context, Engine
+from django.template import Template, Context, Engine, TemplateSyntaxError
 from django.utils.translation import override, ugettext as _
 
 from weblate.utils.site import get_site_url
+
+class InvalidString(str):
+    def __mod__(self, other):
+        raise TemplateSyntaxError(_("Undefined variable: \"%s\"") % other)
 
 
 class RestrictedEngine(Engine):
@@ -35,6 +39,7 @@ class RestrictedEngine(Engine):
 
     def __init__(self, *args, **kwargs):
         kwargs['autoescape'] = False
+        kwargs['string_if_invalid'] = InvalidString("%s")
         super(RestrictedEngine, self).__init__(*args, **kwargs)
 
 
