@@ -899,7 +899,7 @@ class BitbucketBackendTest(HookBackendTestCase):
     hook = 'bitbucket'
 
     def test_ping(self):
-        self.assert_hook(b'{"diagnostics": "ping"}', None)
+        self.assert_hook('{"diagnostics": "ping"}', None)
 
     def test_git(self):
         self.assert_hook(
