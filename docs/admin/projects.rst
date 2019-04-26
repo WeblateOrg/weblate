@@ -354,6 +354,15 @@ You can combine it with filters:
 
     {% replace component|capfirst "-" " " %}
 
+There are also additional filter to manipulate with filenames:
+
+.. code-block:: django
+
+    Directory of a file: {{ filename|dirname }}
+    File without extension: {{ filename|stripext }}
+    File in parent dir: {{ filename|parentdir }}
+    It can be used multiple times:  {{ filename|parentdir|parentdir }}
+
 ...and other Django template features.
 
 .. _import-speed:

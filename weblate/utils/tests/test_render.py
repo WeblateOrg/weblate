@@ -42,3 +42,30 @@ class RenderTest(SimpleTestCase):
             render_template('{% replace "a-string-with-dashes" "-" " " %}'),
             'a string with dashes'
         )
+
+    def test_dirname(self):
+        self.assertEqual(
+            render_template('{{ value|dirname }}', value='weblate/test.po'),
+            'weblate'
+        )
+
+    def test_stripext(self):
+        self.assertEqual(
+            render_template('{{ value|stripext }}', value='weblate/test.po'),
+            'weblate/test'
+        )
+
+    def test_parentdir(self):
+        self.assertEqual(
+            render_template('{{ value|parentdir }}', value='weblate/test.po'),
+            'test.po'
+        )
+
+    def test_parentdir_chain(self):
+        self.assertEqual(
+            render_template(
+                '{{ value|parentdir|parentdir }}',
+                value='foo/bar/weblate/test.po'
+            ),
+            'weblate/test.po'
+        )
