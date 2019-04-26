@@ -401,8 +401,8 @@ class ViewTests(ViewTestCase):
             {
                 'name': 'weblate.generate.generate',
                 'form': '1',
-                'filename': 'stats/{{ langugage_code }}.json',
-                'template': '{"code":"{{ langugage_code }}"}',
+                'filename': 'stats/{{ language_code }}.json',
+                'template': '{"code":"{{ language_code }}"}',
             },
             follow=True
         )
