@@ -23,7 +23,7 @@ import os
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import (
     add_configuration_error, delete_configuration_error,
 )
@@ -34,7 +34,7 @@ from weblate.wladmin.models import ConfigurationError
 from weblate.wladmin.tasks import configuration_health_check
 
 
-class AdminTest(FixtureTestCase):
+class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
     def setUp(self):
         super(AdminTest, self).setUp()
