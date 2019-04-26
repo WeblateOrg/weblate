@@ -738,6 +738,7 @@ class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
     monolingual = True
+    autoload = ()
     new_translation = (
         'msgid ""\n'
         'msgstr "X-Generator: Weblate\\n'
@@ -926,6 +927,7 @@ class JSONNestedFormat(JSONFormat):
     name = _('JSON nested structure file')
     format_id = 'json-nested'
     loader = ('jsonl10n', 'JsonNestedFile')
+    autoload = ()
 
 
 class WebExtensionJSONFormat(JSONFormat):
@@ -940,6 +942,7 @@ class I18NextFormat(JSONFormat):
     name = _('i18next JSON file')
     format_id = 'i18next'
     loader = ('jsonl10n', 'I18NextFile')
+    autoload = ()
 
 
 class CSVFormat(TTKitFormat):
@@ -1049,6 +1052,7 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
     name = _('Simple CSV file (ISO-8859-1)')
     format_id = 'csv-simple-iso'
     encoding = 'iso-8859-1'
+    autoload = ()
 
 
 class YAMLFormat(TTKitFormat):
