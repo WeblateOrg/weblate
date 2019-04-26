@@ -296,9 +296,16 @@ class HgRepository(Repository):
 
         self.branch = branch
 
+    def has_branch(self, branch):
+        branches = self.execute(
+            ['branches', '--template', '{branch}\n']
+        ).split()
+        return branch in branches
+
     def configure_branch(self, branch):
         """Configure repository branch."""
-        self.execute(['update', branch])
+        if not self.has_branch(branch):
+            self.execute(['update', branch])
         self.branch = branch
 
     def describe(self):
