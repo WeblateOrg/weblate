@@ -727,11 +727,12 @@ class Component(models.Model, URLMixin, PathMixin):
         # and merge/rebase.
         with self.repository.lock:
             self.configure_repo(pull=False)
-            self.configure_branch()
 
             # pull remote
             if not self.update_remote_branch():
                 return False
+
+            self.configure_branch()
 
             # do we have something to merge?
             try:
