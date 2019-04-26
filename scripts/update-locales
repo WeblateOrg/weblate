@@ -33,7 +33,7 @@ sed \
 
 # Include language names from CLDR
 for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
-    code=${locale#weblate/locale/}
+    code=${locale#weblate/langdata/locale/}
     code=${code%/LC_MESSAGES/django.po}
     file=scripts/language-data/languages-po/$code.po
     if [ -f $file ] ; then
