@@ -259,10 +259,7 @@ class HgRepository(Repository):
         if author is not None:
             cmd.extend(['--user', author])
         if timestamp is not None:
-            cmd.extend([
-                '--date',
-                timestamp.strftime("%a, %d %b %Y %H:%M:%S +0000")
-            ])
+            cmd.extend(['--date', timestamp.ctime()])
 
         # Add files
         if files is not None:
