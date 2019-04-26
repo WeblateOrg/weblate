@@ -680,7 +680,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.add_alert('UpdateFailure', childs=True, error=error_text)
             return False
 
-    def configure_repo(self, validate=False):
+    def configure_repo(self, validate=False, pull=True):
         """Ensure repository is correctly set up."""
         if self.is_repo_link:
             return
@@ -692,7 +692,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.committer_email
             )
 
-            self.update_remote_branch(validate)
+            if pull:
+                self.update_remote_branch(validate)
 
     def configure_branch(self):
         """Ensure local tracking branch exists and is checked out."""
@@ -725,6 +726,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
+            self.configure_repo(pull=False)
+            self.configure_branch()
+
             # pull remote
             if not self.update_remote_branch():
                 return False

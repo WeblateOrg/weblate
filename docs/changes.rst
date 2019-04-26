@@ -12,6 +12,7 @@ Released on ? 2019.
 * Fixed generating MO file for monolingual PO files.
 * Fixed display of uninstalled checks.
 * Indicate administered projects on project listing.
+* Allow update to recover from missing VCS repository.
 
 weblate 3.6
 -----------
