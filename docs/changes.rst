@@ -10,6 +10,7 @@ Released on ? 2019.
 * Use consistent look with application for API browsing.
 * Include approved stats in the reports.
 * Report progress when updating translation component.
+* Allow to abort running background component update.
 
 weblate 3.6.1
 -------------
