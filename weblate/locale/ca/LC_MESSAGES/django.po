@@ -381,15 +381,15 @@ msgstr "Enllaç de l'editor"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
 "Introduïu un URL personalitzat per a utilitzar-lo com a enllaç al codi font. "
-"Podeu utilitzar %(branch)s per a les branques, %(file)s i %(line)s com a nom "
-"de fitxer i marcadors de línia. Normalment alguna cosa com editor://open/?"
-"file=%(file)s&line=%(line)s és una bona opció."
+"Podeu utilitzar {{ branch }} per a les branques, {{ filename }} i {{ line }} "
+"com a nom de fitxer i marcadors de línia. Normalment alguna cosa com "
+"editor://open/?file={{ filename }}&line={{ line }} és una bona opció."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -8313,8 +8313,8 @@ msgstr ""
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
 
 #: weblate/trans/models/component.py:194

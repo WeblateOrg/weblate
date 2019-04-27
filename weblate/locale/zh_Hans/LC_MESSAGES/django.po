@@ -366,14 +366,14 @@ msgstr "编辑者链接"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
-"键入自定义 URL 作为开源代码的链接。您可以使用 %(branch)s 作为分割符， "
-"%(file)s 与 %(line)s 作为文件名和行占位符。通常情况下，如下样式 editor://"
-"open/?file=%(file)s&line=%(line)s 作为首选。"
+"键入自定义 URL 作为开源代码的链接。您可以使用 {{ branch }} 作为分割符， {{ filename }} 与 {{ line }} "
+"作为文件名和行占位符。通常情况下，如下样式 editor://open/?file={{ filename }}&line={{ line }} "
+"作为首选。"
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -7673,11 +7673,9 @@ msgstr "代码库浏览器"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
-msgstr ""
-"代码库浏览器的链接，用 %(branch)s 表示分支、%(file)s 和 %(line)s 表示文件名和"
-"行号。"
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
+msgstr "代码库浏览器的链接，用 {{ branch }} 表示分支、{{ filename }} 和 {{ line }} 表示文件名和行号。"
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"

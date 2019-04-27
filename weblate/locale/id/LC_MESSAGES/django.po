@@ -422,15 +422,15 @@ msgstr "Tautan Penyunting"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
 "Masukkan URL kustom untuk digunakan sebagai tautan pada kode sumber. Anda "
-"dapat menggunakan %(branch)s untuk branch, %(file)s dan %(line)s sebagai "
-"nama berkas dan baris kodenya. Biasanya editor://open/?file=%(file)s&line="
-"%(line)s merupakan opsi yang baik."
+"dapat menggunakan {{ branch }} untuk branch, {{ filename }} dan {{ line }} "
+"sebagai nama berkas dan baris kodenya. Biasanya editor://open/?file={{ "
+"filename }}&line={{ line }} merupakan opsi yang baik."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -8482,11 +8482,11 @@ msgstr "Penjelajah repositori"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
-"Tautan ke penjelajah repositori, gunakan %(branch)s untuk branch, %(file)s "
-"dan %(line)s untuk nama berkas dan barisnya."
+"Tautan ke penjelajah repositori, gunakan {{ branch }} untuk branch, {{ "
+"filename }} dan {{ line }} untuk nama berkas dan barisnya."
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"

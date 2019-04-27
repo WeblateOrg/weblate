@@ -33,7 +33,6 @@ from weblate.addons.events import (
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
-from weblate.utils.site import get_site_url
 
 
 class BaseAddon(object):
@@ -199,10 +198,10 @@ class BaseAddon(object):
     def get_commit_message(self, component):
         return render_template(
             component.addon_message,
+            # Compatibility with older
             hook_name=self.verbose,
-            project_name=component.project.name,
-            component_name=component.name,
-            url=get_site_url(component.get_absolute_url())
+            addon_name=self.verbose,
+            component=component,
         )
 
 

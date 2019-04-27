@@ -49,7 +49,7 @@ TEST_DATA = os.path.join(
 )
 
 REPOWEB_URL = \
-    'https://github.com/WeblateOrg/test/blob/master/%(file)s#L%(line)s'
+    'https://github.com/WeblateOrg/test/blob/master/{{filename}}#L{{line}}'
 
 
 def wait_for_celery(timeout=10):

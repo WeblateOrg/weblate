@@ -172,18 +172,10 @@ Repository push URL
     details on how to specify a repository URL.
 Repository browser
     URL of repository browser used to display source files (location of used messages).
-    When empty, no such links will be generated.
-
-    You can use the following format strings:
-
-    * ``%(branchs)s`` - current branch
-    * ``%(line)s`` - line in file
-    * ``%(file)s`` - filename
-    * ``%(../file)s`` - filename in parent directory
-    * ``%(../../file)s`` - filename in grandparent directory
+    When empty, no such links will be generated. You can use :ref:`markup`.
 
     For example on GitHub, use something like
-    ``https://github.com/WeblateOrg/hello/blob/%(branch)s/%(file)s#L%(line)s``.
+    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``.
 Exported repository URL
     URL where changes made by Weblate are exported. This is important when
     :ref:`continuous-translation` is not used, or when there is a need to manually
@@ -295,7 +287,7 @@ Currently it is used in:
     * :ref:`addon-weblate.generate.generate`
     * :ref:`addon-script`
 
-There following variables are available in the templates:
+There following variables are available in the component templates:
 
 ``{{ language_code }}``
     Language code
@@ -329,6 +321,17 @@ There following variables are available in the templates:
     Percent of strings with failing checks
 ``{{ author }}``
     Author of current commit, available only in the commit scope.
+``{{ addon_name }}``
+    Name of currently executed addon, available only in the addon commit message.
+
+The following variables are available in the repository browser or editor templates:
+
+``{{branchs}}``
+   current branch
+``{{line}}``
+   line in file
+``{{filename}}``
+   filename, you can also strip leading parts using the parentdir filter, for example ``{{filename|parentdir}}``
 
 You can combine them with filters:
 
@@ -353,6 +356,15 @@ You can combine it with filters:
 .. code-block:: django
 
     {% replace component|capfirst "-" " " %}
+
+There are also additional filter to manipulate with filenames:
+
+.. code-block:: django
+
+    Directory of a file: {{ filename|dirname }}
+    File without extension: {{ filename|stripext }}
+    File in parent dir: {{ filename|parentdir }}
+    It can be used multiple times:  {{ filename|parentdir|parentdir }}
 
 ...and other Django template features.
 

@@ -121,7 +121,7 @@ class LocationLinksTest(SimpleTestCase):
 
     def test_repowebs(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/%(file)s#L%(line)s'
+            'http://example.net/{{filename}}#L{{line}}'
         )
         self.unit.location = 'foo.bar:123,bar.foo:321'
         self.assertHTMLEqual(
@@ -144,7 +144,7 @@ class LocationLinksTest(SimpleTestCase):
 
     def test_repoweb(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/%(file)s#L%(line)s'
+            'http://example.net/{{filename}}#L{{line}}'
         )
         self.unit.location = 'foo.bar:123'
         self.assertHTMLEqual(
@@ -161,9 +161,9 @@ class LocationLinksTest(SimpleTestCase):
 
     def test_user_url(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/%(file)s#L%(line)s'
+            'http://example.net/{{filename}}#L{{line}}'
         )
-        self.profile.editor_link = 'editor://open/?file=%(file)s&line=%(line)s'
+        self.profile.editor_link = 'editor://open/?file={{filename}}&line={{line}}'
         self.unit.location = 'foo.bar:123'
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),

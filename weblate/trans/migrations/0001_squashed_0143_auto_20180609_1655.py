@@ -13,7 +13,6 @@ import weblate.trans.mixins
 import weblate.trans.validators
 import weblate.utils.fields
 import weblate.utils.render
-import weblate.utils.validators
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.formats.models import FILE_FORMATS
 
@@ -114,7 +113,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=100, verbose_name='URL slug')),
                 ('repo', models.CharField(help_text='URL of a repository, use weblate://project/component to share it with other component.', max_length=200, verbose_name='Source code repository')),
                 ('push', models.CharField(blank=True, help_text='URL of a push repository, pushing is turned off if empty.', max_length=200, verbose_name='Repository push URL')),
-                ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.utils.validators.validate_repoweb], verbose_name='Repository browser')),
+                ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.utils.render.validate_repoweb], verbose_name='Repository browser')),
                 ('git_export', models.CharField(blank=True, help_text='URL of repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported repository URL')),
                 ('report_source_bugs', models.EmailField(blank=True, help_text='Email address for reports on errors in source strings. Leave empty for no emails.', max_length=254, verbose_name='Source string bug reporting address')),
                 ('branch', models.CharField(blank=True, default='', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch')),
@@ -281,7 +280,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when translating'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render_commit], verbose_name='Commit message when translating'),
         ),
         migrations.AddField(
             model_name='component',
@@ -379,12 +378,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render_commit], verbose_name='Commit message when adding translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render], verbose_name='Commit message when removing translation'),
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render_commit], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='component',

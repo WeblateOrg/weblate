@@ -376,14 +376,14 @@ msgstr "Länk till editor"
 #: weblate/accounts/models.py:375
 #, python-format
 msgid ""
-"Enter custom URL to be used as link to open source code. You can use "
-"%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like editor://open/?file=%(file)s&line="
-"%(line)s is good option."
+"Enter custom URL to be used as link to open source code. You can use {{ "
+"branch }} for branch, {{ filename }} and {{ line }} as filename and line "
+"placeholders. Usually something like editor://open/?file={{ filename "
+"}}&line={{ line }} is good option."
 msgstr ""
-"Ange en egen länk till den öppna källkoden. Du kan använda %(branch)s för "
-"branch, %(file)s och %(line)s som filnamn och platshållare. Vanligen är "
-"något som editor://open/?file=%(file)s%(line)s ett bra alternativ."
+"Ange en egen länk till den öppna källkoden. Du kan använda {{ branch }} för "
+"branch, {{ filename }} och {{ line }} som filnamn och platshållare. Vanligen "
+"är något som editor://open/?file={{ filename }}{{ line }} ett bra alternativ."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -7811,11 +7811,11 @@ msgstr "Förrådsutforskare"
 #: weblate/trans/models/component.py:187
 #, python-format
 msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
+"Link to repository browser, use {{ branch }} for branch, {{ filename }} and "
+"{{ line }} as filename and line placeholders."
 msgstr ""
-"Länk till arkivutforskare, använd %(branch)s för gren, %(file)s och %(line)s "
-"för filnamn och radnummer."
+"Länk till arkivutforskare, använd {{ branch }} för gren, {{ filename }} och "
+"{{ line }} för filnamn och radnummer."
 
 #: weblate/trans/models/component.py:194
 msgid "Exported repository URL"

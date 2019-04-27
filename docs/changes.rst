@@ -11,6 +11,8 @@ Released on ? 2019.
 * Include approved stats in the reports.
 * Report progress when updating translation component.
 * Allow to abort running background component update.
+* Extend template language for filename manipulations.
+* Use templates for editor link and repository browser URL.
 
 weblate 3.6.1
 -------------

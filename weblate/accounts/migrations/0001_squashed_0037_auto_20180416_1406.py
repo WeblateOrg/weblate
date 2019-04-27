@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import weblate.utils.fields
-import weblate.utils.validators
+import weblate.utils.render
 
 
 class Migration(migrations.Migration):
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('hide_source_secondary', models.BooleanField(default=False, verbose_name='Hide source if there is secondary language')),
                 ('dashboard_component_list', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.ComponentList', verbose_name='Default component list')),
                 ('dashboard_view', models.IntegerField(choices=[(1, 'Watched translations'), (2, 'Your languages'), (6, 'Component lists'), (4, 'Component list'), (5, 'Suggested translations')], default=1, verbose_name='Default dashboard view')),
-                ('editor_link', models.CharField(blank=True, default='', help_text='Enter custom URL to be used as link to open source code. You can use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders. Usually something like editor://open/?file=%(file)s&line=%(line)s is good option.', max_length=200, validators=[weblate.utils.validators.validate_editor], verbose_name='Editor link')),
+                ('editor_link', models.CharField(blank=True, default='', help_text='Enter custom URL to be used as link to open source code. You can use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders. Usually something like editor://open/?file=%(file)s&line=%(line)s is good option.', max_length=200, validators=[weblate.utils.render.validate_editor], verbose_name='Editor link')),
                 ('special_chars', models.CharField(blank=True, default='', help_text='You can specify additional special characters to be shown in the visual keyboard while translating. It can be useful for chars you use frequently but are hard to type on your keyboard.', max_length=30, verbose_name='Special characters')),
             ],
         ),

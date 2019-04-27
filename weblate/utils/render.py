@@ -21,10 +21,28 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
-from django.template import Template, Context, Engine
+from django.template import Template, Context, Engine, TemplateSyntaxError
 from django.utils.translation import override, ugettext as _
 
 from weblate.utils.site import get_site_url
+
+# List of schemes not allowed in editor URL
+# This list is not intededed to be complete, just block
+# the possibly dangerous ones.
+FORBIDDEN_URL_SCHEMES = frozenset((
+    'javascript',
+    'data',
+    'vbscript',
+    'mailto',
+    'ftp',
+    'sms',
+    'tel',
+))
+
+
+class InvalidString(str):
+    def __mod__(self, other):
+        raise TemplateSyntaxError(_("Undefined variable: \"%s\"") % other)
 
 
 class RestrictedEngine(Engine):
@@ -35,6 +53,7 @@ class RestrictedEngine(Engine):
 
     def __init__(self, *args, **kwargs):
         kwargs['autoescape'] = False
+        kwargs['string_if_invalid'] = InvalidString("%s")
         super(RestrictedEngine, self).__init__(*args, **kwargs)
 
 
@@ -51,6 +70,7 @@ def render_template(template, **kwargs):
         kwargs['stats'] = translation.stats.get_data()
         kwargs['url'] = get_site_url(translation.get_absolute_url())
         component = translation.component
+        kwargs.pop('translation', None)
 
     if getattr(component, 'id', None):
         kwargs['component_name'] = component.name
@@ -60,12 +80,14 @@ def render_template(template, **kwargs):
         if 'url' not in kwargs:
             kwargs['url'] = get_site_url(component.get_absolute_url())
         project = component.project
+        kwargs.pop('component', None)
 
     if getattr(project, 'id', None):
         kwargs['project_name'] = project.name
         kwargs['project_slug'] = project.slug
         if 'url' not in kwargs:
             kwargs['url'] = get_site_url(project.get_absolute_url())
+        kwargs.pop('project', None)
 
     with override('en'):
         return Template(
@@ -84,3 +106,79 @@ def validate_render(value, **kwargs):
         raise ValidationError(
             _('Failed to render template: {}').format(err)
         )
+
+
+def validate_render_component(value, translation=None, **kwargs):
+    from weblate.trans.models import Project, Component, Translation
+    from weblate.lang.models import Language
+    component = Component(
+        project=Project(
+            name='project',
+            slug='project',
+            id=-1,
+        ),
+        name='component',
+        slug='component',
+        branch='master',
+        vcs='git',
+        id=-1,
+    )
+    if translation:
+        kwargs['translation'] = Translation(
+            id=-1,
+            component=component,
+            language_code='xx',
+            language=Language(name='xxx', code='xx'),
+        )
+    else:
+        kwargs['component'] = component
+    validate_render(value, **kwargs)
+
+
+def validate_render_addon(value):
+    validate_render_component(value, hook_name='addon', addon_name='addon')
+
+
+def validate_render_commit(value):
+    validate_render_component(value, translation=True, author='author')
+
+
+def validate_repoweb(val):
+    """Validate whether URL for repository browser is valid.
+
+    It checks whether it can be filled in using format string.
+    """
+    if '%(file)s' in val or '%(line)s' in val:
+        raise ValidationError(_('Please use template instead of format strings'))
+    validate_render(val, filename='file.po', line=9, branch='master')
+
+
+def validate_editor(val):
+    """Validate URL for custom editor link.
+
+    - Check whether it correctly uses format strings.
+    - Check whether scheme is sane.
+    """
+    if not val:
+        return
+    validate_repoweb(val)
+
+    if ':' not in val:
+        raise ValidationError(_('The editor link lacks URL scheme!'))
+
+    scheme = val.split(':', 1)[0]
+
+    # Block forbidden schemes as well as format strings
+    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or '%' in scheme:
+        raise ValidationError(_('Forbidden URL scheme!'))
+
+
+def migrate_repoweb(val):
+    return val % {
+        'file': '{{filename}}',
+        '../file': '{{filename|parentdir}}',
+        '../../file': '{{filename|parentdir|parentdir}}',
+        '../../../file': '{{filename|parentdir|parentdir}}',
+        'line': '{{line}}',
+        'branch': '{{branch}}'
+    }

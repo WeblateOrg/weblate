@@ -56,7 +56,6 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import is_osi_approved, is_fsf_approved
-from weblate.utils.render import render_template
 from weblate.utils.unitdata import filter_query
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
@@ -78,8 +77,10 @@ from weblate.trans.validators import (
 )
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.utils.render import validate_render
-from weblate.utils.validators import validate_repoweb
+from weblate.utils.render import (
+    validate_render_component, validate_render_addon,
+    validate_repoweb, render_template, validate_render_commit,
+)
 
 
 NEW_LANG_CHOICES = (
@@ -184,8 +185,8 @@ class Component(models.Model, URLMixin, PathMixin):
     repoweb = models.URLField(
         verbose_name=ugettext_lazy('Repository browser'),
         help_text=ugettext_lazy(
-            'Link to repository browser, use %(branch)s for branch, '
-            '%(file)s and %(line)s as filename and line placeholders.'
+            'Link to repository browser, use {{branch}} for branch, '
+            '{{filename}} and {{line}} as filename and line placeholders.'
         ),
         validators=[validate_repoweb],
         blank=True,
@@ -384,7 +385,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use template language for various info, '
             'please consult the documentation for more details.'
         ),
-        validators=[validate_render],
+        validators=[validate_render_commit],
         default=settings.DEFAULT_COMMIT_MESSAGE,
     )
     add_message = models.TextField(
@@ -393,7 +394,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use template language for various info, '
             'please consult the documentation for more details.'
         ),
-        validators=[validate_render],
+        validators=[validate_render_commit],
         default=settings.DEFAULT_ADD_MESSAGE,
     )
     delete_message = models.TextField(
@@ -402,7 +403,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use template language for various info, '
             'please consult the documentation for more details.'
         ),
-        validators=[validate_render],
+        validators=[validate_render_commit],
         default=settings.DEFAULT_DELETE_MESSAGE,
     )
     merge_message = models.TextField(
@@ -411,7 +412,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use template language for various info, '
             'please consult the documentation for more details.'
         ),
-        validators=[validate_render],
+        validators=[validate_render_component],
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
@@ -420,7 +421,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use template language for various info, '
             'please consult the documentation for more details.'
         ),
-        validators=[validate_render],
+        validators=[validate_render_addon],
         default=settings.DEFAULT_ADDON_MESSAGE,
     )
     committer_name = models.CharField(
@@ -686,14 +687,13 @@ class Component(models.Model, URLMixin, PathMixin):
         if not template:
             return None
 
-        return template % {
-            'file': filename,
-            '../file': filename.split('/', 1)[-1],
-            '../../file': filename.split('/', 2)[-1],
-            '../../../file': filename.split('/', 3)[-1],
-            'line': line,
-            'branch': self.branch
-        }
+        return render_template(
+            template,
+            filename=filename,
+            line=line,
+            branch=self.branch,
+            component=self
+        )
 
     def error_text(self, error):
         """Returns text message for a RepositoryException."""
