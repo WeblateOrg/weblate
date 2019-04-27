@@ -540,7 +540,6 @@ class XliffUnit(TTKitUnit):
             self.xliff_node.set('state', 'needs-translation')
         elif self.xliff_state:
             self.xliff_node.set('state', 'translated')
-        return
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""

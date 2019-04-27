@@ -114,7 +114,7 @@ class Fulltext(WhooshIndex):
                 for unit in units:
                     self.update_source_unit_index(writer, searcher, unit)
 
-        languages = set([unit['language'] for unit in units])
+        languages = {unit['language'] for unit in units}
 
         # Update per language indices
         for language in languages:

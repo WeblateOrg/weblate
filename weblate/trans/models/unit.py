@@ -91,7 +91,7 @@ class UnitQuerySet(models.QuerySet):
         # Filter by language
         if rqtype == 'allchecks':
             return self.filter(has_failing_check=True)
-        elif rqtype == 'sourcechecks':
+        if rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
         elif rqtype.startswith('check:'):
             check_id = rqtype[6:]
@@ -114,7 +114,7 @@ class UnitQuerySet(models.QuerySet):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
-        elif rqtype == 'sourcecomments':
+        if rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
             )
@@ -385,7 +385,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_FUZZY
         if not translated:
             return STATE_EMPTY
-        elif approved and self.translation.component.project.enable_review:
+        if approved and self.translation.component.project.enable_review:
             return STATE_APPROVED
         return STATE_TRANSLATED
 

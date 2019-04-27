@@ -130,7 +130,7 @@ class CreateComponent(BaseCreateView):
         """Return the form class to use."""
         if self.stage == 'create':
             return ComponentCreateForm
-        elif self.stage == 'discover':
+        if self.stage == 'discover':
             return ComponentDiscoverForm
         return ComponentInitCreateForm
 
@@ -155,7 +155,7 @@ class CreateComponent(BaseCreateView):
                 author=self.request.user,
             )
             return result
-        elif self.stage == 'discover':
+        if self.stage == 'discover':
             # Move to create
             self.initial = form.cleaned_data
             self.stage = 'create'

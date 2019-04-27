@@ -158,7 +158,7 @@ def show_project(request, project):
             ),
             'components': components,
             'licenses': ', '.join(
-                sorted(set([x.license for x in all_components if x.license]))
+                sorted({x.license for x in all_components if x.license})
             ),
         }
     )
@@ -384,11 +384,10 @@ def new_language(request, project, component):
                         )
                     )
             return redirect(obj)
-        else:
-            messages.error(
-                request,
-                _('Please fix errors in the form.')
-            )
+        messages.error(
+            request,
+            _('Please fix errors in the form.')
+        )
     else:
         form = form_class(obj)
 

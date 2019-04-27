@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 from unittest import TestCase
 
 from django.core.exceptions import ValidationError
@@ -33,9 +32,9 @@ class EditorValidatorTest(TestCase):
         self.assertIsNone(validate_editor(''))
 
     def test_valid(self):
-        self.assertIsNone(
-            validate_editor('editor://open/?file={{ filename }}&line={{ line }}')
-        )
+        self.assertIsNone(validate_editor(
+            'editor://open/?file={{ filename }}&line={{ line }}'
+        ))
 
     def test_old_format(self):
         with self.assertRaises(ValidationError):

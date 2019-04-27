@@ -115,9 +115,7 @@ GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 def filter_perms(prefix):
     """Filter permission based on prefix."""
-    return set(
-        [perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)]
-    )
+    return {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
 
 
 # Translator permissions

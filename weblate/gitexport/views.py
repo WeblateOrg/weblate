@@ -65,8 +65,7 @@ def authenticate(request, auth):
 
             request.user = user
             return True
-        else:
-            return False
+        return False
     except (ValueError, TypeError):
         return False
 

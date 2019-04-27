@@ -152,7 +152,7 @@ class WhiteboardMessage(models.Model):
         is_new = (not self.id)
         super(WhiteboardMessage, self).save(*args, **kwargs)
         if is_new:
-            from weblate.trans.models import Change
+            from weblate.trans.models.change import Change
             Change.objects.create(
                 action=Change.ACTION_MESSAGE,
                 project=self.project,

@@ -28,7 +28,7 @@ from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.classloader import load_class
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+import weblate.machinery
 
 
 class JSViewsTest(FixtureTestCase):
@@ -36,12 +36,11 @@ class JSViewsTest(FixtureTestCase):
     @staticmethod
     def ensure_dummy_mt():
         """Ensure we have dummy mt installed"""
-        global MACHINE_TRANSLATION_SERVICES
-        if 'dummy' in MACHINE_TRANSLATION_SERVICES:
+        if 'dummy' in weblate.machinery.MACHINE_TRANSLATION_SERVICES:
             return
         name = 'weblate.machinery.dummy.DummyTranslation'
         service = load_class(name, 'TEST')()
-        MACHINE_TRANSLATION_SERVICES[service.mtid] = service
+        weblate.machinery.MACHINE_TRANSLATION_SERVICES[service.mtid] = service
 
     def test_get_detail(self):
         unit = self.get_unit()

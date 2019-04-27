@@ -577,19 +577,18 @@ class LoginForm(forms.Form):
                     self.error_messages['invalid_login'],
                     code='invalid_login',
                 )
-            elif not self.user_cache.is_active:
+            if not self.user_cache.is_active:
                 raise forms.ValidationError(
                     self.error_messages['inactive'],
                     code='inactive',
                 )
-            else:
-                AuditLog.objects.create(
-                    self.user_cache,
-                    self.request,
-                    'login',
-                    method='Password',
-                    name=username,
-                )
+            AuditLog.objects.create(
+                self.user_cache,
+                self.request,
+                'login',
+                method='Password',
+                name=username,
+            )
             reset_rate_limit('login', self.request)
         return self.cleaned_data
 

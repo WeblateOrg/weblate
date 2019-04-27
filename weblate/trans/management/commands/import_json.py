@@ -103,11 +103,11 @@ class Command(BaseCommand):
         finally:
             options['json-file'].close()
 
-        allfields = set([
+        allfields = {
             field.name
             for field in Component._meta.get_fields()
             if field.editable and not field.is_relation
-        ])
+        }
 
         # Handle dumps from API
         if 'results' in data:

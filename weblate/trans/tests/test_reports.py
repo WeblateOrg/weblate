@@ -180,7 +180,6 @@ class ReportsTest(ViewTestCase):
     def test_counts_view_html(self):
         response = self.get_counts('html')
         self.assertEqual(response.status_code, 200)
-        self.maxDiff = None
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
             '''

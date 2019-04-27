@@ -51,7 +51,7 @@ def check_user_form(request, project, verbose=False):
 
     if form.is_valid():
         return obj, form
-    elif verbose:
+    if verbose:
         for error in form.errors:
             for message in form.errors[error]:
                 messages.error(request, message)

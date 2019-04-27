@@ -858,7 +858,7 @@ class SearchForm(BaseSearchForm):
                 search_name=search_name,
                 filter_name=filter_name
             )
-        elif search_name:
+        if search_name:
             return search_name
         return filter_name
 

@@ -439,9 +439,7 @@ def get_quote(code, data, name):
 
 def format_char(char):
     """Return verbose description of a character."""
-    display = char
-    if char in DISPLAY_CHARS:
-        display = DISPLAY_CHARS[char]
+    display = DISPLAY_CHARS.get(char, char)
     if char in CHAR_NAMES:
         name = CHAR_NAMES[char]
     elif unicodedata.category(char)[0] in ('C', 'Z'):

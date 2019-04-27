@@ -63,7 +63,7 @@ class AddonList(AddonViewMixin, ListView):
         result = super(AddonList, self).get_context_data(**kwargs)
         component = self.kwargs['component_obj']
         result['object'] = component
-        installed = set([x.addon.name for x in result['object_list']])
+        installed = {x.addon.name for x in result['object_list']}
         result['available'] = sorted(
             [
                 x for x in ADDONS.values()
@@ -78,7 +78,7 @@ class AddonList(AddonViewMixin, ListView):
         component = self.get_component()
         name = request.POST.get('name')
         addon = ADDONS.get(name)
-        installed = set([x.addon.name for x in self.get_queryset()])
+        installed = {x.addon.name for x in self.get_queryset()}
         if (not name or
                 addon is None or
                 not addon.can_install(component, request.user) or
@@ -89,7 +89,7 @@ class AddonList(AddonViewMixin, ListView):
         if addon.settings_form is None:
             addon.create(component)
             return self.redirect_list()
-        elif 'form' in request.POST:
+        if 'form' in request.POST:
             form = addon.get_add_form(component, data=request.POST)
             if form.is_valid():
                 form.save()

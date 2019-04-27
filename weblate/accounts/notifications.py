@@ -162,7 +162,7 @@ class Notification(object):
         for subscription in subscriptions:
             user = subscription.user
             # Skip lower priority subscription and own changes
-            if last_user == user or user == change.user:
+            if user in (last_user, change.user):
                 continue
             if (subscription.scope == SCOPE_ADMIN and
                     not user.has_perm('project.edit', change.project)):

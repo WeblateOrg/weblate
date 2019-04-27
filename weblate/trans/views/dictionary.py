@@ -308,8 +308,7 @@ def show_dictionary(request, project, lang):
         return redirect_next(
             request.POST.get('next'), request.get_full_path()
         )
-    else:
-        form = WordForm()
+    form = WordForm()
 
     uploadform = DictUploadForm()
 

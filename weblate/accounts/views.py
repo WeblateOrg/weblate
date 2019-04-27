@@ -240,18 +240,22 @@ def get_notification_forms(request):
             key = (needed, None, None)
             subscriptions[key] = {}
             initials[key] = {
-                    'scope': needed, 'project': None, 'component': None
+                'scope': needed, 'project': None, 'component': None
             }
         active = (SCOPE_DEFAULT, None, None)
 
         # Include additional scopes from request
         if 'notify_project' in request.GET:
             try:
-                project = user.allowed_projects.get(pk=request.GET['notify_project'])
+                project = user.allowed_projects.get(
+                    pk=request.GET['notify_project']
+                )
                 active = key = (SCOPE_PROJECT, project.pk, None)
                 subscriptions[key] = {}
                 initials[key] = {
-                    'scope': SCOPE_PROJECT, 'project': project, 'component': None
+                    'scope': SCOPE_PROJECT,
+                    'project': project,
+                    'component': None
                 }
             except (ObjectDoesNotExist, ValueError):
                 pass
@@ -264,7 +268,9 @@ def get_notification_forms(request):
                 active = key = (SCOPE_COMPONENT, None, component.pk)
                 subscriptions[key] = {}
                 initials[key] = {
-                    'scope': SCOPE_COMPONENT, 'project': None, 'component': component
+                    'scope': SCOPE_COMPONENT,
+                    'project': None,
+                    'component': component
                 }
             except (ObjectDoesNotExist, ValueError):
                 pass

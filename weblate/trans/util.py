@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _, ugettext_lazy
-from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 from lxml import etree
 
 try:
@@ -45,6 +44,7 @@ except ImportError:
 
 import six
 from six.moves.urllib.parse import urlparse
+from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
 
@@ -213,7 +213,7 @@ def cleanup_repo_url(url, text=None):
             '{0}:{1}@'.format(parsed.username, parsed.password),
             ''
         )
-    elif parsed.username:
+    if parsed.username:
         return text.replace(
             '{0}@'.format(parsed.username),
             ''

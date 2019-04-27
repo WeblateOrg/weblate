@@ -50,9 +50,9 @@ SOCIALS = {
     'twitter': {'name': 'Twitter', 'fa_icon': 'twitter'},
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
     'auth0': {
-      'name': settings.SOCIAL_AUTH_AUTH0_TITLE,
-      'image': settings.SOCIAL_AUTH_AUTH0_IMAGE,
-      'image_class': 'google-image',
+        'name': settings.SOCIAL_AUTH_AUTH0_TITLE,
+        'image': settings.SOCIAL_AUTH_AUTH0_IMAGE,
+        'image_class': 'google-image',
     },
 }
 

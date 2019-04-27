@@ -115,7 +115,7 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
 
         return None
 
-    elif is_new and not details.get('email'):
+    if is_new and not details.get('email'):
         raise AuthMissingParameter(backend, 'email')
     return None
 

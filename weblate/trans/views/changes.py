@@ -24,13 +24,13 @@ if six.PY2:
 else:
     import csv
 
-from django.views.generic.list import ListView
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.utils.translation import ugettext as _, activate, pgettext
 from django.urls import reverse
-from django.db.models import Q
-from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
+from django.views.generic.list import ListView
 
 from weblate.auth.models import User
 from weblate.lang.models import Language

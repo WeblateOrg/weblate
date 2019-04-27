@@ -885,7 +885,6 @@ class HooksViewTest(ViewTestCase):
 class HookBackendTestCase(SimpleTestCase):
     hook = None
     def assert_hook(self, payload, expected):
-        self.maxDiff = None
         handler = HOOK_HANDLERS[self.hook]
         result = handler(json.loads(payload))
         if result:

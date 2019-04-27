@@ -35,7 +35,7 @@ from weblate.accounts.models import Profile, AuditLog, Subscription
 from weblate.accounts.notifications import (
     FREQ_NONE, FREQ_INSTANT, FREQ_DAILY, FREQ_WEEKLY, FREQ_MONTHLY,
     SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
-    MergeFailureNotification, NOTIFICATIONS,
+    MergeFailureNotification,
 )
 from weblate.accounts.tasks import (
     notify_change, notify_daily, notify_weekly, notify_monthly,

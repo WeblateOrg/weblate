@@ -376,11 +376,11 @@ class Change(models.Model, UserDisplayMixin):
         """Return URL for translation."""
         if self.translation is not None:
             return self.translation.get_absolute_url()
-        elif self.component is not None:
+        if self.component is not None:
             return self.component.get_absolute_url()
-        elif self.dictionary is not None:
+        if self.dictionary is not None:
             return self.dictionary.get_parent_url()
-        elif self.project is not None:
+        if self.project is not None:
             return self.project.get_absolute_url()
         return None
 

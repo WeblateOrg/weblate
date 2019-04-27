@@ -614,7 +614,7 @@ class Plural(models.Model):
         except (IndexError, KeyError):
             if idx == 0:
                 return _('Singular')
-            elif idx == 1:
+            if idx == 1:
                 return _('Plural')
             return _('Plural form %d') % idx
 

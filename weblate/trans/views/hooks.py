@@ -256,8 +256,7 @@ def bitbucket_extract_repo_url(data, repository):
     if 'links' in repository:
         if 'html' in data['repository']['links']:
             return repository['links']['html']['href']
-        else:
-            return repository['links']['self'][0]['href']
+        return repository['links']['self'][0]['href']
     if 'canon_url' in data:
         return '{}{}'.format(data['canon_url'], repository['absolute_url'])
     raise ValueError('Could not determine repository URL')

@@ -790,7 +790,7 @@ def save_zen(request, project, component, lang):
     storage = get_messages(request)
     if storage:
         response['messages'] = '\n'.join([render_mesage(m) for m in storage])
-        tags = set([m.tags for m in storage])
+        tags = {m.tags for m in storage}
         if 'error' in tags:
             response['state'] = 'danger'
         elif 'warning' in tags:

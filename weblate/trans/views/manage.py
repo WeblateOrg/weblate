@@ -72,7 +72,9 @@ def remove_component(request, project, component):
         return redirect_param(obj, '#delete')
 
     component_removal.delay(obj.pk)
-    messages.success(request, _('Translation component was scheduled for removal.'))
+    messages.success(
+        request, _('Translation component was scheduled for removal.')
+    )
     Change.objects.create(
         project=obj.project,
         action=Change.ACTION_REMOVE_COMPONENT,
@@ -260,6 +262,7 @@ def component_progress(request, project, component):
             'log': '\n'.join(log),
         }
     )
+
 
 @require_POST
 @login_required

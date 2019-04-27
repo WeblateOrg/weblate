@@ -164,14 +164,13 @@ def eval_node(node):
     if isinstance(node, ast.Num):
         # number
         return node.n
-    elif isinstance(node, ast.operator):
+    if isinstance(node, ast.operator):
         # operator
         return OPERATORS[type(node)]
-    elif isinstance(node, ast.BinOp):
+    if isinstance(node, ast.BinOp):
         # binary operation
         return eval_node(node.op)(
             eval_node(node.left),
             eval_node(node.right)
         )
-    else:
-        raise ValueError(node)
+    raise ValueError(node)

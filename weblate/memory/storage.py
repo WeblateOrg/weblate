@@ -30,9 +30,9 @@ from django.utils.translation import pgettext, ugettext as _
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 
-from whoosh.fields import SchemaClass, TEXT, ID, STORED, NUMERIC
 from whoosh import qparser
 from whoosh import query
+from whoosh.fields import SchemaClass, TEXT, ID, STORED, NUMERIC
 
 from weblate.lang.models import Language
 from weblate.utils.errors import report_error

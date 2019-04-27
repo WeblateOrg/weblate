@@ -78,24 +78,23 @@ def check_permission(user, permission, obj):
         return query.filter(
             projects=obj,
         ).exists()
-    elif isinstance(obj, Component):
+    if isinstance(obj, Component):
         return query.filter(
             (Q(projects=obj.project) & Q(componentlist=None)) |
             Q(componentlist__components=obj)
         ).exists()
-    elif isinstance(obj, Translation):
+    if isinstance(obj, Translation):
         return query.filter(
             (Q(projects=obj.component.project) & Q(componentlist=None)) |
             Q(componentlist__components=obj.component)
         ).filter(
             languages=obj.language
         ).exists()
-    else:
-        raise ValueError(
-            'Not supported type for permission check: {}'.format(
-                obj.__class__.__name__
-            )
+    raise ValueError(
+        'Not supported type for permission check: {}'.format(
+            obj.__class__.__name__
         )
+    )
 
 
 @register_perm('comment.delete', 'suggestion.delete')
