@@ -95,6 +95,7 @@ EDITOR_TEMPLATE = '''
 {0}
 {3}
 </div>
+<span class="pull-right flip badge"><span data-max="{4}" class="length-indicator">{5}</span>/{4}</span>
 '''
 PLURALS_TEMPLATE = '''
 <p class="help-block">
@@ -332,7 +333,9 @@ class PluralTextarea(forms.Textarea):
                     self.get_toolbar(lang, fieldid, unit, idx),
                     fieldid,
                     label,
-                    textarea
+                    textarea,
+                    attrs['maxlength'],
+                    len(val)
                 )
             )
 

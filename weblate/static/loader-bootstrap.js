@@ -213,6 +213,22 @@ function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
 
+    /* Count chars */
+    $(".translation-editor").keyup(function() {
+        var $this = $(this);
+        var counter = $this.parent().parent().find('.length-indicator');
+        var limit = parseInt(counter.data('max'));
+        var length = $this.val().length;
+        counter.text(length);
+        if (length >= limit) {
+            counter.parent().addClass('badge-danger').removeClass('badge-warning');
+        } else if (length + 10 >= limit) {
+            counter.parent().addClass('badge-warning').removeClass('badge-danger');
+        } else {
+            counter.parent().removeClass('badge-warning').removeClass('badge-danger');
+        }
+    });
+
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);

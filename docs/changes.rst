@@ -13,6 +13,7 @@ Released on ? 2019.
 * Allow to abort running background component update.
 * Extend template language for filename manipulations.
 * Use templates for editor link and repository browser URL.
+* Indicate max length and current chars count when editing translation.
 
 weblate 3.6.1
 -------------
