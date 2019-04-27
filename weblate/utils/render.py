@@ -149,7 +149,10 @@ def validate_repoweb(val):
     It checks whether it can be filled in using format string.
     """
     if '%(file)s' in val or '%(line)s' in val:
-        raise ValidationError(_('Please use template instead of format strings'))
+        raise ValidationError(_(
+            'The format strings are no longer supported, '
+            'please use the template language instead.'
+        ))
     validate_render(val, filename='file.po', line=9, branch='master')
 
 
