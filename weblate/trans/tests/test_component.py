@@ -541,7 +541,7 @@ class ComponentValidationTest(RepoTestCase):
             project.full_clean
         )
 
-    def test_validation_languge_re(self):
+    def test_validation_language_re(self):
         self.component.language_regex = '[-'
         with self.assertRaises(ValidationError):
             self.component.full_clean()
