@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-26 19:11+0000\n"
-"PO-Revision-Date: 2019-04-25 07:50+0000\n"
+"PO-Revision-Date: 2019-04-27 08:23+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 3.7-dev\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -229,10 +229,8 @@ msgid "Watched projects"
 msgstr "מיזמים במעקב"
 
 #: weblate/accounts/forms.py:766
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Administered projects"
-msgstr "מיזמים מחויבים"
+msgstr "מיזמים בניהול"
 
 #: weblate/accounts/forms.py:768
 msgid "Project: {}"
@@ -474,46 +472,36 @@ msgid "Weekly digest"
 msgstr "עדכון שבועי מרוכז"
 
 #: weblate/accounts/notifications.py:57
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "מחיר חודשי"
+msgstr "מקבץ עדכונים חודשי"
 
 #: weblate/accounts/notifications.py:326
-#, fuzzy
-#| msgid "Merge file header"
 msgid "Merge failure"
-msgstr "מיזוג כותרת קובץ"
+msgstr "כשל מיזוג"
 
 #: weblate/accounts/notifications.py:333 weblate/trans/models/change.py:232
 msgid "Parse error"
 msgstr "שגיאת פענוח"
 
 #: weblate/accounts/notifications.py:340
-#, fuzzy
-#| msgid "New string added"
 msgid "New string"
-msgstr "נוספה מחרוזת חדשה"
+msgstr "מחרוזת חדשה"
 
 #: weblate/accounts/notifications.py:348 weblate/trans/models/change.py:255
 msgid "New contributor"
 msgstr "מתנדב/ת חדש/ה"
 
 #: weblate/accounts/notifications.py:356
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "New suggestion"
-msgstr "הצבעה על הצעה"
+msgstr "הצעה חדשה"
 
 #: weblate/accounts/notifications.py:365
 msgid "Comment on authored translation"
 msgstr "הוספת הערה על התרגום שנערך"
 
 #: weblate/accounts/notifications.py:384
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "תורמים בתגובה"
+msgstr "אזכור בתגובה"
 
 #: weblate/accounts/notifications.py:401 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1131
@@ -521,22 +509,16 @@ msgid "New comment"
 msgstr "הערה חדשה"
 
 #: weblate/accounts/notifications.py:421
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "שינויים מאז"
+msgstr "מחרוזת שהשתנתה"
 
 #: weblate/accounts/notifications.py:429
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "לפי שפה"
+msgstr "שפה חדשה"
 
 #: weblate/accounts/notifications.py:447
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "הוספת רכיב תרגום חדש"
+msgstr "רכיב תרגום חדש"
 
 #: weblate/accounts/notifications.py:454 weblate/trans/models/change.py:256
 msgid "New whiteboard message"
@@ -2277,12 +2259,9 @@ msgid "Unknown"
 msgstr "לא ידוע"
 
 #: weblate/lang/models.py:503
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/three/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
-msgstr "אחד/שניים/שלושה/אחר"
+msgstr "אחד/שניים/שלושה/שישה/אחר"
 
 #: weblate/lang/models.py:510
 msgid "Plural definition source"
@@ -3122,10 +3101,8 @@ msgid "Preferences"
 msgstr "העדפות"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "דיווחי התליות"
+msgstr "התראות"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3188,10 +3165,8 @@ msgstr ""
 "אותם ברצונך לתרגם."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "מחרוזות מיקום"
+msgstr "הגדרות התראה"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -3948,25 +3923,19 @@ msgstr "הקצאת רשימת רכיבים אוטומטית"
 
 #: weblate/templates/component-progress.html:11
 msgid "Progress"
-msgstr ""
+msgstr "התקדמות"
 
 #: weblate/templates/component-progress.html:19
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "שם רשימת רכיבים"
+msgstr "רכיב מעודכן…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy
-#| msgid "Rename component"
 msgid "Return to the component"
-msgstr "שינוי שם רכיב"
+msgstr "חזרה לרכיב"
 
 #: weblate/templates/component-progress.html:33
-#, fuzzy
-#| msgid "Resource update"
 msgid "Abort the update"
-msgstr "עדכון משאב"
+msgstr "ביטול העדכון"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -5024,14 +4993,12 @@ msgid "Source string comment"
 msgstr "הערת מחרוזת מקור"
 
 #: weblate/templates/list-projects.html:18
-#, fuzzy
-#| msgid "Billed projects"
 msgid "You administrate this project."
-msgstr "מיזמים מחויבים"
+msgstr "ההנהלה של מיזם זה היא בידיך."
 
 #: weblate/templates/list-projects.html:18
 msgid "Admin"
-msgstr ""
+msgstr "ניהול"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -5159,10 +5126,8 @@ msgid "Sent by Weblate translation system"
 msgstr "נשלח על ידי מערכת התרגום Weblate"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "שינוי הגדרות מינוי"
+msgstr "שינוי הגדרות התראה"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5277,22 +5242,18 @@ msgid "Merge failure in %(component)s"
 msgstr "כשל מיזוג בתוך %(component)s"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr "אירעה שגיאת מיזוג תחת %(component)s באתר %(site_title)s."
+msgstr "קפצה אזעקה חדשה עבור %(component)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:18
-#, fuzzy
-#| msgid "Alerts"
 msgid "Alert:"
-msgstr "דיווחים"
+msgstr "אזעקה:"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "הערה חדשה בתוך %(component)s"
+msgstr "אזעקה חדשה עבור %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
@@ -5309,22 +5270,18 @@ msgid "New comment in %(component)s"
 msgstr "הערה חדשה בתוך %(component)s"
 
 #: weblate/templates/mail/new_component.html:11
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New component has been added to %(project)s at %(site_title)s."
-msgstr "נוספה שפה חדשה אל %(translation)s באתר %(site_title)s."
+msgstr "נוסף רכיב חדש אל %(project)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_component.html:18
-#, fuzzy
-#| msgid "Moved component"
 msgid "Added component:"
-msgstr "רכיב שהועבר"
+msgstr "רכיב שנוסף:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "רכיבי תרגום אחרים"
+msgstr "רכיב תרגום חדש %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5345,23 +5302,19 @@ msgid "New contributor in %(translation)s"
 msgstr "משתתף חדש בתרגום %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "נוספה שפה חדשה אל %(translation)s באתר %(site_title)s."
+msgstr "נוספה שפה חדשה אל %(component)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
 msgstr "השפה שנוספה:"
 
 #: weblate/templates/mail/new_language.html:24
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s."
-msgstr "התקבלה בקשה לשפה חדשה במיזם %(translation)s באתר %(site_title)s."
+msgstr "התקבלה בקשה לשפה חדשה עבור %(component)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:28
 msgid ""
@@ -5390,16 +5343,14 @@ msgid "Translation component:"
 msgstr "רכיב תרגום:"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New language added to %(translation)s"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "נוספה שפה חדשה אל %(translation)s"
+msgstr "נוספה שפה חדשה אל %(component)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "בקשת שפה חדשה בתוך %(translation)s"
+msgstr "בקשת שפה חדשה אצל %(component)s"
 
 #: weblate/templates/mail/new_string.html:11
 #, python-format
@@ -5432,34 +5383,28 @@ msgid "New suggestion in %(translation)s"
 msgstr "הצעה חדשה תחת %(translation)s"
 
 #: weblate/templates/mail/new_whiteboard.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added to %(project)s at %(site_title)s."
-msgstr "נוספה שפה חדשה אל %(translation)s באתר %(site_title)s."
+msgstr "נוספה הודעה חדשה ללוח המודעות של %(project)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_whiteboard.html:14
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New whiteboard message has been added at %(site_title)s."
-msgstr "נוספה שפה חדשה אל %(translation)s באתר %(site_title)s."
+msgstr "נוספה הודעה חדשה ללוח מודעות אצל %(site_title)s."
 
 #: weblate/templates/mail/new_whiteboard.html:22
-#, fuzzy
-#| msgid "Message"
 msgid "Message:"
-msgstr "הודעה"
+msgstr "הודעה:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message on %(project)s"
-msgstr "הודעה חדשה בלוח המודעות"
+msgstr "הודעה חדשה בלוח המודעות של המיזם %(project)s"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message"
+#, python-format
 msgid "New whiteboard message at %(site_title)s"
-msgstr "הודעה חדשה בלוח המודעות"
+msgstr "הודעה חדשה בלוח המודעות של האתר %(site_title)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #, python-format
@@ -6029,10 +5974,8 @@ msgid "I understand the consequences, delete this translation"
 msgstr "ההשלכות ברורות לי, נא למחוק את התרגום הזה"
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This translation component is currently being updated."
-msgstr "תרגום זה נעול כעת לצורכי עדכון."
+msgstr "רכיב תרגום זה מתעדכן כעת."
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "There are some alerts on this component"
@@ -6626,30 +6569,25 @@ msgid "Registration date"
 msgstr "תאריך רישום"
 
 #: weblate/templates/watch-dropdown.html:7
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "מעקב"
+msgstr "במעקב"
 
 #: weblate/templates/watch-dropdown.html:11
-#, fuzzy, python-format
-#| msgid "All protected projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "כל המיזמים המוגנים"
+msgstr "הסרת המעקב אחר המיזם %(project)s"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "מספר הרשומות עבור %(project)s"
+msgstr "התאמת התראות עבור %(object)s"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "מספר הרשומות עבור %(project)s"
+msgstr "השתקת התראות מאת %(object)s"
 
 #: weblate/templates/watch-dropdown.html:22
 msgid ""
@@ -7623,16 +7561,12 @@ msgid "Requested new language"
 msgstr "התקבלה בקשה לשפה חדשה"
 
 #: weblate/trans/models/change.py:260
-#, fuzzy
-#| msgid "Create project"
 msgid "Created project"
-msgstr "יצירת מיזם"
+msgstr "נוצר מיזם"
 
 #: weblate/trans/models/change.py:261
-#, fuzzy
-#| msgid "Create component"
 msgid "Created component"
-msgstr "יצירת רכיב"
+msgstr "נוצר רכיב"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8817,12 +8751,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "בתרגום בוצעו התיקונים הבאים: %s"
 
 #: weblate/trans/views/edit.py:256
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "לתרגומים במספר שפות יש בדיקות שנכשלו"
+msgstr "התרגום נשמר, עם זאת, ישנן מספר בדיקות שכשלו: {0}"
 
 #: weblate/trans/views/edit.py:309
 msgid "Invalid merge request!"
@@ -8967,16 +8900,12 @@ msgid "Translation has been removed."
 msgstr "התרגום הוסר."
 
 #: weblate/trans/views/manage.py:75
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Translation component was scheduled for removal."
-msgstr "תוזמנה הסרה של מיזם התרגום שלך"
+msgstr "רכיב התרגום תוזמן להסרה."
 
 #: weblate/trans/views/manage.py:101
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Project was scheduled for removal."
-msgstr "תוזמנה הסרה של מיזם התרגום שלך"
+msgstr "מיזם תוזמן להסרה."
 
 #: weblate/trans/views/search.py:133
 msgid "Search and replace completed, no strings were updated."
