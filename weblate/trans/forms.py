@@ -46,7 +46,7 @@ from django.utils.http import urlencode
 from django.forms import ValidationError
 from django.db.models import Q
 
-from translation_finder import discover
+from translation_finder import discover, DiscoveryResult
 
 from weblate.auth.models import User
 
@@ -1636,6 +1636,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             context['file_format_name'] = format_cls.name
         except KeyError:
             context['file_format_name'] = value['file_format']
+        context['origin'] = value.meta['origin']
         return render_to_string('trans/discover-choice.html', context)
 
     def __init__(self, request, *args, **kwargs):
@@ -1652,10 +1653,16 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
     def perform_discovery(self, request, kwargs):
         if 'data' in kwargs:
-            return request.session['create_discovery']
+            discovered = []
+            for i, data in enumerate(request.session['create_discovery']):
+                item = DiscoveryResult(data)
+                item.meta = request.session['create_discovery_meta'][i]
+                discovered.append(item)
+            return discovered
         self.clean_instance(kwargs['initial'])
         discovered = discover(self.instance.full_path)
         request.session['create_discovery'] = discovered
+        request.session['create_discovery_meta'] = [x.meta for x in discovered]
         return discovered
 
     def clean(self):

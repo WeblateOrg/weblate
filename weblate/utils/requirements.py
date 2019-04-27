@@ -191,7 +191,7 @@ def get_versions():
     result.append(get_single(
         'translation-finder',
         'https://github.com/WeblateOrg/translation-finder',
-        '1.0',
+        '1.4',
     ))
 
     result.append(get_single(
