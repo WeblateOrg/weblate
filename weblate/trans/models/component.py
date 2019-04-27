@@ -788,7 +788,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if check_single(changed, self):
             return True
         for component in self.linked_childs:
-            if check_single(changed, self):
+            if check_single(changed, component):
                 return True
         return False
 
