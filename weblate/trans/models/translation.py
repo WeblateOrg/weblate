@@ -125,7 +125,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         ))
 
     def log_hook(self, level, msg, *args):
-        self.component.log_hook(level, msg, *args, slug=self.full_slug)
+        self.component.store_log(self, self.full_slug, msg, *args)
 
     @cached_property
     def is_template(self):

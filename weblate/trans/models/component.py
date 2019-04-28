@@ -532,16 +532,17 @@ class Component(models.Model, URLMixin, PathMixin):
             meta={'progress': progress}
         )
 
-    def log_hook(self, level, msg, *args, slug=None):
-        self.logs.append(
-            '{}: {}'.format(slug if slug else self.full_slug, msg % args)
-        )
+    def store_log(self, slug, msg, *args):
+        self.logs.append('{}: {}'.format(slug, msg % args))
         if current_task:
             cache.set(
                 'task-log-{}'.format(current_task.request.id),
                 self.logs,
                 2 * 3600
             )
+
+    def log_hook(self, level, msg, *args):
+        self.store_log(self, self.full_slug, msg, *args)
 
     def get_progress(self):
         task = self.background_task
