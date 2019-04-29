@@ -542,7 +542,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
 
     def log_hook(self, level, msg, *args):
-        self.store_log(self, self.full_slug, msg, *args)
+        self.store_log(self.full_slug, msg, *args)
 
     def get_progress(self):
         task = self.background_task
