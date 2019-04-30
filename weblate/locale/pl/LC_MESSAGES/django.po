@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-04-27 08:24+0000\n"
-"PO-Revision-Date: 2019-04-17 04:39+0000\n"
-"Last-Translator: Piotr Strebski <strebski@gmail.com>\n"
+"PO-Revision-Date: 2019-05-01 20:49+0000\n"
+"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -237,10 +237,8 @@ msgid "Watched projects"
 msgstr "Projekty obserwowane"
 
 #: weblate/accounts/forms.py:766
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Administered projects"
-msgstr "Projekty rozliczane"
+msgstr "Administrowane projekty"
 
 #: weblate/accounts/forms.py:768
 msgid "Project: {}"
@@ -481,11 +479,11 @@ msgstr "Natychmiastowe powiadomienie"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr ""
+msgstr "Podsumowanie dzienne"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr ""
+msgstr "Podsumowanie cotygodniowe"
 
 #: weblate/accounts/notifications.py:57
 msgid "Monthly digest"
@@ -3754,6 +3752,8 @@ msgid ""
 "All Weblate commits from all components within this repository will be "
 "squashed."
 msgstr ""
+"Wszystkie zatwierdzenia Weblate ze wszystkich komponentów w tym repozytorium "
+"zostaną zmiażdżone."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -3761,6 +3761,9 @@ msgid ""
 "authorship, unless \"Per author\" is selected, or you customize the commit "
 "message to include it."
 msgstr ""
+"Wynikowe zatwierdzenia będą zawierały wszystkie oryginalne komunikaty "
+"zatwierdzenia, ale utracą autoryzację zatwierdzenia, chyba że wybrano „Na "
+"autora” lub dostosujesz komunikat zatwierdzenia, aby go uwzględnić."
 
 #: weblate/templates/base.html:99
 msgid "Toggle navigation"
@@ -4052,25 +4055,19 @@ msgstr "Automatyczne przypisywanie listy składników"
 
 #: weblate/templates/component-progress.html:11
 msgid "Progress"
-msgstr ""
+msgstr "Postęp"
 
 #: weblate/templates/component-progress.html:19
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "Nazwa listy komponentów"
+msgstr "Składnik jest aktualizowany…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy
-#| msgid "Rename component"
 msgid "Return to the component"
-msgstr "Zmień nazwę komponentu"
+msgstr "Wróć do komponentu"
 
 #: weblate/templates/component-progress.html:33
-#, fuzzy
-#| msgid "Resource update"
 msgid "Abort the update"
-msgstr "Uaktualniono zasoby"
+msgstr "Przerwij aktualizację"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -5167,14 +5164,12 @@ msgid "Source string comment"
 msgstr "Komentarz do źródłowego ciągu znaków"
 
 #: weblate/templates/list-projects.html:18
-#, fuzzy
-#| msgid "Billed projects"
 msgid "You administrate this project."
-msgstr "Projekty rozliczane"
+msgstr "Zarządzasz tym projektem."
 
 #: weblate/templates/list-projects.html:18
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -5392,12 +5387,12 @@ msgstr "Nowe tłumaczenie w projekcie %(translation)s"
 #: weblate/templates/mail/digest.html:11
 #, python-format
 msgid "This is a digest for %(notification_name)s:"
-msgstr ""
+msgstr "To jest skrót dla %(notification_name)s:"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr ""
+msgstr "Podsumowanie: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
@@ -5424,10 +5419,9 @@ msgid "Merge failure in %(component)s"
 msgstr "Nieudane scalanie w %(component)s"
 
 #: weblate/templates/mail/new_alert.html:11
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr "Wystąpiło nieudane scalanie w %(component)s na %(site_title)s."
+msgstr "Nowy alert został uruchomiony w %(component)s na %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:18
 msgid "Alert:"
@@ -5462,10 +5456,9 @@ msgid "Added component:"
 msgstr "Dodany składnik:"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Other translation components"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Inne składniki tłumaczenia"
+msgstr "Nowy komponent tłumaczenia %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 msgid "Good news,"
@@ -5486,10 +5479,9 @@ msgid "New contributor in %(translation)s"
 msgstr "Nowy współtwórca w projekcie %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "New language has been added to %(translation)s at %(site_title)s."
+#, python-format
 msgid "New language has been added to %(component)s at %(site_title)s."
-msgstr "Nowy język został dodany do %(translation)s w %(site_title)s."
+msgstr "Nowy język został dodany do %(component)s w %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:19
 msgid "Added language:"
@@ -8213,28 +8205,24 @@ msgid "Could not push to remote branch on %s."
 msgstr "Nie udało się przesłać do zdalnej gałęzi dla %s."
 
 #: weblate/trans/models/component.py:962
-#, fuzzy, python-format
-#| msgid "Failed to reset to remote branch on %s."
+#, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
+msgstr "Nie można zresetować do zdalnego oddziału na %s."
 
 #: weblate/trans/models/component.py:995
-#, fuzzy, python-format
-#| msgid "Failed to clean the repository on %s."
+#, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Nie można wyczyścić repozytorium %s."
 
 #: weblate/trans/models/component.py:1073
-#, fuzzy, python-format
-#| msgid "Failed to rebase our branch onto remote branch %s."
+#, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr "Rebase zdalnej gałęzi na %s nie powiódł się."
+msgstr "Nie można ponownie podzielić bazy lokalnej na oddział zdalny %s."
 
 #: weblate/trans/models/component.py:1080
-#, fuzzy, python-format
-#| msgid "Failed to merge remote branch into %s."
+#, python-format
 msgid "Could not merge remote branch into %s."
-msgstr "Nie udało się połączyć zdalnej gałęzi z %s."
+msgstr "Nie można scalić zdalnej gałązi z %s."
 
 #: weblate/trans/models/component.py:1412
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
