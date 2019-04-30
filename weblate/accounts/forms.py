@@ -272,12 +272,8 @@ class UserForm(forms.ModelForm):
     username = UsernameField()
     email = forms.ChoiceField(
         label=_('Email'),
-        help_text=_(
-            'You can add another email address in the Authentication tab.'
-        ),
-        choices=(
-            ('', ''),
-        ),
+        help_text=_('You can add another email address below.'),
+        choices=(('', ''),),
         required=True
     )
     full_name = FullNameField()
