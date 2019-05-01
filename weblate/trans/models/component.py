@@ -504,10 +504,12 @@ class Component(models.Model, URLMixin, PathMixin):
     def update_key(self):
         return 'component-update-{}'.format(self.pk)
 
-    def store_background_task(self):
-        if not current_task:
-            return
-        cache.set(self.update_key, current_task.request.id, None)
+    def store_background_task(self, task=None):
+        if task is None:
+            if not current_task:
+                return
+            task = current_task.request
+        cache.set(self.update_key, task.id, None)
 
     @cached_property
     def background_task(self):
@@ -1704,10 +1706,11 @@ class Component(models.Model, URLMixin, PathMixin):
             cleanup_project.delay(self.project.pk)
 
         from weblate.trans.tasks import component_after_save
-        component_after_save.delay(
+        task = component_after_save.delay(
             self.pk, changed_git, changed_setup, changed_template,
             skip_push=kwargs.get('force_insert', False),
         )
+        self.store_background_task(task)
 
     def after_save(self, changed_git, changed_setup, changed_template,
                    skip_push):
