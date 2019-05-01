@@ -504,6 +504,11 @@ class Component(models.Model, URLMixin, PathMixin):
     def update_key(self):
         return 'component-update-{}'.format(self.pk)
 
+    def store_background_task(self):
+        if not current_task:
+            return
+        cache.set(self.update_key, current_task.request.id, None)
+
     @cached_property
     def background_task(self):
         task_id = cache.get(self.update_key)
@@ -798,6 +803,7 @@ class Component(models.Model, URLMixin, PathMixin):
     @perform_on_link
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update"""
+        self.store_background_task()
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
@@ -1249,6 +1255,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False, skip_checks=False):
         """Load translations from VCS."""
+        self.store_background_task()
         # Ensure we start from fresh template
         if 'template_store' in self.__dict__:
             del self.__dict__['template_store']
@@ -1696,14 +1703,14 @@ class Component(models.Model, URLMixin, PathMixin):
             cleanup_project.delay(self.project.pk)
 
         from weblate.trans.tasks import component_after_save
-        task = component_after_save.delay(
+        component_after_save.delay(
             self.pk, changed_git, changed_setup, changed_template,
             skip_push=kwargs.get('force_insert', False),
         )
-        cache.set(self.update_key, task.id, None)
 
     def after_save(self, changed_git, changed_setup, changed_template,
                    skip_push):
+        self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
         self.progress_step(0)
