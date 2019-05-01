@@ -454,7 +454,7 @@ def format_char(char):
         except ValueError:
             # Char now known to unicode data
             # This mostly happens for control chars < 0x20
-            display = char.encode('unicode_escape')
+            display = char.encode('unicode_escape').decode('ascii')
             name = _('Insert character {0}').format(display)
     else:
         name = _('Insert character {0}').format(char)
