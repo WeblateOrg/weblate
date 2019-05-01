@@ -371,3 +371,17 @@ class SameCheckTest(CheckTestCase):
                 '',
             )
         )
+
+    def test_same_uppercase(self):
+        self.do_test(
+            False,
+            ('RMS', 'RMS', '')
+        )
+        self.do_test(
+            False,
+            ('<primary>RMS</primary>', '<primary>RMS</primary>', '')
+        )
+        self.do_test(
+            True,
+            ('Who is RMS?', 'Who is RMS?', '')
+        )

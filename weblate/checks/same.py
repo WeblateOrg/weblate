@@ -60,7 +60,7 @@ DOMAIN_RE = re.compile(
 
 PATH_RE = re.compile(r'(^|[ ])(/[a-zA-Z0-9=:?._-]+)+')
 
-TEMPLATE_RE = re.compile(r'{[a-z_-]+}|@[A-Z_]@')
+TEMPLATE_RE = re.compile(r'{[a-z_-]+}|@[A-Z_]@', re.IGNORECASE)
 
 RST_MATCH = re.compile(
     r'(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)'
@@ -68,7 +68,8 @@ RST_MATCH = re.compile(
 
 SPLIT_RE = re.compile(
     r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
-    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
+    re.IGNORECASE
 )
 
 EMOJI_RE = re.compile(
@@ -165,16 +166,17 @@ class SameCheck(TargetCheck):
             result = True
         else:
             # Strip format strings
-            stripped = strip_string(lower_source, unit.all_flags)
+            stripped = strip_string(source, unit.all_flags)
 
             # Ignore strings which don't contain any string to translate
             # or just single letter (usually unit or something like that)
-            if len(stripped) <= 1:
+            # or are whole uppercase (abbreviations)
+            if len(stripped) <= 1 or stripped.isupper():
                 result = True
             else:
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
-                for word in SPLIT_RE.split(stripped):
+                for word in SPLIT_RE.split(stripped.lower()):
                     if not test_word(word):
                         return False
                 return True
@@ -201,10 +203,6 @@ class SameCheck(TargetCheck):
     def check_single(self, source, target, unit):
         # One letter things are usually labels or decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
-            return False
-
-        # Probably shortcut
-        if source.isupper() and target.isupper():
             return False
 
         # Check for ignoring

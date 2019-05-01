@@ -14,6 +14,7 @@ Released on ? 2019.
 * Extend template language for filename manipulations.
 * Use templates for editor link and repository browser URL.
 * Indicate max length and current chars count when editing translation.
+* Improved handling of abbreviations in unchanged translation check.
 
 weblate 3.6.1
 -------------
