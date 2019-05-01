@@ -509,7 +509,7 @@ class Component(models.Model, URLMixin, PathMixin):
             if not current_task:
                 return
             task = current_task.request
-        cache.set(self.update_key, task.id, None)
+        cache.set(self.update_key, task.id, 6 * 3600)
 
     @cached_property
     def background_task(self):
