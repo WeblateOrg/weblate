@@ -521,7 +521,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if not current_task:
             return
         # Operate on linked component if needed
-        if self.translations_count is None:
+        if self.translations_count == -1:
             if self.linked_component:
                 self.linked_component.progress_step(progress)
             return
@@ -1350,6 +1350,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 'updating linked project %s [%d/%d]',
                 component, pos, len(self.linked_childs),
             )
+            component.translations_count = -1
             component.create_translations(
                 force, langs, request=request,
                 skip_checks=(component.project_id == self.project_id)
