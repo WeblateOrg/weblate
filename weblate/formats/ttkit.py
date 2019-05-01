@@ -462,7 +462,7 @@ class XliffUnit(TTKitUnit):
         except XMLSyntaxError:
             converted = target
         if self.template is not None:
-            if not self.parent.is_template:
+            if self.parent.is_template:
                 # Use source for monolingual files if editing template
                 self.unit.rich_source = converted
                 return
