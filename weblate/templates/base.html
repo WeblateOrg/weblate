@@ -17,20 +17,8 @@
   <title>{% include "title.html" %}</title>
   <meta name="description" content="{{ description }}" />
 
-{% compress css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
-{% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
-{% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-datepicker3.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-linux/font-linux.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-ubuntu/ubuntu.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'chartist.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'multi.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
-{% endcompress %}
+{% include "snippets/meta-css.html" %}
+
   <script src="{% url 'js-catalog' %}" type="text/javascript"></script>
 {% compress js %}
 {% if rollbar_token %}
