@@ -146,9 +146,9 @@ class UnitQuerySet(models.QuerySet):
         if date:
             changes = changes.filter(timestamp__gte=date)
         if exclude_user:
-            changes = changes.exclude(user=exclude_user)
+            changes = changes.exclude(Q(author=exclude_user) | Q(user=exclude_user))
         if only_user:
-            changes = changes.filter(user=only_user)
+            changes = changes.filter(Q(author=only_user) | Q(user=only_user))
         if translation:
             changes = changes.filter(translation=translation)
         else:
@@ -539,7 +539,7 @@ class Unit(models.Model, LoggerMixin):
         # Commit possible previous changes on this unit
         if self.pending:
             change_author = self.get_last_content_change(request)[0]
-            if change_author.id != request.user.id:
+            if change_author.id != user.id:
                 self.translation.commit_pending('pending unit', request)
 
         # Propagate to other projects
