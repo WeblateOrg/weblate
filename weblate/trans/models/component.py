@@ -52,6 +52,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.trans.fields import RegexField
 from weblate.utils import messages
+from weblate.utils.celery import is_task_ready
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
@@ -555,7 +556,7 @@ class Component(models.Model, URLMixin, PathMixin):
         task = self.background_task
         if task is None:
             return 100, []
-        if task.ready():
+        if is_task_ready(task):
             # Completed task
             progress = 100
         elif task.state == 'PROGRESS':
@@ -573,7 +574,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER and
             self.background_task is not None and
-            not self.background_task.ready()
+            not is_task_ready(self.background_task)
         )
 
     def get_source(self, id_hash):

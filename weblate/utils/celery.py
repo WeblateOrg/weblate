@@ -57,3 +57,19 @@ def get_queue_length(queue='celery'):
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count
+
+
+def is_task_ready(task):
+    """
+    Workaround broken ready() for failed Celery results
+
+    In case the task ends with an exception, the result tries to reconstruct
+    that. It can fail in case the exception can not be reconstructed using
+    data in args attribute.
+
+    See https://github.com/celery/celery/issues/5057
+    """
+    try:
+        return task.ready()
+    except TypeError:
+        return True
