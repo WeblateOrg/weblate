@@ -32,6 +32,8 @@ from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 
+from filelock import Timeout
+
 from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import get_anonymous
@@ -50,7 +52,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
 
 
-@app.task
+@app.task(autoretry_for=(Timeout,), retry_backoff=600)
 def perform_update(cls, pk):
     try:
         if cls == 'Project':
@@ -64,25 +66,25 @@ def perform_update(cls, pk):
         return
 
 
-@app.task
+@app.task(autoretry_for=(Timeout,), retry_backoff=600)
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
     component.create_translations(*args)
 
 
-@app.task
+@app.task(autoretry_for=(Timeout,), retry_backoff=600)
 def perform_commit(pk, *args):
     component = Component.objects.get(pk=pk)
     component.commit_pending(*args)
 
 
-@app.task
+@app.task(autoretry_for=(Timeout,), retry_backoff=600)
 def perform_push(pk, *args, **kwargs):
     component = Component.objects.get(pk=pk)
     component.do_push(*args, **kwargs)
 
 
-@app.task
+@app.task(autoretry_for=(Timeout,), retry_backoff=600)
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()
