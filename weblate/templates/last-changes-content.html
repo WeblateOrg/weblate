@@ -16,7 +16,7 @@
 {% for c in last_changes %}
 <tr class="{% cycle 'stripe-odd' 'stripe-even' as rowcolors %}">
 <td> {{ c.timestamp|naturaltime }}</td>
-<td>{{ c.get_user_display }}</td>
+<td>{% if hide_links %}{{ c.user.username }}{% else %}{{ c.get_user_display }}{% endif %}</td>
 {% if not hide_links %}
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
 {% else %}
