@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-03 18:33+0000\n"
-"PO-Revision-Date: 2019-04-28 19:49+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"PO-Revision-Date: 2019-05-03 18:48+0000\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -62,10 +62,8 @@ msgid "Email"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "Další e-mailovou adresu můžete přidat na záložce Přihlašování."
+msgstr "Další e-mailovou adresu můžete přidat níže."
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -375,12 +373,6 @@ msgid "Editor link"
 msgstr "Odkaz pro úpravy"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
@@ -388,9 +380,9 @@ msgid ""
 "&line={{line}} is good option."
 msgstr ""
 "Zadejte vámi určenou URL adresu, která bude ze které se bude otevírat "
-"zdrojový kód. Jako zástupné vyjádření větve je možné použít {{ branch }}, "
-"pro soubor {{ filename }} a {{ line }} jako název a řádek v souboru. Obvykle "
-"můžete použít něco jako editor://open/?file={{ filename }}&line={{ line }}."
+"zdrojový kód. Jako zástupné vyjádření větve je možné použít {{branch}}, pro "
+"soubor {{filename}} a {{line}} jako název a řádek v souboru. Obvykle můžete "
+"použít něco jako editor://open/?file={{filename}}&line={{line}}."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2220,13 +2212,11 @@ msgstr "Zprava doleva"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Jazyk"
-msgstr[1] "Jazyk"
-msgstr[2] "Jazyk"
+msgstr[1] "Jazyky"
+msgstr[2] "Jazyků"
 
 #: weblate/lang/models.py:443
 msgctxt "Plural type"
@@ -4655,16 +4645,13 @@ msgid "Change word"
 msgstr "Změna slova"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "Zapojte se do projektu %(project)s."
+msgstr "Zapojte se do projektu %(project)s"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "Ahoj a děkujeme za váš zájem."
+msgstr "Dobrý den & děkujeme vám za váš zájem"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4676,38 +4663,26 @@ msgstr ""
 "nástroje, který usnadní překládání jak pro vývojáře tak i pro překladatele."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Řetězců"
-msgstr[1] "Řetězců"
+msgstr[0] "Řetězec"
+msgstr[1] "Řetězce"
 msgstr[2] "Řetězců"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Překlad projektu %(project)s do češtiny v současné době obsahuje %(total)s "
-"řetězců k překladu a je hotový z %(percent)s %%."
+"Překlad projektu %(project)s do češtiny v současné době obsahuje "
+"<strong>%(total)s řetězců</strong> k překladu a je <strong>hotový z "
+"%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4719,17 +4694,20 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Překlad projektu %(project)s v současné době obsahuje %(total)s řetězců k "
-"překladu a je překládán do %(languages)s jazyka. Celkově je překlad tohoto "
-"projektu hotový z %(percent)s %%."
+"Překlad projektu %(project)s v současné době obsahuje <strong>%(total)s "
+"řetězců</strong> k překladu a je překládán do <strong>%(languages)s "
+"jazyka</strong>. Celkově je překlad tohoto projektu <strong>hotový z "
+"%(percent)s %%</strong>."
 msgstr[1] ""
-"Překlad projektu %(project)s v současné době obsahuje %(total)s řetězců k "
-"překladu a je překládán do %(languages)s jazyků. Celkově je překlad tohoto "
-"projektu hotový z %(percent)s %%."
+"Překlad projektu %(project)s v současné době obsahuje <strong>%(total)s "
+"řetězců</strong> k překladu a je překládán do <strong>%(languages)s "
+"jazyků</strong>. Celkově je překlad tohoto projektu <strong>hotový z "
+"%(percent)s %%</strong>."
 msgstr[2] ""
-"Překlad projektu %(project)s v současné době obsahuje %(total)s řetězců k "
-"překladu a je překládán do %(languages)s jazyků. Celkově je překlad tohoto "
-"projektu hotový z %(percent)s %%."
+"Překlad projektu %(project)s v současné době obsahuje <strong>%(total)s "
+"řetězců</strong> k překladu a je překládán do <strong>%(languages)s "
+"jazyků</strong>. Celkově je překlad tohoto projektu <strong>hotový z "
+"%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6086,7 +6064,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr "Weblate se při aktualizaci repozitáře nepodařilo načíst jeho změny."
+msgstr "Weblate se při aktualizaci repozitáře nepodařilo získat jeho změny."
 
 #: weblate/templates/trans/change_list.html:21
 msgid "Changes"
@@ -7275,7 +7253,7 @@ msgstr "Komentář k překladu, diskuze s dalšími překladateli"
 
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
-msgstr ""
+msgstr "Můžete vložit odkazy nebo zmínit jiné uživatele pomocí @jméno."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7823,16 +7801,12 @@ msgid "Repository browser"
 msgstr "Prohlížení repozitáře"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Odkaz na prohlížení Gitu, použijte {{ branch }} místo větve, {{ filename }} "
-"a {{ line }} místo jména souboru a řádky."
+"Odkaz na prohlížení Gitu, použijte {{branch}} místo větve, {{filename}} a "
+"{{line}} místo jména souboru a řádky."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9234,20 +9208,19 @@ msgstr "přeloženo"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "Nedefinovaná proměnná: \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "Šablonu se nepodařilo vykreslit: {0}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Neměňte objekt zde, namísto toho použijte rozhraní Weblate."
+msgstr ""
+"Formátovací řetězce již nejsou podporovány, prosím použijte místo toho "
+"šablony."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
