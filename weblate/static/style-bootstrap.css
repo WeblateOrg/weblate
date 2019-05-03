@@ -198,8 +198,8 @@ td .list-group {
     margin-left: 0;
 }
 .engage {
-    padding: 6em 7em;
     text-align: center;
+    padding: 1em;
 }
 .engage h1 {
     font-size: 56px;
@@ -223,7 +223,7 @@ td .list-group {
     margin: 1em;
 }
 .bignumbers {
-    padding: 3em 1em;
+    padding: 1em 0em;
 }
 .bignumbers .col-md-4:first-child {
     border-left: none;
@@ -237,17 +237,35 @@ td .list-group {
     font-size: 20px;
     text-transform: uppercase;
 }
+@media only screen and (min-width : 480px) {
+    .engage {
+        padding: 2em 3em;
+    }
+}
 @media only screen and (min-width : 992px) {
+    .engage {
+        padding: 6em 15em;
+    }
     .bignumbers .col-md-4 {
         border-left: 1px solid gray;
     }
 }
-@media only screen and (max-width : 1200px) {
+@media only screen and (min-width : 1200px) {
     .engage {
-        padding: 1em;
+        padding: 6em 25em;
     }
     .bignumbers {
-        padding: 1em 0em;
+        padding: 3em 1em;
+    }
+}
+@media only screen and (min-width : 1600px) {
+    .engage {
+        padding: 6em 35em;
+    }
+}
+@media only screen and (min-width : 2400px) {
+    .engage {
+        padding: 6em 55em;
     }
 }
 .btn-desc p {
