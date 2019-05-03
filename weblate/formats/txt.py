@@ -94,6 +94,9 @@ class MultiParser(object):
         for name, flags in self.filenames:
             filename = self.get_filename(name)
             for match in sorted(glob(filename), key=self.file_key):
+                # Needed to allow overlapping globs, more specific first
+                if match in result:
+                    continue
                 result[match] = TextParser(
                     match, os.path.relpath(match, self.base), flags
                 )
@@ -106,12 +109,17 @@ class MultiParser(object):
 class AppStoreParser(MultiParser):
     filenames = (
         ('title.txt', 'max-length:30'),
-        ('short_description.txt', 'max-length:80'),
-        ('full_description.txt', 'max-length:4000'),
+        ('short[_-]description.txt', 'max-length:80'),
+        ('full[_-]description.txt', 'max-length:4000'),
+        ('subtitle.txt', 'max-length:80'),
         ('description.txt', 'max-length:4000'),
         ('keywords.txt', 'max-length:100'),
         ('video.txt', 'url,max-length:256'),
+        ('marketing_url.txt', 'url,max-length:256'),
+        ('privacy_url.txt', 'url,max-length:256'),
+        ('support_url.txt', 'url,max-length:256'),
         ('changelogs/*.txt', 'max-length:500'),
+        ('*.txt', ''),
     )
 
     def file_key(self, filename):
