@@ -27,7 +27,9 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
+from django.utils.html import escape
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 import django.views.defaults
 
@@ -100,6 +102,9 @@ def show_engage(request, project, lang=None):
             'total': obj.stats.source_strings,
             'percent': stats_obj.translated_percent,
             'language': language,
+            'project_link': mark_safe('<a href="{}">{}</a>'.format(
+                escape(obj.get_absolute_url()), escape(obj.name)
+            )),
             'title': _('Get involved in {0}!').format(obj),
         }
     )
