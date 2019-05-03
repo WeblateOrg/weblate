@@ -1132,6 +1132,10 @@ class CommentForm(forms.Form):
     comment = forms.CharField(
         widget=forms.Textarea(attrs={'dir': 'auto'}),
         label=_('New comment'),
+        help_text=_(
+            'You can include external links or '
+            'mention other users by @username.'
+        ),
         max_length=1000,
     )
 
