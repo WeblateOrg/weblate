@@ -104,6 +104,8 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
+html_logo = '../graphics/weblate-64.png'
+
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
