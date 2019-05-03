@@ -1,5 +1,6 @@
 #!/bin/sh
 # Wrapper around yarn to update our javascript dependencies
+set -e
 
 cd scripts/yarn/
 
@@ -54,6 +55,7 @@ cp node_modules/slugify/index.js ../../weblate/static/js/slugify.js
 # Ubuntu font
 cp node_modules/ubuntu-fontface/ubuntu.css ../../weblate/static/font-ubuntu/
 cp node_modules/ubuntu-fontface/fonts/ubuntu-regular-webfont.* ../../weblate/static/font-ubuntu/fonts/
+cp node_modules/ubuntu-fontface/fonts/ubuntu-regular-italic-webfont.* ../../weblate/static/font-ubuntu/fonts/
 cp node_modules/ubuntu-fontface/fonts/ubuntu-medium-webfont.* ../../weblate/static/font-ubuntu/fonts/
 cp node_modules/ubuntu-fontface/fonts/ubuntu-bold-webfont.* ../../weblate/static/font-ubuntu/fonts/
 cp node_modules/ubuntu-fontface/fonts/ubuntumono-regular-webfont.* ../../weblate/static/font-ubuntu/fonts/
