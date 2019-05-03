@@ -21,11 +21,11 @@
 <div class="row bignumbers">
 <div class="col-md-4">
 <strong>{{ total }}</strong>
-<p>{% trans "Strings" %}</p>
+<p>{% blocktrans count count=total %}String{% plural %}Strings{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
 <strong>{{ languages }}</strong>
-<p>{% trans "Languages" %}</p>
+<p>{% blocktrans count count=languages %}Language{% plural %}Languages{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
 <strong>{{ percent }}%</strong>
