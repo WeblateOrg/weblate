@@ -20,15 +20,15 @@
 
 <div class="row bignumbers">
 <div class="col-md-4">
-<strong>{{ total }}</strong>
-<p>{% blocktrans count count=total %}String{% plural %}Strings{% endblocktrans %}</p>
+<strong>{{ full_stats.source_strings }}</strong>
+<p>{% blocktrans count count=full_stats.source_strings %}String{% plural %}Strings{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ languages }}</strong>
-<p>{% blocktrans count count=languages %}Language{% plural %}Languages{% endblocktrans %}</p>
+<strong>{{ full_stats.languages }}</strong>
+<p>{% blocktrans count count=full_stats.languages %}Language{% plural %}Languages{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ percent }}%</strong>
+<strong>{{ full_stats.translated_percent }}%</strong>
 <p>{% trans "Translated" %}</p>
 </div>
 </div>
@@ -38,7 +38,7 @@
 {% if language %}
 {% filter replace_english:language %}
 {% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
-{% blocktrans %}The translation project for {{ project }} into English currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
+{% blocktrans %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endfilter %}
 {% else %}
 {% blocktrans count languages=languages  %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} language</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} languages</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}

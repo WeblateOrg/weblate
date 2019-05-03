@@ -81,11 +81,12 @@ def show_engage(request, project, lang=None):
         language = Language.objects.try_get(code=lang)
     else:
         language = None
+    full_stats = obj.stats
     if language:
         try_set_language(lang)
-        stats_obj = obj.stats.get_single_language_stats(language)
+        stats_obj = full_stats.get_single_language_stats(language)
     else:
-        stats_obj = obj.stats
+        stats_obj = full_stats
 
     return render(
         request,
@@ -94,6 +95,7 @@ def show_engage(request, project, lang=None):
             'allow_index': True,
             'object': obj,
             'project': obj,
+            'full_stats': full_stats,
             'languages': stats_obj.languages,
             'total': obj.stats.source_strings,
             'percent': stats_obj.translated_percent,
