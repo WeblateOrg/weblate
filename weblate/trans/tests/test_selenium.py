@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 from datetime import timedelta
 from unittest import SkipTest
 from io import BytesIO
@@ -59,7 +59,7 @@ import social_django.utils
 
 from weblate.lang.models import Language
 import weblate.screenshots.views
-from weblate.trans.models import Project, Component, Change, Unit
+from weblate.trans.models import Project, Component, Change, Unit, Dictionary
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user, create_billing
@@ -525,11 +525,33 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'machine translation engines to get the best possible '
             'translations and applies them in this project.'
         )
+        self.create_component()
+        language = Language.objects.get(code='cs')
 
-        def capture_unit(name, tab='toggle-history'):
+        source = Unit.objects.get(
+            source=text, translation__language=language,
+        ).source_info
+        source.context = 'Help text for automatic translation tool'
+        source.save()
+        Dictionary.objects.create(
+            user=None,
+            project=source.component.project,
+            language=language,
+            source='machine translation',
+            target='strojový překlad',
+        )
+        Dictionary.objects.create(
+            user=None,
+            project=source.component.project,
+            language=language,
+            source='project',
+            target='projekt',
+        )
+        source.component.alert_set.all().delete()
+
+        def capture_unit(name, tab):
             unit = Unit.objects.get(
-                source=text,
-                translation__language_code='cs',
+                source=text, translation__language=language,
             )
             with self.wait_for_page_load():
                 self.driver.get('{0}{1}'.format(
@@ -548,7 +570,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
 
         self.do_login(superuser=True)
-        self.create_component()
         capture_unit('source-information.png', 'toggle-nearby')
         self.click('Tools')
         with self.wait_for_page_load():
@@ -586,7 +607,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click(self.driver.find_element_by_class_name('add-string'))
 
         # Unit should have screenshot assigned now
-        capture_unit('screenshot-context.png')
+        capture_unit('screenshot-context.png', 'toggle-machine')
 
     def test_admin(self):
         """Test admin interface."""
@@ -961,7 +982,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         )
         element = self.driver.find_element_by_id('id_a2a808c8ccbece08_1')
         self.clear_field(element)
-        element.send_keys('some word')
+        element.send_keys('několik slov')
         with self.wait_for_page_load():
             element.submit()
         self.screenshot('checks.png')
