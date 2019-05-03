@@ -810,6 +810,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update"""
         self.store_background_task()
+        self.translations_progress = 0
+        self.translations_count = 0
+        self.progress_step(0)
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
@@ -849,6 +852,9 @@ class Component(models.Model, URLMixin, PathMixin):
             self.push_if_needed(request, do_update=False)
         if not self.repo_needs_push():
             self.delete_alert('RepositoryChanges', childs=True)
+
+        self.progress_step(100)
+        self.translations_count = None
 
         return ret
 
@@ -1287,10 +1293,11 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise
         matches = self.get_mask_matches()
-        self.translations_progress = 0
-        self.translations_count = len(matches) + sum(
-            (c.translation_set.count() for c in self.linked_childs)
-        )
+        if self.translations_count != -1:
+            self.translations_progress = 0
+            self.translations_count = len(matches) + sum(
+                (c.translation_set.count() for c in self.linked_childs)
+            )
         for pos, path in enumerate(matches):
             with transaction.atomic():
                 code = self.get_lang_code(path)
