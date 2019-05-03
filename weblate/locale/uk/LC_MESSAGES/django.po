@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-03 18:33+0000\n"
-"PO-Revision-Date: 2019-05-03 18:48+0000\n"
+"PO-Revision-Date: 2019-05-03 20:30+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -379,12 +379,6 @@ msgid "Editor link"
 msgstr "Посилання на редактор"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
@@ -392,9 +386,9 @@ msgid ""
 "&line={{line}} is good option."
 msgstr ""
 "Введіть URL, який використовується як посилання для відкриття джерельного "
-"коду. Можна застосовувати {{ branch }} для вітки, {{ filename }} для назви "
-"файлу, {{ line }} як номер рядка. Зазвичай щось на кшталт editor://open/?"
-"file={{ filename }}&line={{ line }} буде хорошим варіантом."
+"коду. Можна застосовувати {{branch}} для вітки, {{filename}} для назви "
+"файлу, {{line}} як номер рядка. Зазвичай щось на кшталт editor://open/"
+"?file={{filename}}&line={{line}} буде хорошим варіантом."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -4716,28 +4710,18 @@ msgstr[2] "Рядків"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
 "Проект перекладу для %(project)s на українську наразі містить всього "
-"%(total)s рядків для перекладу, з яких %(percent)s%% - перекладено."
+"<strong>%(total)s рядків</strong> для перекладу, з яких <strong>%(percent)s%%"
+" - перекладено</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4749,17 +4733,20 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
-"перекладу і перекладається на %(languages)s мову. Загалом ці переклади на "
-"%(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить <strong>%(total)s "
+"рядків</strong> для перекладу і перекладається на <strong>%(languages)s "
+"мову</strong>. Загалом ці переклади на <strong>%(percent)s%% "
+"завершені</strong>."
 msgstr[1] ""
-"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
-"перекладу і перекладається на %(languages)s мови. Загалом ці переклади на "
-"%(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить <strong>%(total)s "
+"рядків</strong> для перекладу і перекладається на <strong>%(languages)s "
+"мови</strong>. Загалом ці переклади на <strong>%(percent)s%% "
+"завершені</strong>."
 msgstr[2] ""
-"Проект перекладу для %(project)s наразі містить %(total)s рядків для "
-"перекладу і перекладається на %(languages)s мов. Загалом ці переклади на "
-"%(percent)s%% завершені."
+"Проект перекладу для %(project)s наразі містить <strong>%(total)s "
+"рядків</strong> для перекладу і перекладається на <strong>%(languages)s "
+"мов</strong>. Загалом ці переклади на <strong>%(percent)s%% "
+"завершені</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6166,7 +6153,7 @@ msgstr "Я розумію наслідки. Вилучити цей перекл
 
 #: weblate/templates/trans/embed-alert.html:9
 msgid "This translation component is currently being updated."
-msgstr "Ця компонента перекладу наразі заблокована для оновлень."
+msgstr "Ця компонента перекладу наразі оновлюється."
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "There are some alerts on this component"
@@ -7862,16 +7849,12 @@ msgid "Repository browser"
 msgstr "Браузер репозиторію"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Посилання на браузер сховища, застосовуйте {{ branch }} для гілки, "
-"{{ filename }} та {{ line }} в якості заповнювачів для імені файлу і рядка."
+"Посилання на браузер сховища, використовуйте {{branch}} для гілки, "
+"{{filename}} та {{line}} як заповнювачі для імені файлу і рядка."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9146,16 +9129,12 @@ msgid "Translation has been removed."
 msgstr "Переклад вилучено."
 
 #: weblate/trans/views/manage.py:76
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Translation component was scheduled for removal."
-msgstr "Ваш проект перекладу запланований до вилучення"
+msgstr "Компонента перекладу запланована до вилучення."
 
 #: weblate/trans/views/manage.py:103
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Project was scheduled for removal."
-msgstr "Ваш проект перекладу запланований до вилучення"
+msgstr "Проект запланований до вилучення."
 
 #: weblate/trans/views/search.py:133
 msgid "Search and replace completed, no strings were updated."
