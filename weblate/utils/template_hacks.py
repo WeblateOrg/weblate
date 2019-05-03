@@ -24,10 +24,7 @@ import django.template.base
 from django.utils.safestring import mark_safe
 
 from django.utils.functional import lazy
-from django.utils.translation import (
-    pgettext, gettext, ngettext, npgettext, ugettext,
-)
-import django.utils.translation
+from django.utils import translation
 
 import six
 
@@ -37,11 +34,15 @@ def escape(text):
 
 
 def safe_ugettext(message):
-    return escape(ugettext(message))
+    return escape(translation.ugettext(message))
 
 
 def safe_pgettext(context, message):
-    return escape(pgettext(context, message))
+    return escape(translation.pgettext(context, message))
+
+
+def safe_ungettext(singular, plural, number):
+    return escape(translation.ungettext(singular, plural, number))
 
 
 safe_pgettext_lazy = lazy(safe_pgettext, six.text_type)
@@ -57,11 +58,15 @@ class EscapeTranslate(object):
     """
     @staticmethod
     def ungettext(singular, plural, number):
-        return escape(ngettext(singular, plural, number))
+        return safe_ungettext(singular, plural, number)
 
     @staticmethod
     def ngettext(singular, plural, number):
-        return escape(ngettext(singular, plural, number))
+        return safe_ungettext(singular, plural, number)
+
+    @staticmethod
+    def ngettext_lazy(singular, plural, number=None):
+        return translations.lazy_number(safe_ungettext, str, singular=singular, plural=plural, number=number) + '!BUG!'
 
     @staticmethod
     def ugettext(message):
@@ -73,11 +78,11 @@ class EscapeTranslate(object):
 
     @staticmethod
     def gettext(message):
-        return escape(gettext(message))
+        return safe_ugettext(message)
 
     @staticmethod
     def npgettext(context, singular, plural, number):
-        return escape(npgettext(context, singular, plural, number))
+        return escape(translation.npgettext(context, singular, plural, number))
 
     @staticmethod
     def pgettext(context, message):
@@ -88,11 +93,12 @@ class EscapeTranslate(object):
         return safe_pgettext_lazy(context, message)
 
     def __getattr__(self, name):
-        return getattr(django.utils.translation, name)
+        return getattr(translation, name)
 
 
 def monkey_patch_translate():
     """Mokey patch translate tags to emmit escaped strings."""
     django.templatetags.i18n.translation = EscapeTranslate()
     django.template.base.ugettext_lazy = safe_ugettext_lazy
+    django.template.base.gettext_lazy = safe_ugettext_lazy
     django.template.base.pgettext_lazy = safe_pgettext_lazy
