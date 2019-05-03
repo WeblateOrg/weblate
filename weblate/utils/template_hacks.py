@@ -17,17 +17,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import bleach
+
 import django.templatetags.i18n
 import django.template.base
 
 from django.utils.functional import lazy
-from django.utils.html import escape
 from django.utils.translation import (
     pgettext, gettext, ngettext, npgettext, ugettext,
 )
 import django.utils.translation
 
 import six
+
+
+def escape(text):
+    return bleach.clean(text, tags=['strong'])
 
 
 def safe_ugettext(message):

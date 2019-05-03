@@ -43,7 +43,7 @@
 {% blocktrans %}The translation project for {{ project }} into English currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
 {% endfilter %}
 {% else %}
-{% blocktrans count languages=languages  %}The translation project for {{ project }} currently contains {{ total }} strings for translation and is being translated into {{ languages }} language. Overall, these translations are {{ percent }}% complete.{% plural %}The translation project for {{ project }} currently contains {{ total }} strings for translation and is being translated into {{ languages }} languages. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
+{% blocktrans count languages=languages  %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} language</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} languages</strong>. Overall, these translations are <strong style="color: red">{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endif %}
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
 {% if object.access_control %}
