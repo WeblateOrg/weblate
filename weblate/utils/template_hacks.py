@@ -65,10 +65,6 @@ class EscapeTranslate(object):
         return safe_ungettext(singular, plural, number)
 
     @staticmethod
-    def ngettext_lazy(singular, plural, number=None):
-        return translations.lazy_number(safe_ungettext, str, singular=singular, plural=plural, number=number) + '!BUG!'
-
-    @staticmethod
     def ugettext(message):
         return safe_ugettext(message)
 
