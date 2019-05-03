@@ -21,6 +21,7 @@ import bleach
 
 import django.templatetags.i18n
 import django.template.base
+from django.utils.safestring import mark_safe
 
 from django.utils.functional import lazy
 from django.utils.translation import (
@@ -32,7 +33,7 @@ import six
 
 
 def escape(text):
-    return bleach.clean(text, tags=['strong'])
+    return mark_safe(bleach.clean(text, tags=['strong']))
 
 
 def safe_ugettext(message):
@@ -54,6 +55,10 @@ class EscapeTranslate(object):
     there is no clean way to tell Django to do this, see
     https://code.djangoproject.com/ticket/25872
     """
+    @staticmethod
+    def ungettext(singular, plural, number):
+        return escape(ngettext(singular, plural, number))
+
     @staticmethod
     def ngettext(singular, plural, number):
         return escape(ngettext(singular, plural, number))
