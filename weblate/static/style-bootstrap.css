@@ -223,12 +223,9 @@ td .list-group {
     margin: 1em;
 }
 .bignumbers {
-    padding: 3em;
+    padding: 3em 1em;
 }
-.bignumbers .col-sm-4 {
-    border-left: 1px solid gray;
-}
-.bignumbers .col-sm-4:first-child {
+.bignumbers .col-md-4:first-child {
     border-left: none;
 }
 .bignumbers strong {
@@ -239,6 +236,19 @@ td .list-group {
 .bignumbers p {
     font-size: 20px;
     text-transform: uppercase;
+}
+@media only screen and (min-width : 992px) {
+    .bignumbers .col-md-4 {
+        border-left: 1px solid gray;
+    }
+}
+@media only screen and (max-width : 1200px) {
+    .engage {
+        padding: 1em;
+    }
+    .bignumbers {
+        padding: 1em 0em;
+    }
 }
 .btn-desc p {
     display: inline-block;
