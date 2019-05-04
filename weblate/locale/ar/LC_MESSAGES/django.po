@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-03 18:33+0000\n"
+"POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2019-05-02 09:18+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -456,7 +456,7 @@ msgstr "عرض لوحة المراقبة الإفتراضية"
 msgid "Default component list"
 msgstr "قائمة المكونات الافتراضية"
 
-#: weblate/accounts/models.py:448
+#: weblate/accounts/models.py:448 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -6811,14 +6811,6 @@ msgstr "عدد الوحدات في %(project)s"
 msgid "Mute notifications for %(object)s"
 msgstr "عدد الوحدات في %(project)s"
 
-#: weblate/templates/watch-dropdown.html:22
-msgid ""
-"You can receive notifications for watched projects and they are shown on "
-"dashboard by default."
-msgstr ""
-"يمكنك استقبال الإشعارات من الترجمات المُراقبة وسوف تظهر على لوحة المراقبة "
-"افتراضياً."
-
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
 msgstr "راقب"
@@ -8126,102 +8118,102 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/models/component.py:732
+#: weblate/trans/models/component.py:735
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: weblate/trans/models/component.py:737
+#: weblate/trans/models/component.py:740
 #, fuzzy, python-format
 #| msgid "Could not update the repository."
 msgid "Could not fetch the repository: %s"
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/models/component.py:886
+#: weblate/trans/models/component.py:895
 #, python-format
 msgid "Push is turned off for %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:942
 #, fuzzy, python-format
 #| msgid "Could not update the repository."
 msgid "Could not push to remote branch on %s."
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/models/component.py:974
+#: weblate/trans/models/component.py:983
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
 msgid "Could not reset to remote branch on %s."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:1007
+#: weblate/trans/models/component.py:1016
 #, fuzzy, python-format
 #| msgid "Failed to clean the repository on %s."
 msgid "Could not clean the repository on %s."
 msgstr "فشلت عملية تنضيف المستودع على %s."
 
-#: weblate/trans/models/component.py:1085
+#: weblate/trans/models/component.py:1094
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1092
+#: weblate/trans/models/component.py:1101
 #, fuzzy, python-format
 #| msgid "Could not merge the repository."
 msgid "Could not merge remote branch into %s."
 msgstr "تعذر دمج المستودع."
 
-#: weblate/trans/models/component.py:1426
+#: weblate/trans/models/component.py:1436
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1433
+#: weblate/trans/models/component.py:1443
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1440
+#: weblate/trans/models/component.py:1450
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 
-#: weblate/trans/models/component.py:1448
+#: weblate/trans/models/component.py:1458
 msgid "Option is not available for linked repositories."
 msgstr ""
 
-#: weblate/trans/models/component.py:1457
+#: weblate/trans/models/component.py:1467
 msgid "The filemask did not match any files."
 msgstr ""
 
-#: weblate/trans/models/component.py:1465
+#: weblate/trans/models/component.py:1475
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1470
+#: weblate/trans/models/component.py:1480
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1474
+#: weblate/trans/models/component.py:1484
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
 
-#: weblate/trans/models/component.py:1492
+#: weblate/trans/models/component.py:1502
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
 msgid "Could not parse %d matched files."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1520
 #, fuzzy
 #| msgid "Define the base file for new translations"
 msgid "Unrecognized base file for new translations."
 msgstr "تحديد الملف القاعدي للترجمات الجديدة"
 
-#: weblate/trans/models/component.py:1514
+#: weblate/trans/models/component.py:1524
 #, fuzzy
 #| msgid ""
 #| "You have configured Weblate to add new translation files, but did not "
@@ -8233,48 +8225,48 @@ msgstr ""
 "لقد قمتم بإعداد ويب لايت لإضافة ملفات جديدة الترجمة و لكنم لم تقوموا بإدخال "
 "الملف القاعدي لهذا الغرض !"
 
-#: weblate/trans/models/component.py:1523
+#: weblate/trans/models/component.py:1533
 #, fuzzy
 #| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
 msgstr "لا يمكنك استخدام ملف أساسي مع ترجمة ثنائية اللغة!"
 
-#: weblate/trans/models/component.py:1528
+#: weblate/trans/models/component.py:1538
 #, fuzzy
 #| msgid "Using .pot file as base file is not supported!"
 msgid "Using a .pot file as base file is unsupported."
 msgstr "إنّ استخدام ملف .pot كملف قاعدي غير مدعوم !"
 
-#: weblate/trans/models/component.py:1535
+#: weblate/trans/models/component.py:1545
 #, fuzzy
 #| msgid "Could not parse translation files."
 msgid "Could not find template file."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1551
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
 msgid "Could not parse translation base file: %s"
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:1551
+#: weblate/trans/models/component.py:1561
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1558
+#: weblate/trans/models/component.py:1568
 #, fuzzy
 #| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
 msgstr "لا يمكن استخدام الترجمة الأحادية دون ملف قاعدي!"
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1583
 #, fuzzy, python-format
 #| msgid "Could not update the repository."
 msgid "Could not update repository: %s"
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/models/component.py:1587
+#: weblate/trans/models/component.py:1597
 #, fuzzy
 #| msgid ""
 #| "Please either fill in instructions URL or use different option for adding "
@@ -8285,34 +8277,34 @@ msgid ""
 msgstr ""
 "يرجى إما ملء عنوان URL الخاص بالإرشادات أو استخدام خيار آخر لإضافة لغة جديدة."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1604
 #, fuzzy
 #| msgid "License URL can not be used without license summary."
 msgid "License URL can not be used without a license summary."
 msgstr "لا يمكن استخدام عنوان URL الخاص بالتراخيص بدون ملخص الترخيص."
 
-#: weblate/trans/models/component.py:1622
+#: weblate/trans/models/component.py:1632
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:1634
+#: weblate/trans/models/component.py:1644
 #, fuzzy
 #| msgid ""
 #| "Automatically accepting suggestions can work only with voting enabled!"
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "لا يمكن قبول الاقتراحات تلقائيًا إلا بالتصويت فقط!"
 
-#: weblate/trans/models/component.py:1832
+#: weblate/trans/models/component.py:1842
 #, fuzzy
 #| msgid "Could not parse translation files."
 msgid "Could not add new translation file."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:1846
+#: weblate/trans/models/component.py:1856
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:1868
+#: weblate/trans/models/component.py:1878
 msgid "Translation file already exists!"
 msgstr "ملف الترجمة موجود بالفعل!"
 
@@ -9652,6 +9644,13 @@ msgstr "التقارير"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#~ msgid ""
+#~ "You can receive notifications for watched projects and they are shown on "
+#~ "dashboard by default."
+#~ msgstr ""
+#~ "يمكنك استقبال الإشعارات من الترجمات المُراقبة وسوف تظهر على لوحة المراقبة "
+#~ "افتراضياً."
 
 #~ msgid "Bad format string (%s)"
 #~ msgstr "تنسيق غير صحيح للسلسلة  (%s)"

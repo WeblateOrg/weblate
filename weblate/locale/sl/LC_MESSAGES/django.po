@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-03 18:33+0000\n"
+"POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2018-11-01 15:11+0000\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -499,7 +499,7 @@ msgstr "Privzeti pogled pregledne plošče"
 msgid "Default component list"
 msgstr "Privzeti seznam komponent"
 
-#: weblate/accounts/models.py:448
+#: weblate/accounts/models.py:448 weblate/templates/watch-dropdown.html:22
 #, fuzzy
 #| msgid ""
 #| "You can receive notifications for watched projects and they are shown on "
@@ -7524,14 +7524,6 @@ msgstr "Slovar jezika %(language)s za %(project)s"
 msgid "Mute notifications for %(object)s"
 msgstr "Slovar jezika %(language)s za %(project)s"
 
-#: weblate/templates/watch-dropdown.html:22
-msgid ""
-"You can receive notifications for watched projects and they are shown on "
-"dashboard by default."
-msgstr ""
-"Za spremljane projekte lahko prejemate obvestila in privzeto so prikazani na "
-"nadzorni plošči."
-
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
 msgstr "Spremljaj"
@@ -9050,7 +9042,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Komponente z višjo prioriteto bodo prevajalcem prikazane najprej."
 
-#: weblate/trans/models/component.py:732
+#: weblate/trans/models/component.py:735
 #, fuzzy
 #| msgid ""
 #| "Failed to verify SSH host key, please add them in SSH page in the admin "
@@ -9062,49 +9054,49 @@ msgstr ""
 "Preverjanje gostiteljskega ključa SSH je spodletelo; prosimo, dodajte jih na "
 "strani SSH v administratorskem vmesniku."
 
-#: weblate/trans/models/component.py:737
+#: weblate/trans/models/component.py:740
 #, fuzzy, python-format
 #| msgid "Failed to update repository: %s"
 msgid "Could not fetch the repository: %s"
 msgstr "Posodabljanje shrambe je spodletelo: %s"
 
-#: weblate/trans/models/component.py:886
+#: weblate/trans/models/component.py:895
 #, fuzzy, python-format
 #| msgid "Push is disabled for %s."
 msgid "Push is turned off for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:942
 #, fuzzy, python-format
 #| msgid "Failed to push to remote branch on %s."
 msgid "Could not push to remote branch on %s."
 msgstr "Nismo uspeli potisniti na oddaljeno podvejo na %s."
 
-#: weblate/trans/models/component.py:974
+#: weblate/trans/models/component.py:983
 #, fuzzy, python-format
 #| msgid "Failed to reset to remote branch on %s."
 msgid "Could not reset to remote branch on %s."
 msgstr "Nismo uspeli ponastaviti oddaljene podveje na %s."
 
-#: weblate/trans/models/component.py:1007
+#: weblate/trans/models/component.py:1016
 #, fuzzy, python-format
 #| msgid "Failed to fetch repository: %s"
 msgid "Could not clean the repository on %s."
 msgstr "Zajemanje shrambe je spodletelo: %s"
 
-#: weblate/trans/models/component.py:1085
+#: weblate/trans/models/component.py:1094
 #, fuzzy, python-format
 #| msgid "Failed to rebase our branch onto remote branch %s."
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Napaka pri prebaziranju lokalne veje na oddaljeno vejo %s."
 
-#: weblate/trans/models/component.py:1092
+#: weblate/trans/models/component.py:1101
 #, fuzzy, python-format
 #| msgid "Failed to merge remote branch into %s."
 msgid "Could not merge remote branch into %s."
 msgstr "Nismo uspeli združiti oddaljene podveje z %s."
 
-#: weblate/trans/models/component.py:1426
+#: weblate/trans/models/component.py:1436
 #, fuzzy
 #| msgid ""
 #| "Invalid link to a Weblate project, can not link to linked repository!"
@@ -9113,45 +9105,45 @@ msgstr ""
 "Neveljavna povezava do projekta Weblate; ne morem povezati do povezane "
 "shrambe!"
 
-#: weblate/trans/models/component.py:1433
+#: weblate/trans/models/component.py:1443
 #, fuzzy
 #| msgid "Invalid link to a Weblate project, can not link to self!"
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Neveljavna povezava do projekta Weblate; ne morem povezati nase!"
 
-#: weblate/trans/models/component.py:1440
+#: weblate/trans/models/component.py:1450
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Neveljavna povezava do projekta Weblate; uporabite weblate://projekt/"
 "komponenta."
 
-#: weblate/trans/models/component.py:1448
+#: weblate/trans/models/component.py:1458
 #, fuzzy
 #| msgid "Export URL is not used when repository is linked!"
 msgid "Option is not available for linked repositories."
 msgstr ""
 "URL za izvoz se ne uporablja, ko je skladišče povezano (linked repository)!"
 
-#: weblate/trans/models/component.py:1457
+#: weblate/trans/models/component.py:1467
 #, fuzzy
 #| msgid "The mask did not match any files!"
 msgid "The filemask did not match any files."
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: weblate/trans/models/component.py:1465
+#: weblate/trans/models/component.py:1475
 #, fuzzy, python-format
 #| msgid "Got empty language code for %s, please check filemask!"
 msgid "The language code for %s was empty, please check the filemask."
 msgstr ""
 "Za %s smo dobili prazno kodo jezika. Prosimo, preverite masko datoteke!"
 
-#: weblate/trans/models/component.py:1470
+#: weblate/trans/models/component.py:1480
 #, fuzzy, python-format
 #| msgid "Language code %s is too long, please check filemask!"
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Koda jezika %s je predolga. Prosimo, preverite masko datoteke!"
 
-#: weblate/trans/models/component.py:1474
+#: weblate/trans/models/component.py:1484
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language (%s), please adjust the mask and "
@@ -9163,19 +9155,19 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek (%s); prosimo, prilagodite masko in "
 "uporabite komponente za prevajanje različnih virov."
 
-#: weblate/trans/models/component.py:1492
+#: weblate/trans/models/component.py:1502
 #, fuzzy, python-format
 #| msgid "Failed to parse %d matched files!"
 msgid "Could not parse %d matched files."
 msgstr "Nismo uspeli razčleniti %d ujemajočih se datotek!"
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1520
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unrecognized base file for new translations."
 msgstr "Temeljna datoteka za nove prevode"
 
-#: weblate/trans/models/component.py:1514
+#: weblate/trans/models/component.py:1524
 #, fuzzy
 #| msgid ""
 #| "You have configured Weblate to add new translation files, but did not "
@@ -9187,48 +9179,48 @@ msgstr ""
 "Weblate ste konfigurirali za dodajanje novih datotek s prevodi, vendar za to "
 "niste dodali temeljne datoteke!"
 
-#: weblate/trans/models/component.py:1523
+#: weblate/trans/models/component.py:1533
 #, fuzzy
 #| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
 msgstr "Ne morete uporabiti temeljne datoteke z dvojezičnim prevodom!"
 
-#: weblate/trans/models/component.py:1528
+#: weblate/trans/models/component.py:1538
 #, fuzzy
 #| msgid "Using .pot file as base file is not supported!"
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Uporaba datoteke .pot kot temeljne datoteke ni podprto!"
 
-#: weblate/trans/models/component.py:1535
+#: weblate/trans/models/component.py:1545
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not find template file."
 msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1551
 #, fuzzy, python-format
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not parse translation base file: %s"
 msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
-#: weblate/trans/models/component.py:1551
+#: weblate/trans/models/component.py:1561
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Jezik predloge ({0}) se ne ujema z izvirnim jezikom projekta ({1})!"
 
-#: weblate/trans/models/component.py:1558
+#: weblate/trans/models/component.py:1568
 #, fuzzy
 #| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Ne morete uporabljati enojezičnega prevoda brez temeljne datoteke!"
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1583
 #, fuzzy, python-format
 #| msgid "Failed to update repository: %s"
 msgid "Could not update repository: %s"
 msgstr "Posodabljanje shrambe je spodletelo: %s"
 
-#: weblate/trans/models/component.py:1587
+#: weblate/trans/models/component.py:1597
 #, fuzzy
 #| msgid ""
 #| "Please either fill in instructions URL or use different option for adding "
@@ -9240,18 +9232,18 @@ msgstr ""
 "Prosimo, vnesite URL navodil ali uporabite drugo možnost za dodajanje novega "
 "jezika."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1604
 #, fuzzy
 #| msgid "License URL can not be used without license summary."
 msgid "License URL can not be used without a license summary."
 msgstr "URL-naslova dovoljenja ni mogoče uporabiti brez povzetka dovoljenja."
 
-#: weblate/trans/models/component.py:1622
+#: weblate/trans/models/component.py:1632
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Ne moremo preveriti ujemanja datotek zaradi neveljavnega regularnega izraza."
 
-#: weblate/trans/models/component.py:1634
+#: weblate/trans/models/component.py:1644
 #, fuzzy
 #| msgid ""
 #| "Automatically accepting suggestions can work only with voting enabled!"
@@ -9259,19 +9251,19 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Samodejno sprejemanje predlogov deluje samo, ko je glasovanje omogočeno!"
 
-#: weblate/trans/models/component.py:1832
+#: weblate/trans/models/component.py:1842
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not add new translation file."
 msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
-#: weblate/trans/models/component.py:1846
+#: weblate/trans/models/component.py:1856
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "The given language is filtered by the language filter."
 msgstr "Enojezikovna temeljna jezikovna datoteka"
 
-#: weblate/trans/models/component.py:1868
+#: weblate/trans/models/component.py:1878
 msgid "Translation file already exists!"
 msgstr "Datoteka s prevodom že obstaja!"
 
@@ -10676,6 +10668,13 @@ msgstr "Poročila"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Napake konfiguracije"
+
+#~ msgid ""
+#~ "You can receive notifications for watched projects and they are shown on "
+#~ "dashboard by default."
+#~ msgstr ""
+#~ "Za spremljane projekte lahko prejemate obvestila in privzeto so prikazani "
+#~ "na nadzorni plošči."
 
 #~ msgid "Bad format string (%s)"
 #~ msgstr "Slaba oblika niza (%s)"

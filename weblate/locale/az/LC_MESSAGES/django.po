@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-03 18:33+0000\n"
+"POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -492,7 +492,7 @@ msgstr "İlkin əsas lövhə görünüşü"
 msgid "Default component list"
 msgstr "İlkin komponent siyahısı"
 
-#: weblate/accounts/models.py:448
+#: weblate/accounts/models.py:448 weblate/templates/watch-dropdown.html:22
 #, fuzzy
 #| msgid ""
 #| "You can receive notifications for watched projects and they are shown on "
@@ -7798,14 +7798,6 @@ msgstr "%(project)s üçün %(language)s lüğəti"
 msgid "Mute notifications for %(object)s"
 msgstr "%(project)s üçün %(language)s lüğəti"
 
-#: weblate/templates/watch-dropdown.html:22
-msgid ""
-"You can receive notifications for watched projects and they are shown on "
-"dashboard by default."
-msgstr ""
-"İzlənilən layihələrələ bağlı bildirişləri alacaqsınız və susmaya görə onlar "
-"əsas paneldə görsənəcək."
-
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
 msgstr ""
@@ -9396,7 +9388,7 @@ msgstr "Bu tərcüməni geri qaytar"
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/models/component.py:732
+#: weblate/trans/models/component.py:735
 #, fuzzy
 #| msgid ""
 #| "Failed to verify SSH host key, please add them in SSH page in the admin "
@@ -9408,47 +9400,47 @@ msgstr ""
 "SSH host açarının təsdiqi uğursuz oldu, zəhmət olmasa idarəçi interfeysində "
 "olan SSH səhifəsində bunları əlavə edin."
 
-#: weblate/trans/models/component.py:737
+#: weblate/trans/models/component.py:740
 #, fuzzy, python-format
 #| msgid "Failed to get host key: %s"
 msgid "Could not fetch the repository: %s"
 msgstr "Host açarını alma uğursuz oldu: %s"
 
-#: weblate/trans/models/component.py:886
+#: weblate/trans/models/component.py:895
 #, python-format
 msgid "Push is turned off for %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:942
 #, fuzzy, python-format
 #| msgid "Failed to get host key: %s"
 msgid "Could not push to remote branch on %s."
 msgstr "Host açarını alma uğursuz oldu: %s"
 
-#: weblate/trans/models/component.py:974
+#: weblate/trans/models/component.py:983
 #, fuzzy, python-format
 #| msgid "Failed to save translation!"
 msgid "Could not reset to remote branch on %s."
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:1007
+#: weblate/trans/models/component.py:1016
 #, fuzzy, python-format
 #| msgid "Failed to get host key: %s"
 msgid "Could not clean the repository on %s."
 msgstr "Host açarını alma uğursuz oldu: %s"
 
-#: weblate/trans/models/component.py:1085
+#: weblate/trans/models/component.py:1094
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1092
+#: weblate/trans/models/component.py:1101
 #, fuzzy, python-format
 #| msgid "Failed to get host key: %s"
 msgid "Could not merge remote branch into %s."
 msgstr "Host açarını alma uğursuz oldu: %s"
 
-#: weblate/trans/models/component.py:1426
+#: weblate/trans/models/component.py:1436
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -9456,7 +9448,7 @@ msgstr ""
 "Weblate layihəsi üçün yanlış bağlantı, weblate://project/subproject adresini "
 "istifadə edin."
 
-#: weblate/trans/models/component.py:1433
+#: weblate/trans/models/component.py:1443
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
@@ -9464,7 +9456,7 @@ msgstr ""
 "Weblate layihəsi üçün yanlış bağlantı, weblate://project/subproject adresini "
 "istifadə edin."
 
-#: weblate/trans/models/component.py:1440
+#: weblate/trans/models/component.py:1450
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -9472,27 +9464,27 @@ msgstr ""
 "Weblate layihəsi üçün yanlış bağlantı, weblate://project/subproject adresini "
 "istifadə edin."
 
-#: weblate/trans/models/component.py:1448
+#: weblate/trans/models/component.py:1458
 msgid "Option is not available for linked repositories."
 msgstr ""
 
-#: weblate/trans/models/component.py:1457
+#: weblate/trans/models/component.py:1467
 #, fuzzy
 #| msgid "The mask did not match any files!"
 msgid "The filemask did not match any files."
 msgstr "Maska hər hansı bir faylla uyğun gəlmədi!"
 
-#: weblate/trans/models/component.py:1465
+#: weblate/trans/models/component.py:1475
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1470
+#: weblate/trans/models/component.py:1480
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1474
+#: weblate/trans/models/component.py:1484
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
@@ -9504,64 +9496,64 @@ msgstr ""
 "Tək dil üçün daha çox fayl vardır, zəhmət olmasa maskanı ayarlayın və fərqli "
 "qaynaqların tərcüməsi üçün alt layihələri istifadə edin."
 
-#: weblate/trans/models/component.py:1492
+#: weblate/trans/models/component.py:1502
 #, fuzzy, python-format
 #| msgid "Failed to save translation!"
 msgid "Could not parse %d matched files."
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1520
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unrecognized base file for new translations."
 msgstr "Yeni tərcümələr üçün baza faylı"
 
-#: weblate/trans/models/component.py:1514
+#: weblate/trans/models/component.py:1524
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 
-#: weblate/trans/models/component.py:1523
+#: weblate/trans/models/component.py:1533
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
 msgstr "İki dilli tərcüməsi olan baza faylını istifadə edə bilməzsiniz!"
 
-#: weblate/trans/models/component.py:1528
+#: weblate/trans/models/component.py:1538
 msgid "Using a .pot file as base file is unsupported."
 msgstr ""
 
-#: weblate/trans/models/component.py:1535
+#: weblate/trans/models/component.py:1545
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Could not find template file."
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1551
 #, fuzzy, python-format
 #| msgid "Failed to save translation!"
 msgid "Could not parse translation base file: %s"
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:1551
+#: weblate/trans/models/component.py:1561
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1558
+#: weblate/trans/models/component.py:1568
 #, fuzzy
 #| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Baza faylsız tək dilli tərcüməni istifadə edə bilməzsiniz!"
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1583
 #, fuzzy, python-format
 #| msgid "Failed to get host key: %s"
 msgid "Could not update repository: %s"
 msgstr "Host açarını alma uğursuz oldu: %s"
 
-#: weblate/trans/models/component.py:1587
+#: weblate/trans/models/component.py:1597
 #, fuzzy
 #| msgid ""
 #| "Please either fill in instructions URL or use different option for adding "
@@ -9573,17 +9565,17 @@ msgstr ""
 "Yeni dil əlavə etmək üçün zəhmət olmasa ya təlimatlar URL-dəkini doldurun ya "
 "da fərqli seçənək istifadə edin."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1604
 #, fuzzy
 #| msgid "License URL can not be used without license summary."
 msgid "License URL can not be used without a license summary."
 msgstr "Lisenziya URL-si lisenziya özəti olmadan istifadə oluna bilməz."
 
-#: weblate/trans/models/component.py:1622
+#: weblate/trans/models/component.py:1632
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:1634
+#: weblate/trans/models/component.py:1644
 #, fuzzy
 #| msgid ""
 #| "Automatically accepting suggestions can work only with voting enabled!"
@@ -9592,19 +9584,19 @@ msgstr ""
 "Təklifləri avtomatik olaraq qəbul etmə sadəcə səsvermə aktivdirsə işləyə "
 "bilər!"
 
-#: weblate/trans/models/component.py:1832
+#: weblate/trans/models/component.py:1842
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Could not add new translation file."
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:1846
+#: weblate/trans/models/component.py:1856
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "The given language is filtered by the language filter."
 msgstr "Tək dil əsaslı dil faylı"
 
-#: weblate/trans/models/component.py:1868
+#: weblate/trans/models/component.py:1878
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation file already exists!"
@@ -11044,6 +11036,13 @@ msgstr "Hesabatlar"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfiqurasiya xətaları"
+
+#~ msgid ""
+#~ "You can receive notifications for watched projects and they are shown on "
+#~ "dashboard by default."
+#~ msgstr ""
+#~ "İzlənilən layihələrələ bağlı bildirişləri alacaqsınız və susmaya görə "
+#~ "onlar əsas paneldə görsənəcək."
 
 #~ msgid "Bad format string (%s)"
 #~ msgstr "Pis formatda(Bad format) sətir(%s)"

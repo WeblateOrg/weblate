@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-03 18:33+0000\n"
+"POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2019-04-19 06:26+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -445,7 +445,7 @@ msgstr "기본 대시보드 뷰"
 msgid "Default component list"
 msgstr "기본 구성요소 리스트"
 
-#: weblate/accounts/models.py:448
+#: weblate/accounts/models.py:448 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -6668,14 +6668,6 @@ msgstr "%(object)s 에 대한 알림 사용자 지정"
 msgid "Mute notifications for %(object)s"
 msgstr "%(object)s 에 대한 알림 음소거"
 
-#: weblate/templates/watch-dropdown.html:22
-msgid ""
-"You can receive notifications for watched projects and they are shown on "
-"dashboard by default."
-msgstr ""
-"당신이 보았던 프로젝트와 관련된 알림을 받을 수 있습니다. 이것은 당신의 대시보"
-"드에 기본적으로 나타나게 됩니다."
-
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
 msgstr "감시하기"
@@ -7969,7 +7961,7 @@ msgstr "파일마스크를 검사할 때 번역을 골라내는데 사용되는 
 msgid "Components with higher priority are offered first to translators."
 msgstr "우선순위가 높은 구성요소는 번역가가 먼저 볼 수 있게 제공됩니다."
 
-#: weblate/trans/models/component.py:732
+#: weblate/trans/models/component.py:735
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -7977,76 +7969,76 @@ msgstr ""
 "SSH 호스트 키를 확인할 수 없으므로 관리 인터페이스의 SSH 페이지에 추가하십시"
 "오."
 
-#: weblate/trans/models/component.py:737
+#: weblate/trans/models/component.py:740
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "저장소를 가져올 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:886
+#: weblate/trans/models/component.py:895
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "%s 에 대한 밀기(Push)가 해제되었습니다."
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:942
 #, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "%s 의 원격 분기로 밀기(Push)할 수 없습니다."
 
-#: weblate/trans/models/component.py:974
+#: weblate/trans/models/component.py:983
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "%s 에서 원격 분기로 재설정할 수 없습니다."
 
-#: weblate/trans/models/component.py:1007
+#: weblate/trans/models/component.py:1016
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "%s 에서 저장소를 정리할 수 없습니다."
 
-#: weblate/trans/models/component.py:1085
+#: weblate/trans/models/component.py:1094
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "지역 분기를 원격 분기 %s 에 다시 배치할 수 없음."
 
-#: weblate/trans/models/component.py:1092
+#: weblate/trans/models/component.py:1101
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "원격 분기를 %s 에 합칠 수 없습니다."
 
-#: weblate/trans/models/component.py:1426
+#: weblate/trans/models/component.py:1436
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Weblate 프로젝트에 대한 연결이 잘못되었으므로 연결된 저장소에 연결할 수 없습"
 "니다!"
 
-#: weblate/trans/models/component.py:1433
+#: weblate/trans/models/component.py:1443
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Weblate 프로젝트에 대한 잘못된 연결이므로, 자체로 연결할 수 없습니다!"
 
-#: weblate/trans/models/component.py:1440
+#: weblate/trans/models/component.py:1450
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate 프로젝트의 링크가 잘못되었습니다, weblate://project/component를 사용"
 "하세요."
 
-#: weblate/trans/models/component.py:1448
+#: weblate/trans/models/component.py:1458
 msgid "Option is not available for linked repositories."
 msgstr "연결된 저장소에 대해 선택사항을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:1457
+#: weblate/trans/models/component.py:1467
 msgid "The filemask did not match any files."
 msgstr "파일 마스크가 파일과 일치하지 않았습다."
 
-#: weblate/trans/models/component.py:1465
+#: weblate/trans/models/component.py:1475
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "%s 의 언어 코드가 비어 있습니다, 파일 마스크를 확인하십시오."
 
-#: weblate/trans/models/component.py:1470
+#: weblate/trans/models/component.py:1480
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "\"%s\" 언어 코드가 너무 깁니다. 파일 마스크를 확인하십시오."
 
-#: weblate/trans/models/component.py:1474
+#: weblate/trans/models/component.py:1484
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
@@ -8055,16 +8047,16 @@ msgstr ""
 "단일 언어(%s)에 대한 파일이 더 많으므로 파일 마스크를 조정하고 구성요소를 사"
 "용하여 서로 다른 자원을 번역하십시오."
 
-#: weblate/trans/models/component.py:1492
+#: weblate/trans/models/component.py:1502
 #, python-format
 msgid "Could not parse %d matched files."
 msgstr "일치하는 파일 %d 개 를 구문 분석할 수 없습니다."
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1520
 msgid "Unrecognized base file for new translations."
 msgstr "새로운 번역에 대해 인식할 수 없는 기본 파일."
 
-#: weblate/trans/models/component.py:1514
+#: weblate/trans/models/component.py:1524
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -8072,65 +8064,65 @@ msgstr ""
 "새로운 번역 파일을 추가하기 위해 Weblate를 설정했지만 이를 위해 기본 파일을 "
 "제공하지는 않았습니다."
 
-#: weblate/trans/models/component.py:1523
+#: weblate/trans/models/component.py:1533
 msgid "You can not use a base file for bilingual translation."
 msgstr "2개 국어의 번역에는 기본 파일을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:1528
+#: weblate/trans/models/component.py:1538
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot 파일을 기본 파일로 사용하는 것은 지원되지 않습니다."
 
-#: weblate/trans/models/component.py:1535
+#: weblate/trans/models/component.py:1545
 msgid "Could not find template file."
 msgstr "서식 파일을 찾을 수 없습니다."
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1551
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "번역 기준 파일을 구문 분석할 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:1551
+#: weblate/trans/models/component.py:1561
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "템플릿 언어 ({0})가 프로젝트 원본 언어 ({1})와 맞지 않습니다!"
 
-#: weblate/trans/models/component.py:1558
+#: weblate/trans/models/component.py:1568
 msgid "You can not use a monolingual translation without a base file."
 msgstr "기본 파일 없이는 단일 언어 번역을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1583
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "저장소를 업데이트할 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:1587
+#: weblate/trans/models/component.py:1597
 msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
 "지시 URL을 채우거나 다른 언어를 추가 할 때 다른 선택사항을 사용하십시오."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1604
 msgid "License URL can not be used without a license summary."
 msgstr "허가서 URL은 허가서 요약 없이 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:1622
+#: weblate/trans/models/component.py:1632
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "유효하지 않은 정규 표현식 때문에 파일 일치를 검사할 수 없습니다."
 
-#: weblate/trans/models/component.py:1634
+#: weblate/trans/models/component.py:1644
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "제안을 수락하면 투표 기능이 자동으로 작동합니다."
 
-#: weblate/trans/models/component.py:1832
+#: weblate/trans/models/component.py:1842
 msgid "Could not add new translation file."
 msgstr "새로운 번역 파일을 추가할 수 없습니다."
 
-#: weblate/trans/models/component.py:1846
+#: weblate/trans/models/component.py:1856
 msgid "The given language is filtered by the language filter."
 msgstr "주어진 언어는 언어 필터에 의해 걸려집니다."
 
-#: weblate/trans/models/component.py:1868
+#: weblate/trans/models/component.py:1878
 msgid "Translation file already exists!"
 msgstr "번역 파일이 이미 존재합니다!"
 
@@ -9384,6 +9376,13 @@ msgstr "보고"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류를 버리지 못했습니다!"
+
+#~ msgid ""
+#~ "You can receive notifications for watched projects and they are shown on "
+#~ "dashboard by default."
+#~ msgstr ""
+#~ "당신이 보았던 프로젝트와 관련된 알림을 받을 수 있습니다. 이것은 당신의 대"
+#~ "시보드에 기본적으로 나타나게 됩니다."
 
 #~ msgid "Bad format string (%s)"
 #~ msgstr "잘못된 형식의 문자열 (%s)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-03 18:33+0000\n"
+"POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2019-04-25 07:49+0000\n"
 "Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -452,7 +452,7 @@ msgstr "Прадвызначаны выгляд панэлі кіравання"
 msgid "Default component list"
 msgstr "Прадвызначаны спіс кампанентаў"
 
-#: weblate/accounts/models.py:448
+#: weblate/accounts/models.py:448 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -6796,14 +6796,6 @@ msgstr "Наладка апавяшчэнняў для %(object)s"
 msgid "Mute notifications for %(object)s"
 msgstr "Выключыць апавяшчэнні для %(object)s"
 
-#: weblate/templates/watch-dropdown.html:22
-msgid ""
-"You can receive notifications for watched projects and they are shown on "
-"dashboard by default."
-msgstr ""
-"Па адсочваемых праектак вы можаце атрымліваць апавяшчэнні, якія "
-"прадвызначана адлюстроўваюцца на вашай панэлі кіравання."
-
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
 msgstr "Адсочваць"
@@ -8108,7 +8100,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Перакладчыкам спачатку прапануюцца кампаненты з вялікім прыярытэтам."
 
-#: weblate/trans/models/component.py:732
+#: weblate/trans/models/component.py:735
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -8116,78 +8108,78 @@ msgstr ""
 "Не атрымалася праверыць SSH-ключ хаста. Калі ласка, дадайце яго на старонцы "
 "SSH у інтэрфейсе адміністратара."
 
-#: weblate/trans/models/component.py:737
+#: weblate/trans/models/component.py:740
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Не ўдалося атрымаць рэпазіторый: %s"
 
-#: weblate/trans/models/component.py:886
+#: weblate/trans/models/component.py:895
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "Адпраўленне выключана для %s."
 
-#: weblate/trans/models/component.py:933
+#: weblate/trans/models/component.py:942
 #, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "Не атрымалася адправіць у адлеглую галіну на %s."
 
-#: weblate/trans/models/component.py:974
+#: weblate/trans/models/component.py:983
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Не атрымалася скінуць адлеглую галіну на %s."
 
-#: weblate/trans/models/component.py:1007
+#: weblate/trans/models/component.py:1016
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Не атрымалася ачысціць рэпазіторый на %s."
 
-#: weblate/trans/models/component.py:1085
+#: weblate/trans/models/component.py:1094
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Не атрымалася змяніць базу  з лакальнай галіны на адлеглую %s."
 
-#: weblate/trans/models/component.py:1092
+#: weblate/trans/models/component.py:1101
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Не атрымалася аб’яднаць адлеглую галіну з %s."
 
-#: weblate/trans/models/component.py:1426
+#: weblate/trans/models/component.py:1436
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Хібная спасылка на праект Weblate, немагчыма стварыць спасылку на звязаны "
 "рэпазіторый!"
 
-#: weblate/trans/models/component.py:1433
+#: weblate/trans/models/component.py:1443
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Хібная спасылка на праект Weblate, немагчыма стварыць спасылку на самаго "
 "сябе!"
 
-#: weblate/trans/models/component.py:1440
+#: weblate/trans/models/component.py:1450
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Хібная спасылка на праект Weblate. Выкарыстоўвайце weblate://праект/"
 "кампанент."
 
-#: weblate/trans/models/component.py:1448
+#: weblate/trans/models/component.py:1458
 msgid "Option is not available for linked repositories."
 msgstr "Параметр недаступны для звязаных рэпазіторыяў."
 
-#: weblate/trans/models/component.py:1457
+#: weblate/trans/models/component.py:1467
 msgid "The filemask did not match any files."
 msgstr "Маска не адпавядае ніводнаму файлу."
 
-#: weblate/trans/models/component.py:1465
+#: weblate/trans/models/component.py:1475
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "Моўны код для %s пусты.  Калі ласка, праверце файлавую маску."
 
-#: weblate/trans/models/component.py:1470
+#: weblate/trans/models/component.py:1480
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Код мовы «%s» занадта доўгі. Калі ласка, праверце файлавую маску."
 
-#: weblate/trans/models/component.py:1474
+#: weblate/trans/models/component.py:1484
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
@@ -8196,16 +8188,16 @@ msgstr ""
 "Знойдзена некалькі файлаў для адной мовы (%s). Калі ласка, наладзьце "
 "файлавую маску і выкарыстоўвайце кампаненты для перакладу розных файлаў."
 
-#: weblate/trans/models/component.py:1492
+#: weblate/trans/models/component.py:1502
 #, python-format
 msgid "Could not parse %d matched files."
 msgstr "Не атрымалася разабраць %d супастаўленых файлаў."
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1520
 msgid "Unrecognized base file for new translations."
 msgstr "Нераспазнаны базавы файл для новых перакладаў."
 
-#: weblate/trans/models/component.py:1514
+#: weblate/trans/models/component.py:1524
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -8213,38 +8205,38 @@ msgstr ""
 "Вы сканфігуравалі Weblate на даданне новых файлаў перакладаў, але не падалі "
 "асноўнага файла."
 
-#: weblate/trans/models/component.py:1523
+#: weblate/trans/models/component.py:1533
 msgid "You can not use a base file for bilingual translation."
 msgstr "Немагчыма выкарыстоўваць базавы файл для дзвюхмоўнага перакладу."
 
-#: weblate/trans/models/component.py:1528
+#: weblate/trans/models/component.py:1538
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Выкарыстанне файла .pot як базавага не падтрымліваецца."
 
-#: weblate/trans/models/component.py:1535
+#: weblate/trans/models/component.py:1545
 msgid "Could not find template file."
 msgstr "Не атрымалася знайсці файл шаблона."
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1551
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Не ўдалося разабраць базавы файл перакладу: %s"
 
-#: weblate/trans/models/component.py:1551
+#: weblate/trans/models/component.py:1561
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Мова шаблона ({0}) не адпавядае зыходнай мове праекта ({1})!"
 
-#: weblate/trans/models/component.py:1558
+#: weblate/trans/models/component.py:1568
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Немагчыма выкарыстоўваць аднамоўны пераклад без базавага файла."
 
-#: weblate/trans/models/component.py:1573
+#: weblate/trans/models/component.py:1583
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Не атрымалася абнавіць рэпазіторый: %s"
 
-#: weblate/trans/models/component.py:1587
+#: weblate/trans/models/component.py:1597
 msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
@@ -8252,30 +8244,30 @@ msgstr ""
 "Альбо запоніце ў URL з інструкцыі, альбо выкарыстайце іншы параметр для "
 "дадання новай мовы."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1604
 msgid "License URL can not be used without a license summary."
 msgstr "URL ліцэнзіі немагчыма выкарыстоўваць без яе сціслага апісання."
 
-#: weblate/trans/models/component.py:1622
+#: weblate/trans/models/component.py:1632
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Не атрымалася праверыць супадзенні файлаў з прычыны хібнага рэгулярнага "
 "выразу."
 
-#: weblate/trans/models/component.py:1634
+#: weblate/trans/models/component.py:1644
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Аўтаматычнае ўхваленне прапаноў працуе толькі з уключаным галасаваннем."
 
-#: weblate/trans/models/component.py:1832
+#: weblate/trans/models/component.py:1842
 msgid "Could not add new translation file."
 msgstr "Не атрымалася дадаць новы файл перакладу."
 
-#: weblate/trans/models/component.py:1846
+#: weblate/trans/models/component.py:1856
 msgid "The given language is filtered by the language filter."
 msgstr "Пададзеная мова фільтруецца моўным фільтрам."
 
-#: weblate/trans/models/component.py:1868
+#: weblate/trans/models/component.py:1878
 msgid "Translation file already exists!"
 msgstr "Файл перакладу ўжо існуе!"
 
@@ -9585,6 +9577,13 @@ msgstr "Справаздачы"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Не атрымалася адхіліць памылку канфігурацыі!"
+
+#~ msgid ""
+#~ "You can receive notifications for watched projects and they are shown on "
+#~ "dashboard by default."
+#~ msgstr ""
+#~ "Па адсочваемых праектак вы можаце атрымліваць апавяшчэнні, якія "
+#~ "прадвызначана адлюстроўваюцца на вашай панэлі кіравання."
 
 #~ msgid "Bad format string (%s)"
 #~ msgstr "Хібны фармат радка (%s)"
