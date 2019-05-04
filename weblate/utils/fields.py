@@ -28,6 +28,11 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 class JSONField(models.TextField):
     """JSON serializaed TextField"""
+
+    def __init__(self, **kwargs):
+        kwargs['default'] = {}
+        super(JSONField, self).__init__(**kwargs)
+
     def to_python(self, value):
         """Convert a string from the database to a Python value."""
         if not value:
