@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import os
 
 import bleach
 
@@ -27,6 +26,7 @@ from django.utils.safestring import mark_safe
 
 from django.utils.functional import lazy
 from django.utils import translation
+from django.utils.translation import trans_real
 
 import six
 
@@ -94,14 +94,12 @@ class EscapeTranslate(object):
         return getattr(translation, name)
 
 
-original_activate = translation.activate
-
-def activate_hack(language):
+class WeblateTranslation(trans_real.DjangoTranslation):
     """
     Workaround to enforce our plural forms over Django ones.
 
-    We hook into translation.activate and load Weblate locales later and patch
-    Django translation to use Weblate plurals.
+    We hook into merge and overwrite plural with each merge. As Weblate locales
+    load as last this way we end up using Weblate plurals.
 
     When loading locales, Django uses it's own plural forms for all
     localizations. This can break plurals for other applications as they can
@@ -111,23 +109,11 @@ def activate_hack(language):
 
     See https://code.djangoproject.com/ticket/30439
     """
-    result = original_activate(language)
-
-    if language:
-        catalog = translation._trans.catalog()
-        if not getattr(catalog, '__patched', False):
-            weblate_trans = catalog._new_gnu_trans(
-                os.path.join(
-                    os.path.dirname(os.path.dirname(__file__)),
-                    'locale'
-                )
-            )
-            # NullTranslations do not have plural
-            if hasattr(weblate_trans, 'plural'):
-                catalog.plural = weblate_trans.plural
-            setattr(catalog, '__patched', True)
-
-    return result
+    def merge(self, other):
+        super(WeblateTranslation, self).merge(other)
+        # Override plural
+        if hasattr(other, 'plural'):
+            self.plural = other.plural
 
 
 def monkey_patch_translate():
@@ -137,4 +123,4 @@ def monkey_patch_translate():
     django.template.base.gettext_lazy = safe_ugettext_lazy
     django.template.base.pgettext_lazy = safe_pgettext_lazy
 
-    translation.activate = activate_hack
+    trans_real.DjangoTranslation = WeblateTranslation
