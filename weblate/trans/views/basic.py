@@ -80,7 +80,7 @@ def show_engage(request, project, lang=None):
 
     # Handle language parameter
     if lang is not None:
-        language = Language.objects.try_get(code=lang)
+        language = get_object_or_404(Language, code=lang)
     else:
         language = None
     full_stats = obj.stats
