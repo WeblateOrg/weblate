@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import os
+
 import bleach
 
 import django.templatetags.i18n
@@ -92,9 +94,47 @@ class EscapeTranslate(object):
         return getattr(translation, name)
 
 
+original_activate = translation.activate
+
+def activate_hack(language):
+    """
+    Workaround to enforce our plural forms over Django ones.
+
+    We hook into translation.activate and load Weblate locales later and patch
+    Django translation to use Weblate plurals.
+
+    When loading locales, Django uses it's own plural forms for all
+    localizations. This can break plurals for other applications as they can
+    have different plural form. We don't use much of Django messages in the UI
+    (with exception of the admin interface), so it's better to possibly break
+    Django translations rather than breaking our own ones.
+
+    See https://code.djangoproject.com/ticket/30439
+    """
+    result = original_activate(language)
+
+    if language:
+        catalog = translation._trans.catalog()
+        if not getattr(catalog, '__patched', False):
+            weblate_trans = catalog._new_gnu_trans(
+                os.path.join(
+                    os.path.dirname(os.path.dirname(__file__)),
+                    'locale'
+                )
+            )
+            # NullTranslations do not have plural
+            if hasattr(weblate_trans, 'plural'):
+                catalog.plural = weblate_trans.plural
+            setattr(catalog, '__patched', True)
+
+    return result
+
+
 def monkey_patch_translate():
     """Mokey patch translate tags to emmit escaped strings."""
     django.templatetags.i18n.translation = EscapeTranslate()
     django.template.base.ugettext_lazy = safe_ugettext_lazy
     django.template.base.gettext_lazy = safe_ugettext_lazy
     django.template.base.pgettext_lazy = safe_pgettext_lazy
+
+    translation.activate = activate_hack

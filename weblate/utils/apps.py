@@ -30,7 +30,7 @@ from weblate.utils.checks import (
 )
 from weblate.utils.fonts import check_fonts
 from weblate.utils.requirements import check_requirements
-from weblate.utils.template_hacks import monkey_patch_translate
+from weblate.utils.django_hacks import monkey_patch_translate
 
 
 class UtilsConfig(AppConfig):
