@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-03 18:33+0000\n"
-"PO-Revision-Date: 2019-04-27 08:24+0000\n"
+"PO-Revision-Date: 2019-05-04 12:42+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -62,10 +62,8 @@ msgid "Email"
 msgstr "E-post"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "Du kan lägga till fler e-postadresser under fliken Autentisering."
+msgstr "Du kan lägga till fler e-postadresser nedan."
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -376,21 +374,16 @@ msgid "Editor link"
 msgstr "Länk till editor"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"Ange en egen länk till den öppna källkoden. Du kan använda {{ branch }} för "
-"branch, {{ filename }} och {{ line }} som filnamn och platshållare. Vanligen "
-"är något som editor://open/?file={{ filename }}{{ line }} ett bra alternativ."
+"Ange en egen länk till den öppna källkoden. Du kan använda {{branch}} för "
+"branch, {{filename}} och {{line}} som filnamn och radnummer. Vanligtvis är "
+"något liknande editor://open/?file={{filename}}&line={{line}} ett fungerande "
+"alternativ."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -514,8 +507,6 @@ msgid "New suggestion"
 msgstr "Nytt förslag"
 
 #: weblate/accounts/notifications.py:365
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
 msgstr "Kommentera skriven översättningen"
 
@@ -2233,8 +2224,6 @@ msgstr "Höger till vänster"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Språk"
@@ -4672,16 +4661,13 @@ msgid "Change word"
 msgstr "Ändra ord"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "Engagera dig i %(project)s."
+msgstr "Engagera dig i %(project)s"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "Hej, och tack för visat intresse."
+msgstr "Hej, och tack för visat intresse"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4693,37 +4679,25 @@ msgstr ""
 "för att underlätta översättning för både utvecklare och översättare."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Strängar"
+msgstr[0] "Sträng"
 msgstr[1] "Strängar"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Översättningsprojektet för %(project)s till svenska har för närvarande "
-"%(total)s strängar för översättning och är %(percent)s%% klart."
+"Svenska översättningsprojektet för %(project)s har för närvarande "
+"<strong>%(total)s strängar</strong> för översättning och är "
+"<strong>%(percent)s%% klart</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4735,13 +4709,15 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Översättningsprojektet för %(project)s har för närvarande %(total)s strängar "
-"för översättning och översätts till %(languages)s språk. Totalt är dessa "
-"översättningar %(percent)s%% klara."
+"Översättningsprojektet för %(project)s har för närvarande <strong>%(total)s "
+"strängar</strong> för översättning och översätts till <strong>%(languages)s "
+"språk</strong>. Totalt är dessa översättningar <strong>%(percent)s%% "
+"klara</strong>."
 msgstr[1] ""
-"Översättningsprojektet för %(project)s har för närvarande %(total)s strängar "
-"för översättning och översätts till %(languages)s språk. Totalt är dessa "
-"översättningar %(percent)s%% klara."
+"Översättningsprojektet för %(project)s har för närvarande <strong>%(total)s "
+"strängar</strong> för översättning och översätts till <strong>%(languages)s "
+"språk</strong>. Totalt är dessa översättningar <strong>%(percent)s%% "
+"klara</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -7302,6 +7278,7 @@ msgstr "Kommentar till översättningen, diskutera med andra översättare"
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
 msgstr ""
+"Du kan inkludera externa länkar eller nämna andra användare genom @username."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7850,16 +7827,12 @@ msgid "Repository browser"
 msgstr "Förrådsutforskare"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Länk till arkivutforskare, använd {{ branch }} för gren, {{ filename }} och "
-"{{ line }} för filnamn och radnummer."
+"Länk till arkivutforskare, använd {{branch}} för gren, {{filename}} och "
+"{{line}} för filnamn och radnummer."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9245,20 +9218,17 @@ msgstr "översatt"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "Odefinierad variabel: \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "Kunde inte visa mallen: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Ändra inte detta objekt här, använd Weblate-gränssnittet i stället."
+msgstr "Formatsträngarna stöds inte längre. Använd mallspråket istället."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
