@@ -19,14 +19,14 @@
 #
 from __future__ import unicode_literals
 
+import six.moves
 from django.conf import settings
 from django.db import models
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import ugettext as _, ugettext_lazy
-
-import six.moves
+from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin

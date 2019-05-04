@@ -20,17 +20,15 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from datetime import timedelta
 import time
+from datetime import timedelta
 
 from celery.schedules import crontab
-
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import get_connection
 from django.utils.timezone import now
-
-from social_django.models import Partial, Code
+from social_django.models import Code, Partial
 
 from weblate.celery import app
 

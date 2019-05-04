@@ -20,10 +20,10 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from weblate.billing.models import Invoice, Billing
+from weblate.billing.models import Billing, Invoice
 
 
 @login_required

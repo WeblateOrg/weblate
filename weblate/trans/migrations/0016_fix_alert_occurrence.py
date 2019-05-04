@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations
 from django.db.models import F, Func, Value
 
+
 def fix_alert_occurence(apps, schema_editor):
     Alert = apps.get_model('trans', 'Alert')
     Alert.objects.filter(

@@ -20,20 +20,19 @@
 
 from __future__ import unicode_literals
 
-from ssl import CertificateError
 import hashlib
 import os.path
-
-from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.parse import quote
+from ssl import CertificateError
 
 from django.conf import settings
 from django.contrib.staticfiles import finders
-from django.core.cache import caches, InvalidCacheBackendError
+from django.core.cache import InvalidCacheBackendError, caches
+from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
-from django.urls import reverse
+from six.moves.urllib.parse import quote
+from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
 from weblate.utils.errors import report_error

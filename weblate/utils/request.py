@@ -20,9 +20,8 @@
 
 from __future__ import unicode_literals
 
-from django.utils.encoding import force_text
-
 import user_agents
+from django.utils.encoding import force_text
 
 
 def get_ip_address(request):

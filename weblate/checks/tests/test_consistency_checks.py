@@ -23,9 +23,9 @@ Tests for quality checks.
 """
 
 from django.test import TestCase
-from weblate.checks.consistency import (
-    PluralsCheck, SamePluralsCheck, TranslatedCheck,
-)
+
+from weblate.checks.consistency import (PluralsCheck, SamePluralsCheck,
+                                        TranslatedCheck)
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.tests.test_views import ViewTestCase
 

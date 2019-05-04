@@ -21,21 +21,20 @@
 import os.path
 from io import BytesIO
 
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.translation import get_language, pgettext
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
+from PIL import Image, ImageDraw
+
+from weblate.utils.fonts import get_font, is_base
+from weblate.utils.site import get_site_url
+
 try:
     from bidi.algorithm import get_display
 except ImportError:
     from django.utils.encoding import force_text as get_display
-
-from django.urls import reverse
-from django.utils.translation import (
-    ugettext as _, pgettext, get_language, ungettext,
-)
-from django.template.loader import render_to_string
-
-from PIL import Image, ImageDraw
-
-from weblate.utils.fonts import is_base, get_font
-from weblate.utils.site import get_site_url
 
 
 COLOR_DATA = {

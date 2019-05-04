@@ -20,21 +20,21 @@
 
 """Test for user handling."""
 
-import pickle
 import os
+import pickle
 import zlib
 
-from django.test import TestCase
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test import TestCase
 
+from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
-from weblate.accounts.models import Profile
 
 USERDATA_JSON = get_test_file('userdata.json')
 

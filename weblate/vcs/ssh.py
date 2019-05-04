@@ -20,18 +20,18 @@
 
 from __future__ import unicode_literals
 
-from base64 import b64decode, b64encode
-import subprocess
 import hashlib
-from distutils.spawn import find_executable
 import os
+import subprocess
+from base64 import b64decode, b64encode
+from distutils.spawn import find_executable
 
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
-from weblate.utils import messages
 from weblate.trans.util import get_clean_env
+from weblate.utils import messages
 from weblate.utils.data import data_dir
 
 # SSH key files

@@ -22,32 +22,32 @@ from __future__ import unicode_literals
 
 import time
 
-from django.contrib.messages import get_messages
-from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_POST
-from django.utils.translation import ugettext as _, ungettext
-from django.utils.encoding import force_text
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
+from django.views.decorators.http import require_POST
 
+from weblate.checks import CHECKS
+from weblate.trans.autofixes import fix_target
+from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.forms import (AntispamForm, AutoForm, CommentForm,
+                                 InlineWordForm, MergeForm, NewUnitForm,
+                                 RevertForm, SearchForm, TranslationForm,
+                                 ZenTranslationForm)
+from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit
+from weblate.trans.util import join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
-from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary
-from weblate.trans.autofixes import fix_target
-from weblate.trans.forms import (
-    TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm, NewUnitForm,
-)
-from weblate.utils.views import (
-    get_translation, import_message, show_form_errors,
-)
-from weblate.checks import CHECKS
-from weblate.trans.util import join_plural, render, redirect_next
-from weblate.trans.autotranslate import AutoTranslate
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.ratelimit import session_ratelimit_post, revert_rate_limit
+from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
+from weblate.utils.views import (get_translation, import_message,
+                                 show_form_errors)
 
 
 def get_other_units(unit):

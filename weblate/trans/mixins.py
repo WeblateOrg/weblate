@@ -25,8 +25,8 @@ import os
 from django.urls import reverse
 from django.utils.functional import cached_property
 
-from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_user_display
+from weblate.logger import LOGGER
 
 
 class URLMixin(object):

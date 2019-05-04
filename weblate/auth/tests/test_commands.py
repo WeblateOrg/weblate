@@ -20,12 +20,12 @@
 
 """Test for user handling."""
 
-from django.test import TestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test import TestCase
 
-from weblate.auth.models import User, Group
-from weblate.trans.tests.utils import get_test_file, TempDirMixin
+from weblate.auth.models import Group, User
+from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 
 class CommandTest(TestCase, TempDirMixin):

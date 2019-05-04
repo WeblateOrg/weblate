@@ -22,8 +22,8 @@
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.component import Component
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class LockTest(ViewTestCase):

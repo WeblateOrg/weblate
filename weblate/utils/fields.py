@@ -22,8 +22,8 @@ from __future__ import unicode_literals
 
 import json
 
-from django.db import models
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import models
 
 
 class JSONField(models.TextField):

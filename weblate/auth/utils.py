@@ -22,9 +22,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
 
-from weblate.auth.data import (
-    PERMISSIONS, GLOBAL_PERMISSIONS, ROLES, GROUPS, SELECTION_ALL
-)
+from weblate.auth.data import (GLOBAL_PERMISSIONS, GROUPS, PERMISSIONS, ROLES,
+                               SELECTION_ALL)
 
 
 def migrate_permissions_list(model, permissions):

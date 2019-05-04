@@ -20,15 +20,15 @@
 
 from datetime import datetime
 
+from django.conf import settings
 from django.utils.html import escape
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-from django.conf import settings
+from django.utils.translation import ugettext as _
 
 import weblate
 import weblate.screenshots.views
-from weblate.utils.site import get_site_url, get_site_domain
+from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'

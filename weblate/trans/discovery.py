@@ -20,9 +20,9 @@
 
 from __future__ import unicode_literals
 
-from itertools import chain
 import os
 import re
+from itertools import chain
 
 from django.conf import settings
 from django.db.models import Q
@@ -31,9 +31,9 @@ from django.utils.text import slugify
 
 from weblate.celery import app
 from weblate.logger import LOGGER
-from weblate.trans.models import Component, Project, Change
-from weblate.utils.render import render_template
+from weblate.trans.models import Change, Component, Project
 from weblate.trans.util import path_separator
+from weblate.utils.render import render_template
 
 # Attributes to copy from main component
 COPY_ATTRIBUTES = (

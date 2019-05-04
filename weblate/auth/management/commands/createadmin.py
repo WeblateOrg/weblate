@@ -20,10 +20,11 @@
 
 from __future__ import unicode_literals
 
-from random import SystemRandom
 import string
+from random import SystemRandom
 
 from django.core.management.base import BaseCommand, CommandError
+
 from weblate.auth.models import User
 
 

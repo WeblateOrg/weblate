@@ -31,44 +31,36 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
-
-
 from rest_framework.authtoken.admin import TokenAdmin
 from rest_framework.authtoken.models import Token
+from social_django.admin import (AssociationOption, NonceOption,
+                                 UserSocialAuthOption)
+from social_django.models import Association, Nonce, UserSocialAuth
 
-from social_django.admin import (
-    UserSocialAuthOption, NonceOption, AssociationOption,
-)
-from social_django.models import UserSocialAuth, Nonce, Association
-
-from weblate.accounts.admin import (
-    ProfileAdmin, VerifiedEmailAdmin, AuditLogAdmin,
-)
+import weblate.wladmin.views
+from weblate.accounts.admin import (AuditLogAdmin, ProfileAdmin,
+                                    VerifiedEmailAdmin)
 from weblate.accounts.forms import LoginForm
-from weblate.accounts.models import Profile, VerifiedEmail, AuditLog
-from weblate.auth.admin import (
-    WeblateUserAdmin, WeblateGroupAdmin, AutoGroupAdmin, RoleAdmin,
-)
-from weblate.auth.models import User, Group, Role, AutoGroup
+from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
+from weblate.auth.admin import (AutoGroupAdmin, RoleAdmin, WeblateGroupAdmin,
+                                WeblateUserAdmin)
+from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
-from weblate.trans.admin import (
-    ProjectAdmin, ComponentAdmin, TranslationAdmin,
-    UnitAdmin, SuggestionAdmin, CommentAdmin, DictionaryAdmin,
-    ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
-    ContributorAgreementAdmin,
-)
-from weblate.trans.models import (
-    Project, Component, Translation, ContributorAgreement,
-    Unit, Suggestion, Comment, Dictionary, Change,
-    Source, WhiteboardMessage, ComponentList,
-)
+from weblate.trans.admin import (ChangeAdmin, CommentAdmin, ComponentAdmin,
+                                 ComponentListAdmin, ContributorAgreementAdmin,
+                                 DictionaryAdmin, ProjectAdmin, SourceAdmin,
+                                 SuggestionAdmin, TranslationAdmin, UnitAdmin,
+                                 WhiteboardMessageAdmin)
+from weblate.trans.models import (Change, Comment, Component, ComponentList,
+                                  ContributorAgreement, Dictionary, Project,
+                                  Source, Suggestion, Translation, Unit,
+                                  WhiteboardMessage)
 from weblate.utils import messages
-import weblate.wladmin.views
 from weblate.wladmin.models import ConfigurationError
 
 

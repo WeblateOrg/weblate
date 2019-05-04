@@ -27,16 +27,14 @@ import shutil
 from django.core.management.color import no_style
 from django.db import connection
 from django.http.request import HttpRequest
-from django.test import TestCase, LiveServerTestCase
+from django.test import LiveServerTestCase, TestCase
 from django.test.utils import override_settings
 
-from weblate.auth.models import User, Group
+from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.trans.models import (
-    Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
-    Component,
-)
 from weblate.lang.models import Language
+from weblate.trans.models import (AutoComponentList, Component, ComponentList,
+                                  Project, Source, Unit, WhiteboardMessage)
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.state import STATE_TRANSLATED
 

@@ -27,9 +27,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.checks.models import Check
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import (
-    Project, Component, Unit, Suggestion,
-)
+from weblate.trans.models import Component, Project, Suggestion, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED

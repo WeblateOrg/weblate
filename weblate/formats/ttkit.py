@@ -25,34 +25,26 @@ import importlib
 import inspect
 import re
 
+import six
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-
 from lxml.etree import XMLSyntaxError
 
-import six
-
+import weblate
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
 from translate.storage.csvl10n import csv
 from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
-from translate.storage.ts2 import tsfile, tsunit
-from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
-
-import weblate
-
-from weblate.formats.base import TranslationUnit, TranslationFormat
-
-from weblate.trans.util import (
-    get_string, join_plural, xliff_string_to_rich, rich_to_xliff_string
-)
-
+from translate.storage.ts2 import tsfile, tsunit
+from translate.storage.xliff import ID_SEPARATOR, xlifffile
+from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.trans.util import (get_string, join_plural, rich_to_xliff_string,
+                                xliff_string_to_rich)
 from weblate.utils.errors import report_error
-
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 SUPPORTS_FUZZY = (pounit, tsunit)

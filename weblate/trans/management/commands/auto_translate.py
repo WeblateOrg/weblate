@@ -24,10 +24,10 @@ from django.core.management.base import CommandError
 from django.http.request import HttpRequest
 
 from weblate.auth.models import User
-from weblate.trans.models import Component
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.trans.models import Component
 
 
 class Command(WeblateTranslationCommand):

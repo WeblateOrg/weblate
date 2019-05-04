@@ -20,10 +20,10 @@
 
 from django.contrib.auth.models import Group as DjangoGroup
 
-from weblate.auth.data import SELECTION_MANUAL, SELECTION_ALL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
-from weblate.trans.models import Project, ComponentList
+from weblate.trans.models import ComponentList, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 

@@ -22,10 +22,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineTranslation, MachineTranslationError, MissingConfiguration
-)
-
+from weblate.machinery.base import (MachineTranslation,
+                                    MachineTranslationError,
+                                    MissingConfiguration)
 
 GOOGLE_API_ROOT = 'https://translation.googleapis.com/language/translate/v2/'
 

@@ -19,20 +19,21 @@
 #
 """Helper methods for views."""
 
-from time import mktime
 import os
+from time import mktime
 from zipfile import ZipFile
 
-from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.views.generic.edit import FormView
+from django.core.paginator import EmptyPage, Paginator
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
-from django.utils.translation import activate, ugettext as _
+from django.utils.translation import activate
+from django.utils.translation import ugettext as _
+from django.views.generic.edit import FormView
 
-from weblate.utils import messages
 from weblate.formats.exporters import get_exporter
-from weblate.trans.models import Project, Component, Translation
+from weblate.trans.models import Component, Project, Translation
+from weblate.utils import messages
 
 
 def get_page_limit(request, default):

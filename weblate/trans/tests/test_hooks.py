@@ -24,12 +24,12 @@ from __future__ import unicode_literals
 
 import json
 
-from django.urls import reverse
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from django.urls import reverse
 
-from weblate.trans.views.hooks import HOOK_HANDLERS
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.views.hooks import HOOK_HANDLERS
 
 GITHUB_PAYLOAD = '''
 {
@@ -884,6 +884,7 @@ class HooksViewTest(ViewTestCase):
 
 class HookBackendTestCase(SimpleTestCase):
     hook = None
+
     def assert_hook(self, payload, expected):
         handler = HOOK_HANDLERS[self.hook]
         result = handler(json.loads(payload))
@@ -932,7 +933,6 @@ class BitbucketBackendTest(HookBackendTestCase):
                 'service_long_name': 'Bitbucket'
             }
         )
-
 
     def test_hg_no_commit(self):
         self.assert_hook(

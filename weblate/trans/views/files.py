@@ -20,17 +20,17 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import ugettext as _, ungettext
-from django.utils.encoding import force_text
 from django.shortcuts import redirect
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from django.views.decorators.http import require_POST
 
+from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.trans.forms import get_upload_form, DownloadForm
-from weblate.utils.views import (
-    get_translation, download_translation_file, show_form_errors,
-)
+from weblate.utils.views import (download_translation_file, get_translation,
+                                 show_form_errors)
 
 
 def download_translation(request, project, component, lang):

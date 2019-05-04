@@ -26,14 +26,13 @@ from django.core.management.base import CommandError
 from django.http import HttpRequest
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
-
 from six import StringIO
 
-from weblate.memory.machine import WeblateMemory
-from weblate.memory.storage import TranslationMemory, CATEGORY_FILE
-from weblate.trans.tests.utils import get_test_file
-from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.checks.tests.test_checks import MockUnit
+from weblate.memory.machine import WeblateMemory
+from weblate.memory.storage import CATEGORY_FILE, TranslationMemory
+from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import get_test_file
 
 TEST_DOCUMENT = {
     'source_language': 'en',

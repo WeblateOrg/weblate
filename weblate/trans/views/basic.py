@@ -20,37 +20,33 @@
 
 from __future__ import unicode_literals
 
+import django.views.defaults
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import HttpResponse
-from django.shortcuts import redirect, get_object_or_404
-from django.views.decorators.cache import never_cache
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-import django.views.defaults
+from django.views.decorators.cache import never_cache
 
 from weblate.formats.exporters import list_exporters
+from weblate.lang.models import Language
+from weblate.trans.forms import (AutoForm, BulkStateForm, ComponentMoveForm,
+                                 ComponentRenameForm, DeleteForm, DownloadForm,
+                                 NewUnitForm, ProjectRenameForm, ReplaceForm,
+                                 ReportsForm, ReviewForm, SearchForm,
+                                 WhiteboardForm, get_new_language_form,
+                                 get_upload_form)
+from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import get_paginator
-from weblate.trans.models import Translation, ComponentList, Change, Unit
-from weblate.lang.models import Language
-from weblate.trans.forms import (
-    get_upload_form, SearchForm,
-    AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm, BulkStateForm, DownloadForm,
-    DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
-    WhiteboardForm,
-)
-from weblate.utils.views import (
-    get_project, get_component, get_translation,
-    try_set_language,
-)
-from weblate.trans.util import render, sort_objects, sort_unicode
+from weblate.utils.views import (get_component, get_paginator, get_project,
+                                 get_translation, try_set_language)
 
 
 def optional_form(form, perm_user, perm, perm_obj, **kwargs):

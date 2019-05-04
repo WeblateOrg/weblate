@@ -20,16 +20,14 @@
 
 from __future__ import unicode_literals
 
-from itertools import chain
 import subprocess
+from itertools import chain
 
 from django.apps import apps
 from django.utils.functional import cached_property
 
-from weblate.addons.events import (
-    EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD, EVENT_POST_COMMIT,
-    EVENT_POST_PUSH,
-)
+from weblate.addons.events import (EVENT_POST_COMMIT, EVENT_POST_PUSH,
+                                   EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD)
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template

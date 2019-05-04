@@ -21,10 +21,9 @@ from unittest import TestCase
 
 from django.core.exceptions import ValidationError
 
-from weblate.utils.validators import (
-    clean_fullname, validate_fullname, validate_filename,
-)
 from weblate.utils.render import validate_editor
+from weblate.utils.validators import (clean_fullname, validate_filename,
+                                      validate_fullname)
 
 
 class EditorValidatorTest(TestCase):

@@ -20,13 +20,13 @@
 
 from __future__ import unicode_literals
 
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
 
-from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
+from weblate.trans.models.change import Change
 from weblate.trans.util import redirect_param
 from weblate.utils.views import get_component, show_form_errors
 

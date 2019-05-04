@@ -22,16 +22,14 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.forms import HiddenInput
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 
-from weblate.trans.forms import (
-    ProjectCreateForm, ComponentCreateForm, ComponentInitCreateForm,
-    ComponentDiscoverForm,
-)
-from weblate.trans.models import Project, Component, Change
+from weblate.trans.forms import (ComponentCreateForm, ComponentDiscoverForm,
+                                 ComponentInitCreateForm, ProjectCreateForm)
+from weblate.trans.models import Change, Component, Project
 
 
 class BaseCreateView(CreateView):

@@ -23,37 +23,33 @@ from __future__ import unicode_literals
 import datetime
 
 from appconf import AppConf
-
-from django.db import models
-from django.db.models import Q
-from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
-from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.encoding import python_2_unicode_compatible
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import LANGUAGE_SESSION_KEY
-
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext
+from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-
 from social_django.models import UserSocialAuth
 
+from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import (
-    NOTIFICATIONS, FREQ_CHOICES, SCOPE_CHOICES,
-)
+from weblate.accounts.notifications import (FREQ_CHOICES, NOTIFICATIONS,
+                                            SCOPE_CHOICES)
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.utils import messages
-from weblate.accounts.avatar import get_user_display
-from weblate.utils.render import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
+from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 
 

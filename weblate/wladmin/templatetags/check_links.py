@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from __future__ import unicode_literals
+
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _

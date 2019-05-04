@@ -26,7 +26,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView, UpdateView
 
-from weblate.addons.models import Addon, ADDONS
+from weblate.addons.models import ADDONS, Addon
 from weblate.utils import messages
 from weblate.utils.views import ComponentViewMixin
 

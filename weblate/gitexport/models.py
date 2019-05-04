@@ -18,14 +18,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.urls import reverse
-from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+from django.urls import reverse
 
 from weblate.trans.models import Component, Project
-from weblate.utils.site import get_site_url
 from weblate.utils.decorators import disable_for_loaddata
-
+from weblate.utils.site import get_site_url
 
 SUPPORTED_VCS = frozenset(('git', 'gerrit', 'github', 'subversion'))
 

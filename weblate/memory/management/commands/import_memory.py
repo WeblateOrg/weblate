@@ -24,7 +24,7 @@ import argparse
 
 from django.core.management.base import BaseCommand, CommandError
 
-from weblate.memory.storage import TranslationMemory, MemoryImportError
+from weblate.memory.storage import MemoryImportError, TranslationMemory
 
 
 class Command(BaseCommand):

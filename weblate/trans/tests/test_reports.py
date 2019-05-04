@@ -26,8 +26,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.reports import generate_credits, generate_counts
-
+from weblate.trans.views.reports import generate_counts, generate_credits
 
 COUNTS_DATA = [{
     'count': 1,

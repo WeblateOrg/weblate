@@ -23,26 +23,24 @@ from __future__ import unicode_literals
 import os
 import shutil
 
-from django.db.models.signals import post_delete, post_save, m2m_changed
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 
 from weblate.celery import app
-from weblate.trans.models.alert import Alert
-from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
-from weblate.trans.models.project import Project
+from weblate.trans.models.agreement import ContributorAgreement
+from weblate.trans.models.alert import Alert
+from weblate.trans.models.change import Change
+from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
+from weblate.trans.models.componentlist import AutoComponentList, ComponentList
+from weblate.trans.models.dictionary import Dictionary
+from weblate.trans.models.project import Project
+from weblate.trans.models.source import Source
+from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.comment import Comment
-from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.change import Change
-from weblate.trans.models.dictionary import Dictionary
-from weblate.trans.models.source import Source
 from weblate.trans.models.whiteboard import WhiteboardMessage
-from weblate.trans.models.componentlist import (
-    ComponentList, AutoComponentList,
-)
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly

@@ -26,10 +26,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import force_text
 
-from weblate.trans.util import (
-    get_clean_env,
-    add_configuration_error, delete_configuration_error,
-)
+from weblate.trans.util import (add_configuration_error,
+                                delete_configuration_error, get_clean_env)
 
 
 def generate_gpg_key():

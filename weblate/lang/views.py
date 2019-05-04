@@ -18,18 +18,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render, redirect
 from django.http import Http404
-from django.utils.translation import ugettext as _
+from django.shortcuts import redirect, render
 from django.utils.http import urlencode
+from django.utils.translation import ugettext as _
 
 from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
-from weblate.utils.views import get_project
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import get_paginator
+from weblate.utils.views import get_paginator, get_project
 
 
 def show_languages(request):

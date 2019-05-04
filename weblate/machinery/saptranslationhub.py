@@ -21,14 +21,13 @@
 import base64
 import json
 
-from django.conf import settings
-
 import six
+from django.conf import settings
 from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
-from weblate.utils.site import get_site_url
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from weblate.utils.site import get_site_url
 
 
 class SAPTranslationHub(MachineTranslation):

@@ -21,19 +21,18 @@
 from __future__ import unicode_literals
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div
+from crispy_forms.layout import Div, Field, Layout
 from crispy_forms.utils import TEMPLATE_PACK
-
 from django import forms
 from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
+from weblate.trans.discovery import ComponentDiscovery
 from weblate.utils.render import validate_render
-from weblate.utils.validators import validate_re, validate_filename
+from weblate.utils.validators import validate_filename, validate_re
 
 
 class BaseAddonForm(forms.Form):

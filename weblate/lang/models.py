@@ -20,24 +20,23 @@
 
 from __future__ import unicode_literals
 
-from collections import defaultdict
 import gettext
-from itertools import chain
 import re
+from collections import defaultdict
+from itertools import chain
 
 from appconf import AppConf
-
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.utils import OperationalError
-from django.utils.functional import cached_property
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import (
-    ugettext as _, ugettext_lazy, pgettext_lazy,
-)
+from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
+from django.utils.translation import pgettext_lazy
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
 from weblate.lang import data
 from weblate.langdata import languages

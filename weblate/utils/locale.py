@@ -20,8 +20,8 @@
 
 from __future__ import absolute_import
 
-from locale import setlocale, getlocale, LC_ALL, Error
 from contextlib import contextmanager
+from locale import LC_ALL, Error, getlocale, setlocale
 
 
 @contextmanager

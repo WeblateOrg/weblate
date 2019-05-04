@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from glob import glob
 import os
+from glob import glob
 
 from django.core.management import call_command
 from django.test import SimpleTestCase

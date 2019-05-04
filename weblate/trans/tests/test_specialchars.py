@@ -26,9 +26,8 @@ from __future__ import unicode_literals
 
 from unittest import TestCase
 
-from django.test.utils import override_settings
-
 import six
+from django.test.utils import override_settings
 
 from weblate.lang.models import Language
 from weblate.trans.specialchars import get_special_chars

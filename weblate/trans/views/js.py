@@ -18,26 +18,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404, JsonResponse
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 
+from weblate.checks import CHECKS
 from weblate.checks.models import Check
-from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.models import Unit, Change
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
-from weblate.utils.errors import report_error
-from weblate.utils.views import (
-    get_project, get_component, get_translation
-)
-from weblate.trans.forms import PriorityForm, CheckFlagsForm, ContextForm
-from weblate.trans.validators import EXTRA_FLAGS
-from weblate.checks import CHECKS
-from weblate.utils.hash import checksum_to_hash
+from weblate.screenshots.forms import ScreenshotForm
+from weblate.trans.forms import CheckFlagsForm, ContextForm, PriorityForm
+from weblate.trans.models import Change, Unit
 from weblate.trans.util import sort_objects
+from weblate.trans.validators import EXTRA_FLAGS
+from weblate.utils.errors import report_error
+from weblate.utils.hash import checksum_to_hash
+from weblate.utils.views import get_component, get_project, get_translation
 
 
 def translate(request, unit_id, service):

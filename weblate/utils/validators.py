@@ -18,21 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from io import BytesIO
 import gettext
 import os
 import re
 import sys
-
-from PIL import Image
+from io import BytesIO
 
 import six
-
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
-
+from PIL import Image
 
 USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
 

@@ -19,41 +19,39 @@
 #
 
 from __future__ import unicode_literals
+
 import json
 
-from botocore.stub import Stubber, ANY
-
+import httpretty
+from botocore.stub import ANY, Stubber
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
-import httpretty
-
+from weblate.checks.tests.test_checks import MockUnit
+from weblate.machinery.apertium import ApertiumAPYTranslation
+from weblate.machinery.aws import AWSTranslation
+from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
+from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.deepl import DeepLTranslation
+from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.glosbe import GlosbeTranslation
+from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
+from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
+from weblate.machinery.microsoftterminology import (
+    MST_API_URL, MicrosoftTerminologyService)
+from weblate.machinery.mymemory import MyMemoryTranslation
+from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
+from weblate.machinery.saptranslationhub import SAPTranslationHub
+from weblate.machinery.tmserver import AMAGAMA_LIVE, AmagamaTranslation
+from weblate.machinery.weblatetm import WeblateTranslation
+from weblate.machinery.yandex import YandexTranslation
+from weblate.machinery.youdao import YoudaoTranslation
+from weblate.trans.models.unit import Unit
 from weblate.trans.search import update_fulltext
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.models.unit import Unit
-from weblate.machinery.base import MachineTranslationError
-from weblate.machinery.baidu import BaiduTranslation, BAIDU_API
-from weblate.machinery.dummy import DummyTranslation
-from weblate.machinery.deepl import DeepLTranslation
-from weblate.machinery.glosbe import GlosbeTranslation
-from weblate.machinery.mymemory import MyMemoryTranslation
-from weblate.machinery.apertium import ApertiumAPYTranslation
-from weblate.machinery.aws import AWSTranslation
-from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
-from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
-from weblate.machinery.microsoftterminology import (
-    MicrosoftTerminologyService, MST_API_URL,
-)
-from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
-from weblate.machinery.yandex import YandexTranslation
-from weblate.machinery.youdao import YoudaoTranslation
-from weblate.machinery.netease import NeteaseSightTranslation, NETEASE_API_ROOT
-from weblate.machinery.saptranslationhub import SAPTranslationHub
-from weblate.machinery.weblatetm import WeblateTranslation
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.utils.state import STATE_TRANSLATED
 
 GLOSBE_JSON = '''

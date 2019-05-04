@@ -21,16 +21,15 @@
 
 from __future__ import unicode_literals
 
-from hashlib import md5
 import json
 import random
-
-from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.error import HTTPError
+from hashlib import md5
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.http import urlencode
+from six.moves.urllib.error import HTTPError
+from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
 from weblate.logger import LOGGER

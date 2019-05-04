@@ -18,26 +18,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
-from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
+from weblate.trans.forms import (CheckFlagsForm, ContextForm,
+                                 MatrixLanguageForm, PriorityForm)
+from weblate.trans.models import Source, Translation, Unit
+from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
-from weblate.utils.views import get_component
-from weblate.trans.models import Translation, Source, Unit
-from weblate.trans.forms import (
-    PriorityForm, CheckFlagsForm, MatrixLanguageForm, ContextForm,
-)
-from weblate.trans.util import render, redirect_next
 from weblate.utils.hash import checksum_to_hash
-from weblate.utils.views import get_paginator
+from weblate.utils.views import get_component, get_paginator
 
 
 def get_source(request, project, component):

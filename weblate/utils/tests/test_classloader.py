@@ -21,7 +21,6 @@
 from unittest import TestCase
 
 from django.core.exceptions import ImproperlyConfigured
-
 from six import assertRaisesRegex
 
 from weblate.utils.classloader import load_class

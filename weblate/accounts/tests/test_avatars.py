@@ -24,16 +24,13 @@ Tests for user handling.
 
 from io import BytesIO
 
-from django.urls import reverse
-
 import httpretty
-
+from django.urls import reverse
 from PIL import Image
 
-from weblate.auth.models import User
 from weblate.accounts import avatar
+from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
-
 
 TEST_URL = (
     'https://www.gravatar.com/avatar/'

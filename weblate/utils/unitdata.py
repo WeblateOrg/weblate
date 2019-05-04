@@ -21,8 +21,8 @@
 from __future__ import unicode_literals
 
 from django.apps import apps
-from django.utils.functional import cached_property
 from django.db import connection, models
+from django.utils.functional import cached_property
 
 from weblate.lang.models import Language
 

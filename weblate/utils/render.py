@@ -21,8 +21,9 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
-from django.template import Template, Context, Engine, TemplateSyntaxError
-from django.utils.translation import override, ugettext as _
+from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.utils.translation import override
+from django.utils.translation import ugettext as _
 
 from weblate.utils.site import get_site_url
 

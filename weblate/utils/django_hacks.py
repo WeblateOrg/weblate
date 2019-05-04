@@ -19,16 +19,13 @@
 #
 
 import bleach
-
-import django.templatetags.i18n
 import django.template.base
-from django.utils.safestring import mark_safe
-
-from django.utils.functional import lazy
-from django.utils import translation
-from django.utils.translation import trans_real
-
+import django.templatetags.i18n
 import six
+from django.utils import translation
+from django.utils.functional import lazy
+from django.utils.safestring import mark_safe
+from django.utils.translation import trans_real
 
 
 def escape(text):

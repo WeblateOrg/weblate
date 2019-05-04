@@ -22,9 +22,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineTranslation, MachineTranslationError, MissingConfiguration
-)
+from weblate.machinery.base import (MachineTranslation,
+                                    MachineTranslationError,
+                                    MissingConfiguration)
 
 BAIDU_API = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
 

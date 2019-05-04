@@ -21,9 +21,8 @@
 from __future__ import unicode_literals
 
 from jellyfish import damerau_levenshtein_distance
-from jellyfish._jellyfish import (
-    damerau_levenshtein_distance as py_damerau_levenshtein_distance,
-)
+from jellyfish._jellyfish import \
+    damerau_levenshtein_distance as py_damerau_levenshtein_distance
 
 
 class Comparer(object):

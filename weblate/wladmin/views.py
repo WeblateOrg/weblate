@@ -21,15 +21,13 @@
 from __future__ import unicode_literals
 
 from django.core.checks import run_checks
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 
 from weblate.trans.models import Component
-from weblate.vcs.ssh import (
-    generate_ssh_key, get_key_data, add_host_key,
-    get_host_keys, can_generate_key
-)
 from weblate.utils import messages
+from weblate.vcs.ssh import (add_host_key, can_generate_key, generate_ssh_key,
+                             get_host_keys, get_key_data)
 from weblate.wladmin.models import ConfigurationError
 
 

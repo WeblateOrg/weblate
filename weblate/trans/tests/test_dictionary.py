@@ -26,8 +26,8 @@ import json
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models import Dictionary
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 
 TEST_TBX = get_test_file('terms.tbx')

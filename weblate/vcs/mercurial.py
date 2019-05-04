@@ -20,6 +20,7 @@
 """Mericurial version control system abstraction for Weblate needs."""
 
 from __future__ import unicode_literals
+
 import os
 import os.path
 import re
@@ -27,8 +28,8 @@ import re
 import six
 from six.moves.configparser import RawConfigParser
 
-from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
+from weblate.vcs.ssh import SSH_WRAPPER
 
 
 class HgRepository(Repository):

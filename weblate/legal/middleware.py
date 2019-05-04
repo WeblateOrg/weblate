@@ -20,8 +20,8 @@
 
 import re
 
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 

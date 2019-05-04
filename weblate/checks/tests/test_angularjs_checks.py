@@ -24,6 +24,7 @@ Tests for AngularJS checks.
 """
 
 from unittest import TestCase
+
 from weblate.checks.angularjs import AngularJSInterpolationCheck
 from weblate.checks.tests.test_checks import MockUnit
 

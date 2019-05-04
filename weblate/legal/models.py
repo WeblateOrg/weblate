@@ -29,7 +29,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
 
-
 # Current TOS date
 TOS_DATE = date(2017, 7, 2)
 

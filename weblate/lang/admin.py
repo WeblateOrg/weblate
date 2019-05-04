@@ -20,8 +20,8 @@
 
 from django.contrib import admin
 
+from weblate.lang.models import Language, Plural
 from weblate.wladmin.models import WeblateModelAdmin
-from weblate.lang.models import Plural, Language
 
 
 class PluralAdmin(admin.TabularInline):

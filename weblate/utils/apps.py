@@ -22,12 +22,11 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.core.checks import register
 
-from weblate.utils.checks import (
-    check_mail_connection, check_celery, check_database,
-    check_cache, check_settings, check_templates,
-    check_data_writable, check_site, check_perms, check_errors,
-    check_python,
-)
+from weblate.utils.checks import (check_cache, check_celery,
+                                  check_data_writable, check_database,
+                                  check_errors, check_mail_connection,
+                                  check_perms, check_python, check_settings,
+                                  check_site, check_templates)
 from weblate.utils.fonts import check_fonts
 from weblate.utils.requirements import check_requirements
 from weblate.utils.django_hacks import monkey_patch_translate

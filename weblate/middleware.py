@@ -20,10 +20,8 @@
 
 from __future__ import unicode_literals
 
-from six.moves.urllib.parse import urlparse
-
 from django.conf import settings
-
+from six.moves.urllib.parse import urlparse
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "

@@ -25,8 +25,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from weblate.lang.models import Language
-from weblate.trans.models import Unit, Component, Translation
 from weblate.logger import LOGGER
+from weblate.trans.models import Component, Translation, Unit
 
 
 class WeblateCommand(BaseCommand):

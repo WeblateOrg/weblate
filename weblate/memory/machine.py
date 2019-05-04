@@ -21,8 +21,8 @@
 from __future__ import unicode_literals
 
 from weblate.lang.models import Language
-from weblate.memory.storage import TranslationMemory, get_category_name
 from weblate.machinery.base import MachineTranslation
+from weblate.memory.storage import TranslationMemory, get_category_name
 
 
 class WeblateMemory(MachineTranslation):

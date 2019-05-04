@@ -20,16 +20,13 @@
 
 from __future__ import unicode_literals
 
-from unittest import SkipTest
 import os
+from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
-
 from six import StringIO
-
-from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
 from weblate.addons.cleanup import CleanupAddon
@@ -37,21 +34,20 @@ from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.example_pre import ExamplePreAddon
-from weblate.addons.flags import (
-    SourceEditAddon, TargetEditAddon, SameEditAddon,
-)
+from weblate.addons.flags import (SameEditAddon, SourceEditAddon,
+                                  TargetEditAddon)
 from weblate.addons.generate import GenerateFileAddon
-from weblate.addons.gettext import (
-    GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
-    GettextCustomizeAddon, GettextAuthorComments,
-)
+from weblate.addons.gettext import (GenerateMoAddon, GettextAuthorComments,
+                                    GettextCustomizeAddon, MsgmergeAddon,
+                                    UpdateConfigureAddon, UpdateLinguasAddon)
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
+from weblate.addons.models import ADDONS, Addon
 from weblate.addons.properties import PropertiesSortAddon
-from weblate.addons.models import Addon, ADDONS
 from weblate.lang.models import Language
-from weblate.trans.models import Unit, Translation, Component
-from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
+from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 
 class AddonBaseTest(FixtureTestCase):

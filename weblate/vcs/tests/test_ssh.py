@@ -24,11 +24,10 @@ import shutil
 from django.conf import settings
 from django.test import TestCase
 
-from weblate.vcs.ssh import get_host_keys, ssh_file, SSHWrapper
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-
+from weblate.vcs.ssh import SSHWrapper, get_host_keys, ssh_file
 
 TEST_HOSTS = get_test_file('known_hosts')
 

@@ -20,19 +20,18 @@
 
 """Test for user handling."""
 
+from django.conf import settings
+from django.core import mail
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from django.conf import settings
-from django.core import mail
 from django.utils.encoding import force_text
 
-from weblate.auth.models import User
 from weblate.accounts.models import Profile
-from weblate.utils.ratelimit import reset_rate_limit
-
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.ratelimit import reset_rate_limit
 
 CONTACT_DATA = {
     'name': 'Test',

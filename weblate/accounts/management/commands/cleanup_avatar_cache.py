@@ -18,10 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from glob import glob
-import pickle
 import os
+import pickle
 import zlib
+from glob import glob
 
 from django.conf import settings
 from django.core.management.base import BaseCommand

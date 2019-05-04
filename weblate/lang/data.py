@@ -20,8 +20,8 @@
 # pylint: disable=line-too-long
 
 from __future__ import unicode_literals
-from django.utils.translation import pgettext_lazy
 
+from django.utils.translation import pgettext_lazy
 
 NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',

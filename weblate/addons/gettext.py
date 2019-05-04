@@ -27,8 +27,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
+from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
+from weblate.addons.events import EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GettextCustomizeForm, MsgmergeForm
 from weblate.formats.exporters import MoExporter
 

@@ -23,7 +23,6 @@ from importlib import import_module
 from django.conf import settings
 from django.urls import reverse
 from django.utils.http import is_safe_url
-
 from social_django.strategy import DjangoStrategy
 
 from weblate.utils.site import get_site_url

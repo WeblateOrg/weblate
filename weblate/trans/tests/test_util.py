@@ -19,6 +19,7 @@
 #
 
 from unittest import TestCase
+
 from weblate.trans.util import cleanup_repo_url, translation_percent
 
 

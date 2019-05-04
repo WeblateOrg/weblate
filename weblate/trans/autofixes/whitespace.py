@@ -19,8 +19,11 @@
 #
 
 from __future__ import unicode_literals
+
 import re
+
 from django.utils.translation import ugettext_lazy as _
+
 from weblate.trans.autofixes.base import AutoFix
 
 NEWLINES = re.compile(r'\r\n|\r|\n')

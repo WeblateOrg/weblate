@@ -18,29 +18,27 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from datetime import timedelta
 import os.path
 import shutil
 import sys
+from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
 from unittest import SkipTest
 
-from celery.result import allow_join_result
 from celery.contrib.testing.tasks import ping
-
+from celery.result import allow_join_result
 from django.conf import settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
-
-from weblate.billing.models import Plan, Billing, Invoice
+from weblate.billing.models import Billing, Invoice, Plan
 from weblate.formats.models import FILE_FORMATS
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Component, Project
 from weblate.trans.search import Fulltext
-from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.files import remove_readonly
+from weblate.vcs.models import VCS_REGISTRY
 
 # Directory holding test data
 TEST_DATA = os.path.join(

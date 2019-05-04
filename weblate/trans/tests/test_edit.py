@@ -21,14 +21,15 @@
 """Test for translation views."""
 
 from __future__ import unicode_literals
+
 import time
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class EditTest(ViewTestCase):

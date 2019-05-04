@@ -23,8 +23,8 @@ well. And ignoring messages without request object (eg. from CLI).
 """
 
 from __future__ import unicode_literals
-from django.contrib.messages import constants
-from django.contrib.messages import add_message
+
+from django.contrib.messages import add_message, constants
 
 
 def get_request(request):

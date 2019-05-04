@@ -20,30 +20,27 @@
 
 """Test for translation views."""
 
-from xml.dom import minidom
 from io import BytesIO
+from xml.dom import minidom
 
-from six.moves.urllib.parse import urlsplit
-
-from PIL import Image
-
-from django.test.client import RequestFactory
-from django.urls import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
-from django.core.management import call_command
 from django.core import mail
 from django.core.cache import cache
+from django.core.management import call_command
+from django.test.client import RequestFactory
+from django.urls import reverse
+from PIL import Image
+from six.moves.urllib.parse import urlsplit
 
-from weblate.auth.models import Group, Role, Permission, setup_project_groups
+from weblate.accounts.models import Profile
+from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList, WhiteboardMessage, Project
+from weblate.trans.models import ComponentList, Project, WhiteboardMessage
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import (
-    create_test_user, wait_for_celery, create_another_user,
-)
+from weblate.trans.tests.utils import (create_another_user, create_test_user,
+                                       wait_for_celery)
 from weblate.utils.hash import hash_to_checksum
-from weblate.accounts.models import Profile
 
 
 class RegistrationTestMixin(object):

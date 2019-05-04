@@ -20,8 +20,8 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.lang.models import Language, Plural
 from weblate.checks.models import Check
+from weblate.lang.models import Language, Plural
 
 
 class Command(BaseCommand):

@@ -23,18 +23,16 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
+
 from unittest import TestCase
-from weblate.checks.chars import (
-    BeginNewlineCheck, EndNewlineCheck,
-    BeginSpaceCheck, EndSpaceCheck,
-    EndStopCheck, EndColonCheck,
-    EndQuestionCheck, EndExclamationCheck,
-    EndEllipsisCheck, EndSemicolonCheck,
-    NewlineCountingCheck,
-    ZeroWidthSpaceCheck,
-    MaxLengthCheck,
-    KashidaCheck,
-)
+
+from weblate.checks.chars import (BeginNewlineCheck, BeginSpaceCheck,
+                                  EndColonCheck, EndEllipsisCheck,
+                                  EndExclamationCheck, EndNewlineCheck,
+                                  EndQuestionCheck, EndSemicolonCheck,
+                                  EndSpaceCheck, EndStopCheck, KashidaCheck,
+                                  MaxLengthCheck, NewlineCountingCheck,
+                                  ZeroWidthSpaceCheck)
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
 

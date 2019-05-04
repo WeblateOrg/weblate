@@ -18,19 +18,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
 import errno
-from itertools import chain
 import os
-
-from celery.exceptions import TimeoutError
-
-from django.conf import settings
-from django.core.mail import get_connection
-from django.core.checks import Info, Error, Critical
+from itertools import chain
 
 import six
+from celery.exceptions import TimeoutError
+from django.conf import settings
+from django.core.checks import Critical, Error, Info
+from django.core.mail import get_connection
 
 from weblate import settings_example
 from weblate.utils.celery import get_queue_length

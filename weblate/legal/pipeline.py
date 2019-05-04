@@ -19,10 +19,9 @@
 #
 from __future__ import unicode_literals
 
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.http import urlencode
-
 from social_core.pipeline.partial import partial
 
 from weblate.legal.models import Agreement

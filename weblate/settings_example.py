@@ -19,8 +19,9 @@
 #
 
 from __future__ import unicode_literals
-import platform
+
 import os
+import platform
 from logging.handlers import SysLogHandler
 
 #

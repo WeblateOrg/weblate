@@ -22,9 +22,8 @@ from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.checks.base import (
-    TargetCheck, TargetCheckParametrized, CountingCheck
-)
+from weblate.checks.base import (CountingCheck, TargetCheck,
+                                 TargetCheckParametrized)
 
 KASHIDA_CHARS = (
     '\u0640', '\uFCF2', '\uFCF3', '\uFCF4', '\uFE71', '\uFE77', '\uFE79',

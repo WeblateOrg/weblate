@@ -21,7 +21,6 @@
 import os.path
 import subprocess
 
-
 GIT_PATHS = [
     '/usr/lib/git',
     '/usr/lib/git-core',

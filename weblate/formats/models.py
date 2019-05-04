@@ -20,15 +20,12 @@
 
 from __future__ import unicode_literals
 
+import six
 from appconf import AppConf
-
 from django.utils.functional import cached_property
 
-import six
-
-from weblate.trans.util import (
-    add_configuration_error, delete_configuration_error,
-)
+from weblate.trans.util import (add_configuration_error,
+                                delete_configuration_error)
 from weblate.utils.classloader import ClassLoader
 
 

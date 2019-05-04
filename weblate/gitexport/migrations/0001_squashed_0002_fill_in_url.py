@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
-from weblate.gitexport.models import get_export_url, SUPPORTED_VCS
+from weblate.gitexport.models import SUPPORTED_VCS, get_export_url
 
 
 def set_export_url(apps, schema_editor):

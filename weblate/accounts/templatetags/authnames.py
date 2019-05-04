@@ -19,10 +19,11 @@
 #
 """Provide user friendly names for social authentication methods."""
 from __future__ import unicode_literals
+
 from django import template
+from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.safestring import mark_safe
-from django.conf import settings
 
 register = template.Library()
 

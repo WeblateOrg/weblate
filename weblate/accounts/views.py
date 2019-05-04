@@ -20,71 +20,62 @@
 
 from __future__ import unicode_literals
 
+import re
 from collections import defaultdict
 
-import re
-
+import social_django.utils
+from django.conf import settings
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail.message import EmailMultiAlternatives
 from django.db import transaction
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.contrib.auth import logout
-from django.conf import settings
 from django.middleware.csrf import rotate_token
-from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import login_required
-from django.core.mail.message import EmailMultiAlternatives
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
-from django.utils.translation import get_language
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import TemplateView, ListView
-from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
-from django.urls import reverse
 from django.utils.http import urlencode
-from django.template.loader import render_to_string
-
+from django.utils.translation import get_language
+from django.utils.translation import ugettext as _
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.generic import ListView, TemplateView
 from rest_framework.authtoken.models import Token
-
 from social_core.backends.utils import load_backends
-from social_core.exceptions import (
-    AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
-    AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
-    AuthForbidden,
-)
-import social_django.utils
-from social_django.views import complete, auth
+from social_core.exceptions import (AuthAlreadyAssociated, AuthCanceled,
+                                    AuthFailed, AuthForbidden,
+                                    AuthMissingParameter, AuthStateForbidden,
+                                    AuthStateMissing, InvalidEmail)
+from social_django.views import auth, complete
 
-from weblate.auth.models import User
-from weblate.accounts.forms import (
-    RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
-    LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
-    EmptyConfirmForm,
-)
-from weblate.utils.ratelimit import check_rate_limit
-from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang, AuditLog
-from weblate.accounts.notifications import (
-    SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
-    FREQ_NONE, NOTIFICATIONS,
-)
+from weblate.accounts.forms import (CaptchaForm, ContactForm,
+                                    DashboardSettingsForm, EmailForm,
+                                    EmptyConfirmForm, HostingForm, LoginForm,
+                                    NotificationForm, PasswordConfirmForm,
+                                    ProfileForm, RegistrationForm, ResetForm,
+                                    SetPasswordForm, SubscriptionForm,
+                                    UserForm, UserSettingsForm)
+from weblate.accounts.models import AuditLog, set_lang
+from weblate.accounts.notifications import (FREQ_NONE, NOTIFICATIONS,
+                                            SCOPE_ADMIN, SCOPE_COMPONENT,
+                                            SCOPE_DEFAULT, SCOPE_PROJECT)
 from weblate.accounts.utils import remove_user
+from weblate.auth.models import User
+from weblate.logger import LOGGER
+from weblate.trans.models import Change, Component, Project, Suggestion
 from weblate.utils import messages
-from weblate.utils.ratelimit import session_ratelimit_post
-from weblate.trans.models import Change, Project, Component, Suggestion
-from weblate.utils.views import get_project, get_component
 from weblate.utils.errors import report_error
-from weblate.accounts.forms import (
-    ProfileForm, SubscriptionForm, UserForm, ContactForm,
-    UserSettingsForm, DashboardSettingsForm,
-    NotificationForm,
-)
+from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
+from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = '''
 Message from %(name)s <%(email)s>:

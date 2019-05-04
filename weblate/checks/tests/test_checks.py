@@ -25,7 +25,7 @@ import random
 
 from django.test import TestCase
 
-from weblate.lang.models import Plural, Language
+from weblate.lang.models import Language, Plural
 
 
 class MockLanguage(Language):

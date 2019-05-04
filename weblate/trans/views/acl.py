@@ -18,20 +18,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.utils.translation import ugettext as _
+from django.views.decorators.http import require_POST
 
 from weblate.auth.models import Group, User
-from weblate.utils import messages
-from weblate.trans.util import render
-from weblate.trans.forms import (
-    UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
-)
+from weblate.trans.forms import (DisabledProjectAccessForm, ProjectAccessForm,
+                                 UserManageForm)
 from weblate.trans.models import Change
+from weblate.trans.util import render
+from weblate.utils import messages
 from weblate.utils.views import get_project
 
 

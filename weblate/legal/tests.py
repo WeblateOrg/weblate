@@ -20,10 +20,10 @@
 
 """Test for legal stuff."""
 
-from django.test import TestCase
-from django.urls import reverse
 from django.http import HttpRequest
-from django.test.utils import override_settings, modify_settings
+from django.test import TestCase
+from django.test.utils import modify_settings, override_settings
+from django.urls import reverse
 
 from weblate.accounts.tests.test_registration import REGISTRATION_DATA
 from weblate.trans.tests.test_views import RegistrationTestMixin

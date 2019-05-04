@@ -19,7 +19,9 @@
 #
 
 from unittest import TestCase
+
 from django.http import HttpRequest
+
 from weblate.trans.debug import WeblateExceptionReporterFilter
 
 

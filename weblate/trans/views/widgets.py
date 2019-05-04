@@ -18,21 +18,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-from weblate.utils.site import get_site_url
 from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
 from weblate.trans.models import Component
-from weblate.trans.widgets import WIDGETS
-from weblate.utils.views import (
-    get_project, get_component, try_set_language,
-)
 from weblate.trans.util import render
+from weblate.trans.widgets import WIDGETS
+from weblate.utils.site import get_site_url
+from weblate.utils.views import get_component, get_project, try_set_language
 
 
 def widgets_sorter(widget):

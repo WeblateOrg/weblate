@@ -23,13 +23,14 @@ Tests for automatix fixups.
 """
 
 from __future__ import unicode_literals
+
 from django.test import TestCase
 from django.utils.encoding import force_text
+
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
-from weblate.trans.autofixes.chars import (
-    ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace, RemoveControlChars,
-)
+from weblate.trans.autofixes.chars import (RemoveControlChars, RemoveZeroSpace,
+                                           ReplaceTrailingDotsWithEllipsis)
 from weblate.trans.autofixes.custom import DoubleApostrophes
 from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 

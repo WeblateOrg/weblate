@@ -21,7 +21,6 @@
 import os
 
 from celery.beat import PersistentScheduler
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 

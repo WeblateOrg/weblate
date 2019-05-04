@@ -25,16 +25,17 @@ import os.path
 
 from django.conf import settings
 from django.db import models
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
-from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
 from weblate.lang.models import Language, get_english_lang
-from weblate.trans.mixins import URLMixin, PathMixin
+from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
-from weblate.utils.stats import ProjectStats
 from weblate.utils.site import get_site_url
+from weblate.utils.stats import ProjectStats
 
 
 @python_2_unicode_compatible

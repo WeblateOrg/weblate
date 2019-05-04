@@ -18,9 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import tempfile
-
 import shutil
+import tempfile
 
 from django.test.utils import override_settings
 

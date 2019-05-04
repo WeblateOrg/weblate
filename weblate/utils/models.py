@@ -21,7 +21,6 @@
 from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
-
 from django.core.cache import cache
 from django.db.models.signals import post_save
 from django.dispatch import receiver

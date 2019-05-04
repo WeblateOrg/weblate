@@ -21,13 +21,11 @@
 import os
 
 from django.apps import AppConfig
-
 from filelock import FileLock
 
+from weblate.trans.util import (add_configuration_error,
+                                delete_configuration_error)
 from weblate.utils.data import data_dir
-from weblate.trans.util import (
-    add_configuration_error, delete_configuration_error,
-)
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
 

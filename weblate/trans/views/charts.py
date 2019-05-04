@@ -20,13 +20,13 @@
 """Charting library for Weblate."""
 
 from django.core.cache import cache
-from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils.translation import pgettext
 
 from weblate.auth.models import User
-from weblate.trans.models import Change
 from weblate.lang.models import Language
+from weblate.trans.models import Change
 from weblate.utils.views import get_project_translation
 
 

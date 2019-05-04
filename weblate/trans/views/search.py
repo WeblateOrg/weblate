@@ -24,25 +24,23 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.translation import ugettext as _, ungettext
 from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.utils.ratelimit import check_rate_limit
 from weblate.lang.models import Language
-from weblate.trans.forms import (
-    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, BulkStateForm,
-)
-from weblate.trans.models import Unit, Change
-from weblate.utils.views import (
-    get_translation, get_component, get_project, import_message,
-)
+from weblate.trans.forms import (BulkStateForm, ReplaceConfirmForm,
+                                 ReplaceForm, SiteSearchForm)
+from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
-from weblate.utils.views import show_form_errors
 from weblate.utils import messages
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.state import STATE_EMPTY
-from weblate.utils.views import get_paginator
+from weblate.utils.views import (get_component, get_paginator, get_project,
+                                 get_translation, import_message,
+                                 show_form_errors)
 
 
 def parse_url(request, project, component=None, lang=None):

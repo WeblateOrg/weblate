@@ -22,9 +22,8 @@ from __future__ import unicode_literals
 
 import os.path
 
-from django.conf import settings
-
 from appconf import AppConf
+from django.conf import settings
 
 
 class WeblateConf(AppConf):

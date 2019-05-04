@@ -20,14 +20,13 @@
 
 from __future__ import unicode_literals
 
-from django.conf.urls import url, include
+from django.conf.urls import include, url
 
-from weblate.api.views import (
-    ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
-    UnitViewSet, ChangeViewSet, SourceViewSet, ScreenshotViewSet,
-    Metrics
-)
 from weblate.api.routers import WeblateRouter
+from weblate.api.views import (ChangeViewSet, ComponentViewSet,
+                               LanguageViewSet, Metrics, ProjectViewSet,
+                               ScreenshotViewSet, SourceViewSet,
+                               TranslationViewSet, UnitViewSet)
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()

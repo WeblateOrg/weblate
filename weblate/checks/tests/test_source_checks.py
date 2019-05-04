@@ -23,11 +23,10 @@ Tests for source checks.
 """
 
 from __future__ import unicode_literals
+
 from django.test import TestCase
-from weblate.checks.source import (
-    OptionalPluralCheck,
-    EllipsisCheck,
-)
+
+from weblate.checks.source import EllipsisCheck, OptionalPluralCheck
 from weblate.checks.tests.test_checks import MockUnit
 
 

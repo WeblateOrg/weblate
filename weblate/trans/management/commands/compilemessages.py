@@ -21,9 +21,8 @@
 import os.path
 
 from django.conf import settings
-from django.core.management.commands.compilemessages import (
+from django.core.management.commands.compilemessages import \
     Command as BaseCommand
-)
 
 DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')

@@ -26,9 +26,9 @@ from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.models import Source, Component
-from weblate.trans.mixins import UserDisplayMixin
 from weblate.screenshots.fields import ScreenshotField
+from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models import Component, Source
 
 
 @python_2_unicode_compatible

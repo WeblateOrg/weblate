@@ -20,14 +20,14 @@
 
 from __future__ import unicode_literals
 
-import os
 import binascii
+import os
 
 from social_django.models import Code
 
+from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
-from weblate.accounts.models import VerifiedEmail, AuditLog
 
 
 def remove_user(user, request):

@@ -20,15 +20,13 @@
 
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.translation import ugettext as _
 
-from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.utils.views import (
-    get_translation, get_component, get_project
-)
+from weblate.trans.models import Change
+from weblate.utils.views import get_component, get_project, get_translation
 
 
 class ChangesFeed(Feed):

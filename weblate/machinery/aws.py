@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 import boto3
-
 from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation

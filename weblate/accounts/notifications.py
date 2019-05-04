@@ -22,26 +22,22 @@ from __future__ import unicode_literals
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
-
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import (
-    ugettext_lazy as _, get_language, get_language_bidi, override,
-)
 from django.utils.encoding import force_text
-
+from django.utils.translation import get_language, get_language_bidi, override
+from django.utils.translation import ugettext_lazy as _
 from html2text import html2text
 
+from weblate import VERSION
 from weblate.celery import app
 from weblate.lang.models import Language
-from weblate.trans.models import Change
-from weblate.utils.site import get_site_url, get_site_domain
-from weblate import VERSION
 from weblate.logger import LOGGER
-
+from weblate.trans.models import Change
+from weblate.utils.site import get_site_domain, get_site_url
 
 FREQ_NONE = 0
 FREQ_INSTANT = 1

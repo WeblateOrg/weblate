@@ -21,17 +21,16 @@
 
 from __future__ import unicode_literals
 
+import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
-import os
 
+import six
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-import six
-
-from weblate.formats.base import TranslationUnit, TranslationFormat
+from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
 
 

@@ -22,14 +22,13 @@
 import datetime
 from unittest import TestCase
 
-from django.utils import timezone
 from django.test import SimpleTestCase
+from django.utils import timezone
 
 from weblate.accounts.models import Profile
-from weblate.trans.models import Unit, Component, Translation
-from weblate.trans.templatetags.translations import (
-    naturaltime, get_location_links
-)
+from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.templatetags.translations import (get_location_links,
+                                                     naturaltime)
 
 TEST_DATA = (
     (0, 'now'),

@@ -18,10 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-from django.conf.urls import url, include
-
 import social_django.views
+from django.conf import settings
+from django.conf.urls import include, url
 
 import weblate.accounts.views
 

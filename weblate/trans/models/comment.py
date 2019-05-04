@@ -30,7 +30,6 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
 
-
 MENTIONS_RE = re.compile(r'@([\w.@+-]+)\b', re.UNICODE)
 
 

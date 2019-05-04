@@ -21,41 +21,34 @@ from __future__ import unicode_literals
 
 import re
 
+import six
 from appconf import AppConf
-
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models.signals import (
-    post_save, pre_delete, m2m_changed
-)
+from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.dispatch import receiver
 from django.http import Http404
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
+from django.utils.translation import pgettext, ugettext
+from django.utils.translation import ugettext_lazy as _
 
-import six
-
-from weblate.auth.data import (
-    ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL, SELECTION_COMPONENT_LIST,
-    SELECTION_ALL_PUBLIC, SELECTION_ALL_PROTECTED, GLOBAL_PERM_NAMES,
-)
-from weblate.auth.permissions import (
-    SPECIALS, check_permission, check_global_permission
-)
-from weblate.auth.utils import (
-    migrate_permissions, migrate_roles, create_anonymous, migrate_groups,
-)
+from weblate.auth.data import (ACL_GROUPS, GLOBAL_PERM_NAMES, SELECTION_ALL,
+                               SELECTION_ALL_PROTECTED, SELECTION_ALL_PUBLIC,
+                               SELECTION_COMPONENT_LIST, SELECTION_MANUAL)
+from weblate.auth.permissions import (SPECIALS, check_global_permission,
+                                      check_permission)
+from weblate.auth.utils import (create_anonymous, migrate_groups,
+                                migrate_permissions, migrate_roles)
 from weblate.lang.models import Language
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.validators import (
-    validate_fullname, validate_username, validate_email,
-)
+from weblate.utils.validators import (validate_email, validate_fullname,
+                                      validate_username)
 
 DEMO_ACCOUNTS = ('demo', 'review')
 

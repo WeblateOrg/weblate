@@ -19,18 +19,18 @@
 #
 from __future__ import unicode_literals
 
+from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import render
-from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
-from django.http import Http404
-from django.db.models import Count
+from django.utils.translation import ugettext as _
 
-from weblate.checks.models import Check
 from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.trans.models import Unit
-from weblate.utils.views import get_project, get_component
 from weblate.trans.util import redirect_param
+from weblate.utils.views import get_component, get_project
 
 
 def acl_checks(user):

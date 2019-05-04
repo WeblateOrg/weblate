@@ -26,9 +26,9 @@ import json
 
 from django.urls import reverse
 
+import weblate.machinery
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.classloader import load_class
-import weblate.machinery
 
 
 class JSViewsTest(FixtureTestCase):

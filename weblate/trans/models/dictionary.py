@@ -20,22 +20,20 @@
 
 from __future__ import unicode_literals
 
-from itertools import islice
 import re
+from itertools import islice
 
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
-
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
-from weblate.lang.models import Language
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
+from weblate.lang.models import Language
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
-
 
 SPLIT_RE = re.compile(r'[\s,.:!?]+', re.UNICODE)
 

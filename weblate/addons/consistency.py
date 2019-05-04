@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_UPDATE, EVENT_POST_ADD
+from weblate.addons.events import EVENT_POST_ADD, EVENT_POST_UPDATE
 from weblate.lang.models import Language
 
 

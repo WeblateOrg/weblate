@@ -23,40 +23,40 @@ import os.path
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
-
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.views import APIView
 from rest_framework.utils import formatting
+from rest_framework.views import APIView
 
-from weblate.api.serializers import (
-    ProjectSerializer, ComponentSerializer, TranslationSerializer,
-    LanguageSerializer, LockRequestSerializer, LockSerializer,
-    RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
-    ChangeSerializer, SourceSerializer, ScreenshotSerializer,
-    UploadRequestSerializer, ScreenshotFileSerializer,
-)
+from weblate.api.serializers import (ChangeSerializer, ComponentSerializer,
+                                     LanguageSerializer, LockRequestSerializer,
+                                     LockSerializer, ProjectSerializer,
+                                     RepoRequestSerializer,
+                                     ScreenshotFileSerializer,
+                                     ScreenshotSerializer, SourceSerializer,
+                                     StatisticsSerializer,
+                                     TranslationSerializer, UnitSerializer,
+                                     UploadRequestSerializer)
 from weblate.auth.models import User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
-from weblate.trans.models import (
-    Project, Component, Translation, Change, Unit, Source, Suggestion,
-)
-from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.utils.views import download_translation_file
+from weblate.trans.models import (Change, Component, Project, Source,
+                                  Suggestion, Translation, Unit)
+from weblate.trans.stats import get_project_stats
 from weblate.utils.celery import get_queue_length
-from weblate.utils.stats import GlobalStats
 from weblate.utils.docs import get_doc_url
+from weblate.utils.stats import GlobalStats
+from weblate.utils.views import download_translation_file
 
 REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push', ()),

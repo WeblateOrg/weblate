@@ -24,7 +24,7 @@ import os
 
 from django.test import SimpleTestCase
 
-from weblate.utils.environment import get_env_list, get_env_map, get_env_bool
+from weblate.utils.environment import get_env_bool, get_env_list, get_env_map
 
 
 class EnvTest(SimpleTestCase):

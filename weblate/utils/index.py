@@ -25,9 +25,8 @@ import shutil
 import threading
 
 from django.utils.functional import cached_property
-
 from whoosh.filedb.filestore import FileStorage
-from whoosh.index import EmptyIndexError, _DEF_INDEX_NAME
+from whoosh.index import _DEF_INDEX_NAME, EmptyIndexError
 
 from weblate.utils.data import data_dir
 

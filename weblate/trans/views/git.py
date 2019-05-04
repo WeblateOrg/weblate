@@ -18,17 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext as _
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
-
 from filelock import Timeout
 
-from weblate.utils import messages
-from weblate.utils.views import get_project, get_component, get_translation
 from weblate.trans.util import redirect_param
+from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.views import get_component, get_project, get_translation
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):

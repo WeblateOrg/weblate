@@ -20,7 +20,8 @@
 
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from weblate.trans.models import Project, Component, Translation, Change
+
+from weblate.trans.models import Change, Component, Project, Translation
 
 
 class PagesSitemap(Sitemap):

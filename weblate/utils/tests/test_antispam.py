@@ -20,10 +20,11 @@
 
 from unittest import TestCase, skipIf
 
+import httpretty
 from django.http import HttpRequest
 from django.test.utils import override_settings
 
-import httpretty
+from weblate.utils.antispam import is_spam, report_spam
 
 try:
     # pylint: disable=unused-import
@@ -31,8 +32,6 @@ try:
     HAS_AKISMET = True
 except ImportError:
     HAS_AKISMET = False
-
-from weblate.utils.antispam import is_spam, report_spam
 
 
 class SpamTest(TestCase):

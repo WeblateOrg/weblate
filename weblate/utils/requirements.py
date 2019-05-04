@@ -23,19 +23,15 @@ from __future__ import print_function, unicode_literals
 import sys
 from distutils.version import LooseVersion
 
-
+import pkg_resources
 from django.core.checks import Error
 from django.core.exceptions import ImproperlyConfigured
 
-import pkg_resources
-
-from weblate.utils.docs import get_doc_url
-from weblate.vcs.git import (
-    GitRepository, SubversionRepository, GitWithGerritRepository,
-    GithubRepository,
-)
-from weblate.vcs.mercurial import HgRepository
 import weblate
+from weblate.utils.docs import get_doc_url
+from weblate.vcs.git import (GithubRepository, GitRepository,
+                             GitWithGerritRepository, SubversionRepository)
+from weblate.vcs.mercurial import HgRepository
 
 
 def get_version_module(name, url, optional=False):

@@ -21,8 +21,7 @@
 from __future__ import unicode_literals
 
 from appconf import AppConf
-
-from django.db import models, transaction, IntegrityError
+from django.db import IntegrityError, models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible

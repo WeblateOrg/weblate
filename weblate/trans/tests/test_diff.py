@@ -19,10 +19,12 @@
 #
 
 from __future__ import unicode_literals
+
 from unittest import TestCase
+
+from weblate.checks.tests.test_checks import MockLanguage, MockUnit
 from weblate.trans.simplediff import html_diff
 from weblate.trans.templatetags.translations import format_translation
-from weblate.checks.tests.test_checks import MockUnit, MockLanguage
 
 
 class DiffTest(TestCase):

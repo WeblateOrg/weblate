@@ -19,8 +19,8 @@
 #
 """OpenShift integration testing"""
 
-from unittest import TestCase
 import os
+from unittest import TestCase
 
 from django.conf import Settings
 

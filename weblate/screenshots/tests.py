@@ -21,10 +21,10 @@ from unittest import SkipTest
 
 from django.urls import reverse
 
+import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
-import weblate.screenshots.views
 
 TEST_SCREENSHOT = get_test_file('screenshot.png')
 

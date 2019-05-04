@@ -20,5 +20,4 @@
 
 import logging
 
-
 LOGGER = logging.getLogger('weblate')

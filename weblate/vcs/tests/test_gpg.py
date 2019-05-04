@@ -18,19 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from distutils.version import LooseVersion
 import subprocess
+from distutils.version import LooseVersion
 from unittest import SkipTest
 
 from django.core.cache import cache
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from weblate.vcs.gpg import (
-    generate_gpg_key, get_gpg_key, get_gpg_sign_key, get_gpg_public_key,
-)
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
+from weblate.vcs.gpg import (generate_gpg_key, get_gpg_key, get_gpg_public_key,
+                             get_gpg_sign_key)
 
 
 class GPGTest(TestCase):

@@ -23,14 +23,13 @@ from __future__ import absolute_import, unicode_literals
 from datetime import timedelta
 
 from celery.schedules import crontab
-
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.notifications import send_notification_email
-from weblate.celery import app
 from weblate.billing.models import Billing
+from weblate.celery import app
 from weblate.utils.site import get_site_url
 
 

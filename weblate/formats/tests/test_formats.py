@@ -20,28 +20,26 @@
 """File format specific behavior."""
 from __future__ import unicode_literals
 
-from io import BytesIO
 import os.path
-from unittest import TestCase, SkipTest
+from io import BytesIO
+from unittest import SkipTest, TestCase
 
 from django.test import SimpleTestCase
 from django.utils.encoding import force_text
 
 import translate.__version__
 from translate.storage.po import pofile
-
-from weblate.lang.models import Language
-from weblate.formats.auto import AutodetectFormat
-from weblate.formats.ttkit import (
-    PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat, JSONFormat,
-    JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat, YAMLFormat,
-    RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
-    PoXliffFormat, CSVFormat,
-)
+from weblate.formats.auto import AutodetectFormat, detect_filename
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.auto import detect_filename
-from weblate.trans.tests.utils import get_test_file, TempDirMixin
-
+from weblate.formats.ttkit import (AndroidFormat, CSVFormat, DTDFormat,
+                                   JoomlaFormat, JSONFormat, JSONNestedFormat,
+                                   PhpFormat, PoFormat, PoXliffFormat,
+                                   PropertiesFormat, RESXFormat,
+                                   RubyYAMLFormat, TSFormat,
+                                   WebExtensionJSONFormat, WindowsRCFormat,
+                                   XliffFormat, YAMLFormat)
+from weblate.lang.models import Language
+from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_CSV = get_test_file('cs-mono.csv')

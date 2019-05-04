@@ -27,10 +27,9 @@ import os.path
 from django.utils.translation import ugettext_lazy as _
 
 from translate.storage import factory
-
-from weblate.formats.ttkit import TTKitFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.models import FILE_FORMATS
+from weblate.formats.ttkit import TTKitFormat
 
 
 def detect_filename(filename):

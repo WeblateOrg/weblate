@@ -23,12 +23,12 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
+
+from weblate.checks.format import (CFormatCheck, CSharpFormatCheck,
+                                   JavaFormatCheck, JavaMessageFormatCheck,
+                                   PerlFormatCheck, PHPFormatCheck,
+                                   PythonBraceFormatCheck, PythonFormatCheck)
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.checks.format import (
-    PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
-    PerlFormatCheck, CSharpFormatCheck, JavaFormatCheck,
-    JavaMessageFormatCheck,
-)
 
 
 class PythonFormatCheckTest(CheckTestCase):

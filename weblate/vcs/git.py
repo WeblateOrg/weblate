@@ -20,12 +20,12 @@
 """Git based version control system abstraction for Weblate needs."""
 
 from __future__ import unicode_literals
+
 import email.utils
 import os
 import os.path
 
 from defusedxml import ElementTree
-
 from django.conf import settings
 from django.utils.functional import cached_property
 

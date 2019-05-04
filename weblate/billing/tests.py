@@ -18,27 +18,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from datetime import timedelta
 import os.path
+from datetime import timedelta
 
-from django.test import TestCase
-from django.test.utils import override_settings
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
+from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
-
 from six import StringIO
 
 from weblate.auth.models import User
-from weblate.billing.models import Plan, Billing, Invoice
-from weblate.billing.tasks import (
-    notify_expired, schedule_removal, perform_removal, billing_alert,
-    billing_check,
-)
+from weblate.billing.models import Billing, Invoice, Plan
+from weblate.billing.tasks import (billing_alert, billing_check,
+                                   notify_expired, perform_removal,
+                                   schedule_removal)
 from weblate.trans.models import Project
-
 
 TEST_DATA = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

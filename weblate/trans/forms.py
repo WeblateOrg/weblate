@@ -21,55 +21,49 @@
 from __future__ import unicode_literals
 
 import copy
-from datetime import date, datetime, timedelta
 import json
 import re
+from datetime import date, datetime, timedelta
 
+from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, Div, HTML
-from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
-
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import (
-    ugettext_lazy as _, ugettext, pgettext_lazy, pgettext, get_language,
-)
-from django.urls import reverse
+from django.db.models import Q
+from django.forms import ValidationError
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
-from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_text, force_text
+from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape
 from django.utils.http import urlencode
-from django.forms import ValidationError
-from django.db.models import Q
+from django.utils.safestring import mark_safe
+from django.utils.translation import (get_language, pgettext, pgettext_lazy,
+                                      ugettext)
+from django.utils.translation import ugettext_lazy as _
 
-from translation_finder import discover, DiscoveryResult
-
+from translation_finder import DiscoveryResult, discover
 from weblate.auth.models import User
-
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
-from weblate.langdata.languages import ALIASES
 from weblate.lang.models import Language
-from weblate.trans.filter import get_filter_choice
-from weblate.trans.models import (
-    Translation, Component, Unit, Project, Change, WhiteboardMessage,
-)
-from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
+from weblate.trans.filter import get_filter_choice
+from weblate.trans.models import (Change, Component, Project, Translation,
+                                  Unit, WhiteboardMessage)
+from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
+from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
-from weblate.trans.util import sort_choices, is_repo_link
-from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.state import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
-    STATE_CHOICES
-)
-from weblate.utils.validators import validate_file_extension
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.state import (STATE_APPROVED, STATE_CHOICES, STATE_EMPTY,
+                                 STATE_FUZZY, STATE_TRANSLATED)
+from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 
 ICON_TEMPLATE = '''

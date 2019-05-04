@@ -19,50 +19,44 @@
 #
 
 from __future__ import print_function, unicode_literals
-from datetime import timedelta
-from unittest import SkipTest
-from io import BytesIO
-import math
-import time
-import os
+
 import json
-from contextlib import contextmanager
+import math
+import os
+import time
 from base64 import b64encode
+from contextlib import contextmanager
+from datetime import timedelta
+from io import BytesIO
+from unittest import SkipTest
 
 import django
+import six
+import social_django.utils
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.test.utils import override_settings
-from django.urls import reverse
 from django.core import mail
-from django.test.utils import modify_settings
-
+from django.test.utils import modify_settings, override_settings
+from django.urls import reverse
 from PIL import Image
-
 from selenium import webdriver
-from selenium.common.exceptions import (
-    WebDriverException, ElementNotVisibleException,
-    NoSuchElementException,
-)
-from selenium.webdriver.remote.file_detector import UselessFileDetector
+from selenium.common.exceptions import (ElementNotVisibleException,
+                                        NoSuchElementException,
+                                        WebDriverException)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.remote.file_detector import UselessFileDetector
 from selenium.webdriver.support.expected_conditions import (
-    staleness_of, presence_of_element_located,
-)
-
-import six
+    presence_of_element_located, staleness_of)
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from six.moves.http_client import HTTPConnection
 
-import social_django.utils
-
-from weblate.lang.models import Language
 import weblate.screenshots.views
-from weblate.trans.models import Project, Component, Change, Unit, Dictionary
-from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.lang.models import Language
+from weblate.trans.models import Change, Component, Dictionary, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
-from weblate.trans.tests.utils import create_test_user, create_billing
+from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests.utils import create_billing, create_test_user
 from weblate.vcs.ssh import get_key_data
 
 # Check whether we should run Selenium tests

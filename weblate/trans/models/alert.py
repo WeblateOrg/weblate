@@ -23,12 +23,11 @@ from __future__ import unicode_literals
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.encoding import force_text, python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.utils.fields import JSONField
-
 
 ALERTS = {}
 ALERTS_IMPORT = set()

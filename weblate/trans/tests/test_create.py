@@ -22,13 +22,12 @@
 
 from __future__ import unicode_literals
 
+import six
 from django.test.utils import modify_settings
 from django.urls import reverse
 
-import six
-
-from weblate.trans.tests.utils import create_billing
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import create_billing
 
 
 class CreateTest(ViewTestCase):

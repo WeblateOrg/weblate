@@ -22,8 +22,8 @@
 # Django settings for running testsuite
 #
 
-import warnings
 import os
+import warnings
 
 from weblate.settings_example import *  # noqa
 

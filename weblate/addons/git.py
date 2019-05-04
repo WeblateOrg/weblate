@@ -27,9 +27,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.addons.forms import GitSquashForm
-
 from weblate.utils.errors import report_error
-
 from weblate.vcs.base import RepositoryException
 
 

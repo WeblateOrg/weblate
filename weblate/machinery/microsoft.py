@@ -20,10 +20,9 @@
 
 from datetime import timedelta
 
+import six
 from django.conf import settings
 from django.utils import timezone
-
-import six
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 

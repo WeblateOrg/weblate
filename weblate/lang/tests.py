@@ -24,20 +24,18 @@ from __future__ import unicode_literals
 import gettext
 from itertools import chain
 
+from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
-from django.core.management import call_command
 from django.utils.encoding import force_text
 from django.utils.translation import activate
+from six import PY2, StringIO, with_metaclass
 
-from six import StringIO, PY2, with_metaclass
-
-from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.lang import data
+from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.langdata import languages
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
-
 
 LANGUAGES = (
     (

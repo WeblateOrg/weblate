@@ -22,7 +22,7 @@
 
 from django.urls import reverse
 
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 
 

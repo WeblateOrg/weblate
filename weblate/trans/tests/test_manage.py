@@ -25,7 +25,7 @@ import shutil
 
 from django.urls import reverse
 
-from weblate.trans.models import Project, Component, WhiteboardMessage
+from weblate.trans.models import Component, Project, WhiteboardMessage
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 

@@ -23,10 +23,8 @@ from django.conf import settings
 from django.db.models import Q
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.models import (
-    Project, Component, Translation, Unit, ContributorAgreement,
-)
-
+from weblate.trans.models import (Component, ContributorAgreement, Project,
+                                  Translation, Unit)
 
 SPECIALS = {}
 

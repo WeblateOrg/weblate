@@ -19,17 +19,16 @@
 #
 from __future__ import unicode_literals
 
-from django.db.models import Sum, Count
-from django.views.generic import TemplateView
+from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
 from weblate.checks.models import Check
-from weblate.utils.requirements import get_versions, get_optional_versions
+from weblate.utils.requirements import get_optional_versions, get_versions
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
-
 
 MENU = (
     (

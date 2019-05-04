@@ -19,7 +19,6 @@
 #
 
 from weblate.trans.management.commands import WeblateComponentCommand
-
 from weblate.trans.tasks import perform_update
 
 

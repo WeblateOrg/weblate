@@ -20,69 +20,63 @@
 
 from __future__ import unicode_literals
 
+import fnmatch
+import functools
+import os
+import re
+import time
 from collections import defaultdict
 from copy import copy
 from glob import glob
-import os
-import time
-import fnmatch
-import functools
-import re
 
 from celery import current_task
 from celery.result import AsyncResult
-
 from django.conf import settings
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.core.mail import mail_admins
 from django.db import models, transaction
 from django.db.models import Q
-from django.utils.translation import ugettext as _, ugettext_lazy
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.functional import cached_property
-from django.core.mail import mail_admins
-from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.core.cache import cache
 from django.utils import timezone
-
+from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 from six.moves.urllib.parse import urlparse
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
-from weblate.trans.mixins import URLMixin, PathMixin
+from weblate.lang.models import Language
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
+from weblate.trans.mixins import PathMixin, URLMixin
+from weblate.trans.models.alert import ALERTS_IMPORT
+from weblate.trans.models.change import Change
+from weblate.trans.models.translation import Translation
+from weblate.trans.signals import (translation_post_add, vcs_post_push,
+                                   vcs_post_update, vcs_pre_push,
+                                   vcs_pre_update)
+from weblate.trans.util import (PRIORITY_CHOICES, cleanup_path,
+                                cleanup_repo_url, is_repo_link, parse_flags,
+                                path_separator)
+from weblate.trans.validators import (validate_autoaccept,
+                                      validate_check_flags, validate_filemask)
 from weblate.utils import messages
 from weblate.utils.celery import is_task_ready
-from weblate.utils.site import get_site_url
-from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
-from weblate.utils.licenses import is_osi_approved, is_fsf_approved
+from weblate.utils.licenses import is_fsf_approved, is_osi_approved
+from weblate.utils.render import (render_template, validate_render_addon,
+                                  validate_render_commit,
+                                  validate_render_component, validate_repoweb)
+from weblate.utils.site import get_site_url
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.stats import ComponentStats
 from weblate.utils.unitdata import filter_query
-from weblate.trans.util import (
-    is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
-    PRIORITY_CHOICES, parse_flags,
-)
-from weblate.trans.signals import (
-    vcs_post_push, vcs_pre_update, vcs_post_update, translation_post_add,
-    vcs_pre_push,
-)
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
-from weblate.utils.stats import ComponentStats
-from weblate.trans.exceptions import FileParseError
-from weblate.trans.models.alert import ALERTS_IMPORT
-from weblate.trans.models.translation import Translation
-from weblate.trans.validators import (
-    validate_filemask, validate_autoaccept, validate_check_flags,
-)
-from weblate.lang.models import Language
-from weblate.trans.models.change import Change
-from weblate.utils.render import (
-    validate_render_component, validate_render_addon,
-    validate_repoweb, render_template, validate_render_commit,
-)
-
 
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),

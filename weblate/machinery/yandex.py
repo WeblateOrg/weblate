@@ -22,9 +22,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.machinery.base import (
-    MachineTranslation, MissingConfiguration, MachineTranslationError,
-)
+from weblate.machinery.base import (MachineTranslation,
+                                    MachineTranslationError,
+                                    MissingConfiguration)
 
 
 class YandexTranslation(MachineTranslation):

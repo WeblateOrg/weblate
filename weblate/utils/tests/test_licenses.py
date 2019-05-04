@@ -22,8 +22,7 @@ from __future__ import unicode_literals
 
 from django.test import SimpleTestCase
 
-from weblate.utils.licenses import is_osi_approved, is_fsf_approved
-
+from weblate.utils.licenses import is_fsf_approved, is_osi_approved
 
 # Licenses extracted from Hosted Weblate service
 LICENSES = (

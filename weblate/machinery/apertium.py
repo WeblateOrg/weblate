@@ -24,7 +24,6 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-
 LANGUAGE_MAP = {
     'ca': 'cat',
     'cy': 'cym',

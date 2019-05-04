@@ -24,7 +24,6 @@ import os.path
 
 from django import template
 
-
 register = template.Library()
 
 

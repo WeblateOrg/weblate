@@ -30,24 +30,20 @@ from django.conf import settings
 from django.core import mail
 from django.test.utils import override_settings
 
+from weblate.accounts.models import AuditLog, Profile, Subscription
+from weblate.accounts.notifications import (FREQ_DAILY, FREQ_INSTANT,
+                                            FREQ_MONTHLY, FREQ_NONE,
+                                            FREQ_WEEKLY, SCOPE_ADMIN,
+                                            SCOPE_COMPONENT, SCOPE_DEFAULT,
+                                            SCOPE_PROJECT,
+                                            MergeFailureNotification)
+from weblate.accounts.tasks import (notify_change, notify_daily,
+                                    notify_monthly, notify_weekly)
 from weblate.auth.models import User
-from weblate.accounts.models import Profile, AuditLog, Subscription
-from weblate.accounts.notifications import (
-    FREQ_NONE, FREQ_INSTANT, FREQ_DAILY, FREQ_WEEKLY, FREQ_MONTHLY,
-    SCOPE_DEFAULT, SCOPE_ADMIN, SCOPE_PROJECT, SCOPE_COMPONENT,
-    MergeFailureNotification,
-)
-from weblate.accounts.tasks import (
-    notify_change, notify_daily, notify_weekly, notify_monthly,
-)
-from weblate.trans.tests.test_views import (
-    ViewTestCase, RegistrationTestMixin,
-)
-from weblate.trans.models import (
-    Suggestion, Comment, Change, WhiteboardMessage, Alert,
-)
 from weblate.lang.models import Language
-
+from weblate.trans.models import (Alert, Change, Comment, Suggestion,
+                                  WhiteboardMessage)
+from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]['OPTIONS']['string_if_invalid'] = 'TEMPLATE_BUG[%s]'

@@ -20,9 +20,9 @@
 
 """Test for automatic translation"""
 
-from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.urls import reverse
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase

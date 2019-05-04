@@ -19,6 +19,7 @@
 #
 
 from django.db.models import ImageField
+
 from weblate.utils.validators import validate_bitmap
 
 

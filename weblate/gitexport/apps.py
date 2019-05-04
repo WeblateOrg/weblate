@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
-from django.core.checks import register, Critical
+from django.core.checks import Critical, register
 
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.utils.docs import get_doc_url

@@ -21,8 +21,8 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from weblate.auth.models import User, Role, Group, Permission
-from weblate.trans.models import Project, Comment
+from weblate.auth.models import Group, Permission, Role, User
+from weblate.trans.models import Comment, Project
 
 
 class PermissionsTest(TestCase):

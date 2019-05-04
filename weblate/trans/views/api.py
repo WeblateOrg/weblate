@@ -23,11 +23,10 @@ from __future__ import absolute_import, unicode_literals
 import csv
 
 import six
-
 from django.http import HttpResponse, JsonResponse
 
-from weblate.utils.views import get_project, get_component
 from weblate.trans.stats import get_project_stats
+from weblate.utils.views import get_component, get_project
 
 
 def export_stats_project(request, project):

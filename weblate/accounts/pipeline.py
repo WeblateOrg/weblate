@@ -30,20 +30,18 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
-
 from six.moves.urllib.request import Request, urlopen
-
+from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
-from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
-from weblate.auth.models import User
+from weblate import USER_AGENT
+from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
-from weblate.accounts.models import VerifiedEmail, AuditLog
 from weblate.accounts.utils import invalidate_reset_codes
+from weblate.auth.models import User
 from weblate.utils import messages
-from weblate.utils.validators import clean_fullname, USERNAME_MATCHER
-from weblate import USER_AGENT
+from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
 
 STRIP_MATCHER = re.compile(r'[^\w\s.@+-]')
 CLEANUP_MATCHER = re.compile(r'[-\s]+')

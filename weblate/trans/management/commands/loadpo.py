@@ -19,7 +19,6 @@
 #
 
 from weblate.trans.management.commands import WeblateLangCommand
-
 from weblate.trans.tasks import perform_load
 
 

@@ -30,8 +30,8 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.views.generic.base import TemplateView
 
-from weblate.memory.forms import DeleteForm, UploadForm, ImportForm
-from weblate.memory.storage import TranslationMemory, MemoryImportError
+from weblate.memory.forms import DeleteForm, ImportForm, UploadForm
+from weblate.memory.storage import MemoryImportError, TranslationMemory
 from weblate.memory.tasks import import_memory
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project

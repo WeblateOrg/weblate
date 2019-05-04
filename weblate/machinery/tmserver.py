@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-
 from six.moves.urllib.error import HTTPError
 from six.moves.urllib.parse import quote
 

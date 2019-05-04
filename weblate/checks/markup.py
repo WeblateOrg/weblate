@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import re
 
 from defusedxml import lxml
-
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property

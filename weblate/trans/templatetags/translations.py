@@ -21,30 +21,29 @@
 from __future__ import unicode_literals
 
 import re
-
 from datetime import date
 
-from django.utils.html import escape, urlize, linebreaks
-from django.templatetags.static import static
-from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.safestring import mark_safe
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
-from django.utils import timezone
 from django import template
+from django.template.loader import render_to_string
+from django.templatetags.static import static
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.encoding import force_text
+from django.utils.html import escape, linebreaks, urlize
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy, ungettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
+from weblate.checks import CHECKS, highlight_string
+from weblate.lang.models import Language
+from weblate.trans.filter import get_filter_choice
+from weblate.trans.models import (Component, ContributorAgreement, Dictionary,
+                                  Project, Translation, Unit,
+                                  WhiteboardMessage)
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
-from weblate.lang.models import Language
-from weblate.trans.models import (
-    Project, Component, Dictionary, WhiteboardMessage, Unit,
-    ContributorAgreement, Translation,
-)
-from weblate.checks import CHECKS, highlight_string
-from weblate.trans.filter import get_filter_choice
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import BaseStats
 

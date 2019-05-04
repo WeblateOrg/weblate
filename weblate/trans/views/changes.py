@@ -19,17 +19,13 @@
 #
 
 import six
-if six.PY2:
-    from backports import csv
-else:
-    import csv
-
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import Http404, HttpResponse
-from django.utils.translation import ugettext as _, activate, pgettext
 from django.urls import reverse
 from django.utils.http import urlencode
+from django.utils.translation import activate, pgettext
+from django.utils.translation import ugettext as _
 from django.views.generic.list import ListView
 
 from weblate.auth.models import User
@@ -38,6 +34,11 @@ from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_project_translation
+
+if six.PY2:
+    from backports import csv
+else:
+    import csv
 
 
 class ChangesView(ListView):

@@ -18,25 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext as _
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
-from weblate.utils import messages
-from weblate.utils.views import (
-    get_project, get_component, get_translation, show_form_errors,
-)
-from weblate.trans.forms import (
-    DeleteForm, ProjectRenameForm, ComponentRenameForm, ComponentMoveForm,
-    WhiteboardForm,
-)
+from weblate.trans.forms import (ComponentMoveForm, ComponentRenameForm,
+                                 DeleteForm, ProjectRenameForm, WhiteboardForm)
 from weblate.trans.models import Change, WhiteboardMessage
 from weblate.trans.tasks import component_removal, project_removal
-from weblate.trans.util import redirect_param
-from weblate.trans.util import render
+from weblate.trans.util import redirect_param, render
+from weblate.utils import messages
+from weblate.utils.views import (get_component, get_project, get_translation,
+                                 show_form_errors)
 
 
 @login_required

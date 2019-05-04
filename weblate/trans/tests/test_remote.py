@@ -19,17 +19,17 @@
 #
 """Test for changes done in remote repository."""
 
-import shutil
 import os
+import shutil
 from unittest import SkipTest
 
 from django.utils import timezone
 
 from weblate.trans.models import Component
-from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.vcs.models import VCS_REGISTRY
+from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.vcs.models import VCS_REGISTRY
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21

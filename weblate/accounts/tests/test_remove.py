@@ -23,7 +23,7 @@
 from django.urls import reverse
 
 from weblate.auth.models import User
-from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
+from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 
 class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):

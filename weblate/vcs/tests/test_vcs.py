@@ -20,22 +20,20 @@
 
 from __future__ import unicode_literals
 
-import tempfile
-import shutil
 import os.path
+import shutil
+import tempfile
 from unittest import SkipTest, TestCase
 
 from django.utils import timezone
 
-from weblate.trans.tests.utils import RepoTestMixin
-from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import (
-    GitRepository, GitWithGerritRepository, GithubRepository,
-    SubversionRepository
-)
-from weblate.vcs.mercurial import HgRepository
-from weblate.trans.tests.utils import get_test_file, TempDirMixin
+from weblate.trans.tests.utils import (RepoTestMixin, TempDirMixin,
+                                       get_test_file)
 from weblate.utils.files import remove_readonly
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import (GithubRepository, GitRepository,
+                             GitWithGerritRepository, SubversionRepository)
+from weblate.vcs.mercurial import HgRepository
 
 
 class GithubFakeRepository(GithubRepository):

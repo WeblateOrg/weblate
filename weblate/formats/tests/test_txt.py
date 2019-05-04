@@ -22,8 +22,8 @@ from __future__ import unicode_literals
 
 import os.path
 
-from weblate.formats.txt import AppStoreFormat
 from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.txt import AppStoreFormat
 from weblate.trans.tests.utils import get_test_file
 
 APPSTORE_FILE = get_test_file('short_description.txt')

@@ -22,12 +22,11 @@ from __future__ import unicode_literals
 
 from django.core.files import File
 from django.urls import reverse
-
 from rest_framework.test import APITestCase
 
-from weblate.auth.models import User, Group
+from weblate.auth.models import Group, User
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Project, Change, Unit, Source
+from weblate.trans.models import Change, Project, Source, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 

@@ -26,8 +26,7 @@ from django.test import TestCase
 
 from translate.storage.placeables.strelem import StringElem
 from translate.storage.xliff import xlifffile
-
-from weblate.trans.util import xliff_string_to_rich, rich_to_xliff_string
+from weblate.trans.util import rich_to_xliff_string, xliff_string_to_rich
 
 
 class XliffPlaceholdersTest(TestCase):

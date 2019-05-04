@@ -22,19 +22,17 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from collections import defaultdict
 import functools
 import logging
+from collections import defaultdict
 from time import sleep
 
 from celery_batches import Batches
-
-from whoosh.fields import SchemaClass, TEXT, NUMERIC
-from whoosh.query import Or, Term
-from whoosh.index import LockError
-from whoosh import qparser
-
 from django.utils.encoding import force_text
+from whoosh import qparser
+from whoosh.fields import NUMERIC, TEXT, SchemaClass
+from whoosh.index import LockError
+from whoosh.query import Or, Term
 
 from weblate.celery import app
 from weblate.utils.celery import extract_batch_args, extract_batch_kwargs

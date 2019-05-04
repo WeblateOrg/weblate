@@ -25,15 +25,16 @@ from __future__ import unicode_literals
 import re
 import shutil
 from unittest import TestCase
-from whoosh.filedb.filestore import FileStorage
-from django.urls import reverse
-from django.test.utils import override_settings
-from django.http import QueryDict
 
-from weblate.utils.ratelimit import reset_rate_limit
-from weblate.trans.tests.test_views import ViewTestCase
+from django.http import QueryDict
+from django.test.utils import override_settings
+from django.urls import reverse
+from whoosh.filedb.filestore import FileStorage
+
 from weblate.trans.search import Fulltext
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TempDirMixin
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 

@@ -23,13 +23,13 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect
-from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
+from django.views.decorators.cache import never_cache
 
 from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
-from weblate.utils.views import get_project, get_component
 from weblate.utils import messages
+from weblate.utils.views import get_component, get_project
 
 
 @never_cache

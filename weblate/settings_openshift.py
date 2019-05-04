@@ -20,13 +20,10 @@
 
 import os
 import sys
+
 from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
-
-# Import example settings file to get default values for Weblate settings.
 from weblate.settings_example import *  # noqa
-
 from weblate.utils.environment import get_env_list, get_env_map
-
 
 DEBUG = False
 

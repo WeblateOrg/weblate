@@ -20,28 +20,25 @@
 """Version control system abstraction for Weblate needs."""
 
 from __future__ import unicode_literals
-from distutils.version import LooseVersion
+
 import hashlib
+import logging
 import os
 import os.path
-import sys
 import subprocess
-import logging
+import sys
+from distutils.version import LooseVersion
 
 from dateutil import parser
-
 from django.core.cache import cache
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
-
 from filelock import FileLock
-
 from pkg_resources import Requirement, resource_filename
 
-from weblate.trans.util import (
-    get_clean_env, path_separator,
-    add_configuration_error, delete_configuration_error,
-)
+from weblate.trans.util import (add_configuration_error,
+                                delete_configuration_error, get_clean_env,
+                                path_separator)
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger('weblate.vcs')

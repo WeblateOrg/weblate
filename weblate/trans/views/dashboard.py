@@ -21,23 +21,23 @@
 from __future__ import unicode_literals
 
 from django.db.models import Count
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import translation
-from django.views.decorators.cache import never_cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.translation.trans_real import parse_accept_lang_header
+from django.views.decorators.cache import never_cache
 
+from weblate.accounts.models import Profile
+from weblate.lang.models import Language
+from weblate.trans.forms import SiteSearchForm
+from weblate.trans.models import ComponentList, Translation
+from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
-from weblate.trans.models import Translation, ComponentList
-from weblate.lang.models import Language
-from weblate.trans.forms import SiteSearchForm
-from weblate.accounts.models import Profile
-from weblate.trans.util import render
 
 
 def get_untranslated(base, limit=None):

@@ -22,11 +22,12 @@
 from __future__ import unicode_literals
 
 import ast
-from base64 import b64encode, b64decode
 import hashlib
 import operator
-from random import SystemRandom
 import time
+from base64 import b64decode, b64encode
+from random import SystemRandom
+
 from django.conf import settings
 
 TIMEDELTA = 600

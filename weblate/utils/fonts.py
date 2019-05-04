@@ -19,16 +19,14 @@
 #
 """Font handling wrapper."""
 
-from itertools import product
 import os.path
+from itertools import product
 
 from django.conf import settings
 from django.core.checks import Error
-
 from PIL import ImageFont
 
 from weblate.utils.docs import get_doc_url
-
 
 # List of chars in base DejaVu font, otherwise we use DroidSansFallback
 BASE_CHARS = frozenset((

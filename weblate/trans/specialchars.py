@@ -23,11 +23,10 @@ from __future__ import unicode_literals
 
 import unicodedata
 
-from django.conf import settings
-from django.utils.translation import ugettext as _, ugettext_lazy
-
 import six
-
+from django.conf import settings
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
 # Names of hardcoded chars
 CHAR_NAMES = {

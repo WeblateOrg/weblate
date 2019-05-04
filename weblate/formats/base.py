@@ -21,15 +21,14 @@
 
 from __future__ import unicode_literals
 
-from copy import deepcopy
 import os
 import re
 import sys
 import tempfile
-
-from django.utils.functional import cached_property
+from copy import deepcopy
 
 import six
+from django.utils.functional import cached_property
 
 from weblate.utils.hash import calculate_hash
 

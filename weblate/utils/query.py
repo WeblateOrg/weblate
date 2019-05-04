@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Wrapper for Sum to work on Boolean fields."""
-from django.db.models import Sum, When, Case, IntegerField
+from django.db.models import Case, IntegerField, Sum, When
 
 
 def conditional_sum(value=1, **cond):

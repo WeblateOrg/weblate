@@ -23,8 +23,8 @@
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.utils.fonts import get_font
 import weblate.utils.fonts
+from weblate.utils.fonts import get_font
 
 
 class FontsTest(SimpleTestCase):

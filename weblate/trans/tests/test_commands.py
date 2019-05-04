@@ -20,23 +20,22 @@
 
 """Test for management commands."""
 
-from unittest import SkipTest
 import sys
+from unittest import SkipTest
 
-from six import StringIO
-
-from django.test import SimpleTestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
+from django.test import SimpleTestCase
+from six import StringIO
 
+from weblate.accounts.models import Profile
+from weblate.runner import main
+from weblate.trans.models import Component, Source, Suggestion, Translation
+from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.models import Translation, Component, Suggestion, Source
-from weblate.trans.search import Fulltext
-from weblate.runner import main
-from weblate.trans.tests.utils import get_test_file, create_test_user
+from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.vcs.mercurial import HgRepository
-from weblate.accounts.models import Profile
 
 TEST_PO = get_test_file('cs.po')
 TEST_COMPONENTS = get_test_file('components.json')

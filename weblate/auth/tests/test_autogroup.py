@@ -20,7 +20,7 @@
 
 from django.test import TestCase
 
-from weblate.auth.models import User, Group, AutoGroup
+from weblate.auth.models import AutoGroup, Group, User
 
 
 class AutoGroupTest(TestCase):

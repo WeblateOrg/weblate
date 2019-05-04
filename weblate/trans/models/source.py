@@ -28,8 +28,8 @@ from django.utils.functional import cached_property
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
-from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import PRIORITY_CHOICES
+from weblate.trans.validators import validate_check_flags
 
 
 @python_2_unicode_compatible

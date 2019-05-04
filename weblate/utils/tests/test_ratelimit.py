@@ -24,14 +24,12 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage import default_storage
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
-from django.test.utils import override_settings
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
 from weblate.auth.models import User
-from weblate.utils.ratelimit import (
-    reset_rate_limit, check_rate_limit, session_ratelimit_post,
-    revert_rate_limit,
-)
+from weblate.utils.ratelimit import (check_rate_limit, reset_rate_limit,
+                                     revert_rate_limit, session_ratelimit_post)
 
 
 class RateLimitTest(SimpleTestCase):

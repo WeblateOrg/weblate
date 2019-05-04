@@ -23,14 +23,18 @@ import difflib
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, DetailView
-from django.shortcuts import get_object_or_404, redirect, render
-
+from django.views.generic import DetailView, ListView
 from PIL import Image
 
+from weblate.screenshots.forms import ScreenshotForm
+from weblate.screenshots.models import Screenshot
+from weblate.trans.models import Source
+from weblate.utils import messages
 from weblate.utils.locale import c_locale
+from weblate.utils.views import ComponentViewMixin
 
 try:
     with c_locale():
@@ -38,12 +42,6 @@ try:
     HAS_OCR = True
 except ImportError:
     HAS_OCR = False
-
-from weblate.screenshots.forms import ScreenshotForm
-from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Source
-from weblate.utils import messages
-from weblate.utils.views import ComponentViewMixin
 
 
 def try_add_source(request, obj):

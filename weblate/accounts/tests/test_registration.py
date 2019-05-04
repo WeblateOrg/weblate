@@ -23,20 +23,17 @@
 import json
 
 import httpretty
+import social_django.utils
+from django.core import mail
+from django.test import Client, TestCase
+from django.test.utils import override_settings
+from django.urls import reverse
 from six.moves.urllib.parse import parse_qs, urlparse
 
-from django.urls import reverse
-from django.core import mail
-from django.test import TestCase, Client
-from django.test.utils import override_settings
-
-import social_django.utils
-
-from weblate.auth.models import User
 from weblate.accounts.models import VerifiedEmail
-from weblate.utils.ratelimit import reset_rate_limit
-
+from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.utils.ratelimit import reset_rate_limit
 
 REGISTRATION_DATA = {
     'username': 'username',

@@ -20,10 +20,11 @@
 
 from __future__ import unicode_literals
 
-from copy import copy
 import functools
 import re
+from copy import copy
 
+import six
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
@@ -32,28 +33,22 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
-import six
-
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.memory.tasks import update_memory
-from weblate.trans.models.source import Source
-from weblate.trans.models.comment import Comment
-from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
+from weblate.trans.models.comment import Comment
+from weblate.trans.models.source import Source
+from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
-from weblate.trans.mixins import LoggerMixin
+from weblate.trans.util import (get_distinct_translations, is_plural,
+                                join_plural, parse_flags, split_plural)
 from weblate.utils.errors import report_error
-from weblate.trans.util import (
-    is_plural, split_plural, join_plural, get_distinct_translations,
-    parse_flags,
-)
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-from weblate.utils.state import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
-    STATE_CHOICES
-)
+from weblate.utils.state import (STATE_APPROVED, STATE_CHOICES, STATE_EMPTY,
+                                 STATE_FUZZY, STATE_TRANSLATED)
 
 SIMPLE_FILTERS = {
     'fuzzy': {'state': STATE_FUZZY},

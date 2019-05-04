@@ -18,18 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from base64 import b64decode
-from email import message_from_string
 import os.path
 import subprocess
+from base64 import b64decode
+from email import message_from_string
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.http.response import HttpResponseServerError, HttpResponse
+from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
 from django.utils.encoding import force_text
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 
 from weblate.auth.models import User
 from weblate.gitexport.models import SUPPORTED_VCS

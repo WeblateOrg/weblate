@@ -20,23 +20,19 @@
 
 import re
 
-from django.conf.urls import include, url
-from django.conf import settings
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
-from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
 import django.views.i18n
 import django.views.static
+from django.conf import settings
+from django.conf.urls import include, url
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+from django.views.generic import RedirectView
 
-from weblate.trans.feeds import (
-    TranslationChangesFeed, ComponentChangesFeed,
-    ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
-)
-from weblate.trans.views.changes import ChangesView, ChangesCSVView
+import weblate.accounts.urls
 import weblate.accounts.views
 import weblate.addons.views
-from weblate.auth.decorators import management_access
+import weblate.api.urls
 import weblate.checks.views
 import weblate.lang.views
 import weblate.memory.views
@@ -62,10 +58,13 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
-from weblate.sitemaps import SITEMAPS
-import weblate.accounts.urls
-import weblate.api.urls
 import weblate.wladmin.sites
+from weblate.auth.decorators import management_access
+from weblate.sitemaps import SITEMAPS
+from weblate.trans.feeds import (ChangesFeed, ComponentChangesFeed,
+                                 LanguageChangesFeed, ProjectChangesFeed,
+                                 TranslationChangesFeed)
+from weblate.trans.views.changes import ChangesCSVView, ChangesView
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'

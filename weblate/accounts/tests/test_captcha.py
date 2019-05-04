@@ -21,9 +21,8 @@
 
 from unittest import TestCase
 
-from weblate.accounts.captcha import (
-    hash_question, unhash_question, MathCaptcha
-)
+from weblate.accounts.captcha import (MathCaptcha, hash_question,
+                                      unhash_question)
 
 
 class CaptchaTest(TestCase):

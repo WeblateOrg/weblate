@@ -23,22 +23,19 @@ from __future__ import absolute_import, unicode_literals
 import json
 import re
 
-from six.moves.urllib.parse import urlparse
-
 from django.conf import settings
 from django.db.models import Q
+from django.http import (HttpResponseBadRequest, HttpResponseNotAllowed,
+                         JsonResponse)
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.http import (
-    HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse,
-)
+from six.moves.urllib.parse import urlparse
 
+from weblate.logger import LOGGER
 from weblate.trans.models import Component
-from weblate.utils.views import get_project, get_component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
-from weblate.logger import LOGGER
-
+from weblate.utils.views import get_component, get_project
 
 BITBUCKET_GIT_REPOS = (
     'ssh://git@{server}/{full_name}.git',

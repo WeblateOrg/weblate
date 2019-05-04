@@ -27,14 +27,14 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 
 from weblate.lang.models import Language
-from weblate.trans.models.change import Change
-from weblate.utils.unitdata import UnitData
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
-from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.request import get_ip_address
+from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.unitdata import UnitData
 
 
 class SuggestionManager(models.Manager):

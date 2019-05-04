@@ -25,16 +25,15 @@ from datetime import timedelta
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Sum, Count
-from django.utils.functional import cached_property
+from django.db.models import Count, Sum
 from django.utils import timezone
+from django.utils.functional import cached_property
 
 from weblate.trans.filter import get_filter_choice
-from weblate.utils.query import conditional_sum
-from weblate.utils.state import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
-)
 from weblate.trans.util import translation_percent
+from weblate.utils.query import conditional_sum
+from weblate.utils.state import (STATE_APPROVED, STATE_EMPTY, STATE_FUZZY,
+                                 STATE_TRANSLATED)
 
 BASICS = frozenset((
     'all', 'fuzzy', 'todo', 'translated', 'approved', 'allchecks',

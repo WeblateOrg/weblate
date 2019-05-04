@@ -20,7 +20,9 @@
 #
 
 import re
+
 from django.utils.translation import ugettext_lazy as _
+
 from weblate.checks.base import TargetCheck
 
 ANGULARJS_INTERPOLATION_MATCH = re.compile(

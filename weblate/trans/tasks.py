@@ -20,33 +20,26 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import os
 from datetime import timedelta
 from glob import glob
-import os
 from shutil import rmtree
 from time import time
 
 from celery.schedules import crontab
-
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-
 from filelock import Timeout
-
 from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import get_anonymous
 from weblate.celery import app
-
 from weblate.checks.models import Check
-
 from weblate.lang.models import Language
-
-from weblate.trans.models import (
-    Suggestion, Comment, Unit, Project, Source, Component, Change,
-)
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.models import (Change, Comment, Component, Project, Source,
+                                  Suggestion, Unit)
 from weblate.trans.search import Fulltext
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly

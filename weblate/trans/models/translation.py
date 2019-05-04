@@ -20,37 +20,35 @@
 
 from __future__ import unicode_literals
 
-import os
 import codecs
+import os
 
+from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models.aggregates import Max
-from django.utils.translation import ugettext as _
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.functional import cached_property
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
-from weblate.lang.models import Language, Plural
-from weblate.formats.auto import try_load
 from weblate.checks import CHECKS
-from weblate.trans.models.unit import (
-    Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
-)
-from weblate.utils.stats import TranslationStats
-from weblate.utils.render import render_template
-from weblate.trans.models.suggestion import Suggestion
-from weblate.trans.signals import (
-    vcs_pre_commit, vcs_post_commit, store_post_load
-)
-from weblate.utils.site import get_site_url
+from weblate.formats.auto import try_load
+from weblate.lang.models import Language, Plural
+from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.util import split_plural
-from weblate.trans.mixins import URLMixin, LoggerMixin
+from weblate.trans.mixins import LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
-from weblate.trans.checklists import TranslationChecklist
+from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.models.unit import (STATE_APPROVED, STATE_FUZZY,
+                                       STATE_TRANSLATED, Unit)
+from weblate.trans.signals import (store_post_load, vcs_post_commit,
+                                   vcs_pre_commit)
+from weblate.trans.util import split_plural
+from weblate.utils.render import render_template
+from weblate.utils.site import get_site_url
+from weblate.utils.stats import TranslationStats
 
 
 class TranslationManager(models.Manager):

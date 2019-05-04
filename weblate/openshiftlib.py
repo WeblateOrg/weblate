@@ -19,11 +19,11 @@
 #
 """OpenShift integration support"""
 
-import os
-import hashlib
-import sys
-import re
 import ast
+import hashlib
+import os
+import re
+import sys
 from string import Template
 
 

@@ -19,31 +19,30 @@
 #
 
 from django.contrib.auth.decorators import login_required
-from django.db.models.functions import Lower
-from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _, ungettext
-from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse
+from django.db.models.functions import Lower
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.encoding import force_text
 from django.utils.http import urlencode
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.utils import messages
 from weblate.formats.exporters import get_exporter
-from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
-from weblate.utils.site import get_site_url
+from weblate.trans.forms import (DictUploadForm, LetterForm, OneWordForm,
+                                 WordForm)
+from weblate.trans.models import Change, Dictionary, Translation, Unit
+from weblate.trans.util import redirect_next, redirect_param, render
+from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.trans.util import render, redirect_next, redirect_param
-from weblate.trans.forms import (
-    WordForm, DictUploadForm, LetterForm, OneWordForm,
-)
 from weblate.utils.ratelimit import session_ratelimit_post
-from weblate.utils.views import get_project, import_message
-from weblate.utils.views import get_paginator
+from weblate.utils.site import get_site_url
+from weblate.utils.views import get_paginator, get_project, import_message
 
 
 def dict_title(prj, lang):

@@ -21,8 +21,8 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from weblate.trans.models import Unit, Change, Component
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.trans.models import Change, Component, Unit
 from weblate.utils.state import STATE_TRANSLATED
 
 

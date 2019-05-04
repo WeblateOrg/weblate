@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.lang.models import Language
+from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.trans.models import Unit
 from weblate.trans.search import Fulltext
 from weblate.trans.tasks import optimize_fulltext
