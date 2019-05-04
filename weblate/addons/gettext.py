@@ -29,7 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
-from weblate.addons.forms import GettextCustomizeForm
+from weblate.addons.forms import GettextCustomizeForm, MsgmergeForm
 from weblate.formats.exporters import MoExporter
 
 
@@ -181,6 +181,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         'repository.'
     )
     alert = 'MsgmergeAddonError'
+    settings_form = MsgmergeForm
 
     @classmethod
     def can_install(cls, component, user):
@@ -192,11 +193,14 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         cmd = [
             'msgmerge',
             '--backup=none',
-            '--previous',
             '--update',
             'FILE',
             component.get_new_base_filename()
         ]
+        if not self.instance.configuration.get('fuzzy', True):
+            cmd.insert(1, '--no-fuzzy-matching')
+        if self.instance.configuration.get('previous', True):
+            cmd.insert(1, '--previous')
         try:
             width = component.addon_set.get(
                 name='weblate.gettext.customize'

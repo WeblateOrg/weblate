@@ -97,6 +97,18 @@ class GettextCustomizeForm(BaseAddonForm):
     )
 
 
+class MsgmergeForm(BaseAddonForm):
+    previous = forms.BooleanField(
+        label=_('Keep previous msgids of translated messages'),
+        required=False,
+        initial=True,
+    )
+    fuzzy = forms.BooleanField(
+        label=_('Use fuzzy matching'),
+        required=False,
+        initial=True,
+    )
+
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
         label=_('Commit squashing'),
