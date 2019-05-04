@@ -93,8 +93,9 @@ class EscapeTranslate(object):
     def __getattr__(self, name):
         return getattr(translation, name)
 
+DjangoTranslation = trans_real.DjangoTranslation
 
-class WeblateTranslation(trans_real.DjangoTranslation):
+class WeblateTranslation(DjangoTranslation):
     """
     Workaround to enforce our plural forms over Django ones.
 
@@ -110,7 +111,7 @@ class WeblateTranslation(trans_real.DjangoTranslation):
     See https://code.djangoproject.com/ticket/30439
     """
     def merge(self, other):
-        super(WeblateTranslation, self).merge(other)
+        DjangoTranslation.merge(other)
         # Override plural
         if hasattr(other, 'plural'):
             self.plural = other.plural
