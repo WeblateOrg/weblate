@@ -15,6 +15,7 @@ Released on ? 2019.
 * Use templates for editor link and repository browser URL.
 * Indicate max length and current chars count when editing translation.
 * Improved handling of abbreviations in unchanged translation check.
+* Refreshed landing page for new contributors.
 
 weblate 3.6.1
 -------------
