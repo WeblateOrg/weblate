@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-04-27 08:24+0000\n"
-"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
+"PO-Revision-Date: 2019-05-08 06:49+0000\n"
+"Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -66,10 +66,8 @@ msgid "Email"
 msgstr "Eposta"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "Kimlik doğrulama sekmesinde başka e-posta adresi ekleyebilirsiniz."
+msgstr "Aşağıya başka bir e-posta adresi ekleyebilirsiniz."
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -377,12 +375,6 @@ msgid "Editor link"
 msgstr "Düzenleyici bağlantısı"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
@@ -390,9 +382,9 @@ msgid ""
 "&line={{line}} is good option."
 msgstr ""
 "Kaynak kodunu açmada bağlantı olarak kullanmak için özel URL girin. Dal için "
-"{{ branch }}, dosya adı ve satır yer tutucuları olarak {{ filename }} ve "
-"{{ line }} kullanabilirsiniz. Genellikle editor://open/?file={{ filename }}"
-"&line={{ line }} gibi birşey iyi seçenektir."
+"{{branch}}, dosya adı ve satır yer tutucuları olarak {{filename}} ve {{line}}"
+" kullanabilirsiniz. Genellikle editor://open/?file={{filename}}&line={{line}}"
+" gibi birşey iyi seçenektir."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2230,12 +2222,10 @@ msgstr "Sağdan sola"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Dil"
-msgstr[1] "Dil"
+msgstr[1] "Diller"
 
 #: weblate/lang/models.py:443
 msgctxt "Plural type"
@@ -4666,16 +4656,13 @@ msgid "Change word"
 msgstr "Kelime değiştir"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "%(project)s içinde yer alın."
+msgstr "%(project)s içinde yer alın"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "Merhaba, ve ilginiz için teşekkür ederiz."
+msgstr "Merhaba & ilginiz için teşekkürler"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4688,37 +4675,25 @@ msgstr ""
 "bir web aracıdır."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Satırlar"
+msgstr[0] "Satır"
 msgstr[1] "Satırlar"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"%(project)s için Türkçe'ye çeviri projesi, çeviri için şu anda %(total)s "
-"satır içeriyor ve %%%(percent)s tamamlandı."
+"%(project)s için Türkçe'ye çeviri projesi, çeviri için şu anda "
+"<strong>%(total)s satır</strong> içeriyor ve <strong>%%%(percent)s "
+"tamamlandı</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4730,13 +4705,13 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"%(project)s için çeviri projesi, şu anda çeviri için %(total)s satır "
-"içeriyor ve %(languages)s dile çevriliyor. Genel olarak bu çeviriler %%"
-"%(percent)s oranında tamamlandı."
+"%(project)s için çeviri projesi, şu anda çeviri için <strong>%(total)s "
+"satır</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
+"Genel olarak bu çeviriler <strong>%%%(percent)s oranında tamamlandı</strong>."
 msgstr[1] ""
-"%(project)s için çeviri projesi, şu anda çeviri için %(total)s satır "
-"içeriyor ve %(languages)s dile çevriliyor. Genel olarak, bu çeviriler %%"
-"%(percent)s oranında tamamlandı."
+"%(project)s için çeviri projesi, şu anda çeviri için <strong>%(total)s "
+"satır</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
+"Genel olarak bu çeviriler <strong>%%%(percent)s oranında tamamlandı</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -7289,6 +7264,8 @@ msgstr "Çeviri yorumu, diğer çevirmenler ile tartışmalar"
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
 msgstr ""
+"Dış bağlantıları ekleyebilir veya diğer kullanıcılara @username adı ile "
+"bahsedebilirsiniz."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7838,16 +7815,12 @@ msgid "Repository browser"
 msgstr "Havuz tarayıcısı"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Havuz tarayıcısına bağlantı, dal için {{ branch }}, dosya adı ve satır yer "
-"tutucuları olarak {{ filename }} ve {{ line }} kullan."
+"Havuz tarayıcısına bağlantı, dal için {{branch}}, dosya adı ve satır yer "
+"tutucuları olarak {{filename}} ve {{line}} kullan."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9229,22 +9202,19 @@ msgstr "çevrilen"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "Tanımsız değişken: \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "Şablon oluşturulamadı: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
-"Nesneyi buradan değiştirmeyin, bunun yerine Weblate arayüzünü kullanın "
-"lütfen."
+"Biçim satırları artık desteklenmiyor, lütfen bunun yerine şablon dilini "
+"kullanın."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
