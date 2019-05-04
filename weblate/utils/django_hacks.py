@@ -111,7 +111,7 @@ class WeblateTranslation(DjangoTranslation):
     See https://code.djangoproject.com/ticket/30439
     """
     def merge(self, other):
-        DjangoTranslation.merge(other)
+        DjangoTranslation.merge(self, other)
         # Override plural
         if hasattr(other, 'plural'):
             self.plural = other.plural
