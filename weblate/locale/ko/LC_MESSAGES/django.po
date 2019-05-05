@@ -4,13 +4,14 @@
 # 송태섭 <xotjq237@gmail.com>, 2018, 2019.
 # Kyeong Su Shin <cdac1234@gmail.com>, 2018.
 # k ks <kmshts@naver.com>, 2019.
+# Jun Hyung Shin <shmishmi79@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-04-19 06:26+0000\n"
-"Last-Translator: k ks <kmshts@naver.com>\n"
+"PO-Revision-Date: 2019-05-08 06:49+0000\n"
+"Last-Translator: Jun Hyung Shin <shmishmi79@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -63,10 +64,8 @@ msgid "Email"
 msgstr "전자우편"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "인증 탭에서 다른 전자우편 주소를 추가할 수 있습니다."
+msgstr "하단에 다른 이메일 주소를 추가할 수 있습니다."
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -372,22 +371,15 @@ msgid "Editor link"
 msgstr "편집기 링크"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"소스 코드를 열고 싶을 때 쓰일 커스텀 주소를 입력해주십시오. 브랜치를 위하여 "
-"{{ branch }}, 파일이름을 위하여 {{ filename }} 그리고 라인 위치홀더를 위한 "
-"{{ line }}이 쓰일 수 있습니다. 주로 editor://open/?file={{ filename }}"
-"&line={{ line }}와 같은 형식이 쓰입니다."
+"소스 코드를 열고 싶을 때 쓰일 URL을 입력해주십시오. 브랜치를 위하여 {{ branch }}, 파일이름을 위하여 {{ filename "
+"}} 그리고 라인 플레이스 홀더를 위한 {{ line }}을 쓸수 있습니다. 주로 editor://open/?file={{ "
+"filename }}&line={{ line }}와 같은 형식이 쓰입니다."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2200,8 +2192,6 @@ msgstr "오른쪽에서 왼쪽으로"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "언어"
@@ -3955,25 +3945,19 @@ msgstr "자동 구성요소 목록 지정"
 
 #: weblate/templates/component-progress.html:11
 msgid "Progress"
-msgstr ""
+msgstr "과정"
 
 #: weblate/templates/component-progress.html:19
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "구성요소 목록 이름"
+msgstr "구성 요소 업데이트 중…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy
-#| msgid "Rename component"
 msgid "Return to the component"
-msgstr "구성요소 이름 변경"
+msgstr "이전의 구성 요소로 돌아가기"
 
 #: weblate/templates/component-progress.html:33
-#, fuzzy
-#| msgid "Resource update"
 msgid "Abort the update"
-msgstr "자원 업데이트"
+msgstr "업데이트 되돌리기"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4595,16 +4579,13 @@ msgid "Change word"
 msgstr "단어 변경"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "%(project)s 에 참여하세요."
+msgstr "%(project)s 에 참여하세요"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "반갑습니다. 관심을 주셔서 감사합니다."
+msgstr "반갑습니다, 관심을 가져주셔서 감사합니다"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4616,36 +4597,23 @@ msgstr ""
 "%(weblate_name_link)s를 이용하여 번역되고 있습니다."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "문자열"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"영어로 번역하기 프로젝트 %(project)s은(는) 현재 번역 %(total)s개의 문자열을 "
-"포함하고 있고 %(percent)s%%가 완료되었습니다."
+"%(project)s 영어로 번역하는 프로젝트에는 현재 총 번역할 <strong>%(total)s문자열</strong>이 존재하고, "
+"<strong>%(percent)s%%가 완료</strong>되었습니다."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4657,9 +4625,9 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"번역 프로젝트 %(project)s는 현재 번역 %(total)s개의 문자열을 포함하고 있고, "
-"%(languages)s로 번역되고 있습니다. 전반적으로, 이 번역은 %(percent)s%% 완료 "
-"되었습니다."
+"%(project)s 번역 프로젝트에는 현재 총 <strong>%(total)s개의 문자열</strong>이 남아 있으며, "
+"<strong>%(languages)s가지의 언어</strong>로 번역되고 있습니다. 이 프로젝트의 번역은 현재 "
+"<strong>%(percent)s진행</strong>되었습니다."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -5053,14 +5021,12 @@ msgid "Source string comment"
 msgstr "원본 문자열 주석"
 
 #: weblate/templates/list-projects.html:18
-#, fuzzy
-#| msgid "Administered projects"
 msgid "You administrate this project."
-msgstr "관리형 프로젝트"
+msgstr "당신이 이 프로젝트를 관리하고 있습니다."
 
 #: weblate/templates/list-projects.html:18
 msgid "Admin"
-msgstr ""
+msgstr "관리자"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -6059,10 +6025,8 @@ msgid "I understand the consequences, delete this translation"
 msgstr "저는 결과를 이해합니다, 이 번역을 삭제합니다"
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This translation component is currently being updated."
-msgstr "현재 이 번역은 업데이트를 위해 잠겨 있습니다."
+msgstr "이 번역은 지속적으로 업데이트 되고있습니다."
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "There are some alerts on this component"
@@ -7182,7 +7146,7 @@ msgstr "번역 주석, 다른 번역자와의 토론"
 
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
-msgstr ""
+msgstr "당신은 외부의 링크를 첨부하거나 @username과 같이 다른 유저를 언급할 수 있습니다."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7728,16 +7692,12 @@ msgid "Repository browser"
 msgstr "저장소 탐색기"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"저장소 탐색기로 연결합니다, 분기로 {{ branch }} 를, 파일 이름과 줄 자리표시자"
-"로 {{ filename }}과 {{ line }}를 사용하십시오."
+"저장소 탐색기로 연결합니다, 분기로 {{branch}} 를, 파일 이름과 줄 플레이스홀더로 {{filename}}과 {{line}}를 "
+"사용하십시오."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -8953,16 +8913,12 @@ msgid "Translation has been removed."
 msgstr "번역이 삭제되었습니다."
 
 #: weblate/trans/views/manage.py:76
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Translation component was scheduled for removal."
-msgstr "번역 프로젝트가 삭제될 예정입니다"
+msgstr "번역 내용이 제거될 예정이었습니다."
 
 #: weblate/trans/views/manage.py:103
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Project was scheduled for removal."
-msgstr "번역 프로젝트가 삭제될 예정입니다"
+msgstr "번역 프로젝트가 삭제될 예정입니다."
 
 #: weblate/trans/views/search.py:133
 msgid "Search and replace completed, no strings were updated."
@@ -9084,21 +9040,17 @@ msgstr "번역"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "알 수 없는 값 : \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "템플릿을 렌더하지 못했습니다: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr ""
-"여기에 객체를 변경하지 마십시오, 대신 Weblate의 인터페이스를 사용하십시오."
+msgstr "포멧 문자열은 더이상 지원하지 않습니다, 대신 템플릿 언어를 이용하세요."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
