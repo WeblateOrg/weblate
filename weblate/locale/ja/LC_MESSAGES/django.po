@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
 "PO-Revision-Date: 2019-05-08 06:49+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -68,10 +68,8 @@ msgid "Email"
 msgstr "メール アドレス"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "認証タブで違うメールアドレスを追加できます。"
+msgstr "以下に、別のメールアドレスを追加できます。"
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -382,22 +380,15 @@ msgid "Editor link"
 msgstr "エディタ リンク"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"ソース コードを開く独自の URL のリンクを入力します。ブランチには "
-"{{ branch }} 、ファイル名と行番号には {{ filename }} と {{ line }} をプレー"
-"ス ホルダとして使用できます。一般的には editor://open/?file={{ filename }}"
-"&line={{ line }} が良いでしょう。"
+"ソース コードを開く独自の URL のリンクを入力します。ブランチには {{branch}} 、ファイル名と行番号には {{filename}} と "
+"{{line}} をプレース ホルダとして使用できます。一般的には editor://open/"
+"?file={{filename}}&line={{line}} が良いでしょう。"
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2215,8 +2206,6 @@ msgstr "右から左"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "言語"
@@ -4651,16 +4640,13 @@ msgid "Change word"
 msgstr "単語の変更"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "%(project)s にご参加ください。"
+msgstr "%(project)s にご参加ください"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "ご関心をお寄せいただきありがとうございます。"
+msgstr "こんにちは、ご関心をお寄せいただきありがとうございます"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4672,36 +4658,23 @@ msgstr ""
 "なるよう設計された Web ツールを使用して翻訳しています。"
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "文字列"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"%(project)s の日本語翻訳プロジェクトには、現時点で文字列が %(total)s 個あり、"
-"全体での翻訳は %(percent)s%% 完了しています。"
+"%(project)s の日本語翻訳プロジェクトには、現時点で <strong> 原文は %(total)s 個 </strong>あり、翻訳は "
+"<strong>%(percent)s%% 完了</strong>しています。"
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4713,9 +4686,9 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"%(project)s の翻訳プロジェクトには、現時点で翻訳用の文字列が %(total)s 個あ"
-"り、%(languages)s 種類の言語に翻訳されています。また、全体では翻訳が "
-"%(percent)s%% 完了しています。"
+"%(project)s の翻訳プロジェクトには、現時点で<strong> 原文は %(total)s 個 "
+"</strong>あり、<strong>%(languages)s 種類の言語</strong>に翻訳されています。また、全体では<strong>翻訳は "
+"%(percent)s%% 完了</strong>しています。"
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -7813,17 +7786,12 @@ msgid "Repository browser"
 msgstr "リポジトリブラウザ"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"リポジトリブラウザへのリンク。ブランチには {{ branch }} を、ファイル名には "
-"{{ filename }} を、行番号には {{ line }} をそれぞれプレースホルダとして設定し"
-"てください。"
+"リポジトリ ブラウザにリンクします。ブランチには {{branch}}、ファイル名には {{filename}}、行番号には {{line}} "
+"をそれぞれプレースホルダとして設定してください。"
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9187,15 +9155,10 @@ msgid "Failed to render template: {}"
 msgstr "テンプレートの表示に失敗しました: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr ""
-"ここではオブジェクトを変更しないでください。Weblate のインターフェイスを利用"
-"して変更してください。"
+msgstr "文字列のフォーマットはサポートされなくなりました。代わりにテンプレート言語を使用してください。"
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
