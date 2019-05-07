@@ -167,7 +167,7 @@ class TranslationMemory(WhooshIndex):
         try:
             data = json.loads(force_text(content))
         except (ValueError, UnicodeDecodeError) as error:
-            report_error(error, request)
+            report_error(error, request, prefix='Failes to parse')
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}
         fields = cls.SCHEMA().names()
@@ -202,7 +202,7 @@ class TranslationMemory(WhooshIndex):
         try:
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError) as error:
-            report_error(error, request)
+            report_error(error, request, prefix='Failes to parse')
             raise MemoryImportError(_('Failed to parse TMX file!'))
         header = next(
             storage.document.getroot().iterchildren(

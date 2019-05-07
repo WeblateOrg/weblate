@@ -119,6 +119,6 @@ def upload_translation(request, project, component, lang):
         messages.error(
             request, _('File content merge failed: %s') % force_text(error)
         )
-        report_error(error, request)
+        report_error(error, request, prefix='Failed to merge content')
 
     return redirect(obj)

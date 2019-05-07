@@ -343,7 +343,7 @@ class TTKitFormat(TranslationFormat):
             cls.parse_store(base)
             return True
         except Exception as error:
-            report_error(error)
+            report_error(error, prefix='File parse error')
             return False
 
 

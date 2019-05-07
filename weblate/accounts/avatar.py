@@ -94,6 +94,7 @@ def get_avatar_image(request, user, size):
             report_error(
                 error, request,
                 extra_data={'avatar': user.username},
+                prefix='Failed to fetch avatar',
             )
             return get_fallback_avatar(size)
 
