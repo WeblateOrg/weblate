@@ -34,7 +34,6 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.core.mail import mail_admins
 from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
@@ -751,8 +750,8 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.delete_alert('UpdateFailure', childs=True)
             return True
         except RepositoryException as error:
+            report_error(error, prefix='Could not update the repository')
             error_text = self.error_text(error)
-            self.log_error('Could not update the repository: %s', error_text)
             if validate:
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False)
@@ -919,13 +918,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 if self.id:
                     self.delete_alert('PushFailure', childs=True)
         except RepositoryException as error:
+            report_error(error, prefix='Could not to push the repo')
             error_text = self.error_text(error)
-            self.log_error('Could not to push the repo: %s', error_text)
-            msg = 'Error:\n{0}'.format(error_text)
-            mail_admins(
-                'Could not push the repo {0}'.format(force_text(self)),
-                msg
-            )
             Change.objects.create(
                 action=Change.ACTION_FAILED_PUSH, component=self,
                 target=error_text,
@@ -966,12 +960,7 @@ class Component(models.Model, URLMixin, PathMixin):
             with self.repository.lock:
                 self.repository.reset()
         except RepositoryException as error:
-            self.log_error('failed to reset on repo')
-            msg = 'Error:\n{0}'.format(self.error_text(error))
-            mail_admins(
-                'Could not reset the repo {0}'.format(force_text(self)),
-                msg
-            )
+            report_error(error, prefix='Could not reset the repository')
             messages.error(
                 request,
                 _('Could not reset to remote branch on %s.') %
@@ -999,12 +988,7 @@ class Component(models.Model, URLMixin, PathMixin):
             with self.repository.lock:
                 self.repository.cleanup()
         except RepositoryException as error:
-            self.log_error('failed to clean the repo')
-            msg = 'Error:\n{0}'.format(self.error_text(error))
-            mail_admins(
-                'Could not clean the repo {0}'.format(force_text(self)),
-                msg
-            )
+            report_error(error, prefix='Could not clean the repository')
             messages.error(
                 request,
                 _('Could not clean the repository on %s.') %
@@ -1104,14 +1088,14 @@ class Component(models.Model, URLMixin, PathMixin):
                 previous_head = self.repository.last_revision
                 # Try to merge it
                 method(**kwargs)
-                self.log_info('%s remote into repo', self.merge_style)
+                self.log_info('%s remote into repo', method)
             except RepositoryException as error:
                 # In case merge has failer recover
                 error = self.error_text(error)
                 status = self.repository.status()
 
                 # Log error
-                self.log_error('failed %s: %s', self.merge_style, error)
+                report_error(error, prefix='Failed {}'.format(method))
                 if self.id:
                     Change.objects.create(
                         component=self, action=action_failed, target=error,
