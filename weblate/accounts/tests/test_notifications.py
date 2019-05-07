@@ -28,6 +28,7 @@ from copy import deepcopy
 
 from django.conf import settings
 from django.core import mail
+from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.accounts.models import AuditLog, Profile, Subscription
@@ -38,7 +39,7 @@ from weblate.accounts.notifications import (FREQ_DAILY, FREQ_INSTANT,
                                             SCOPE_PROJECT,
                                             MergeFailureNotification)
 from weblate.accounts.tasks import (notify_change, notify_daily,
-                                    notify_monthly, notify_weekly)
+                                    notify_monthly, notify_weekly, send_mails)
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import (Alert, Change, Comment, Suggestion,
@@ -424,3 +425,13 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+
+
+class SendMailsTest(SimpleTestCase):
+    @override_settings(
+        EMAIL_HOST='nonexisting.weblate.org',
+        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    )
+    def test_error_handling(self):
+        send_mails([{}])
+        self.assertEqual(len(mail.outbox), 0)
