@@ -32,6 +32,7 @@ from html2text import html2text
 from social_django.models import Code, Partial
 
 from weblate.celery import app
+from weblate.utils.errors import report_error
 
 
 @app.task
@@ -129,7 +130,15 @@ def notify_auditlog(log_id):
 @app.task
 def send_mails(mails):
     """Send multiple mails in single connection."""
-    with get_connection() as connection:
+    connection = get_connection()
+    try:
+        connection.open()
+    except Exception as error:
+        report_error(error, prefix='Failed to send notifications')
+        connection.close()
+        return
+
+    try:
         for mail in mails:
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
@@ -140,6 +149,8 @@ def send_mails(mails):
             )
             email.attach_alternative(mail['body'], 'text/html')
             email.send()
+    finally:
+        connection.close()
 
 
 @app.on_after_finalize.connect

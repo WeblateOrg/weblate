@@ -37,7 +37,8 @@ except ImportError:
     HAS_RAVEN = False
 
 
-def report_error(error, request=None, extra_data=None, level='warning'):
+def report_error(error, request=None, extra_data=None, level='warning',
+                 prefix='Handled exception'):
     """Wrapper for error reporting
 
     This can be used for store exceptions in error reporting solutions as
@@ -54,7 +55,8 @@ def report_error(error, request=None, extra_data=None, level='warning'):
         )
 
     LOGGER.error(
-        'Handled exception %s: %s',
+        '%s: %s: %s',
+        prefix,
         error.__class__.__name__,
         force_text(error)
     )
