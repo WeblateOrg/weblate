@@ -88,8 +88,8 @@ class Notification(object):
     ignore_watched = False
     required_attr = None
 
-    def __init__(self, connection):
-        self.connection = connection
+    def __init__(self, outgoing):
+        self.outgoing = outgoing
         self.subscription_cache = {}
 
     def need_language_filter(self, change):
@@ -173,15 +173,12 @@ class Notification(object):
                 yield last_user
 
     def send(self, address, subject, body, headers):
-        email = EmailMultiAlternatives(
-            settings.EMAIL_SUBJECT_PREFIX + subject,
-            html2text(body),
-            to=[address],
-            headers=headers,
-            connection=self.connection,
-        )
-        email.attach_alternative(body, 'text/html')
-        email.send()
+        self.outgoing.append({
+            'address': address,
+            'subject': subject,
+            'body': body,
+            'headers': headers,
+        })
 
     def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context"""

@@ -26,8 +26,9 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import get_connection
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.timezone import now
+from html2text import html2text
 from social_django.models import Code, Partial
 
 from weblate.celery import app
@@ -73,18 +74,22 @@ def notify_change(change_id):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     change = Change.objects.get(pk=change_id)
     if change.action in NOTIFICATIONS_ACTIONS:
-        with get_connection() as connection:
-            for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
-                notification = notification_cls(connection)
-                notification.notify_immediate(change)
+        outgoing = []
+        for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
+            notification = notification_cls(outgoing)
+            notification.notify_immediate(change)
+        if outgoing:
+            send_mails.delay(outgoing)
 
 
 def notify_digest(method):
     from weblate.accounts.notifications import NOTIFICATIONS
-    with get_connection() as connection:
-        for notification_cls in NOTIFICATIONS:
-            notification = notification_cls(connection)
-            getattr(notification, method)()
+    outgoing = []
+    for notification_cls in NOTIFICATIONS:
+        notification = notification_cls(outgoing)
+        getattr(notification, method)()
+    if outgoing:
+        send_mails.delay(outgoing)
 
 
 @app.task
@@ -119,6 +124,22 @@ def notify_auditlog(log_id):
         },
         info='{0} from {1}'.format(audit.activity, audit.address),
     )
+
+
+@app.task
+def send_mails(mails):
+    """Send multiple mails in single connection."""
+    with get_connection() as connection:
+        for mail in mails:
+            email = EmailMultiAlternatives(
+                settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
+                html2text(mail['body']),
+                to=[mail['address']],
+                headers=mail['headers'],
+                connection=connection,
+            )
+            email.attach_alternative(mail['body'], 'text/html')
+            email.send()
 
 
 @app.on_after_finalize.connect

@@ -17,6 +17,7 @@ Released on ? 2019.
 * Improved handling of abbreviations in unchanged translation check.
 * Refreshed landing page for new contributors.
 * Add support for configuring msgmerge addon.
+* Delay opening SMTP connection when sending notifications.
 
 weblate 3.6.1
 -------------
