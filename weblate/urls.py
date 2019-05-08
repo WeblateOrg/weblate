@@ -88,10 +88,9 @@ WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 # Widget extension match
 EXTENSION = r'(?P<extension>(png|svg|bin))'
 
+handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
-
 handler404 = weblate.trans.views.error.not_found
-
 handler500 = weblate.trans.views.error.server_error
 
 real_patterns = [
