@@ -33,7 +33,6 @@ def bad_request(request, exception=None):
         request,
         '400.html',
         {
-            'request_path': request.path,
             'title': _('Bad Request'),
         },
         status=400
@@ -46,7 +45,6 @@ def not_found(request, exception=None):
         request,
         '404.html',
         {
-            'request_path': request.path,
             'title': _('Page Not Found'),
         },
         status=404
@@ -59,7 +57,6 @@ def denied(request, exception=None):
         request,
         '403.html',
         {
-            'request_path': request.path,
             'title': _('Permission Denied'),
         },
         status=403
@@ -78,7 +75,6 @@ def server_error(request):
             request,
             '500.html',
             {
-                'request_path': request.path,
                 'title': _('Internal Server Error'),
                 'sentry_dsn': sentry_dsn,
             },
