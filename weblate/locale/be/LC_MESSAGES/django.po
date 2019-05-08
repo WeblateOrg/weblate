@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-04-25 07:49+0000\n"
+"PO-Revision-Date: 2019-05-09 09:21+0000\n"
 "Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -64,10 +64,8 @@ msgid "Email"
 msgstr "Эл. пошта"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "Іншыя адрасы эл. пошты можна дадаць ва ўкладцы аўтэнтыфікацыі."
+msgstr "Ніжэй вы можаце дадаць іншы адрас электроннай пошты."
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -378,22 +376,16 @@ msgid "Editor link"
 msgstr "Спасылка на рэдактар"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"Увядзіце URL, які будзе выкарыстоўваецца для адкрыцця зыходнага кода. Можна "
+"Увядзіце URL, які будзе выкарыстоўваецца для адкрыцця зыходнага коду. Можна "
 "ўжываць {{ branch }} для галіны, {{ filename }} для назвы файла і {{ line }} "
-"як нумар радка. Звычайна штосці накшталт editor://open/?file={{ filename }}"
-"&line={{ line }} будзе добрым варыянтам."
+"як нумар радка. Звычайна штосці накшталт editor://open/?file={{ filename "
+"}}&line={{ line }} будзе добрым варыянтам."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2234,13 +2226,11 @@ msgstr "Справа налева"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Мова"
-msgstr[1] "Мова"
-msgstr[2] "Мова"
+msgstr[1] "Мовы"
+msgstr[2] "Моў"
 
 #: weblate/lang/models.py:443
 msgctxt "Plural type"
@@ -2743,7 +2733,7 @@ msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
-"Таксама існуе хостынг для камерцыйных праектаз, цэны пачынаюцца з 19 еўра за "
+"Таксама існуе хостынг для камерцыйных праектаў, цэны пачынаюцца з 19 еўра за "
 "месяц. Калі ласка, звяжыцеся з намі, каб даведацца падрабязней."
 
 #: weblate/templates/about/index.html:44
@@ -4042,25 +4032,19 @@ msgstr "Аўтаматычнае прызначэнне спіса кампан�
 
 #: weblate/templates/component-progress.html:11
 msgid "Progress"
-msgstr ""
+msgstr "Прагрэс"
 
 #: weblate/templates/component-progress.html:19
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "Назва спіса кампанентаў"
+msgstr "Кампанент абнаўляецца…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy
-#| msgid "Rename component"
 msgid "Return to the component"
-msgstr "Змяніць назву кампанента"
+msgstr "Вярнуцца да кампанента"
 
 #: weblate/templates/component-progress.html:33
-#, fuzzy
-#| msgid "Resource update"
 msgid "Abort the update"
-msgstr "Абнаўленне рэсурсаў"
+msgstr "Перарваць абнаўленне"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4693,16 +4677,13 @@ msgid "Change word"
 msgstr "Змяніць слова"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "Далучайцеся да %(project)s."
+msgstr "Далучайцеся да %(project)s"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "Вітаем і дзякуем за вашу цікаўнасць."
+msgstr "Вітаем і дзякуем за вашую цікаўнасць"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4715,38 +4696,25 @@ msgstr ""
 "перакладчыкаў."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Радкі"
+msgstr[0] "Радок"
 msgstr[1] "Радкі"
-msgstr[2] "Радкі"
+msgstr[2] "Радкоў"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Праект перакладу %(project)s на беларускую мову змяшчае %(total)s радкоў, з "
-"якіх перакладзена %(percent)s%%."
+"Праект перакладу %(project)s на беларускую мову змяшчае <strong>%(total)s "
+"радкоў</strong>, з якіх перакладзена <strong>%(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "language. Overall, these translations are %(percent)s%% complete."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains %(total)s "
-#| "strings for translation and is being translated into %(languages)s "
-#| "languages. Overall, these translations are %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(total)s "
 "strings</strong> for translation and is being translated into <strong>"
@@ -4758,14 +4726,17 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Праект перакладу %(project)s на дадзены момант змяшчае %(total)s радкоў і "
-"перакладаецца на %(languages)s мову. Агулам перакладзена %(percent)s%%."
+"Праект перакладу %(project)s на дадзены момант змяшчае <strong>%(total)s "
+"радкоў</strong> і перакладаецца на <strong>%(languages)s</strong> мову. "
+"Агулам перакладзена <strong>%(percent)s%%</strong>."
 msgstr[1] ""
-"Праект перакладу %(project)s на дадзены момант змяшчае %(total)s радкоў і "
-"перакладаецца на %(languages)s мовы. Агулам перакладзена %(percent)s%%."
+"Праект перакладу %(project)s на дадзены момант змяшчае <strong>%(total)s "
+"радкоў</strong> і перакладаецца на <strong>%(languages)s</strong> мовы. "
+"Агулам перакладзена <strong>%(percent)s%%</strong>."
 msgstr[2] ""
-"Праект перакладу %(project)s на дадзены момант змяшчае %(total)s радкоў і "
-"перакладаецца на %(languages)s моў. Агулам перакладзена %(percent)s%%."
+"Праект перакладу %(project)s на дадзены момант змяшчае <strong>%(total)s "
+"радкоў</strong> і перакладаецца на <strong>%(languages)s</strong> моў. "
+"Агулам перакладзена <strong>%(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -5158,14 +5129,12 @@ msgid "Source string comment"
 msgstr "Каментар да зыходнага радка"
 
 #: weblate/templates/list-projects.html:18
-#, fuzzy
-#| msgid "Administered projects"
 msgid "You administrate this project."
-msgstr "Адмініструемыя праекты"
+msgstr "Вы адмініструеце гэты праект."
 
 #: weblate/templates/list-projects.html:18
 msgid "Admin"
-msgstr ""
+msgstr "Адміністратар"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -6173,10 +6142,8 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Я разумею наступствы. Выдаліць гэты перклад"
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This translation component is currently being updated."
-msgstr "Пераклад зараз заблакаваны для абнаўленняў."
+msgstr "Гэты кампанент зараз абнаўляецца."
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "There are some alerts on this component"
@@ -7313,6 +7280,8 @@ msgstr "Каментар да перакладу, абмяркоўванне з 
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
 msgstr ""
+"Вы можаце дадаць вонкавыя спасылкі альбо згадаць іншых карыстальнікаў як "
+"@username."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7861,16 +7830,12 @@ msgid "Repository browser"
 msgstr "Браўзер рэпазіторыя"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Спасылка на браўзер рэпазіторыя, ужывайце {{ branch }} для галіны, "
-"{{ filename }} і {{ line }} у якасці запаўняльнікаў для назвы файла і радка."
+"Спасылка на браўзер рэпазіторыя, ужывайце {{branch}} для галіны, {{filename}}"
+" і {{line}} у якасці запаўняльнікаў для назвы файла і радка."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9143,16 +9108,12 @@ msgid "Translation has been removed."
 msgstr "Пераклад быў выдалены."
 
 #: weblate/trans/views/manage.py:76
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Translation component was scheduled for removal."
-msgstr "Ваш праект перакладу запланаваны на выдаленне"
+msgstr "Перакладаемы кампанент запланаваны на выдаленне."
 
 #: weblate/trans/views/manage.py:103
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Project was scheduled for removal."
-msgstr "Ваш праект перакладу запланаваны на выдаленне"
+msgstr "Праект перакладу запланаваны на выдаленне."
 
 #: weblate/trans/views/search.py:133
 msgid "Search and replace completed, no strings were updated."
@@ -9284,20 +9245,17 @@ msgstr "перакладзена"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "Нявызначаная зменная: \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "Не атрымалася ўжыць шаблон: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Не змяняйце аб'ект тут. Калі ласка, выкарыстоўвайце інтэрфейс Weblate."
+msgstr "Радкі фармату больш не падтрымліваюцца, выкарыстоўвайце мову шаблонаў."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
