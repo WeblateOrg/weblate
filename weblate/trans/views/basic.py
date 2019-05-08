@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import django.views.defaults
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import HttpResponse
@@ -284,54 +282,6 @@ def show_translation(request, project, component, lang):
             'exporters': list_exporters(obj),
         }
     )
-
-
-def not_found(request, exception=None):
-    """Error handler showing list of available projects."""
-    return render(
-        request,
-        '404.html',
-        {
-            'request_path': request.path,
-            'title': _('Page Not Found'),
-        },
-        status=404
-    )
-
-
-def denied(request, exception=None):
-    """Error handler showing list of available projects."""
-    return render(
-        request,
-        '403.html',
-        {
-            'request_path': request.path,
-            'title': _('Permission Denied'),
-        },
-        status=403
-    )
-
-
-def server_error(request):
-    """Error handler for server errors."""
-    try:
-        if (hasattr(settings, 'RAVEN_CONFIG') and
-                'public_dsn' in settings.RAVEN_CONFIG):
-            sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
-        else:
-            sentry_dsn = None
-        return render(
-            request,
-            '500.html',
-            {
-                'request_path': request.path,
-                'title': _('Internal Server Error'),
-                'sentry_dsn': sentry_dsn,
-            },
-            status=500,
-        )
-    except Exception:
-        return django.views.defaults.server_error(request)
 
 
 @never_cache

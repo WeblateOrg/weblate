@@ -47,6 +47,7 @@ import weblate.trans.views.create
 import weblate.trans.views.dashboard
 import weblate.trans.views.dictionary
 import weblate.trans.views.edit
+import weblate.trans.views.error
 import weblate.trans.views.files
 import weblate.trans.views.git
 import weblate.trans.views.hooks
@@ -87,11 +88,11 @@ WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 # Widget extension match
 EXTENSION = r'(?P<extension>(png|svg|bin))'
 
-handler403 = weblate.trans.views.basic.denied
+handler403 = weblate.trans.views.error.denied
 
-handler404 = weblate.trans.views.basic.not_found
+handler404 = weblate.trans.views.error.not_found
 
-handler500 = weblate.trans.views.basic.server_error
+handler500 = weblate.trans.views.error.server_error
 
 real_patterns = [
     url(
