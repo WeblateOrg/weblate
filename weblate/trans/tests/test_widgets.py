@@ -167,7 +167,7 @@ class WidgetsRedirectRenderTest(WidgetsRenderTest):
                     'project': self.project.slug,
                     'widget': widget,
                     'color': color,
-                    'extension': 'bin'
+                    'extension': 'svg'
                 }
             ),
             follow=True
@@ -186,7 +186,7 @@ class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
                     'widget': widget,
                     'color': color,
                     'lang': 'cs',
-                    'extension': 'bin'
+                    'extension': 'svg'
                 }
             ),
             follow=True
