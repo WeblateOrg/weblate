@@ -326,7 +326,7 @@ There following variables are available in the component templates:
 
 The following variables are available in the repository browser or editor templates:
 
-``{{branchs}}``
+``{{branch}}``
    current branch
 ``{{line}}``
    line in file
