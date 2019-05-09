@@ -20,10 +20,12 @@
 
 from __future__ import unicode_literals
 
+import os
 import subprocess
 from itertools import chain
 
 from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 
 from weblate.addons.events import (EVENT_POST_COMMIT, EVENT_POST_PUSH,
@@ -31,6 +33,7 @@ from weblate.addons.events import (EVENT_POST_COMMIT, EVENT_POST_PUSH,
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
+from weblate.utils.validators import validate_filename
 
 
 class BaseAddon(object):
@@ -201,6 +204,37 @@ class BaseAddon(object):
             addon_name=self.verbose,
             component=component,
         )
+
+    def render_repo_filename(self, template, translation):
+        component = translation.component
+
+        # Render the template
+        filename = render_template(template, translation=translation)
+
+        # Validate filename (not absolute or linking to parent dir)
+        try:
+            validate_filename(filename)
+        except ValidationError:
+            return None
+
+        # Absolute path
+        filename = os.path.join(component.full_path, filename)
+
+        # Check if parent directory exists
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        # Validate if there is not a symlink out of the tree
+        try:
+            component.repository.resolve_symlinks(dirname)
+            if os.path.exists(filename):
+                component.repository.resolve_symlinks(filename)
+        except ValueError:
+            component.log_error('refused to write out of repository: %s', filename)
+            return None
+
+        return filename
 
 
 class TestAddon(BaseAddon):
