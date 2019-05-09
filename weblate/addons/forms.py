@@ -49,6 +49,8 @@ class GenerateMoForm(BaseAddonForm):
     path = forms.CharField(
         label=_('Path of generated MO file'),
         required=False,
+        initial='{{ filename|stripext }}.mo',
+        help_text=_('If not specified location of the PO file will be used.'),
     )
 
     def __init__(self, *args, **kwargs):
@@ -56,15 +58,17 @@ class GenerateMoForm(BaseAddonForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('path'),
+            Div(template='addons/generatemo_help.html'),
         )
 
     def test_render(self, value):
-        translation = self._addon.instance.component.translation_set.all()[0]
-        validate_render(value, translation=translation)
+        validate_render_component(value, translation=True)
 
     def clean_path(self):
         self.test_render(self.cleaned_data['path'])
+        validate_filename(self.cleaned_data['path'])
         return self.cleaned_data['path']
+
 
 class GenerateForm(BaseAddonForm):
     filename = forms.CharField(

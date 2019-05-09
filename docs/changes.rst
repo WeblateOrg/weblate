@@ -19,6 +19,7 @@ Released on ? 2019.
 * Add support for configuring msgmerge addon.
 * Delay opening SMTP connection when sending notifications.
 * Improved error logging.
+* Allow custom location in MO generating addon.
 
 weblate 3.6.1
 -------------

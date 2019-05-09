@@ -52,20 +52,14 @@ class GenerateMoAddon(GettextBaseAddon):
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
         exporter.add_units(translation.unit_set.all())
-        output = translation.get_filename()[:-2] + 'mo'
 
-        if self.instance.configuration['path']:
-            mo_name = os.path.basename(output)
-            if mo_name:
-                mo_path = os.path.dirname(output)
-                if not mo_path:
-                    mo_path = ''
+        template = self.instance.configuration.get('path')
+        if not template:
+            template = '{{ filename|stripext }}.mo'
 
-                output = os.path.join(
-                    mo_path,
-                    self.instance.configuration['path'],
-                    mo_name
-                )
+        output = self.render_repo_filename(template, translation)
+        if not output:
+            return
 
         with open(output, 'wb') as handle:
             handle.write(exporter.serialize())

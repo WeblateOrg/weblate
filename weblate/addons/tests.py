@@ -372,7 +372,7 @@ class ViewTests(ViewTestCase):
     def test_add_simple(self):
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),
-            {'name': 'weblate.gettext.mo'},
+            {'name': 'weblate.gettext.authors'},
             follow=True
         )
         self.assertContains(response, '1 addon installed')
@@ -459,6 +459,19 @@ class CommandTest(ViewTestCase):
         )
 
     def test_install_no_form(self):
+        output = StringIO()
+        call_command(
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.authors',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Successfully installed on Test/Test',
+            output.getvalue()
+        )
+
+    def test_install_missing_form(self):
         output = StringIO()
         call_command(
             'install_addon', '--all',
