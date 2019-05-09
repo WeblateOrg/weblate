@@ -29,7 +29,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_POST_ADD, EVENT_PRE_COMMIT
-from weblate.addons.forms import GettextCustomizeForm, MsgmergeForm
+from weblate.addons.forms import (GenerateMoForm, GettextCustomizeForm,
+                                  MsgmergeForm)
 from weblate.formats.exporters import MoExporter
 
 
@@ -46,11 +47,26 @@ class GenerateMoAddon(GettextBaseAddon):
     description = _(
         'Automatically generates MO file for every changed PO file.'
     )
+    settings_form = GenerateMoForm
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
         exporter.add_units(translation.unit_set.all())
         output = translation.get_filename()[:-2] + 'mo'
+
+        if self.instance.configuration['path']:
+            mo_name = os.path.basename(output)
+            if mo_name:
+                mo_path = os.path.dirname(output)
+                if not mo_path:
+                    mo_path = ''
+
+                output = os.path.join(
+                    mo_path,
+                    self.instance.configuration['path'],
+                    mo_name
+                )
+
         with open(output, 'wb') as handle:
             handle.write(exporter.serialize())
         translation.addon_commit_files.append(output)
