@@ -70,6 +70,7 @@ def render_template(template, **kwargs):
         kwargs['language_name'] = translation.language.name
         kwargs['stats'] = translation.stats.get_data()
         kwargs['url'] = get_site_url(translation.get_absolute_url())
+        kwargs['filename'] = translation.filename
         component = translation.component
         kwargs.pop('translation', None)
 

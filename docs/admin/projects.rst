@@ -303,6 +303,8 @@ There following variables are available in the component templates:
     Project slug
 ``{{ url }}``
     Translation URL
+``{{ filename }}``
+    Transaltion filename
 ``{{ stats }}``
     Translation stats, this has further attributes, examples below.
 ``{{ stats.all }}``
