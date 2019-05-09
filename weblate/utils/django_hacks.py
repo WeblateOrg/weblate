@@ -29,7 +29,7 @@ from django.utils.translation import trans_real
 
 
 def escape(text):
-    return mark_safe(bleach.clean(text, tags=['strong']))
+    return mark_safe(bleach.clean(text))
 
 
 def safe_ugettext(message):
