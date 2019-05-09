@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-05-09 09:21+0000\n"
+"PO-Revision-Date: 2019-05-09 19:14+0000\n"
 "Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -268,16 +268,14 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Ja no podeu iniciar sessió fent servir {method} ({name})."
 
 #: weblate/accounts/models.py:109
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "Autenticat ({method}:{name})."
+msgstr "Inici de sessió fent servir {method} {name}."
 
 #: weblate/accounts/models.py:112
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name}) from new device."
+#, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Autenticat ({method}:{name}) des d'un aparell nou."
+msgstr "Inici de sessió fent servir {method} ({name}) des d'un aparell nou."
 
 #: weblate/accounts/models.py:115
 msgid "Somebody has attempted to register with your email."
@@ -312,10 +310,8 @@ msgid "You can now log in using password."
 msgstr "Ara podeu iniciar sessió fent servir una contrasenya."
 
 #: weblate/accounts/models.py:137
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Logged on using password."
-msgstr "Heu oblidat la contrasenya?"
+msgstr "Inici de sessió amb contrasenya."
 
 #: weblate/accounts/models.py:138
 msgid "Logged on using password from a new device."
@@ -379,12 +375,6 @@ msgid "Editor link"
 msgstr "Enllaç de l'editor"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
@@ -392,9 +382,9 @@ msgid ""
 "&line={{line}} is good option."
 msgstr ""
 "Introduïu un URL personalitzat per a utilitzar-lo com a enllaç al codi font. "
-"Podeu utilitzar {{ branch }} per a les branques, {{ filename }} i {{ line }} "
-"com a nom de fitxer i marcadors de línia. Normalment alguna cosa com "
-"editor://open/?file={{ filename }}&line={{ line }} és una bona opció."
+"Podeu utilitzar {{branch}} per a les branques, {{filename}} i {{line}} com a "
+"nom de fitxer i marcadors de línia. Normalment alguna cosa com editor://open/"
+"?file={{filename}}&line={{line}} és una bona opció."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -504,10 +494,8 @@ msgid "Merge failure"
 msgstr "Error de fusió"
 
 #: weblate/accounts/notifications.py:333 weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Server Error"
 msgid "Parse error"
-msgstr "Error del servidor"
+msgstr "Error d'anàlisi"
 
 #: weblate/accounts/notifications.py:340
 msgid "New string"
@@ -522,16 +510,12 @@ msgid "New suggestion"
 msgstr "Suggeriment nou"
 
 #: weblate/accounts/notifications.py:365
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Comment on authored translation"
-msgstr "Afegir com una altra traducció"
+msgstr "Comentari en una traducció"
 
 #: weblate/accounts/notifications.py:384
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "Col·laboradors en els comentaris"
+msgstr "Mencionat en un comentari"
 
 #: weblate/accounts/notifications.py:401 weblate/templates/translate.html:407
 #: weblate/trans/forms.py:1134
@@ -547,22 +531,16 @@ msgid "New language"
 msgstr "Llengua nova"
 
 #: weblate/accounts/notifications.py:447
-#, fuzzy
-#| msgid "Translation comment"
 msgid "New translation component"
-msgstr "Comentari de la traducció"
+msgstr "Component de traducció nou"
 
 #: weblate/accounts/notifications.py:454 weblate/trans/models/change.py:256
-#, fuzzy
-#| msgid "Whiteboard message"
 msgid "New whiteboard message"
-msgstr "Missatge de pissarra"
+msgstr "Missatge nou en la pissara"
 
 #: weblate/accounts/notifications.py:462 weblate/trans/models/change.py:257
-#, fuzzy
-#| msgid "From component list"
 msgid "New component alert"
-msgstr "De la llista de components"
+msgstr "Alerta de component nou"
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of only whitespace."
@@ -683,10 +661,8 @@ msgid "User with reviewer permissions"
 msgstr "Usuari amb permisos de revisió"
 
 #: weblate/accounts/views.py:646
-#, fuzzy
-#| msgid "Login to Weblate"
 msgid "Log in to use Weblate."
-msgstr "Feu un donatiu a Weblate"
+msgstr "Inicieu sessió per a usar el Weblate."
 
 #: weblate/accounts/views.py:662
 msgid "Thank you for using Weblate."
@@ -1231,10 +1207,8 @@ msgid "Commit changes to the internal repository"
 msgstr "Envia els canvis al dipòsit intern"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Push change from the internal repository"
-msgstr "Hi ha canvis al dipòsit local pendents de desar"
+msgstr "Envia els canvis del repositori intern"
 
 #: weblate/auth/data.py:90
 #, fuzzy
@@ -1259,11 +1233,8 @@ msgid "Add language definitions (global)"
 msgstr ""
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage language definitions (global)"
-msgstr "Gestió de les llengües"
+msgstr "Gestió de les definicions de llengües (global)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (global)"
@@ -1278,21 +1249,16 @@ msgid "Add users (global)"
 msgstr ""
 
 #: weblate/auth/data.py:106
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (global)"
-msgstr "Gestiona usaris"
+msgstr "Gestió del usuaris (global)"
 
 #: weblate/auth/data.py:108
 msgid "Manage whiteboard (global)"
 msgstr ""
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (global)"
-msgstr "Gestió de la memòria de traducció"
+msgstr "Gestió de la memòria de traducció (global)"
 
 #: weblate/auth/data.py:133
 msgctxt "Access control role"
@@ -1600,10 +1566,8 @@ msgid "Expired"
 msgstr "Expirat"
 
 #: weblate/billing/models.py:153
-#, fuzzy
-#| msgid "Translated"
 msgid "Terminated"
-msgstr "Traduït"
+msgstr "Finalitzat"
 
 #: weblate/billing/models.py:156
 msgid "Billing state"
@@ -1614,10 +1578,8 @@ msgid "Trial expiry date"
 msgstr ""
 
 #: weblate/billing/models.py:164
-#, fuzzy
-#| msgid "Account removal"
 msgid "Scheduled removal"
-msgstr "Esborrat del compte"
+msgstr "Supressió planificada"
 
 #: weblate/billing/models.py:168
 msgid "Paid"
@@ -1628,10 +1590,8 @@ msgid "In limits"
 msgstr "Dins els límits"
 
 #: weblate/billing/models.py:179
-#, fuzzy
-#| msgid "Performance"
 msgid "Grace period for payments"
-msgstr "Rendiment"
+msgstr "Període de gràcia per als pagaments"
 
 #: weblate/billing/models.py:206
 msgid "Changes in last month"
@@ -1939,10 +1899,8 @@ msgid "Markdown link references does not match source"
 msgstr "Les referències de enllaços Markdown no es corresponen amb l'original"
 
 #: weblate/checks/markup.py:237
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown links"
-msgstr "Codi Markdown"
+msgstr "Enllaços Markdown"
 
 #: weblate/checks/markup.py:238
 #, fuzzy
@@ -1951,10 +1909,8 @@ msgid "Markdown links do not match source"
 msgstr "La cadena en format Perl  no correspon amb l'original"
 
 #: weblate/checks/markup.py:265
-#, fuzzy
-#| msgid "Markdown code"
 msgid "Markdown syntax"
-msgstr "Codi Markdown"
+msgstr "Sintaxi de Markdown"
 
 #: weblate/checks/markup.py:266
 msgid "Markdown syntax does not match source"
