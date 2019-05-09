@@ -18,6 +18,7 @@ Released on ? 2019.
 * Refreshed landing page for new contributors.
 * Add support for configuring msgmerge addon.
 * Delay opening SMTP connection when sending notifications.
+* Improved error logging.
 
 weblate 3.6.1
 -------------
