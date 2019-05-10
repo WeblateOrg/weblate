@@ -234,6 +234,7 @@ class UserSettingsForm(ProfileBaseForm):
         fields = (
             'hide_completed',
             'translate_mode',
+            'zen_mode',
             'secondary_in_zen',
             'hide_source_secondary',
             'editor_link',

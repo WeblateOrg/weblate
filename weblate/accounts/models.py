@@ -386,6 +386,16 @@ class Profile(models.Model):
         ),
         default=TRANSLATE_FULL,
     )
+    ZEN_VERTICAL = 0
+    ZEN_HORIZONTAL = 1
+    zen_mode = models.IntegerField(
+        verbose_name=_('Zen editor mode'),
+        choices=(
+            (ZEN_VERTICAL, _('Vertical')),
+            (ZEN_HORIZONTAL, _('Horizontal')),
+        ),
+        default=ZEN_VERTICAL,
+    )
     special_chars = models.CharField(
         default='', blank=True,
         max_length=30,
@@ -500,7 +510,7 @@ class Profile(models.Model):
                 'language',
                 'suggested', 'translated', 'uploaded',
                 'hide_completed', 'secondary_in_zen', 'hide_source_secondary',
-                'editor_link', 'translate_mode', 'special_chars',
+                'editor_link', 'translate_mode', 'zen_mode', 'special_chars',
                 'dashboard_view', 'dashboard_component_list',
             ),
             'auditlog': [

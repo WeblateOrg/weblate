@@ -377,6 +377,7 @@ class ProfileTest(FixtureTestCase):
                 'username': 'testik',
                 'dashboard_view': Profile.DASHBOARD_WATCHED,
                 'translate_mode': Profile.TRANSLATE_FULL,
+                'zen_mode': Profile.ZEN_VERTICAL,
             }
         )
         self.assertRedirects(response, reverse('profile'))
