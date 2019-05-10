@@ -132,6 +132,7 @@ class MsgmergeForm(BaseAddonForm):
         initial=True,
     )
 
+
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
         label=_('Commit squashing'),
@@ -164,6 +165,15 @@ class JSONCustomizeForm(BaseAddonForm):
         label=_('JSON indentation'),
         min_value=0,
         initial=4,
+        required=True,
+    )
+
+
+class RemoveForm(BaseAddonForm):
+    age = forms.IntegerField(
+        label=_('Threshold age for removal in days'),
+        min_value=0,
+        initial=30,
         required=True,
     )
 

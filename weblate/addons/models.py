@@ -141,6 +141,8 @@ class AddonsConf(AppConf):
         'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',
         'weblate.addons.git.GitSquashAddon',
+        'weblate.addons.removal.RemoveComments',
+        'weblate.addons.removal.RemoveSuggestions',
     )
 
     class Meta(object):

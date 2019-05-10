@@ -20,6 +20,7 @@ Released on ? 2019.
 * Delay opening SMTP connection when sending notifications.
 * Improved error logging.
 * Allow custom location in MO generating addon.
+* Added addons to cleanup old suggestions or comments.
 
 weblate 3.6.1
 -------------

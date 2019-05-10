@@ -21,11 +21,13 @@
 from __future__ import unicode_literals
 
 import os
+from datetime import timedelta
 from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
+from django.utils import timezone
 from six import StringIO
 
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
@@ -44,8 +46,11 @@ from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.models import ADDONS, Addon
 from weblate.addons.properties import PropertiesSortAddon
+from weblate.addons.removal import RemoveComments, RemoveSuggestions
+from weblate.addons.tasks import daily_addons
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import (Comment, Component, Suggestion, Translation,
+                                  Unit, Vote)
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
@@ -718,3 +723,75 @@ class GitSquashAddonTest(ViewTestCase):
         )
         self.component.commit_pending('test', None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
+
+
+class TestRemoval(FixtureTestCase):
+    def setUp(self):
+        super(TestRemoval, self).setUp()
+        self.component = self.create_component()
+
+    def install(self):
+        self.assertTrue(RemoveComments.can_install(self.component, None))
+        self.assertTrue(RemoveSuggestions.can_install(self.component, None))
+        RemoveSuggestions.create(
+            self.component, configuration={'age': 7}
+        )
+        RemoveComments.create(
+            self.component, configuration={'age': 7}
+        )
+
+    def assert_count(self, comments=0, suggestions=0):
+        self.assertEqual(Comment.objects.count(), comments)
+        self.assertEqual(Suggestion.objects.count(), suggestions)
+
+    def test_noop(self):
+        self.install()
+        daily_addons()
+        self.assert_count()
+
+    def add_content(self):
+        unit = self.get_unit()
+        Comment.objects.create(
+            user=None,
+            content_hash=unit.content_hash,
+            project=unit.translation.component.project,
+            comment='comment',
+            language=unit.translation.language,
+        )
+        Suggestion.objects.create(
+            user=None,
+            content_hash=unit.content_hash,
+            project=unit.translation.component.project,
+            target='suggestion',
+            language=unit.translation.language,
+        )
+
+    def test_current(self):
+        self.install()
+        self.add_content()
+        daily_addons()
+        self.assert_count(1, 1)
+
+    @staticmethod
+    def age_content():
+        old = timezone.now() - timedelta(days=60)
+        Comment.objects.all().update(timestamp=old)
+        Suggestion.objects.all().update(timestamp=old)
+
+    def test_old(self):
+        self.install()
+        self.add_content()
+        self.age_content()
+        daily_addons()
+        self.assert_count()
+
+    def test_votes(self):
+        self.install()
+        self.add_content()
+        self.age_content()
+        Vote.objects.create(
+            user=self.user,
+            suggestion=Suggestion.objects.all()[0]
+        )
+        daily_addons()
+        self.assert_count(suggestions=1)
