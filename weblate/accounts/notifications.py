@@ -362,7 +362,7 @@ class LastAuthorCommentNotificaton(Notification):
 
     def get_users(self, frequency, change, users=None):
         last_author = change.unit.get_last_content_change(None, silent=True)[0]
-        if last_author.is_anonymous or last_author.is_demo:
+        if last_author.is_anonymous:
             users = []
         else:
             users = [last_author.pk]

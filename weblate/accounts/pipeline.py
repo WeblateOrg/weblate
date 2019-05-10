@@ -204,10 +204,6 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
             weblate_action not in ('reset', 'remove')):
         raise AuthMissingParameter(backend, 'disabled')
 
-    # Avoid adding associations to demo user
-    if user and user.is_demo:
-        raise AuthMissingParameter(backend, 'demo')
-
     # Ensure it's still same user
     request = strategy.request
     if request.user.pk != request.session.get('social_auth_user'):

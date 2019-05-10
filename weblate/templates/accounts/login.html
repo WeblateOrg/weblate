@@ -15,32 +15,6 @@
 {% show_message "error" msg %}
 {% endif %}
 
-{% if demo_server %}
-<div class="alert alert-info">
-<p>
-{% trans "To test Weblate on this demo server, you can log in as the following users:" %}
-</p>
-<table class="table table-condensed">
-<thead>
-<tr>
-<th>{% trans "Username" %}</th>
-<th>{% trans "Password" %}</th>
-<th>{% trans "Description" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for name, password, description in demo_users %}
-<tr>
-<td><code>{{ name }}</code></td>
-<td><code>{{ password }}</code></td>
-<td>{{ description }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-{% endif %}
-
 <div class="row">
 
 <div class="col-lg-6">

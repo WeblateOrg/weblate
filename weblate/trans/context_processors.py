@@ -37,7 +37,6 @@ URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 CONTEXT_SETTINGS = [
     'SITE_TITLE',
     'OFFER_HOSTING',
-    'DEMO_SERVER',
     'ENABLE_AVATARS',
     'ENABLE_SHARING',
     'PIWIK_SITE_ID',

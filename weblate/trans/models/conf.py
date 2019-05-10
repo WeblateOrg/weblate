@@ -42,9 +42,6 @@ class WeblateConf(AppConf):
     # Whether this is hosted.weblate.org
     OFFER_HOSTING = False
 
-    # Demo server tweaks
-    DEMO_SERVER = False
-
     # Enable remote hooks
     ENABLE_HOOKS = True
 

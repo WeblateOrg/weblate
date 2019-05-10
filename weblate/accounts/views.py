@@ -183,24 +183,6 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     )
 
 
-def deny_demo(request):
-    """Deny editing of demo account on demo server."""
-    messages.warning(
-        request,
-        _('You cannot change demo account on the demo server.')
-    )
-    return redirect_profile(request.POST.get('activetab'))
-
-
-def avoid_demo(function):
-    """Avoid page being served to demo account."""
-    def demo_wrap(request, *args, **kwargs):
-        if request.user.is_demo:
-            return deny_demo(request)
-        return function(request, *args, **kwargs)
-    return demo_wrap
-
-
 def redirect_profile(page=''):
     url = reverse('profile')
     if page and ANCHOR_RE.match(page):
@@ -297,7 +279,7 @@ def get_notification_forms(request):
 def user_profile(request):
     profile = request.user.profile
 
-    if not request.user.is_demo and not profile.language:
+    if not profile.language:
         profile.language = get_language()
         profile.save(update_fields=['language'])
 
@@ -313,9 +295,6 @@ def user_profile(request):
     all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
-        if request.user.is_demo:
-            return deny_demo(request)
-
         if all(form.is_valid() for form in forms):
             # Save changes
             for form in forms:
@@ -381,7 +360,6 @@ def user_profile(request):
 
 
 @login_required
-@avoid_demo
 @session_ratelimit_post('remove')
 @never_cache
 def user_remove(request):
@@ -417,7 +395,6 @@ def user_remove(request):
     )
 
 
-@avoid_demo
 @session_ratelimit_post('confirm')
 @never_cache
 def confirm(request):
@@ -509,12 +486,7 @@ def contact(request):
 @never_cache
 def hosting(request):
     """Form for hosting request."""
-    if not settings.OFFER_HOSTING or request.user.is_demo:
-        if request.user.is_demo:
-            message = _(
-                'Please log in using your personal account to request hosting.'
-            )
-            messages.warning(request, message)
+    if not settings.OFFER_HOSTING:
         return redirect('home')
 
     if request.method == 'POST':
@@ -707,7 +679,6 @@ def register(request):
 
 
 @login_required
-@avoid_demo
 @never_cache
 def email_login(request):
     """Connect email."""
@@ -745,7 +716,6 @@ def email_login(request):
 
 
 @login_required
-@avoid_demo
 @session_ratelimit_post('password')
 @never_cache
 def password(request):
@@ -867,7 +837,6 @@ def reset_password(request):
 
 @require_POST
 @login_required
-@avoid_demo
 @session_ratelimit_post('reset_api')
 def reset_api_key(request):
     """Reset user API key"""
@@ -884,7 +853,6 @@ def reset_api_key(request):
 
 @require_POST
 @login_required
-@avoid_demo
 @session_ratelimit_post('userdata')
 def userdata(request):
     response = JsonResponse(request.user.profile.dump_data())
@@ -894,7 +862,6 @@ def userdata(request):
 
 @require_POST
 @login_required
-@avoid_demo
 def watch(request, project):
     obj = get_project(request, project)
     request.user.profile.watched.add(obj)
@@ -903,7 +870,6 @@ def watch(request, project):
 
 @require_POST
 @login_required
-@avoid_demo
 def unwatch(request, project):
     obj = get_project(request, project)
     request.user.profile.watched.remove(obj)
@@ -929,7 +895,6 @@ def mute_real(user, **kwargs):
 
 @require_POST
 @login_required
-@avoid_demo
 def mute_component(request, project, component):
     obj = get_component(request, project, component)
     mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
@@ -942,7 +907,6 @@ def mute_component(request, project, component):
 
 @require_POST
 @login_required
-@avoid_demo
 def mute_project(request, project):
     obj = get_project(request, project)
     mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
@@ -984,7 +948,6 @@ def store_userid(request, reset=False, remove=False):
 
 
 @require_POST
-@avoid_demo
 def social_auth(request, backend):
     """Wrapper around social_django.views.auth.
 
@@ -1043,7 +1006,6 @@ def handle_missing_parameter(request, backend, error):
 
 
 @csrf_exempt
-@avoid_demo
 @never_cache
 def social_complete(request, backend):
     """Wrapper around social_django.views.complete.

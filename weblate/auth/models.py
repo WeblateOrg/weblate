@@ -50,8 +50,6 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (validate_email, validate_fullname,
                                       validate_username)
 
-DEMO_ACCOUNTS = ('demo', 'review')
-
 
 @python_2_unicode_compatible
 class Permission(models.Model):
@@ -362,10 +360,6 @@ class User(AbstractBaseUser):
     @cached_property
     def is_authenticated(self):
         return not self.is_anonymous
-
-    @cached_property
-    def is_demo(self):
-        return settings.DEMO_SERVER and self.username in DEMO_ACCOUNTS
 
     def get_full_name(self):
         return self.full_name

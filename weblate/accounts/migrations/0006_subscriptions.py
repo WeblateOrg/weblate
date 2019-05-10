@@ -25,10 +25,6 @@ def migrate_subscriptions(apps, schema_editor):
     profiles = profiles.exclude(
         user__username=settings.ANONYMOUS_USER_NAME
     )
-    if settings.DEMO_SERVER:
-        profiles = profiles.exclude(
-            user__username__in=('demo', 'review')
-        )
     for profile in profiles:
         user = profile.user
         create_default_notifications(user)

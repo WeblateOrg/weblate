@@ -261,7 +261,7 @@ class AuditLog(models.Model):
         return None
 
     def should_notify(self):
-        return self.activity in NOTIFY_ACTIVITY and not self.user.is_demo
+        return self.activity in NOTIFY_ACTIVITY
 
     def __str__(self):
         return '{0} for {1} from {2}'.format(
@@ -584,7 +584,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         # Create profile
         Profile.objects.create(user=instance)
         # Create subscriptions
-        if not instance.is_anonymous and not instance.is_demo:
+        if not instance.is_anonymous:
             create_default_notifications(instance)
 
 
