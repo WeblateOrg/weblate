@@ -24,7 +24,6 @@ import os
 import subprocess
 from itertools import chain
 
-from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 
@@ -71,12 +70,20 @@ class BaseAddon(object):
         return cls.name
 
     @classmethod
-    def create(cls, component, **kwargs):
-        kwargs['project_scope'] = cls.project_scope
-        kwargs['repo_scope'] = cls.repo_scope
-        storage = apps.get_model('addons', 'Addon').objects.create(
-            component=component, name=cls.name, **kwargs
+    def create_object(cls, component, **kwargs):
+        from weblate.addons.models import Addon
+        return Addon(
+            component=component,
+            name=cls.name,
+            project_scope=cls.project_scope,
+            repo_scope=cls.repo_scope,
+            **kwargs
         )
+
+    @classmethod
+    def create(cls, component, **kwargs):
+        storage = cls.create_object(component, **kwargs)
+        storage.save(force_insert=True)
         result = cls(storage)
         result.post_configure()
         return result
@@ -86,9 +93,7 @@ class BaseAddon(object):
         """Return configuration form for adding new addon."""
         if cls.settings_form is None:
             return None
-        storage = apps.get_model('addons', 'Addon')(
-            component=component, name=cls.name
-        )
+        storage = cls.create_object(component)
         instance = cls(storage)
         # pylint: disable=not-callable
         return cls.settings_form(instance, **kwargs)
