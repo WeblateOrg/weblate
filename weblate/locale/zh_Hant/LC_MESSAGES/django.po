@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-04-25 07:50+0000\n"
-"Last-Translator: byStarTW <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2019-05-10 08:36+0000\n"
+"Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -60,10 +60,8 @@ msgid "Email"
 msgstr "電子郵件"
 
 #: weblate/accounts/forms.py:275
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "您可於身份核對標籤頁中加入其他電子郵件位址。"
+msgstr "您可以在下面添加其他電子郵件地址。"
 
 #: weblate/accounts/forms.py:311
 msgid "Subject"
@@ -362,21 +360,14 @@ msgid "Editor link"
 msgstr "編輯器連結"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"請輸入自訂 URL 作為開啟源始碼的連結。您可以利用佔位符將分支設為 "
-"{{ branch }}、檔名設為 {{ filename }}、列號設為 {{ line }}。通常像這樣 "
-"editor://open/?file={{ filename }}&line={{ line }} 看起來還不錯。"
+"輸入要用作打開原始程式碼的連結的自訂 url。可以使用 {{分支}} 作為檔案名和行預留位置, 使用 {{檔案名} 和 {line}} "
+"作為檔案名和行預留位置。通常類似編輯器的東西:/open/f. file = {{檔案名}}} & line = {line}} 是一個不錯的選擇。"
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2175,8 +2166,6 @@ msgstr "從右到左"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "語言"
@@ -3893,25 +3882,19 @@ msgstr "自動組件列表指派"
 
 #: weblate/templates/component-progress.html:11
 msgid "Progress"
-msgstr ""
+msgstr "進展"
 
 #: weblate/templates/component-progress.html:19
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "組件列表名稱"
+msgstr "組件正在更新…"
 
 #: weblate/templates/component-progress.html:31
-#, fuzzy
-#| msgid "Rename component"
 msgid "Return to the component"
-msgstr "重新命名組件"
+msgstr "返回到組件"
 
 #: weblate/templates/component-progress.html:33
-#, fuzzy
-#| msgid "Resource update"
 msgid "Abort the update"
-msgstr "資源更新"
+msgstr "中止更新"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4517,16 +4500,13 @@ msgid "Change word"
 msgstr "更動單字"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "我要參與 %(project)s。"
+msgstr "參與 %(project)s"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "您好，感謝您的熱誠。"
+msgstr "您好，謝謝你的關心"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4538,8 +4518,6 @@ msgstr ""
 "者皆能輕鬆處理翻譯為設計目標的網頁介面工具。"
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "字串"
@@ -4970,11 +4948,11 @@ msgstr "來源字串的評註"
 #, fuzzy
 #| msgid "Administered projects"
 msgid "You administrate this project."
-msgstr "管理的專案"
+msgstr "您管理此專案。"
 
 #: weblate/templates/list-projects.html:18
 msgid "Admin"
-msgstr ""
+msgstr "管理"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
@@ -5935,10 +5913,8 @@ msgid "I understand the consequences, delete this translation"
 msgstr "我瞭解所有後果，確認刪除此翻譯"
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "This translation component is currently being updated."
-msgstr "這個翻譯目前在更新而鎖定。"
+msgstr "此翻譯組件目前正在更新。"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "There are some alerts on this component"
@@ -7041,7 +7017,7 @@ msgstr "翻譯評註、與其他翻譯者的討論"
 
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
-msgstr ""
+msgstr "您可以透過 @username 包含外部連結或提及其他使用者。"
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7582,9 +7558,7 @@ msgstr "儲存庫瀏覽器"
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
-msgstr ""
-"儲存庫瀏覽器的連結，請使用 {{ branch }} 作為分支、{{ filename }} 和 "
-"{{ line }} 作為檔名和列數的佔位符。"
+msgstr "連結到存儲庫瀏覽器, 使用 {{分支}} 作為分支, {{檔案名}} 和 {{line}} 作為檔案名和行預留位置。"
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -8765,16 +8739,14 @@ msgid "Translation has been removed."
 msgstr "翻譯已經移除。"
 
 #: weblate/trans/views/manage.py:76
-#, fuzzy
-#| msgid "Your translation project is scheduled for removal"
 msgid "Translation component was scheduled for removal."
-msgstr "您的翻譯專案已排程移除"
+msgstr "翻譯組件計畫刪除。"
 
 #: weblate/trans/views/manage.py:103
 #, fuzzy
 #| msgid "Your translation project is scheduled for removal"
 msgid "Project was scheduled for removal."
-msgstr "您的翻譯專案已排程移除"
+msgstr "專案計劃拆除。"
 
 #: weblate/trans/views/search.py:133
 msgid "Search and replace completed, no strings were updated."
@@ -8896,20 +8868,17 @@ msgstr "已翻譯"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "未定義的變數：“%s”"
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "無法算繪範本：{0}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "不要在這裡更動物件，請使用 Weblate 介面代替。"
+msgstr "不再支援格式字串，請改用範本語言。"
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
