@@ -1067,7 +1067,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Merge/rebase
         if method == 'rebase':
-            method = self.repository.rebase
+            method_func = self.repository.rebase
             error_msg = _(
                 'Could not rebase local branch onto remote branch %s.'
             )
@@ -1075,7 +1075,7 @@ class Component(models.Model, URLMixin, PathMixin):
             action_failed = Change.ACTION_FAILED_REBASE
             kwargs = {}
         else:
-            method = self.repository.merge
+            method_func = self.repository.merge
             error_msg = _('Could not merge remote branch into %s.')
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
@@ -1087,7 +1087,7 @@ class Component(models.Model, URLMixin, PathMixin):
             try:
                 previous_head = self.repository.last_revision
                 # Try to merge it
-                method(**kwargs)
+                method_func(**kwargs)
                 self.log_info('%s remote into repo', method)
             except RepositoryException as error:
                 # In case merge has failer recover
@@ -1108,7 +1108,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.add_alert('MergeFailure', childs=True, error=error)
 
                 # Reset repo back
-                method(abort=True)
+                method_func(abort=True)
 
                 # Tell user (if there is any)
                 messages.error(request, error_msg % force_text(self))
