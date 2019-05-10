@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- cmding: utf-8 -*-
 #
 # Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
@@ -33,7 +33,7 @@ from weblate.addons.forms import RemoveForm
 class RemovalAddon(BaseAddon):
     project_scope = True
     events = (EVENT_DAILY,)
-    form = RemoveForm
+    settings_form = RemoveForm
     icon = 'trash'
 
     def get_cutoff(self):
