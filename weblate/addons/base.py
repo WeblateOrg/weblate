@@ -167,6 +167,9 @@ class BaseAddon(object):
     def store_post_load(self, translation, store):
         return
 
+    def daily(self, component):
+        return
+
     def execute_process(self, component, cmd, env=None):
         component.log_debug('%s addon exec: %s', self.name, repr(cmd))
         try:
@@ -231,7 +234,9 @@ class BaseAddon(object):
             if os.path.exists(filename):
                 component.repository.resolve_symlinks(filename)
         except ValueError:
-            component.log_error('refused to write out of repository: %s', filename)
+            component.log_error(
+                'refused to write out of repository: %s', filename
+            )
             return None
 
         return filename
