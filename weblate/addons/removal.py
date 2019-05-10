@@ -1,4 +1,4 @@
-# -*- cmding: utf-8 -*-
+# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
 #
