@@ -85,6 +85,7 @@ TOOLBAR_TEMPLATE = '''
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 '''
 EDITOR_TEMPLATE = '''
+<div class="clearfix"></div>
 <div class="translation-item"><label for="{1}">{2}</label>
 {0}
 {3}
