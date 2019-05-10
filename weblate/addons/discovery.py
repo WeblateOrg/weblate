@@ -41,12 +41,7 @@ class DiscoveryAddon(BaseAddon):
     multiple = True
     icon = 'search'
     has_summary = True
-
-    @classmethod
-    def can_install(cls, component, user):
-        if component.is_repo_link:
-            return False
-        return super(DiscoveryAddon, cls).can_install(component, user)
+    repo_scope = True
 
     def post_update(self, component, previous_head):
         self.perform()
