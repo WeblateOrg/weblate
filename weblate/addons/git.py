@@ -45,12 +45,6 @@ class GitSquashAddon(BaseAddon):
     icon = 'compress'
     repo_scope = True
 
-    @classmethod
-    def can_install(cls, component, user):
-        if component.is_repo_link:
-            return False
-        return super(GitSquashAddon, cls).can_install(component, user)
-
     def squash_all(self, component, repository, base=None, author=None):
         with repository.lock:
             remote = base if base else repository.get_remote_branch_name()
