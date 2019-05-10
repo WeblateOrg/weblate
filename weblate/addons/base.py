@@ -73,6 +73,8 @@ class BaseAddon(object):
     @classmethod
     def create_object(cls, component, **kwargs):
         from weblate.addons.models import Addon
+        if cls.repo_scope and component.linked_component:
+            component = component.linked_component
         return Addon(
             component=component,
             name=cls.name,
