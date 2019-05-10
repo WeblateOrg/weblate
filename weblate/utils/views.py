@@ -146,6 +146,18 @@ def import_message(request, count, message_none, message_ok):
         messages.success(request, message_ok % count)
 
 
+def zip_download(root, filenames):
+    response = HttpResponse(content_type='application/zip')
+    with ZipFile(response, 'w') as zipfile:
+        for filename in filenames:
+            with open(filename, 'rb') as handle:
+                zipfile.writestr(
+                    os.path.relpath(filename, root),
+                    handle.read()
+                )
+    return response
+
+
 def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
@@ -179,15 +191,7 @@ def download_translation_file(translation, fmt=None, units=None):
                 )
         else:
             extension = 'zip'
-            response = HttpResponse(content_type='application/zip')
-            root = translation.get_filename()
-            with ZipFile(response, 'w') as zipfile:
-                for filename in filenames:
-                    with open(filename, 'rb') as handle:
-                        zipfile.writestr(
-                            os.path.relpath(filename, root),
-                            handle.read()
-                        )
+            response = zip_download(translation.get_filename(), filenames)
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
