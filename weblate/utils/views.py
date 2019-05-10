@@ -149,6 +149,8 @@ def import_message(request, count, message_none, message_ok):
 def zip_download_dir(path):
     result = []
     for root, dirs, files in os.walk(path):
+        if '/.git/' in root or '/.hg/' in root:
+            continue
         result.extend((os.path.join(root, name) for name in files))
     return zip_download(path, result)
 
