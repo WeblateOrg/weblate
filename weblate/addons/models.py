@@ -57,6 +57,8 @@ class AddonQuerySet(models.QuerySet):
             Q(component__project=component.project) & Q(project_scope=True)
         ) | (
             Q(component__linked_component=component) & Q(repo_scope=True)
+        ) | (
+            Q(component=component.linked_component) & Q(repo_scope=True)
         ))
 
     def filter_event(self, component, event):
