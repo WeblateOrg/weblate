@@ -67,19 +67,20 @@ so you can check whether the configuration actually matches your needs:
 
 .. _addon-weblate.flags.same_edit:
 
-Flag unchanged translations to need edit
-----------------------------------------
+Flag unchanged translations as "Needs editing"
+----------------------------------------------
 
 .. versionadded:: 3.1
 
-Whenever a new translation string is imported from the VCS and it matches
+Whenever a new translatable string is imported from the VCS and it matches
 source strings, it is flagged as needing editing in Weblate. This is especially
-useful for file formats including all strings even if they are not translated.
+useful for file formats that include all strings even if they are not
+translated.
 
 .. _addon-weblate.flags.source_edit:
 
-Flag new source strings to need edit
-------------------------------------
+Flag new source strings as "Needs editing"
+------------------------------------------
 
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
@@ -87,10 +88,10 @@ written by the developers.
 
 .. _addon-weblate.flags.target_edit:
 
-Flag new translations to need edit
-----------------------------------
+Flag new translations as "Needs editing"
+----------------------------------------
 
-Whenever a new translation string is imported from the VCS, it is flagged as
+Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
 translations created by the developers.
 
@@ -188,6 +189,25 @@ Formats the Java properties file
 --------------------------------
 
 This addon sorts the Java properties file.
+
+.. _addon-weblate.removal.comments:
+
+Remove old comments
+-------------------
+
+.. versionadded:: 3.7
+
+Remove comments older than given age in days.
+
+.. _addon-weblate.removal.suggestions:
+
+Remove old suggestions
+----------------------
+
+.. versionadded:: 3.7
+
+Remove suggestions without votes older than given age in days.
+
 
 
 Customizing list of addons
