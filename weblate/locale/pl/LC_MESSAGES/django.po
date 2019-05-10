@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-04 12:42+0000\n"
-"PO-Revision-Date: 2019-05-09 09:21+0000\n"
+"PO-Revision-Date: 2019-05-11 12:17+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -376,22 +376,17 @@ msgid "Editor link"
 msgstr "Odnośnik edytora"
 
 #: weblate/accounts/models.py:375
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"Wprowadź własny URL, który będzie służył do otworzenia kodu źródłowego. Dla "
-"gałęzi możesz użyć {{ branch }}, dla nazwy pliku {{ filename }}, a dla linii "
-"{{ line }}. Zwykle, używa się czegoś w tym rodzaju: editor://open/?"
-"file={{ filename }}&line={{ line }}."
+"Wprowadź niestandardowy adres URL, który będzie używany jako link do "
+"otwartego kodu źródłowego. Możesz użyć {{branch}} dla oddziału, {{filename}} "
+"i  {{line}} jako nazwę pliku i linii symboli zastępczych. Zazwyczaj coś w "
+"rodzaju edytora://open/?file={{filename}}&line={{line}} jest dobrym "
+"rozwiązaniem."
 
 #: weblate/accounts/models.py:386
 msgid "Translation editor mode"
@@ -2246,13 +2241,11 @@ msgstr "Od prawej do lewej"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1203 weblate/trans/models/whiteboard.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Język"
-msgstr[1] "Język"
-msgstr[2] "Język"
+msgstr[1] "Języki"
+msgstr[2] "Języków"
 
 #: weblate/lang/models.py:443
 msgctxt "Plural type"
@@ -4715,16 +4708,13 @@ msgid "Change word"
 msgstr "Zmień słowo"
 
 #: weblate/templates/engage.html:13
-#, fuzzy, python-format
-#| msgid "Get involved in %(project)s."
+#, python-format
 msgid "Get involved in %(project)s"
-msgstr "Zaangażuj się w %(project)s."
+msgstr "Zaangażuj się w %(project)s"
 
 #: weblate/templates/engage.html:16
-#, fuzzy
-#| msgid "Hi, and thank you for your interest."
 msgid "Hello & thank you for your interest"
-msgstr "Witamy i dziękujemy za zainteresowanie."
+msgstr "Witam i dziękuję za zainteresowanie"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -4737,27 +4727,23 @@ msgstr ""
 "programistów i tłumaczy."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "Strings"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Teksty"
+msgstr[0] "Tekst"
 msgstr[1] "Teksty"
-msgstr[2] "Teksty"
+msgstr[2] "Tekstów"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Projekt tłumaczenia dla %(project)s na język angielski obecnie zawiera "
-"%(total)s ciągów do tłumaczenia i jest %(percent)s%% kompletny."
+"Projekt tłumaczenia dla %(project)s na język polski obecnie zawiera "
+"<strong>%(total)s ciągów</strong> do tłumaczenia i jest <strong>%(percent)s%%"
+" kompletny</strong>."
 
 #: weblate/templates/engage.html:44
 #, fuzzy, python-format
@@ -7350,6 +7336,8 @@ msgstr "Komentarz do tłumaczenia, dyskusja z innymi tłumaczami"
 #: weblate/trans/forms.py:1136
 msgid "You can include external links or mention other users by @username."
 msgstr ""
+"Możesz dołączyć zewnętrzne linki lub wspomnieć innych użytkowników przez "
+"@username."
 
 #: weblate/trans/forms.py:1151
 msgid "All components"
@@ -7899,16 +7887,12 @@ msgid "Repository browser"
 msgstr "Przeglądarka repozytorium"
 
 #: weblate/trans/models/component.py:189
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{ branch }} for branch, {{ filename }} "
-#| "and {{ line }} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Link do przeglądarki repozytorium, użyj {{ branch }} dla gałęzi, "
-"{{ filename }} i {{ line }} jako nazwy pliku i symboli zastępczych dla linii."
+"Link do przeglądarki repozytorium, użyj {{branch}} dla oddziału, {{filename}}"
+" i {{line}} jako nazwy plików i symbole zastępcze linii."
 
 #: weblate/trans/models/component.py:196
 msgid "Exported repository URL"
@@ -9331,20 +9315,18 @@ msgstr "przetłumaczone"
 #: weblate/utils/render.py:45
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "Niezdefiniowana zmienna: \"%s\""
 
 #: weblate/utils/render.py:107
 msgid "Failed to render template: {}"
 msgstr "Nie powiodło się renderowanie szablonu: {}"
 
 #: weblate/utils/render.py:153
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Nie zmieniaj tutaj tego obiektu, użyj zamiast tego interfejsu Weblate."
+msgstr ""
+"Ciągi formatu nie są już obsługiwane, użyj zamiast tego języka szablonu."
 
 #: weblate/utils/render.py:170
 msgid "The editor link lacks URL scheme!"
