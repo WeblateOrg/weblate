@@ -27,8 +27,9 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 
-from weblate.addons.events import (EVENT_POST_COMMIT, EVENT_POST_PUSH,
-                                   EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD)
+from weblate.addons.events import (EVENT_DAILY, EVENT_POST_COMMIT,
+                                   EVENT_POST_PUSH, EVENT_POST_UPDATE,
+                                   EVENT_STORE_POST_LOAD)
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template
@@ -120,6 +121,12 @@ class BaseAddon(object):
         # Trigger post events to ensure direct processing
         if self.project_scope:
             components = self.instance.component.project.component_set.all()
+        elif self.repo_scope:
+            if self.instance.component.linked_component:
+                root = self.instance.component.linked_component
+            else:
+                root = self.instance.component
+            components = [root] + list(root.linked_childs)
         else:
             components = [self.instance.component]
         translations = self.instance.component.translation_set.all()
@@ -132,6 +139,9 @@ class BaseAddon(object):
         if EVENT_POST_PUSH in self.events:
             for component in components:
                 self.post_push(component)
+        if EVENT_DAILY in self.events:
+            for component in components:
+                self.daily(component)
 
     def save_state(self):
         """Saves addon state information."""
