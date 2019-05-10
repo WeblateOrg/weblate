@@ -56,7 +56,7 @@ from weblate.trans.stats import get_project_stats
 from weblate.utils.celery import get_queue_length
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import GlobalStats
-from weblate.utils.views import download_translation_file
+from weblate.utils.views import download_translation_file, zip_download_dir
 
 REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push', ()),
@@ -134,15 +134,22 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             request, force
         )
 
-    def download_file(self, filename, content_type):
+    def download_file(self, filename, content_type, component=None):
         """Wrapper for file download"""
-        with open(filename, 'rb') as handle:
-            response = HttpResponse(
-                handle.read(),
-                content_type=content_type
+        if os.path.isdir(filename):
+            response = zip_download_dir(filename)
+            filename = '{}.zip'.format(
+                component.slug if component else 'weblate'
             )
+        else:
+            with open(filename, 'rb') as handle:
+                response = HttpResponse(
+                    handle.read(),
+                    content_type=content_type
+                )
+            filename = os.path.basename(filename)
         response['Content-Disposition'] = 'attachment; filename="{0}"'.format(
-            os.path.basename(filename)
+            filename
         )
         return response
 
@@ -340,7 +347,8 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.download_file(
             obj.get_template_filename(),
-            obj.template_store.mimetype
+            obj.template_store.mimetype,
+            component=obj
         )
 
     @action(detail=True, methods=['get'])

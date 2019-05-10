@@ -146,6 +146,13 @@ def import_message(request, count, message_none, message_ok):
         messages.success(request, message_ok % count)
 
 
+def zip_download_dir(path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        result.extend((os.path.join(root, name) for name in files))
+    return zip_download(path, result)
+
+
 def zip_download(root, filenames):
     response = HttpResponse(content_type='application/zip')
     with ZipFile(response, 'w') as zipfile:
