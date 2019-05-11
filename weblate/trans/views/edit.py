@@ -25,6 +25,7 @@ import time
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -60,25 +61,16 @@ def get_other_units(unit):
         'source': [],
     }
 
-    kwargs = {
-        'translation__component__project':
-            unit.translation.component.project,
-        'translation__language':
-            unit.translation.language,
-    }
+    translation = unit.translation
 
-    same = Unit.objects.prefetch().same(unit, False)
-    same_id = Unit.objects.prefetch().filter(
-        id_hash=unit.id_hash,
-        **kwargs
+    units = Unit.objects.prefetch().filter(
+        translation__component__project=translation.component.project,
+        translation__language=translation.language,
+    ).filter(
+        Q(content_hash=unit.content_hash)
+        | Q(id_hash=unit.id_hash)
+        | Q(source=unit.source)
     )
-    same_source = Unit.objects.prefetch().filter(
-        source=unit.source,
-        **kwargs
-    )
-
-    units = same | same_id | same_source
-    units = units.distinct()
 
     # Is it only this unit?
     if len(units) == 1:
