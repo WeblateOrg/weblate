@@ -161,7 +161,7 @@ of the Python libraries on the system.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential python3-gdbm
 
         # openSUSE/SLES:
         zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
@@ -267,7 +267,8 @@ install them you can use apt:
         python3-whoosh python3-pil \
         git mercurial \
         python3-django-compressor python3-django-crispy-forms \
-        python3-djangorestframework python3-dateutil python3-celery
+        python3-djangorestframework python3-dateutil python3-celery \
+        python3-gdbm
 
     # Optional packages for database backend:
 
