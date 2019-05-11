@@ -50,7 +50,7 @@ class GenerateMoForm(BaseAddonForm):
         label=_('Path of generated MO file'),
         required=False,
         initial='{{ filename|stripext }}.mo',
-        help_text=_('If not specified location of the PO file will be used.'),
+        help_text=_('If not specified, the location of the PO file will be used.'),
     )
 
     def __init__(self, *args, **kwargs):
@@ -115,7 +115,7 @@ class GettextCustomizeForm(BaseAddonForm):
         initial=77,
         help_text=_(
             'By default gettext wraps lines at 77 chars and newlines, '
-            'with --no-wrap parameter it wraps only at newlines.'
+            'with --no-wrap parameter, it wraps only at newlines.'
         )
     )
 
@@ -171,7 +171,7 @@ class JSONCustomizeForm(BaseAddonForm):
 
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
-        label=_('Threshold age for removal in days'),
+        label=_('Days to keep'),
         min_value=0,
         initial=30,
         required=True,
@@ -200,7 +200,7 @@ class DiscoveryForm(BaseAddonForm):
         initial='po',
         required=True,
         help_text=_(
-            'Automatic detection might fail for some formats '
+            'Automatic detection might fail for some formats, '
             'and is slightly slower.'
         ),
     )
@@ -230,16 +230,16 @@ class DiscoveryForm(BaseAddonForm):
         initial='^[^.]+$',
         validators=[validate_re],
         help_text=_(
-            'Regular expression which is used to filter '
-            'translation when scanning for file mask.'
+            'Regular expression to filter '
+            'translation against when scanning for filemask.'
         ),
     )
     remove = forms.BooleanField(
-        label=_('Remove components for non existing files'),
+        label=_('Remove components for inexistant files'),
         required=False
     )
     confirm = forms.BooleanField(
-        label=_('I confirm that the above matches look correct'),
+        label=_('I confirm the above matches look correct'),
         required=False
     )
 
