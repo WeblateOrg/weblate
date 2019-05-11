@@ -9,17 +9,15 @@
 
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>{{ item.unit.position }}</td>
-<td>
+<td colspan="2">
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 {% if item.unit.context %}
-<div class="pull-right flip">
+<div class="pull-right flip zen-context">
 <label>{% trans "Context:" %}</label>
 {{ item.unit.context }}
 </div>
 {% endif %}
 {% get_location_links user.profile item.unit %}
-</td>
-<td>
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 </td>
 </tr>
 
