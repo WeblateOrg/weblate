@@ -122,7 +122,7 @@ class GettextCustomizeForm(BaseAddonForm):
 
 class MsgmergeForm(BaseAddonForm):
     previous = forms.BooleanField(
-        label=_('Keep previous msgids of translated messages'),
+        label=_('Keep previous msgids of translated strings'),
         required=False,
         initial=True,
     )
