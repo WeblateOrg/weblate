@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-11 12:17+0000\n"
+"POT-Creation-Date: 2019-05-11 19:22+0000\n"
 "PO-Revision-Date: 2019-05-10 08:15+0000\n"
 "Last-Translator: Jun Hyung Shin <shmishmi79@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -399,11 +399,11 @@ msgid "Zen editor mode"
 msgstr "선 모드"
 
 #: weblate/accounts/models.py:394
-msgid "Vertical"
+msgid "Top to bottom"
 msgstr ""
 
 #: weblate/accounts/models.py:395
-msgid "Horizontal"
+msgid "Side by side"
 msgstr ""
 
 #: weblate/accounts/models.py:402
@@ -820,7 +820,7 @@ msgid "Path of generated MO file"
 msgstr "생성된 파일의 이름"
 
 #: weblate/addons/forms.py:53
-msgid "If not specified location of the PO file will be used."
+msgid "If not specified, the location of the PO file will be used."
 msgstr ""
 
 #: weblate/addons/forms.py:75
@@ -848,9 +848,13 @@ msgid "No line wrapping"
 msgstr "줄 바꿈 없음"
 
 #: weblate/addons/forms.py:117
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
+#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-"parameter it wraps only at newlines."
+"parameter, it wraps only at newlines."
 msgstr ""
 "기본적으로 gettext는 77문자마다 새 줄로 줄 바꿈합니다, --no-wrap 매개변수는 "
 "새 줄에서만 줄 바꿈합니다."
@@ -892,7 +896,7 @@ msgid "JSON indentation"
 msgstr "JSON 인덴션"
 
 #: weblate/addons/forms.py:174
-msgid "Threshold age for removal in days"
+msgid "Days to keep"
 msgstr ""
 
 #: weblate/addons/forms.py:194
@@ -904,27 +908,23 @@ msgstr "번역 파일과 일치하는 정규 표현식"
 msgid "File format"
 msgstr "파일 유형"
 
-#: weblate/addons/forms.py:203 weblate/trans/models/component.py:255
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr "자동 감지는 일부형식에서 실패할 수 있고 약간 느려집니다."
-
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:204
 msgid "Customize the component name"
 msgstr "구성요소 이름을 커스터마이즈하기"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
 msgstr "단일 언어 기반 파일을 정의하기"
 
-#: weblate/addons/forms.py:216
+#: weblate/addons/forms.py:212
 msgid "Leave empty for bilingual translation files."
 msgstr "2개 국어로 번역되는 파일의 경우 비워 두십시오."
 
-#: weblate/addons/forms.py:219
+#: weblate/addons/forms.py:215
 msgid "Define the base file for new translations"
 msgstr "새 번역을 위한 기본 파일 정의하기"
 
-#: weblate/addons/forms.py:223 weblate/trans/models/component.py:245
+#: weblate/addons/forms.py:219 weblate/trans/models/component.py:245
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -932,25 +932,31 @@ msgstr ""
 "새로운 번역을 만들기 위해 사용되는 파일의 파일 명. Gettext에서는 .pot파일을 "
 "선택하십시오."
 
-#: weblate/addons/forms.py:228 weblate/trans/models/component.py:448
+#: weblate/addons/forms.py:224 weblate/trans/models/component.py:448
 msgid "Language filter"
 msgstr "언어 필터"
 
-#: weblate/addons/forms.py:233
+#: weblate/addons/forms.py:229
+#, fuzzy
+#| msgid ""
+#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
-msgstr "파일 마스크에서 스캔할 때 번역을 골라내기 위해 사용되는 정규 표현식."
+"Regular expression to filter translation against when scanning for filemask."
+msgstr "파일마스크를 검사할 때 번역을 골라내는데 사용되는 정규식."
 
-#: weblate/addons/forms.py:238
-msgid "Remove components for non existing files"
+#: weblate/addons/forms.py:234
+#, fuzzy
+#| msgid "Remove components for non existing files"
+msgid "Remove components for inexistant files"
 msgstr "기존 파일이 아닌 구성요소 제거"
 
-#: weblate/addons/forms.py:242
-msgid "I confirm that the above matches look correct"
+#: weblate/addons/forms.py:238
+#, fuzzy
+#| msgid "I confirm that the above matches look correct"
+msgid "I confirm the above matches look correct"
 msgstr "위의 내용이 올바른지 확인합니다"
 
-#: weblate/addons/forms.py:301
+#: weblate/addons/forms.py:297
 msgid "Please review and confirm matched components."
 msgstr "맞는 구성요소인지 검토하고 확인하십시오."
 
@@ -1052,24 +1058,22 @@ msgstr "이 부가기능은 Java 특성 파일을 분류합니다."
 
 #: weblate/addons/removal.py:49
 #, fuzzy
-#| msgid "Removed component"
-msgid "Remove old comments"
-msgstr "구성요소 제거"
+#| msgid "Account removal"
+msgid "Stale comment removal"
+msgstr "회원 탈퇴"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Remove components for non existing files"
-msgid "Remove comments older than given age in days."
-msgstr "기존 파일이 아닌 구성요소 제거"
+msgid "Set timeframe for removal of comments."
+msgstr ""
 
 #: weblate/addons/removal.py:60
 #, fuzzy
-#| msgid "Vote suggestion"
-msgid "Remove old suggestions"
-msgstr "제안 투표하기"
+#| msgid "Suggestion removed"
+msgid "Stale suggestion removal"
+msgstr "제안 삭제됨"
 
 #: weblate/addons/removal.py:62
-msgid "Remove suggestions without votes older than given age in days."
+msgid "Set timeframe for removal of suggestions without votes."
 msgstr ""
 
 #: weblate/addons/views.py:86
@@ -4600,7 +4604,7 @@ msgstr "번역"
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/replace.html:39
 #: weblate/templates/screenshots/screenshot_list.html:51
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Edit"
 msgstr "편집"
 
@@ -5065,7 +5069,7 @@ msgid "Translation comment"
 msgstr "번역 주석"
 
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:165
-#: weblate/templates/zen-units.html:31
+#: weblate/templates/zen-units.html:29
 msgid "Source string comment"
 msgstr "원본 문자열 주석"
 
@@ -6278,7 +6282,7 @@ msgstr "원본 문자열 편집 중"
 msgid "Edit string"
 msgstr "문자열 편집"
 
-#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:58
+#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:56
 msgid "Source change"
 msgstr "원본 변경사항"
 
@@ -6286,7 +6290,7 @@ msgstr "원본 변경사항"
 msgid "Additional context"
 msgstr "추가 문맥"
 
-#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:15
+#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "문맥:"
 
@@ -6311,9 +6315,9 @@ msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr "이 번역은 제안만을 수락하고 투표를 통해 승인됩니다."
 
-#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:294
-#: weblate/trans/views/edit.py:318 weblate/trans/views/edit.py:344
-#: weblate/trans/views/edit.py:775
+#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:286
+#: weblate/trans/views/edit.py:310 weblate/trans/views/edit.py:336
+#: weblate/trans/views/edit.py:767
 msgid "Insufficient privileges for saving translations."
 msgstr "번역을 저장할 권한이 부족합니다."
 
@@ -6762,11 +6766,11 @@ msgstr "Textile 코드"
 msgid "Image URL"
 msgstr "이미지 URL 경로"
 
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Open in full editor"
 msgstr "전체 화면 에디터에서 열기"
 
-#: weblate/templates/zen-units.html:91 weblate/trans/views/edit.py:463
+#: weblate/templates/zen-units.html:89 weblate/trans/views/edit.py:455
 msgid "The translation has come to an end."
 msgstr "번역이 끝났습니다."
 
@@ -7806,6 +7810,10 @@ msgstr "사용자가 단일 언어 번역을 위해 기본 파일을 편집할 �
 msgid "Base file for new translations"
 msgstr "새로운 번역가를 위한 기본 파일"
 
+#: weblate/trans/models/component.py:255
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr "자동 감지는 일부형식에서 실패할 수 있고 약간 느려집니다."
+
 #: weblate/trans/models/component.py:261
 msgid "Locked"
 msgstr "잠김"
@@ -8801,102 +8809,102 @@ msgstr[0] "올려주기된 파일로부터 %d 개의 단어를 불러오기 하�
 msgid "File upload has failed: %s"
 msgstr "파일 올려주기 실패: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:580
+#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:572
 #: weblate/trans/views/search.py:78 weblate/trans/views/search.py:241
 msgid "Failed to process form!"
 msgstr "양식을 처리 할 수 없습니다!"
 
-#: weblate/trans/views/edit.py:155 weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:147 weblate/trans/views/edit.py:450
 msgid "No string matched your search!"
 msgstr "검색과 일치하는 문자열이 없습니다!"
 
-#: weblate/trans/views/edit.py:179
+#: weblate/trans/views/edit.py:171
 msgid "Your suggestion is empty!"
 msgstr "귀하의 제안이 없습니다!"
 
-#: weblate/trans/views/edit.py:186
+#: weblate/trans/views/edit.py:178
 msgid "You don't have privileges to add suggestions!"
 msgstr "제안을 추가할 권한이 없습니다!"
 
-#: weblate/trans/views/edit.py:195
+#: weblate/trans/views/edit.py:187
 msgid "Your suggestion has been identified as spam!"
 msgstr "귀하의 제안이 스팸으로 확인되었습니다!"
 
-#: weblate/trans/views/edit.py:207
+#: weblate/trans/views/edit.py:199
 msgid "Your suggestion already exists!"
 msgstr "귀하의 제안이 이미 있습니다!"
 
-#: weblate/trans/views/edit.py:241
+#: weblate/trans/views/edit.py:233
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "다음 픽스업이 번역에 적용되었습니다: %s"
 
-#: weblate/trans/views/edit.py:256
+#: weblate/trans/views/edit.py:248
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "번역은 저장되었지만 몇 가지 새로 실패한 점검이 있습니다: {0}"
 
-#: weblate/trans/views/edit.py:309
+#: weblate/trans/views/edit.py:301
 msgid "Invalid merge request!"
 msgstr "잘못된 병합 요청!"
 
-#: weblate/trans/views/edit.py:335
+#: weblate/trans/views/edit.py:327
 msgid "Invalid revert request!"
 msgstr "잘못된 되돌리기 요청!"
 
-#: weblate/trans/views/edit.py:349
+#: weblate/trans/views/edit.py:341
 msgid "Can not revert to empty translation!"
 msgstr "빈 내용의 번역으로 되돌릴 수 없습니다!"
 
-#: weblate/trans/views/edit.py:367
+#: weblate/trans/views/edit.py:359
 msgid "You do not have privilege to accept suggestions!"
 msgstr "제안을 수락 할 권한이 없습니다!"
 
-#: weblate/trans/views/edit.py:374
+#: weblate/trans/views/edit.py:366
 msgid "You do not have privilege to delete suggestions!"
 msgstr "제안을 삭제할 수있는 권한이 없습니다!"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:373
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "제안에 대해 투표 할 권한이 없습니다!"
 
-#: weblate/trans/views/edit.py:409
+#: weblate/trans/views/edit.py:401
 msgid "Invalid suggestion!"
 msgstr "잘못된 제안!"
 
-#: weblate/trans/views/edit.py:521
+#: weblate/trans/views/edit.py:513
 msgid "Invalid search string!"
 msgstr "잘못된 검색 문자열!"
 
-#: weblate/trans/views/edit.py:603
+#: weblate/trans/views/edit.py:595
 msgid "Automatic translation completed, no strings were updated."
 msgstr "자동 번역이 완료되었습니다. 아무 문자열도 변경되지 않았습니다."
 
-#: weblate/trans/views/edit.py:605
+#: weblate/trans/views/edit.py:597
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "자동 번역이 완료되었습니다. %d 개의 문자열이 변경되었습니다."
 
-#: weblate/trans/views/edit.py:637
+#: weblate/trans/views/edit.py:629
 msgid "Posted new comment"
 msgstr "새로운 댓글이 등록되었습니다"
 
-#: weblate/trans/views/edit.py:639
+#: weblate/trans/views/edit.py:631
 msgid "Failed to add comment!"
 msgstr "주석 추가하기 실패!"
 
-#: weblate/trans/views/edit.py:662
+#: weblate/trans/views/edit.py:654
 msgid "Translation comment has been deleted."
 msgstr "번역 댓글이 삭제되었습니다."
 
-#: weblate/trans/views/edit.py:820
+#: weblate/trans/views/edit.py:812
 msgid "Translation with this key seem to already exist!"
 msgstr "이 키로 번역이 이미 존재하는 것 같습니다!"
 
-#: weblate/trans/views/edit.py:825
+#: weblate/trans/views/edit.py:817
 msgid "New string has been added."
 msgstr "새 문자열이 추가되었습니다."
 
@@ -9389,6 +9397,27 @@ msgstr "보고"
 #: weblate/wladmin/views.py:56
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류를 버리지 못했습니다!"
+
+#~ msgid ""
+#~ "Regular expression which is used to filter translation when scanning for "
+#~ "file mask."
+#~ msgstr ""
+#~ "파일 마스크에서 스캔할 때 번역을 골라내기 위해 사용되는 정규 표현식."
+
+#, fuzzy
+#~| msgid "Removed component"
+#~ msgid "Remove old comments"
+#~ msgstr "구성요소 제거"
+
+#, fuzzy
+#~| msgid "Remove components for non existing files"
+#~ msgid "Remove comments older than given age in days."
+#~ msgstr "기존 파일이 아닌 구성요소 제거"
+
+#, fuzzy
+#~| msgid "Vote suggestion"
+#~ msgid "Remove old suggestions"
+#~ msgstr "제안 투표하기"
 
 #~ msgid "You cannot change demo account on the demo server."
 #~ msgstr "데모 서버에서는 데모 계정을 변경할 수 없습니다."

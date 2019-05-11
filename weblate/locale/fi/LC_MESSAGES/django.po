@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-11 12:17+0000\n"
+"POT-Creation-Date: 2019-05-11 19:22+0000\n"
 "PO-Revision-Date: 2019-05-04 12:41+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -403,11 +403,11 @@ msgid "Zen editor mode"
 msgstr "Zen-tila"
 
 #: weblate/accounts/models.py:394
-msgid "Vertical"
+msgid "Top to bottom"
 msgstr ""
 
 #: weblate/accounts/models.py:395
-msgid "Horizontal"
+msgid "Side by side"
 msgstr ""
 
 #: weblate/accounts/models.py:402
@@ -840,7 +840,7 @@ msgid "Path of generated MO file"
 msgstr "Luodun tiedoston nimi"
 
 #: weblate/addons/forms.py:53
-msgid "If not specified location of the PO file will be used."
+msgid "If not specified, the location of the PO file will be used."
 msgstr ""
 
 #: weblate/addons/forms.py:75
@@ -869,9 +869,13 @@ msgid "No line wrapping"
 msgstr "Ei rivitystä"
 
 #: weblate/addons/forms.py:117
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
+#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-"parameter it wraps only at newlines."
+"parameter, it wraps only at newlines."
 msgstr ""
 "Oletuksena gettext rivittää rivit 77 merkin kohdalta ja rivinvaihtomerkkien "
 "kohdalta. Parametriä --no-wrap käyttämällä se rivittää vain "
@@ -914,7 +918,7 @@ msgid "JSON indentation"
 msgstr "JSON-sisennys"
 
 #: weblate/addons/forms.py:174
-msgid "Threshold age for removal in days"
+msgid "Days to keep"
 msgstr ""
 
 #: weblate/addons/forms.py:194
@@ -926,29 +930,23 @@ msgstr "Säännöllinen lauseke jolla etsitään oikeat käännöstiedostot"
 msgid "File format"
 msgstr "Tiedostomuoto"
 
-#: weblate/addons/forms.py:203 weblate/trans/models/component.py:255
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Automaattinen tunnistus saattaa epäonnistua tietyissä muodoissa ja on hieman "
-"hitaampi."
-
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:204
 msgid "Customize the component name"
 msgstr "Muokkaa komponentin nimeä"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
 msgstr "Määrittele yksikielisen kantatiedoston nimi"
 
-#: weblate/addons/forms.py:216
+#: weblate/addons/forms.py:212
 msgid "Leave empty for bilingual translation files."
 msgstr "Jätä tyhjäksi jos käytössä on kaksikieliset käännöstiedostot."
 
-#: weblate/addons/forms.py:219
+#: weblate/addons/forms.py:215
 msgid "Define the base file for new translations"
 msgstr "Määrittele kantatiedosto uusille käännöksille"
 
-#: weblate/addons/forms.py:223 weblate/trans/models/component.py:245
+#: weblate/addons/forms.py:219 weblate/trans/models/component.py:245
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -956,27 +954,33 @@ msgstr ""
 "Sen tiedoston tiedostonimi, jota käytetään uusien käännösten luomisessa. Jos "
 "käytät Gettext:iä valitse .pot tiedosto."
 
-#: weblate/addons/forms.py:228 weblate/trans/models/component.py:448
+#: weblate/addons/forms.py:224 weblate/trans/models/component.py:448
 msgid "Language filter"
 msgstr "Kielisuodatin"
 
-#: weblate/addons/forms.py:233
+#: weblate/addons/forms.py:229
+#, fuzzy
+#| msgid ""
+#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
+"Regular expression to filter translation against when scanning for filemask."
 msgstr ""
 "Säännöllinen lauseke jota käytetään käännöstiedostojen löytämiseksi "
 "projektin tiedostoista."
 
-#: weblate/addons/forms.py:238
-msgid "Remove components for non existing files"
+#: weblate/addons/forms.py:234
+#, fuzzy
+#| msgid "Remove components for non existing files"
+msgid "Remove components for inexistant files"
 msgstr "Poista komponentit jotka viittaavat puuttuviin tieostoihin"
 
-#: weblate/addons/forms.py:242
-msgid "I confirm that the above matches look correct"
+#: weblate/addons/forms.py:238
+#, fuzzy
+#| msgid "I confirm that the above matches look correct"
+msgid "I confirm the above matches look correct"
 msgstr "Vahvistan, että ylläolevat hakutulokset näyttävät oikeilta"
 
-#: weblate/addons/forms.py:301
+#: weblate/addons/forms.py:297
 msgid "Please review and confirm matched components."
 msgstr "Ole hyvä ja tarkista sekä vahvista komponenttihaun tulokset."
 
@@ -1084,24 +1088,22 @@ msgstr "Tämä lisäosa lajittelee Java-ominaisuustiedoston (Java properties)."
 
 #: weblate/addons/removal.py:49
 #, fuzzy
-#| msgid "Removed component"
-msgid "Remove old comments"
-msgstr "Poistettu komponentti"
+#| msgid "Account removal"
+msgid "Stale comment removal"
+msgstr "Käyttäjätilin poistaminen"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Remove components for non existing files"
-msgid "Remove comments older than given age in days."
-msgstr "Poista komponentit jotka viittaavat puuttuviin tieostoihin"
+msgid "Set timeframe for removal of comments."
+msgstr ""
 
 #: weblate/addons/removal.py:60
 #, fuzzy
-#| msgid "Vote suggestion"
-msgid "Remove old suggestions"
-msgstr "Äänestä ehdotusta"
+#| msgid "Suggestion removed"
+msgid "Stale suggestion removal"
+msgstr "Ehdotus poistettu"
 
 #: weblate/addons/removal.py:62
-msgid "Remove suggestions without votes older than given age in days."
+msgid "Set timeframe for removal of suggestions without votes."
 msgstr ""
 
 #: weblate/addons/views.py:86
@@ -4705,7 +4707,7 @@ msgstr "Käännös"
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/replace.html:39
 #: weblate/templates/screenshots/screenshot_list.html:51
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -5188,7 +5190,7 @@ msgid "Translation comment"
 msgstr "Käännöksen kommentti"
 
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:165
-#: weblate/templates/zen-units.html:31
+#: weblate/templates/zen-units.html:29
 msgid "Source string comment"
 msgstr "Lähdetekstin kommentti"
 
@@ -6427,7 +6429,7 @@ msgstr "Lähdetekstin muokkaus"
 msgid "Edit string"
 msgstr "Muokkaa tekstiä"
 
-#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:58
+#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:56
 msgid "Source change"
 msgstr "Lähde muutos"
 
@@ -6435,7 +6437,7 @@ msgstr "Lähde muutos"
 msgid "Additional context"
 msgstr "Muut asiayhteydet"
 
-#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:15
+#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Asiayhteys:"
 
@@ -6462,9 +6464,9 @@ msgstr ""
 "Tähän käännökseen voi tehdä vain ehdotuksia ja ehdotukset hyväksytään "
 "äänestyksellä."
 
-#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:294
-#: weblate/trans/views/edit.py:318 weblate/trans/views/edit.py:344
-#: weblate/trans/views/edit.py:775
+#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:286
+#: weblate/trans/views/edit.py:310 weblate/trans/views/edit.py:336
+#: weblate/trans/views/edit.py:767
 msgid "Insufficient privileges for saving translations."
 msgstr "Käyttöoikeutesi eivät riitä käännösten tallentamiseen."
 
@@ -6924,11 +6926,11 @@ msgstr "Textile koodi"
 msgid "Image URL"
 msgstr "Kuvan URL"
 
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Open in full editor"
 msgstr "Avaa täysmuokkaimessa"
 
-#: weblate/templates/zen-units.html:91 weblate/trans/views/edit.py:463
+#: weblate/templates/zen-units.html:89 weblate/trans/views/edit.py:455
 msgid "The translation has come to an end."
 msgstr "Kääntäminen on tullut päätökseen."
 
@@ -7979,6 +7981,12 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "kantatiedosto uusille käännöksille"
 
+#: weblate/trans/models/component.py:255
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Automaattinen tunnistus saattaa epäonnistua tietyissä muodoissa ja on hieman "
+"hitaampi."
+
 #: weblate/trans/models/component.py:261
 msgid "Locked"
 msgstr "Lukittu"
@@ -9008,37 +9016,37 @@ msgstr[1] "Tuotu %d sanaa lähetetystä tiedostosta."
 msgid "File upload has failed: %s"
 msgstr "Tiedoston lähetys epäonnistui: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:580
+#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:572
 #: weblate/trans/views/search.py:78 weblate/trans/views/search.py:241
 msgid "Failed to process form!"
 msgstr "Lomakkeen käsittely epäonnistui!"
 
-#: weblate/trans/views/edit.py:155 weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:147 weblate/trans/views/edit.py:450
 msgid "No string matched your search!"
 msgstr "Yhtään hakuehtosi täyttäävää osumaa ei löytynyt!"
 
-#: weblate/trans/views/edit.py:179
+#: weblate/trans/views/edit.py:171
 msgid "Your suggestion is empty!"
 msgstr "Käännösehdotuksesi on tyhjä!"
 
-#: weblate/trans/views/edit.py:186
+#: weblate/trans/views/edit.py:178
 msgid "You don't have privileges to add suggestions!"
 msgstr "Sinulla ei ole oikeuksia lisätä käännösehdotuksia!"
 
-#: weblate/trans/views/edit.py:195
+#: weblate/trans/views/edit.py:187
 msgid "Your suggestion has been identified as spam!"
 msgstr "Ehdotuksesi on tunnistettu roskapostiksi!"
 
-#: weblate/trans/views/edit.py:207
+#: weblate/trans/views/edit.py:199
 msgid "Your suggestion already exists!"
 msgstr "Ehdotuksesi on jo olemassa!"
 
-#: weblate/trans/views/edit.py:241
+#: weblate/trans/views/edit.py:233
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Käännökseen on laitettu seuraavia korjauksia: %s"
 
-#: weblate/trans/views/edit.py:256
+#: weblate/trans/views/edit.py:248
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
@@ -9047,66 +9055,66 @@ msgstr ""
 "Käännösteksti on tallennettu. Käännöksellä on kuitenkin joitain "
 "epäonnistuneita tarkistuksia: {0}"
 
-#: weblate/trans/views/edit.py:309
+#: weblate/trans/views/edit.py:301
 msgid "Invalid merge request!"
 msgstr "Virheellinen liitäntäpyyntö!"
 
-#: weblate/trans/views/edit.py:335
+#: weblate/trans/views/edit.py:327
 msgid "Invalid revert request!"
 msgstr "Virheellinen palautuspyyntö!"
 
-#: weblate/trans/views/edit.py:349
+#: weblate/trans/views/edit.py:341
 msgid "Can not revert to empty translation!"
 msgstr "Ei voi palata tyhjä käännös!"
 
-#: weblate/trans/views/edit.py:367
+#: weblate/trans/views/edit.py:359
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Sinulla ei ole oikeuksia hyväksyä käännösehdotuksia!"
 
-#: weblate/trans/views/edit.py:374
+#: weblate/trans/views/edit.py:366
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Sinulla ei ole oikeuksia poistaa käännösehdotuksia!"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:373
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Sinulla ei ole oikeutta äänestää käännösehdotuksia!"
 
-#: weblate/trans/views/edit.py:409
+#: weblate/trans/views/edit.py:401
 msgid "Invalid suggestion!"
 msgstr "Sopimaton ehdotus!"
 
-#: weblate/trans/views/edit.py:521
+#: weblate/trans/views/edit.py:513
 msgid "Invalid search string!"
 msgstr "Virheellinen hakusana!"
 
-#: weblate/trans/views/edit.py:603
+#: weblate/trans/views/edit.py:595
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Automaattinen kääntäminen suoritettu. Yhtään tekstimuutosta ei tehty."
 
-#: weblate/trans/views/edit.py:605
+#: weblate/trans/views/edit.py:597
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Automaattinen käännös valmis. %d käännösteksti päivitettiin."
 msgstr[1] "Automaattinen käännös valmis. %d käännöstekstiä päivitettiin."
 
-#: weblate/trans/views/edit.py:637
+#: weblate/trans/views/edit.py:629
 msgid "Posted new comment"
 msgstr "Lähetetty uusi kommentti"
 
-#: weblate/trans/views/edit.py:639
+#: weblate/trans/views/edit.py:631
 msgid "Failed to add comment!"
 msgstr "Kommentin lisääminen epäonnistui!"
 
-#: weblate/trans/views/edit.py:662
+#: weblate/trans/views/edit.py:654
 msgid "Translation comment has been deleted."
 msgstr "Käännösksen kommentti on poistettu."
 
-#: weblate/trans/views/edit.py:820
+#: weblate/trans/views/edit.py:812
 msgid "Translation with this key seem to already exist!"
 msgstr "Käännös tällä tunnisteella näyttää olevan jo olemassa!"
 
-#: weblate/trans/views/edit.py:825
+#: weblate/trans/views/edit.py:817
 msgid "New string has been added."
 msgstr "Uusi käännösteksti on lisätty."
 
@@ -9615,6 +9623,28 @@ msgstr "Raportit"
 #: weblate/wladmin/views.py:56
 msgid "Failed to dismiss configuration error!"
 msgstr "Asetusvirheen hylkääminen epäonnistui!"
+
+#~ msgid ""
+#~ "Regular expression which is used to filter translation when scanning for "
+#~ "file mask."
+#~ msgstr ""
+#~ "Säännöllinen lauseke jota käytetään käännöstiedostojen löytämiseksi "
+#~ "projektin tiedostoista."
+
+#, fuzzy
+#~| msgid "Removed component"
+#~ msgid "Remove old comments"
+#~ msgstr "Poistettu komponentti"
+
+#, fuzzy
+#~| msgid "Remove components for non existing files"
+#~ msgid "Remove comments older than given age in days."
+#~ msgstr "Poista komponentit jotka viittaavat puuttuviin tieostoihin"
+
+#, fuzzy
+#~| msgid "Vote suggestion"
+#~ msgid "Remove old suggestions"
+#~ msgstr "Äänestä ehdotusta"
 
 #~ msgid "You cannot change demo account on the demo server."
 #~ msgstr "Et voi vaihtaa demo-tiliä demo-serverillä."

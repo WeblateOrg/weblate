@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-11 12:17+0000\n"
+"POT-Creation-Date: 2019-05-11 19:22+0000\n"
 "PO-Revision-Date: 2019-03-05 13:34+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -454,11 +454,11 @@ msgid "Zen editor mode"
 msgstr "Mode Zen"
 
 #: weblate/accounts/models.py:394
-msgid "Vertical"
+msgid "Top to bottom"
 msgstr ""
 
 #: weblate/accounts/models.py:395
-msgid "Horizontal"
+msgid "Side by side"
 msgstr ""
 
 #: weblate/accounts/models.py:402
@@ -918,7 +918,7 @@ msgid "Path of generated MO file"
 msgstr "Nama dari berkas yang dihasilkan"
 
 #: weblate/addons/forms.py:53
-msgid "If not specified location of the PO file will be used."
+msgid "If not specified, the location of the PO file will be used."
 msgstr ""
 
 #: weblate/addons/forms.py:75
@@ -946,9 +946,13 @@ msgid "No line wrapping"
 msgstr "Wrapping tanpa baris"
 
 #: weblate/addons/forms.py:117
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
+#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-"parameter it wraps only at newlines."
+"parameter, it wraps only at newlines."
 msgstr ""
 "Secara baku, gettext membungkus baris di 77 karakter dan baris baru, dengan "
 "parameter --no-wrap, ia hanya membungkus pada baris baru."
@@ -992,7 +996,7 @@ msgid "JSON indentation"
 msgstr "Indentasi JSON"
 
 #: weblate/addons/forms.py:174
-msgid "Threshold age for removal in days"
+msgid "Days to keep"
 msgstr ""
 
 #: weblate/addons/forms.py:194
@@ -1004,31 +1008,25 @@ msgstr "Ekspresi reguler untuk mencocokan file terjemahan"
 msgid "File format"
 msgstr "Format berkas"
 
-#: weblate/addons/forms.py:203 weblate/trans/models/component.py:255
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Deteksi otomatis mungkin akan gagal untuk beberapa format dan sedikit lebih "
-"lambat."
-
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:204
 msgid "Customize the component name"
 msgstr "Sesuaikan nama komponen"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
 msgstr "Tentukan nama file basis ekabahasa"
 
-#: weblate/addons/forms.py:216
+#: weblate/addons/forms.py:212
 #, fuzzy
 #| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "Tetap kosong untuk file terjemahan bilingual."
 
-#: weblate/addons/forms.py:219
+#: weblate/addons/forms.py:215
 msgid "Define the base file for new translations"
 msgstr "Tetapkan berkas dasar untuk penerjemahan baru"
 
-#: weblate/addons/forms.py:223 weblate/trans/models/component.py:245
+#: weblate/addons/forms.py:219 weblate/trans/models/component.py:245
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1036,27 +1034,34 @@ msgstr ""
 "Nama berkas yang digunakan untuk membuat penerjemahan baru. Untuk Gettext "
 "pilih berkas .pot."
 
-#: weblate/addons/forms.py:228 weblate/trans/models/component.py:448
+#: weblate/addons/forms.py:224 weblate/trans/models/component.py:448
 msgid "Language filter"
 msgstr "Filter bahasa"
 
-#: weblate/addons/forms.py:233
+#: weblate/addons/forms.py:229
+#, fuzzy
+#| msgid ""
+#| "Regular expression which is used to filter translation when scanning for "
+#| "file mask."
 msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
+"Regular expression to filter translation against when scanning for filemask."
 msgstr ""
 "Ekspresi reguler yang digunakan untuk memfilter terjemahan saat memindai "
 "mask berkas."
 
-#: weblate/addons/forms.py:238
-msgid "Remove components for non existing files"
+#: weblate/addons/forms.py:234
+#, fuzzy
+#| msgid "Remove components for non existing files"
+msgid "Remove components for inexistant files"
 msgstr "Hapus komponen untuk file yang tidak ada"
 
-#: weblate/addons/forms.py:242
-msgid "I confirm that the above matches look correct"
+#: weblate/addons/forms.py:238
+#, fuzzy
+#| msgid "I confirm that the above matches look correct"
+msgid "I confirm the above matches look correct"
 msgstr "Saya mengkonfirmasi bahwa diatas terlihat benar"
 
-#: weblate/addons/forms.py:301
+#: weblate/addons/forms.py:297
 msgid "Please review and confirm matched components."
 msgstr "Harap tinjau dan konfirmasikan komponen yang cocok."
 
@@ -1162,24 +1167,22 @@ msgstr "Pengaya ini untuk mengurutkan berkas properti Java."
 
 #: weblate/addons/removal.py:49
 #, fuzzy
-#| msgid "Other components"
-msgid "Remove old comments"
-msgstr "Komponen lainnya"
+#| msgid "Account removal"
+msgid "Stale comment removal"
+msgstr "Penghapusan akun"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Remove components for non existing files"
-msgid "Remove comments older than given age in days."
-msgstr "Hapus komponen untuk file yang tidak ada"
+msgid "Set timeframe for removal of comments."
+msgstr ""
 
 #: weblate/addons/removal.py:60
 #, fuzzy
-#| msgid "Enable suggestions"
-msgid "Remove old suggestions"
-msgstr "Aktifkan saran"
+#| msgid "Suggestion removed"
+msgid "Stale suggestion removal"
+msgstr "Saran dihapus"
 
 #: weblate/addons/removal.py:62
-msgid "Remove suggestions without votes older than given age in days."
+msgid "Set timeframe for removal of suggestions without votes."
 msgstr ""
 
 #: weblate/addons/views.py:86
@@ -5081,7 +5084,7 @@ msgstr "Terjemahan"
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/replace.html:39
 #: weblate/templates/screenshots/screenshot_list.html:51
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Edit"
 msgstr "Sunting"
 
@@ -5577,7 +5580,7 @@ msgid "Translation comment"
 msgstr "Komentar terjemahan"
 
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:165
-#: weblate/templates/zen-units.html:31
+#: weblate/templates/zen-units.html:29
 msgid "Source string comment"
 msgstr "Komentar string sumber"
 
@@ -6912,7 +6915,7 @@ msgstr "Menyunting string sumber"
 msgid "Edit string"
 msgstr "Sunting string"
 
-#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:58
+#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:56
 msgid "Source change"
 msgstr "Sumber berubah"
 
@@ -6922,7 +6925,7 @@ msgstr "Sumber berubah"
 msgid "Additional context"
 msgstr "Berkas commit tambahan"
 
-#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:15
+#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Konteks:"
 
@@ -6947,9 +6950,9 @@ msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
 
-#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:294
-#: weblate/trans/views/edit.py:318 weblate/trans/views/edit.py:344
-#: weblate/trans/views/edit.py:775
+#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:286
+#: weblate/trans/views/edit.py:310 weblate/trans/views/edit.py:336
+#: weblate/trans/views/edit.py:767
 msgid "Insufficient privileges for saving translations."
 msgstr "Tidak cukup privilege untuk menyimpan terjemahan."
 
@@ -7426,11 +7429,11 @@ msgstr "Kode Textile"
 msgid "Image URL"
 msgstr "URL Gambar"
 
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Open in full editor"
 msgstr "Buka dalam penyunting penuh"
 
-#: weblate/templates/zen-units.html:91 weblate/trans/views/edit.py:463
+#: weblate/templates/zen-units.html:89 weblate/trans/views/edit.py:455
 msgid "The translation has come to an end."
 msgstr "Terjemahan telah sampai di akhir."
 
@@ -8628,6 +8631,12 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "Berkas dasar untuk penerjemahan baru"
 
+#: weblate/trans/models/component.py:255
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Deteksi otomatis mungkin akan gagal untuk beberapa format dan sedikit lebih "
+"lambat."
+
 #: weblate/trans/models/component.py:261
 msgid "Locked"
 msgstr "Terkunci"
@@ -9762,37 +9771,37 @@ msgstr[0] "Diimpor %d kata dari berkas yang diunggah."
 msgid "File upload has failed: %s"
 msgstr "Unggahan berkas telah gagal: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:580
+#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:572
 #: weblate/trans/views/search.py:78 weblate/trans/views/search.py:241
 msgid "Failed to process form!"
 msgstr "Gagal untuk memproses formulir!"
 
-#: weblate/trans/views/edit.py:155 weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:147 weblate/trans/views/edit.py:450
 msgid "No string matched your search!"
 msgstr "Tidak ada string yang cocok dalam pencarian anda!"
 
-#: weblate/trans/views/edit.py:179
+#: weblate/trans/views/edit.py:171
 msgid "Your suggestion is empty!"
 msgstr "Saran Anda kosong!"
 
-#: weblate/trans/views/edit.py:186
+#: weblate/trans/views/edit.py:178
 msgid "You don't have privileges to add suggestions!"
 msgstr "Anda tidak memiliki hak untuk menambahkan saran!"
 
-#: weblate/trans/views/edit.py:195
+#: weblate/trans/views/edit.py:187
 msgid "Your suggestion has been identified as spam!"
 msgstr "Saran Anda telah diidentifikasi sebagai spam!"
 
-#: weblate/trans/views/edit.py:207
+#: weblate/trans/views/edit.py:199
 msgid "Your suggestion already exists!"
 msgstr "Saran Anda sudah ada!"
 
-#: weblate/trans/views/edit.py:241
+#: weblate/trans/views/edit.py:233
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Perbaikan-perbaikan berikut yang diterapkan untuk terjemahan: %s"
 
-#: weblate/trans/views/edit.py:256
+#: weblate/trans/views/edit.py:248
 #, fuzzy, python-brace-format
 #| msgid "The translations in several languages have failing checks"
 msgid ""
@@ -9800,65 +9809,65 @@ msgid ""
 "{0}"
 msgstr "Terjemahan pada beberapa bahasa memiliki pemeriksaan gagal"
 
-#: weblate/trans/views/edit.py:309
+#: weblate/trans/views/edit.py:301
 msgid "Invalid merge request!"
 msgstr "Permintaan penggabungan tidak valid!"
 
-#: weblate/trans/views/edit.py:335
+#: weblate/trans/views/edit.py:327
 msgid "Invalid revert request!"
 msgstr "Permintaan pengembalian tidak valid!"
 
-#: weblate/trans/views/edit.py:349
+#: weblate/trans/views/edit.py:341
 msgid "Can not revert to empty translation!"
 msgstr "Tidak dapat kembali ke penerjemahan yang kosong!"
 
-#: weblate/trans/views/edit.py:367
+#: weblate/trans/views/edit.py:359
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menerima saran!"
 
-#: weblate/trans/views/edit.py:374
+#: weblate/trans/views/edit.py:366
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menghapus saran!"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:373
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Anda tidak memiliki kewenangan memilih suara untuk saran!"
 
-#: weblate/trans/views/edit.py:409
+#: weblate/trans/views/edit.py:401
 msgid "Invalid suggestion!"
 msgstr "Saran tidak valid!"
 
-#: weblate/trans/views/edit.py:521
+#: weblate/trans/views/edit.py:513
 msgid "Invalid search string!"
 msgstr "Pencarian string tidak valid!"
 
-#: weblate/trans/views/edit.py:603
+#: weblate/trans/views/edit.py:595
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Terjemahan otomatis telah selesai, tidak ada string yang diperbarui."
 
-#: weblate/trans/views/edit.py:605
+#: weblate/trans/views/edit.py:597
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Terjemahan otomatis telah selesai, %d string telah diperbarui."
 
-#: weblate/trans/views/edit.py:637
+#: weblate/trans/views/edit.py:629
 msgid "Posted new comment"
 msgstr "Komentar baru diposting"
 
-#: weblate/trans/views/edit.py:639
+#: weblate/trans/views/edit.py:631
 msgid "Failed to add comment!"
 msgstr "Gagal menambah komentar!"
 
-#: weblate/trans/views/edit.py:662
+#: weblate/trans/views/edit.py:654
 msgid "Translation comment has been deleted."
 msgstr "Komentar penerjemah telah dihapus."
 
-#: weblate/trans/views/edit.py:820
+#: weblate/trans/views/edit.py:812
 msgid "Translation with this key seem to already exist!"
 msgstr "Berkas terjemahan dengan key ini sepertinya sudah ada!"
 
-#: weblate/trans/views/edit.py:825
+#: weblate/trans/views/edit.py:817
 msgid "New string has been added."
 msgstr "String baru telah ditambah."
 
@@ -10393,6 +10402,28 @@ msgstr "Laporan"
 #: weblate/wladmin/views.py:56
 msgid "Failed to dismiss configuration error!"
 msgstr "Gagal menghilangkan kesalahan konfigurasi!"
+
+#~ msgid ""
+#~ "Regular expression which is used to filter translation when scanning for "
+#~ "file mask."
+#~ msgstr ""
+#~ "Ekspresi reguler yang digunakan untuk memfilter terjemahan saat memindai "
+#~ "mask berkas."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Remove old comments"
+#~ msgstr "Komponen lainnya"
+
+#, fuzzy
+#~| msgid "Remove components for non existing files"
+#~ msgid "Remove comments older than given age in days."
+#~ msgstr "Hapus komponen untuk file yang tidak ada"
+
+#, fuzzy
+#~| msgid "Enable suggestions"
+#~ msgid "Remove old suggestions"
+#~ msgstr "Aktifkan saran"
 
 #~ msgid "You cannot change demo account on the demo server."
 #~ msgstr "Anda tidak dapat mengubah akun demo di server demo."

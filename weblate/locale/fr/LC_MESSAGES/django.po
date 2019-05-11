@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-05-11 12:17+0000\n"
+"POT-Creation-Date: 2019-05-11 19:22+0000\n"
 "PO-Revision-Date: 2019-05-11 19:22+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -408,12 +408,12 @@ msgid "Zen editor mode"
 msgstr "Mode Zen"
 
 #: weblate/accounts/models.py:394
-msgid "Vertical"
-msgstr "Vertical"
+msgid "Top to bottom"
+msgstr ""
 
 #: weblate/accounts/models.py:395
-msgid "Horizontal"
-msgstr "Horizontal"
+msgid "Side by side"
+msgstr ""
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -851,7 +851,9 @@ msgid "Path of generated MO file"
 msgstr "Chemin du fichier MO généré"
 
 #: weblate/addons/forms.py:53
-msgid "If not specified location of the PO file will be used."
+#, fuzzy
+#| msgid "If not specified location of the PO file will be used."
+msgid "If not specified, the location of the PO file will be used."
 msgstr ""
 "Si non précisé, l'emplacement utilisé sera identique à celui du fichier PO."
 
@@ -881,9 +883,13 @@ msgid "No line wrapping"
 msgstr "Pas de retour à la ligne automatique"
 
 #: weblate/addons/forms.py:117
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
+#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-"parameter it wraps only at newlines."
+"parameter, it wraps only at newlines."
 msgstr ""
 "Par défaut, gettext fait un retour automatique à la ligne à 77 caractères et "
 "pour les nouvelles lignes, avec le paramètre --no-wrap il ne le fait que "
@@ -926,8 +932,8 @@ msgid "JSON indentation"
 msgstr "Indentation JSON"
 
 #: weblate/addons/forms.py:174
-msgid "Threshold age for removal in days"
-msgstr "Seuil d'ancienneté avant suppression (en jours)"
+msgid "Days to keep"
+msgstr ""
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -940,29 +946,23 @@ msgstr ""
 msgid "File format"
 msgstr "Format de fichier"
 
-#: weblate/addons/forms.py:203 weblate/trans/models/component.py:255
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"La détection automatique peut échouer pour certain formats et est légèrement "
-"plus lente."
-
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:204
 msgid "Customize the component name"
 msgstr "Personnaliser le nom du composant"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
 msgstr "Définir le nom du fichier de base mono-langue"
 
-#: weblate/addons/forms.py:216
+#: weblate/addons/forms.py:212
 msgid "Leave empty for bilingual translation files."
 msgstr "Laisser vide pour les fichiers de traduction bilingue."
 
-#: weblate/addons/forms.py:219
+#: weblate/addons/forms.py:215
 msgid "Define the base file for new translations"
 msgstr "Définit le fichier de base pour de nouvelles traductions"
 
-#: weblate/addons/forms.py:223 weblate/trans/models/component.py:245
+#: weblate/addons/forms.py:219 weblate/trans/models/component.py:245
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -970,27 +970,33 @@ msgstr ""
 "Nom du fichier utilisé pour la création de nouvelles traductions. Pour "
 "Gettext choisir un fichier .pot."
 
-#: weblate/addons/forms.py:228 weblate/trans/models/component.py:448
+#: weblate/addons/forms.py:224 weblate/trans/models/component.py:448
 msgid "Language filter"
 msgstr "Filtre sur la langue"
 
-#: weblate/addons/forms.py:233
+#: weblate/addons/forms.py:229
+#, fuzzy
+#| msgid ""
+#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
+"Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Expression rationnelle qui est utilisé pour filtrer la traduction lors de la "
-"recherche d’un masque de fichier."
+"Expression rationnelle utilisée pour filtrer la traduction lors de la "
+"recherche d’un motif de fichier."
 
-#: weblate/addons/forms.py:238
-msgid "Remove components for non existing files"
+#: weblate/addons/forms.py:234
+#, fuzzy
+#| msgid "Remove components for non existing files"
+msgid "Remove components for inexistant files"
 msgstr "Supprimer les composants pour les fichiers inexistants"
 
-#: weblate/addons/forms.py:242
-msgid "I confirm that the above matches look correct"
+#: weblate/addons/forms.py:238
+#, fuzzy
+#| msgid "I confirm that the above matches look correct"
+msgid "I confirm the above matches look correct"
 msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
 
-#: weblate/addons/forms.py:301
+#: weblate/addons/forms.py:297
 msgid "Please review and confirm matched components."
 msgstr "Veuillez examiner et confirmer les composants correspondants."
 
@@ -1100,20 +1106,24 @@ msgid "This addon sorts the Java properties file."
 msgstr "Ce greffon trie le fichier properties Java."
 
 #: weblate/addons/removal.py:49
-msgid "Remove old comments"
-msgstr "Supprimer les anciens commentaires"
+#, fuzzy
+#| msgid "Account removal"
+msgid "Stale comment removal"
+msgstr "Suppression de compte"
 
 #: weblate/addons/removal.py:50
-msgid "Remove comments older than given age in days."
-msgstr "Supprime les commentaires plus anciens que l'âge indiqué (en jours)."
+msgid "Set timeframe for removal of comments."
+msgstr ""
 
 #: weblate/addons/removal.py:60
-msgid "Remove old suggestions"
-msgstr "Supprimer les anciennes suggestions"
+#, fuzzy
+#| msgid "Suggestion removed"
+msgid "Stale suggestion removal"
+msgstr "Suggestion supprimée"
 
 #: weblate/addons/removal.py:62
-msgid "Remove suggestions without votes older than given age in days."
-msgstr "Supprime les suggestions plus anciennes que l'âge indiqué (en jours)."
+msgid "Set timeframe for removal of suggestions without votes."
+msgstr ""
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -4757,7 +4767,7 @@ msgstr "Traduction"
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/replace.html:39
 #: weblate/templates/screenshots/screenshot_list.html:51
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Edit"
 msgstr "Modifier"
 
@@ -5237,7 +5247,7 @@ msgid "Translation comment"
 msgstr "Commentaire de traduction"
 
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:165
-#: weblate/templates/zen-units.html:31
+#: weblate/templates/zen-units.html:29
 msgid "Source string comment"
 msgstr "Commentaire sur la chaîne source"
 
@@ -6504,7 +6514,7 @@ msgstr "Modification de la chaîne source"
 msgid "Edit string"
 msgstr "Modifier la chaîne"
 
-#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:58
+#: weblate/templates/translate.html:149 weblate/templates/zen-units.html:56
 msgid "Source change"
 msgstr "Modifications dans la chaîne source"
 
@@ -6512,7 +6522,7 @@ msgstr "Modifications dans la chaîne source"
 msgid "Additional context"
 msgstr "Contexte supplémentaire"
 
-#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:15
+#: weblate/templates/translate.html:183 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Contexte :"
 
@@ -6539,9 +6549,9 @@ msgstr ""
 "Cette traduction n’accepte que des suggestions qui sont ensuite approuvées "
 "par vote."
 
-#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:294
-#: weblate/trans/views/edit.py:318 weblate/trans/views/edit.py:344
-#: weblate/trans/views/edit.py:775
+#: weblate/templates/translate.html:215 weblate/trans/views/edit.py:286
+#: weblate/trans/views/edit.py:310 weblate/trans/views/edit.py:336
+#: weblate/trans/views/edit.py:767
 msgid "Insufficient privileges for saving translations."
 msgstr "Droits insuffisants pour enregistrer les traductions."
 
@@ -7002,11 +7012,11 @@ msgstr "Code Textile"
 msgid "Image URL"
 msgstr "URL de l’image"
 
-#: weblate/templates/zen-units.html:22
+#: weblate/templates/zen-units.html:13
 msgid "Open in full editor"
 msgstr "Ouvrir dans l’éditeur complet"
 
-#: weblate/templates/zen-units.html:91 weblate/trans/views/edit.py:463
+#: weblate/templates/zen-units.html:89 weblate/trans/views/edit.py:455
 msgid "The translation has come to an end."
 msgstr "La fin de la traduction a été atteinte."
 
@@ -8064,6 +8074,12 @@ msgstr ""
 msgid "Base file for new translations"
 msgstr "Fichier de base pour nouvelles traductions"
 
+#: weblate/trans/models/component.py:255
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"La détection automatique peut échouer pour certain formats et est légèrement "
+"plus lente."
+
 #: weblate/trans/models/component.py:261
 msgid "Locked"
 msgstr "Verrouillé"
@@ -9117,37 +9133,37 @@ msgstr[1] "%d mots importés depuis le fichier."
 msgid "File upload has failed: %s"
 msgstr "Échec de téléversement du fichier : %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:580
+#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:572
 #: weblate/trans/views/search.py:78 weblate/trans/views/search.py:241
 msgid "Failed to process form!"
 msgstr "Échec du traitement du formulaire !"
 
-#: weblate/trans/views/edit.py:155 weblate/trans/views/edit.py:458
+#: weblate/trans/views/edit.py:147 weblate/trans/views/edit.py:450
 msgid "No string matched your search!"
 msgstr "Aucun résultat pour cette recherche"
 
-#: weblate/trans/views/edit.py:179
+#: weblate/trans/views/edit.py:171
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
-#: weblate/trans/views/edit.py:186
+#: weblate/trans/views/edit.py:178
 msgid "You don't have privileges to add suggestions!"
 msgstr "Vous n’avez pas l’autorisation d’ajouter des suggestions !"
 
-#: weblate/trans/views/edit.py:195
+#: weblate/trans/views/edit.py:187
 msgid "Your suggestion has been identified as spam!"
 msgstr "Votre suggestion a été identifiée comme étant du spam !"
 
-#: weblate/trans/views/edit.py:207
+#: weblate/trans/views/edit.py:199
 msgid "Your suggestion already exists!"
 msgstr "Une suggestion identique existe déjà !"
 
-#: weblate/trans/views/edit.py:241
+#: weblate/trans/views/edit.py:233
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Les corrections suivantes ont été appliquées à la traduction : %s"
 
-#: weblate/trans/views/edit.py:256
+#: weblate/trans/views/edit.py:248
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
@@ -9156,66 +9172,66 @@ msgstr ""
 "La traduction a été enregistrée mais il y a de nouvelles vérifications en "
 "erreur : {0}."
 
-#: weblate/trans/views/edit.py:309
+#: weblate/trans/views/edit.py:301
 msgid "Invalid merge request!"
 msgstr "Requête de fusion invalide !"
 
-#: weblate/trans/views/edit.py:335
+#: weblate/trans/views/edit.py:327
 msgid "Invalid revert request!"
 msgstr "Requête de restauration invalide !"
 
-#: weblate/trans/views/edit.py:349
+#: weblate/trans/views/edit.py:341
 msgid "Can not revert to empty translation!"
 msgstr "Impossible de restaurer une traduction vide !"
 
-#: weblate/trans/views/edit.py:367
+#: weblate/trans/views/edit.py:359
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Vous n’avez pas l’autorisation d’accepter les suggestions !"
 
-#: weblate/trans/views/edit.py:374
+#: weblate/trans/views/edit.py:366
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n’avez pas l’autorisation de supprimer les suggestions !"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:373
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Vous n’avez pas l’autorisation de voter pour les suggestions !"
 
-#: weblate/trans/views/edit.py:409
+#: weblate/trans/views/edit.py:401
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#: weblate/trans/views/edit.py:521
+#: weblate/trans/views/edit.py:513
 msgid "Invalid search string!"
 msgstr "Chaîne de recherche invalide !"
 
-#: weblate/trans/views/edit.py:603
+#: weblate/trans/views/edit.py:595
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Traduction automatique terminée, aucune chaîne n’a été modifiée."
 
-#: weblate/trans/views/edit.py:605
+#: weblate/trans/views/edit.py:597
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Traduction automatique terminée, %d chaîne modifiée."
 msgstr[1] "Traduction automatique terminée, %d chaînes modifiées."
 
-#: weblate/trans/views/edit.py:637
+#: weblate/trans/views/edit.py:629
 msgid "Posted new comment"
 msgstr "Nouveau commentaire publié"
 
-#: weblate/trans/views/edit.py:639
+#: weblate/trans/views/edit.py:631
 msgid "Failed to add comment!"
 msgstr "Échec lors de l’ajout du commentaire !"
 
-#: weblate/trans/views/edit.py:662
+#: weblate/trans/views/edit.py:654
 msgid "Translation comment has been deleted."
 msgstr "Le commentaire de traduction a été supprimé."
 
-#: weblate/trans/views/edit.py:820
+#: weblate/trans/views/edit.py:812
 msgid "Translation with this key seem to already exist!"
 msgstr "Il semble qu’il existe déjà une traduction avec cette clé !"
 
-#: weblate/trans/views/edit.py:825
+#: weblate/trans/views/edit.py:817
 msgid "New string has been added."
 msgstr "La nouvelle chaîne a été ajoutée."
 
@@ -9735,6 +9751,36 @@ msgstr "Rapports"
 #: weblate/wladmin/views.py:56
 msgid "Failed to dismiss configuration error!"
 msgstr "Impossible d’ignorer l’erreur de configuration !"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertical"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontal"
+
+#~ msgid "Threshold age for removal in days"
+#~ msgstr "Seuil d'ancienneté avant suppression (en jours)"
+
+#~ msgid ""
+#~ "Regular expression which is used to filter translation when scanning for "
+#~ "file mask."
+#~ msgstr ""
+#~ "Expression rationnelle qui est utilisé pour filtrer la traduction lors de "
+#~ "la recherche d’un masque de fichier."
+
+#~ msgid "Remove old comments"
+#~ msgstr "Supprimer les anciens commentaires"
+
+#~ msgid "Remove comments older than given age in days."
+#~ msgstr ""
+#~ "Supprime les commentaires plus anciens que l'âge indiqué (en jours)."
+
+#~ msgid "Remove old suggestions"
+#~ msgstr "Supprimer les anciennes suggestions"
+
+#~ msgid "Remove suggestions without votes older than given age in days."
+#~ msgstr ""
+#~ "Supprime les suggestions plus anciennes que l'âge indiqué (en jours)."
 
 #~ msgid "You cannot change demo account on the demo server."
 #~ msgstr ""
