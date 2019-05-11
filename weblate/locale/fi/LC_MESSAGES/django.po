@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-04 12:41+0000\n"
+"PO-Revision-Date: 2019-05-15 04:52+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -397,18 +397,16 @@ msgid "Zen mode"
 msgstr "Zen-tila"
 
 #: weblate/accounts/models.py:392
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "Zen-tila"
+msgstr "Zen-muokkaustila"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "Ylhäältä alas"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "Rinnakkain"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -834,14 +832,12 @@ msgstr ""
 "kaikki tekstit, myös sellaiset, joita ei ole käännetty."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "Luodun tiedoston nimi"
+msgstr "Generoidun MO-tiedoston nimi"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Jos ei ole määritelty, käytetään PO-tiedoston sijaintia."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -869,25 +865,21 @@ msgid "No line wrapping"
 msgstr "Ei rivitystä"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"Oletuksena gettext rivittää rivit 77 merkin kohdalta ja rivinvaihtomerkkien "
-"kohdalta. Parametriä --no-wrap käyttämällä se rivittää vain "
-"rivinvaihtomerkistä."
+"Oletuksena gettext rivittää rivit 77:n merkin kohdalta ja "
+"rivinvaihtomerkkien kohdalta. Parametriä --no-wrap käyttämällä se rivittää "
+"vain rivinvaihtomerkistä."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
-msgstr ""
+msgstr "Säilytä aiemmat käännettyjen viestien msgid:t"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "Käytä sumeaa vastaavuutta"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
@@ -919,7 +911,7 @@ msgstr "JSON-sisennys"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "Säilytettävät päivät"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -959,9 +951,6 @@ msgid "Language filter"
 msgstr "Kielisuodatin"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
@@ -969,14 +958,10 @@ msgstr ""
 "projektin tiedostoista."
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "Poista komponentit jotka viittaavat puuttuviin tieostoihin"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Vahvistan, että ylläolevat hakutulokset näyttävät oikeilta"
 
@@ -1087,24 +1072,21 @@ msgid "This addon sorts the Java properties file."
 msgstr "Tämä lisäosa lajittelee Java-ominaisuustiedoston (Java properties)."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Käyttäjätilin poistaminen"
+msgstr "Vanhan kommentin poistaminen"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Aseta aikaväli kommenttien poistamiselle."
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Ehdotus poistettu"
+msgstr "Vanhojen ehdotusten poistetaminen"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
 msgstr ""
+"Aseta aikaväli sellaisten ehdotusten poistamiseen joilla ei ole yhtään ääntä."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2680,15 +2662,14 @@ msgid "Source has been removed."
 msgstr "Lähdeteksti on poistettu."
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bad request"
-msgstr "Virheellinen liitäntäpyyntö!"
+msgstr "Virheellinen pyyntö"
 
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
 msgstr ""
+"Olemme pahoillamme, mutta jotain näyttää olevan vialla pyynnössä jonka teit."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
@@ -3767,10 +3748,8 @@ msgid "Number of translated strings"
 msgstr "Käännettyjen tekstien määrä"
 
 #: weblate/templates/addons/generate_help.html:20
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation filename"
-msgstr "Käännöstiedosto"
+msgstr "Käännöstiedoston nimi"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1549
 #: weblate/trans/models/component.py:130
@@ -6335,10 +6314,8 @@ msgid "Zen"
 msgstr "Zen"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure editor"
-msgstr "Määrittele lisäosa"
+msgstr "Määrittele muokkain"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -9120,7 +9097,7 @@ msgstr "Uusi käännösteksti on lisätty."
 
 #: weblate/trans/views/error.py:36
 msgid "Bad Request"
-msgstr ""
+msgstr "Virheellinen pyyntö"
 
 #: weblate/trans/views/files.py:66
 msgid "Access denied."
