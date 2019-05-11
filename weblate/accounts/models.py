@@ -391,8 +391,8 @@ class Profile(models.Model):
     zen_mode = models.IntegerField(
         verbose_name=_('Zen editor mode'),
         choices=(
-            (ZEN_VERTICAL, _('Vertical')),
-            (ZEN_HORIZONTAL, _('Horizontal')),
+            (ZEN_VERTICAL, _('Top to bottom')),
+            (ZEN_HORIZONTAL, _('Side by side')),
         ),
         default=ZEN_VERTICAL,
     )

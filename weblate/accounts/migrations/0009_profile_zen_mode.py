@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='zen_mode',
-            field=models.IntegerField(choices=[(0, 'Vertical'), (1, 'Horizontal')], default=0, verbose_name='Zen editor mode'),
+            field=models.IntegerField(choices=[(0, 'Top to bottom'), (1, 'Side by side')], default=0, verbose_name='Zen editor mode'),
         ),
     ]
