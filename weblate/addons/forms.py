@@ -199,10 +199,6 @@ class DiscoveryForm(BaseAddonForm):
         choices=FILE_FORMATS.get_choices(),
         initial='po',
         required=True,
-        help_text=_(
-            'Automatic detection might fail for some formats, '
-            'and is slightly slower.'
-        ),
     )
     name_template = forms.CharField(
         label=_('Customize the component name'),
