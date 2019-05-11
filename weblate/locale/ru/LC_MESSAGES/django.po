@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-11 19:22+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2019-05-15 04:52+0000\n"
+"Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -397,15 +397,15 @@ msgstr "Режим Zen"
 
 #: weblate/accounts/models.py:392
 msgid "Zen editor mode"
-msgstr "Режим редактирования Zen"
+msgstr "Режим Zen-редактора"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "Сверху вниз"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "Бок о бок"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -823,13 +823,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:50
 msgid "Path of generated MO file"
-msgstr "Путь к сгенерированному файлу MO"
+msgstr "Путь к сгенерированному MO-файлу"
 
 #: weblate/addons/forms.py:53
-#, fuzzy
-#| msgid "If not specified location of the PO file will be used."
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Если не указано, будет использовано местоположение файла PO."
+msgstr "Если не указано, будет использовано местоположение PO-файла."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -856,16 +854,12 @@ msgid "No line wrapping"
 msgstr "Не заворачивать строки"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
 "По умолчанию gettext заворачивает строки на 77-м символе и новых строках, с "
-"параметром --no-wrap они заворачиваются только на новых строках."
+"параметром --no-wrap, они заворачиваются только на новых строках."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
@@ -905,7 +899,7 @@ msgstr "Отступы JSON"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "Дни для сохранения"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -945,24 +939,17 @@ msgid "Language filter"
 msgstr "Языковой фильтр"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Регулярное выражение используется для фильтрации перевода при сканировании "
-"по файловой маске."
+"Регулярное выражение для фильтрации перевода при сканировании по файловой "
+"маске."
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "Удалить компоненты для несуществующих файлов"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Я подтверждаю, что сопоставления выше выглядят правильно"
 
@@ -1069,24 +1056,20 @@ msgid "This addon sorts the Java properties file."
 msgstr "Эта надстройка разбирает файл свойств Java."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Удаление учетной записи"
+msgstr "Удаление устаревшего комментария"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Установить сроки удаления комментариев."
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Предложение удалено"
+msgstr "Устаревшее предложение удалено"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
-msgstr ""
+msgstr "Установить сроки удаления предложений без голосов."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2665,7 +2648,7 @@ msgstr "Плохой запрос"
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr "Извините, но, кажется, с вашим запросом что-то не так."
+msgstr "Кажется, с вашим запросом что-то не так."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
