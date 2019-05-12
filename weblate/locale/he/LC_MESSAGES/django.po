@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-04 12:41+0000\n"
+"PO-Revision-Date: 2019-05-15 04:52+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -387,18 +387,16 @@ msgid "Zen mode"
 msgstr "מצב ריכוז"
 
 #: weblate/accounts/models.py:392
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "מצב ריכוז"
+msgstr "מצב עורך בריכוז"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "מלמעלה למטה"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "זה לצד זה"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -803,14 +801,12 @@ msgstr ""
 "את כל המחרוזות אפילו אם הן אינן מתורגמות."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "שם הקובץ שנותר"
+msgstr "נתיב לקובץ ה־MO שנוצר"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "אם לא צוין, יעשה שימוש במיקום של קובץ ה־PO."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -837,24 +833,20 @@ msgid "No line wrapping"
 msgstr "ללא גלישת שורות"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
 "כבררת מחדל gettext גורם לגלישת שורות לאחר 77 תווים או תווי שורה חדשה, עם "
-"המשתנה ‎--no-wrap הגלישה תתבצע רק עם תווי שורה חדשה."
+"המשתנה ‎--no-wrap, הגלישה תתבצע רק עם תווי שורה חדשה."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
-msgstr ""
+msgstr "להשאיר את מזהי ההודעות (msgid) הקודמים של ההודעות המתורגמות"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "להשתמש בהתאמה מעורפלת"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
@@ -886,7 +878,7 @@ msgstr "הזחת JSON"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "ימים לשמור"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -925,22 +917,15 @@ msgid "Language filter"
 msgstr "מסנן השפות"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
-msgstr "ביטוויים רגולריים משמשים לסינון תרגומים בעת סריקה אחר מסכת קובץ."
+msgstr "ביטויים רגולריים לסינון תרגומים כנגד סריקה אחר מסכת קובץ."
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "הסרת רכיבים לקבצים שאינם קיימים"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "ההתאמות שלהלן נראות תקינות לעניות דעתי"
 
@@ -1043,24 +1028,20 @@ msgid "This addon sorts the Java properties file."
 msgstr "תוסף זה מסדר קובץ properties של Java."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "הסרת חשבון"
+msgstr "הסרת הערות מיושנות"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "הגדרת פרק זמן להסרת הערות."
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "הצעה הוסרה"
+msgstr "הסרת הצעות מיושנות"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
-msgstr ""
+msgstr "הגדרת פרק זמן להסרת הצעות ללא הצבעות."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2620,15 +2601,13 @@ msgid "Source has been removed."
 msgstr "המקור הוסר."
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bad request"
-msgstr "בקשת המיזוג שגויה!"
+msgstr "בקשה שגויה"
 
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr ""
+msgstr "משהו כנראה לא בסדר עם הבקשה שערכת, עמך הסליחה."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
@@ -3660,10 +3639,8 @@ msgid "Number of translated strings"
 msgstr "מספר המחרוזות המתורגמות"
 
 #: weblate/templates/addons/generate_help.html:20
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation filename"
-msgstr "קובץ תרגום"
+msgstr "שם קובץ תרגום"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1549
 #: weblate/trans/models/component.py:130
@@ -5657,7 +5634,7 @@ msgstr "בקשת תרגום חדש"
 #: weblate/templates/paginator.html:6
 #, python-format
 msgid "%(position)s / %(total)s"
-msgstr "%(position)s / %(total)s"
+msgstr "‎%(position)s / %(total)s"
 
 #: weblate/templates/project.html:73 weblate/templates/project.html:268
 msgid "Add a project message"
@@ -6151,10 +6128,8 @@ msgid "Zen"
 msgstr "ריכוז"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure editor"
-msgstr "הגדרת תוסף"
+msgstr "הגדרת עורך"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -8901,7 +8876,7 @@ msgstr "נוספה מחרוזת חדשה."
 
 #: weblate/trans/views/error.py:36
 msgid "Bad Request"
-msgstr ""
+msgstr "בקשה שגויה"
 
 #: weblate/trans/views/files.py:66
 msgid "Access denied."
