@@ -111,8 +111,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         if DO_SELENIUM:
             self.set_test_status(
-                errors == len(result.errors) and
-                failures == len(result.failures)
+                errors == len(result.errors) and failures == len(result.failures)
             )
 
     @contextmanager

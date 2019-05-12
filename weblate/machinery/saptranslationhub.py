@@ -21,8 +21,8 @@
 import base64
 import json
 
-import six
 from django.conf import settings
+import six
 from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT

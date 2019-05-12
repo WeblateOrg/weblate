@@ -24,7 +24,6 @@ from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-import weblate
 from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csvfile
 from translate.storage.mo import mofile
@@ -33,6 +32,7 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
+import weblate
 from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
 from weblate.utils.site import get_site_url

@@ -402,6 +402,7 @@ class MachineTranslationTest(TestCase):
                 suffix = request.path[21:]
                 with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
                     return (200, headers, handle.read())
+            return (500, headers, '')
 
         def request_callback_post(request, uri, headers):
             if fail:

@@ -338,8 +338,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.was_new = (
                 self.was_new
                 or (
-                    newunit.state < STATE_TRANSLATED and
-                    (newunit.state != newunit.old_unit.state or is_new)
+                    newunit.state < STATE_TRANSLATED
+                    and (newunit.state != newunit.old_unit.state or is_new)
                 )
             )
 

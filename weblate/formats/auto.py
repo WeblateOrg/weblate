@@ -23,7 +23,7 @@
 from __future__ import unicode_literals
 
 import os.path
-from glob import fnmatch
+from fnmatch import fnmatch
 
 from django.utils.translation import ugettext_lazy as _
 
