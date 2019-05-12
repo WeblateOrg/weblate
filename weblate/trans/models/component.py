@@ -1338,7 +1338,7 @@ class Component(models.Model, URLMixin, PathMixin):
         for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 'updating linked project %s [%d/%d]',
-                component, pos, len(self.linked_childs),
+                component, pos + 1, len(self.linked_childs),
             )
             component.translations_count = -1
             component.create_translations(
