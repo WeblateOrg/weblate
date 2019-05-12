@@ -1912,7 +1912,7 @@ class Component(models.Model, URLMixin, PathMixin):
             ('has_suggestion', 'trans_suggestion'),
         )
         for flag, table in updates:
-            self.log_debug('updating unit flag: %s', flag)
+            self.log_debug('updating unit flag for all linked components: %s', flag)
             unit_ids = set(
                 filter_query(units, table).values_list('id', flat=True)
             )
