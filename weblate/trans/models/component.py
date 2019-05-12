@@ -1904,7 +1904,7 @@ class Component(models.Model, URLMixin, PathMixin):
         from weblate.trans.models import Unit
         units = Unit.objects.filter(
             Q(translation__component=self)
-            | Q(translation__component__linked_component=component
+            | Q(translation__component__linked_component=self)
         )
         updates = (
             ('has_failing_check', 'checks_check'),
