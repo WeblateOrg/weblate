@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-08 06:49+0000\n"
+"PO-Revision-Date: 2019-05-14 13:08+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -402,18 +402,16 @@ msgid "Zen mode"
 msgstr "Zen モード"
 
 #: weblate/accounts/models.py:392
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "Zen モード"
+msgstr "Zen 編集モード"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "最上から最下へ"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "左右に並べて表示"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -827,14 +825,12 @@ msgstr ""
 "であっても、すべての文字列を含むファイル形式には特に便利です。"
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "生成ファイルの名前"
+msgstr "生成された MO ファイルのパス"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "指定しない場合は、PO ファイルの場所を使用します。"
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -861,24 +857,20 @@ msgid "No line wrapping"
 msgstr "改行しない"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"デフォルトでは、gettext は 77 文字を超えた場合や改行文字で行を改行します。--"
-"no-wrap パラメータを指定すると、改行文字でのみ改行します。"
+"デフォルトでは、gettext は 77 文字を超えた場合や改行文字で行を改行します。--no-wrap "
+"パラメータを指定すると、改行文字でのみ改行します。"
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
-msgstr ""
+msgstr "1つ前の翻訳済みメッセージの msgid を保存する"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "あいまい一致を使用する"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
@@ -910,7 +902,7 @@ msgstr "JSON インデント処理"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "保存日数"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -950,22 +942,15 @@ msgid "Language filter"
 msgstr "言語フィルタ"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
-msgstr "ファイル マスクをスキャンするときに翻訳をフィルタ処理する正規表現。"
+msgstr "ファイル マスクのスキャン時に、翻訳をフィルタ処理する正規表現。"
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "存在しないファイルのコンポーネントの削除"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "上記の一致が正しいかを確認する"
 
@@ -1068,24 +1053,20 @@ msgid "This addon sorts the Java properties file."
 msgstr "このアドオンは、 Java properties ファイルを並べ替えます。"
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "アカウント削除"
+msgstr "古いコメントの削除"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "コメントを削除するまでの期間の設定。"
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "提案の削除"
+msgstr "古い提案の削除"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
-msgstr ""
+msgstr "投票なしで提案を削除するまでの期間を設定。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2652,15 +2633,13 @@ msgid "Source has been removed."
 msgstr "原文を削除しました。"
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bad request"
-msgstr "マージリクエストが正しくありません！"
+msgstr "間違ったリクエスト"
 
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr ""
+msgstr "申し訳ありませんが、お客様のリクエストには問題があります。"
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
@@ -3732,10 +3711,8 @@ msgid "Number of translated strings"
 msgstr "翻訳済み文字列の数"
 
 #: weblate/templates/addons/generate_help.html:20
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation filename"
-msgstr "翻訳ファイル"
+msgstr "翻訳ファイル名"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1549
 #: weblate/trans/models/component.py:130
@@ -6275,10 +6252,8 @@ msgid "Zen"
 msgstr "Zen"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure editor"
-msgstr "アドオンの設定"
+msgstr "エディタの設定"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -9015,7 +8990,7 @@ msgstr "新しい文字列を追加しました。"
 
 #: weblate/trans/views/error.py:36
 msgid "Bad Request"
-msgstr ""
+msgstr "間違ったリクエスト"
 
 #: weblate/trans/views/files.py:66
 msgid "Access denied."
