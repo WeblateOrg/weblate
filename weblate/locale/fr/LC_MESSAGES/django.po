@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-11 19:22+0000\n"
+"PO-Revision-Date: 2019-05-15 04:52+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -409,11 +409,11 @@ msgstr "Mode Zen"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "De haut en bas"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "Côte à côte"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -851,8 +851,6 @@ msgid "Path of generated MO file"
 msgstr "Chemin du fichier MO généré"
 
 #: weblate/addons/forms.py:53
-#, fuzzy
-#| msgid "If not specified location of the PO file will be used."
 msgid "If not specified, the location of the PO file will be used."
 msgstr ""
 "Si non précisé, l'emplacement utilisé sera identique à celui du fichier PO."
@@ -883,17 +881,13 @@ msgid "No line wrapping"
 msgstr "Pas de retour à la ligne automatique"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"Par défaut, gettext fait un retour automatique à la ligne à 77 caractères et "
-"pour les nouvelles lignes, avec le paramètre --no-wrap il ne le fait que "
-"pour les nouvelles lignes."
+"Par défaut, gettext saute à la ligne à 77 caractères et pour les nouvelles "
+"lignes. Avec le paramètre --no-wrap le saut de ligne n'a lieu que pour les "
+"nouvelles lignes."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
@@ -933,7 +927,7 @@ msgstr "Indentation JSON"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "Nombre de jours à conserver"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -975,24 +969,17 @@ msgid "Language filter"
 msgstr "Filtre sur la langue"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Expression rationnelle utilisée pour filtrer la traduction lors de la "
-"recherche d’un motif de fichier."
+"Expression rationnelle pour filtrer la traduction lors de la recherche d’un "
+"motif de fichier."
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "Supprimer les composants pour les fichiers inexistants"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
 
@@ -1106,24 +1093,21 @@ msgid "This addon sorts the Java properties file."
 msgstr "Ce greffon trie le fichier properties Java."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Suppression de compte"
+msgstr "Purge automatique des commentaires"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Définir le délai au bout duquel les commentaires sont supprimés."
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Suggestion supprimée"
+msgstr "Purge automatique des suggestions"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
 msgstr ""
+"Définir le délai au bout duquel les suggestions sans vote sont supprimées."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -7106,7 +7090,7 @@ msgstr "Chaînes traduites"
 
 #: weblate/trans/filter.py:35
 msgid "Strings marked for edit"
-msgstr "Chaînes marquées pour modification"
+msgstr "Chaînes à vérifier"
 
 #: weblate/trans/filter.py:36
 msgid "Strings with suggestions"
