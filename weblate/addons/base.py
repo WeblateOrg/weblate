@@ -75,6 +75,9 @@ class BaseAddon(object):
         from weblate.addons.models import Addon
         if cls.repo_scope and component.linked_component:
             component = component.linked_component
+        # Clear addon cache
+        if component:
+            component.addons_cache = None
         return Addon(
             component=component,
             name=cls.name,

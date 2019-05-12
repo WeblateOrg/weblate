@@ -135,8 +135,6 @@ class IntegrationTest(ViewTestCase):
             self.component,
             configuration={'width': -1}
         )
-        # Empty addons cache
-        self.component.addons_cache = {}
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending('test', None)
@@ -150,7 +148,6 @@ class IntegrationTest(ViewTestCase):
         )
 
     def test_crash(self):
-        self.component.addons_cache = {}
         addon = TestCrashAddon.create(self.component)
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
 
@@ -348,8 +345,6 @@ class JsonAddonTest(ViewTestCase):
             self.component,
             configuration={'indent': 8, 'sort': 1}
         )
-        # Empty addons cache
-        self.component.addons_cache = {}
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending('test', None)

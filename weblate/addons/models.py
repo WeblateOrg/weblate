@@ -20,7 +20,10 @@
 
 from __future__ import unicode_literals
 
+from collections import defaultdict
+
 from appconf import AppConf
+
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -51,7 +54,7 @@ ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
-        return self.filter((
+        return self.prefetch_related('event_set').filter((
             Q(component=component) & Q(project_scope=False)
         ) | (
             Q(component__project=component.project) & Q(project_scope=True)
@@ -62,12 +65,11 @@ class AddonQuerySet(models.QuerySet):
         ))
 
     def filter_event(self, component, event):
-        if event not in component.addons_cache:
-            component.addons_cache[event] = self.filter_component(
-                component
-            ).filter(
-                event__event=event
-            )
+        if component.addons_cache is None:
+            component.addons_cache = defaultdict(list)
+            for addon in self.filter_component(component):
+                for installed in addon.event_set.all():
+                    component.addons_cache[installed.event].append(addon)
         return component.addons_cache[event]
 
 

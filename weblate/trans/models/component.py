@@ -483,7 +483,7 @@ class Component(models.Model, URLMixin, PathMixin):
         super(Component, self).__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
-        self.addons_cache = {}
+        self.addons_cache = None
         self.needs_cleanup = False
         self.alerts_trigger = {}
         self.updated_sources = {}

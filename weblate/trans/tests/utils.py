@@ -228,7 +228,6 @@ class RepoTestMixin(object):
             vcs=vcs,
             **kwargs
         )
-        result.addons_cache = {}
         return result
 
     def create_component(self):
