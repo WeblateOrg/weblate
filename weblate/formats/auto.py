@@ -23,6 +23,7 @@
 from __future__ import unicode_literals
 
 import os.path
+from glob import fnmatch
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -36,8 +37,7 @@ def detect_filename(filename):
     """Filename based format autodetection"""
     name = os.path.basename(filename)
     for pattern, storeclass in FILE_FORMATS.autoload:
-        if ((not isinstance(pattern, tuple) and name.endswith(pattern)) or
-                (name.startswith(pattern[0]) and name.endswith(pattern[1]))):
+        if fnmatch(name, pattern):
             return storeclass
     return None
 

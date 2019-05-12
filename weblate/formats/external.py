@@ -46,7 +46,7 @@ ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
 class XlsxFormat(CSVFormat):
     name = _('Excel Open XML')
     format_id = 'xlsx'
-    autoload = ('.xlsx',)
+    autoload = ('*.xlsx',)
 
     def save_content(self, handle):
         workbook = Workbook()

@@ -667,7 +667,7 @@ class PoFormat(TTKitFormat):
     format_id = 'po'
     loader = pofile
     monolingual = False
-    autoload = ('.po', '.pot')
+    autoload = ('*.po', '*.pot')
     unit_class = PoUnit
 
     def get_plural(self, language):
@@ -736,7 +736,7 @@ class TSFormat(TTKitFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
     loader = tsfile
-    autoload = ('.ts',)
+    autoload = ('*.ts',)
     unit_class = TSUnit
 
     @classmethod
@@ -752,7 +752,7 @@ class XliffFormat(TTKitFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
     loader = xlifffile
-    autoload = ('.xlf', '.xliff')
+    autoload = ('*.xlf', '*.xliff')
     unit_class = XliffUnit
     language_format = 'bcp'
 
@@ -766,7 +766,7 @@ class XliffFormat(TTKitFormat):
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')
     format_id = 'poxliff'
-    autoload = ('.poxliff',)
+    autoload = ('*.poxliff',)
     loader = PoXliffFile
 
 
@@ -796,7 +796,7 @@ class StringsFormat(PropertiesBaseFormat):
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
     new_translation = '\n'.encode('utf-16')
-    autoload = ('.strings',)
+    autoload = ('*.strings',)
     language_format = 'bcp'
 
 
@@ -824,7 +824,7 @@ class PropertiesFormat(PropertiesUtf8Format):
     name = _('Java Properties (ISO-8859-1)')
     format_id = 'properties'
     loader = ('properties', 'javafile')
-    autoload = ('.properties',)
+    autoload = ('*.properties',)
 
     @classmethod
     def fixup(cls, store):
@@ -843,7 +843,7 @@ class JoomlaFormat(PropertiesBaseFormat):
     loader = ('properties', 'joomlafile')
     monolingual = True
     new_translation = '\n'
-    autoload = ('.ini',)
+    autoload = ('*.ini',)
 
 
 class PhpFormat(TTKitFormat):
@@ -851,7 +851,7 @@ class PhpFormat(TTKitFormat):
     format_id = 'php'
     loader = ('php', 'phpfile')
     new_translation = '<?php\n'
-    autoload = ('.php',)
+    autoload = ('*.php',)
     unit_class = PHPUnit
 
     @property
@@ -872,7 +872,7 @@ class RESXFormat(TTKitFormat):
     monolingual = True
     unit_class = RESXUnit
     new_translation = RESXFile.XMLskeleton
-    autoload = ('.resx',)
+    autoload = ('*.resx',)
 
 
 class AndroidFormat(TTKitFormat):
@@ -884,7 +884,7 @@ class AndroidFormat(TTKitFormat):
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     )
-    autoload = (('strings', '.xml'),)
+    autoload = ('strings*.xml', 'values*.xml')
     language_format = 'android'
 
 
@@ -893,7 +893,7 @@ class JSONFormat(TTKitFormat):
     format_id = 'json'
     loader = ('jsonl10n', 'JsonFile')
     unit_class = MonolingualSimpleUnit
-    autoload = ('.json',)
+    autoload = ('*.json',)
     new_translation = '{}\n'
 
     @property
@@ -919,7 +919,7 @@ class WebExtensionJSONFormat(JSONFormat):
     format_id = 'webextension'
     loader = ('jsonl10n', 'WebExtensionJsonFile')
     monolingual = True
-    autoload = (('messages', '.json'),)
+    autoload = ('messages*.json',)
 
 
 class I18NextFormat(JSONFormat):
@@ -934,7 +934,7 @@ class CSVFormat(TTKitFormat):
     format_id = 'csv'
     loader = ('csvl10n', 'csvfile')
     unit_class = CSVUnit
-    autoload = ('.csv',)
+    autoload = ('*.csv',)
 
     def __init__(self, storefile, template_store=None, language_code=None,
                  is_template=False):
@@ -999,7 +999,7 @@ class CSVFormat(TTKitFormat):
 class CSVSimpleFormat(CSVFormat):
     name = _('Simple CSV file')
     format_id = 'csv-simple'
-    autoload = ('.txt',)
+    autoload = ('*.txt',)
     encoding = 'auto'
 
     @property
@@ -1044,7 +1044,7 @@ class YAMLFormat(TTKitFormat):
     format_id = 'yaml'
     loader = ('yaml', 'YAMLFile')
     unit_class = MonolingualSimpleUnit
-    autoload = ('.pyml',)
+    autoload = ('*.pyml',)
     new_translation = '{}\n'
 
     @property
@@ -1062,14 +1062,14 @@ class RubyYAMLFormat(YAMLFormat):
     name = _('Ruby YAML file')
     format_id = 'ruby-yaml'
     loader = ('yaml', 'RubyYAMLFile')
-    autoload = ('.ryml', '.yml', '.yaml')
+    autoload = ('*.ryml', '*.yml', '*.yaml')
 
 
 class DTDFormat(TTKitFormat):
     name = _('DTD file')
     format_id = 'dtd'
     loader = ('dtd', 'dtdfile')
-    autoload = ('.dtd',)
+    autoload = ('*.dtd',)
     unit_class = MonolingualSimpleUnit
     new_translation = '\n'
 
@@ -1095,7 +1095,7 @@ class WindowsRCFormat(TTKitFormat):
     name = _('RC file')
     format_id = 'rc'
     loader = ('rc', 'rcfile')
-    autoload = ('.rc',)
+    autoload = ('*.rc',)
     unit_class = MonolingualSimpleUnit
     can_add_unit = False
     language_format = 'bcp'
