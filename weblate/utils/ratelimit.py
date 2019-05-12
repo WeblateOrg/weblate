@@ -102,8 +102,7 @@ def session_ratelimit_post(scope):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
         def rate_wrap(request, *args, **kwargs):
-            if (request.method == 'POST' and
-                    not check_rate_limit(scope, request)):
+            if request.method == 'POST' and not check_rate_limit(scope, request):
                 # Rotate session token
                 rotate_token(request)
                 # Logout user

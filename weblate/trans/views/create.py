@@ -86,8 +86,7 @@ class CreateProject(BaseCreateView):
 
     def can_create(self):
         return (
-            (self.has_billing and self.billings) or
-            self.request.user.is_superuser
+            (self.has_billing and self.billings) or self.request.user.is_superuser
         )
 
     def post(self, request, *args, **kwargs):

@@ -650,7 +650,7 @@ def whiteboard_messages(context, project=None, component=None, language=None):
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message':  whiteboard.render(),
+                    'message': whiteboard.render(),
                     'whiteboard': whiteboard,
                     'can_delete': can_delete,
                 }

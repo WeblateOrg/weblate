@@ -40,23 +40,23 @@ BASICS = frozenset((
     'suggestions', 'comments', 'approved_suggestions', 'languages',
 ))
 BASIC_KEYS = frozenset(
-    ['{}_words'.format(x) for x in BASICS if x != 'languages'] +
-    [
+    ['{}_words'.format(x) for x in BASICS if x != 'languages']
+    + [
         'translated_percent', 'approved_percent', 'fuzzy_percent',
         'allchecks_percent', 'translated_words_percent',
         'approved_words_percent', 'fuzzy_words_percent',
         'allchecks_words_percent',
-    ] +
-    list(BASICS) +
-    ['last_changed', 'last_author', 'recent_changes', 'total_changes']
+    ]
+    + list(BASICS)
+    + ['last_changed', 'last_author', 'recent_changes', 'total_changes']
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
 def aggregate(stats, item, stats_obj):
     if item == 'last_changed':
-        if (stats_obj.last_changed and (not stats['last_changed'] or
-                stats['last_changed'] < stats_obj.last_changed)):
+        if (stats_obj.last_changed and (not stats['last_changed']
+                or stats['last_changed'] < stats_obj.last_changed)):
             stats['last_changed'] = stats_obj.last_changed
             stats['last_author'] = stats_obj.last_author
     elif item == 'last_author':

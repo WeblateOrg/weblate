@@ -90,7 +90,9 @@ class EscapeTranslate(object):
     def __getattr__(self, name):
         return getattr(translation, name)
 
+
 DjangoTranslation = trans_real.DjangoTranslation
+
 
 class WeblateTranslation(DjangoTranslation):
     """

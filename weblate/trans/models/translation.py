@@ -336,8 +336,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # - newly not translated
             # - newly fuzzy
             self.was_new = (
-                self.was_new or
-                (
+                self.was_new
+                or (
                     newunit.state < STATE_TRANSLATED and
                     (newunit.state != newunit.old_unit.state or is_new)
                 )
@@ -555,10 +555,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             # Check for changes
-            if ((not add or unit.target == '') and
-                    unit.target == pounit.target and
-                    unit.approved == pounit.is_approved(unit.approved) and
-                    unit.fuzzy == pounit.is_fuzzy()):
+            if ((not add or unit.target == '')
+                    and unit.target == pounit.target
+                    and unit.approved == pounit.is_approved(unit.approved)
+                    and unit.fuzzy == pounit.is_fuzzy()):
                 unit.save(update_fields=['pending'], same_content=True)
                 continue
 

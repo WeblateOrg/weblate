@@ -298,9 +298,9 @@ def check_requirements(app_configs, **kwargs):
 def get_versions_list():
     """Return list with version information summary."""
     return (
-        [('Weblate', '', weblate.GIT_VERSION)] +
-        get_versions() +
-        get_optional_versions()
+        [('Weblate', '', weblate.GIT_VERSION)]
+        + get_versions()
+        + get_optional_versions()
     )
 
 

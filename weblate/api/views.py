@@ -94,8 +94,8 @@ def get_view_description(view_cls, html=False):
 
     if html:
         return (
-            formatting.markup_description(description) +
-            mark_safe(DOC_TEXT.format(doc_url))
+            formatting.markup_description(description)
+            + mark_safe(DOC_TEXT.format(doc_url))
         )
     return description
 
@@ -447,8 +447,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not user.has_perm('upload.perform', obj) or
-                obj.component.locked):
+        if (not user.has_perm('upload.perform', obj)
+                or obj.component.locked):
             raise PermissionDenied()
 
         if 'file' not in request.data:
@@ -461,14 +461,14 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
             raise PermissionDenied()
 
-        if (not user.has_perm('unit.edit', obj) and
-                data['method'] in ('translate', 'fuzzy')):
+        if (not user.has_perm('unit.edit', obj)
+                and data['method'] in ('translate', 'fuzzy')):
             raise PermissionDenied()
-        if (not user.has_perm('suggestion.add', obj) and
-                data['method'] == 'suggest'):
+        if (not user.has_perm('suggestion.add', obj)
+                and data['method'] == 'suggest'):
             raise PermissionDenied()
-        if (not user.has_perm('unit.review', obj) and
-                data['method'] == 'approve'):
+        if (not user.has_perm('unit.review', obj)
+                and data['method'] == 'approve'):
             raise PermissionDenied()
 
         author_name = None

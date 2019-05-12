@@ -122,8 +122,8 @@ class ChangeQuerySet(models.QuerySet):
         for last changes display.
         """
         return self.prefetch().filter(
-            Q(component__project__in=user.allowed_projects) |
-            Q(dictionary__project__in=user.allowed_projects)
+            Q(component__project__in=user.allowed_projects)
+            | Q(dictionary__project__in=user.allowed_projects)
         )
 
     def authors_list(self, translation, date_range=None):
@@ -401,9 +401,9 @@ class Change(models.Model, UserDisplayMixin):
 
     def can_revert(self):
         return (
-            self.unit is not None and
-            self.target and
-            self.action in self.ACTIONS_REVERTABLE
+            self.unit is not None
+            and self.target
+            and self.action in self.ACTIONS_REVERTABLE
         )
 
     def show_source(self):

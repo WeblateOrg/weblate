@@ -62,8 +62,7 @@ class UniqueEmailMixin(object):
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) |
-            Q(email__iexact=mail)
+            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email__iexact=mail)
         )
         if users.exists():
             self.cleaned_data['email_user'] = users[0]
@@ -461,8 +460,7 @@ class CaptchaForm(forms.Form):
 
     def clean_captcha(self):
         """Validation for CAPTCHA."""
-        if (self.fresh or
-                not self.captcha.validate(self.cleaned_data['captcha'])):
+        if self.fresh or not self.captcha.validate(self.cleaned_data['captcha']):
             self.generate_captcha()
             rotate_token(self.request)
             raise forms.ValidationError(
@@ -774,8 +772,7 @@ class NotificationForm(forms.Form):
         for field, notification_cls in self.notification_fields():
             frequency = self.cleaned_data[field]
             # We do not store defaults or disabled default subscriptions
-            if (frequency == '-1' or
-                    (frequency == '0' and not self.show_default)):
+            if frequency == '-1' or (frequency == '0' and not self.show_default):
                 continue
             # Create/Get from database
             subscription, created = self.user.subscription_set.get_or_create(

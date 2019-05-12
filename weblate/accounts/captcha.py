@@ -91,8 +91,7 @@ class MathCaptcha(object):
     def validate(self, answer):
         """Validate answer."""
         return (
-            self.result == answer and
-            self.timestamp + TIMEDELTA > time.time()
+            self.result == answer and self.timestamp + TIMEDELTA > time.time()
         )
 
     @property

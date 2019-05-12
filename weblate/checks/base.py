@@ -104,8 +104,8 @@ class Check(object):
             return False
 
         return (
-            (src in chars and tgt not in chars) or
-            (src not in chars and tgt in chars)
+            (src in chars and tgt not in chars)
+            or (src not in chars and tgt in chars)
         )
 
     def check_ends(self, target, ends):

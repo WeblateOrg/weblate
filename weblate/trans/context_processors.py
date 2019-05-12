@@ -54,17 +54,17 @@ CONTEXT_APPS = ['billing', 'legal', 'gitexport']
 
 
 def add_error_logging_context(context):
-    if (hasattr(settings, 'ROLLBAR') and
-            'client_token' in settings.ROLLBAR and
-            'environment' in settings.ROLLBAR):
+    if (hasattr(settings, 'ROLLBAR')
+            and 'client_token' in settings.ROLLBAR
+            and 'environment' in settings.ROLLBAR):
         context['rollbar_token'] = settings.ROLLBAR['client_token']
         context['rollbar_environment'] = settings.ROLLBAR['environment']
     else:
         context['rollbar_token'] = None
         context['rollbar_environment'] = None
 
-    if (hasattr(settings, 'RAVEN_CONFIG') and
-            'public_dsn' in settings.RAVEN_CONFIG):
+    if (hasattr(settings, 'RAVEN_CONFIG')
+            and 'public_dsn' in settings.RAVEN_CONFIG):
         context['sentry_dsn'] = settings.RAVEN_CONFIG['public_dsn']
     else:
         context['sentry_dsn'] = None

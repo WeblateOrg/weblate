@@ -50,8 +50,8 @@ class DoubleApostrophes(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags
-        if (('auto-java-messageformat' not in flags or '{0' not in source) and
-                ('java-messageformat' not in flags)):
+        if (('auto-java-messageformat' not in flags or '{0' not in source)
+                and ('java-messageformat' not in flags)):
             return target, False
         # Split on apostrophe
         new = SINGLE_APO.sub("''", DOUBLE_APO.sub(

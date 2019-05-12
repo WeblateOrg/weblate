@@ -95,8 +95,8 @@ class EndSpaceCheck(TargetCheck):
             return False
         if not source or not target:
             return False
-        if (self.is_language(unit, ('fr', 'br')) and
-                source[-1] in [':', '!', '?'] and target[-1] == ' '):
+        if (self.is_language(unit, ('fr', 'br'))
+                and source[-1] in [':', '!', '?'] and target[-1] == ' '):
             return False
 
         stripped_target = target.rstrip(' ')
@@ -297,8 +297,8 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if (self.is_language(unit, ('eu', )) and source[-1] == '!' and
-                '¡' in target and '!' in target):
+        if (self.is_language(unit, ('eu', )) and source[-1] == '!'
+                and '¡' in target and '!' in target):
             return False
         if self.is_language(unit, ('hy', 'jbo')):
             return False

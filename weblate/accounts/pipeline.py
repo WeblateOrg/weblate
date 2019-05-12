@@ -153,9 +153,7 @@ def send_validation(strategy, backend, code, partial_token):
 def password_reset(strategy, backend, user, social, details, weblate_action,
                    current_partial, **kwargs):
     """Set unusable password on reset."""
-    if (strategy.request is not None and
-            user is not None and
-            weblate_action == 'reset'):
+    if strategy.request is not None and user is not None and weblate_action == 'reset':
         AuditLog.objects.create(
             user,
             strategy.request,
@@ -182,9 +180,7 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
 def remove_account(strategy, backend, user, social, details, weblate_action,
                    current_partial, **kwargs):
     """Set unusable password on reset."""
-    if (strategy.request is not None and
-            user is not None and
-            weblate_action == 'remove'):
+    if strategy.request is not None and user is not None and weblate_action == 'remove':
         # Remove partial pipeline, we do not need it
         strategy.really_clean_partial_pipeline(current_partial.token)
         # Set short session expiry
@@ -199,9 +195,9 @@ def remove_account(strategy, backend, user, social, details, weblate_action,
 def verify_open(strategy, backend, user, weblate_action, **kwargs):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
-    if (not user and
-            not settings.REGISTRATION_OPEN and
-            weblate_action not in ('reset', 'remove')):
+    if (not user
+            and not settings.REGISTRATION_OPEN
+            and weblate_action not in ('reset', 'remove')):
         raise AuthMissingParameter(backend, 'disabled')
 
     # Ensure it's still same user
@@ -374,8 +370,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
     if user and not user.full_name:
         full_name = details.get('fullname', '').strip()
 
-        if (not full_name and
-                ('first_name' in details or 'last_name' in details)):
+        if not full_name and ('first_name' in details or 'last_name' in details):
             first_name = details.get('first_name', '')
             last_name = details.get('last_name', '')
 

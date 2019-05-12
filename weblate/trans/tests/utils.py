@@ -89,8 +89,8 @@ class RepoTestMixin(object):
         """
         tarname = get_test_file(tarname)
 
-        if (not os.path.exists(output) or
-                os.path.getmtime(output) < os.path.getmtime(tarname)):
+        if (not os.path.exists(output)
+                or os.path.getmtime(output) < os.path.getmtime(tarname)):
 
             # Remove directory if outdated
             if os.path.exists(output):

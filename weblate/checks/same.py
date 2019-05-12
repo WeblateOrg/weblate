@@ -65,8 +65,8 @@ RST_MATCH = re.compile(
 )
 
 SPLIT_RE = re.compile(
-    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
-    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
+    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|'
+    + r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
     re.IGNORECASE
 )
 
@@ -158,9 +158,9 @@ class SameCheck(TargetCheck):
         lower_source = source.lower()
 
         # Check special things like 1:4 1/2 or copyright
-        if (len(source.strip('0123456789:/,.')) <= 1 or
-                '(c) copyright' in lower_source or
-                '©' in source):
+        if (len(source.strip('0123456789:/,.')) <= 1
+                or '(c) copyright' in lower_source
+                or '©' in source):
             result = True
         else:
             # Strip format strings
@@ -191,9 +191,8 @@ class SameCheck(TargetCheck):
         # Ignore the check for source language,
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
-        if (self.is_language(unit, source_language) or
-                (source_language == 'en' and
-                 self.is_language(unit, ('en', 'ia')))):
+        if (self.is_language(unit, source_language)
+                or (source_language == 'en' and self.is_language(unit, ('en', 'ia')))):
             return True
 
         return False

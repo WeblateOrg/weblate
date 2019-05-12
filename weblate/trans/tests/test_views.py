@@ -246,8 +246,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            'Did not found expected number of ' +
-            'translations ({0} != {1}).'.format(
+            'Did not found expected number of translations ({0} != {1}).'.format(
                 translated, expected_translated
             )
         )
@@ -823,7 +822,6 @@ class SourceStringsTest(ViewTestCase):
 
     def test_matrix_load(self):
         response = self.client.get(
-            reverse('matrix-load', kwargs=self.kw_component) +
-            '?offset=0&lang=cs'
+            reverse('matrix-load', kwargs=self.kw_component) + '?offset=0&lang=cs'
         )
         self.assertContains(response, 'lang="cs"')

@@ -74,8 +74,8 @@ class SecurityMiddleware(object):
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')
 
-        if (hasattr(settings, 'RAVEN_CONFIG') and
-                'public_dsn' in settings.RAVEN_CONFIG):
+        if (hasattr(settings, 'RAVEN_CONFIG')
+                and 'public_dsn' in settings.RAVEN_CONFIG):
             domain = urlparse(settings.RAVEN_CONFIG['public_dsn']).hostname
             script.add(domain)
             connect.add(domain)

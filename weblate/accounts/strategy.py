@@ -34,9 +34,7 @@ class WeblateStrategy(DjangoStrategy):
         Restores session data based on passed ID.
         """
         super(WeblateStrategy, self).__init__(storage, request, tpl)
-        if (request and
-                'verification_code' in request.GET and
-                'id' in request.GET):
+        if request and 'verification_code' in request.GET and 'id' in request.GET:
             engine = import_module(settings.SESSION_ENGINE)
             self.session = engine.SessionStore(request.GET['id'])
 

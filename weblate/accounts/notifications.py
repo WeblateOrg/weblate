@@ -146,8 +146,7 @@ class Notification(object):
 
     def has_required_attrs(self, change):
         return (
-            self.required_attr and
-            getattr(change, self.required_attr) is None
+            self.required_attr and getattr(change, self.required_attr) is None
         )
 
     def get_users(self, frequency, change, users=None):
@@ -160,13 +159,13 @@ class Notification(object):
             # Skip lower priority subscription and own changes
             if user in (last_user, change.user):
                 continue
-            if (subscription.scope == SCOPE_ADMIN and
-                    not user.has_perm('project.edit', change.project)):
+            if (subscription.scope == SCOPE_ADMIN
+                    and not user.has_perm('project.edit', change.project)):
                 continue
-            if (subscription.scope == SCOPE_DEFAULT and
-                    not self.ignore_watched and
-                    change.project_id is not None and
-                    not user.profile.watched.filter(pk=change.project_id).exists()):
+            if (subscription.scope == SCOPE_DEFAULT
+                    and not self.ignore_watched
+                    and change.project_id is not None
+                    and not user.profile.watched.filter(pk=change.project_id).exists()):
                 continue
             last_user = user
             if subscription.frequency == frequency:
@@ -258,8 +257,7 @@ class Notification(object):
 
     def notify_immediate(self, change):
         for user in self.get_users(FREQ_INSTANT, change):
-            if (change.project is None or
-                    user.can_access_project(change.project)):
+            if change.project is None or user.can_access_project(change.project):
                 self.send_immediate(
                     user.profile.language, user.email, change
                 )
@@ -288,8 +286,7 @@ class Notification(object):
         users = {}
         for change in changes:
             for user in self.get_users(frequency, change):
-                if (change.project is None or
-                        user.can_access_project(change.project)):
+                if change.project is None or user.can_access_project(change.project):
                     notifications[user.pk].append(change)
                     users[user.pk] = user
         for user in users.values():

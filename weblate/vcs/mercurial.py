@@ -97,8 +97,7 @@ class HgRepository(Repository):
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
-        if (config.has_option(section, option) and
-                config.get(section, option) == value):
+        if config.has_option(section, option) and config.get(section, option) == value:
             return
         config.set(section, option, value)
         with open(filename, 'w') as handle:
@@ -148,8 +147,7 @@ class HgRepository(Repository):
                 except RepositoryException as error:
                     message = error.stdout if error.stdout else error.stderr
                     # Mercurial 3.8 changed error code and output
-                    if (error.retcode in (1, 255) and
-                            'nothing to rebase' in message):
+                    if error.retcode in (1, 255) and 'nothing to rebase' in message:
                         self.execute(['update', '--clean', 'remote(.)'])
                         return
                     raise

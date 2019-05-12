@@ -66,8 +66,7 @@ def denied(request, exception=None):
 def server_error(request):
     """Error handler for server errors."""
     try:
-        if (hasattr(settings, 'RAVEN_CONFIG') and
-                'public_dsn' in settings.RAVEN_CONFIG):
+        if hasattr(settings, 'RAVEN_CONFIG') and 'public_dsn' in settings.RAVEN_CONFIG:
             sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
         else:
             sentry_dsn = None

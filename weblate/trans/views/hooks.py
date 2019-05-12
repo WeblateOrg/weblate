@@ -168,13 +168,13 @@ def vcs_service_hook(request, service):
     for repo in repos:
         if repo.startswith('http://'):
             spfilter = spfilter | (
-                Q(repo__startswith='http://') &
-                Q(repo__endswith='@{0}'.format(repo[7:]))
+                Q(repo__startswith='http://')
+                & Q(repo__endswith='@{0}'.format(repo[7:]))
             )
         elif repo.startswith('https://'):
             spfilter = spfilter | (
-                Q(repo__startswith='https://') &
-                Q(repo__endswith='@{0}'.format(repo[8:]))
+                Q(repo__startswith='https://')
+                & Q(repo__endswith='@{0}'.format(repo[8:]))
             )
 
     all_components = Component.objects.filter(spfilter)

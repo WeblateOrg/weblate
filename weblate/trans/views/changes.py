@@ -196,8 +196,8 @@ class ChangesView(ListView):
 
         if self.language is not None:
             result = result.filter(
-                Q(translation__language=self.language) |
-                Q(dictionary__language=self.language)
+                Q(translation__language=self.language)
+                | Q(dictionary__language=self.language)
             )
 
         if self.glossary:

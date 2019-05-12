@@ -32,11 +32,11 @@ VENV_DIR = os.path.join(settings.BASE_DIR, '.venv')
 
 def should_skip(location):
     return (
-        location.startswith(VENV_DIR) or
-        location.startswith(settings.DATA_DIR) or
-        location.startswith(DEFAULT_DATA_DIR) or
-        location.startswith(BUILD_DIR) or
-        location.startswith(DEFAULT_TEST_DIR)
+        location.startswith(VENV_DIR)
+        or location.startswith(settings.DATA_DIR)
+        or location.startswith(DEFAULT_DATA_DIR)
+        or location.startswith(BUILD_DIR)
+        or location.startswith(DEFAULT_TEST_DIR)
     )
 
 

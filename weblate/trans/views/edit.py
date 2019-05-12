@@ -101,9 +101,7 @@ def cleanup_session(session):
         if not key.startswith('search_'):
             continue
         value = session[key]
-        if (not isinstance(value, dict) or
-                value['ttl'] < now or
-                'items' not in value):
+        if not isinstance(value, dict) or value['ttl'] < now or 'items' not in value:
             del session[key]
 
 
@@ -125,9 +123,9 @@ def search(translation, request):
     search_url = form.urlencode()
     session_key = 'search_{0}_{1}'.format(translation.pk, search_url)
 
-    if (session_key in request.session and
-            'offset' in request.GET and
-            'items' in request.session[session_key]):
+    if (session_key in request.session
+            and 'offset' in request.GET
+            and 'items' in request.session[session_key]):
         search_result.update(request.session[session_key])
         return search_result
 
@@ -472,13 +470,13 @@ def translate(request, project, component, lang):
     if 'skip' in request.POST:
         return redirect(next_unit_url)
     if request.method == 'POST':
-        if (not locked and
-                'accept' not in request.POST and
-                'accept_edit' not in request.POST and
-                'delete' not in request.POST and
-                'spam' not in request.POST and
-                'upvote' not in request.POST and
-                'downvote' not in request.POST):
+        if (not locked
+                and 'accept' not in request.POST
+                and 'accept_edit' not in request.POST
+                and 'delete' not in request.POST
+                and 'spam' not in request.POST
+                and 'upvote' not in request.POST
+                and 'downvote' not in request.POST):
             # Handle translation
             response = handle_translate(
                 request, translation, this_unit_url, next_unit_url
@@ -677,8 +675,8 @@ def get_zen_unitdata(translation, request):
             'unit': unit,
             'secondary': (
                 unit.get_secondary_units(request.user)
-                if request.user.is_authenticated and
-                request.user.profile.secondary_in_zen
+                if request.user.is_authenticated
+                and request.user.profile.secondary_in_zen
                 else None
             ),
             'form': ZenTranslationForm(

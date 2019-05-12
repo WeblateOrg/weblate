@@ -40,8 +40,7 @@ def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
     for partial in Partial.objects.all():
         kwargs = partial.data['kwargs']
-        if ('weblate_expires' not in kwargs or
-                kwargs['weblate_expires'] < time.time()):
+        if 'weblate_expires' not in kwargs or kwargs['weblate_expires'] < time.time():
             # Old entry without expiry set, or expired entry
             partial.delete()
 

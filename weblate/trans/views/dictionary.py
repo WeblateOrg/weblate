@@ -271,8 +271,8 @@ def add_dictionary(request, unit_id):
                 'glossary-embed.html',
                 {
                     'glossary': (
-                        Dictionary.objects.get_words(unit) |
-                        Dictionary.objects.filter(project=prj, pk__in=words)
+                        Dictionary.objects.get_words(unit)
+                        | Dictionary.objects.filter(project=prj, pk__in=words)
                     ),
                     'unit': unit,
                     'user': request.user,

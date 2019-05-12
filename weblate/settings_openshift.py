@@ -143,12 +143,12 @@ if 'WEBLATE_NO_EMAIL_AUTH' not in os.environ:
 
 if 'WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY' in os.environ:
     AUTHENTICATION_BACKENDS += (
-      'social_core.backends.bitbucket.BitbucketOAuth',
+        'social_core.backends.bitbucket.BitbucketOAuth',
     )
 
 if 'WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY' in os.environ:
     AUTHENTICATION_BACKENDS += (
-      'social_core.backends.facebook.FacebookOAuth2',
+        'social_core.backends.facebook.FacebookOAuth2',
     )
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
@@ -179,7 +179,7 @@ if 'WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY' in os.environ:
 # Azure AD Tenant
 if 'WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY' in os.environ:
     AUTHENTICATION_BACKENDS += (
-      'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
+        'social_core.backends.azuread_tenant.AzureADTenantOAuth2',
     )
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication

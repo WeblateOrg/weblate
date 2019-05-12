@@ -34,8 +34,7 @@ def extract_batch_kwargs(*args, **kwargs):
     It can be either passed directly in eager mode or as requests in
     batch mode.
     """
-    if (args and isinstance(args[0], list) and
-            isinstance(args[0][0], SimpleRequest)):
+    if args and isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
         return [request.kwargs for request in args[0]]
     return [kwargs]
 

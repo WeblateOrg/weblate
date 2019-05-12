@@ -439,8 +439,7 @@ def get_initial_contact(request):
 def contact(request):
     captcha = None
     show_captcha = (
-        settings.REGISTRATION_CAPTCHA and
-        not request.user.is_authenticated
+        settings.REGISTRATION_CAPTCHA and not request.user.is_authenticated
     )
 
     if request.method == 'POST':
@@ -643,8 +642,8 @@ def register(request):
         form = RegistrationForm(request, request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
-        if ((captcha is None or captcha.is_valid()) and
-                form.is_valid() and settings.REGISTRATION_OPEN):
+        if ((captcha is None or captcha.is_valid())
+                and form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
                 AuditLog.objects.create(
                     form.cleaned_data['email_user'],

@@ -568,9 +568,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def in_progress(self):
         return (
-            not settings.CELERY_TASK_ALWAYS_EAGER and
-            self.background_task is not None and
-            not is_task_ready(self.background_task)
+            not settings.CELERY_TASK_ALWAYS_EAGER
+            and self.background_task is not None
+            and not is_task_ready(self.background_task)
         )
 
     def get_source(self, id_hash):
@@ -1013,8 +1013,7 @@ class Component(models.Model, URLMixin, PathMixin):
         translations = Translation.objects.filter(
             unit__pending=True,
         ).filter(
-            Q(component=self) |
-            Q(component__linked_component=self)
+            Q(component=self) | Q(component__linked_component=self)
         ).distinct()
 
         # Commit pending changes
@@ -1615,9 +1614,9 @@ class Component(models.Model, URLMixin, PathMixin):
         self.clean_new_lang()
 
         # Suggestions
-        if (hasattr(self, 'suggestion_autoaccept') and
-                self.suggestion_autoaccept and
-                not self.suggestion_voting):
+        if (hasattr(self, 'suggestion_autoaccept')
+                and self.suggestion_autoaccept
+                and not self.suggestion_voting):
             msg = _(
                 'Accepting suggestions automatically only works with '
                 'voting turned on.'
@@ -1654,20 +1653,20 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
-                (old.vcs != self.vcs) or
-                (old.repo != self.repo) or
-                (old.branch != self.branch) or
-                (old.filemask != self.filemask) or
-                (old.language_regex != self.language_regex)
+                (old.vcs != self.vcs)
+                or (old.repo != self.repo)
+                or (old.branch != self.branch)
+                or (old.filemask != self.filemask)
+                or (old.language_regex != self.language_regex)
             )
             changed_setup = (
-                (old.file_format != self.file_format) or
-                (old.edit_template != self.edit_template) or
-                (old.template != self.template)
+                (old.file_format != self.file_format)
+                or (old.edit_template != self.edit_template)
+                or (old.template != self.template)
             )
             changed_template = (
-                (old.edit_template != self.edit_template) and
-                self.template
+                (old.edit_template != self.edit_template)
+                and self.template
             )
             changed_project = (old.project_id != self.project_id)
             # Detect slug changes and rename git repo
@@ -1737,10 +1736,10 @@ class Component(models.Model, URLMixin, PathMixin):
         allunits = Unit.objects.filter(translation__component=self)
         source_space = allunits.filter(source__contains=' ')
         target_space = allunits.filter(target__contains=' ')
-        if (not self.template and
-                allunits.count() > 10 and
-                not source_space.exists() and
-                target_space.exists()):
+        if (not self.template
+                and allunits.count() > 10
+                and not source_space.exists()
+                and target_space.exists()):
             self.add_alert('MonolingualTranslation')
         else:
             self.delete_alert('MonolingualTranslation')
@@ -1766,8 +1765,8 @@ class Component(models.Model, URLMixin, PathMixin):
     @property
     def file_format_cls(self):
         """Return file format object """
-        if (self._file_format is None or
-                self._file_format.name != self.file_format):
+        if (self._file_format is None
+                or self._file_format.name != self.file_format):
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
@@ -1807,9 +1806,9 @@ class Component(models.Model, URLMixin, PathMixin):
         it works if there is valid new base.
         """
         # The request is None in case of consistency or cli invocation
-        if (self.new_lang != 'add' and
-                request is not None and
-                not request.user.has_perm('component.edit', self)):
+        if (self.new_lang != 'add'
+                and request is not None
+                and not request.user.has_perm('component.edit', self)):
             return False
 
         return self.is_valid_base_for_new()

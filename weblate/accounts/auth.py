@@ -65,6 +65,5 @@ class WeblateUserBackend(ModelBackend):
 def disable_anon_user_password_save(sender, **kwargs):
     """Block setting password for anonymous user."""
     instance = kwargs['instance']
-    if (instance.username == settings.ANONYMOUS_USER_NAME and
-            instance.has_usable_password()):
+    if instance.is_anonymous and instance.has_usable_password():
         raise ValueError('Anonymous user can not have usable password!')

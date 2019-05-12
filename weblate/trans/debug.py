@@ -32,8 +32,8 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
                 meta['WEBLATE_USER'] = repr(request.user.username)
             else:
                 meta['WEBLATE_USER'] = ''
-            if (hasattr(request, 'session') and
-                    'django_language' in request.session):
+            if (hasattr(request, 'session')
+                    and 'django_language' in request.session):
                 meta['WEBLATE_LANGUAGE'] = request.session['django_language']
             else:
                 meta['WEBLATE_LANGUAGE'] = ''

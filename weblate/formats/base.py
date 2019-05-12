@@ -197,8 +197,8 @@ class TranslationFormat(object):
     def __init__(self, storefile, template_store=None, language_code=None,
                  is_template=False):
         """Create file format object, wrapping up translate-toolkit's store."""
-        if (not isinstance(storefile, six.string_types) and
-                not hasattr(storefile, 'mode')):
+        if (not isinstance(storefile, six.string_types)
+                and not hasattr(storefile, 'mode')):
             storefile.mode = 'r'
 
         self.storefile = storefile
@@ -233,8 +233,8 @@ class TranslationFormat(object):
     def has_template(self):
         """Check whether class is using template."""
         return (
-            (self.monolingual or self.monolingual is None) and
-            self.template_store is not None
+            (self.monolingual or self.monolingual is None)
+            and self.template_store is not None
         )
 
     @cached_property

@@ -48,15 +48,15 @@ class WhiteboardManager(models.Manager):
         if component:
             if language:
                 return base.filter(
-                    (Q(component=component) & Q(language=language)) |
-                    (Q(component=None) & Q(language=language)) |
-                    (Q(component=component) & Q(language=None)) |
-                    (Q(project=component.project) & Q(component=None))
+                    (Q(component=component) & Q(language=language))
+                    | (Q(component=None) & Q(language=language))
+                    | (Q(component=component) & Q(language=None))
+                    | (Q(project=component.project) & Q(component=None))
                 )
 
             return base.filter(
-                (Q(component=component) & Q(language=None)) |
-                (Q(project=component.project) & Q(component=None))
+                (Q(component=component) & Q(language=None))
+                | (Q(project=component.project) & Q(component=None))
             )
 
         if project:

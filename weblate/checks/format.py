@@ -354,8 +354,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return False
 
     def should_skip(self, unit):
-        if ('auto-java-messageformat' in unit.all_flags and
-                '{0' in unit.source):
+        if 'auto-java-messageformat' in unit.all_flags and '{0' in unit.source:
             return False
 
         return super(JavaMessageFormatCheck, self).should_skip(unit)

@@ -200,8 +200,8 @@ class TTKitFormat(TranslationFormat):
             storefile, template_store, language_code, is_template
         )
         # Set language (needed for some which do not include this)
-        if (language_code is not None and
-                self.store.gettargetlanguage() is None):
+        if (language_code is not None
+                and self.store.gettargetlanguage() is None):
             self.store.settargetlanguage(
                 self.get_language_code(language_code)
             )
@@ -710,9 +710,9 @@ class PoFormat(TTKitFormat):
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()
-        if ('Content-Type' not in header or
-                'charset=CHARSET' in header['Content-Type'] or
-                'charset=ASCII' in header['Content-Type']):
+        if ('Content-Type' not in header
+                or 'charset=CHARSET' in header['Content-Type']
+                or 'charset=ASCII' in header['Content-Type']):
             kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
 
         self.store.updateheader(**kwargs)
@@ -943,8 +943,8 @@ class CSVFormat(TTKitFormat):
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
-        if ('source' in self.store.fieldnames and
-                not isinstance(template_store, CSVFormat)):
+        if ('source' in self.store.fieldnames
+                and not isinstance(template_store, CSVFormat)):
             self.template_store = None
 
     @property

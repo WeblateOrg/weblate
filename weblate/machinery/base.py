@@ -228,9 +228,9 @@ class MachineTranslation(object):
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
         return (
-            language in self.supported_languages and
-            source in self.supported_languages and
-            source != language
+            language in self.supported_languages
+            and source in self.supported_languages
+            and source != language
         )
 
     def is_rate_limited(self):

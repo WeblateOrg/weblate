@@ -114,8 +114,7 @@ class Command(BaseCommand):
             data = data['results']
 
         for item in data:
-            if ('filemask' not in item or
-                    'name' not in item):
+            if 'filemask' not in item or 'name' not in item:
                 raise CommandError('Missing required fields in JSON!')
 
             if 'slug' not in item:

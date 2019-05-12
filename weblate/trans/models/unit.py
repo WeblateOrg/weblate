@@ -117,8 +117,8 @@ class UnitQuerySet(models.QuerySet):
                 coms = coms.filter(project=project)
             coms = coms.values_list('content_hash', flat=True)
             return self.filter(content_hash__in=coms)
-        elif (rqtype.startswith('check:') or
-              rqtype in ['allchecks', 'sourcechecks']):
+        elif (rqtype.startswith('check:')
+              or rqtype in ['allchecks', 'sourcechecks']):
             return self.filter_checks(
                 rqtype,
                 project,
@@ -184,9 +184,9 @@ class UnitQuerySet(models.QuerySet):
                 params.get('ignored', False)
             )
 
-        if (params.get('date') or
-                params.get('exclude_user') or
-                params.get('only_user')):
+        if (params.get('date')
+                or params.get('exclude_user')
+                or params.get('only_user')):
             base = base.review(
                 params.get('date'),
                 params.get('exclude_user'),
@@ -424,13 +424,15 @@ class Unit(models.Model, LoggerMixin):
 
         # Check if we actually need to change anything
         # pylint: disable=too-many-boolean-expressions
-        if (location == self.location and
-                flags == self.flags and
-                same_source and same_target and same_state and
-                comment == self.comment and
-                pos == self.position and
-                content_hash == self.content_hash and
-                previous_source == self.previous_source):
+        if (location == self.location
+                and flags == self.flags
+                and same_source
+                and same_target
+                and same_state
+                and comment == self.comment
+                and pos == self.position
+                and content_hash == self.content_hash
+                and previous_source == self.previous_source):
             return
 
         # Ensure we track source string
@@ -545,8 +547,7 @@ class Unit(models.Model, LoggerMixin):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if (self.old_unit.state == self.state and
-                self.old_unit.target == self.target):
+        if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
         if self.translation.is_template:
@@ -893,9 +894,9 @@ class Unit(models.Model, LoggerMixin):
             change_action=change_action,
             propagate=propagate
         )
-        if (propagate and request and
-                self.target != self.old_unit.target and
-                self.state >= STATE_TRANSLATED):
+        if (propagate and request
+                and self.target != self.old_unit.target
+                and self.state >= STATE_TRANSLATED):
             update_memory(request.user, self)
 
         return saved

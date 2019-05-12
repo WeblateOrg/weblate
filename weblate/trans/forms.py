@@ -320,8 +320,8 @@ class PluralTextarea(forms.Textarea):
                     label = ugettext('Translation')
             else:
                 label = plural.get_plural_label(idx)
-            if (not unit.translation.is_template and
-                    get_language() != lang.code):
+            if (not unit.translation.is_template
+                    and get_language() != lang.code):
                 label += ' <span class="badge">{}</span>'.format(lang)
             ret.append(
                 EDITOR_TEMPLATE.format(
@@ -817,11 +817,11 @@ class SearchForm(BaseSearchForm):
                 })
 
         # Default to source and target search
-        if (not self.cleaned_data['source'] and
-                not self.cleaned_data['target'] and
-                not self.cleaned_data['location'] and
-                not self.cleaned_data['comment'] and
-                not self.cleaned_data['context']):
+        if (not self.cleaned_data['source']
+                and not self.cleaned_data['target']
+                and not self.cleaned_data['location']
+                and not self.cleaned_data['comment']
+                and not self.cleaned_data['context']):
             self.cleaned_data['source'] = True
             self.cleaned_data['target'] = True
 
@@ -897,9 +897,9 @@ class MergeForm(ChecksumForm):
                 translation__language=self.translation.language,
             )
             unit = self.cleaned_data['unit']
-            if (unit.id_hash != merge_unit.id_hash and
-                    unit.content_hash != merge_unit.content_hash and
-                    unit.source != merge_unit.source):
+            if (unit.id_hash != merge_unit.id_hash
+                    and unit.content_hash != merge_unit.content_hash
+                    and unit.source != merge_unit.source):
                 raise ValidationError(_('Could not find merged string.'))
         except Unit.DoesNotExist:
             raise ValidationError(_('Could not find merged string.'))
@@ -912,8 +912,7 @@ class RevertForm(ChecksumForm):
 
     def clean(self):
         super(RevertForm, self).clean()
-        if ('unit' not in self.cleaned_data or
-                'revert' not in self.cleaned_data):
+        if 'unit' not in self.cleaned_data or 'revert' not in self.cleaned_data:
             return None
         try:
             self.cleaned_data['revert_change'] = Change.objects.get(

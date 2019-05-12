@@ -107,10 +107,10 @@ class BillingQuerySet(models.QuerySet):
 
     def get_valid(self):
         return self.filter(
-            Q(in_limits=True) &
-            (
-                (Q(state=Billing.STATE_ACTIVE) & Q(paid=True)) |
-                Q(state=Billing.STATE_TRIAL)
+            Q(in_limits=True)
+            & (
+                (Q(state=Billing.STATE_ACTIVE) & Q(paid=True))
+                | Q(state=Billing.STATE_TRIAL)
             )
         )
 
@@ -118,8 +118,8 @@ class BillingQuerySet(models.QuerySet):
         if user.is_superuser:
             return self.all().order_by('state')
         return self.filter(
-            Q(projects__in=user.projects_with_perm('billing.view')) |
-            Q(owners=user)
+            Q(projects__in=user.projects_with_perm('billing.view'))
+            | Q(owners=user)
         ).distinct().order_by('state')
 
 
@@ -277,28 +277,25 @@ class Billing(models.Model):
             plan = self.plan
         return (
             (
-                plan.limit_repositories == 0 or
-                self.count_repositories() <= plan.limit_repositories
-            ) and
-            (
-                plan.limit_projects == 0 or
-                self.count_projects() <= plan.limit_projects
-            ) and
-            (
-                plan.limit_strings == 0 or
-                self.count_strings() <= plan.limit_strings
-            ) and
-            (
-                plan.limit_languages == 0 or
-                self.count_languages() <= plan.limit_languages
+                plan.limit_repositories == 0
+                or self.count_repositories() <= plan.limit_repositories
+            ) and (
+                plan.limit_projects == 0
+                or self.count_projects() <= plan.limit_projects
+            ) and (
+                plan.limit_strings == 0
+                or self.count_strings() <= plan.limit_strings
+            ) and (
+                plan.limit_languages == 0
+                or self.count_languages() <= plan.limit_languages
             )
         )
 
     def check_expiry(self):
         return (
-            self.state in Billing.EXPIRING_STATES and
-            self.expiry and
-            self.expiry < timezone.now()
+            self.state in Billing.EXPIRING_STATES
+            and self.expiry
+            and self.expiry < timezone.now()
         )
 
     def unit_count(self):
@@ -320,21 +317,17 @@ class Billing(models.Model):
             plan = self.plan
         return (
             (
-                plan.display_limit_repositories == 0 or
-                self.count_repositories() <=
-                plan.display_limit_repositories
-            ) and
-            (
-                plan.display_limit_projects == 0 or
-                self.count_projects() <= plan.display_limit_projects
-            ) and
-            (
-                plan.display_limit_strings == 0 or
-                self.count_strings() <= plan.display_limit_strings
-            ) and
-            (
-                plan.display_limit_languages == 0 or
-                self.count_languages() <= plan.display_limit_languages
+                plan.display_limit_repositories == 0
+                or self.count_repositories() <= plan.display_limit_repositories
+            ) and (
+                plan.display_limit_projects == 0
+                or self.count_projects() <= plan.display_limit_projects
+            ) and (
+                plan.display_limit_strings == 0
+                or self.count_strings() <= plan.display_limit_strings
+            ) and (
+                plan.display_limit_languages == 0
+                or self.count_languages() <= plan.display_limit_languages
             )
         )
     in_display_limits.boolean = True
@@ -348,9 +341,9 @@ class Billing(models.Model):
         """
         end = timezone.now() - timedelta(days=grace or self.grace_period)
         return (
-            self.plan.is_free or
-            self.invoice_set.filter(end__gte=end).exists() or
-            self.state == Billing.STATE_TRIAL
+            self.plan.is_free
+            or self.invoice_set.filter(end__gte=end).exists()
+            or self.state == Billing.STATE_TRIAL
         )
 
     def check_limits(self, grace=30, save=True):
@@ -454,8 +447,8 @@ class Invoice(models.Model):
             return
 
         overlapping = Invoice.objects.filter(
-            (Q(start__lte=self.end) & Q(end__gte=self.end)) |
-            (Q(start__lte=self.start) & Q(end__gte=self.start))
+            (Q(start__lte=self.end) & Q(end__gte=self.end))
+            | (Q(start__lte=self.start) & Q(end__gte=self.start))
         ).filter(
             billing=self.billing
         )

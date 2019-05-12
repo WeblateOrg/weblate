@@ -78,13 +78,13 @@ def check_permission(user, permission, obj):
         ).exists()
     if isinstance(obj, Component):
         return query.filter(
-            (Q(projects=obj.project) & Q(componentlist=None)) |
-            Q(componentlist__components=obj)
+            (Q(projects=obj.project) & Q(componentlist=None))
+            | Q(componentlist__components=obj)
         ).exists()
     if isinstance(obj, Translation):
         return query.filter(
-            (Q(projects=obj.component.project) & Q(componentlist=None)) |
-            Q(componentlist__components=obj.component)
+            (Q(projects=obj.component.project) & Q(componentlist=None))
+            | Q(componentlist__components=obj.component)
         ).filter(
             languages=obj.language
         ).exists()
@@ -129,8 +129,8 @@ def check_can_edit(user, permission, obj, is_vote=False):
             return False
 
         # Check contributor agreement
-        if (component.agreement and
-                not ContributorAgreement.objects.has_agreed(user, component)):
+        if (component.agreement
+                and not ContributorAgreement.objects.has_agreed(user, component)):
             return False
 
     # Perform usual permission check
@@ -142,12 +142,13 @@ def check_can_edit(user, permission, obj, is_vote=False):
             and not check_permission(user, 'unit.template', obj):
         return False
 
-    # Special check for voting
-    if ((is_vote and component and not component.suggestion_voting) or
-            (not is_vote and translation and
-             component.suggestion_voting and
-             component.suggestion_autoaccept > 0 and
-             not check_permission(user, 'unit.override', obj))):
+    # Special checks for voting
+    if is_vote and component and not component.suggestion_voting:
+        return False
+    if (not is_vote and translation
+            and component.suggestion_voting
+            and component.suggestion_autoaccept > 0
+            and not check_permission(user, 'unit.override', obj)):
         return False
 
     # Billing limits

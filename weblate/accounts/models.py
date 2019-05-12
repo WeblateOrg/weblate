@@ -483,14 +483,14 @@ class Profile(models.Model):
         # will not contain all fields
         if not hasattr(self, 'dashboard_component_list'):
             return
-        if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST and
-                self.dashboard_component_list is None):
+        if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+                and self.dashboard_component_list is None):
             raise ValidationError({
                 'dashboard_component_list':
                 _("Component list must be chosen when used as default.")
             })
-        if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST and
-                self.dashboard_component_list is not None):
+        if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
+                and self.dashboard_component_list is not None):
             raise ValidationError({
                 'dashboard_component_list':
                 _("Component list can not be chosen when unused.")
@@ -544,8 +544,8 @@ def post_login_handler(sender, request, user, **kwargs):
     """
     backend_name = getattr(user, 'backend', '')
     is_email_auth = (
-        backend_name.endswith('.EmailAuth') or
-        backend_name.endswith('.WeblateUserBackend')
+        backend_name.endswith('.EmailAuth')
+        or backend_name.endswith('.WeblateUserBackend')
     )
 
     # Warning about setting password
@@ -554,8 +554,8 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP
-    if (is_email_auth and user.has_usable_password() and user.email and
-            not user.social_auth.filter(provider='email').exists()):
+    if (is_email_auth and user.has_usable_password() and user.email
+            and not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
             provider='email',
             uid=user.email,

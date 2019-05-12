@@ -239,8 +239,8 @@ class Command(BaseCommand):
                         self.filemask, error
                     )
                 )
-            if ('component' not in compiled.groupindex or
-                    'language' not in compiled.groupindex):
+            if ('component' not in compiled.groupindex
+                    or 'language' not in compiled.groupindex):
                 raise CommandError(
                     'Component regular expression lacks named group '
                     '"component" and/or "language"'

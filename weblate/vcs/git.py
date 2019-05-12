@@ -55,8 +55,8 @@ class GitRepository(Repository):
     def is_valid(self):
         """Check whether this is a valid repository."""
         return (
-            os.path.exists(os.path.join(self.path, '.git', 'config')) or
-            os.path.exists(os.path.join(self.path, 'config'))
+            os.path.exists(os.path.join(self.path, '.git', 'config'))
+            or os.path.exists(os.path.join(self.path, 'config'))
         )
 
     def init(self):
