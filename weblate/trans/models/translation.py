@@ -861,7 +861,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             ).exclude(
                 pk=self.pk
             )
-            for translation in related:
+            for translation in related.iterator():
                 translation.invalidate_cache(False)
 
     def get_export_url(self):
