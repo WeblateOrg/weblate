@@ -833,8 +833,8 @@ real_patterns = [
         name='widgets-compat-render',
     ),
     url(
-        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-' +
-        LANGUAGE + r'\.' + EXTENSION + r'$',
+        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-'
+        + LANGUAGE + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image-dash',
     ),
@@ -851,20 +851,20 @@ real_patterns = [
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + LANGUAGE + '/' +
-        WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + LANGUAGE + '/'
+        + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + '-/' +
-        r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + '-/'
+        + r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + LANGUAGE + '/' +
-        r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + LANGUAGE + '/'
+        + r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
@@ -1187,8 +1187,8 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
     real_patterns += [
         # Redirect clone from the Weblate project URL
         url(
-            r'^projects/' + COMPONENT +
-            '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
+            r'^projects/' + COMPONENT
+            + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,
@@ -1196,8 +1196,8 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
             )
         ),
         url(
-            r'^projects/' + COMPONENT[:-1] +
-            r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
+            r'^projects/' + COMPONENT[:-1]
+            + r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,

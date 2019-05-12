@@ -122,14 +122,14 @@ if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
     LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         'WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS',
         (
-           r'/accounts/(.*)$',      # Required for login
-           r'/admin/login/(.*)$',   # Required for admin login
-           r'/widgets/(.*)$',       # Allowing public access to widgets
-           r'/data/(.*)$',          # Allowing public access to data exports
-           r'/hooks/(.*)$',         # Allowing public access to notification hooks
-           r'/healthz/$',           # Allowing public access to health check
-           r'/api/(.*)$',           # Allowing access to API
-           r'/js/i18n/$',           # JavaScript localization
+            r'/accounts/(.*)$',      # Required for login
+            r'/admin/login/(.*)$',   # Required for admin login
+            r'/widgets/(.*)$',       # Allowing public access to widgets
+            r'/data/(.*)$',          # Allowing public access to data exports
+            r'/hooks/(.*)$',         # Allowing public access to notification hooks
+            r'/healthz/$',           # Allowing public access to health check
+            r'/api/(.*)$',           # Allowing access to API
+            r'/js/i18n/$',           # JavaScript localization
         ),
     )
 

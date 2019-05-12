@@ -67,9 +67,9 @@ class SecurityMiddleware(object):
         connect = set(["'self'"])
         font = set(["'self'"])
 
-        if (hasattr(settings, 'ROLLBAR') and
-                'client_token' in settings.ROLLBAR and
-                'environment' in settings.ROLLBAR):
+        if (hasattr(settings, 'ROLLBAR')
+                and 'client_token' in settings.ROLLBAR
+                and 'environment' in settings.ROLLBAR):
             script.add("'unsafe-inline'")
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')

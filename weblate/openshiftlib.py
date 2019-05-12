@@ -43,8 +43,8 @@ def get_openshift_secret_key():
         return hashlib.sha256(nameuuid.encode('utf-8')).hexdigest()
 
     sys.stderr.write(
-        "OPENSHIFT WARNING: Using default values for secure variables, " +
-        "please set OPENSHIFT_SECRET_TOKEN!"
+        "OPENSHIFT WARNING: Using default values for secure variables, "
+        + "please set OPENSHIFT_SECRET_TOKEN!"
     )
     raise ValueError('No key available')
 
