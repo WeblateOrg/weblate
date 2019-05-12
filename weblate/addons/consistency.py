@@ -39,13 +39,9 @@ class LangaugeConsistencyAddon(BaseAddon):
     project_scope = True
 
     def ensure_all_have(self, project, languages):
-        for language in languages:
-            for component in project.component_set.all():
-                translation = component.translation_set.filter(
-                    language=language
-                )
-                if translation.exists():
-                    continue
+        for component in project.component_set.all():
+            missing = languages.exclude(translation__component=component)
+            for language in missing:
                 component.add_new_language(language, None, send_signal=False)
 
     def post_update(self, component, previous_head):
@@ -57,5 +53,6 @@ class LangaugeConsistencyAddon(BaseAddon):
     def post_add(self, translation):
         self.ensure_all_have(
             translation.component.project,
-            [translation.language]
+            Language.objects.filter(pk=translation.language_id)
+
         )
