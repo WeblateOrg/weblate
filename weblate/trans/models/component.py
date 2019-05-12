@@ -1903,7 +1903,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def update_unit_flags(self):
         from weblate.trans.models import Unit
         units = Unit.objects.filter(
-            translation__component__project=self.project
+            Q(translation__component=self)
+            | Q(translation__component__linked_component=component
         )
         updates = (
             ('has_failing_check', 'checks_check'),
