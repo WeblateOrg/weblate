@@ -1234,6 +1234,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 component.add_alert(alert, **details)
 
     def update_import_alerts(self):
+        self.log_info('checking triggered alerts')
         for alert in ALERTS_IMPORT:
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
@@ -1362,6 +1363,7 @@ class Component(models.Model, URLMixin, PathMixin):
             cleanup_project.delay(self.project.pk)
 
         # First invalidate all caches
+        self.log_info('updating stats caches')
         for translation in translations.values():
             translation.invalidate_cache()
             translation.notify_new(request)
