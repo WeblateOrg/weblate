@@ -1001,7 +1001,7 @@ def handle_missing_parameter(request, backend, error):
             request,
             _('New registrations are disabled!')
         )
-    raise
+    return None
 
 
 @csrf_exempt
@@ -1017,7 +1017,10 @@ def social_complete(request, backend):
     except InvalidEmail:
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
-        return handle_missing_parameter(request, backend, error)
+        result = handle_missing_parameter(request, backend, error)
+        if result:
+            return result
+        raise
     except (AuthStateMissing, AuthStateForbidden) as error:
         report_error(error, request)
         return auth_redirect_state(request)
