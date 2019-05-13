@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-05-10 08:37+0000\n"
+"PO-Revision-Date: 2019-05-15 04:52+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -171,7 +171,7 @@ msgstr "Site do projeto"
 #: weblate/accounts/forms.py:622 weblate/trans/forms.py:1572
 #: weblate/trans/models/component.py:157
 msgid "Source code repository"
-msgstr "Repositório do código fonte"
+msgstr "Repositório do código-fonte"
 
 #: weblate/accounts/forms.py:624
 msgid "URL of source code repository, for example Git or Mercurial."
@@ -376,10 +376,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"Digite a URL personalizada a ser usada como link para o código fonte. Você "
+"Digite a URL personalizada a ser usada como link para o código-fonte. Você "
 "pode usar {{branch}} para os ramos, {{filename}} e {{line}} como nome de "
-"arquivo e substituto de linha. Geralmente algo como editor://open/?"
-"file={{filename}}&line={{line}} é uma boa opção."
+"arquivo e substituto de linha. Geralmente algo como editor://open/"
+"?file={{filename}}&line={{line}} é uma boa opção."
 
 #: weblate/accounts/models.py:382
 msgid "Translation editor mode"
@@ -394,18 +394,16 @@ msgid "Zen mode"
 msgstr "Modo Zen"
 
 #: weblate/accounts/models.py:392
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "Modo Zen"
+msgstr "Modo editor Zen"
 
 #: weblate/accounts/models.py:394
 msgid "Top to bottom"
-msgstr ""
+msgstr "De cima para baixo"
 
 #: weblate/accounts/models.py:395
 msgid "Side by side"
-msgstr ""
+msgstr "Lado a lado"
 
 #: weblate/accounts/models.py:402
 msgid "Special characters"
@@ -446,7 +444,7 @@ msgstr "Traduções sugeridas"
 
 #: weblate/accounts/models.py:438
 msgid "Default dashboard view"
-msgstr "Vista padrão do painel"
+msgstr "Visão padrão do painel"
 
 #: weblate/accounts/models.py:444
 msgid "Default component list"
@@ -827,14 +825,12 @@ msgstr ""
 "mesmo se eles não estiverem traduzidos."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "Nome do arquivo gerado"
+msgstr "Caminho do arquivo MO gerado"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Se não for especificado, o local do arquivo PO será usado."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -861,10 +857,6 @@ msgid "No line wrapping"
 msgstr "Sem quebra de linhas"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
@@ -874,11 +866,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated messages"
-msgstr ""
+msgstr "Manter msgids anteriores de mensagens traduzidas"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "Usar correspondência aproximada"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
@@ -910,7 +902,7 @@ msgstr "Recuo do JSON"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "Dias para manter"
 
 #: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files"
@@ -950,24 +942,17 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Expressão regular usada para filtrar as traduções ao examinar por uma "
-"máscara de arquivo."
+"Expressão regular para filtrar tradução ao examinar por uma máscara de "
+"arquivo."
 
 #: weblate/addons/forms.py:234
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
-msgstr "Remova componentes para arquivos não existentes"
+msgstr "Remova componentes para arquivos inexistentes"
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Confirmo que a correspondência acima parece correta"
 
@@ -1079,24 +1064,20 @@ msgid "This addon sorts the Java properties file."
 msgstr "Esta extensão ordena o arquivo de propriedades Java."
 
 #: weblate/addons/removal.py:49
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Remoção de conta"
+msgstr "Remoção de comentário obsoleto"
 
 #: weblate/addons/removal.py:50
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Defina um período de tempo até a remoção de comentários."
 
 #: weblate/addons/removal.py:60
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Sugestão removida"
+msgstr "Remoção de sugestão obsoleta"
 
 #: weblate/addons/removal.py:62
 msgid "Set timeframe for removal of suggestions without votes."
-msgstr ""
+msgstr "Defina um período de tempo até a remoção de sugestões sem votos."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2670,15 +2651,13 @@ msgid "Source has been removed."
 msgstr "A fonte foi removida."
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bad request"
-msgstr "Requisição de mesclagem inválida!"
+msgstr "Requisição inválida"
 
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr ""
+msgstr "Lamentamos, mas algo parece estar errado com a requisição que você fez."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
@@ -3753,10 +3732,8 @@ msgid "Number of translated strings"
 msgstr "Número de textos traduzidos"
 
 #: weblate/templates/addons/generate_help.html:20
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation filename"
-msgstr "Arquivo de tradução"
+msgstr "Nome do arquivo de tradução"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1549
 #: weblate/trans/models/component.py:130
@@ -6317,10 +6294,8 @@ msgid "Zen"
 msgstr "Zen"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure editor"
-msgstr "Configurar extensão"
+msgstr "Configura o editor"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -9105,7 +9080,7 @@ msgstr "Um novo texto foi adicionado."
 
 #: weblate/trans/views/error.py:36
 msgid "Bad Request"
-msgstr ""
+msgstr "Requisição inválida"
 
 #: weblate/trans/views/files.py:66
 msgid "Access denied."
