@@ -1312,7 +1312,7 @@ class Component(models.Model, URLMixin, PathMixin):
             for project in projects:
                 project.run_target_checks()
                 project.run_source_checks()
-            self.update_unit_flags()
+                project.update_unit_flags()
 
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
@@ -1807,7 +1807,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 self.project.run_target_checks()
                 self.update_source_checks()
-                self.update_unit_flags()
+                self.project.update_unit_flags()
                 translation.invalidate_cache()
                 translation.notify_new(request)
                 messages.error(request, _('Translation file already exists!'))
@@ -1838,7 +1838,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.project.run_target_checks()
             self.update_source_checks()
-            self.update_unit_flags()
+            self.project.update_unit_flags()
             translation.invalidate_cache()
             translation.notify_new(request)
             return True
@@ -1857,28 +1857,6 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.edit_template or not self.has_template():
             return None
         return self.translation_set.get(filename=self.template)
-
-    def update_unit_flags(self):
-        from weblate.trans.models import Unit
-        units = Unit.objects.filter(
-            Q(translation__component=self)
-            | Q(translation__component__linked_component=self)
-        )
-        updates = (
-            ('has_failing_check', 'checks_check'),
-            ('has_comment', 'trans_comment'),
-            ('has_suggestion', 'trans_suggestion'),
-        )
-        for flag, table in updates:
-            self.log_debug('updating unit flag for all linked components: %s', flag)
-            unit_ids = set(
-                filter_query(units, table).values_list('id', flat=True)
-            )
-            f_true = {flag: True}
-            f_false = {flag: False}
-            units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
-            units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
-        self.log_debug('all unit flags updated')
 
     @cached_property
     def osi_approved_license(self):

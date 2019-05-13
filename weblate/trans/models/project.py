@@ -382,3 +382,20 @@ class Project(models.Model, URLMixin, PathMixin):
         # Create new checks
         if create:
             Check.objects.bulk_create_ignore(create)
+
+    def update_unit_flags(self):
+        from weblate.trans.models import Unit
+        units = Unit.objects.filter(translation__component__project=self)
+        updates = (
+            ('has_failing_check', 'checks_check'),
+            ('has_comment', 'trans_comment'),
+            ('has_suggestion', 'trans_suggestion'),
+        )
+        for flag, table in updates:
+            self.log_debug('updating unit flags: %s', flag)
+            unit_ids = set(filter_query(units, table).values_list('id', flat=True))
+            f_true = {flag: True}
+            f_false = {flag: False}
+            units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
+            units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
+        self.log_debug('all unit flags updated')
