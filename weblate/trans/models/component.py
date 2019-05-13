@@ -1291,6 +1291,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_import_alerts()
 
         # Process linked repos
+        projects = {self.project_id: self.project}
         for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 'updating linked project %s [%d/%d]',
@@ -1298,20 +1299,19 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             component.translations_count = -1
             component.create_translations(
-                force, langs, request=request,
-                skip_checks=(component.project_id == self.project_id)
+                force, langs, request=request, skip_checks=True
             )
+            projects[component.project_id] = component.project
 
-        # Run target checks (consistency)
-        if not skip_checks:
-            self.project.run_target_checks()
-
+        # Run source checks on updated source strings
         if self.updated_sources:
             self.update_source_checks()
 
-        # Update unit flags
+        # Run batch checks
         if not skip_checks:
-            self.project.run_source_checks()
+            for project in projects:
+                project.run_target_checks()
+                project.run_source_checks()
             self.update_unit_flags()
 
         if self.needs_cleanup:
