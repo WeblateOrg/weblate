@@ -766,10 +766,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         with self.repository.lock:
             self.repository.configure_remote(self.repo, self.push, self.branch)
-            self.repository.set_committer(
-                self.committer_name,
-                self.committer_email
-            )
+            self.repository.set_committer(self.committer_name, self.committer_email)
 
             if pull:
                 self.update_remote_branch(validate)
