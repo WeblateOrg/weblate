@@ -1309,7 +1309,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Run batch checks
         if not skip_checks:
-            for project in projects:
+            for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()
                 project.update_unit_flags()
