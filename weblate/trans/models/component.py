@@ -70,7 +70,6 @@ from weblate.utils.render import (render_template, validate_render_addon,
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
-from weblate.utils.unitdata import filter_query
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
