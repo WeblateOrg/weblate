@@ -302,15 +302,16 @@ class Project(models.Model, URLMixin, PathMixin):
             or self.billing_set.filter(paid=True).exists()
         )
 
-    def run_target_checks(self):
-        """Run batch executed target checks"""
+    def run_batch_checks(self, attr_name):
+        """Run batch executed checks"""
         create = []
+        meth_name = 'check_{}_project'.format(attr_name)
         for check, check_obj in CHECKS.items():
-            if not check_obj.target or not check_obj.batch_update:
+            if not getattr(check_obj, attr_name) or not check_obj.batch_update:
                 continue
             self.log_info('running batch check: %s', check)
             # List of triggered checks
-            data = check_obj.check_target_project(self)
+            data = getattr(check_obj, meth_name)(self)
             # Fetch existing check instances
             existing = set(
                 Check.objects.filter(
@@ -322,6 +323,8 @@ class Project(models.Model, URLMixin, PathMixin):
             )
             # Create new check instances
             for item in data:
+                if 'translation__language' not in item:
+                    item['translation__language'] = None
                 key = (item['content_hash'], item['translation__language'])
                 if key in existing:
                     existing.discard(key)
@@ -341,48 +344,18 @@ class Project(models.Model, URLMixin, PathMixin):
                     existing,
                     Q()
                 )
-                Check.objects.filter(query).delete()
+                Check.objects.filter(check=check).filter(query).delete()
         # Create new checks
         if create:
             Check.objects.bulk_create_ignore(create)
 
+    def run_target_checks(self):
+        """Run batch executed target checks"""
+        self.run_batch_checks('target')
+
     def run_source_checks(self):
-        create = []
-        for check, check_obj in CHECKS.items():
-            if not check_obj.source or not check_obj.batch_update:
-                continue
-            self.log_debug('running batch check: %s', check)
-            # List of triggered checks
-            data = check_obj.check_source_project(self)
-            # Fetch existing check instances
-            existing = set(
-                Check.objects.filter(
-                    project=self,
-                    language=None,
-                    check=check
-                ).values_list(
-                    'content_hash', flat=True
-                )
-            )
-            # Create new check instances
-            for item in data:
-                content_hash = item['content_hash']
-                if content_hash in existing:
-                    existing.discard(content_hash)
-                else:
-                    create.append(Check(
-                        content_hash=content_hash,
-                        project=self,
-                        language_id=None,
-                        check=check,
-                        ignore=False,
-                    ))
-            # Remove stale instances
-            if existing:
-                Check.objects.filter(pk__in=existing).delete()
-        # Create new checks
-        if create:
-            Check.objects.bulk_create_ignore(create)
+        """Run batch executed source checks"""
+        self.run_batch_checks('source')
 
     def update_unit_flags(self):
         from weblate.trans.models import Unit
