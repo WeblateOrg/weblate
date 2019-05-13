@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 import fnmatch
-import functools
 import os
 import re
 import time
@@ -44,7 +43,6 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from six.moves.urllib.parse import urlparse
 
-from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -1160,51 +1158,11 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return sorted(matches)
 
-    def update_source_checks(self, skip_batch_checks=False):
+    def update_source_checks(self):
         self.log_debug('running source checks')
         for unit in self.updated_sources.values():
             unit.source_info.run_checks(unit, self.project, batch=True)
         self.updated_sources = {}
-
-        if skip_batch_checks:
-            return
-
-        create = []
-        for check, check_obj in CHECKS.items():
-            if not check_obj.source or not check_obj.batch_update:
-                continue
-            self.log_debug('running batch check: %s', check)
-            # List of triggered checks
-            data = check_obj.check_source_project(self.project)
-            # Fetch existing check instances
-            existing = set(
-                Check.objects.filter(
-                    project=self.project,
-                    language=None,
-                    check=check
-                ).values_list(
-                    'content_hash', flat=True
-                )
-            )
-            # Create new check instances
-            for item in data:
-                content_hash = item['content_hash']
-                if content_hash in existing:
-                    existing.discard(content_hash)
-                else:
-                    create.append(Check(
-                        content_hash=content_hash,
-                        project=self.project,
-                        language_id=None,
-                        check=check,
-                        ignore=False,
-                    ))
-            # Remove stale instances
-            if existing:
-                Check.objects.filter(pk__in=existing).delete()
-        # Create new checks
-        if create:
-            Check.objects.bulk_create_ignore(create)
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
@@ -1346,13 +1304,14 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Run target checks (consistency)
         if not skip_checks:
-            self.run_target_checks()
+            self.project.run_target_checks()
 
         if self.updated_sources:
-            self.update_source_checks(skip_checks)
+            self.update_source_checks()
 
         # Update unit flags
         if not skip_checks:
+            self.project.run_source_checks()
             self.update_unit_flags()
 
         if self.needs_cleanup:
@@ -1846,7 +1805,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation = Translation.objects.check_sync(
                     self, language, format_code, filename, request=request
                 )
-                self.run_target_checks()
+                self.project.run_target_checks()
                 self.update_source_checks()
                 self.update_unit_flags()
                 translation.invalidate_cache()
@@ -1877,7 +1836,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 if request else 'Weblate <noreply@weblate.org>',
                 timezone.now(),
             )
-            self.run_target_checks()
+            self.project.run_target_checks()
             self.update_source_checks()
             self.update_unit_flags()
             translation.invalidate_cache()
@@ -1920,50 +1879,6 @@ class Component(models.Model, URLMixin, PathMixin):
             units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
             units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
         self.log_debug('all unit flags updated')
-
-    def run_target_checks(self):
-        """Run batch executed target checks"""
-        create = []
-        for check, check_obj in CHECKS.items():
-            if not check_obj.target or not check_obj.batch_update:
-                continue
-            self.log_info('running batch check: %s', check)
-            # List of triggered checks
-            data = check_obj.check_target_project(self.project)
-            # Fetch existing check instances
-            existing = set(
-                Check.objects.filter(
-                    project=self.project,
-                    check=check
-                ).values_list(
-                    'content_hash', 'language_id'
-                )
-            )
-            # Create new check instances
-            for item in data:
-                key = (item['content_hash'], item['translation__language'])
-                if key in existing:
-                    existing.discard(key)
-                else:
-                    create.append(Check(
-                        content_hash=item['content_hash'],
-                        project=self.project,
-                        language_id=item['translation__language'],
-                        check=check,
-                        ignore=False,
-                    ))
-            # Remove stale instances
-            if existing:
-                query = functools.reduce(
-                    lambda q, value:
-                    q | (Q(content_hash=value[0]) & Q(language_id=value[1])),
-                    existing,
-                    Q()
-                )
-                Check.objects.filter(query).delete()
-        # Create new checks
-        if create:
-            Check.objects.bulk_create_ignore(create)
 
     @cached_property
     def osi_approved_license(self):

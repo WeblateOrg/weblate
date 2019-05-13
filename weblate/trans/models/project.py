@@ -20,17 +20,21 @@
 
 from __future__ import unicode_literals
 
+import functools
 import os
 import os.path
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
@@ -296,3 +300,85 @@ class Project(models.Model, URLMixin, PathMixin):
             or not self.billing_set.exists()
             or self.billing_set.filter(paid=True).exists()
         )
+
+    def run_target_checks(self):
+        """Run batch executed target checks"""
+        create = []
+        for check, check_obj in CHECKS.items():
+            if not check_obj.target or not check_obj.batch_update:
+                continue
+            self.log_info('running batch check: %s', check)
+            # List of triggered checks
+            data = check_obj.check_target_project(self)
+            # Fetch existing check instances
+            existing = set(
+                Check.objects.filter(
+                    project=self,
+                    check=check
+                ).values_list(
+                    'content_hash', 'language_id'
+                )
+            )
+            # Create new check instances
+            for item in data:
+                key = (item['content_hash'], item['translation__language'])
+                if key in existing:
+                    existing.discard(key)
+                else:
+                    create.append(Check(
+                        content_hash=item['content_hash'],
+                        project=self,
+                        language_id=item['translation__language'],
+                        check=check,
+                        ignore=False,
+                    ))
+            # Remove stale instances
+            if existing:
+                query = functools.reduce(
+                    lambda q, value:
+                    q | (Q(content_hash=value[0]) & Q(language_id=value[1])),
+                    existing,
+                    Q()
+                )
+                Check.objects.filter(query).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create_ignore(create)
+
+    def run_source_checks(self):
+        create = []
+        for check, check_obj in CHECKS.items():
+            if not check_obj.source or not check_obj.batch_update:
+                continue
+            self.log_debug('running batch check: %s', check)
+            # List of triggered checks
+            data = check_obj.check_source_project(self)
+            # Fetch existing check instances
+            existing = set(
+                Check.objects.filter(
+                    project=self,
+                    language=None,
+                    check=check
+                ).values_list(
+                    'content_hash', flat=True
+                )
+            )
+            # Create new check instances
+            for item in data:
+                content_hash = item['content_hash']
+                if content_hash in existing:
+                    existing.discard(content_hash)
+                else:
+                    create.append(Check(
+                        content_hash=content_hash,
+                        project=self,
+                        language_id=None,
+                        check=check,
+                        ignore=False,
+                    ))
+            # Remove stale instances
+            if existing:
+                Check.objects.filter(pk__in=existing).delete()
+        # Create new checks
+        if create:
+            Check.objects.bulk_create_ignore(create)
