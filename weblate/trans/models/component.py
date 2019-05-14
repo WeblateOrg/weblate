@@ -1386,9 +1386,7 @@ class Component(models.Model, URLMixin, PathMixin):
         for setting in ('push', 'branch', 'git_export'):
             if getattr(self, setting):
                 raise ValidationError({
-                    setting: _(
-                        'Option is not available for linked repositories.'
-                    )
+                    setting: _('Option is not available for linked repositories.')
                 })
         self.linked_component = Component.objects.get_linked(self.repo)
 
@@ -1496,9 +1494,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     raise ValidationError({'template': msg})
 
         elif self.file_format_cls.monolingual:
-            msg = _(
-                'You can not use a monolingual translation without a base file.'
-            )
+            msg = _('You can not use a monolingual translation without a base file.')
             raise ValidationError({'template': msg})
 
     def clean_repo(self):
@@ -1532,9 +1528,7 @@ class Component(models.Model, URLMixin, PathMixin):
             raise ValidationError({'new_lang': msg})
 
         if self.license == '' and self.license_url != '':
-            msg = _(
-                'License URL can not be used without a license summary.'
-            )
+            msg = _('License URL can not be used without a license summary.')
             raise ValidationError({'license_url': msg, 'license': msg})
 
         # Skip validation if we don't have valid project
@@ -1701,9 +1695,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check for uncommitted changes"""
-        return any(
-            (t.needs_commit() for t in self.translation_set.iterator())
-        )
+        return any((t.needs_commit() for t in self.translation_set.iterator()))
 
     def repo_needs_merge(self):
         """Check for unmerged commits from remote repository"""
