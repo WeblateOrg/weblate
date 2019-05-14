@@ -1197,7 +1197,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.alerts_trigger = {}
 
     def create_translations(self, force=False, langs=None, request=None,
-                            changed_template=False, skip_checks=False):
+                            changed_template=False, from_link=False):
         """Load translations from VCS."""
         self.store_background_task()
         # Ensure we start from fresh template
@@ -1297,9 +1297,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 component, pos + 1, len(self.linked_childs),
             )
             component.translations_count = -1
-            component.create_translations(
-                force, langs, request=request, skip_checks=True
-            )
+            component.create_translations(force, langs, request=request, from_link=True)
             projects[component.project_id] = component.project
 
         # Run source checks on updated source strings
@@ -1307,7 +1305,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.update_source_checks()
 
         # Run batch checks, update flags and stats
-        if not skip_checks:
+        if not from_link:
             for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()

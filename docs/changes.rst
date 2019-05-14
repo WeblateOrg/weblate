@@ -22,6 +22,8 @@ Released on ? 2019.
 * Allow custom location in MO generating addon.
 * Added addons to cleanup old suggestions or comments.
 * Added option to enable horizontal mode in the zen editor.
+* Improved import perfomance with many linked components.
+* Fixed examples installation in some cases.
 
 weblate 3.6.1
 -------------
