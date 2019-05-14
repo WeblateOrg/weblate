@@ -147,13 +147,6 @@ environment simply by running:
 
    ./rundev.sh
 
-Earning money by coding
------------------------
-
-Bountysource is used to fund development, you can participate too by solving issues with bounties attached:
-
-https://github.com/WeblateOrg/weblate/labels/bounty
-
 Translating
 -----------
 
@@ -165,15 +158,15 @@ as possible.
 Funding Weblate development
 ---------------------------
 
-You can fund further Weblate development on `Bountysource`_. Funds collected
+You can fund further Weblate development on the `donate page`_. Funds collected
 there are used to fund gratis hosting for libre software projects, and further
-development of Weblate. Please check the `Bountysource`_ page for details, such
+development of Weblate. Please check the the `donate page` for details, such
 as funding goals and rewards you can get by being a funder.
 
 .. include:: ../BACKERS.rst
 
 
-.. _Bountysource: https://salt.bountysource.com/teams/weblate
+.. _donate page: https://weblate.org/donate/
 
 Releasing Weblate
 -----------------

@@ -1,8 +1,7 @@
 Backers who have funded Weblate
 +++++++++++++++++++++++++++++++
 
-List of Weblate supporters from 
-`Bountysource <https://salt.bountysource.com/teams/weblate>`_:
+List of Weblate supporters:
 
 * Yashiro Ccs
 * Cheng-Chia Tseng
@@ -10,3 +9,5 @@ List of Weblate supporters from
 * `Cassidy James <https://cassidyjames.com/>`_
 * Loic Dachary
 * Marozed
+
+Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
