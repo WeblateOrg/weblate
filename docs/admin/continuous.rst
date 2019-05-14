@@ -282,7 +282,7 @@ fulfilled:
 If you want to commit changes more frequently and without checking of age, you
 can schedule a regular task to perform a commit:
 
-.. literalinclude:: ../../examples/beat-settings.py
+.. literalinclude:: ../../weblate/examples/beat-settings.py
     :language: python
     :encoding: utf-8
 

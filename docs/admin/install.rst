@@ -1076,7 +1076,7 @@ Django secret key
 The :setting:`SECRET_KEY` setting is used by Django to sign cookies, and you should
 really generate your own value rather than using the one from the example setup.
 
-You can generate a new key using :file:`examples/generate-secret-key` shipped
+You can generate a new key using :file:`weblate/examples/generate-secret-key` shipped
 with Weblate.
 
 .. seealso::
@@ -1281,9 +1281,9 @@ Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate as WSGI, you need to have enabled
-mod_wsgi (available as :file:`examples/apache.conf`):
+mod_wsgi (available as :file:`weblate/examples/apache.conf`):
 
-.. literalinclude:: ../../examples/apache.conf
+.. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
 
 This configuration is for Apache 2.4 and later. For earlier versions of Apache,
@@ -1297,9 +1297,9 @@ Sample configuration for Apache and Gunicorn
 ++++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate in Gunicorn and Apache 2.4
-(available as :file:`examples/apache.gunicorn.conf`):
+(available as :file:`weblate/examples/apache.gunicorn.conf`):
 
-.. literalinclude:: ../../examples/apache.gunicorn.conf
+.. literalinclude:: ../../weblate/examples/apache.gunicorn.conf
     :language: apache
 
 .. seealso::
@@ -1314,14 +1314,14 @@ Sample configuration for NGINX and uWSGI
 
 The following configuration runs Weblate as uWSGI under the NGINX webserver.
 
-Configuration for NGINX (also available as :file:`examples/weblate.nginx.conf`):
+Configuration for NGINX (also available as :file:`weblate/examples/weblate.nginx.conf`):
 
-.. literalinclude:: ../../examples/weblate.nginx.conf
+.. literalinclude:: ../../weblate/examples/weblate.nginx.conf
     :language: nginx
 
-Configuration for uWSGI (also available as :file:`examples/weblate.uwsgi.ini`):
+Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi.ini`):
 
-.. literalinclude:: ../../examples/weblate.uwsgi.ini
+.. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
     :language: ini
 
 .. seealso::
@@ -1336,9 +1336,9 @@ Running Weblate under path
     This is supported since Weblate 1.3.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
-mod_wsgi (also available as :file:`examples/apache-path.conf`):
+mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):
 
-.. literalinclude:: ../../examples/apache-path.conf
+.. literalinclude:: ../../weblate/examples/apache-path.conf
     :language: apache
 
 Additionally, you will have to adjust :file:`weblate/settings.py`:
@@ -1372,8 +1372,8 @@ useful when debugging or developing):
 
 .. code-block:: sh
 
-   ./examples/celery start
-   ./examples/celery stop
+   ./weblate/examples/celery start
+   ./weblate/examples/celery stop
 
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`. For the most common Linux setup using
@@ -1382,19 +1382,19 @@ listed below.
 
 Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
 
-.. literalinclude:: ../../examples/celery-weblate.service
+.. literalinclude:: ../../weblate/examples/celery-weblate.service
     :language: ini
     :encoding: utf-8
 
 Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
 
-.. literalinclude:: ../../examples/celery-weblate.conf
+.. literalinclude:: ../../weblate/examples/celery-weblate.conf
     :language: sh
     :encoding: utf-8
 
 Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
 
-.. literalinclude:: ../../examples/celery-weblate.logrotate
+.. literalinclude:: ../../weblate/examples/celery-weblate.logrotate
     :language: text
     :encoding: utf-8
 

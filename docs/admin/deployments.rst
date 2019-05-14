@@ -755,7 +755,7 @@ With the exception of environment variables, which can be referenced using ``${E
 
 .. code-block:: sh
 
-    rhc -aweblate env set WEBLATE_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-unwrap-po",)'
+    rhc -aweblate env set WEBLATE_SCRIPTS='("${OPENSHIFT_DATA_DIR}/weblate/examples/hook-unwrap-po",)'
 
 You can check the effective settings Weblate is using by running:
 

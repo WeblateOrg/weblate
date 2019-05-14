@@ -403,15 +403,8 @@ class Repository(object):
     @staticmethod
     def get_examples_paths():
         """Generator of possible paths for examples."""
-        yield os.path.join(
-            os.path.dirname(
-                os.path.dirname(os.path.dirname(__file__))
-            ),
-            'examples'
-        )
+        yield os.path.join(os.path.dirname(os.path.dirname(__file__)), 'examples')
         yield resource_filename(Requirement.parse('weblate'), 'examples')
-        yield '/usr/share/weblate/examples/'
-        yield '/usr/local/share/weblate/examples/'
 
     @classmethod
     def find_merge_driver(cls, name):

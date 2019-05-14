@@ -15,7 +15,7 @@ writing one.
 For example, the following automatic fixup would replace every occurrence of string
 ``foo`` in translation with ``bar``:
 
-.. literalinclude:: ../../examples/fix_foo.py
+.. literalinclude:: ../../weblate/examples/fix_foo.py
     :language: python
 
 To install custom checks, you need to provide a fully-qualified path to the Python class
@@ -138,7 +138,7 @@ Checking translation text does not contain "foo"
 This is a pretty simple check which just checks whether translation does not
 contain string "foo".
 
-.. literalinclude:: ../../examples/check_foo.py
+.. literalinclude:: ../../weblate/examples/check_foo.py
     :language: python
 
 Checking Czech translation text plurals differ
@@ -147,5 +147,5 @@ Checking Czech translation text plurals differ
 Check using language information to verify that two plural forms in Czech
 language are not same.
 
-.. literalinclude:: ../../examples/check_czech.py
+.. literalinclude:: ../../weblate/examples/check_czech.py
     :language: python

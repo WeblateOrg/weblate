@@ -32,11 +32,6 @@ with io.open('README.rst', encoding='utf-8') as readme:
 with open('requirements.txt') as requirements:
     REQUIRES = requirements.read().splitlines()
 
-DATA_FILES = [
-    ('share/weblate/' + root, [os.path.join(root, f) for f in files])
-    for root, dirs, files in os.walk('examples')
-]
-
 setup(
     name='Weblate',
     version='3.7',
@@ -100,5 +95,4 @@ setup(
         'boto3',
     ),
     test_suite='runtests.runtests',
-    data_files=DATA_FILES,
 )

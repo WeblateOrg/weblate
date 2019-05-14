@@ -358,7 +358,7 @@ You can also implement your own machine translation services using a few lines o
 Python code. This example implements translation to a fixed list of
 languages using ``dictionary`` Python module:
 
-.. literalinclude:: ../../examples/mt_service.py
+.. literalinclude:: ../../weblate/examples/mt_service.py
     :language: python
 
 You can list own class in :setting:`MT_SERVICES` and Weblate
