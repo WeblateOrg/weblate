@@ -1306,21 +1306,21 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.updated_sources:
             self.update_source_checks()
 
-        # Run batch checks
+        # Run batch checks, update flags and stats
         if not skip_checks:
             for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()
                 project.update_unit_flags()
+                project.invalidate_stats_deep()
 
+        # Schedule background cleanup if needed
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
             cleanup_project.delay(self.project.pk)
 
-        # First invalidate all caches
-        self.log_info('updating stats caches')
+        # Send notifications on new string
         for translation in translations.values():
-            translation.invalidate_cache()
             translation.notify_new(request)
 
         self.checks_cache = None

@@ -373,3 +373,10 @@ class Project(models.Model, URLMixin, PathMixin):
             units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
             units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
         self.log_debug('all unit flags updated')
+
+    def invalidate_stats_deep(self):
+        self.log_info('updating stats caches')
+        from weblate.trans.models import Translation
+        translations = Translation.objects.filter(component__project=self)
+        for translation in translations.iterator():
+            translation.stats.invalidate()
