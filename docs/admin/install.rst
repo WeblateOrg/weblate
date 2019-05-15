@@ -1083,21 +1083,6 @@ with Weblate.
 
     :std:setting:`django:SECRET_KEY`
 
-
-.. _production-admin-files:
-
-Static files
-++++++++++++
-
-If you see sparsely designed admin interface, the CSS files required for it are
-not loaded. This usually happens if you are running in non-debug mode and have not
-configured your web server to serve them. The recommended setup is described in the
-:ref:`static-files` chapter.
-
-.. seealso::
-
-   :ref:`server`, :ref:`static-files`
-
 .. _production-home:
 
 Home directory
@@ -1244,7 +1229,7 @@ Serving static files
 
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`./manage.py collectstatic --noinput`. This will copy the static
-files into a directory specified by the ``STATIC_ROOT`` setting (this defaults to
+files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
 a ``static`` directory inside :setting:`DATA_DIR`).
 
 It is recommended to serve static files directly from your web server, you should

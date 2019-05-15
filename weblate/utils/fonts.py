@@ -212,7 +212,7 @@ def check_fonts(app_configs, **kwargs):
             errors.append(
                 Error(
                     'Failed to load font {}: {}'.format(error.font, error),
-                    hint=get_doc_url('admin/config', 'ttf-path'),
+                    hint=get_doc_url('admin/install', 'static-files'),
                     id='weblate.E004',
                 )
             )
