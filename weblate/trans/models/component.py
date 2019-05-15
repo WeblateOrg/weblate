@@ -966,6 +966,8 @@ class Component(models.Model, URLMixin, PathMixin):
             action=Change.ACTION_RESET, component=self,
             user=request.user if request else None,
         )
+        self.delete_alert('MergeFailure', childs=True)
+        self.delete_alert('RepositoryOutdated', childs=True)
 
         # create translation objects for all files
         try:
