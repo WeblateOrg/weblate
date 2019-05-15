@@ -1,4 +1,8 @@
+{% load static %}
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="{{ height }}" xml:lang="en">
+<defs>
+  <style type="text/css">@import url({{ site_url }}{% static 'font-ubuntu/ubuntu.css' %});</style>
+</defs>
 <g id="layer1">
 
 <rect
@@ -20,13 +24,13 @@
    y="{{ translation.7 }}" />
 <text
    xml:space="preserve"
-   style="font-style:normal;font-weight:normal;font-size:10px;font-family:Sans;fill:#808080;text-anchor:end;"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:Ubuntu,Sans;fill:#808080;text-anchor:end;"
    x="190"
    y="{{ translation.2 }}"
    id="text{{ translation.2 }}">{{ translation.0 }}</text>
 <text
    xml:space="preserve"
-   style="font-style:normal;font-weight:normal;font-size:10px;font-family:Sans;fill:#808080"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:Ubuntu,Sans;fill:#808080"
    x="360"
    y="{{ translation.2 }}"
    id="percent{{ translation.2 }}">{{ translation.1 }}%</text>
