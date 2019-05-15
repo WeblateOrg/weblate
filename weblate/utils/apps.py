@@ -42,7 +42,7 @@ class UtilsConfig(AppConfig):
         register(check_requirements)
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
-        register(check_fonts)
+        register(check_fonts, deploy=True)
         register(check_celery, deploy=True)
         register(check_database, deploy=True)
         register(check_cache, deploy=True)
