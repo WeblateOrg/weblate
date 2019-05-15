@@ -3,10 +3,10 @@
 
 . ci/lib
 
-run_coverage ./manage.py migrate --noinput --traceback
+run_coverage ./manage.py collectstatic --noinput --verbosity 0
 check
 
-run_coverage ./manage.py collectstatic --noinput --verbosity 0
+run_coverage ./manage.py migrate --noinput --traceback
 check
 
 run_coverage ./manage.py check
