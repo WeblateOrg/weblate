@@ -25,9 +25,9 @@ from django.utils.translation import ugettext_lazy as _
 class ReplaceFooWithBar(AutoFix):
     """Replace foo with bar."""
 
-    name = _('Foobar')
+    name = _("Foobar")
 
     def fix_single_target(self, target, source, unit):
-        if 'foo' in target:
-            return target.replace('foo', 'bar'), True
+        if "foo" in target:
+            return target.replace("foo", "bar"), True
         return target, False

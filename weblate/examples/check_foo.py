@@ -27,14 +27,14 @@ class FooCheck(TargetCheck):
 
     # Used as identifier for check, should be unique
     # Has to be shorter than 50 chars
-    check_id = 'foo'
+    check_id = "foo"
 
     # Short name used to display failing check
-    name = _('Foo check')
+    name = _("Foo check")
 
     # Description for failing check
-    description = _('Your translation is foo')
+    description = _("Your translation is foo")
 
     # Real check code
     def check_single(self, source, target, unit):
-        return 'foo' in target
+        return "foo" in target

@@ -25,11 +25,12 @@ import dictionary
 
 class SampleTranslation(MachineTranslation):
     """Sample machine translation interface."""
-    name = 'Sample'
+
+    name = "Sample"
 
     def download_languages(self):
         """Return list of languages your machine translation supports."""
-        return set(('cs',))
+        return set(("cs",))
 
     def download_translations(self, source, language, text, unit, user):
         """Return tuple with translations."""
