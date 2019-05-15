@@ -25,6 +25,7 @@ Released on ? 2019.
 * Improved import perfomance with many linked components.
 * Fixed examples installation in some cases.
 * Improved rendering of alerts in changes.
+* Added new horizontal stats widget.
 
 weblate 3.6.1
 -------------

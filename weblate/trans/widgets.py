@@ -263,6 +263,7 @@ class SVGWidget(ContentWidget):
     """Base class for SVG rendering widgets."""
     extension = 'svg'
     content_type = 'image/svg+xml; charset=utf-8'
+    template_name = ''
 
     def get_content(self):
         return self.image
@@ -369,6 +370,7 @@ class SVGBadgeWidget(SVGWidget):
     name = 'svg'
     colors = ('badge', )
     order = 80
+    template_name = 'badge.svg'
 
     def render(self):
         translated_text = _('translated')
@@ -387,7 +389,7 @@ class SVGBadgeWidget(SVGWidget):
             color = '#e05d44'
 
         self.image = render_to_string(
-            'badge.svg',
+            self.template_name,
             {
                 'translated_text': translated_text,
                 'percent_text': percent_text,
@@ -407,6 +409,7 @@ class MultiLanguageWidget(SVGWidget):
     name = 'multi'
     order = 81
     colors = ('red', 'green', 'blue', 'auto')
+    template_name = 'multi-language-badge.svg'
 
     COLOR_MAP = {
         'red': '#fa3939',
@@ -449,14 +452,23 @@ class MultiLanguageWidget(SVGWidget):
                 )),
                 # Bounding box y offset
                 offset - 15,
+                # Top offset for horizontal
+                10 + int((100 - percent) * 1.5),
             ))
             offset += 20
 
         self.image = render_to_string(
-            'multi-language-badge.svg',
+            self.template_name,
             {
                 'height': len(translations) * 20 + 20,
                 'boxheight': len(translations) * 20 + 10,
                 'translations': translations,
+                'site_url': get_site_url(),
             }
         )
+
+@register_widget
+class HorizontalMultiLanguageWidget(MultiLanguageWidget):
+    name = 'horizontal'
+    order = 82
+    template_name = 'multi-language-badge-horizontal.svg'
