@@ -226,7 +226,6 @@ Base directory where Weblate sources are located. This is used to derive
 several other paths by default:
 
 - :setting:`DATA_DIR`
-- :setting:`TTF_PATH`
 
 Default value: Top level directory of Weblate sources.
 
@@ -1045,19 +1044,6 @@ SUGGESTION_CLEANUP_DAYS
 
 Automatically delete suggestions after given number of days. Defaults to
 ``None`` what means no deletion at all.
-
-.. setting:: TTF_PATH
-
-TTF_PATH
---------
-
-Path to Droid fonts used for widgets and charts.
-
-Defaults to ``$BASE_DIR/weblate/ttf``.
-
-.. seealso::
-
-    :setting:`BASE_DIR`
 
 .. setting:: URL_PREFIX
 

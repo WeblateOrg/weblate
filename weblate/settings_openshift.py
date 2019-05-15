@@ -110,8 +110,6 @@ if os.environ.get('OPENSHIFT_CLOUD_DOMAIN', False):
 
 ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS']]
 
-TTF_PATH = os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'weblate', 'ttf')
-
 if os.environ.get('WEBLATE_REQUIRE_LOGIN', '0') == '1':
     # Example for restricting access to logged in users
     LOGIN_REQUIRED_URLS = (

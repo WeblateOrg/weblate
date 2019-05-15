@@ -68,9 +68,6 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.chars.RemoveControlChars',
     )
 
-    # Font for charts and widgets
-    TTF_PATH = os.path.join(settings.BASE_DIR, 'weblate', 'ttf')
-
     # Matomo
     PIWIK_SITE_ID = None
     PIWIK_URL = None

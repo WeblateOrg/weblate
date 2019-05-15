@@ -42,7 +42,7 @@ class FontsTest(SimpleTestCase):
         self.assertIsNotNone(get_font(12, False, False))
         self.assertIsNotNone(get_font(12))
 
-    @override_settings(TTF_PATH='/nonexistent/')
+    @override_settings(STATIC_ROOT='/nonexistent/')
     def test_get_missing(self):
         with self.assertRaises(IOError):
             get_font(12, True, False)
