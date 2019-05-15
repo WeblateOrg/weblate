@@ -467,6 +467,7 @@ class MultiLanguageWidget(SVGWidget):
             }
         )
 
+
 @register_widget
 class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     name = 'horizontal'
