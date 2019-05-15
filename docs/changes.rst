@@ -24,6 +24,7 @@ Released on ? 2019.
 * Added option to enable horizontal mode in the zen editor.
 * Improved import perfomance with many linked components.
 * Fixed examples installation in some cases.
+* Improved rendering of alerts in changes.
 
 weblate 3.6.1
 -------------

@@ -436,6 +436,12 @@ class Change(models.Model, UserDisplayMixin):
                 return Language.objects.get(code=self.details['language'])
             except Language.DoesNotExist:
                 return self.details['language']
+        elif self.action == self.ACTION_ALERT:
+            try:
+                return ALERTS[self.details['alert']].verbose
+            except KeyError:
+                return self.details['alert']
+
         return ''
 
     def save(self, *args, **kwargs):

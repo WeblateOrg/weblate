@@ -73,7 +73,7 @@ class Alert(models.Model):
                 action=Change.ACTION_ALERT,
                 component=self.component,
                 alert=self,
-                target=self.name
+                detail={'alert': self.name},
             )
 
 
