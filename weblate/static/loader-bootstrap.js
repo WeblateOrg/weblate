@@ -342,7 +342,7 @@ function processMachineTranslation(data) {
             submitForm({target:$('.translation-editor')});
         });
 
-        for (var i = 1; i < 10; i++){
+        for (var i = 1; i < 10; i++) {
             Mousetrap.bindGlobal(
                 ['ctrl+m ' + i, 'command+m ' + i],
                 function() {
@@ -366,7 +366,7 @@ function processMachineTranslation(data) {
                 );
                 Mousetrap.bindGlobal(
                     ['ctrl+m ' + key, 'command+m ' + key],
-                    function(e) {
+                    function() {
                         $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
                         return false;
                     }
@@ -481,7 +481,7 @@ function loadTableSorting() {
     });
 }
 
-function zenEditor(e) {
+function zenEditor() {
     var $this = $(this);
     var $row = $this.parents('tr');
     var checksum = $row.find('[name=checksum]').val();
@@ -568,7 +568,7 @@ function interpolate(fmt, obj, named) {
     if (typeof django !== 'undefined') {
         return django.interpolate(fmt, obj, named);
     }
-    return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+    return fmt.replace(/%s/g, function() {return String(obj.shift())});
 }
 
 function load_matrix() {
@@ -903,7 +903,7 @@ $(function () {
         );
     }
     if ($('.hlcheck').length>0) {
-        $('.hlcheck').each(function(idx){
+        $('.hlcheck').each(function(idx) {
             var $this = $(this);
 
             if (idx < 10) {
@@ -986,7 +986,7 @@ $(function () {
     /* Matrix mode handling */
     if ($('.matrix').length > 0) {
         load_matrix();
-        $window.scroll(function(){
+        $window.scroll(function() {
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
                 load_matrix();
             }
@@ -996,7 +996,7 @@ $(function () {
 
     /* Zen mode handling */
     if ($('.zen').length > 0) {
-        $window.scroll(function(){
+        $window.scroll(function() {
             var $loadingNext = $('#loading-next');
             var loader = $('#zen-load');
 
@@ -1069,7 +1069,7 @@ $(function () {
             return false;
         });
 
-        $window.on('beforeunload', function(){
+        $window.on('beforeunload', function() {
             if ($('.translation-modified').length > 0) {
                 return gettext('There are some unsaved changes, are you sure you want to leave?');
             }
@@ -1159,7 +1159,7 @@ $(function () {
     }
 
     if ($('.check').length > 0) {
-        $($('.check')[0].parentNode).children('.check').each(function(idx){
+        $($('.check')[0].parentNode).children('.check').each(function(idx) {
             var $this = $(this);
 
             if (idx < 10) {
@@ -1187,7 +1187,7 @@ $(function () {
     }
 
     /* Labels in dropdown menu in Dashboard */
-    $('#views-menu li a').click(function(){
+    $('#views-menu li a').click(function() {
       $('#views-title').html($(this).text()+' <span class="caret"></span>');
     });
 
@@ -1301,7 +1301,7 @@ $(function () {
     });
 
     /* Avoid double submission of non AJAX forms */
-    $('form:not(.double-submission)').on('submit', function(e){
+    $('form:not(.double-submission)').on('submit', function(e) {
         var $form = $(this);
 
         if ($form.data('submitted') === true) {
