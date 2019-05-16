@@ -56,13 +56,13 @@ class WeblateTranslation(MachineTranslation):
             translation__component__project__in=request.user.allowed_projects
         ).more_like_this(unit, 1000)
 
-        result = set((
+        result = {
             self.format_unit_match(
                 munit,
                 self.comparer.similarity(text, munit.get_source_plurals()[0])
             )
             for munit in matching_units
-        ))
+        }
         if None in result:
             result.remove(None)
         return result

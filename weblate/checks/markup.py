@@ -250,12 +250,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         # be localized as well (consider links to Wikipedia).
         # Instead we check only relative links and templated ones.
         link_start = ('.', '#', '{')
-        tgt_anchors = set((
-            x[2] for x in tgt_match if x[2] and x[2][0] in link_start
-        ))
-        src_anchors = set((
-            x[2] for x in src_match if x[2] and x[2][0] in link_start
-        ))
+        tgt_anchors = {x[2] for x in tgt_match if x[2] and x[2][0] in link_start}
+        src_anchors = {x[2] for x in src_match if x[2] and x[2][0] in link_start}
         return tgt_anchors != src_anchors
 
 

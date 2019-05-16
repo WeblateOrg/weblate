@@ -440,10 +440,7 @@ class SearchMigrationTest(TestCase, TempDirMixin):
         )
         writer.commit()
         for item in ('source', 'context', 'location', 'target'):
-            self.assertEqual(
-                fulltext.search(item, ['cs'], {item: True}),
-                set([1])
-            )
+            self.assertEqual(fulltext.search(item, ['cs'], {item: True}), {1})
 
     def test_nonexisting(self):
         self.do_test()

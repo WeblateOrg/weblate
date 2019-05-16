@@ -36,7 +36,7 @@ from weblate.trans.specialchars import get_special_chars
 class SpecialCharsTest(TestCase):
     def check_chars(self, language, count, matches, *args, **kwargs):
         result = get_special_chars(language, *args, **kwargs)
-        chars = set((x[2] for x in result))
+        chars = {x[2] for x in result}
         self.assertEqual(len(chars), count)
         for match in matches:
             self.assertIn(match, chars)

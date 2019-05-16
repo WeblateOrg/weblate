@@ -691,7 +691,7 @@ def register(request):
         'accounts/register.html',
         {
             'registration_email': 'email' in backends,
-            'registration_backends': backends - set(['email']),
+            'registration_backends': backends - {'email'},
             'title': _('User registration'),
             'form': form,
             'captcha_form': captcha,

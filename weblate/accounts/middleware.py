@@ -93,7 +93,7 @@ class RequireLoginMiddleware(object):
     def get_setting_re(self, name, default):
         """Grab regexp list from settings and compiles them"""
         return tuple(
-            [re.compile(url) for url in getattr(settings, name, default)]
+            (re.compile(url) for url in getattr(settings, name, default))
         )
 
     def process_view(self, request, view_func, view_args, view_kwargs):

@@ -49,7 +49,7 @@ def configuration_health_check(include_deployment_checks=True):
         check.id: check
         for check in run_checks(include_deployment_checks=True)
     }
-    criticals = set((
+    criticals = {
         'weblate.E002',
         'weblate.E003',
         'weblate.E007',
@@ -61,7 +61,7 @@ def configuration_health_check(include_deployment_checks=True):
         'weblate.E017',
         'weblate.E018',
         'weblate.E019',
-    ))
+    }
     for check_id in criticals:
         if check_id in checks:
             ConfigurationError.objects.add(check_id, checks[check_id].msg)

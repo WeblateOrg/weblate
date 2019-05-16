@@ -431,7 +431,7 @@ class VerifyPluralsTest(TestCase):
             # Validate plurals can be parsed
             plural = gettext.c2py(pluraleq)
             # Get maximal plural
-            calculated = max([plural(x) for x in range(200)]) + 1
+            calculated = max((plural(x) for x in range(200))) + 1
             # Check it matches ours
             self.assertEqual(
                 calculated,

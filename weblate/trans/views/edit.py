@@ -94,7 +94,7 @@ def get_other_units(unit):
             result['context'].append(item)
 
     result['total'] = sum(
-        [len(result[x]) for x in ('matching', 'source', 'context')]
+        (len(result[x]) for x in ('matching', 'source', 'context'))
     )
 
     return result

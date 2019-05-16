@@ -193,7 +193,7 @@ class Project(models.Model, URLMixin, PathMixin):
         components = self.component_set.all()
         if not components:
             return False
-        return max([component.locked for component in components])
+        return max((component.locked for component in components))
 
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)

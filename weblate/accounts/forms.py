@@ -156,7 +156,7 @@ class SortedSelectMixin(object):
     def render_options(self, selected_choices):
         """Render sorted options."""
         # Normalize to strings.
-        selected_choices = set(force_text(v) for v in selected_choices)
+        selected_choices = {force_text(v) for v in selected_choices}
         output = []
 
         # Actually sort values

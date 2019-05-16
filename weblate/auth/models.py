@@ -636,7 +636,7 @@ def setup_project_groups(sender, instance, **kwargs):
 
     # Choose groups to configure
     if instance.access_control == Project.ACCESS_PUBLIC:
-        groups = set(('Administration', 'Review'))
+        groups = {'Administration', 'Review'}
     else:
         groups = set(ACL_GROUPS.keys())
 

@@ -147,7 +147,7 @@ DEFAULT_LANGS = (
 )
 
 # List of RTL languages
-RTL_LANGS = set((
+RTL_LANGS = {
     'ar',
     'arc',
     'ckb',
@@ -160,7 +160,7 @@ RTL_LANGS = set((
     'ug',
     'ur',
     'yi',
-))
+}
 
 # Following variables are used to map Gettext plural equations
 # to one/few/may/other like rules

@@ -61,11 +61,11 @@ class SecurityMiddleware(object):
         if settings.DEBUG:
             return response
 
-        style = set(["'self'", "'unsafe-inline'"])
-        script = set(["'self'"])
-        image = set(["'self'"])
-        connect = set(["'self'"])
-        font = set(["'self'"])
+        style = {"'self'", "'unsafe-inline'"}
+        script = {"'self'"}
+        image = {"'self'"}
+        connect = {"'self'"}
+        font = {"'self'"}
 
         if (hasattr(settings, 'ROLLBAR')
                 and 'client_token' in settings.ROLLBAR

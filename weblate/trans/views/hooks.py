@@ -272,7 +272,7 @@ def bitbucket_hook_helper(data):
     if 'links' in repository and 'clone' in repository['links']:
         repos = [val['href'] for val in repository['links']['clone']]
     else:
-        repo_servers = set(('bitbucket.org', urlparse(repo_url).hostname))
+        repo_servers = {'bitbucket.org', urlparse(repo_url).hostname}
         repos = []
         if 'scm' not in data['repository']:
             templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS

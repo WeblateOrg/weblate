@@ -522,7 +522,7 @@ class TranslationForm(ChecksumForm):
         super(TranslationForm, self).clean()
 
         # Check required fields
-        required = set(('unit', 'target', 'contentsum', 'translationsum'))
+        required = {'unit', 'target', 'contentsum', 'translationsum'}
         if not required.issubset(self.cleaned_data):
             return
 
@@ -697,7 +697,7 @@ class BaseSearchForm(forms.Form):
     def items(self):
         items = []
         # Skip checksum and offset as these change
-        ignored = set(('checksum', 'offset'))
+        ignored = {'checksum', 'offset'}
         # Skip search params if query is empty
         if not self.cleaned_data.get('q'):
             ignored.update((

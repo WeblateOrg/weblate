@@ -30,7 +30,7 @@ class SampleTranslation(MachineTranslation):
 
     def download_languages(self):
         """Return list of languages your machine translation supports."""
-        return set(("cs",))
+        return {"cs"}
 
     def download_translations(self, source, language, text, unit, user):
         """Return tuple with translations."""

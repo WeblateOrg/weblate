@@ -65,11 +65,11 @@ class AddonList(AddonViewMixin, ListView):
         result['object'] = component
         installed = {x.addon.name for x in result['object_list']}
         result['available'] = sorted(
-            [
+            (
                 x for x in ADDONS.values()
                 if x.can_install(component, self.request.user)
                 and (x.multiple or x.name not in installed)
-            ],
+            ),
             key=lambda x: x.name
         )
         return result
