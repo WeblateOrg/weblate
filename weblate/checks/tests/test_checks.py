@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 
 import random
 
-from django.test import TestCase
+from django.test import SimpleTestCase
 
 from weblate.lang.models import Language, Plural
 
@@ -83,7 +83,7 @@ class MockUnit(object):
         return [self.source]
 
 
-class CheckTestCase(TestCase):
+class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
     check = None
 
