@@ -89,8 +89,10 @@ EDITOR_TEMPLATE = '''
 <div class="translation-item"><label for="{1}">{2}</label>
 {0}
 {3}
+<span class="pull-right flip badge">
+<span data-max="{4}" class="length-indicator">{5}</span>/{4}
+</span>
 </div>
-<span class="pull-right flip badge"><span data-max="{4}" class="length-indicator">{5}</span>/{4}</span>
 '''
 PLURALS_TEMPLATE = '''
 <p class="help-block">

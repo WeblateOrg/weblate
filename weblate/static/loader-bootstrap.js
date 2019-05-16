@@ -216,7 +216,7 @@ function initEditor() {
     /* Count chars */
     $(".translation-editor").keyup(function() {
         var $this = $(this);
-        var counter = $this.parent().parent().find('.length-indicator');
+        var counter = $this.parent().find('.length-indicator');
         var limit = parseInt(counter.data('max'));
         var length = $this.val().length;
         counter.text(length);
