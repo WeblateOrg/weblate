@@ -88,12 +88,12 @@ class TranslationUnit(object):
 
     @cached_property
     def flags(self):
-        """Return flags (typecomments) from units."""
+        """Return flags or typecomments from units."""
         return ''
 
     @cached_property
     def comments(self):
-        """Return comments (notes) from units."""
+        """Return comments or notes from units."""
         return ''
 
     @cached_property

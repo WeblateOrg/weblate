@@ -254,12 +254,12 @@ class UserManager(BaseUserManager):
 
 
 def get_anonymous():
-    """Return an anonymous user"""
+    """Return an anonymous user."""
     return User.objects.get(username=settings.ANONYMOUS_USER_NAME)
 
 
 def wrap_group(func):
-    """Wrapper to replace Django Group instances by Weblate Group instances"""
+    """Wrapper to replace Django Group instances by Weblate Group instances."""
     def group_wrapper(self, *objs, **kwargs):
         objs = list(objs)
         for idx, obj in enumerate(objs):
@@ -427,7 +427,7 @@ class User(AbstractBaseUser):
 
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
-        """Permission check"""
+        """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
             return check_global_permission(self, perm, obj)

@@ -309,7 +309,7 @@ def redirect_next(next_url, fallback):
 
 
 def xliff_string_to_rich(string):
-    """XLIFF string to StringElement
+    """Convert XLIFF string to StringElement.
 
     Transform a string containing XLIFF placeholders as XML
     into a rich content (StringElement)
@@ -319,7 +319,7 @@ def xliff_string_to_rich(string):
 
 
 def rich_to_xliff_string(string_elements):
-    """StringElement to XLIFF string
+    """Convert StringElement to XLIFF string.
 
     Transform rich content (StringElement) into
     a string with placeholder kept as XML
@@ -344,6 +344,6 @@ def rich_to_xliff_string(string_elements):
 
 
 def parse_flags(flags):
-    """ Parse comma separated list of flags."""
+    """Parse comma separated list of flags."""
     for flag in flags.split(','):
         yield flag.strip()

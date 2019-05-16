@@ -110,7 +110,7 @@ MERGE_CHOICES = (
 
 
 def perform_on_link(func):
-    """Decorator to handle repository link"""
+    """Decorator to handle repository link."""
     def on_link_wrapper(self, *args, **kwargs):
         if self.is_repo_link:
             # Call same method on linked component
@@ -812,7 +812,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @perform_on_link
     def do_update(self, request=None, method=None):
-        """Wrapper for doing repository update"""
+        """Wrapper for doing repository update."""
         self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
@@ -1373,7 +1373,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_branch()
 
     def set_default_branch(self):
-        """Set default VCS branch if empty"""
+        """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
             self.branch = VCS_REGISTRY[self.vcs].default_branch
 
@@ -1410,7 +1410,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.linked_component = Component.objects.get_linked(self.repo)
 
     def clean_lang_codes(self, matches):
-        """Validate that there are no double language codes"""
+        """Validate that there are no double language codes."""
         if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
                 {'filemask': _('The filemask did not match any files.')}
@@ -1713,15 +1713,15 @@ class Component(models.Model, URLMixin, PathMixin):
             self.delete_alert('MonolingualTranslation')
 
     def needs_commit(self):
-        """Check for uncommitted changes"""
+        """Check for uncommitted changes."""
         return any((t.needs_commit() for t in self.translation_set.iterator()))
 
     def repo_needs_merge(self):
-        """Check for unmerged commits from remote repository"""
+        """Check for unmerged commits from remote repository."""
         return self.repository.needs_merge()
 
     def repo_needs_push(self):
-        """Check for something to push to remote repository"""
+        """Check for something to push to remote repository."""
         return self.repository.needs_push()
 
     @property
@@ -1730,14 +1730,14 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @property
     def file_format_cls(self):
-        """Return file format object """
+        """Return file format object."""
         if (self._file_format is None
                 or self._file_format.name != self.file_format):
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
     def has_template(self):
-        """Return true if component is using template for translation"""
+        """Return true if component is using template for translation."""
         monolingual = self.file_format_cls.monolingual
         return (monolingual or monolingual is None) and self.template
 

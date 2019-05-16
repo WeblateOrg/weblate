@@ -402,7 +402,7 @@ class PoUnit(TTKitUnit):
 
     @cached_property
     def flags(self):
-        """Return flags (typecomments) from units."""
+        """Return flags or typecomments from units."""
         if self.template is not None:
             return self.reformat_flags(self.template.typecomments)
         return self.reformat_flags(self.unit.typecomments)
