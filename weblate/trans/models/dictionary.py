@@ -112,6 +112,10 @@ class DictionaryManager(models.Manager):
         )
         return created
 
+
+class DictionaryQuerySet(models.QuerySet):
+    # pylint: disable=no-init
+
     def get_words(self, unit):
         """Return list of word pairs for an unit."""
         words = set()
@@ -171,7 +175,7 @@ class Dictionary(models.Model):
     source = models.CharField(max_length=190, db_index=True)
     target = models.CharField(max_length=190)
 
-    objects = DictionaryManager()
+    objects = DictionaryManager.from_queryset(DictionaryQuerySet)
 
     class Meta(object):
         ordering = ['source']
