@@ -82,7 +82,7 @@ def review_source(request, project, component):
             ignored
         )
 
-    sources = get_paginator(request, sources)
+    sources = get_paginator(request, sources.order())
 
     return render(
         request,

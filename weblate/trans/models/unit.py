@@ -295,6 +295,9 @@ class UnitQuerySet(models.QuerySet):
 
         raise Unit.DoesNotExist('No matching unit found!')
 
+    def order(self):
+        return self.order_by('priority', 'position')
+
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
@@ -332,7 +335,6 @@ class Unit(models.Model, LoggerMixin):
     objects = UnitQuerySet.as_manager()
 
     class Meta(object):
-        ordering = ['priority', 'position']
         app_label = 'trans'
         unique_together = ('translation', 'id_hash')
         index_together = [

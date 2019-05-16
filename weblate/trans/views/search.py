@@ -211,7 +211,7 @@ def search(request, project=None, component=None, lang=None):
                 translation__language=context['language']
             )
 
-        units = get_paginator(request, units)
+        units = get_paginator(request, units.order())
 
         context['show_results'] = True
         context['page_obj'] = units
