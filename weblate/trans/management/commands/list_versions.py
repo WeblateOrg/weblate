@@ -50,6 +50,10 @@ class Command(BaseCommand):
             )
         )
         self.write_item(
+            'Email setup',
+            '{}: {}'.format(settings.EMAIL_BACKEND, settings.EMAIL_HOST)
+        )
+        self.write_item(
             'Celery',
             '{}, {}, {}'.format(
                 getattr(settings, 'CELERY_BROKER_URL', 'N/A'),
