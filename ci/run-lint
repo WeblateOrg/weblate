@@ -11,9 +11,10 @@ log() {
 log flake8
 flake8
 pep_ret=$?
+exit $pep_ret
 
-#log pylint
-#pylint --rcfile=.pylintrc weblate openshift *.py
-#pylint_ret=$?
+log pylint
+pylint --rcfile=.pylintrc weblate openshift *.py
+pylint_ret=$?
 
 exit $(($pep_ret + $pyflake8_ret))
