@@ -7,11 +7,13 @@ log() {
 }
 # Linter for our code
 ./scripts/generate-locales
+
 log flake8
 flake8
 pep_ret=$?
+
 log pylint
 pylint --rcfile=.pylintrc weblate openshift *.py
 pylint_ret=$?
 
-exit $(($pep_ret + $pylint_ret + $pyflakes_ret))
+exit $(($pep_ret + $pyflake8_ret))
