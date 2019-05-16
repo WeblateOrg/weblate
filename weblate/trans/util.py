@@ -314,7 +314,8 @@ def xliff_string_to_rich(string):
     Transform a string containing XLIFF placeholders as XML
     into a rich content (StringElement)
     """
-
+    if isinstance(string, list):
+        return [parse_xliff(s) for s in string]
     return [parse_xliff(string)]
 
 
