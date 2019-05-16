@@ -207,7 +207,7 @@ ensure you mark the `read_user` scope.
     # Social auth backends setup
     SOCIAL_AUTH_GITLAB_KEY = 'Application ID'
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
-    SOCIAL_AUTH_GITLAB_SCOPE = ['api']
+    SOCIAL_AUTH_GITLAB_SCOPE = ['read_user']
 
     # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
