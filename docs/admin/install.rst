@@ -10,13 +10,13 @@ Hardware requirements
 
 Weblate should run on all contemporary hardware without problems, the following is
 the minimal configuration required to run Weblate on a single host (Weblate, database
-and web server):
+and webserver):
 
 * 2 GB of RAM
 * 2 CPU cores
 * 1 GB of storage space
 
-The more memory you have, the better - it is used for caching on all
+The more memory the better - it is used for caching on all
 levels (filesystem, database and Weblate).
 
 Many concurrent users increases the amount of needed CPU cores.
@@ -126,6 +126,8 @@ Choose an installation method that best fits your environment.
 The first choices include complete setup without relying on your system libraries:
 
 * :ref:`virtualenv`
+* :ref:`pip`
+* :ref:`git`
 * :ref:`docker`
 * :ref:`openshift`
 
@@ -151,107 +153,42 @@ Also install dependencies according to your platform:
 Installation in virtualenv
 ++++++++++++++++++++++++++
 
-This is the recommended method if you don't want to concern yourself with further detail.
-This will create a separate Python environment for Weblate, possibly duplicating some
-of the Python libraries on the system.
+(see :ref:`quick-virtualenv` for instructions).
 
-1. Install the development files for libraries to be used during the building
-   of the Python modules:
-
-   .. code-block:: sh
-
-        # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential python3-gdbm
-
-        # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
-
-        # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
-
-2. Install ``pip`` and ``virtualenv``. Usually they are shipped by your distribution or
-   with Python:
-
-   .. code-block:: sh
-
-        # Debian/Ubuntu:
-        apt install python3-pip python3-virtualenv virtualenv
-
-        # openSUSE/SLES:
-        zypper install python3-pip python3-virtualenv
-
-        # Fedora/RHEL/CentOS:
-        dnf install python3-pip python3-virtualenv
-
-3. Create and activate virtualenv for Weblate:
-
-   .. code-block:: sh
-
-        virtualenv --python=python3 ~/weblate-env
-        . ~/weblate-env/bin/activate
-
-4. Install Weblate including all dependencies, you can also use ``pip`` to install
-   optional dependencies:
-
-   .. code-block:: sh
-
-        pip install Weblate
-        # Optional deps
-        pip install pytz python-bidi PyYAML pyuca
-        # Install database backend for PostgreSQL
-        pip install psycopg2-binary
-        # Install database backend for MySQL
-        apt install default-libmysqlclient-dev
-        pip install mysqlclient
-
-5. Create your settings (in this example it would be in
-   :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
-   based on the :file:`settings_example.py` in the same directory).
-6. You can now run Weblate commands using :command:`weblate` command, see
+*. You can now run Weblate commands using :command:`weblate` command, see
    :ref:`manage`.
-7. To run webserver, use the wsgi wrapper installed with Weblate (in this case
+*. To run webserver, use the wsgi wrapper installed with Weblate (in this case
    it is :file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`).
    Don't forget to set the Python search path to your virtualenv as well (for
    example using ``virtualenv = /home/user/weblate-env`` in uWSGI).
+
+
+.. _pip:
+.. _install-pip:
+
+Installing Weblate with pip
++++++++++++++++++++++++++++
+
+(see :ref:`quick-pip` for instructions).
 
 .. _install-git:
 
 Installing Weblate from Git
 +++++++++++++++++++++++++++
 
+
+(see :ref:`quick-source` for instructions).
+
 You can also run the latest version from Git. It is maintained, stable and
 production ready. It is most often the version running
 `Hosted Weblate <https://weblate.org/hosting/>`_.
 
-To get the latest sources using Git use:
+.. _install-OpenShift:
 
-.. code-block:: sh
-
-    git clone https://github.com/WeblateOrg/weblate.git
-
-.. note::
-
-    If you are running a version from Git, you should also regenerate locale
-    files every time you are upgrading. You can do this by invoking the script
-    :file:`./scripts/generate-locales`.
-
-.. _install-pip:
-
-Installing Weblate with pip
+Installing on OpenShift
 +++++++++++++++++++++++++++
 
-If you decide to install Weblate using the pip installer, you will notice some
-differences. Most importantly the command line interface is installed to the
-system path as :command:`weblate` instead of :command:`./manage.py` as used in
-this documentation. Also when invoking this command, you will have to specify
-settings by the environment variable `DJANGO_SETTINGS_MODULE` on the command
-line, for example:
-
-.. code-block:: sh
-
-    DJANGO_SETTINGS_MODULE=yourproject.settings weblate migrate
-
-.. seealso:: :ref:`invoke-manage`
+:ref:`quick-openshift`.
 
 .. _deps-debian:
 
@@ -882,7 +819,7 @@ Properly configure admins
 +++++++++++++++++++++++++
 
 Set the correct admin addresses to the :setting:`ADMINS` setting to defining who will receive
-email in case something goes wrong on the server, for example:
+emails in case something goes wrong on the server, for example:
 
 .. code-block:: python
 
@@ -897,7 +834,7 @@ email in case something goes wrong on the server, for example:
 .. _production-site:
 
 Set correct sitename
-+++++++++++++++++++++
+++++++++++++++++++++
 
 Adjust sitename in the admin interface, otherwise links in RSS or registration
 emails will not work.
@@ -1064,7 +1001,7 @@ The ``pyuca`` library
 
 The `pyuca`_ library is optionally used by Weblate to sort Unicode strings.
 This way language names are properly sorted, even in non-ASCII languages like
-Japanese, Chinese or Arabic, or for languages that employ diactrics.
+Japanese, Chinese or Arabic, or for languages that employ `diacritics <https://en.wikipedia.org/wiki/Diacritic/>`_.
 
 .. _pyuca: https://github.com/jtauber/pyuca
 
@@ -1426,7 +1363,7 @@ Sentry
 ++++++
 
 Weblate has built in support for `Sentry <https://sentry.io/>`_. To use
-it it's enough to follow instructions for `Sentry for Python <https://docs.sentry.io/clients/python/>`_.
+it, it's enough to follow instructions for `Sentry for Python <https://docs.sentry.io/clients/python/>`_.
 
 In short, you need to adjust :file:`settings.py`:
 
@@ -1455,7 +1392,7 @@ Rollbar
 +++++++
 
 Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use
-it it's enough to follow instructions for `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_.
+it, it's enough to follow instructions for `Rollbar notifier for Python <https://docs.rollbar.com/docs/python/>`_.
 
 In short, you need to adjust :file:`settings.py`:
 
