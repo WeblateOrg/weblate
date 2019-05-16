@@ -50,11 +50,6 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['PASSWORD'] = ''
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
-elif 'SCRUTINIZER' in os.environ:
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    DATABASES['default']['NAME'] = 'scrutinizer'
-    DATABASES['default']['USER'] = 'scrutinizer'
-    DATABASES['default']['PASSWORD'] = 'scrutinizer'
 
 
 # Configure admins
