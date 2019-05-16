@@ -28,7 +28,7 @@ from weblate.utils.antispam import is_spam, report_spam
 
 try:
     # pylint: disable=unused-import
-    import akismet  # noqa
+    import akismet  # noqa: F401
     HAS_AKISMET = True
 except ImportError:
     HAS_AKISMET = False
