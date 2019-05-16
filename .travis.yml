@@ -92,6 +92,8 @@ matrix:
       env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=migrate
     - name: "Documentation"
       env: CI_MODE=docs
+    - name: "Lint"
+      env: CI_MODE=lint
 addons:
   apt:
     packages:
