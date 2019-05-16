@@ -460,7 +460,7 @@ def format_char(char):
     return name, display, char
 
 
-def get_special_chars(language, additional='', source=''):
+def get_special_chars(language, additional='', source=''):  # noqa: C901
     """Return list of special characters."""
     for char in settings.SPECIAL_CHARS:
         yield format_char(char)

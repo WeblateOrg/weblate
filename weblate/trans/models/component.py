@@ -1215,7 +1215,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.delete_alert(alert)
         self.alerts_trigger = {}
 
-    def create_translations(self, force=False, langs=None, request=None,
+    def create_translations(self, force=False, langs=None, request=None,  # noqa: C901
                             changed_template=False, from_link=False):
         """Load translations from VCS."""
         self.store_background_task()

@@ -77,7 +77,7 @@ class Command(BaseCommand):
             help='JSON file containing component defintion',
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa: C901
         """Automatic import of components."""
         # Get project
         try:
