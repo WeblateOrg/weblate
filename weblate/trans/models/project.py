@@ -226,7 +226,7 @@ class Project(models.Model, URLMixin, PathMixin):
         """Return list of all languages used in project."""
         return Language.objects.filter(
             translation__component__project=self
-        ).distinct()
+        ).distinct().order()
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""

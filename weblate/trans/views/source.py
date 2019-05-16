@@ -189,7 +189,7 @@ def matrix(request, project, component):
     if show:
         languages = Language.objects.filter(
             code__in=form.cleaned_data['lang']
-        )
+        ).order()
         language_codes = ','.join(languages.values_list('code', flat=True))
 
     return render(

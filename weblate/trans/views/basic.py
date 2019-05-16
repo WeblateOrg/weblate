@@ -127,7 +127,7 @@ def show_project(request, project):
 
     dict_langs = Language.objects.filter(
         dictionary__project=obj
-    ).annotate(Count('dictionary'))
+    ).annotate(Count('dictionary')).order()
 
     last_changes = Change.objects.prefetch().filter(project=obj)[:10]
 

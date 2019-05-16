@@ -27,6 +27,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 class PluralAdmin(admin.TabularInline):
     model = Plural
     extra = 0
+    ordering = ['source']
 
 
 class LanguageAdmin(WeblateModelAdmin):
@@ -34,6 +35,7 @@ class LanguageAdmin(WeblateModelAdmin):
     search_fields = ['name', 'code']
     list_filter = ('direction',)
     inlines = [PluralAdmin]
+    ordering = ['name']
 
     def save_related(self, request, form, formsets, change):
         super(LanguageAdmin, self).save_related(

@@ -344,7 +344,10 @@ class LanguageQuerySet(models.QuerySet):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        return self.filter(translation__pk__gt=0).distinct()
+        return self.filter(translation__pk__gt=0).distinct().order()
+
+    def order(self):
+        return self.order_by('name')
 
 
 def setup_lang(sender, **kwargs):
@@ -376,7 +379,6 @@ class Language(models.Model):
     objects = LanguageQuerySet.as_manager()
 
     class Meta(object):
-        ordering = ['name']
         verbose_name = ugettext_lazy('Language')
         verbose_name_plural = ugettext_lazy('Languages')
 
@@ -432,6 +434,11 @@ class Language(models.Model):
     @cached_property
     def plural(self):
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
+
+
+class PluralQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('source')
 
 
 @python_2_unicode_compatible
@@ -531,8 +538,9 @@ class Plural(models.Model):
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
+    objects = PluralQuerySet.as_manager()
+
     class Meta(object):
-        ordering = ['source']
         verbose_name = ugettext_lazy('Plural form')
         verbose_name_plural = ugettext_lazy('Plural forms')
 

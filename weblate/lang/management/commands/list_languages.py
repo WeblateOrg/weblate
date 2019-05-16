@@ -44,7 +44,7 @@ class Command(BaseCommand):
         to match current shipped definitions.
         """
         activate(options['locale'])
-        for language in Language.objects.order_by('name'):
+        for language in Language.objects.order():
             name = ugettext(language.name)
             if options['lower']:
                 name = name[0].lower() + name[1:]
