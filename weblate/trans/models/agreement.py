@@ -41,6 +41,9 @@ class ContributorAgreementManager(models.Manager):
             **kwargs
         )
 
+    def order(self):
+        return self.order_by('component__project__slug', 'component__slug')
+
 
 @python_2_unicode_compatible
 class ContributorAgreement(models.Model):
@@ -55,7 +58,6 @@ class ContributorAgreement(models.Model):
     objects = ContributorAgreementManager()
 
     class Meta(object):
-        ordering = ['user__username']
         unique_together = [('user', 'component')]
 
     def __str__(self):

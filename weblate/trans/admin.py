@@ -228,3 +228,4 @@ class SourceAdmin(WeblateModelAdmin):
 class ContributorAgreementAdmin(WeblateModelAdmin):
     list_display = ['user', 'component', 'timestamp']
     date_hierarchy = 'timestamp'
+    ordering = ('user__username', 'component__project__slug', 'component__slug')
