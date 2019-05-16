@@ -35,6 +35,9 @@ from weblate.checks.format import (
     PythonFormatCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.lang.models import Language
+from weblate.trans.models import Translation, Unit
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class PythonFormatCheckTest(CheckTestCase):
@@ -787,3 +790,47 @@ class JavaMessageFormatCheckTest(CheckTestCase):
             "'{1}' strin'g '{0}'",
             False
         ))
+
+
+class PluralTest(FixtureTestCase):
+    check = PythonFormatCheck()
+
+    def test_arabic(self):
+        arabic = Language.objects.get(code='ar')
+        translation = Translation(
+            language=arabic,
+            plural=arabic.plural,
+        )
+        unit = Unit(translation=translation)
+        # Singular, correct format string
+        self.assertFalse(
+            self.check.check_target_unit(['hello %s'], ['hell %s'], unit)
+        )
+        # Singular, missing format string
+        self.assertTrue(
+            self.check.check_target_unit(['hello %s'], ['hell'], unit)
+        )
+        # Plural, correct format string
+        self.assertFalse(
+            self.check.check_target_unit(['hello %s'] * 2, ['hell %s'] * 6, unit)
+        )
+        # Plural, missing format string
+        self.assertTrue(
+            self.check.check_target_unit(['hello %s'] * 2, ['hell'] * 6, unit)
+        )
+        # Plural, correct format string (missing on single value plurals)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ['hello %s'] * 2,
+                ['hell'] * 3 + ['hello %s'] * 3,
+                unit
+            )
+        )
+        # Plural, missing format string on multi value plural
+        self.assertTrue(
+            self.check.check_target_unit(
+                ['hello %s'] * 2,
+                ['hell'] * 4 + ['hello %s'] * 2,
+                unit
+            )
+        )
