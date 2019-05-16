@@ -179,7 +179,7 @@ class Dictionary(models.Model):
     source = models.CharField(max_length=190, db_index=True)
     target = models.CharField(max_length=190)
 
-    objects = DictionaryManager.from_queryset(DictionaryQuerySet)
+    objects = DictionaryManager.from_queryset(DictionaryQuerySet)()
 
     class Meta(object):
         app_label = 'trans'

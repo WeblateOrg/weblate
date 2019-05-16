@@ -49,7 +49,6 @@ class BillingAdmin(WeblateModelAdmin):
     list_filter = ('plan', 'state', 'paid', 'in_limits')
     search_fields = ('projects__name',)
     filter_horizontal = ('projects', 'owners')
-    ordering = ['billing', '-start']
 
     def list_projects(self, obj):
         return ','.join(obj.projects.values_list('name', flat=True))
@@ -69,3 +68,4 @@ class InvoiceAdmin(WeblateModelAdmin):
         'billing__projects__name', 'ref', 'note',
     )
     date_hierarchy = 'end'
+    ordering = ['billing', '-start']

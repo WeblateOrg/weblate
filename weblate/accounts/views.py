@@ -948,7 +948,7 @@ class SuggestionView(ListView):
         return Suggestion.objects.filter(
             user=user,
             project__in=self.request.user.allowed_projects
-        )
+        ).order()
 
     def get_context_data(self):
         result = super(SuggestionView, self).get_context_data()

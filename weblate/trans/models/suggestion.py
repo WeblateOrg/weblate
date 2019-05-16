@@ -120,6 +120,11 @@ class SuggestionManager(models.Manager):
         self.bulk_create(suggestions)
 
 
+class SuggestionQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('-timestamp')
+
+
 @python_2_unicode_compatible
 class Suggestion(UnitData, UserDisplayMixin):
     target = models.TextField()
@@ -139,11 +144,10 @@ class Suggestion(UnitData, UserDisplayMixin):
         related_name='user_votes'
     )
 
-    objects = SuggestionManager()
+    objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
     class Meta(object):
         app_label = 'trans'
-        ordering = ['-timestamp']
         index_together = [
             ('project', 'language', 'content_hash'),
         ]

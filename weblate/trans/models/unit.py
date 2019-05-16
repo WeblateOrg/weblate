@@ -715,7 +715,7 @@ class Unit(models.Model, LoggerMixin):
             content_hash=self.content_hash,
             project=self.translation.component.project,
             language=self.translation.language
-        )
+        ).order()
 
     def checks(self, values=False):
         """Return all checks names for this unit (even ignored)."""
