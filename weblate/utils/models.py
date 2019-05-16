@@ -44,6 +44,9 @@ class WeblateConf(AppConf):
     RATELIMIT_TRANSLATE_ATTEMPTS = 30
     RATELIMIT_TRANSLATE_WINDOW = 60
 
+    RATELIMIT_GLOSSARY_ATTEMPTS = 30
+    RATELIMIT_GLOSSARY_WINDOW = 60
+
     class Meta(object):
         prefix = ''
 

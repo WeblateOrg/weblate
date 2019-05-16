@@ -161,7 +161,7 @@ def delete_dictionary(request, project, lang, pk):
 
 @require_POST
 @login_required
-@session_ratelimit_post('glossary_upload')
+@session_ratelimit_post('glossary')
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
     if not request.user.has_perm('glossary.upload', prj):
@@ -242,7 +242,7 @@ def download_dictionary(request, project, lang):
 
 @require_POST
 @login_required
-@session_ratelimit_post('glossary_add')
+@session_ratelimit_post('glossary')
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
@@ -289,7 +289,7 @@ def add_dictionary(request, unit_id):
 
 
 @never_cache
-@session_ratelimit_post('glossary_add')
+@session_ratelimit_post('glossary')
 def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)

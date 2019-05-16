@@ -261,6 +261,8 @@ Following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Translating                       | ``TRANSLATE``      |               30 |               60 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
+| Adding to glossary                | ``GLOSSARY``       |               30 |               60 |            600 |
++-----------------------------------+--------------------+------------------+------------------+----------------+
 
 Additionally if there are more than :setting:`AUTH_LOCK_ATTEMPTS` failed
 authentication attempts on one account, this account password authentication is
