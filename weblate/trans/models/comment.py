@@ -73,7 +73,7 @@ class CommentManager(models.Manager):
         self.bulk_create(comments)
 
 
-class CommentQuerySet(model.QuerySet):
+class CommentQuerySet(models.QuerySet):
     def order(self):
         return self.order_by('timestamp')
 
