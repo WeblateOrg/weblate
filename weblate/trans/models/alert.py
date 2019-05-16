@@ -51,7 +51,6 @@ class Alert(models.Model):
     details = JSONField(default={})
 
     class Meta(object):
-        ordering = ['name']
         unique_together = ('component', 'name')
 
     @cached_property

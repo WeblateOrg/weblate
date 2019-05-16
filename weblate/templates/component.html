@@ -31,7 +31,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
-  {% if object.alert_set.all %}
+  {% if alerts %}
   <li><a href="#alerts" data-toggle="tab">{% trans "Alerts" %}</a></li>
   {% endif %}
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
@@ -139,7 +139,7 @@
 </div>
 
 <div class="tab-pane" id="alerts">
-{% for alert in object.alert_set.all %}
+{% for alert in alerts %}
 <div class="panel panel-warning">
 <div class="panel-heading">{{ alert }}</div>
 <div class="panel-body">{{ alert.render }}</div>

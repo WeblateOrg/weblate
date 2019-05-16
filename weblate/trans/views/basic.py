@@ -227,6 +227,7 @@ def show_component(request, project, component):
                 request=request, instance=obj
             ),
             'search_form': SearchForm(),
+            'alerts': obj.alert_set.order_by('name'),
         }
     )
 
