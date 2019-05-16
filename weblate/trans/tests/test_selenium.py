@@ -585,7 +585,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         )
         element = self.driver.find_element_by_id('id_image')
         element.send_keys(
-            element._upload('docs/images/automatic-translation.png')
+            element._upload('docs/images/automatic-translation.png')  # noqa: SF01,SLF001
         )
         with self.wait_for_page_load():
             element.submit()
