@@ -29,8 +29,11 @@ from django.views.decorators.http import require_POST
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.views import (download_translation_file, get_translation,
-                                 show_form_errors)
+from weblate.utils.views import (
+    download_translation_file,
+    get_translation,
+    show_form_errors,
+)
 
 
 def download_translation(request, project, component, lang):

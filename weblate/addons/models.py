@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 from collections import defaultdict
 
 from appconf import AppConf
-
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -32,18 +31,31 @@ from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 
-from weblate.addons.events import (EVENT_CHOICES, EVENT_POST_ADD,
-                                   EVENT_POST_COMMIT, EVENT_POST_PUSH,
-                                   EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
-                                   EVENT_PRE_PUSH, EVENT_PRE_UPDATE,
-                                   EVENT_STORE_POST_LOAD, EVENT_UNIT_POST_SAVE,
-                                   EVENT_UNIT_PRE_CREATE)
+from weblate.addons.events import (
+    EVENT_CHOICES,
+    EVENT_POST_ADD,
+    EVENT_POST_COMMIT,
+    EVENT_POST_PUSH,
+    EVENT_POST_UPDATE,
+    EVENT_PRE_COMMIT,
+    EVENT_PRE_PUSH,
+    EVENT_PRE_UPDATE,
+    EVENT_STORE_POST_LOAD,
+    EVENT_UNIT_POST_SAVE,
+    EVENT_UNIT_PRE_CREATE,
+)
 from weblate.trans.models import Component, Unit
-from weblate.trans.signals import (store_post_load, translation_post_add,
-                                   unit_pre_create, vcs_post_commit,
-                                   vcs_post_push, vcs_post_update,
-                                   vcs_pre_commit, vcs_pre_push,
-                                   vcs_pre_update)
+from weblate.trans.signals import (
+    store_post_load,
+    translation_post_add,
+    unit_pre_create,
+    vcs_post_commit,
+    vcs_post_push,
+    vcs_post_update,
+    vcs_pre_commit,
+    vcs_pre_push,
+    vcs_pre_update,
+)
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField

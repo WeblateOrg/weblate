@@ -30,8 +30,8 @@ from django.utils.translation import ugettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.project import Project
 from weblate.trans.models.alert import ALERTS
+from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
 
 

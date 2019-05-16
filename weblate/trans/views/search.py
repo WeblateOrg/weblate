@@ -31,16 +31,25 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.forms import (BulkStateForm, ReplaceConfirmForm,
-                                 ReplaceForm, SiteSearchForm)
+from weblate.trans.forms import (
+    BulkStateForm,
+    ReplaceConfirmForm,
+    ReplaceForm,
+    SiteSearchForm,
+)
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.state import STATE_EMPTY
-from weblate.utils.views import (get_component, get_paginator, get_project,
-                                 get_translation, import_message,
-                                 show_form_errors)
+from weblate.utils.views import (
+    get_component,
+    get_paginator,
+    get_project,
+    get_translation,
+    import_message,
+    show_form_errors,
+)
 
 
 def parse_url(request, project, component=None, lang=None):

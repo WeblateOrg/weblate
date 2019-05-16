@@ -22,9 +22,11 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.machinery.base import (MachineTranslation,
-                                    MachineTranslationError,
-                                    MissingConfiguration)
+from weblate.machinery.base import (
+    MachineTranslation,
+    MachineTranslationError,
+    MissingConfiguration,
+)
 
 YOUDAO_API_ROOT = 'https://openapi.youdao.com/api'
 

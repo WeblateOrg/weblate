@@ -26,8 +26,13 @@ from django.utils.translation import ugettext as _
 
 from weblate.trans.models import Component
 from weblate.utils import messages
-from weblate.vcs.ssh import (add_host_key, can_generate_key, generate_ssh_key,
-                             get_host_keys, get_key_data)
+from weblate.vcs.ssh import (
+    add_host_key,
+    can_generate_key,
+    generate_ssh_key,
+    get_host_keys,
+    get_key_data,
+)
 from weblate.wladmin.models import ConfigurationError
 
 

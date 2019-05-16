@@ -41,8 +41,7 @@ from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.translation import (get_language, pgettext, pgettext_lazy,
-                                      ugettext)
+from django.utils.translation import get_language, pgettext, pgettext_lazy, ugettext
 from django.utils.translation import ugettext_lazy as _
 
 from translation_finder import DiscoveryResult, discover
@@ -53,16 +52,27 @@ from weblate.lang.models import Language
 from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models import (Change, Component, Project, Translation,
-                                  Unit, WhiteboardMessage)
+from weblate.trans.models import (
+    Change,
+    Component,
+    Project,
+    Translation,
+    Unit,
+    WhiteboardMessage,
+)
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.state import (STATE_APPROVED, STATE_CHOICES, STATE_EMPTY,
-                                 STATE_FUZZY, STATE_TRANSLATED)
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_CHOICES,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 

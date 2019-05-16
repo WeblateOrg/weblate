@@ -26,13 +26,22 @@ from __future__ import unicode_literals
 
 from unittest import TestCase
 
-from weblate.checks.chars import (BeginNewlineCheck, BeginSpaceCheck,
-                                  EndColonCheck, EndEllipsisCheck,
-                                  EndExclamationCheck, EndNewlineCheck,
-                                  EndQuestionCheck, EndSemicolonCheck,
-                                  EndSpaceCheck, EndStopCheck, KashidaCheck,
-                                  MaxLengthCheck, NewlineCountingCheck,
-                                  ZeroWidthSpaceCheck)
+from weblate.checks.chars import (
+    BeginNewlineCheck,
+    BeginSpaceCheck,
+    EndColonCheck,
+    EndEllipsisCheck,
+    EndExclamationCheck,
+    EndNewlineCheck,
+    EndQuestionCheck,
+    EndSemicolonCheck,
+    EndSpaceCheck,
+    EndStopCheck,
+    KashidaCheck,
+    MaxLengthCheck,
+    NewlineCountingCheck,
+    ZeroWidthSpaceCheck,
+)
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
 

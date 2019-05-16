@@ -29,7 +29,6 @@ from translate.storage.xliff import xlifffile
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import rich_to_xliff_string, xliff_string_to_rich
 
-
 TEST_X = get_test_file('placeholder-x.xliff')
 TEST_MRK = get_test_file('placeholder-mrk.xliff')
 

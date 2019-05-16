@@ -36,22 +36,36 @@ from rest_framework.reverse import reverse
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
-from weblate.api.serializers import (ChangeSerializer, ComponentSerializer,
-                                     LanguageSerializer, LockRequestSerializer,
-                                     LockSerializer, ProjectSerializer,
-                                     RepoRequestSerializer,
-                                     ScreenshotFileSerializer,
-                                     ScreenshotSerializer, SourceSerializer,
-                                     StatisticsSerializer,
-                                     TranslationSerializer, UnitSerializer,
-                                     UploadRequestSerializer)
+from weblate.api.serializers import (
+    ChangeSerializer,
+    ComponentSerializer,
+    LanguageSerializer,
+    LockRequestSerializer,
+    LockSerializer,
+    ProjectSerializer,
+    RepoRequestSerializer,
+    ScreenshotFileSerializer,
+    ScreenshotSerializer,
+    SourceSerializer,
+    StatisticsSerializer,
+    TranslationSerializer,
+    UnitSerializer,
+    UploadRequestSerializer,
+)
 from weblate.auth.models import User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import (Change, Component, Project, Source,
-                                  Suggestion, Translation, Unit)
+from weblate.trans.models import (
+    Change,
+    Component,
+    Project,
+    Source,
+    Suggestion,
+    Translation,
+    Unit,
+)
 from weblate.trans.stats import get_project_stats
 from weblate.utils.celery import get_queue_length
 from weblate.utils.docs import get_doc_url

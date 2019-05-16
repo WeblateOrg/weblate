@@ -28,8 +28,12 @@ from django.utils.encoding import force_text
 from whoosh.index import LockError
 
 from weblate.celery import app
-from weblate.memory.storage import (CATEGORY_PRIVATE_OFFSET, CATEGORY_SHARED,
-                                    CATEGORY_USER_OFFSET, TranslationMemory)
+from weblate.memory.storage import (
+    CATEGORY_PRIVATE_OFFSET,
+    CATEGORY_SHARED,
+    CATEGORY_USER_OFFSET,
+    TranslationMemory,
+)
 from weblate.utils.celery import extract_batch_kwargs
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_TRANSLATED

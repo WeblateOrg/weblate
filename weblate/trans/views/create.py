@@ -27,8 +27,12 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView
 
-from weblate.trans.forms import (ComponentCreateForm, ComponentDiscoverForm,
-                                 ComponentInitCreateForm, ProjectCreateForm)
+from weblate.trans.forms import (
+    ComponentCreateForm,
+    ComponentDiscoverForm,
+    ComponentInitCreateForm,
+    ProjectCreateForm,
+)
 from weblate.trans.models import Change, Component, Project
 
 

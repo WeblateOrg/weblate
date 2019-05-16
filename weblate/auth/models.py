@@ -36,19 +36,31 @@ from django.utils.functional import cached_property
 from django.utils.translation import pgettext, ugettext
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.auth.data import (ACL_GROUPS, GLOBAL_PERM_NAMES, SELECTION_ALL,
-                               SELECTION_ALL_PROTECTED, SELECTION_ALL_PUBLIC,
-                               SELECTION_COMPONENT_LIST, SELECTION_MANUAL)
-from weblate.auth.permissions import (SPECIALS, check_global_permission,
-                                      check_permission)
-from weblate.auth.utils import (create_anonymous, migrate_groups,
-                                migrate_permissions, migrate_roles)
+from weblate.auth.data import (
+    ACL_GROUPS,
+    GLOBAL_PERM_NAMES,
+    SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
+    SELECTION_MANUAL,
+)
+from weblate.auth.permissions import SPECIALS, check_global_permission, check_permission
+from weblate.auth.utils import (
+    create_anonymous,
+    migrate_groups,
+    migrate_permissions,
+    migrate_roles,
+)
 from weblate.lang.models import Language
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.validators import (validate_email, validate_fullname,
-                                      validate_username)
+from weblate.utils.validators import (
+    validate_email,
+    validate_fullname,
+    validate_username,
+)
 
 
 @python_2_unicode_compatible

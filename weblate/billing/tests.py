@@ -32,9 +32,13 @@ from six import StringIO
 
 from weblate.auth.models import User
 from weblate.billing.models import Billing, Invoice, Plan
-from weblate.billing.tasks import (billing_alert, billing_check,
-                                   notify_expired, perform_removal,
-                                   schedule_removal)
+from weblate.billing.tasks import (
+    billing_alert,
+    billing_check,
+    notify_expired,
+    perform_removal,
+    schedule_removal,
+)
 from weblate.trans.models import Project
 
 TEST_DATA = os.path.join(

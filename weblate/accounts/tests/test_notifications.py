@@ -32,18 +32,28 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.accounts.models import AuditLog, Profile, Subscription
-from weblate.accounts.notifications import (FREQ_DAILY, FREQ_INSTANT,
-                                            FREQ_MONTHLY, FREQ_NONE,
-                                            FREQ_WEEKLY, SCOPE_ADMIN,
-                                            SCOPE_COMPONENT, SCOPE_DEFAULT,
-                                            SCOPE_PROJECT,
-                                            MergeFailureNotification)
-from weblate.accounts.tasks import (notify_change, notify_daily,
-                                    notify_monthly, notify_weekly, send_mails)
+from weblate.accounts.notifications import (
+    FREQ_DAILY,
+    FREQ_INSTANT,
+    FREQ_MONTHLY,
+    FREQ_NONE,
+    FREQ_WEEKLY,
+    SCOPE_ADMIN,
+    SCOPE_COMPONENT,
+    SCOPE_DEFAULT,
+    SCOPE_PROJECT,
+    MergeFailureNotification,
+)
+from weblate.accounts.tasks import (
+    notify_change,
+    notify_daily,
+    notify_monthly,
+    notify_weekly,
+    send_mails,
+)
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import (Alert, Change, Comment, Suggestion,
-                                  WhiteboardMessage)
+from weblate.trans.models import Alert, Change, Comment, Suggestion, WhiteboardMessage
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)

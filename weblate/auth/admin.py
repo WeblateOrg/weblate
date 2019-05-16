@@ -25,8 +25,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.accounts.forms import (FullNameField, UniqueEmailMixin,
-                                    UsernameField)
+from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UsernameField
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.wladmin.models import WeblateModelAdmin
 

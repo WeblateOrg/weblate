@@ -41,8 +41,7 @@ from social_django.models import UserSocialAuth
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import (FREQ_CHOICES, NOTIFICATIONS,
-                                            SCOPE_CHOICES)
+from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CHOICES
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language

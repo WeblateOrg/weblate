@@ -20,8 +20,14 @@
 
 from django.conf.urls import url
 
-from weblate.legal.views import (CookiesView, LegalView, PrivacyView,
-                                 SecurityView, TermsView, tos_confirm)
+from weblate.legal.views import (
+    CookiesView,
+    LegalView,
+    PrivacyView,
+    SecurityView,
+    TermsView,
+    tos_confirm,
+)
 
 urlpatterns = [
     url(

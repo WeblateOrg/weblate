@@ -31,13 +31,25 @@ import translate.__version__
 from translate.storage.po import pofile
 from weblate.formats.auto import AutodetectFormat, detect_filename
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.ttkit import (AndroidFormat, CSVFormat, DTDFormat,
-                                   JoomlaFormat, JSONFormat, JSONNestedFormat,
-                                   PhpFormat, PoFormat, PoXliffFormat,
-                                   PropertiesFormat, RESXFormat,
-                                   RubyYAMLFormat, TSFormat,
-                                   WebExtensionJSONFormat, WindowsRCFormat,
-                                   XliffFormat, YAMLFormat)
+from weblate.formats.ttkit import (
+    AndroidFormat,
+    CSVFormat,
+    DTDFormat,
+    JoomlaFormat,
+    JSONFormat,
+    JSONNestedFormat,
+    PhpFormat,
+    PoFormat,
+    PoXliffFormat,
+    PropertiesFormat,
+    RESXFormat,
+    RubyYAMLFormat,
+    TSFormat,
+    WebExtensionJSONFormat,
+    WindowsRCFormat,
+    XliffFormat,
+    YAMLFormat,
+)
 from weblate.lang.models import Language
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 

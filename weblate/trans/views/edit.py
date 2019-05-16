@@ -37,18 +37,25 @@ from django.views.decorators.http import require_POST
 from weblate.checks import CHECKS
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.trans.forms import (AntispamForm, AutoForm, CommentForm,
-                                 InlineWordForm, MergeForm, NewUnitForm,
-                                 RevertForm, SearchForm, TranslationForm,
-                                 ZenTranslationForm)
+from weblate.trans.forms import (
+    AntispamForm,
+    AutoForm,
+    CommentForm,
+    InlineWordForm,
+    MergeForm,
+    NewUnitForm,
+    RevertForm,
+    SearchForm,
+    TranslationForm,
+    ZenTranslationForm,
+)
 from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit
 from weblate.trans.util import join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.views import (get_translation, import_message,
-                                 show_form_errors)
+from weblate.utils.views import get_translation, import_message, show_form_errors
 
 
 def get_other_units(unit):

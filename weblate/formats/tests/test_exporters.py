@@ -21,12 +21,17 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
-from weblate.formats.exporters import (CSVExporter, MoExporter, PoExporter,
-                                       PoXliffExporter, TBXExporter,
-                                       XliffExporter, XlsxExporter)
+from weblate.formats.exporters import (
+    CSVExporter,
+    MoExporter,
+    PoExporter,
+    PoXliffExporter,
+    TBXExporter,
+    XliffExporter,
+    XlsxExporter,
+)
 from weblate.lang.models import Language, Plural
-from weblate.trans.models import (Component, Dictionary, Project, Translation,
-                                  Unit)
+from weblate.trans.models import Component, Dictionary, Project, Translation, Unit
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 

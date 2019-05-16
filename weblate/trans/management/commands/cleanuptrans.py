@@ -24,9 +24,14 @@ from django.db import transaction
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.screenshots.tasks import cleanup_screenshot_files
 from weblate.trans.models import Project
-from weblate.trans.tasks import (cleanup_fulltext, cleanup_old_comments,
-                                 cleanup_old_suggestions, cleanup_project,
-                                 cleanup_stale_repos, cleanup_suggestions)
+from weblate.trans.tasks import (
+    cleanup_fulltext,
+    cleanup_old_comments,
+    cleanup_old_suggestions,
+    cleanup_project,
+    cleanup_stale_repos,
+    cleanup_suggestions,
+)
 
 
 class Command(BaseCommand):

@@ -22,8 +22,7 @@ from rest_framework import serializers
 
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import (Change, Component, Project, Source,
-                                  Translation, Unit)
+from weblate.trans.models import Change, Component, Project, Source, Translation, Unit
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 

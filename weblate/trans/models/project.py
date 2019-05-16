@@ -38,9 +38,9 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
-from weblate.utils.unitdata import filter_query
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
+from weblate.utils.unitdata import filter_query
 
 
 @python_2_unicode_compatible

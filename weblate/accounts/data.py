@@ -20,8 +20,7 @@
 
 from __future__ import unicode_literals
 
-from weblate.accounts.notifications import (FREQ_INSTANT, SCOPE_ADMIN,
-                                            SCOPE_DEFAULT)
+from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_ADMIN, SCOPE_DEFAULT
 
 DEFAULT_NOTIFICATIONS = [
     (SCOPE_DEFAULT, FREQ_INSTANT, 'LastAuthorCommentNotificaton'),
