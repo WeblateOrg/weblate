@@ -248,10 +248,10 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
     taken the username meanwhile.
     """
     if user or 'username' not in details:
-        return None
+        return
     if User.objects.filter(username__iexact=details['username']).exists():
         raise AuthAlreadyAssociated(backend, 'Username exists')
-    return None
+    return
 
 
 def revoke_mail_code(strategy, details, **kwargs):

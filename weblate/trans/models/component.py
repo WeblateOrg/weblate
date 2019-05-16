@@ -549,7 +549,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def store_log(self, slug, msg, *args):
         if self.translations_count == -1:
             if self.linked_component:
-                return self.linked_component.store_log(slug, msg, *args)
+                self.linked_component.store_log(slug, msg, *args)
+                return
         self.logs.append('{}: {}'.format(slug, msg % args))
         if current_task:
             cache.set(
