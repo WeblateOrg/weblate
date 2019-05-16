@@ -211,6 +211,9 @@ class AuditLogQuerySet(models.QuerySet):
             timestamp__gt=start,
         )
 
+    def order(self):
+        return self.order_by('-timestamp')
+
 
 @python_2_unicode_compatible
 class AuditLog(models.Model):
@@ -231,9 +234,6 @@ class AuditLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
-
-    class Meta(object):
-        ordering = ['-timestamp']
 
     def get_params(self):
         result = {}

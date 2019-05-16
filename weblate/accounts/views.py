@@ -371,7 +371,7 @@ def user_profile(request):
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
-            'auditlog': request.user.auditlog_set.all()[:20],
+            'auditlog': request.user.auditlog_set.order()[:20],
         }
     )
     result.set_cookie(
