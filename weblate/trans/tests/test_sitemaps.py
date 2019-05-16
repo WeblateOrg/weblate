@@ -22,7 +22,7 @@
 Tests for sitemaps.
 """
 
-from xml.etree import cElementTree as ElementTree
+from xml.etree import ElementTree
 
 from weblate.trans.tests.test_views import FixtureTestCase
 
