@@ -359,7 +359,7 @@ BITBUCKET_PAYLOAD_HOSTED = r'''
     "links":{
       "self":[
         {
-          "href":"https://bitbucket.example.com/weblate-training/browse"
+          "href":"https://example.com/weblate-training/browse"
         }
       ]
     },
@@ -413,7 +413,7 @@ BITBUCKET_PAYLOAD_SERVER = r'''
         "links": {
             "self": [
                 {
-                    "href": "https://bitbucket.example.com/users/joe.blogs"
+                    "href": "https://example.com/users/joe.blogs"
                 }
             ]
         }
@@ -436,7 +436,7 @@ BITBUCKET_PAYLOAD_SERVER = r'''
             "links": {
                 "self": [
                     {
-                        "href": "https://bitbucket.example.com/projects/SANDPIT"
+                        "href": "https://example.com/projects/SANDPIT"
                     }
                 ]
             }
@@ -445,17 +445,17 @@ BITBUCKET_PAYLOAD_SERVER = r'''
         "links": {
             "clone": [
                 {
-                    "href": "https://bitbucket.example.com/scm/sandpit/my-repo.git",
+                    "href": "https://example.com/scm/sandpit/my-repo.git",
                     "name": "http"
                 },
                 {
-                    "href": "ssh://git@bitbucket.example.com:7999/sandpit/my-repo.git",
+                    "href": "ssh://git@example.com:7999/sandpit/my-repo.git",
                     "name": "ssh"
                 }
             ],
             "self": [
                 {
-                    "href": "https://bitbucket.example.com/projects/SANDPIT/repos/my-repo/browse"
+                    "href": "https://example.com/projects/SANDPIT/repos/my-repo/browse"
                 }
             ]
         }
@@ -984,22 +984,22 @@ class BitbucketBackendTest(HookBackendTestCase):
             {
                 'branch': 'develop',
                 'full_name': '~DSNOECK/weblate-training.git',
-                'repo_url': 'https://bitbucket.example.com/weblate-training/browse',
+                'repo_url': 'https://example.com/weblate-training/browse',
                 'repos': [
                     'ssh://git@bitbucket.org/~DSNOECK/weblate-training.git',
-                    'ssh://git@bitbucket.example.com/~DSNOECK/weblate-training.git',
+                    'ssh://git@example.com/~DSNOECK/weblate-training.git',
                     'git@bitbucket.org:~DSNOECK/weblate-training.git',
-                    'git@bitbucket.example.com:~DSNOECK/weblate-training.git',
+                    'git@example.com:~DSNOECK/weblate-training.git',
                     'https://bitbucket.org/~DSNOECK/weblate-training.git',
-                    'https://bitbucket.example.com/~DSNOECK/weblate-training.git',
+                    'https://example.com/~DSNOECK/weblate-training.git',
                     'https://bitbucket.org/~DSNOECK/weblate-training',
-                    'https://bitbucket.example.com/~DSNOECK/weblate-training',
+                    'https://example.com/~DSNOECK/weblate-training',
                     'ssh://hg@bitbucket.org/~DSNOECK/weblate-training',
-                    'ssh://hg@bitbucket.example.com/~DSNOECK/weblate-training',
+                    'ssh://hg@example.com/~DSNOECK/weblate-training',
                     'hg::ssh://hg@bitbucket.org/~DSNOECK/weblate-training',
-                    'hg::ssh://hg@bitbucket.example.com/~DSNOECK/weblate-training',
+                    'hg::ssh://hg@example.com/~DSNOECK/weblate-training',
                     'hg::https://bitbucket.org/~DSNOECK/weblate-training',
-                    'hg::https://bitbucket.example.com/~DSNOECK/weblate-training'
+                    'hg::https://example.com/~DSNOECK/weblate-training'
                 ],
                 'service_long_name': 'Bitbucket'
             }
@@ -1038,10 +1038,10 @@ class BitbucketBackendTest(HookBackendTestCase):
             {
                 'branch': 'master',
                 'full_name': 'SANDPIT/my-repo.git',
-                'repo_url': 'https://bitbucket.example.com/projects/SANDPIT/repos/my-repo/browse',
+                'repo_url': 'https://example.com/projects/SANDPIT/repos/my-repo/browse',
                 'repos': [
-                    'https://bitbucket.example.com/scm/sandpit/my-repo.git',
-                    'ssh://git@bitbucket.example.com:7999/sandpit/my-repo.git',
+                    'https://example.com/scm/sandpit/my-repo.git',
+                    'ssh://git@example.com:7999/sandpit/my-repo.git',
                 ],
                 'service_long_name': 'Bitbucket'
             }
