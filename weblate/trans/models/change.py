@@ -432,7 +432,7 @@ class Change(models.Model, UserDisplayMixin):
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']
-        elif self.action in (self.ACTION_ADDED_LANGUAGE, self.ACTION_REQUESTED_LANGUAGE):
+        elif self.action in (self.ACTION_ADDED_LANGUAGE, self.ACTION_REQUESTED_LANGUAGE):  # noqa: E501
             try:
                 return Language.objects.get(code=self.details['language'])
             except Language.DoesNotExist:
