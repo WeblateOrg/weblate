@@ -31,6 +31,11 @@ from weblate.trans.fields import RegexField
 from weblate.utils.stats import ComponentListStats
 
 
+class ComponentListQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('name')
+
+
 @python_2_unicode_compatible
 class ComponentList(models.Model):
 
@@ -59,10 +64,11 @@ class ComponentList(models.Model):
 
     components = models.ManyToManyField('Component', blank=True)
 
+    objects = ComponentListQuerySet.as_manager()
+
     class Meta(object):
         verbose_name = _('Component list')
         verbose_name_plural = _('Component lists')
-        ordering = ['name']
 
     def tab_slug(self):
         return "list-" + self.slug

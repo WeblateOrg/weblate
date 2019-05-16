@@ -218,6 +218,7 @@ class ComponentListAdmin(WeblateModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ('components', )
     inlines = [AutoComponentListAdmin]
+    ordering = ['name']
 
 
 class SourceAdmin(WeblateModelAdmin):

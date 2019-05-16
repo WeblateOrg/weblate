@@ -201,7 +201,7 @@ def dashboard_user(request):
     componentlists = list(ComponentList.objects.filter(
         show_dashboard=True,
         components__project__in=request.user.allowed_projects
-    ).distinct())
+    ).distinct().order())
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
@@ -252,7 +252,7 @@ def dashboard_user(request):
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(ComponentList.objects.filter(
                 components__project__in=request.user.allowed_projects
-            )).distinct(),
+            ).distinct().order()),
             'active_tab_slug': active_tab_slug,
         }
     )
