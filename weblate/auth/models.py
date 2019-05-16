@@ -69,7 +69,6 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta(object):
-        ordering = ['codename']
         verbose_name = _('Permission')
         verbose_name_plural = _('Permissions')
 
@@ -528,7 +527,6 @@ class AutoGroup(models.Model):
     class Meta(object):
         verbose_name = _('Automatic group assignment')
         verbose_name_plural = _('Automatic group assignments')
-        ordering = ('group__name', )
 
     def __str__(self):
         return 'Automatic rule for {0}'.format(self.group)
