@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 import os.path
+import shutil
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
@@ -63,6 +64,7 @@ TEST_JOOMLA = get_test_file('cs.ini')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_XLIFF = get_test_file('cs.xliff')
+TEST_XLIFF_ID = get_test_file('ids.xliff')
 TEST_POT = get_test_file('hello.pot')
 TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
@@ -473,6 +475,45 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<source>key</source>',
         b'<target state="translated">Source string</target>',
     )
+
+
+class XliffIdFormatTest(XliffFormatTest):
+    FILE = TEST_XLIFF_ID
+    BASE = TEST_XLIFF_ID
+    FIND_CONTEXT = 'hello'
+
+    def test_edit_xliff(self):
+        with open(get_test_file('ids-translated.xliff')) as handle:
+            expected = handle.read()
+        with open(get_test_file('ids-edited.xliff')) as handle:
+            expected_template = handle.read()
+        template_name = os.path.join(self.tempdir, 'en.xliff')
+        translated_name = os.path.join(self.tempdir, 'cs.xliff')
+        shutil.copy(self.FILE, template_name)
+        shutil.copy(self.FILE, translated_name)
+        template = self.FORMAT(template_name)
+        source = self.FORMAT(template_name, template, is_template=True)
+        translation = self.FORMAT(translated_name, template)
+
+        unit = source.all_units[0]
+        self.assertEqual(unit.source, 'Hello, world!\n')
+        self.assertEqual(unit.target, 'Hello, world!\n')
+
+        unit.set_target('Hello, wonderful world!\n')
+        source.save()
+
+        unit = translation.all_units[0]
+        self.assertEqual(unit.source, 'Hello, world!\n')
+        self.assertEqual(unit.target, '')
+
+        unit.set_target('Ahoj, svete!\n')
+        translation.save()
+
+        with open(translated_name) as handle:
+            self.assertXMLEqual(handle.read(), expected)
+
+        with open(template_name) as handle:
+            self.assertXMLEqual(handle.read(), expected_template)
 
 
 class PoXliffFormatTest(XMLMixin, AutoFormatTest):
