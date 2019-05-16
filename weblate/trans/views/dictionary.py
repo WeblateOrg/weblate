@@ -20,7 +20,6 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models.functions import Lower
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -217,7 +216,7 @@ def download_dictionary(request, project, lang):
     words = Dictionary.objects.filter(
         project=prj,
         language=lang
-    ).order_by(Lower('source'))
+    ).order()
 
     # Translate toolkit based export
     exporter = get_exporter(export_format)(
@@ -270,8 +269,8 @@ def add_dictionary(request, unit_id):
                 'glossary-embed.html',
                 {
                     'glossary': (
-                        Dictionary.objects.get_words(unit)
-                        | Dictionary.objects.filter(project=prj, pk__in=words)
+                        Dictionary.objects.get_words(unit).order()
+                        | Dictionary.objects.filter(project=prj, pk__in=words).order()
                     ),
                     'unit': unit,
                     'user': request.user,
@@ -312,7 +311,7 @@ def show_dictionary(request, project, lang):
 
     words = Dictionary.objects.filter(
         project=prj, language=lang
-    ).order_by(Lower('source'))
+    ).order()
 
     letterform = LetterForm(request.GET)
 

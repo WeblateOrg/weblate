@@ -24,6 +24,7 @@ import re
 from itertools import islice
 
 from django.db import models
+from django.db.models.functions import Lower
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
@@ -167,6 +168,9 @@ class DictionaryQuerySet(models.QuerySet):
             )
         )
 
+    def order(self):
+        return self.order_by(Lower('source'))
+
 
 @python_2_unicode_compatible
 class Dictionary(models.Model):
@@ -178,7 +182,6 @@ class Dictionary(models.Model):
     objects = DictionaryManager.from_queryset(DictionaryQuerySet)
 
     class Meta(object):
-        ordering = ['source']
         app_label = 'trans'
 
     def __str__(self):
