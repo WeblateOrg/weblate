@@ -499,7 +499,7 @@
   </h4>
   </div>
   <table class="table table-striped table-condensed">
-    {% with unit.source_info.screenshots.all as screenshots %}
+    {% with unit.source_info.screenshots.order as screenshots %}
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>

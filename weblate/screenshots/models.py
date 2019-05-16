@@ -31,6 +31,11 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Component, Source
 
 
+class ScreenshotQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('name')
+
+
 @python_2_unicode_compatible
 class Screenshot(models.Model, UserDisplayMixin):
     name = models.CharField(
@@ -57,8 +62,7 @@ class Screenshot(models.Model, UserDisplayMixin):
         on_delete=models.deletion.SET_NULL
     )
 
-    class Meta(object):
-        ordering = ['name']
+    objects = ScreenshotQuerySet.as_manager()
 
     def __str__(self):
         return self.name
