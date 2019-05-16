@@ -73,7 +73,7 @@ class WhiteboardMessage(models.Model):
     message = models.TextField(
         verbose_name=ugettext_lazy('Message'),
     )
-    message_html = models.BooleanField(
+    message_html = models.BooleanField(  # noqa: DJ02
         verbose_name=ugettext_lazy('Render as HTML'),
         help_text=ugettext_lazy(
             'When turned off, URLs will be converted to links and '

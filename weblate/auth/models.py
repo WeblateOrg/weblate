@@ -315,7 +315,7 @@ class User(AbstractBaseUser):
         blank=False,
         validators=[validate_fullname],
     )
-    email = models.EmailField(
+    email = models.EmailField(  # noqa: DJ01
         _('Email'),
         blank=False,
         null=True,

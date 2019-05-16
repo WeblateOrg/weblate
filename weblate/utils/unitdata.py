@@ -36,7 +36,7 @@ WHERE_LANGUAGE_WILDCARD = '''
 '''
 
 
-class UnitData(models.Model):
+class UnitData(models.Model):  # noqa: DJ08
     content_hash = models.BigIntegerField()
     project = models.ForeignKey(
         'trans.Project', on_delete=models.deletion.CASCADE

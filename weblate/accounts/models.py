@@ -52,6 +52,7 @@ from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 
 
+@python_2_unicode_compatible
 class Subscription(models.Model):
     user = models.ForeignKey(
         User,
@@ -82,6 +83,12 @@ class Subscription(models.Model):
         unique_together = [
             ('notification', 'scope', 'project', 'component', 'user')
         ]
+
+    def __str__(self):
+        return '{}:{} ({},{})'.format(
+            self.user.username, self.get_notification_display(),
+            self.project.slug, self.component.full_slug
+        )
 
 
 ACCOUNT_ACTIVITY = {
