@@ -245,7 +245,7 @@ class WeblateViewSet(DownloadViewSet):
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
                     component=obj.component,
-                )
+                ).order_by('-id')
             else:
                 data['url'] = reverse(
                     'api:component-repository',
@@ -259,7 +259,7 @@ class WeblateViewSet(DownloadViewSet):
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
                     component=obj,
-                )
+                ).order_by('-id')
 
             if changes.exists() and changes[0].is_merge_failure():
                 data['merge_failure'] = changes[0].target
@@ -285,7 +285,7 @@ class ProjectViewSet(WeblateViewSet):
     def components(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.component_set.all()
+        queryset = obj.component_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
@@ -307,7 +307,7 @@ class ProjectViewSet(WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(project=obj)
+        queryset = Change.objects.prefetch().filter(project=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
@@ -381,7 +381,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def translations(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.translation_set.all()
+        queryset = obj.translation_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = TranslationSerializer(
@@ -397,7 +397,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.translation_set.all()
+        queryset = obj.translation_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = StatisticsSerializer(
@@ -412,7 +412,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(component=obj)
+        queryset = Change.objects.prefetch().filter(component=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
@@ -526,7 +526,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(translation=obj)
+        queryset = Change.objects.prefetch().filter(translation=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(
@@ -541,7 +541,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     def units(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.unit_set.all()
+        queryset = obj.unit_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(
