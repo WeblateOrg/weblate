@@ -13,10 +13,6 @@ Weblate
     :alt: Codecov Coverage Status
     :target: https://codecov.io/gh/WeblateOrg/weblate
 
-.. image:: https://api.codacy.com/project/badge/Grade/394a22d396414d48abb6a85054f4415e
-    :alt: Codacy Badge
-    :target: https://www.codacy.com/app/Weblate/weblate
-
 .. image:: https://api.codeclimate.com/v1/badges/eeaa886372cf697f96c0/maintainability
     :target: https://codeclimate.com/github/WeblateOrg/weblate/maintainability
     :alt: Maintainability

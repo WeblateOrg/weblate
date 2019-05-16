@@ -62,8 +62,6 @@ after_script:
   - coverage xml
   # CodeCov
   - codecov
-  # Codacy
-  - python-codacy-coverage -r coverage.xml
   # CodeClimate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 matrix:
