@@ -32,6 +32,7 @@ class PlanAdmin(WeblateModelAdmin):
         'display_limit_strings', 'display_limit_languages',
         'display_limit_repositories', 'display_limit_projects',
     )
+    ordering = ['price']
 
 
 class BillingAdmin(WeblateModelAdmin):
@@ -48,6 +49,7 @@ class BillingAdmin(WeblateModelAdmin):
     list_filter = ('plan', 'state', 'paid', 'in_limits')
     search_fields = ('projects__name',)
     filter_horizontal = ('projects', 'owners')
+    ordering = ['billing', '-start']
 
     def list_projects(self, obj):
         return ','.join(obj.projects.values_list('name', flat=True))

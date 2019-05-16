@@ -73,9 +73,6 @@ class Plan(models.Model):
 
     objects = PlanQuerySet.as_manager()
 
-    class Meta(object):
-        ordering = ['price']
-
     def __str__(self):
         return self.name
 
@@ -384,6 +381,11 @@ class Billing(models.Model):
         return users
 
 
+class InvoiceQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('-start')
+
+
 @python_2_unicode_compatible
 class Invoice(models.Model):
     CURRENCY_EUR = 0
@@ -413,8 +415,7 @@ class Invoice(models.Model):
     # with payment processor
     payment = JSONField(editable=False, default={})
 
-    class Meta(object):
-        ordering = ['billing', '-start']
+    objects = InvoiceQuerySet.as_manager()
 
     def __str__(self):
         return '{0} - {1}: {2}'.format(
