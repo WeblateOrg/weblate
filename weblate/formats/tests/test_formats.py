@@ -24,7 +24,6 @@ import os.path
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
-from django.test import SimpleTestCase
 from django.utils.encoding import force_text
 
 import translate.__version__
@@ -51,6 +50,7 @@ from weblate.formats.ttkit import (
     YAMLFormat,
 )
 from weblate.lang.models import Language
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
@@ -142,7 +142,7 @@ class AutoLoadTest(TestCase):
         self.assertIsInstance(store.store, pofile)
 
 
-class AutoFormatTest(SimpleTestCase, TempDirMixin):
+class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FORMAT = AutodetectFormat
     FILE = TEST_PO
     BASE = TEST_POT
@@ -156,7 +156,6 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
     FIND_CONTEXT = ''
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
-    allow_database_queries = True
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()

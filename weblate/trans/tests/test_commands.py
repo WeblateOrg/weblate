@@ -33,7 +33,7 @@ from weblate.runner import main
 from weblate.trans.models import Component, Source, Suggestion, Translation
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.vcs.mercurial import HgRepository
 
@@ -333,8 +333,7 @@ class ImportProjectTest(RepoTestCase):
             )
 
 
-class BasicCommandTest(SimpleTestCase):
-    allow_database_queries = True
+class BasicCommandTest(FixtureTestCase):
 
     def test_versions(self):
         output = StringIO()
