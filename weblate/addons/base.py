@@ -118,7 +118,7 @@ class BaseAddon(object):
         return self.settings_form(self, **kwargs)
 
     def configure(self, settings):
-        """Saves configuration."""
+        """Save configuration."""
         self.instance.configuration = settings
         self.instance.save()
         self.post_configure()
@@ -153,7 +153,7 @@ class BaseAddon(object):
                 self.daily(component)
 
     def save_state(self):
-        """Saves addon state information."""
+        """Save addon state information."""
         self.instance.save(update_fields=['state'])
 
     @classmethod
@@ -268,6 +268,7 @@ class BaseAddon(object):
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
+
     settings_form = BaseAddonForm
     name = 'weblate.base.test'
     verbose = 'Test addon'
@@ -279,6 +280,7 @@ class UpdateBaseAddon(BaseAddon):
 
     It hooks to post update and commits all changed translations.
     """
+
     events = (EVENT_POST_UPDATE, )
 
     def __init__(self, storage=None):
@@ -314,6 +316,7 @@ class TestException(Exception):
 
 class TestCrashAddon(UpdateBaseAddon):
     """Testing addong doing nothing."""
+
     name = 'weblate.base.crash'
     verbose = 'Crash test addon'
     description = 'Crash test addon'
@@ -325,5 +328,6 @@ class TestCrashAddon(UpdateBaseAddon):
 
 class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
+
     events = (EVENT_STORE_POST_LOAD,)
     icon = 'wrench'

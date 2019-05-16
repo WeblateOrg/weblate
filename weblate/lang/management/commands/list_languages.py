@@ -40,8 +40,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create default set of languages, optionally updating them
-        to match current shipped definitions.
+        """Create default set of languages.
+
+        Optionally updating them to match current shipped definitions.
         """
         activate(options['locale'])
         for language in Language.objects.order():

@@ -92,6 +92,7 @@ def prefetch_stats(queryset):
 
 class BaseStats(object):
     """Caching statistics calculator."""
+
     basic_keys = BASIC_KEYS
 
     def __init__(self, obj):
@@ -220,6 +221,7 @@ class DummyTranslationStats(BaseStats):
 
     Used when given language does not exist in a component.
     """
+
     def __init__(self, obj):
         super(DummyTranslationStats, self).__init__(obj)
         self.language = obj
@@ -242,6 +244,7 @@ class DummyTranslationStats(BaseStats):
 
 class TranslationStats(BaseStats):
     """Per translation stats."""
+
     def invalidate(self, language=None):
         super(TranslationStats, self).invalidate()
         self._object.component.stats.invalidate(

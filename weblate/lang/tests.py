@@ -297,7 +297,7 @@ LANGUAGES = (
 
 
 class TestSequenceMeta(type):
-    def __new__(mcs, name, bases, dict):
+    def __new__(mcs, name, bases, dict):  # noqa: N804
 
         def gen_test(original, expected, direction, plural, name, create):
             def test(self):

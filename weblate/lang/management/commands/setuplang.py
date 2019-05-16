@@ -36,7 +36,5 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create default set of languages, optionally updating them
-        to match current shipped definitions.
-        """
+        """Create default set of languages."""
         Language.objects.setup(options['update'])

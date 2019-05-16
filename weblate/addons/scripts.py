@@ -28,6 +28,7 @@ from weblate.utils.render import render_template
 
 class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
+
     icon = 'file-code-o'
     script = None
     add_file = None

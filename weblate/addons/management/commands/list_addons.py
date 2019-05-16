@@ -30,9 +30,7 @@ class Command(BaseCommand):
     help = 'List installed addons'
 
     def handle(self, *args, **options):
-        """Create default set of languages, optionally updating them
-        to match current shipped definitions.
-        """
+        """List installed addons."""
         for dummy, obj in sorted(ADDONS.items()):
             self.stdout.write('.. _addon-{}:'.format(obj.name))
             self.stdout.write('\n')

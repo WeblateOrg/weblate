@@ -86,7 +86,7 @@ class TTKitUnit(TranslationUnit):
 
     @cached_property
     def comments(self):
-        """Return comments (notes) from units."""
+        """Return comments or notes from units."""
         comment = ''
 
         if self.unit is not None:
@@ -212,7 +212,7 @@ class TTKitFormat(TranslationFormat):
 
     @staticmethod
     def serialize(store):
-        """Serialize given ttkit store"""
+        """Serialize given ttkit store."""
         return bytes(store)
 
     @classmethod
@@ -265,7 +265,7 @@ class TTKitFormat(TranslationFormat):
             self.store.addunit(ttkit_unit)
 
     def save_content(self, handle):
-        """Stores content to file."""
+        """Store content to file."""
         self.store.serialize(handle)
 
     def save(self):
@@ -306,7 +306,7 @@ class TTKitFormat(TranslationFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store"""
+        """Remove translations from ttkit store."""
         store.settargetlanguage(
             cls.get_language_code(language.code)
         )
@@ -380,7 +380,7 @@ class PropertiesUnit(KeyValueUnit):
 
 
 class PoUnit(TTKitUnit):
-    """Wrapper for Gettext PO unit"""
+    """Wrapper for Gettext PO unit."""
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
         super(PoUnit, self).mark_fuzzy(fuzzy)
@@ -698,7 +698,7 @@ class PoFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store"""
+        """Remove translations from ttkit store."""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
         plural = language.plural
 
@@ -745,7 +745,7 @@ class TSFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store"""
+        """Remove translations from ttkit store."""
         # We need to mark all units as fuzzy to get
         # type="unfinished" on empty strings, which are otherwise
         # treated as translated same as source
