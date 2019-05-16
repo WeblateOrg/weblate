@@ -56,3 +56,4 @@ class VerifiedEmailAdmin(WeblateModelAdmin):
         'email', 'social__user__username', 'social__user__email'
     )
     raw_id_fields = ('social',)
+    ordering = ('email',)
