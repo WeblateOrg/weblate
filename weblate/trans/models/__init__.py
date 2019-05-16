@@ -27,7 +27,7 @@ from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 
 from weblate.celery import app
-from weblate.trans.models.conf import WeblateConf  # isort:skip
+from weblate.trans.models.conf import WeblateConf  # noqa: I001, isort:skip
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
 from weblate.trans.models.change import Change
