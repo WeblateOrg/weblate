@@ -174,7 +174,7 @@ class BaseFormatCheck(TargetCheck):
         singular_check = self.check_format(
             sources[0],
             targets[0],
-            len(sources) > 1
+            len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1
         )
         if singular_check:
             return True
@@ -184,11 +184,11 @@ class BaseFormatCheck(TargetCheck):
             return False
 
         # Check plurals against plural from source
-        for target in targets[1:]:
+        for i, target in enumerate(targets[1:]):
             plural_check = self.check_format(
                 sources[1],
                 target,
-                False
+                len(unit.translation.plural.examples[i + 1]) == 1
             )
             if plural_check:
                 return True

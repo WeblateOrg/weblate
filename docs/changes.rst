@@ -26,6 +26,7 @@ Released on ? 2019.
 * Fixed examples installation in some cases.
 * Improved rendering of alerts in changes.
 * Added new horizontal stats widget.
+* Improved format strings check on plurals.
 
 weblate 3.6.1
 -------------
