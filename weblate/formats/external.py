@@ -26,6 +26,7 @@ import re
 import six
 from django.utils.translation import ugettext_lazy as _
 from openpyxl import Workbook, load_workbook
+from openpyxl.cell.cell import TYPE_STRING
 
 from translate.storage.csvl10n import csv
 from weblate.formats.helpers import BytesIOMode
@@ -66,13 +67,9 @@ class XlsxFormat(CSVFormat):
             data = unit.todict()
 
             for column, field in enumerate(self.store.fieldnames):
-                worksheet.cell(
-                    column=1 + column,
-                    row=2 + row,
-                ).set_explicit_value(
-                    ILLEGAL_CHARACTERS_RE.sub('', data[field]),
-                    data_type="s"
-                )
+                cell = worksheet.cell(column=1 + column, row=2 + row)
+                cell.data_type = TYPE_STRING
+                cell.value = ILLEGAL_CHARACTERS_RE.sub('', data[field])
         workbook.save(handle)
 
     @staticmethod
