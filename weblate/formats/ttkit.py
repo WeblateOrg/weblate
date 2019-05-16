@@ -439,7 +439,13 @@ class XliffUnit(TTKitUnit):
     @cached_property
     def target(self):
         """Return target string from a ttkit unit."""
-        if self.unit is None or self.unit.target is None:
+        if self.unit is None:
+            return ''
+
+        # Use source for monolingual base if target is not set
+        if self.unit.target is None:
+            if self.parent.is_template:
+                return rich_to_xliff_string(self.unit.rich_source)
             return ''
 
         return rich_to_xliff_string(self.unit.rich_target)
