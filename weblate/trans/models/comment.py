@@ -73,6 +73,11 @@ class CommentManager(models.Manager):
         self.bulk_create(comments)
 
 
+class CommentQuerySet(model.QuerySet):
+    def order(self):
+        return self.order_by('timestamp')
+
+
 @python_2_unicode_compatible
 class Comment(UnitData, UserDisplayMixin):
     comment = models.TextField()
@@ -82,10 +87,9 @@ class Comment(UnitData, UserDisplayMixin):
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
-    objects = CommentManager()
+    objects = CommentManager.from_queryset(CommentQuerySet)()
 
     class Meta(object):
-        ordering = ['timestamp']
         app_label = 'trans'
         index_together = [
             ('project', 'language', 'content_hash'),

@@ -764,7 +764,7 @@ class Unit(models.Model, LoggerMixin):
             project=self.translation.component.project,
         ).filter(
             Q(language=self.translation.language) | Q(language=None),
-        )
+        ).order()
 
     def get_source_comments(self):
         """Return list of target comments."""
@@ -772,7 +772,7 @@ class Unit(models.Model, LoggerMixin):
             content_hash=self.content_hash,
             project=self.translation.component.project,
             language=None,
-        )
+        ).order()
 
     def run_checks(self, same_state=True, same_content=True):
         """Update checks for this unit."""
