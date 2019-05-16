@@ -66,7 +66,6 @@ class ConfigurationError(models.Model):
     objects = ConfigurationErrorManager()
 
     class Meta(object):
-        ordering = ['-timestamp']
         index_together = [
             ('ignored', 'timestamp'),
         ]

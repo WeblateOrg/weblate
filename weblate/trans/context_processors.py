@@ -141,7 +141,7 @@ def weblate_context(request):
         'allow_index': False,
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False
-        ),
+        ).order_by('-timestamp'),
     }
 
     add_error_logging_context(context)
