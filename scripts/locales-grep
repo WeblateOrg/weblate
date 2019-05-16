@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from glob import glob
 import sys
+from glob import glob
 
 from translate.storage.pypo import pofile
 
-for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
+for filename in glob("weblate/locale/*/LC_MESSAGES/*.po"):
     print(filename)
     storage = pofile.parsefile(filename)
     for unit in storage.units:

@@ -27,8 +27,8 @@ import re
 from textwrap import TextWrapper
 
 SPLIT_RE = re.compile(
-    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
-    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
+    r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
+    + r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
 )
 
 HEADER = '''# -*- coding: utf-8 -*-
@@ -64,19 +64,15 @@ https://github.com/WeblateOrg/language-data
 from __future__ import unicode_literals
 '''
 
-TEMPLATE = '''    # Translators: Language name, ISO code: {0}
+TEMPLATE = """    # Translators: Language name, ISO code: {0}
     ('{0}', _('{1}'), {2}, '{3}'),
-'''
+"""
 
-WRAPPER = TextWrapper(
-    width=79,
-    initial_indent=' ' * 4,
-    subsequent_indent=' ' * 4,
-)
+WRAPPER = TextWrapper(width=79, initial_indent=" " * 4, subsequent_indent=" " * 4)
 
 # Read languages
-with open('scripts/language-data/languages.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile, delimiter=';')
+with open("scripts/language-data/languages.csv", "r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
     LANGUAGES = list(reader)
 
 # Read aliases
@@ -85,53 +81,48 @@ with open("scripts/language-data/aliases.csv", "r") as csvfile:
     ALIASES = [alias for alias in reader if alias[0] != "#"]
 
 # Read extra plurals
-with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile, delimiter=';')
+with open("scripts/language-data/extraplurals.csv", "r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
     EXTRAPLURALS = list(reader)
 
 # Write language definitions
-with open('weblate/langdata/languages.py', 'w') as output:
+with open("weblate/langdata/languages.py", "w") as output:
     output.write(HEADER)
-    output.write(
-        'from django.utils.translation import ugettext_noop as _\n\n'
-    )
-    output.write('# Language definitions\n')
-    output.write('LANGUAGES = (\n')
+    output.write("from django.utils.translation import ugettext_noop as _\n\n")
+    output.write("# Language definitions\n")
+    output.write("LANGUAGES = (\n")
     for row in LANGUAGES:
-        output.write(TEMPLATE.format(
-            row[0],
-            row[1].replace("'", "\\'"),
-            row[2],
-            row[3],
-        ))
-    output.write(')\n\n')
-    output.write('# Additional plural rules definitions\n')
-    output.write('EXTRAPLURALS = (\n')
+        output.write(
+            TEMPLATE.format(row[0], row[1].replace("'", "\\'"), row[2], row[3])
+        )
+    output.write(")\n\n")
+    output.write("# Additional plural rules definitions\n")
+    output.write("EXTRAPLURALS = (\n")
     for row in EXTRAPLURALS:
-        output.write(TEMPLATE.format(
-            row[0],
-            row[1].replace("'", "\\'"),
-            row[2],
-            row[3],
-        ))
-    output.write(')\n')
-    output.write('# Language aliases\n')
-    output.write('ALIASES = {\n')
+        output.write(
+            TEMPLATE.format(row[0], row[1].replace("'", "\\'"), row[2], row[3])
+        )
+    output.write(")\n")
+    output.write("# Language aliases\n")
+    output.write("ALIASES = {\n")
     for row in ALIASES:
         output.write("    '{}': '{}',\n".format(*row))
-    output.write('}\n')
+    output.write("}\n")
 
 # Generate same check blacklist
 words = set()
+
+
 def add_word(word):
     words.update(SPLIT_RE.split(word.lower()))
 
+
 def process_iso(name):
-    with open('/usr/share/iso-codes/json/iso_{}.json'.format(name), 'r') as handle:
+    with open("/usr/share/iso-codes/json/iso_{}.json".format(name), "r") as handle:
         for item in json.load(handle)[name]:
-            add_word(item['name'])
-            if 'common_name' in item:
-                add_word(item['common_name'])
+            add_word(item["name"])
+            if "common_name" in item:
+                add_word(item["common_name"])
 
 
 # Our languages data
@@ -139,61 +130,62 @@ for row in LANGUAGES:
     add_word(row[1])
 
 # iso-codes
-process_iso('639-2')
-process_iso('639-3')
-process_iso('639-5')
-process_iso('15924')
-process_iso('3166-1')
-process_iso('3166-2')
-process_iso('3166-3')
-process_iso('4217')
+process_iso("639-2")
+process_iso("639-3")
+process_iso("639-5")
+process_iso("15924")
+process_iso("3166-1")
+process_iso("3166-2")
+process_iso("3166-3")
+process_iso("4217")
 
 SKIP = (
-    'administered',
-    'administrative',
-    'and',
-    'are',
-    'association',
-    'autonomous'
-    'auxiliary',
-    'bay',
-    'based',
-    'bassin',
-    'bath',
-    'canal',
-    'canton',
-    'country',
-    'county',
-    'family',
-    'language',
-    'languages',
-    'long',
-    'metropolitan',
-    'miscellaneous',
-    'neutral',
-    'region',
-    'see',
-    'state',
-    'states',
-    'transactions',
-    'trust',
-    'testing',
-    'use',
+    "administered",
+    "administrative",
+    "and",
+    "are",
+    "association",
+    "autonomous" "auxiliary",
+    "bay",
+    "based",
+    "bassin",
+    "bath",
+    "canal",
+    "canton",
+    "country",
+    "county",
+    "family",
+    "language",
+    "languages",
+    "long",
+    "metropolitan",
+    "miscellaneous",
+    "neutral",
+    "region",
+    "see",
+    "state",
+    "states",
+    "transactions",
+    "trust",
+    "testing",
+    "use",
 )
 
 for word in SKIP:
     words.discard(word)
 
 # Write same check blacklist
-with open('weblate/checks/languages.py', 'w') as output:
+with open("weblate/checks/languages.py", "w") as output:
     output.write(HEADER)
-    output.write('\n\n')
-    output.write('# Language names to ignore in same check\n')
-    output.write('LANGUAGES = frozenset((\n')
-    content = ', '.join((
-        '\'{}\''.format(word.replace("'", "\\'"))
-        for word in sorted(words)
-        if len(word) > 2
-    ))
-    output.write('\n'.join(WRAPPER.wrap(content)))
-    output.write('\n))\n')
+    output.write("\n\n")
+    output.write("# Language names to ignore in same check\n")
+    output.write("LANGUAGES = frozenset((\n")
+    content = ", ".join(
+        (
+            "'{}'".format(word.replace("'", "\\'"))
+            for word in sorted(words)
+            if len(word) > 2
+        )
+    )
+    output.write("\n".join(WRAPPER.wrap(content)))
+    output.write("\n))\n")

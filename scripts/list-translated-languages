@@ -1,23 +1,22 @@
 #!/usr/bin/python
 
-import json
-from six.moves.urllib.request import urlopen
+from __future__ import print_function
+
 import imp
+import json
+
+from six.moves.urllib.request import urlopen
+
 import PyICU
 
-URL = 'http://hosted.weblate.org/exports/stats/weblate/master/'
+URL = "http://hosted.weblate.org/exports/stats/weblate/master/"
 THRESHOLD = 40
 
 
-def print_language(lang, fmt='{0} ({1})'):
+def print_language(lang, fmt="{0} ({1})"):
     """Print language code with its name."""
     locale = PyICU.Locale(lang)
-    print(
-        fmt.format(
-            lang,
-            locale.getDisplayName(locale).capitalize().encode('utf-8')
-        )
-    )
+    print(fmt.format(lang, locale.getDisplayName(locale).capitalize().encode("utf-8")))
 
 
 def main():
@@ -31,25 +30,25 @@ def main():
     # select languages
     languages = []
     for lang in data:
-        if lang['translated_percent'] > THRESHOLD:
-            code = lang['code'].replace('_', '-').lower()
-            if code == 'be-latn':
-                code = 'be@latin'
-            elif code == 'nb-no':
-                code = 'nb'
+        if lang["translated_percent"] > THRESHOLD:
+            code = lang["code"].replace("_", "-").lower()
+            if code == "be-latn":
+                code = "be@latin"
+            elif code == "nb-no":
+                code = "nb"
             languages.append(code)
     languages.sort()
-    print 'Expected setup:'
+    print("Expected setup:")
     for lang in languages:
         print_language(lang, fmt="    ('{0}', '{1}'),")
 
     # prepare for checking
     languages = set(languages)
     # we always want english language
-    languages.add('en')
+    languages.add("en")
     # load settings
     extra = set()
-    settings = imp.load_source('settings', './weblate/settings_example.py')
+    settings = imp.load_source("settings", "./weblate/settings_example.py")
     for lang in settings.LANGUAGES:
         if lang[0] in languages:
             languages.remove(lang[0])
@@ -57,13 +56,14 @@ def main():
             extra.add(lang[0])
     # Print results
     if len(extra) > 0:
-        print 'Extra languages:'
+        print("Extra languages:")
         for lang in extra:
             print_language(lang)
     if len(languages) > 0:
-        print 'Missing languages:'
+        print("Missing languages:")
         for lang in languages:
             print_language(lang)
+
 
 if __name__ == "__main__":
     main()
