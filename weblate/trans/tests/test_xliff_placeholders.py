@@ -26,14 +26,19 @@ from django.test import TestCase
 
 from translate.storage.placeables.strelem import StringElem
 from translate.storage.xliff import xlifffile
+from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import rich_to_xliff_string, xliff_string_to_rich
+
+
+TEST_X = get_test_file('placeholder-x.xliff')
+TEST_MRK = get_test_file('placeholder-mrk.xliff')
 
 
 class XliffPlaceholdersTest(TestCase):
 
     def test_bidirectional_xliff_string(self):
         cases = [
-            'foo <x id="INTERPOLATION" equiv-text="{{ angularExpression }}"/> bar',
+            'foo <x id="INTERPOLATION" equiv-text="{{ angular }}"/> bar',
             '',
             'hello world',
             'hello <p>world</p>'
@@ -48,42 +53,22 @@ class XliffPlaceholdersTest(TestCase):
             self.assertEqual(string, final_string)
 
     def test_xliff_roundtrip(self):
-        source = b'''<?xml version='1.0' encoding='UTF-8'?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="en-US" original="Translation Test">
-    <body>
-      <group id="body">
-        <trans-unit id="1761676329" size-unit="char" translate="yes" xml:space="preserve">
-          <source>T: <x id="INTERPOLATION" equiv-text="{{ angularExpression }}"/></source>
-        </trans-unit>
-      </group>
-    </body>
-  </file>
-</xliff>
-'''
+        with open(TEST_X, 'rb') as handle:
+            source = handle.read()
+
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)
         self.assertEqual(
-            'T: <x id="INTERPOLATION" equiv-text="{{ angularExpression }}"/>',
+            'T: <x id="INTERPOLATION" equiv-text="{{ angular }}"/>',
             string
         )
         store.units[0].rich_source = xliff_string_to_rich(string)
         self.assertEqual(source, bytes(store))
 
     def test_xliff_roundtrip_unknown(self):
-        source = b'''<?xml version='1.0' encoding='UTF-8'?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="en-US" original="Translation Test">
-    <body>
-      <group id="body">
-        <trans-unit id="1761676329" size-unit="char" translate="yes" xml:space="preserve">
-          <source>T: <mrk mtype="protected">%s</mrk></source>
-        </trans-unit>
-      </group>
-    </body>
-  </file>
-</xliff>
-'''
+        with open(TEST_MRK, 'rb') as handle:
+            source = handle.read()
+
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)
         self.assertEqual(
