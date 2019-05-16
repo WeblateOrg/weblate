@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 import re
 
-from defusedxml import lxml
+from defusedxml import ElementTree
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
@@ -120,7 +120,7 @@ class BaseXMLCheck(TargetCheck):
         if wrap:
             text = '<weblate>{}</weblate>'.format(text)
 
-        return lxml.fromstring(text.encode('utf-8'))
+        return ElementTree.fromstring(text.encode('utf-8'))
 
     def is_source_xml(self, flags, source):
         """Quick check if source looks like XML."""
