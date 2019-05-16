@@ -43,8 +43,8 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import get_language, pgettext, pgettext_lazy, ugettext
 from django.utils.translation import ugettext_lazy as _
-
 from translation_finder import DiscoveryResult, discover
+
 from weblate.auth.models import User
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
