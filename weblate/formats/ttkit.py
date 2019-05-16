@@ -455,7 +455,7 @@ class XliffUnit(TTKitUnit):
         try:
             converted = xliff_string_to_rich(target)
         except XMLSyntaxError:
-            converted = target
+            converted = [target]
         if self.template is not None:
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
@@ -463,7 +463,7 @@ class XliffUnit(TTKitUnit):
                 return
             if self.unit.source:
                 # Update source if it is already set to keep it in sync
-                self.unit.rich_source = self.template.source
+                self.unit.rich_source = [self.template.source]
         self.unit.rich_target = converted
 
     @cached_property
