@@ -24,10 +24,10 @@ import os.path
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
-from django.utils.encoding import force_text
-
 import translate.__version__
+from django.utils.encoding import force_text
 from translate.storage.po import pofile
+
 from weblate.formats.auto import AutodetectFormat, detect_filename
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (

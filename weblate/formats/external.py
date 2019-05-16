@@ -27,8 +27,8 @@ import six
 from django.utils.translation import ugettext_lazy as _
 from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import TYPE_STRING
-
 from translate.storage.csvl10n import csv
+
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import CSVFormat
 

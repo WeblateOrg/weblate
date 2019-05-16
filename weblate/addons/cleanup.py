@@ -24,9 +24,9 @@ import os
 
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-
 from translate.storage.lisa import LISAfile
 from translate.storage.resx import RESXFile
+
 from weblate.addons.base import UpdateBaseAddon
 from weblate.formats.txt import AppStoreParser
 

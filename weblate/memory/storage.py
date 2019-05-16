@@ -27,11 +27,11 @@ from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext
 from django.utils.translation import ugettext as _
+from translate.misc.xml_helpers import getXMLlang, getXMLspace
+from translate.storage.tmx import tmxfile
 from whoosh import qparser, query
 from whoosh.fields import ID, NUMERIC, STORED, TEXT, SchemaClass
 
-from translate.misc.xml_helpers import getXMLlang, getXMLspace
-from translate.storage.tmx import tmxfile
 from weblate.lang.models import Language
 from weblate.utils.errors import report_error
 from weblate.utils.index import WhooshIndex
