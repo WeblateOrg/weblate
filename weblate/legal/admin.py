@@ -34,3 +34,4 @@ class AgreementAdmin(WeblateModelAdmin):
     ]
     list_filter = ['tos']
     date_hierarchy = 'timestamp'
+    ordering = ['user__username']

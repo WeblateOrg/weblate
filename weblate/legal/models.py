@@ -44,9 +44,6 @@ class Agreement(models.Model):
     user_agent = models.CharField(max_length=200, default='')
     timestamp = models.DateTimeField(auto_now=True)
 
-    class Meta(object):
-        ordering = ['user__username']
-
     def __str__(self):
         return '{0}:{1}'.format(self.user.username, self.tos)
 
