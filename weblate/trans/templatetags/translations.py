@@ -39,9 +39,15 @@ from weblate.accounts.models import Profile
 from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models import (Component, ContributorAgreement, Dictionary,
-                                  Project, Translation, Unit,
-                                  WhiteboardMessage)
+from weblate.trans.models import (
+    Component,
+    ContributorAgreement,
+    Dictionary,
+    Project,
+    Translation,
+    Unit,
+    WhiteboardMessage,
+)
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.utils.docs import get_doc_url

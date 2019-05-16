@@ -52,21 +52,37 @@ from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS_IMPORT
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
-from weblate.trans.signals import (translation_post_add, vcs_post_push,
-                                   vcs_post_update, vcs_pre_push,
-                                   vcs_pre_update)
-from weblate.trans.util import (PRIORITY_CHOICES, cleanup_path,
-                                cleanup_repo_url, is_repo_link, parse_flags,
-                                path_separator)
-from weblate.trans.validators import (validate_autoaccept,
-                                      validate_check_flags, validate_filemask)
+from weblate.trans.signals import (
+    translation_post_add,
+    vcs_post_push,
+    vcs_post_update,
+    vcs_pre_push,
+    vcs_pre_update,
+)
+from weblate.trans.util import (
+    PRIORITY_CHOICES,
+    cleanup_path,
+    cleanup_repo_url,
+    is_repo_link,
+    parse_flags,
+    path_separator,
+)
+from weblate.trans.validators import (
+    validate_autoaccept,
+    validate_check_flags,
+    validate_filemask,
+)
 from weblate.utils import messages
 from weblate.utils.celery import is_task_ready
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import is_fsf_approved, is_osi_approved
-from weblate.utils.render import (render_template, validate_render_addon,
-                                  validate_render_commit,
-                                  validate_render_component, validate_repoweb)
+from weblate.utils.render import (
+    render_template,
+    validate_render_addon,
+    validate_render_commit,
+    validate_render_component,
+    validate_repoweb,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats

@@ -30,6 +30,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from lxml.etree import XMLSyntaxError
 
+import weblate
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore
@@ -40,10 +41,13 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import ID_SEPARATOR, xlifffile
-import weblate
 from weblate.formats.base import TranslationFormat, TranslationUnit
-from weblate.trans.util import (get_string, join_plural, rich_to_xliff_string,
-                                xliff_string_to_rich)
+from weblate.trans.util import (
+    get_string,
+    join_plural,
+    rich_to_xliff_string,
+    xliff_string_to_rich,
+)
 from weblate.utils.errors import report_error
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')

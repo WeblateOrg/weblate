@@ -25,8 +25,7 @@ from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.util import (add_configuration_error,
-                                delete_configuration_error)
+from weblate.trans.util import add_configuration_error, delete_configuration_error
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.models import ConfigurationError

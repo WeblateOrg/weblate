@@ -43,12 +43,22 @@ from weblate.trans.models.source import Source
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
-from weblate.trans.util import (get_distinct_translations, is_plural,
-                                join_plural, parse_flags, split_plural)
+from weblate.trans.util import (
+    get_distinct_translations,
+    is_plural,
+    join_plural,
+    parse_flags,
+    split_plural,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-from weblate.utils.state import (STATE_APPROVED, STATE_CHOICES, STATE_EMPTY,
-                                 STATE_FUZZY, STATE_TRANSLATED)
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_CHOICES,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 
 SIMPLE_FILTERS = {
     'fuzzy': {'state': STATE_FUZZY},

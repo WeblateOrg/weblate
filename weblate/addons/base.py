@@ -27,9 +27,13 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 
-from weblate.addons.events import (EVENT_DAILY, EVENT_POST_COMMIT,
-                                   EVENT_POST_PUSH, EVENT_POST_UPDATE,
-                                   EVENT_STORE_POST_LOAD)
+from weblate.addons.events import (
+    EVENT_DAILY,
+    EVENT_POST_COMMIT,
+    EVENT_POST_PUSH,
+    EVENT_POST_UPDATE,
+    EVENT_STORE_POST_LOAD,
+)
 from weblate.addons.forms import BaseAddonForm
 from weblate.trans.util import get_clean_env
 from weblate.utils.render import render_template

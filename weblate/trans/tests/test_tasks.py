@@ -26,8 +26,11 @@ from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.trans.models import Comment, Suggestion
-from weblate.trans.tasks import (cleanup_old_comments, cleanup_old_suggestions,
-                                 cleanup_suggestions)
+from weblate.trans.tasks import (
+    cleanup_old_comments,
+    cleanup_old_suggestions,
+    cleanup_suggestions,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 

@@ -50,24 +50,46 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView, TemplateView
 from rest_framework.authtoken.models import Token
 from social_core.backends.utils import load_backends
-from social_core.exceptions import (AuthAlreadyAssociated, AuthCanceled,
-                                    AuthFailed, AuthForbidden,
-                                    AuthMissingParameter, AuthStateForbidden,
-                                    AuthStateMissing, InvalidEmail)
+from social_core.exceptions import (
+    AuthAlreadyAssociated,
+    AuthCanceled,
+    AuthFailed,
+    AuthForbidden,
+    AuthMissingParameter,
+    AuthStateForbidden,
+    AuthStateMissing,
+    InvalidEmail,
+)
 from social_django.views import auth, complete
 
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.forms import (CaptchaForm, ContactForm,
-                                    DashboardSettingsForm, EmailForm,
-                                    EmptyConfirmForm, HostingForm, LoginForm,
-                                    NotificationForm, PasswordConfirmForm,
-                                    ProfileForm, RegistrationForm, ResetForm,
-                                    SetPasswordForm, SubscriptionForm,
-                                    UserForm, UserSettingsForm)
+from weblate.accounts.forms import (
+    CaptchaForm,
+    ContactForm,
+    DashboardSettingsForm,
+    EmailForm,
+    EmptyConfirmForm,
+    HostingForm,
+    LoginForm,
+    NotificationForm,
+    PasswordConfirmForm,
+    ProfileForm,
+    RegistrationForm,
+    ResetForm,
+    SetPasswordForm,
+    SubscriptionForm,
+    UserForm,
+    UserSettingsForm,
+)
 from weblate.accounts.models import AuditLog, set_lang
-from weblate.accounts.notifications import (FREQ_NONE, NOTIFICATIONS,
-                                            SCOPE_ADMIN, SCOPE_COMPONENT,
-                                            SCOPE_DEFAULT, SCOPE_PROJECT)
+from weblate.accounts.notifications import (
+    FREQ_NONE,
+    NOTIFICATIONS,
+    SCOPE_ADMIN,
+    SCOPE_COMPONENT,
+    SCOPE_DEFAULT,
+    SCOPE_PROJECT,
+)
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 from weblate.logger import LOGGER

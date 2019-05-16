@@ -29,8 +29,12 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.forms import (CheckFlagsForm, ContextForm,
-                                 MatrixLanguageForm, PriorityForm)
+from weblate.trans.forms import (
+    CheckFlagsForm,
+    ContextForm,
+    MatrixLanguageForm,
+    PriorityForm,
+)
 from weblate.trans.models import Source, Translation, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages

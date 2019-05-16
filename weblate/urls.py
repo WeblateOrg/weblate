@@ -62,9 +62,13 @@ import weblate.trans.views.widgets
 import weblate.wladmin.sites
 from weblate.auth.decorators import management_access
 from weblate.sitemaps import SITEMAPS
-from weblate.trans.feeds import (ChangesFeed, ComponentChangesFeed,
-                                 LanguageChangesFeed, ProjectChangesFeed,
-                                 TranslationChangesFeed)
+from weblate.trans.feeds import (
+    ChangesFeed,
+    ComponentChangesFeed,
+    LanguageChangesFeed,
+    ProjectChangesFeed,
+    TranslationChangesFeed,
+)
 from weblate.trans.views.changes import ChangesCSVView, ChangesView
 
 # URL regexp for language code

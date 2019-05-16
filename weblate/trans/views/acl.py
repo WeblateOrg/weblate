@@ -26,8 +26,11 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.auth.models import Group, User
-from weblate.trans.forms import (DisabledProjectAccessForm, ProjectAccessForm,
-                                 UserManageForm)
+from weblate.trans.forms import (
+    DisabledProjectAccessForm,
+    ProjectAccessForm,
+    UserManageForm,
+)
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages

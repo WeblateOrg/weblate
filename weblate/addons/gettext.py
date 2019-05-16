@@ -29,8 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_POST_ADD, EVENT_PRE_COMMIT
-from weblate.addons.forms import (GenerateMoForm, GettextCustomizeForm,
-                                  MsgmergeForm)
+from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
 from weblate.formats.exporters import MoExporter
 
 

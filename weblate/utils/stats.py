@@ -32,8 +32,12 @@ from django.utils.functional import cached_property
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.util import translation_percent
 from weblate.utils.query import conditional_sum
-from weblate.utils.state import (STATE_APPROVED, STATE_EMPTY, STATE_FUZZY,
-                                 STATE_TRANSLATED)
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 
 BASICS = frozenset((
     'all', 'fuzzy', 'todo', 'translated', 'approved', 'allchecks',

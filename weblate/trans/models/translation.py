@@ -41,10 +41,13 @@ from weblate.trans.filter import get_filter_choice
 from weblate.trans.mixins import LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
-from weblate.trans.models.unit import (STATE_APPROVED, STATE_FUZZY,
-                                       STATE_TRANSLATED, Unit)
-from weblate.trans.signals import (store_post_load, vcs_post_commit,
-                                   vcs_pre_commit)
+from weblate.trans.models.unit import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+    Unit,
+)
+from weblate.trans.signals import store_post_load, vcs_post_commit, vcs_pre_commit
 from weblate.trans.util import split_plural
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url

@@ -33,18 +33,34 @@ from django.views.decorators.cache import never_cache
 
 from weblate.formats.exporters import list_exporters
 from weblate.lang.models import Language
-from weblate.trans.forms import (AutoForm, BulkStateForm, ComponentMoveForm,
-                                 ComponentRenameForm, DeleteForm, DownloadForm,
-                                 NewUnitForm, ProjectRenameForm, ReplaceForm,
-                                 ReportsForm, ReviewForm, SearchForm,
-                                 WhiteboardForm, get_new_language_form,
-                                 get_upload_form)
+from weblate.trans.forms import (
+    AutoForm,
+    BulkStateForm,
+    ComponentMoveForm,
+    ComponentRenameForm,
+    DeleteForm,
+    DownloadForm,
+    NewUnitForm,
+    ProjectRenameForm,
+    ReplaceForm,
+    ReportsForm,
+    ReviewForm,
+    SearchForm,
+    WhiteboardForm,
+    get_new_language_form,
+    get_upload_form,
+)
 from weblate.trans.models import Change, ComponentList, Translation, Unit
 from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import (get_component, get_paginator, get_project,
-                                 get_translation, try_set_language)
+from weblate.utils.views import (
+    get_component,
+    get_paginator,
+    get_project,
+    get_translation,
+    try_set_language,
+)
 
 
 def optional_form(form, perm_user, perm, perm_obj, **kwargs):

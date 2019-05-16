@@ -36,9 +36,12 @@ from django.utils.functional import cached_property
 from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 
-from weblate.trans.util import (add_configuration_error,
-                                delete_configuration_error, get_clean_env,
-                                path_separator)
+from weblate.trans.util import (
+    add_configuration_error,
+    delete_configuration_error,
+    get_clean_env,
+    path_separator,
+)
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger('weblate.vcs')

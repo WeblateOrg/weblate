@@ -34,8 +34,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.formats.exporters import get_exporter
 from weblate.lang.models import Language
-from weblate.trans.forms import (DictUploadForm, LetterForm, OneWordForm,
-                                 WordForm)
+from weblate.trans.forms import DictUploadForm, LetterForm, OneWordForm, WordForm
 from weblate.trans.models import Change, Dictionary, Translation, Unit
 from weblate.trans.util import redirect_next, redirect_param, render
 from weblate.utils import messages

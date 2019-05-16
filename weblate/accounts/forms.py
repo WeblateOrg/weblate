@@ -23,8 +23,11 @@ from __future__ import unicode_literals
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Fieldset, Layout
 from django import forms
-from django.contrib.auth import (authenticate, password_validation,
-                                 update_session_auth_hash)
+from django.contrib.auth import (
+    authenticate,
+    password_validation,
+    update_session_auth_hash,
+)
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
 from django.forms.widgets import EmailInput
@@ -37,9 +40,13 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.models import AuditLog, Profile
-from weblate.accounts.notifications import (NOTIFICATIONS, SCOPE_ADMIN,
-                                            SCOPE_CHOICES, SCOPE_DEFAULT,
-                                            SCOPE_PROJECT)
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
+    SCOPE_ADMIN,
+    SCOPE_CHOICES,
+    SCOPE_DEFAULT,
+    SCOPE_PROJECT,
+)
 from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -48,8 +55,11 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
-from weblate.utils.validators import (validate_email, validate_fullname,
-                                      validate_username)
+from weblate.utils.validators import (
+    validate_email,
+    validate_fullname,
+    validate_username,
+)
 
 
 class UniqueEmailMixin(object):

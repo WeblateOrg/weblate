@@ -38,8 +38,15 @@ from weblate.celery import app
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import (Change, Comment, Component, Project, Source,
-                                  Suggestion, Unit)
+from weblate.trans.models import (
+    Change,
+    Comment,
+    Component,
+    Project,
+    Source,
+    Suggestion,
+    Unit,
+)
 from weblate.trans.search import Fulltext
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly

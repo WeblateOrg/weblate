@@ -24,9 +24,15 @@ Tests for quality checks.
 
 from __future__ import unicode_literals
 
-from weblate.checks.markup import (BBCodeCheck, MarkdownLinkCheck,
-                                   MarkdownRefLinkCheck, MarkdownSyntaxCheck,
-                                   URLCheck, XMLTagsCheck, XMLValidityCheck)
+from weblate.checks.markup import (
+    BBCodeCheck,
+    MarkdownLinkCheck,
+    MarkdownRefLinkCheck,
+    MarkdownSyntaxCheck,
+    URLCheck,
+    XMLTagsCheck,
+    XMLValidityCheck,
+)
 from weblate.checks.tests.test_checks import CheckTestCase
 
 

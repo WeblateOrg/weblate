@@ -30,7 +30,6 @@ https://github.com/WeblateOrg/language-data
 
 from __future__ import unicode_literals
 
-
 # Language names to ignore in same check
 LANGUAGES = frozenset((
     'aakkâr', 'aargau', 'aari', 'aasáx', 'abaco', 'abad', 'abadi', 'abaga',

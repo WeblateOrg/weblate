@@ -18,8 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.autofixes.base import AutoFix
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.trans.autofixes.base import AutoFix
 
 
 class ReplaceFooWithBar(AutoFix):

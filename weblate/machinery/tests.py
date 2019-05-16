@@ -40,7 +40,9 @@ from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
-    MST_API_URL, MicrosoftTerminologyService)
+    MST_API_URL,
+    MicrosoftTerminologyService,
+)
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub

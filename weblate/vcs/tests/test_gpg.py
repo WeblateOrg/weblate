@@ -28,8 +28,12 @@ from django.test.utils import override_settings
 
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.vcs.gpg import (generate_gpg_key, get_gpg_key, get_gpg_public_key,
-                             get_gpg_sign_key)
+from weblate.vcs.gpg import (
+    generate_gpg_key,
+    get_gpg_key,
+    get_gpg_public_key,
+    get_gpg_sign_key,
+)
 
 
 class GPGTest(TestCase):

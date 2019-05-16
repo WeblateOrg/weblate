@@ -36,12 +36,16 @@ from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.example_pre import ExamplePreAddon
-from weblate.addons.flags import (SameEditAddon, SourceEditAddon,
-                                  TargetEditAddon)
+from weblate.addons.flags import SameEditAddon, SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
-from weblate.addons.gettext import (GenerateMoAddon, GettextAuthorComments,
-                                    GettextCustomizeAddon, MsgmergeAddon,
-                                    UpdateConfigureAddon, UpdateLinguasAddon)
+from weblate.addons.gettext import (
+    GenerateMoAddon,
+    GettextAuthorComments,
+    GettextCustomizeAddon,
+    MsgmergeAddon,
+    UpdateConfigureAddon,
+    UpdateLinguasAddon,
+)
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.models import ADDONS, Addon
@@ -49,8 +53,7 @@ from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
 from weblate.addons.tasks import daily_addons
 from weblate.lang.models import Language
-from weblate.trans.models import (Comment, Component, Suggestion, Translation,
-                                  Unit, Vote)
+from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 

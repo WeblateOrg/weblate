@@ -29,8 +29,12 @@ from django.core.exceptions import ImproperlyConfigured
 
 import weblate
 from weblate.utils.docs import get_doc_url
-from weblate.vcs.git import (GithubRepository, GitRepository,
-                             GitWithGerritRepository, SubversionRepository)
+from weblate.vcs.git import (
+    GithubRepository,
+    GitRepository,
+    GitWithGerritRepository,
+    SubversionRepository,
+)
 from weblate.vcs.mercurial import HgRepository
 
 

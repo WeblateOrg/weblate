@@ -22,8 +22,7 @@ from __future__ import unicode_literals
 
 from django.test import SimpleTestCase
 
-from weblate.utils.hash import (calculate_hash, checksum_to_hash,
-                                hash_to_checksum)
+from weblate.utils.hash import calculate_hash, checksum_to_hash, hash_to_checksum
 
 
 class HashTest(SimpleTestCase):

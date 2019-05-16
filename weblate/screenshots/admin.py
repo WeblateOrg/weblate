@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from django.contrib import admin
+
 from weblate.wladmin.models import WeblateModelAdmin
 
 

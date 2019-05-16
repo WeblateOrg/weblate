@@ -19,8 +19,8 @@
 #
 """Machine translation example."""
 
-from weblate.machinery.base import MachineTranslation
 import dictionary
+from weblate.machinery.base import MachineTranslation
 
 
 class SampleTranslation(MachineTranslation):

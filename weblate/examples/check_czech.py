@@ -19,8 +19,9 @@
 #
 """Quality check example for Czech plurals."""
 
-from weblate.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.checks.base import TargetCheck
 
 
 class PluralCzechCheck(TargetCheck):

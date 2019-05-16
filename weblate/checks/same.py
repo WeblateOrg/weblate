@@ -27,8 +27,12 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import SAME_BLACKLIST
-from weblate.checks.format import (C_PRINTF_MATCH, PHP_PRINTF_MATCH,
-                                   PYTHON_BRACE_MATCH, PYTHON_PRINTF_MATCH)
+from weblate.checks.format import (
+    C_PRINTF_MATCH,
+    PHP_PRINTF_MATCH,
+    PYTHON_BRACE_MATCH,
+    PYTHON_PRINTF_MATCH,
+)
 from weblate.checks.languages import LANGUAGES
 
 # Email address to ignore
