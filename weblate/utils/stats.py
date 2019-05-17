@@ -326,7 +326,7 @@ class TranslationStats(BaseStats):
             except Change.DoesNotExist:
                 pass
         try:
-            last_change = self._object.change_set.content()[0]
+            last_change = self._object.change_set.content().order()[0]
         except IndexError:
             return None
 
