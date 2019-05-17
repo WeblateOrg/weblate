@@ -138,10 +138,10 @@ class BaseAddon(object):
             components = [root] + list(root.linked_childs)
         else:
             components = [self.instance.component]
-        translations = self.instance.component.translation_set.all()
         if EVENT_POST_COMMIT in self.events:
-            for translation in translations:
-                self.post_commit(translation)
+            for component in components:
+                for translation in component.translation_set.iterator()
+                    self.post_commit(translation)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
                 self.post_update(component, '')
