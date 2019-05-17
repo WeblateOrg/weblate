@@ -180,7 +180,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * The Celery now uses separate queue for notifications, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
-* There are new (``bleach``) and updated (``translation-finder``) dependencies.
+* There are new (``bleach``, ``gobject``, ``pycairo``) and updated (``translation-finder``) dependencies.
 * There are new addons, you might want to include them in case you modified the :setting:`WEBLATE_ADDONS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`

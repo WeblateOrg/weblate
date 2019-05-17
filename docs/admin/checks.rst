@@ -42,6 +42,14 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
+``font-family``
+    Define font family for rendering checks, see :ref:`fonts`.
+``font-weight``
+    Define font weight for rendering checks, see :ref:`fonts`.
+``font-size``
+    Define font size for rendering checks, see :ref:`fonts`.
+``font-spacing``
+    Define font spacing for rendering checks, see :ref:`fonts`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
@@ -114,6 +122,39 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
 
 These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
+
+.. _fonts:
+
+Managing fonts
+--------------
+
+.. versionadded:: 3.7
+
+The :ref:`check-max-size` check needs fonts to properly calculate dimensions
+of rendered text. The fonts can be managed in Weblate in the font management
+tool which you can find as :guilabel:`Fonts` under :guilabel:`Tools` menu of
+your translation project.
+
+You can upload TrueType or OpenType fonts, configure font groups and use those
+in the the check.
+
+The font groups allow you to define different fonts for different languages,
+what is typically needed for non latin languages:
+
+.. image:: /images/font-group-edit.png
+
+The font groups are identified by name, which can not contain whitespace or
+special chars to be easy to use in check definition:
+
+.. image:: /images/font-group-list.png
+
+After upload the font family and style is automatically recognized:
+
+.. image:: /images/font-edit.png
+
+You can have number of fonts loaded into Weblate:
+
+.. image:: /images/font-list.png
 
 
 .. _own-checks:

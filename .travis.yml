@@ -32,7 +32,8 @@ install:
   - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_DEPS Cython
-  - pip install -r requirements-optional.txt -r requirements-test.txt -r ci/requirements-travis.txt -r docs/requirements.txt
+  - pip install -r ci/requirements-travis.txt
+  - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
@@ -97,6 +98,9 @@ addons:
     packages:
     - git-svn
     - graphviz
+    - libcairo-dev
+    - gir1.2-pango-1.0
+    - libgirepository1.0-dev
     - g++
     sources:
     - git-core

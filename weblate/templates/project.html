@@ -76,6 +76,7 @@
       <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_project %}
+      <li><a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a></li>
       <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
       {% if delete_form or rename_form %}

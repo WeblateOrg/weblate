@@ -445,6 +445,8 @@ Checks that XML tags are replicated between both source and translation.
 Markdown link references
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 3.5
+
 Markdown link references does not match source.
 
 .. seealso::
@@ -455,6 +457,8 @@ Markdown link references does not match source.
 
 Markdown links
 ~~~~~~~~~~~~~~
+
+.. versionadded:: 3.5
 
 Markdown links do not match source.
 
@@ -467,6 +471,8 @@ Markdown links do not match source.
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.5
 
 Markdown syntax does not match source
 
@@ -483,6 +489,8 @@ Markdown syntax does not match source
 Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 3.5
+
 The decorative Kashida letters should not be used in translation. These are
 also known as Tatweel.
 
@@ -495,9 +503,38 @@ also known as Tatweel.
 URL
 ~~~
 
+.. versionadded:: 3.5
+
 The translation does not contain an URL. This is triggered only in case the
 unit is marked as containing URL. In that case the translation has to be a
 valid URL.
+
+.. _check-max-size:
+
+Maximum size of translation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.7
+
+Translation rendered text should not exceed given size. It renders the text
+with line wrapping and checks if it fits into given boundaries.
+
+This check needs one or two parameters - maximal width and maximal number of
+lines. In case the number of lines is not provided, one line text is
+considered.
+
+You can also configured used font by `font-*` directives (see
+:ref:`custom-checks`), for example following translation flags say that the
+text rendered with ubuntu font size 22 should fit into two lines and 500
+pixels:
+
+.. code-block:: text
+
+   max-size:500:2, font-family:ubuntu, font-size:22
+
+.. seealso::
+
+   :ref:`fonts`, :ref:`custom-checks`
 
 Source checks
 -------------

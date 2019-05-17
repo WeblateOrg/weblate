@@ -24,6 +24,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
 from weblate.checks import CHECKS
+from weblate.fonts.utils import get_font_weight
 
 PLAIN_FLAGS = {
     v.enable_string: v.name
@@ -43,6 +44,15 @@ PLAIN_FLAGS["url"] = ugettext_lazy("URL")
 PLAIN_FLAGS["auto-java-messageformat"] = ugettext_lazy(
     "Automatically detect Java MessageFormat"
 )
+
+TYPED_FLAGS["font-family"] = ugettext_lazy("Font family")
+TYPED_FLAGS_ARGS["font-family"] = six.text_type
+TYPED_FLAGS["font-size"] = ugettext_lazy("Font size")
+TYPED_FLAGS_ARGS["font-size"] = int
+TYPED_FLAGS["font-weight"] = ugettext_lazy("Font weight")
+TYPED_FLAGS_ARGS["font-weight"] = get_font_weight
+TYPED_FLAGS["font-spacing"] = ugettext_lazy("Font spacing")
+TYPED_FLAGS_ARGS["font-spacing"] = int
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 

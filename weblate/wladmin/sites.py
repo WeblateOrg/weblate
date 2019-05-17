@@ -49,6 +49,8 @@ from weblate.auth.admin import (
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
+from weblate.fonts.admin import FontAdmin, FontGroupAdmin
+from weblate.fonts.models import Font, FontGroup
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.screenshots.admin import ScreenshotAdmin
@@ -113,6 +115,10 @@ class WeblateAdminSite(AdminSite):
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
+
+        # Fonts
+        self.register(Font, FontAdmin)
+        self.register(FontGroup, FontGroupAdmin)
 
         # Translations
         self.register(Project, ProjectAdmin)

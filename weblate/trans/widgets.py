@@ -28,7 +28,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from PIL import Image, ImageDraw
 
-from weblate.utils.fonts import get_font, is_base
+from weblate.fonts.utils import get_font, is_base
 from weblate.utils.site import get_site_url
 
 try:
