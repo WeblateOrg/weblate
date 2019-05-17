@@ -65,6 +65,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.chars.NewlineCountingCheck',
         'weblate.checks.markup.BBCodeCheck',
         'weblate.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.checks.render.MaxSizeCheck',
         'weblate.checks.markup.XMLValidityCheck',
         'weblate.checks.markup.XMLTagsCheck',
         'weblate.checks.markup.MarkdownRefLinkCheck',

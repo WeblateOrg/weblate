@@ -34,6 +34,7 @@ import weblate.accounts.views
 import weblate.addons.views
 import weblate.api.urls
 import weblate.checks.views
+import weblate.fonts.views
 import weblate.lang.views
 import weblate.memory.views
 import weblate.screenshots.views
@@ -315,6 +316,21 @@ real_patterns = [
         r'^settings/' + COMPONENT + '$',
         weblate.trans.views.settings.change_component,
         name='settings',
+    ),
+    url(
+        r'^fonts/' + PROJECT + '$',
+        weblate.fonts.views.FontListView.as_view(),
+        name='fonts',
+    ),
+    url(
+        r'^fonts/' + PROJECT + 'font/(?P<pk>[0-9]+)/$',
+        weblate.fonts.views.FontDetailView.as_view(),
+        name='font',
+    ),
+    url(
+        r'^fonts/' + PROJECT + 'group/(?P<pk>[0-9]+)/$',
+        weblate.fonts.views.FontGroupDetailView.as_view(),
+        name='font_group',
     ),
     url(
         r'^create/project/$',

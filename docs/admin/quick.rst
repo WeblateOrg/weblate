@@ -29,13 +29,13 @@ development server.
    .. code-block:: sh
 
         # Debian/Ubuntu:
-        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential python3-gdbm
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python3-dev build-essential python3-gdbm libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev
 
         # openSUSE/SLES:
-        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel cairo-devel typelib-1_0-Pango-1_0 gobject-introspection-devel
 
         # Fedora/RHEL/CentOS:
-        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python3-devel cairo-devel typelib-1_0-Pango-1_0 gobject-introspection-devel
 
 #. Install pip and virtualenv. Usually they are shipped by your distribution or
    with Python:

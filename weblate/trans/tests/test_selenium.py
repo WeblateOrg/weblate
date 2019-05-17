@@ -56,6 +56,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from six.moves.http_client import HTTPConnection
 
 import weblate.screenshots.views
+from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Dictionary, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -80,6 +81,11 @@ TEST_BACKENDS = (
     'social_core.backends.fedora.FedoraOpenId',
     'social_core.backends.facebook.FacebookOAuth2',
     'weblate.accounts.auth.WeblateUserBackend',
+)
+
+UBUNTU_FONT = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "static", "font-ubuntu", "fonts", "ubuntu-bold-webfont.ttf",
 )
 
 
@@ -1149,3 +1155,72 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Duplicates')
         self.click('Alerts')
         self.screenshot('alerts.png')
+
+    def test_fonts(self):
+        self.create_component()
+        self.do_login(superuser=True)
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
+        self.click('Manage')
+        with self.wait_for_page_load():
+            self.click('Fonts')
+
+        self.click(self.driver.find_element_by_id('tab_fonts'))
+
+        # Upload font
+        element = self.driver.find_element_by_id('id_font')
+        element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
+        with self.wait_for_page_load():
+            element.submit()
+
+        self.screenshot('font-edit.png')
+
+        with self.wait_for_page_load():
+            self.click("Fonts")
+
+        # Upload second fint
+        element = self.driver.find_element_by_id('id_font')
+        element.send_keys(element._upload(UBUNTU_FONT))  # noqa: SF01,SLF001
+        with self.wait_for_page_load():
+            element.submit()
+
+        with self.wait_for_page_load():
+            self.click("Fonts")
+
+        self.screenshot('font-list.png')
+
+        self.click(self.driver.find_element_by_id('tab_groups'))
+
+        # Create group
+        Select(
+            self.driver.find_element_by_id('id_group_font')
+        ).select_by_visible_text('Ubuntu Bold')
+        element = self.driver.find_element_by_id('id_group_name')
+        element.send_keys('default-font')
+        with self.wait_for_page_load():
+            element.submit()
+
+        Select(
+            self.driver.find_element_by_id('id_font')
+        ).select_by_visible_text('Droid Sans Fallback Regular')
+        element = self.driver.find_element_by_id('id_language')
+        Select(element).select_by_visible_text('Japanese')
+        with self.wait_for_page_load():
+            element.submit()
+        Select(
+            self.driver.find_element_by_id('id_font')
+        ).select_by_visible_text('Droid Sans Fallback Regular')
+        element = self.driver.find_element_by_id('id_language')
+        Select(element).select_by_visible_text('Korean')
+        with self.wait_for_page_load():
+            element.submit()
+
+        self.screenshot('font-group-edit.png')
+
+        with self.wait_for_page_load():
+            self.click('Font groups')
+
+        self.screenshot('font-group-list.png')

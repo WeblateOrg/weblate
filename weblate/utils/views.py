@@ -63,12 +63,23 @@ def get_paginator(request, object_list, default_page_limit=50):
 
 
 class ComponentViewMixin(object):
+
+    # This should be done in setup once we drop support for older Django
     def get_component(self):
         return get_component(
             self.request,
             self.kwargs['project'],
             self.kwargs['component']
         )
+
+
+class ProjectViewMixin(object):
+    project = None
+
+    # This should be done in setup once we drop support for older Django
+    def dispatch(self, request, *args, **kwargs):
+        self.project = get_project(self.request, self.kwargs["project"])
+        return super(ProjectViewMixin, self).dispatch(request, *args, **kwargs)
 
 
 def get_translation(request, project, component, lang, skip_acl=False):

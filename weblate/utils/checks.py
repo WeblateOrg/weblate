@@ -245,6 +245,7 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir('memory'),
         data_dir('celery'),
         data_dir('backups'),
+        data_dir('fonts'),
     ]
     message = 'Path {} is not writable, check your DATA_DIR settings.'
     for path in dirs:
