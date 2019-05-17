@@ -1,5 +1,6 @@
 """Sphinx plugins for Django documentation."""
 import re
+
 from sphinx import addnodes
 from sphinx.domains.std import Cmdoption
 
