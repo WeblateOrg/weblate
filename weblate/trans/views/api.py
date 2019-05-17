@@ -53,7 +53,7 @@ def export_stats_project(request, project):
 def export_stats(request, project, component):
     """Export stats in JSON format."""
     subprj = get_component(request, project, component)
-    translations = subprj.translation_set.order_by('name')
+    translations = subprj.translation_set.order_by('language_code')
 
     return export_response(
         request,
