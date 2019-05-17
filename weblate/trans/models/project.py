@@ -43,6 +43,11 @@ from weblate.utils.stats import ProjectStats
 from weblate.utils.unitdata import filter_query
 
 
+class ProjectQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by('name')
+
+
 @python_2_unicode_compatible
 class Project(models.Model, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
@@ -137,8 +142,9 @@ class Project(models.Model, URLMixin, PathMixin):
     is_lockable = True
     _reverse_url_name = 'project'
 
+    objects = ProjectQuerySet.as_manager()
+
     class Meta(object):
-        ordering = ['name']
         app_label = 'trans'
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')

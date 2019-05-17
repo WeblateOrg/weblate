@@ -191,12 +191,12 @@ class CreateComponent(BaseCreateView):
         else:
             self.stage = 'init'
         if self.request.user.is_superuser:
-            self.projects = Project.objects.all()
+            self.projects = Project.objects.order()
         elif self.has_billing:
             from weblate.billing.models import Billing
             self.projects = request.user.owned_projects.filter(
                 billing__in=Billing.objects.get_valid()
-            )
+            ).order()
         else:
             self.projects = request.user.owned_projects
 

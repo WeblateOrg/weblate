@@ -471,8 +471,8 @@ class User(AbstractBaseUser):
     def allowed_projects(self):
         """List of allowed projects."""
         if self.is_superuser:
-            return Project.objects.all()
-        return Project.objects.filter(group__user=self).distinct()
+            return Project.objects.order()
+        return Project.objects.filter(group__user=self).distinct().order()
 
     @cached_property
     def owned_projects(self):
@@ -480,11 +480,11 @@ class User(AbstractBaseUser):
 
     def projects_with_perm(self, perm):
         if self.is_superuser:
-            return Project.objects.all()
+            return Project.objects.all().order()
         groups = Group.objects.filter(
             user=self, roles__permissions__codename=perm
         )
-        return Project.objects.filter(group__in=groups).distinct()
+        return Project.objects.filter(group__in=groups).distinct().order()
 
     def get_visible_name(self):
         # Get full name from database
