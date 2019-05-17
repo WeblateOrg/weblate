@@ -36,7 +36,7 @@ class PagesSitemap(Sitemap):
         return obj[0]
 
     def lastmod(self, item):
-        return Change.objects.values_list('timestamp', flat=True)[0]
+        return Change.objects.values_list('timestamp', flat=True).order()[0]
 
     def priority(self, item):
         return item[1]
@@ -62,7 +62,7 @@ class ProjectSitemap(WeblateSitemap):
     def items(self):
         return Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by('id')
 
 
 class ComponentSitemap(WeblateSitemap):
@@ -71,7 +71,7 @@ class ComponentSitemap(WeblateSitemap):
     def items(self):
         return Component.objects.prefetch().filter(
             project__access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by('id')
 
 
 class TranslationSitemap(WeblateSitemap):
@@ -80,7 +80,7 @@ class TranslationSitemap(WeblateSitemap):
     def items(self):
         return Translation.objects.prefetch().filter(
             component__project__access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by('id')
 
 
 class EngageSitemap(ProjectSitemap):
@@ -100,7 +100,7 @@ class EngageLangSitemap(Sitemap):
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        )
+        ).order_by_('id')
         for project in projects:
             for lang in project.languages:
                 ret.append((project, lang))
