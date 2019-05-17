@@ -430,7 +430,7 @@ class ComponentStats(LanguageStats):
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate(language=language)
-        for clist in self._object.componentlist_set.all():
+        for clist in self._object.componentlist_set.iterator():
             clist.stats.invalidate()
 
     def get_language_stats(self):
@@ -465,7 +465,7 @@ class ProjectLanguageStats(LanguageStats):
     @cached_property
     def translation_set(self):
         result = []
-        for component in self._object.component_set.all():
+        for component in self._object.component_set.iterator():
             result.extend(
                 component.translation_set.filter(
                     language_id=self.language.pk

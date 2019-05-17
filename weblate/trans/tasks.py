@@ -180,7 +180,7 @@ def cleanup_source_data(project):
 
 
 def cleanup_language_data(project):
-    for lang in Language.objects.all():
+    for lang in Language.objects.iterator():
         with transaction.atomic():
             # List current unit content_hashs
             units = Unit.objects.filter(

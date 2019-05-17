@@ -91,7 +91,7 @@ class Plan(models.Model):
 
 class BillingManager(models.Manager):
     def check_limits(self, grace=30):
-        for bill in self.all():
+        for bill in self.iterator():
             bill.check_limits(grace)
 
 
@@ -236,7 +236,7 @@ class Billing(models.Model):
 
     def count_strings(self):
         return sum(
-            (p.stats.source_strings for p in self.projects.all())
+            (p.stats.source_strings for p in self.projects.iterator())
         )
 
     def display_strings(self):
@@ -248,7 +248,7 @@ class Billing(models.Model):
 
     def count_words(self):
         return sum(
-            (p.stats.source_words for p in self.projects.all())
+            (p.stats.source_words for p in self.projects.iterator())
         )
 
     def display_words(self):
@@ -376,7 +376,7 @@ class Billing(models.Model):
 
     def get_notify_users(self):
         users = self.owners.distinct()
-        for project in self.projects.all():
+        for project in self.projects.iterator():
             users |= User.objects.having_perm('billing.view', project)
         return users
 

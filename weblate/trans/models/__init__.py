@@ -160,21 +160,21 @@ def change_componentlist(sender, instance, **kwargs):
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
 def auto_componentlist(sender, instance, **kwargs):
-    for component in Component.objects.all():
+    for component in Component.objects.iterator():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def auto_project_componentlist(sender, instance, **kwargs):
-    for component in instance.component_set.all():
+    for component in instance.component_set.iterator():
         auto_component_list(sender, component)
 
 
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
 def auto_component_list(sender, instance, **kwargs):
-    for auto in AutoComponentList.objects.all():
+    for auto in AutoComponentList.objects.iterator():
         auto.check_match(instance)
 
 
@@ -189,10 +189,10 @@ def post_save_update_checks(sender, instance, **kwargs):
 @app.task
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
-    for translation in component.translation_set.all():
-        for unit in translation.unit_set.all():
+    for translation in component.translation_set.iterator():
+        for unit in translation.unit_set.iterator():
             unit.run_checks()
-    for source in component.source_set.all():
+    for source in component.source_set.iterator():
         source.run_checks()
-    for translation in component.translation_set.all():
+    for translation in component.translation_set.iterator():
         translation.invalidate_cache()

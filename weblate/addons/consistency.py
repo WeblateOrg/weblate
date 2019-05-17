@@ -39,7 +39,7 @@ class LangaugeConsistencyAddon(BaseAddon):
     project_scope = True
 
     def ensure_all_have(self, project, languages):
-        for component in project.component_set.all():
+        for component in project.component_set.iterator():
             missing = languages.exclude(translation__component=component)
             for language in missing:
                 component.add_new_language(language, None, send_signal=False)

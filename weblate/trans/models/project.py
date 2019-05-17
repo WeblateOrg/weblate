@@ -190,10 +190,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @property
     def locked(self):
-        components = self.component_set.all()
-        if not components:
-            return False
-        return max((component.locked for component in components))
+        return any((component.locked for component in self.component_set.iterator()))
 
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)
@@ -210,7 +207,7 @@ class Project(models.Model, URLMixin, PathMixin):
             self.check_rename(old)
             # Rename linked repos
             if old.slug != self.slug:
-                for component in old.component_set.all():
+                for component in old.component_set.iterator():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
                     component.linked_childs.update(
@@ -230,7 +227,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""
-        for component in self.component_set.all():
+        for component in self.component_set.iterator():
             if component.needs_commit():
                 return True
         return False

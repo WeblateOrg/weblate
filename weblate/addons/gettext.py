@@ -50,7 +50,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(translation.unit_set.all())
+        exporter.add_units(translation.unit_set.iterator())
 
         template = self.instance.configuration.get('path')
         if not template:
@@ -218,7 +218,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 cmd.insert(1, '--no-wrap')
         except ObjectDoesNotExist:
             pass
-        for translation in component.translation_set.all():
+        for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if not os.path.exists(filename):
                 continue

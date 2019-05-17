@@ -132,7 +132,7 @@ class ImportProjectTest(RepoTestCase):
             language_regex='cs'
         )
         self.assertEqual(project.component_set.count(), 4)
-        for component in project.component_set.all():
+        for component in project.component_set.iterator():
             self.assertEqual(component.translation_set.count(), 1)
 
     def test_import_re(self):

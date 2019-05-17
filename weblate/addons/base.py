@@ -140,7 +140,7 @@ class BaseAddon(object):
             components = [self.instance.component]
         if EVENT_POST_COMMIT in self.events:
             for component in components:
-                for translation in component.translation_set.iterator()
+                for translation in component.translation_set.iterator():
                     self.post_commit(translation)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
@@ -296,7 +296,7 @@ class UpdateBaseAddon(BaseAddon):
             if repository.needs_commit():
                 files = list(chain.from_iterable((
                     translation.filenames
-                    for translation in component.translation_set.all()
+                    for translation in component.translation_set.iterator()
                 ))) + self.extra_files
                 repository.commit(
                     self.get_commit_message(component),

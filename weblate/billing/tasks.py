@@ -42,8 +42,8 @@ def billing_check():
 def billing_alert():
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
         in_limit = bill.in_display_limits()
-        for project in bill.projects.all():
-            for component in project.component_set.all():
+        for project in bill.projects.iterator():
+            for component in project.component_set.iterator():
                 if in_limit:
                     component.delete_alert('BillingLimit')
                 else:

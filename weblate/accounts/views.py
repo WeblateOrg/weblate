@@ -271,7 +271,7 @@ def get_notification_forms(request):
                 pass
 
         # Popupate scopes from the database
-        for subscription in user.subscription_set.all():
+        for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
                 subscription.project_id,

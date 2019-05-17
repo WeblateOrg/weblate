@@ -72,7 +72,7 @@ def lock_project(request, project):
     if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
-    for component in obj.component_set.all():
+    for component in obj.component_set.iterator():
         component.do_lock(request.user)
 
     messages.success(
@@ -91,7 +91,7 @@ def unlock_project(request, project):
     if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
-    for component in obj.component_set.all():
+    for component in obj.component_set.iterator():
         component.do_lock(request.user, False)
 
     messages.success(

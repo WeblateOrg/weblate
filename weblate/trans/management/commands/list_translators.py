@@ -39,7 +39,7 @@ class Command(WeblateComponentCommand):
     def handle(self, *args, **options):
         data = []
         for component in self.get_components(*args, **options):
-            for translation in component.translation_set.all():
+            for translation in component.translation_set.iterator():
                 authors = Change.objects.authors_list(translation)
                 if not authors:
                     continue

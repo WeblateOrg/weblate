@@ -52,7 +52,7 @@ def save_component(sender, instance, **kwargs):
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def save_project(sender, instance, **kwargs):
-    for component in instance.component_set.all():
+    for component in instance.component_set.iterator():
         if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
             new_url = get_export_url(component)
             if component.git_export != new_url:

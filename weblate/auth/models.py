@@ -567,7 +567,7 @@ def auto_assign_group(user):
     if user.username == settings.ANONYMOUS_USER_NAME:
         return
     # Add user to automatic groups
-    for auto in AutoGroup.objects.all():
+    for auto in AutoGroup.objects.iterator():
         if re.match(auto.match, user.email or ''):
             user.groups.add(auto.group)
 

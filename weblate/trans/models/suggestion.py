@@ -109,7 +109,7 @@ class SuggestionManager(models.Manager):
         cleanup cron job.
         """
         suggestions = []
-        for suggestion in self.all():
+        for suggestion in self.iterator():
             suggestions.append(Suggestion(
                 project=project,
                 target=suggestion.target,

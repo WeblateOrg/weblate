@@ -42,7 +42,7 @@ class Command(BaseCommand):
         target = Language.objects.get(code=options['target'])
 
         source.suggestion_set.update(language=target)
-        for translation in source.translation_set.all():
+        for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(
                 language=target
             )
@@ -53,22 +53,22 @@ class Command(BaseCommand):
             translation.save()
         source.whiteboardmessage_set.update(language=target)
 
-        for profile in source.profile_set.all():
+        for profile in source.profile_set.iterator():
             profile.languages.remove(source)
             profile.languages.add(target)
 
-        for profile in source.secondary_profile_set.all():
+        for profile in source.secondary_profile_set.iterator():
             profile.secondary_languages.remove(source)
             profile.secondary_languages.add(target)
 
         source.project_set.update(source_language=target)
-        for group in source.group_set.all():
+        for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)
         source.dictionary_set.update(language=target)
         source.comment_set.update(language=target)
 
-        for check in source.check_set.all():
+        for check in source.check_set.iterator():
             other = Check.objects.filter(
                 content_hash=check.content_hash,
                 project=check.project,
@@ -81,7 +81,7 @@ class Command(BaseCommand):
             check.language = target
             check.save()
 
-        for plural in source.plural_set.all():
+        for plural in source.plural_set.iterator():
             try:
                 new_plural = target.plural_set.get(
                     equation=plural.equation,

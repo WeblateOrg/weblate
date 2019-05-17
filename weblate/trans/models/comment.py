@@ -62,7 +62,7 @@ class CommentManager(models.Manager):
         cleanup cron job.
         """
         comments = []
-        for comment in self.all():
+        for comment in self.iterator():
             comments.append(Comment(
                 project=project,
                 comment=comment.comment,

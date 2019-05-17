@@ -41,7 +41,7 @@ def generate_credits(component, start_date, end_date):
 
     result = []
 
-    for translation in component.translation_set.all():
+    for translation in component.translation_set.iterator():
         authors = Change.objects.authors_list(
             translation,
             (start_date, end_date),
@@ -134,7 +134,7 @@ def generate_counts(component, start_date, end_date):
         Change.ACTION_APPROVE: 'approve',
     }
 
-    for translation in component.translation_set.all():
+    for translation in component.translation_set.iterator():
         authors = Change.objects.content().filter(
             translation=translation,
             timestamp__range=(start_date, end_date),

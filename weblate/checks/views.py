@@ -169,7 +169,7 @@ def show_check_project(request, name, project):
         ).values_list(
             'content_hash', flat=True
         )
-        for component in prj.component_set.all():
+        for component in prj.component_set.iterator():
             try:
                 lang_id = component.translation_set.values_list(
                     'language_id', flat=True

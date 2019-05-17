@@ -275,7 +275,7 @@ class FixtureTestCase(ViewTestCase):
                 database=db_name
             )
         # Apply group project/language automation
-        for group in Group.objects.all():
+        for group in Group.objects.iterator():
             group.save()
 
         super(FixtureTestCase, cls).setUpTestData()

@@ -92,7 +92,7 @@ class CheckManager(models.Manager):
         cleanup cron job.
         """
         checks = []
-        for check in self.all():
+        for check in self.iterator():
             checks.append(Check(
                 project=project,
                 check=check.check,

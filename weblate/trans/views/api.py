@@ -56,7 +56,7 @@ def export_stats(request, project, component):
     subprj = get_component(request, project, component)
 
     data = [
-        trans.get_stats() for trans in subprj.translation_set.all()
+        trans.get_stats() for trans in subprj.translation_set.iterator()
     ]
     return export_response(
         request,

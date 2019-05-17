@@ -690,7 +690,7 @@ class PoFormat(TTKitFormat):
             return super(PoFormat, self).get_plural(language)
 
         # Find matching one
-        for plural in language.plural_set.all():
+        for plural in language.plural_set.iterator():
             if plural.same_plural(number, equation):
                 return plural
 

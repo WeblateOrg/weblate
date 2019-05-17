@@ -183,18 +183,18 @@ class TranslationTest(RepoTestCase):
         request.user = create_test_user()
         start_rev = component.repository.last_revision
         # Initial translation
-        for unit in translation.unit_set.all():
+        for unit in translation.unit_set.iterator():
             unit.translate(request, 'test2', STATE_TRANSLATED)
         # Translation completed, no commit forced
         self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from same author should not trigger commit
-        for unit in translation.unit_set.all():
+        for unit in translation.unit_set.iterator():
             unit.translate(request, 'test3', STATE_TRANSLATED)
-        for unit in translation.unit_set.all():
+        for unit in translation.unit_set.iterator():
             unit.translate(request, 'test4', STATE_TRANSLATED)
         self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from other author should trigger commmit
-        for i, unit in enumerate(translation.unit_set.all()):
+        for i, unit in enumerate(translation.unit_set.iterator()):
             request.user = User.objects.create(
                 full_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),

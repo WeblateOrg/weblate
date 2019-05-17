@@ -38,7 +38,7 @@ from weblate.utils.errors import report_error
 @app.task
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
-    for partial in Partial.objects.all():
+    for partial in Partial.objects.iterator():
         kwargs = partial.data['kwargs']
         if 'weblate_expires' not in kwargs or kwargs['weblate_expires'] < time.time():
             # Old entry without expiry set, or expired entry

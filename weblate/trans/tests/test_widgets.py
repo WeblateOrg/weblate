@@ -104,7 +104,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         for translated in (0, 3, 4):
             # Fake translated stats
-            for translation in Translation.objects.all():
+            for translation in Translation.objects.iterator():
                 translation.stats.store('translated', translated)
                 translation.stats.save()
             response = self.client.get(
