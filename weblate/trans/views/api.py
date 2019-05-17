@@ -33,7 +33,6 @@ def export_stats_project(request, project):
     """Export stats in JSON format."""
     obj = get_project(request, project)
 
-    data = get_project_stats(obj)
     return export_response(
         request,
         'stats-{0}.csv'.format(obj.slug),
@@ -47,17 +46,15 @@ def export_stats_project(request, project):
             'translated_words',
             'words_percent',
         ),
-        data
+        get_project_stats(obj)
     )
 
 
 def export_stats(request, project, component):
     """Export stats in JSON format."""
     subprj = get_component(request, project, component)
+    translations = subprj.translation_set.order_by('name')
 
-    data = [
-        trans.get_stats() for trans in subprj.translation_set.iterator()
-    ]
     return export_response(
         request,
         'stats-{0}-{1}.csv'.format(subprj.project.slug, subprj.slug),
@@ -78,7 +75,7 @@ def export_stats(request, project, component):
             'last_change',
             'last_author',
         ),
-        data
+        [trans.get_stats() for trans in translations.iterator()]
     )
 
 
