@@ -100,7 +100,7 @@ class EngageLangSitemap(Sitemap):
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by_('id')
+        ).order_by('id')
         for project in projects:
             for lang in project.languages:
                 ret.append((project, lang))
