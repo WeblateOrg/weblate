@@ -105,7 +105,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     _reverse_url_name = 'translation'
 
     class Meta(object):
-        ordering = ['language__name']
         app_label = 'trans'
         unique_together = ('component', 'language')
 
