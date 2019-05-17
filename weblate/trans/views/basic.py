@@ -129,7 +129,7 @@ def show_project(request, project):
         dictionary__project=obj
     ).annotate(Count('dictionary')).order()
 
-    last_changes = Change.objects.prefetch().filter(project=obj)[:10]
+    last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
         obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
@@ -186,7 +186,7 @@ def show_component(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
 
-    last_changes = Change.objects.prefetch().filter(component=obj)[:10]
+    last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
     return render(
         request,
@@ -236,7 +236,7 @@ def show_component(request, project, component):
 def show_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     obj.stats.ensure_all()
-    last_changes = Change.objects.prefetch().filter(translation=obj)[:10]
+    last_changes = Change.objects.prefetch().order().filter(translation=obj)[:10]
     user = request.user
 
     # Get form

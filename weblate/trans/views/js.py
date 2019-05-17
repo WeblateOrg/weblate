@@ -90,7 +90,7 @@ def get_unit_changes(request, unit_id):
         request,
         'js/changes.html',
         {
-            'last_changes': unit.change_set.all()[:10],
+            'last_changes': unit.change_set.order()[:10],
             'last_changes_url': urlencode(
                 unit.translation.get_reverse_url_kwargs()
             ),
@@ -152,7 +152,7 @@ def git_status_project(request, project):
             'changes': Change.objects.filter(
                 component__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
-            )[:10],
+            ).order()[:10],
             'statuses': statuses,
         }
     )
@@ -177,7 +177,7 @@ def git_status_component(request, project, component):
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 component=target,
-            )[:10],
+            ).order()[:10],
             'statuses': [(None, obj.repository.status)],
         }
     )
@@ -203,7 +203,7 @@ def git_status_translation(request, project, component, lang):
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 component=target,
-            )[:10],
+            ).order()[:10],
             'statuses': [(None, obj.component.repository.status)],
         }
     )

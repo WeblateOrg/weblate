@@ -80,7 +80,7 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return Change.objects.filter(translation=obj)[:10]
+        return Change.objects.filter(translation=obj).order()[:10]
 
 
 class ComponentChangesFeed(TranslationChangesFeed):
@@ -93,7 +93,7 @@ class ComponentChangesFeed(TranslationChangesFeed):
         return get_component(request, project, component)
 
     def items(self, obj):
-        return Change.objects.filter(component=obj)[:10]
+        return Change.objects.filter(component=obj).order()[:10]
 
 
 class ProjectChangesFeed(TranslationChangesFeed):
@@ -106,7 +106,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
         return get_project(request, project)
 
     def items(self, obj):
-        return Change.objects.filter(project=obj)[:10]
+        return Change.objects.filter(project=obj).order()[:10]
 
 
 class LanguageChangesFeed(TranslationChangesFeed):
@@ -119,4 +119,4 @@ class LanguageChangesFeed(TranslationChangesFeed):
         return get_object_or_404(Language, code=lang)
 
     def items(self, obj):
-        return Change.objects.filter(translation__language=obj)[:10]
+        return Change.objects.filter(translation__language=obj).order()[:10]

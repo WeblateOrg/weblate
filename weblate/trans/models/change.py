@@ -125,7 +125,7 @@ class ChangeQuerySet(models.QuerySet):
         return self.prefetch().filter(
             Q(component__project__in=user.allowed_projects)
             | Q(dictionary__project__in=user.allowed_projects)
-        )
+        ).order()
 
     def authors_list(self, translation, date_range=None):
         """Return list of authors."""
@@ -139,6 +139,9 @@ class ChangeQuerySet(models.QuerySet):
         return authors.values_list(
             'author__email', 'author__full_name'
         )
+
+    def order(self):
+        return self.order_by('-timestamp')
 
 
 class ChangeManager(models.Manager):
@@ -349,7 +352,6 @@ class Change(models.Model, UserDisplayMixin):
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta(object):
-        ordering = ['-timestamp']
         app_label = 'trans'
 
     def __init__(self, *args, **kwargs):
