@@ -59,8 +59,8 @@ In case you need to pass some file, you can temporary add a volume:
 
 .. seealso::
 
-    :ref:`docker`,
-    :ref:`install-pip`
+    :ref:`quick-docker`,
+    :ref:`quick-pip`
 
 
 add_suggestions

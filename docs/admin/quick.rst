@@ -1,13 +1,8 @@
 Quick setup guide
 =================
 
-.. note::
-
-    This will get Weblate up and running for testing purposes. See :ref:`install` for real world setup
-    instructions.
-
 Installation method
-----------------------------
+-------------------
 
 1. Docker if you are familiar with that and if you are not going to change Weblate code, see :ref:`quick-docker`.
 2. Virtualenv, If you are not going to change Weblate code, but want to avoid Docker, see :ref:`quick-virtualenv`.
@@ -23,9 +18,9 @@ Installing in a virtualenv
 This will create a separate Python environment for Weblate,
 possibly duplicating some of the Python libraries on the system.
 
-If you'd just like to do a quick installation locally on your device to find 
-out if Weblate is for you, you can install it using a virtual environment for 
-Python 3, a simple (and slow!) SQLite database, and the lightweight Django 
+If you'd just like to do a quick installation locally on your device to find
+out if Weblate is for you, you can install it using a virtual environment for
+Python 3, a simple (and slow!) SQLite database, and the lightweight Django
 development server.
 
 #. Install the development files for libraries needed to build the
@@ -62,18 +57,18 @@ development server.
 
         virtualenv --python=python3 ~/weblate-env
         . ~/weblate-env/bin/activate
-     
+
 #. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
-        
+
    .. code-block:: sh
-    
+
         . ~/weblate-env/bin/activate
 
 #. Install Weblate including all dependencies. You can also use pip to install
    the optional dependencies:
 
    .. code-block:: sh
-        
+
         pip install Weblate
         # Optional deps
         pip install pytz python-bidi PyYAML pyuca
@@ -91,30 +86,38 @@ development server.
 #. Create the SQLite database and its structure for Weblate:
 
    .. code-block:: sh
-   
+
         weblate migrate
-        
-#. Create the administrator user account and copy the password it outputs 
+
+#. Create the administrator user account and copy the password it outputs
    to the clipboard, and also save it for later use:
 
    .. code-block:: sh
-   
+
         weblate createadmin
 
 #. Start the development server:
 
    .. code-block:: sh
-   
+
         weblate runserver
 
-#. Open a web browser, go to http://localhost:8000/accounts/login/ 
+#. Open a web browser, go to http://localhost:8000/accounts/login/
    and log in with the username `admin` and paste the password.
 
 #. Proceed with :ref:`add-translatable-contents` to add some translatable content to
    your test installation.
-   
+
+#. You can now run Weblate commands using :command:`weblate` command, see
+   :ref:`manage`.
+
 You can stop the test server with Ctrl+C, and leave the virtual environment with ``deactivate``.
 If you want to resume testing later, you need to repeat steps 4, 8 and 11 each time to start the development server.
+
+.. note::
+
+   Above described setup is useful for development, but not for production use.
+   See :ref:`server` for detailed server setup.
 
 
 .. _quick-pip:
@@ -133,7 +136,9 @@ line, for example:
 
     DJANGO_SETTINGS_MODULE=yourproject.settings weblate migrate
 
-.. seealso:: :ref:`invoke-manage`
+.. seealso::
+
+   :ref:`invoke-manage`, :ref:`server`
 
 .. _quick-source:
 
@@ -143,15 +148,18 @@ Installing from sources
 
 #. Grab the latest Weblate sources using Git (or download a tarball and unpack that):
 
-.. code-block:: sh
+   .. code-block:: sh
 
-    git clone https://github.com/WeblateOrg/weblate.git
+      git clone https://github.com/WeblateOrg/weblate.git
 
-.. note::
+   Alternatively you can use released archives. You can download them from our
+   website <https://weblate.org/>.
 
-    If you are running a version from Git, you should also regenerate locale
-    files every time you are upgrading. You can do this by invoking the script
-    :file:`./scripts/generate-locales`.
+   .. note::
+
+      If you are running a version from Git, you should also regenerate locale
+      files every time you are upgrading. You can do this by invoking the script
+      :file:`./scripts/generate-locales`.
 
 #. Install all required dependencies into an virtual env (also see :ref:`requirements`):
 
@@ -178,6 +186,16 @@ Installing from sources
         ./scripts/generate-locales # If you are using Git checkout
 
 #. Configure webserver to serve Weblate, see :ref:`server`.
+
+.. note::
+
+   Running latest version from Git ``master`` branch should be safe. It is
+   maintained, stable and production ready. It is most often the version
+   running `Hosted Weblate <https://weblate.org/hosting/>`_.
+
+.. seealso::
+
+   :ref:`server`
 
 
 .. _quick-docker:
@@ -215,9 +233,9 @@ Installing on OpenShift 2
 
 #. After installation everything should be preconfigured, and you can immediately start adding a translation
    project as described below.
-   
+
 .. seealso::
-   
+
     For more info, including how to retrieve the generated admin password, see :ref:`openshift`.
 
  .. _add-translatable-contents:
@@ -242,3 +260,190 @@ Adding translation
 #. Once the above is completed (it can be lengthy process depending on the size of
    your VCS repository, and number of messages to translate), you can start
    translating.
+
+Installing requirements
+-----------------------
+
+Weblate can be also installed to use system pacakges when available. The
+following guides should give you guidance to do that, but the exact setup
+depends on distribution version you are using.
+
+.. _deps-debian:
+
+Requirements on Debian or Ubuntu
+++++++++++++++++++++++++++++++++
+
+On recent releases of Debian or Ubuntu, most of the requirements are already packaged, to
+install them you can use apt:
+
+.. code-block:: sh
+
+    apt install python3-pip python3-django translate-toolkit \
+        python3-whoosh python3-pil \
+        git mercurial \
+        python3-django-compressor python3-django-crispy-forms \
+        python3-djangorestframework python3-dateutil python3-celery \
+        python3-gdbm
+
+    # Optional packages for database backend:
+
+    # For PostgreSQL
+    apt install python3-psycopg2
+    # For MySQL on Ubuntu (if using the Ubuntu package for Django)
+    apt install python3-pymysql
+    # For MySQL on Debian (or Ubuntu if using upstream Django packages)
+    apt install python3-mysqldb
+
+On older releases, some required dependencies are missing or outdated, so you
+need to install several Python modules manually using pip:
+
+.. code-block:: sh
+
+    # Dependencies for ``python-social-auth``
+    apt install python3-requests-oauthlib python3-six python3-openid
+
+    # Social auth
+    pip install social-auth-core
+    pip install social-auth-app-django
+
+    # In case your distribution has ``python-django`` older than 1.9
+    pip install Django
+
+    # In case the ``python-django-crispy-forms`` package is missing
+    pip install django-crispy-forms
+
+    # In case ``python-whoosh`` package is misssing or older than 2.7
+    pip install whoosh
+
+    # In case the ``python-django-compressor`` package is missing,
+    # Try installing it by its older name, or by using pip:
+    apt install python3-compressor
+    pip install django_compressor
+
+    # Optional for OCR support
+    apt install tesseract-ocr libtesseract-dev libleptonica-dev cython
+    pip install tesserocr
+
+    # Install database backend for PostgreSQL
+    pip install psycopg2-binary
+    # Install database backend for MySQL
+    apt install default-libmysqlclient-dev
+    pip install mysqlclient
+
+For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
+
+.. code-block:: sh
+
+    pip install pyuca
+
+Depending on how you intend to run Weblate and what you already have installed,
+you might need additional components:
+
+.. code-block:: sh
+
+    # Web server option 1: NGINX and uWSGI
+    apt install nginx uwsgi uwsgi-plugin-python3
+
+    # Web server option 2: Apache with ``mod_wsgi``
+    apt install apache2 libapache2-mod-wsgi
+
+    # Caching backend: Redis
+    apt install redis-server
+
+    # Database option 1: PostgreSQL
+    apt install postgresql
+
+    # Database option 2: MariaDB
+    apt install mariadb-server
+
+    # Database option 3: MySQL
+    apt install mysql-server
+
+    # SMTP server
+    apt install exim4
+
+    # GitHub PR support: ``hub``
+    # See https://hub.github.com/
+
+.. _deps-suse:
+
+Requirements on openSUSE
+++++++++++++++++++++++++
+
+Most of requirements are available either directly in openSUSE or in
+``devel:languages:python`` repository:
+
+.. code-block:: sh
+
+    zypper install python3-Django translate-toolkit \
+        python3-Whoosh python3-Pillow \
+        python3-social-auth-core python3-social-auth-app-django \
+        Git mercurial python3-pyuca \
+        python3-dateutil python3-celery
+
+    # Optional for database backend
+    zypper install python3-psycopg2      # For PostgreSQL
+    zypper install python3-MySQL-python  # For MySQL
+
+Depending on how you intend to run Weblate and what you already have installed,
+you might need additional components:
+
+.. code-block:: sh
+
+    # Web server option 1: NGINX and uWSGI
+    zypper install nginx uwsgi uwsgi-plugin-python3
+
+    # Web server option 2: Apache with ``mod_wsgi``
+    zypper install apache2 apache2-mod_wsgi
+
+    # Caching backend: Redis
+    zypper install redis-server
+
+    # Database option 1: PostgreSQL
+    zypper install postgresql
+
+    # Database option 2: MariaDB
+    zypper install mariadb
+
+    # Database option 3: MySQL
+    zypper install mysql
+
+    # SMTP server
+    zypper install postfix
+
+    # GitHub PR support: ``hub``
+    # See https://hub.github.com/
+
+.. _deps-osx:
+
+Requirements on macOS
++++++++++++++++++++++
+
+If your Python was not installed using ``brew``, make sure you have this in
+your :file:`.bash_profile` file or executed somehow:
+
+.. code-block:: sh
+
+    export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH"
+
+This configuration makes the installed libraries available to Python.
+
+.. _deps-pip:
+
+Requirements using pip installer
+++++++++++++++++++++++++++++++++
+
+Most requirements can be also installed using the pip installer:
+
+.. code-block:: sh
+
+    pip install -r requirements.txt
+
+For building some of the extensions development files for several libraries are
+required, see :ref:`quick-virtualenv` for instructions how to install these.
+
+All optional dependencies (see above) can be installed using:
+
+.. code-block:: sh
+
+    pip install -r requirements-optional.txt
