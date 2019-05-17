@@ -353,7 +353,7 @@ def user_profile(request):
         project__in=request.user.allowed_projects
     ).exclude(
         license=''
-    )
+    ).order_project()
 
     result = render(
         request,

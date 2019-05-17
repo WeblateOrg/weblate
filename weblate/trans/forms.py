@@ -971,7 +971,7 @@ class AutoForm(forms.Form):
         """Generate choices for other component in same project."""
         other_components = obj.component.project.component_set.exclude(
             id=obj.component.id
-        )
+        ).order_project()
         choices = [(s.id, force_text(s)) for s in other_components]
 
         # Add components from other owned projects
@@ -979,7 +979,7 @@ class AutoForm(forms.Form):
             project__in=user.owned_projects,
         ).exclude(
             project=obj.component.project
-        ).distinct()
+        ).distinct().order_project()
         for component in owned_components:
             choices.append(
                 (component.id, force_text(component))
@@ -1160,7 +1160,7 @@ class EngageForm(forms.Form):
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
         choices = [(l.code, force_text(l)) for l in project.languages]
-        components = [(c.slug, c.name) for c in project.component_set.iterator()]
+        components = [(c.slug, c.name) for c in project.component_set.order()]
 
         super(EngageForm, self).__init__(*args, **kwargs)
 

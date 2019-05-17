@@ -39,7 +39,7 @@ from weblate.wladmin.models import ConfigurationError
 def report(request, admin_site):
     """Provide report about git status of all repos."""
     context = admin_site.each_context(request)
-    context['components'] = Component.objects.all()
+    context['components'] = Component.objects.order_project()
     return render(
         request,
         "admin/report.html",

@@ -136,7 +136,7 @@ def show_project(request, project):
     )
 
     # Paginate components of project.
-    all_components = obj.component_set.select_related()
+    all_components = obj.component_set.select_related().order()
     components = prefetch_stats(get_paginator(
         request, all_components
     ))
@@ -309,6 +309,7 @@ def data_project(request, project):
         'data.html',
         {
             'object': obj,
+            'components': obj.component_set.order(),
             'project': obj,
         }
     )

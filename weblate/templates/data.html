@@ -35,7 +35,7 @@
 <td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
 <td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
 </tr>
-{% for component in object.component_set.all %}
+{% for component in components %}
 <tr>
 <th>{{ component }}</th>
 <td>{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}</td>
@@ -64,7 +64,7 @@
 <th>{% trans "Link" %}</th>
 </thead>
 <tbody>
-{% for component in object.component_set.all %}
+{% for component in components %}
 <tr>
 <th>{{ component }}</th>
 <td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}</td>
@@ -74,7 +74,7 @@
 </tbody>
 </table>
 
-{% with object.component_set.all.0 as component %}
+{% with components.0 as component %}
 {% if component %}
 <p>{% trans "As an example, fetching stats for all translations in one component can be done thusly:" %}</p>
 
@@ -110,7 +110,7 @@ curl \
 <td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
 <td><a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% trans "Hook" %}</a></td>
 </tr>
-{% for component in object.component_set.all %}
+{% for component in components %}
 <tr>
 <th>{{ component }}</th>
 <td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}</td>

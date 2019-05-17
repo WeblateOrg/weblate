@@ -137,6 +137,7 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     search_fields = ['name', 'slug', 'repo', 'branch']
     list_filter = ['project', 'vcs', 'file_format']
     actions = ['update_from_git', 'update_checks', 'force_commit']
+    ordering = ['project__name', 'name']
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(

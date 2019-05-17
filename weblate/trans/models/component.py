@@ -136,6 +136,14 @@ class ComponentQuerySet(models.QuerySet):
         project, component = val[10:].split('/', 1)
         return self.get(slug=component, project__slug=project)
 
+    def order_project(self):
+        """Ordering in global scope by project name."""
+        return self.order_by('project__name', 'name')
+
+    def order(self):
+        """Ordering in project scope by priority."""
+        return self.order_by('priority', 'name')
+
 
 @python_2_unicode_compatible
 class Component(models.Model, URLMixin, PathMixin):
@@ -482,7 +490,6 @@ class Component(models.Model, URLMixin, PathMixin):
     _reverse_url_name = 'component'
 
     class Meta(object):
-        ordering = ['priority', 'project__name', 'name']
         unique_together = (
             ('project', 'name'),
             ('project', 'slug'),
