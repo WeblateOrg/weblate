@@ -434,6 +434,16 @@ Azure Active Directory with Tenant support
     Enables Azure Active Directory authentication with Tenant support, see
     :doc:`psa:backends/azuread`.
 
+Linux vendors
++++++++++++++
+
+You can enable authentication using Linux vendors authentication services by
+setting following variables to any value.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_FEDORA
+.. envvar:: WEBLATE_SOCIAL_AUTH_OPENSUSE
+.. envvar:: WEBLATE_SOCIAL_AUTH_UBUNTU
+
 Other authentication settings
 +++++++++++++++++++++++++++++
 
