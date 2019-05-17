@@ -5,57 +5,31 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0026_alert_change'),
-    ]
+    dependencies = [("trans", "0026_alert_change")]
 
     operations = [
+        migrations.AlterModelOptions(name="alert", options={}),
+        migrations.AlterModelOptions(name="change", options={}),
+        migrations.AlterModelOptions(name="comment", options={}),
         migrations.AlterModelOptions(
-            name='alert',
-            options={},
+            name="component",
+            options={"verbose_name": "Component", "verbose_name_plural": "Components"},
         ),
         migrations.AlterModelOptions(
-            name='change',
-            options={},
+            name="componentlist",
+            options={
+                "verbose_name": "Component list",
+                "verbose_name_plural": "Component lists",
+            },
         ),
+        migrations.AlterModelOptions(name="contributoragreement", options={}),
+        migrations.AlterModelOptions(name="dictionary", options={}),
         migrations.AlterModelOptions(
-            name='comment',
-            options={},
+            name="project",
+            options={"verbose_name": "Project", "verbose_name_plural": "Projects"},
         ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
-        ),
-        migrations.AlterModelOptions(
-            name='componentlist',
-            options={'verbose_name': 'Component list', 'verbose_name_plural': 'Component lists'},
-        ),
-        migrations.AlterModelOptions(
-            name='contributoragreement',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='dictionary',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='project',
-            options={'verbose_name': 'Project', 'verbose_name_plural': 'Projects'},
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='suggestion',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='translation',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='unit',
-            options={},
-        ),
+        migrations.AlterModelOptions(name="source", options={}),
+        migrations.AlterModelOptions(name="suggestion", options={}),
+        migrations.AlterModelOptions(name="translation", options={}),
+        migrations.AlterModelOptions(name="unit", options={}),
     ]

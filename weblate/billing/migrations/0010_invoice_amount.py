@@ -7,15 +7,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0009_auto_20181101_0900'),
-    ]
+    dependencies = [("billing", "0009_auto_20181101_0900")]
 
     operations = [
         migrations.AddField(
-            model_name='invoice',
-            name='amount',
+            model_name="invoice",
+            name="amount",
             field=models.FloatField(default=0),
             preserve_default=False,
-        ),
+        )
     ]

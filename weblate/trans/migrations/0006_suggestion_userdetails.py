@@ -9,15 +9,13 @@ import weblate.utils.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0005_auto_20180914_1135'),
-    ]
+    dependencies = [("trans", "0005_auto_20180914_1135")]
 
     operations = [
         migrations.AddField(
-            model_name='suggestion',
-            name='userdetails',
-            field=weblate.utils.fields.JSONField(default=''),
+            model_name="suggestion",
+            name="userdetails",
+            field=weblate.utils.fields.JSONField(default=""),
             preserve_default=False,
-        ),
+        )
     ]

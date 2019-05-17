@@ -7,14 +7,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0003_billing_owners'),
-    ]
+    dependencies = [("billing", "0003_billing_owners")]
 
     operations = [
         migrations.RenameField(
-            model_name='billing',
-            old_name='trial_expiry',
-            new_name='expiry',
-        ),
+            model_name="billing", old_name="trial_expiry", new_name="expiry"
+        )
     ]

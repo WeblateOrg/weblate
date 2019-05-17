@@ -9,14 +9,18 @@ import weblate.utils.validators
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('weblate_auth', '0003_auto_20180724_1120'),
-    ]
+    dependencies = [("weblate_auth", "0003_auto_20180724_1120")]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(max_length=190, null=True, unique=True, validators=[weblate.utils.validators.validate_email], verbose_name='Email'),
-        ),
+            model_name="user",
+            name="email",
+            field=models.EmailField(
+                max_length=190,
+                null=True,
+                unique=True,
+                validators=[weblate.utils.validators.validate_email],
+                verbose_name="Email",
+            ),
+        )
     ]

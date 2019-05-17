@@ -5,13 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0009_profile_zen_mode'),
-    ]
+    dependencies = [("accounts", "0009_profile_zen_mode")]
 
-    operations = [
-        migrations.AlterModelOptions(
-            name='auditlog',
-            options={},
-        ),
-    ]
+    operations = [migrations.AlterModelOptions(name="auditlog", options={})]

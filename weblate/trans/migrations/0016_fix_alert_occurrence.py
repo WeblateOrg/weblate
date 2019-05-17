@@ -7,37 +7,33 @@ from django.db.models import F, Func, Value
 
 
 def fix_alert_occurence(apps, schema_editor):
-    Alert = apps.get_model('trans', 'Alert')
-    Alert.objects.filter(
-        details__contains='"occurences"'
-    ).update(
+    Alert = apps.get_model("trans", "Alert")
+    Alert.objects.filter(details__contains='"occurences"').update(
         details=Func(
-            F('details'),
-            Value('"occurences"'), Value('"occurrences"'),
-            function='replace',
+            F("details"),
+            Value('"occurences"'),
+            Value('"occurrences"'),
+            function="replace",
         )
     )
 
 
 def unfix_alert_occurence(apps, schema_editor):
-    Alert = apps.get_model('trans', 'Alert')
-    Alert.objects.filter(
-        details__contains='"occurrences"'
-    ).update(
+    Alert = apps.get_model("trans", "Alert")
+    Alert.objects.filter(details__contains='"occurrences"').update(
         details=Func(
-            F('details'),
-            Value('"occurrences"'), Value('"occurences"'),
-            function='replace',
+            F("details"),
+            Value('"occurrences"'),
+            Value('"occurences"'),
+            function="replace",
         )
     )
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0015_linked_component_branch'),
-    ]
+    dependencies = [("trans", "0015_linked_component_branch")]
 
     operations = [
-        migrations.RunPython(fix_alert_occurence, reverse_code=unfix_alert_occurence),
+        migrations.RunPython(fix_alert_occurence, reverse_code=unfix_alert_occurence)
     ]

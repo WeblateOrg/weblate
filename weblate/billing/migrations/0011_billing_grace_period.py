@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0010_invoice_amount'),
-    ]
+    dependencies = [("billing", "0010_invoice_amount")]
 
     operations = [
         migrations.AddField(
-            model_name='billing',
-            name='grace_period',
-            field=models.IntegerField(default=0, verbose_name='Grace period for payments'),
-        ),
+            model_name="billing",
+            name="grace_period",
+            field=models.IntegerField(
+                default=0, verbose_name="Grace period for payments"
+            ),
+        )
     ]

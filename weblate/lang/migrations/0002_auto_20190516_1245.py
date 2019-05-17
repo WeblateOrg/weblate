@@ -5,17 +5,18 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('lang', '0001_squashed_0011_auto_20180215_1158'),
-    ]
+    dependencies = [("lang", "0001_squashed_0011_auto_20180215_1158")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='language',
-            options={'verbose_name': 'Language', 'verbose_name_plural': 'Languages'},
+            name="language",
+            options={"verbose_name": "Language", "verbose_name_plural": "Languages"},
         ),
         migrations.AlterModelOptions(
-            name='plural',
-            options={'verbose_name': 'Plural form', 'verbose_name_plural': 'Plural forms'},
+            name="plural",
+            options={
+                "verbose_name": "Plural form",
+                "verbose_name_plural": "Plural forms",
+            },
         ),
     ]

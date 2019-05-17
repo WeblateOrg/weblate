@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0001_squashed_0037_auto_20180416_1406'),
-    ]
+    dependencies = [("accounts", "0001_squashed_0037_auto_20180416_1406")]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='uploaded',
+            model_name="profile",
+            name="uploaded",
             field=models.IntegerField(db_index=True, default=0),
-        ),
+        )
     ]

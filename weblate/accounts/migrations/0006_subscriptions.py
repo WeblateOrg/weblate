@@ -9,22 +9,20 @@ from weblate.accounts.data import create_default_notifications
 from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_DEFAULT
 
 MAPPING = [
-    ('subscribe_any_translation', ('ChangedStringNotificaton',)),
-    ('subscribe_new_string', ('NewStringNotificaton',)),
-    ('subscribe_new_suggestion', ('NewSuggestionNotificaton',)),
-    ('subscribe_new_contributor', ('NewContributorNotificaton',)),
-    ('subscribe_new_comment', ('NewCommentNotificaton',)),
-    ('subscribe_merge_failure', ('MergeFailureNotification', 'ParseErrorNotification')),
-    ('subscribe_new_language', ('NewTranslationNotificaton',)),
+    ("subscribe_any_translation", ("ChangedStringNotificaton",)),
+    ("subscribe_new_string", ("NewStringNotificaton",)),
+    ("subscribe_new_suggestion", ("NewSuggestionNotificaton",)),
+    ("subscribe_new_contributor", ("NewContributorNotificaton",)),
+    ("subscribe_new_comment", ("NewCommentNotificaton",)),
+    ("subscribe_merge_failure", ("MergeFailureNotification", "ParseErrorNotification")),
+    ("subscribe_new_language", ("NewTranslationNotificaton",)),
 ]
 
 
 def migrate_subscriptions(apps, schema_editor):
-    Profile = apps.get_model('accounts', 'Profile')
-    profiles = Profile.objects.all().select_related('user')
-    profiles = profiles.exclude(
-        user__username=settings.ANONYMOUS_USER_NAME
-    )
+    Profile = apps.get_model("accounts", "Profile")
+    profiles = Profile.objects.all().select_related("user")
+    profiles = profiles.exclude(user__username=settings.ANONYMOUS_USER_NAME)
     for profile in profiles:
         user = profile.user
         create_default_notifications(user)
@@ -34,18 +32,14 @@ def migrate_subscriptions(apps, schema_editor):
                     user.subscription_set.get_or_create(
                         scope=SCOPE_DEFAULT,
                         notification=notification,
-                        defaults={
-                            'frequency': FREQ_INSTANT
-                        }
+                        defaults={"frequency": FREQ_INSTANT},
                     )
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0005_auto_20190331_2126'),
-    ]
+    dependencies = [("accounts", "0005_auto_20190331_2126")]
 
     operations = [
-        migrations.RunPython(migrate_subscriptions, migrations.RunPython.noop),
+        migrations.RunPython(migrate_subscriptions, migrations.RunPython.noop)
     ]

@@ -9,19 +9,17 @@ import weblate.utils.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0007_plan_public'),
-    ]
+    dependencies = [("billing", "0007_plan_public")]
 
     operations = [
         migrations.AlterField(
-            model_name='billing',
-            name='payment',
+            model_name="billing",
+            name="payment",
             field=weblate.utils.fields.JSONField(default={}, editable=False),
         ),
         migrations.AlterField(
-            model_name='invoice',
-            name='payment',
+            model_name="invoice",
+            name="payment",
             field=weblate.utils.fields.JSONField(default={}, editable=False),
         ),
     ]

@@ -8,14 +8,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0003_remove_translation_commit_message'),
-    ]
+    dependencies = [("trans", "0003_remove_translation_commit_message")]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='use_shared_tm',
-            field=models.BooleanField(default=settings.DEFAULT_SHARED_TM, help_text='Uses and contributes to the pool of shared translations between projects.', verbose_name='Use shared translation memory'),
-        ),
+            model_name="project",
+            name="use_shared_tm",
+            field=models.BooleanField(
+                default=settings.DEFAULT_SHARED_TM,
+                help_text="Uses and contributes to the pool of shared translations between projects.",
+                verbose_name="Use shared translation memory",
+            ),
+        )
     ]

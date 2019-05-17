@@ -6,16 +6,12 @@ from django.db import migrations
 
 
 def remove_unusednewbase_alert(apps, schema_editor):
-    Alert = apps.get_model('trans', 'Alert')
-    Alert.objects.filter(name='UnusedNewBase').delete()
+    Alert = apps.get_model("trans", "Alert")
+    Alert.objects.filter(name="UnusedNewBase").delete()
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0017_component_language_code_style'),
-    ]
+    dependencies = [("trans", "0017_component_language_code_style")]
 
-    operations = [
-        migrations.RunPython(remove_unusednewbase_alert),
-    ]
+    operations = [migrations.RunPython(remove_unusednewbase_alert)]

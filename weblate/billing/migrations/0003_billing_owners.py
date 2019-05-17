@@ -10,13 +10,15 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('billing', '0002_auto_20180905_1400'),
+        ("billing", "0002_auto_20180905_1400"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='billing',
-            name='owners',
-            field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Billing owners'),
-        ),
+            model_name="billing",
+            name="owners",
+            field=models.ManyToManyField(
+                blank=True, to=settings.AUTH_USER_MODEL, verbose_name="Billing owners"
+            ),
+        )
     ]

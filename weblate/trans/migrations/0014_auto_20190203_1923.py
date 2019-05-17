@@ -7,19 +7,34 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0013_component_addon_message'),
-    ]
+    dependencies = [("trans", "0013_component_addon_message")]
 
     operations = [
         migrations.AddField(
-            model_name='whiteboardmessage',
-            name='expiry',
-            field=models.DateField(blank=True, db_index=True, help_text='The message will be not shown after this date. Use it to announce string freeze and translation deadline for next release.', null=True, verbose_name='Expiry date'),
+            model_name="whiteboardmessage",
+            name="expiry",
+            field=models.DateField(
+                blank=True,
+                db_index=True,
+                help_text="The message will be not shown after this date. Use it to announce string freeze and translation deadline for next release.",
+                null=True,
+                verbose_name="Expiry date",
+            ),
         ),
         migrations.AlterField(
-            model_name='whiteboardmessage',
-            name='category',
-            field=models.CharField(choices=[('info', 'Info (light blue)'), ('warning', 'Warning (yellow)'), ('danger', 'Danger (red)'), ('success', 'Success (green)')], default='info', help_text='Category defines color used for the message.', max_length=25, verbose_name='Category'),
+            model_name="whiteboardmessage",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("info", "Info (light blue)"),
+                    ("warning", "Warning (yellow)"),
+                    ("danger", "Danger (red)"),
+                    ("success", "Success (green)"),
+                ],
+                default="info",
+                help_text="Category defines color used for the message.",
+                max_length=25,
+                verbose_name="Category",
+            ),
         ),
     ]

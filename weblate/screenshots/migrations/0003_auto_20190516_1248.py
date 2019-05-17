@@ -5,13 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('screenshots', '0002_auto_20180826_0839'),
-    ]
+    dependencies = [("screenshots", "0002_auto_20180826_0839")]
 
-    operations = [
-        migrations.AlterModelOptions(
-            name='screenshot',
-            options={},
-        ),
-    ]
+    operations = [migrations.AlterModelOptions(name="screenshot", options={})]

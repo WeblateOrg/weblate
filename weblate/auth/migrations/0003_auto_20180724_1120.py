@@ -10,13 +10,18 @@ import weblate.auth.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('weblate_auth', '0002_auto_20180507_1540_squashed_0011_auto_20180509_0739'),
+        ("weblate_auth", "0002_auto_20180507_1540_squashed_0011_auto_20180509_0739")
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='groups',
-            field=weblate.auth.models.GroupManyToManyField(blank=True, help_text='The user is granted all permissions included in membership of these groups.', to='weblate_auth.Group', verbose_name='Groups'),
-        ),
+            model_name="user",
+            name="groups",
+            field=weblate.auth.models.GroupManyToManyField(
+                blank=True,
+                help_text="The user is granted all permissions included in membership of these groups.",
+                to="weblate_auth.Group",
+                verbose_name="Groups",
+            ),
+        )
     ]

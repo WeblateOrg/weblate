@@ -6,16 +6,12 @@ from django.db import migrations
 
 
 def fix_repo_scope(apps, schema_editor):
-    Addon = apps.get_model('addons', 'Addon')
-    Addon.objects.filter(name='weblate.git.squash').update(repo_scope=True)
+    Addon = apps.get_model("addons", "Addon")
+    Addon.objects.filter(name="weblate.git.squash").update(repo_scope=True)
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('addons', '0012_addon_repo_scope'),
-    ]
+    dependencies = [("addons", "0012_addon_repo_scope")]
 
-    operations = [
-        migrations.RunPython(fix_repo_scope),
-    ]
+    operations = [migrations.RunPython(fix_repo_scope)]

@@ -10,14 +10,17 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0012_auto_20190129_1325'),
-    ]
+    dependencies = [("trans", "0012_auto_20190129_1325")]
 
     operations = [
         migrations.AddField(
-            model_name='component',
-            name='addon_message',
-            field=models.TextField(default=settings.DEFAULT_ADDON_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render_addon], verbose_name='Commit message when addon makes a change'),
-        ),
+            model_name="component",
+            name="addon_message",
+            field=models.TextField(
+                default=settings.DEFAULT_ADDON_MESSAGE,
+                help_text="You can use template language for various info, please consult the documentation for more details.",
+                validators=[weblate.utils.render.validate_render_addon],
+                verbose_name="Commit message when addon makes a change",
+            ),
+        )
     ]

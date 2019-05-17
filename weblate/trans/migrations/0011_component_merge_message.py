@@ -10,14 +10,17 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0010_auto_20181205_1505'),
-    ]
+    dependencies = [("trans", "0010_auto_20181205_1505")]
 
     operations = [
         migrations.AddField(
-            model_name='component',
-            name='merge_message',
-            field=models.TextField(default=settings.DEFAULT_MERGE_MESSAGE, help_text='You can use template language for various info, please consult the documentation for more details.', validators=[weblate.utils.render.validate_render_component], verbose_name='Commit message when merging translation'),
-        ),
+            model_name="component",
+            name="merge_message",
+            field=models.TextField(
+                default=settings.DEFAULT_MERGE_MESSAGE,
+                help_text="You can use template language for various info, please consult the documentation for more details.",
+                validators=[weblate.utils.render.validate_render_component],
+                verbose_name="Commit message when merging translation",
+            ),
+        )
     ]

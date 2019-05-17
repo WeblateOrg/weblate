@@ -5,17 +5,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0014_billing_removal'),
-    ]
+    dependencies = [("billing", "0014_billing_removal")]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='invoice',
-            options={},
-        ),
-        migrations.AlterModelOptions(
-            name='plan',
-            options={},
-        ),
+        migrations.AlterModelOptions(name="invoice", options={}),
+        migrations.AlterModelOptions(name="plan", options={}),
     ]

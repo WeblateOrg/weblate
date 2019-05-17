@@ -7,42 +7,17 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0006_subscriptions'),
-    ]
+    dependencies = [("accounts", "0006_subscriptions")]
 
     operations = [
         migrations.RenameField(
-            model_name='profile',
-            old_name='subscriptions',
-            new_name='watched',
+            model_name="profile", old_name="subscriptions", new_name="watched"
         ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_any_translation',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_merge_failure',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_new_comment',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_new_contributor',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_new_language',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_new_string',
-        ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='subscribe_new_suggestion',
-        ),
+        migrations.RemoveField(model_name="profile", name="subscribe_any_translation"),
+        migrations.RemoveField(model_name="profile", name="subscribe_merge_failure"),
+        migrations.RemoveField(model_name="profile", name="subscribe_new_comment"),
+        migrations.RemoveField(model_name="profile", name="subscribe_new_contributor"),
+        migrations.RemoveField(model_name="profile", name="subscribe_new_language"),
+        migrations.RemoveField(model_name="profile", name="subscribe_new_string"),
+        migrations.RemoveField(model_name="profile", name="subscribe_new_suggestion"),
     ]

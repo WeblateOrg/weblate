@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0011_component_merge_message'),
-    ]
+    dependencies = [("trans", "0011_component_merge_message")]
 
     operations = [
         migrations.AlterField(
-            model_name='alert',
-            name='timestamp',
+            model_name="alert",
+            name="timestamp",
             field=models.DateTimeField(auto_now_add=True),
-        ),
+        )
     ]

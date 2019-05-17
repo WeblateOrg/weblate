@@ -5,13 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('legal', '0001_squashed_0004_copy_auditlog'),
-    ]
+    dependencies = [("legal", "0001_squashed_0004_copy_auditlog")]
 
-    operations = [
-        migrations.AlterModelOptions(
-            name='agreement',
-            options={},
-        ),
-    ]
+    operations = [migrations.AlterModelOptions(name="agreement", options={})]

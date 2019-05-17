@@ -7,12 +7,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0001_squashed_0143_auto_20180609_1655'),
-    ]
+    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
 
-    operations = [
-        migrations.DeleteModel(
-            name='IndexUpdate',
-        ),
-    ]
+    operations = [migrations.DeleteModel(name="IndexUpdate")]

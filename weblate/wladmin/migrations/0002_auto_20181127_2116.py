@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('wladmin', '0001_squashed_0003_auto_20180215_1127'),
-    ]
+    dependencies = [("wladmin", "0001_squashed_0003_auto_20180215_1127")]
 
     operations = [
         migrations.AlterField(
-            model_name='configurationerror',
-            name='ignored',
+            model_name="configurationerror",
+            name="ignored",
             field=models.BooleanField(db_index=True, default=False),
-        ),
+        )
     ]

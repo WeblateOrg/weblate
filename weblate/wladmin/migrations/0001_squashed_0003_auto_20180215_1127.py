@@ -8,29 +8,37 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('wladmin', '0001_initial'), ('wladmin', '0002_auto_20180118_1020'), ('wladmin', '0003_auto_20180215_1127')]
+    replaces = [
+        ("wladmin", "0001_initial"),
+        ("wladmin", "0002_auto_20180118_1020"),
+        ("wladmin", "0003_auto_20180215_1127"),
+    ]
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ConfigurationError',
+            name="ConfigurationError",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('message', models.TextField()),
-                ('timestamp', models.DateTimeField(default=django.utils.timezone.now)),
-                ('ignored', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=150, unique=True)),
+                ("message", models.TextField()),
+                ("timestamp", models.DateTimeField(default=django.utils.timezone.now)),
+                ("ignored", models.BooleanField(default=False)),
             ],
-            options={
-                'ordering': ['-timestamp'],
-            },
+            options={"ordering": ["-timestamp"]},
         ),
         migrations.AlterIndexTogether(
-            name='configurationerror',
-            index_together=set([('ignored', 'timestamp')]),
+            name="configurationerror", index_together=set([("ignored", "timestamp")])
         ),
     ]

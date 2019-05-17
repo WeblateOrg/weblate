@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0012_auto_20181207_0843'),
-    ]
+    dependencies = [("billing", "0012_auto_20181207_0843")]
 
     operations = [
         migrations.AlterField(
-            model_name='billing',
-            name='paid',
-            field=models.BooleanField(default=True, editable=False, verbose_name='Paid'),
-        ),
+            model_name="billing",
+            name="paid",
+            field=models.BooleanField(
+                default=True, editable=False, verbose_name="Paid"
+            ),
+        )
     ]

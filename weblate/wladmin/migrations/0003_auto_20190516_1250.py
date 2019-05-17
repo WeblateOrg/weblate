@@ -5,13 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('wladmin', '0002_auto_20181127_2116'),
-    ]
+    dependencies = [("wladmin", "0002_auto_20181127_2116")]
 
-    operations = [
-        migrations.AlterModelOptions(
-            name='configurationerror',
-            options={},
-        ),
-    ]
+    operations = [migrations.AlterModelOptions(name="configurationerror", options={})]

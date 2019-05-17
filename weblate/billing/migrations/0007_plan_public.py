@@ -7,14 +7,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0006_auto_20181021_1256'),
-    ]
+    dependencies = [("billing", "0006_auto_20181021_1256")]
 
     operations = [
         migrations.AddField(
-            model_name='plan',
-            name='public',
-            field=models.BooleanField(default=False),
-        ),
+            model_name="plan", name="public", field=models.BooleanField(default=False)
+        )
     ]

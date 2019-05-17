@@ -7,14 +7,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0004_project_use_shared_tm'),
-    ]
+    dependencies = [("trans", "0004_project_use_shared_tm")]
 
     operations = [
         migrations.AlterField(
-            model_name='component',
-            name='branch',
-            field=models.CharField(blank=True, default='', help_text='Repository branch to translate', max_length=200, verbose_name='Repository branch'),
-        ),
+            model_name="component",
+            name="branch",
+            field=models.CharField(
+                blank=True,
+                default="",
+                help_text="Repository branch to translate",
+                max_length=200,
+                verbose_name="Repository branch",
+            ),
+        )
     ]

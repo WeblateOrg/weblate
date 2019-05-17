@@ -7,13 +7,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('trans', '0002_delete_indexupdate'),
-    ]
+    dependencies = [("trans", "0002_delete_indexupdate")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='translation',
-            name='commit_message',
-        ),
+        migrations.RemoveField(model_name="translation", name="commit_message")
     ]

@@ -7,21 +7,19 @@ from django.db import migrations, models
 
 def update_repo_scope(apps, schema_editor):
     """Update the repo_scope flag."""
-    Addon = apps.get_model('addons', 'Addon')
-    Addon.objects.filter(name='weblate.git.squash').update(repo_scope=True)
+    Addon = apps.get_model("addons", "Addon")
+    Addon.objects.filter(name="weblate.git.squash").update(repo_scope=True)
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('addons', '0011_squash_addon'),
-    ]
+    dependencies = [("addons", "0011_squash_addon")]
 
     operations = [
         migrations.AddField(
-            model_name='addon',
-            name='repo_scope',
+            model_name="addon",
+            name="repo_scope",
             field=models.BooleanField(db_index=True, default=False),
         ),
-        migrations.RunPython(update_repo_scope, reverse_code=update_repo_scope)
+        migrations.RunPython(update_repo_scope, reverse_code=update_repo_scope),
     ]

@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0013_auto_20190208_1452'),
-    ]
+    dependencies = [("billing", "0013_auto_20190208_1452")]
 
     operations = [
         migrations.AddField(
-            model_name='billing',
-            name='removal',
-            field=models.DateTimeField(blank=True, default=None, null=True, verbose_name='Scheduled removal'),
-        ),
+            model_name="billing",
+            name="removal",
+            field=models.DateTimeField(
+                blank=True, default=None, null=True, verbose_name="Scheduled removal"
+            ),
+        )
     ]

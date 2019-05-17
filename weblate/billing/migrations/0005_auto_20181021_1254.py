@@ -7,14 +7,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('billing', '0004_auto_20181021_1249'),
-    ]
+    dependencies = [("billing", "0004_auto_20181021_1249")]
 
     operations = [
         migrations.AlterField(
-            model_name='billing',
-            name='state',
-            field=models.IntegerField(choices=[(0, 'Active'), (1, 'Trial'), (2, 'Expired'), (3, 'Not activated')], default=0, verbose_name='Billing state'),
-        ),
+            model_name="billing",
+            name="state",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Active"),
+                    (1, "Trial"),
+                    (2, "Expired"),
+                    (3, "Not activated"),
+                ],
+                default=0,
+                verbose_name="Billing state",
+            ),
+        )
     ]
