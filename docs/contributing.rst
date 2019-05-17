@@ -20,11 +20,13 @@ are welcome too.
 Coding standard
 ---------------
 
-The code should follow PEP-8 coding guidelines.
+The code should follow PEP-8 coding guidelines. It is recommended to format new
+code using :program:`black` code formatter (though existing code is yet formatted).
 
-It is good idea to check your contributions using :program:`pep8`,
-:program:`pylint` and :program:`pyflages`. You can execute all checks
-with the script :file:`ci/run-lint`.
+To check the code quality, you can use :program:`flake8`, the recommended
+plugins are listed in :file:`requirements-test.txt`.
+
+You can execute all coding style checks with the script :file:`ci/run-lint`.
 
 Developer's Certificate of Origin
 ---------------------------------
