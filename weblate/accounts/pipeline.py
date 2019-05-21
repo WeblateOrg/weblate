@@ -56,7 +56,7 @@ def get_github_email(access_token):
         'Authorization',
         'token {0}'.format(access_token)
     )
-    handle = urlopen(request, timeout=1.0)
+    handle = urlopen(request, timeout=10.0)
     data = json.loads(handle.read().decode('utf-8'))
     email = None
     for entry in data:
