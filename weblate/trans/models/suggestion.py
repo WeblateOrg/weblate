@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Count
+from django.db.models import Sum
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 
@@ -204,23 +204,22 @@ class Suggestion(UnitData, UserDisplayMixin):
 
     def get_num_votes(self):
         """Return number of votes."""
-        votes = self.vote_set.all()
-        positive = votes.filter(positive=True).aggregate(Count('id'))
-        negative = votes.filter(positive=False).aggregate(Count('id'))
-        return positive['id__count'] - negative['id__count']
+        return self.vote_set.aggregate(Sum('value'))['value__sum']
 
     def add_vote(self, translation, request, positive):
         """Add (or updates) vote for a suggestion."""
         if not request.user.is_authenticated:
             return
 
+        value = 1 if positive else -1
+
         vote, created = Vote.objects.get_or_create(
             suggestion=self,
             user=request.user,
-            defaults={'positive': positive}
+            defaults={'value': value}
         )
-        if not created or vote.positive != positive:
-            vote.positive = positive
+        if not created or vote.value != value:
+            vote.value = value
             vote.save()
 
         # Automatic accepting
@@ -238,19 +237,15 @@ class Vote(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
-    positive = models.BooleanField(default=True)
+    value = models.SmallIntegerField(default=0)
 
     class Meta(object):
         unique_together = ('suggestion', 'user')
         app_label = 'trans'
 
     def __str__(self):
-        if self.positive:
-            vote = '+1'
-        else:
-            vote = '-1'
-        return '{0} for {1} by {2}'.format(
-            vote,
+        return '{0:+d} for {1} by {2}'.format(
+            self.value,
             self.suggestion,
             self.user.username,
         )

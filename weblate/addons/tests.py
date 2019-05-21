@@ -789,7 +789,8 @@ class TestRemoval(FixtureTestCase):
         self.age_content()
         Vote.objects.create(
             user=self.user,
-            suggestion=Suggestion.objects.all()[0]
+            suggestion=Suggestion.objects.all()[0],
+            value=1
         )
         daily_addons()
         self.assert_count(suggestions=1)
