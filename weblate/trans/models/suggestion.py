@@ -204,7 +204,7 @@ class Suggestion(UnitData, UserDisplayMixin):
 
     def get_num_votes(self):
         """Return number of votes."""
-        votes = Vote.objects.filter(suggestion=self)
+        votes = self.vote_set.all()
         positive = votes.filter(positive=True).aggregate(Count('id'))
         negative = votes.filter(positive=False).aggregate(Count('id'))
         return positive['id__count'] - negative['id__count']
