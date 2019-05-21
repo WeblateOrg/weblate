@@ -1375,7 +1375,8 @@ class Component(models.Model, URLMixin, PathMixin):
         if skip_push is None:
             skip_push = validate
         self.configure_repo(validate)
-        self.commit_pending('sync', None, skip_push=skip_push)
+        if self.id:
+            self.commit_pending('sync', None, skip_push=skip_push)
         self.configure_branch()
         self.update_branch()
 
