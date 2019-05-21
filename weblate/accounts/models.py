@@ -491,15 +491,27 @@ class Profile(models.Model):
             return
         if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
                 and self.dashboard_component_list is None):
+            message = _(
+                "Please choose which component list you want to display on "
+                "the dashboard."
+            )
             raise ValidationError({
-                'dashboard_component_list':
-                _("Component list must be chosen when used as default.")
+                'dashboard_component_list': message,
+                'dashboard_view': message,
             })
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
                 and self.dashboard_component_list is not None):
             raise ValidationError({
                 'dashboard_component_list':
                 _("Component list can not be chosen when unused.")
+            })
+            message = _(
+                "Selecting component list makes no effect when not shown on "
+                "the dashboard."
+            )
+            raise ValidationError({
+                'dashboard_component_list': message,
+                'dashboard_view': message,
             })
 
     def dump_data(self):
