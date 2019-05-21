@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from django.db.models import Q, Sum
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -62,5 +63,9 @@ class RemoveSuggestions(RemovalAddon):
 
     def daily(self, component):
         self.delete_older(
-            component.project.suggestion_set.filter(vote=None)
+            component.project.suggestion_set.annotate(
+                Sum('vote__value')
+            ).filter(
+                Q(vote__value__sum__lte=0) | Q(vote__value__sum=None)
+            )
         )
