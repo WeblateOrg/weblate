@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-11 19:22+0000\n"
-"PO-Revision-Date: 2019-04-13 07:05+0000\n"
-"Last-Translator: Jesper Hertel <jesper.hertel@gmail.com>\n"
+"PO-Revision-Date: 2019-05-21 12:42+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
 "Language: da\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -203,14 +203,14 @@ msgstr "Beskriv venligst projektet og din relation til det."
 
 #: weblate/accounts/forms.py:709
 msgid "Component wide notifications"
-msgstr "Meddelelser for alle komponenter"
+msgstr "Underretninger for alle komponenter"
 
 #: weblate/accounts/forms.py:711
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
-"Du vil modtage meddelelse om alle sådanne hændelser i dine overvågede "
+"Du vil modtage en underretning om alle sådanne hændelser i dine overvågede "
 "projekter."
 
 #: weblate/accounts/forms.py:717
@@ -497,30 +497,24 @@ msgstr ""
 "mailadresse."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not notify"
-msgstr "Importér ikke"
+msgstr "Underret ikke"
 
 #: weblate/accounts/notifications.py:50
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Instant notification"
-msgstr "Oversættelsesunderretninger"
+msgstr "Underretning med det samme"
 
 #: weblate/accounts/notifications.py:51
 msgid "Daily digest"
-msgstr ""
+msgstr "Daglig sammenfatning"
 
 #: weblate/accounts/notifications.py:52
 msgid "Weekly digest"
-msgstr ""
+msgstr "Ugentlig sammenfatning"
 
 #: weblate/accounts/notifications.py:53
-#, fuzzy
-#| msgid "Monthly price"
 msgid "Monthly digest"
-msgstr "Månedlig pris"
+msgstr "Månedlig sammenfatning"
 
 #: weblate/accounts/notifications.py:319
 #, fuzzy
@@ -3268,10 +3262,8 @@ msgid "Preferences"
 msgstr "Indstillinger"
 
 #: weblate/templates/accounts/profile.html:25
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications"
-msgstr "Meddelelseshægter"
+msgstr "Underretninger"
 
 #: weblate/templates/accounts/profile.html:26
 #: weblate/templates/accounts/profile.html:107
@@ -3334,10 +3326,8 @@ msgstr ""
 "du ønsker at oversætte."
 
 #: weblate/templates/accounts/profile.html:77
-#, fuzzy
-#| msgid "Location strings"
 msgid "Notification settings"
-msgstr "Placeringsstrenge"
+msgstr "Underretningsindstillinger"
 
 #: weblate/templates/accounts/profile.html:110
 msgid "Your name and email will appear as author on the commits."
@@ -4667,19 +4657,15 @@ msgstr ""
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
-msgstr "Meddelelseshægter"
+msgstr "Underretningshægter"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
-"Med notifikationshægter vil Weblate automatisk importere ændringer foretaget "
-"af dine udviklere og give mulighed for løbende oversættelse."
+"Med underretningshægter vil Weblate automatisk importere ændringer foretaget "
+"af dine udviklere og give mulighed for løbende lokalisering."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -5370,7 +5356,7 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
-"Hvis du ikke har anmodet om ændringen, bedes du informere os så hurtigt "
+"Hvis du ikke har anmodet om ændringen, bedes du underrette os så hurtigt "
 "muligt med nedenstående formular:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
@@ -5411,10 +5397,8 @@ msgid "Sent by Weblate translation system"
 msgstr "Sendt af Weblate-oversættelsessystemet"
 
 #: weblate/templates/mail/base.html:36
-#, fuzzy
-#| msgid "Change subscription settings"
 msgid "Change notification settings"
-msgstr "Skift abonnementsindstillinger"
+msgstr "Skift underretningsindstillinger"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -5499,12 +5483,12 @@ msgstr "Ny oversættelse i %(translation)s"
 #: weblate/templates/mail/digest.html:11
 #, python-format
 msgid "This is a digest for %(notification_name)s:"
-msgstr ""
+msgstr "Dette er en sammenfatning for %(notification_name)s:"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr ""
+msgstr "Sammenfatning: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:3
 msgid "Translation summary:"
@@ -5908,7 +5892,7 @@ msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
 msgstr ""
-"Projektvedligeholdere vil få besked om anmodningen som spørger dem om at "
+"Projektvedligeholdere underrettes om anmodningen som spørger dem om at "
 "tilføje sproget manuelt."
 
 #: weblate/templates/new-language.html:32
@@ -6976,17 +6960,15 @@ msgstr "Alle beskyttede projekter"
 
 #: weblate/templates/watch-dropdown.html:13
 #: weblate/templates/watch-dropdown.html:16
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Antal indtastninger for %(project)s"
+msgstr "Tilpas underretninger for %(object)s"
 
 #: weblate/templates/watch-dropdown.html:14
 #: weblate/templates/watch-dropdown.html:17
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "Antal indtastninger for %(project)s"
+msgstr "Mute underretninger for %(object)s"
 
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
