@@ -58,9 +58,7 @@ class RemoveComments(RemovalAddon):
 class RemoveSuggestions(RemovalAddon):
     name = 'weblate.removal.suggestions'
     verbose = _('Stale suggestion removal')
-    description = _(
-        'Set timeframe for removal of suggestions without votes.'
-    )
+    description = _('Set timeframe for removal of suggestions.')
 
     def daily(self, component):
         self.delete_older(
