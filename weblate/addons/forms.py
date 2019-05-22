@@ -178,6 +178,18 @@ class RemoveForm(BaseAddonForm):
     )
 
 
+class RemoveSuggestionForm(RemoveForm):
+    votes = forms.IntegerField(
+        label=_('Votes threshold'),
+        initial=0,
+        required=True,
+        help_text=_(
+            'Votes threshold for removal. This field has no effect with '
+            'voting disabled.'
+        )
+    )
+
+
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs):
         self.context = kwargs.pop('context', {})
