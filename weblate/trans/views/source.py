@@ -39,7 +39,7 @@ from weblate.trans.models import Source, Translation, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.hash import checksum_to_hash
-from weblate.utils.views import get_component, get_paginator
+from weblate.utils.views import get_component, get_paginator, show_form_errors
 
 
 def get_source(request, project, component):
@@ -132,6 +132,7 @@ def edit_priority(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change a priority!'))
+        show_form_errors(request, form)
     return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
@@ -150,6 +151,7 @@ def edit_context(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change a context!'))
+        show_form_errors(request, form)
     return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
@@ -168,6 +170,7 @@ def edit_check_flags(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change translation flags!'))
+        show_form_errors(request, form)
     return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
