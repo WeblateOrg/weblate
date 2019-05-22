@@ -47,6 +47,7 @@ from weblate.trans.util import (
     get_distinct_translations,
     is_plural,
     join_plural,
+    merge_flags,
     parse_flags,
     split_plural,
 )
@@ -915,11 +916,11 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_flags(self):
         """Return union of own and component flags."""
-        flags = set(parse_flags(self.flags))
-        flags.update(parse_flags(self.source_info.check_flags))
-        flags.update(self.translation.component.all_flags)
-        flags.discard('')
-        return flags
+        return merge_flags(
+            self.translation.component.all_flags,
+            parse_flags(self.source_info.check_flags),
+            parse_flags(self.flags)
+        )
 
     @cached_property
     def source_info(self):

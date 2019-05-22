@@ -64,6 +64,7 @@ from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
     is_repo_link,
+    merge_flags,
     parse_flags,
     path_separator,
 )
@@ -1768,10 +1769,10 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        flags = set(parse_flags(self.check_flags))
-        flags.update(self.file_format_cls.check_flags)
-        flags.discard('')
-        return flags
+        return merge_flags(
+            self.file_format_cls.check_flags,
+            parse_flags(self.check_flags)
+        )
 
     def can_add_new_language(self, request):
         """Wrapper to check if a new language can be added.

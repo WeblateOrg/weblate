@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import os
 import sys
 import unicodedata
+from itertools import chain
 
 import six
 from django.apps import apps
@@ -346,4 +347,18 @@ def rich_to_xliff_string(string_elements):
 def parse_flags(flags):
     """Parse comma separated list of flags."""
     for flag in flags.split(','):
-        yield flag.strip()
+        value = flag.strip()
+        if not value:
+            continue
+        yield value
+
+
+def merge_flags(*flags):
+    """Merge flags by giving priority later ones."""
+    result = {}
+    for flag in chain(*flags):
+        if not flag:
+            continue
+        key = flag.split(':')[0]
+        result[key] = flag
+    return set(result.values())

@@ -18,12 +18,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from unittest import TestCase
+from django.test import SimpleTestCase
 
-from weblate.trans.util import cleanup_repo_url, translation_percent
+from weblate.trans.util import (
+    cleanup_repo_url,
+    merge_flags,
+    parse_flags,
+    translation_percent,
+)
 
 
-class HideCredentialsTest(TestCase):
+class HideCredentialsTest(SimpleTestCase):
     def test_http(self):
         self.assertEqual(
             cleanup_repo_url('http://foo:bar@example.com'),
@@ -57,7 +62,7 @@ class HideCredentialsTest(TestCase):
         )
 
 
-class TranslationPercentTest(TestCase):
+class TranslationPercentTest(SimpleTestCase):
     def test_common(self):
         self.assertAlmostEqual(translation_percent(2, 4), 50.0)
 
@@ -78,3 +83,35 @@ class TranslationPercentTest(TestCase):
 
     def test_almost_translated_file(self):
         self.assertAlmostEqual(translation_percent(99999999, 100000000), 99.9)
+
+
+class FlagTest(SimpleTestCase):
+    def test_parse(self):
+        self.assertEqual(
+            set(parse_flags('foo, bar')),
+            {'foo', 'bar'}
+        )
+
+    def test_parse_blank(self):
+        self.assertEqual(
+            set(parse_flags('foo, bar, ')),
+            {'foo', 'bar'}
+        )
+
+    def test_parse_empty(self):
+        self.assertEqual(
+            set(parse_flags('')),
+            set()
+        )
+
+    def test_merge(self):
+        self.assertEqual(
+            merge_flags({'foo'}, {'bar'}),
+            {'foo', 'bar'}
+        )
+
+    def test_merge_prefix(self):
+        self.assertEqual(
+            merge_flags({'foo:1'}, {'foo:2'}),
+            {'foo:2'}
+        )
