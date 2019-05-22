@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-22 09:53+0000\n"
-"PO-Revision-Date: 2019-05-15 04:52+0000\n"
+"PO-Revision-Date: 2019-05-24 19:22+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -462,24 +462,18 @@ msgstr ""
 "panelde gösterilir."
 
 #: weblate/accounts/models.py:495
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Lütfen çevirmek istediğiniz dili seçin."
+msgstr "Lütfen panelde hangi bileşen listesini görüntülemek istediğinizi seçin."
 
 #: weblate/accounts/models.py:506
 msgid "Component list can not be chosen when unused."
 msgstr "Kullanılmadığında bileşen listesi seçilemez."
 
 #: weblate/accounts/models.py:509
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
-msgstr ""
-"Etkinleştirildiğinde bu bileşen listesi panelde bir sekme olarak gösterilecek"
+msgstr "Bileşen listesinin seçilmesi, panelde gösterilmediğinde etkili olmaz."
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -876,10 +870,8 @@ msgstr ""
 "kaydırır, --no-wrap parametresi yalnızca yeni satırlarda kaydırır."
 
 #: weblate/addons/forms.py:125
-#, fuzzy
-#| msgid "Keep previous msgids of translated messages"
 msgid "Keep previous msgids of translated strings"
-msgstr "Önceki çevrili mesajların msgid'lerini sakla"
+msgstr "Çevrili satırların önceki msgid'lerini sakla"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
@@ -918,15 +910,15 @@ msgid "Days to keep"
 msgstr "Saklanacak günler"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Votes threshold"
-msgstr "Skor eşiği"
+msgstr "Oy eşiği"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Votes threshold for removal. This field has no effect with voting disabled."
 msgstr ""
+"Kaldırma için oy eşiği. Bu alan oylama devre dışı bırakıldığında hiçbir "
+"etkisi yoktur."
 
 #: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files"
@@ -1098,10 +1090,8 @@ msgid "Stale suggestion removal"
 msgstr "Eski öneri kaldırma"
 
 #: weblate/addons/removal.py:62
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions without votes."
 msgid "Set timeframe for removal of suggestions."
-msgstr "Oylaması olmayan önerilerin kaldırılması için zaman dilimi ayarlayın."
+msgstr "Önerilerin kaldırılması için zaman dilimi ayarlayın."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2526,59 +2516,43 @@ msgid "Security Policy"
 msgstr "Güvenlik İlkesi"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, security is seriously to maintain an environment that values "
-#| "the privacy of our users."
 msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
 msgstr ""
-"Weblate'de güvenlik, kullanıcılarımızın gizliliğine değer veren bir ortamı "
-"korumak açısından ciddidir."
+"Weblate'de güvenlik, kullanıcılarımızın gizliliğine değer veren bir ortam "
+"sağlar."
 
 #: weblate/legal/templates/legal/security.html:28
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
 msgstr ""
-"Weblate geliştirimi, Linux Vakfı Çekirdek Altyapı Girişimi En İyi "
-"Uygulamalar'ı izler."
+"Weblate geliştirme, Linux Vakfı'nın Temel Altyapı Girişiminin En İyi "
+"Uygulamalarını izlemektedir."
 
 #: weblate/legal/templates/legal/security.html:38
 msgid "Security FAQ"
 msgstr "Güvenlik SSS"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "How do you store user passwords?"
 msgid "How are user passwords stored?"
-msgstr "Kullanıcı parolalarını nasıl saklıyorsunuz?"
+msgstr "Kullanıcı şifreleri nasıl saklanır?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC "
-#| "and SHA-256 with 150000 iterations."
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
 msgstr ""
-"Weblate, şu anda 150000 yineleme ile PBKDF2, HMAC ve SHA-256 kullanarak tüm "
-"kullanıcı parolalarını karma saklar."
+"Şu anda 150000 yinelemeli PBKDF2, HMAC ve SHA-256 kullanılarak "
+"hazırlanmıştır."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
 msgstr "Güvenlik sorunu nasıl bildirilir?"
 
 #: weblate/legal/templates/legal/security.html:48
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has instructions on safe reporting."
-msgstr "Ayrıntılı yönergeler için belgelere göz atın"
+msgstr "Belgelerde güvenli raporlama ile ilgili talimatlar bulunmaktadır."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
