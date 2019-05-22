@@ -38,14 +38,14 @@ The following examples assume you have a working Docker environment, with
         services:
           weblate:
             environment:
-              - WEBLATE_EMAIL_HOST=smtp.example.com
-              - WEBLATE_EMAIL_HOST_USER=user
-              - WEBLATE_EMAIL_HOST_PASSWORD=pass
-              - WEBLATE_SERVER_EMAIL=weblate@example.com
-              - WEBLATE_DEFAULT_FROM_EMAIL=weblate@example.com
-              - WEBLATE_ALLOWED_HOSTS=weblate.example.com,localhost
-              - WEBLATE_ADMIN_PASSWORD=password for the admin user
-              - WEBLATE_ADMIN_EMAIL=weblate.admin@example.com
+              WEBLATE_EMAIL_HOST: smtp.example.com
+              WEBLATE_EMAIL_HOST_USER: user
+              WEBLATE_EMAIL_HOST_PASSWORD: pass
+              WEBLATE_SERVER_EMAIL: weblate@example.com
+              WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
+              WEBLATE_ALLOWED_HOSTS: weblate.example.com,localhost
+              WEBLATE_ADMIN_PASSWORD: password for the admin user
+              WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
 
    .. note::
 
@@ -88,11 +88,11 @@ Then create a :file:`docker-compose-https.override.yml` file with your settings:
     services:
       weblate:
         environment:
-          - WEBLATE_EMAIL_HOST=smtp.example.com
-          - WEBLATE_EMAIL_HOST_USER=user
-          - WEBLATE_EMAIL_HOST_PASSWORD=pass
-          - WEBLATE_ALLOWED_HOSTS=weblate.example.com
-          - WEBLATE_ADMIN_PASSWORD=password for admin user
+          WEBLATE_EMAIL_HOST: smtp.example.com
+          WEBLATE_EMAIL_HOST_USER: user
+          WEBLATE_EMAIL_HOST_PASSWORD: pass
+          WEBLATE_ALLOWED_HOSTS: weblate.example.com
+          WEBLATE_ADMIN_PASSWORD: password for admin user
       https-portal:
         environment:
           DOMAINS: 'weblate.example.com -> http://weblate'
@@ -150,7 +150,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_DEBUG=1
+          WEBLATE_DEBUG: 1
 
     .. seealso::
 
@@ -175,8 +175,8 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_ADMIN_NAME=Weblate admin
-          - WEBLATE_ADMIN_EMAIL=noreply@example.com
+          WEBLATE_ADMIN_NAME: Weblate admin
+          WEBLATE_ADMIN_EMAIL: noreply@example.com
 
     .. seealso::
 
@@ -212,7 +212,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_ALLOWED_HOSTS=weblate.example.com,example.com
+          WEBLATE_ALLOWED_HOSTS: weblate.example.com,example.com
 
     .. seealso::
 
@@ -241,7 +241,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_REGISTRATION_OPEN=0
+          WEBLATE_REGISTRATION_OPEN: 0
 
 .. envvar:: WEBLATE_TIME_ZONE
 
@@ -263,7 +263,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_ENABLE_HTTPS=1
+          WEBLATE_ENABLE_HTTPS: 1
 
     .. seealso::
 
@@ -281,7 +281,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR
+          WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
 
 
 .. envvar:: WEBLATE_REQUIRE_LOGIN
@@ -293,7 +293,7 @@ Generic settings
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_REQUIRE_LOGIN=1
+          WEBLATE_REQUIRE_LOGIN: 1
 
 .. envvar:: WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS
 
@@ -365,11 +365,11 @@ LDAP
     .. code-block:: yaml
 
         environment:
-          - WEBLATE_AUTH_LDAP_SERVER_URI=ldap://ldap.example.org
-          - WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE=uid=%(user)s,ou=People,dc=example,dc=net
+          WEBLATE_AUTH_LDAP_SERVER_URI: ldap://ldap.example.org
+          WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE=uid=%(user)s,ou=People,dc=example,dc: net
           # map weblate 'full_name' to ldap 'name' and weblate 'email' attribute to 'mail' ldap attribute.
           # another example that can be used with OpenLDAP: 'full_name:cn,email:mail'
-          - WEBLATE_AUTH_LDAP_USER_ATTR_MAP=full_name:name,email:mail
+          WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
 
     .. seealso::
 
