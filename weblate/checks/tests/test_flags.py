@@ -21,7 +21,7 @@
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, TYPED_FLAGS, TYPED_FLAGS_ARGS
 
 
 class FlagTest(SimpleTestCase):
@@ -51,3 +51,6 @@ class FlagTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name:1").validate()
         Flags("ignore-max-length").validate()
+
+    def test_typed(self):
+        self.assertEqual(TYPED_FLAGS.keys(), TYPED_FLAGS_ARGS.keys())
