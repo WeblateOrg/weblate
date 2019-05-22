@@ -872,7 +872,7 @@ class Unit(models.Model, LoggerMixin):
 
     def nearby(self):
         """Return list of nearby messages based on location."""
-        return Unit.objects.prefetch().filter(
+        return Unit.objects.prefetch().order_by('position').filter(
             translation=self.translation,
             position__gte=self.position - settings.NEARBY_MESSAGES,
             position__lte=self.position + settings.NEARBY_MESSAGES,
