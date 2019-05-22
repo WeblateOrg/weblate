@@ -58,7 +58,7 @@ class SuggestionManager(models.Manager):
             if same.target == target:
                 if same.user == user or not vote:
                     return False
-                same.add_vote(unit.translation, request, True)
+                same.add_vote(unit.translation, request, Vote.POSITIVE)
                 return False
 
         # Create the suggestion
@@ -87,11 +87,7 @@ class SuggestionManager(models.Manager):
 
         # Add unit vote
         if vote:
-            suggestion.add_vote(
-                unit.translation,
-                request,
-                True
-            )
+            suggestion.add_vote(unit.translation, request, Vote.POSITIVE)
 
         # Update suggestion stats
         if user is not None:
@@ -206,12 +202,10 @@ class Suggestion(UnitData, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum('value'))['value__sum']
 
-    def add_vote(self, translation, request, positive):
+    def add_vote(self, translation, request, value):
         """Add (or updates) vote for a suggestion."""
         if not request.user.is_authenticated:
             return
-
-        value = 1 if positive else -1
 
         vote, created = Vote.objects.get_or_create(
             suggestion=self,
@@ -238,6 +232,9 @@ class Vote(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     value = models.SmallIntegerField(default=0)
+
+    POSITIVE = 1
+    NEGATIVE = -1
 
     class Meta(object):
         unique_together = ('suggestion', 'user')
