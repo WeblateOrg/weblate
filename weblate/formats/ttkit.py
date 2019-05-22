@@ -130,8 +130,7 @@ class TTKitUnit(TranslationUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
-        if 'target' in self.__dict__:
-            del self.__dict__['target']
+        self._invalidate_target()
         if isinstance(target, list):
             target = multistring(target)
         self.unit.target = target
@@ -452,6 +451,7 @@ class XliffUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
+        self._invalidate_target()
         try:
             converted = xliff_string_to_rich(target)
         except XMLSyntaxError:

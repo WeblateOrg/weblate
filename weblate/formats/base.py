@@ -70,6 +70,11 @@ class TranslationUnit(object):
         else:
             self.mainunit = unit
 
+    def _invalidate_target(self):
+        """Invalidate target cache."""
+        if 'target' in self.__dict__:
+            del self.__dict__['target']
+
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""

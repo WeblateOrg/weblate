@@ -165,6 +165,7 @@ class TextUnit(TranslationUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
+        self._invalidate_target()
         self.unit.text = target
 
     def mark_fuzzy(self, fuzzy):
