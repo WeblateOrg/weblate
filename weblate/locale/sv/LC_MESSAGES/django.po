@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-22 09:53+0000\n"
-"PO-Revision-Date: 2019-05-04 12:42+0000\n"
+"PO-Revision-Date: 2019-05-24 19:22+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -396,18 +396,16 @@ msgid "Zen mode"
 msgstr "Zen-läge"
 
 #: weblate/accounts/models.py:398
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "Zen-läge"
+msgstr "Zen-redigeringsläge"
 
 #: weblate/accounts/models.py:400
 msgid "Top to bottom"
-msgstr ""
+msgstr "Uppifrån och ned"
 
 #: weblate/accounts/models.py:401
 msgid "Side by side"
-msgstr ""
+msgstr "Sida vid sida"
 
 #: weblate/accounts/models.py:408
 msgid "Special characters"
@@ -463,24 +461,20 @@ msgstr ""
 "kontrollpanelen som standard."
 
 #: weblate/accounts/models.py:495
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Välj det språk du vill översätta till."
+msgstr "Välj vilken komponentlista du vill ska visas på kontrollpanelen."
 
 #: weblate/accounts/models.py:506
 msgid "Component list can not be chosen when unused."
 msgstr "Komponentlistan kan inte väljas när den inte används."
 
 #: weblate/accounts/models.py:509
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr ""
-"När denna aktiveras visas komponentlistan som en flik på kontrollpanelen"
+"Att välja komponentlista har ingen effekt när den inte visas på "
+"kontrollpanelen."
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -839,14 +833,12 @@ msgstr ""
 "även om de inte är översatta."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "Namn på genererad fil"
+msgstr "Sökväg till genererad MO-fil"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Om inte angiven så kommer platsen för PO-filen att användas."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -873,10 +865,6 @@ msgid "No line wrapping"
 msgstr "Ingen radbrytning"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
@@ -885,14 +873,12 @@ msgstr ""
 "parametern --no-wrap radbyter den bara vid radbrytning."
 
 #: weblate/addons/forms.py:125
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Keep previous msgids of translated strings"
-msgstr "Antal översatta strängar"
+msgstr "Behåll tidigare msgid för översatta strängar"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "Använd fuzzy-matchning"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
@@ -924,18 +910,18 @@ msgstr "JSON-indentering"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "Dagar som sparas"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Votes threshold"
-msgstr "Poänggräns"
+msgstr "Tröskelvärde för röster"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Votes threshold for removal. This field has no effect with voting disabled."
 msgstr ""
+"Tröskelvärde för röstavlägsnande. Det här fältet har ingen effekt när "
+"röstning är inaktiverad."
 
 #: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files"
@@ -975,24 +961,16 @@ msgid "Language filter"
 msgstr "Språkfilter"
 
 #: weblate/addons/forms.py:241
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Reguljärt uttryck används för att filtrera översättningar vid sökning efter "
-"filmask."
+"Reguljärt uttryck för att filtrera översättningar vid sökning efter filmask."
 
 #: weblate/addons/forms.py:246
-#, fuzzy
-#| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "Ta bort komponenter för icke-existerande filer"
 
 #: weblate/addons/forms.py:250
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Jag bekräftar att ovanstående matchningar ser ut att vara korrekta"
 
@@ -1102,26 +1080,20 @@ msgid "This addon sorts the Java properties file."
 msgstr "Detta tillägg sorterar Java-properties-filen."
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Kontoborttagning"
+msgstr "Borttagning av inaktuella kommentarer"
 
 #: weblate/addons/removal.py:51
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Ange tidsram för borttagning av kommentarer."
 
 #: weblate/addons/removal.py:61
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Förslaget borttaget"
+msgstr "Borttagning av inaktuella förslag"
 
 #: weblate/addons/removal.py:62
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Set timeframe for removal of suggestions."
-msgstr "Om användare kan rösta på förslag."
+msgstr "Ange tidsram för borttagning av förslag."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2577,31 +2549,22 @@ msgid "Security FAQ"
 msgstr "Säkerhets-FAQ"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "How do you store user passwords?"
 msgid "How are user passwords stored?"
-msgstr "Hur lagrar ni användarnas lösenord?"
+msgstr "Hur lagrars användarnas lösenord?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC "
-#| "and SHA-256 with 150000 iterations."
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
 msgstr ""
-"Weblate lagrar alla användarlösenord hashade, för närvarande med PBKDF2, "
-"HMAC och SHA-256 med 150000 iterationer."
+"Hashade, för närvarande med PBKDF2, HMAC och SHA-256 med 150000 iterationer."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
 msgstr "Hur rapporterar jag ett säkerhetsproblem?"
 
 #: weblate/legal/templates/legal/security.html:48
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has instructions on safe reporting."
-msgstr "Se detaljerade instruktioner i dokumentationen"
+msgstr "Dokumentationen innehåller instruktioner för säker rapportering."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
@@ -2706,15 +2669,13 @@ msgid "Source has been removed."
 msgstr "Källan har tagits bort."
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Bad request"
-msgstr "Ogiltig sammanslagningsförfrågan!"
+msgstr "Felaktig begäran"
 
 #: weblate/templates/400.html:12
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr ""
+msgstr "Vi beklagar men det verkar vara något fel med den begäran som du gjort."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:60
@@ -3782,10 +3743,8 @@ msgid "Number of translated strings"
 msgstr "Antal översatta strängar"
 
 #: weblate/templates/addons/generate_help.html:20
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation filename"
-msgstr "Översättningsfil"
+msgstr "Översättningens filnamn"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1559
 #: weblate/trans/models/component.py:152
@@ -6333,10 +6292,8 @@ msgid "Zen"
 msgstr "Zen"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure editor"
-msgstr "Konfigurera tillägg"
+msgstr "Konfigurera editor"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -9105,7 +9062,7 @@ msgstr "Ny sträng har lagts till."
 
 #: weblate/trans/views/error.py:36
 msgid "Bad Request"
-msgstr ""
+msgstr "Felaktig begäran"
 
 #: weblate/trans/views/files.py:69
 msgid "Access denied."
