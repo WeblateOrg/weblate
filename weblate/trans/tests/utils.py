@@ -215,7 +215,7 @@ class RepoTestMixin(object):
         if branch is None:
             branch = VCS_REGISTRY[vcs].default_branch
 
-        result = Component.objects.create(
+        return Component.objects.create(
             repo=repo,
             push=push,
             branch=branch,
@@ -228,7 +228,6 @@ class RepoTestMixin(object):
             vcs=vcs,
             **kwargs
         )
-        return result
 
     def create_component(self):
         """Wrapper method for providing test component."""

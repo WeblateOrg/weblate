@@ -138,11 +138,11 @@ class Notification(object):
         )
         if users is not None:
             cache_key += tuple(sorted(users))
-        if cache_key in self.subscription_cache:
-            return self.subscription_cache[cache_key]
-        result = self.filter_subscriptions(change, users, lang_filter)
-        self.subscription_cache[cache_key] = result
-        return result
+        if cache_key not in self.subscription_cache:
+            self.subscription_cache[cache_key] = self.filter_subscriptions(
+                change, users, lang_filter
+            )
+        return self.subscription_cache[cache_key]
 
     def has_required_attrs(self, change):
         return (

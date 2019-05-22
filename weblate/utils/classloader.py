@@ -44,14 +44,13 @@ def load_class(name, setting):
             )
         )
     try:
-        cls = getattr(mod, attr)
+        return getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured(
             'Module "{0}" does not define a "{1}" class in {2}'.format(
                 module, attr, setting
             )
         )
-    return cls
 
 
 class ClassLoader(object):

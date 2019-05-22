@@ -464,9 +464,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         else:
             template = self.component.commit_message
 
-        msg = render_template(template, translation=self, author=author)
-
-        return msg
+        return render_template(template, translation=self, author=author)
 
     def __git_commit(self, author, timestamp):
         """Commit translation to git."""

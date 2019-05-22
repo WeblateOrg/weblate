@@ -282,8 +282,7 @@ def sort_unicode(choices, key):
 def remove_accents(input_str):
     """Remove accents from a string."""
     nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
-    only_ascii = nkfd_form.encode('ASCII', 'ignore')
-    return only_ascii
+    return nkfd_form.encode('ASCII', 'ignore')
 
 
 def sort_choices(choices):

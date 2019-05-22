@@ -143,11 +143,8 @@ class MachineTranslation(object):
         if raw:
             return text
 
-        # Parse JSON
-        response = json.loads(text)
-
-        # Return data
-        return response
+        # Parse and return JSON
+        return json.loads(text)
 
     def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
         """Perform JSON request with checking response status."""

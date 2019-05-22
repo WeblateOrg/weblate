@@ -165,7 +165,7 @@ class SameCheck(TargetCheck):
         if (len(source.strip('0123456789:/,.')) <= 1
                 or '(c) copyright' in lower_source
                 or '©' in source):
-            result = True
+            return True
         else:
             # Strip format strings
             stripped = strip_string(source, unit.all_flags)
@@ -174,7 +174,7 @@ class SameCheck(TargetCheck):
             # or just single letter (usually unit or something like that)
             # or are whole uppercase (abbreviations)
             if len(stripped) <= 1 or stripped.isupper():
-                result = True
+                return True
             else:
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
@@ -182,8 +182,6 @@ class SameCheck(TargetCheck):
                     if not test_word(word):
                         return False
                 return True
-
-        return result
 
     def should_skip(self, unit):
         if super(SameCheck, self).should_skip(unit):

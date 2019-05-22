@@ -374,8 +374,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ''))
-        ret = [smart_text(r.replace('\r', '')) for r in ret]
-        return ret
+        return [smart_text(r.replace('\r', '')) for r in ret]
 
 
 class PluralField(forms.CharField):

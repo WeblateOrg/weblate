@@ -208,7 +208,7 @@ class UnitQuerySet(models.QuerySet):
             base = base.filter(translation__language__code__in=params['lang'])
 
         if 'q' not in params or not params['q']:
-            result = base
+            return base
 
         elif params['search'] in ('exact', 'substring', 'regex'):
             queries = []
@@ -231,19 +231,18 @@ class UnitQuerySet(models.QuerySet):
                 Q()
             )
 
-            result = base.filter(query)
+            return base.filter(query)
         else:
             langs = set(self.values_list(
                 'translation__language__code', flat=True
             ))
-            result = base.filter(
+            return base.filter(
                 pk__in=Fulltext().search(
                     params['q'],
                     langs,
                     params
                 )
             )
-        return result
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""

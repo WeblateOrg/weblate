@@ -72,8 +72,7 @@ class SAPTranslationHub(MachineTranslation):
         languages_url = settings.MT_SAP_BASE_URL + 'languages'
         response = self.json_req(languages_url)
 
-        lang = [d['id'] for d in response['languages']]
-        return lang
+        return [d['id'] for d in response['languages']]
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
