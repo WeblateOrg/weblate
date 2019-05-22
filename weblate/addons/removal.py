@@ -28,7 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY
-from weblate.addons.forms import RemoveForm
+from weblate.addons.forms import RemoveForm, RemoveSuggestionForm
 
 
 class RemovalAddon(BaseAddon):
@@ -60,12 +60,14 @@ class RemoveSuggestions(RemovalAddon):
     name = 'weblate.removal.suggestions'
     verbose = _('Stale suggestion removal')
     description = _('Set timeframe for removal of suggestions.')
+    settings_form = RemoveSuggestionForm
 
     def daily(self, component):
         self.delete_older(
             component.project.suggestion_set.annotate(
                 Sum('vote__value')
             ).filter(
-                Q(vote__value__sum__lte=0) | Q(vote__value__sum=None)
+                Q(vote__value__sum__lte=self.instance.configuration.get('votes', 0))
+                | Q(vote__value__sum=None)
             )
         )
