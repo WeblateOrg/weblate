@@ -298,15 +298,6 @@ class MaxLengthCheckTest(TestCase):
             )
         )
 
-    def test_multiple_flags_check(self):
-        self.assertFalse(
-            self.check.check_target(
-                [self.test_good_matching_unicode[0]],
-                [self.test_good_matching_unicode[1]],
-                MockUnit(flags=('max-length:3,max-length:12'))
-            )
-        )
-
 
 class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()

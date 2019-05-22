@@ -32,6 +32,7 @@ class Check(object):
     default_disabled = False
     severity = 'info'
     batch_update = False
+    param_type = None
 
     def get_identifier(self):
         return self.check_id
@@ -177,12 +178,17 @@ class TargetCheckParametrized(Check):
     def check_target(self, sources, targets, unit):
         """Check flag value"""
         values = []
+        prefix = self.enable_prefix
         for flag in unit.all_flags:
-            if flag.startswith(self.enable_prefix):
-                values.append(flag[len(self.enable_prefix):])
-        if values:
-            return self.check_target_params(sources, targets, unit, values)
+            # There should be only one value with unique prefix
+            if flag.startswith(prefix):
+                return self.check_target_params(
+                    sources, targets, unit, self.param_type(flag[len(prefix):])
+                )
         return False
+
+    def check_target_params(self, sources, targets, unit, value):
+        raise NotImplementedError()
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""

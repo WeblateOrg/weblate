@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from weblate.trans.util import (
@@ -26,6 +27,7 @@ from weblate.trans.util import (
     parse_flags,
     translation_percent,
 )
+from weblate.trans.validators import validate_check_flags
 
 
 class HideCredentialsTest(SimpleTestCase):
@@ -115,3 +117,15 @@ class FlagTest(SimpleTestCase):
             merge_flags({'foo:1'}, {'foo:2'}),
             {'foo:2'}
         )
+
+    def test_validate_value(self):
+        with self.assertRaises(ValidationError):
+            validate_check_flags('max-length:x')
+        validate_check_flags('max-length:30')
+
+    def test_validate_name(self):
+        with self.assertRaises(ValidationError):
+            validate_check_flags('invalid-check-name')
+        with self.assertRaises(ValidationError):
+            validate_check_flags('invalid-check-name:1')
+        validate_check_flags('ignore-max-length')

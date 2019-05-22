@@ -22,11 +22,17 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
 from weblate.checks import CHECKS
+from weblate.trans.util import parse_flags
 
 EXTRA_FLAGS = {
     v.enable_string: v.name
     for k, v in CHECKS.items()
-    if v.default_disabled
+    if v.default_disabled and not v.param_type
+}
+TYPED_FLAGS = {
+    v.enable_string: v.param_type
+    for k, v in CHECKS.items()
+    if v.param_type
 }
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
@@ -60,10 +66,15 @@ def validate_autoaccept(val):
 
 def validate_check_flags(val):
     """Validate check influencing flags."""
-    if not val:
-        return
-    for flag in val.split(','):
-        name = flag.split(':')[0]
-        if name in EXTRA_FLAGS or name in IGNORE_CHECK_FLAGS:
+    for flag in parse_flags(val):
+        if ':' in flag:
+            key, value = flag.split(':', 1)
+            if key in TYPED_FLAGS:
+                try:
+                    TYPED_FLAGS[key](value)
+                    continue
+                except Exception:
+                    raise ValidationError(_('Invalid translation flag: "%s"') % flag)
+        elif flag in EXTRA_FLAGS or flag in IGNORE_CHECK_FLAGS:
             continue
         raise ValidationError(_('Invalid translation flag: "%s"') % flag)

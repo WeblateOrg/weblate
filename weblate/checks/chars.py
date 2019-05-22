@@ -371,10 +371,10 @@ class MaxLengthCheck(TargetCheckParametrized):
     description = _('Translation should not exceed given length')
     severity = 'danger'
     default_disabled = True
+    param_type = int
 
-    def check_target_params(self, sources, targets, unit, values):
-        max_length = max((int(value) for value in values))
-        return any((len(target) > max_length for target in targets))
+    def check_target_params(self, sources, targets, unit, value):
+        return any((len(target) > value for target in targets))
 
 
 class EndSemicolonCheck(TargetCheck):
