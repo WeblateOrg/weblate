@@ -49,7 +49,7 @@ from weblate.trans.forms import (
     TranslationForm,
     ZenTranslationForm,
 )
-from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit
+from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit, Vote
 from weblate.trans.util import join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
@@ -418,10 +418,10 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     elif 'delete' in request.POST or 'spam' in request.POST:
         suggestion.delete_log(request.user, is_spam='spam' in request.POST)
     elif 'upvote' in request.POST:
-        suggestion.add_vote(translation, request, True)
+        suggestion.add_vote(translation, request, Vote.POSITIVE)
         redirect_url = next_unit_url
     elif 'downvote' in request.POST:
-        suggestion.add_vote(translation, request, False)
+        suggestion.add_vote(translation, request, Vote.NEGATIVE)
 
     return HttpResponseRedirect(redirect_url)
 
