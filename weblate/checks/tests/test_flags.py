@@ -21,7 +21,7 @@
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
-from weblate.checks.flags import Flags, TYPED_FLAGS, TYPED_FLAGS_ARGS
+from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags
 
 
 class FlagTest(SimpleTestCase):
