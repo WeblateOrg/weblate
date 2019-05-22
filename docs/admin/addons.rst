@@ -192,22 +192,25 @@ This addon sorts the Java properties file.
 
 .. _addon-weblate.removal.comments:
 
-Remove old comments
--------------------
+Stale comment removal
+---------------------
 
 .. versionadded:: 3.7
 
-Remove comments older than given age in days.
+Set timeframe for removal of comments. This can be useful to remove old
+comments which might have become outdated. Use with care as comment being old
+does not mean it has lost it's importation.
 
 .. _addon-weblate.removal.suggestions:
 
-Remove old suggestions
-----------------------
+Stale suggestion removal
+------------------------
 
 .. versionadded:: 3.7
 
-Remove suggestions without votes older than given age in days.
-
+Set timeframe for removal of suggestions. This can be very useful in connection
+with suggestion voting (see :ref:`peer-review`) to remove suggestions which
+don't receive enough positive votes until certain deadline.
 
 
 Customizing list of addons

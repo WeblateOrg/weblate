@@ -68,6 +68,9 @@ This is also default setup in Weblate.
 | Reviewers group        | N/A        | not used                            |
 +------------------------+------------+-------------------------------------+
 
+
+.. _peer-review:
+
 Peer review
 -----------
 
