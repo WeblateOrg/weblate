@@ -43,6 +43,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from six.moves.urllib.parse import urlparse
 
+from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -64,8 +65,6 @@ from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
     is_repo_link,
-    merge_flags,
-    parse_flags,
     path_separator,
 )
 from weblate.trans.validators import (
@@ -1769,10 +1768,7 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        return merge_flags(
-            self.file_format_cls.check_flags,
-            parse_flags(self.check_flags)
-        )
+        return Flags(self.file_format_cls.check_flags, self.check_flags)
 
     def can_add_new_language(self, request):
         """Wrapper to check if a new language can be added.

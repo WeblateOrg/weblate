@@ -551,7 +551,7 @@
     <tr>
     <td>
     {% if unit.all_flags %}
-    {{ unit.all_flags|join:", " }}
+    {{ unit.all_flags.format }}
     {% else %}
     {% trans "No flags currently set!" %}
     {% endif %}

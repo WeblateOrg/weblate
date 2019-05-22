@@ -25,6 +25,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlencode
 
 from weblate.checks import CHECKS
+from weblate.checks.flags import PLAIN_FLAGS, TYPED_FLAGS
 from weblate.checks.models import Check
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
@@ -32,7 +33,6 @@ from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import CheckFlagsForm, ContextForm, PriorityForm
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import sort_objects
-from weblate.trans.validators import EXTRA_FLAGS
 from weblate.utils.errors import report_error
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_component, get_project, get_translation
@@ -238,8 +238,6 @@ def get_detail(request, project, component, checksum):
     check_flags = [
         (CHECKS[x].ignore_string, CHECKS[x].name) for x in CHECKS
     ]
-    extra_flags = [(x, EXTRA_FLAGS[x]) for x in EXTRA_FLAGS]
-
     return render(
         request,
         'js/detail.html',
@@ -259,7 +257,8 @@ def get_detail(request, project, component, checksum):
                 initial={'flags': source.check_flags}
             ),
             'screenshot_form': ScreenshotForm(),
-            'extra_flags': extra_flags,
+            'extra_flags': PLAIN_FLAGS.items(),
+            'param_flags': TYPED_FLAGS.items(),
             'check_flags': check_flags,
         }
     )

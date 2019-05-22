@@ -34,6 +34,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
+from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
@@ -47,8 +48,6 @@ from weblate.trans.util import (
     get_distinct_translations,
     is_plural,
     join_plural,
-    merge_flags,
-    parse_flags,
     split_plural,
 )
 from weblate.utils.errors import report_error
@@ -916,10 +915,10 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_flags(self):
         """Return union of own and component flags."""
-        return merge_flags(
+        return Flags(
             self.translation.component.all_flags,
-            parse_flags(self.source_info.check_flags),
-            parse_flags(self.flags)
+            self.source_info.check_flags,
+            self.flags
         )
 
     @cached_property
@@ -962,12 +961,8 @@ class Unit(models.Model, LoggerMixin):
         """Returns maximal translation length."""
         if not self.pk:
             return 10000
-        for flag in self.all_flags:
-            if flag.startswith('max-length:'):
-                try:
-                    return int(flag[11:])
-                except ValueError:
-                    continue
+        if self.all_flags.has_value('max-length'):
+            return self.all_flags.get_value('max-length')
         if settings.LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH:
             # Fallback to reasonably big value
             return max(100, len(self.get_source_plurals()[0]) * 10)

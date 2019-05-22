@@ -25,6 +25,7 @@ import random
 
 from django.test import SimpleTestCase
 
+from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
 
 
@@ -68,7 +69,7 @@ class MockUnit(object):
         if id_hash is None:
             id_hash = random.randint(0, 65536)
         self.id_hash = id_hash
-        self.flags = flags
+        self.flags = Flags(flags)
         self.translation = MockTranslation(code)
         self.source = source
         self.fuzzy = False
@@ -77,7 +78,7 @@ class MockUnit(object):
 
     @property
     def all_flags(self):
-        return self.flags.split(',')
+        return self.flags
 
     def get_source_plurals(self):
         return [self.source]

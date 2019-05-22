@@ -44,6 +44,9 @@
     {% for flag in extra_flags %}
     <li><a href="#" data-flag="{{ flag.0 }}">{{ flag.1 }}</a></li>
     {% endfor %}
+    {% for flag in param_flags %}
+    <li><a href="#" data-flag="{{ flag.0 }}:">{{ flag.1 }}</a></li>
+    {% endfor %}
     <li class="divider"></li>
     {% for flag in check_flags %}
     <li><a href="#" data-flag="{{ flag.0 }}">{% blocktrans with flag.1 as check %}Ignore: {{ check }}{% endblocktrans %}</a></li>

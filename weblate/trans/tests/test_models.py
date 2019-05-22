@@ -339,7 +339,7 @@ class UnitTest(ModelTestCase):
     def test_flags(self):
         unit = Unit.objects.all()[0]
         unit.flags = 'no-wrap, ignore-same'
-        self.assertEqual(unit.all_flags, {'no-wrap', 'ignore-same'})
+        self.assertEqual(unit.all_flags.items(), {'no-wrap', 'ignore-same'})
 
     def test_get_max_length_no_pk(self):
         unit = Unit.objects.all()[0]

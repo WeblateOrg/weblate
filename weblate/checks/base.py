@@ -171,20 +171,13 @@ class TargetCheckParametrized(Check):
     default_disabled = True
     target = True
 
-    def __init__(self):
-        super(TargetCheckParametrized, self).__init__()
-        self.enable_prefix = '{}:'.format(self.enable_string)
-
     def check_target(self, sources, targets, unit):
         """Check flag value"""
-        values = []
-        prefix = self.enable_prefix
-        for flag in unit.all_flags:
-            # There should be only one value with unique prefix
-            if flag.startswith(prefix):
-                return self.check_target_params(
-                    sources, targets, unit, self.param_type(flag[len(prefix):])
-                )
+        if unit.all_flags.has_value(self.enable_string):
+            return self.check_target_params(
+                sources, targets, unit,
+                unit.all_flags.get_value(self.enable_string)
+            )
         return False
 
     def check_target_params(self, sources, targets, unit, value):

@@ -18,16 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
-from weblate.trans.util import (
-    cleanup_repo_url,
-    merge_flags,
-    parse_flags,
-    translation_percent,
-)
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.util import cleanup_repo_url, translation_percent
 
 
 class HideCredentialsTest(SimpleTestCase):
@@ -85,47 +78,3 @@ class TranslationPercentTest(SimpleTestCase):
 
     def test_almost_translated_file(self):
         self.assertAlmostEqual(translation_percent(99999999, 100000000), 99.9)
-
-
-class FlagTest(SimpleTestCase):
-    def test_parse(self):
-        self.assertEqual(
-            set(parse_flags('foo, bar')),
-            {'foo', 'bar'}
-        )
-
-    def test_parse_blank(self):
-        self.assertEqual(
-            set(parse_flags('foo, bar, ')),
-            {'foo', 'bar'}
-        )
-
-    def test_parse_empty(self):
-        self.assertEqual(
-            set(parse_flags('')),
-            set()
-        )
-
-    def test_merge(self):
-        self.assertEqual(
-            merge_flags({'foo'}, {'bar'}),
-            {'foo', 'bar'}
-        )
-
-    def test_merge_prefix(self):
-        self.assertEqual(
-            merge_flags({'foo:1'}, {'foo:2'}),
-            {'foo:2'}
-        )
-
-    def test_validate_value(self):
-        with self.assertRaises(ValidationError):
-            validate_check_flags('max-length:x')
-        validate_check_flags('max-length:30')
-
-    def test_validate_name(self):
-        with self.assertRaises(ValidationError):
-            validate_check_flags('invalid-check-name')
-        with self.assertRaises(ValidationError):
-            validate_check_flags('invalid-check-name:1')
-        validate_check_flags('ignore-max-length')
