@@ -267,7 +267,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags=(self.test_good_matching[2]))
+                MockUnit(flags=self.test_good_matching[2])
             )
         )
 
@@ -276,7 +276,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags=(self.test_good_matching_unicode[2]))
+                MockUnit(flags=self.test_good_matching_unicode[2])
             )
         )
 
@@ -285,7 +285,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags=('max-length:10'))
+                MockUnit(flags='max-length:10')
             )
         )
 
@@ -294,7 +294,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags=('max-length:10'))
+                MockUnit(flags='max-length:10')
             )
         )
 
