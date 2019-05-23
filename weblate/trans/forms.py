@@ -253,7 +253,7 @@ class PluralTextarea(forms.Textarea):
                     'copy-text',
                     ugettext('Fill in with source string'),
                     COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                    ICON_TEMPLATE.format('clipboard', ugettext('Copy'))
+                    ICON_TEMPLATE.format('clone', ugettext('Copy'))
                 )
             )
         )
