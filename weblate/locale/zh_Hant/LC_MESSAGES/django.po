@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-22 09:53+0000\n"
-"PO-Revision-Date: 2019-05-19 16:50+0000\n"
+"PO-Revision-Date: 2019-05-23 17:10+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -443,23 +443,18 @@ msgid ""
 msgstr "您可以接收關注專案的通知，預設情況下通知會顯示在控制面板中。"
 
 #: weblate/accounts/models.py:495
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "請選擇您想翻譯成什麼語言。"
+msgstr "請選擇您想在控制面板上顯示的組件列表。"
 
 #: weblate/accounts/models.py:506
 msgid "Component list can not be chosen when unused."
 msgstr "若沒有使用組件列表則不能選擇。"
 
 #: weblate/accounts/models.py:509
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
-msgstr "當啟用時，此組件清單會以標籤頁顯示在控制面板中"
+msgstr "如果控制面板上不顯示組件列表的話，則選取組件列表不會產生效果。"
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -842,10 +837,8 @@ msgstr ""
 "僅在新列處換列。"
 
 #: weblate/addons/forms.py:125
-#, fuzzy
-#| msgid "Keep previous msgids of translated messages"
 msgid "Keep previous msgids of translated strings"
-msgstr "保留翻譯訊息上次的 msgid"
+msgstr "保留翻譯字串上次的 msgid"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
@@ -884,15 +877,13 @@ msgid "Days to keep"
 msgstr "保留的天數"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Votes threshold"
-msgstr "分數閾值"
+msgstr "票數閾值"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Votes threshold for removal. This field has no effect with voting disabled."
-msgstr ""
+msgstr "移除的票數。當停用投票時，這個欄位不會有效果。"
 
 #: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files"
@@ -1053,10 +1044,8 @@ msgid "Stale suggestion removal"
 msgstr "陳舊建議移除"
 
 #: weblate/addons/removal.py:62
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions without votes."
 msgid "Set timeframe for removal of suggestions."
-msgstr "設定移除未經投票讚許的建議之時間間隔。"
+msgstr "設定建議移除的時間間隔。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2467,57 +2456,37 @@ msgid "Security Policy"
 msgstr "安全政策"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, security is seriously to maintain an environment that values "
-#| "the privacy of our users."
 msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
-msgstr "Weblate 認真看待安全問題，並努力維護重視使用者隱私的環境。"
+msgstr "Weblate 以安全為根本，努力維護重視使用者隱私的環境。"
 
 #: weblate/legal/templates/legal/security.html:28
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
-msgstr ""
-"Weblate 開發過程遵循 Linux 基金會 Core Infrastructure Initiative 所頒布的最佳"
-"實務做法。"
+msgstr "Weblate 開發過程遵循 Linux 基金會 Core Infrastructure Initiative 所頒布的最佳實務做法。"
 
 #: weblate/legal/templates/legal/security.html:38
 msgid "Security FAQ"
 msgstr "安全 FAQ"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "How do you store user passwords?"
 msgid "How are user passwords stored?"
-msgstr "你們怎麼儲存使用者密碼的？"
+msgstr "使用者密碼是怎麼儲存的？"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC "
-#| "and SHA-256 with 150000 iterations."
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
-msgstr ""
-"Weblate 以雜湊方式儲存所有的使用者密碼，目前採用 PBKDF2、HMAC、SHA-256 並重複"
-"代入 150000 次。"
+msgstr "經過雜湊處理，目前採用 PBKDF2、HMAC、SHA-256 重複代入 150000 次。"
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
 msgstr "怎樣向你們回報安全議題？"
 
 #: weblate/legal/templates/legal/security.html:48
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has instructions on safe reporting."
-msgstr "請瀏覽文件查看詳細指示"
+msgstr "文件中有安全回報的步驟指引。"
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
