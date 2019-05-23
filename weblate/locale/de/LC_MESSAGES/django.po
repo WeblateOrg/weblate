@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-22 09:53+0000\n"
-"PO-Revision-Date: 2019-05-21 12:42+0000\n"
-"Last-Translator: Alexander Schlarb <alexander@ninetailed.ninja>\n"
+"PO-Revision-Date: 2019-05-24 19:22+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -480,11 +480,11 @@ msgstr ""
 "standardmäßig auf der Übersichtsseite angezeigt."
 
 #: weblate/accounts/models.py:495
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Bitte wählen Sie die Sprache, in welche Sie gerne übersetzen möchten."
+msgstr ""
+"Bitte wählen Sie aus, welche Komponentenliste Sie im Dashboard anzeigen "
+"möchten."
 
 #: weblate/accounts/models.py:506
 msgid "Component list can not be chosen when unused."
@@ -492,14 +492,11 @@ msgstr ""
 "Komponentenliste darf nicht ausgewählt sein, wenn sie nicht benutzt wird."
 
 #: weblate/accounts/models.py:509
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr ""
-"Bei Aktivierung wird diese Komponentenliste als ein Reiter auf der "
-"Übersichtsseite eingeblendet"
+"Die Auswahl der Komponentenliste hat keine Wirkung, wenn sie nicht auf dem "
+"Dashboard angezeigt wird."
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -915,10 +912,8 @@ msgstr ""
 "dem Parameter --no-wrap wird nur bei Zeilenumbrüchen umbrochen."
 
 #: weblate/addons/forms.py:125
-#, fuzzy
-#| msgid "Keep previous msgids of translated messages"
 msgid "Keep previous msgids of translated strings"
-msgstr "Frühere msgids der übersetzten Nachrichten beibehalten"
+msgstr "Frühere msgids der übersetzten Zeichenketten beibehalten"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
@@ -957,15 +952,15 @@ msgid "Days to keep"
 msgstr "Tage aufzubewahren"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Votes threshold"
-msgstr "Scoreschwellwert"
+msgstr "Stimmen-Schwellwert"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Votes threshold for removal. This field has no effect with voting disabled."
 msgstr ""
+"Gibt den Schwellwert an, ab dem entfernt wird. Dieses Feld hat keine "
+"Auswirkung bei deaktivierter Abstimmung."
 
 #: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files"
@@ -1140,11 +1135,8 @@ msgid "Stale suggestion removal"
 msgstr "Entfernen von veraltetem Vorschlag"
 
 #: weblate/addons/removal.py:62
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions without votes."
 msgid "Set timeframe for removal of suggestions."
-msgstr ""
-"Festlegung des Zeitplans für die Streichung von Vorschlägen ohne Abstimmung."
+msgstr "Festlegung des Zeitplans für die Entfernung von Vorschlägen."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2605,59 +2597,41 @@ msgid "Security Policy"
 msgstr "Sicherheitsregeln"
 
 #: weblate/legal/templates/legal/security.html:23
-#, fuzzy
-#| msgid ""
-#| "At Weblate, security is seriously to maintain an environment that values "
-#| "the privacy of our users."
 msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
 msgstr ""
-"Bei Weblate ist Sicherheit ernstgemeint, um eine Lebenswelt zu erhalten, die "
-"die Privatsphäre unserer Benutzer wertschätzt."
+"Bei Weblate erhält Sicherheit eine Umgebung, die die Privatsphäre unserer "
+"Benutzer wertschätzt."
 
 #: weblate/legal/templates/legal/security.html:28
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
 msgstr ""
-"Die Entwicklung von Weblate folgt den Richtlinien der \"Linux Foundation "
-"Core Infrastructure Initiative Best Practices\"."
+"Die Entwicklung von Weblate folgt den Best Practices der Core Infrastructure "
+"Initiative der Linux Foundation."
 
 #: weblate/legal/templates/legal/security.html:38
 msgid "Security FAQ"
 msgstr "Sicherheits-FAQ"
 
 #: weblate/legal/templates/legal/security.html:41
-#, fuzzy
-#| msgid "How do you store user passwords?"
 msgid "How are user passwords stored?"
-msgstr "Wie speichert man Benutzerpasswörter?"
+msgstr "Wie werden Benutzerpasswörter gespeichert?"
 
 #: weblate/legal/templates/legal/security.html:43
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all user passwords hashed, currently using PBKDF2, HMAC "
-#| "and SHA-256 with 150000 iterations."
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
-msgstr ""
-"Weblate speichert alle Benutzerpasswörter gehasht, verwendet dabei derzeit "
-"PBKDF2, HMAC und SHA-256 mit 150000 Iterationen."
+msgstr "Hashed, derzeit mit PBKDF2, HMAC und SHA-256 mit 150000 Iterationen."
 
 #: weblate/legal/templates/legal/security.html:45
 msgid "How to report a security issue?"
 msgstr "Wie werden Sicherheitsprobleme gemeldet?"
 
 #: weblate/legal/templates/legal/security.html:48
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has instructions on safe reporting."
-msgstr "Durchsuchen Sie die Dokumentation nach detaillierten Anweisungen"
+msgstr "Die Dokumentation hat Anweisungen zum sicheren Reporting."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
