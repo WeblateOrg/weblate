@@ -112,9 +112,7 @@ PLURALS_TEMPLATE = '''
 </a>
 </p>
 '''
-COPY_TEMPLATE = '''
-data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
-'''
+COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
 class WeblateDateInput(forms.DateInput):
@@ -248,18 +246,13 @@ class PluralTextarea(forms.Textarea):
         else:
             source = plurals[0]
         # Copy button
-        extra_params = COPY_TEMPLATE.format(
-            escape(ugettext('Loading…')),
-            unit.checksum,
-            escape(json.dumps(source))
-        )
         groups.append(
             GROUP_TEMPLATE.format(
                 '',
                 BUTTON_TEMPLATE.format(
                     'copy-text',
                     ugettext('Fill in with source string'),
-                    extra_params,
+                    COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
                     ICON_TEMPLATE.format('clipboard', ugettext('Copy'))
                 )
             )
