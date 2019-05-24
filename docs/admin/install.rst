@@ -1083,6 +1083,10 @@ Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
 Weblate comes with built-in setup for scheduled tasks. You can however define
 additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
 
+You can use :djadmin:`celery_queues` to see current length of Celery task
+queues. In case the queue will get too long, you will also get configuration
+error in the admin interface.
+
 .. note::
 
    The Celery process has to be executed under the same user as Weblate and the WSGI
@@ -1099,7 +1103,8 @@ additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
 
    :doc:`celery:userguide/configuration`,
    :doc:`celery:userguide/workers`,
-   :doc:`celery:userguide/daemonizing`
+   :doc:`celery:userguide/daemonizing`,
+   :djadmin:`celery_queues`
 
 
 Monitoring Weblate

@@ -24,6 +24,7 @@ from glob import glob
 from django.core.management import call_command
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from six import StringIO
 
 from weblate.trans.tests.utils import TempDirMixin
 
@@ -52,3 +53,8 @@ class CommandTests(SimpleTestCase, TempDirMixin):
         with override_settings(CELERY_BEAT_SCHEDULE_FILENAME=self.beat):
             call_command('cleanup_celery')
         self.check_beat()
+
+    def test_queues(self):
+        output = StringIO()
+        call_command('celery_queues', stdout=output)
+        self.assertIn('celery:', output.getvalue())

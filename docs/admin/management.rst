@@ -136,6 +136,15 @@ Example:
 
    :ref:`auto-translation`
 
+celery_queues
+-------------
+
+.. django-admin:: celery_queues
+
+.. versionadded:: 3.7
+
+Displays length of Celery task queues.
+
 changesite
 ----------
 
