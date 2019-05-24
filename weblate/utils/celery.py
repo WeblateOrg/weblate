@@ -23,6 +23,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from celery_batches import SimpleRequest
+from django.conf import settings
 
 from weblate.celery import app as celery_app
 
@@ -56,6 +57,20 @@ def get_queue_length(queue='celery'):
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count
+
+
+def get_queue_list():
+    """List queues in Celery."""
+    result = {'celery'}
+    for route in settings.CELERY_TASK_ROUTES.values():
+        if 'queue' in route:
+            result.add(route['queue'])
+    return result
+
+
+def get_queue_stats():
+    """Calculate queue stats."""
+    return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
 
 def is_task_ready(task):

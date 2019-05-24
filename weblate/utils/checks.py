@@ -31,7 +31,7 @@ from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 
 from weblate import settings_example
-from weblate.utils.celery import get_queue_length
+from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
 from weblate.utils.tasks import ping
@@ -77,7 +77,8 @@ def check_celery(app_configs, **kwargs):
             )
         )
     else:
-        if get_queue_length() > 50 or get_queue_length('search') > 10000:
+        stats = get_queue_stats()
+        if stats['celery'] > 50 or stats['search'] > 10000:
             errors.append(
                 Critical(
                     'The Celery tasks queue is too long, either the worker '

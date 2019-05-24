@@ -67,7 +67,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.stats import get_project_stats
-from weblate.utils.celery import get_queue_length
+from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download_dir
@@ -657,6 +657,7 @@ class Metrics(APIView):
         Return a list of all users.
         """
         stats = GlobalStats()
+        queues = get_queue_stats()
 
         return Response({
             'units': stats.all,
@@ -669,9 +670,10 @@ class Metrics(APIView):
             'languages': stats.languages,
             'checks': Check.objects.count(),
             'suggestions': Suggestion.objects.count(),
-            'index_updates': get_queue_length('search'),
-            'celery_queue': get_queue_length(),
-            'celery_memory_queue': get_queue_length('memory'),
-            'celery_notification_queue': get_queue_length('notification'),
+            'index_updates': queues.get('search', 0),
+            'celery_queue': queues.get('celery', 0),
+            'celery_memory_queue': queues.get('memory', 0),
+            'celery_notification_queue': queues.get('notification', 0),
+            'celery_queues': queues,
             'name': settings.SITE_TITLE,
         })
