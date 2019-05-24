@@ -26,6 +26,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UsernameField
+from weblate.accounts.utils import remove_user
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.wladmin.models import WeblateModelAdmin
 
@@ -122,6 +123,17 @@ class WeblateUserAdmin(UserAdmin):
         return super(WeblateUserAdmin, self).has_delete_permission(
             request, obj
         )
+
+    def delete_model(self, request, obj):
+        """
+        Given a model instance delete it from the database.
+        """
+        remove_user(obj, request)
+
+    def delete_queryset(self, request, queryset):
+        """Given a queryset, delete it from the database."""
+        for obj in queryset.iterator():
+            self.delete_model(request, obj)
 
 
 class WeblateGroupAdmin(WeblateModelAdmin):
