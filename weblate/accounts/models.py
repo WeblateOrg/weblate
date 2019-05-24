@@ -87,7 +87,7 @@ class Subscription(models.Model):
     def __str__(self):
         return '{}:{} ({},{})'.format(
             self.user.username, self.get_notification_display(),
-            self.project.slug, self.component.full_slug
+            self.project, self.component
         )
 
 
