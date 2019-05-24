@@ -675,7 +675,7 @@ def get_zen_unitdata(translation, request):
 
     units = translation.unit_set.filter(
         pk__in=search_result['ids'][offset:offset + 20]
-    )
+    ).order()
 
     unitdata = [
         {
