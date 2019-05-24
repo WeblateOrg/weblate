@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os
-
 from django.core.management.base import BaseCommand
 
 from weblate.utils.celery import get_queue_stats
