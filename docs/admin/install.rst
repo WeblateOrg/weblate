@@ -1104,6 +1104,7 @@ error in the admin interface.
    :doc:`celery:userguide/configuration`,
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
+   :doc:`celery:userguide/monitoring`,
    :djadmin:`celery_queues`
 
 
