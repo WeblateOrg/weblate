@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-22 09:53+0000\n"
-"PO-Revision-Date: 2019-04-27 08:23+0000\n"
+"PO-Revision-Date: 2019-05-24 19:22+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -63,10 +63,8 @@ msgid "Email"
 msgstr "电子邮箱"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy
-#| msgid "You can add another email address in the Authentication tab."
 msgid "You can add another email address below."
-msgstr "您可以在身份验证选项卡中添加其他电子邮箱。"
+msgstr "您可以在下方添加其它电子邮箱。"
 
 #: weblate/accounts/forms.py:320
 msgid "Subject"
@@ -278,7 +276,7 @@ msgstr "有人试图使用您的电子邮箱进行注册。"
 
 #: weblate/accounts/models.py:120
 msgid "Somebody has attempted to register using your email address."
-msgstr "有人试图使用您的电子邮箱地址进行注册。"
+msgstr "有人曾经试图使用您的电子邮箱地址进行注册。"
 
 #: weblate/accounts/models.py:123
 #, python-brace-format
@@ -364,21 +362,14 @@ msgid "Editor link"
 msgstr "编辑者链接"
 
 #: weblate/accounts/models.py:377
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
-"键入自定义 URL 作为开源代码的链接。您可以使用 {{ branch }} 作为分割符， "
-"{{ filename }} 与 {{ line }} 作为文件名和行占位符。通常情况下，如下样式 "
-"editor://open/?file={{ filename }}&line={{ line }} 作为首选。"
+"键入自定义 URL 作为开源代码的链接。您可以使用 {{branch}} 作为分割符， {{filename}} 与 {{line}} "
+"作为文件名和行占位符。通常情况下，如下样式 editor://open/?file={{filename}}&line={{line}} 作为首选。"
 
 #: weblate/accounts/models.py:388
 msgid "Translation editor mode"
@@ -393,18 +384,16 @@ msgid "Zen mode"
 msgstr "禅模式"
 
 #: weblate/accounts/models.py:398
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "禅模式"
+msgstr "禅编辑模式"
 
 #: weblate/accounts/models.py:400
 msgid "Top to bottom"
-msgstr ""
+msgstr "从上到下"
 
 #: weblate/accounts/models.py:401
 msgid "Side by side"
-msgstr ""
+msgstr "并排"
 
 #: weblate/accounts/models.py:408
 msgid "Special characters"
@@ -457,11 +446,9 @@ msgid ""
 msgstr "您可以接收已关注项目的通知，并且它们将默认显示在控制面板中。"
 
 #: weblate/accounts/models.py:495
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "请选择您想要翻译的语言。"
+msgstr "请选择您想要显示在控制面板上的组件列表。"
 
 #: weblate/accounts/models.py:506
 msgid "Component list can not be chosen when unused."
@@ -9241,7 +9228,7 @@ msgstr "已翻译"
 #: weblate/utils/render.py:46
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr ""
+msgstr "未定义的变量：“%s”"
 
 #: weblate/utils/render.py:109
 msgid "Failed to render template: {}"
