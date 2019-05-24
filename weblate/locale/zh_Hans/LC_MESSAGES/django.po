@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-24 19:24+0000\n"
-"PO-Revision-Date: 2019-05-24 19:22+0000\n"
+"PO-Revision-Date: 2019-06-01 12:23+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -456,12 +456,9 @@ msgid "Component list can not be chosen when unused."
 msgstr "不使用时不能选中组件列表。"
 
 #: weblate/accounts/models.py:509
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
-msgstr "当启用时, 这一组件列表将会以选项卡的形式显示在控制面板上"
+msgstr "当尚未显示在控制面板上时，选择组件列表将不会起作用。"
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -510,10 +507,8 @@ msgid "New suggestion"
 msgstr "新建议"
 
 #: weblate/accounts/notifications.py:355
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on authored translation"
-msgstr "翻译名称"
+msgstr "在所作翻译上注释"
 
 #: weblate/accounts/notifications.py:374
 msgid "Mentioned in comment"
@@ -803,14 +798,12 @@ msgstr ""
 "为需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "所生成文件的名称"
+msgstr "生成的 MO 文件的路径"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "如未指定，将使用 PO 文件对应的位置。"
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
@@ -837,26 +830,18 @@ msgid "No line wrapping"
 msgstr "不换行"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter, it wraps only at newlines."
-msgstr ""
-"默认情况下 gettext 会在每行第 77 个字符处与换行符处折行，但附加 --no-wrap 参"
-"数后，它仅会在换行符处折行。"
+msgstr "默认情况下 gettext 会在每行第 77 个字符处与换行符处折行，但附加 --no-wrap 参数后，它仅会在换行符处折行。"
 
 #: weblate/addons/forms.py:125
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Keep previous msgids of translated strings"
-msgstr "已翻译字符串数量"
+msgstr "保持已翻译字符串先前的 msgids"
 
 #: weblate/addons/forms.py:130
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "使用模糊匹配"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
