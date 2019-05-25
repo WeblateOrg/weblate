@@ -14,6 +14,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=language.code project=project.slug %}" data-monthly="{% url 'monthly_activity' lang=language.code project=project.slug %}">{% trans "Activity" %}</a></li>
@@ -36,6 +37,21 @@
 {% include "paginator.html" %}
 {% endwith %}
 <p>{% include "legend.html" %}</p>
+</div>
+
+<div class="tab-pane" id="information">
+{% with object=project %}
+<table class="table table-striped">
+{% include "project_info.html" %}
+{% if licenses %}
+<tr>
+<th>{% trans "Translation license" %}</th>
+<td colspan="2">{{ licenses }}</td>
+</tr>
+{% endif %}
+{% include "project_stats.html" %}
+</table>
+{% endwith %}
 </div>
 
 <div class="tab-pane" id="history">
