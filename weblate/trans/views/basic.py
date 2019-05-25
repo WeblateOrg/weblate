@@ -154,9 +154,6 @@ def show_project(request, project):
                 {'project': obj.slug}
             ),
             'language_stats': language_stats,
-            'language_count': Language.objects.filter(
-                translation__component__project=obj
-            ).distinct().count(),
             'search_form': SearchForm(),
             'whiteboard_form': optional_form(
                 WhiteboardForm, user, 'project.edit', obj

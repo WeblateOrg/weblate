@@ -10,12 +10,10 @@
 <td colspan="2">{{ object.stats.all_words }}</td>
 </tr>
 
-{% if language_count %}
 <tr>
 <th>{% trans "Number of languages" %}</th>
-<td colspan="2">{{ language_count }}</td>
+<td colspan="2">{{ object.stats.languages }}</td>
 </tr>
-{% endif %}
 
 <tr>
 <th>{% trans "Number of source strings" %}</th>
