@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-05-24 19:24+0000\n"
-"PO-Revision-Date: 2019-05-24 19:22+0000\n"
+"PO-Revision-Date: 2019-05-26 15:24+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -1844,19 +1844,19 @@ msgstr "自動偵測 Java MessageFormat"
 #: weblate/templates/fonts/font_detail.html:18
 #: weblate/templates/fonts/font_list.html:73
 msgid "Font family"
-msgstr ""
+msgstr "字族"
 
 #: weblate/checks/flags.py:50
 msgid "Font size"
-msgstr ""
+msgstr "字型大小"
 
 #: weblate/checks/flags.py:52
 msgid "Font weight"
-msgstr ""
+msgstr "字重"
 
 #: weblate/checks/flags.py:54
 msgid "Font spacing"
-msgstr ""
+msgstr "字間距"
 
 #: weblate/checks/flags.py:116
 #, python-format
@@ -1864,22 +1864,19 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "無效的翻譯標記：「%s」"
 
 #: weblate/checks/flags.py:120
-#, fuzzy, python-format
-#| msgid "Translation flags"
+#, python-format
 msgid "Translation flag has no params: \"%s\""
-msgstr "翻譯旗標"
+msgstr "翻譯旗標沒有參數：「%s」"
 
 #: weblate/checks/flags.py:126
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Wrong params for translation flag: \"%s\""
-msgstr "無效的翻譯標記：「%s」"
+msgstr "翻譯旗標的參數有錯：「%s」"
 
 #: weblate/checks/flags.py:130
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Missing params for translation flag: \"%s\""
-msgstr "無效的翻譯標記：「%s」"
+msgstr "翻譯旗標有遺失參數：「%s」"
 
 #: weblate/checks/format.py:265
 msgid "Python format"
@@ -2006,16 +2003,12 @@ msgid "The translation does not contain an URL"
 msgstr "此譯文未包含網址"
 
 #: weblate/checks/render.py:49
-#, fuzzy
-#| msgid "Maximum length of translation"
 msgid "Maximum size of translation"
-msgstr "翻譯最大長度"
+msgstr "翻譯的最大長度"
 
 #: weblate/checks/render.py:50
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation rendered text should not exceed given size"
-msgstr "翻譯不該超過指定長度"
+msgstr "翻譯的呈現文字不該超過指定長度"
 
 #: weblate/checks/same.py:151
 msgid "Unchanged translation"
@@ -2058,45 +2051,39 @@ msgstr "未通過查核"
 
 #: weblate/fonts/models.py:44 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
-#, fuzzy
-#| msgid "Android style"
 msgid "Font style"
-msgstr "Android 風格"
+msgstr "字型樣式"
 
 #: weblate/fonts/models.py:46
-#, fuzzy
-#| msgid "Failing file"
 msgid "Font file"
-msgstr "失敗的檔案"
+msgstr "字型檔案"
 
 #: weblate/fonts/models.py:49
 msgid "OpenType and TrueType fonts are supported."
-msgstr ""
+msgstr "支援 OpenType 和 TrueType 字型。"
 
 #: weblate/fonts/models.py:107
 msgid "Font group name"
-msgstr ""
+msgstr "字型群組名稱"
 
 #: weblate/fonts/models.py:110
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special chars."
-msgstr ""
+msgstr "您會在查核中用以選取此字型群組的辨識名稱。請避免空白或特殊字元。"
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "Default font"
-msgstr "預設組件列表"
+msgstr "預設字型"
 
 #: weblate/fonts/models.py:118
 msgid "Default font is used unless per language override matches."
-msgstr ""
+msgstr "除非符合語言各自的凌駕值才會使用預設字型。"
 
 #: weblate/fonts/models.py:140 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
-msgstr ""
+msgstr "字型"
 
 #: weblate/fonts/models.py:143 weblate/lang/models.py:382
 #: weblate/templates/dictionaries.html:14 weblate/templates/engage.html:28
@@ -2118,34 +2105,24 @@ msgstr "不支援的檔案格式。"
 
 #: weblate/fonts/views.py:69 weblate/fonts/views.py:127
 #: weblate/fonts/views.py:139
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "Entry with same name already exists."
-msgstr "已經有使用者採用此使用者名稱。"
+msgstr "已經有相同名稱的條目。"
 
 #: weblate/fonts/views.py:71
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Failed to create, please fix errors below."
-msgstr "上傳畫面快照失敗，請嘗試修正下列錯誤。"
+msgstr "建立失敗，請嘗試修正下列錯誤。"
 
 #: weblate/fonts/views.py:93
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Font was deleted."
-msgstr "條目已刪除。"
+msgstr "字型已刪除。"
 
 #: weblate/fonts/views.py:148
-#, fuzzy
-#| msgid "Reverted change not found!"
 msgid "Override was not found."
-msgstr "找不到還原的更動！"
+msgstr "找不到凌駕值。"
 
 #: weblate/fonts/views.py:151
-#, fuzzy
-#| msgid "Entries deleted."
 msgid "Font group was deleted."
-msgstr "條目已刪除。"
+msgstr "字型群組已刪除。"
 
 #: weblate/formats/auto.py:76
 msgid "Automatic detection"
@@ -4781,13 +4758,11 @@ msgstr "檢視專案語言"
 #: weblate/templates/fonts/font_list.html:9
 #: weblate/templates/fonts/font_list.html:16 weblate/templates/project.html:79
 msgid "Fonts"
-msgstr ""
+msgstr "字型"
 
 #: weblate/templates/fonts/font_detail.html:20
-#, fuzzy
-#| msgid "Files"
 msgid "File size"
-msgstr "檔案"
+msgstr "檔案大小"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:115
@@ -4800,41 +4775,33 @@ msgid "Uploaded by"
 msgstr "上傳者"
 
 #: weblate/templates/fonts/font_detail.html:23
-#, fuzzy
-#| msgid "Used in"
 msgid "Used in groups"
-msgstr "使用在"
+msgstr "採用的群組"
 
 #: weblate/templates/fonts/font_list.html:15
 #: weblate/templates/fonts/fontgroup_detail.html:9
 msgid "Font groups"
-msgstr ""
+msgstr "字型群組"
 
 #: weblate/templates/fonts/font_list.html:25
-#, fuzzy
-#| msgid "Your name"
 msgid "Group name"
-msgstr "您的名稱"
+msgstr "群組名稱"
 
 #: weblate/templates/fonts/font_list.html:27
-#, fuzzy
-#| msgid "Language codes"
 msgid "Language overrides"
-msgstr "語言碼"
+msgstr "語言凌駕值"
 
 #: weblate/templates/fonts/font_list.html:51
 msgid "Add font group"
-msgstr ""
+msgstr "加入字型群組"
 
 #: weblate/templates/fonts/font_list.html:62
 msgid "Please upload fonts to be able to define font groups."
-msgstr ""
+msgstr "請上傳可定義字型群組的字型。"
 
 #: weblate/templates/fonts/font_list.html:92
-#, fuzzy
-#| msgid "Add host key"
 msgid "Add font"
-msgstr "加入主機金鑰"
+msgstr "加入字型"
 
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:72
@@ -4846,13 +4813,11 @@ msgstr "上傳"
 
 #: weblate/templates/fonts/fontgroup_detail.html:16
 msgid "Font group"
-msgstr ""
+msgstr "字型群組"
 
 #: weblate/templates/fonts/fontgroup_detail.html:22
-#, fuzzy
-#| msgid "Language code"
 msgid "language override"
-msgstr "語言碼"
+msgstr "語言凌駕值"
 
 #: weblate/templates/fonts/fontgroup_detail.html:29
 #: weblate/templates/manage-access.html:44
@@ -4861,14 +4826,12 @@ msgid "Remove"
 msgstr "移除"
 
 #: weblate/templates/fonts/fontgroup_detail.html:47
-#, fuzzy
-#| msgid "Added language:"
 msgid "Add language override"
-msgstr "加入的語言："
+msgstr "加入語言凌駕值"
 
 #: weblate/templates/fonts/fontgroup_detail.html:60
 msgid "Edit font group"
-msgstr ""
+msgstr "編輯字型群組"
 
 #: weblate/templates/footer.html:5
 #, python-format
