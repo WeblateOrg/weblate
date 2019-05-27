@@ -32,7 +32,6 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
-from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.translation import pgettext
 from django.utils.translation import ugettext_lazy as _
@@ -52,7 +51,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Component, Project
-from weblate.trans.util import sort_choices
+from weblate.trans.util import sort_unicode
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
 from weblate.utils.validators import (
@@ -153,23 +152,9 @@ class FullNameField(forms.CharField):
 
 class SortedSelectMixin(object):
     """Mixin for Select widgets to sort choices alphabetically."""
-    def render_options(self, selected_choices):
-        """Render sorted options."""
-        # Normalize to strings.
-        selected_choices = {force_text(v) for v in selected_choices}
-        output = []
-
-        # Actually sort values
-        all_choices = sort_choices(list(self.choices))
-
-        # Stolen from Select.render_options
-        for option_value, option_label in all_choices:
-            output.append(
-                self.render_option(
-                    selected_choices, option_value, option_label
-                )
-            )
-        return '\n'.join(output)
+    def optgroups(self, name, value, attrs=None):
+        groups = super(SortedSelectMixin, self).optgroups(name, value, attrs)
+        return sort_unicode(groups, lambda val: val[1][0]['label'])
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
