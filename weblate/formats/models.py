@@ -51,6 +51,7 @@ class FileFormatLoader(ClassLoader):
             except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
                 if fileformat.format_id == 'rc' and six.PY3:
+                    delete_configuration_error(error_name)
                     continue
                 add_configuration_error(error_name, str(error))
 
