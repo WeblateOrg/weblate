@@ -281,17 +281,16 @@ class TTKitFormat(TranslationFormat):
         """Return most common file extension for format."""
         return self.store.Extensions[0]
 
-    @classmethod
-    def is_valid(cls, store):
+    def is_valid(self):
         """Check whether store seems to be valid.
 
         In some cases ttkit happily "parses" the file, even though it
         really did not do so (eg. Gettext parser on random text file).
         """
-        if store is None:
+        if self.store is None:
             return False
 
-        if cls.monolingual is False and not store.units:
+        if (self.template_store is None or self.is_template) and not self.store.units:
             return False
 
         return True
@@ -783,16 +782,15 @@ class PoXliffFormat(XliffFormat):
 class PropertiesBaseFormat(TTKitFormat):
     unit_class = PropertiesUnit
 
-    @classmethod
-    def is_valid(cls, store):
-        result = super(PropertiesBaseFormat, cls).is_valid(store)
+    def is_valid(self):
+        result = super(PropertiesBaseFormat, self).is_valid()
         if not result:
             return False
 
         # Accept emty file, but reject file without a delimiter.
         # Translate-toolkit happily parses anything into a property
         # even if there is no delimiter used in the line.
-        return not store.units or store.units[0].delimiter
+        return not self.store.units or self.store.units[0].delimiter
 
     @property
     def mimetype(self):

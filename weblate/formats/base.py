@@ -211,15 +211,15 @@ class TranslationFormat(object):
         # Load store
         self.store = self.load(storefile)
 
-        # Check store validity
-        if not self.is_valid(self.store):
-            raise ValueError(
-                'Invalid file format {0}'.format(repr(self.store))
-            )
-
         # Remember template
         self.template_store = template_store
         self.is_template = is_template
+
+        # Check store validity
+        if not self.is_valid():
+            raise ValueError(
+                'Invalid file format {0}'.format(repr(self.store))
+            )
 
     def get_filenames(self):
         if isinstance(self.storefile, six.string_types):
@@ -348,8 +348,7 @@ class TranslationFormat(object):
         """Return most common file extension for format."""
         return 'txt'
 
-    @classmethod
-    def is_valid(cls, store):
+    def is_valid(self):
         """Check whether store seems to be valid."""
         return True
 
