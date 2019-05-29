@@ -20,7 +20,13 @@ a demonstration server at <https://demo.weblate.org/>, and a hosted service at
 <https://hosted.weblate.org/>. This documentation
 can be browsed on <https://docs.weblate.org/>.
 
+Leadership
+----------
+
+This project is maintained by Michal Čihař <michal@cihar.com>.
+
 Authors
 -------
 
-This tool was written by Michal Čihař <michal@cihar.com>.
+Weblate was started by Michal Čihař <michal@cihar.com> and since it's start in
+2012 thousands of people have contributed.

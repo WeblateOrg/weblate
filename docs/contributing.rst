@@ -28,6 +28,8 @@ plugins are listed in :file:`requirements-test.txt`.
 
 You can execute all coding style checks with the script :file:`ci/run-lint`.
 
+.. _dco:
+
 Developer's Certificate of Origin
 ---------------------------------
 
