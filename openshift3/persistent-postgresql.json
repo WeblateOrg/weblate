@@ -317,6 +317,15 @@
                                     {
                                       "name": "REDIS_PORT",
                                       "value": "6379"
+                                    },
+                                    {
+                                      "name": "REDIS_PASSWORD",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "key": "redis-password",
+                                              "name": "redis"
+                                          }
+                                      }
                                     }
                                 ],
                                 "volumeMounts": [
