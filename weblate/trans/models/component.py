@@ -1453,6 +1453,8 @@ class Component(models.Model, URLMixin, PathMixin):
             try:
                 self.file_format_cls.parse(os.path.join(dir_path, match))
             except Exception as error:
+                import traceback
+                traceback.print_exc()
                 errors.append('{0}: {1}'.format(match, str(error)))
         if errors:
             raise ValidationError('{0}\n{1}'.format(
