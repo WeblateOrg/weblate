@@ -28,6 +28,17 @@ plugins are listed in :file:`requirements-test.txt`.
 
 You can execute all coding style checks with the script :file:`ci/run-lint`.
 
+
+.. _owasp:
+
+Security by Design Principles
+-----------------------------
+
+Any code for Weblate should be writted with `Security by Design Principles`_ in
+mind.
+
+.. _Security by Design Principles: https://www.owasp.org/index.php/Security_by_Design_Principles
+
 .. _dco:
 
 Developer's Certificate of Origin
