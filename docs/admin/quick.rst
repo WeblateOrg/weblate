@@ -153,7 +153,8 @@ Installing from sources
       git clone https://github.com/WeblateOrg/weblate.git
 
    Alternatively you can use released archives. You can download them from our
-   website <https://weblate.org/>.
+   website <https://weblate.org/>. Those donwloads are cryptographically
+   signed, please see :ref:`verify`.
 
    .. note::
 
@@ -447,3 +448,120 @@ All optional dependencies (see above) can be installed using:
 .. code-block:: sh
 
     pip install -r requirements-optional.txt
+
+
+.. _verify:
+
+Verifying release signatures
+----------------------------
+
+Weblate release are cryptographically signed by the releasing developer.
+Currently this is Michal Čihař. Fingerprint of his PGP key is:
+
+.. code-block:: console
+
+    63CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 511D
+
+and you can get more identification information from <https://keybase.io/nijel>.
+
+You should verify that the signature matches the archive you have downloaded.
+This way you can be sure that you are using the same code that was released.
+You should also verify the date of the signature to make sure that you
+downloaded the latest version.
+
+Each archive is accompanied with ``.asc`` files which contains the PGP signature
+for it. Once you have both of them in the same folder, you can verify the signature:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Can't check signature: public key not found
+
+As you can see gpg complains that it does not know the public key. At this
+point you should do one of the following steps:
+
+* Use wkd to download the key:
+
+.. code-block:: console
+
+   $ gpg --auto-key-locate wkd --locate-keys michal@cihar.com
+   pub   rsa4096 2009-06-17 [SC]
+         63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D
+   uid           [ultimate] Michal Čihař <michal@cihar.com>
+   uid           [ultimate] Michal Čihař <nijel@debian.org>
+   uid           [ultimate] [jpeg image of size 8848]
+   uid           [ultimate] Michal Čihař (Braiins) <michal.cihar@braiins.cz>
+   sub   rsa4096 2009-06-17 [E]
+   sub   rsa4096 2015-09-09 [S]
+
+
+* Download the keyring from `Michal's server <https://cihar.com/.well-known/openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:
+
+.. code-block:: console
+
+   $ gpg --import wmxth3chu9jfxdxywj1skpmhsj311mzm
+
+* Download and import the key from one of the key servers:
+
+.. code-block:: console
+
+   $ gpg --keyserver hkp://pgp.mit.edu --recv-keys 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: key 9C27B31342B7511D: "Michal Čihař <michal@cihar.com>" imported
+   gpg: Total number processed: 1
+   gpg:              unchanged: 1
+
+This will improve the situation a bit - at this point you can verify that the
+signature from the given key is correct but you still can not trust the name used
+in the key:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
+   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
+   gpg: WARNING: This key is not certified with a trusted signature!
+   gpg:          There is no indication that the signature belongs to the owner.
+   Primary key fingerprint: 63CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D
+
+The problem here is that anybody could issue the key with this name.  You need to
+ensure that the key is actually owned by the mentioned person.  The GNU Privacy
+Handbook covers this topic in the chapter `Validating other keys on your public
+keyring`_. The most reliable method is to meet the developer in person and
+exchange key fingerprints, however you can also rely on the web of trust. This way
+you can trust the key transitively though signatures of others, who have met
+the developer in person.
+
+Once the key is trusted, the warning will not occur:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
+   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
+
+
+Should the signature be invalid (the archive has been changed), you would get a
+clear error regardless of the fact that the key is trusted or not:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: BAD signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+
+
+.. _Validating other keys on your public keyring: https://www.gnupg.org/gph/en/manual.html#AEN335
