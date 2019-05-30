@@ -523,7 +523,7 @@ This check needs one or two parameters - maximal width and maximal number of
 lines. In case the number of lines is not provided, one line text is
 considered.
 
-You can also configured used font by `font-*` directives (see
+You can also configured used font by ``font-*`` directives (see
 :ref:`custom-checks`), for example following translation flags say that the
 text rendered with ubuntu font size 22 should fit into two lines and 500
 pixels:
@@ -531,6 +531,12 @@ pixels:
 .. code-block:: text
 
    max-size:500:2, font-family:ubuntu, font-size:22
+
+.. hint::
+
+   You might want to set ``font-*`` directives in :ref:`component` to have same
+   font configured for all strings within a component. You can override those
+   values per string in case you need to customize it per string.
 
 .. seealso::
 
