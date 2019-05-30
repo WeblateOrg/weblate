@@ -953,7 +953,7 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def same_source_units(self):
-        return Unit.objects.same(self).filter(
+        return Unit.objects.same(self).prefetch().filter(
             translation__component__allow_translation_propagation=True
         )
 
