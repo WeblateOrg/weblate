@@ -23,6 +23,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+from django.views.decorators.cache import cache_control
+from django.views.decorators.vary import vary_on_cookie
 
 from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
@@ -109,6 +111,8 @@ def widgets(request, project):
     )
 
 
+@vary_on_cookie
+@cache_control(max_age=3600)
 def render_widget(request, project, widget='287x66', color=None, lang=None,
                   component=None, extension='png'):
     # We intentionally skip ACL here to allow widget sharing
