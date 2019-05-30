@@ -171,9 +171,9 @@ def show_project(request, project):
                 user=user, obj=obj
             ),
             'components': components,
-            'licenses': ', '.join(
-                sorted({x.license for x in all_components if x.license})
-            ),
+            'licenses': ', '.join(sorted(
+                all_components.exclude(license='').values_list('license', flat=True)
+            )),
         }
     )
 
