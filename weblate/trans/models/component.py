@@ -126,8 +126,8 @@ class ComponentQuerySet(models.QuerySet):
 
     def prefetch(self):
         return self.select_related(
-            'project'
-        )
+            'project', 'linked_component', 'linked_component__project',
+        ).prefetch_related('alert_set')
 
     def get_linked(self, val):
         """Return component for linked repo."""

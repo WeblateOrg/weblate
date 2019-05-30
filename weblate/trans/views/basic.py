@@ -136,7 +136,7 @@ def show_project(request, project):
     )
 
     # Paginate components of project.
-    all_components = obj.component_set.select_related().order()
+    all_components = obj.component_set.prefetch().order()
     components = prefetch_stats(get_paginator(
         request, all_components
     ))
@@ -193,7 +193,7 @@ def show_component(request, project, component):
             'object': obj,
             'project': obj.project,
             'translations': sort_objects(
-                prefetch_stats(obj.translation_set.all())
+                prefetch_stats(obj.translation_set.prefetch())
             ),
             'show_language': 1,
             'reports_form': ReportsForm(),
