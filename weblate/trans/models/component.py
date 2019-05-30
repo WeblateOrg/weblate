@@ -1451,7 +1451,9 @@ class Component(models.Model, URLMixin, PathMixin):
         dir_path = self.full_path
         for match in matches:
             try:
-                self.file_format_cls.parse(os.path.join(dir_path, match))
+                self.file_format_cls.parse(
+                    os.path.join(dir_path, match), self.template_store
+                )
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
         if errors:
