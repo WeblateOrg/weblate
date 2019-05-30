@@ -153,7 +153,7 @@ Installing from sources
       git clone https://github.com/WeblateOrg/weblate.git
 
    Alternatively you can use released archives. You can download them from our
-   website <https://weblate.org/>. Those donwloads are cryptographically
+   website <https://weblate.org/>. Those downloads are cryptographically
    signed, please see :ref:`verify`.
 
    .. note::
