@@ -56,6 +56,7 @@ def try_load(filename, content, original_format, template_store):
                     BytesIOMode(filename, content),
                     template_store
                 )
+                result.check_valid()
                 # Skip if there is not translated unit
                 # this can easily happen when importing bilingual
                 # storage which can be monolingual as well
@@ -65,7 +66,9 @@ def try_load(filename, content, original_format, template_store):
                 failure = error
         if file_format.monolingual in (False, None):
             try:
-                return file_format.parse(BytesIOMode(filename, content))
+                result = file_format.parse(BytesIOMode(filename, content))
+                result.check_valid()
+                return result
             except Exception as error:
                 failure = error
 

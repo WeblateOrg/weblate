@@ -434,6 +434,18 @@ class ExportTest(ViewTestCase):
             '; charset=utf-8'
         )
 
+    def test_export_xlsx_empty(self):
+        response = self.export_format('xlsx', type='check:inconsistent')
+        self.assertEqual(
+            response['Content-Disposition'],
+            'attachment; filename=test-test-cs.xlsx'
+        )
+        self.assertEqual(
+            response['Content-Type'],
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            '; charset=utf-8'
+        )
+
     def test_export_invalid(self):
         response = self.export_format('invalid')
         self.assertEqual(response.status_code, 302)
