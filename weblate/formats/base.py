@@ -29,6 +29,7 @@ from copy import deepcopy
 
 import six
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
 from weblate.utils.hash import calculate_hash
 
@@ -215,10 +216,11 @@ class TranslationFormat(object):
         self.template_store = template_store
         self.is_template = is_template
 
-        # Check store validity
+    def check_valid(self):
+        """Check store validity."""
         if not self.is_valid():
             raise ValueError(
-                'Invalid file format {0}'.format(repr(self.store))
+                _('Failed to load strings from the file, try choosing other format.')
             )
 
     def get_filenames(self):

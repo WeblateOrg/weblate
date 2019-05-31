@@ -1244,8 +1244,9 @@ class Component(models.Model, URLMixin, PathMixin):
         translations = {}
         languages = {}
         try:
-            self.template_store
-        except FileParseError as exc:
+            if self.has_template():
+                self.template_store.check_valid()
+        except (FileParseError, ValueError) as exc:
             self.log_warning(
                 'skipping update due to error in parsing template: %s', exc
             )
@@ -1454,7 +1455,7 @@ class Component(models.Model, URLMixin, PathMixin):
             try:
                 self.file_format_cls.parse(
                     os.path.join(dir_path, match), self.template_store
-                )
+                ).check_valid()
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
         if errors:
@@ -1506,8 +1507,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise ValidationError({'template': msg})
 
             try:
-                self.template_store
-            except FileParseError as exc:
+                self.template_store.check_valid()
+            except (FileParseError, ValueError) as exc:
                 msg = _('Could not parse translation base file: %s') % str(exc)
                 raise ValidationError({'template': msg})
 
