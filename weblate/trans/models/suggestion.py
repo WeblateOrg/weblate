@@ -200,7 +200,7 @@ class Suggestion(UnitData, UserDisplayMixin):
 
     def get_num_votes(self):
         """Return number of votes."""
-        return self.vote_set.aggregate(Sum('value'))['value__sum']
+        return self.vote_set.aggregate(Sum('value'))['value__sum'] or 0
 
     def add_vote(self, translation, request, value):
         """Add (or updates) vote for a suggestion."""
