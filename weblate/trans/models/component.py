@@ -1323,6 +1323,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 component, pos + 1, len(self.linked_childs),
             )
             component.translations_count = -1
+            component.linked_component = self
             component.create_translations(force, langs, request=request, from_link=True)
             projects[component.project_id] = component.project
 
