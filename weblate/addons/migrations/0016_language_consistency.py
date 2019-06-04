@@ -2,6 +2,8 @@
 
 from django.db import migrations
 
+from weblate.addons.events import EVENT_DAILY, EVENT_POST_UPDATE
+
 
 def update_addon(apps, schema_editor):
     """Update the repo_scope flag."""
