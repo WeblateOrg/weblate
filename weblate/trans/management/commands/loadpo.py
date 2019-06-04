@@ -30,14 +30,23 @@ class Command(WeblateLangCommand):
         parser.add_argument(
             '--force',
             action='store_true',
-            dest='force',
             default=False,
             help='Force rereading files even when they should be up to date'
+        )
+        parser.add_argument(
+            '--foreground',
+            action='store_true',
+            default=False,
+            help='Perform load in foreground (by default backgroud task is used)'
         )
 
     def handle(self, *args, **options):
         langs = None
         if options['lang'] is not None:
             langs = options['lang'].split(',')
+        if options['foreground']:
+            loader = perform_load
+        else:
+            loader = perform_load.delay
         for component in self.get_components(**options):
-            perform_load.delay(component.pk, options['force'], langs)
+            loader(component.pk, options['force'], langs)
