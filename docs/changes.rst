@@ -29,6 +29,7 @@ Released on ? 2019.
 * Improved format strings check on plurals.
 * Added font management tool.
 * New check for rendered text dimensions.
+* Added support for subtitle formats.
 
 weblate 3.6.1
 -------------

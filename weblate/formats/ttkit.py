@@ -1128,3 +1128,55 @@ class WindowsRCFormat(TTKitFormat):
         return importlib.import_module(
             'translate.storage.rc'
         ).rcfile
+
+
+class SubtitleUnit(MonolingualIDUnit):
+    @cached_property
+    def source(self):
+        return self.template.source
+
+    @cached_property
+    def target(self):
+        """Return target string from a ttkit unit."""
+        if self.unit is None:
+            return ''
+        return get_string(self.unit.source)
+
+    def is_translated(self):
+        """Check whether unit is translated."""
+        return bool(self.target)
+
+
+class SubRipFormat(TTKitFormat):
+    name = _('SubRip subtitle file')
+    format_id = 'srt'
+    loader = ('subtitles', 'SubRipFile')
+    unit_class = SubtitleUnit
+    autoload = ('*.srt',)
+    monolingual = True
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        return 'text/plain'
+
+
+class MicroDVDFormat(SubRipFormat):
+    name = _("MicroDVD subtitles file")
+    format_id = 'sub'
+    loader = ('subtitles', 'MicroDVDFile')
+    autoload = ('*.sub',)
+
+
+class AdvSubStationAlphaFormat(SubRipFormat):
+    name = _("Advanced Substation Alpha subtitles file")
+    format_id = 'ass'
+    loader = ('subtitles', 'AdvSubStationAlphaFile')
+    autoload = ('*.ass',)
+
+
+class SubStationAlphaFormat(SubRipFormat):
+    name = _("Substation Alpha subtitles file")
+    format_id = 'ssa'
+    loader = ('subtitles', 'SubStationAlphaFile')
+    autoload = ('*.ssa',)

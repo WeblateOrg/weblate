@@ -144,6 +144,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_po()
         self.verify_component(component, 3, 'cs', 4)
 
+    def test_create_srt(self):
+        component = self.create_srt()
+        self.verify_component(component, 2, 'cs', 4, 'Hello, world!')
+
     def test_create_po_mercurial(self):
         component = self.create_po_mercurial()
         self.verify_component(component, 3, 'cs', 4)

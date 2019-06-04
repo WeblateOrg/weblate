@@ -85,6 +85,8 @@ of them in :file:`requirements-optional.txt`.
     https://openpyxl.readthedocs.io/en/stable/
 ``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
+``aeidon`` (optional for :ref:`subtitles`)
+    https://pypi.org/project/aeidon/
 
 Database backend dependencies
 +++++++++++++++++++++++++++++

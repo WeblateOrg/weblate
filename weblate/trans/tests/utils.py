@@ -289,6 +289,13 @@ class RepoTestMixin(object):
             'po-mono/en.po',
         )
 
+    def create_srt(self):
+        return self._create_component(
+            'srt',
+            'srt/*.srt',
+            'srt/en.srt'
+        )
+
     def create_ts(self, suffix='', **kwargs):
         return self._create_component(
             'ts',

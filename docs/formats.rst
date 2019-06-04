@@ -92,6 +92,8 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`appstore`     | mono             | no            | no             | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`subtitles`    | mono             | no            | no             | no            | yes            |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -888,6 +890,36 @@ separate strings to translate.
 +--------------------------------+-------------------------------------+
 | File format                    | `App store metadata files`          |
 +--------------------------------+-------------------------------------+
+
+.. _subtitles:
+
+Subtitle files
+--------------
+
+.. versionadded:: 3.7
+
+Weblate can translate various subtile files:
+
+* SubRip subtitle file (``*.srt``)
+* MicroDVD subtitles file (``*.sub``)
+* Advanced Substation Alpha subtitles file (``*.ass``)
+* Substation Alpha subtitles file (``*.ssa``)
+
++--------------------------------+-------------------------------------+
+| Typical Weblate :ref:`component`                                     |
++================================+=====================================+
+| File mask                      | ``path/*.srt``                      |
++--------------------------------+-------------------------------------+
+| Monolingual base language file | ``path/en.srt``                     |
++--------------------------------+-------------------------------------+
+| Base file for new translations | ``path/en.srt``                     |
++--------------------------------+-------------------------------------+
+| File format                    | `SubRip subtitle file`              |
++--------------------------------+-------------------------------------+
+
+.. seealso::
+
+   :doc:`tt:formats/subtitles`
 
 .. _xlsx:
 
