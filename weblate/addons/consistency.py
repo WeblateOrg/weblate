@@ -23,12 +23,12 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_ADD, EVENT_POST_UPDATE
+from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD
 from weblate.lang.models import Language
 
 
 class LangaugeConsistencyAddon(BaseAddon):
-    events = (EVENT_POST_UPDATE, EVENT_POST_ADD)
+    events = (EVENT_DAILY, EVENT_POST_ADD)
     name = 'weblate.consistency.languages'
     verbose = _('Language consistency')
     description = _(
@@ -44,7 +44,7 @@ class LangaugeConsistencyAddon(BaseAddon):
             for language in missing:
                 component.add_new_language(language, None, send_signal=False)
 
-    def post_update(self, component, previous_head):
+    def daily(self, component):
         self.ensure_all_have(
             component.project,
             Language.objects.filter(translation__component=component)
