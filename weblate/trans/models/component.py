@@ -534,7 +534,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def progress_step(self, progress=None):
         # No task (eg. eager mode)
-        if not current_task:
+        if not current_task or not current_task.request.id:
             return
         # Operate on linked component if needed
         if self.translations_count == -1:
