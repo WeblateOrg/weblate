@@ -32,7 +32,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
-from weblate.trans.forms import SiteSearchForm, ReportsForm
+from weblate.trans.forms import ReportsForm, SiteSearchForm
 from weblate.trans.models import ComponentList, Translation
 from weblate.trans.util import render
 from weblate.utils import messages
