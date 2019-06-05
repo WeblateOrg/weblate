@@ -1576,6 +1576,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Template validation
         self.clean_template()
 
+        # New language options
+        self.clean_new_lang()
+
         try:
             matches = self.get_mask_matches()
 
@@ -1589,9 +1592,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 'Can not validate file matches due to invalid '
                 'regular expression.'
             ))
-
-        # New language options
-        self.clean_new_lang()
 
         # Suggestions
         if (hasattr(self, 'suggestion_autoaccept')
