@@ -491,7 +491,7 @@ def naturaltime(value, now=None):
 def translation_progress_data(approved, translated, fuzzy, checks):
     return {
         'approved': '{0:.1f}'.format(approved),
-        'good': '{0:.1f}'.format(translated - checks - approved),
+        'good': '{0:.1f}'.format(max(translated - checks - approved, 0)),
         'checks': '{0:.1f}'.format(checks),
         'fuzzy': '{0:.1f}'.format(fuzzy),
         'percent': '{0:.1f}'.format(translated),
@@ -501,7 +501,7 @@ def translation_progress_data(approved, translated, fuzzy, checks):
 def get_stats(obj, parent):
     if not isinstance(obj, BaseStats):
         obj = obj.stats
-    if not parent:
+    if parent is None:
         return obj
     return obj.get_parent_stats(parent)
 
