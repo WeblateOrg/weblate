@@ -90,6 +90,34 @@ def prefetch_stats(queryset):
     return queryset
 
 
+class ParentStats(object):
+    def __init__(self, stats, parent):
+        self.approved_percent = stats.calculate_percents(
+            'approved_percent', parent.source_strings
+        )
+        self.translated_percent = stats.calculate_percents(
+            'translated_percent', parent.source_strings
+        )
+        self.fuzzy_percent = stats.calculate_percents(
+            'fuzzy_percent', parent.source_strings
+        )
+        self.allchecks_percent = stats.calculate_percents(
+            'allchecks_percent', parent.source_strings
+        )
+        self.approved_words_percent = stats.calculate_percents(
+            'approved_words_percent', parent.source_words
+        )
+        self.translated_words_percent = stats.calculate_percents(
+            'translated_words_percent', parent.source_words
+        )
+        self.fuzzy_words_percent = stats.calculate_percents(
+            'fuzzy_words_percent', parent.source_words
+        )
+        self.allchecks_words_percent = stats.calculate_percents(
+            'allchecks_words_percent', parent.source_words
+        )
+
+
 class BaseStats(object):
     """Caching statistics calculator."""
 
@@ -109,6 +137,9 @@ class BaseStats(object):
 
     def get_data(self):
         return copy(self._data)
+
+    def get_parent_stats(self, parent):
+        return ParentStats(self, parent)
 
     def prefetch_many(self, stats):
         lookup = {i.cache_key: i for i in stats if not i.is_loaded}
@@ -140,7 +171,7 @@ class BaseStats(object):
             if name in self.basic_keys:
                 self.prefetch_basic()
             elif name.endswith('_percent'):
-                self.calculate_percents(name)
+                self.store_percents(name)
             else:
                 self.calculate_item(name)
             if not was_pending:
@@ -187,33 +218,35 @@ class BaseStats(object):
     def prefetch_basic(self):
         raise NotImplementedError()
 
-    def calculate_percents(self, item):
+    def calculate_percents(self, item, total=None):
         """Calculate percent value for given item."""
         base = item[:-8]
-        if base.endswith('_words'):
-            total = self.all_words
-        else:
-            total = self.all
+        if total is None:
+            if base.endswith('_words'):
+                total = self.all_words
+            else:
+                total = self.all
         if self.has_review:
             completed = {'approved', 'approved_words'}
         else:
             completed = {'translated', 'translated_words'}
-        self.store(
-            item,
-            translation_percent(getattr(self, base), total, base in completed)
-        )
+        return translation_percent(getattr(self, base), total, base in completed)
+
+    def store_percents(self, item, total=None):
+        """Calculate percent value for given item."""
+        self.store(item, self.calculate_percents(item))
 
     def calculate_basic_percents(self):
         """Calculate basic percents."""
-        self.calculate_percents('translated_percent')
-        self.calculate_percents('approved_percent')
-        self.calculate_percents('fuzzy_percent')
-        self.calculate_percents('allchecks_percent')
+        self.store_percents('translated_percent')
+        self.store_percents('approved_percent')
+        self.store_percents('fuzzy_percent')
+        self.store_percents('allchecks_percent')
 
-        self.calculate_percents('translated_words_percent')
-        self.calculate_percents('approved_words_percent')
-        self.calculate_percents('fuzzy_words_percent')
-        self.calculate_percents('allchecks_words_percent')
+        self.store_percents('translated_words_percent')
+        self.store_percents('approved_words_percent')
+        self.store_percents('fuzzy_words_percent')
+        self.store_percents('allchecks_words_percent')
 
 
 class DummyTranslationStats(BaseStats):

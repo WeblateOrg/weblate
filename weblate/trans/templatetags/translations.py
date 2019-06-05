@@ -498,15 +498,17 @@ def translation_progress_data(approved, translated, fuzzy, checks):
     }
 
 
-def get_stats(obj):
-    if isinstance(obj, BaseStats):
+def get_stats(obj, parent):
+    if not isinstance(obj, BaseStats):
+        obj = obj.stats
+    if not parent:
         return obj
-    return obj.stats
+    return obj.get_parent_stats(parent)
 
 
 @register.inclusion_tag('progress.html')
-def translation_progress(obj):
-    stats = get_stats(obj)
+def translation_progress(obj, parent=None):
+    stats = get_stats(obj, parent)
     return translation_progress_data(
         stats.approved_percent,
         stats.translated_percent,
@@ -516,8 +518,30 @@ def translation_progress(obj):
 
 
 @register.inclusion_tag('progress.html')
-def words_progress(obj):
-    stats = get_stats(obj)
+def words_progress(obj, parent=None):
+    stats = get_stats(obj, parent)
+    return translation_progress_data(
+        stats.approved_words_percent,
+        stats.translated_words_percent,
+        stats.fuzzy_words_percent,
+        stats.allchecks_words_percent,
+    )
+
+
+@register.inclusion_tag('snippets/progress-cells.html')
+def translation_progress_cells(obj, parent=None):
+    stats = get_stats(obj, parent)
+    return translation_progress_data(
+        stats.approved_percent,
+        stats.translated_percent,
+        stats.fuzzy_percent,
+        stats.allchecks_percent,
+    )
+
+
+@register.inclusion_tag('snippets/progress-cells.html')
+def words_progress_cells(obj, parent=None):
+    stats = get_stats(obj, parent)
     return translation_progress_data(
         stats.approved_words_percent,
         stats.translated_words_percent,

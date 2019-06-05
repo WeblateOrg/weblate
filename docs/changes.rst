@@ -30,6 +30,7 @@ Released on ? 2019.
 * Added font management tool.
 * New check for rendered text dimensions.
 * Added support for subtitle formats.
+* Include overall completion stats for languages.
 
 weblate 3.6.1
 -------------
