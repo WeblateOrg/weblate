@@ -134,63 +134,62 @@ def generate_counts(component, start_date, end_date):
         Change.ACTION_APPROVE: 'approve',
     }
 
-    for translation in component.translation_set.iterator():
-        authors = Change.objects.content().filter(
-            translation=translation,
-            timestamp__range=(start_date, end_date),
-        ).values_list(
-            'author__email', 'author__full_name', 'unit__num_words', 'action',
-            'target', 'unit__source',
-        )
-        for email, name, src_words, action, target, source in authors:
-            if src_words is None:
-                continue
-            if email not in result:
-                result[email] = {
-                    'name': name,
-                    'email': email,
+    authors = Change.objects.content().filter(
+        component=component,
+        timestamp__range=(start_date, end_date),
+    ).values_list(
+        'author__email', 'author__full_name', 'unit__num_words', 'action',
+        'target', 'unit__source',
+    )
+    for email, name, src_words, action, target, source in authors:
+        if src_words is None:
+            continue
+        if email not in result:
+            result[email] = {
+                'name': name,
+                'email': email,
 
-                    't_chars': 0,
-                    't_words': 0,
-                    'chars': 0,
-                    'words': 0,
-                    'count': 0,
+                't_chars': 0,
+                't_words': 0,
+                'chars': 0,
+                'words': 0,
+                'count': 0,
 
-                    't_chars_new': 0,
-                    't_words_new': 0,
-                    'chars_new': 0,
-                    'words_new': 0,
-                    'count_new': 0,
+                't_chars_new': 0,
+                't_words_new': 0,
+                'chars_new': 0,
+                'words_new': 0,
+                'count_new': 0,
 
-                    't_chars_approve': 0,
-                    't_words_approve': 0,
-                    'chars_approve': 0,
-                    'words_approve': 0,
-                    'count_approve': 0,
+                't_chars_approve': 0,
+                't_words_approve': 0,
+                'chars_approve': 0,
+                'words_approve': 0,
+                'count_approve': 0,
 
-                    't_chars_edit': 0,
-                    't_words_edit': 0,
-                    'chars_edit': 0,
-                    'words_edit': 0,
-                    'count_edit': 0,
-                }
-            src_chars = len(source)
-            tgt_chars = len(target)
-            tgt_words = len(target.split())
+                't_chars_edit': 0,
+                't_words_edit': 0,
+                'chars_edit': 0,
+                'words_edit': 0,
+                'count_edit': 0,
+            }
+        src_chars = len(source)
+        tgt_chars = len(target)
+        tgt_words = len(target.split())
 
-            result[email]['chars'] += src_chars
-            result[email]['words'] += src_words
-            result[email]['t_chars'] += tgt_chars
-            result[email]['t_words'] += tgt_words
-            result[email]['count'] += 1
+        result[email]['chars'] += src_chars
+        result[email]['words'] += src_words
+        result[email]['t_chars'] += tgt_chars
+        result[email]['t_words'] += tgt_words
+        result[email]['count'] += 1
 
-            suffix = action_map.get(action, 'edit')
+        suffix = action_map.get(action, 'edit')
 
-            result[email]['t_chars_' + suffix] += tgt_chars
-            result[email]['t_words_' + suffix] += tgt_words
-            result[email]['chars_' + suffix] += src_chars
-            result[email]['words_' + suffix] += src_words
-            result[email]['count_' + suffix] += 1
+        result[email]['t_chars_' + suffix] += tgt_chars
+        result[email]['t_words_' + suffix] += tgt_words
+        result[email]['chars_' + suffix] += src_chars
+        result[email]['words_' + suffix] += src_words
+        result[email]['count_' + suffix] += 1
 
     return list(result.values())
 
