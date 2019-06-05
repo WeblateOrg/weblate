@@ -21,6 +21,7 @@
 import os.path
 from io import BytesIO
 
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import get_language, pgettext
@@ -151,7 +152,7 @@ class BitmapWidget(ContentWidget):
     def get_filename(self):
         """Return widgets filename."""
         return os.path.join(
-            os.path.dirname(__file__),
+            settings.STATIC_ROOT,
             'widget-images',
             '{widget}-{color}.png'.format(**{
                 'color': self.color,
