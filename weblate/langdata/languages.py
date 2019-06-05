@@ -58,8 +58,8 @@ LANGUAGES = (
     ('anp', _('Angika'), 2, 'n != 1'),
     # Translators: Language name, ISO code: ar
     ('ar', _('Arabic'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
-    # Translators: Language name, ISO code: ar_SA
-    ('ar_SA', _('Arabic (Saudi Arabia)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    # Translators: Language name, ISO code: ar_BH
+    ('ar_BH', _('Arabic (Bahrain)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
     # Translators: Language name, ISO code: ar_DZ
     ('ar_DZ', _('Arabic (Algeria)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
     # Translators: Language name, ISO code: ar_EG
@@ -68,6 +68,10 @@ LANGUAGES = (
     ('ar_KW', _('Arabic (Kuwait)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
     # Translators: Language name, ISO code: ar_MA
     ('ar_MA', _('Arabic (Morocco)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    # Translators: Language name, ISO code: ar_SA
+    ('ar_SA', _('Arabic (Saudi Arabia)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    # Translators: Language name, ISO code: ar_YE
+    ('ar_YE', _('Arabic (Yemen)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
     # Translators: Language name, ISO code: arn
     ('arn', _('Mapudungun'), 2, 'n > 1'),
     # Translators: Language name, ISO code: ars
@@ -779,6 +783,7 @@ ALIASES = {
     'be_rby': 'be_Latn',
     'val_es': 'ca@valencia',
     'no_nb': 'nb_NO',
+    'no_no': 'nb_NO',
     'es_eu': 'eu',
     'ru_r': 'ru',
     'ru_rr': 'ru',

@@ -62,6 +62,7 @@ https://github.com/WeblateOrg/language-data
 # pylint: disable=line-too-long,too-many-lines
 
 from __future__ import unicode_literals
+
 '''
 
 TEMPLATE = """    # Translators: Language name, ISO code: {0}
@@ -177,7 +178,6 @@ for word in SKIP:
 # Write same check blacklist
 with open("weblate/checks/languages.py", "w") as output:
     output.write(HEADER)
-    output.write("\n\n")
     output.write("# Language names to ignore in same check\n")
     output.write("LANGUAGES = frozenset((\n")
     content = ", ".join(
