@@ -273,6 +273,26 @@ real_patterns = [
         name='state-change',
     ),
     url(
+        r'^credits/$',
+        weblate.trans.views.reports.get_credits,
+        name='credits',
+    ),
+    url(
+        r'^counts/$',
+        weblate.trans.views.reports.get_counts,
+        name='counts',
+    ),
+    url(
+        r'^credits/' + PROJECT + '$',
+        weblate.trans.views.reports.get_credits,
+        name='credits',
+    ),
+    url(
+        r'^counts/' + PROJECT + '$',
+        weblate.trans.views.reports.get_counts,
+        name='counts',
+    ),
+    url(
         r'^credits/' + COMPONENT + '$',
         weblate.trans.views.reports.get_credits,
         name='credits',

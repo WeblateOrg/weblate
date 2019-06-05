@@ -150,6 +150,7 @@ def show_project(request, project):
             'project': obj,
             'dicts': dict_langs,
             'last_changes': last_changes,
+            'reports_form': ReportsForm(),
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),

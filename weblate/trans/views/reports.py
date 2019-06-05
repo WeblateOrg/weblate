@@ -25,10 +25,11 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 
+from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
 from weblate.trans.models.change import Change
 from weblate.trans.util import redirect_param
-from weblate.utils.views import get_component, show_form_errors
+from weblate.utils.views import get_component, get_project, show_form_errors
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = ' '.join(['=' * 40] * 2 + ['=' * 24] * 20)
@@ -36,28 +37,35 @@ RST_HEADING = ' '.join(['=' * 40] * 2 + ['=' * 24] * 20)
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
 
 
-def generate_credits(component, start_date, end_date):
+def generate_credits(start_date, end_date, **kwargs):
     """Generate credits data for given component."""
 
     result = []
 
-    for translation in component.translation_set.iterator():
-        authors = Change.objects.authors_list(
-            translation,
+    for language in Language.objects.filter(**kwargs).distinct().iterator():
+        authors = Change.objects.filter(translation__language=language).authors_list(
             (start_date, end_date),
         )
         if not authors:
             continue
-        result.append({translation.language.name: sorted(set(authors))})
+        result.append({language.name: sorted(set(authors))})
 
     return result
 
 
 @login_required
 @require_POST
-def get_credits(request, project, component):
+def get_credits(request, project=None, component=None):
     """View for credits"""
-    obj = get_component(request, project, component)
+    if project is None:
+        obj = None
+        kwargs = {'translation__pk__gt': 0}
+    elif component is None:
+        obj = get_project(request, project)
+        kwargs = {'translation__component__project': obj}
+    else:
+        obj = get_component(request, project, component)
+        kwargs = {'translation__component': obj}
 
     if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
@@ -66,12 +74,12 @@ def get_credits(request, project, component):
 
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#reports')
+        return redirect_param(obj or 'home', '#reports')
 
     data = generate_credits(
-        obj,
         form.cleaned_data['start_date'],
         form.cleaned_data['end_date'],
+        **kwargs
     )
 
     if form.cleaned_data['style'] == 'json':
@@ -125,7 +133,7 @@ def get_credits(request, project, component):
     )
 
 
-def generate_counts(component, start_date, end_date):
+def generate_counts(start_date, end_date, **kwargs):
     """Generate credits data for given component."""
 
     result = {}
@@ -135,8 +143,8 @@ def generate_counts(component, start_date, end_date):
     }
 
     authors = Change.objects.content().filter(
-        component=component,
         timestamp__range=(start_date, end_date),
+        **kwargs
     ).values_list(
         'author__email', 'author__full_name', 'unit__num_words', 'action',
         'target', 'unit__source',
@@ -196,9 +204,17 @@ def generate_counts(component, start_date, end_date):
 
 @login_required
 @require_POST
-def get_counts(request, project, component):
+def get_counts(request, project=None, component=None):
     """View for work counts"""
-    obj = get_component(request, project, component)
+    if project is None:
+        obj = None
+        kwargs = {}
+    elif component is None:
+        obj = get_project(request, project)
+        kwargs = {'project': obj}
+    else:
+        obj = get_component(request, project, component)
+        kwargs = {'component': obj}
 
     if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
@@ -207,12 +223,12 @@ def get_counts(request, project, component):
 
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#reports')
+        return redirect_param(obj or 'home', '#reports')
 
     data = generate_counts(
-        obj,
         form.cleaned_data['start_date'],
         form.cleaned_data['end_date'],
+        **kwargs
     )
 
     if form.cleaned_data['style'] == 'json':

@@ -40,7 +40,7 @@ class Command(WeblateComponentCommand):
         data = []
         for component in self.get_components(*args, **options):
             for translation in component.translation_set.iterator():
-                authors = Change.objects.authors_list(translation)
+                authors = Change.objects.filter(translation=translation).authors_list()
                 if not authors:
                     continue
                 if options['code']:

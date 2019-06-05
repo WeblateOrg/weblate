@@ -32,7 +32,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
-from weblate.trans.forms import SiteSearchForm
+from weblate.trans.forms import SiteSearchForm, ReportsForm
 from weblate.trans.models import ComponentList, Translation
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -254,6 +254,7 @@ def dashboard_user(request):
                 components__project__in=request.user.allowed_projects
             ).distinct().order()),
             'active_tab_slug': active_tab_slug,
+            'reports_form': ReportsForm(),
         }
     )
 

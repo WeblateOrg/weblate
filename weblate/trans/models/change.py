@@ -127,11 +127,9 @@ class ChangeQuerySet(models.QuerySet):
             | Q(dictionary__project__in=user.allowed_projects)
         ).order()
 
-    def authors_list(self, translation, date_range=None):
+    def authors_list(self, date_range=None):
         """Return list of authors."""
-        authors = self.content().filter(
-            translation=translation
-        )
+        authors = self.content()
         if date_range is not None:
             authors = authors.filter(
                 timestamp__range=date_range

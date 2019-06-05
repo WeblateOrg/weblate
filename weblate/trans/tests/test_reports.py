@@ -54,9 +54,9 @@ COUNTS_DATA = [{
 }]
 
 
-class ReportsTest(ViewTestCase):
+class BaseReportsTest(ViewTestCase):
     def setUp(self):
-        super(ReportsTest, self).setUp()
+        super(BaseReportsTest, self).setUp()
         self.user.is_superuser = True
         self.user.save()
 
@@ -66,20 +66,22 @@ class ReportsTest(ViewTestCase):
             'Nazdar svete!\n'
         )
 
+
+class ReportsTest(BaseReportsTest):
     def test_credits_empty(self):
         data = generate_credits(
-            self.component,
             timezone.now() - timedelta(days=1),
-            timezone.now() + timedelta(days=1)
+            timezone.now() + timedelta(days=1),
+            translation__component=self.component,
         )
         self.assertEqual(data, [])
 
     def test_credits_one(self):
         self.add_change()
         data = generate_credits(
-            self.component,
             timezone.now() - timedelta(days=1),
-            timezone.now() + timedelta(days=1)
+            timezone.now() + timedelta(days=1),
+            translation__component=self.component,
         )
         self.assertEqual(
             data,
@@ -93,10 +95,24 @@ class ReportsTest(ViewTestCase):
         )
         self.test_credits_one()
 
+    def test_counts_one(self):
+        self.add_change()
+        data = generate_counts(
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            component=self.component,
+        )
+        self.assertEqual(data, COUNTS_DATA)
+
+
+class ReportsComponentTest(BaseReportsTest):
+    def get_kwargs(self):
+        return self.kw_component
+
     def get_credits(self, style):
         self.add_change()
         return self.client.post(
-            reverse('credits', kwargs=self.kw_component),
+            reverse('credits', kwargs=self.get_kwargs()),
             {
                 'period': '',
                 'style': style,
@@ -133,15 +149,6 @@ class ReportsTest(ViewTestCase):
             '</table>'
         )
 
-    def test_counts_one(self):
-        self.add_change()
-        data = generate_counts(
-            self.component,
-            timezone.now() - timedelta(days=1),
-            timezone.now() + timedelta(days=1)
-        )
-        self.assertEqual(data, COUNTS_DATA)
-
     def get_counts(self, style, **kwargs):
         self.add_change()
         params = {
@@ -152,7 +159,7 @@ class ReportsTest(ViewTestCase):
         }
         params.update(kwargs)
         return self.client.post(
-            reverse('counts', kwargs=self.kw_component),
+            reverse('counts', kwargs=self.get_kwargs()),
             params
         )
 
@@ -234,3 +241,13 @@ class ReportsTest(ViewTestCase):
 </table>
 '''
         )
+
+
+class ReportsProjectTest(ReportsComponentTest):
+    def get_kwargs(self):
+        return self.kw_project
+
+
+class ReportsGlobalTest(ReportsComponentTest):
+    def get_kwargs(self):
+        return {}
