@@ -59,13 +59,14 @@ var _rollbarConfig = {
   <script data-cfasync="false" src="{% static 'js/slugify.js' %}{{ cache_param }}" type="text/javascript"></script>
   <script data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
 {% endcompress %}
-  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
-
-  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
   <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
-  <link rel="apple-touch-icon" href="{% static 'weblate-128.png' %}"/>
-  <link rel="apple-touch-icon-precomposed" href="{% static 'weblate-152.png' %}">
-  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logo-32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'logo-16.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'weblate-180.png' %}"/>
+  <link rel="mask-icon" href="{% static 'weblate-black.svg' %}" color="#144d3f">
+  <meta name="msapplication-TileColor" content="#144d3f">
+  <meta name="theme-color" content="#144d3f">
+
   <meta name="msapplication-TileImage" content="{% static 'weblate-144.png' %}">
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />

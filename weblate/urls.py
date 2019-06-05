@@ -1203,6 +1203,29 @@ real_patterns = [
         weblate.trans.views.basic.healthz,
         name='healthz',
     ),
+
+    # Aliases for static files
+    url(
+        r'^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$',
+        RedirectView.as_view(
+            url=settings.STATIC_URL + 'weblate-%(size)s.png',
+            permanent=True,
+        )
+    ),
+    url(
+        r'^apple-touch-icon\.png$',
+        RedirectView.as_view(
+            url=settings.STATIC_URL + 'weblate-180.png',
+            permanent=True,
+        )
+    ),
+    url(
+        r'^(?P<name>favicon\.ico|site\.webmanifest|robots\.txt)$',
+        RedirectView.as_view(
+            url=settings.STATIC_URL + '%(name)s',
+            permanent=True,
+        )
+    ),
 ]
 
 if 'weblate.billing' in settings.INSTALLED_APPS:
