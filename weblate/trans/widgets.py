@@ -33,22 +33,22 @@ from weblate.utils.site import get_site_url
 
 COLOR_DATA = {
     'grey': {
-        'bar': 'rgb(0, 67, 118)',
+        'bar': 'rgb(31, 163, 133)',
         'border': 'rgb(0, 0, 0)',
         'text': 'rgb(0, 0, 0)',
     },
     'white': {
-        'bar': 'rgb(0, 67, 118)',
+        'bar': 'rgb(31, 163, 133)',
         'border': 'rgb(0, 0, 0)',
         'text': 'rgb(0, 0, 0)',
     },
     'black': {
-        'bar': 'rgb(0, 67, 118)',
+        'bar': 'rgb(31, 163, 133)',
         'border': 'rgb(255, 255, 255)',
         'text': 'rgb(255, 255, 255)',
     },
     'badge': {
-        'bar': 'rgb(0, 67, 118)',
+        'bar': 'rgb(31, 163, 133)',
         'border': 'rgb(255, 255, 255)',
         'text': 'rgb(255, 255, 255)',
     },
