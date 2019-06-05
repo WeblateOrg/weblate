@@ -438,7 +438,7 @@
   {% if unit.suggestions %}
   <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions|length }}</span></div>
   {% endif %}
-  {% show_checks unit checks user %}
+  {% show_checks unit.translation checks user %}
   {% if comments %}
   <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments|length }}</span></div>
   {% endif %}
@@ -576,7 +576,7 @@
     <th>{% trans "Failing checks" %}</th>
     </tr>
     <tr>
-    <td>{% show_checks unit checks user %}</td>
+    <td>{% show_checks unit.translation checks user %}</td>
     </tr>
     {% endif %}
     {% endwith %}
