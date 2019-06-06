@@ -32,6 +32,7 @@ Released on ? 2019.
 * Added support for subtitle formats.
 * Include overall completion stats for languages.
 * Added reporting at project and global scope.
+* Improved user interface when showing translation status.
 
 weblate 3.6.1
 -------------

@@ -126,12 +126,12 @@
 <div class="tab-content">
 <div class="tab-pane active" id="translations">
 
-{% include "list-translations.html" with skip_table_end=1 %}
+{% include "snippets/list-objects.html" with skip_table_end=1 objects=translations name_template="snippets/list-language-name.html" label=_("Language") %}
 
 {% if object.can_add_language %}
 <tfoot>
 <tr>
-<td colspan="10">
+<td colspan="9">
 {% if user_can_add_translation %}
 <a class="btn btn-primary" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
 {% else %}

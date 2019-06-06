@@ -129,6 +129,18 @@ class BaseStats(object):
         self._pending_save = False
 
     @property
+    def pk(self):
+        return self._object.pk
+
+    @property
+    def stats(self):
+        return self
+
+    @staticmethod
+    def get_badges():
+        return []
+
+    @property
     def is_loaded(self):
         return self._data is not None
 
@@ -258,6 +270,10 @@ class DummyTranslationStats(BaseStats):
     def __init__(self, obj):
         super(DummyTranslationStats, self).__init__(obj)
         self.language = obj
+
+    @property
+    def pk(self):
+        return 'l-{}'.format(self.language.pk)
 
     def cache_key(self):
         return None
@@ -483,6 +499,10 @@ class ProjectLanguageStats(LanguageStats):
     def __init__(self, obj, lang):
         self.language = lang
         super(ProjectLanguageStats, self).__init__(obj)
+
+    @property
+    def pk(self):
+        return '{}-{}'.format(self._object.pk, self.language.pk)
 
     @cached_property
     def has_review(self):

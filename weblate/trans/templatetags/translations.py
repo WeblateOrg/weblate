@@ -22,7 +22,9 @@ from __future__ import unicode_literals
 
 import re
 from datetime import date
+from uuid import uuid4
 
+import six
 from django import template
 from django.template.loader import render_to_string
 from django.templatetags.static import static
@@ -498,7 +500,7 @@ def translation_progress_data(approved, translated, fuzzy, checks):
     }
 
 
-def get_stats(obj, parent):
+def get_stats_parent(obj, parent):
     if not isinstance(obj, BaseStats):
         obj = obj.stats
     if parent is None:
@@ -506,9 +508,26 @@ def get_stats(obj, parent):
     return obj.get_parent_stats(parent)
 
 
+@register.simple_tag
+def global_stats(obj, stats, parent):
+    """Return attribute from global stats."""
+    if not parent:
+        return None
+    if isinstance(parent, six.string_types):
+        parent = getattr(obj, parent)
+    return get_stats_parent(stats, parent)
+
+
+@register.simple_tag
+def get_stats(obj, attr):
+    if not attr:
+        attr = 'stats'
+    return getattr(obj, attr)
+
+
 @register.inclusion_tag('progress.html')
 def translation_progress(obj, parent=None):
-    stats = get_stats(obj, parent)
+    stats = get_stats_parent(obj, parent)
     return translation_progress_data(
         stats.approved_percent,
         stats.translated_percent,
@@ -519,29 +538,7 @@ def translation_progress(obj, parent=None):
 
 @register.inclusion_tag('progress.html')
 def words_progress(obj, parent=None):
-    stats = get_stats(obj, parent)
-    return translation_progress_data(
-        stats.approved_words_percent,
-        stats.translated_words_percent,
-        stats.fuzzy_words_percent,
-        stats.allchecks_words_percent,
-    )
-
-
-@register.inclusion_tag('snippets/progress-cells.html')
-def translation_progress_cells(obj, parent=None):
-    stats = get_stats(obj, parent)
-    return translation_progress_data(
-        stats.approved_percent,
-        stats.translated_percent,
-        stats.fuzzy_percent,
-        stats.allchecks_percent,
-    )
-
-
-@register.inclusion_tag('snippets/progress-cells.html')
-def words_progress_cells(obj, parent=None):
-    stats = get_stats(obj, parent)
+    stats = get_stats_parent(obj, parent)
     return translation_progress_data(
         stats.approved_words_percent,
         stats.translated_words_percent,
@@ -749,15 +746,27 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, translation):
+def get_translate_url(context, obj):
     """Get translate URL based on user preference."""
-    if not isinstance(translation, Translation):
+    if not isinstance(obj, Translation):
         return ''
     if context['user'].profile.translate_mode == Profile.TRANSLATE_ZEN:
         name = 'zen'
     else:
         name = 'translate'
-    return reverse(name, kwargs=translation.get_reverse_url_kwargs())
+    return reverse(name, kwargs=obj.get_reverse_url_kwargs())
+
+
+@register.simple_tag(takes_context=True)
+def init_unique_row_id(context):
+    context['row_uuid'] = uuid4().hex
+    return ''
+
+
+@register.simple_tag(takes_context=True)
+def get_unique_row_id(context, obj):
+    """Get unique row ID for multiline tables."""
+    return '{}-{}'.format(context['row_uuid'], obj.pk)
 
 
 @register.simple_tag

@@ -122,7 +122,6 @@ def show_project(request, lang, project):
             ),
             'translations': translations,
             'title': '{0} - {1}'.format(pobj, obj),
-            'show_only_component': True,
             'search_form': SiteSearchForm(),
             'licenses': ', '.join(sorted(pobj.get_licenses())),
         }

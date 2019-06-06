@@ -594,6 +594,15 @@ class Component(models.Model, URLMixin, PathMixin):
             and not is_task_ready(self.background_task)
         )
 
+    def get_badges(self):
+        if self.is_repo_link:
+            yield (
+                _('linked'),
+                _('This component is linked to the %(target)s repository.') % {
+                    'target': self.linked_component
+                }
+            )
+
     def get_source(self, id_hash):
         """Cached access to source info."""
         if not self._sources:

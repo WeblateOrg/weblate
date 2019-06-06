@@ -458,9 +458,17 @@ function loadTableSorting() {
                 th.click(function () {
 
                     tbody.find('tr').sort(function(a, b) {
+                        var $a = $(a), $b = $(b);
+                        var a_parent = $a.data('parent'), b_parent = $b.data('parent');
+                        if (a_parent) {
+                            $a = tbody.find('#' + a_parent);
+                        }
+                        if (b_parent) {
+                            $b = tbody.find('#' + b_parent);
+                        }
                         return inverse * compareCells(
-                            $.text($(a).find('td,th')[myIndex]),
-                            $.text($(b).find('td,th')[myIndex])
+                            $.text($a.find('td,th')[myIndex]),
+                            $.text($b.find('td,th')[myIndex])
                         );
                     }).appendTo(tbody);
                     thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
@@ -947,9 +955,12 @@ $(function () {
     loadTableSorting();
 
     /* Table column changing */
-    var columnsMenu = $('#columns-menu');
-    if (columnsMenu.length > 0) {
+    $('.columns-menu').each(function () {
+        var columnsMenu = $(this);
         var columnsPanel = columnsMenu.closest('div.tab-pane');
+        if (columnsPanel.length === 0) {
+            columnsPanel = columnsMenu.closest('div.content');
+        }
         var width = columnsPanel.width();
 
         columnsMenu.on('click', function(e) {
@@ -981,7 +992,7 @@ $(function () {
         if (width < 500) {
             columnsMenu.find('#toggle-words').click();
         }
-    }
+    });
 
     /* Matrix mode handling */
     if ($('.matrix').length > 0) {

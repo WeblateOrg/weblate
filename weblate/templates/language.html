@@ -31,24 +31,8 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="overview">
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Project" %}</th>
-{% include "snippets/progress-total-heads.html" %}
-</tr>
-<tbody>
-{% for prj in projects %}
-<tr>
-<th><a href="{% url 'project-language' lang=object.code project=prj.slug %}">{{ prj }}</a></th>
-{% translation_progress_cells prj.language_stats %}
-{% translation_progress_cells prj.language_stats prj.stats %}
-{% words_progress_cells prj.language_stats %}
-{% words_progress_cells prj.language_stats prj.stats %}
-</tr>
-{% endfor %}
-</tbody>
-</table>
+
+{% include "snippets/list-objects.html" with objects=projects name_template="snippets/list-language-project.html" label=_("Project") language=object global_base="stats" stats_attr="language_stats" %}
 
 </div>
 
