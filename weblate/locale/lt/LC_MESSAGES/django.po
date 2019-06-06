@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-05 18:12+0000\n"
+"POT-Creation-Date: 2019-06-06 10:52+0000\n"
 "PO-Revision-Date: 2017-08-07 16:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -31,7 +31,7 @@ msgid ""
 "address."
 msgstr "Toks el. pašto adresas jau naudojamas. Įveskite kitą el. pašto adresą."
 
-#: weblate/accounts/forms.py:115 weblate/auth/models.py:304
+#: weblate/accounts/forms.py:115 weblate/auth/models.py:307
 #: weblate/utils/validators.py:173
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -49,14 +49,14 @@ msgstr "Naudotojo vardas"
 msgid "This username is already taken. Please choose another."
 msgstr "Toks naudotojas jau yra. Pasirinkite kitą naudotojo vardą."
 
-#: weblate/accounts/forms.py:148 weblate/auth/models.py:313
+#: weblate/accounts/forms.py:148 weblate/auth/models.py:316
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Vardas ir pavardė"
 
 #: weblate/accounts/forms.py:268 weblate/accounts/forms.py:344
-#: weblate/auth/models.py:319 weblate/templates/manage-access.html:25
+#: weblate/auth/models.py:322 weblate/templates/manage-access.html:25
 #, fuzzy
 #| msgid "E-mail"
 msgid "Email"
@@ -1274,7 +1274,7 @@ msgid "Vote suggestion"
 msgstr "Leidimai"
 
 #: weblate/auth/data.py:71 weblate/templates/component.html:67
-#: weblate/templates/component.html:132 weblate/templates/component.html:134
+#: weblate/templates/component.html:133 weblate/templates/component.html:135
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
@@ -1673,66 +1673,66 @@ msgstr "Kalbos"
 msgid "Weblate internal group"
 msgstr ""
 
-#: weblate/auth/models.py:300
+#: weblate/auth/models.py:303
 #, fuzzy
 #| msgid "Username"
 msgid "username"
 msgstr "Naudotojo vardas"
 
-#: weblate/auth/models.py:309
+#: weblate/auth/models.py:312
 msgid "A user with that username already exists."
 msgstr ""
 
-#: weblate/auth/models.py:327
+#: weblate/auth/models.py:330
 #, fuzzy
 #| msgid "Status"
 msgid "superuser status"
 msgstr "Būsena"
 
-#: weblate/auth/models.py:330
+#: weblate/auth/models.py:333
 msgid "User has all permissions without having been given them."
 msgstr ""
 
-#: weblate/auth/models.py:334
+#: weblate/auth/models.py:337
 msgid "active"
 msgstr ""
 
-#: weblate/auth/models.py:336
+#: weblate/auth/models.py:339
 msgid "Mark user as inactive instead of removing."
 msgstr ""
 
-#: weblate/auth/models.py:338
+#: weblate/auth/models.py:341
 msgid "Date joined"
 msgstr ""
 
-#: weblate/auth/models.py:341
+#: weblate/auth/models.py:344
 msgid "Groups"
 msgstr ""
 
-#: weblate/auth/models.py:344
+#: weblate/auth/models.py:347
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 
-#: weblate/auth/models.py:514
+#: weblate/auth/models.py:517
 msgid "Email regular expression"
 msgstr ""
 
-#: weblate/auth/models.py:518
+#: weblate/auth/models.py:521
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Regular expression used to match user email."
 msgstr "Stebimi vertimai"
 
-#: weblate/auth/models.py:523
+#: weblate/auth/models.py:526
 msgid "Group to assign"
 msgstr ""
 
-#: weblate/auth/models.py:528
+#: weblate/auth/models.py:531
 msgid "Automatic group assignment"
 msgstr ""
 
-#: weblate/auth/models.py:529
+#: weblate/auth/models.py:532
 msgid "Automatic group assignments"
 msgstr ""
 
@@ -4085,7 +4085,7 @@ msgstr "Administravimas"
 msgid "Configuration errors"
 msgstr ""
 
-#: weblate/templates/base.html:136 weblate/templates/component.html:224
+#: weblate/templates/base.html:136 weblate/templates/component.html:230
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:41
 #: weblate/templates/manage-access.html:71 weblate/templates/project.html:279
 #: weblate/templates/translate.html:479 weblate/templates/translation.html:341
@@ -4310,6 +4310,8 @@ msgstr ""
 #: weblate/templates/check.html:6 weblate/templates/check_component.html:6
 #: weblate/templates/check_project.html:6 weblate/templates/checks.html:6
 #: weblate/templates/js/detail.html:17
+#: weblate/templates/list-translations.html:12
+#: weblate/templates/list-translations.html:24
 msgid "Checks"
 msgstr ""
 
@@ -4397,7 +4399,7 @@ msgstr ""
 msgid "Alerts"
 msgstr ""
 
-#: weblate/templates/component.html:37 weblate/templates/component.html:165
+#: weblate/templates/component.html:37 weblate/templates/component.html:171
 #: weblate/templates/dashboard/user.html:43
 #: weblate/templates/dashboard/user.html:117
 #: weblate/templates/dictionary.html:90
@@ -4454,14 +4456,14 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: weblate/templates/component.html:58 weblate/templates/component.html:174
+#: weblate/templates/component.html:58 weblate/templates/component.html:180
 #: weblate/templates/project.html:52 weblate/templates/project.html:235
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:242 weblate/trans/models/change.py:237
 msgid "Search and replace"
 msgstr ""
 
-#: weblate/templates/component.html:61 weblate/templates/component.html:192
+#: weblate/templates/component.html:61 weblate/templates/component.html:198
 #: weblate/templates/project.html:55 weblate/templates/project.html:253
 #: weblate/templates/translation.html:67 weblate/templates/translation.html:260
 #: weblate/trans/models/change.py:244
@@ -4504,7 +4506,7 @@ msgstr ""
 msgid "Screenshots"
 msgstr ""
 
-#: weblate/templates/component.html:86 weblate/templates/component.html:217
+#: weblate/templates/component.html:86 weblate/templates/component.html:223
 #, fuzzy
 #| msgid "Component list"
 msgid "Add a component message"
@@ -4515,7 +4517,7 @@ msgstr "Komponentų sąrašas"
 msgid "Users"
 msgstr ""
 
-#: weblate/templates/component.html:97 weblate/templates/component.html:249
+#: weblate/templates/component.html:97 weblate/templates/component.html:255
 #: weblate/templates/project.html:88 weblate/templates/project.html:304
 #, fuzzy
 #| msgid "Full name"
@@ -4552,26 +4554,26 @@ msgstr ""
 msgid "Status widgets"
 msgstr ""
 
-#: weblate/templates/component.html:134
+#: weblate/templates/component.html:135
 #, fuzzy
 #| msgid "Watched translations"
 msgid "You don't have permission to start a new translation"
 msgstr "Stebimi vertimai"
 
-#: weblate/templates/component.html:134
+#: weblate/templates/component.html:135
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Please log in to start new translation"
 msgstr "Stebimi vertimai"
 
-#: weblate/templates/component.html:176 weblate/templates/project.html:237
+#: weblate/templates/component.html:182 weblate/templates/project.html:237
 #: weblate/templates/translation.html:244
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
 
-#: weblate/templates/component.html:181 weblate/templates/component.html:199
+#: weblate/templates/component.html:187 weblate/templates/component.html:205
 #: weblate/templates/project.html:242 weblate/templates/project.html:260
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:230
 #: weblate/templates/translation.html:249
@@ -4580,67 +4582,67 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: weblate/templates/component.html:194
+#: weblate/templates/component.html:200
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:208 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:214 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr ""
 
-#: weblate/templates/component.html:221
+#: weblate/templates/component.html:227
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
 
-#: weblate/templates/component.html:241
+#: weblate/templates/component.html:247
 #, fuzzy
 #| msgid "Project / Component"
 msgid "Rename component"
 msgstr "Projektas / komponentas"
 
-#: weblate/templates/component.html:244
+#: weblate/templates/component.html:250
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
 
-#: weblate/templates/component.html:256
+#: weblate/templates/component.html:262
 #, fuzzy
 #| msgid "Project / Component"
 msgid "Move component"
 msgstr "Projektas / komponentas"
 
-#: weblate/templates/component.html:259
+#: weblate/templates/component.html:265
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
 
-#: weblate/templates/component.html:264
+#: weblate/templates/component.html:270
 msgid "Move"
 msgstr ""
 
-#: weblate/templates/component.html:275 weblate/templates/project.html:314
+#: weblate/templates/component.html:281 weblate/templates/project.html:314
 #: weblate/templates/translate.html:368 weblate/templates/translate.html:372
 #: weblate/templates/translation.html:355
 msgid "Loading…"
 msgstr ""
 
-#: weblate/templates/component.html:288
+#: weblate/templates/component.html:294
 #: weblate/templates/dashboard/user.html:133 weblate/templates/project.html:327
 msgid "Credits"
 msgstr ""
 
-#: weblate/templates/component.html:292
+#: weblate/templates/component.html:298
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
 
-#: weblate/templates/component.html:296 weblate/templates/component.html:315
+#: weblate/templates/component.html:302 weblate/templates/component.html:321
 #: weblate/templates/dashboard/user.html:141
 #: weblate/templates/dashboard/user.html:160 weblate/templates/project.html:335
 #: weblate/templates/project.html:354
@@ -4648,12 +4650,12 @@ msgstr ""
 msgid "Generate"
 msgstr "Sukurti"
 
-#: weblate/templates/component.html:307
+#: weblate/templates/component.html:313
 #: weblate/templates/dashboard/user.html:152 weblate/templates/project.html:346
 msgid "Contributor stats"
 msgstr ""
 
-#: weblate/templates/component.html:311
+#: weblate/templates/component.html:317
 #: weblate/templates/dashboard/user.html:156 weblate/templates/project.html:350
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
@@ -4927,7 +4929,10 @@ msgid "glossaries"
 msgstr ""
 
 #: weblate/templates/dictionaries.html:15
-#: weblate/templates/list-projects.html:10 weblate/templates/project.html:122
+#: weblate/templates/list-projects.html:10
+#: weblate/templates/list-translations.html:10
+#: weblate/templates/list-translations.html:22
+#: weblate/templates/project.html:122
 #: weblate/templates/snippets/progress-total-heads.html:5
 #: weblate/templates/translation.html:142
 #: weblate/templates/translation.html:412
@@ -5531,10 +5536,11 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
-#: weblate/templates/legend.html:21 weblate/templates/progress.html:14
-#: weblate/templates/translation.html:429 weblate/trans/forms.py:448
-#: weblate/trans/forms.py:466 weblate/trans/templatetags/translations.py:560
-#: weblate/utils/state.py:32
+#: weblate/templates/legend.html:21 weblate/templates/list-translations.html:11
+#: weblate/templates/list-translations.html:23
+#: weblate/templates/progress.html:14 weblate/templates/translation.html:429
+#: weblate/trans/forms.py:448 weblate/trans/forms.py:466
+#: weblate/trans/templatetags/translations.py:560 weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr ""
 
@@ -5559,41 +5565,25 @@ msgstr ""
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
-msgctxt "Number of untranslated strings"
+#, fuzzy
+#| msgid "translated"
 msgid "Untranslated"
-msgstr ""
-
-#: weblate/templates/list-translations.html:10
-#: weblate/templates/list-translations.html:22
-msgctxt "Number of translated words"
-msgid "Words"
-msgstr ""
-
-#: weblate/templates/list-translations.html:11
-#: weblate/templates/list-translations.html:23
-msgctxt "Number of strings needing edit"
-msgid "Needs editing"
-msgstr ""
-
-#: weblate/templates/list-translations.html:12
-#: weblate/templates/list-translations.html:24
-msgctxt "Number of failing checks"
-msgid "Checks"
-msgstr ""
+msgstr "išversta"
 
 #: weblate/templates/list-translations.html:13
 #: weblate/templates/list-translations.html:25
-msgctxt "Number of suggestions"
+#: weblate/templates/trans/suggestion_list.html:7
+#: weblate/templates/translate.html:240 weblate/templates/translate.html:439
+#: weblate/trans/forms.py:1456
 msgid "Suggestions"
 msgstr ""
 
 #: weblate/templates/list-translations.html:14
 #: weblate/templates/list-translations.html:26
-#, fuzzy
-#| msgid "Status"
-msgctxt "Number of comments"
+#: weblate/templates/translate.html:246 weblate/templates/translate.html:443
+#: weblate/templates/unit-details.html:13
 msgid "Comments"
-msgstr "Būsena"
+msgstr ""
 
 #: weblate/templates/list-translations.html:17
 msgid "Configure columns"
@@ -5905,6 +5895,7 @@ msgid "Requested by:"
 msgstr ""
 
 #: weblate/templates/mail/new_language.html:57
+#: weblate/templates/mail/new_whiteboard.html:29
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation component:"
@@ -5965,6 +5956,18 @@ msgstr ""
 #: weblate/templates/mail/new_whiteboard.html:22
 msgid "Message:"
 msgstr ""
+
+#: weblate/templates/mail/new_whiteboard.html:32
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation project:"
+msgstr "Vertimų būsena"
+
+#: weblate/templates/mail/new_whiteboard.html:35
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Translation language:"
+msgstr "Kalbos, į kurias verčiate"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
 #, fuzzy, python-format
@@ -6690,12 +6693,6 @@ msgid ""
 "better to create new translation component."
 msgstr ""
 
-#: weblate/templates/trans/suggestion_list.html:7
-#: weblate/templates/translate.html:240 weblate/templates/translate.html:439
-#: weblate/trans/forms.py:1456
-msgid "Suggestions"
-msgstr ""
-
 #: weblate/templates/trans/suggestion_list.html:15
 msgid "Suggestion"
 msgstr ""
@@ -6882,11 +6879,6 @@ msgstr ""
 
 #: weblate/templates/translate.html:243
 msgid "Other occurrences"
-msgstr ""
-
-#: weblate/templates/translate.html:246 weblate/templates/translate.html:443
-#: weblate/templates/unit-details.html:13
-msgid "Comments"
 msgstr ""
 
 #: weblate/templates/translate.html:249
@@ -10029,6 +10021,12 @@ msgstr ""
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Status"
+#~ msgctxt "Number of comments"
+#~ msgid "Comments"
+#~ msgstr "Būsena"
 
 #, fuzzy
 #~| msgid "Project / Component"
