@@ -182,8 +182,8 @@ class Billing(models.Model):
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     def __str__(self):
-        projects = self.projects.all()
-        owners = self.owners.all()
+        projects = self.projects.order()
+        owners = self.owners.order()
         if projects:
             base = ', '.join([str(x) for x in projects])
         elif owners:

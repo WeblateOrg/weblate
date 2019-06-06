@@ -252,6 +252,9 @@ class UserManager(BaseUserManager):
         """All admins in a project."""
         return self.having_perm('project.edit', project)
 
+    def order(self):
+        return self.order_by('username')
+
 
 def get_anonymous():
     """Return an anonymous user."""
