@@ -35,6 +35,10 @@ class PlanAdmin(WeblateModelAdmin):
     ordering = ['price']
 
 
+def format_user(obj):
+    return "{}: {} <{}>".format(obj.username, obj.full_name, obj.email)
+
+
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
         'list_projects',
@@ -57,6 +61,11 @@ class BillingAdmin(WeblateModelAdmin):
     def list_owners(self, obj):
         return ','.join(obj.owners.values_list('full_name', flat=True))
     list_owners.short_description = _('Owners')
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(BillingAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['owners'].label_from_instance = format_user
+        return form
 
 
 class InvoiceAdmin(WeblateModelAdmin):
