@@ -56,7 +56,7 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
 </div>
 
 {% include "activity-tab.html" %}
@@ -65,7 +65,7 @@
 
 <form action="{% url 'search' project=project.slug lang=language.code %}" method="GET">
 {{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </form>
 
 </div>

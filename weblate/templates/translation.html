@@ -134,7 +134,7 @@
 <td class="progress-cell">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent }}%</td>
 <td rowspan="2">
-<a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-default"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
+<a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
 </tr>
 
@@ -189,7 +189,7 @@
 <th>{% trans "Translation file" %}</th>
 <td>
 <div class="dropdown pull-right flip">
-  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     <i class="fa fa-download"></i> {% trans "Download" %}
     <span class="caret"></span>
   </button>
@@ -207,7 +207,7 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all translation changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all translation changes" %}</a>
 </div>
 
 
@@ -227,7 +227,7 @@
 {% crispy autoform %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -246,7 +246,7 @@
 {{ replace_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -264,7 +264,7 @@
 {{ bulk_state_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -282,7 +282,7 @@
 {{ new_unit_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -298,7 +298,7 @@
 {{ download_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Download" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
 </div>
 </form>
 
@@ -319,7 +319,7 @@
 {{ form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Upload" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Upload" %}" class="btn btn-primary" />
 </div>
 </form>
 
@@ -338,7 +338,7 @@
 <p class="help-block">{% trans "The message is shown on the translation page, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
 </div>
 </form>
 
@@ -368,7 +368,7 @@
 {{ search_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -385,7 +385,7 @@
 {{ review_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Start review" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Start review" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>

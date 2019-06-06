@@ -68,7 +68,7 @@
     {{ add_user_form|crispy }}
   </div>
   <div class="panel-footer">
-  <input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
+  <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
   </div>
 </div>
 </form>
@@ -98,7 +98,7 @@
   </div>
   <div class="panel-footer">
 {% if user_can_edit_access_control %}
-  <input type="submit" class="btn btn-default" value="{% trans "Change" %}" />
+  <input type="submit" class="btn btn-primary" value="{% trans "Change" %}" />
 {% else %}
 {% if has_billing %}
   <a class="btn btn-primary pull-right flip" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>

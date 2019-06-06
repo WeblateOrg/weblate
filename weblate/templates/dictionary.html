@@ -97,7 +97,7 @@
 <form action="{% url 'show_dictionary' project=project.slug lang=language.code %}" method="POST">
 {% csrf_token %}
 {{ form|crispy }}
-<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
 </form>
 
 </div>
@@ -109,7 +109,7 @@
 
 {% csrf_token %}
 {{ uploadform|crispy }}
-<input type="submit" class="btn btn-default" value="{% trans "Import" %}" />
+<input type="submit" class="btn btn-primary" value="{% trans "Import" %}" />
 </form>
 
 </div>
@@ -117,7 +117,7 @@
 
 <div class="tab-pane" id="changes">
 {% include "last-changes-content.html" %}
-<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all glossary changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all glossary changes" %}</a>
 </div>
 
 </div>

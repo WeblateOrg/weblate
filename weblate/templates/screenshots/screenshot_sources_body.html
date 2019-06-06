@@ -10,7 +10,7 @@
 <tr>
 <td class="translatetext">{% format_translation unit.source unit.translation.component.project.source_language %}</td>
 <td>
-<a href="{{ source.get_absolute_url }}?checksum={{ unit.checksum }}" class="btn btn-default"><i class="fa fa-search"></i> {% trans "View" %}</a>
+<a href="{{ source.get_absolute_url }}?checksum={{ unit.checksum }}" class="btn btn-primary"><i class="fa fa-search"></i> {% trans "View" %}</a>
 </td>
 {% if user_can_change_screenshot %}
 <td>

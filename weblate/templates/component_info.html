@@ -57,7 +57,7 @@
 {% if object.agreement %}
 <tr>
 <th>{% trans "Contributor agreement" %}</th>
-<td><a class="btn btn-default" href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "View" %}</a></td>
+<td><a class="btn btn-primary" href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "View" %}</a></td>
 </tr>
 {% endif %}
 

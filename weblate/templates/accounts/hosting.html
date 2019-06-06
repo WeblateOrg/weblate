@@ -31,7 +31,7 @@
 {% if payment_enabled %}
   <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
 {% else %}
-  <a class="btn btn-default" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
+  <a class="btn btn-primary" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
 {% endif %}
   </div>
 </div>
@@ -44,7 +44,7 @@
 {{ form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Send" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Send" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>

@@ -37,7 +37,7 @@
 <tr>
 <td>
 <div class="btn-group pull-right flip">
-  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+  <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
     {% trans "Add" %} <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
@@ -58,7 +58,7 @@
 <input type="hidden" name="next" value="{{ next }}" />
 {{ check_flags_form|crispy }}
 
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>
 </td>
 </tr>
@@ -68,7 +68,7 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}" />
 {{ priority_form|crispy }}
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>
 </td>
 </tr>
@@ -78,7 +78,7 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}" />
 {{ context_form|crispy }}
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>
 </td>
 </tr>
@@ -94,7 +94,7 @@
 {% trans "No screenshot currently associated!" %}
 {% endfor %}
 {% if user_can_change_screenshot %}
-<a href="{% url 'screenshots' project=source.component.project.slug component=source.component.slug %}" class="btn btn-default"><i class="fa fa-picture-o"></i> {% trans "Manage screenshots" %}</a>
+<a href="{% url 'screenshots' project=source.component.project.slug component=source.component.slug %}" class="btn btn-primary"><i class="fa fa-picture-o"></i> {% trans "Manage screenshots" %}</a>
 {% endif %}
 </td>
 </tr>

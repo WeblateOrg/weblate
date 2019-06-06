@@ -11,7 +11,7 @@
 {% trans "Insufficient privileges to display this page." %}
 
 {% if not user.is_authenticated %}
-<a href="{% url 'login' %}" class="btn btn-default">{% trans "Log in" %}</a>
+<a href="{% url 'login' %}" class="btn btn-primary">{% trans "Log in" %}</a>
 {% endif %}
 
 </p>

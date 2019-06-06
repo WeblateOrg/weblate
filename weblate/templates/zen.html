@@ -23,9 +23,9 @@
 
 <div class="btn-group pull-right flip" role="group">
 
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-default"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-primary"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
 
-<a href="{% url 'profile' %}#preferences" class="btn btn-default" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
+<a href="{% url 'profile' %}#preferences" class="btn btn-primary" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
 </div>
 
 <div class="btn-group">
@@ -41,7 +41,7 @@
 <div class="panel-group">
 <form action="" method="GET">
 {{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </form>
 </div>
 

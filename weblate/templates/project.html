@@ -208,13 +208,13 @@
 <p>{% trans "There are currently no glossaries defined for this project." %}</p>
 {% endif %}
 
-<a class="btn btn-default" href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a>
+<a class="btn btn-primary" href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a>
 
 </div>
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all project changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all project changes" %}</a>
 </div>
 
 {% include "activity-tab.html" %}
@@ -223,7 +223,7 @@
 
 <form action="{% url 'search' project=object.slug %}" method="GET" data-persist="search-project">
 {{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </form>
 
 </div>
@@ -239,7 +239,7 @@
 {{ replace_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -257,7 +257,7 @@
 {{ bulk_state_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Process" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -276,7 +276,7 @@
 <p class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
 </div>
 </form>
 
@@ -332,7 +332,7 @@
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -351,7 +351,7 @@
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>

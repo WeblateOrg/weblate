@@ -32,10 +32,10 @@
 
 <div class="btn-group pull-right flip" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-primary"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
-<a href="{% url 'profile' %}#preferences" class="btn btn-default" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
+<a href="{% url 'profile' %}#preferences" class="btn btn-primary" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
 </div>
 
 {% include "show-component-state.html" with object=unit.translation.component %}
@@ -57,7 +57,7 @@
 <div class="panel-group">
 <form action="{{ unit.translation.get_translate_url }}" method="GET">
 {{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </form>
 </div>
 
@@ -82,7 +82,7 @@
 <input type="number" min="1" max="{{ filter_count }}" value="{{ filter_pos }}" name="offset" id="id-goto-number">
 </div>
 </div>
-<input type="submit" value="{% trans "Jump" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Jump" %}" class="btn btn-primary" />
 </form>
 </div>
 
@@ -414,7 +414,7 @@
 {{ comment_form|crispy }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -476,7 +476,7 @@
         <tr>
         <th>{% trans "Add word to glossary" %}</th>
         <td>
-        <input type="submit" class="btn btn-default btn-xs pull-right flip" value="{% trans "Add" %}" />
+        <input type="submit" class="btn btn-primary btn-xs pull-right flip" value="{% trans "Add" %}" />
         </td>
         </tr>
         <tr class="form-inline">

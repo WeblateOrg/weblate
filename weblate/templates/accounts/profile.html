@@ -42,7 +42,7 @@
     </p>
   </div>
   <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
 </div>
 </div>
@@ -55,7 +55,7 @@
     {{ dashboardsettingsform|crispy }}
   </div>
   <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
 </div>
 </div>
@@ -69,7 +69,7 @@
     <p class="help-block">{% trans "Watched projects are also shown on dashboard, so choose all projects you want to translate." %}</p>
   </div>
   <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
 </div>
 
@@ -97,7 +97,7 @@
 
   </div>
   <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
 </div>
 </div>
@@ -110,7 +110,7 @@
     <p class="help-block">{% trans "Your name and email will appear as author on the commits." %}</p>
   </div>
   <div class="panel-footer">
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
   </div>
 </div>
 
@@ -128,7 +128,7 @@
 <th><i class="fa fa-lg fa-wl-social fa-key" aria-hidden="true"></i> {% trans "Password" %}</th>
 <td>{{ request.user.username }}</td>
 <td>
-<a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
+<a href="{% url 'password' %}" class="btn btn-primary">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
 </td>
 </tr>
 {% for assoc in associated %}
@@ -266,7 +266,7 @@
 </tr>
 <tr>
 <td colspan="2">
-    <a class="pull-right flip btn btn-default link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
+    <a class="pull-right flip btn btn-primary link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
 <tr>

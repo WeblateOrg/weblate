@@ -63,8 +63,8 @@
     <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
 {% endif %}
 <p>
-    <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
-    <a class="btn btn-default" href="{% url 'profile' %}#notifications">{% trans "Manage watched projects" %}</a>
+    <a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
+    <a class="btn btn-primary" href="{% url 'profile' %}#notifications">{% trans "Manage watched projects" %}</a>
 </p>
 </div>
 
@@ -76,7 +76,7 @@
 {% else %}
 <p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
 {% endif %} {# userlanguages #}
-<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+<p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
 {% endif %} {# user.is_authenticated #}
 
@@ -96,9 +96,9 @@
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
 {% endif %}
 {% if user.is_authenticated %}
-<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+<p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 {% else %}
-<p><a class="btn btn-default" href="{% url 'register' %}">{% trans "Register to manage your languages" %}</a></p>
+<p><a class="btn btn-primary" href="{% url 'register' %}">{% trans "Register to manage your languages" %}</a></p>
 {% endif %}
 </div>
 
@@ -107,14 +107,14 @@
     <div {% active_tab componentlist.tab_slug %}>
     {% include "list-translations.html" with translations=componentlist.translations show_language=2 %}
     <p>{% include "legend.html" %}</p>
-    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+    <p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}
 
 <div class="tab-pane" id="search">
 
 <form action="{% url 'search' %}" method="GET" data-persist="search-index">
 {{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
 </form>
 
 </div>
@@ -138,7 +138,7 @@
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
@@ -157,7 +157,7 @@
 {% crispy reports_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
+<input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
 </div>
 </div>
 </form>
