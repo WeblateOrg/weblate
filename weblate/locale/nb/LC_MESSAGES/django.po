@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-06 13:23+0000\n"
-"PO-Revision-Date: 2019-06-06 13:23+0000\n"
+"PO-Revision-Date: 2019-06-07 11:31+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -997,7 +997,7 @@ msgstr "Se over og bekreft samsvarende komponenter."
 
 #: weblate/addons/forms.py:325
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "Inkluder komponent-oppmerking i malen."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -4958,17 +4958,15 @@ msgstr[1] "Strenger"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:41
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "%(total)s strings for translation and is %(percent)s%% complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s into English currently contains "
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
 "Oversettelsesprosjekt for %(project)s til bokmål inneholder for tiden "
-"%(total)s strenger til oversettelse, og er %(percent)s%% fullført."
+"<strong>%(total)s strenger</strong> til oversettelse, og er "
+"<strong>%(percent)s%% fullført</strong>."
 
 #: weblate/templates/engage.html:44
 #, fuzzy, python-format
@@ -4991,13 +4989,15 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Oversettelsesprosjekt for %(project)s inneholder nå %(total)s strenger for "
-"oversettelse, og blir oversatt til %(languages)s språk. I alt er disse "
-"oversettelsene %(percent)s%% fullførte."
+"Oversettelsesprosjekt for %(project)s inneholder nå <strong>%(total)s "
+"strenger</strong> for oversettelse, og blir oversatt til <strong>%(languages)"
+"s språk</strong>. I alt er disse oversettelsene <strong>%(percent)s%% "
+"fullførte</strong>."
 msgstr[1] ""
-"Oversettelsesprosjekt for %(project)s inneholder nå %(total)s strenger for "
-"oversettelse, og blir oversatt til %(languages)s språk. I alt er disse "
-"oversettelsene %(percent)s%% fullførte."
+"Oversettelsesprosjekt for %(project)s inneholder nå <strong>%(total)s "
+"strenger</strong> for oversettelse, og blir oversatt til <strong>%(languages)"
+"s språk</strong>. I alt er disse oversettelsene <strong>%(percent)s%% "
+"fullførte</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6187,8 +6187,6 @@ msgid ""
 msgstr "Du har utført for mange operasjoner, og har fått takten begrenset."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please log in and try again later."
 msgstr "Du har blitt utlogget, logg inn og prøv igjen senere."
 
