@@ -103,7 +103,7 @@ def render_template(template, **kwargs):
 def validate_render(value, **kwargs):
     """Validates rendered template."""
     try:
-        render_template(value, **kwargs)
+        return render_template(value, **kwargs)
     except Exception as err:
         raise ValidationError(
             _('Failed to render template: {}').format(err)

@@ -593,6 +593,17 @@ class DiscoveryTest(ViewTestCase):
             follow=True
         )
         self.assertNotContains(response, 'Please review and confirm')
+        # Wrong params
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_component),
+            {
+                'name': 'weblate.discovery.discovery',
+                'name_template': 'xxx',
+                'form': '1',
+            },
+            follow=True
+        )
+        self.assertContains(response, 'Please include component markup')
         # Correct params for confirmation
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),

@@ -316,10 +316,14 @@ class DiscoveryForm(BaseAddonForm):
 
     @staticmethod
     def test_render(value):
-        validate_render(value, component='test')
+        return validate_render(value, component='test')
 
     def template_clean(self, name):
-        self.test_render(self.cleaned_data[name])
+        result = self.test_render(self.cleaned_data[name])
+        if result and result == self.cleaned_data[name]:
+            raise forms.ValidationError(
+                _('Please include component markup in the template.')
+            )
         return self.cleaned_data[name]
 
     def clean_name_template(self):
