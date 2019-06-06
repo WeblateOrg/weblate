@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-05 18:12+0000\n"
-"PO-Revision-Date: 2019-06-05 18:10+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
+"PO-Revision-Date: 2019-06-06 10:52+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
 "Language: it\n"
@@ -812,9 +812,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Ogni volta che una nuova stringa sorgente viene importata dal VCS, viene "
-"contrassegnata come da modificare in Weblate. In questo modo si può "
-"facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
+"Ogni volta che una nuova stringa sorgente viene importata dal VCS in "
+"Weblate, verrà contrassegnata come  \"Richiede revisione\". In questo modo "
+"si può facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
 "sviluppatori."
 
 #: weblate/addons/flags.py:63
@@ -827,13 +827,13 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Ogni volta che una nuova traduzione viene importata dal VCS, verrà segnata "
-"in Weblate come \"Richiede revisione\". In questo modo si può facilmente "
-"filtrare e modificare le traduzioni scritte dagli sviluppatori."
+"Ogni volta che una nuova traduzione viene importata dal VCS in Weblate, "
+"verrà contrassegnata come  \"Richiede revisione\". In questo modo si può "
+"facilmente filtrare e modificare le traduzioni scritte dagli sviluppatori."
 
 #: weblate/addons/flags.py:77
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Segna le nuove traduzioni come \"Richiede revisione\""
+msgstr "Contrassegna le traduzioni invariate come \"Richiede revisione\""
 
 #: weblate/addons/flags.py:79
 msgid ""
@@ -842,10 +842,10 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"Ogni volta che una nuova stringa traducibile viene importata dal VCS e "
-"corrisponde alla stringa sorgente, in Weblate, viene contrassegnata come "
-"\"Richiede revisione\". Ciò è particolarmente utile per i formati di file "
-"che includono tutte le stringhe anche se non sono state tradotte."
+"Ogni volta che una nuova stringa viene importata dal VCS in Weblate e "
+"corrisponde alla stringa sorgente, verrà contrassegnata come  \"Richiede "
+"revisione\". Ciò è particolarmente utile per i formati di file che includono "
+"tutte le stringhe anche se non sono state tradotte."
 
 #: weblate/addons/forms.py:50
 msgid "Path of generated MO file"
@@ -2212,6 +2212,8 @@ msgstr "Rilevamento automatico"
 #: weblate/formats/base.py:223
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
+"Caricamento delle stringhe dal file fallito, riprova scegliendo un altro "
+"formato."
 
 #: weblate/formats/exporters.py:196
 msgid "gettext PO"
@@ -2347,19 +2349,19 @@ msgstr "File RC"
 
 #: weblate/formats/ttkit.py:1151
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "File sottotitoli SubRip"
 
 #: weblate/formats/ttkit.py:1165
 msgid "MicroDVD subtitles file"
-msgstr ""
+msgstr "File sottotitoli MicroDVD"
 
 #: weblate/formats/ttkit.py:1172
 msgid "Advanced Substation Alpha subtitles file"
-msgstr ""
+msgstr "File sottotitoli Advanced Substation Alpha"
 
 #: weblate/formats/ttkit.py:1179
 msgid "Substation Alpha subtitles file"
-msgstr ""
+msgstr "File sottotitoli Substation Alpha"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -2385,7 +2387,7 @@ msgstr "Plurale"
 #: weblate/lang/data.py:358 weblate/lang/data.py:364 weblate/lang/data.py:376
 msgctxt "Plural form description"
 msgid "One"
-msgstr "Singolare"
+msgstr "Uno"
 
 #: weblate/lang/data.py:308 weblate/lang/data.py:315 weblate/lang/data.py:343
 #: weblate/lang/data.py:350 weblate/lang/data.py:359 weblate/lang/data.py:366
@@ -4709,20 +4711,14 @@ msgid "Register to manage your languages"
 msgstr "Registrati per gestire le tue lingue"
 
 #: weblate/templates/dashboard/user.html:137
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"Elenca tutti i traduttori che contribuiscono a questo componente in un dato "
-"periodo di tempo. Utile per l'inclusione nella documentazione o "
-"nell'applicazione stessa, per ringraziare i traduttori inviando loro un "
-"feedback."
+"Elenca tutti i traduttori che contribuiscono in un determinato periodo di "
+"tempo. Utile per l'inclusione nella documentazione o nell'applicazione "
+"stessa, per ringraziare i traduttori inviando loro un feedback."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -5440,7 +5436,7 @@ msgstr "OK"
 #: weblate/trans/forms.py:466 weblate/trans/templatetags/translations.py:560
 #: weblate/utils/state.py:32
 msgid "Needs editing"
-msgstr "Richiede revisione"
+msgstr "Richiede verifica"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -6132,18 +6128,13 @@ msgstr ""
 "aggiornare segnalibri o riferimenti nei repository clonati!"
 
 #: weblate/templates/project.html:331
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Elenca tutti i traduttori che contribuiscono a questo componente in un dato "
-"periodo di tempo. Utile per l'inclusione nella documentazione o "
+"Elenca tutti i traduttori che contribuiscono a questo progetto in un "
+"determinato periodo di tempo. Utile per l'inclusione nella documentazione o "
 "nell'applicazione stessa, per ringraziare i traduttori inviando loro un "
 "feedback."
 
@@ -6298,16 +6289,12 @@ msgstr ""
 "contribuzione."
 
 #: weblate/templates/snippets/progress-total-heads.html:4
-#, fuzzy
-#| msgid "Strings status"
 msgid "Strings of total"
-msgstr "Stato stringhe"
+msgstr "Totale stringhe"
 
 #: weblate/templates/snippets/progress-total-heads.html:6
-#, fuzzy
-#| msgid "Words to translate"
 msgid "Words of total"
-msgstr "Parole da tradurre"
+msgstr "Totale parole"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -7397,7 +7384,7 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Le stringhe vengono in genere contrassegnate come \"Richiede revisione\" "
+"Le stringhe vengono, in genere, contrassegnate come \"Richiede revisione\" "
 "dopo che la stringa sorgente è stata aggiornata, o se contrassegnata "
 "manualmente come tale."
 
@@ -9888,7 +9875,7 @@ msgstr "Porta:"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
 msgid "Import speed documentation"
-msgstr "Velocità d'importazione del documento"
+msgstr "Documentazione per migliorare la velocità d'importazione"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked in bold."
