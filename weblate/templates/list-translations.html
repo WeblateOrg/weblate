@@ -12,7 +12,7 @@
 <th class="col-checks">{% trans "Checks" %}</th>
 <th class="col-suggestions">{% trans "Suggestions" %}</th>
 <th class="col-comments">{% trans "Comments" %}</th>
-<th class="sort-skip">
+<th class="sort-skip actions">
 <div class="dropdown">
   <button type="button" class="btn btn-link columns-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
     <i class="fa fa-columns"></i>
@@ -78,7 +78,7 @@
 {{ trans.stats.comments_percent }}%
 {% endif %}
 </td>
-<td>
+<td class="actions">
 {% if translate_url %}
 <a href="{{ translate_url }}?type={% if trans.stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary btn-xs">
 <i class="fa fa-pencil"></i> {% trans "Translate" %}
