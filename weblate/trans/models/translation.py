@@ -118,6 +118,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.commit_template = ''
         self.was_new = False
 
+    def get_badges(self):
+        if self.is_template:
+            yield (
+                _('source'),
+                _('This translation is used for source strings.')
+            )
+
     @cached_property
     def full_slug(self):
         return '/'.join((

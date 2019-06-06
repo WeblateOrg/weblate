@@ -8,25 +8,7 @@
 
 {% block content %}
 
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Language" %}</th>
-{% include "snippets/progress-total-heads.html" %}
-</tr>
-</thead>
-<tbody>
-{% for lang in languages %}
-<tr>
-<th><a href="{{ lang.get_absolute_url }}">{{ lang }}</a></th>
-{% translation_progress_cells lang %}
-{% translation_progress_cells lang global_stats %}
-{% words_progress_cells lang %}
-{% words_progress_cells lang global_stats %}
-</tr>
-{% endfor %}
-</tbody>
-</table>
+{% include "snippets/list-objects.html" with objects=languages name_template="snippets/list-object-name.html" label=_("Language") project=object global_base=global_stats %}
 
 {% include "legend.html" %}
 

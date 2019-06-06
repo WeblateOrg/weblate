@@ -53,7 +53,8 @@
 <div {% active_tab "your-subscriptions" %}>
 {% if watched_projects %}
     {% if usersubscriptions %}
-        {% include "list-translations.html" with translations=usersubscriptions show_language=2 hide_completed=user.profile.hide_completed %}
+        {% include "snippets/list-objects.html" with objects=usersubscriptions name_template="snippets/list-component-name-language.html" label=_("Component") hide_completed=user.profile.hide_completed %}
+
         <p>{% include "legend.html" %}</p>
         {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
     {% else %}
@@ -70,7 +71,7 @@
 
 <div {% active_tab "your-languages" %}>
 {% if userlanguages %}
-{% include "list-translations.html" with translations=userlanguages show_language=2 %}
+{% include "snippets/list-objects.html" with objects=userlanguages name_template="snippets/list-component-name-language.html" label=_("Component") %}
 <p>{% include "legend.html" %}</p>
 {% include "paginator.html" with page_obj=userlanguages anchor='your-languages' %}
 {% else %}
@@ -82,7 +83,7 @@
 
 {% if all_componentlists %}
 <div {% active_tab "componentlists" %}>
-{% include "list-translations.html" with translations=all_componentlists show_language=3 %}
+{% include "snippets/list-objects.html" with objects=all_componentlists name_template="snippets/list-object-name.html" label=_("Component list") %}
 <p>{% include "legend.html" %}</p>
 </div>
 {% endif %}
@@ -90,7 +91,7 @@
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>
 {% if suggestions %}
-{% include "list-translations.html" with translations=suggestions show_language=2 %}
+{% include "snippets/list-objects.html" with objects=suggestions name_template="snippets/list-component-name-language.html" label=_("Component") %}
 <p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
@@ -105,7 +106,7 @@
 
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
-    {% include "list-translations.html" with translations=componentlist.translations show_language=2 %}
+    {% include "snippets/list-objects.html" with objects=componentlist.translations name_template="snippets/list-component-name-language.html" label=_("Component") %}
     <p>{% include "legend.html" %}</p>
     <p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}

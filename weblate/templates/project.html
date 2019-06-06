@@ -114,36 +114,12 @@
 <div class="tab-content">
 <div class="tab-pane active" id="components">
 
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Component" %}</th>
-<th colspan="2">{% trans "Translated" %}</th>
-<th colspan="2">{% trans "Words" %}</th>
-</tr>
-<tbody>
-{% for prj in components %}
-<tr>
-<th>
-<a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a>
-{% indicate_alerts prj %}
-{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}This component is linked to the {{ target }} repository.{% endblocktrans %}">{% trans "Linked" %}</span>{% endif %}
-</th>
-<td class="progress-cell">{% translation_progress prj %}</td>
-<td class="percent">{{ prj.stats.translated_percent }}%</td>
-<td class="progress-cell">{% words_progress prj %}</td>
-<td class="percent">{{ prj.stats.translated_words_percent }}%</td>
-</tr>
-{% empty %}
-<tr><td colspan="5">
-  {% trans "There are currently no translation components." as msg %}
-  {% show_message "warning" msg %}
-</td></tr>
-{% endfor %}
-</tbody>
+
+{% include "snippets/list-objects.html" with objects=components name_template="snippets/list-object-only-name.html" label=_("Component") skip_table_end=True %}
+
 {% if user_can_edit_project %}
 <tfoot>
-<tr><td colspan="5">
+<tr><td colspan="9">
   <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
 </td></tr>
 </tbody>
@@ -174,25 +150,7 @@
 </div>
 <div class="tab-pane" id="languages">
 
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Language" %}</th>
-{% include "snippets/progress-total-heads.html" %}
-</tr>
-</thead>
-<tbody>
-{% for stats in language_stats %}
-<tr>
-<th><a href="{% url 'project-language' lang=stats.language.code project=object.slug %}">{{ stats.language }}</a></th>
-{% translation_progress_cells stats %}
-{% translation_progress_cells stats object.stats %}
-{% words_progress_cells stats %}
-{% words_progress_cells stats object.stats %}
-</tr>
-{% endfor %}
-</tbody>
-</table>
+{% include "snippets/list-objects.html" with objects=language_stats name_template="snippets/list-language-stats.html" label=_("Language") project=object global_base=object.stats %}
 
 </div>
 

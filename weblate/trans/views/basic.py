@@ -184,11 +184,11 @@ def show_component(request, project, component):
         {
             'allow_index': True,
             'object': obj,
+            'hide_alerts': True,
             'project': obj.project,
             'translations': sort_objects(
                 prefetch_stats(obj.translation_set.prefetch())
             ),
-            'show_language': 1,
             'reports_form': ReportsForm(),
             'last_changes': last_changes,
             'last_changes_url': urlencode(
@@ -277,7 +277,6 @@ def show_translation(request, project, component, lang):
             ),
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_reverse_url_kwargs()),
-            'show_only_component': True,
             'other_translations': prefetch_stats(
                 Translation.objects.prefetch().filter(
                     component__project=obj.component.project,
