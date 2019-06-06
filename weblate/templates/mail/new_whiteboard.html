@@ -24,6 +24,19 @@
 <td>{{ whiteboard.render }}</td>
 </tr>
 
+<tr>
+{% if whiteboard.component %}
+<th>{% trans "Translation component:" %}</th>
+<td><a href="{{ current_site_url }}{{ whiteboard.component.get_absolute_url }}">{{ whiteboard.component }}</a></td>
+{% elif whiteboard.project %}
+<th>{% trans "Translation project:" %}</th>
+<td><a href="{{ current_site_url }}{{ whiteboard.project.get_absolute_url }}">{{ whiteboard.project }}</a></td>
+{% elif whiteboard.language %}
+<th>{% trans "Translation language:" %}</th>
+<td><a href="{{ current_site_url }}{{ whiteboard.language.get_absolute_url }}">{{ whiteboard.language }}</a></td>
+{% endif %}
+</tr>
+
 </table>
 
 {% endblock %}
