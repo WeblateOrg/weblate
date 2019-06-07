@@ -873,8 +873,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click('Watched projects')
         with self.wait_for_page_load():
             self.click('WeblateOrg')
-        self.click('Glossaries')
+        with self.wait_for_page_load():
+            self.click('Glossaries')
         self.screenshot('project-glossaries.png')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
 
         # Addons
         self.click('Components')
