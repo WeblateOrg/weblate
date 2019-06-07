@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-07 11:31+0000\n"
-"PO-Revision-Date: 2019-06-01 12:23+0000\n"
+"PO-Revision-Date: 2019-06-09 18:37+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
 ">\n"
@@ -978,7 +978,7 @@ msgstr "Sáıkes kelgen quramdastardy saraptap rastaý."
 
 #: weblate/addons/forms.py:325
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "Úlgide quramdas belgileýin qamtyńyz."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -2154,9 +2154,6 @@ msgstr "Qarip"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1201 weblate/trans/models/whiteboard.py:102
-#, fuzzy
-#| msgid "Language"
-#| msgid_plural "Languages"
 msgid "Language"
 msgstr "Til"
 
@@ -2193,6 +2190,7 @@ msgstr "Automatty anyqtaý"
 #: weblate/formats/base.py:223
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
+"Faıldan joldardy júkteý sátsiz aıaqtaldy, basqa pishimdi tańdap kórińiz."
 
 #: weblate/formats/exporters.py:196
 msgid "gettext PO"
@@ -2328,19 +2326,19 @@ msgstr "RC faıly"
 
 #: weblate/formats/ttkit.py:1151
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "SubRip sýbtıtrler faıly"
 
 #: weblate/formats/ttkit.py:1165
 msgid "MicroDVD subtitles file"
-msgstr ""
+msgstr "MicroDVD sýbtıtrler faıly"
 
 #: weblate/formats/ttkit.py:1172
 msgid "Advanced Substation Alpha subtitles file"
-msgstr ""
+msgstr "Advanced Substation Alpha sýbtıtrler faıly"
 
 #: weblate/formats/ttkit.py:1179
 msgid "Substation Alpha subtitles file"
-msgstr ""
+msgstr "Substation Alpha sýbtıtrler faıly"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -4680,20 +4678,14 @@ msgid "Register to manage your languages"
 msgstr "Tilderńizdi basqarý úshin tirkelińiz"
 
 #: weblate/templates/dashboard/user.html:137
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"Bul berilgen ýaqyt kezeńinde osy quramdasqa óz jarnasyn qosqan barlyq "
-"tárjimeleýshilerdi tizimdeıdi. Qujattamaǵa nemese qoldanba ózine kiristirý "
-"úshin, tárjimeshilerge alǵys bildirý jáne olarǵa keri baılanys jasaý úshin "
-"paıdaly."
+"Bul berilgen ýaqyt kezeńinde óz jarnasyn qosqan barlyq tárjimeleýshilerdi "
+"tizimdeıdi. Qujattamaǵa nemese qoldanba ózine kiristirý úshin, "
+"tárjimeshilerge alǵys bildirý jáne olarǵa keri baılanys jasaý úshin paıdaly."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -4916,9 +4908,6 @@ msgstr ""
 "tárjimelenedi."
 
 #: weblate/templates/engage.html:24
-#, fuzzy
-#| msgid "String"
-#| msgid_plural "Strings"
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
@@ -4926,9 +4915,6 @@ msgstr[0] "Jol"
 msgstr[1] "Jol sany"
 
 #: weblate/templates/engage.html:28
-#, fuzzy
-#| msgid "Language"
-#| msgid_plural "Languages"
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -5446,9 +5432,6 @@ msgstr "Ákimshi"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:21
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Tárjimelenbegen"
 
@@ -5843,16 +5826,12 @@ msgid "Message:"
 msgstr "Habar:"
 
 #: weblate/templates/mail/new_whiteboard.html:32
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation project:"
-msgstr "Tárjime óńdep shyǵarylýy"
+msgstr "Tárjimelik joba:"
 
 #: weblate/templates/mail/new_whiteboard.html:35
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation language:"
-msgstr "Tárjime ózgerisi:"
+msgstr "Tárjime tili:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
 #, python-format
@@ -6102,17 +6081,12 @@ msgstr ""
 "bolady!"
 
 #: weblate/templates/project.html:315
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Bul berilgen ýaqyt kezeńinde osy quramdasqa óz jarnasyn qosqan barlyq "
+"Bul berilgen ýaqyt kezeńinde osy jobaǵa óz jarnasyn qosqan barlyq "
 "tárjimeleýshilerdi tizimdeıdi. Qujattamaǵa nemese qoldanba ózine kiristirý "
 "úshin, tárjimeshilerge alǵys bildirý jáne olarǵa keri baılanys jasaý úshin "
 "paıdaly."
@@ -6149,10 +6123,8 @@ msgstr ""
 "Juyqta tym kóp áreketter oryndadyńyz jáne saýalyńyz qarqyny shekteýli boldy."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please login and try again later."
 msgid "You have been logged out, please log in and try again later."
-msgstr "Siz shyǵyp ketkensiz, kirińiz de keıinirek qaıtalap kórińiz."
+msgstr "Shyǵyp ketkensiz, kirińiz de keıinirek qaıtalap kórińiz."
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
@@ -6266,14 +6238,12 @@ msgstr ""
 "etedi."
 
 #: weblate/templates/snippets/progress-total-heads.html:4
-#, fuzzy
-#| msgid "Strings status"
 msgid "Strings of total"
-msgstr "Joldar mártebesi"
+msgstr "Qorytyndy joldar"
 
 #: weblate/templates/snippets/progress-total-heads.html:6
 msgid "Words of total"
-msgstr ""
+msgstr "Qorytyndy joldar"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -8869,7 +8839,7 @@ msgstr[1] "ótken %(count)s aı buryn"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s apta buryn"
-msgstr[1] "ótken %(count)s weeks ago"
+msgstr[1] "ótken %(count)s apta buryn"
 
 #: weblate/trans/templatetags/translations.py:373
 msgid "a week ago"
