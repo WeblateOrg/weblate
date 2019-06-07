@@ -315,13 +315,13 @@ class DictionaryTest(FixtureTestCase):
         # Filtering by letter
         response = self.client.get(dict_url, {'letter': 'b'})
         self.assertContains(response, 'Czech')
-        self.assertContains(response, '1 / 1')
+        self.assertNotContains(response, '1 / 1')
         self.assertContains(response, 'datový tok')
 
         # Filtering by string
         response = self.client.get(dict_url, {'term': 'mark'})
         self.assertContains(response, 'Czech')
-        self.assertContains(response, '1 / 1')
+        self.assertNotContains(response, '1 / 1')
         self.assertContains(response, 'záložka')
 
     def test_get_words(self):
