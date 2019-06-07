@@ -37,7 +37,7 @@
 {{ override.language }}: {{ override.font }}<br />
 {% endfor %}
 </td>
-<td><a href="{{ group.get_absolute_url }}" class="btn btn-info edit-font-group">{% trans "Edit" %}</a></td>
+<td><a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -79,7 +79,7 @@
 <tr>
 <td>{{ font.family }}</td>
 <td>{{ font.style }}</td>
-<td><a href="{{ font.get_absolute_url }}" class="btn btn-info edit-font">{% trans "Edit" %}</a></td>
+<td><a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

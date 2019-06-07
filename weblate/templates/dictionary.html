@@ -64,7 +64,7 @@
 <td>
 {% if user_can_change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code pk=word.id %}" method="get" class="inlineform">
-<button type="submit" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
+<button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
 </form>
 {% endif %}
 {% if user_can_delete_dictionary %}
