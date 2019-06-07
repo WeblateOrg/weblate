@@ -28,6 +28,7 @@ BUILD_DIR = os.path.join(settings.BASE_DIR, 'build')
 VENV_DIR = os.path.join(settings.BASE_DIR, '.venv')
 DOCS_DIR = os.path.join(settings.BASE_DIR, 'docs')
 SCRIPTS_DIR = os.path.join(settings.BASE_DIR, 'scripts')
+EXAMPLES_DIR = os.path.join(settings.BASE_DIR, 'weblate', 'examples')
 
 
 def remove_readonly(func, path, _):
@@ -46,4 +47,5 @@ def should_skip(location):
         or location.startswith(DEFAULT_TEST_DIR)
         or location.startswith(DOCS_DIR)
         or location.startswith(SCRIPTS_DIR)
+        or location.startswith(EXAMPLES_DIR)
     )
