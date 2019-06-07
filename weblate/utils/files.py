@@ -18,11 +18,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
+import os
 import stat
+
+from django.conf import settings
+DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
+DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
+BUILD_DIR = os.path.join(settings.BASE_DIR, 'build')
+VENV_DIR = os.path.join(settings.BASE_DIR, '.venv')
+DOCS_DIR = os.path.join(settings.BASE_DIR, 'docs')
+SCRIPTS_DIR = os.path.join(settings.BASE_DIR, 'scripts')
 
 
 def remove_readonly(func, path, _):
     """Clear the readonly bit and reattempt the removal."""
     os.chmod(path, stat.S_IWRITE)
     func(path)
+
+
+def should_skip(location):
+    location = os.path.abspath(location)
+    return (
+        location.startswith(VENV_DIR)
+        or location.startswith(settings.DATA_DIR)
+        or location.startswith(DEFAULT_DATA_DIR)
+        or location.startswith(BUILD_DIR)
+        or location.startswith(DEFAULT_TEST_DIR)
+        or location.startswith(DOCS_DIR)
+        or location.startswith(SCRIPTS_DIR)
+    )

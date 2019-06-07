@@ -18,20 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from django.core.management.commands.compilemessages import Command as BaseCommand
+from django.core.management.commands.makemessages import Command as BaseCommand
 
 from weblate.utils.files import should_skip
 
 
 class Command(BaseCommand):
-    # We just remove --format-check as it just complicates things
-    # for some translations
-    program_options = []
-
-    def compile_messages(self, locations):
-        # Avoid compiling po files in DATA_DIR
-        locations = [l for l in locations if not should_skip(l[0])]
-        if not locations:
-            return
-        super(Command, self).compile_messages(locations)
+    def find_files(self, root):
+        return [obj for obj in super(Command, self).find_files(root) if not should_skip(obj.path)]
