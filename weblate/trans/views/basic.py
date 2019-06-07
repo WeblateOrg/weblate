@@ -172,9 +172,7 @@ def show_project(request, project):
                 user=user, obj=obj
             ),
             'components': components,
-            'licenses': ', '.join(sorted(
-                all_components.exclude(license='').values_list('license', flat=True)
-            )),
+            'licenses': ', '.join(sorted(obj.get_licenses())),
         }
     )
 

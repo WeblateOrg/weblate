@@ -383,3 +383,6 @@ class Project(models.Model, URLMixin, PathMixin):
         translations = Translation.objects.filter(component__project=self)
         for translation in translations.iterator():
             translation.stats.invalidate()
+
+    def get_licenses(self):
+        return {x for x in self.component_set.values_list('license', flat=True) if x}

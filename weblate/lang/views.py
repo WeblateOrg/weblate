@@ -124,8 +124,6 @@ def show_project(request, lang, project):
             'title': '{0} - {1}'.format(pobj, obj),
             'show_only_component': True,
             'search_form': SiteSearchForm(),
-            'licenses': ', '.join(sorted(
-                {x for x in pobj.component_set.values_list('license', flat=True) if x}
-            )),
+            'licenses': ', '.join(sorted(pobj.get_licenses())),
         }
     )
