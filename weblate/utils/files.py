@@ -22,6 +22,7 @@ import os
 import stat
 
 from django.conf import settings
+
 DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
 BUILD_DIR = os.path.join(settings.BASE_DIR, 'build')
