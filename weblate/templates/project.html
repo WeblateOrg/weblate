@@ -28,7 +28,7 @@
   <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
+  <li><a href="{% url 'show_dictionaries' project=object.slug %}" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
@@ -193,22 +193,6 @@
 {% endfor %}
 </tbody>
 </table>
-
-</div>
-
-<div class="tab-pane" id="glossaries">
-
-{% if dicts %}
-<div class="list-group">
-{% for language in dicts %}
-<a class="list-group-item" href="{% url 'show_dictionary' project=object.slug lang=language.code %}"><span class="badge">{{ language.dictionary__count }}</span>{{ language }}</a>
-{% endfor %}
-</div>
-{% else %}
-<p>{% trans "There are currently no glossaries defined for this project." %}</p>
-{% endif %}
-
-<a class="btn btn-primary" href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a>
 
 </div>
 

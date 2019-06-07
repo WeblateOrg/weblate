@@ -125,10 +125,6 @@ def show_project(request, project):
     obj = get_project(request, project)
     user = request.user
 
-    dict_langs = Language.objects.filter(
-        dictionary__project=obj
-    ).annotate(Count('dictionary')).order()
-
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
@@ -148,7 +144,6 @@ def show_project(request, project):
             'allow_index': True,
             'object': obj,
             'project': obj,
-            'dicts': dict_langs,
             'last_changes': last_changes,
             'reports_form': ReportsForm(),
             'last_changes_url': urlencode(
