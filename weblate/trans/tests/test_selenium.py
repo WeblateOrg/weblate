@@ -859,9 +859,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(self.driver.find_element_by_id('engage-project'))
 
         # Glossary
-        self.click('Glossaries')
         with self.wait_for_page_load():
-            self.click('Manage all glossaries')
+            self.click('Glossaries')
         with self.wait_for_page_load():
             self.click('Czech')
         self.click('Add new word')
