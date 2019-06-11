@@ -72,7 +72,7 @@ def get_suggestions(request, user, base, filtered=False):
         )
         if result:
             return result
-    return get_untranslated(base.order_by('?'), 10)
+    return get_untranslated(base, 10)
 
 
 def guess_user_language(request, translations):
