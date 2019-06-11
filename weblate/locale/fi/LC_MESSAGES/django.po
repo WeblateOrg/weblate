@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-07 11:31+0000\n"
-"PO-Revision-Date: 2019-06-05 06:46+0000\n"
+"PO-Revision-Date: 2019-06-17 07:07+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -2184,10 +2184,8 @@ msgstr "Tiedostomuotoa ei tueta."
 
 #: weblate/fonts/views.py:69 weblate/fonts/views.py:127
 #: weblate/fonts/views.py:139
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "Entry with same name already exists."
-msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
+msgstr "Samanniminen merkintä on jo olemassa."
 
 #: weblate/fonts/views.py:71
 msgid "Failed to create, please fix errors below."
@@ -2214,6 +2212,7 @@ msgstr "Automaattinen tunnistus"
 #: weblate/formats/base.py:223
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
+"Tekstien lataaminen tiedostosta epäonnistui. Kokeile valita toinen muoto."
 
 #: weblate/formats/exporters.py:196
 msgid "gettext PO"
@@ -2349,19 +2348,19 @@ msgstr "RC-tiedosto"
 
 #: weblate/formats/ttkit.py:1151
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "SubRip-tekstitystiedosto"
 
 #: weblate/formats/ttkit.py:1165
 msgid "MicroDVD subtitles file"
-msgstr ""
+msgstr "MicroDVD-tekstitystiedosto"
 
 #: weblate/formats/ttkit.py:1172
 msgid "Advanced Substation Alpha subtitles file"
-msgstr ""
+msgstr "Advanced Substation Alpha -tekstitystiedosto"
 
 #: weblate/formats/ttkit.py:1179
 msgid "Substation Alpha subtitles file"
-msgstr ""
+msgstr "Substation Alpha -tekstitystiedosto"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -4425,7 +4424,7 @@ msgstr "Jaa Facebookissa"
 #: weblate/templates/translation.html:106
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Käännä %(object)s käyttäen %%23Weblatea osoitteessa %(share_url)s!"
+msgstr "Käännä %(object)s %%23Weblaten avulla osoitteessa %(share_url)s!"
 
 #: weblate/templates/component.html:113 weblate/templates/translation.html:106
 msgid "Tweet this translation!"
@@ -4531,8 +4530,8 @@ msgid ""
 "translators and generate feedback to them."
 msgstr ""
 "Listaa kaikki kääntäjät jotka ovat osallistuneet tämän komponentin "
-"kääntämiseen annettuna ajanjaksona. Käyttökelpoinen sisällytettäväksi "
-"dokumentaatioon tai sovellukseen kiitokseksi ja palautteeksi kääntäjille."
+"kääntämiseen annettuna ajanjaksona. Hyvä sisällyttää dokumentaatioon tai "
+"sovellukseen itseensä, jotta kääntäjät saavat kiitosta ja palautetta."
 
 #: weblate/templates/component.html:305 weblate/templates/component.html:324
 #: weblate/templates/dashboard/user.html:141
@@ -4540,7 +4539,7 @@ msgstr ""
 #: weblate/templates/project.html:338
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
-msgstr "Generoi"
+msgstr "Luo"
 
 #: weblate/templates/component.html:316
 #: weblate/templates/dashboard/user.html:152 weblate/templates/project.html:330
@@ -4566,10 +4565,12 @@ msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "Ehdotus hyväksytään käännökseksi heti kun se on saanut yhden äänen."
+msgstr[0] ""
+"Ehdotus hyväksytään automaattisesti käännökseksi kun se on saanut yhden "
+"äänen."
 msgstr[1] ""
-"Ehdotus hyväksytään automaattisesti käännökseksi sitten kun se on saanut "
-"%(count)s ääntä."
+"Ehdotus hyväksytään automaattisesti käännökseksi kun se on saanut %(count)s "
+"ääntä."
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
@@ -4581,7 +4582,7 @@ msgstr "Käännösehdotuksia voidaan tehdä."
 
 #: weblate/templates/component_info.html:22
 msgid "Translation suggestions are turned off."
-msgstr "Käännösehdotuksia ei voida tehdä."
+msgstr "Käännösehdotukset ovat pois käytöstä."
 
 #: weblate/templates/component_info.html:26
 msgid "Only chosen users can contribute."
@@ -4611,7 +4612,7 @@ msgstr "Käännös käyttää kaksikielisiä tiedostoja."
 #: weblate/templates/language-project.html:56
 #: weblate/templates/project.html:167 weblate/trans/models/component.py:340
 msgid "Translation license"
-msgstr "Käännöstiedoston käyttöoikeuslisenssi"
+msgstr "Käännöksen lisenssi"
 
 #: weblate/templates/component_info.html:59
 #: weblate/templates/contributor-agreement.html:9
@@ -4640,15 +4641,15 @@ msgstr "Versionhallinta Weblate -käännöksille"
 #: weblate/templates/component_info.html:98
 #: weblate/trans/models/component.py:244
 msgid "Monolingual base language file"
-msgstr "Yksikielinen kantatiedostolla"
+msgstr "Yksikielinen kantakielitiedosto"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
-msgstr "Ole hyvä ja tutustu osallistujan sopimukseen"
+msgstr "Ole hyvä ja tutustu osallistujasopimukseen"
 
 #: weblate/templates/contributor-agreement.html:18
 msgid "Please read following contributor agreement:"
-msgstr "Ole hyvä ja lue seuraava osallistujan sopimus:"
+msgstr "Ole hyvä ja lue seuraava osallistujasopimus:"
 
 #: weblate/templates/contributor-agreement.html:29
 msgid "You have already agreed to this agreement."
@@ -4660,8 +4661,8 @@ msgid ""
 "This site runs %(weblate_name_link)s for translating the software projects "
 "listed below."
 msgstr ""
-"Tällä sivustolla käännetään %(weblate_name_link)s avulla alla listattujen "
-"ohjelmistoprojektien kielitiedostoja."
+"Tällä sivustolla käännetään %(weblate_name_link)sn avulla alla listattuja "
+"ohjelmistoprojekteja eri kielille."
 
 #: weblate/templates/dashboard/anonymous.html:10
 msgid ""
@@ -4688,7 +4689,7 @@ msgid ""
 "available translations for those languages in your watched projects."
 msgstr ""
 "Valitse haluamasi kielet asetuksista nähdäksesi yhteenvedon seuraamiesi "
-"projektien saatavilla olevista käännöksistä."
+"projektien saatavilla olevista käännöksistä kyseisillä kielillä."
 
 #: weblate/templates/dashboard/user.html:66
 #: weblate/templates/dashboard/user.html:79
@@ -4702,35 +4703,30 @@ msgid ""
 "Choose languages you speak in the preferences, to see an overview of all "
 "projects that feature those languages here."
 msgstr ""
-"Valitse hallitsemasi kielet asetuksista nähdäksesi kaikki näille kielille "
-"saatavilla olevat käännösprojektit."
+"Valitse osaamasi kielet asetuksista nähdäksesi kaikki näitä kieliä käyttävät "
+"käännösprojektit."
 
 #: weblate/templates/dashboard/user.html:96
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
-"Sinulle ei löydy yhtään ehdotuksia. Voit käydä säätämässä asetuksista kieliä "
-"saadaksesi lisää vaihtoehtoja."
+"Sinulle ei löydy yhtään ehdotusta. Valitse osaamasi kielet asetuksista "
+"saadaksesi ehdotuksia."
 
 #: weblate/templates/dashboard/user.html:101
 msgid "Register to manage your languages"
 msgstr "Rekisteröidy hallitaksesi kieliäsi"
 
 #: weblate/templates/dashboard/user.html:137
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"Listaa kaikki kääntäjät jotka ovat osallistuneet tämän komponentin "
-"kääntämiseen annettuna ajanjaksona. Käyttökelpoinen sisällytettäväksi "
-"dokumentaatioon tai sovellukseen kiitokseksi ja palautteeksi kääntäjille."
+"Listaa kaikki kääntäjät jotka ovat osallistuneet kääntämiseen annettuna "
+"ajanjaksona. Hyvä sisällyttää dokumentaatioon tai sovellukseen itseensä, "
+"jotta kääntäjät saavat kiitosta ja palautetta."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -4750,8 +4746,8 @@ msgid ""
 "To follow translation progress you can use RSS feeds, detailing all "
 "important translation changes."
 msgstr ""
-"Voit käyttää RSS-syötteitä seurataksesi käännösprosessin etenemistä ja "
-"käännösmuutosten yksityiskohtia."
+"Voit käyttää kaikista tärkeistä muutoksista kertovia RSS-syötteitä "
+"seurataksesi kääntämisen etenemistä."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -4767,37 +4763,36 @@ msgid ""
 "Per language RSS feeds are also available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
-"Kielikohtaisia RSS-syötteitä on myös saatavilla. Voit luoda niitä lisäämällä "
-"kielikoodin edellä olevaan URLiin."
+"Saatavilla on myös kielikohtaiset RSS-syötteet. Voit luoda niitä lisäämällä "
+"kielikoodin edellä olevaan URL-osoitteen loppuun."
 
 #: weblate/templates/data.html:56
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
 msgstr ""
-"JSON -muodossa saatavilla olevat komponenttikohtaiset tilastot "
-"mahdollistavat tietojen helpon hyödyntämisen myös muilla verkkosivuilla tai "
-"työkaluilla."
+"JSON-muodossa olevat komponenttikohtaiset tilastot mahdollistavat tietojen "
+"hyödyntämisen myös muilla verkkosivuilla tai työkaluilla."
 
 #: weblate/templates/data.html:79
 msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
 msgstr ""
-"Esimerkiksi voit hakea yhteenvedon kaikista komponentin käännöksistä "
+"Esimerkkinä voit hakea tilastot kaikista komponentin käännöksistä "
 "seuraavasti:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
-msgstr "Huomautus koukut"
+msgstr "Ilmoituskoukut"
 
 #: weblate/templates/data.html:96
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
-"Ilmoituskoukuilla Weblate voi automaattisesti hakea kehittäjien tekemät "
-"muutokset versionhallinnasta ja näin mahdollistaa jatkuvan lokalisoinnin."
+"Ilmoituskoukuilla Weblate tuo automaattisesti kehittäjien tekemät muutokset "
+"versionhallinnasta ja näin mahdollistaa jatkuvan lokalisoinnin."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4820,7 +4815,7 @@ msgstr ""
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
-msgstr "Hosting -sivusto"
+msgstr "Hosting-sivusto"
 
 #: weblate/templates/data.html:139
 msgid "Note"
@@ -4857,7 +4852,7 @@ msgstr "Lisää uusi sana"
 
 #: weblate/templates/dictionary.html:26
 msgid "Import glossary"
-msgstr "tuo sanasto"
+msgstr "Tuo sanasto"
 
 #: weblate/templates/dictionary.html:30
 msgid "Export glossary"
@@ -4869,11 +4864,11 @@ msgstr "Pilkulla erotetut arvot (CSV)"
 
 #: weblate/templates/dictionary.html:34
 msgid "Gettext (PO)"
-msgstr "Gettext (PO) tiedosto"
+msgstr "Gettext (PO)"
 
 #: weblate/templates/dictionary.html:35
 msgid "XML Localization Interchange File Format (XLIFF)"
-msgstr "XLIFF -tiedostomuoto (XML Localization Interchange File Format, XLIFF)"
+msgstr "XML Localization Interchange File Format (XLIFF)"
 
 #: weblate/templates/dictionary.html:36
 msgid "TermBase eXchange (TBX)"
@@ -4920,7 +4915,7 @@ msgstr "Poista"
 
 #: weblate/templates/dictionary.html:86
 msgid "No words found!"
-msgstr "Sanoja ei löydetty!"
+msgstr "Sanoja ei löytynyt!"
 
 #: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:88
 msgid "Import"
@@ -4928,7 +4923,7 @@ msgstr "Tuo"
 
 #: weblate/templates/dictionary.html:120
 msgid "Browse all glossary changes"
-msgstr "Selaa kaikkia muutoksia sanastossa"
+msgstr "Selaa kaikkia sanaston muutoksia"
 
 #: weblate/templates/edit_dictionary.html:20
 msgid "Change word"
@@ -4949,10 +4944,9 @@ msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(project)s -projektia käännetään eri kielille tällä web -pohjaisella "
-"%(weblate_name_link)s -nimisellä työkalulla. Weblate käännöstyökalu on "
-"suunniteltu sekä kehittäjien että kääntäjien tarpeiden pohjalta helpottamaan "
-"erillaisten ohjelmistojen kääntämistä eri kielille."
+"%(project)s-projektia käännetään eri kielille %(weblate_name_link)slla, web-"
+"pohjaisella käännöstyökalulla, joka on suunniteltu helpottamaan kääntämistä "
+"niin kehittäjien kuin kääntäjien kannalta."
 
 #: weblate/templates/engage.html:24
 #, fuzzy
@@ -4982,9 +4976,9 @@ msgid ""
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"%(project)s -projektin suomen kielen käännös sisältää tällä hetkellä "
-"yhteensä  <strong>%(total)s käännettävää tekstiä</strong>, joista  <strong>"
-"%(percent)s%% on käännetty</strong>."
+"%(project)s-suomennusprojekti sisältää tällä hetkellä <strong>%(total)s "
+"käännettävää tekstiä</strong>, joista <strong>%(percent)s%% on "
+"käännetty</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -4999,15 +4993,15 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"%(project)s -käännösprojekti sisältää tällä hetkellä <strong>%(total)s "
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(total)s "
 "käännettävää tekstiä</strong>, ja sitä on käännetty <strong>%(languages)s "
 "kielelle</strong>. Yhteensä nämä eri käännökset ovat <strong>%(percent)s%% "
-"valmiina</strong>."
+"valmiita</strong>."
 msgstr[1] ""
-"%(project)s -käännösprojekti sisältää tällä hetkellä <strong>%(total)s "
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(total)s "
 "käännettävää tekstiä</strong>, ja sitä on käännetty <strong>%(languages)s "
-"kielille</strong>. Yhteensä nämä eri käännökset ovat <strong>%(percent)s%% "
-"valmiina</strong>."
+"kielelle</strong>. Yhteensä nämä eri käännökset ovat <strong>%(percent)s%% "
+"valmiita</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -5901,16 +5895,12 @@ msgid "Message:"
 msgstr "Viesti:"
 
 #: weblate/templates/mail/new_whiteboard.html:32
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translation project:"
-msgstr "Käännösprosessi"
+msgstr "Käännösprojekti:"
 
 #: weblate/templates/mail/new_whiteboard.html:35
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation language:"
-msgstr "Käännöksen muutos:"
+msgstr "Käännöksen kieli:"
 
 #: weblate/templates/mail/new_whiteboard_subject.txt:4
 #, python-format
@@ -6160,19 +6150,14 @@ msgstr ""
 "päivittää kirjainmerkit ja viittaukset kloonatuista arkistoissa!"
 
 #: weblate/templates/project.html:315
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Listaa kaikki kääntäjät jotka ovat osallistuneet tämän komponentin "
-"kääntämiseen annettuna ajanjaksona. Käyttökelpoinen sisällytettäväksi "
-"dokumentaatioon tai sovellukseen kiitokseksi ja palautteeksi kääntäjille."
+"Listaa kaikki kääntäjät jotka ovat osallistuneet tämän projektin "
+"kääntämiseen annettuna ajanjaksona. Hyvä sisällyttää dokumentaatioon tai "
+"sovellukseen itseensä, jotta kääntäjät saavat kiitosta ja palautetta."
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -7560,7 +7545,7 @@ msgstr "Etsi tarkka merkkijono \"%s\""
 #: weblate/trans/forms.py:847
 #, python-format
 msgid "Substring search for \"%s\""
-msgstr "Alimerkkijonon \"%s\" etsiminen"
+msgstr "Alimerkkijonon \"%s\" haku"
 
 #: weblate/trans/forms.py:858
 #, python-brace-format
