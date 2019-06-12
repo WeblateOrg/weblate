@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-07 11:31+0000\n"
-"PO-Revision-Date: 2019-06-09 18:37+0000\n"
+"PO-Revision-Date: 2019-06-12 10:04+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -394,11 +394,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:388
 msgid "Translation editor mode"
-msgstr "Modo modifica traduzione"
+msgstr "Modalità modifica traduzione"
 
 #: weblate/accounts/models.py:390
 msgid "Full editor"
-msgstr "Modifica completa"
+msgstr "Editor completo"
 
 #: weblate/accounts/models.py:391
 msgid "Zen mode"
@@ -804,7 +804,7 @@ msgstr "Questo addon esegue uno script."
 
 #: weblate/addons/flags.py:49
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Contrassegna le nuove stringhe sorgenti come \"Richiede revisione\""
+msgstr "Contrassegna le nuove stringhe sorgenti come \"Richiede modifica\""
 
 #: weblate/addons/flags.py:51
 msgid ""
@@ -813,13 +813,13 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Ogni volta che una nuova stringa sorgente viene importata dal VCS in "
-"Weblate, verrà contrassegnata come  \"Richiede revisione\". In questo modo "
-"si può facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
+"Weblate, verrà contrassegnata come  \"Richiede modifica\". In questo modo si "
+"può facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
 "sviluppatori."
 
 #: weblate/addons/flags.py:63
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Contrassegna le nuove traduzioni come \"Richiede revisione\""
+msgstr "Contrassegna le nuove traduzioni come \"Richiede modifica\""
 
 #: weblate/addons/flags.py:65
 msgid ""
@@ -828,12 +828,12 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Ogni volta che una nuova traduzione viene importata dal VCS in Weblate, "
-"verrà contrassegnata come  \"Richiede revisione\". In questo modo si può "
+"verrà contrassegnata come  \"Richiede modifica\". In questo modo si può "
 "facilmente filtrare e modificare le traduzioni scritte dagli sviluppatori."
 
 #: weblate/addons/flags.py:77
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Contrassegna le traduzioni invariate come \"Richiede revisione\""
+msgstr "Contrassegna le traduzioni invariate come \"Richiede modifica\""
 
 #: weblate/addons/flags.py:79
 msgid ""
@@ -844,7 +844,7 @@ msgid ""
 msgstr ""
 "Ogni volta che una nuova stringa viene importata dal VCS in Weblate e "
 "corrisponde alla stringa sorgente, verrà contrassegnata come  \"Richiede "
-"revisione\". Ciò è particolarmente utile per i formati di file che includono "
+"modifica\". Ciò è particolarmente utile per i formati di file che includono "
 "tutte le stringhe anche se non sono state tradotte."
 
 #: weblate/addons/forms.py:50
@@ -1218,7 +1218,7 @@ msgstr "Elimina immagine"
 
 #: weblate/auth/data.py:64
 msgid "Edit info on source strings"
-msgstr "Modifica info stringa sorgente"
+msgstr "Modifica informazioni della stringa sorgente"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
@@ -1273,7 +1273,7 @@ msgstr "Revisiona stringhe"
 
 #: weblate/auth/data.py:80
 msgid "Edit string when suggestions are enforced"
-msgstr "Modifica Stringa con suggerimenti forzati"
+msgstr "Modifica stringa quando ci sono suggerimenti forzati"
 
 #: weblate/auth/data.py:81
 msgid "Edit source strings"
@@ -4373,7 +4373,7 @@ msgstr "Vista matrice"
 
 #: weblate/templates/component.html:66
 msgid "Source strings review"
-msgstr "Revisione stringhe sorgente"
+msgstr "Riesame stringhe sorgenti"
 
 #: weblate/templates/component.html:75 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
@@ -4603,7 +4603,7 @@ msgstr "La lingua di base della traduzione è modificabile."
 
 #: weblate/templates/component_info.html:35
 msgid "The translation base language can not be edited."
-msgstr "La lingua base della traduzione non può essere modificata."
+msgstr "La lingua di base della traduzione non può essere modificata."
 
 #: weblate/templates/component_info.html:38
 msgid "The translation uses bilingual files."
@@ -5458,7 +5458,7 @@ msgstr "OK"
 #: weblate/trans/forms.py:448 weblate/trans/forms.py:466
 #: weblate/trans/templatetags/translations.py:560 weblate/utils/state.py:32
 msgid "Needs editing"
-msgstr "Richiede verifica"
+msgstr "Richiede modifica"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -5726,7 +5726,7 @@ msgstr "Nuovo avviso su %(component)s"
 #: weblate/templates/mail/new_comment.html:11
 #, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "Nuovo commento in %(component)s in %(site_title)s."
+msgstr "C'è un nuovo commento in %(component)s in %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 msgid "Comment:"
@@ -6480,8 +6480,8 @@ msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
 msgstr ""
-"Sarai abilitato a modificare maggiori opzioni nel componente dopo averlo "
-"creato."
+"Potrai modificare maggiori opzioni nelle impostazioni componente, dopo "
+"averlo creato."
 
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
@@ -6617,7 +6617,7 @@ msgstr "Precedente"
 
 #: weblate/templates/translate.html:50 weblate/templates/zen.html:34
 msgid "Edit search parameters"
-msgstr "Modifica parametri ricerca"
+msgstr "Modifica parametri di ricerca"
 
 #: weblate/templates/translate.html:67
 msgid "Go to position"
@@ -6654,19 +6654,20 @@ msgstr "Combinazioni tastiera disponibili:"
 
 #: weblate/templates/translate.html:111
 msgid "Unmark review needed flag and save"
-msgstr "Rimuovi spunta 'Richiede revisione' e salva"
+msgstr "Rimuovi flag \"Richiede riesame\" e salva"
 
 #: weblate/templates/translate.html:112
 msgid "Strings navigation"
 msgstr "Navigazione stringhe"
 
 #: weblate/templates/translate.html:113
+#, fuzzy
 msgid "Focus translation editor"
-msgstr "Focus editor traduzione"
+msgstr "Editor di traduzione Focus"
 
 #: weblate/templates/translate.html:114
 msgid "Focus comment editor"
-msgstr "Focus editor commento"
+msgstr "Editor di commento Focus"
 
 #: weblate/templates/translate.html:115
 msgid "Shows machine translation tab"
@@ -6686,7 +6687,7 @@ msgstr "Copia stringa sorgente"
 
 #: weblate/templates/translate.html:119
 msgid "Toggle edit needed flag"
-msgstr "ON/OFF flag 'Richiede revisione'"
+msgstr "Abilita/disabilita flag \"Richiede riesame\""
 
 #: weblate/templates/translate.html:123
 msgid "Editing source string"
@@ -7026,7 +7027,7 @@ msgstr ""
 
 #: weblate/templates/translation.html:383
 msgid "Review"
-msgstr "Revisionare"
+msgstr "Riesaminare"
 
 #: weblate/templates/translation.html:385
 msgid "Review translations touched by other users."
@@ -7034,7 +7035,7 @@ msgstr "Traduzioni revisionate da altri utenti."
 
 #: weblate/templates/translation.html:389
 msgid "Start review"
-msgstr "Avvia revisione"
+msgstr "Avvia riesame"
 
 #: weblate/templates/translation.html:411
 msgid "Percent"
@@ -7201,7 +7202,7 @@ msgstr "zen"
 
 #: weblate/templates/zen.html:26
 msgid "Edit in single string mode"
-msgstr "Modifica in modo singola stringa"
+msgstr "Modifica in modalità stringa singola"
 
 #: weblate/templates/zen.html:26
 msgid "Exit Zen"
@@ -7281,7 +7282,7 @@ msgstr "Stringhe tradotte"
 
 #: weblate/trans/filter.py:35
 msgid "Strings marked for edit"
-msgstr "Stringhe da revisionare"
+msgstr "Stringhe contrassegnate per la modifica"
 
 #: weblate/trans/filter.py:36
 msgid "Strings with suggestions"
@@ -7309,7 +7310,7 @@ msgstr "Stringhe, con suggerimenti, approvate"
 
 #: weblate/trans/filter.py:45
 msgid "Strings waiting for review"
-msgstr "Stringhe in attesa di revisione"
+msgstr "Stringhe in attesa di riesame"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with any failing source checks"
@@ -7376,17 +7377,17 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Le stringhe vengono, in genere, contrassegnate come \"Richiede revisione\" "
+"Le stringhe vengono, in genere, contrassegnate come \"Richiede modifica\" "
 "dopo che la stringa sorgente è stata aggiornata, o se contrassegnata "
 "manualmente come tale."
 
 #: weblate/trans/forms.py:464
 msgid "Review state"
-msgstr "Stato revisione"
+msgstr "Stato riesame"
 
 #: weblate/trans/forms.py:467
 msgid "Waiting for review"
-msgstr "In attesa di revisione"
+msgstr "In attesa di riesame"
 
 #: weblate/trans/forms.py:526
 msgid "Source string has been changed meanwhile. Please check your changes."
@@ -7411,7 +7412,7 @@ msgstr "Metodo unione"
 
 #: weblate/trans/forms.py:599
 msgid "Add as translation needing review"
-msgstr "Aggiungi come traduzione che richiede revisione"
+msgstr "Aggiungi come traduzione che \"Richiede riesame\""
 
 #: weblate/trans/forms.py:600
 msgid "Add as approved translation"
@@ -7423,11 +7424,11 @@ msgstr "Aggiungi come suggerimento"
 
 #: weblate/trans/forms.py:602
 msgid "Add as translation needing edit"
-msgstr "Aggiungi come traduzione che necessita revisione"
+msgstr "Aggiungi come traduzione che necessita modifica"
 
 #: weblate/trans/forms.py:606
 msgid "Processing of strings needing edit"
-msgstr "Elaborazione stringhe che richiedono revisione"
+msgstr "Elaborazione stringhe che richiedono modifica"
 
 #: weblate/trans/forms.py:608
 msgid "Do not import"
@@ -7435,7 +7436,7 @@ msgstr "Non importare"
 
 #: weblate/trans/forms.py:609
 msgid "Import as string needing edit"
-msgstr "Importa come stringhe che richiedono revisione"
+msgstr "Importa come stringa che richiede modifica"
 
 #: weblate/trans/forms.py:610
 msgid "Import as translated"
@@ -7853,7 +7854,7 @@ msgstr "Testo lingua sorgente"
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
-"Puoi modificare questo in seguito, come con qualsiasi altra stringa nella "
+"Puoi apportare modifiche in seguito, come per qualsiasi altra stringa della "
 "lingua sorgente."
 
 #: weblate/trans/forms.py:1857
@@ -8066,7 +8067,7 @@ msgstr "Traduzione approvata"
 
 #: weblate/trans/models/change.py:249
 msgid "Marked for edit"
-msgstr "Segnate per la modifica"
+msgstr "Contrassegnate per la modifica"
 
 #: weblate/trans/models/change.py:250
 msgid "Removed component"
@@ -8709,7 +8710,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:119
 msgid "Enable reviews"
-msgstr "Abilita revisione"
+msgstr "Abilita riesame"
 
 #: weblate/trans/models/project.py:122
 msgid "Requires dedicated reviewers to approve translations."
@@ -9064,7 +9065,7 @@ msgstr "Non tradotte"
 
 #: weblate/trans/templatetags/translations.py:592
 msgid "Message needs edit"
-msgstr "Il messaggio richiede una revisione"
+msgstr "Il messaggio richiede una modifica"
 
 #: weblate/trans/templatetags/translations.py:597
 msgid "Message is not translated"
@@ -9362,7 +9363,7 @@ msgstr[1] "Traduzione automatica completata. %d stringhe aggiornate."
 
 #: weblate/trans/views/edit.py:634
 msgid "Posted new comment"
-msgstr "Nuovo commento postato"
+msgstr "Nuovo commento inviato"
 
 #: weblate/trans/views/edit.py:636
 msgid "Failed to add comment!"
