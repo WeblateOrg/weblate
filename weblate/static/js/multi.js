@@ -112,7 +112,7 @@ var multi = (function() {
             var row = document.createElement("a");
             row.tabIndex = 0;
             row.className = "item";
-            row.innerHTML = label;
+            row.innerText = label;
             row.setAttribute("role", "button");
             row.setAttribute("data-value", value);
             row.setAttribute("multi-index", i);
