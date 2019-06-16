@@ -94,6 +94,15 @@ CACHES = {
     }
 }
 
+if 'REDIS_PASSWORD' in os.environ:
+    CELERY_TASK_ALWAYS_EAGER = False
+    CELERY_BROKER_URL = '"redis://:{0}@{1}:{2}"'.format(
+          os.environ.get('REDIS_PASSWORD'),
+          os.environ.get('REDIS_HOST'),
+          os.environ.get('REDIS_PORT')
+      )
+    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
     'weblate.machinery.weblatetm.WeblateTranslation',

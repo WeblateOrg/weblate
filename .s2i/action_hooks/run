@@ -60,6 +60,15 @@ ARGS="$ARGS --url-alias /media /opt/app-root/data/media"
 ARGS="$ARGS --application-type module"
 ARGS="$ARGS --entry-point weblate.wsgi"
 
-# Run mod_wsgi-express.
+# Run Celery if Redis is set
+if [ x"$REDIS_PASSWORD" != x"" ]; then
+  export CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}/
+  export CELERY_RESULT_BACKEND=$CELERY_BROKER_URL
+  echo " -----> Celery will be run as additional service."
+  mkdir -p /opt/app-root/data/celery
+  rm -f /opt/app-root/data/celery/*.pid
+  ARGS="$ARGS --service-script celery_starter scripts/openshift-celery-runner.py"
+fi
 
+# Run mod_wsgi-express.
 exec mod_wsgi-express start-server $ARGS
