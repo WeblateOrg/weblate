@@ -565,6 +565,11 @@ Depending on your setup, this header might consist of several IP addresses,
 (for example ``X-Forwarded-For: a, b, client-ip``) and you can configure here
 which address from the header is client IP address.
 
+.. warning::
+
+   Setting this affects security of your installation, you should only
+   configure to use trusted proxies for determining IP address.
+
 Defaults to 0.
 
 .. seealso::
