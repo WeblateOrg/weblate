@@ -21,7 +21,11 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_ipv46_address
+
 from six.moves.urllib.parse import urlparse
+from weblate.utils.errors import report_error
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
@@ -45,7 +49,11 @@ class ProxyMiddleware(object):
         if proxy:
             # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
             address = proxy.split(', ')[settings.IP_PROXY_OFFSET].strip()
-            request.META['REMOTE_ADDR'] = address
+            try:
+                validate_ipv46_address(address)
+                request.META['REMOTE_ADDR'] = address
+            except ValidationError as error:
+                report_error(error, prefix='Invalid IP address')
 
         return self.get_response(request)
 
