@@ -42,6 +42,7 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
     <dir>{}</dir>
     <dir>{}</dir>
     <dir>{}</dir>
+    <dir>{}</dir>
     <config>
         <rescan>
             <int>30</int>
@@ -89,6 +90,7 @@ def configure_fontconfig():
         handle.write(FONTCONFIG_CONFIG.format(
             fonts_dir,
             os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
+            os.path.join(settings.STATIC_ROOT, 'font-dejavu'),
             os.path.join(settings.STATIC_ROOT, 'font-droid'),
         ))
 
