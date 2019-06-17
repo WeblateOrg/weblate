@@ -42,6 +42,8 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
     <dir>{}</dir>
+    <dir>{}</dir>
+    <dir>{}</dir>
     <config>
         <rescan>
             <int>30</int>
@@ -139,7 +141,11 @@ def configure_fontconfig():
 
     # Generate the configuration
     with open(config_name, "w") as handle:
-        handle.write(FONTCONFIG_CONFIG.format(fonts_dir))
+        handle.write(FONTCONFIG_CONFIG.format(
+            fonts_dir,
+            os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
+            os.path.join(settings.STATIC_ROOT, 'font-droid'),
+        ))
 
     # Inject into environment
     os.environ["FONTCONFIG_FILE"] = config_name
