@@ -22,7 +22,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext"))
 
 
 def setup(app):
-    app.add_stylesheet("font-ubuntu/ubuntu.css")
+    app.add_stylesheet("font-source/source-sans-pro.css")
+    app.add_stylesheet("font-source/source-code-pro.css")
     app.add_stylesheet("docs.css")
 
 
@@ -109,7 +110,7 @@ html_static_path = ["../weblate/static/"]
 #
 # html_sidebars = {}
 
-html_logo = "../weblate/static/weblate-128.png"
+html_logo = "../weblate/static/logo-128.png"
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
