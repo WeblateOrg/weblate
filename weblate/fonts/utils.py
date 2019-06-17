@@ -19,6 +19,8 @@
 #
 """Font handling wrapper."""
 
+from __future__ import unicode_literals
+
 import os
 from itertools import product
 from tempfile import NamedTemporaryFile
