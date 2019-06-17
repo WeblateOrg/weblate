@@ -71,8 +71,6 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/jtauber/pyuca
 ``phply`` (optional for PHP support)
     https://github.com/viraptor/phply
-``python-bidi`` (optional for proper rendering of badges in RTL languages)
-    https://github.com/MeirKriheli/python-bidi
 ``tesserocr`` (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
 ``akismet`` (optional for suggestion spam protection)

@@ -32,11 +32,6 @@ from PIL import Image, ImageDraw
 from weblate.fonts.utils import get_font, is_base
 from weblate.utils.site import get_site_url
 
-try:
-    from bidi.algorithm import get_display
-except ImportError:
-    from django.utils.encoding import force_text as get_display
-
 
 COLOR_DATA = {
     'grey': {
@@ -241,7 +236,7 @@ class BitmapWidget(ContentWidget):
             # Render text
             self.draw.text(
                 (pos_x, pos_y + offset),
-                get_display(line),
+                line,
                 font=font,
                 fill=COLOR_DATA[self.color]['text']
             )

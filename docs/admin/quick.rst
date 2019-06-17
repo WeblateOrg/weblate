@@ -71,7 +71,7 @@ development server.
 
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYAML pyuca
+        pip install pytz PyYAML pyuca
         # Install database backend for PostgreSQL
         pip install psycopg2-binary
         # Install database backend for MySQL

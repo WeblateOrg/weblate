@@ -73,10 +73,6 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'python-bidi', 'https://github.com/MeirKriheli/python-bidi'
-    )
-
-    get_optional_module(
         result, 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
     )
 
