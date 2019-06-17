@@ -993,6 +993,10 @@ $(function () {
             columnsMenu.find('#toggle-fuzzy').click();
         }
         if (width < 500) {
+            columnsMenu.find('#toggle-words-total').click();
+            columnsMenu.find('#toggle-strings-total').click();
+        }
+        if (width < 300) {
             columnsMenu.find('#toggle-words').click();
         }
     });
