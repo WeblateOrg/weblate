@@ -183,7 +183,7 @@ function screenshotResultSet(results) {
             '<tr><td class="text"></td>' +
             '<td class="context"></td>' +
             '<td class="location"></td>' +
-            '<td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' +
+            '<td><a class="add-string btn btn-primary"><i class="fa fa-plus"></i> ' +
             gettext('Add to screenshot') +
             '</a><i class="fa fa-spinner fa-spin"></i></tr>'
         );
@@ -304,7 +304,7 @@ function processMachineTranslation(data) {
                 '</a>' +
                 '</td>' +
                 '<td>' +
-                '<a class="copymt-save btn btn-xs btn-success">' +
+                '<a class="copymt-save btn btn-xs btn-primary">' +
                 '<i class="fa fa-save"></i> ' +
                 gettext('Copy and save') +
                 '</a>' +

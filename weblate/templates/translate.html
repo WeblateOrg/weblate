@@ -202,7 +202,7 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    <button class="btn btn-success" type="submit" name="save" tabindex="150" 
+    <button class="btn btn-primary" type="submit" name="save" tabindex="150" 
     {% if locked or not user_can_translate %}disabled="disabled"{% endif %} 
     {% if not user_can_translate %}
     {% if not user.is_authenticated %}
@@ -302,11 +302,11 @@
 {% endif %}
 <div class="pull-right flip">
 {% if user.is_authenticated and user_can_vote_suggestion %}
-<button type="submit" class="btn btn-success" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
+<button type="submit" class="btn btn-primary" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
 {% if user_can_accept_suggestion %}
-<button type="submit" class="btn btn-success" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
+<button type="submit" class="btn btn-primary" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
 <button type="submit" class="btn btn-warning" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
 {% endif %}
 {% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}

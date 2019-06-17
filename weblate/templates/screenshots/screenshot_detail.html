@@ -69,14 +69,14 @@
     <div class="pull-right flip">
     <form class="form-inline">
       {% csrf_token %}
-      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-success" id="screenshots-auto"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
+      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-primary" id="screenshots-auto"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
     </form>
     </div>
     {% endif %}
     <form class="form-inline double-submission">
       {% csrf_token %}
       <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
-      <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-success" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+      <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-primary" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
     </form>
   </div>
 </div>
@@ -102,7 +102,7 @@
   {{ edit_form|crispy }}
   </div>
   <div class="panel-footer">
-  <input type="submit" class="btn btn-success" value="{% trans "Save" %}" />
+  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
   </div>
 </div>
 </form>
