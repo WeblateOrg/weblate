@@ -400,15 +400,18 @@ class Unit(models.Model, LoggerMixin):
         component = self.translation.component
         self.is_batch_update = True
         # Get unit attributes
-        location = unit.locations
-        flags = unit.flags
-        target = unit.target
-        source = unit.source
-        context = unit.context
-        comment = unit.comments
-        state = self.get_unit_state(unit)
-        previous_source = unit.previous_source
-        content_hash = unit.content_hash
+        try:
+            location = unit.locations
+            flags = unit.flags
+            target = unit.target
+            source = unit.source
+            context = unit.context
+            comment = unit.comments
+            state = self.get_unit_state(unit)
+            previous_source = unit.previous_source
+            content_hash = unit.content_hash
+        except Exception as error:
+            self.translation.component.handle_parse_error(error, self.translation)
 
         # Monolingual files handling (without target change)
         if not created and unit.template is not None and target == self.target:

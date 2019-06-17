@@ -180,6 +180,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_android()
         self.verify_component(component, 2, 'cs', 4)
 
+    def test_create_android_broken(self):
+        component = self.create_android(suffix='-broken')
+        self.verify_component(component, 1, 'en', 3)
+
     def test_create_json(self):
         component = self.create_json()
         self.verify_component(component, 1, 'cs', 4)

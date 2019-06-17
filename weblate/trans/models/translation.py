@@ -278,84 +278,84 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         try:
             store = self.store
+
+            # Store plural
+            plural = store.get_plural(self.language)
+            if plural != self.plural:
+                self.plural = plural
+                self.save(update_fields=['plural'])
+
+            # Was there change?
+            self.was_new = False
+            # Position of current unit
+            pos = 0
+
+            # Select all current units for update
+            dbunits = {
+                unit.id_hash: unit for unit in self.unit_set.select_for_update()
+            }
+
+            for unit in store.all_units:
+                if not unit.is_translatable():
+                    continue
+
+                id_hash = unit.id_hash
+
+                # Update position
+                pos += 1
+
+                # Check for possible duplicate units
+                if id_hash in created:
+                    newunit = created[id_hash]
+                    self.log_warning(
+                        'duplicate string to translate: %s (%s)',
+                        newunit,
+                        repr(newunit.source)
+                    )
+                    Change.objects.create(
+                        unit=newunit,
+                        action=Change.ACTION_DUPLICATE_STRING,
+                        user=user,
+                        author=user
+                    )
+                    self.component.trigger_alert(
+                        'DuplicateString',
+                        language_code=self.language.code,
+                        source=newunit.source,
+                        unit_pk=newunit.pk,
+                    )
+                    continue
+
+                try:
+                    newunit = dbunits[id_hash]
+                    is_new = False
+                except KeyError:
+                    newunit = Unit(
+                        translation=self,
+                        id_hash=id_hash,
+                        state=-1,
+                    )
+                    is_new = True
+
+                newunit.update_from_unit(unit, pos, is_new)
+
+                # Check if unit is worth notification:
+                # - new and untranslated
+                # - newly not translated
+                # - newly fuzzy
+                self.was_new = (
+                    self.was_new
+                    or (
+                        newunit.state < STATE_TRANSLATED
+                        and (newunit.state != newunit.old_unit.state or is_new)
+                    )
+                )
+
+                # Store current unit ID
+                created[id_hash] = newunit
         except FileParseError as error:
             self.log_warning('skipping update due to parse error: %s', error)
             return
-
-        # Store plural
-        plural = store.get_plural(self.language)
-        if plural != self.plural:
-            self.plural = plural
-            self.save(update_fields=['plural'])
-
-        # Was there change?
-        self.was_new = False
-        # Position of current unit
-        pos = 0
-
-        # Select all current units for update
-        dbunits = {
-            unit.id_hash: unit for unit in self.unit_set.select_for_update()
-        }
-
-        for unit in store.all_units:
-            if not unit.is_translatable():
-                continue
-
-            id_hash = unit.id_hash
-
-            # Update position
-            pos += 1
-
-            # Check for possible duplicate units
-            if id_hash in created:
-                newunit = created[id_hash]
-                self.log_warning(
-                    'duplicate string to translate: %s (%s)',
-                    newunit,
-                    repr(newunit.source)
-                )
-                Change.objects.create(
-                    unit=newunit,
-                    action=Change.ACTION_DUPLICATE_STRING,
-                    user=user,
-                    author=user
-                )
-                self.component.trigger_alert(
-                    'DuplicateString',
-                    language_code=self.language.code,
-                    source=newunit.source,
-                    unit_pk=newunit.pk,
-                )
-                continue
-
-            try:
-                newunit = dbunits[id_hash]
-                is_new = False
-            except KeyError:
-                newunit = Unit(
-                    translation=self,
-                    id_hash=id_hash,
-                    state=-1,
-                )
-                is_new = True
-
-            newunit.update_from_unit(unit, pos, is_new)
-
-            # Check if unit is worth notification:
-            # - new and untranslated
-            # - newly not translated
-            # - newly fuzzy
-            self.was_new = (
-                self.was_new
-                or (
-                    newunit.state < STATE_TRANSLATED
-                    and (newunit.state != newunit.old_unit.state or is_new)
-                )
-            )
-
-            # Store current unit ID
-            created[id_hash] = newunit
 
         # Following query can get huge, so we should find better way
         # to delete stale units, probably sort of garbage collection
