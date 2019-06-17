@@ -27,7 +27,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -1225,6 +1225,10 @@ real_patterns = [
             url=settings.STATIC_URL + '%(name)s',
             permanent=True,
         )
+    ),
+    url(
+        r'^browserconfig.xml$',
+        TemplateView.as_view(template_name='browserconfig.xml'),
     ),
 ]
 
