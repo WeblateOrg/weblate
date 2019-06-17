@@ -157,7 +157,7 @@ def get_font_weight(weight):
     return FONT_WEIGHTS[weight]
 
 
-def check_render_size(font, weight, size, spacing, text, width, lines):
+def render_size(font, weight, size, spacing, text, width=1000, lines=1):
     """Check whether rendered text fits"""
     configure_fontconfig()
 
@@ -182,7 +182,13 @@ def check_render_size(font, weight, size, spacing, text, width, lines):
     layout.set_width(width * Pango.SCALE)
     layout.set_wrap(Pango.WrapMode.WORD)
 
-    return layout.get_pixel_size().width <= width and layout.get_line_count() <= lines
+    return layout.get_pixel_size(), layout.get_line_count()
+
+
+def check_render_size(font, weight, size, spacing, text, width, lines):
+    """Check whether rendered text fits"""
+    size, lines = render_size(font, weight, size, spacing, text, width, lines)
+    return size.width <= width and lines <= lines
 
 
 def get_font_name(filelike):

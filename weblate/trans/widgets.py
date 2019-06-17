@@ -29,9 +29,8 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from PIL import Image, ImageDraw
 
-from weblate.fonts.utils import get_font, is_base
+from weblate.fonts.utils import get_font, get_font_weight, is_base, render_size
 from weblate.utils.site import get_site_url
-
 
 COLOR_DATA = {
     'grey': {
@@ -370,12 +369,14 @@ class SVGBadgeWidget(SVGWidget):
 
     def render(self):
         translated_text = _('translated')
-        font = get_font(11, False, is_base(translated_text))
-        translated_width = font.getsize(translated_text)[0] + 12
+        translated_width = render_size(
+            "Source Sans Pro", get_font_weight("normal"), 11, 0, translated_text
+        )[0].width
 
         percent_text = self.get_percent_text()
-        font = get_font(11, False, is_base(percent_text))
-        percent_width = font.getsize(percent_text)[0] + 7
+        percent_width = render_size(
+            "Source Sans Pro", get_font_weight("normal"), 11, 0, percent_text
+        )[0].width
 
         if self.percent >= 90:
             color = '#4c1'
