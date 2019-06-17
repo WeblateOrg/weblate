@@ -22,19 +22,15 @@
 from __future__ import unicode_literals
 
 import os
-from itertools import product
 from tempfile import NamedTemporaryFile
 
 import cairo
 import gi
 from django.conf import settings
-from django.core.checks import Error
 from django.utils.html import escape
 from PIL import ImageFont
 
-from weblate.fonts.data import BASE_CHARS
 from weblate.utils.data import data_dir
-from weblate.utils.docs import get_doc_url
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -78,59 +74,6 @@ FONT_WEIGHTS = {
     "light": Pango.Weight.LIGHT,
     "bold": Pango.Weight.BOLD,
 }
-
-# Cache of open fonts
-FONT_CACHE = {}
-
-
-def is_base(text):
-    """Check whether text should use CJK fonts."""
-    return all((ord(char) in BASE_CHARS for char in text))
-
-
-def get_font(size, bold=False, base_font=True):
-    """Return PIL font object matching parameters."""
-    cache_key = "{0:d}-{1}-{2}".format(size, bold, base_font)
-    if cache_key not in FONT_CACHE:
-        if base_font:
-            if bold:
-                name = "font-source", "TTF", "SourceSansPro-Bold.ttf"
-            else:
-                name = "font-source", "TTF", "SourceSansPro-Regular.ttf"
-        else:
-            name = "font-droid", "DroidSansFallback.ttf"
-
-        try:
-            FONT_CACHE[cache_key] = ImageFont.truetype(
-                os.path.join(settings.STATIC_ROOT, *name), size
-            )
-        except IOError as error:
-            error.font = name
-            raise error
-    return FONT_CACHE[cache_key]
-
-
-def check_fonts(app_configs, **kwargs):
-    """Perform check on requirements and raises an exception on error."""
-    errors = []
-    failures = set()
-
-    for args in product((True, False), repeat=2):
-        try:
-            get_font(11, *args)
-        except IOError as error:
-            if error.font in failures:
-                continue
-            failures.add(error.font)
-            errors.append(
-                Error(
-                    "Failed to load font {}: {}".format(error.font, error),
-                    hint=get_doc_url("admin/install", "static-files"),
-                    id="weblate.E004",
-                )
-            )
-
-    return errors
 
 
 def configure_fontconfig():
