@@ -19,7 +19,6 @@
 #
 
 import os.path
-from io import BytesIO
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -165,7 +164,6 @@ class BitmapWidget(ContentWidget):
 
         # Save bytes to response
         image.save(response, 'PNG')
-
 
     def render_progress(self):
         """Render progress bar."""
