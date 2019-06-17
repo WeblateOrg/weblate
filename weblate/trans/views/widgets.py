@@ -156,9 +156,6 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
         return redirect('widget-image', permanent=True, **kwargs)
 
     # Render widget
-    widget_obj.render()
-
-    return HttpResponse(
-        content_type=widget_obj.content_type,
-        content=widget_obj.get_content()
-    )
+    response = HttpResponse(content_type=widget_obj.content_type)
+    widget_obj.render(response)
+    return response

@@ -99,17 +99,11 @@ class ContentWidget(Widget):
         else:
             stats = obj.stats
         self.percent = stats.translated_percent
-        # Set rendering variables
-        self.image = None
 
     def get_percent_text(self):
         return pgettext('Translated percents in widget', '{0}%').format(
             int(self.percent)
         )
-
-    def get_content(self):
-        """Return content of the badge."""
-        raise NotImplementedError()
 
 
 class BitmapWidget(ContentWidget):
@@ -154,13 +148,13 @@ class BitmapWidget(ContentWidget):
             })
         )
 
-    def render(self):
+    def render(self, response):
         """Render widget."""
         # PIL objects
         mode = 'RGB'
-        self.image = Image.open(self.get_filename()).convert(mode)
-        self.draw = ImageDraw.Draw(self.image)
-        self.width = self.image.size[0]
+        image = Image.open(self.get_filename()).convert(mode)
+        self.draw = ImageDraw.Draw(image)
+        self.width = image.size[0]
 
         # Render progressbar
         if self.progress:
@@ -168,6 +162,10 @@ class BitmapWidget(ContentWidget):
 
         # Render texts
         self.render_texts()
+
+        # Save bytes to response
+        image.save(response, 'PNG')
+
 
     def render_progress(self):
         """Render progress bar."""
@@ -246,13 +244,6 @@ class BitmapWidget(ContentWidget):
         """Text rendering method to be overridden."""
         raise NotImplementedError()
 
-    def get_content(self):
-        """Return PNG data."""
-        out = BytesIO()
-        image = self.image.convert('P', palette=Image.ADAPTIVE)
-        image.save(out, 'PNG')
-        return out.getvalue()
-
 
 class SVGWidget(ContentWidget):
     """Base class for SVG rendering widgets."""
@@ -260,10 +251,7 @@ class SVGWidget(ContentWidget):
     content_type = 'image/svg+xml; charset=utf-8'
     template_name = ''
 
-    def get_content(self):
-        return self.image
-
-    def render(self):
+    def render(self, response):
         """Rendering method to be implemented."""
         raise NotImplementedError()
 
@@ -367,7 +355,7 @@ class SVGBadgeWidget(SVGWidget):
     order = 80
     template_name = 'badge.svg'
 
-    def render(self):
+    def render(self, response):
         translated_text = _('translated')
         translated_width = render_size(
             "Source Sans Pro", get_font_weight("normal"), 11, 0, translated_text
@@ -385,7 +373,7 @@ class SVGBadgeWidget(SVGWidget):
         else:
             color = '#e05d44'
 
-        self.image = render_to_string(
+        response.write(render_to_string(
             self.template_name,
             {
                 'translated_text': translated_text,
@@ -398,7 +386,7 @@ class SVGBadgeWidget(SVGWidget):
                 'percent_offset': translated_width + percent_width // 2,
                 'lang': get_language(),
             }
-        )
+        ))
 
 
 @register_widget
@@ -415,7 +403,7 @@ class MultiLanguageWidget(SVGWidget):
         'auto': None,
     }
 
-    def render(self):
+    def render(self, response):
         translations = []
         offset = 30
         color = self.COLOR_MAP[self.color]
@@ -454,7 +442,7 @@ class MultiLanguageWidget(SVGWidget):
             ))
             offset += 20
 
-        self.image = render_to_string(
+        response.write(render_to_string(
             self.template_name,
             {
                 'height': len(translations) * 20 + 20,
@@ -462,7 +450,7 @@ class MultiLanguageWidget(SVGWidget):
                 'translations': translations,
                 'site_url': get_site_url(),
             }
-        )
+        ))
 
 
 @register_widget
