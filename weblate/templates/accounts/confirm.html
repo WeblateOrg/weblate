@@ -14,6 +14,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Confirm new association" %}</h4></div>
   <div class="panel-body">
   <p>
+  {% comment %}Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL{% endcomment %}
   {% blocktrans %}After confirming this, you will be able to authenticate to Weblate using {{ backend_verbose }} ({{ uid }}).{% endblocktrans %}
   </p>
 {{ confirm_form|crispy }}
