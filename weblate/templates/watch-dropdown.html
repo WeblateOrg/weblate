@@ -19,7 +19,7 @@
   </li>
   {% else %}
   <li class="pull-right flip">
-    <a class="link-post html-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">
+    <a class="link-post text-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">
       <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watch" %}
     </a>
   </li>

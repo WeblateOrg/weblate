@@ -659,9 +659,12 @@ $(function () {
     });
 
     /* Git commit tooltip */
-    $document.tooltip({
-        selector: '.html-tooltip',
-        html: true
+    $('.html-tooltip').each(function () {
+        var $this = $(this);
+        $this.tooltip({
+            html: true,
+            title: $this.find('.tooltip-content').html()
+        });
     });
     $('.text-tooltip').tooltip();
 
