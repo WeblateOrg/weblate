@@ -83,9 +83,9 @@ TEST_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
-UBUNTU_FONT = os.path.join(
+SOURCE_FONT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-    "static", "font-ubuntu", "fonts", "ubuntu-bold-webfont.ttf",
+    "static", "font-source", "TTF", "SourceSansPro-Bold.ttf",
 )
 
 
@@ -1185,7 +1185,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Upload second fint
         element = self.driver.find_element_by_id('id_font')
-        element.send_keys(element._upload(UBUNTU_FONT))  # noqa: SF01,SLF001
+        element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
             element.submit()
 
@@ -1199,7 +1199,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Create group
         Select(
             self.driver.find_element_by_id('id_group_font')
-        ).select_by_visible_text('Ubuntu Bold')
+        ).select_by_visible_text('Source Sans Pro Bold')
         element = self.driver.find_element_by_id('id_group_name')
         element.send_keys('default-font')
         with self.wait_for_page_load():

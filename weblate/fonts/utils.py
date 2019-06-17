@@ -94,9 +94,9 @@ def get_font(size, bold=False, base_font=True):
     if cache_key not in FONT_CACHE:
         if base_font:
             if bold:
-                name = "font-ubuntu", "fonts", "ubuntu-bold-webfont.ttf"
+                name = "font-source", "TTF", "SourceSansPro-Bold.ttf"
             else:
-                name = "font-ubuntu", "fonts", "ubuntu-regular-webfont.ttf"
+                name = "font-source", "TTF", "SourceSansPro-Regular.ttf"
         else:
             name = "font-droid", "DroidSansFallback.ttf"
 
