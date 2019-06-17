@@ -187,8 +187,8 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1):
 
 def check_render_size(font, weight, size, spacing, text, width, lines):
     """Check whether rendered text fits"""
-    size, lines = render_size(font, weight, size, spacing, text, width, lines)
-    return size.width <= width and lines <= lines
+    size, actual_lines = render_size(font, weight, size, spacing, text, width, lines)
+    return size.width <= width and actual_lines <= lines
 
 
 def get_font_name(filelike):
