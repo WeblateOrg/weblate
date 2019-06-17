@@ -1,14 +1,15 @@
+{% load static %}
 {
-    "name": "",
-    "short_name": "",
+    "name": "{{ site_title }}",
+    "short_name": "{{ site_title }}",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png",
+            "src": "{% static 'weblate-192.png' %}",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/android-chrome-512x512.png",
+            "src": "{% static 'weblate-512.png' %}",
             "sizes": "512x512",
             "type": "image/png"
         }

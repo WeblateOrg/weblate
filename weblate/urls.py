@@ -1220,15 +1220,19 @@ real_patterns = [
         )
     ),
     url(
-        r'^(?P<name>favicon\.ico|site\.webmanifest|robots\.txt)$',
+        r'^(?P<name>favicon\.ico|robots\.txt)$',
         RedirectView.as_view(
             url=settings.STATIC_URL + '%(name)s',
             permanent=True,
         )
     ),
     url(
-        r'^browserconfig.xml$',
+        r'^browserconfig\.xml$',
         TemplateView.as_view(template_name='browserconfig.xml'),
+    ),
+    url(
+        r'^site\.webmanifest$',
+        TemplateView.as_view(template_name='site.webmanifest'),
     ),
 ]
 
