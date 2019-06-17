@@ -20,38 +20,25 @@
 
 import os.path
 
+import cairo
+import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.translation import get_language, pgettext
+from django.utils.translation import get_language, npgettext, pgettext
 from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
-from PIL import Image, ImageDraw
 
-from weblate.fonts.utils import get_font, get_font_weight, is_base, render_size
+from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
 
+gi.require_version("PangoCairo", "1.0")
+gi.require_version("Pango", "1.0")
+from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+
 COLOR_DATA = {
-    'grey': {
-        'bar': 'rgb(31, 163, 133)',
-        'border': 'rgb(0, 0, 0)',
-        'text': 'rgb(0, 0, 0)',
-    },
-    'white': {
-        'bar': 'rgb(31, 163, 133)',
-        'border': 'rgb(0, 0, 0)',
-        'text': 'rgb(0, 0, 0)',
-    },
-    'black': {
-        'bar': 'rgb(31, 163, 133)',
-        'border': 'rgb(255, 255, 255)',
-        'text': 'rgb(255, 255, 255)',
-    },
-    'badge': {
-        'bar': 'rgb(31, 163, 133)',
-        'border': 'rgb(255, 255, 255)',
-        'text': 'rgb(255, 255, 255)',
-    },
+    'grey': (0, 0, 0),
+    'white': (0, 0, 0),
+    'black': (255, 255, 255),
 }
 
 WIDGETS = {}
@@ -66,7 +53,7 @@ def register_widget(widget):
 class Widget(object):
     """Generic widget class."""
     name = None
-    colors = ('grey', 'white', 'black')
+    colors = ()
     extension = 'png'
     content_type = 'image/png'
     order = 100
@@ -109,11 +96,13 @@ class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
     name = None
     colors = ('grey', 'white', 'black')
-    progress = {}
     extension = 'png'
     content_type = 'image/png'
     order = 100
     show = True
+    head_template = '<span size="x-large" weight="bold">{}</span>'
+    font_size = 10
+    offset = 0
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -147,100 +136,52 @@ class BitmapWidget(ContentWidget):
             })
         )
 
+    def get_columns(self):
+        raise NotImplementedError()
+
     def render(self, response):
         """Render widget."""
-        # PIL objects
-        mode = 'RGB'
-        image = Image.open(self.get_filename()).convert(mode)
-        self.draw = ImageDraw.Draw(image)
-        self.width = image.size[0]
+        configure_fontconfig()
+        surface = cairo.ImageSurface.create_from_png(self.get_filename())
+        width = surface.get_width()
+        height = surface.get_height()
+        ctx = cairo.Context(surface)
 
-        # Render progressbar
-        if self.progress:
-            self.render_progress()
+        columns = self.get_columns()
+        column_width = width // len(columns)
 
-        # Render texts
-        self.render_texts()
+        font = Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
 
-        # Save bytes to response
-        image.save(response, 'PNG')
+        for i, column in enumerate(columns):
+            offset = self.offset
+            for text in column:
+                layout = PangoCairo.create_layout(ctx)
+                layout.set_font_description(font)
 
-    def render_progress(self):
-        """Render progress bar."""
-        # Filled bar
-        if self.progress['horizontal']:
-            self.draw.rectangle(
-                (
-                    self.progress['x'],
-                    self.progress['y'],
-                    self.progress['x'] + self.progress['width'] / 100.0 * self.percent,
-                    self.progress['y'] + self.progress['height']
-                ),
-                fill=COLOR_DATA[self.color]['bar'],
-            )
-        else:
-            diff = self.progress['height'] / 100.0 * (100 - self.percent)
-            self.draw.rectangle(
-                (
-                    self.progress['x'],
-                    self.progress['y'] + diff,
-                    self.progress['x'] + self.progress['width'],
-                    self.progress['y'] + self.progress['height'] - diff
-                ),
-                fill=COLOR_DATA[self.color]['bar'],
-            )
+                # Set color and position
+                ctx.move_to(column_width * i, offset)
+                ctx.set_source_rgb(*COLOR_DATA[self.color])
 
-        # Progress border
-        self.draw.rectangle(
-            (
-                self.progress['x'],
-                self.progress['y'],
-                self.progress['x'] + self.progress['width'],
-                self.progress['y'] + self.progress['height']
-            ),
-            outline=COLOR_DATA[self.color]['border']
-        )
+                # Add text
+                layout.set_markup(text)
+                layout.set_alignment(Pango.Alignment.CENTER)
+                layout.set_width(column_width * Pango.SCALE)
 
-    def get_text(self, text, lang_text=None):
-        # Use language variant if desired
-        if self.lang is not None and lang_text is not None:
-            text = lang_text
-            if 'English' in text:
-                text = text.replace('English', self.lang.name)
+                offset += layout.get_pixel_size().height
 
-        # Format text
-        return text % self.params
+                # Render to cairo context
+                PangoCairo.show_layout(ctx, layout)
 
-    def render_text(self, text, lang_text, base_font_size, bold_font,
-                    pos_x, pos_y, transform=True):
-        if transform:
-            text = self.get_text(text, lang_text)
-        base_font = is_base(text)
-        offset = 0
+            # Render column separators
+            if i > 0:
+                ctx.new_path()
+                ctx.set_source_rgb(*COLOR_DATA[self.color])
+                ctx.set_line_width(0.5)
+                ctx.move_to(column_width * i, self.offset)
+                ctx.line_to(column_width * i, height - self.offset)
+                ctx.stroke()
 
-        for line in text.splitlines():
-
-            # Iterate until text fits into widget
-            for font_size in range(base_font_size, 3, -1):
-                font = get_font(font_size, bold_font, base_font)
-                layout_size = font.getsize(line)
-                layout_width = layout_size[0]
-                if layout_width + pos_x < self.width:
-                    break
-
-            # Render text
-            self.draw.text(
-                (pos_x, pos_y + offset),
-                line,
-                font=font,
-                fill=COLOR_DATA[self.color]['text']
-            )
-
-            offset += layout_size[1]
-
-    def render_texts(self):
-        """Text rendering method to be overridden."""
-        raise NotImplementedError()
+        surface.write_to_png(response)
 
 
 class SVGWidget(ContentWidget):
@@ -275,61 +216,43 @@ class RedirectWidget(Widget):
 @register_widget
 class NormalWidget(BitmapWidget):
     name = '287x66'
-    progress = {
-        'x': 72,
-        'y': 52,
-        'height': 6,
-        'width': 180,
-        'horizontal': True,
-    }
     order = 110
+    offset = 10
 
-    def render_texts(self):
-        self.render_text(
-            '%(name)s',
-            None,
-            13, True,
-            72, 6
-        )
-        self.render_text(
-            # Translators: please keep the text short to fit into widget
-            ungettext(
-                'translating %(count)d strings into %(languages)d language\n'
-                '%(percent)d%% complete, help us improve!',
-                'translating %(count)d strings into %(languages)d languages\n'
-                '%(percent)d%% complete, help us improve!',
-                self.languages
-            ),
-            # Translators: please use your language name instead of English
-            # and keep the text short to fit into widget
-            _('translating %(count)d strings into English\n%(percent)d%%'
-              ' complete, help us improve!'),
-            11, False,
-            72, 22
-        )
+    def get_columns(self):
+        return [
+            [
+                self.head_template.format(self.total),
+                npgettext(
+                    "Label on enage page", "String", "Strings", self.total
+                ).upper(),
+            ],
+            [
+                self.head_template.format(self.languages),
+                npgettext(
+                    "Label on enage page", "Language", "Languages", self.languages
+                ).upper(),
+            ],
+            [
+                self.head_template.format(self.get_percent_text()),
+                _('Translated').upper(),
+            ],
+        ]
 
 
 @register_widget
 class SmallWidget(BitmapWidget):
     name = '88x31'
     order = 120
+    font_size = 7
 
-    def render_texts(self):
-        self.render_text(
-            '%(name)s',
-            None,
-            9, True,
-            23, 2
-        )
-        self.render_text(
-            # Translators: please keep the text short to fit into widget
-            _('translation\n%(percent)d%% done'),
-            # Translators: please use your language name instead of English
-            # and keep the text short to fit into widget
-            _('English translation\n%(percent)d%% done'),
-            9, False,
-            23, 11
-        )
+    def get_columns(self):
+        return [
+            [
+                self.head_template.format(self.get_percent_text()),
+                _('Translated').upper(),
+            ],
+        ]
 
 
 @register_widget
@@ -356,12 +279,12 @@ class SVGBadgeWidget(SVGWidget):
     def render(self, response):
         translated_text = _('translated')
         translated_width = render_size(
-            "Source Sans Pro", get_font_weight("normal"), 11, 0, translated_text
+            "Source Sans Pro", Pango.Weight.NORMAL, 11, 0, translated_text
         )[0].width
 
         percent_text = self.get_percent_text()
         percent_width = render_size(
-            "Source Sans Pro", get_font_weight("normal"), 11, 0, percent_text
+            "Source Sans Pro", Pango.Weight.NORMAL, 11, 0, percent_text
         )[0].width
 
         if self.percent >= 90:

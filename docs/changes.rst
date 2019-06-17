@@ -34,6 +34,7 @@ Released on ? 2019.
 * Added reporting at project and global scope.
 * Improved user interface when showing translation status.
 * New Weblate logo and color scheme.
+* New look of bitmap badges.
 
 weblate 3.6.1
 -------------

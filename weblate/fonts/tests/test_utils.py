@@ -21,31 +21,8 @@
 """Test for fonts."""
 
 from django.test import SimpleTestCase
-from django.test.utils import override_settings
 
-import weblate.fonts.utils
-from weblate.fonts.utils import check_render_size, get_font, get_font_weight
-
-
-class FontsTest(SimpleTestCase):
-    def setUp(self):
-        # Always start with clear cache
-        weblate.fonts.utils.FONT_CACHE = {}
-
-    def tearDown(self):
-        # Always reset cache
-        weblate.fonts.utils.FONT_CACHE = {}
-
-    def test_get(self):
-        self.assertIsNotNone(get_font(12))
-        self.assertIsNotNone(get_font(12, True))
-        self.assertIsNotNone(get_font(12, False, False))
-        self.assertIsNotNone(get_font(12))
-
-    @override_settings(STATIC_ROOT="/nonexistent/")
-    def test_get_missing(self):
-        with self.assertRaises(IOError):
-            get_font(12, True, False)
+from weblate.fonts.utils import check_render_size, get_font_weight
 
 
 class RenderTest(SimpleTestCase):
