@@ -401,7 +401,7 @@ class NewCommentNotificaton(Notification):
 
         # Notify upstream
         report_source_bugs = change.component.report_source_bugs
-        if change.comment.language is None and report_source_bugs:
+        if change.comment and change.comment.language is None and report_source_bugs:
             self.send_immediate('en', report_source_bugs, change)
 
 
