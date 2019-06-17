@@ -23,8 +23,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
-
 from six.moves.urllib.parse import urlparse
+
 from weblate.utils.errors import report_error
 
 CSP_TEMPLATE = (
