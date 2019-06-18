@@ -666,7 +666,7 @@ with the following command:
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
     # Install Weblate release
-    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.6.1 --no-git
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-3.7 --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
 this instance. Feel free to specify a different name.
