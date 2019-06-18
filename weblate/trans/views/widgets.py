@@ -123,9 +123,11 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
 
     # Handle language parameter
     if lang is not None:
+        lang = Language.objects.fuzzy_get(code=lang, strict=True)
+        if lang is None:
+            raise Http404()
         if 'native' not in request.GET:
-            try_set_language(lang)
-        lang = Language.objects.try_get(code=lang)
+            try_set_language(lang.code)
     else:
         try_set_language('en')
 
