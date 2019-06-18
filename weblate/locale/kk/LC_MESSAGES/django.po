@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 05:54+0000\n"
+"POT-Creation-Date: 2019-06-18 21:36+0000\n"
 "PO-Revision-Date: 2019-06-18 21:35+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
@@ -574,23 +574,23 @@ msgstr "Buryn paıdalanylǵan paróldi qaıta paıdalaný múmkin emes!"
 msgid "Your password can't match a password you have used in the past."
 msgstr "Parólińiz buryn paıdalanylǵan parólge sáıkes kelmeýi kerek."
 
-#: weblate/accounts/pipeline.py:288
+#: weblate/accounts/pipeline.py:290
 msgid "You can not complete password reset while logged in!"
 msgstr "Júıege kirip turǵan kezde paról ysyrýdy aıaqtaı almaısyz!"
 
-#: weblate/accounts/pipeline.py:292 weblate/accounts/pipeline.py:316
+#: weblate/accounts/pipeline.py:294 weblate/accounts/pipeline.py:318
 msgid "The registration link has been invalidated."
 msgstr "Tirkeý siltemesi jaramsyz dep tanylǵan."
 
-#: weblate/accounts/pipeline.py:307
+#: weblate/accounts/pipeline.py:309
 msgid "You can not complete registration while logged in!"
 msgstr "Júıege kirip turǵan kezde tirkelýdi aıaqtaı almaısyz!"
 
-#: weblate/accounts/pipeline.py:312
+#: weblate/accounts/pipeline.py:314
 msgid "You can confirm your registration only while logged in!"
 msgstr "Júıege kirip turǵan kezde ǵana tirkeýdi rastaı alasyz!"
 
-#: weblate/accounts/pipeline.py:448
+#: weblate/accounts/pipeline.py:450
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -701,30 +701,36 @@ msgid "Got no e-mail address from third party authentication service!"
 msgstr ""
 "Úshinshi jaq túpnusqalyq rastaý qyzmetinen eshqandaı e-poshta mekenjaıy joq!"
 
-#: weblate/accounts/views.py:1019
+#: weblate/accounts/views.py:1012
+#, fuzzy
+#| msgid "Register using email"
+msgid "Please register using e-mail instead."
+msgstr "E-poshta arqyly tirkelý"
+
+#: weblate/accounts/views.py:1021
 msgid "Can not change authentication for demo!"
 msgstr "Demo úshin túpnusqalyq rastamasyn ózgertý múmkin emes!"
 
-#: weblate/accounts/views.py:1024
+#: weblate/accounts/views.py:1026
 msgid "New registrations are disabled!"
 msgstr "Jańa tirkeýler óshirilgen!"
 
-#: weblate/accounts/views.py:1052
+#: weblate/accounts/views.py:1054
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Túpnusqalyq rastama sátsiz aıaqtaldy, bálkim, token merzimi aıaqtalǵan bola, "
 "nemese qosylym qatesinen."
 
-#: weblate/accounts/views.py:1057
+#: weblate/accounts/views.py:1059
 msgid "Authentication has been cancelled."
 msgstr "Túpnusqalyqty rastaý boldyrylmaǵan."
 
-#: weblate/accounts/views.py:1062
+#: weblate/accounts/views.py:1064
 msgid "Authentication has been forbidden by server."
 msgstr "Túpnusqalyqty rastaýǵa serverden tyıym salynǵan."
 
-#: weblate/accounts/views.py:1066
+#: weblate/accounts/views.py:1068
 msgid ""
 "Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
@@ -1214,8 +1220,8 @@ msgstr "Usynysty joıý"
 msgid "Vote suggestion"
 msgstr "Usynysty saılaý"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:68
-#: weblate/templates/component.html:136 weblate/templates/component.html:138
+#: weblate/auth/data.py:71 weblate/templates/component.html:70
+#: weblate/templates/component.html:138 weblate/templates/component.html:140
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
@@ -2101,7 +2107,8 @@ msgstr "Kóp aqaý tekserýler"
 msgid "The translations in several languages have failing checks"
 msgstr "Birneshe tildegi tárjimeler aqaý tekserýlerden turady"
 
-#: weblate/checks/views.py:74 weblate/templates/language-project.html:34
+#: weblate/checks/views.py:74 weblate/templates/component.html:65
+#: weblate/templates/language-project.html:34
 #: weblate/templates/language.html:25 weblate/templates/legend.html:16
 #: weblate/templates/progress.html:11 weblate/templates/project.html:58
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:577
@@ -2147,7 +2154,7 @@ msgid "Font"
 msgstr "Qarip"
 
 #: weblate/fonts/models.py:143 weblate/lang/models.py:382
-#: weblate/templates/component.html:129 weblate/templates/dictionaries.html:14
+#: weblate/templates/component.html:131 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:11 weblate/templates/project.html:153
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
@@ -3076,7 +3083,7 @@ msgstr "Tárjimeler jasaldy"
 msgid "Failing checks found"
 msgstr "Aqaý tekserýler tabyldy"
 
-#: weblate/templates/about/stats.html:118
+#: weblate/templates/about/stats.html:118 weblate/templates/component.html:66
 #: weblate/templates/language-project.html:35
 #: weblate/templates/language.html:26 weblate/templates/project.html:59
 msgid "Ignored checks"
@@ -3475,7 +3482,7 @@ msgid "Add new association"
 msgstr "Jańa baılanysty ústeý"
 
 #: weblate/templates/accounts/profile.html:162
-#: weblate/templates/component.html:100 weblate/templates/project.html:89
+#: weblate/templates/component.html:102 weblate/templates/project.html:89
 #: weblate/templates/translation.html:93
 msgid "Removal"
 msgstr "Alastaý"
@@ -3724,7 +3731,7 @@ msgstr "Sońǵy jyldaǵy áreketter"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
-#: weblate/templates/component.html:94
+#: weblate/templates/component.html:96
 msgid "Addons"
 msgstr "Qondyrmalar"
 
@@ -3951,7 +3958,7 @@ msgstr "Ákimshilik"
 msgid "Configuration errors"
 msgstr "Konfigýrasıa qateleri"
 
-#: weblate/templates/base.html:138 weblate/templates/component.html:233
+#: weblate/templates/base.html:138 weblate/templates/component.html:235
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:41
 #: weblate/templates/manage-access.html:71 weblate/templates/project.html:221
 #: weblate/templates/translate.html:480 weblate/templates/translation.html:340
@@ -4003,7 +4010,7 @@ msgstr "%(user)s retinde kirgen"
 msgid "Billing overview"
 msgstr "Bılıńdi sholý"
 
-#: weblate/templates/base.html:180 weblate/templates/component.html:86
+#: weblate/templates/base.html:180 weblate/templates/component.html:88
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:75
 #: weblate/wladmin/templates/admin/weblate-index.html:37
@@ -4011,7 +4018,7 @@ msgid "Translation memory"
 msgstr "Tárjimelik jad"
 
 #: weblate/templates/base.html:181 weblate/templates/component-settings.html:11
-#: weblate/templates/component.html:95
+#: weblate/templates/component.html:97
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:84
 msgid "Settings"
@@ -4252,7 +4259,7 @@ msgstr "Aqpar"
 msgid "Alerts"
 msgstr "Eskertýler"
 
-#: weblate/templates/component.html:37 weblate/templates/component.html:174
+#: weblate/templates/component.html:37 weblate/templates/component.html:176
 #: weblate/templates/dashboard/user.html:43
 #: weblate/templates/dashboard/user.html:118
 #: weblate/templates/dictionary.html:90
@@ -4315,14 +4322,14 @@ msgstr "Tárjimelik esepter"
 msgid "Tools"
 msgstr "Quraldar"
 
-#: weblate/templates/component.html:59 weblate/templates/component.html:183
+#: weblate/templates/component.html:59 weblate/templates/component.html:185
 #: weblate/templates/project.html:52 weblate/templates/project.html:177
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:65
 #: weblate/templates/translation.html:241 weblate/trans/models/change.py:237
 msgid "Search and replace"
 msgstr "Izdeý men aýystyrý"
 
-#: weblate/templates/component.html:62 weblate/templates/component.html:201
+#: weblate/templates/component.html:62 weblate/templates/component.html:203
 #: weblate/templates/project.html:55 weblate/templates/project.html:195
 #: weblate/templates/translation.html:68 weblate/templates/translation.html:259
 #: weblate/trans/models/change.py:244
@@ -4334,88 +4341,88 @@ msgstr "Jappaı mártebe ózgertý"
 msgid "Data exports"
 msgstr "Derekter eksporttary"
 
-#: weblate/templates/component.html:65
+#: weblate/templates/component.html:67
 msgid "Matrix view"
 msgstr "Matrıs qaraý"
 
-#: weblate/templates/component.html:66
+#: weblate/templates/component.html:68
 msgid "Source strings review"
 msgstr "Qaınar joldardy saraptaý"
 
-#: weblate/templates/component.html:75 weblate/templates/memory/index.html:12
+#: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
 msgstr "Basqarý"
 
-#: weblate/templates/component.html:79 weblate/templates/js/git-status.html:112
+#: weblate/templates/component.html:81 weblate/templates/js/git-status.html:112
 #: weblate/templates/project.html:69 weblate/templates/translation.html:82
 msgid "Commit"
 msgstr "Komıt"
 
-#: weblate/templates/component.html:82 weblate/templates/project.html:72
+#: weblate/templates/component.html:84 weblate/templates/project.html:72
 #: weblate/templates/translation.html:85
 msgid "Repository maintenance"
 msgstr "Repozıtorıǵa qyzmet kórsetý"
 
-#: weblate/templates/component.html:85
+#: weblate/templates/component.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:10
 #: weblate/templates/screenshots/screenshot_list.html:9
 msgid "Screenshots"
 msgstr "Ekran sýretteri"
 
-#: weblate/templates/component.html:88 weblate/templates/component.html:226
+#: weblate/templates/component.html:90 weblate/templates/component.html:228
 msgid "Add a component message"
 msgstr "Quramdas habaryn ústeý"
 
-#: weblate/templates/component.html:91 weblate/templates/manage-access.html:18
+#: weblate/templates/component.html:93 weblate/templates/manage-access.html:18
 #: weblate/templates/manage-access.html:79 weblate/templates/project.html:80
 msgid "Users"
 msgstr "Paıdalanushylar"
 
-#: weblate/templates/component.html:99 weblate/templates/component.html:258
+#: weblate/templates/component.html:101 weblate/templates/component.html:260
 #: weblate/templates/project.html:88 weblate/templates/project.html:246
 msgid "Rename"
 msgstr "Qaıta ataý"
 
-#: weblate/templates/component.html:108 weblate/templates/project.html:97
+#: weblate/templates/component.html:110 weblate/templates/project.html:97
 #: weblate/templates/translation.html:101
 msgid "Share"
 msgstr "Bólisý"
 
-#: weblate/templates/component.html:112 weblate/templates/project.html:101
+#: weblate/templates/component.html:114 weblate/templates/project.html:101
 #: weblate/templates/translation.html:105
 msgid "Share on Facebook"
 msgstr "Facebook jelisinde bólisý"
 
-#: weblate/templates/component.html:113 weblate/templates/project.html:102
+#: weblate/templates/component.html:115 weblate/templates/project.html:102
 #: weblate/templates/translation.html:106
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "%(share_url)s janynda %%23Weblate arqyly %(object)s tárjimeleý!"
 
-#: weblate/templates/component.html:113 weblate/templates/translation.html:106
+#: weblate/templates/component.html:115 weblate/templates/translation.html:106
 msgid "Tweet this translation!"
 msgstr "Bul tárjimeni Twiter-ge!"
 
-#: weblate/templates/component.html:114 weblate/templates/project.html:103
+#: weblate/templates/component.html:116 weblate/templates/project.html:103
 #: weblate/templates/translation.html:107
 msgid "Engage page"
 msgstr "Kirispe beti"
 
-#: weblate/templates/component.html:115 weblate/templates/project.html:104
+#: weblate/templates/component.html:117 weblate/templates/project.html:104
 #: weblate/templates/translation.html:108
 msgid "Status widgets"
 msgstr "Mártebe ýıjetteri"
 
-#: weblate/templates/component.html:138
+#: weblate/templates/component.html:140
 msgid "You don't have permission to start a new translation"
 msgstr "Jańa tárjimeni bastaý úshin ruqsatyńyz joq"
 
-#: weblate/templates/component.html:138
+#: weblate/templates/component.html:140
 msgid "Please log in to start new translation"
 msgstr "Jańa tárjimeni bastaý úshin kirńiz"
 
-#: weblate/templates/component.html:185 weblate/templates/project.html:179
+#: weblate/templates/component.html:187 weblate/templates/project.html:179
 #: weblate/templates/translation.html:243
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
@@ -4424,7 +4431,7 @@ msgstr ""
 "Joldyń barlyq danalaryn aýystyra alasyz. Izdeý - ishki joldy úlken-"
 "kishiligin eskerip qarapaıym tabý."
 
-#: weblate/templates/component.html:190 weblate/templates/component.html:208
+#: weblate/templates/component.html:192 weblate/templates/component.html:210
 #: weblate/templates/project.html:184 weblate/templates/project.html:202
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:229
 #: weblate/templates/translation.html:248
@@ -4433,16 +4440,16 @@ msgstr ""
 msgid "Process"
 msgstr "Óńdep shyǵarý"
 
-#: weblate/templates/component.html:203
+#: weblate/templates/component.html:205
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Berilgen túrge sáıkes keletin barlyq joldardyń kúıin birden ózgertýge bolady."
 
-#: weblate/templates/component.html:217 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:219 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Quramdastaǵy barlyq ózgeristerin sharlaý"
 
-#: weblate/templates/component.html:230
+#: weblate/templates/component.html:232
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
@@ -4450,11 +4457,11 @@ msgstr ""
 "Habar, onyń merzimi aıaqtalǵansha deıin, nemese ol birjolata joıylǵansha "
 "deıin, quramdas isindegi barlyq tárjimelerde kórsetiledi."
 
-#: weblate/templates/component.html:250
+#: weblate/templates/component.html:252
 msgid "Rename component"
 msgstr "Quramdasty qaıta ataý"
 
-#: weblate/templates/component.html:253
+#: weblate/templates/component.html:255
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -4463,11 +4470,11 @@ msgstr ""
 "kóshirilgen repozıtorılarda betbelgilerdi nemese siltemelerdi jańartý qajet "
 "bolady!"
 
-#: weblate/templates/component.html:265
+#: weblate/templates/component.html:267
 msgid "Move component"
 msgstr "Quramdasty jyljytý"
 
-#: weblate/templates/component.html:268
+#: weblate/templates/component.html:270
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -4476,22 +4483,22 @@ msgstr ""
 "kóshirilgen repozıtorılarda betbelgilerdi nemese siltemelerdi jańartý qajet "
 "bolady!"
 
-#: weblate/templates/component.html:273
+#: weblate/templates/component.html:275
 msgid "Move"
 msgstr "Jyljytý"
 
-#: weblate/templates/component.html:284 weblate/templates/project.html:256
+#: weblate/templates/component.html:286 weblate/templates/project.html:256
 #: weblate/templates/translate.html:369 weblate/templates/translate.html:373
 #: weblate/templates/translation.html:354
 msgid "Loading…"
 msgstr "Júktelýde…"
 
-#: weblate/templates/component.html:297
+#: weblate/templates/component.html:299
 #: weblate/templates/dashboard/user.html:134 weblate/templates/project.html:269
 msgid "Credits"
 msgstr "Avtorlar"
 
-#: weblate/templates/component.html:301
+#: weblate/templates/component.html:303
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -4502,7 +4509,7 @@ msgstr ""
 "úshin, tárjimeshilerge alǵys bildirý jáne olarǵa keri baılanys jasaý úshin "
 "paıdaly."
 
-#: weblate/templates/component.html:305 weblate/templates/component.html:324
+#: weblate/templates/component.html:307 weblate/templates/component.html:326
 #: weblate/templates/dashboard/user.html:142
 #: weblate/templates/dashboard/user.html:161 weblate/templates/project.html:277
 #: weblate/templates/project.html:296
@@ -4510,12 +4517,12 @@ msgstr ""
 msgid "Generate"
 msgstr "Jasaý"
 
-#: weblate/templates/component.html:316
+#: weblate/templates/component.html:318
 #: weblate/templates/dashboard/user.html:153 weblate/templates/project.html:288
 msgid "Contributor stats"
 msgstr "Qatysýshy statistikasy"
 
-#: weblate/templates/component.html:320
+#: weblate/templates/component.html:322
 #: weblate/templates/dashboard/user.html:157 weblate/templates/project.html:292
 msgid "Reports the number of strings and words translated by each translator."
 msgstr "Ár tárjimeshi tárjimelegen jol men sóz sanyn baıandaıdy."
