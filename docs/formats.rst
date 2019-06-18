@@ -84,6 +84,8 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`yaml`         | mono             | no            | yes            | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
+| :ref:`ryaml`        | mono             | yes           | yes            | no            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`dtd`          | mono             | no            | no             | no            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+-------------------------+
 | :ref:`winrc`        | mono             | no            | yes            | no            | no             |                         |
@@ -768,17 +770,41 @@ YAML files
 
 .. versionadded:: 2.9
 
-There are several variants of using YAML as a translation format. Weblate
-currently supports following:
-
-* Plain YAML files with string keys and values
-* Ruby i18n YAML files with language as root node
+The plain YAML files with string keys and values.
 
 Example YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
     :language: yaml
     :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``translations/messages.*.yml``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``translations/messages.en.yml`` |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `YAML file`                      |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/yaml`, :ref:`ryaml`
+
+
+.. _ryaml:
+
+Ruby YAML files
+---------------
+
+.. index::
+    pair: Ruby YAML; file format
+    pair: Ruby YAML Ain't Markup Language; file format
+
+.. versionadded:: 2.9
+
+Ruby i18n YAML files with language as root node.
 
 Example Ruby i18n YAML file:
 
@@ -795,10 +821,10 @@ Example Ruby i18n YAML file:
 +--------------------------------+----------------------------------+
 | Base file for new translations | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `YAML file`                      |
+| File format                    | `Ruby YAML file`                 |
 +--------------------------------+----------------------------------+
 
-.. seealso:: :doc:`tt:formats/yaml`
+.. seealso:: :doc:`tt:formats/yaml`, :ref:`yaml`
 
 .. _dtd:
 
