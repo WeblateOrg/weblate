@@ -803,6 +803,6 @@ def render_comment(comment):
     for user in mentioned:
         result = result.replace(
             '@{}'.format(user.username),
-            get_user_display(user, icon=False, link=True),
+            get_user_display(user, icon=False, link=True, prefix='@'),
         )
     return mark_safe(result)
