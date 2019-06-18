@@ -25,7 +25,8 @@ Choosing internationalization framework
 
 Choose whatever is standard on your platform, try to avoid reinventing the
 wheel by creating your own framework to handle localizations. Weblate supports
-most of the widely used frameworks, see :ref:`formats` for more information.
+most of the widely used frameworks, see :ref:`formats` for more information
+(especially :ref:`fmt_capabs`).
 
 Following chapters describe two use cases - GNU Gettext and Sphinx, but many of
 the steps are quite generic and apply to the other frameworks as well.
