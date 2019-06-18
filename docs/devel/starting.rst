@@ -28,6 +28,40 @@ wheel by creating your own framework to handle localizations. Weblate supports
 most of the widely used frameworks, see :ref:`formats` for more information
 (especially :ref:`fmt_capabs`).
 
+Our personal recommendation for some plaforms is in the following table. This
+is based on our experience, but that can not cover all use cases, so always
+consider your environment when doing the choice.
+
++--------------------------+--------------------------+--------------------------------------------------------+
+| Platform                 | Recommended format       | Note                                                   |
++==========================+==========================+========================================================+
+| Android                  | :ref:`aresource`         |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| iOS                      | :ref:`apple`             |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Qt                       | :ref:`qtling`            |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Python                   | :ref:`gettext`           |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| PHP                      | :ref:`gettext`           | preferably use third party library as `motranslator`_  |
++--------------------------+--------------------------+--------------------------------------------------------+
+| C/C++                    | :ref:`gettext`           |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| C#                       | :ref:`dotnet`            |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Perl                     | :ref:`gettext`           |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Ruby                     | :ref:`gettext`           |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Web extensions           | :ref:`webex`             |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+| Java                     | :ref:`xliff`             | or :ref:`javaprop` if plurals are not needed           |
++--------------------------+--------------------------+--------------------------------------------------------+
+| JavaScript               | :ref:`js-i18next`        |                                                        |
++--------------------------+--------------------------+--------------------------------------------------------+
+
+.. _motranslator: https://github.com/phpmyadmin/motranslator
+
 Following chapters describe two use cases - GNU Gettext and Sphinx, but many of
 the steps are quite generic and apply to the other frameworks as well.
 
