@@ -20,7 +20,7 @@
 
 import os
 
-from celery.beat import PersistentScheduler
+from celery.beat import Service
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -35,21 +35,19 @@ class Command(BaseCommand):
         if os.path.exists(filename):
             os.remove(filename)
 
+    @staticmethod
+    def setup_schedule():
+        service = Service(app=app)
+        scheduler = service.get_scheduler()
+        scheduler.setup_schedule()
+
     def handle(self, *args, **options):
         try:
-            scheduler = PersistentScheduler(
-                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
-                app=app
-            )
-            scheduler.setup_schedule()
+            self.setup_schedule()
         except Exception as error:
             self.stderr.write(
                 'Removing corrupted schedule file: {!r}'.format(error)
             )
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + '.db')
-            scheduler = PersistentScheduler(
-                schedule_filename=settings.CELERY_BEAT_SCHEDULE_FILENAME,
-                app=app
-            )
-            scheduler.setup_schedule()
+            self.setup_schedule()
