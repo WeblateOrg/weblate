@@ -279,13 +279,13 @@ class SVGBadgeWidget(SVGWidget):
     def render(self, response):
         translated_text = _('translated')
         translated_width = render_size(
-            "Source Sans Pro", Pango.Weight.NORMAL, 11, 0, translated_text
-        )[0].width
+            "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text
+        )[0].width + 5
 
         percent_text = self.get_percent_text()
         percent_width = render_size(
-            "Source Sans Pro", Pango.Weight.NORMAL, 11, 0, percent_text
-        )[0].width
+            "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text
+        )[0].width + 5
 
         if self.percent >= 90:
             color = '#4c1'
