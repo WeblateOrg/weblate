@@ -98,6 +98,8 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
         email = get_github_email(kwargs['response']['access_token'])
         if email is not None:
             details['email'] = email
+        if details.get('email', '').endswith('@users.noreply.github.com'):
+            del details['email']
 
     # Remove any pending email validation codes
     if details.get('email') and backend.name == 'email':

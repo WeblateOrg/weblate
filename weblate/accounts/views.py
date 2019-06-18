@@ -1008,6 +1008,8 @@ def handle_missing_parameter(request, backend, error):
         return auth_fail(
             request,
             _('Got no e-mail address from third party authentication service!')
+            + ' '
+            + _('Please register using e-mail instead.')
         )
     if error.parameter in ('email', 'user', 'expires'):
         return auth_redirect_token(request)
