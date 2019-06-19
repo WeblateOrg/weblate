@@ -457,3 +457,6 @@ class Repository(object):
 
     def get_remote_branch_name(self):
         return 'origin/{0}'.format(self.branch)
+
+    def list_remote_branches(self):
+        return []

@@ -90,6 +90,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class = GitRepository
     _vcs = 'git'
     _sets_push = True
+    _remote_branches = ['master', 'translations']
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
@@ -408,6 +409,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.get_file('po/cs.po', self.repo.last_revision)
         )
 
+    def test_remote_branches(self):
+        self.assertEqual(
+            self._remote_branches,
+            self.repo.list_remote_branches()
+        )
+
 
 class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository
@@ -439,6 +446,7 @@ class VCSGithubTest(VCSGitTest):
 class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
     _vcs = 'subversion'
+    _remote_branches = []
 
     def test_clone(self):
         self.assertTrue(os.path.exists(
@@ -491,6 +499,7 @@ class VCSHgTest(VCSGitTest):
     """
     _class = HgRepository
     _vcs = 'mercurial'
+    _remote_branches = []
 
     def test_configure_remote(self):
         with self.repo.lock:

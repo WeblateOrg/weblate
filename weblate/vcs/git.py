@@ -303,13 +303,13 @@ class GitRepository(Repository):
 
         self.branch = branch
 
+    def list_branches(self, *args):
+        cmd = ['branch', '--list', '--format=%(refname:short)']
+        cmd.extend(args)
+        return self.execute(cmd, needs_lock=False).split()
+
     def has_branch(self, branch):
-        # Get List of current branches in local repository
-        # (we get additional * there indicating current branch)
-        branches = [
-            x.lstrip('*').strip()
-            for x in self.execute(['branch']).splitlines()
-        ]
+        branches = self.list_branches()
         return branch in branches
 
     def configure_branch(self, branch):
@@ -363,6 +363,13 @@ class GitRepository(Repository):
     def cleanup(self):
         """Remove not tracked files from the repository."""
         self.execute(['clean', '-f'])
+
+    def list_remote_branches(self):
+        return [
+            branch[7:]
+            for branch in self.list_branches('--remote', 'origin/*')
+            if branch != 'origin/HEAD'
+        ]
 
 
 class GitWithGerritRepository(GitRepository):
@@ -504,6 +511,9 @@ class SubversionRepository(GitRepository):
             if 'origin/git-svn' in fetch:
                 return 'origin/git-svn'
         return 'origin/{0}'.format(self.branch)
+
+    def list_remote_branches(self):
+        return []
 
 
 class GithubRepository(GitRepository):
