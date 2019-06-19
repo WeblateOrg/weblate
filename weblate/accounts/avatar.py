@@ -149,7 +149,7 @@ def get_user_display(user, icon=True, link=False, prefix=''):
             prefix=prefix
         )
     else:
-        usename = prefix + username
+        username = prefix + username
 
     if link and user is not None:
         return mark_safe(
