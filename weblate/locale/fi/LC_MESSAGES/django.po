@@ -4,13 +4,14 @@
 # Tuomas Harju <tuomas@rtj-group.com>, 2018, 2019.
 # Tuomas Hietala <tuomas.hietala@iki.fi>, 2019.
 # Nikolay Korotkiy <sikmir@gmail.com>, 2019.
+# Toni Lähdekorpi <toni@lygon.net>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-18 21:36+0000\n"
 "PO-Revision-Date: 2019-06-20 07:19+0000\n"
-"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
+"Last-Translator: Toni Lähdekorpi <toni@lygon.net>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -995,7 +996,7 @@ msgstr "Ole hyvä ja tarkista sekä vahvista komponenttihaun tulokset."
 
 #: weblate/addons/forms.py:325
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "Ole hyvä ja sisällytä komponentin merkinnät malliin."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1938,22 +1939,19 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Epäkelpo käännösehto: \"%s\""
 
 #: weblate/checks/flags.py:120
-#, fuzzy, python-format
-#| msgid "Translation flags"
+#, python-format
 msgid "Translation flag has no params: \"%s\""
-msgstr "Käännösehdot"
+msgstr "Käännösehdolla ei ole parametreja: \"%s\""
 
 #: weblate/checks/flags.py:126
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Wrong params for translation flag: \"%s\""
-msgstr "Epäkelpo käännösehto: \"%s\""
+msgstr "Epäkelvot parametrit käännösehdolle: \"%s\""
 
 #: weblate/checks/flags.py:130
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Missing params for translation flag: \"%s\""
-msgstr "Epäkelpo käännösehto: \"%s\""
+msgstr "Puuttuvat parametrit käännösehdolle: \"%s\""
 
 #: weblate/checks/format.py:265
 msgid "Python format"
@@ -2163,6 +2161,7 @@ msgstr "Oletusfontti"
 #: weblate/fonts/models.py:118
 msgid "Default font is used unless per language override matches."
 msgstr ""
+"Käytetään oletusfonttia, mikäli kielikohtainen ylikirjoitus ei kohdistu."
 
 #: weblate/fonts/models.py:140 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
@@ -2175,9 +2174,6 @@ msgstr "Fontti"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1201 weblate/trans/models/whiteboard.py:102
-#, fuzzy
-#| msgid "Language"
-#| msgid_plural "Languages"
 msgid "Language"
 msgstr "Kieli"
 
@@ -4957,9 +4953,6 @@ msgstr ""
 "niin kehittäjien kuin kääntäjien kannalta."
 
 #: weblate/templates/engage.html:24 weblate/trans/widgets.py:227
-#, fuzzy
-#| msgid "String"
-#| msgid_plural "Strings"
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
