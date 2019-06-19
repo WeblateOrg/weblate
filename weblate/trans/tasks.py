@@ -254,7 +254,7 @@ def cleanup_suggestions():
 @app.task
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
-    non_linked = Component.objects.exclude(repo__startswith='weblate:')
+    non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         if settings.AUTO_UPDATE:
             component.do_update()
@@ -281,11 +281,9 @@ def cleanup_stale_repos():
         project, component = os.path.split(path[len(prefix) + 1:])
 
         # Find matching components
-        objects = Component.objects.filter(
+        objects = Component.objects.with_repo().filter(
             slug=component,
             project__slug=project
-        ).exclude(
-            repo__startswith='weblate:'
         )
 
         # Remove stale dirs
@@ -311,7 +309,7 @@ def cleanup_old_comments():
 
 @app.task
 def repository_alerts(threshold=10):
-    non_linked = Component.objects.exclude(repo__startswith='weblate:')
+    non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         if component.repository.count_missing() > 10:
             component.add_alert('RepositoryOutdated', childs=True)

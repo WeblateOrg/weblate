@@ -106,7 +106,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     get_language_count.short_description = _('Languages')
 
     def num_vcs(self, obj):
-        return obj.component_set.exclude(repo__startswith='weblate:/').count()
+        return obj.component_set.with_repo().count()
     num_vcs.short_description = _('VCS repositories')
 
     def get_qs_units(self, queryset):

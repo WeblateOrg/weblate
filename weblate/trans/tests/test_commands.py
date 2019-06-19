@@ -102,17 +102,9 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             main_component=name
         )
-        non_linked = project.component_set.exclude(
-            repo__startswith='weblate:/'
-        )
-        self.assertEqual(
-            non_linked.count(),
-            1
-        )
-        self.assertEqual(
-            non_linked[0].slug,
-            name
-        )
+        non_linked = project.component_set.with_repo()
+        self.assertEqual(non_linked.count(), 1)
+        self.assertEqual(non_linked[0].slug, name)
 
     def test_import_main_2(self):
         self.test_import_main_1('second-po')

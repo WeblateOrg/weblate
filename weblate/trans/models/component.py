@@ -144,6 +144,9 @@ class ComponentQuerySet(models.QuerySet):
         """Ordering in project scope by priority."""
         return self.order_by('priority', 'name')
 
+    def with_repo(self):
+        return self.exclude(repo__startswith='weblate:')
+
 
 @python_2_unicode_compatible
 class Component(models.Model, URLMixin, PathMixin):

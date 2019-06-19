@@ -211,10 +211,8 @@ class Billing(models.Model):
     count_changes_1y.short_description = _('Changes in last year')
 
     def count_repositories(self):
-        return Component.objects.filter(
+        return Component.objects.with_repo().filter(
             project__in=self.projects.all(),
-        ).exclude(
-            repo__startswith='weblate:/'
         ).count()
 
     def display_repositories(self):

@@ -283,12 +283,10 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def all_repo_components(self):
         """Return list of all unique VCS components."""
-        result = list(
-            self.component_set.exclude(repo__startswith='weblate://')
-        )
+        result = list(self.component_set.with_repo())
         included = {component.get_repo_link_url() for component in result}
 
-        linked = self.component_set.filter(repo__startswith='weblate://')
+        linked = self.component_set.filter(repo__startswith='weblate:')
         for other in linked:
             if other.repo in included:
                 continue
