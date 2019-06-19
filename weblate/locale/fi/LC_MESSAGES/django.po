@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-18 21:36+0000\n"
-"PO-Revision-Date: 2019-06-17 07:07+0000\n"
+"PO-Revision-Date: 2019-06-20 07:19+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7-dev\n"
+"X-Generator: Weblate 3.7\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -64,7 +64,7 @@ msgstr "Sähköposti"
 
 #: weblate/accounts/forms.py:269
 msgid "You can add another email address below."
-msgstr "Alapuolella voit lisätä toisen sähköpostiosoitteen."
+msgstr "Voit lisätä toisen sähköpostiosoitteen alla."
 
 #: weblate/accounts/forms.py:305
 msgid "Subject"
@@ -712,10 +712,8 @@ msgstr ""
 "Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta!"
 
 #: weblate/accounts/views.py:1012
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Rekisteröidy sähköpostilla"
+msgstr "Rekisteröidy sen sijaan sähköpostilla."
 
 #: weblate/accounts/views.py:1021
 msgid "Can not change authentication for demo!"
@@ -1702,7 +1700,7 @@ msgstr "Versionhallinnan arkistot"
 #: weblate/billing/models.py:247 weblate/templates/about/stats.html:86
 #: weblate/trans/admin.py:97 weblate/trans/forms.py:762
 msgid "Source strings"
-msgstr "Lähdeteksti"
+msgstr "Lähdetekstit"
 
 #: weblate/billing/models.py:258 weblate/trans/admin.py:101
 msgid "Source words"
@@ -2055,11 +2053,11 @@ msgstr "Käännöksen XML-tägit eivät vastaa lähdettä"
 
 #: weblate/checks/markup.py:219
 msgid "Markdown link references"
-msgstr "Markdown -linkin viittaukset"
+msgstr "Markdown-linkkiviittaukset"
 
 #: weblate/checks/markup.py:220
 msgid "Markdown link references does not match source"
-msgstr "Markdown -linkkien viittaukset eivät vastaa lähdetekstin muotoilua"
+msgstr "Markdown-linkkiviittaukset eivät vastaa lähdetekstiä"
 
 #: weblate/checks/markup.py:236
 msgid "Markdown links"
@@ -2086,10 +2084,8 @@ msgid "Maximum size of translation"
 msgstr "Käännöstekstin maksimikoko"
 
 #: weblate/checks/render.py:50
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation rendered text should not exceed given size"
-msgstr "Käännöksen ei tulisi ylittää määrättyä pituutta"
+msgstr "Käännöksen ei tulisi ylittää määrättyä kokoa tekstiksi renderöitynä"
 
 #: weblate/checks/same.py:151
 msgid "Unchanged translation"
@@ -2132,7 +2128,7 @@ msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksi
 #: weblate/templates/progress.html:11 weblate/templates/project.html:58
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:577
 msgid "Failing checks"
-msgstr "Automaattitarkistuksen virheet"
+msgstr "Virheitä löytynyt tarkistuksessa"
 
 #: weblate/fonts/models.py:44 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -2156,6 +2152,8 @@ msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special chars."
 msgstr ""
+"Tunnus, jota käytetään tarkistuksissa tämän fonttiryhmän valitsemiseen. "
+"Vältä tyhjiä merkkejä (whitespace) ja erikoismerkkejä."
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -5483,7 +5481,7 @@ msgstr "Hyvä"
 #: weblate/trans/forms.py:466 weblate/trans/templatetags/translations.py:557
 #: weblate/utils/state.py:32
 msgid "Needs editing"
-msgstr "Odottaa muokkausta"
+msgstr "Vaatii muokkaamista"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -5581,8 +5579,8 @@ msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it using the following link:"
 msgstr ""
-"Laskutussuunnitelmasi ei ole enään voimassa. Jos haluat jatkaa palvelun "
-"käyttöä, ole hyvä ja uusi se seuraamalla linkkiä:"
+"Laskutussuunnitelmasi on päättynyt. Jos haluat jatkaa palvelun käyttöä, ole "
+"hyvä ja uusi se seuraavan linkin kautta:"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
@@ -6146,8 +6144,6 @@ msgstr ""
 "Olet viimeaikoina tehnyt liian monta toimintoa ja pyyntöäsi ei suoriteta."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please login and try again later."
 msgid "You have been logged out, please log in and try again later."
 msgstr "Sinut on kirjattu ulos, kirjaudu sisään ja yritä myöhemmin uudelleen."
 
@@ -6269,7 +6265,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Strings status"
 msgid "Strings of total"
-msgstr "Merkkijonon tila"
+msgstr "Tekstejä kokonaismäärästä"
 
 #: weblate/templates/snippets/list-objects.html:15
 #: weblate/templates/snippets/list-objects.html:33
@@ -6281,10 +6277,8 @@ msgstr "Kääntämättä"
 
 #: weblate/templates/snippets/list-objects.html:18
 #: weblate/templates/snippets/list-objects.html:36
-#, fuzzy
-#| msgid "Words to translate"
 msgid "Words of total"
-msgstr "Sanat käännettäväksi"
+msgstr "Sanoja kokonaismäärästä"
 
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/snippets/list-objects.html:40
