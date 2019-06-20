@@ -2834,7 +2834,7 @@ msgstr "Na tomto serveru jsou nicméně překlány následující projekty:"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "Selhalo ověření typu CSRF. Požadavek byl zadržen."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2843,6 +2843,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"Tato zpráva se zobrazuje, protože tento web na protokolu HTTPS požaduje "
+"záhlaví Referer od vašeho webového prohlížeče. Záhlaví je požadováno z "
+"bezpečnostních důvodů, aby se zajistilo, že vašeho prohlížeče se nezmocnil "
+"někdo další."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2850,6 +2854,9 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"Pokud má váš prohlížeč záhlaví Referer vypnuté, žádáme vás o jeho zapnutí, "
+"alespoň pro tento web nebo pro spojení typu HTTPS nebo pro požadavky typu "
+"\"stejný původ\" (same origin)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2857,12 +2864,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"Tato zpráva se zobrazuje, protože tento web při odesílání formulářů požaduje "
+"v souboru cookie údaj CSRF, a to z bezpečnostních důvodů, aby se zajistilo, "
+"že se vašeho prohlížeče nezmocnil někdo další."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"Pokud má váš prohlížeč soubory cookie vypnuté, žádáme vás o jejich zapnutí, "
+"alespoň pro tento web nebo pro požadavky typu \"stejný původ\" (same origin)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

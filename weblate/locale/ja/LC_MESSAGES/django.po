@@ -2834,7 +2834,7 @@ msgstr "ただし、このサーバではこれらの翻訳プロジェクトが
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "CSRF検証に失敗したため、リクエストは中断されました。"
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2843,6 +2843,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"このメッセージが表示されている理由は、このHTTPSのサイトはウェブブラウザからリ"
+"ファラーヘッダが送信されることを必須としていますが、送信されなかったためで"
+"す。このヘッダはセキュリティ上の理由(使用中のブラウザが第三者によってハイ"
+"ジャックされていないことを確認するため)で必要です。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2850,6 +2854,8 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"もしブラウザのリファラーヘッダを無効に設定しているならば、HTTPS接続やsame-"
+"originリクエストのために、少なくともこのサイトでは再度有効にしてください。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2857,12 +2863,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"このメッセージが表示されている理由は、このサイトはフォーム送信時にCSRFクッ"
+"キーを必須としているためです。このクッキーはセキュリティ上の理由(使用中のブラ"
+"ウザが第三者によってハイジャックされていないことを確認するため)で必要です。"
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"もしブラウザのクッキーを無効に設定しているならば、same-originリクエストのため"
+"に少なくともこのサイトでは再度有効にしてください。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

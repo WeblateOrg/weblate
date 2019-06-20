@@ -2816,7 +2816,7 @@ msgstr "하지만, 이 서버에서는 다음 번역 프로젝트가 가능합�
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "CSRF 검증에 실패했습니다. 요청을 중단하였습니다."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2825,6 +2825,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"이 메세지가 보이는 이유는 이 HTTPS 사이트가 당신의 브라우저로부터 '참조 헤"
+"더'를 요구하지만, 아무것도 받기 못하였기 때문입니다. 이 헤더는 보안상의 문제"
+"로 필요하며, 제3자에 의해 당신의 브라우저가 해킹당하고 있지 않다는 것을 보장"
+"합니다."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2832,6 +2836,8 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"만약 브라우저 설정에서 '참조' 헤더를 비활성화 시켰을 경우, 적어도 이 사이트"
+"나 HTTPS 연결, '동일-출처' 요청에 대해서는 이를 다시 활성화 시키십시오. "
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2839,12 +2845,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"이 메세지가 보이는 이유는 사이트가 폼을 제출할 때 CSRF 쿠키를 필요로 하기 때"
+"문입니다. 이 쿠키는 보안상의 이유로 필요하며, 제3자에 의해 당신의 브라우저가 "
+"해킹당하고 있지 않다는 것을 보장합니다."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"만약 브라우저 설정에서 쿠키를 비활성화 시켰을 경우, 적어도 이 사이트나 '동일-"
+"출처' 요청에 대해서는 활성화 시키십시오."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

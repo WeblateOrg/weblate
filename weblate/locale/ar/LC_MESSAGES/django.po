@@ -2917,7 +2917,7 @@ msgstr "على أية حال، مشاريع الترجمة التالية متو
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "تم الفشل للتحقق من CSRF. تم إنهاء الطلب."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2926,6 +2926,9 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"أنت ترى هذه الرسالة لأن هذا الموقع HTTPS يتطلب إرسال 'Referer header'  من "
+"قبل المتصفح، ولكن لم تم إرسال أي شيء. هذا الـheader مطلوب لأسباب أمنية، "
+"لضمان أن متصفحك لم يتم اختطافه من قبل أطراف أخرى."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2933,6 +2936,9 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"إذا قمت بضبط متصفحك لتعطيل 'Referer headers'، يرجى إعادة تفعيلها، على الأقل "
+"بالنسبة لهذا الموقع، أو لاتصالات HTTPS، أو للطلبات من نفس المنشأ 'same-"
+"origin'."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2940,12 +2946,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"أنت ترى هذه الرسالة لأن هذا الموقع يتطلب كعكة CSRF عند تقديم النماذج. ملف "
+"الكعكة هذا مطلوب  لأسباب أمنية في تعريف الإرتباط، لضمان أنه لم يتم اختطاف "
+"المتصفح من قبل أطراف أخرى."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"إذا قمت بضبط المتصفح لتعطيل الكوكيز الرجاء إعادة تغعيلها، على الأقل بالنسبة "
+"لهذا الموقع، أو للطلبات من نفس المنشأ 'same-origin'."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

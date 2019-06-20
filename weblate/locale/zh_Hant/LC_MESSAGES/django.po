@@ -2778,7 +2778,7 @@ msgstr "不過，此伺服器上還有下列翻譯專案："
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "CSRF 驗證失敗。已中止請求。"
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2787,6 +2787,8 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"你看到這個訊息，是因為這個 HTTPS 網站要求你的網頁瀏覽器送出一個 'Referer 標"
+"頭'，但它並未被送出。這個標頭是用於安全用途，保護你的瀏覽器不被第三方挾持。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2794,6 +2796,8 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"若你的瀏覽器設定為將「Referer」標頭關閉，請重新為這個網站、HTTPS 連線、或"
+"「same-origin」請求啟用它。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2801,12 +2805,16 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"你看到這個訊息，是因為這個網站要求在送出表單包含一個 CSRF cookie。這個 "
+"cookie 是用於安全用途，保護你的瀏覽器不被第三方挾持。"
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"若你的瀏覽器設定為將 cookie 關閉，請重新為這個網站或「same-origin」請求啟用"
+"它。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

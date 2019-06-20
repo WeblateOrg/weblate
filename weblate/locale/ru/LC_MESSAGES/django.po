@@ -2844,7 +2844,7 @@ msgstr "Однако, на этом сервере доступны следую
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "Ошибка проверки CSRF. Запрос отклонён."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2853,6 +2853,11 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"Вы видите это сообщение, потому что данный сайт использует защищённое "
+"соединение и требует, чтобы заголовок 'Referer' был передан вашим браузером, "
+"но он не был им передан. Данный заголовок необходим по соображениям "
+"безопасности, чтобы убедиться, что ваш браузер не был взломан, а запрос к "
+"серверу не был перехвачен или подменён."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2860,6 +2865,11 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"Если вы настроили свой браузер таким образом, чтобы запретить ему передавать "
+"заголовок 'Referer', пожалуйста, разрешите ему отсылать данный заголовок по "
+"крайней мере для данного сайта, или для всех HTTPS-соединений, или для "
+"запросов, домен и порт назначения совпадают с доменом и портом текущей "
+"страницы."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2867,12 +2877,20 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"Вы видите это сообщение, потому что данный сайт требует, чтобы при отправке "
+"форм была отправлена и CSRF-cookie. Данный тип cookie необходим по "
+"соображениям безопасности, чтобы убедиться, что ваш браузер не был взломан и "
+"не выполняет от вашего лица действий, запрограммированных третьими лицами."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"Если вы настроили свой браузер таким образом, чтобы он не передавал или не "
+"хранил cookie, пожалуйста, включите эту функцию вновь, по крайней мере для "
+"этого сайта, или для запросов, чьи домен и порт совпадают с доменом и портом "
+"текущей страницы."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

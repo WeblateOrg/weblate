@@ -2825,7 +2825,7 @@ msgstr ""
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "CSRF ellenőrzés sikertelen. Kérést kiszolgálása megszakítva."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2834,6 +2834,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"Azért látja ezt az üzenetet, mert ez a HTTPS oldal elvárja a 'Referer "
+"fejléc' küldését a böngészőtől, azonban ilyen nem érkezett. Erre a fejlécre "
+"biztonsági okból van szükség annak kiszűrésére, hogy harmadik fél eltérítse "
+"az ön böngészőjét."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2841,6 +2845,9 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"Ha a böngészőjében le van tiltva a 'Referer' fejléc, kérem engedélyezze "
+"azokat, legalább erre a weboldalra, vagy azonos forrásból ('same-origin') "
+"származó kérésekre."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2848,12 +2855,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"Azért látja ezt az üzenetet, mert ez a weboldal elvárja a CSRF cookie "
+"elküldését űrlapoknál. Erre a cookie-ra biztonsági okból van szükség annak "
+"kiszűrésére, hogy harmadik fél eltérítse az ön böngészőjét."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"Ha a böngészője elutasítja a cookie-kat, kérem engedélyezze azokat, legalább "
+"erre a weboldalra, vagy azonos forrásból ('same-origin') származó kérésekre."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"

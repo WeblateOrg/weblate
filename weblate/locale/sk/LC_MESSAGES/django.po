@@ -2862,7 +2862,7 @@ msgstr "Na tomto serveri sa však prekladajú nasledujúce projekty:"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "CSRF verifikázia zlyhala. Požiadavka bola prerušená."
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -2871,6 +2871,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"Túto správu vidíte, pretože táto HTTPS lokalita vyžaduje, aby prehliadač "
+"poslal 'Referer' hlavičku a browser takúto hlavičku v požiadavke neodoslal. "
+"Hlavička je potrebná na zabezpečenie toho, že váš prehliadač nie je zneužitý "
+"\"hijack\"."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -2878,6 +2882,9 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for 'same-"
 "origin' requests."
 msgstr ""
+"Ak máte v prehliadači zakázané odosielanie hlavičky Referer, povoľte ho "
+"znovu prosím - minimálne pre túto stránku, pre HTTPS spojenia alebo "
+"požiadavky s politikou same-origin."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -2885,12 +2892,17 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"Túto správu vidíte, pretože táto lokalita vyžaduje CSRF cookie pri "
+"odosielaní formulárov. Toto cookie je potrebné na zabezpečenie toho, že váš "
+"prehliadač nie je zneužitý - \"hijack\"."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for 'same-origin' requests."
 msgstr ""
+"Ak máte v prehliadači zakázané cookies, povoľte ich znovu prosím - minimálne "
+"pre túto stránku, alebo požiadavky s politikou same-origin."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
