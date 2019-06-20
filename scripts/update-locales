@@ -1,5 +1,4 @@
-
-
+#!/bin/sh
 
 # Renerates .po files used for translating Weblate
 
@@ -47,7 +46,7 @@ for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
     code=${locale#weblate/locale/}
     code=${code%/LC_MESSAGES/django.po}
     file=~/work/django/django/conf/locale/$code/LC_MESSAGES/django.po
-    if [ -f $file ] ; then 
+    if [ -f $file ] ; then
         msgmerge --previous -C $file -U $locale weblate/locale/django.pot
     fi
 done
