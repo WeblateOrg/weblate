@@ -183,6 +183,7 @@ Notable configuration or dependencies changes:
 * There are new (``bleach``, ``gobject``, ``pycairo``) and updated (``translation-finder``) dependencies.
 * There are new addons, you might want to include them in case you modified the :setting:`WEBLATE_ADDONS`.
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* There is change in the :setting:`django:CSRF_FAILURE_VIEW`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

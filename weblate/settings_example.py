@@ -610,8 +610,10 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = ENABLE_HTTPS
 # https://docs.djangoproject.com/en/1.11/ref/settings/#csrf-cookie-httponly
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = ENABLE_HTTPS
-# Store CSRF token in session (since Django 1.11)
+# Store CSRF token in session
 CSRF_USE_SESSIONS = True
+# Customize CSRF failure view
+CSRF_FAILURE_VIEW = 'weblate.trans.views.error.csrf_failure'
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
 # SSL redirect
 SECURE_SSL_REDIRECT = ENABLE_HTTPS

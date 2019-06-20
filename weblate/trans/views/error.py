@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import django.views.defaults
 from django.conf import settings
+from django.middleware.csrf import REASON_NO_REFERER, REASON_NO_CSRF_COOKIE
 from django.utils.translation import ugettext as _
 
 from weblate.trans.util import render
@@ -52,7 +53,6 @@ def not_found(request, exception=None):
 
 
 def denied(request, exception=None):
-    """Error handler showing list of available projects."""
     return render(
         request,
         '403.html',
@@ -61,6 +61,20 @@ def denied(request, exception=None):
         },
         status=403
     )
+
+
+def csrf_failure(request, reason=""):
+    return render(
+        request,
+        '403_csrf.html',
+        {
+            'title': _('Permission Denied'),
+            'no_referer': reason == REASON_NO_REFERER,
+            'no_cookie': reason == REASON_NO_CSRF_COOKIE,
+        },
+        status=403
+    )
+
 
 
 def server_error(request):
