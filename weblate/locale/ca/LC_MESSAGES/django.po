@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 21:36+0000\n"
+"POT-Creation-Date: 2019-06-20 07:19+0000\n"
 "PO-Revision-Date: 2019-06-20 07:19+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -286,7 +286,8 @@ msgstr "Algú ha provat de registrar-se amb el vostre correu electrònic."
 
 #: weblate/accounts/models.py:120
 msgid "Somebody has attempted to register using your email address."
-msgstr "Algú ha provat de registrar-se fent servir el vostre correu electrònic."
+msgstr ""
+"Algú ha provat de registrar-se fent servir el vostre correu electrònic."
 
 #: weblate/accounts/models.py:123
 #, python-brace-format
@@ -318,7 +319,8 @@ msgstr "S'ha iniciat la sessió utilitzant una contrasenya."
 
 #: weblate/accounts/models.py:140
 msgid "Logged on using password from a new device."
-msgstr "S'ha iniciat la sessió utilitzant una contrasenya en un dispositiu nou."
+msgstr ""
+"S'ha iniciat la sessió utilitzant una contrasenya en un dispositiu nou."
 
 #: weblate/accounts/models.py:141
 msgid "Could not log in using password."
@@ -570,7 +572,8 @@ msgstr "Aquesta contrasenya només té un caràcter."
 
 #: weblate/accounts/password_validation.py:51
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr "La contrasenya no pot consistir només en un caràcter o espais en blanc."
+msgstr ""
+"La contrasenya no pot consistir només en un caràcter o espais en blanc."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Can not reuse previously used password!"
@@ -1792,9 +1795,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:348
 msgid "Number of \\n in translation does not match source"
-msgstr ""
-"El nombre de \\n"
-" a la traducció no coincideix amb l'origen"
+msgstr "El nombre de \\n a la traducció no coincideix amb l'origen"
 
 #: weblate/checks/chars.py:356 weblate/trans/autofixes/chars.py:51
 msgid "Zero-width space"
@@ -2808,7 +2809,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:60
+#: weblate/trans/views/error.py:60 weblate/trans/views/error.py:71
 msgid "Permission Denied"
 msgstr "Permís denegat"
 
@@ -2827,7 +2828,39 @@ msgid ""
 msgstr ""
 "Tot i això, en aquest servidor hi ha els projectes de traducció següents:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:48
+#: weblate/templates/403_csrf.html:9
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:12
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:13
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:16
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:17
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
 msgstr "No s'ha trobat la pàgina"
 
@@ -2840,7 +2873,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "El projecte que cerqueu no existeix o no és accessible públicament."
 
-#: weblate/templates/500.html:5 weblate/trans/views/error.py:77
+#: weblate/templates/500.html:5 weblate/trans/views/error.py:91
 msgid "Internal Server Error"
 msgstr "Error intern del servidor"
 
@@ -9834,7 +9867,7 @@ msgstr "Fitxer de traducció"
 msgid "New string has been added."
 msgstr "S'ha esborrat el comentari de la traducció."
 
-#: weblate/trans/views/error.py:36
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr ""
 

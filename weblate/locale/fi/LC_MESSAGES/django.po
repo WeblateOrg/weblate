@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 21:36+0000\n"
+"POT-Creation-Date: 2019-06-20 07:19+0000\n"
 "PO-Revision-Date: 2019-06-20 07:19+0000\n"
 "Last-Translator: Toni Lähdekorpi <toni@lygon.net>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -2852,7 +2852,7 @@ msgstr ""
 "Olemme pahoillamme, mutta jotain näyttää olevan vialla pyynnössä, jonka teit."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:60
+#: weblate/trans/views/error.py:60 weblate/trans/views/error.py:71
 msgid "Permission Denied"
 msgstr "Lupa evätty"
 
@@ -2871,7 +2871,39 @@ msgid ""
 msgstr ""
 "Seuraavat käännösprojektit ovat kuitenkin saatavilla tällä palvelimella:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:48
+#: weblate/templates/403_csrf.html:9
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:12
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:13
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:16
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:17
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
 
@@ -2884,7 +2916,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Projektia, jota etsit, ei löytynyt tai se ei ole julkinen."
 
-#: weblate/templates/500.html:5 weblate/trans/views/error.py:77
+#: weblate/templates/500.html:5 weblate/trans/views/error.py:91
 msgid "Internal Server Error"
 msgstr "Palvelimen sisäinen virhe"
 
@@ -9371,7 +9403,7 @@ msgstr "Käännös tällä tunnisteella näyttää olevan jo olemassa!"
 msgid "New string has been added."
 msgstr "Uusi käännösteksti on lisätty."
 
-#: weblate/trans/views/error.py:36
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr "Virheellinen pyyntö"
 

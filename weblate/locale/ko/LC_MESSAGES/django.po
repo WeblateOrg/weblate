@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 21:36+0000\n"
+"POT-Creation-Date: 2019-06-20 07:19+0000\n"
 "PO-Revision-Date: 2019-06-07 11:31+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -2796,7 +2796,7 @@ msgid ""
 msgstr "죄송합니다만, 요청한 것에 뭔가 문제가 있는 것 같습니다."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:60
+#: weblate/trans/views/error.py:60 weblate/trans/views/error.py:71
 msgid "Permission Denied"
 msgstr "사용 권한이 거부되었습니다"
 
@@ -2814,7 +2814,39 @@ msgid ""
 "However, the following translation projects are available on this server:"
 msgstr "하지만, 이 서버에서는 다음 번역 프로젝트가 가능합니다:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:48
+#: weblate/templates/403_csrf.html:9
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:12
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:13
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:16
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:17
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
 msgstr "페이지를 찾을 수 없습니다"
 
@@ -2827,7 +2859,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "요청하신 프로젝트가 존재하지 않거나 공개적으로 이용할 수 없습니다."
 
-#: weblate/templates/500.html:5 weblate/trans/views/error.py:77
+#: weblate/templates/500.html:5 weblate/trans/views/error.py:91
 msgid "Internal Server Error"
 msgstr "내부 서버 오류"
 
@@ -9143,7 +9175,7 @@ msgstr "이 키로 번역이 이미 존재하는 것 같습니다!"
 msgid "New string has been added."
 msgstr "새 문자열이 추가되었습니다."
 
-#: weblate/trans/views/error.py:36
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr "잘못된 요청"
 

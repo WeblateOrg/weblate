@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 21:36+0000\n"
+"POT-Creation-Date: 2019-06-20 07:19+0000\n"
 "PO-Revision-Date: 2019-06-20 07:19+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -2758,7 +2758,7 @@ msgid ""
 msgstr "我們很抱歉，但似乎在處理你的請求時有事情出錯了。"
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:60
+#: weblate/trans/views/error.py:60 weblate/trans/views/error.py:71
 msgid "Permission Denied"
 msgstr "未獲得許可"
 
@@ -2776,7 +2776,39 @@ msgid ""
 "However, the following translation projects are available on this server:"
 msgstr "不過，此伺服器上還有下列翻譯專案："
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:48
+#: weblate/templates/403_csrf.html:9
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:12
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:13
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:16
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:17
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
 msgstr "找不到頁面"
 
@@ -2789,7 +2821,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "您找尋的專案不存在，或是無法公開。"
 
-#: weblate/templates/500.html:5 weblate/trans/views/error.py:77
+#: weblate/templates/500.html:5 weblate/trans/views/error.py:91
 msgid "Internal Server Error"
 msgstr "伺服器內部錯誤"
 
@@ -8933,7 +8965,7 @@ msgstr "有此鍵的翻譯似乎已經存在！"
 msgid "New string has been added."
 msgstr "已加入新的字串。"
 
-#: weblate/trans/views/error.py:36
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr "不良的請求"
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-18 21:36+0000\n"
+"POT-Creation-Date: 2019-06-20 07:19+0000\n"
 "PO-Revision-Date: 2019-06-20 07:18+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -2824,7 +2824,7 @@ msgid ""
 msgstr "Üzgünüz, ancak yaptığınız istekle ilgili bir sorun var."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:60
+#: weblate/trans/views/error.py:60 weblate/trans/views/error.py:71
 msgid "Permission Denied"
 msgstr "İzin Verilmedi"
 
@@ -2842,7 +2842,39 @@ msgid ""
 "However, the following translation projects are available on this server:"
 msgstr "Ancak, aşağıdaki çeviri projeleri bu sunucuda bulunur:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:48
+#: weblate/templates/403_csrf.html:9
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:12
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:13
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:16
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: weblate/templates/403_csrf.html:17
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:49
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
@@ -2855,7 +2887,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Aradığınız proje yok ya da herkese açık değil."
 
-#: weblate/templates/500.html:5 weblate/trans/views/error.py:77
+#: weblate/templates/500.html:5 weblate/trans/views/error.py:91
 msgid "Internal Server Error"
 msgstr "İç Sunucu Hatası"
 
@@ -9277,7 +9309,7 @@ msgstr "Bu anahtarla bir çeviri zaten var olarak görünüyor!"
 msgid "New string has been added."
 msgstr "Yeni satır eklendi."
 
-#: weblate/trans/views/error.py:36
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr "Geçersiz istek"
 
