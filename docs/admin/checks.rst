@@ -28,7 +28,10 @@ Customizing behavior
 
 You can fine tune Weblate behavior (mostly checks) for each source string (in
 source strings review, see :ref:`additional`) or in the :ref:`component`
-(:guilabel:`Translation flags`); here is a list of flags currently accepted:
+(:guilabel:`Translation flags`). Some file formats also allow to specify flags
+directly in the format.
+
+Here is a list of flags currently accepted:
 
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
