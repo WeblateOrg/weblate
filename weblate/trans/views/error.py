@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 import django.views.defaults
 from django.conf import settings
-from django.middleware.csrf import REASON_NO_REFERER, REASON_NO_CSRF_COOKIE
+from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
 from django.utils.translation import ugettext as _
 
 from weblate.trans.util import render
@@ -30,67 +30,42 @@ from weblate.trans.util import render
 
 def bad_request(request, exception=None):
     """Error handler for bad request."""
-    return render(
-        request,
-        '400.html',
-        {
-            'title': _('Bad Request'),
-        },
-        status=400
-    )
+    return render(request, "400.html", {"title": _("Bad Request")}, status=400)
 
 
 def not_found(request, exception=None):
     """Error handler showing list of available projects."""
-    return render(
-        request,
-        '404.html',
-        {
-            'title': _('Page Not Found'),
-        },
-        status=404
-    )
+    return render(request, "404.html", {"title": _("Page Not Found")}, status=404)
 
 
 def denied(request, exception=None):
-    return render(
-        request,
-        '403.html',
-        {
-            'title': _('Permission Denied'),
-        },
-        status=403
-    )
+    return render(request, "403.html", {"title": _("Permission Denied")}, status=403)
 
 
 def csrf_failure(request, reason=""):
     return render(
         request,
-        '403_csrf.html',
+        "403_csrf.html",
         {
-            'title': _('Permission Denied'),
-            'no_referer': reason == REASON_NO_REFERER,
-            'no_cookie': reason == REASON_NO_CSRF_COOKIE,
+            "title": _("Permission Denied"),
+            "no_referer": reason == REASON_NO_REFERER,
+            "no_cookie": reason == REASON_NO_CSRF_COOKIE,
         },
-        status=403
+        status=403,
     )
-
 
 
 def server_error(request):
     """Error handler for server errors."""
     try:
-        if hasattr(settings, 'RAVEN_CONFIG') and 'public_dsn' in settings.RAVEN_CONFIG:
-            sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
+        if hasattr(settings, "RAVEN_CONFIG") and "public_dsn" in settings.RAVEN_CONFIG:
+            sentry_dsn = settings.RAVEN_CONFIG["public_dsn"]
         else:
             sentry_dsn = None
         return render(
             request,
-            '500.html',
-            {
-                'title': _('Internal Server Error'),
-                'sentry_dsn': sentry_dsn,
-            },
+            "500.html",
+            {"title": _("Internal Server Error"), "sentry_dsn": sentry_dsn},
             status=500,
         )
     except Exception:
