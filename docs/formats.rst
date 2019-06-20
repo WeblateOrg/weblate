@@ -58,7 +58,7 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`mono_gettext` | mono             | yes           | yes            | yes           | yes            | no             | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`xliff`        | both             | yes           | yes            | yes           | yes            | no             | needs editing, approved |
+| :ref:`xliff`        | both             | yes           | yes            | yes           | yes            | partial [#xl]_ | needs editing, approved |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
@@ -106,6 +106,7 @@ Below are listed capabilities of all supported formats.
 .. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The Gettext type comments are used as flags.
+.. [#xl] Only ``max-length:N`` is supported as that is defined in the Xliff standard, see :ref:`check-max-length`
 
 .. _gettext:
 
