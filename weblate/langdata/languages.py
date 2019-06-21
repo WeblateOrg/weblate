@@ -98,6 +98,8 @@ LANGUAGES = (
     ('be_Latn', _('Belarusian (latin)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
     # Translators: Language name, ISO code: bem
     ('bem', _('Bemba'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: ber
+    ('ber', _('Berber languages'), 2, 'n != 1'),
     # Translators: Language name, ISO code: bez
     ('bez', _('Bena'), 2, 'n != 1'),
     # Translators: Language name, ISO code: bg
@@ -206,6 +208,8 @@ LANGUAGES = (
     ('eo', _('Esperanto'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es
     ('es', _('Spanish'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: es_419
+    ('es_419', _('Spanish (Latin America)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_AR
     ('es_AR', _('Spanish (Argentina)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_CL
@@ -222,8 +226,6 @@ LANGUAGES = (
     ('es_PR', _('Spanish (Puerto Rico)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_US
     ('es_US', _('Spanish (American)'), 2, 'n != 1'),
-    # Translators: Language name, ISO code: es_419
-    ('es_419', _('Spanish (Latin America)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: et
     ('et', _('Estonian'), 2, 'n != 1'),
     # Translators: Language name, ISO code: eu
@@ -452,6 +454,8 @@ LANGUAGES = (
     ('na', _('Nauru'), 2, 'n != 1'),
     # Translators: Language name, ISO code: nah
     ('nah', _('Nahuatl'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: nan
+    ('nan', _('Min Nan Chinese'), 2, 'n != 1'),
     # Translators: Language name, ISO code: nap
     ('nap', _('Neapolitan'), 2, 'n != 1'),
     # Translators: Language name, ISO code: naq
