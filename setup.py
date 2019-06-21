@@ -40,7 +40,7 @@ setup(
     include_package_data=True,
     license="GPLv3+",
     description=(
-        "A web-based localization tool with tight version control integration"
+        "A web-based continuous localization system with tight version control integration"
     ),
     long_description=README,
     keywords="i18n l10n gettext git mercurial translate",
