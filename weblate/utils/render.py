@@ -60,11 +60,12 @@ class RestrictedEngine(Engine):
 
 def render_template(template, **kwargs):
     """Helper class to render string template with context."""
+    from weblate.trans.models import Project, Component, Translation
     translation = kwargs.get('translation')
     component = kwargs.get('component')
     project = kwargs.get('project')
 
-    if getattr(translation, 'id', None):
+    if isinstance(translation, Translation):
         translation.stats.ensure_basic()
         kwargs['language_code'] = translation.language_code
         kwargs['language_name'] = translation.language.name
@@ -74,7 +75,7 @@ def render_template(template, **kwargs):
         component = translation.component
         kwargs.pop('translation', None)
 
-    if getattr(component, 'id', None):
+    if isinstance(component, Component):
         kwargs['component_name'] = component.name
         kwargs['component_slug'] = component.slug
         kwargs['component_remote_branch'] = \
@@ -84,7 +85,7 @@ def render_template(template, **kwargs):
         project = component.project
         kwargs.pop('component', None)
 
-    if getattr(project, 'id', None):
+    if isinstance(project, Project):
         kwargs['project_name'] = project.name
         kwargs['project_slug'] = project.slug
         if 'url' not in kwargs:

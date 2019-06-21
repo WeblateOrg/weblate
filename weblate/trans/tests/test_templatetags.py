@@ -20,13 +20,13 @@
 """Testing of template tags."""
 
 import datetime
-from unittest import TestCase
 
-from django.test import SimpleTestCase
+from django.test import TestCase, SimpleTestCase
 from django.utils import timezone
 
 from weblate.accounts.models import Profile
-from weblate.trans.models import Component, Translation, Unit
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import get_location_links, naturaltime
 
 TEST_DATA = (
@@ -62,7 +62,7 @@ TEST_DATA = (
 )
 
 
-class NaturalTimeTest(TestCase):
+class NaturalTimeTest(SimpleTestCase):
     """Testing of natural time conversion."""
     def test_natural(self):
         now = timezone.now()
@@ -81,11 +81,20 @@ class NaturalTimeTest(TestCase):
             )
 
 
-class LocationLinksTest(SimpleTestCase):
+class LocationLinksTest(TestCase):
     def setUp(self):
         self.unit = Unit(
             translation=Translation(
-                component=Component()
+                component=Component(
+                    project=Project(
+                        source_language=Language(),
+                        slug='p',
+                        name='p',
+                    ),
+                    slug='c',
+                    name='c',
+                ),
+                language=Language(),
             )
         )
         self.profile = Profile()
