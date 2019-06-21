@@ -4,7 +4,7 @@ Changes
 weblate 3.7
 -----------
 
-Released on ? 2019.
+Released on June 21st 2019.
 
 * Added separate Celery queue for notifications.
 * Use consistent look with application for API browsing.
