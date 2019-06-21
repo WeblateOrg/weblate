@@ -31,26 +31,11 @@ Weblate
 .. image:: https://img.shields.io/readthedocs/weblate.svg 
     :target: https://docs.weblate.org/
 
-Weblate is a copylefted web-based localization tool with tight version control
-integration. It features a simple and clean user interface, propagation of
-translations across components within a project, quality checks and automatic
-linking to source files.
+Weblate is a libre software web-based continuous localization system used by
+over 1150+ opensource projects & companies in over 115+ countries around the
+World.
 
 The Weblate is to be found at https://weblate.org/
-
-Features
---------
-
-* Easy web based translation.
-* Propagation of translations across components (e.g. branches) within projects.
-* Tight VCS integration - every change is represented by a version control commit.
-* Usage of Django's admin interface.
-* Upload and automatic merging of PO files.
-* Links to source files for context.
-* Message quality checks.
-* Tunable access control.
-* Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more).
-* Git and Mercurial support.
 
 Documentation
 -------------
