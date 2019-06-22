@@ -21,9 +21,16 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
+from django.core.checks import register
+
+from weblate.fonts.utils import check_fonts
 
 
 class FontsConfig(AppConfig):
     name = "weblate.fonts"
     label = "fonts"
     verbose_name = "Fonts"
+
+    def ready(self):
+        super(FontsConfig, self).ready()
+        register(check_fonts)

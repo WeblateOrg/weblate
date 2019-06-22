@@ -97,6 +97,8 @@ The following dependencies have to be installed on the system:
 
 ``Git``
     https://git-scm.com/
+Pango, Cairo and related header files and gir introspection data
+    https://cairographics.org/, https://www.pango.org/, see :ref:`pangocairo`
 ``hub`` (optional for sending pull requests to GitHub)
     https://hub.github.com/
 ``git-review`` (optional for Gerrit support)
@@ -113,6 +115,19 @@ To compile some of the :ref:`python-deps` you might need to install their
 dependencies. This depends on how you install them, so please consult
 individual packages for documentation. You won't need those if using prebuilt
 ``Wheels`` while installing using ``pip`` or when you use distribution packages.
+
+.. _pangocairo:
+
+Pango and Cairo
++++++++++++++++
+
+.. versionchanged:: 3.7
+
+Weblate uses Pango and Cairo for rendering bitmap widgets (see
+:ref:`promotion`) and rendering checks (see :ref:`fonts`). To properly install
+Python bindings for those you need to install system libraries first - you need
+both Cairo and Pango, which in turn need Glib. All those should be installed
+with development files and GObject introspection data.
 
 .. _install-weblate:
 
