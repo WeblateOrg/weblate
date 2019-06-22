@@ -35,12 +35,13 @@ with open("requirements.txt") as requirements:
 
 setup(
     name="Weblate",
-    version='3.7.1',
+    version="3.7.1",
     packages=["weblate"],
     include_package_data=True,
     license="GPLv3+",
     description=(
-        "A web-based continuous localization system with tight version control integration"
+        "A web-based continuous localization system with "
+        "tight version control integration"
     ),
     long_description=README,
     keywords="i18n l10n gettext git mercurial translate",
