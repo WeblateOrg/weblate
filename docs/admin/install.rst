@@ -79,8 +79,6 @@ of them in :file:`requirements-optional.txt`.
     https://pyyaml.org/
 ``backports.csv`` (needed on Python 2.7)
     https://pypi.org/project/backports.csv/
-``openpyxl`` (for XLSX export/import)
-    https://openpyxl.readthedocs.io/en/stable/
 ``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
 ``aeidon`` (optional for :ref:`subtitles`)
