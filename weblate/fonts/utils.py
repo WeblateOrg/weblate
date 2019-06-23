@@ -41,6 +41,7 @@ from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
 FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
+    <cachedir>{}</cachedir>
     <dir>{}</dir>
     <dir>{}</dir>
     <dir>{}</dir>
@@ -90,6 +91,7 @@ def configure_fontconfig():
     # Generate the configuration
     with open(config_name, "w") as handle:
         handle.write(FONTCONFIG_CONFIG.format(
+            data_dir("cache", "fonts"),
             fonts_dir,
             os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
             os.path.join(settings.STATIC_ROOT, 'font-dejavu'),

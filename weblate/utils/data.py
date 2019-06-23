@@ -23,6 +23,6 @@ import os
 from django.conf import settings
 
 
-def data_dir(component):
+def data_dir(component, *args):
     """Return path to data dir for given component."""
-    return os.path.join(settings.DATA_DIR, component)
+    return os.path.join(settings.DATA_DIR, component, *args)
