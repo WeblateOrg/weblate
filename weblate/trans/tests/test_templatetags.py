@@ -21,7 +21,7 @@
 
 import datetime
 
-from django.test import TestCase, SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
 
 from weblate.accounts.models import Profile
