@@ -88,6 +88,9 @@ def configure_fontconfig():
     fonts_dir = data_dir("fonts")
     config_name = os.path.join(fonts_dir, "fonts.conf")
 
+    if not os.path.exists(fonts_dir):
+        os.makedirs(fonts_dir)
+
     # Generate the configuration
     with open(config_name, "w") as handle:
         handle.write(FONTCONFIG_CONFIG.format(
