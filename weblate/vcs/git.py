@@ -287,11 +287,12 @@ class GitRepository(Repository):
         if push_url is not None and old_push != push_url:
             self.execute(['remote', 'set-url', '--push', 'origin', push_url])
 
-        # Set branch to track
+        # Fetch all branches (needed for clone branch)
         self.set_config(
             'remote.origin.fetch',
-            '+refs/heads/{0}:refs/remotes/origin/{0}'.format(branch)
+            '+refs/heads/*:refs/remotes/origin/*'.format(branch)
         )
+        # Set branch to track
         self.set_config(
             'branch.{0}.remote'.format(branch),
             'origin'

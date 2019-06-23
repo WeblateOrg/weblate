@@ -30,9 +30,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.db.models import Q
-from django.forms import ValidationError
+from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -1542,12 +1542,7 @@ class ComponentCreateForm(SettingsBaseForm):
         ]
 
 
-class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
-    """Component creation form.
-
-    This is mostly copy from Component model. Probably
-    should be extracted to standalone Repository model...
-    """
+class ComponentNameForm(forms.Form):
     name = forms.CharField(
         label=_('Component name'),
         max_length=settings.COMPONENT_NAME_LENGTH,
@@ -1558,6 +1553,65 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
         max_length=settings.COMPONENT_NAME_LENGTH,
         help_text=_('Name used in URLs and filenames.')
     )
+
+
+class ComponentSelectForm(ComponentNameForm):
+    component = forms.ModelChoiceField(
+        queryset=Component.objects.none(),
+        label=_('Component'),
+        help_text=_('Select existing component to base on.')
+    )
+
+    def __init__(self, request, *args, **kwargs):
+        if 'instance' in kwargs:
+            kwargs.pop('instance')
+        super(ComponentSelectForm, self).__init__(*args, **kwargs)
+
+
+class ComponentBranchForm(ComponentSelectForm):
+    branch = forms.ChoiceField(label=_('Repository branch'))
+
+    branch_data = {}
+    instance = None
+
+    def clean_component(self):
+        component = self.cleaned_data['component']
+        self.fields['branch'].choices = [
+            (x, x) for x in self.branch_data[component.pk]
+        ]
+        return component
+
+    def clean(self):
+        form_fields = ('branch', 'slug', 'name')
+        data = self.cleaned_data
+        component = data.get('component')
+        if not component or any(field not in data for field in form_fields):
+            return
+        kwargs = model_to_dict(component, exclude=['id'])
+        kwargs['project'] = component.project
+        for field in form_fields:
+            kwargs[field] = data[field]
+        self.instance = Component(**kwargs)
+        try:
+            self.instance.full_clean()
+        except ValidationError as error:
+            # Can not raise directly as this will contain errors
+            # from fields not present here
+            result = {NON_FIELD_ERRORS: []}
+            for key, value in error.message_dict.items():
+                if key in self.fields:
+                    result[key] = value
+                else:
+                    result[NON_FIELD_ERRORS].extend(value)
+            raise ValidationError(error.messages)
+
+
+class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
+    """Component creation form.
+
+    This is mostly copy from Component model. Probably
+    should be extracted to standalone Repository model...
+    """
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(),
         label=_('Project'),

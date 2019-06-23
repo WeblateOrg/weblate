@@ -378,7 +378,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.configure_remote('pullurl', 'pushurl', 'branch')
             self.assertEqual(
                 self.repo.get_config('remote.origin.fetch'),
-                '+refs/heads/branch:refs/remotes/origin/branch',
+                '+refs/heads/*:refs/remotes/origin/*',
             )
 
     def test_configure_remote_no_push(self):

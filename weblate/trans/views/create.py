@@ -19,18 +19,24 @@
 #
 from __future__ import unicode_literals
 
+import json
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.forms import HiddenInput
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
+from django.utils.http import urlencode
 from django.views.generic.edit import CreateView
 
 from weblate.trans.forms import (
+    ComponentBranchForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
     ComponentInitCreateForm,
+    ComponentSelectForm,
     ProjectCreateForm,
 )
 from weblate.trans.models import Change, Component, Project
@@ -126,6 +132,9 @@ class CreateComponent(BaseCreateView):
     model = Component
     projects = None
     stage = None
+    selected_project = ''
+    basic_fields = ('repo', 'name', 'slug', 'vcs')
+    empty_form = False
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -136,9 +145,13 @@ class CreateComponent(BaseCreateView):
         return ComponentInitCreateForm
 
     def get_form_kwargs(self):
-        if not self.initial:
+        if not self.initial and not self.empty_form:
             return super(CreateComponent, self).get_form_kwargs()
-        return {'initial': self.initial, 'request': self.request}
+
+        result = {'initial': self.initial, 'request': self.request}
+        if self.has_all_fields() and not self.empty_form:
+            result['data'] = self.request.GET
+        return result
 
     def get_success_url(self):
         return reverse(
@@ -166,15 +179,16 @@ class CreateComponent(BaseCreateView):
         self.initial = form.cleaned_data
         return self.get(self, self.request)
 
-    def get_form(self, form_class=None):
+    def get_form(self, form_class=None, empty=False):
+        self.empty_form = empty
         form = super(CreateComponent, self).get_form(form_class)
-        project_field = form.fields['project']
-        project_field.queryset = self.projects
-        project_field.empty_label = None
-        try:
-            project_field.initial = int(self.request.GET['project'])
-        except (ValueError, KeyError):
-            pass
+        if 'project' in form.fields:
+            project_field = form.fields['project']
+            project_field.queryset = self.projects
+            project_field.empty_label = None
+            if self.selected_project:
+                project_field.initial = self.selected_project
+        self.empty_form = False
         return form
 
     def get_context_data(self, **kwargs):
@@ -183,14 +197,14 @@ class CreateComponent(BaseCreateView):
         kwargs['stage'] = self.stage
         return kwargs
 
-    def dispatch(self, request, *args, **kwargs):
-        if 'filemask' in request.POST:
-            self.stage = 'create'
-        elif 'discovery' in request.POST:
-            self.stage = 'discover'
-        else:
-            self.stage = 'init'
-        if self.request.user.is_superuser:
+    def fetch_params(self, request):
+        try:
+            self.selected_project = int(
+                request.POST.get('project', request.GET.get('project', ''))
+            )
+        except ValueError:
+            self.selected_project = ''
+        if request.user.is_superuser:
             self.projects = Project.objects.order()
         elif self.has_billing:
             from weblate.billing.models import Billing
@@ -199,5 +213,125 @@ class CreateComponent(BaseCreateView):
             ).order()
         else:
             self.projects = request.user.owned_projects
+        self.initial = {}
+        for field in self.basic_fields:
+            if field in request.GET:
+                self.initial[field] = request.GET[field]
+
+    def has_all_fields(self):
+        return (
+            self.stage == 'init'
+            and all(field in self.request.GET for field in self.basic_fields)
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        if 'filemask' in request.POST:
+            self.stage = 'create'
+        elif 'discovery' in request.POST:
+            self.stage = 'discover'
+        else:
+            self.stage = 'init'
+
+        self.fetch_params(request)
+
+        # Proceed to post if all params are present
+        if self.has_all_fields():
+            return self.post(request, *args, **kwargs)
 
         return super(CreateComponent, self).dispatch(request, *args, **kwargs)
+
+
+class CreateComponentSelection(CreateComponent):
+    template_name = 'trans/component_create.html'
+
+    components = None
+    origin = None
+
+    @cached_property
+    def branch_data(self):
+        def branch_exists(repo, branch):
+            return Component.objects.filter(repo=repo, branch=branch).exists()
+
+        result = {}
+        for component in self.components:
+            repo = component.repo
+            branches = [
+                branch for branch in component.repository.list_remote_branches()
+                if branch != component.branch and not branch_exists(repo, branch)
+            ]
+            if branches:
+                result[component.pk] = branches
+        return result
+
+    def fetch_params(self, request):
+        super(CreateComponentSelection, self).fetch_params(request)
+        self.components = Component.objects.with_repo().filter(
+            project__in=self.projects
+        )
+        if self.selected_project:
+            self.components = self.components.filter(project__pk=self.selected_project)
+        self.origin = request.POST.get('origin')
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(CreateComponentSelection, self).get_context_data(**kwargs)
+        kwargs['components'] = self.components
+        kwargs['selected_project'] = self.selected_project
+        if self.origin == 'branch':
+            kwargs['branch_form'] = kwargs['form']
+            kwargs['existing_form'] = self.get_form(ComponentSelectForm, empty=True)
+        else:
+            kwargs['existing_form'] = kwargs['form']
+            kwargs['branch_form'] = self.get_form(ComponentBranchForm, empty=True)
+        kwargs['branch_data'] = json.dumps(self.branch_data)
+        kwargs['full_form'] = self.get_form(ComponentInitCreateForm, empty=True)
+        return kwargs
+
+    def get_form(self, form_class=None, empty=False):
+        form = super(CreateComponentSelection, self).get_form(form_class, empty=empty)
+        if isinstance(form, ComponentBranchForm):
+            form.fields['component'].queryset = Component.objects.filter(
+                pk__in=self.branch_data.keys()
+            )
+            form.branch_data = self.branch_data
+            form.auto_id = "id_branch_%s"
+        elif isinstance(form, ComponentSelectForm):
+            form.fields['component'].queryset = self.components
+            form.auto_id = "id_existing_%s"
+        return form
+
+    def get_form_class(self):
+        if self.origin == 'branch':
+            return ComponentBranchForm
+        return ComponentSelectForm
+
+    def redirect_create(self, **kwargs):
+        return redirect(
+            '{}?{}'.format(reverse('create-component-vcs'), urlencode(kwargs))
+        )
+
+    def form_valid(self, form):
+        component = form.cleaned_data['component']
+        if self.origin == 'existing':
+            return self.redirect_create(
+                repo=component.get_repo_link_url(),
+                project=component.project.pk,
+                name=form.cleaned_data['name'],
+                slug=form.cleaned_data['slug'],
+                vcs=component.vcs,
+            )
+        if self.origin == 'branch':
+            form.instance.save()
+            return redirect(reverse(
+                'component_progress',
+                kwargs=form.instance.get_reverse_url_kwargs()
+            ))
+
+        return redirect('create-component')
+
+    def post(self, request, *args, **kwargs):
+        if self.origin == 'vcs':
+            kwargs = {}
+            if self.selected_project:
+                kwargs['project'] = self.selected_project
+            return self.redirect_create(**kwargs)
+        return super(CreateComponentSelection, self).post(request, *args, **kwargs)

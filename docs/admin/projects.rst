@@ -65,6 +65,9 @@ Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
 translation parameters.
 
+Once you have existing translation components, you can also easily add new ones
+for additional files or branches using same repository.
+
 First you need to fill in name and repository location:
 
 .. image:: /images/user-add-component-init.png

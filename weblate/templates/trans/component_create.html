@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'create-component' %}">{% trans "Create component" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if not projects and not form.fields.component.queryset and not branch_form.fields.component.queryset %}
+
+{% trans "You do not have permission to create components in any projects." as msg %}
+{% show_message "warning" msg %}
+
+{% if has_billing %}
+{% include "billing-failure.html" %}
+{% endif %}
+
+{% endif %}
+
+<div class="row">
+
+{% if projects %}
+<form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="project" value="{{ selected_project }}" />
+<div class="col-sm-3">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "From version control" %}</div>
+<div class="panel-body create-panel-body">
+<p>{% trans "Create new translation component from remote version control system repository." %}</p>
+{{ full_form | crispy }}
+</div>
+<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs"></div>
+</div>
+</div>
+</form>
+{% endif %}
+
+{% if form.fields.component.queryset %}
+<form method="post">
+{% csrf_token %}
+<input type="hidden" name="origin" value="existing" />
+<input type="hidden" name="project" value="{{ selected_project }}" />
+<div class="col-sm-3">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "From existing component" %}</div>
+<div class="panel-body create-panel-body">
+<p>{% trans "Create new translation component from repository already cloned in Weblate." %}</p>
+{{ existing_form | crispy }}
+</div>
+<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-existing"></div>
+</div>
+</div>
+</form>
+{% endif %}
+
+{% if branch_form.fields.component.queryset %}
+<form method="post" class="branch-loader" data-branches="{{ branch_data }}">
+{% csrf_token %}
+<input type="hidden" name="origin" value="branch" />
+<input type="hidden" name="project" value="{{ selected_project }}" />
+<div class="col-sm-3">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Additional branch" %}</div>
+<div class="panel-body create-panel-body">
+<p>{% trans "Create new translation component for additional branch of existing translation component." %}</p>
+{{ branch_form | crispy }}
+<p class="help-block">{% trans "The new component will be created for selected branch with exactly same configuration as existing one." %}</p>
+</div>
+<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-branch"></div>
+</div>
+</div>
+</form>
+{% endif %}
+
+</div>
+
+{% endblock %}

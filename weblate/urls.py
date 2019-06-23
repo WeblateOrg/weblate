@@ -359,8 +359,13 @@ real_patterns = [
     ),
     url(
         r'^create/component/$',
-        weblate.trans.views.create.CreateComponent.as_view(),
+        weblate.trans.views.create.CreateComponentSelection.as_view(),
         name='create-component',
+    ),
+    url(
+        r'^create/component/vcs/$',
+        weblate.trans.views.create.CreateComponent.as_view(),
+        name='create-component-vcs',
     ),
     url(
         r'^contributor-agreement/' + COMPONENT + '$',

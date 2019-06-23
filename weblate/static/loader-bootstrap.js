@@ -1467,6 +1467,18 @@ $(function () {
         $(this).parent().find('input').attr('disabled', '1');
     });
 
+    /* Branch loading */
+    $('.branch-loader select[name=component]').change(function () {
+        var $this = $(this);
+        var $form = $this.parents('form');
+        var branches = $form.data('branches');
+        var $select = $form.find('select[name=branch]');
+        $select.empty();
+        $.each(branches[$this.val()], function(key, value) {
+            $select.append($("<option></option>").attr("value", value).text(value));
+        });
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "

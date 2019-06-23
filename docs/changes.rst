@@ -6,6 +6,8 @@ weblate 3.8
 
 Not yet released.
 
+* Added support for simplified creating of similar components.
+
 weblate 3.7.1
 -------------
 

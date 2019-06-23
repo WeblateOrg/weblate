@@ -92,7 +92,7 @@ class CreateTest(ViewTestCase):
         self.client_create_project(True, name='p2', slug='p2')
 
     def assert_create_component(self, result):
-        response = self.client.get(reverse('create-component'))
+        response = self.client.get(reverse('create-component-vcs'))
         match = 'not have permission to create component'
         if result:
             self.assertNotContains(response, match)
@@ -113,7 +113,7 @@ class CreateTest(ViewTestCase):
             'language_regex': '^[^.]+$',
         }
         params.update(kwargs)
-        response = self.client.post(reverse('create-component'), params)
+        response = self.client.post(reverse('create-component-vcs'), params)
         if result:
             self.assertEqual(response.status_code, 302)
         else:
@@ -171,12 +171,72 @@ class CreateTest(ViewTestCase):
             'vcs': 'git',
             'repo': self.component.repo,
         }
-        response = self.client.post(reverse('create-component'), params)
+        response = self.client.post(reverse('create-component-vcs'), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, 'po/*.po')
 
         # Display form
         params['discovery'] = '4'
-        response = self.client.post(reverse('create-component'), params)
+        response = self.client.post(reverse('create-component-vcs'), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, 'po/*.po')
+
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
+    def test_create_component_existing(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse('create-component'),
+            {
+                "origin": "existing",
+                'name': 'Create Component',
+                'slug': 'create-component',
+                "component": self.component.pk,
+            },
+            follow=True
+        )
+        self.assertContains(response, self.component.get_repo_link_url())
+
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
+    def test_create_component_branch_fail(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse('create-component'),
+            {
+                "origin": "branch",
+                'name': 'Create Component',
+                'slug': 'create-component',
+                "component": self.component.pk,
+                "branch": "translations",
+            },
+            follow=True
+        )
+        self.assertContains(response, "The filemask did not match any files")
+
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
+    def test_create_component_branch(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        component = self.create_android(
+            project=self.project, name='Android', slug='android'
+        )
+
+        response = self.client.post(
+            reverse('create-component'),
+            {
+                "origin": "branch",
+                'name': 'Create Component',
+                'slug': 'create-component',
+                "component": component.pk,
+                "branch": "translations",
+            },
+            follow=True
+        )
+        self.assertContains(response, "Download statistics")
