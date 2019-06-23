@@ -99,7 +99,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: bem
     ('bem', _('Bemba'), 2, 'n != 1'),
     # Translators: Language name, ISO code: ber
-    ('ber', _('Berber languages'), 2, 'n != 1'),
+    ('ber', _('Berber'), 2, 'n != 1'),
     # Translators: Language name, ISO code: bez
     ('bez', _('Bena'), 2, 'n != 1'),
     # Translators: Language name, ISO code: bg
@@ -455,7 +455,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: nah
     ('nah', _('Nahuatl'), 2, 'n != 1'),
     # Translators: Language name, ISO code: nan
-    ('nan', _('Min Nan Chinese'), 2, 'n != 1'),
+    ('nan', _('Chinese (Min Nan)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: nap
     ('nap', _('Neapolitan'), 2, 'n != 1'),
     # Translators: Language name, ISO code: naq
@@ -595,7 +595,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: so
     ('so', _('Somali'), 2, 'n != 1'),
     # Translators: Language name, ISO code: son
-    ('son', _('Songhai languages'), 1, '0'),
+    ('son', _('Songhai'), 1, '0'),
     # Translators: Language name, ISO code: sq
     ('sq', _('Albanian'), 2, 'n != 1'),
     # Translators: Language name, ISO code: sr
