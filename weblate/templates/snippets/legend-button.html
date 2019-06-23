@@ -1,0 +1,31 @@
+{% load translations %}
+{% load i18n %}
+
+<div class="btn-group {{ group_css }}">
+  <button type="button" class="btn {{ button_css }} columns-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Legend" %}">
+    <i class="fa fa-info-circle"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right legend" role="menu">
+    <li>
+{% with approved=100 %}
+{% include "progress.html" %} {% trans "Approved" %}
+{% endwith %}
+    </li>
+    <li>
+{% with good=100 %}
+{% include "progress.html" %} {% trans "Good" %}
+{% endwith %}
+    </li>
+    <li>
+{% with checks=100 %}
+{% include "progress.html" %} {% trans "Failing checks" %}
+{% endwith %}
+    </li>
+    <li>
+{% with fuzzy=100 %}
+{% include "progress.html" %} {% trans "Needs editing" %}
+{% endwith %}
+    </li>
+  </ul>
+</div>
+

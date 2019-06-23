@@ -22,7 +22,12 @@
 <th class="col-suggestions">{% trans "Suggestions" %}</th>
 <th class="col-comments">{% trans "Comments" %}</th>
 <th class="sort-skip actions">
-<div class="dropdown">
+
+<div class="btn-group">
+
+{% include "snippets/legend-button.html" with button_css="btn-link" %}
+
+<div class="btn-group">
   <button type="button" class="btn btn-link columns-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
     <i class="fa fa-columns"></i>
   </button>
@@ -41,6 +46,8 @@
     <li><a><label><input type="checkbox" id="toggle-comments" checked="true"> {% trans "Comments" %} </label></a></li>
   </ul>
 </div>
+</div>
+
 </th>
 </tr>
 <tbody>

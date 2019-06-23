@@ -46,9 +46,12 @@ h1 {
     writing-mode: tb;
 }
 .columns-dropdown {
-    padding: 0;
+    padding: 0 10px 0 0;
     border: 0;
     line-height: 1;
+}
+.columns-dropdown:last-child {
+    padding-right: 0;
 }
 footer ul {
     padding:0;
@@ -70,14 +73,18 @@ footer li{
 footer a {
     color:#333;
 }
+ul.legend {
+    width: 20em;
+}
+ul.legend li {
+    font-weight: normal;
+    padding: 2px;
+    color: black;
+}
 .legend .progress {
     width: 20px;
     display: inline-block;
-    vertical-align: bottom;
-}
-.legend-item {
-    display: inline-block;
-    margin: 0 .5em;
+    vertical-align: middle;
 }
 .tooltip-inner {
     max-width: 450px !important;

@@ -55,7 +55,6 @@
     {% if usersubscriptions %}
         {% include "snippets/list-objects.html" with objects=usersubscriptions name_template="snippets/list-component-name-language.html" label=_("Component") hide_completed=user.profile.hide_completed %}
 
-        <p>{% include "legend.html" %}</p>
         {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
     {% else %}
         {% include "list-projects.html" with projects=watched_projects %}
@@ -72,7 +71,6 @@
 <div {% active_tab "your-languages" %}>
 {% if userlanguages %}
 {% include "snippets/list-objects.html" with objects=userlanguages name_template="snippets/list-component-name-language.html" label=_("Component") %}
-<p>{% include "legend.html" %}</p>
 {% include "paginator.html" with page_obj=userlanguages anchor='your-languages' %}
 {% else %}
 <p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
@@ -84,7 +82,6 @@
 {% if all_componentlists %}
 <div {% active_tab "componentlists" %}>
 {% include "snippets/list-objects.html" with objects=all_componentlists name_template="snippets/list-object-name.html" label=_("Component list") %}
-<p>{% include "legend.html" %}</p>
 </div>
 {% endif %}
 
@@ -92,7 +89,6 @@
 <div {% active_tab "suggestions" %}>
 {% if suggestions %}
 {% include "snippets/list-objects.html" with objects=suggestions name_template="snippets/list-component-name-language.html" label=_("Component") %}
-<p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
 {% endif %}
@@ -107,7 +103,6 @@
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
     {% include "snippets/list-objects.html" with objects=componentlist.translations name_template="snippets/list-component-name-language.html" label=_("Component") %}
-    <p>{% include "legend.html" %}</p>
     <p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}
 

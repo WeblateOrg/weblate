@@ -120,7 +120,11 @@
 <div class="tab-pane active" id="overview">
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Translation status" %}</h4></div>
+  <div class="panel-heading">
+  <h4 class="panel-title">
+{% include "snippets/legend-button.html" with button_css="btn-primary" group_css="pull-right flip" %}
+  {% trans "Translation status" %}
+  </h4></div>
 
 {% if object.is_template %}
   <div class="panel-body">
@@ -146,10 +150,6 @@
 </tr>
 </table>
 
-  <div class="panel-body">
-{% include "legend.html" %}
-
-</div>
 </div>
 
 <div class="panel panel-primary">
@@ -170,7 +170,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
 {% include "snippets/list-objects.html" with objects=other_translations name_template="snippets/list-only-component-name.html" label=_("Component") %}
-    <div class="panel-body">{% include "legend.html" %}</div>
 </div>
 {% endif %}
 
