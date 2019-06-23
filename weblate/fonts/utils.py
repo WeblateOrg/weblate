@@ -109,7 +109,6 @@ def get_font_weight(weight):
 def render_size(font, weight, size, spacing, text, width=1000, lines=1):
     """Check whether rendered text fits"""
     configure_fontconfig()
-    raise Exception('b')
 
     # Setup Pango/Cairo
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width * 2, lines * size * 4)
