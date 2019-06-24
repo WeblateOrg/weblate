@@ -694,6 +694,10 @@ Example:
 
    ./manage.py move_language cze cs
 
+After moving the content, you should review if there is nothing left (this is
+subject to race conditions when somebody updates the repository meanwhile) and
+remove the `(generated)` language.
+
 optimize_memory
 ---------------
 
