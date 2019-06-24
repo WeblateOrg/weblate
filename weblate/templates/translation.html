@@ -119,19 +119,16 @@
 <div class="tab-content">
 <div class="tab-pane active" id="overview">
 
-<div class="panel panel-primary">
+<div class="panel {% if object.is_template %}panel-warning{% else %}panel-primary{% endif %}">
   <div class="panel-heading">
   <h4 class="panel-title">
 {% include "snippets/legend-button.html" with button_css="btn-primary" group_css="pull-right flip" %}
+  {% if object.is_template %}
+  {% trans "Source strings" %}
+  {% else %}
   {% trans "Translation status" %}
+  {% endif %}
   </h4></div>
-
-{% if object.is_template %}
-  <div class="panel-body">
-{% trans "This translation is being used as source strings within this component." as msg %}
-{% show_message "warning" msg %}
-  </div>
-{% endif %}
 
 <table class="table">
 <tr>
@@ -149,6 +146,12 @@
 <td class="percent">{{ object.stats.translated_words_percent }}%</td>
 </tr>
 </table>
+
+{% if object.is_template %}
+  <div class="panel-footer">
+<p class="help-block">{% trans "This translation is being used as source strings within this component." %}</p>
+  </div>
+{% endif %}
 
 </div>
 
