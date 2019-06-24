@@ -247,6 +247,13 @@ Generic settings
 
     Configures the used time-zone.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_TIME_ZONE: Europe/Prague
+
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
     Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes
