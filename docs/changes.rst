@@ -10,6 +10,7 @@ Released on ? 2019.
 * Fixed some requirements contstraints.
 * Updated language database.
 * Localization updates.
+* Various user interface tweaks.
 
 weblate 3.7
 -----------
