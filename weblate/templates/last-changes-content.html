@@ -28,9 +28,7 @@
 {% else %}
 <td>{{ c.get_translation_display }}</td>
 {% endif %}
-<td></td>
-</tr>
-{% if c.can_revert %}
+<td>{% if c.can_revert %}
 <tr class="{{ rowcolors }}">
 {% if c.old %}
 <td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural diff=c.old %}</td>
@@ -44,24 +42,24 @@
 <a class="btn btn-xs btn-primary" href="{{ c.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
 {% endif %}
 {% endif %}
-</td>
-</tr>
 {% elif c.show_content %}
 <tr class="{{ rowcolors }}">
 <td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
-<td></td>
-</tr>
+<td>
 {% elif c.show_source %}
 <tr class="{{ rowcolors }}">
 <td colspan="5">{% format_translation c.target c.component.project.source_language diff=c.old %}</td>
-<td></td>
-</tr>
+<td>
 {% elif c.target %}
 <tr class="{{ rowcolors }}">
 <td colspan="5"><pre>{{ c.target }}</pre></td>
-<td></td>
-</tr>
+<td>
 {% endif %}
+{% if debug %}
+<a class="btn btn-xs btn-primary" href="{% url 'show_change' pk=c.pk %}">{% trans "View notification" %}</a>
+{% endif %}
+</td>
+</tr>
 {% empty %}
 <tr><td colspan="5" class="tablenotice">
 {% trans "No matching activity found." %}
