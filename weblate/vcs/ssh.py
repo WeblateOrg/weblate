@@ -30,6 +30,8 @@ from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
+from django.conf import settings
+
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.data import data_dir
@@ -43,10 +45,9 @@ RSA_KEY_PUB = 'id_rsa.pub'
 def ssh_file(filename):
     """Generate full path to SSH configuration file."""
     return os.path.join(
-        data_dir('ssh'),
+        settings.SSH_DIR,
         filename
     )
-
 
 def is_key_line(key):
     """Check whether this line looks like a valid known_hosts line."""

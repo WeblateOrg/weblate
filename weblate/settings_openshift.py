@@ -69,6 +69,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
 
+SSH_DIR = os.path.join(DATA_DIR, 'ssh')
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'wsgi', 'static')
 
 # Replace default keys with dynamic values if we are in OpenShift

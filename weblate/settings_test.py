@@ -57,6 +57,7 @@ ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, 'data-test')
+SSH_DIR = os.path.join(DATA_DIR, 'ssh')
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(

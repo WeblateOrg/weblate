@@ -68,6 +68,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Data directory
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
+# SSH keys directory
+SSH_DIR = os.path.join(DATA_DIR, 'ssh')
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
