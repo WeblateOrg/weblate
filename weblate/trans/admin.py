@@ -134,7 +134,9 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
         'name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format'
     ]
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['name', 'slug', 'repo', 'branch']
+    search_fields = [
+        'name', 'slug', 'repo', 'branch', 'project__name', 'project__slug'
+    ]
     list_filter = ['project', 'vcs', 'file_format']
     actions = ['update_from_git', 'update_checks', 'force_commit']
     ordering = ['project__name', 'name']
