@@ -49,6 +49,7 @@ def ssh_file(filename):
         filename
     )
 
+
 def is_key_line(key):
     """Check whether this line looks like a valid known_hosts line."""
     if not key:
