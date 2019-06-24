@@ -676,6 +676,24 @@ You can either define which project or component to update (eg.
 
    :djadmin:`unlock_translation`
 
+move_language
+-------------
+
+.. django-admin:: move_language source target
+
+.. versionadded:: 3.0
+
+Allows you to merge language content. This is useful when updating to new
+version which contains aliases for previously unknown languages which were
+created with the `(generated)` suffix. It moves all content from the `source`
+language to `target` one.
+
+Example:
+
+.. code-block:: sh
+
+   ./manage.py move_language cze cs
+
 optimize_memory
 ---------------
 
