@@ -164,8 +164,8 @@ files might be wrong.
 Database setup for Weblate
 --------------------------
 
-It is recommended to run Weblate with some database server. Using a SQLite backend
-is really only suitable for testing purposes.
+It is recommended to run Weblate with PostgreSQL database server. Using a
+SQLite backend is really only suitable for testing purposes.
 
 .. seealso::
 
@@ -227,6 +227,11 @@ MySQL or MariaDB
 
 MySQL or MariaDB are quite good choices for running Weblate. However when using MySQL
 you might hit some problems caused by it.
+
+.. warning::
+
+   It's likely that MySQL/MariaDB support will be dropped in future Weblate
+   releases, so it's not recommended for new installations.
 
 .. seealso::
 
@@ -651,8 +656,8 @@ You might want to set up HSTS as well, see
 Use a powerful database engine
 ++++++++++++++++++++++++++++++
 
-SQLite is usually not good enough for a production
-environment, see :ref:`database-setup` for more info.
+Please use PostgreSQL for a production environment, see :ref:`database-setup`
+for more info.
 
 .. seealso::
 
