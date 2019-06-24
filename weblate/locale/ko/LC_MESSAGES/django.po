@@ -5,13 +5,14 @@
 # Kyeong Su Shin <cdac1234@gmail.com>, 2018.
 # k ks <kmshts@naver.com>, 2019.
 # Jun Hyung Shin <shmishmi79@gmail.com>, 2019.
+# 아킨토스 <akintos47@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-23 09:00+0000\n"
-"PO-Revision-Date: 2019-06-07 11:31+0000\n"
-"Last-Translator: k ks <kmshts@naver.com>\n"
+"PO-Revision-Date: 2019-06-25 08:00+0000\n"
+"Last-Translator: 아킨토스 <akintos47@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.7-dev\n"
+"X-Generator: Weblate 3.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -275,11 +276,11 @@ msgstr "새 장치에서 {method} ({name}) 을(를) 사용하여 로그인했습
 
 #: weblate/accounts/models.py:117
 msgid "Somebody has attempted to register with your email."
-msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하려 했습니다."
+msgstr "누군가 당신의 이메일을 이용하여 가입을 시도했습니다."
 
 #: weblate/accounts/models.py:120
 msgid "Somebody has attempted to register using your email address."
-msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하려 했습니다."
+msgstr "누군가 당신의 이메일을 이용하여 가입을 시도했습니다."
 
 #: weblate/accounts/models.py:123
 #, python-brace-format
@@ -357,7 +358,7 @@ msgstr "완료된 번역문을 참여 프로젝트에서 숨기기"
 
 #: weblate/accounts/models.py:365
 msgid "Show secondary translations in zen mode"
-msgstr "2차 번역을 선 모드에서 보기"
+msgstr "젠 모드에서 제2언어 번역 표시"
 
 #: weblate/accounts/models.py:369
 msgid "Hide source if there is secondary language"
@@ -389,11 +390,11 @@ msgstr "전체 편집기"
 
 #: weblate/accounts/models.py:391
 msgid "Zen mode"
-msgstr "선 모드"
+msgstr "젠 모드"
 
 #: weblate/accounts/models.py:398
 msgid "Zen editor mode"
-msgstr "선 편집 모드"
+msgstr "젠 편집기 모드"
 
 #: weblate/accounts/models.py:400
 msgid "Top to bottom"
@@ -697,10 +698,8 @@ msgid "Got no e-mail address from third party authentication service!"
 msgstr "타사 인증 서비스에서 이메일 주소를 받지 못했습니다!"
 
 #: weblate/accounts/views.py:1012
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "이메일을 사용하여 등록"
+msgstr "이메일을 사용하여 가입해 주십시오."
 
 #: weblate/accounts/views.py:1021
 msgid "Can not change authentication for demo!"
@@ -778,7 +777,7 @@ msgstr "이 부가기능은 그냥 예시일 뿐 아무런 의미가 없습니�
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr "확정하기 전에 스크립트 실행"
+msgstr "커밋하기 전에 스크립트 실행"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
@@ -1264,11 +1263,11 @@ msgstr "내부 저장소에 접근하기"
 
 #: weblate/auth/data.py:88
 msgid "Commit changes to the internal repository"
-msgstr "내부 저장소에 변경 사항 회부하기"
+msgstr "내부 저장소에 변경 사항 커밋하기"
 
 #: weblate/auth/data.py:89
 msgid "Push change from the internal repository"
-msgstr "내부 저장소에서 변경 사항 밀어 넣기"
+msgstr "내부 저장소의 변경사항 푸시하기"
 
 #: weblate/auth/data.py:90
 msgid "Reset changes in the internal repository"
@@ -2133,9 +2132,6 @@ msgstr "폰트"
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:1201 weblate/trans/models/whiteboard.py:102
-#, fuzzy
-#| msgid "Language"
-#| msgid_plural "Languages"
 msgid "Language"
 msgstr "언어"
 
@@ -3001,7 +2997,7 @@ msgstr "SSH 키를 사용할 수 없습니다."
 
 #: weblate/templates/about/keys.html:40
 msgid "Commit signing"
-msgstr "서명하기"
+msgstr "커밋 서명"
 
 #: weblate/templates/about/keys.html:46
 #, python-format
@@ -3014,7 +3010,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:51
 msgid "Commit signing is not configured."
-msgstr "커밋 서명이 구성되지 않았습니다."
+msgstr "커밋 서명이 설정되지 않았습니다."
 
 #: weblate/templates/about/stats.html:6 weblate/templates/about/stats.html:82
 #: weblate/templates/dashboard/user.html:32 weblate/templates/data.html:51
@@ -3225,7 +3221,7 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
-msgstr "확인 연결이 만료되면 사용하기 전에 다시 등록하십시오."
+msgstr "가입 확인 링크가 사용하기 전에 만료되었다면, 다시 가입하십시오."
 
 #: weblate/templates/accounts/email-sent.html:35
 msgid ""
@@ -3258,7 +3254,7 @@ msgstr ""
 #: weblate/templates/accounts/register.html:47 weblate/templates/base.html:130
 #: weblate/templates/engage.html:57
 msgid "Register"
-msgstr "등록"
+msgstr "가입"
 
 #: weblate/templates/accounts/hosting.html:12
 msgid ""
@@ -3332,7 +3328,7 @@ msgstr "아직 계정이 없으십니까?"
 
 #: weblate/templates/accounts/login.html:72
 msgid "You can register."
-msgstr "등록할 수 있습니다."
+msgstr "가입할 수 있습니다."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3348,7 +3344,7 @@ msgstr "비밀번호는 계정의 중요한 변경 사항을 확인하는 데 �
 
 #: weblate/templates/accounts/password-warning.html:14
 msgid "Configure the password"
-msgstr "비밀번호 구성"
+msgstr "비밀번호 설정"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -3642,7 +3638,7 @@ msgstr ""
 
 #: weblate/templates/accounts/register.html:37
 msgid "Register using email"
-msgstr "이메일을 사용하여 등록"
+msgstr "이메일을 사용하여 회원가입"
 
 #: weblate/templates/accounts/register.html:59
 msgid "Third party registration"
@@ -3720,7 +3716,7 @@ msgstr "부가기능"
 
 #: weblate/templates/addons/addon_detail.html:26
 msgid "Configure addon"
-msgstr "부가기능 구성"
+msgstr "부가기능 설정"
 
 #: weblate/templates/addons/addon_head.html:5
 msgid ""
@@ -3753,7 +3749,7 @@ msgstr "설치되지 않음"
 #: weblate/templates/addons/addon_list.html:32
 #: weblate/templates/memory/index.html:36
 msgid "Configure"
-msgstr "구성"
+msgstr "설정"
 
 #: weblate/templates/addons/addon_list.html:41
 msgid "There are no addons currently installed."
@@ -3934,7 +3930,7 @@ msgstr "관리"
 #: weblate/templates/base.html:123
 #: weblate/wladmin/templates/admin/performance.html:22
 msgid "Configuration errors"
-msgstr "구성 오류"
+msgstr "설정 오류"
 
 #: weblate/templates/base.html:138 weblate/templates/component.html:233
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:41
@@ -4656,7 +4652,7 @@ msgstr "제안을 찾을 수 없습니다, 환경설정에서 원하는 설정�
 
 #: weblate/templates/dashboard/user.html:98
 msgid "Register to manage your languages"
-msgstr "언어 관리를 위한 등록"
+msgstr "내 언어를 관리하려면 먼저 회원가입을 하십시오"
 
 #: weblate/templates/dashboard/user.html:133
 msgid ""
@@ -4883,18 +4879,12 @@ msgstr ""
 "%(weblate_name_link)s를 이용하여 번역되고 있습니다."
 
 #: weblate/templates/engage.html:24 weblate/trans/widgets.py:227
-#, fuzzy
-#| msgid "String"
-#| msgid_plural "Strings"
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "문자열"
 
 #: weblate/templates/engage.html:28 weblate/trans/widgets.py:233
-#, fuzzy
-#| msgid "Language"
-#| msgid_plural "Languages"
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -4933,7 +4923,7 @@ msgstr[0] ""
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
-msgstr "%(project)s의 번역에 참가하시려면, 이 서버에 등록하셔야 합니다."
+msgstr "%(project)s의 번역에 참가하시려면, 먼저 이 서버에 회원가입을 해야 합니다."
 
 #: weblate/templates/engage.html:48
 msgid ""
@@ -5277,7 +5267,7 @@ msgstr "원격 저장소에서 변경사항을 가져오기"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Push"
-msgstr "밀어넣기"
+msgstr "푸시하기"
 
 #: weblate/templates/js/git-status.html:144
 msgid "Push changes to the remote repository"
@@ -6178,15 +6168,13 @@ msgstr "주석"
 
 #: weblate/templates/snippets/list-objects.html:31
 msgid "Configure columns"
-msgstr "열 구성"
+msgstr "열 설정"
 
 #: weblate/templates/snippets/list-objects.html:70
 msgid "You administrate this project."
 msgstr "당신이 이 프로젝트를 관리하고 있습니다."
 
 #: weblate/templates/snippets/list-objects.html:70
-#, fuzzy
-#| msgid "Admin"
 msgid "admin"
 msgstr "관리자"
 
@@ -6401,8 +6389,7 @@ msgstr "합치기 충돌을 수정하기 위한 일반적인 작업흐름:"
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Weblate에서 보류중인 모든 변경사항을 적용하고 번역 구성요소를 잠급니다."
+msgstr "Weblate에 보류중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
@@ -6484,7 +6471,7 @@ msgstr "젠"
 
 #: weblate/templates/translate.html:38 weblate/templates/zen.html:28
 msgid "Configure editor"
-msgstr "구성 편집기"
+msgstr "편집기 설정"
 
 #: weblate/templates/translate.html:47
 msgid "First"
@@ -7064,7 +7051,7 @@ msgstr "번역이 끝났습니다."
 
 #: weblate/templates/zen.html:17
 msgid "zen"
-msgstr "선"
+msgstr "젠"
 
 #: weblate/templates/zen.html:26
 msgid "Edit in single string mode"
@@ -7072,7 +7059,7 @@ msgstr "단일 문자열 모드에서 편집"
 
 #: weblate/templates/zen.html:26
 msgid "Exit Zen"
-msgstr "선 나가기"
+msgstr "젠 모드 나가기"
 
 #: weblate/templates/zen.html:36
 #, python-format
@@ -7357,7 +7344,7 @@ msgstr "대상 문자열"
 
 #: weblate/trans/forms.py:772
 msgid "Context strings"
-msgstr "문맥에 맞는 문자열"
+msgstr "문맥 문자열"
 
 #: weblate/trans/forms.py:777
 msgid "Location strings"
@@ -8250,15 +8237,15 @@ msgstr "참여자 이메일"
 
 #: weblate/trans/models/component.py:453
 msgid "Push on commit"
-msgstr "커밋 밀기"
+msgstr "커밋 푸시"
 
 #: weblate/trans/models/component.py:456
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "저장소는 모든 커밋 상류에 밀어질여야 할지 여부."
+msgstr "매 커밋마다 업스트림에 푸시될지를 선택합니다."
 
 #: weblate/trans/models/component.py:460
 msgid "Age of changes to commit"
-msgstr "커밋할 변경 기간"
+msgstr "변경사항을 커밋하기까지의 시간"
 
 #: weblate/trans/models/component.py:463
 msgid ""
@@ -8275,8 +8262,6 @@ msgid "Components with higher priority are offered first to translators."
 msgstr "우선순위가 높은 구성요소는 번역가가 먼저 볼 수 있게 제공됩니다."
 
 #: weblate/trans/models/component.py:600
-#, fuzzy
-#| msgid "Linked"
 msgid "linked"
 msgstr "연결됨"
 
@@ -8713,15 +8698,15 @@ msgstr "Weblate에 대한 자세한 정보"
 
 #: weblate/trans/templatetags/translations.py:86
 msgid "Good configuration"
-msgstr "적절한 구성"
+msgstr "적절한 설정"
 
 #: weblate/trans/templatetags/translations.py:87
 msgid "Bad configuration"
-msgstr "나쁜 구성"
+msgstr "나쁜 설정"
 
 #: weblate/trans/templatetags/translations.py:88
 msgid "Possible configuration"
-msgstr "가능한 구성"
+msgstr "가능한 설정"
 
 #: weblate/trans/templatetags/translations.py:123
 msgid "Tab character"
