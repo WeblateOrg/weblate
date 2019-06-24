@@ -70,7 +70,7 @@ from weblate.trans.feeds import (
     ProjectChangesFeed,
     TranslationChangesFeed,
 )
-from weblate.trans.views.changes import ChangesCSVView, ChangesView
+from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -808,6 +808,11 @@ real_patterns = [
         r'^changes/csv/$',
         ChangesCSVView.as_view(),
         name='changes-csv',
+    ),
+    url(
+        r'^changes/render/(?P<pk>[0-9]+)/$',
+        show_change,
+        name='show_change',
     ),
 
     # Notification hooks

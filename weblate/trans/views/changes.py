@@ -19,15 +19,18 @@
 #
 
 import six
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import activate, pgettext
 from django.utils.translation import ugettext as _
 from django.views.generic.list import ListView
 
+from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
@@ -248,3 +251,21 @@ class ChangesCSVView(ChangesView):
             ))
 
         return response
+
+
+@login_required
+def show_change(request, pk):
+    change = get_object_or_404(Change, pk=pk)
+    acl_obj = change.translation or change.component or change.project
+    if not request.user.has_perm('unit.edit', acl_obj):
+        raise PermissionDenied()
+    if change.action not in NOTIFICATIONS_ACTIONS:
+        content = ''
+    else:
+        notifications = NOTIFICATIONS_ACTIONS[change.action]
+        notification = notifications[0](None)
+        context = notification.get_context(change)
+        context['subject'] = notification.render_template('_subject.txt', context)
+        content = notification.render_template('.html', context)
+
+    return HttpResponse(content_type='text/html; charset=utf-8', content=content)
