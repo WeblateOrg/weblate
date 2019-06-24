@@ -45,13 +45,13 @@ Here is a list of flags currently accepted:
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
-``font-family``
+``font-family:NAME``
     Define font family for rendering checks, see :ref:`fonts`.
-``font-weight``
+``font-weight:WEIGHT``
     Define font weight for rendering checks, see :ref:`fonts`.
-``font-size``
+``font-size:SIZE``
     Define font size for rendering checks, see :ref:`fonts`.
-``font-spacing``
+``font-spacing:SPACING``
     Define font spacing for rendering checks, see :ref:`fonts`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``
     Treats all strings like format strings, affects :ref:`check-python-format`,
