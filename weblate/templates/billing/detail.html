@@ -4,7 +4,7 @@
 <div class="container-fluid">
 <div class="row">
 
-<div class="col-lg-6">
+<div class="col-lg-6" id="billing-{{ billing.pk }}">
 <div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-primary{% endif %}">
   <div class="panel-heading">
   {% if billing.payment.recurring %}

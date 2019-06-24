@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load permissions %}
 <tr>
 <th>{% trans "Project website" %}</th>
 <td colspan="2"><a href="{{ object.web }}">{{ object.web }}</a></td>
@@ -16,4 +17,21 @@
 <th>{% trans "Instructions for translators" %}</th>
 <td colspan="2"><a href="{{ object.instructions }}">{{ object.instructions }}</a></td>
 </tr>
+{% endif %}
+
+{% perm 'billing.view' object as user_can_view_billing %}
+
+{% if user_can_view_billing %}
+{% with object.billing_set.all as billings %}
+{% if billings %}
+<tr>
+<th>{% trans "Billing" %}</th>
+<td colspan="2">
+{% for billing in billings %}
+<a href="{% url 'billing' %}#billing-{{ billing.pk }}">{{ billing.plan }}{% if not billing.is_active %} ({% trans "Expired" %}){% endif %}</a>
+{% endfor %}
+</td>
+</tr>
+{% endif %}
+{% endwith %}
 {% endif %}
