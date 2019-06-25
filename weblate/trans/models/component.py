@@ -1498,7 +1498,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def clean_template(self):
         """Validate template value."""
         # Test for unexpected template usage
-        if self.template and self.file_format and self.file_format_cls.monolingual is False:
+        if (self.template
+                and self.file_format
+                and self.file_format_cls.monolingual is False):
             msg = _('You can not use a base file for bilingual translation.')
             raise ValidationError({'template': msg, 'file_format': msg})
 
