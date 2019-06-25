@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-23 09:00+0000\n"
-"PO-Revision-Date: 2019-06-20 07:19+0000\n"
-"Last-Translator: Toni Lähdekorpi <toni@lygon.net>\n"
+"PO-Revision-Date: 2019-06-26 15:03+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7\n"
+"X-Generator: Weblate 3.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -266,7 +266,7 @@ msgstr "Voit nyt kirjautua käyttäen {method} ({name})."
 #: weblate/accounts/models.py:108
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr "Et voi enään kirjautua käyttäen {method} ({name})."
+msgstr "Et voi enää kirjautua menetelmällä {method} ({name})."
 
 #: weblate/accounts/models.py:111
 #, python-brace-format
@@ -590,7 +590,7 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:294 weblate/accounts/pipeline.py:318
 msgid "The registration link has been invalidated."
-msgstr "Rekisteröintilinkki ei ole enään kelvollinen."
+msgstr "Rekisteröitymislinkki ei ole enää kelvollinen."
 
 #: weblate/accounts/pipeline.py:309
 msgid "You can not complete registration while logged in!"
@@ -817,7 +817,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:63
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Merkitse uudet käännöstekstit tarkistettavaksi"
+msgstr "Merkitse uudet käännöstekstit muokkaamista vaativiksi"
 
 #: weblate/addons/flags.py:65
 msgid ""
@@ -2704,10 +2704,6 @@ msgstr ""
 
 #. Translators: See https://bestpractices.coreinfrastructure.org/ for more information on this
 #: weblate/legal/templates/legal/security.html:29
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows The Linux Foundation Core Infrastructure "
-#| "Initiative Best Practices."
 msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
@@ -3221,7 +3217,7 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
-"Hyväksymisen jälkeen voit tunnistautua Weblateen käyttämällä "
+"Vahvistettuasi tämän voit tunnistautua Weblateen käyttämällä palvelua "
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
@@ -4241,7 +4237,7 @@ msgstr "Yhtään projektia ei ole juuri nyt osoitettu!"
 #: weblate/templates/billing/used.html:6
 #, python-format
 msgid "Used %(used)s"
-msgstr "Käytetty %(used)s"
+msgstr "%(used)s käytetty"
 
 #. Translators: Number of projects/repositories/strings used in billing from given limit
 #: weblate/templates/billing/used.html:9
@@ -5056,8 +5052,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "register on this server."
 msgstr ""
-"Jos haluat osallistua %(project)s käännösprojektiin, sinun pitää ensin "
-"rekisteröityä kääntäjäksi tähän käännöstyökaluun."
+"Jos haluat osallistua projektin %(project)s kääntämiseen, sinun pitää ensin "
+"rekisteröityä tälle palvelimelle."
 
 #: weblate/templates/engage.html:48
 msgid ""
@@ -5071,10 +5067,7 @@ msgstr ""
 #: weblate/templates/engage.html:51
 msgid ""
 "Once you have activated your account, proceed to the translation section."
-msgstr ""
-"Rekisteröitymisen jälkeen, heti kun olet aktivoinut käyttäjätilisi ja "
-"kirjautunut sisään, voit aloittaa käännöstekstien tutkimisen ja aloittaa "
-"uusien käännösten tekemisen tai parannella vanhoja käännöksiä."
+msgstr "Kun olet aktivoinut tilisi, siirry kääntämisosioon."
 
 #: weblate/templates/engage.html:59
 #: weblate/templates/snippets/list-objects.html:121
@@ -5188,7 +5181,7 @@ msgstr "Commit %(hash)s"
 #: weblate/templates/git-commit-info.html:6
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
-msgstr "Kirjoittanut %(author)s %(date)s"
+msgstr "Tehnyt %(author)s %(date)s"
 
 #: weblate/templates/glossary-embed.html:9
 msgid "Copy word into translation"
@@ -5196,11 +5189,11 @@ msgstr "Kopioi sana käännökseen"
 
 #: weblate/templates/glossary-embed.html:16
 msgid "No related strings found in the glossary."
-msgstr "Käännökseen liittyviä tekstejä ei löytynyt sanastosta."
+msgstr "Sanastosta ei löytynyt asiaan liittyviä tekstejä."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
-msgstr "Salasanasi on pitää olla vahvempi."
+msgstr "Salasanasi pitää olla vahvempi."
 
 #: weblate/templates/i18n.html:20
 msgid "Use a few words, avoid common phrases."
@@ -5212,7 +5205,7 @@ msgstr "Ei ole pakko käyttää symboleita, numeroita eikä isoja kirjaimia."
 
 #: weblate/templates/i18n.html:22
 msgid "Add another word or two. Uncommon words are better."
-msgstr "Lisää sana tai kaksi. Oudot sanat ovat parempia."
+msgstr "Lisää vielä sana tai kaksi. Epätavalliset sanat ovat parempia."
 
 #: weblate/templates/i18n.html:23
 msgid "Straight rows of keys are easy to guess."
@@ -5234,8 +5227,8 @@ msgstr "Toistuvat kirjaimet, kuten \"aaa\" on helppo arvata."
 msgid ""
 "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\"."
 msgstr ""
-"Peräkkäin toistuvat lyhyet kirjainsarjat (esim. \"abcabcabc\") ovat vai "
-"hieman vaikeammin arvattavissa kuin lyhyet kirjainsarjat (esim. \"abc\")."
+"Toistuvat sarjat, kuten \"abcabcabc\" ovat vain hieman vaikeammin "
+"arvattavissa kuin \"abc\"."
 
 #: weblate/templates/i18n.html:28
 msgid "Avoid repeated words and characters."
@@ -5243,8 +5236,7 @@ msgstr "Vältä toistuvia sanoja ja merkkejä."
 
 #: weblate/templates/i18n.html:29
 msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
-msgstr ""
-"Merkkijonosarjat, kuten \"abc\" tai \"6543\", ovat helposti arvattavissa."
+msgstr "Sarjat, kuten \"abc\" tai \"6543\", ovat helposti arvattavissa."
 
 #: weblate/templates/i18n.html:30
 msgid "Avoid sequences."
@@ -5264,7 +5256,7 @@ msgstr "Vältä sinuun liittyviä vuosilukuja."
 
 #: weblate/templates/i18n.html:34
 msgid "Dates are often easy to guess."
-msgstr "Päivämäärät ovat yleensä helposti arvattavissa."
+msgstr "Päivämäärät ovat usein helposti arvattavissa."
 
 #: weblate/templates/i18n.html:35
 msgid "Avoid dates and years that are associated with you."
@@ -5284,7 +5276,7 @@ msgstr "Tämä on hyvin yleinen salasana."
 
 #: weblate/templates/i18n.html:39
 msgid "This is similar to a commonly used password."
-msgstr "Tämä on samanlainen kuin yleisesti käytetty salasana."
+msgstr "Tämä on samantapainen kuin yleisesti käytetty salasana."
 
 #: weblate/templates/i18n.html:40
 msgid "A word by itself is easy to guess."
@@ -5321,7 +5313,7 @@ msgstr ""
 #: weblate/templates/js/detail.html:16 weblate/templates/js/translations.html:8
 #: weblate/wladmin/templates/admin/report.html:8
 msgid "Status"
-msgstr "Tilanne"
+msgstr "Tila"
 
 #: weblate/templates/js/detail.html:52 weblate/templates/list-checks.html:9
 #, python-format
@@ -5534,7 +5526,7 @@ msgstr "Hei,"
 #: weblate/templates/mail/account_activity.html:11
 #, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "%(site_title)s käyttäjätililläsi on uusia tapahtumia:"
+msgstr "Sivuston %(site_title)s käyttäjätililläsi on tapahtunut muutos:"
 
 #: weblate/templates/mail/account_activity.html:24
 msgid "IP address:"
@@ -5549,8 +5541,8 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
-"Jos et itse aiheuttanut tätä tapahtumaa, tee meille ilmoitus mahdollisimman "
-"pian alla olevasta linkistä löytyvällä lomakkeella:"
+"Jos et itse pyytänyt tätä muutosta, tee meille ilmoitus mahdollisimman pian "
+"seuraavalla lomakkeella:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5579,12 +5571,13 @@ msgstr ""
 #: weblate/templates/mail/activation.html:23
 #: weblate/templates/mail/remove.html:23 weblate/templates/mail/reset.html:23
 msgid "If there is a problem with your registration, please contact us:"
-msgstr "Mikäli rekisteröintisi kanssa on ongelma, ota yhteyttä meihin:"
+msgstr ""
+"Jos törmäät rekisteröitymiseen liittyvään ongelmaan, ota yhteyttä meihin:"
 
 #: weblate/templates/mail/activation_subject.txt:4
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
+msgstr "Rekisteröitymisesi sivustolla %(site_title)s"
 
 #: weblate/templates/mail/base.html:34
 msgid "Sent by Weblate translation system"
@@ -5604,11 +5597,11 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "This billing plan covers following projects:"
-msgstr "Tämä laskutussuunnitelma kattaa seuraavanlaiset projektit:"
+msgstr "Tämä laskutussuunnitelma kattaa seuraavat projektit:"
 
 #: weblate/templates/mail/billing_expired.html:25
 msgid "All projects covered by this billing plan have been removed."
-msgstr "Kaikki ne projektit jotka kuuluivat tähän sopimukseen on poistettu."
+msgstr "Kaikki projektit jotka kuuluivat tähän sopimukseen on poistettu."
 
 #: weblate/templates/mail/billing_expired.html:27
 #, python-format
@@ -5635,8 +5628,7 @@ msgstr "Laskutussuunnitelmasi on vanhentunut"
 #, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s."
-msgstr ""
-"%(site_title)s sivuston %(translation)s -käännökseen on tehty muutoksia."
+msgstr "%(site_title)s-sivuston %(translation)s-käännökseen on tehty muutos."
 
 #: weblate/templates/mail/changed_translation.html:18
 #: weblate/templates/mail/new_comment.html:17
@@ -6303,7 +6295,7 @@ msgstr ""
 
 #: weblate/templates/snippets/legend-button.html:5
 msgid "Legend"
-msgstr ""
+msgstr "Selite"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:36
@@ -7136,12 +7128,12 @@ msgstr "Rekisteröintipäivä"
 
 #: weblate/templates/watch-dropdown.html:6
 msgid "Watching"
-msgstr "Seuratut"
+msgstr "Seurataan"
 
 #: weblate/templates/watch-dropdown.html:10
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Älä seuraa enään projektia %(project)s"
+msgstr "Älä seuraa projektia %(project)s"
 
 #: weblate/templates/watch-dropdown.html:12
 #: weblate/templates/watch-dropdown.html:15
@@ -7757,7 +7749,7 @@ msgstr "Viime vuonna"
 
 #: weblate/trans/forms.py:1292
 msgid "As specified"
-msgstr "Kuten on määritelty"
+msgstr "Kuten määritetty"
 
 #: weblate/trans/forms.py:1302
 msgid "Ending date"
@@ -8776,11 +8768,8 @@ msgid "source"
 msgstr "lähde"
 
 #: weblate/trans/models/translation.py:125
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "This translation is used for source strings."
-msgstr "Tätä käännöstä käytetään lähdetekstinä tässä komponentissa."
+msgstr "Tätä käännöstä käytetään lähdeteksteille."
 
 #: weblate/trans/models/translation.py:154
 #, python-format
@@ -9597,7 +9586,7 @@ msgstr "Mallin tekeminen epäonnistui: {}"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Muotoilumerkkijonoja ei enään tueta, ole hyvä ja käytä mallikieltä."
+msgstr "Muotoilumerkkijonoja ei enää tueta, ole hyvä ja käytä mallinekieltä."
 
 #: weblate/utils/render.py:172
 msgid "The editor link lacks URL scheme!"
