@@ -460,6 +460,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             repo='https://github.com/WeblateOrg/demo.git',
             filemask='weblate/langdata/locale/*/LC_MESSAGES/django.po',
             new_base='weblate/langdata/locale/django.pot',
+            file_format='po',
         )
         Component.objects.create(
             name='Django',
@@ -468,6 +469,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             repo='weblate://weblateorg/language-names',
             filemask='weblate/locale/*/LC_MESSAGES/django.po',
             new_base='weblate/locale/django.pot',
+            file_format='po',
         )
 
     def view_site(self):
