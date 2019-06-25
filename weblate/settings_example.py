@@ -619,7 +619,7 @@ SESSION_COOKIE_SECURE = ENABLE_HTTPS
 SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # SSL redirect URL exemption list
 SECURE_REDIRECT_EXEMPT = (
-    r'/healthz/$',  # Allowing HTTP access to health check
+    r'healthz/$',           # Allowing HTTP access to health check
 )
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1209600
