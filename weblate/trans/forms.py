@@ -1601,7 +1601,7 @@ class ComponentInitCreateForm(CleanRepoMixin, forms.Form):
             params.pop('discovery')
 
         instance = Component(**params)
-        instance.clean_fields(exclude=('filemask',))
+        instance.clean_fields(exclude=('filemask', 'file_format'))
         instance.validate_unique()
         instance.clean_repo()
         self.instance = instance

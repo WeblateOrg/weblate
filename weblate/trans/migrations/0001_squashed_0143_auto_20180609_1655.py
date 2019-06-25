@@ -526,9 +526,8 @@ class Migration(migrations.Migration):
                 (
                     "file_format",
                     models.CharField(
-                        choices=FILE_FORMATS.get_choices(),
-                        default="po",
-                        help_text="Automatic detection might fail for some formats and is slightly slower.",
+                        choices=FILE_FORMATS.get_choices(empty=True),
+                        default="",
                         max_length=50,
                         verbose_name="File format",
                     ),

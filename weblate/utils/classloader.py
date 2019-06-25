@@ -104,5 +104,8 @@ class ClassLoader(object):
     def exists(self):
         return bool(self.data)
 
-    def get_choices(self):
-        return [(x, self[x].name) for x in sorted(self)]
+    def get_choices(self, empty=False):
+        result = [(x, self[x].name) for x in sorted(self)]
+        if empty:
+            result = [('', '')] + result
+        return result

@@ -273,12 +273,8 @@ class Component(models.Model, URLMixin, PathMixin):
     file_format = models.CharField(
         verbose_name=ugettext_lazy('File format'),
         max_length=50,
-        default='po',
-        choices=FILE_FORMATS.get_choices(),
-        help_text=ugettext_lazy(
-            'Automatic detection might fail for some formats '
-            'and is slightly slower.'
-        ),
+        default='',
+        choices=FILE_FORMATS.get_choices(empty=True),
     )
 
     locked = models.BooleanField(
@@ -1484,7 +1480,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def clean_new_lang(self):
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
-        if not self.new_base and self.new_lang != 'add':
+        if (not self.new_base and self.new_lang != 'add') or not self.file_format:
             return
         if not self.is_valid_base_for_new():
             filename = self.get_new_base_filename()
@@ -1502,7 +1498,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def clean_template(self):
         """Validate template value."""
         # Test for unexpected template usage
-        if self.template != '' and self.file_format_cls.monolingual is False:
+        if self.template and self.file_format and self.file_format_cls.monolingual is False:
             msg = _('You can not use a base file for bilingual translation.')
             raise ValidationError({'template': msg, 'file_format': msg})
 
@@ -1510,6 +1506,9 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.template.endswith('.pot') and self.filemask.endswith('.po'):
             msg = _('Using a .pot file as base file is unsupported.')
             raise ValidationError({'template': msg})
+
+        if not self.file_format:
+            return
 
         # Validate template loading
         if self.has_template():
@@ -1575,7 +1574,7 @@ class Component(models.Model, URLMixin, PathMixin):
             raise ValidationError({'license_url': msg, 'license': msg})
 
         # Skip validation if we don't have valid project
-        if self.project_id is None:
+        if self.project_id is None or not self.file_format:
             return
 
         # Check if we should rename

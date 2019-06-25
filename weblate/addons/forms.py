@@ -208,8 +208,8 @@ class DiscoveryForm(BaseAddonForm):
     )
     file_format = forms.ChoiceField(
         label=_('File format'),
-        choices=FILE_FORMATS.get_choices(),
-        initial='po',
+        choices=FILE_FORMATS.get_choices(empty=True),
+        initial='',
         required=True,
     )
     name_template = forms.CharField(
