@@ -21,9 +21,30 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
+from django.core.checks import Warning, register
+
+from weblate.utils.docs import get_doc_url
+
+
+def check_formats(app_configs, **kwargs):
+    from weblate.formats.models import FILE_FORMATS
+
+    message = "Failure in loading handler for {} file format: {}"
+    return [
+        Warning(
+            message.format(key, value.strip()),
+            hint=get_doc_url("admin/install", "optional-deps"),
+            id="weblate.W025.{}".format(key),
+        )
+        for key, value in FILE_FORMATS.errors.items()
+    ]
 
 
 class FormatsConfig(AppConfig):
-    name = 'weblate.formats'
-    label = 'formats'
-    verbose_name = 'Formats'
+    name = "weblate.formats"
+    label = "formats"
+    verbose_name = "Formats"
+
+    def ready(self):
+        super(FormatsConfig, self).ready()
+        register(check_formats)

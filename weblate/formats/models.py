@@ -24,13 +24,14 @@ import six
 from appconf import AppConf
 from django.utils.functional import cached_property
 
-from weblate.trans.util import add_configuration_error, delete_configuration_error
+from weblate.trans.util import delete_configuration_error
 from weblate.utils.classloader import ClassLoader
 
 
 class FileFormatLoader(ClassLoader):
     def __init__(self):
         super(FileFormatLoader, self).__init__('WEBLATE_FORMATS', False)
+        self.errors = {}
 
     @cached_property
     def autoload(self):
@@ -45,15 +46,13 @@ class FileFormatLoader(ClassLoader):
 
         for fileformat in list(result.values()):
             error_name = 'File format: {0}'.format(fileformat.format_id)
+            delete_configuration_error(error_name)
             try:
                 fileformat.get_class()
-                delete_configuration_error(error_name)
             except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
-                if fileformat.format_id == 'rc' and six.PY3:
-                    delete_configuration_error(error_name)
-                    continue
-                add_configuration_error(error_name, str(error))
+                if fileformat.format_id != 'rc' or not six.PY3:
+                    self.errors[fileformat.format_id] = str(error)
 
         return result
 
