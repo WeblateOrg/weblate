@@ -7,13 +7,14 @@
 # WWWesten <wwwesten@gmail.com>, 2019.
 # Kata <nagykatt@gmail.com>, 2019.
 # Balázs Úr <balazs@urbalazs.hu>, 2019.
+# Balázs Meskó <meskobalazs@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-26 15:05+0000\n"
-"PO-Revision-Date: 2019-06-17 07:07+0000\n"
-"Last-Translator: farkasg.zoltan <farkasg.zoltan@gmail.com>\n"
+"PO-Revision-Date: 2019-06-26 19:36+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
 "Language: hu\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7-dev\n"
+"X-Generator: Weblate 3.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -356,7 +357,7 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Adja meg az ön által megértett nyelveket, az ilyen nyelvű szövegek is meg "
+"Adja meg az Ön által megértett nyelveket, az ilyen nyelvű szövegek is meg "
 "fognak jelenni a forrásszöveg mellett."
 
 #: weblate/accounts/models.py:361
@@ -382,6 +383,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is good option."
 msgstr ""
+"Adjon meg egy egyéni URL-t , melyet a forráskód megnyitási hivatkozásaként "
+"fog használni. Használhatja a következő helykitöltőket: {{branch}} az ághoz, "
+"{{filename}} a fájlnévhez és {{line}} a sorhoz. Általában valami hasonló "
+"megfelelő: editor://open/?file={{filename}}&line={{line}}."
 
 #: weblate/accounts/models.py:388
 msgid "Translation editor mode"
@@ -475,6 +480,8 @@ msgstr "Az összetevőlistát nem kell kiválasztani, ha nem használják."
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr ""
+"Az összetevőlista kiválasztásának nincs hatása, ha nem jelenik meg az "
+"irányítópulton."
 
 #: weblate/accounts/models.py:599
 msgid ""
@@ -592,13 +599,15 @@ msgstr "Nem lehet befejezni a regisztrációját, ameddig be van jelentkezve!"
 
 #: weblate/accounts/pipeline.py:314
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Csak akkor erősítheti meg a regisztrációját, ha be van jelentkezve!"
 
 #: weblate/accounts/pipeline.py:450
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Az e-mail címe már nem tartozik megerősített fiókhoz, erre lett változtatva: "
+"{0}."
 
 #: weblate/accounts/views.py:146 weblate/accounts/views.py:802
 #: weblate/accounts/views.py:851 weblate/templates/accounts/reset.html:7
@@ -705,10 +714,8 @@ msgid "Got no e-mail address from third party authentication service!"
 msgstr "Nem kapott e-mail címet harmadik fél hitelesítési szolgáltatásából!"
 
 #: weblate/accounts/views.py:1012
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Regisztráció e-mail használatával"
+msgstr "Helyette regisztráljon e-mail cím használatával."
 
 #: weblate/accounts/views.py:1021
 msgid "Can not change authentication for demo!"
@@ -754,7 +761,7 @@ msgstr ""
 
 #: weblate/addons/consistency.py:33
 msgid "Language consistency"
-msgstr "Nyelv kompatibilitás"
+msgstr "Nyelvkonzisztencia"
 
 #: weblate/addons/consistency.py:35
 msgid ""
@@ -784,7 +791,7 @@ msgstr "Ez a bővítmény nem csinál semmit, ez csak egy példa."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr ""
+msgstr "Parancsfájl végrehajtása véglegesítés előtt"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
@@ -826,19 +833,19 @@ msgstr ""
 
 #: weblate/addons/forms.py:50
 msgid "Path of generated MO file"
-msgstr "Generált MO fájl elérési útja"
+msgstr "Előállított MO fájl elérési útja"
 
 #: weblate/addons/forms.py:53
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Ha nincs megadva, akkor a PO fájl helye lesz használva."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
-msgstr "A létrehozott fájl neve"
+msgstr "Az előállított fájl neve"
 
 #: weblate/addons/forms.py:80
 msgid "Content of generated file"
-msgstr "Generált fájl tartalma"
+msgstr "Az előállított fájl tartalma"
 
 #: weblate/addons/forms.py:108
 msgid "Long lines wrapping"
@@ -846,11 +853,11 @@ msgstr "Hosszú sorok tördelése"
 
 #: weblate/addons/forms.py:110
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr ""
+msgstr "Sorok tördelése 77 karakternél és az újsoroknál"
 
 #: weblate/addons/forms.py:111
 msgid "Only wrap lines at newlines"
-msgstr "Lezáró soremelés"
+msgstr "Sortörés csak újsoroknál"
 
 #: weblate/addons/forms.py:112
 msgid "No line wrapping"
@@ -872,11 +879,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
-msgstr ""
+msgstr "Véglegesítések összevonása"
 
 #: weblate/addons/forms.py:141
 msgid "All commits into one"
-msgstr ""
+msgstr "Minden véglegesítés egybe"
 
 #: weblate/addons/forms.py:142
 msgid "Per language"
@@ -896,7 +903,7 @@ msgstr "JSON kulcsok rendezése"
 
 #: weblate/addons/forms.py:165
 msgid "JSON indentation"
-msgstr ""
+msgstr "JSON behúzása"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
@@ -915,7 +922,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files"
-msgstr ""
+msgstr "A fordítási fájlokra megfelelő reguláris kifejezés"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/forms.py:582 weblate/trans/models/component.py:274
