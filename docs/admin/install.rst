@@ -75,16 +75,14 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/sirfz/tesserocr
 ``akismet`` (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
-``PyYAML`` (optional for :ref:`yaml`)
-    https://pyyaml.org/
+``ruamel.yaml`` (optional for :ref:`yaml`)
+    https://pypi.org/project/ruamel.yaml/
 ``backports.csv`` (needed on Python 2.7)
     https://pypi.org/project/backports.csv/
 ``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
-``ruamel.yaml`` (optional for :ref:`yaml`)
-    https://pypi.org/project/ruamel.yaml/
 
 Database backend dependencies
 +++++++++++++++++++++++++++++
