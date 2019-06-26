@@ -83,6 +83,8 @@ of them in :file:`requirements-optional.txt`.
     https://python-zeep.readthedocs.io/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
+``ruamel.yaml`` (optional for :ref:`yaml`)
+    https://pypi.org/project/ruamel.yaml/
 
 Database backend dependencies
 +++++++++++++++++++++++++++++
