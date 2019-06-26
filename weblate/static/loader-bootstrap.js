@@ -1462,6 +1462,11 @@ $(function () {
         }, 1000);
     });
 
+    /* Disable invalid file format choices */
+    $('.invalid-format').each(function () {
+        $(this).parent().find('input').attr('disabled', '1');
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "

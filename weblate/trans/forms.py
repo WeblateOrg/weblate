@@ -1636,8 +1636,10 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         try:
             format_cls = FILE_FORMATS[value['file_format']]
             context['file_format_name'] = format_cls.name
+            context['valid'] = True
         except KeyError:
             context['file_format_name'] = value['file_format']
+            context['valid'] = False
         context['origin'] = value.meta['origin']
         return render_to_string('trans/discover-choice.html', context)
 

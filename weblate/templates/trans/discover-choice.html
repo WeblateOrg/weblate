@@ -1,2 +1,8 @@
 {% load i18n %}
-<strong>{% trans "File format" %}</strong> <code>{{ file_format_name }}</code>, <strong>{% trans "Filemask" %}</strong> <code>{{ filemask }}</code>{% if origin %}({{ origin }}){% endif %}<br />
+{% if not valid %}
+<span class="invalid-format text-tooltip" title="{% trans "The file format is not supported by your Weblate." %}">
+{% endif %}
+<strong>{% trans "File format" %}</strong> <code>{{ file_format_name }}</code>, <strong>{% trans "Filemask" %}</strong> <code>{{ filemask }}</code>{% if origin %}({{ origin }}){% endif %}
+{% if not valid %}
+</span>
+{% endif %}
