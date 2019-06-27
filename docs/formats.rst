@@ -742,6 +742,11 @@ the following files:
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
 
+The CSV format currently automatically detects dialect of the CSV file. In some
+cases the automatic detection might fail and you will get mixed results. This
+is especially true for the CSV files with newlines in the values. As a
+workaround it is recommended to avoid omitting quoting chars.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
