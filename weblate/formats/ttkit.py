@@ -462,7 +462,10 @@ class XliffUnit(TTKitUnit):
                 return
             if self.unit.source:
                 # Update source if it is already set to keep it in sync
-                self.unit.rich_source = [self.template.source]
+                try:
+                    self.unit.rich_source = xliff_string_to_rich(self.template.source)
+                except XMLSyntaxError:
+                    self.unit.rich_source = [self.template.source]
         self.unit.rich_target = converted
 
     @cached_property
