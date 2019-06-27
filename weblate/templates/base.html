@@ -112,6 +112,22 @@ var _rollbarConfig = {
         </li>
         {% endif %}
         <li><a href="{% url 'projects' %}">{% trans "Projects" %}</a></li>
+        {% if user.is_authenticated %}
+        {% with languages=user.profile.languages.order_translated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Your languages" %}<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          {% if languages %}
+            {% for language in languages %}
+            <li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
+            {% endfor %}
+            <li role="separator" class="divider"></li>
+          {% endif %}
+            <li><a href="{% url 'profile' %}#languages">{% trans "Manage translated languages" %}</a></li>
+          </ul>
+        </li>
+        {% endwith %}
+        {% endif %}
         <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
