@@ -979,23 +979,27 @@ class CSVFormat(TTKitFormat):
 
         # Read content for fixups
         content = storefile.read()
-        storefile.seek(0)
+        storefile.close()
 
         # Parse file
-        store = storeclass.parsefile(storefile)
+        store = storeclass()
+        store.parse(content)
         # Did headers detection work?
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
+        fileobj = csv.StringIO(
+            store.detect_encoding(content, default_encodings=['utf-8', 'utf-16'])[0]
+        )
+
+        # Try reading header
+        reader = csv.reader(fileobj, store.dialect)
+        header = next(reader)
+        fileobj.close()
+
         # Check if the file is not two column only
-        for unit in store.units:
-            if unit.target:
-                return store
-            values = [
-                value for key, value in unit.todict().items() if value and key != "fuzzy"
-            ]
-            if len(values) > 2:
-                return store
+        if len(header) != 2:
+            return store
 
         result = storeclass(fieldnames=['source', 'target'])
         result.parse(content)
