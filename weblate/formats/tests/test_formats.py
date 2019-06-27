@@ -34,6 +34,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
     CSVFormat,
+    CSVSimpleFormat,
     DTDFormat,
     JoomlaFormat,
     JSONFormat,
@@ -56,6 +57,7 @@ from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_CSV = get_test_file('cs-mono.csv')
+TEST_CSV_NOHEAD = get_test_file('cs.csv')
 TEST_JSON = get_test_file('cs.json')
 TEST_NESTED_JSON = get_test_file('cs-nested.json')
 TEST_WEBEXT_JSON = get_test_file('cs-webext.json')
@@ -652,3 +654,17 @@ class CSVFormatTest(AutoFormatTest):
     FIND = 'HELLO'
     FIND_MATCH = 'Hello, world!\r\n'
     NEW_UNIT_MATCH = b'"key","Source string"\r\n'
+
+
+class CSVFormatNoHeadTest(CSVFormatTest):
+    FILE = TEST_CSV_NOHEAD
+    COUNT = 1
+    FIND = 'Thank you for using Weblate.'
+    FIND_MATCH = 'Děkujeme za použití Weblate.'
+
+    def test_save(self, edit=False):
+        raise SkipTest('Saving currently adds field headers')
+
+
+class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
+    FORMAT = CSVSimpleFormat

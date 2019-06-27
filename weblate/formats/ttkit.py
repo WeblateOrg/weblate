@@ -983,27 +983,22 @@ class CSVFormat(TTKitFormat):
 
         # Parse file
         store = storeclass.parsefile(storefile)
-
         # Did headers detection work?
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        content = content.decode('utf-8')
-
-        fileobj = csv.StringIO(content)
-        storefile.close()
-
-        # Try reading header
-        reader = csv.reader(fileobj, store.dialect)
-        header = next(reader)
-        fileobj.close()
-
-        # We seem to have match
-        if len(header) != 2:
-            return store
+        # Check if the file is not two column only
+        for unit in store.units:
+            if unit.target:
+                return store
+            values = [
+                value for key, value in unit.todict().items() if value and key != "fuzzy"
+            ]
+            if len(values) > 2:
+                return store
 
         result = storeclass(fieldnames=['source', 'target'])
-        result.parse(content.encode('utf-8'))
+        result.parse(content)
         return result
 
 
@@ -1016,7 +1011,7 @@ class CSVSimpleFormat(CSVFormat):
     @property
     def extension(self):
         """Return most common file extension for format."""
-        return 'txt'
+        return 'csv'
 
     @classmethod
     def parse_store(cls, storefile):
