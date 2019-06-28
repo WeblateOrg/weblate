@@ -11,7 +11,7 @@ today=$(DJANGO_SETTINGS_MODULE=weblate.settings_example ./manage.py shell -c 'fr
 
 sed -i "s/^VERSION =.*/VERSION = '$version'/" weblate/__init__.py
 sed -i "s/weblate-[0-9.]\\+/weblate-$version/" docs/admin/deployments.rst
-sed -i "s/Released on [?].*/Released on $today./" docs/changes.rst
+sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
 
 if ! git diff --exit-code --quiet ; then
     git commit -s -m "Releasing $version" -- weblate/__init__.py docs/admin/deployments.rst docs/changes.rst
