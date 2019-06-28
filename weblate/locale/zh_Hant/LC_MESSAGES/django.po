@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.7.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-06-26 15:05+0000\n"
+"POT-Creation-Date: 2019-06-28 08:22+0000\n"
 "PO-Revision-Date: 2019-06-27 20:00+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -410,7 +410,8 @@ msgstr ""
 msgid "Watched translations"
 msgstr "關注翻譯"
 
-#: weblate/accounts/models.py:424 weblate/templates/dashboard/user.html:16
+#: weblate/accounts/models.py:424 weblate/templates/base.html:118
+#: weblate/templates/dashboard/user.html:16
 msgid "Your languages"
 msgstr "您的語言"
 
@@ -617,7 +618,7 @@ msgid "Too many messages sent, please try again later!"
 msgstr "傳送過多訊息，稍後請再試一次！"
 
 #: weblate/accounts/views.py:500 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:150
+#: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:166
 #: weblate/templates/footer.html:9
 msgid "Contact"
 msgstr "聯絡方式"
@@ -627,7 +628,7 @@ msgid "Hosting"
 msgstr "託管服務"
 
 #: weblate/accounts/views.py:609 weblate/templates/accounts/login.html:41
-#: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:132
+#: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:148
 msgid "Login"
 msgstr "登入"
 
@@ -1494,9 +1495,9 @@ msgid "All languages"
 msgstr "所有語言"
 
 #: weblate/auth/models.py:156 weblate/billing/models.py:268
-#: weblate/lang/models.py:383 weblate/lang/views.py:45
+#: weblate/lang/models.py:387 weblate/lang/views.py:45
 #: weblate/templates/accounts/profile.html:23
-#: weblate/templates/accounts/profile.html:37 weblate/templates/base.html:115
+#: weblate/templates/accounts/profile.html:37 weblate/templates/base.html:131
 #: weblate/templates/language.html:6 weblate/templates/languages.html:6
 #: weblate/templates/project.html:28
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:106
@@ -2098,7 +2099,7 @@ msgstr "除非符合語言各自的凌駕值才會使用預設字型。"
 msgid "Font"
 msgstr "字型"
 
-#: weblate/fonts/models.py:143 weblate/lang/models.py:382
+#: weblate/fonts/models.py:143 weblate/lang/models.py:386
 #: weblate/templates/component.html:131 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:11 weblate/templates/project.html:151
@@ -2174,119 +2175,119 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:675
+#: weblate/formats/ttkit.py:678
 msgid "Gettext PO file"
 msgstr "Gettext PO 檔"
 
-#: weblate/formats/ttkit.py:731
+#: weblate/formats/ttkit.py:734
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 檔（單語）"
 
-#: weblate/formats/ttkit.py:745
+#: weblate/formats/ttkit.py:748
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻譯檔"
 
-#: weblate/formats/ttkit.py:761
+#: weblate/formats/ttkit.py:764
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻譯檔"
 
-#: weblate/formats/ttkit.py:776
+#: weblate/formats/ttkit.py:779
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF 翻譯檔，附 PO 擴展"
 
-#: weblate/formats/ttkit.py:803
+#: weblate/formats/ttkit.py:806
 msgid "iOS Strings"
 msgstr "iOS 字串"
 
-#: weblate/formats/ttkit.py:812
+#: weblate/formats/ttkit.py:815
 msgid "iOS Strings (UTF-8)"
 msgstr "iOS 字串 (UTF-8)"
 
-#: weblate/formats/ttkit.py:819
+#: weblate/formats/ttkit.py:822
 msgid "Java Properties (UTF-8)"
 msgstr "Java 屬性（UTF-8）"
 
-#: weblate/formats/ttkit.py:826
+#: weblate/formats/ttkit.py:829
 msgid "Java Properties (UTF-16)"
 msgstr "Java 屬性（UTF-16）"
 
-#: weblate/formats/ttkit.py:832
+#: weblate/formats/ttkit.py:835
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java 屬性（ISO-8859-1）"
 
-#: weblate/formats/ttkit.py:849
+#: weblate/formats/ttkit.py:852
 msgid "Joomla Language File"
 msgstr "Joomla 語言檔"
 
-#: weblate/formats/ttkit.py:858
+#: weblate/formats/ttkit.py:861
 msgid "PHP strings"
 msgstr "PHP 字串"
 
-#: weblate/formats/ttkit.py:877
+#: weblate/formats/ttkit.py:880
 msgid ".Net resource file"
 msgstr ".Net 資源檔"
 
-#: weblate/formats/ttkit.py:887
+#: weblate/formats/ttkit.py:890
 msgid "Android String Resource"
 msgstr "Android 字串資源"
 
-#: weblate/formats/ttkit.py:900
+#: weblate/formats/ttkit.py:903
 msgid "JSON file"
 msgstr "JSON 檔"
 
-#: weblate/formats/ttkit.py:919
+#: weblate/formats/ttkit.py:922
 msgid "JSON nested structure file"
 msgstr "JSON 巢狀結構檔"
 
-#: weblate/formats/ttkit.py:926
+#: weblate/formats/ttkit.py:929
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 檔"
 
-#: weblate/formats/ttkit.py:934
+#: weblate/formats/ttkit.py:937
 msgid "i18next JSON file"
 msgstr "i18next JSON 檔案"
 
-#: weblate/formats/ttkit.py:941
+#: weblate/formats/ttkit.py:944
 msgid "CSV file"
 msgstr "CSV 檔"
 
-#: weblate/formats/ttkit.py:1008
+#: weblate/formats/ttkit.py:1010
 msgid "Simple CSV file"
 msgstr "簡單 CSV 檔"
 
-#: weblate/formats/ttkit.py:1044
+#: weblate/formats/ttkit.py:1046
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "簡單 CSV 檔（ISO-8859-1）"
 
-#: weblate/formats/ttkit.py:1051
+#: weblate/formats/ttkit.py:1053
 msgid "YAML file"
 msgstr "YAML 檔"
 
-#: weblate/formats/ttkit.py:1070
+#: weblate/formats/ttkit.py:1072
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 檔"
 
-#: weblate/formats/ttkit.py:1077
+#: weblate/formats/ttkit.py:1079
 msgid "DTD file"
 msgstr "DTD 檔"
 
-#: weblate/formats/ttkit.py:1103
+#: weblate/formats/ttkit.py:1105
 msgid "RC file"
 msgstr "RC 檔"
 
-#: weblate/formats/ttkit.py:1151
+#: weblate/formats/ttkit.py:1153
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕檔"
 
-#: weblate/formats/ttkit.py:1165
+#: weblate/formats/ttkit.py:1167
 msgid "MicroDVD subtitles file"
 msgstr "MicroDVD 字幕檔"
 
-#: weblate/formats/ttkit.py:1172
+#: weblate/formats/ttkit.py:1174
 msgid "Advanced Substation Alpha subtitles file"
 msgstr "Advanced Substation Alpha 字幕檔"
 
-#: weblate/formats/ttkit.py:1179
+#: weblate/formats/ttkit.py:1181
 msgid "Substation Alpha subtitles file"
 msgstr "Substation Alpha 字幕檔"
 
@@ -2356,155 +2357,155 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "三式"
 
-#: weblate/lang/models.py:363 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:367 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/language.html:43
 msgid "Language code"
 msgstr "語言碼"
 
-#: weblate/lang/models.py:367 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:371 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "語言名稱"
 
-#: weblate/lang/models.py:370 weblate/templates/language.html:47
+#: weblate/lang/models.py:374 weblate/templates/language.html:47
 msgid "Text direction"
 msgstr "文字方向"
 
-#: weblate/lang/models.py:374
+#: weblate/lang/models.py:378
 msgid "Left to right"
 msgstr "從左到右"
 
-#: weblate/lang/models.py:375
+#: weblate/lang/models.py:379
 msgid "Right to left"
 msgstr "從右到左"
 
-#: weblate/lang/models.py:449
+#: weblate/lang/models.py:453
 msgctxt "Plural type"
 msgid "None"
 msgstr "無"
 
-#: weblate/lang/models.py:453
+#: weblate/lang/models.py:457
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
 msgstr "一式/其他（典型複數形態）"
 
-#: weblate/lang/models.py:457
+#: weblate/lang/models.py:461
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
 msgstr "一式/少數/其他（斯拉夫語族）"
 
-#: weblate/lang/models.py:461
+#: weblate/lang/models.py:465
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "阿拉伯語族"
 
-#: weblate/lang/models.py:465
+#: weblate/lang/models.py:469
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "零式/一式/其他"
 
-#: weblate/lang/models.py:469
+#: weblate/lang/models.py:473
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "一式/二式/其他"
 
-#: weblate/lang/models.py:473
+#: weblate/lang/models.py:477
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "一式/其他/二式"
 
-#: weblate/lang/models.py:477
+#: weblate/lang/models.py:481
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "一式/二式/少數/其他"
 
-#: weblate/lang/models.py:481
+#: weblate/lang/models.py:485
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "其他/一式/二式/少數"
 
-#: weblate/lang/models.py:485
+#: weblate/lang/models.py:489
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "一式/二式/三式/其他"
 
-#: weblate/lang/models.py:489
+#: weblate/lang/models.py:493
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "一式/其他/零式"
 
-#: weblate/lang/models.py:493
+#: weblate/lang/models.py:497
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "一式/少數/多數/其他"
 
-#: weblate/lang/models.py:497
+#: weblate/lang/models.py:501
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "兩個/其他"
 
-#: weblate/lang/models.py:501
+#: weblate/lang/models.py:505
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "一式/二式/少數/多數/其他"
 
-#: weblate/lang/models.py:505
+#: weblate/lang/models.py:509
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "未知"
 
-#: weblate/lang/models.py:509
+#: weblate/lang/models.py:513
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
 msgstr "零式/一式/二式/三式/六式/其他"
 
-#: weblate/lang/models.py:516
+#: weblate/lang/models.py:520
 msgid "Plural definition source"
 msgstr "複數形定義來源"
 
-#: weblate/lang/models.py:518
+#: weblate/lang/models.py:522
 msgid "Default plural"
 msgstr "預設複數形"
 
-#: weblate/lang/models.py:519
+#: weblate/lang/models.py:523
 msgid "Gettext plural formula"
 msgstr "Gettext 複數形判別式"
 
-#: weblate/lang/models.py:524 weblate/templates/language.html:59
+#: weblate/lang/models.py:528 weblate/templates/language.html:59
 msgid "Number of plurals"
 msgstr "複數形數目"
 
-#: weblate/lang/models.py:531 weblate/templates/language.html:79
+#: weblate/lang/models.py:535 weblate/templates/language.html:79
 #: weblate/trans/forms.py:353
 msgid "Plural equation"
 msgstr "複數形等式"
 
-#: weblate/lang/models.py:536 weblate/templates/language.html:63
+#: weblate/lang/models.py:540 weblate/templates/language.html:63
 msgid "Plural type"
 msgstr "複數類型"
 
-#: weblate/lang/models.py:544
+#: weblate/lang/models.py:548
 msgid "Plural form"
 msgstr "複數形"
 
-#: weblate/lang/models.py:545
+#: weblate/lang/models.py:549
 msgid "Plural forms"
 msgstr "複數形"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:612
+#: weblate/lang/models.py:616
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "舉例：{0}"
 
-#: weblate/lang/models.py:623
+#: weblate/lang/models.py:627
 msgid "Singular"
 msgstr "單數"
 
-#: weblate/lang/models.py:625
+#: weblate/lang/models.py:629
 msgid "Plural"
 msgstr "複數"
 
-#: weblate/lang/models.py:626
+#: weblate/lang/models.py:630
 #, python-format
 msgid "Plural form %d"
 msgstr "複數形 %d"
@@ -2524,8 +2525,8 @@ msgstr "我們有新版本的《服務條款》文件，請閱讀內容並確認
 #: weblate/legal/templates/legal/index.html:5
 #: weblate/legal/templates/legal/privacy.html:6
 #: weblate/legal/templates/legal/security.html:6
-#: weblate/legal/templates/legal/terms.html:5 weblate/templates/base.html:154
-#: weblate/templates/base.html:156 weblate/templates/footer.html:7
+#: weblate/legal/templates/legal/terms.html:5 weblate/templates/base.html:170
+#: weblate/templates/base.html:172 weblate/templates/footer.html:7
 msgid "Legal"
 msgstr "法律"
 
@@ -2855,7 +2856,7 @@ msgstr "若您需要協助，您可以指出此錯誤為 %(error_id)s。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
-#: weblate/templates/base.html:151 weblate/templates/footer.html:6
+#: weblate/templates/base.html:167 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:57
 msgid "About Weblate"
 msgstr "關於 Weblate"
@@ -2934,7 +2935,7 @@ msgstr "版本"
 msgid "Weblate owes its existence to these projects."
 msgstr "若沒有這些專案 Weblate 就無法存在。"
 
-#: weblate/templates/about/keys.html:7 weblate/templates/base.html:152
+#: weblate/templates/about/keys.html:7 weblate/templates/base.html:168
 #: weblate/trans/views/about.py:112
 msgid "Weblate keys"
 msgstr "Weblate 按鍵"
@@ -3096,7 +3097,7 @@ msgstr "許可權不是在 Weblate 中管理。"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:166
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:182
 #: weblate/templates/billing/overview.html:6
 msgid "Your profile"
 msgstr "您的個人檔案"
@@ -3206,7 +3207,7 @@ msgstr ""
 "專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:47 weblate/templates/base.html:130
+#: weblate/templates/accounts/register.html:47 weblate/templates/base.html:146
 #: weblate/templates/engage.html:57
 msgid "Register"
 msgstr "註冊"
@@ -3852,7 +3853,7 @@ msgstr ""
 msgid "Toggle navigation"
 msgstr "開關導覽選單"
 
-#: weblate/templates/base.html:101 weblate/templates/base.html:195
+#: weblate/templates/base.html:101 weblate/templates/base.html:211
 msgid "Dashboard"
 msgstr "控制面板"
 
@@ -3860,37 +3861,43 @@ msgstr "控制面板"
 msgid "Manage watched projects"
 msgstr "管理關注專案"
 
-#: weblate/templates/base.html:121
+#: weblate/templates/base.html:126
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Manage translated languages"
+msgstr "想翻譯成哪些語言"
+
+#: weblate/templates/base.html:137
 msgid "Administration"
 msgstr "管理"
 
-#: weblate/templates/base.html:123
+#: weblate/templates/base.html:139
 #: weblate/wladmin/templates/admin/performance.html:22
 msgid "Configuration errors"
 msgstr "組態設定錯誤"
 
-#: weblate/templates/base.html:138 weblate/templates/component.html:233
+#: weblate/templates/base.html:154 weblate/templates/component.html:233
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:41
 #: weblate/templates/manage-access.html:71 weblate/templates/project.html:219
 #: weblate/templates/translate.html:480 weblate/templates/translation.html:342
 msgid "Add"
 msgstr "新增"
 
-#: weblate/templates/base.html:140 weblate/templates/billing/status.html:39
+#: weblate/templates/base.html:156 weblate/templates/billing/status.html:39
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "新增翻譯專案"
 
-#: weblate/templates/base.html:141 weblate/templates/project.html:123
+#: weblate/templates/base.html:157 weblate/templates/project.html:123
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "新增翻譯組件"
 
-#: weblate/templates/base.html:148
+#: weblate/templates/base.html:164
 msgid "Help"
 msgstr "幫助"
 
-#: weblate/templates/base.html:158 weblate/templates/check.html:43
+#: weblate/templates/base.html:174 weblate/templates/check.html:43
 #: weblate/templates/check_component.html:45
 #: weblate/templates/check_project.html:44 weblate/templates/checks.html:34
 #: weblate/templates/documentation-icon.html:2 weblate/templates/footer.html:10
@@ -3907,39 +3914,39 @@ msgstr "幫助"
 msgid "Documentation"
 msgstr "文件"
 
-#: weblate/templates/base.html:159 weblate/templates/footer.html:8
+#: weblate/templates/base.html:175 weblate/templates/footer.html:8
 msgid "Service status"
 msgstr "服務狀態"
 
-#: weblate/templates/base.html:175
+#: weblate/templates/base.html:191
 #, python-format
 msgid "Logged in as %(user)s"
 msgstr "已採用 %(user)s 身份登入"
 
-#: weblate/templates/base.html:178
+#: weblate/templates/base.html:194
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "帳單概覽"
 
-#: weblate/templates/base.html:180 weblate/templates/component.html:88
+#: weblate/templates/base.html:196 weblate/templates/component.html:88
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:16 weblate/templates/project.html:75
 #: weblate/wladmin/templates/admin/weblate-index.html:37
 msgid "Translation memory"
 msgstr "翻譯記憶"
 
-#: weblate/templates/base.html:181 weblate/templates/component-settings.html:11
+#: weblate/templates/base.html:197 weblate/templates/component-settings.html:11
 #: weblate/templates/component.html:97
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/project-settings.html:18 weblate/templates/project.html:84
 msgid "Settings"
 msgstr "設定"
 
-#: weblate/templates/base.html:183 weblate/wladmin/sites.py:194
+#: weblate/templates/base.html:199 weblate/wladmin/sites.py:194
 msgid "Logout"
 msgstr "登出"
 
-#: weblate/templates/base.html:204
+#: weblate/templates/base.html:220
 msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
@@ -3947,7 +3954,7 @@ msgstr ""
 "Weblate 不支援 Microsoft Internet Explorer 8 及之前的版本，請使用最近的瀏覽器"
 "如 Firefox、Chrome 或 Edge。"
 
-#: weblate/templates/base.html:228 weblate/templates/base.html:235
+#: weblate/templates/base.html:244 weblate/templates/base.html:251
 msgid "Close"
 msgstr "關閉"
 
