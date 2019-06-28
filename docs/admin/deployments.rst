@@ -245,7 +245,12 @@ Generic settings
 
 .. envvar:: WEBLATE_TIME_ZONE
 
-    Configures the used time-zone.
+    Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
+
+    .. note::
+
+       To change the time zone of the Docker container itself, use the ``TZ``
+       environment variable.
 
     **Example:**
 
