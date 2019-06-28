@@ -12,6 +12,7 @@ Released on ? 2019.
 * Localization updates.
 * Various user interface tweaks.
 * Improved handling of unsupported but discovered translation files.
+* More verbosely report missing file format requirements.
 
 weblate 3.7
 -----------
