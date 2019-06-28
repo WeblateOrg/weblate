@@ -851,6 +851,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 needs_merge = True
 
             if not needs_merge and method != 'rebase':
+                self.delete_alert('MergeFailure', childs=True)
                 return True
 
             # commit possible pending changes if needed
