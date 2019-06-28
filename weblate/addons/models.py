@@ -80,7 +80,7 @@ class AddonQuerySet(models.QuerySet):
         if component.addons_cache is None:
             component.addons_cache = defaultdict(list)
             for addon in self.filter_component(component):
-                for installed in addon.event_set.iterator():
+                for installed in addon.event_set.all():
                     component.addons_cache[installed.event].append(addon)
         return component.addons_cache[event]
 
