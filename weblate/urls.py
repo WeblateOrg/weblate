@@ -1046,7 +1046,7 @@ real_patterns = [
 
     # Avatars
     url(
-        r'^avatar/(?P<size>(32|128))/(?P<user>[^/]+)\.png$',
+        r'^avatar/(?P<size>(32|80|128))/(?P<user>[^/]+)\.png$',
         weblate.accounts.views.user_avatar,
         name='user_avatar',
     ),
