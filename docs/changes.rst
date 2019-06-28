@@ -4,7 +4,7 @@ Changes
 weblate 3.7.1
 -------------
 
-Released on ? 2019.
+Released on June 28th 2019.
 
 * Documentation updates.
 * Fixed some requirements constraints.
