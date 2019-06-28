@@ -59,10 +59,11 @@ setup(
     zip_safe=False,
     extras_require={
         "Mercurial": ["Mercurial>=2.8"],
-        "Unicode": ["pyuca>=1.1", "python-bidi>=0.4.0", "chardet"],
-        "YAML": ["PyYAML>=3.0"],
+        "Unicode": ["pyuca>=1.1", "chardet"],
+        "YAML": ["ruamel.yaml"],
         "OCR": ["tesserocr>=1.2"],
         "PHP": ["phply>=1.2.3"],
+        "Subtitles": ["aeidon==1.2.1"],
     },
     classifiers=[
         "Environment :: Web Environment",
