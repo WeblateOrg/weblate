@@ -73,7 +73,7 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
+        result, 'ruamel.yaml', 'https://pypi.org/project/ruamel.yaml/'
     )
 
     get_optional_module(
