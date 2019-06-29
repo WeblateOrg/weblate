@@ -33,6 +33,16 @@ recommended.
 Software requirements
 ---------------------
 
+Other services
+++++++++++++++
+
+Weblate is using other services for it's operation. You will need at least
+following services running:
+
+* PostgreSQL database server, see :ref:`database-setup`.
+* Redis server for cache and tasks queue, see :ref:`celery`.
+* SMTP server for outgoing email, see :ref:`out-mail`.
+
 .. _python-deps:
 
 Python dependencies
