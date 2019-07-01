@@ -305,9 +305,13 @@ class GitRepository(Repository):
         self.branch = branch
 
     def list_branches(self, *args):
-        cmd = ['branch', '--list', '--format=%(refname:short)']
+        cmd = ['branch', '--list']
         cmd.extend(args)
-        return self.execute(cmd, needs_lock=False).split()
+        # (we get additional * there indicating current branch)
+        return [
+            x.lstrip('*').strip()
+            for x in self.execute(cmd, needs_lock=False).splitlines()
+        ]
 
     def has_branch(self, branch):
         branches = self.list_branches()
@@ -369,7 +373,7 @@ class GitRepository(Repository):
         return [
             branch[7:]
             for branch in self.list_branches('--remote', 'origin/*')
-            if branch != 'origin/HEAD'
+            if not branch.startswith('origin/HEAD')
         ]
 
 
