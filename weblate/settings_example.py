@@ -362,6 +362,7 @@ INSTALLED_APPS = (
     'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.admindocs',
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
     'social_django',
     'crispy_forms',
     'compressor',

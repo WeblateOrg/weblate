@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load translations %}
+{% load humanize %}
 
 {% block breadcrumbs_container %}
 {% endblock %}
@@ -20,15 +21,15 @@
 
 <div class="row bignumbers">
 <div class="col-md-4">
-<strong>{{ full_stats.source_strings }}</strong>
+<strong>{{ full_stats.source_strings|intcomma }}</strong>
 <p>{% blocktrans count count=full_stats.source_strings context "Label on enage page" %}String{% plural %}Strings{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ full_stats.languages }}</strong>
+<strong>{{ full_stats.languages|intcomma }}</strong>
 <p>{% blocktrans count count=full_stats.languages context "Label on enage page" %}Language{% plural %}Languages{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ full_stats.translated_percent }}%</strong>
+<strong>{{ full_stats.translated_percent|intcomma }}%</strong>
 <p>{% trans "Translated" %}</p>
 </div>
 </div>
