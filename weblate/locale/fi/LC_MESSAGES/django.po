@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.7.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-06-28 08:22+0000\n"
-"PO-Revision-Date: 2019-06-26 15:03+0000\n"
+"PO-Revision-Date: 2019-07-02 16:01+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7.1-dev\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -4024,13 +4024,11 @@ msgstr "Kojelauta"
 
 #: weblate/templates/base.html:110 weblate/templates/dashboard/user.html:67
 msgid "Manage watched projects"
-msgstr "Hallinnoi seuraamiasi projekteja"
+msgstr "Hallitse seurattuja projekteja"
 
 #: weblate/templates/base.html:126
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Manage translated languages"
-msgstr "Kääntämäni kielet"
+msgstr "Hallitse käännettyjä kieliä"
 
 #: weblate/templates/base.html:137
 msgid "Administration"
@@ -5664,7 +5662,7 @@ msgstr "Käyttäjä:"
 #: weblate/templates/mail/changed_translation.html:56
 #: weblate/templates/mail/new_comment.html:42
 msgid "You can edit this string at:"
-msgstr "Voit muokata tätä tekstiä:"
+msgstr "Voit muokata tätä tekstiä osoitteessa:"
 
 #: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
@@ -5705,7 +5703,7 @@ msgstr ""
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
 msgid "Error message"
-msgstr "Virhesanoma"
+msgstr "Virheilmoitus"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
 #, python-format
@@ -5769,13 +5767,13 @@ msgid ""
 "The user %(username)s has just made a first contribution to %(translation)s "
 "at %(site_title)s."
 msgstr ""
-"Käyttäjä %(username)s on juuri tehnyt ensimmäisen tehtävän %(site_title)s "
-"projektiin %(translation)s ."
+"Käyttäjä %(username)s on juuri ottanut osaa ensimmäistä kertaa sivuston "
+"%(site_title)s projektiin %(translation)s ."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Uusi avustaja %(translation)s"
+msgstr "Uusi osallistuja projektissa %(translation)s"
 
 #: weblate/templates/mail/new_language.html:12
 #, python-format
@@ -5801,8 +5799,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
-"Lisää vain uusi kielitiedosto versionhallintaan, Weblate löytää sen "
-"automaattisesti seuravan päivityksen yhteydessä."
+"Lisää kielitiedosto versionhallintaan, Weblate löytää sen automaattisesti "
+"seuravan päivityksen yhteydessä."
 
 #: weblate/templates/mail/new_language.html:33
 msgid ""
@@ -5844,7 +5842,7 @@ msgstr ""
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Uusia tekstejä käännettäväksi projektissa %(translation)s"
+msgstr "Uusi teksti käännettäväksi projektissa %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:11
 #, python-format
@@ -5919,9 +5917,7 @@ msgstr "Jäsennysvirhe komponentissa %(component)s"
 #: weblate/templates/mail/remove.html:11
 #, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr ""
-"Sivustolta %(site_title)s on lähetetty pyyntö poistaa Weblate -"
-"käyttäjätilisi."
+msgstr "Weblate-tiliäsi sivustolla %(site_title)s on pyydetty poistettavaksi."
 
 #: weblate/templates/mail/remove_subject.txt:4
 #, python-format
@@ -5958,7 +5954,7 @@ msgid ""
 "The user management in Weblate is disabled, you can change permissions in "
 "the Django admin interface."
 msgstr ""
-"Käyttäjien hallinta on poistettu Weblatesta. Voit muuttaa käyttöoikeuksia "
+"Käyttäjien hallinta ei ole käytössä Weblatessa. Voit muuttaa käyttöoikeuksia "
 "Djangon hallintakäyttöliittymässä."
 
 #: weblate/templates/manage-access.html:94
@@ -6024,11 +6020,11 @@ msgstr "Kaikkien merkintöjen määrä"
 
 #: weblate/templates/memory/index.html:58
 msgid "Download as JSON"
-msgstr "Lataa JSON -muodossa"
+msgstr "Lataa JSON-muodossa"
 
 #: weblate/templates/memory/index.html:59
 msgid "Download as TMX"
-msgstr "Lataa TMX -muodossa"
+msgstr "Lataa TMX-muodossa"
 
 #: weblate/templates/memory/index.html:67
 msgid "Import translation memory"
@@ -6044,8 +6040,9 @@ msgid ""
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
-"Ajastaa kaikkien olemassaoleine käännösten tuonnin käännösmuistiin. Tämä voi "
-"olla käyttökelpoinen muistin tyhjennyksen tai uuden asennuksen jälkeen."
+"Ajastaa kaikkien projektin olemassaolevien käännösten tuonnin "
+"käännösmuistiin. Tämä voi olla hyödyksi muistin tyhjennyksen tai uuden "
+"asennuksen jälkeen."
 
 #: weblate/templates/memory/index.html:98
 msgid "Wipe translation memory"
@@ -6065,15 +6062,15 @@ msgstr ""
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
-msgstr "Valitse se kieli jolle haluat kääntää."
+msgstr "Valitse kieli, johon haluat kääntää."
 
 #: weblate/templates/new-language.html:29
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
 msgstr ""
-"Projektin ylläpitäjille on ilmoitettu pyynnöstäsi ja he lisäävät kielen "
-"projektiin manuaalisesti."
+"Projektin ylläpitäjille on ilmoitettu pyynnöstäsi, jolloin he voivat lisätä "
+"kielen manuaalisesti."
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
@@ -6119,11 +6116,11 @@ msgstr "Twiittaa tämä käännös"
 
 #: weblate/templates/project.html:157
 msgid "Browse all project changes"
-msgstr "Selaa projektin muutoksia"
+msgstr "Selaa projektin kaikkia muutoksia"
 
 #: weblate/templates/project.html:195 weblate/templates/translation.html:263
 msgid "You can change the state of all strings matching given type at once."
-msgstr "Voit kerralla muuttaa kaikkien ehtoihin täsmäävien tekstien tilan."
+msgstr "Voit muuttaa kaikkien ehtoihin täsmäävien tekstien tilan kerralla."
 
 #: weblate/templates/project.html:216
 msgid ""
@@ -6157,7 +6154,7 @@ msgstr ""
 
 #: weblate/templates/project_info.html:10
 msgid "Mailing list for translators"
-msgstr "Sähköpostilista"
+msgstr "Sähköpostilista kääntäjille"
 
 #: weblate/templates/project_info.html:17
 msgid "Instructions for translators"
@@ -6184,7 +6181,7 @@ msgid ""
 "You have recently performed too many operations and your request has been "
 "rate limited."
 msgstr ""
-"Olet viimeaikoina tehnyt liian monta toimintoa ja pyyntöäsi ei suoriteta."
+"Olet hiljattain tehnyt liian monta toimintoa, joten pyyntöäsi ei suoriteta."
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please log in and try again later."
@@ -6203,8 +6200,8 @@ msgid ""
 "There are too many matches for this search. Showing and replacing only first "
 "250 ones. To replace remaining ones, please perform the replacement again."
 msgstr ""
-"Haussa on liian paljon osumia. Näytetään ja korvataan vain ensimmäiset 250 "
-"osumaa. Jos haluat korvata jäljellä olevat, tee haku uudelleen."
+"Haku tuotti liian paljon osumia. Näytetään ja korvataan vain ensimmäiset 250 "
+"osumaa. Jos haluat korvata jäljellä olevat, tee korvaaminen uudelleen."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -6304,23 +6301,16 @@ msgstr ""
 "Osallistuaksesi tähän käännökseen sinun pitää hyväksyä osallistujasopimus."
 
 #: weblate/templates/snippets/legend-button.html:6
-#, fuzzy
-#| msgid "Shows machine translation tab"
 msgid "Progress bar colors indicate translation state:"
-msgstr "Näytä konekäännös -välilehti"
+msgstr "Palkin värit osoittavat käännöksen tilaa:"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:36
-#, fuzzy
-#| msgid "Strings status"
 msgid "Strings of total"
 msgstr "Tekstejä kokonaismäärästä"
 
 #: weblate/templates/snippets/list-objects.html:15
 #: weblate/templates/snippets/list-objects.html:38
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Kääntämättä"
 
@@ -6363,6 +6353,7 @@ msgid "source strings"
 msgstr "lähdetekstit"
 
 #: weblate/templates/source-review.html:11
+#, fuzzy
 msgid "review"
 msgstr "Yhteenveto"
 
@@ -6381,7 +6372,7 @@ msgstr "Hakuehtoja vastaavia lähdetekstejä ei löytynyt."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:162
 msgid "Strings status"
-msgstr "Merkkijonon tila"
+msgstr "Tekstien tila"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:183
 msgid "Project Information"
@@ -6454,14 +6445,15 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
-"Jokaisessa julkisessa projektissa pitäisi olla lisenssi määriteltynä "
-"osoittaakseen osallistumisen ehdot."
+"Jokaisessa julkisessa projektissa tulisi olla lisenssi osoittamassa "
+"osallistumisen ehdot."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr ""
-"Käännöskomponentti näyttää yksikieliseltä, mutta sitä ei ole asetettu siten."
+"Käännöskomponentti näyttää yksikieliseltä, mutta sitä ei ole asetettu "
+"sellaiseksi."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
@@ -6552,7 +6544,7 @@ msgstr "Ymmärrän seuraukset, poista tämä käännös"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
-msgstr ""
+msgstr "Havaittua tiedostomuotoa ei tueta."
 
 #: weblate/templates/trans/embed-alert.html:9
 msgid "This translation component is currently being updated."
@@ -8479,10 +8471,8 @@ msgid "Components with higher priority are offered first to translators."
 msgstr "Tärkeämmät käännöstekstit tarjotaan ensimmäisenä kääntäjille."
 
 #: weblate/trans/models/component.py:599
-#, fuzzy
-#| msgid "Linked"
 msgid "linked"
-msgstr "Liitetty"
+msgstr "linkitetty"
 
 #: weblate/trans/models/component.py:600
 #, python-format
