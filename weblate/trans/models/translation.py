@@ -430,7 +430,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         self.log_info('committing pending changes (%s)', reason)
 
-        with self.component.repository.lock:
+        with self.component.repository.lock, transaction.atomic():
             while True:
                 # Find oldest change break loop if there is none left
                 try:
