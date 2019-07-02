@@ -305,9 +305,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.get_config('user.email'), 'foo@example.net'
         )
 
-    def test_commit(self):
+    def test_commit(self, committer='Foo Bar'):
+        committer_email = '{} <foo@example.com>'.format(committer)
         with self.repo.lock:
-            self.repo.set_committer('Foo Bar', 'foo@example.net')
+            self.repo.set_committer(committer, 'foo@example.net')
         # Create test file
         with open(os.path.join(self.tempdir, 'testfile'), 'wb') as handle:
             handle.write(b'TEST FILE\n')
@@ -317,7 +318,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.commit(
                 'Test commit',
-                'Foo Bar <foo@bar.com>',
+                committer_email,
                 timezone.now(),
                 ['testfile']
             )
@@ -329,7 +330,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         info = self.repo.get_revision_info(self.repo.last_revision)
         self.assertEqual(
             info['author'],
-            'Foo Bar <foo@bar.com>',
+            committer_email,
         )
 
         # Check file hash
@@ -340,7 +341,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
         # Check invalid commit
         with self.repo.lock, self.assertRaises(RepositoryException):
-            self.repo.commit('test commit', 'Foo <bar@example.com>')
+            self.repo.commit('test commit', committer_email)
+
+    def test_commit_unicode(self):
+        self.test_commit('Zkouška Sirén')
 
     def test_remove(self):
         with self.repo.lock:
