@@ -12,7 +12,7 @@ for CI_DATABASE in $DBS ; do
     for tag in $TAGS ; do
         echo
         echo "Testing migration from $tag on $CI_DATABASE..."
-        rm -f weblate.db
+        cleanup_database
         git fetch --depth 1 origin tag $tag
         check
         git checkout $tag
