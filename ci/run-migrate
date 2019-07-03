@@ -19,7 +19,19 @@ for CI_DATABASE in $DBS ; do
         check
         run_coverage ./manage.py migrate
         check
+        ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
+        check
+        # Load basic project fixture
         ./manage.py loaddata simple-project.json
+        check
+        # Enable suggestion voting
+        ./manage.py shell -c 'from weblate.trans.models import Component; Component.objects.all().update(suggestion_voting=True, suggestion_autoaccept=2)'
+        check
+        # Add suggestions
+        ./manage.py add_suggestions test test cs weblate/trans/tests/data/cs.po
+        check
+        # Add vote for suggestion
+        ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
         check
         git checkout $TRAVIS_COMMIT
         run_coverage ./manage.py migrate
