@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-ESCAPED = frozenset('.\\+*?[^]$(){}=!<>|:-')
+ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
 
 def re_escape(pattern):
@@ -35,3 +35,15 @@ def re_escape(pattern):
         elif char in ESCAPED:
             string[i] = "\\" + char
     return "".join(string)
+
+
+def table_has_row(connection, table, rowname):
+    """Check whether actual table has row."""
+    with connection.cursor() as cursor:
+        table_description = connection.introspection.get_table_description(
+            cursor, table
+        )
+        for row in table_description:
+            if row.name == rowname:
+                return True
+    return False
