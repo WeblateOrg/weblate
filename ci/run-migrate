@@ -14,9 +14,9 @@ for CI_DATABASE in $DBS ; do
         echo "Testing migration from $tag on $CI_DATABASE..."
         rm -f weblate.db
         git checkout $tag || continue
-        ./manage.py loaddata simple-project.json
-        check
         run_coverage ./manage.py migrate
+        check
+        ./manage.py loaddata simple-project.json
         check
         git checkout $TRAVIS_COMMIT
         run_coverage ./manage.py migrate
