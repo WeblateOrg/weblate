@@ -69,19 +69,19 @@ matrix:
     - name: "Django 2.2, selenium"
       env: CI_DEPS="Django>=2.2,<2.3" CI_MODE=selenium
     - name: 'Django 2.1'
-      env: CI_DEPS="Django>=2.1,<2.2"
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
     - name: 'Django 2.2, Python 3.5'
       python: "3.5"
       env: CI_DEPS="Django>=2.2,<2.3"
     - name: 'Django 1.11, Python 2.7'
       python: "2.7"
-      env: CI_DEPS="Django>=1.11,<1.12"
+      env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
     - name: 'translate-toolkit pre-release'
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
     - name: "Setup"
       env: CI_MODE=setup
     - name: "Migrations"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=migrate
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7" CI_MODE=migrate
     - name: "Documentation"
       env: CI_MODE=docs
     - name: "Lint"
