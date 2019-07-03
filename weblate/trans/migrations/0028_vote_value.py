@@ -3,12 +3,6 @@
 from django.db import migrations, models
 
 
-def migrate_votes(apps, schema_editor):
-    Vote = apps.get_model("trans", "Vote")
-    Vote.objects.filter(positive=True).update(value=1)
-    Vote.objects.filter(positive=False).update(value=-1)
-
-
 class Migration(migrations.Migration):
 
     dependencies = [("trans", "0027_auto_20190517_1125")]
@@ -16,7 +10,5 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name="vote", name="value", field=models.SmallIntegerField(default=0)
-        ),
-        migrations.RunPython(migrate_votes),
-        migrations.RemoveField(model_name="vote", name="positive"),
+        )
     ]
