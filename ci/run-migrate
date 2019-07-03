@@ -13,7 +13,10 @@ for CI_DATABASE in $DBS ; do
         echo
         echo "Testing migration from $tag on $CI_DATABASE..."
         rm -f weblate.db
-        git checkout $tag || continue
+        git fetch --depth 1 origin tag $tag
+        check
+        git checkout $tag
+        check
         run_coverage ./manage.py migrate
         check
         ./manage.py loaddata simple-project.json
