@@ -31,7 +31,7 @@ install:
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   # Install PyPI packages
-  - pip install $CI_DEPS Cython
+  - pip install $CI_DEPS Cython pycairo
   - pip install -r ci/requirements-travis.txt
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
