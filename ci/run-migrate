@@ -10,7 +10,7 @@ for CI_DATABASE in $DBS ; do
     export CI_DATABASE
 
     for tag in $TAGS ; do
-        rm weblate.db
+        rm -f weblate.db
         git checkout $tag || continue
         run_coverage ./manage.py migrate
         check
