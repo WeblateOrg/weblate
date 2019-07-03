@@ -61,7 +61,7 @@ class Command(WeblateTranslationCommand):
                 request, options['file'], False, method='suggest',
                 author_email=options['author']
             )
-        except IOError:
-            raise CommandError('Failed to import translation file!')
+        except IOError as err:
+            raise CommandError('Failed to import translation file: {}'.format(err))
         finally:
             options['file'].close()
