@@ -74,9 +74,6 @@ development server.
         pip install pytz PyYAML pyuca
         # Install database backend for PostgreSQL
         pip install psycopg2-binary
-        # Install database backend for MySQL
-        apt install default-libmysqlclient-dev
-        pip install mysqlclient
 
 #. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
    to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
@@ -290,10 +287,6 @@ install them you can use apt:
 
     # For PostgreSQL
     apt install python3-psycopg2
-    # For MySQL on Ubuntu (if using the Ubuntu package for Django)
-    apt install python3-pymysql
-    # For MySQL on Debian (or Ubuntu if using upstream Django packages)
-    apt install python3-mysqldb
 
 On older releases, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
@@ -327,9 +320,6 @@ need to install several Python modules manually using pip:
 
     # Install database backend for PostgreSQL
     pip install psycopg2-binary
-    # Install database backend for MySQL
-    apt install default-libmysqlclient-dev
-    pip install mysqlclient
 
 For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
 
@@ -351,14 +341,8 @@ you might need additional components:
     # Caching backend: Redis
     apt install redis-server
 
-    # Database option 1: PostgreSQL
+    # Database server: PostgreSQL
     apt install postgresql
-
-    # Database option 2: MariaDB
-    apt install mariadb-server
-
-    # Database option 3: MySQL
-    apt install mysql-server
 
     # SMTP server
     apt install exim4
@@ -382,9 +366,8 @@ Most of requirements are available either directly in openSUSE or in
         Git mercurial python3-pyuca \
         python3-dateutil python3-celery
 
-    # Optional for database backend
-    zypper install python3-psycopg2      # For PostgreSQL
-    zypper install python3-MySQL-python  # For MySQL
+    # For PostgreSQL database backend
+    zypper install python3-psycopg2
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -400,14 +383,8 @@ you might need additional components:
     # Caching backend: Redis
     zypper install redis-server
 
-    # Database option 1: PostgreSQL
+    # Database server: PostgreSQL
     zypper install postgresql
-
-    # Database option 2: MariaDB
-    zypper install mariadb
-
-    # Database option 3: MySQL
-    zypper install mysql
 
     # SMTP server
     zypper install postfix
