@@ -41,6 +41,7 @@ from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
 import weblate
+from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.trans.util import (
     get_string,
@@ -401,9 +402,7 @@ class PoUnit(TTKitUnit):
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
-        if self.template is not None:
-            return self.reformat_flags(self.template.typecomments)
-        return self.reformat_flags(self.unit.typecomments)
+        return Flags(*self.mainunit.typecomments).format()
 
     @cached_property
     def previous_source(self):

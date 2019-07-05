@@ -22,7 +22,6 @@
 from __future__ import unicode_literals
 
 import os
-import re
 import sys
 import tempfile
 from copy import deepcopy
@@ -32,8 +31,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.utils.hash import calculate_hash
-
-FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 
 
 def move_atomic(source, target):
@@ -80,17 +77,6 @@ class TranslationUnit(object):
     def locations(self):
         """Return comma separated list of locations."""
         return ''
-
-    def reformat_flags(self, typecomments):
-        """Processe flags from PO file to nicer form."""
-        # Grab flags
-        flags = set(FLAGS_RE.findall('\n'.join(typecomments)))
-
-        # Discard fuzzy flag, we don't care about that one
-        flags.discard('fuzzy')
-
-        # Join into string
-        return ', '.join(flags)
 
     @cached_property
     def flags(self):

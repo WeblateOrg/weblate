@@ -82,7 +82,7 @@ class Flags(object):
         """Parse comma separated list of flags."""
         for flag in flags.split(","):
             value = flag.strip()
-            if not value or value == 'fuzzy':
+            if not value or value in ('fuzzy', '#'):
                 continue
             yield value
 
