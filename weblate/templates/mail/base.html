@@ -7,6 +7,7 @@
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ subject }}</title>
   <style>
 button,hr,input{overflow:visible}audio,canvas,progress,video{display:inline-block}progress,sub,sup{vertical-align:baseline}[type=checkbox],[type=radio],legend{box-sizing:border-box;padding:0}html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:ButtonText dotted 1px}fieldset{padding:.35em .75em .625em}legend{color:inherit;display:table;max-width:100%;white-space:normal}textarea{overflow:auto}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}[hidden],template{display:none}
@@ -41,7 +42,7 @@ p {margin: 0;}
 
 .row {
 	margin: 0 auto;
-	max-width: 1330px;
+	max-width: 800px;
 	width: 100%;
 	padding: 0 20px;
 }
@@ -90,24 +91,80 @@ footer .footer-right {
 	width: 50%;
 	text-align: right;
 }
-div.wrap {
+.box {
 	width: 100%;
 	float: left;
-	margin-bottom: 80px;
+	border-radius: 20px;
+	padding-bottom: 20px;
+	background-color: #FFFFFF;
+	margin-bottom: 100px;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
 }
-h1 {
+.box h1 {
+	width: 100%;
+	float: left;
+	padding: 22px 30px;
+	font-size: 28px;
+    font-weight: normal;
+	letter-spacing: -0.5px;
+	line-height: 36px;
+	margin-bottom: 10px;
 	color: #2A3744;
-	font-size: 32px;
-	font-weight: 400;
-	letter-spacing: -1px;
-	line-height: 75px;
+}
+.box .bordered, .box h1 {
+	border-bottom: 1px solid #E9EAEC;
+}
+.box .line, .box p {
+	width: 100%;
+	float: left;
+	padding: 14px 30px;
+}
+.box .line-left {
+	width: 50%;
+	float: left;
+}
+.box .line-right {
+	width: 50%;
+	float: left;
+}
+.box .head {
+	font-size: 28px;
+	letter-spacing: -0.5px;
+	line-height: 36px;
+}
+a {
+	color: #1FA385;
+	text-decoration: underline;
+}
+a.button {
+	background-color: #2ECCAA;
+	height: 50px;
+	min-width: 180px;
+	color: #fff;
+	font-size: 18px;
+	line-height: 48px;
+	border: 1px solid transparent;
+	padding: 0 25px;
+	display: table;
+	font-weight: 600;
 	text-align: center;
-	margin-bottom: 60px;
+	letter-spacing: 0.4px;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	text-decoration: none;
+}
+a.button:hover {
+	background-color: #fff;
+	color: #2ECCAA;
+	border-color: #2ECCAA;
 }
 
 @media (max-width: 790px) {
 	footer .footer-left, footer .footer-right {width: 100%;}
     footer .footer-left, footer .footer-right {text-align: center;}
+	.box .line-left, .box .line-right {width: 100%;}
+	.box .line .line-left {padding-left: 0; margin-bottom: 10px;}
 }
 
 
@@ -120,25 +177,26 @@ ins {
 del {
     background-color: #fc7979;
 }
-footer {
-    font-size: small;
-}
-th {
-    vertical-align: top;
-}
   </style>
  </head>
 
  <body>
     <div class="line"></div>
     <section class="content">
-    	<div class="row">
-            <div class="wrap">
-                <h1 class="section-title min-m">{{ subject }}</h1>
+        <div class="row">
+            <div class="box">
+                <h1>
+                    {{ subject }}
+                </h1>
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
         <div class="row">
-{% block content %}
+{% block footer %}
+{% if translation %}
+{% include "mail/footer.html" %}
+{% endif %}
 {% endblock %}
         </div>
     </section>
