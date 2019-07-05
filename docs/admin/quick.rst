@@ -74,6 +74,8 @@ development server.
         pip install pytz PyYAML pyuca
         # Install database backend for PostgreSQL
         pip install psycopg2-binary
+        # Install driver for Redis
+        pip install django-redis hiredis
 
 #. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
    to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
@@ -288,6 +290,9 @@ install them you can use apt:
     # For PostgreSQL
     apt install python3-psycopg2
 
+    # Install driver for Redis
+    apt install python3-django-redis python3-hiredis
+
 On older releases, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
 
@@ -320,6 +325,9 @@ need to install several Python modules manually using pip:
 
     # Install database backend for PostgreSQL
     pip install psycopg2-binary
+
+    # Install driver for Redis
+    pip install django-redis hiredis
 
 For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
 
@@ -368,6 +376,9 @@ Most of requirements are available either directly in openSUSE or in
 
     # For PostgreSQL database backend
     zypper install python3-psycopg2
+
+    # Install driver for Redis
+    zypper install python3-django-redis python3-hiredis
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
