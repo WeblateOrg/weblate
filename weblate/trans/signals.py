@@ -23,7 +23,7 @@ from django.dispatch import Signal
 
 vcs_pre_push = Signal(providing_args=['component'])
 vcs_post_push = Signal(providing_args=['component'])
-vcs_post_update = Signal(providing_args=['component', 'previous_head'])
+vcs_post_update = Signal(providing_args=['component', 'previous_head', 'child'])
 vcs_pre_update = Signal(providing_args=['component'])
 vcs_pre_commit = Signal(providing_args=['translation', 'author'])
 vcs_post_commit = Signal(providing_args=['translation'])

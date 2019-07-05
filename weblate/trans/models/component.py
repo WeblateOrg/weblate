@@ -1161,7 +1161,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 vcs_post_update.send(
                     sender=component.__class__,
                     component=component,
-                    previous_head=previous_head
+                    previous_head=previous_head,
+                    child=True,
                 )
         return True
 
