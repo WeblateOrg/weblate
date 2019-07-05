@@ -42,6 +42,7 @@ class AppStoreFormatTest(AutoFormatTest):
     FIND_MATCH = 'Hello world'
     MATCH = None
     BASE = APPSTORE_FILE
+    EXPECTED_FLAGS = 'max-length:80'
 
     def parse_file(self, filename):
         return self.FORMAT(os.path.dirname(filename))

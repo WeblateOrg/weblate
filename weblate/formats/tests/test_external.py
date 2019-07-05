@@ -44,6 +44,7 @@ class XlsxFormatTest(AutoFormatTest):
     MATCH = b'PK'
     NEW_UNIT_MATCH = b'PK'
     BASE = XLSX_FILE
+    EXPECTED_FLAGS = ''
 
     def assert_same(self, newdata, testdata):
         newworkbook = load_workbook(BytesIO(newdata))
