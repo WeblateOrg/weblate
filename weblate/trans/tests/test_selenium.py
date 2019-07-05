@@ -845,7 +845,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('manage-users.png')
         self.screenshot('project-access.png')
         # The project is now watched
-        self.click('Watched projects')
+        self.click('Projects')
         with self.wait_for_page_load():
             self.click('WeblateOrg')
 
@@ -872,7 +872,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             element.submit()
         self.screenshot('glossary-edit.png')
-        self.click('Watched projects')
+        self.click('Projects')
         with self.wait_for_page_load():
             self.click('WeblateOrg')
         with self.wait_for_page_load():
