@@ -283,10 +283,22 @@ Generic settings
 
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
-    Lets Weblate fetching the IP address from any given HTTP header. Use this when using
+    Lets Weblate fetch the IP address from any given HTTP header. Use this when using
     a reverse proxy in front of the Weblate container.
 
     Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:`IP_PROXY_HEADER`.
+
+    .. note::
+
+        The format must conform to Django's expectations. Django
+        `transforms <https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`_ 
+        raw HTTP header names as follows:
+        
+        - converts all characters to uppercase
+        - replaces any hyphens with underscores
+        - prepends ``HTTP_`` prefix
+        
+        So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``.
 
     **Example:**
 
