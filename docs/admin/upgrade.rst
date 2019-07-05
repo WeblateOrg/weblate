@@ -184,6 +184,18 @@ Notable configuration or dependencies changes:
 * There are new addons, you might want to include them in case you modified the :setting:`WEBLATE_ADDONS`.
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 * There is change in the :setting:`django:CSRF_FAILURE_VIEW`.
+* There is new app ``weblate.fonts`` to be included in :setting:`django:INSTALLED_APPS`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 3.7 to 3.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There is new app ``django.contrib.humanize`` to be included in :setting:`django:INSTALLED_APPS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
