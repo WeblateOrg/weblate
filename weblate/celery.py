@@ -55,6 +55,18 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 
+@task_failure.connect
+def handle_task_failure(exception=None, **kwargs):
+    from weblate.utils.errors import report_error
+    report_error(
+        exception,
+        extra_data=kwargs,
+        prefix='Failure while executing task',
+        skip_raven=True,
+        print_tb=True
+    )
+
+
 @app.on_after_configure.connect
 def configure_error_handling(sender, **kargs):
     """Rollbar and Sentry integration
@@ -73,10 +85,6 @@ def configure_error_handling(sender, **kargs):
             data['framework'] = 'celery'
 
         rollbar.BASE_DATA_HOOK = celery_base_data_hook
-
-        @task_failure.connect
-        def handle_task_failure(**kw):
-            rollbar.report_exc_info(extra_data=kw)
 
     if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
         client = Client(

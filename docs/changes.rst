@@ -8,6 +8,7 @@ Not yet released.
 
 * Added support for simplified creating of similar components.
 * Added support for parsing translation flags from the XML based file formats.
+* Log exceptions into Celery log.
 
 weblate 3.7.1
 -------------
