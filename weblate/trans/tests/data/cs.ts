@@ -4,7 +4,7 @@
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name></name>
-    <message>
+    <message weblate-flags="c-format, max-length:100">
         <source>Hello, world!
 </source>
         <translation>Ahoj svete!

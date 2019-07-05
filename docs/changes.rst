@@ -7,6 +7,7 @@ weblate 3.8
 Not yet released.
 
 * Added support for simplified creating of similar components.
+* Added support for parsing translation flags from the XML based file formats.
 
 weblate 3.7.1
 -------------

@@ -56,17 +56,17 @@ Below are listed capabilities of all supported formats.
 +=====================+==================+===============+================+===============+================+================+=========================+
 | :ref:`gettext`      | bilingual        | yes           | yes            | yes           | yes            | yes [#po]_     | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`mono_gettext` | mono             | yes           | yes            | yes           | yes            | no             | needs editing           |
+| :ref:`mono_gettext` | mono             | yes           | yes            | yes           | yes            | yes [#po]_     | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`xliff`        | both             | yes           | yes            | yes           | yes            | partial [#xl]_ | needs editing, approved |
+| :ref:`xliff`        | both             | yes           | yes            | yes           | yes            | yes [#xl]_     | needs editing, approved |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`joomla`       | mono             | no            | yes            | no            | yes            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`qtling`       | both             | yes           | yes            | no            | yes            | no             | needs editing           |
+| :ref:`qtling`       | both             | yes           | yes            | no            | yes            | yes [#xl]_     | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`aresource`    | mono             | yes           | yes [#x]_      | no            | no             | no             |                         |
+| :ref:`aresource`    | mono             | yes           | yes [#x]_      | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`apple`        | bilingual        | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
@@ -78,7 +78,7 @@ Below are listed capabilities of all supported formats.
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`webex`        | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`dotnet`       | mono             | no            | yes            | no            | no             | no             |                         |
+| :ref:`dotnet`       | mono             | no            | yes            | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`csv`          | mono             | no            | yes            | yes           | yes            | no             | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
@@ -106,7 +106,7 @@ Below are listed capabilities of all supported formats.
 .. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The Gettext type comments are used as flags.
-.. [#xl] Only ``max-length:N`` is supported as that is defined in the Xliff standard, see :ref:`check-max-length`
+.. [#xl] The flags are extracted from non standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through ``maxwidth`` attribute as defined in the Xliff standard.
 
 .. _gettext:
 
@@ -271,6 +271,19 @@ For example:
             <target xml:space="preserve">Hello, world!
     </target>
         </trans-unit>
+
+Specifying translation flags
+++++++++++++++++++++++++++++
+
+You can specify additional translation flags (see :ref:`custom-checks`) in
+using ``weblate-flags`` attribute. Weblate also understands ``maxwidth``
+attribute from the Xliff specification:
+
+.. code-block:: xml
+
+   <trans-unit id="10" maxwidth="100" weblate-flags="c-format">
+      <source>Hello %s</source>
+   </trans-unit>
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual XLIFF              |

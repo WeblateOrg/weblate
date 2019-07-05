@@ -161,6 +161,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
     SUPPORTS_FLAG = True
+    EXPECTED_FLAGS = 'c-format, max-length:100'
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()
@@ -305,7 +306,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         storage = self.parse_file(self.FILE)
         for unit in storage.all_units:
             if unit.is_translatable():
-                self.assertEqual(unit.flags, 'c-format' if self.SUPPORTS_FLAG else '')
+                self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
                 break
 
 
@@ -365,7 +366,7 @@ class PropertiesFormatTest(AutoFormatTest):
     FIND_MATCH = 'Ignore'
     MATCH = '\n'
     NEW_UNIT_MATCH = b'\nkey=Source string\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
@@ -387,7 +388,7 @@ class JoomlaFormatTest(AutoFormatTest):
     FIND_CONTEXT = 'HELLO'
     FIND_MATCH = 'Ahoj "světe"!\n'
     NEW_UNIT_MATCH = b'\nkey=Source string\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class JSONFormatTest(AutoFormatTest):
@@ -401,7 +402,7 @@ class JSONFormatTest(AutoFormatTest):
     MATCH = '{}\n'
     BASE = ''
     NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def assert_same(self, newdata, testdata):
         self.assertJSONEqual(force_text(newdata), force_text(testdata))
@@ -414,7 +415,7 @@ class JSONNestedFormatTest(JSONFormatTest):
     MASK = 'json-nested/*.json'
     EXPECTED_PATH = 'json-nested/cs_CZ.json'
     FIND = 'weblate.hello'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class WebExtesionJSONFormatTest(JSONFormatTest):
@@ -427,7 +428,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     NEW_UNIT_MATCH = (
         b'\n    "key": {\n        "message": "Source string"\n    }\n'
     )
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def test_new_unit(self):
         if translate.__version__.ver <= (2, 2, 5):
@@ -449,7 +450,7 @@ class PhpFormatTest(AutoFormatTest):
     FIND_MATCH = 'bar'
     BASE = ''
     NEW_UNIT_MATCH = b'\nkey = \'Source string\';\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):
@@ -466,7 +467,6 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FIND_MATCH = 'Hello, world!\n'
     BASE = ''
     NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
-    SUPPORTS_FLAG = False
 
     def test_get_language_filename(self):
         self.assertEqual(
@@ -493,14 +493,13 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<source>key</source>',
         b'<target state="translated">Source string</target>',
     )
-    SUPPORTS_FLAG = False
 
 
 class XliffIdFormatTest(XliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = 'hello'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def test_edit_xliff(self):
         with open(get_test_file('ids-translated.xliff')) as handle:
@@ -529,6 +528,7 @@ class XliffIdFormatTest(XliffFormatTest):
         unit.set_target('Ahoj, svete!\n')
         translation.save()
 
+        self.maxDiff = None
         with open(translated_name) as handle:
             self.assertXMLEqual(handle.read(), expected)
 
@@ -552,7 +552,6 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<source>key</source>',
         b'<target state="translated">Source string</target>',
     )
-    SUPPORTS_FLAG = False
 
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):
@@ -572,7 +571,6 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
         b'<data name="key" xml:space="preserve">',
         b'<value>Source string</value>',
     )
-    SUPPORTS_FLAG = False
 
 
 class YAMLFormatTest(AutoFormatTest):
@@ -588,7 +586,7 @@ class YAMLFormatTest(AutoFormatTest):
     FIND_MATCH = ''
     MATCH = 'weblate:'
     NEW_UNIT_MATCH = b'\nkey: Source string\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave
@@ -604,7 +602,7 @@ class RubyYAMLFormatTest(YAMLFormatTest):
     FILE = TEST_RUBY_YAML
     BASE = TEST_RUBY_YAML
     NEW_UNIT_MATCH = b'\n  key: Source string\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class TSFormatTest(XMLMixin, AutoFormatTest):
@@ -622,7 +620,6 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
         b'<source>key</source>',
         b'<translation>Source string</translation>',
     )
-    SUPPORTS_FLAG = False
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
@@ -644,7 +641,7 @@ class DTDFormatTest(AutoFormatTest):
     FIND = 'hello'
     FIND_MATCH = ''
     NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class WindowsRCFormatTest(AutoFormatTest):
@@ -660,7 +657,7 @@ class WindowsRCFormatTest(AutoFormatTest):
     FIND = 'Hello, world!\n'
     FIND_MATCH = 'Hello, world!\n'
     NEW_UNIT_MATCH = None
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def test_edit(self):
         raise SkipTest('Known to be broken')
@@ -679,7 +676,7 @@ class CSVFormatTest(AutoFormatTest):
     FIND = 'HELLO'
     FIND_MATCH = 'Hello, world!\r\n'
     NEW_UNIT_MATCH = b'"key","Source string"\r\n'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
 
 class CSVFormatNoHeadTest(CSVFormatTest):
@@ -687,7 +684,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     COUNT = 1
     FIND = 'Thank you for using Weblate.'
     FIND_MATCH = 'Děkujeme za použití Weblate.'
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''
 
     def test_save(self, edit=False):
         raise SkipTest('Saving currently adds field headers')
@@ -695,4 +692,4 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     FORMAT = CSVSimpleFormat
-    SUPPORTS_FLAG = False
+    EXPECTED_FLAGS = ''

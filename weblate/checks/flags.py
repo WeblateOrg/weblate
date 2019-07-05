@@ -22,6 +22,7 @@ import six
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
+from lxml.etree import _Element
 
 from weblate.checks import CHECKS
 from weblate.fonts.utils import get_font_weight
@@ -67,6 +68,8 @@ class Flags(object):
     def merge(self, flags):
         if isinstance(flags, six.string_types):
             flags = self.parse(flags)
+        elif isinstance(flags, _Element):
+            flags = self.parse_xml(flags)
         elif isinstance(flags, Flags):
             flags = flags.items()
         for flag in flags:
@@ -85,6 +88,17 @@ class Flags(object):
             if not value or value in ('fuzzy', '#'):
                 continue
             yield value
+
+    @classmethod
+    def parse_xml(cls, flags):
+        """Parse comma separated list of flags."""
+        maxwidth = flags.get('maxwidth')
+        if maxwidth:
+            yield 'max-length:{0}'.format(maxwidth)
+        text = flags.get('weblate-flags')
+        if text is not None:
+            for flag in cls.parse(text):
+                yield flag
 
     def has_value(self, key):
         return key in self._values

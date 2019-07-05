@@ -149,6 +149,19 @@ class TTKitUnit(TranslationUnit):
         if hasattr(self.unit, 'markapproved'):
             self.unit.markapproved(value)
 
+    @cached_property
+    def flags(self):
+        """Return flags from unit.
+
+        We currently extract maxwidth attribute.
+        """
+        flags = Flags()
+        if hasattr(self.unit, 'xmlelement'):
+            flags.merge(self.unit.xmlelement)
+        if hasattr(self.template, 'xmlelement'):
+            flags.merge(self.template.xmlelement)
+        return flags.format()
+
 
 class KeyValueUnit(TTKitUnit):
     @cached_property
@@ -491,23 +504,6 @@ class XliffUnit(TTKitUnit):
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ''
-
-    @cached_property
-    def flags(self):
-        """Return flags from unit.
-
-        We currently extract maxwidth attribute.
-        """
-        maxwidth = None
-        if self.unit is not None:
-            maxwidth = self.unit.xmlelement.get('maxwidth')
-        if not maxwidth and self.template is not None:
-            maxwidth = self.template.xmlelement.get('maxwidth')
-
-        if maxwidth:
-            return 'max-length:{0}'.format(maxwidth)
-
         return ''
 
     def is_translated(self):
