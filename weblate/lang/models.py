@@ -303,19 +303,22 @@ class LanguageQuerySet(models.QuerySet):
                 'number': nplurals,
                 'equation': pluraleq,
             }
-            plural, created = lang.plural_set.get_or_create(
-                source=Plural.SOURCE_DEFAULT,
-                language=lang,
-                defaults=plural_data,
-            )
-            if not created:
-                modified = False
-                for item in plural_data:
-                    if getattr(plural, item) != plural_data[item]:
-                        modified = True
-                        setattr(plural, item, plural_data[item])
-                if modified:
-                    plural.save()
+            try:
+                plural, created = lang.plural_set.get_or_create(
+                    source=Plural.SOURCE_DEFAULT,
+                    language=lang,
+                    defaults=plural_data,
+                )
+                if not created:
+                    modified = False
+                    for item in plural_data:
+                        if getattr(plural, item) != plural_data[item]:
+                            modified = True
+                            setattr(plural, item, plural_data[item])
+                    if modified:
+                        plural.save()
+            except Plural.MultipleObjectsReturned:
+                continue
 
         # Create addditiona plurals
         for code, dummy, nplurals, pluraleq in languages.EXTRAPLURALS:
