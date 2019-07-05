@@ -296,7 +296,7 @@ Generic settings
         
         - converts all characters to uppercase
         - replaces any hyphens with underscores
-        - prepends HTTP_ prefix
+        - prepends ``HTTP_`` prefix
         
         So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``.
 
