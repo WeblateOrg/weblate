@@ -119,8 +119,7 @@ def get_user_display(user, icon=True, link=False, prefix=''):
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
-        full_name = pgettext('No known user', 'None')
-        username = 'none'
+        username = full_name = pgettext('No known user', 'None')
     else:
         # Get full name
         full_name = user.full_name
