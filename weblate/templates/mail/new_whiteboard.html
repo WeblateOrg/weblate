@@ -11,28 +11,18 @@
 {% endif %}
 </p>
 
-<table>
-<tr>
+<h2>{% trans "Message" %}</h2>
 
-<th>
-{% trans "Message:" %}
-</th>
-<td>{{ whiteboard.render }}</td>
-</tr>
+<p>{{ whiteboard.render }}</p>
 
-<tr>
+<div class="line buttons">
 {% if whiteboard.component %}
-<th>{% trans "Translation component:" %}</th>
-<td><a href="{{ current_site_url }}{{ whiteboard.component.get_absolute_url }}">{{ whiteboard.component }}</a></td>
+    <a class="button" href="{{ current_site_url }}{{ whiteboard.component.get_absolute_url }}">{{ whiteboard.component }}</a>
 {% elif whiteboard.project %}
-<th>{% trans "Translation project:" %}</th>
-<td><a href="{{ current_site_url }}{{ whiteboard.project.get_absolute_url }}">{{ whiteboard.project }}</a></td>
+    <a class="button" href="{{ current_site_url }}{{ whiteboard.project.get_absolute_url }}">{{ whiteboard.project }}</a>
 {% elif whiteboard.language %}
-<th>{% trans "Translation language:" %}</th>
-<td><a href="{{ current_site_url }}{{ whiteboard.language.get_absolute_url }}">{{ whiteboard.language }}</a></td>
+    <a class="button" href="{{ current_site_url }}{{ whiteboard.language.get_absolute_url }}">{{ whiteboard.language }}</a>
 {% endif %}
-</tr>
-
-</table>
+</div>
 
 {% endblock %}
