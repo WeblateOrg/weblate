@@ -7,20 +7,12 @@
 {% blocktrans %}New alert has been triggered on {{ component }} at {{ site_title }}.{% endblocktrans %}
 </p>
 
-<table>
-<tr>
+<h2>{{ alert }}</h2>
 
-<th>
-{% trans "Alert:" %}
-</th>
-<td><a href="{{ current_site_url }}{{ component.get_absolute_url }}#alerts">{{ alert }}</a></td>
-</tr>
-
-<tr><td colspan="2">
 {{ alert.render }}
-</td></tr>
 
-</table>
+<div class="line buttons">
+    <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url }}#alerts">{% trans "View all alerts" %}</a>
+</div>
 
 {% endblock %}
-
