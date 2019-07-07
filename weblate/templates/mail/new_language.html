@@ -3,21 +3,16 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-{% if was_added %}
+{% if not was_added %}
 <p>
-{% blocktrans %}New language has been added to {{ component }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans with user=user.get_visible_name %}New language has been added to {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
-<table>
-<tr>
+<h2>{% trans "Added language" %}</h2>
 
-<th>
-{% trans "Added language:" %}
-
-</th>
 {% else %}
 <p>
-{% blocktrans %}There has been a request for new language on {{ component }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans with user=user.get_visible_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
 <p>
@@ -30,30 +25,15 @@
 </a>
 </p>
 
-<table>
-<tr>
-
-<th>
-{% trans "Requested language:" %}
-
-</th>
+<h2>{% trans "Requested language" %}</h2>
 {% endif %}
 
-<td>
+<p>
 {{ language }} ({{ language.code }})
-</td>
-</tr>
+</p>
 
-<tr>
-<th>{% trans "Requested by:" %}</th>
-<td>{{ user.get_visible_name }}</td>
-</tr>
-
-<tr>
-<th>{% trans "Translation component:" %}</th>
-<td><a href="{{ current_site_url }}{{ component.get_absolute_url }}">{{ component }}</a></td>
-</tr>
-
-</table>
+<div class="line buttons">
+    <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url }}">{% trans "View translation component" %}</a>
+</div>
 
 {% endblock %}
