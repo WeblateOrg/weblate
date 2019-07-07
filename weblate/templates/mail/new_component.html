@@ -4,19 +4,11 @@
 
 {% block content %}
 <p>
-{% blocktrans %}New component has been added to {{ project }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans %}New component {{ component }} has been added to {{ project }} at {{ site_title }}.{% endblocktrans %}
 </p>
 
-<table>
-<tr>
-
-<th>
-{% trans "Added component:" %}
-</th>
-<td><a href="{{ current_site_url }}{{ component.get_absolute_url }}">{{ component }}</a></td>
-</tr>
-
-</table>
+<div class="line buttons">
+    <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url }}">{% trans "View the component" %}</a>
+</div>
 
 {% endblock %}
-
