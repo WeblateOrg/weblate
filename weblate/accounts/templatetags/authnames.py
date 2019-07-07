@@ -34,7 +34,7 @@ SOCIALS = {
     'google-oauth2': {
         'name': 'Google',
         'image': 'btn_google_light_normal_ios.svg',
-        'image_class': 'google-image',
+        'image_class': 'auth-image',
     },
     'google-plus': {'name': 'Google+', 'fa_icon': 'google-plus'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
@@ -43,7 +43,7 @@ SOCIALS = {
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'bitbucket-oauth2': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'coinbase': {'name': 'Coinbase', 'fa_icon': 'bitcoin'},
-    'email': {'name': 'Email', 'fa_icon': 'at'},
+    'email': {'name': 'Email', 'fa_icon': 'at fa-wl-extra'},
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
     'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
     'fedora': {'name': 'Fedora', 'fl_icon': 'fedora'},
@@ -53,7 +53,7 @@ SOCIALS = {
     'auth0': {
         'name': settings.SOCIAL_AUTH_AUTH0_TITLE,
         'image': settings.SOCIAL_AUTH_AUTH0_IMAGE,
-        'image_class': 'google-image',
+        'image_class': 'auth-image',
     },
 }
 
@@ -61,7 +61,7 @@ FA_SOCIAL_TEMPLATE = '''
 <i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>
 '''
 FL_SOCIAL_TEMPLATE = '''
-<span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>
+<span class="fl fa-lg {extra_class} fl-{fl_icon} fa-wl-social"></span>
 '''
 IMAGE_SOCIAL_TEMPLATE = '''
 <img class="{image_class} fa-lg {extra_class}" src="{image}" />
