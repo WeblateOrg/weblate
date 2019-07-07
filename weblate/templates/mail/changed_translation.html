@@ -4,54 +4,25 @@
 
 {% block content %}
 <p>
-{% blocktrans %}There has been a change in translation on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans with user=user.get_visible_name %}There has been a change in translation on {{ translation }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
-<table>
-<tr>
+<h2>{% trans "Source string" %}</h2>
 
-<th>
-{% trans "Source string:" %}
-</th>
-
-<td>
 {% format_translation unit.source unit.translation.component.project.source_language %}
-</td>
-</tr>
 
-<tr>
-<th>
-{% trans "Translation:" %}
-</th>
+<h2>{% trans "Translation" %}</h2>
 
-<td>
 {% format_translation unit.target unit.translation.language unit.translation.plural %}
-</td>
-</tr>
 
 {% if old %}
-<tr>
-<th>
-{% trans "Translation change:" %}
-</th>
+<h2>{% trans "Translation change" %}</h2>
 
-<td>
 {% format_translation unit.target unit.translation.language unit.translation.plural old %}
-</td>
-</tr>
 {% endif %}
 
-<tr>
-<th>{% trans "User:" %}</th>
-<td>{{ user.get_visible_name }}</td>
-</tr>
-
-</table>
-
-<p>
-{% trans "You can edit this string at:" %}
-</p>
-
-<p><a href="{{ current_site_url }}{{ unit.get_absolute_url }}">{{ current_site_url }}{{ unit.get_absolute_url }}</a></p>
+<div class="line bordered">
+    <a class="button" href="{{ current_site_url }}{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
+</div>
 
 {% endblock %}

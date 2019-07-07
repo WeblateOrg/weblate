@@ -21,11 +21,11 @@
         <div class="line-left">{% get_filter_name "todo" %}</div>
         <div class="line-right">{{ translation.stats.todo }} ({{ translation.stats.todo_percent }}%)</div>
     </div>
-    <div class="line bordered">
+    <div class="line">
         <div class="line-left">{% get_filter_name "fuzzy" %}</div>
         <div class="line-right">{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</div>
     </div>
-    <div class="line">
+    <div class="line bordered">
         <a class="button" href="{{ translation_url }}">{% trans "View the translation" %}</a>
     </div>
 </div>
