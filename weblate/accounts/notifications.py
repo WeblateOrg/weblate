@@ -484,6 +484,7 @@ def get_notification_email(language, email, notification,
             context['subject_template'],
             context
         ).strip()
+        context['subject'] = subject
 
         # Render body
         html_body = render_to_string(
