@@ -63,7 +63,7 @@ setup(
         "YAML": ["ruamel.yaml"],
         "OCR": ["tesserocr>=1.2"],
         "PHP": ["phply>=1.2.3"],
-        "Subtitles": ["aeidon==1.2.1"],
+        "Subtitles": ["aeidon==1.6.0"],
     },
     classifiers=[
         "Environment :: Web Environment",
