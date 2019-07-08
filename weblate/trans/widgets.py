@@ -365,7 +365,6 @@ class MultiLanguageWidget(SVGWidget):
             self.template_name,
             {
                 'height': len(translations) * 15 + 15,
-                'boxheight': len(translations) * 15,
                 'translations': translations,
                 'site_url': get_site_url(),
             }
