@@ -1559,7 +1559,7 @@ class ComponentSelectForm(ComponentNameForm):
     component = forms.ModelChoiceField(
         queryset=Component.objects.none(),
         label=_('Component'),
-        help_text=_('Select existing component to base on.')
+        help_text=_('Select existing component to copy configuration from.')
     )
 
     def __init__(self, request, *args, **kwargs):
