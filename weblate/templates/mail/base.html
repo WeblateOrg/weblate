@@ -114,13 +114,17 @@ p {margin: 0;}
 .box .bordered, .box .buttons, .box h2 {
 	border-top: 1px solid #E9EAEC;
 }
-.box .line, .box p, .box .list-group, .box code {
+.box .line, .box p, .box .list-group, .box code, .box pre, .box ul, .box ol {
 	width: 100%;
 	float: left;
 	padding: 14px 30px;
 }
-.box code {
+.box ol, .box ul {
+    margin-left: 20px;
+}
+.box code, .box pre {
 	word-wrap: break-word;
+    white-space: pre-wrap;
 }
 .box .buttons {
     padding-top: 30px;
