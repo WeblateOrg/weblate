@@ -212,6 +212,10 @@ del {
                 <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Change notification settings" %}</a>
             </div>
 		</div>
+        <div class="row">
+            {% comment %}This avoids Gmail hiding footer as it finds unique content here{% endcomment %}
+            <span style="opacity: 0">Generated on {% now "DATETIME_FORMAT" %}</span>
+        </div>
     </div>
  </body>
 </html>
