@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                     (44, "New string to translate"),
                     (45, "New contributor"),
                     (46, "New whiteboard message"),
-                    (47, "New component alert"),
+                    (47, "New alert"),
                     (48, "Added new language"),
                     (49, "Requested new language"),
                     (50, "Created project"),

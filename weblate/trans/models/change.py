@@ -256,7 +256,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_NEW_STRING, ugettext_lazy('New string to translate')),
         (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor')),
         (ACTION_MESSAGE, ugettext_lazy('New whiteboard message')),
-        (ACTION_ALERT, ugettext_lazy('New component alert')),
+        (ACTION_ALERT, ugettext_lazy('New alert')),
         (ACTION_ADDED_LANGUAGE, ugettext_lazy('Added new language')),
         (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
         (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),

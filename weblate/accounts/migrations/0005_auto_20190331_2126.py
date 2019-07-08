@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                                 "NewWhiteboardMessageNotificaton",
                                 "New whiteboard message",
                             ),
-                            ("NewAlertNotificaton", "New component alert"),
+                            ("NewAlertNotificaton", "New alert"),
                         ],
                         max_length=100,
                     ),

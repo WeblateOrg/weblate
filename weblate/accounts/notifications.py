@@ -447,7 +447,7 @@ class NewWhiteboardMessageNotificaton(Notification):
 @register_notification
 class NewAlertNotificaton(Notification):
     actions = (Change.ACTION_ALERT,)
-    verbose = _('New component alert')
+    verbose = _('New alert')
     template_name = 'new_alert'
     required_attr = 'alert'
 
