@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% blocktrans %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktrans %}
+</p>
+
+<code>
+{{ current_site_url }}{{ url }}
+</code>
+
+<p>
+{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}
+</p>
+
+<div class="line buttons">
+<a class="button" href="{{ current_site_url }}{{ url }}">{% trans "Confirm registration" %}</a>
+<a class="button" href="{{ current_site_url }}{% url 'contact' %}?t=reg">{% trans "Report an issue with registration" %}</a>
+</p>
