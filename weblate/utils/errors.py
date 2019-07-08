@@ -61,4 +61,4 @@ def report_error(error, request=None, extra_data=None, level='warning',
         force_text(error)
     )
     if print_tb:
-        LOGGER.exception(prefix)
+        LOGGER.exception(prefix, exc_info=error)
