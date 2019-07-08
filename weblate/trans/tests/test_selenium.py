@@ -200,12 +200,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         """Captures named full page screenshot."""
         self.scroll_top()
         # Get window and document dimensions
-        window_height = self.driver.execute_script(
-            'return window.innerHeight'
-        )
-        scroll_height = self.driver.execute_script(
-            'return document.body.scrollHeight'
-        )
+        window_height = self.driver.execute_script('return window.innerHeight')
+        scroll_height = self.driver.execute_script('return document.body.scrollHeight')
+        scroll_width = self.driver.execute_script('return document.body.scrollWidth')
         # Calculate number of screnshots
         num = int(math.ceil(float(scroll_height) / float(window_height)))
 
@@ -221,7 +218,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
 
         # Create final image
-        stitched = Image.new('RGB', (screenshots[0].width, scroll_height))
+        stitched = Image.new('RGB', (scroll_width, scroll_height))
 
         # Stitch images together
         for i, img in enumerate(screenshots):
