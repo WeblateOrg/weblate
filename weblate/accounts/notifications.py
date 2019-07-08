@@ -23,17 +23,15 @@ from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives, get_connection
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.translation import get_language, get_language_bidi, override
 from django.utils.translation import ugettext_lazy as _
-from html2text import html2text
 
 from weblate import VERSION
-from weblate.celery import app
+from weblate.accounts.tasks import send_mails
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Change
@@ -454,8 +452,7 @@ class NewAlertNotificaton(Notification):
     required_attr = 'alert'
 
 
-def get_notification_email(language, email, notification,
-                           context=None, info=None):
+def get_notification_emails(language, email, notification, context=None, info=None):
     """Render notification email."""
     context = context or {}
     headers = {}
@@ -487,11 +484,10 @@ def get_notification_email(language, email, notification,
         context['subject'] = subject
 
         # Render body
-        html_body = render_to_string(
+        body = render_to_string(
             'mail/{0}.html'.format(notification),
             context
         )
-        body = html2text(html_body)
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
@@ -506,38 +502,21 @@ def get_notification_email(language, email, notification,
             emails = [email]
 
         # Return the mail content
-        return {
-            'subject': subject,
-            'body': body,
-            'to': emails,
-            'headers': headers,
-            'html_body': html_body,
-        }
+        return [
+            {
+                'subject': subject,
+                'body': body,
+                'address': email,
+                'headers': headers,
+            }
+            for email in emails
+        ]
 
 
 def send_notification_email(language, email, notification, context=None,
                             info=None):
     """Render and sends notification email."""
-    email = get_notification_email(
+    emails = get_notification_emails(
         language, email, notification, context, info
     )
-    send_mails.delay([email])
-
-
-@app.task
-def send_mails(mails):
-    """Send multiple mails in single connection."""
-    with get_connection() as connection:
-        for mail in mails:
-            email = EmailMultiAlternatives(
-                settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
-                mail['body'],
-                to=mail['to'],
-                headers=mail['headers'],
-                connection=connection,
-            )
-            email.attach_alternative(
-                mail['html_body'],
-                'text/html'
-            )
-            email.send()
+    send_mails.delay(emails)
