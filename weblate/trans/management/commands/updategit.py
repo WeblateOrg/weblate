@@ -26,6 +26,19 @@ class Command(WeblateComponentCommand):
     help = 'updates git repos'
     needs_repo = True
 
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
+            '--foreground',
+            action='store_true',
+            default=False,
+            help='Perform load in foreground (by default backgroud task is used)'
+        )
+
     def handle(self, *args, **options):
+        if options['foreground']:
+            updater = perform_update
+        else:
+            updater = perform_update.delay
         for component in self.get_components(*args, **options):
-            perform_update.delay('Component', component.pk)
+            updater('Component', component.pk)
