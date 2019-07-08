@@ -10,6 +10,7 @@ Not yet released.
 * Added support for parsing translation flags from the XML based file formats.
 * Log exceptions into Celery log.
 * Improve performance of repository scoped addons.
+* Improved look of notification emails.
 
 weblate 3.7.1
 -------------
