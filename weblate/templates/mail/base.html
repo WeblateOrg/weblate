@@ -3,7 +3,6 @@
 {% load translations %}
 {% load advertisement %}
 <!DOCTYPE html>
-
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -39,18 +38,15 @@ a {
 	text-decoration: none;
 }
 p {margin: 0;}
-
 .row {
 	margin: 0 auto;
 	max-width: 800px;
 	width: 100%;
 	padding: 0 20px;
 }
-
 .content {
 	padding: 80px 0;
 }
-
 .footer {
 	background-color: #144D3F;
 	padding: 0 0 80px 0;
@@ -60,28 +56,8 @@ p {margin: 0;}
 	font-size: 18px;
 	position: relative;
 }
-.footer:before {
-	height: 60px;
-	width: 100%;
-	opacity: 0.2;
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	background: linear-gradient(180deg, #000000 0%, rgba(0,0,0,0) 100%);
-}
-.f-svg-logo {
-	text-align: center;
-}
 .footer .f-logo {
-{% if request %}
-    background-image: url('{{ current_site_url }}{% static "email-logo.png" %}');
-{% else %}
-    background-image: url('cid:email-logo@cid.weblate.org');
-{% endif %}
-	background-repeat: no-repeat;
-	background-position: center;
+    text-align: center;
 	width: 100%;
     height: 150px;
     display: block;
@@ -182,21 +158,20 @@ a.button {
 	-moz-border-radius: 30px;
 	border-radius: 30px !important;
 	text-decoration: none;
+    text-shadow: none;
+    display: inline;
 }
 a.button:hover {
 	background-color: #fff;
 	color: #2ECCAA;
 	border-color: #2ECCAA;
 }
-
 @media (max-width: 790px) {
 	footer .footer-left, footer .footer-right {width: 100%;}
     footer .footer-left, footer .footer-right {text-align: center;}
 	.box .line-left, .box .line-right {width: 100%;}
 	.box .line .line-left {padding-left: 0; margin-bottom: 10px;}
 }
-
-
 .translatetext {
     background-color: #eee;
 }
@@ -221,16 +196,14 @@ del {
         </div>
     </div>
     <div class="row">
-{% block footer %}
-{% if translation %}
-{% include "mail/footer.html" %}
-{% endif %}
-{% endblock %}
+{% if translation %}{% include "mail/footer.html" %}{% endif %}
     </div>
     </div>
     <div class="footer">
     	<div class="row">
-            <a class="f-logo" href="https://weblate.org/"></a>
+            <a class="f-logo" href="https://weblate.org/">
+                <img src="{% if request %}{{ current_site_url }}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+            </a>
         </div>
         <div class="row">
 			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the continuous localization system" %}</a></div>
