@@ -15,13 +15,6 @@
 
 {% for translation in translations %}
 <a xlink:href="{{ translation.6 }}">
-<rect
-   style="fill:#ffffff;fill-opacity:0;"
-   id="box{{ translation.2 }}"
-   width="400"
-   height="20"
-   x="0"
-   y="{{ translation.7 }}" />
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:11px;font-family:'Source Sans Pro',Sans;fill:#808080;text-anchor:end;"
@@ -38,8 +31,9 @@
    style="fill:{{ translation.5 }};fill-opacity:1;stroke:none"
    id="rect{{ translation.2 }}"
    width="{{ translation.4 }}"
-   height="10"
+   height="6"
    x="200"
+   rx="2"
    y="{{ translation.3 }}" />
 </a>
 {% endfor %}

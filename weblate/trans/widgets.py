@@ -326,27 +326,27 @@ class MultiLanguageWidget(SVGWidget):
 
     def render(self, response):
         translations = []
-        offset = 30
+        offset = 20
         color = self.COLOR_MAP[self.color]
         for stats in self.obj.stats.get_language_stats():
             language = stats.language
             percent = stats.translated_percent
             if self.color == 'auto':
-                if percent >= 90:
-                    color = '#4c1'
-                elif percent >= 75:
-                    color = '#dfb317'
+                if percent >= 85:
+                    color = '#2eccaa'
+                elif percent >= 50:
+                    color = '#38f'
                 else:
-                    color = '#e05d44'
+                    color = '#f6664c'
             translations.append((
                 # Language name
                 language.name,
                 # Translation percent
-                percent,
+                int(percent),
                 # Text y offset
                 offset,
                 # Bar y offset
-                offset - 10,
+                offset - 6,
                 # Bar width
                 int(percent * 1.5),
                 # Bar color
@@ -356,18 +356,16 @@ class MultiLanguageWidget(SVGWidget):
                     'project-language',
                     kwargs={'lang': language.code, 'project': self.obj.slug}
                 )),
-                # Bounding box y offset
-                offset - 15,
                 # Top offset for horizontal
                 10 + int((100 - percent) * 1.5),
             ))
-            offset += 20
+            offset += 15
 
         response.write(render_to_string(
             self.template_name,
             {
-                'height': len(translations) * 20 + 20,
-                'boxheight': len(translations) * 20 + 10,
+                'height': len(translations) * 15 + 15,
+                'boxheight': len(translations) * 15,
                 'translations': translations,
                 'site_url': get_site_url(),
             }
