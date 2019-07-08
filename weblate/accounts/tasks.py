@@ -20,8 +20,10 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import os
 import time
 from datetime import timedelta
+from email.mime.image import MIMEImage
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -129,6 +131,11 @@ def notify_auditlog(log_id):
 @app.task
 def send_mails(mails):
     """Send multiple mails in single connection."""
+    filename = os.path.join(settings.STATIC_ROOT, 'email-logo.png')
+    with open(filename, 'rb') as handle:
+        image = MIMEImage(handle.read())
+    image.add_header('Content-ID', '<email-logo@cid.weblate.org>')
+
     connection = get_connection()
     try:
         connection.open()
@@ -146,6 +153,7 @@ def send_mails(mails):
                 headers=mail['headers'],
                 connection=connection,
             )
+            email.attach(image)
             email.attach_alternative(mail['body'], 'text/html')
             email.send()
     finally:
