@@ -135,6 +135,7 @@ def send_mails(mails):
     with open(filename, 'rb') as handle:
         image = MIMEImage(handle.read())
     image.add_header('Content-ID', '<email-logo@cid.weblate.org>')
+    image.add_header('Content-Disposition', 'inline', filename='weblate.png')
 
     connection = get_connection()
     try:
@@ -153,6 +154,7 @@ def send_mails(mails):
                 headers=mail['headers'],
                 connection=connection,
             )
+            email.mixed_subtype = 'related'
             email.attach(image)
             email.attach_alternative(mail['body'], 'text/html')
             email.send()
