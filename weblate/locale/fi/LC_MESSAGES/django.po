@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-09 07:37+0000\n"
-"PO-Revision-Date: 2019-07-06 18:00+0000\n"
+"PO-Revision-Date: 2019-07-11 01:00+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -558,10 +558,8 @@ msgid "New whiteboard message"
 msgstr "Uusi valkotauluviesti"
 
 #: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:259
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "Uusi rivi"
+msgstr "Uusi hälytys"
 
 #: weblate/accounts/password_validation.py:40
 msgid "This password consists of only whitespace."
@@ -4033,20 +4031,16 @@ msgid "Manage watched projects"
 msgstr "Hallitse seurattuja projekteja"
 
 #: weblate/templates/base.html:115
-#, fuzzy
-#| msgid "Browse all project changes"
 msgid "Browse all projects"
-msgstr "Selaa projektin kaikkia muutoksia"
+msgstr "Selaa kaikkia projekteja"
 
 #: weblate/templates/base.html:130
 msgid "Manage translated languages"
 msgstr "Hallitse käännettyjä kieliä"
 
 #: weblate/templates/base.html:133
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all languages"
-msgstr "Selaa kaikkia kielimuutoksia"
+msgstr "Selaa kaikkia kieliä"
 
 #: weblate/templates/base.html:141
 msgid "Administration"
@@ -5517,10 +5511,8 @@ msgid "Revert"
 msgstr "Palauta"
 
 #: weblate/templates/last-changes-content.html:59
-#, fuzzy
-#| msgid "Notifications"
 msgid "View notification"
-msgstr "Ilmoitukset"
+msgstr "Näytä ilmoitus"
 
 #: weblate/templates/last-changes-content.html:65
 msgid "No matching activity found."
@@ -5541,16 +5533,12 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "Sivuston %(site_title)s käyttäjätililläsi on tapahtunut muutos:"
 
 #: weblate/templates/mail/account_activity.html:30
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form:"
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form."
 msgstr ""
 "Jos et itse pyytänyt tätä muutosta, tee meille ilmoitus mahdollisimman pian "
-"seuraavalla lomakkeella:"
+"seuraavalla lomakkeella."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5572,10 +5560,8 @@ msgid "Your registration on %(site_title)s"
 msgstr "Rekisteröitymisesi sivustolla %(site_title)s"
 
 #: weblate/templates/mail/base.html:213
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Weblate, the continuous localization system"
-msgstr "Lähettänyt Weblate-käännösjärjestelmä"
+msgstr "Weblate, jatkuvan lokalisoinnin järjestelmä"
 
 #: weblate/templates/mail/base.html:216
 msgid "Change notification settings"
@@ -5619,14 +5605,12 @@ msgid "Your billing plan has expired"
 msgstr "Laskutussuunnitelmasi on vanhentunut"
 
 #: weblate/templates/mail/changed_translation.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr "%(site_title)s-sivuston %(translation)s-käännökseen on tehty muutos."
+msgstr ""
+"%(user)s teki muutoksen %(site_title)s-sivuston %(translation)s-käännökseen."
 
 #: weblate/templates/mail/changed_translation.html:10
 #: weblate/templates/mail/new_comment.html:10
@@ -5638,10 +5622,8 @@ msgstr "Lähdeteksti"
 
 #: weblate/templates/mail/changed_translation.html:19
 #: weblate/templates/mail/new_suggestion.html:19
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation change"
-msgstr "Käännöksen muutos:"
+msgstr "Käännöksen muutos"
 
 #: weblate/templates/mail/changed_translation.html:25
 #: weblate/templates/mail/new_comment.html:21
@@ -5667,16 +5649,12 @@ msgid "Digest: %(notification_name)s"
 msgstr "Tiiviste: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:6
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation summary"
-msgstr "Käännösten yhteenveto:"
+msgstr "Käännösten yhteenveto"
 
 #: weblate/templates/mail/footer.html:29
-#, fuzzy
-#| msgid "New translation"
 msgid "View the translation"
-msgstr "Uusi käännös"
+msgstr "Näytä käännös"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5703,11 +5681,8 @@ msgstr ""
 "uuden hälytyksen."
 
 #: weblate/templates/mail/new_alert.html:15
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Viewers"
 msgid "View all alerts"
-msgstr "Katselijat"
+msgstr "Näytä kaikki hälytykset"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, python-format
@@ -5715,12 +5690,12 @@ msgid "New alert on %(component)s"
 msgstr "Uusi hälytys käännöskomponentissa %(component)s"
 
 #: weblate/templates/mail/new_comment.html:7
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "There has been a new comment on %(component)s at %(site_title)s by %(user)s."
 msgstr ""
-"Sivustolla %(site_title)s on uusi kommentti komponentissa %(component)s."
+"%(user)s lisäsi uuden kommentin sivustolla %(site_title)s komponentissa "
+"%(component)s."
 
 #: weblate/templates/mail/new_comment.html:14
 #: weblate/templates/source-review.html:46
@@ -5743,10 +5718,8 @@ msgstr ""
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
-#, fuzzy
-#| msgid "New translation component"
 msgid "View translation component"
-msgstr "Uusi käännöskomponentti"
+msgstr "Näytä käännöskomponentti"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
@@ -5768,31 +5741,25 @@ msgid "New contributor in %(translation)s"
 msgstr "Uusi osallistuja projektissa %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy, python-format
-#| msgid "New language has been added to %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "New language has been added to %(component)s at %(site_title)s by %(user)s."
 msgstr ""
-"Sivustolla %(site_title)s on lisätty uusi kieli käännöskomponenttiin "
+"%(user)s lisäsi sivustolla %(site_title)s uuden kielen käännöskomponenttiin "
 "%(component)s."
 
 #: weblate/templates/mail/new_language.html:11
-#, fuzzy
-#| msgid "Added language:"
 msgid "Added language"
-msgstr "Lisätty kieli:"
+msgstr "Lisätty kieli"
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(component)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Sivustolla %(site_title)s on pyydetty uuden kielen lisäämistä "
-"käännöskomponenttiin %(component)s."
+"%(user)s pyysi sivustolla %(site_title)s uuden kielen lisäämistä "
+"komponenttiin %(component)s."
 
 #: weblate/templates/mail/new_language.html:19
 msgid ""
@@ -5809,10 +5776,8 @@ msgid ""
 msgstr "Lisätietoja uuden kielitiedoston lisäämisestä löytyy dokumentaatiosta."
 
 #: weblate/templates/mail/new_language.html:28
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested language"
-msgstr "Pyydetty kieli:"
+msgstr "Pyydetty kieli"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -5838,15 +5803,13 @@ msgid "New string to translate in %(translation)s"
 msgstr "Uusi teksti käännettäväksi projektissa %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Sivustolla %(site_title)s on uusi uusi ehdotus arvioitavaksi %(translation)s."
+"%(user)s pyysi sivustolla %(site_title)s uutta ehdotusta arvioitavaksi "
+"käännöksessä %(translation)s."
 
 #: weblate/templates/mail/new_suggestion.html:14
 #: weblate/templates/trans/suggestion_list.html:15
@@ -5936,19 +5899,18 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
+"Klikkaa alla olevaa vahvistuspainiketta. Mikäli se ei toimi, sinun ehkä "
+"täytyy kopioida seuraavalla rivillä oleva osoite selaimen osoitepalkkiin "
+"jatkaaksesi."
 
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
-"Jos törmäät rekisteröitymiseen liittyvään ongelmaan, ota yhteyttä meihin:"
+"Jos törmäät rekisteröitymiseen liittyvään ongelmaan, ota meihin yhteyttä."
 
 #: weblate/templates/mail/shared-registration.html:15
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Käyttäjän rekisteröinti"
+msgstr "Vahvista rekisteröityminen"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -6355,7 +6317,7 @@ msgstr "Sinä hallinnoit tätä projektia."
 
 #: weblate/templates/snippets/list-objects.html:70
 msgid "admin"
-msgstr "hallinta"
+msgstr "ylläpitäjä"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -6524,10 +6486,8 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Sinulla ei ole oikeuksia luoda komponentteja mihinkään projektiin."
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Versionhallinta"
+msgstr "Versionhallinnasta"
 
 #: weblate/templates/trans/component_create.html:33
 msgid ""
@@ -6543,10 +6503,8 @@ msgid "Continue"
 msgstr "Jatka"
 
 #: weblate/templates/trans/component_create.html:49
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
-msgstr "Komponenttilistasta"
+msgstr "Olemassa olevasta komponentista"
 
 #: weblate/templates/trans/component_create.html:51
 msgid ""
@@ -6554,22 +6512,24 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/component_create.html:67
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Ylimääräinen viesti"
+msgstr "Lisähaara"
 
 #: weblate/templates/trans/component_create.html:69
 msgid ""
 "Create new translation component for additional branch of existing "
 "translation component."
 msgstr ""
+"Luo uusi käännöskomponentti olemassa olevan käännöskomponentin lisähaaraa "
+"varten."
 
 #: weblate/templates/trans/component_create.html:71
 msgid ""
 "The new component will be created for selected branch with exactly same "
 "configuration as existing one."
 msgstr ""
+"Uusi komponentti luodaan valitulle haaralle täsmälleen samoilla asetuksilla "
+"kuin nykyinen."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -6769,7 +6729,7 @@ msgstr "Näyttää Lähellä olevat tekstit -välilehden"
 
 #: weblate/templates/translate.html:118
 msgid "Shows search tab"
-msgstr "Näytä etsi -välilehti"
+msgstr "Näyttää hakuvälilehden"
 
 #: weblate/templates/translate.html:119
 msgid "Copies source string"
@@ -6777,7 +6737,7 @@ msgstr "Kopioi lähdetekstin"
 
 #: weblate/templates/translate.html:120
 msgid "Toggle edit needed flag"
-msgstr "Muuta Tarkistettava -valinnan tilaa"
+msgstr "Muuta Vaatii muokkaamista -valinnan tilaa"
 
 #: weblate/templates/translate.html:124
 msgid "Editing source string"
@@ -6789,11 +6749,11 @@ msgstr "Muokkaa tekstiä"
 
 #: weblate/templates/translate.html:150 weblate/templates/zen-units.html:56
 msgid "Source change"
-msgstr "Lähde muutos"
+msgstr "Lähteen muutos"
 
 #: weblate/templates/translate.html:174 weblate/trans/forms.py:1237
 msgid "Additional context"
-msgstr "Muut asiayhteydet"
+msgstr "Laajempi asiayhteys"
 
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
@@ -6874,7 +6834,7 @@ msgstr "Muut kielet"
 
 #: weblate/templates/translate.html:253
 msgid "List of recent changes done in Weblate"
-msgstr "Luettelo viimeaikaisista muutoksista Weblatessa"
+msgstr "Luettelo tuoreista muutoksista Weblatessa"
 
 #: weblate/templates/translate.html:261
 msgid "State"
@@ -6930,13 +6890,13 @@ msgstr[1] "Seuraavilla teksteillä on sama asiayhteys ja sama lähdeteksti."
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "Seuraavalla tekstillä on eri asiayhteys, mutta sama lähdeteksti."
-msgstr[1] "Seuraavilla teksteillä on eri asiayhteys, mutta sama lähdeteksti."
+msgstr[1] "Seuraavilla teksteillä on eri asiayhteydet, mutta sama lähdeteksti."
 
 #: weblate/templates/translate.html:357
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "Seuraavalla tekstillä on eri lähdeteksti mutta sama asiayhteys."
-msgstr[1] "Seuraavilla teksteillä on erit lähdetekstit mutta sama asiayhteys."
+msgstr[1] "Seuraavilla teksteillä on eri lähdetekstit mutta sama asiayhteys."
 
 #: weblate/templates/translate.html:383
 msgid "Service"
@@ -6948,7 +6908,7 @@ msgstr "Laatu"
 
 #: weblate/templates/translate.html:414
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr "Kommentoi tätä tekstiä muiden kääntäjien ja kehittäjien luettavaksi."
+msgstr "Kommentti tähän tekstiin muiden kääntäjien ja kehittäjien luettavaksi."
 
 #: weblate/templates/translate.html:437
 msgid "Things to check"
@@ -6964,7 +6924,7 @@ msgstr "Lisää sana sanastoon"
 
 #: weblate/templates/translate.html:499
 msgid "Source information"
-msgstr "Lähdetekstin tietoja"
+msgstr "Tietoa lähdetekstistä"
 
 #: weblate/templates/translate.html:531
 msgid "No context currently associated!"
@@ -6986,7 +6946,7 @@ msgstr "Tekstin tärkeys"
 #: weblate/templates/translation-download.html:9
 #: weblate/templates/translation-download.html:14
 msgid "Download for an offline translation."
-msgstr "Lataa offline -kääntämistä varten."
+msgstr "Lataa offline-kääntämistä varten."
 
 #: weblate/templates/translation-download.html:6
 #, python-format
@@ -6996,12 +6956,12 @@ msgstr "Lataa alkuperäinen käännöstiedosto (%(format)s)"
 #: weblate/templates/translation-download.html:9
 #, python-format
 msgid "Download translation file as %(format)s"
-msgstr "Lataa käännöstiedosto (%(format)s)"
+msgstr "Lataa käännöstiedosto (%(format)s)-muodossa"
 
 #: weblate/templates/translation-download.html:14
 #, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "Lataa toimenpiteitä vaativat tekstit muodossa %(format)s"
+msgstr "Lataa toimenpiteitä vaativat tekstit %(format)s-muodossa"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:296
@@ -7877,7 +7837,7 @@ msgstr "Osoitteissa (URL) käytettävä nimi ja tiedosto nimet."
 
 #: weblate/trans/forms.py:1562
 msgid "Select existing component to copy configuration from."
-msgstr ""
+msgstr "Valitse olemassa oleva komponentti, josta asetukset kopioidaan."
 
 #: weblate/trans/forms.py:1620 weblate/trans/models/component.py:169
 msgid "Version control system"
