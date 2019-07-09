@@ -12,7 +12,7 @@ with open('docs/changes.rst', 'r') as handle:
     for line in handle:
         if display:
             if line.startswith('weblate '):
-                display = False
+                break
             elif not line.startswith('--'):
                 print(line, end='')
         elif line == start:
