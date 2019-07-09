@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-09 07:37+0000\n"
-"PO-Revision-Date: 2019-07-09 07:36+0000\n"
+"PO-Revision-Date: 2019-07-11 01:00+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5547,14 +5547,12 @@ msgid "Your billing plan has expired"
 msgstr "Vaše předplatné skončilo"
 
 #: weblate/templates/mail/changed_translation.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr "V překladu %(translation)s na %(site_title)s byl změněn řetězec."
+msgstr ""
+"V překladu %(translation)s na %(site_title)s %(user)s změnil(a) řetězec."
 
 #: weblate/templates/mail/changed_translation.html:10
 #: weblate/templates/mail/new_comment.html:10
@@ -5630,11 +5628,11 @@ msgid "New alert on %(component)s"
 msgstr "Nové upozornění v %(component)s"
 
 #: weblate/templates/mail/new_comment.html:7
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "There has been a new comment on %(component)s at %(site_title)s by %(user)s."
-msgstr "V překladu %(component)s na %(site_title)s byl přidán nový komentář."
+msgstr ""
+"V překladu %(component)s na %(site_title)s %(user)s přidal(a) nový komentář."
 
 #: weblate/templates/mail/new_comment.html:14
 #: weblate/templates/source-review.html:46
@@ -5647,11 +5645,12 @@ msgid "New comment in %(component)s"
 msgstr "Nový komentář v %(component)s"
 
 #: weblate/templates/mail/new_component.html:7
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid ""
 "New component %(component)s has been added to %(project)s at %(site_title)s."
-msgstr "V překladu %(project)s na %(site_title)s byl přidána nová součást."
+msgstr ""
+"V překladu %(project)s na %(site_title)s byla přidána nová součást "
+"%(component)s."
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
@@ -5678,25 +5677,23 @@ msgid "New contributor in %(translation)s"
 msgstr "Nový přispěvatel v %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy, python-format
-#| msgid "New language has been added to %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "New language has been added to %(component)s at %(site_title)s by %(user)s."
-msgstr "V překladu %(component)s na %(site_title)s byl přidán nový jazyk."
+msgstr ""
+"V překladu %(component)s na %(site_title)s %(user)s přidal(a) nový jazyk."
 
 #: weblate/templates/mail/new_language.html:11
 msgid "Added language"
 msgstr "Přidaný jazyk"
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(component)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
-msgstr "V překladu %(component)s na %(site_title)s byl požadován nový jazyk."
+msgstr ""
+"V překladu %(component)s na %(site_title)s %(user)s zažádal(a) o nový jazyk."
 
 #: weblate/templates/mail/new_language.html:19
 msgid ""
@@ -5740,14 +5737,13 @@ msgid "New string to translate in %(translation)s"
 msgstr "Nový řetězec k překladu v %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr "V překladu %(translation)s na %(site_title)s přibyl nový návrh."
+msgstr ""
+"V překladu %(translation)s na %(site_title)s přibyl nový návrh k posouzení "
+"od %(user)s."
 
 #: weblate/templates/mail/new_suggestion.html:14
 #: weblate/templates/trans/suggestion_list.html:15
@@ -5837,6 +5833,9 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
+"Klikněte na potvrzovací tlačítko níže. V případě, že to nezafunguje, můžete "
+"pokračovat zkopírováním URL adresy z následujícího řádku do adresního řádku "
+"prohlížeče."
 
 #: weblate/templates/mail/shared-registration.html:11
 msgid "If there is a problem with your registration, please contact us."
@@ -6437,24 +6436,27 @@ msgstr "Z existující součásti"
 msgid ""
 "Create new translation component from repository already cloned in Weblate."
 msgstr ""
+"Vytvořit novou součást překladu z repozitáře, který už je naklonován ve "
+"Weblate."
 
 #: weblate/templates/trans/component_create.html:67
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Váš vzkaz"
+msgstr "Další větev"
 
 #: weblate/templates/trans/component_create.html:69
 msgid ""
 "Create new translation component for additional branch of existing "
 "translation component."
 msgstr ""
+"Vytvořit novou součást překladu pro další větev existující součásti překladu."
 
 #: weblate/templates/trans/component_create.html:71
 msgid ""
 "The new component will be created for selected branch with exactly same "
 "configuration as existing one."
 msgstr ""
+"Pro označenou větev bude vytvořena nová součást s naprosto stejným "
+"nastavením, jaké má ta existující."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -7757,7 +7759,7 @@ msgstr "Název použitý v URL a cestách souborů."
 
 #: weblate/trans/forms.py:1562
 msgid "Select existing component to copy configuration from."
-msgstr ""
+msgstr "Vyberte existující součást ze které zkopírovat nastavení."
 
 #: weblate/trans/forms.py:1620 weblate/trans/models/component.py:169
 msgid "Version control system"
