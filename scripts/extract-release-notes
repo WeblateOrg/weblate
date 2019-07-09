@@ -5,7 +5,7 @@ import sys
 if len(sys.argv) != 2:
     raise Exception('Missing argument')
 
-start = 'weblate {}'.format(sys.argv[1])
+start = 'weblate {}\n'.format(sys.argv[1])
 display = False
 
 with open('docs/changes.rst', 'r') as handle:
@@ -15,6 +15,6 @@ with open('docs/changes.rst', 'r') as handle:
                 display = False
             elif not line.startswith('--'):
                 print(line, end='')
-        elif line.startswith(start):
+        elif line == start:
             display = True
             print(line, end='')
