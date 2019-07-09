@@ -20,10 +20,9 @@ tarver=Weblate-$version
 # What are we going to build?
 if [ "x$1" = "x--tag" ] ; then
     ./scripts/prepare-release
-    rev=$namever
-    git tag -s $rev -m "Version $version"
+    git tag -s $namever -m "Version $version"
     cd ~/weblate/test
-    git tag -s $rev -m "Test data for version $version"
+    git tag -s $namever -m "Test data for version $version"
     cd ~/weblate/weblate
 fi
 
@@ -40,12 +39,20 @@ zcat dist/$tarver.tar.gz | bzip2 > dist/$tarver.tar.bz2
 # Upload release
 if [ "x$1" = "x--tag" ] ; then
     # PyPi archive upload
-    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.tar.gz
+    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.gz
 
     # Sign remaining files
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.tar.xz
-    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver*.tar.bz2
+    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.xz
+    gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D dist/$tarver.tar.bz2
 
     # Download server
     scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
+
+    # Upload to GitHub
+    ./scripts/extract-release-notes $version > dist/Weblate-$version.md
+    hub release create --file=dist/Weblate-$version.md $namever
+    hub release edit -m '' --attach=dist/$tarver.tar.gz $namever
+    hub release edit -m '' --attach=dist/$tarver.tar.gz.asc $namever
+    hub release edit -m '' --attach=dist/$tarver.tar.xz $namever
+    hub release edit -m '' --attach=dist/$tarver.tar.xz.asc $namever
 fi
