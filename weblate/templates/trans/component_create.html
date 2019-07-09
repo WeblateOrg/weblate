@@ -20,60 +20,57 @@
 
 {% endif %}
 
-<div class="row">
+<ul class="nav nav-pills">
+{% if projects %}
+  <li role="presentation" class="active"><a href="#vcs" data-toggle="tab">{% trans "From version control" %}</a></li>
+{% endif %}
+{% if form.fields.component.queryset %}
+  <li role="presentation"><a href="#existing" data-toggle="tab">{% trans "From existing component" %}</a></li>
+{% endif %}
+{% if branch_form.fields.component.queryset %}
+  <li role="presentation"><a href="#branch" data-toggle="tab">{% trans "Additional branch" %}</a></li>
+{% endif %}
+</ul>
+
+<div class="tab-content">
 
 {% if projects %}
+<div class="tab-pane active" id="vcs">
 <form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<div class="col-sm-3">
-<div class="panel panel-primary">
-<div class="panel-heading">{% trans "From version control" %}</div>
-<div class="panel-body create-panel-body">
 <p>{% trans "Create new translation component from remote version control system repository." %}</p>
 {{ full_form | crispy }}
-</div>
-<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs"></div>
-</div>
-</div>
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
+</div>
 {% endif %}
 
 {% if form.fields.component.queryset %}
+<div class="tab-pane" id="existing">
 <form method="post">
 {% csrf_token %}
 <input type="hidden" name="origin" value="existing" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<div class="col-sm-3">
-<div class="panel panel-primary">
-<div class="panel-heading">{% trans "From existing component" %}</div>
-<div class="panel-body create-panel-body">
 <p>{% trans "Create new translation component from repository already cloned in Weblate." %}</p>
 {{ existing_form | crispy }}
-</div>
-<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-existing"></div>
-</div>
-</div>
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-existing">
 </form>
+</div>
 {% endif %}
 
 {% if branch_form.fields.component.queryset %}
+<div class="tab-pane" id="branch">
 <form method="post" class="branch-loader" data-branches="{{ branch_data }}">
 {% csrf_token %}
 <input type="hidden" name="origin" value="branch" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<div class="col-sm-3">
-<div class="panel panel-primary">
-<div class="panel-heading">{% trans "Additional branch" %}</div>
-<div class="panel-body create-panel-body">
 <p>{% trans "Create new translation component for additional branch of existing translation component." %}</p>
 {{ branch_form | crispy }}
 <p class="help-block">{% trans "The new component will be created for selected branch with exactly same configuration as existing one." %}</p>
-</div>
-<div class="panel-footer"><input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-branch"></div>
-</div>
-</div>
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-branch">
 </form>
+</div>
 {% endif %}
 
 </div>
