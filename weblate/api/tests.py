@@ -588,7 +588,8 @@ class TranslationAPITest(APIBaseTest):
                 'fuzzy': 0,
                 'total': 4,
                 'last_change': None,
-                'name': 'Czech'
+                'name': 'Czech',
+                'recent_changes': 0,
             }
         )
 
