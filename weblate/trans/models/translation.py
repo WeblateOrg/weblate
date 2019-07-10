@@ -886,6 +886,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             'total_words': self.stats.all_words,
             'last_change': self.stats.last_changed,
             'last_author': self.get_last_author(),
+            'recent_changes': self.stats.recent_changes,
             'translated': self.stats.translated,
             'translated_words': self.stats.translated_words,
             'translated_percent': self.stats.translated_percent,
