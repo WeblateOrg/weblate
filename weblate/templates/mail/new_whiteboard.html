@@ -15,14 +15,4 @@
 
 <p>{{ whiteboard.render }}</p>
 
-<div class="line buttons">
-{% if whiteboard.component %}
-    <a class="button" href="{{ current_site_url }}{{ whiteboard.component.get_absolute_url }}">{{ whiteboard.component }}</a>
-{% elif whiteboard.project %}
-    <a class="button" href="{{ current_site_url }}{{ whiteboard.project.get_absolute_url }}">{{ whiteboard.project }}</a>
-{% elif whiteboard.language %}
-    <a class="button" href="{{ current_site_url }}{{ whiteboard.language.get_absolute_url }}">{{ whiteboard.language }}</a>
-{% endif %}
-</div>
-
 {% endblock %}

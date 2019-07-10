@@ -7,7 +7,7 @@
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ subject }}</title>
+  <title>{{ change.get_action_display }}</title>
   <style>
 button,hr,input{overflow:visible}audio,canvas,progress,video{display:inline-block}progress,sub,sup{vertical-align:baseline}[type=checkbox],[type=radio],legend{box-sizing:border-box;padding:0}html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:ButtonText dotted 1px}fieldset{padding:.35em .75em .625em}legend{color:inherit;display:table;max-width:100%;white-space:normal}textarea{overflow:auto}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}[hidden],template{display:none}
 html,
@@ -37,7 +37,7 @@ a {
 	-webkit-transition: all 300ms linear;
 	text-decoration: none;
 }
-p {margin: 0;}
+p, pre {margin: 0;}
 .row {
 	margin: 0 auto;
 	max-width: 800px;
@@ -96,7 +96,7 @@ p {margin: 0;}
     font-weight: normal;
 	letter-spacing: -0.5px;
 	line-height: 36px;
-	margin-bottom: 10px;
+	margin: 0;
 	color: #2A3744;
 	border-bottom: 1px solid #E9EAEC;
 }
@@ -108,13 +108,18 @@ p {margin: 0;}
     font-weight: bold;
 	letter-spacing: -0.5px;
 	line-height: 22px;
-	margin-bottom: 0px;
+	margin: 0;
 	color: #2A3744;
 }
 .box .bordered, .box .buttons, .box h2 {
 	border-top: 1px solid #E9EAEC;
 }
-.box .line, .box p, .box .list-group, .box code, .box pre, .box ul, .box ol, .box table {
+.box .nav {
+	border-bottom: 1px solid #E9EAEC;
+    background-color: #eee;
+    color: #2A3744;
+}
+.box .line, .box p, .box .list-group, .box code, .box pre, .box ul, .box ol, .box table, .box .nav {
 	width: 100%;
 	float: left;
 	padding: 14px 30px;
@@ -193,8 +198,13 @@ del {
     <div class="row">
         <div class="box">
             <h1>
-                {{ subject }}
+                {{ change.get_action_display }}
             </h1>
+            <div class="nav">
+                {% if project %}<a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
+                {% if component %}/ <a href="{{ current_site_url }}{{ component.get_absolute_url }}">{{ component.name }}</a>{% endif %}
+                {% if translation %}/ <a href="{{ current_site_url }}{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
+            </div>
             {% block content %}
             {% endblock %}
         </div>

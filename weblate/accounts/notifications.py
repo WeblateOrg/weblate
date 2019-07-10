@@ -241,7 +241,6 @@ class Notification(object):
         with override('en' if language is None else language):
             context = self.get_context(change)
             subject = self.render_template('_subject.txt', context)
-            context['subject'] = subject
             LOGGER.info(
                 'sending notification %s on %s to %s',
                 self.get_name(), context['component'], email,
