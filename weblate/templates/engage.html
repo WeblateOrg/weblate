@@ -39,10 +39,10 @@
 {% if language %}
 {% filter replace_english:language %}
 {% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
-{% blocktrans %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+{% blocktrans with total=total|intcomma %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endfilter %}
 {% else %}
-{% blocktrans count languages=languages  %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} language</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} languages</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+{% blocktrans count count=full_stats.languages with total=total|intcomma languages=languages|intcomma %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} language</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} languages</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endif %}
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
 {% if object.access_control %}
