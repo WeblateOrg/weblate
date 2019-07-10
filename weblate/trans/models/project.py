@@ -388,6 +388,7 @@ class Project(models.Model, URLMixin, PathMixin):
     def get_stats(self):
         """Return stats dictionary"""
         return {
+            'name': self.name,
             'total': self.stats.all,
             'total_words': self.stats.all_words,
             'last_change': self.stats.last_changed,
