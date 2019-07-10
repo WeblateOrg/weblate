@@ -301,6 +301,17 @@ class ProjectViewSet(WeblateViewSet):
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
+        serializer = StatisticsSerializer(
+            obj,
+            context={'request': request},
+        )
+
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def languages(self, request, **kwargs):
+        obj = self.get_object()
+
         return Response(get_project_stats(obj))
 
     @action(detail=True, methods=['get'])

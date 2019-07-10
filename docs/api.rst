@@ -385,17 +385,32 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-.. http:get:: /api/components/(string:project)/statistics/
+.. http:get:: /api/projects/(string:project)/languages/
 
     Returns paginated statistics for all languages within a project.
 
-    .. versionadded:: 2.10
+    .. versionadded:: 3.8
 
     :param project: Project URL slug
     :type project: string
     :>json array results: array of translation statistics objects
     :>json string language: language name
     :>json string code: language code
+    :>json int total: total number of strings
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
+    :>json int total_words: total number of words
+    :>json int translated_words: number of translated words
+    :>json float words_percent: percentage of translated words
+
+.. http:get:: /api/projects/(string:project)/statistics/
+
+    Returns statistics for a project.
+
+    .. versionadded:: 3.8
+
+    :param project: Project URL slug
+    :type project: string
     :>json int total: total number of strings
     :>json int translated: number of translated strings
     :>json float translated_percent: percentage of translated strings

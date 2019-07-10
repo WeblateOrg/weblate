@@ -384,3 +384,21 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def get_licenses(self):
         return {x for x in self.component_set.values_list('license', flat=True) if x}
+
+    def get_stats(self):
+        """Return stats dictionary"""
+        return {
+            'total': self.stats.all,
+            'total_words': self.stats.all_words,
+            'last_change': self.stats.last_changed,
+            'recent_changes': self.stats.recent_changes,
+            'translated': self.stats.translated,
+            'translated_words': self.stats.translated_words,
+            'translated_percent': self.stats.translated_percent,
+            'fuzzy': self.stats.fuzzy,
+            'fuzzy_percent': self.stats.fuzzy_percent,
+            'failing': self.stats.allchecks,
+            'failing_percent': self.stats.allchecks_percent,
+            'url': self.get_share_url(),
+            'url_translate': get_site_url(self.get_absolute_url()),
+        }

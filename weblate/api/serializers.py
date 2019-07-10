@@ -115,13 +115,17 @@ class ProjectSerializer(serializers.ModelSerializer):
         view_name='api:project-statistics',
         lookup_field='slug',
     )
+    languages_url = serializers.HyperlinkedIdentityField(
+        view_name='api:project-languages',
+        lookup_field='slug',
+    )
 
     class Meta(object):
         model = Project
         fields = (
             'name', 'slug', 'web', 'source_language', 'web_url', 'url',
             'components_list_url', 'repository_url', 'statistics_url',
-            'changes_list_url',
+            'changes_list_url', 'languages_url',
         )
         extra_kwargs = {
             'url': {
