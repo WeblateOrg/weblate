@@ -46,6 +46,7 @@ The following examples assume you have a working Docker environment, with
               WEBLATE_ALLOWED_HOSTS: weblate.example.com,localhost
               WEBLATE_ADMIN_PASSWORD: password for the admin user
               WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
+              WEBLATE_PORT: 80
 
    .. note::
 
