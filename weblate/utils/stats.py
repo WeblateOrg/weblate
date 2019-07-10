@@ -401,23 +401,25 @@ class TranslationStats(BaseStats):
             self.store('last_author', last_change.author_id)
 
     def count_changes(self):
-        monthly = timezone.now() - timedelta(days=30)
         if self.last_changed:
-            recently = self.last_changed - timedelta(days=2)
+            monthly = timezone.now() - timedelta(days=30)
+            recently = timezone.now() - timedelta(days=4)
             self.store(
                 'recent_changes',
                 self._object.change_set.filter(timestamp__gt=recently).count()
             )
+            self.store(
+                'monthly_changes',
+                self._object.change_set.filter(timestamp__gt=monthly).count()
+            )
+            self.store(
+                'total_changes',
+                self._object.change_set.count()
+            )
         else:
             self.store('recent_changes', 0)
-        self.store(
-            'monthly_changes',
-            self._object.change_set.filter(timestamp__gt=monthly).count()
-        )
-        self.store(
-            'total_changes',
-            self._object.change_set.count()
-        )
+            self.store('monthly_changes', 0)
+            self.store('total_changes', 0)
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
