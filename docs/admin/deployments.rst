@@ -142,6 +142,10 @@ Many of Weblate's :ref:`config` can be set in the Docker container using environ
 Generic settings
 ~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_PORT
+
+   Configure on which port the Weblate service will listen. Defaults to 80.
+
 .. envvar:: WEBLATE_DEBUG
 
     Configures Django debug mode using :setting:`DEBUG`.
