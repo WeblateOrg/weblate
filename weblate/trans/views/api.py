@@ -74,6 +74,7 @@ def export_stats(request, project, component):
             'url',
             'last_change',
             'last_author',
+            'recent_changes',
         ),
         [trans.get_stats() for trans in translations.iterator()]
     )
