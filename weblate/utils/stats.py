@@ -52,7 +52,10 @@ BASIC_KEYS = frozenset(
         'allchecks_words_percent',
     ]
     + list(BASICS)
-    + ['last_changed', 'last_author', 'recent_changes', 'total_changes']
+    + [
+        'last_changed', 'last_author', 'recent_changes', 'monthly_changes',
+        'total_changes'
+    ]
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
@@ -361,10 +364,11 @@ class TranslationStats(BaseStats):
         # Calculate percents
         self.calculate_basic_percents()
 
+        # Last change timestamp
+        self.fetch_last_change()
+
         # Count recent changes
         self.count_changes()
-
-        self.fetch_last_change()
 
     def get_last_change_obj(self):
         from weblate.trans.models import Change
@@ -397,10 +401,18 @@ class TranslationStats(BaseStats):
             self.store('last_author', last_change.author_id)
 
     def count_changes(self):
-        date = timezone.now() - timedelta(days=30)
+        monthly = timezone.now() - timedelta(days=30)
+        if self.last_changed:
+            recently = self.last_changed - timedelta(days=2)
+            self.store(
+                'recent_changes',
+                self._object.change_set.filter(timestamp__gt=recently).count()
+            )
+        else:
+            self.store('recent_changes', 0)
         self.store(
-            'recent_changes',
-            self._object.change_set.filter(timestamp__gt=date).count()
+            'monthly_changes',
+            self._object.change_set.filter(timestamp__gt=monthly).count()
         )
         self.store(
             'total_changes',

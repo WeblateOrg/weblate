@@ -265,7 +265,7 @@ def dashboard_anonymous(request):
     all_projects = prefetch_stats(request.user.allowed_projects)
     top_projects = sorted(
         all_projects,
-        key=lambda prj: -prj.stats.recent_changes
+        key=lambda prj: -prj.stats.monthly_changes
     )
 
     return render(
