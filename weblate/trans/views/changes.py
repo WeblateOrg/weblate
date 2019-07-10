@@ -266,6 +266,7 @@ def show_change(request, pk):
         notification = notifications[0](None)
         context = notification.get_context(change)
         context['request'] = request
+        context['subject'] = notification.render_template('_subject.txt', context)
         content = notification.render_template('.html', context)
 
     return HttpResponse(content_type='text/html; charset=utf-8', content=content)
