@@ -191,6 +191,13 @@ class ProjectAPITest(APIBaseTest):
             'api:project-statistics',
             self.project_kwargs,
         )
+        self.assertEqual(request.data['total'], 12)
+
+    def test_languages(self):
+        request = self.do_request(
+            'api:project-languages',
+            self.project_kwargs,
+        )
         self.assertEqual(len(request.data), 3)
 
 
