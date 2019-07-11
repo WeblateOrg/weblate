@@ -113,7 +113,8 @@ class SuggestionManager(models.Manager):
                 user=suggestion.user,
                 language=suggestion.language,
             ))
-        self.bulk_create(suggestions)
+        # The batch size is needed for MySQL
+        self.bulk_create(suggestions, batch_size=500)
 
 
 class SuggestionQuerySet(models.QuerySet):

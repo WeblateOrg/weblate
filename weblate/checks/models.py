@@ -100,7 +100,8 @@ class CheckManager(models.Manager):
                 ignore=check.ignore,
                 content_hash=check.content_hash,
             ))
-        self.bulk_create(checks)
+        # The batch size is needed for MySQL
+        self.bulk_create(checks, batch_size=500)
 
     def bulk_create_ignore(self, objs):
         """Wrapper to bulk_create to ignore existing entries.

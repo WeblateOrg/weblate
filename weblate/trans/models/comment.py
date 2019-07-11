@@ -70,7 +70,8 @@ class CommentManager(models.Manager):
                 user=comment.user,
                 language=comment.language,
             ))
-        self.bulk_create(comments)
+        # The batch size is needed for MySQL
+        self.bulk_create(comments, batch_size=500)
 
 
 class CommentQuerySet(models.QuerySet):
