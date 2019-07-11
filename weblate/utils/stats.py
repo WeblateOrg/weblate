@@ -404,18 +404,10 @@ class TranslationStats(BaseStats):
         if self.last_changed:
             monthly = timezone.now() - timedelta(days=30)
             recently = timezone.now() - timedelta(days=4)
-            self.store(
-                'recent_changes',
-                self._object.change_set.filter(timestamp__gt=recently).count()
-            )
-            self.store(
-                'monthly_changes',
-                self._object.change_set.filter(timestamp__gt=monthly).count()
-            )
-            self.store(
-                'total_changes',
-                self._object.change_set.count()
-            )
+            content = self._object.change_set.content()
+            self.store('recent_changes', content.filter(timestamp__gt=recently).count())
+            self.store('monthly_changes', content.filter(timestamp__gt=monthly).count())
+            self.store('total_changes', self._object.change_set.count())
         else:
             self.store('recent_changes', 0)
             self.store('monthly_changes', 0)
