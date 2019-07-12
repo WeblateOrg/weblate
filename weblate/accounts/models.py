@@ -199,9 +199,7 @@ class AuditLogQuerySet(models.QuerySet):
         authentication attempts since last login.
         """
         try:
-            latest_login = self.filter(
-                user=user, activity=after
-            )[0]
+            latest_login = self.filter(user=user, activity=after).order()[0]
             kwargs = {'timestamp__gte': latest_login.timestamp}
         except IndexError:
             kwargs = {}

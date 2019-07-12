@@ -11,6 +11,7 @@ Not yet released.
 * Log exceptions into Celery log.
 * Improve performance of repository scoped addons.
 * Improved look of notification emails.
+* Fixed password reset behavior.
 
 weblate 3.7.1
 -------------
