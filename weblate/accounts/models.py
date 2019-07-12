@@ -285,7 +285,10 @@ class AuditLog(models.Model):
                 return True
 
         elif self.activity == 'reset-request':
-            failures = AuditLog.objects.get_after(self.user, 'login', 'reset-request')
+            failures = AuditLog.objects.filter(
+                timestamp__gte=timezone.now() - datetime.timedelta(days=1),
+                activity='reset-request'
+            )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 return True
 
