@@ -277,9 +277,7 @@ class AuditLog(models.Model):
     def check_rate_limit(self, request):
         """Check whether the activity should be rate limited."""
         if self.activity == 'failed-auth' and self.user.has_usable_password():
-            failures = AuditLog.objects.get_after(
-                self.user, 'login', 'failed-auth'
-            )
+            failures = AuditLog.objects.get_after(self.user, 'login', 'failed-auth')
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 self.user.set_unusable_password()
                 self.user.save(update_fields=['password'])
@@ -287,9 +285,7 @@ class AuditLog(models.Model):
                 return True
 
         elif self.activity == 'reset-request':
-            failures = AuditLog.objects.get_after(
-                self.user, 'login', 'reset-request'
-            )
+            failures = AuditLog.objects.get_after(self.user, 'login', 'reset-request')
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 return True
 
