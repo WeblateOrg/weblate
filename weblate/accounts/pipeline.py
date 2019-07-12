@@ -262,7 +262,7 @@ def revoke_mail_code(strategy, details, **kwargs):
     PSA keeps them around, but we really don't need them again.
     """
     data = strategy.request_data()
-    if details['email'] and 'verification_code' in data:
+    if 'email' in details and details['email'] and 'verification_code' in data:
         try:
             code = strategy.storage.code.objects.get(
                 code=data['verification_code'],
