@@ -150,7 +150,7 @@ class EndStopCheck(TargetCheck):
                     '෴', '។', ':', '՝', '?', '!', '`',
                 )
             )
-        if self.is_language(unit, ('hi', 'bn')):
+        if self.is_language(unit, ('hi', 'bn', 'or')):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(
