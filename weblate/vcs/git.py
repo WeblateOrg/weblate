@@ -104,7 +104,7 @@ class GitRepository(Repository):
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
         if abort:
-            if self.has_rev('REBASE_HEAD'):
+            if self.has_rev('ORIG_HEAD'):
                 self.execute(['rebase', '--abort'])
         else:
             self.execute(['rebase', self.get_remote_branch_name()])
