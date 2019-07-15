@@ -4,7 +4,7 @@
 
 {% block content %}
 <p>
-{% blocktrans with user=user.get_visible_name %}There is a new suggestion to evaluate on {{ translation }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
+{% blocktrans with user=user.username %}There is a new suggestion to evaluate on {{ translation }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
 <h2>{% trans "Source string" %}</h2>

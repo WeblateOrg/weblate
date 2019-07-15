@@ -4,7 +4,7 @@
 
 {% block content %}
 <p>
-{% blocktrans with user=user.get_visible_name %}There has been a new comment on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
+{% blocktrans with user=user.username %}There has been a new comment on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
 <h2>{% trans "Source string" %}</h2>

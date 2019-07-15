@@ -5,7 +5,7 @@
 {% block content %}
 {% if not was_added %}
 <p>
-{% blocktrans with user=user.get_visible_name %}New language has been added to {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
+{% blocktrans with user=user.username %}New language has been added to {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
 <h2>{% trans "Added language" %}</h2>
