@@ -74,9 +74,7 @@ SPLIT_RE = re.compile(
     re.IGNORECASE
 )
 
-EMOJI_RE = re.compile(
-    u'[\U00002600-\U000027BF]|[\U0001f300-\U0001f64F]|[\U0001f680-\U0001f6FF]'
-)
+EMOJI_RE = re.compile(u'[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]')
 
 # Docbook tags to ignore
 DB_TAGS = (
