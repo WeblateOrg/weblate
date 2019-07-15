@@ -140,12 +140,10 @@ class DictionaryQuerySet(models.QuerySet):
             text = strip_string(text, flags).lower()
             for analyzer in analyzers:
                 # Some Whoosh analyzers break on unicode
-                new_words = []
                 try:
-                    new_words = [token.text for token in analyzer(text)]
+                    words.update(token.text for token in analyzer(text))
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error)
-                words.update(new_words)
                 if len(words) > 1000:
                     break
             if len(words) > 1000:
@@ -164,7 +162,7 @@ class DictionaryQuerySet(models.QuerySet):
             project=unit.translation.component.project,
             language=unit.translation.language,
             source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
-                '|'.join([re_escape(word) for word in islice(words, 1000)])
+                '|'.join(re_escape(word) for word in islice(words, 1000))
             )
         )
 
