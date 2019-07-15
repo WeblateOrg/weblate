@@ -181,3 +181,8 @@ class WeblateGroupAdmin(WeblateModelAdmin):
             request, form, formsets, change
         )
         self.new_obj.save()
+
+
+# This is pointless for Weblate, but necessary to silent admin.E039
+# check when using custom admin site
+admin.site.register(User, WeblateUserAdmin)
