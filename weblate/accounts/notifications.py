@@ -221,6 +221,14 @@ class Notification(object):
             'X-Weblate-Notification': self.get_name()
         }
 
+        # Set From header to contain user full name
+        user = context.get('user')
+        if user:
+            headers['From'] = '{} <{}>'.format(
+                context['user'].get_visible_name(),
+                settings.DEFAULT_FROM_EMAIL
+            )
+
         # References for unit events
         references = None
         unit = context.get('unit')
