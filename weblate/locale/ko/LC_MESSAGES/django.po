@@ -6,13 +6,14 @@
 # k ks <kmshts@naver.com>, 2019.
 # Jun Hyung Shin <shmishmi79@gmail.com>, 2019.
 # 아킨토스 <akintos47@gmail.com>, 2019.
+# bluepencil <bluepencil@yahoo.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-09 07:37+0000\n"
-"PO-Revision-Date: 2019-06-25 08:00+0000\n"
-"Last-Translator: 아킨토스 <akintos47@gmail.com>\n"
+"PO-Revision-Date: 2019-07-16 22:04+0000\n"
+"Last-Translator: bluepencil <bluepencil@yahoo.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.7.1-dev\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -549,10 +550,8 @@ msgid "New whiteboard message"
 msgstr "새로운 화이트보드 메시지"
 
 #: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:259
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "새로운 줄"
+msgstr "새로운 알림"
 
 #: weblate/accounts/password_validation.py:40
 msgid "This password consists of only whitespace."
@@ -2898,7 +2897,7 @@ msgstr "도움이 필요하시면, 이 오류를 %(error_id)s 로 참조하십�
 #: weblate/templates/base.html:171 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:57
 msgid "About Weblate"
-msgstr "Weblate에 대하여"
+msgstr "Weblate에 대해서"
 
 #: weblate/templates/about/index.html:18
 msgid ""
@@ -3933,22 +3932,16 @@ msgid "Manage watched projects"
 msgstr "참여 중인 프로젝트 관리"
 
 #: weblate/templates/base.html:115
-#, fuzzy
-#| msgid "Browse all project changes"
 msgid "Browse all projects"
-msgstr "모든 프로젝트 변경 사항 찾아보기"
+msgstr "모든 프로젝트"
 
 #: weblate/templates/base.html:130
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Manage translated languages"
-msgstr "번역된 언어"
+msgstr "번역된 언어 관리"
 
 #: weblate/templates/base.html:133
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all languages"
-msgstr "모든 언어 변경 사항 찾아보기"
+msgstr "모든 언어"
 
 #: weblate/templates/base.html:141
 msgid "Administration"
@@ -5385,10 +5378,8 @@ msgid "Revert"
 msgstr "되돌리기"
 
 #: weblate/templates/last-changes-content.html:59
-#, fuzzy
-#| msgid "Notifications"
 msgid "View notification"
-msgstr "알림"
+msgstr "알림 보기"
 
 #: weblate/templates/last-changes-content.html:65
 msgid "No matching activity found."
@@ -5409,16 +5400,10 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "%(site_title)s 에서 당신의 계정이 변경되었습니다:"
 
 #: weblate/templates/mail/account_activity.html:30
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form:"
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form."
-msgstr ""
-"이 변경을 요청하지 않은 경우, 다음 양식을 사용하여 최대한 빨리 알려주시기 바"
-"랍니다:"
+msgstr "만약 당신이 이 변경을 요청하지 않았다면, 다음 양식을 사용하여 가능한 한 빨리 우리에게 통지해 주십시오."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5440,10 +5425,8 @@ msgid "Your registration on %(site_title)s"
 msgstr "%(site_title)s에 등록됨"
 
 #: weblate/templates/mail/base.html:213
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Weblate, the continuous localization system"
-msgstr "Weblate 번역 시스템으로 전송됨"
+msgstr "Weblate, 지속적인 현지화 시스템"
 
 #: weblate/templates/mail/base.html:216
 msgid "Change notification settings"
@@ -5487,14 +5470,11 @@ msgid "Your billing plan has expired"
 msgstr "당신의 결제 플랜이 만료되었습니다"
 
 #: weblate/templates/mail/changed_translation.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr "%(site_title)s 에서 %(translation)s 에 대한 번역이 변경되었습니다."
+msgstr "%(site_title)s에서 %(translation)s 를 %(user)s 로 변환하는 동안 변경되었습니다."
 
 #: weblate/templates/mail/changed_translation.html:10
 #: weblate/templates/mail/new_comment.html:10
@@ -5506,18 +5486,14 @@ msgstr "원본 문자열"
 
 #: weblate/templates/mail/changed_translation.html:19
 #: weblate/templates/mail/new_suggestion.html:19
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation change"
-msgstr "번역 변경 사항:"
+msgstr "번역 변경사항"
 
 #: weblate/templates/mail/changed_translation.html:25
 #: weblate/templates/mail/new_comment.html:21
 #: weblate/templates/mail/new_suggestion.html:25
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit this string"
-msgstr "문자열 편집"
+msgstr "이 문자열 편집"
 
 #: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
@@ -5535,16 +5511,12 @@ msgid "Digest: %(notification_name)s"
 msgstr "요약: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:6
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation summary"
-msgstr "번역 개요:"
+msgstr "번역 개요"
 
 #: weblate/templates/mail/footer.html:29
-#, fuzzy
-#| msgid "New translation"
 msgid "View the translation"
-msgstr "새로운 번역"
+msgstr "번역 보기"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5567,11 +5539,8 @@ msgid "New alert has been triggered on %(component)s at %(site_title)s."
 msgstr "새 경고가 %(site_title)s 에서 %(component)s 에 유발되었습니다."
 
 #: weblate/templates/mail/new_alert.html:15
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Viewers"
 msgid "View all alerts"
-msgstr "보는 사람"
+msgstr "모든 알림 보기"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, python-format
@@ -5579,11 +5548,10 @@ msgid "New alert on %(component)s"
 msgstr "%(component)s 에 새로운 경보"
 
 #: weblate/templates/mail/new_comment.html:7
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "There has been a new comment on %(component)s at %(site_title)s by %(user)s."
-msgstr "%(site_title)s에서 %(component)s에 대한 새로운 댓글이 있습니다."
+msgstr "%(site_title)s 의 %(component)s 에 대한 %(user)s 의 새로운 설명이 있습니다."
 
 #: weblate/templates/mail/new_comment.html:14
 #: weblate/templates/source-review.html:46
@@ -5596,18 +5564,15 @@ msgid "New comment in %(component)s"
 msgstr "%(component)s에 새로운 댓글"
 
 #: weblate/templates/mail/new_component.html:7
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid ""
 "New component %(component)s has been added to %(project)s at %(site_title)s."
-msgstr "새로운 구성요소가 %(site_title)s 에서 %(project)s 에 추가되었습니다."
+msgstr "%(component)s가 %(site_title)s 에서 %(project)s에 추가되었습니다."
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
-#, fuzzy
-#| msgid "New translation component"
 msgid "View translation component"
-msgstr "새로운 번역 구성요소"
+msgstr "변환 구성 요소 보기"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
@@ -5629,28 +5594,21 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s의 새로운 참여자"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy, python-format
-#| msgid "New language has been added to %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "New language has been added to %(component)s at %(site_title)s by %(user)s."
-msgstr "새로운 언어가 %(site_title)s 에서 %(component)s 에 추가되었습니다."
+msgstr "%(user)s에 의해 %(site_title)s 의 %(component)s에 새 언어가 추가되었습니다."
 
 #: weblate/templates/mail/new_language.html:11
-#, fuzzy
-#| msgid "Added language:"
 msgid "Added language"
-msgstr "추가된 언어:"
+msgstr "추가된 언어"
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(component)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
-msgstr ""
-"%(site_title)s 에서 %(component)s 에 대한 새로운 언어 요청이 있었습니다."
+msgstr "%(component)s의 %(site_title)s에서 %(user)의 새 언어 요청이 있습니다."
 
 #: weblate/templates/mail/new_language.html:19
 msgid ""
@@ -5668,10 +5626,8 @@ msgstr ""
 "새 언어 파일을 추가하는 것에 대한 세부 정보는 문서에서 찾을 수 있습니다."
 
 #: weblate/templates/mail/new_language.html:28
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested language"
-msgstr "요청된 언어:"
+msgstr "요청된 언어"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -5697,15 +5653,11 @@ msgid "New string to translate in %(translation)s"
 msgstr "%(translation)s의 번역을 할 수 있는 새로운 문자열"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr ""
-"%(site_title)s 에서 %(translation)s에 평가할 수 있는 새로운 제안이 있습니다."
+msgstr "%(translation)s 에서 %(site_title)s 를 %(user)s 로 평가하는 새로운 제안이 있습니다."
 
 #: weblate/templates/mail/new_suggestion.html:14
 #: weblate/templates/trans/suggestion_list.html:15
@@ -5791,18 +5743,15 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
+"아래 확인 버튼을 클릭하세요. 작동하지 않는 경우 계속하려면 다음 줄의 URL을 브라우저 주소 표시줄에 복사해야 할 수 있습니다."
 
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
-msgstr "등록에 문제가 있으면, 저희에게 연락해 주시기 바랍니다:"
+msgstr "등록에 문제가 있으면, 저희에게 연락해 주시기 바랍니다."
 
 #: weblate/templates/mail/shared-registration.html:15
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "사용자 회원 가입"
+msgstr "회원 가입 확인"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -6157,10 +6106,8 @@ msgid ""
 msgstr "이 번역에 기여하기 위해 당신은 기여자 계약에 동의해야 합니다."
 
 #: weblate/templates/snippets/legend-button.html:6
-#, fuzzy
-#| msgid "Shows machine translation tab"
 msgid "Progress bar colors indicate translation state:"
-msgstr "기계 번역 탭 보이기"
+msgstr "진행 표시줄 색상은 변환 상태를 나타냅니다:"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:36
@@ -6369,16 +6316,14 @@ msgid "You do not have permission to create components in any projects."
 msgstr "모든 프로젝트에서 구성요소를 생성할 권한이 없습니다."
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "버전 관리"
+msgstr "버전 관리에서"
 
 #: weblate/templates/trans/component_create.html:33
 msgid ""
 "Create new translation component from remote version control system "
 "repository."
-msgstr ""
+msgstr "원격 버전 제어 시스템 저장소에서 새 변환 구성 요소 생성."
 
 #: weblate/templates/trans/component_create.html:36
 #: weblate/templates/trans/component_create.html:54
@@ -6388,33 +6333,29 @@ msgid "Continue"
 msgstr "계속"
 
 #: weblate/templates/trans/component_create.html:49
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
-msgstr "구성요소 목록에서"
+msgstr "기존 구성 요소에서"
 
 #: weblate/templates/trans/component_create.html:51
 msgid ""
 "Create new translation component from repository already cloned in Weblate."
-msgstr ""
+msgstr "Weblate에서 이미 복제된 저장소에서 새 변환 구성 요소를 생성합니다."
 
 #: weblate/templates/trans/component_create.html:67
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "추가 메시지"
+msgstr "추가 브랜치"
 
 #: weblate/templates/trans/component_create.html:69
 msgid ""
 "Create new translation component for additional branch of existing "
 "translation component."
-msgstr ""
+msgstr "기존 변환 구성 요소의 추가 분기에 대한 새 변환 구성 요소를 생성합니다."
 
 #: weblate/templates/trans/component_create.html:71
 msgid ""
 "The new component will be created for selected branch with exactly same "
 "configuration as existing one."
-msgstr ""
+msgstr "새 구성 요소는 기존 구성과 정확히 동일한 구성으로 선택한 분기에 대해 생성됩니다."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -6436,7 +6377,7 @@ msgstr "저는 결과를 이해합니다, 이 번역을 삭제합니다"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
-msgstr ""
+msgstr "이 파일 형식은 지원되지 않습니다."
 
 #: weblate/templates/trans/embed-alert.html:9
 msgid "This translation component is currently being updated."
@@ -7703,7 +7644,7 @@ msgstr "URL 및 파일 이름에 사용 되는 이름입니다."
 
 #: weblate/trans/forms.py:1562
 msgid "Select existing component to copy configuration from."
-msgstr ""
+msgstr "구성을 복사할 기존 구성 요소를 선택합니다."
 
 #: weblate/trans/forms.py:1620 weblate/trans/models/component.py:169
 msgid "Version control system"
@@ -8619,11 +8560,8 @@ msgid "source"
 msgstr "원본"
 
 #: weblate/trans/models/translation.py:125
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "This translation is used for source strings."
-msgstr "이 번역은 이 구성요소 내부의 소스 코드 문자열에서 사용되었습니다."
+msgstr "이 변환은 원본 문자열에 사용됩니다."
 
 #: weblate/trans/models/translation.py:154
 #, python-format
