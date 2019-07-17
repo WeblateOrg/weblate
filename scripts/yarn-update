@@ -55,7 +55,7 @@ cp node_modules/slugify/index.js ../../weblate/static/js/slugify.js
 # Source Sans/Code Pro fonts
 cp node_modules/source-sans-pro/source-sans-pro.css ../../weblate/static/font-source
 cp node_modules/source-code-pro/source-code-pro.css ../../weblate/static/font-source
-find node_modules/source-sans-pro/ node_modules/source-code-pro/ -name SourceSansPro-Medium.* -o -name SourceSansPro-Bold.* -o -name SourceSansPro-Regular.* -o -name SourceSansPro-It.* -o -name SourceSansPro-BoldIt.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* -o -name SourceCodePro-Medium.* | while read name ; do
+find node_modules/source-sans-pro/ node_modules/source-code-pro/ -name SourceSansPro-ExtraLight.* -o  -name SourceSansPro-Light.* -o  -name SourceSansPro-Semibold.* -o -name SourceSansPro-Black.* -o -name SourceSansPro-Bold.* -o -name SourceSansPro-Regular.* -o -name SourceSansPro-It.* -o -name SourceSansPro-BoldIt.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* | while read name ; do
     target=`echo $name | sed 's@node_modules/source-\(sans\|code\)-pro/@../../weblate/static/font-source/@'`
     dir=`dirname $target`
     if [ ! -d $dir ] ; then
