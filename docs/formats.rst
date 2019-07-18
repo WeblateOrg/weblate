@@ -643,6 +643,11 @@ features such as plurals.
 i18next translations are monolingual, so it is recommended to specify base file
 with English strings.
 
+.. note::
+
+   Weblate supports i18next JSON v3 format. The v2 and v1 variants are mostly
+   compatible, with exception of handling plurals.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
