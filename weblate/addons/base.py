@@ -215,6 +215,8 @@ class BaseAddon(object):
                 'output': output,
                 'error': str(err),
             })
+        except Exception as err:
+            component.log_error('failed to exec %s: %s', err.cmd, err.output)
 
     def trigger_alerts(self, component):
         if self.alerts:
