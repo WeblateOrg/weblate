@@ -15,7 +15,7 @@
 {% if has_legal %}
 <div class="alert alert-info">
 {% url 'legal:terms' as legal_url %}
-<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service prior to registration.{% endblocktrans %}</a>
+<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service before registering.{% endblocktrans %}</a>
 </div>
 {% else %}
 {% trans "By registering you agree to use your name and email in version control system commits and provide your contribution under license defined by each translated project." as msg %}
@@ -72,7 +72,7 @@
 
 <p>
 {% url 'contact' as contact_url %}
-{% trans "Sorry, but registrations on this site are disabled." %}
+{% trans "Sorry, new registrations are turned off on this site." %}
 <a href="{{ contact_url }}">{% trans "You can contact us for more details." %}</a>
 </p>
 
