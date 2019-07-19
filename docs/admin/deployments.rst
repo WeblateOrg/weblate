@@ -69,6 +69,12 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
     The setup has changed recently, priorly there was separate web server
     container, since 2.15-2 the web server is embedded in the Weblate container.
 
+.. versionchanged:: 3.7.1-6
+
+   In July 2019 (starting with the 3.7.1-6 tag), the containers is not running
+   as root. As a consequence this has lead to changed exposed port from 80 to
+   8080.
+
 .. seealso:: :ref:`invoke-manage`
 
 .. _docker-ssl:
@@ -95,7 +101,7 @@ Then create a :file:`docker-compose-https.override.yml` file with your settings:
           WEBLATE_ADMIN_PASSWORD: password for admin user
       https-portal:
         environment:
-          DOMAINS: 'weblate.example.com -> http://weblate'
+          DOMAINS: 'weblate.example.com -> http://weblate:8080'
 
 Whenever invoking :program:`docker-compose` you need to pass both files to it,
 and then do:
