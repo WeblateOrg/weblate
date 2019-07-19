@@ -259,6 +259,7 @@ SAME_BLACKLIST = frozenset((
     'graphic',
     'graphics',
     'grant',
+    'gratis',
     'gtk',
     'gzip',
     'hack',
