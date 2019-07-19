@@ -319,7 +319,7 @@ class Component(models.Model, URLMixin, PathMixin):
         default=0,
         help_text=ugettext_lazy(
             'Automatically accept suggestions with this number of votes,'
-            ' use 0 to disable.'
+            ' use 0 to turn it off.'
         ),
         validators=[validate_autoaccept],
     )
@@ -327,8 +327,8 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Translation flags'),
         default='',
         help_text=ugettext_lazy(
-            'Additional comma-separated flags to influence quality checks, '
-            'check documentation for possible values.'
+            'Additional comma-separated flags to influence quality checks. '
+            'possible values are to be found in the documentation.'
         ),
         validators=[validate_check_flags],
         blank=True,
