@@ -40,13 +40,13 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 def translate(request, unit_id, service):
     """AJAX handler for translating."""
+    if service not in MACHINE_TRANSLATION_SERVICES:
+        raise SuspiciousOperation('Invalid service specified')
+
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
     if not request.user.has_perm('machinery.view', unit.translation):
         raise PermissionDenied()
-
-    if service not in MACHINE_TRANSLATION_SERVICES:
-        raise SuspiciousOperation('Invalid service specified')
 
     translation_service = MACHINE_TRANSLATION_SERVICES[service]
 
