@@ -66,9 +66,9 @@ class FontListView(ProjectViewMixin, ListView):
                 instance.save()
                 return redirect(instance)
             except ValidationError:
-                messages.error(request, _("Entry with same name already exists."))
+                messages.error(request, _("Entry by the same name already exists."))
         else:
-            messages.error(request, _("Failed to create, please fix errors below."))
+            messages.error(request, _("Creation failed, please the fix errors below."))
         return self.get(request, **kwargs)
 
 
@@ -90,7 +90,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
             raise PermissionDenied()
 
         self.object.delete()
-        messages.error(request, _("Font was deleted."))
+        messages.error(request, _("Font deleted."))
         return redirect("fonts", project=self.project.slug)
 
 
@@ -124,7 +124,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.save()
                     return redirect(self.object)
                 except ValidationError:
-                    messages.error(request, _("Entry with same name already exists."))
+                    messages.error(request, _("Entry by the same name already exists."))
             return self.get(request, **kwargs)
         elif "language" in request.POST:
             form = self._form = FontOverrideForm(request.POST)
@@ -136,7 +136,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     instance.save()
                     return redirect(self.object)
                 except ValidationError:
-                    messages.error(request, _("Entry with same name already exists."))
+                    messages.error(request, _("Entry by the same name already exists."))
             return self.get(request, **kwargs)
         elif "override" in request.POST:
             try:
@@ -145,8 +145,8 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 ).delete()
                 return redirect(self.object)
             except (ValueError, ObjectDoesNotExist):
-                messages.error(request, _("Override was not found."))
+                messages.error(request, _("No override found."))
 
         self.object.delete()
-        messages.error(request, _("Font group was deleted."))
+        messages.error(request, _("Font group deleted."))
         return redirect("fonts", project=self.project.slug)
