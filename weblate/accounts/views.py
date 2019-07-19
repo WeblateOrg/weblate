@@ -815,7 +815,7 @@ def reset_password(request):
     if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
             request,
-            _('Can not reset password, email authentication is disabled!')
+            _('Cannot reset password, email authentication is turned off.')
         )
         return redirect('login')
 
@@ -972,8 +972,8 @@ def store_userid(request, reset=False, remove=False):
 def social_auth(request, backend):
     """Wrapper around social_django.views.auth.
 
-    - requires POST (to avoid CSRF on auth)
-    - it stores current user in session (to avoid CSRF on complete)
+    - Requires POST (to avoid CSRF on auth)
+    - Stores current user in session (to avoid CSRF upon completion)
     """
     store_userid(request)
     return auth(request, backend)
@@ -988,9 +988,9 @@ def auth_redirect_token(request):
     return auth_fail(
         request,
         _(
-            'Failed to verify your registration! '
-            'Probably the verification token has expired. '
-            'Please try the registration again.'
+            'Could not verify your registration! '
+            'The verification token has probably expired. '
+            'Please try to register again.'
         )
     )
 
@@ -998,7 +998,7 @@ def auth_redirect_token(request):
 def auth_redirect_state(request):
     return auth_fail(
         request,
-        _('Authentication failed due to invalid session state.')
+        _('Could not authenticate due to invalid session state.')
     )
 
 
@@ -1007,7 +1007,7 @@ def handle_missing_parameter(request, backend, error):
     if backend != 'email' and error.parameter == 'email':
         return auth_fail(
             request,
-            _('Got no e-mail address from third party authentication service!')
+            _('Got no e-mail address from third party authentication service.')
             + ' '
             + _('Please register using e-mail instead.')
         )
@@ -1023,7 +1023,7 @@ def handle_missing_parameter(request, backend, error):
     if error.parameter == 'disabled':
         return auth_fail(
             request,
-            _('New registrations are disabled!')
+            _('New registrations are turned off.')
         )
     return None
 
@@ -1033,8 +1033,8 @@ def handle_missing_parameter(request, backend, error):
 def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
 
-    - blocks access for demo user
-    - gracefuly handle backend errors
+    - Blocks access for demo user
+    - Handles backend errors gracefully
     """
     try:
         return complete(request, backend)
@@ -1051,17 +1051,17 @@ def social_complete(request, backend):
     except AuthFailed as error:
         report_error(error, request)
         return auth_fail(request, _(
-            'Authentication has failed, probably due to expired token '
+            'Could not authenticate, probably due to an expired token '
             'or connection error.'
         ))
     except AuthCanceled:
         return auth_fail(
-            request, _('Authentication has been cancelled.')
+            request, _('Authentication cancelled.')
         )
     except AuthForbidden as error:
         report_error(error, request)
         return auth_fail(
-            request, _('Authentication has been forbidden by server.')
+            request, _('The server does not allow authentication.')
         )
     except AuthAlreadyAssociated:
         return auth_fail(request, _(
