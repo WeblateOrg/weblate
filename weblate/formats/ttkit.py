@@ -726,7 +726,7 @@ class PoFormat(TTKitFormat):
 
 
 class PoMonoFormat(PoFormat):
-    name = _('Gettext PO file (monolingual)')
+    name = _('gettext PO file (monolingual)')
     format_id = 'po-mono'
     monolingual = True
     autoload = ()
