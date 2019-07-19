@@ -160,6 +160,11 @@ class IntegrationTest(ViewTestCase):
         with self.assertRaises(TestException):
             self.component.update_branch()
 
+    def test_process_error(self):
+        addon = TestAddon.create(self.component)
+        addon.execute_process(self.component, ['false'])
+        self.assertEqual(len(addon.alerts), 1)
+
 
 class GettextAddonTest(ViewTestCase):
     def create_component(self):
