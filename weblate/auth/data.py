@@ -37,7 +37,7 @@ PERMISSIONS = (
     ('change.download', _('Download changes')),
 
     ('component.edit', _('Edit component settings')),
-    ('component.lock', _('Lock component from translating')),
+    ('component.lock', _('Lock component, preventing translations')),
 
     ('comment.add', _('Post comment')),
     ('comment.delete', _('Delete comment')),
@@ -61,17 +61,17 @@ PERMISSIONS = (
     ('screenshot.edit', _('Edit screenshot')),
     ('screenshot.delete', _('Delete screenshot')),
 
-    ('source.edit', _('Edit info on source strings')),
+    ('source.edit', _('Edit source string info')),
 
     ('suggestion.accept', _('Accept suggestion')),
     ('suggestion.add', _('Add suggestion')),
     ('suggestion.delete', _('Delete suggestion')),
-    ('suggestion.vote', _('Vote suggestion')),
+    ('suggestion.vote', _('Vote on suggestion')),
 
     ('translation.add', _('Start new translation')),
     ('translation.auto', _('Perform automatic translation')),
     ('translation.delete', _('Delete existing translation')),
-    ('translation.add_more', _('Start new translation into more languages')),
+    ('translation.add_more', _('Add language for translation')),
 
     ('unit.add', _('Add new string')),
     ('unit.check', _('Ignore failing check')),
@@ -80,9 +80,9 @@ PERMISSIONS = (
     ('unit.override', _('Edit string when suggestions are enforced')),
     ('unit.template', _('Edit source strings')),
 
-    ('upload.authorship', _('Define author of translation upload')),
+    ('upload.authorship', _('Define author of uploaded translation')),
     ('upload.overwrite', _('Overwrite existing strings with upload')),
-    ('upload.perform', _('Upload translation strings')),
+    ('upload.perform', _('Upload strings for translation')),
 
     ('vcs.access', _('Access the internal repository')),
     ('vcs.commit', _('Commit changes to the internal repository')),
@@ -94,20 +94,20 @@ PERMISSIONS = (
 
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
-    ('management.use', _('Use management interface (global)')),
+    ('management.use', _('Use management interface (on the entire platform)')),
 
-    ('language.add', _('Add language definitions (global)')),
-    ('language.edit', _('Manage language definitions (global)')),
+    ('language.add', _('Add language definitions (on the entire platform)')),
+    ('language.edit', _('Manage language definitions (on the entire platform)')),
 
-    ('group.add', _('Add groups (global)')),
-    ('group.edit', _('Manage groups (global)')),
+    ('group.add', _('Add groups (on the entire platform)')),
+    ('group.edit', _('Manage groups (on the entire platform)')),
 
-    ('user.add', _('Add users (global)')),
-    ('user.edit', _('Manage users (global)')),
+    ('user.add', _('Add users (on the entire platform)')),
+    ('user.edit', _('Manage users (on the entire platform)')),
 
-    ('whiteboard.edit', _('Manage whiteboard (global)')),
+    ('whiteboard.edit', _('Manage whiteboard (on the entire platform)')),
 
-    ('memory.edit', _('Manage translation memory (global)')),
+    ('memory.edit', _('Manage translation memory (on the entire platform)')),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
