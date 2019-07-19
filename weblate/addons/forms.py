@@ -185,7 +185,7 @@ class RemoveSuggestionForm(RemoveForm):
         required=True,
         help_text=_(
             'Votes threshold for removal. This field has no effect with '
-            'voting disabled.'
+            'voting turned off.'
         )
     )
 
