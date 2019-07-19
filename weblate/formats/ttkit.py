@@ -670,7 +670,7 @@ class PHPUnit(KeyValueUnit):
 
 
 class PoFormat(TTKitFormat):
-    name = _('Gettext PO file')
+    name = _('gettext PO file')
     format_id = 'po'
     loader = pofile
     monolingual = False
