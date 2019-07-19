@@ -523,7 +523,7 @@ class Plural(models.Model):
         verbose_name=ugettext_lazy('Plural definition source'),
         choices=(
             (SOURCE_DEFAULT, ugettext_lazy('Default plural')),
-            (SOURCE_GETTEXT, ugettext_lazy('Gettext plural formula')),
+            (SOURCE_GETTEXT, ugettext_lazy('Plural gettext formula')),
         ),
     )
     number = models.SmallIntegerField(
