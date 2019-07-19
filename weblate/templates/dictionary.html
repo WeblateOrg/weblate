@@ -31,7 +31,7 @@
     </a>
     <ul class="dropdown-menu">
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "gettext (PO)" %}</a></li>
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localization Interchange File Format (XLIFF)" %}</a></li>
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
