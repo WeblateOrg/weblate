@@ -93,13 +93,13 @@ class Subscription(models.Model):
 
 ACCOUNT_ACTIVITY = {
     'password': _(
-        'Password has been changed.'
+        'Password changed.'
     ),
     'reset-request': _(
-        'Password reset has been requested.'
+        'Password reset requested.'
     ),
     'reset': _(
-        'Password reset has been confirmed and password has been disabled.'
+        'Password reset confirmed, password turned off.'
     ),
     'auth-connect': _(
         'You can now log in using {method} ({name}).'
@@ -165,7 +165,7 @@ class AuditLogManager(models.Manager):
     def is_new_login(self, user, address, user_agent):
         """Checks whether this login is coming from new device.
 
-        This is currently based purely in IP address.
+        This is currently based purely on the IP address.
         """
         logins = self.filter(user=user, activity='login-new')
 
@@ -195,7 +195,7 @@ class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
         """Get user activites of given type after another activity.
 
-        This is mostly used for rate limiting as it can return number of failed
+        This is mostly used for rate limiting, as it can return the number of failed
         authentication attempts since last login.
         """
         try:
@@ -335,9 +335,9 @@ class Profile(models.Model):
         verbose_name=_('Translated languages'),
         blank=True,
         help_text=_(
-            'Choose which languages you prefer to translate. '
-            'These will be offered to you on the dashboard to '
-            'have easier access to chosen translations.'
+            'Choose the languages you can translate to. '
+            'These will be offered to you on the dashboard '
+            'for easier access to your chosen translations.'
         )
     )
     secondary_languages = models.ManyToManyField(
@@ -363,7 +363,7 @@ class Profile(models.Model):
         default=True
     )
     hide_source_secondary = models.BooleanField(
-        verbose_name=_('Hide source if there is secondary language'),
+        verbose_name=_('Hide source if a secondary language translation exists'),
         default=False
     )
     editor_link = models.CharField(
@@ -371,11 +371,11 @@ class Profile(models.Model):
         max_length=200,
         verbose_name=_('Editor link'),
         help_text=_(
-            'Enter custom URL to be used as link to open source code. '
+            'Enter custom URL to be used as link to libre software code. '
             'You can use {{branch}} for branch, '
             '{{filename}} and  {{line}} as filename and line placeholders. '
             'Usually something like editor://open/?file={{filename}}&line={{line}}'
-            ' is good option.'
+            ' is a good option.'
         ),
         validators=[validate_editor],
     )
@@ -404,9 +404,9 @@ class Profile(models.Model):
         max_length=30,
         verbose_name=_('Special characters'),
         help_text=_(
-            'You can specify additional special characters to be shown in '
-            'the visual keyboard while translating. It can be useful for '
-            'chars you use frequently but are hard to type on your keyboard.'
+            'You can specify additional special visual keyboard characters '
+            'to be shown while translating. It can be useful for '
+            'characters you use frequently, but are hard to type on your keyboard.'
         )
     )
 
