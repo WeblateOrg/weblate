@@ -10,7 +10,7 @@
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
 {% elif use_file %}
 <li><a href="">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'memory' manage='manage' %}">{% trans "Global translation memory" %}</a></li>
+<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
 {% else %}
 <li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>
 <li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
@@ -31,9 +31,9 @@
   <tr>
   <th>{% trans "Shared translation memory" %}</th>
   <td>
-  {% if project.use_shared_tm %}{% trans "enabled" %}{% else %}{% trans "disabled" %}{% endif %}
+  {% if project.use_shared_tm %}{% trans "on" %}{% else %}{% trans "off" %}{% endif %}
   {% perm 'project.edit' project as user_can_edit_project %}
-  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-xs btn-primary"><i class="fa fa-wrench"></i> {% trans "Configure" %}</a>{% endif %}
+  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-xs btn-primary"><i class="fa fa-wrench"></i> {% trans "Set up" %}</a>{% endif %}
   </td>
   </tr>
   {% endif %}
@@ -42,7 +42,7 @@
     {% if project %}
       {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
     {% elif use_file %}
-      {% trans "Number of global entries" %}
+      {% trans "Number of entries on the whole platform" %}
     {% else %}
       {% trans "Number of your entries" %}
     {% endif %}
