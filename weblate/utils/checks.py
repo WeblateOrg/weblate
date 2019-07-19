@@ -76,6 +76,14 @@ def check_celery(app_configs, **kwargs):
                 id='weblate.E005',
             )
         )
+    elif settings.CELERY_BROKER_URL == 'memory://':
+        errors.append(
+            Critical(
+                'Celery is configured to store queue in local memory',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.E026',
+            )
+        )
     else:
         stats = get_queue_stats()
         if stats['celery'] > 50 or stats['search'] > 10000:
