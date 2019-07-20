@@ -65,6 +65,7 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.docs import get_doc_url
+from weblate.utils.forms import SortedSelect, SortedSelectMultiple
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -873,6 +874,7 @@ class SiteSearchForm(SearchForm):
     lang = forms.MultipleChoiceField(
         label=_('Languages'),
         required=False,
+        widget=SortedSelectMultiple,
     )
 
     def __init__(self, *args, **kwargs):
@@ -1164,7 +1166,8 @@ class NewLanguageOwnerForm(forms.Form):
     """Form for requesting new language."""
     lang = forms.MultipleChoiceField(
         label=_('Languages'),
-        choices=[]
+        choices=[],
+        widget=SortedSelectMultiple,
     )
 
     def __init__(self, component, *args, **kwargs):
@@ -1199,7 +1202,8 @@ class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
     lang = forms.ChoiceField(
         label=_('Language'),
-        choices=[]
+        choices=[],
+        widget=SortedSelect,
     )
 
     def __init__(self, component, *args, **kwargs):
@@ -1865,7 +1869,8 @@ class MatrixLanguageForm(forms.Form):
     """Form for requesting new language."""
     lang = forms.MultipleChoiceField(
         label=_('Languages'),
-        choices=[]
+        choices=[],
+        widget=SortedSelectMultiple,
     )
 
     def __init__(self, component, *args, **kwargs):
