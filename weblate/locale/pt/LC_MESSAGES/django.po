@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-09 07:37+0000\n"
-"PO-Revision-Date: 2019-06-30 14:00+0000\n"
+"PO-Revision-Date: 2019-07-21 11:30+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7.1\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -561,10 +561,8 @@ msgid "New whiteboard message"
 msgstr "Nova mensagem no quadro branco"
 
 #: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:259
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "Nova linha"
+msgstr "Novo alerta"
 
 #: weblate/accounts/password_validation.py:40
 msgid "This password consists of only whitespace."
@@ -4012,20 +4010,16 @@ msgid "Manage watched projects"
 msgstr "Gerir projectos observados"
 
 #: weblate/templates/base.html:115
-#, fuzzy
-#| msgid "Browse all project changes"
 msgid "Browse all projects"
-msgstr "Explorar todas as alterações do projeto"
+msgstr "Explorar todos os projetos"
 
 #: weblate/templates/base.html:130
 msgid "Manage translated languages"
 msgstr "Gerenciar idiomas traduzidos"
 
 #: weblate/templates/base.html:133
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all languages"
-msgstr "Ver todas as alterações de idioma"
+msgstr "Procurar todos os idiomas"
 
 #: weblate/templates/base.html:141
 msgid "Administration"
@@ -5482,10 +5476,8 @@ msgid "Revert"
 msgstr "Reverter"
 
 #: weblate/templates/last-changes-content.html:59
-#, fuzzy
-#| msgid "Notifications"
 msgid "View notification"
-msgstr "Notificações"
+msgstr "Exibir notificações"
 
 #: weblate/templates/last-changes-content.html:65
 msgid "No matching activity found."
@@ -5506,16 +5498,12 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "Houve uma alteração na sua conta em %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:30
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form:"
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form."
 msgstr ""
 "Se não pediu esta alteração, por favor avise-nos assim que possível usando o "
-"seguinte formulário:"
+"seguinte formulário."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5537,8 +5525,6 @@ msgid "Your registration on %(site_title)s"
 msgstr "O seu registo no %(site_title)s"
 
 #: weblate/templates/mail/base.html:213
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Weblate, the continuous localization system"
 msgstr "Enviado pelo sistema de tradução Weblate"
 
@@ -5586,14 +5572,13 @@ msgid "Your billing plan has expired"
 msgstr "O seu plano de faturamento terminou"
 
 #: weblate/templates/mail/changed_translation.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s "
 "by %(user)s."
-msgstr "Houve uma alteração de tradução em %(translation)s de %(site_title)s."
+msgstr ""
+"Houve uma alteração de tradução em %(translation)s de %(site_title)s por "
+"%(user)s."
 
 #: weblate/templates/mail/changed_translation.html:10
 #: weblate/templates/mail/new_comment.html:10
@@ -5605,18 +5590,14 @@ msgstr "Cadeia fonte"
 
 #: weblate/templates/mail/changed_translation.html:19
 #: weblate/templates/mail/new_suggestion.html:19
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation change"
-msgstr "Alteração da tradução:"
+msgstr "Alteração da tradução"
 
 #: weblate/templates/mail/changed_translation.html:25
 #: weblate/templates/mail/new_comment.html:21
 #: weblate/templates/mail/new_suggestion.html:25
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit this string"
-msgstr "Editar cadeia"
+msgstr "Editar esta cadeia"
 
 #: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
@@ -5634,16 +5615,12 @@ msgid "Digest: %(notification_name)s"
 msgstr "Resumo: %(notification_name)s"
 
 #: weblate/templates/mail/footer.html:6
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation summary"
-msgstr "Resumo da tradução:"
+msgstr "Resumo da tradução"
 
 #: weblate/templates/mail/footer.html:29
-#, fuzzy
-#| msgid "New translation"
 msgid "View the translation"
-msgstr "Nova tradução"
+msgstr "Ver a  tradução"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5666,11 +5643,8 @@ msgid "New alert has been triggered on %(component)s at %(site_title)s."
 msgstr "Um novo alerta foi acionado em %(component)s em %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:15
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Viewers"
 msgid "View all alerts"
-msgstr "Leitores"
+msgstr "Exibir todos os alertas"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, python-format
@@ -5678,11 +5652,11 @@ msgid "New alert on %(component)s"
 msgstr "Novo alerta em %(component)s"
 
 #: weblate/templates/mail/new_comment.html:7
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "There has been a new comment on %(component)s at %(site_title)s by %(user)s."
-msgstr "Há um novo comentário sobre %(component)s em %(site_title)s."
+msgstr ""
+"Há um novo comentário sobre %(component)s em %(site_title)s por %(user)s."
 
 #: weblate/templates/mail/new_comment.html:14
 #: weblate/templates/source-review.html:46
@@ -5695,18 +5669,17 @@ msgid "New comment in %(component)s"
 msgstr "Novo comentário em %(component)s"
 
 #: weblate/templates/mail/new_component.html:7
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid ""
 "New component %(component)s has been added to %(project)s at %(site_title)s."
-msgstr "Novo componente foi adicionado para %(project)s a %(site_title)s."
+msgstr ""
+"Novo componente %(component)s foi adicionado para %(project)s a "
+"%(site_title)s."
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
-#, fuzzy
-#| msgid "New translation component"
 msgid "View translation component"
-msgstr "Novo componente de tradução"
+msgstr "Exibir novo componente de tradução"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
@@ -5728,28 +5701,25 @@ msgid "New contributor in %(translation)s"
 msgstr "Novo colaborador em %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy, python-format
-#| msgid "New language has been added to %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "New language has been added to %(component)s at %(site_title)s by %(user)s."
-msgstr "Um novo idioma foi adicionado ao %(component)s em %(site_title)s."
+msgstr ""
+"Um novo idioma foi adicionado ao %(component)s em %(site_title)s por "
+"%(user)s."
 
 #: weblate/templates/mail/new_language.html:11
-#, fuzzy
-#| msgid "Added language:"
 msgid "Added language"
-msgstr "Idioma adicionado:"
+msgstr "Idioma adicionado"
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(component)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Houve um pedido para um novo idioma em %(component)s em %(site_title)s."
+"Houve um pedido para um novo idioma em %(component)s em %(site_title)s por "
+"%(user)s."
 
 #: weblate/templates/mail/new_language.html:19
 msgid ""
@@ -5768,10 +5738,8 @@ msgstr ""
 "encontrada na documentação."
 
 #: weblate/templates/mail/new_language.html:28
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested language"
-msgstr "Idioma pedido:"
+msgstr "Idioma pedido"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -5795,15 +5763,13 @@ msgid "New string to translate in %(translation)s"
 msgstr "Nova cadeia para traduzir em %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Há uma nova sugestão para avaliar em %(translation)s em %(site_title)s."
+"Há uma nova sugestão para avaliar em %(translation)s em %(site_title)s por "
+"%(user)s."
 
 #: weblate/templates/mail/new_suggestion.html:14
 #: weblate/templates/trans/suggestion_list.html:15
@@ -5892,18 +5858,17 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
+"Por favor, clique no botão de confirmação abaixo. Caso não funcione, você "
+"pode precisar de copiar a URL na linha seguinte para a barra de endereços do "
+"navegador para continuar."
 
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
-msgstr "Se existe algum problema com o seu registo, por favor contacte-nos:"
+msgstr "Se existe algum problema com o seu registo, por favor contacte-nos."
 
 #: weblate/templates/mail/shared-registration.html:15
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Registo de utilizador"
+msgstr "Confirmar registo"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -6486,16 +6451,16 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Não tem permissão para para criar componentes em qualquer projecto."
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Controlo de versão"
+msgstr "Do controle de versão"
 
 #: weblate/templates/trans/component_create.html:33
 msgid ""
 "Create new translation component from remote version control system "
 "repository."
 msgstr ""
+"Criar novo componente de tradução do repositório do sistema de controle de "
+"versão remoto."
 
 #: weblate/templates/trans/component_create.html:36
 #: weblate/templates/trans/component_create.html:54
@@ -6505,33 +6470,34 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: weblate/templates/trans/component_create.html:49
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
-msgstr "Da lista de componentes"
+msgstr "Do componente existente"
 
 #: weblate/templates/trans/component_create.html:51
 msgid ""
 "Create new translation component from repository already cloned in Weblate."
 msgstr ""
+"Crie um novo componente de tradução de um repositório já clonado no Weblate."
 
 #: weblate/templates/trans/component_create.html:67
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Mensagem adicional"
+msgstr "Ramo adicional"
 
 #: weblate/templates/trans/component_create.html:69
 msgid ""
 "Create new translation component for additional branch of existing "
 "translation component."
 msgstr ""
+"Crie um novo componente de tradução para ramificação adicional do componente "
+"de tradução existente."
 
 #: weblate/templates/trans/component_create.html:71
 msgid ""
 "The new component will be created for selected branch with exactly same "
 "configuration as existing one."
 msgstr ""
+"O novo componente será criado para o ramo selecionado com exatamente a mesma "
+"configuração que o existente."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -7836,7 +7802,7 @@ msgstr "Nome a usar em URLs e nomes de ficheiro."
 
 #: weblate/trans/forms.py:1562
 msgid "Select existing component to copy configuration from."
-msgstr ""
+msgstr "Selecionar o componente existente para copiar a configuração."
 
 #: weblate/trans/forms.py:1620 weblate/trans/models/component.py:169
 msgid "Version control system"
