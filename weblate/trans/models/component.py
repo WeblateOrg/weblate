@@ -1143,27 +1143,27 @@ class Component(models.Model, URLMixin, PathMixin):
 
                 return False
 
-        if self.id:
-            Change.objects.create(
-                component=self, action=action,
-                user=request.user if request else None,
-            )
-
-            # run post update hook
-            vcs_post_update.send(
-                sender=self.__class__,
-                component=self,
-                previous_head=previous_head
-            )
-            self.delete_alert('MergeFailure', childs=True)
-            self.delete_alert('RepositoryOutdated', childs=True)
-            for component in self.linked_childs:
-                vcs_post_update.send(
-                    sender=component.__class__,
-                    component=component,
-                    previous_head=previous_head,
-                    child=True,
+            if self.id:
+                Change.objects.create(
+                    component=self, action=action,
+                    user=request.user if request else None,
                 )
+
+                # run post update hook
+                vcs_post_update.send(
+                    sender=self.__class__,
+                    component=self,
+                    previous_head=previous_head
+                )
+                self.delete_alert('MergeFailure', childs=True)
+                self.delete_alert('RepositoryOutdated', childs=True)
+                for component in self.linked_childs:
+                    vcs_post_update.send(
+                        sender=component.__class__,
+                        component=component,
+                        previous_head=previous_head,
+                        child=True,
+                    )
         return True
 
     def get_mask_matches(self):
