@@ -51,8 +51,8 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Component, Project
-from weblate.trans.util import sort_unicode
 from weblate.utils import messages
+from weblate.utils.forms import SortedSelect, SortedSelectMultiple
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
 from weblate.utils.validators import (
     validate_email,
@@ -148,21 +148,6 @@ class FullNameField(forms.CharField):
         kwargs['label'] = _('Full name')
         kwargs['required'] = True
         super(FullNameField, self).__init__(*args, **kwargs)
-
-
-class SortedSelectMixin(object):
-    """Mixin for Select widgets to sort choices alphabetically."""
-    def optgroups(self, name, value, attrs=None):
-        groups = super(SortedSelectMixin, self).optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: val[1][0]['label'])
-
-
-class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
-    """Wrapper class to sort choices alphabetically."""
-
-
-class SortedSelect(SortedSelectMixin, forms.Select):
-    """Wrapper class to sort choices alphabetically."""
 
 
 class ProfileBaseForm(forms.ModelForm):
