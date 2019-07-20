@@ -1149,7 +1149,8 @@ class Component(models.Model, URLMixin, PathMixin):
                     user=request.user if request else None,
                 )
 
-                # run post update hook
+                # Run post update hook, this should be done with repo lock held
+                # to avoid posssible race with another update
                 vcs_post_update.send(
                     sender=self.__class__,
                     component=self,
