@@ -962,7 +962,7 @@ real_patterns = [
         name='js-mt-services',
     ),
     url(
-        r'^js/translate/(?P<service>[a-z-]+)/(?P<unit_id>[0-9]+)/$',
+        r'^js/translate/(?P<service>[^/]+)/(?P<unit_id>[0-9]+)/$',
         weblate.trans.views.js.translate,
         name='js-translate',
     ),
