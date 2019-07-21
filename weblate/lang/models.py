@@ -410,7 +410,7 @@ class Language(models.Model):
         if self.code in data.NO_CODE_LANGUAGES:
             return False
 
-        return '_' in self.code or '-' in self.code
+        return '_' in self.code or '-' in self.code or '@' in self.code
 
     def get_absolute_url(self):
         return reverse('show_language', kwargs={'lang': self.code})

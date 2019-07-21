@@ -37,6 +37,7 @@ NO_CODE_LANGUAGES = frozenset((
     'pt_BR', 'pt_PT',
     'es_AR', 'es_MX', 'es_PR', 'es_US',
     'ro_MD',
+    'ca@valencia', 'tt@iqtelif',
 ))
 
 # List of defaul languages - the ones, where using
