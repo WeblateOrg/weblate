@@ -371,7 +371,7 @@ class Profile(models.Model):
         max_length=200,
         verbose_name=_('Editor link'),
         help_text=_(
-            'Enter custom URL to be used as link to libre software code. '
+            'Enter custom URL to be used as link to the source code. '
             'You can use {{branch}} for branch, '
             '{{filename}} and  {{line}} as filename and line placeholders. '
             'Usually something like editor://open/?file={{filename}}&line={{line}}'
