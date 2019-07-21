@@ -41,7 +41,7 @@ from weblate.utils.views import get_component, get_project, get_translation
 def translate(request, unit_id, service):
     """AJAX handler for translating."""
     if service not in MACHINE_TRANSLATION_SERVICES:
-        raise SuspiciousOperation('Invalid service specified')
+        raise Http404('Invalid service specified')
 
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
