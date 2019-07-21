@@ -89,7 +89,7 @@ class JSViewsTest(FixtureTestCase):
                 kwargs={'unit_id': unit.id, 'service': 'invalid'}
             )
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_get_unit_changes(self):
         unit = self.get_unit()
