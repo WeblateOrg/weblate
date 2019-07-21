@@ -25,6 +25,7 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.encoding import force_text
 from django.utils.translation import get_language, npgettext, pgettext
 from django.utils.translation import ugettext as _
 
@@ -340,7 +341,7 @@ class MultiLanguageWidget(SVGWidget):
                     color = '#f6664c'
             translations.append((
                 # Language name
-                language.name,
+                force_text(language),
                 # Translation percent
                 int(percent),
                 # Text y offset
