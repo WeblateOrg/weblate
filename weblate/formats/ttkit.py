@@ -872,7 +872,7 @@ class PhpFormat(TTKitFormat):
 
 
 class RESXFormat(TTKitFormat):
-    name = _('.Net resource file')
+    name = _('.NET resource file')
     format_id = 'resx'
     loader = RESXFile
     monolingual = True
