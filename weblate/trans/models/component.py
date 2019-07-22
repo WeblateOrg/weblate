@@ -658,7 +658,7 @@ class Component(models.Model, URLMixin, PathMixin):
     @perform_on_link
     def can_push(self):
         """Return true if push is possible for this component."""
-        return self.push != '' and self.push is not None
+        return bool(self.push)
 
     @property
     def is_repo_link(self):
@@ -1739,6 +1739,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.add_alert('MonolingualTranslation')
         else:
             self.delete_alert('MonolingualTranslation')
+        if not self.can_push():
+            self.delete_alert('PushFailure', childs=True)
 
     def needs_commit(self):
         """Check for uncommitted changes."""
