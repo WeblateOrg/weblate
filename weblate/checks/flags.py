@@ -131,15 +131,15 @@ class Flags(object):
             if name in self._values:
                 if is_plain:
                     raise ValidationError(
-                        _('Translation flag has no params: "%s"') % name
+                        _('Translation flag has no parameters: "%s"') % name
                     )
                 try:
                     self.get_value(name)
                 except Exception:
                     raise ValidationError(
-                        _('Wrong params for translation flag: "%s"') % name
+                        _('Wrong parameters for translation flag: "%s"') % name
                     )
             elif is_typed:
                 raise ValidationError(
-                    _('Missing params for translation flag: "%s"') % name
+                    _('Missing parameters for translation flag: "%s"') % name
                 )
