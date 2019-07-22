@@ -41,7 +41,7 @@ from django.utils.translation import ugettext_lazy
 from weblate.lang import data
 from weblate.langdata import languages
 from weblate.logger import LOGGER
-from weblate.trans.util import sort_unicode
+from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.stats import LanguageStats
 from weblate.utils.validators import validate_pluraleq
 
@@ -354,7 +354,7 @@ class LanguageQuerySet(models.QuerySet):
         return self.order_by('name')
 
     def order_translated(self):
-        return sort_unicode(self, lambda x: x.name)
+        return sort_objects(self)
 
 
 def setup_lang(sender, **kwargs):
