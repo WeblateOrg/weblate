@@ -23,22 +23,10 @@ from __future__ import unicode_literals
 
 from django.utils.translation import pgettext_lazy
 
-NO_CODE_LANGUAGES = frozenset((
-    'zh_TW', 'zh_CN',
-    'zh_Hant', 'zh_Hans',
-    'sr_Latn', 'sr_Cyrl',
-    'bs_Lant', 'bs_Cyrl',
-    'de_AT', 'de_CH',
-    'ar_DZ', 'ar_MA',
-    'fr_CA',
-    'nl_BE',
-    'nb_NO',
-    'en_US', 'en_CA', 'en_AU', 'en_IE', 'en_PH',
-    'pt_BR', 'pt_PT',
-    'es_AR', 'es_MX', 'es_PR', 'es_US',
-    'ro_MD',
-    'ca@valencia', 'tt@iqtelif',
-))
+from weblate.langdata import languages
+
+
+NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
 # List of defaul languages - the ones, where using
 # only language code should be same as this one
