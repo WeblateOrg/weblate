@@ -275,7 +275,7 @@ def sort_unicode(choices, key):
     collator = pyuca.Collator()
     return sorted(
         choices,
-        key=lambda tup: collator.sort_key(key(tup))
+        key=lambda tup: collator.sort_key(force_text(key(tup)))
     )
 
 
@@ -293,16 +293,9 @@ def sort_choices(choices):
     return sort_unicode(choices, lambda tup: tup[1])
 
 
-def text_sorter(obj):
-    """Sorting helper to cache string representation."""
-    if not hasattr(obj, 'unicode_sort_key'):
-        obj.unicode_sort_key = force_text(obj)
-    return obj.unicode_sort_key
-
-
 def sort_objects(objects):
     """Sort objects alphabetically"""
-    return sort_unicode(objects, text_sorter)
+    return sort_unicode(objects, force_text)
 
 
 def redirect_next(next_url, fallback):
