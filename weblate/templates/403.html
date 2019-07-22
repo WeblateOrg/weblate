@@ -9,21 +9,12 @@
 
 <p>
 {% trans "Insufficient privileges to display this page." %}
+</p>
 
 {% if not user.is_authenticated %}
 <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Log in" %}</a>
 {% endif %}
-
-</p>
-
-{% if user.allowed_projects %}
-<p>{% trans "However, the following translation projects are available on this server:" %}</p>
-
-<ul>
-{% for p in user.allowed_projects %}
-    <li><a href="{{ p.get_absolute_url }}">{{ p }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
+<a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
+<a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
 
 {% endblock %}
