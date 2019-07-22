@@ -22,8 +22,6 @@
 Tests for unicode sorting.
 """
 
-from unittest import SkipTest
-
 from django.test import TestCase
 
 import weblate.trans.util

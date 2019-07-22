@@ -43,7 +43,6 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
 
-
 PLURAL_SEPARATOR = '\x1e\x1e'
 
 PRIORITY_CHOICES = (

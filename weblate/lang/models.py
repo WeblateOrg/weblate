@@ -41,7 +41,7 @@ from django.utils.translation import ugettext_lazy
 from weblate.lang import data
 from weblate.langdata import languages
 from weblate.logger import LOGGER
-from weblate.trans.util import sort_objects, sort_unicode
+from weblate.trans.util import sort_objects
 from weblate.utils.stats import LanguageStats
 from weblate.utils.validators import validate_pluraleq
 
