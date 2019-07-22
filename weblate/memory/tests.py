@@ -297,6 +297,6 @@ class MemoryViewTest(FixtureTestCase):
         self.user.is_superuser = True
         self.user.save()
         self.test_memory(
-            'Number of global entries', False,
+            'Number of entries on the whole platform', False,
             kwargs={'manage': 'manage'}
         )
