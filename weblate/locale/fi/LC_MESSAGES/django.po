@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-22 07:41+0000\n"
-"PO-Revision-Date: 2019-07-14 12:00+0000\n"
+"PO-Revision-Date: 2019-07-23 06:16+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -248,25 +248,19 @@ msgid "Component: {}"
 msgstr "Komponentti: {}"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password changed."
-msgstr "Salasana on vaihdettu."
+msgstr "Salasana vaihdettu."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset requested."
-msgstr "Salasanasi palutuspyyntö on tehty."
+msgstr "Salasanan palautuspyyntö tehty."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
-msgstr "Salasanan palautus on vahvistettu ja salasana on estetty."
+msgstr "Salasanan palautus on vahvistettu ja salasana on poistettu käytöstä."
 
 #: weblate/accounts/models.py:105
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "You can now log in using {method} ({name})."
 msgstr "Voit nyt kirjautua käyttäen {method} ({name})."
 
@@ -346,16 +340,12 @@ msgid "Translated languages"
 msgstr "Kääntämäni kielet"
 
 #: weblate/accounts/models.py:338
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Valitse kielet jotka haluat kääntää. Nämä tarjotaan sinulle kojelaudassa "
-"saadaksesi helpomman pääsyn valittuihin käännöksiin."
+"Valitse kielet joihin osaat kääntää. Ne tarjotaan sinulle kojelaudassa, "
+"jotta pääset helpommin valitsemiisi käännöksiin."
 
 #: weblate/accounts/models.py:345
 msgid "Secondary languages"
@@ -378,22 +368,14 @@ msgid "Show secondary translations in zen mode"
 msgstr "Näytä toissijaiset käännökset zen-tilassa"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary language translation exists"
-msgstr "Piilota lähdeteksti jos on olemassa käännös toissijaisella kielellä"
+msgstr "Piilota lähdeteksti, jos on olemassa käännös toissijaisella kielellä"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "Muokkaimen linkki"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
@@ -434,19 +416,14 @@ msgid "Special characters"
 msgstr "Erikoismerkit"
 
 #: weblate/accounts/models.py:407
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"Voit määritellä erikoismerkkejä näytettäväksi muokkamessa käännöstyön "
-"aikana. Käyttökelpoinen ominaisuus jos käytät sellaisia erikoismerkkejä "
-"paljon, jotka on hankala kirjoittaa näppäimistölläsi."
+"Voit määritellä visuaalisen näppäimistön erikoismerkkejä näytettäväksi "
+"kääntämisen aikana. Siitä voi olla apua sellaisten merkkien kanssa, joita "
+"käytät usein, mutta joita on hankala kirjoittaa näppäimistölläsi."
 
 #: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
@@ -715,36 +692,25 @@ msgid "Password reset has been already completed!"
 msgstr "Salasanasi palutuspyyntö on jo suoritettu loppuun asti!"
 
 #: weblate/accounts/views.py:818
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, email authentication is turned off."
-msgstr ""
-"Salasanaa ei voi resetoida koska sähköpostitunnistautuminen ei ole käytössä!"
+msgstr "Salasanaa ei voi palauttaa, sähköpostitunnistautuminen ei ole käytössä."
 
 #: weblate/accounts/views.py:991
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
 msgstr ""
-"Rekisteröintiäsi ei voida vahvistaa! Todennäköisesti rekisteröinnin varmiste "
-"on vanhentunut. Ole hyvä ja yritä rekisteröintiä uudelleen."
+"Rekisteröitymistäsi ei voitu vahvistaa! Todennäköisesti vahvistusvarmiste on "
+"vanhentunut. Ole hyvä ja yritä rekisteröitymistä uudelleen."
 
 #: weblate/accounts/views.py:1001
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "Tunnistautuminen epäonnistui koska istunnon tila on virheellinen."
+msgstr "Tunnistautuminen ei onnistunut koska istunnon tila on virheellinen."
 
 #: weblate/accounts/views.py:1010
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
-"Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta!"
+"Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta."
 
 #: weblate/accounts/views.py:1012
 msgid "Please register using e-mail instead."
@@ -755,10 +721,8 @@ msgid "Can not change authentication for demo!"
 msgstr "Kokeilutilin tunnistautumistietoja ei voi vaihtaa!"
 
 #: weblate/accounts/views.py:1026
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "Uudet rekisteröinnit on estetty!"
+msgstr "Uudet rekisteröitymiset ovat poissa käytöstä."
 
 #: weblate/accounts/views.py:1054
 #, fuzzy
@@ -772,10 +736,8 @@ msgstr ""
 "istunto tai yhteysvirhe."
 
 #: weblate/accounts/views.py:1059
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
-msgstr "Tunnistautuminen on keskeytetty."
+msgstr "Tunnistautuminen peruttu."
 
 #: weblate/accounts/views.py:1064
 msgid "The server does not allow authentication."
@@ -974,10 +936,6 @@ msgid "Votes threshold"
 msgstr "Äänikynnys"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting "
-#| "disabled."
 msgid ""
 "Votes threshold for removal. This field has no effect with voting turned off."
 msgstr ""
@@ -1073,22 +1031,16 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Päivittää LINGUAS-tiedoston kun uusi käännös on lisätty."
 
 #: weblate/addons/gettext.py:126
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Päivitä ALL_LINGUAS-muuttuja asetustiedostossa"
+msgstr "Päivitä ALL_LINGUAS-muuttuja \"configure\"-tiedostossa"
 
 #: weblate/addons/gettext.py:128
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Päivittää ALL_LINGUAS-muuttujan configure-, configure.in- tai configure.ac-"
-"tiedostoissa kun uusi käännös on lisätty."
+"Päivittää ALL_LINGUAS-muuttujan \"configure\"-, \"configure.in\"- tai \""
+"configure.ac\"-tiedostoissa kun uusi käännös on lisätty."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
@@ -1201,8 +1153,6 @@ msgid "Edit component settings"
 msgstr "Muokkaa komponentin asetuksia"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Lock component from translating"
 msgid "Lock component, preventing translations"
 msgstr "Lukitse komponentti ja estä kääntäminen"
 
@@ -1269,10 +1219,8 @@ msgid "Delete screenshot"
 msgstr "Poista ruudunkaappauskuva"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source string info"
-msgstr "Muokkaa lähdetekstiä"
+msgstr "Muokkaa lähdetekstin tietoja"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
@@ -1308,10 +1256,8 @@ msgid "Delete existing translation"
 msgstr "Poista aiempi käännös"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add language for translation"
-msgstr "Lisää muuna käännöksenä"
+msgstr "Lisää kieli käännettäväksi"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -1338,10 +1284,8 @@ msgid "Edit source strings"
 msgstr "Muokkaa lähdetekstejä"
 
 #: weblate/auth/data.py:83
-#, fuzzy
-#| msgid "Define author of translation upload"
 msgid "Define author of uploaded translation"
-msgstr "Määrittele ladattavan käännöksen kääntäjä"
+msgstr "Määrittele Weblateen ladatun käännöksen kääntäjä"
 
 #: weblate/auth/data.py:84
 msgid "Overwrite existing strings with upload"
@@ -2025,10 +1969,9 @@ msgid "Translation flag has no parameters: \"%s\""
 msgstr "Käännösehdolla ei ole parametreja: \"%s\""
 
 #: weblate/checks/flags.py:140
-#, fuzzy, python-format
-#| msgid "Wrong params for translation flag: \"%s\""
+#, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Epäkelvot parametrit käännösehdolle: \"%s\""
+msgstr "Väärät parametrit käännösehdolle: \"%s\""
 
 #: weblate/checks/flags.py:144
 #, fuzzy, python-format
@@ -2268,20 +2211,14 @@ msgstr "Tiedostomuotoa ei tueta."
 
 #: weblate/fonts/views.py:69 weblate/fonts/views.py:127
 #: weblate/fonts/views.py:139
-#, fuzzy
-#| msgid "Entry with same name already exists."
 msgid "Entry by the same name already exists."
 msgstr "Samanniminen merkintä on jo olemassa."
 
 #: weblate/fonts/views.py:71
-#, fuzzy
-#| msgid "Failed to create, please fix errors below."
 msgid "Creation failed, please the fix errors below."
-msgstr "Luominen ei onnistunut, korjaa allaolevat virheet."
+msgstr "Luominen ei onnistunut, korjaa alla olevat virheet."
 
 #: weblate/fonts/views.py:93
-#, fuzzy
-#| msgid "Font was deleted."
 msgid "Font deleted."
 msgstr "Fontti poistettu."
 
@@ -2292,8 +2229,6 @@ msgid "No override found."
 msgstr "Muita merkkiketjuja ei löytynyt."
 
 #: weblate/fonts/views.py:151
-#, fuzzy
-#| msgid "Font group was deleted."
 msgid "Font group deleted."
 msgstr "Fonttiryhmä poistettu."
 
@@ -2339,16 +2274,12 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:673
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gettext PO file"
-msgstr "Gettext PO -tiedosto"
+msgstr "gettext PO -tiedosto"
 
 #: weblate/formats/ttkit.py:729
-#, fuzzy
-#| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
-msgstr "Gettext PO -tiedosto (yksikielinen)"
+msgstr "gettext PO -tiedosto (yksikielinen)"
 
 #: weblate/formats/ttkit.py:743
 msgid "Qt Linguist Translation File"
@@ -2391,10 +2322,8 @@ msgid "PHP strings"
 msgstr "PHP-tekstit"
 
 #: weblate/formats/ttkit.py:875
-#, fuzzy
-#| msgid ".Net resource file"
 msgid ".NET resource file"
-msgstr ".Net-resurssitiedosto"
+msgstr ".NET-resurssitiedosto"
 
 #: weblate/formats/ttkit.py:885
 msgid "Android String Resource"
@@ -2636,10 +2565,8 @@ msgid "Default plural"
 msgstr "Oletusmonikko"
 
 #: weblate/lang/models.py:526
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural gettext formula"
-msgstr "Monikkomuoto"
+msgstr "gettext-monikkomuoto"
 
 #: weblate/lang/models.py:531 weblate/templates/language.html:59
 msgid "Number of plurals"
@@ -3397,6 +3324,9 @@ msgid ""
 "To avoid information leak, this page will not tell you whether account with "
 "given email exists or not."
 msgstr ""
+"Jos et saa sähköpostia, tarkista vielä sähköpostiosoitteesi. Tietovuotojen "
+"välttämiseksi tämä sivu ei kerro, onko tiettyyn sähköpostiosoitteeseen "
+"liittyvää tiliä olemassa vai ei."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -3849,8 +3779,6 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Sinut ohjataan tunnistautumispalvelun tarjoajalle."
 
 #: weblate/templates/accounts/register.html:18
-#, fuzzy
-#| msgid "Please read our Terms of Service prior to registration."
 msgid "Please read our Terms of Service before registering."
 msgstr ""
 "Ole hyvä ja lue palvelun käyttöehdot (Terms of Service) ennen "
@@ -3875,10 +3803,8 @@ msgid "Third party registration"
 msgstr "Kolmannen osapuolen rekisteröityminen"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "Sorry, but registrations on this site are disabled."
 msgid "Sorry, new registrations are turned off on this site."
-msgstr "Pahoittelut, rekisteröitymiset tälle sivustolle on estetty."
+msgstr "Pahoittelut, rekisteröitymiset tälle sivustolle ovat poissa käytöstä."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
@@ -5061,10 +4987,8 @@ msgid "Comma separated values (CSV)"
 msgstr "Pilkulla erotetut arvot (CSV)"
 
 #: weblate/templates/dictionary.html:34
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext (PO)"
-msgstr "Gettext (PO)"
+msgstr "gettext (PO)"
 
 #: weblate/templates/dictionary.html:35
 msgid "XML Localization Interchange File Format (XLIFF)"
@@ -5836,13 +5760,12 @@ msgid "New comment in %(component)s"
 msgstr "Uusi kommentti komponentissa %(component)s"
 
 #: weblate/templates/mail/new_component.html:7
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid ""
 "New component %(component)s has been added to %(project)s at %(site_title)s."
 msgstr ""
 "Projektiin %(project)s sivustolla %(site_title)s on lisätty uusi "
-"käännöskomponentti."
+"käännöskomponentti %(component)s."
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
@@ -6056,10 +5979,6 @@ msgid "Add new user"
 msgstr "Lisää uusi käyttäjä"
 
 #: weblate/templates/manage-access.html:82
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
@@ -6107,15 +6026,13 @@ msgstr "Jaettu käännösmuisti"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:36
-#, fuzzy
-#| msgid "Font"
 msgid "on"
-msgstr "Fontti"
+msgstr "käytössä"
 
 #. Translators: Shared translation memory is disabled
 #: weblate/templates/memory/index.html:39
 msgid "off"
-msgstr ""
+msgstr "pois käytöstä"
 
 #: weblate/templates/memory/index.html:42
 msgid "Set up"
@@ -6685,10 +6602,6 @@ msgstr ""
 "varten."
 
 #: weblate/templates/trans/component_create.html:70
-#, fuzzy
-#| msgid ""
-#| "The new component will be created for selected branch with exactly same "
-#| "configuration as existing one."
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
@@ -8512,16 +8425,12 @@ msgid "Autoaccept suggestions"
 msgstr "Vaadittava äänimäärä ehdotuksen automaattiseen hyväksymiseen"
 
 #: weblate/trans/models/component.py:321
-#, fuzzy
-#| msgid ""
-#| "Automatically accept suggestions with this number of votes, use 0 to "
-#| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Vaadittava äänimäärä jonka jälkeen Weblate hyväksyy käännösehdotuksen "
-"valmiiksi käännökseksi. 0 poistaa käytöstä."
+"Hyväksy automaattisesti ehdotukset, joilla on tämä määrä ääniä. 0 poistaa "
+"käytöstä."
 
 #: weblate/trans/models/component.py:330
 #, fuzzy
