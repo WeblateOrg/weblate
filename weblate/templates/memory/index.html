@@ -31,7 +31,13 @@
   <tr>
   <th>{% trans "Shared translation memory" %}</th>
   <td>
-  {% if project.use_shared_tm %}{% trans "on" %}{% else %}{% trans "off" %}{% endif %}
+  {% if project.use_shared_tm %}
+    {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
+    {% trans "on" %}
+  {% else %}
+    {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
+    {% trans "off" %}
+  {% endif %}
   {% perm 'project.edit' project as user_can_edit_project %}
   {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-xs btn-primary"><i class="fa fa-wrench"></i> {% trans "Set up" %}</a>{% endif %}
   </td>
