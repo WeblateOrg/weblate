@@ -135,7 +135,8 @@ class Notification(object):
             change.project.pk if change.project else None
         )
         if users is not None:
-            cache_key += tuple(sorted(users))
+            users.sort()
+            cache_key += tuple(users)
         if cache_key not in self.subscription_cache:
             self.subscription_cache[cache_key] = self.filter_subscriptions(
                 change, users, lang_filter
