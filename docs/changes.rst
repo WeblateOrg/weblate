@@ -14,6 +14,7 @@ Not yet released.
 * Fixed password reset behavior.
 * Improved performance on most of translation pages.
 * Fixed listing of languages not known to Weblate.
+* Add support for cloning addons to discovered components.
 
 weblate 3.7.1
 -------------

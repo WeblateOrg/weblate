@@ -29,6 +29,7 @@ from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
+from weblate.addons.models import Addon
 from weblate.celery import app
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project
@@ -51,7 +52,7 @@ COPY_ATTRIBUTES = (
 class ComponentDiscovery(object):
     def __init__(self, component, match, name_template, file_format,
                  language_regex='^[^.]+$', base_file_template='',
-                 new_base_template='', path=None):
+                 new_base_template='', path=None, copy_addons=True):
         self.component = component
         if path is None:
             self.path = self.component.full_path
@@ -64,13 +65,14 @@ class ComponentDiscovery(object):
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
+        self.copy_addons = copy_addons
 
     @staticmethod
     def extract_kwargs(params):
         """Extract kwargs for discovery from wider dict."""
         attrs = (
             'match', 'name_template', 'language_regex', 'base_file_template',
-            'new_base_template', 'file_format'
+            'new_base_template', 'file_format', 'copy_addons',
         )
         return {k: v for k, v in params.items() if k in attrs}
 
@@ -216,6 +218,7 @@ class ComponentDiscovery(object):
             'new_base': match['new_base'],
             'file_format': self.file_format,
             'language_regex': self.language_re,
+            'addons_from': main.pk if self.copy_addons else None,
         })
 
         self.log('Creating component %s', name)
@@ -305,12 +308,22 @@ class ComponentDiscovery(object):
         return created, matched, deleted
 
 
-def create_component_real(**kwargs):
+def create_component_real(addons_from=None, **kwargs):
     component = Component.objects.create(**kwargs)
     Change.objects.create(
         action=Change.ACTION_CREATE_COMPONENT,
         component=component,
     )
+    if addons_from:
+        addons = Addon.objects.filter(
+            component__pk=addons_from,
+            project_scope=False,
+            repo_scope=False
+        )
+        for addon in addons:
+            if not addon.addon.can_install(component, None):
+                continue
+            addon.addon.create(component, configuration=addon.configuration)
     return component
 
 

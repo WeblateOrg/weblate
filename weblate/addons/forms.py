@@ -242,6 +242,11 @@ class DiscoveryForm(BaseAddonForm):
             'translation against when scanning for filemask.'
         ),
     )
+    copy_addons = forms.BooleanField(
+        label=_('Clone addons from the main component to the newly created ones'),
+        required=False,
+        initial=True,
+    )
     remove = forms.BooleanField(
         label=_('Remove components for inexistant files'),
         required=False
@@ -261,6 +266,7 @@ class DiscoveryForm(BaseAddonForm):
             Field('base_file_template'),
             Field('new_base_template'),
             Field('language_regex'),
+            Field('copy_addons'),
             Field('remove'),
             Div(template='addons/discovery_help.html'),
         )
