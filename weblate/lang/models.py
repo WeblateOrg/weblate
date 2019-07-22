@@ -404,7 +404,7 @@ class Language(models.Model):
 
     @property
     def show_language_code(self):
-        return self.code not in data.NO_CODE_LANGUAGES:
+        return self.code not in data.NO_CODE_LANGUAGES
 
     def get_absolute_url(self):
         return reverse('show_language', kwargs={'lang': self.code})
