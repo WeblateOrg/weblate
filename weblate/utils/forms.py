@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.utils.encoding import force_text
 
 from weblate.trans.util import sort_unicode
 
@@ -30,7 +31,7 @@ class SortedSelectMixin(object):
 
     def optgroups(self, name, value, attrs=None):
         groups = super(SortedSelectMixin, self).optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: val[1][0]["label"])
+        return sort_unicode(groups, lambda val: force_text(val[1][0]["label"]))
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
