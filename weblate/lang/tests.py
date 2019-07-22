@@ -151,7 +151,7 @@ LANGUAGES = (
         'en_CA@myvariant',
         'ltr',
         'n != 1',
-        'English (Canada)',
+        'English (Canada) (en_CA@myvariant)',
         True,
     ),
     (
@@ -199,7 +199,7 @@ LANGUAGES = (
         'zh_CN@test',
         'ltr',
         '0',
-        'Chinese (Simplified)',
+        'Chinese (Simplified) (zh_CN@test)',
         True,
     ),
     (
@@ -266,7 +266,7 @@ LANGUAGES = (
         'xx',
         'ltr',
         'n != 1',
-        'xx (generated)',
+        'xx (generated) (xx)',
         True,
     ),
     (
