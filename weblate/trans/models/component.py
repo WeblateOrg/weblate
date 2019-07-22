@@ -328,7 +328,7 @@ class Component(models.Model, URLMixin, PathMixin):
         default='',
         help_text=ugettext_lazy(
             'Additional comma-separated flags to influence quality checks. '
-            'possible values are to be found in the documentation.'
+            'Possible values can be found in the documentation.'
         ),
         validators=[validate_check_flags],
         blank=True,

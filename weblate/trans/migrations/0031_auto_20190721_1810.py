@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='component',
             name='check_flags',
-            field=models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks. possible values are to be found in the documentation.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Translation flags'),
+            field=models.TextField(blank=True, default='', help_text='Additional comma-separated flags to influence quality checks. Possible values can be found in the documentation.', validators=[weblate.trans.validators.validate_check_flags], verbose_name='Translation flags'),
         ),
         migrations.AlterField(
             model_name='component',
