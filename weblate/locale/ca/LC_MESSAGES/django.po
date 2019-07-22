@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-21 18:12+0000\n"
+"POT-Creation-Date: 2019-07-22 07:41+0000\n"
 "PO-Revision-Date: 2019-07-19 07:04+0000\n"
 "Last-Translator: Marc Riera <marc.riera.irigoyen@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -1079,13 +1079,19 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Actualitza el fitxer LINGUAS en afegir una traducció nova."
 
 #: weblate/addons/gettext.py:126
-msgid "Update ALL_LINGUAS variable in the configure file"
+#, fuzzy
+#| msgid "Update ALL_LINGUAS variable in the configure file"
+msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Actualitza la variable ALL_LINGUAS del fitxer de configuració"
 
 #: weblate/addons/gettext.py:128
+#, fuzzy
+#| msgid ""
+#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
+#| "ac files, when a new translation is added."
 msgid ""
-"Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files, when a new translation is added."
+"Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
+"\"configure.ac\" files, when a new translation is added."
 msgstr ""
 "Actualitza la variable ALL_LINGUAS als fitxers configure, configure.in o "
 "configure.ac quan s'afegeix una traducció nova."
@@ -2020,18 +2026,21 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Marca de traducció invàlida: \"%s\""
 
 #: weblate/checks/flags.py:134
-#, python-format
-msgid "Translation flag has no params: \"%s\""
+#, fuzzy, python-format
+#| msgid "Translation flag has no params: \"%s\""
+msgid "Translation flag has no parameters: \"%s\""
 msgstr "La marca de traducció no té paràmetres: \"%s\""
 
 #: weblate/checks/flags.py:140
-#, python-format
-msgid "Wrong params for translation flag: \"%s\""
+#, fuzzy, python-format
+#| msgid "Wrong params for translation flag: \"%s\""
+msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Paràmetres erronis per a la marca de traducció: \"%s\""
 
 #: weblate/checks/flags.py:144
-#, python-format
-msgid "Missing params for translation flag: \"%s\""
+#, fuzzy, python-format
+#| msgid "Missing params for translation flag: \"%s\""
+msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Manquen paràmetres per a la marca de traducció: \"%s\""
 
 #: weblate/checks/format.py:265
@@ -3229,8 +3238,8 @@ msgstr "Usuari"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:238
-#: weblate/trans/widgets.py:253 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:239
+#: weblate/trans/widgets.py:254 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Traduït"
 
@@ -5136,7 +5145,7 @@ msgstr "Suprimeix"
 msgid "No words found!"
 msgstr "No s'ha trobat cap mot!"
 
-#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:88
+#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:94
 msgid "Import"
 msgstr "Importa"
 
@@ -5167,14 +5176,14 @@ msgstr ""
 "dissenyada per a facilitar la traducció a desenvolupadors i traductors "
 "alhora."
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:227
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:228
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "Cadena"
 msgstr[1] "Cadenes"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:233
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:234
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -5298,7 +5307,7 @@ msgid "Add font"
 msgstr "Afegeix un tipus de lletra"
 
 #: weblate/templates/fonts/font_list.html:97
-#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:72
+#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:78
 #: weblate/templates/screenshots/screenshot_list.html:26
 #: weblate/templates/translation.html:312
 #: weblate/templates/translation.html:323
@@ -6103,56 +6112,58 @@ msgstr "Estat de la memòria de traducció"
 msgid "Shared translation memory"
 msgstr "Memòria de traducció compartida"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is enabled
+#: weblate/templates/memory/index.html:36
 #, fuzzy
 #| msgid "Font"
 msgid "on"
 msgstr "Tipus de lletra"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is disabled
+#: weblate/templates/memory/index.html:39
 msgid "off"
 msgstr ""
 
-#: weblate/templates/memory/index.html:36
+#: weblate/templates/memory/index.html:42
 msgid "Set up"
 msgstr ""
 
-#: weblate/templates/memory/index.html:43
+#: weblate/templates/memory/index.html:49
 #, python-format
 msgid "Number of entries for %(project)s"
 msgstr "Nombre d'entrades a %(project)s"
 
-#: weblate/templates/memory/index.html:45
+#: weblate/templates/memory/index.html:51
 #, fuzzy
 #| msgid "Number of entries for %(project)s"
 msgid "Number of entries on the whole platform"
 msgstr "Nombre d'entrades a %(project)s"
 
-#: weblate/templates/memory/index.html:47
+#: weblate/templates/memory/index.html:53
 msgid "Number of your entries"
 msgstr "Nombre d'entrades vostres"
 
-#: weblate/templates/memory/index.html:53
+#: weblate/templates/memory/index.html:59
 msgid "Total number of entries"
 msgstr "Nombre total d'entrades"
 
-#: weblate/templates/memory/index.html:58
+#: weblate/templates/memory/index.html:64
 msgid "Download as JSON"
 msgstr "Baixa com a JSON"
 
-#: weblate/templates/memory/index.html:59
+#: weblate/templates/memory/index.html:65
 msgid "Download as TMX"
 msgstr "Baixa com a TMX"
 
-#: weblate/templates/memory/index.html:67
+#: weblate/templates/memory/index.html:73
 msgid "Import translation memory"
 msgstr "Importa la memòria de traducció"
 
-#: weblate/templates/memory/index.html:82
+#: weblate/templates/memory/index.html:88
 msgid "Import existing translations"
 msgstr "Importa traduccions existents"
 
-#: weblate/templates/memory/index.html:84
+#: weblate/templates/memory/index.html:90
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
@@ -6162,11 +6173,11 @@ msgstr ""
 "projecte a la memòria de traducció. Pot ser útil després de buidar la "
 "memòria de traducció o després de la instal·lació inicial."
 
-#: weblate/templates/memory/index.html:98
+#: weblate/templates/memory/index.html:104
 msgid "Wipe translation memory"
 msgstr "Buida la memòria de traducció"
 
-#: weblate/templates/memory/index.html:103
+#: weblate/templates/memory/index.html:109
 msgid "Wipe"
 msgstr "Buida"
 
@@ -8544,8 +8555,8 @@ msgstr ""
 #| "Additional comma-separated flags to influence quality checks, check "
 #| "documentation for possible values."
 msgid ""
-"Additional comma-separated flags to influence quality checks. possible "
-"values are to be found in the documentation."
+"Additional comma-separated flags to influence quality checks. Possible "
+"values can be found in the documentation."
 msgstr ""
 "Marques addicionals, separades per comes, per a influir en les comprovacions "
 "de qualitat. Comproveu la documentació per a valors possibles."
@@ -9780,13 +9791,13 @@ msgstr "No s'ha pogut canviar un context!"
 msgid "Failed to change translation flags!"
 msgstr "No s'han pogut canviar les marques de traducció!"
 
-#: weblate/trans/widgets.py:90
+#: weblate/trans/widgets.py:91
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr "{0}%"
 
-#: weblate/trans/widgets.py:280
+#: weblate/trans/widgets.py:281
 msgid "translated"
 msgstr "traduït"
 

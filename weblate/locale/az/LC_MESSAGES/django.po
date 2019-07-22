@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-21 18:12+0000\n"
+"POT-Creation-Date: 2019-07-22 07:41+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -1170,14 +1170,16 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Fayl başlığının məzmumunu tərcüməyə birləşdir."
 
 #: weblate/addons/gettext.py:126
-msgid "Update ALL_LINGUAS variable in the configure file"
+msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr ""
 
 #: weblate/addons/gettext.py:128
+#, fuzzy
+#| msgid "Merges content of file header into the translation."
 msgid ""
-"Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files, when a new translation is added."
-msgstr ""
+"Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
+"\"configure.ac\" files, when a new translation is added."
+msgstr "Fayl başlığının məzmumunu tərcüməyə birləşdir."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
@@ -2301,19 +2303,19 @@ msgstr "Etibarsız yoxlama işarəsi: \"%s\""
 #: weblate/checks/flags.py:134
 #, fuzzy, python-format
 #| msgid "Translation file"
-msgid "Translation flag has no params: \"%s\""
+msgid "Translation flag has no parameters: \"%s\""
 msgstr "Tərcümə faylı"
 
 #: weblate/checks/flags.py:140
 #, fuzzy, python-format
 #| msgid "Invalid check flag: \"%s\""
-msgid "Wrong params for translation flag: \"%s\""
+msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Etibarsız yoxlama işarəsi: \"%s\""
 
 #: weblate/checks/flags.py:144
 #, fuzzy, python-format
 #| msgid "Invalid check flag: \"%s\""
-msgid "Missing params for translation flag: \"%s\""
+msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Etibarsız yoxlama işarəsi: \"%s\""
 
 #: weblate/checks/format.py:265
@@ -3650,8 +3652,8 @@ msgstr "İstifadəçi"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:238
-#: weblate/trans/widgets.py:253 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:239
+#: weblate/trans/widgets.py:254 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Tərcümə edilənlər"
 
@@ -5747,7 +5749,7 @@ msgstr "Sil"
 msgid "No words found!"
 msgstr "Heç bir söz tapılmadı!"
 
-#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:88
+#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:94
 msgid "Import"
 msgstr "İmport"
 
@@ -5780,7 +5782,7 @@ msgstr ""
 "%(project)s, %(weblate_name_link)s istifadə etməkdə olub, həm developerlər, "
 "həm də tərcüməçilərin rahat tərcümə etməsi üçün dizayn edilmiş servisdir."
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:227
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:228
 #, fuzzy
 #| msgid "Strings"
 msgctxt "Label on enage page"
@@ -5789,7 +5791,7 @@ msgid_plural "Strings"
 msgstr[0] "Sətir"
 msgstr[1] "Sətir"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:233
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:234
 #, fuzzy
 #| msgid "Language"
 msgctxt "Label on enage page"
@@ -5941,7 +5943,7 @@ msgid "Add font"
 msgstr "Host açarı əlavə et"
 
 #: weblate/templates/fonts/font_list.html:97
-#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:72
+#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:78
 #: weblate/templates/screenshots/screenshot_list.html:26
 #: weblate/templates/translation.html:312
 #: weblate/templates/translation.html:323
@@ -6884,83 +6886,85 @@ msgstr "Tərcümə statusu"
 msgid "Shared translation memory"
 msgstr "Bu tərcüməni istifadə et"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is enabled
+#: weblate/templates/memory/index.html:36
 #, fuzzy
 #| msgctxt "No known user"
 #| msgid "None"
 msgid "on"
 msgstr "Heç biri"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is disabled
+#: weblate/templates/memory/index.html:39
 msgid "off"
 msgstr ""
 
-#: weblate/templates/memory/index.html:36
+#: weblate/templates/memory/index.html:42
 msgid "Set up"
 msgstr ""
 
-#: weblate/templates/memory/index.html:43
+#: weblate/templates/memory/index.html:49
 #, fuzzy, python-format
 #| msgid "%(language)s dictionary for %(project)s"
 msgid "Number of entries for %(project)s"
 msgstr "%(project)s üçün %(language)s lüğəti"
 
-#: weblate/templates/memory/index.html:45
+#: weblate/templates/memory/index.html:51
 #, fuzzy
 #| msgid "%(language)s dictionary for %(project)s"
 msgid "Number of entries on the whole platform"
 msgstr "%(project)s üçün %(language)s lüğəti"
 
-#: weblate/templates/memory/index.html:47
+#: weblate/templates/memory/index.html:53
 #, fuzzy
 #| msgid "New source string"
 msgid "Number of your entries"
 msgstr "Yeni qaynaq sətri"
 
-#: weblate/templates/memory/index.html:53
+#: weblate/templates/memory/index.html:59
 #, fuzzy
 #| msgid "Documentation"
 msgid "Total number of entries"
 msgstr "Dokumentasiya"
 
-#: weblate/templates/memory/index.html:58
+#: weblate/templates/memory/index.html:64
 #, fuzzy
 #| msgid "Good translations"
 msgid "Download as JSON"
 msgstr "Yaxşı tərcümələr"
 
-#: weblate/templates/memory/index.html:59
+#: weblate/templates/memory/index.html:65
 #, fuzzy
 #| msgid "Good translations"
 msgid "Download as TMX"
 msgstr "Yaxşı tərcümələr"
 
-#: weblate/templates/memory/index.html:67
+#: weblate/templates/memory/index.html:73
 #, fuzzy
 #| msgid "Not translated"
 msgid "Import translation memory"
 msgstr "Tərcümə edilməyib"
 
-#: weblate/templates/memory/index.html:82
+#: weblate/templates/memory/index.html:88
 #, fuzzy
 #| msgid "Overwrite existing translations"
 msgid "Import existing translations"
 msgstr "Mövcud tərcümələrin üzərinə yaz"
 
-#: weblate/templates/memory/index.html:84
+#: weblate/templates/memory/index.html:90
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
 
-#: weblate/templates/memory/index.html:98
+#: weblate/templates/memory/index.html:104
 #, fuzzy
 #| msgid "Save translation history"
 msgid "Wipe translation memory"
 msgstr "Tərcümə tarixini yaddaşa ver"
 
-#: weblate/templates/memory/index.html:103
+#: weblate/templates/memory/index.html:109
 msgid "Wipe"
 msgstr ""
 
@@ -9742,8 +9746,8 @@ msgstr ""
 
 #: weblate/trans/models/component.py:330
 msgid ""
-"Additional comma-separated flags to influence quality checks. possible "
-"values are to be found in the documentation."
+"Additional comma-separated flags to influence quality checks. Possible "
+"values can be found in the documentation."
 msgstr ""
 
 #: weblate/trans/models/component.py:344
@@ -11122,13 +11126,13 @@ msgstr "Uyğun gələn layihə tapma uğursuz oldu!"
 msgid "Failed to change translation flags!"
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/widgets.py:90
+#: weblate/trans/widgets.py:91
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr ""
 
-#: weblate/trans/widgets.py:280
+#: weblate/trans/widgets.py:281
 msgid "translated"
 msgstr "tərcümə edildi"
 

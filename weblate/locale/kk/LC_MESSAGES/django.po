@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-21 18:12+0000\n"
+"POT-Creation-Date: 2019-07-22 07:41+0000\n"
 "PO-Revision-Date: 2019-06-30 14:00+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
@@ -1059,13 +1059,19 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Jańa tárjime qosylǵanda LINGUAS faılyn jańartady."
 
 #: weblate/addons/gettext.py:126
-msgid "Update ALL_LINGUAS variable in the configure file"
+#, fuzzy
+#| msgid "Update ALL_LINGUAS variable in the configure file"
+msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "«configure» faıl ishindegi ALL_LINGUAS aınymalyny jańartý"
 
 #: weblate/addons/gettext.py:128
+#, fuzzy
+#| msgid ""
+#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
+#| "ac files, when a new translation is added."
 msgid ""
-"Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files, when a new translation is added."
+"Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
+"\"configure.ac\" files, when a new translation is added."
 msgstr ""
 "ALL_LINGUAS aınymalyny jańa tárjime qosylǵanda configure, configure.in "
 "nemese configure.ac faıldarynda jańartady."
@@ -1999,18 +2005,21 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Jaramsyz tárjimelik jalaý: «%s»"
 
 #: weblate/checks/flags.py:134
-#, python-format
-msgid "Translation flag has no params: \"%s\""
+#, fuzzy, python-format
+#| msgid "Translation flag has no params: \"%s\""
+msgid "Translation flag has no parameters: \"%s\""
 msgstr "Tárjimelik jalaýda parametrler joq: «%s»"
 
 #: weblate/checks/flags.py:140
-#, python-format
-msgid "Wrong params for translation flag: \"%s\""
+#, fuzzy, python-format
+#| msgid "Wrong params for translation flag: \"%s\""
+msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Tárjimelik jalaý úshin jaramsyz parametrler: «%s»"
 
 #: weblate/checks/flags.py:144
-#, python-format
-msgid "Missing params for translation flag: \"%s\""
+#, fuzzy, python-format
+#| msgid "Missing params for translation flag: \"%s\""
+msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Tárjimelik jalaý úshin jetispeıtin parametrler: «%s»"
 
 #: weblate/checks/format.py:265
@@ -3196,8 +3205,8 @@ msgstr "Paıdalanýshy"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:238
-#: weblate/trans/widgets.py:253 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:239
+#: weblate/trans/widgets.py:254 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Tárjimelengen"
 
@@ -5081,7 +5090,7 @@ msgstr "Joıý"
 msgid "No words found!"
 msgstr "Eshbir sóz tabylmady!"
 
-#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:88
+#: weblate/templates/dictionary.html:112 weblate/templates/memory/index.html:94
 msgid "Import"
 msgstr "Import"
 
@@ -5112,14 +5121,14 @@ msgstr ""
 "jeńildetýge qurastyrylǵan %(weblate_name_link)s ýeb-quraly arqyly "
 "tárjimelenedi."
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:227
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:228
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "Jol"
 msgstr[1] "Jol sany"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:233
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:234
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -5243,7 +5252,7 @@ msgid "Add font"
 msgstr "Qaripti ústeý"
 
 #: weblate/templates/fonts/font_list.html:97
-#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:72
+#: weblate/templates/js/detail.html:113 weblate/templates/memory/index.html:78
 #: weblate/templates/screenshots/screenshot_list.html:26
 #: weblate/templates/translation.html:312
 #: weblate/templates/translation.html:323
@@ -6083,56 +6092,58 @@ msgstr "Tárjimelik jad mártebesi"
 msgid "Shared translation memory"
 msgstr "Bólisken tárjimelik jad"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is enabled
+#: weblate/templates/memory/index.html:36
 #, fuzzy
 #| msgid "Font"
 msgid "on"
 msgstr "Qarip"
 
-#: weblate/templates/memory/index.html:34
+#. Translators: Shared translation memory is disabled
+#: weblate/templates/memory/index.html:39
 msgid "off"
 msgstr ""
 
-#: weblate/templates/memory/index.html:36
+#: weblate/templates/memory/index.html:42
 msgid "Set up"
 msgstr ""
 
-#: weblate/templates/memory/index.html:43
+#: weblate/templates/memory/index.html:49
 #, python-format
 msgid "Number of entries for %(project)s"
 msgstr "%(project)s úshin jazba sany"
 
-#: weblate/templates/memory/index.html:45
+#: weblate/templates/memory/index.html:51
 #, fuzzy
 #| msgid "Number of entries for %(project)s"
 msgid "Number of entries on the whole platform"
 msgstr "%(project)s úshin jazba sany"
 
-#: weblate/templates/memory/index.html:47
+#: weblate/templates/memory/index.html:53
 msgid "Number of your entries"
 msgstr "Jazbalaryńyzdyn sany"
 
-#: weblate/templates/memory/index.html:53
+#: weblate/templates/memory/index.html:59
 msgid "Total number of entries"
 msgstr "Qorytyndy jazba sany"
 
-#: weblate/templates/memory/index.html:58
+#: weblate/templates/memory/index.html:64
 msgid "Download as JSON"
 msgstr "JSON retinde júktep alý"
 
-#: weblate/templates/memory/index.html:59
+#: weblate/templates/memory/index.html:65
 msgid "Download as TMX"
 msgstr "TMX retinde júktep alý"
 
-#: weblate/templates/memory/index.html:67
+#: weblate/templates/memory/index.html:73
 msgid "Import translation memory"
 msgstr "Tárjimelik jadty ımporttaý"
 
-#: weblate/templates/memory/index.html:82
+#: weblate/templates/memory/index.html:88
 msgid "Import existing translations"
 msgstr "Qoldanysta bar tárjimelerdi ımporttaý"
 
-#: weblate/templates/memory/index.html:84
+#: weblate/templates/memory/index.html:90
 msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
@@ -6142,11 +6153,11 @@ msgstr ""
 "ımporttaý josparlanady. Bul jad tazalaýdan keıin nemese bastapqy ornatýdan "
 "keıin paıdaly bolýy múmkin."
 
-#: weblate/templates/memory/index.html:98
+#: weblate/templates/memory/index.html:104
 msgid "Wipe translation memory"
 msgstr "Tárjimelik jadty tazalaý"
 
-#: weblate/templates/memory/index.html:103
+#: weblate/templates/memory/index.html:109
 msgid "Wipe"
 msgstr "Tazalaý"
 
@@ -8490,8 +8501,8 @@ msgstr ""
 #| "Additional comma-separated flags to influence quality checks, check "
 #| "documentation for possible values."
 msgid ""
-"Additional comma-separated flags to influence quality checks. possible "
-"values are to be found in the documentation."
+"Additional comma-separated flags to influence quality checks. Possible "
+"values can be found in the documentation."
 msgstr ""
 "Sapa tekserýlerine áser etetin útirmen bólingen qosymsha jalaýlar, yqtımal "
 "mánderi úshin qujattamany tekserińiz."
@@ -9707,13 +9718,13 @@ msgstr "Mátinmándi ózgertý sátsiz aıaqtaldy!"
 msgid "Failed to change translation flags!"
 msgstr "Tárjimelik jalaýyn aýystyrý sátsiz aıaqtaldy!"
 
-#: weblate/trans/widgets.py:90
+#: weblate/trans/widgets.py:91
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr "{0} %"
 
-#: weblate/trans/widgets.py:280
+#: weblate/trans/widgets.py:281
 msgid "translated"
 msgstr "tárjimelengen"
 
