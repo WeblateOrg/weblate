@@ -20,9 +20,9 @@
 
 from __future__ import unicode_literals
 
+import locale
 import os
 import sys
-import unicodedata
 
 import six
 from django.apps import apps
@@ -43,11 +43,6 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
 
-try:
-    import pyuca  # pylint: disable=import-error
-    HAS_PYUCA = True
-except ImportError:
-    HAS_PYUCA = False
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
@@ -267,23 +262,11 @@ def path_separator(path):
 
 def sort_unicode(choices, key):
     """Unicode aware sorting if available"""
-    if not HAS_PYUCA:
-        return sorted(choices, key=lambda tup: remove_accents(key(tup)).lower())
-    collator = pyuca.Collator()
-    return sorted(choices, key=lambda tup: collator.sort_key(key(tup)))
-
-
-def remove_accents(input_str):
-    """Remove accents from a string."""
-    nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
-    return nkfd_form.encode('ASCII', 'ignore')
+    return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
 
 
 def sort_choices(choices):
-    """Sort choices alphabetically.
-
-    Either using cmp or pyuca.
-    """
+    """Sort choices alphabetically."""
     return sort_unicode(choices, lambda tup: tup[1])
 
 

@@ -71,7 +71,7 @@ development server.
 
         pip install Weblate
         # Optional deps
-        pip install pytz PyYAML pyuca
+        pip install pytz PyYAML
         # Install database backend for PostgreSQL
         pip install psycopg2-binary
         # Install driver for Redis
@@ -329,12 +329,6 @@ need to install several Python modules manually using pip:
     # Install driver for Redis
     pip install django-redis hiredis
 
-For proper sorting of Unicode strings, it is recommended to install ``pyuca``:
-
-.. code-block:: sh
-
-    pip install pyuca
-
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
 
@@ -371,7 +365,7 @@ Most of requirements are available either directly in openSUSE or in
     zypper install python3-Django translate-toolkit \
         python3-Whoosh python3-Pillow \
         python3-social-auth-core python3-social-auth-app-django \
-        Git mercurial python3-pyuca \
+        Git mercurial \
         python3-dateutil python3-celery
 
     # For PostgreSQL database backend

@@ -39,16 +39,5 @@ class SortTest(TestCase):
             [x[0] for x in result]
         )
 
-    def test_sort_pyuca(self):
-        if not weblate.trans.util.HAS_PYUCA:
-            raise SkipTest('pyuca not installed')
+    def test_sort(self):
         self.sort_tester()
-
-    def test_sort_fallback(self):
-        backup = weblate.trans.util.HAS_PYUCA
-        try:
-            weblate.trans.util.HAS_PYUCA = False
-
-            self.sort_tester()
-        finally:
-            weblate.trans.util.HAS_PYUCA = backup

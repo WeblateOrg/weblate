@@ -79,8 +79,6 @@ of them in :file:`requirements-optional.txt`.
 
 ``Mercurial`` (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
-``pyuca`` (optional for proper sorting of strings)
-    https://github.com/jtauber/pyuca
 ``phply`` (optional for PHP support)
     https://github.com/viraptor/phply
 ``tesserocr`` (optional for screenshots OCR)
@@ -776,17 +774,6 @@ your site is allowed to serve, leaving it empty will block any requests.
 .. seealso::
 
     :std:setting:`django:ALLOWED_HOSTS`
-
-.. _production-pyuca:
-
-The ``pyuca`` library
-+++++++++++++++++++++
-
-The `pyuca`_ library is optionally used by Weblate to sort Unicode strings.
-This way language names are properly sorted, even in non-ASCII languages like
-Japanese, Chinese or Arabic, or for languages that employ `diacritics <https://en.wikipedia.org/wiki/Diacritic/>`_.
-
-.. _pyuca: https://github.com/jtauber/pyuca
 
 .. _production-secret:
 

@@ -69,10 +69,6 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'pyuca', 'https://github.com/jtauber/pyuca'
-    )
-
-    get_optional_module(
         result, 'ruamel.yaml', 'https://pypi.org/project/ruamel.yaml/'
     )
 

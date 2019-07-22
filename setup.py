@@ -59,7 +59,7 @@ setup(
     zip_safe=False,
     extras_require={
         "Mercurial": ["Mercurial>=2.8"],
-        "Unicode": ["pyuca>=1.1", "chardet"],
+        "Unicode": ["chardet"],
         "YAML": ["ruamel.yaml"],
         "OCR": ["tesserocr>=1.2"],
         "PHP": ["phply>=1.2.3"],
