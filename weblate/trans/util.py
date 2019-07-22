@@ -268,15 +268,9 @@ def path_separator(path):
 def sort_unicode(choices, key):
     """Unicode aware sorting if available"""
     if not HAS_PYUCA:
-        return sorted(
-            choices,
-            key=lambda tup: remove_accents(key(tup)).lower()
-        )
+        return sorted(choices, key=lambda tup: remove_accents(key(tup)).lower())
     collator = pyuca.Collator()
-    return sorted(
-        choices,
-        key=lambda tup: collator.sort_key(force_text(key(tup)))
-    )
+    return sorted(choices, key=lambda tup: collator.sort_key(key(tup)))
 
 
 def remove_accents(input_str):
