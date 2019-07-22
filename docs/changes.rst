@@ -12,6 +12,8 @@ Not yet released.
 * Improve performance of repository scoped addons.
 * Improved look of notification emails.
 * Fixed password reset behavior.
+* Improved performance on most of translation pages.
+* Fixed listing of languages not known to Weblate.
 
 weblate 3.7.1
 -------------
