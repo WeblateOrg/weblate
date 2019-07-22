@@ -1175,7 +1175,7 @@ class NewLanguageOwnerForm(forms.Form):
         languages = Language.objects.exclude(translation__component=component)
         self.component = component
         self.fields['lang'].choices = sort_choices([
-            (l.code, '{0} ({1})'.format(force_text(l), l.code))
+            (l.code, '{0} ({1})'.format(ugettext(l.name), l.code))
             for l in languages
         ])
 
