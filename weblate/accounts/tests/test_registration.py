@@ -162,7 +162,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register()
         self.assertContains(
             response,
-            'Sorry, but registrations on this site are disabled.'
+            'Sorry, new registrations are turned off on this site.'
         )
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
@@ -226,7 +226,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Confirm account
         response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse('login'))
-        self.assertContains(response, 'Failed to verify your registration')
+        self.assertContains(response, 'Could not verify your registration!')
 
     @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
     def test_reset_ratelimit(self):
@@ -761,7 +761,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
         response = self.client.get(url, follow=True)
         self.assertContains(
             response,
-            'Probably the verification token has expired.'
+            'The verification token has probably expired.'
         )
 
     @override_settings(REGISTRATION_CAPTCHA=False)
