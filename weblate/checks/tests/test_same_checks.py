@@ -118,6 +118,24 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                'i18n',
+                'i18n',
+                '',
+            )
+        )
+
+        self.do_test(
+            False,
+            (
+                'i18next',
+                'i18next',
+                '',
+            )
+        )
+
     def test_same_copyright(self):
         self.do_test(
             False,
