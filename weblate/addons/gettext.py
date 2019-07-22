@@ -123,10 +123,10 @@ class UpdateLinguasAddon(GettextBaseAddon):
 class UpdateConfigureAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD,)
     name = 'weblate.gettext.configure'
-    verbose = _('Update ALL_LINGUAS variable in the configure file')
+    verbose = _('Update ALL_LINGUAS variable in the "configure" file')
     description = _(
-        'Updates the ALL_LINGUAS variable in configure, '
-        'configure.in or configure.ac files, when a new translation is added.'
+        'Updates the ALL_LINGUAS variable in "configure", '
+        '"configure.in" or "configure.ac" files, when a new translation is added.'
     )
 
     @staticmethod

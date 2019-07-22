@@ -134,11 +134,11 @@ contributions.
 
 .. _addon-weblate.gettext.configure:
 
-Update ALL_LINGUAS variable in the configure file
--------------------------------------------------
+Update ALL_LINGUAS variable in the "configure" file
+---------------------------------------------------
 
-Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac
-files, when a new translation is added.
+Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or
+:file:`configure.ac` files, when a new translation is added.
 
 .. _addon-weblate.gettext.customize:
 
