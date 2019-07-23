@@ -21,8 +21,7 @@
   <div class="panel-body">
 
 {% if is_reset %}
-<p>{% blocktrans %}Shortly you should receive an email containing a confirmation link. Click it to reset your password.{% endblocktrans %}</p>
-<p>{% blocktrans %}In case you don't receive the email, please double check your email address. To avoid information leak, this page will not tell you whether account with given email exists or not.{% endblocktrans %}</p>
+<p>{% trans "If your email address exists in our database, you will receive further password recovery instructions in your inbox." %}</p>
 {% elif is_remove %}
 <p>{% blocktrans %}Shortly you should receive an email containing a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
 {% else %}
