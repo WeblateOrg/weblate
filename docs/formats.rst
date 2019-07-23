@@ -637,7 +637,7 @@ JSON i18next files
     JSON files with plurals are supported as well.
 
 `i18next <https://www.i18next.com/>`_ is an internationalization-framework
-written in and for JavaScript. Weblate supports it's localization files with
+written in and for JavaScript. Weblate supports its localization files with
 features such as plurals.
 
 i18next translations are monolingual, so it is recommended to specify base file
