@@ -1040,10 +1040,10 @@ Default based on the file format
    Dependent on file format, for most of them POSIX is used.
 POSIX style using underscore as a separator
    Typically used by Gettext and related tools, produces language codes like
-   `pt-BR`.
+   `pt_BR`.
 BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
-   `pt_BR`.
+   `pt-BR`.
 Android style
    Used only on Android apps, produces language codes like
    `pt-rBR`.
