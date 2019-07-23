@@ -1,0 +1,17 @@
+{% load i18n %}{% load translations %}
+
+<h2>{% trans "Source string" %}</h2>
+
+{% format_translation unit.source unit.translation.component.project.source_language %}
+
+{% if unit.context %}
+<h2>{% trans "Context" %}</h2>
+
+{% format_translation unit.context unit.translation.component.project.source_language %}
+{% endif %}
+
+{% if unit.comment %}
+<h2>{% trans "Source string comment" %}</h2>
+
+{% format_translation unit.comment unit.translation.component.project.source_language %}
+{% endif %}

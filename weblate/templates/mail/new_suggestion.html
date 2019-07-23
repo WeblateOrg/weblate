@@ -7,9 +7,7 @@
 {% blocktrans with user=user.username %}There is a new suggestion to evaluate on {{ translation }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
 
-<h2>{% trans "Source string" %}</h2>
-
-{% format_translation unit.source unit.translation.component.project.source_language %}
+{% include "mail/snippets/source-string.html" %}
 
 <h2>{% trans "Suggestion" %}</h2>
 
