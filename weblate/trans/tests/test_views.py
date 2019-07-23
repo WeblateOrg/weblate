@@ -153,9 +153,9 @@ class ViewTestCase(RepoTestCase):
         """Wrapper to get fake request object."""
         request = self.factory.get('/')
         request.user = user if user else self.user
-        setattr(request, 'session', 'session')
+        request.session = 'session'
         messages = FallbackStorage(request)
-        setattr(request, '_messages', messages)
+        request._messages = messages
         return request
 
     def get_translation(self, language='cs'):
