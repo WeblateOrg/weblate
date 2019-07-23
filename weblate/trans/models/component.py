@@ -1033,7 +1033,10 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def linked_childs(self):
         """Return list of components which links repository to us."""
-        return self.component_set.prefetch()
+        childs = self.component_set.prefetch()
+        for child in childs:
+            child.linked_component = self
+        return childs
 
     @perform_on_link
     def commit_pending(self, reason, request, skip_push=False):
@@ -1335,7 +1338,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 component, pos + 1, len(self.linked_childs),
             )
             component.translations_count = -1
-            component.linked_component = self
             component.create_translations(force, langs, request=request, from_link=True)
             projects[component.project_id] = component.project
 
