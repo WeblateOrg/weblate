@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from django.conf import settings
 
 from weblate.machinery.base import (
@@ -86,3 +88,14 @@ class GoogleTranslation(MachineTranslation):
         translation = response['data']['translations'][0]['translatedText']
 
         return [(translation, self.max_score, self.name, text)]
+
+    def get_error_message(self, exc):
+        if hasattr(exc, 'read'):
+            content = exc.read()
+            try:
+                data = json.loads(content)
+                return data['error']['message']
+            except:
+                pass
+
+        return super(GoogleTranslation, self).get_error_message(exc)

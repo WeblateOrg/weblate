@@ -314,14 +314,11 @@ class MachineTranslation(object):
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error(
-                exc, request,
-                'Failed to fetch translations from %s',
-            )
-            raise MachineTranslationError('{0}: {1}'.format(
-                exc.__class__.__name__,
-                str(exc)
-            ))
+            self.report_error(exc, request, 'Failed to fetch translations from %s')
+            raise MachineTranslationError(self.get_error_message(exc))
+
+    def get_error_message(self, exc):
+        return '{0}: {1}'.format(exc.__class__.__name__, str(exc))
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""

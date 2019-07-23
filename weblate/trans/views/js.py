@@ -68,17 +68,16 @@ def translate(request, unit_id, service):
             request
         )
         response['responseStatus'] = 200
+    except MachineTranslationError as exc:
+        response['responseDetails'] = str(exc)
     except Exception as exc:
-        if not isinstance(exc, MachineTranslationError):
-            report_error(exc, request)
+        report_error(exc, request)
         response['responseDetails'] = '{0}: {1}'.format(
             exc.__class__.__name__,
             str(exc)
         )
 
-    return JsonResponse(
-        data=response,
-    )
+    return JsonResponse(data=response)
 
 
 def get_unit_changes(request, unit_id):
