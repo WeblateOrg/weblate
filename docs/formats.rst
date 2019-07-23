@@ -1047,3 +1047,8 @@ BCP style using hyphen as a separator
 Android style
    Used only on Android apps, produces language codes like
    `pt-rBR`.
+
+.. note::
+
+   Weblate recognizes any of these when parsing translation files, the above
+   settings only influences how new files are created.
