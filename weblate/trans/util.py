@@ -25,7 +25,6 @@ import os
 import sys
 
 import six
-from defusedxml import ElementTree
 from django.apps import apps
 from django.core.cache import cache
 from django.db.utils import OperationalError
@@ -38,6 +37,7 @@ from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
+from lxml import etree
 from six.moves.urllib.parse import urlparse
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
