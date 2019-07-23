@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-23 08:26+0000\n"
-"PO-Revision-Date: 2019-07-23 08:26+0000\n"
+"PO-Revision-Date: 2019-07-24 08:58+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -687,22 +687,16 @@ msgid "Cannot reset password, email authentication is turned off."
 msgstr "Parola sıfırlanamıyor, eposta kimlik doğrulaması kapatıldı."
 
 #: weblate/accounts/views.py:991
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
 msgstr ""
 "Kaydınız doğrulanamadı! Doğrulama belirtecinin süresi dolmuş olabilir. "
-"Lütfen kaydolmayı yeniden deneyin."
+"Lütfen tekrar kayıt olmayı deneyin."
 
 #: weblate/accounts/views.py:1001
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "Geçersiz oturum durumu yüzünden kimlik doğrulma başarısız oldu."
+msgstr "Geçersiz oturum durumu nedeniyle kimlik doğrulanamadı."
 
 #: weblate/accounts/views.py:1010
 msgid "Got no e-mail address from third party authentication service."
@@ -721,15 +715,11 @@ msgid "New registrations are turned off."
 msgstr "Yeni kayıtlar kapatıldı."
 
 #: weblate/accounts/views.py:1054
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Kimlik doğrulama başarısız oldu, Süresi geçmiş belirteç veya bağlantı hatası "
-"yüzünden olabilir."
+"Muhtemelen kullanım süresi dolmuş bir belirteç veya bağlantı hatası "
+"nedeniyle kimliği doğrulanamadı."
 
 #: weblate/accounts/views.py:1059
 msgid "Authentication cancelled."
@@ -980,7 +970,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:246
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "Ana bileşenden yeni oluşturulanlara ekleri çoğalt"
 
 #: weblate/addons/forms.py:251
 msgid "Remove components for inexistant files"
@@ -1030,16 +1020,12 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "\"Yapılandırma\" dosyasındaki ALL_LINGUAS değişkenini güncelle"
 
 #: weblate/addons/gettext.py:128
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Yeni bir çeviri eklendiğinde, configure, configure.in veya configure.ac "
-"dosyasındaki ALL_LINGUAS değişkenini günceller."
+"Yeni bir çeviri eklendiğinde \"configure\", \"configure.in\" veya \""
+"configure.ac\" dosyalarındaki ALL_LINGUAS değişkeni güncellenir."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
@@ -1251,10 +1237,8 @@ msgid "Delete existing translation"
 msgstr "Var olan çeviriyi sil"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "Add several languages for translation"
-msgstr "Çeviri için dil ekle"
+msgstr "Çeviri için birkaç dil ekleyin"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -2872,65 +2856,43 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF doğrulaması başarısız oldu. İstek iptal edildi."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "You are seeing this message because this HTTPS site requires a 'Referer "
-#| "header' to be sent by your Web browser, but none was sent. This header is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third parties."
 msgid ""
 "This HTTPS site requires a 'Referer header' to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "that your browser is not being hijacked by third-parties."
 msgstr ""
-"Bu iletiyi görüyorsunuz çünkü bu HTTPS sitesi, Web tarayıcınız tarafından "
-"gönderilen 'Referer üstbilgisi'ni gerektirir, ancak hiçbir şey gönderilmedi. "
-"Bu üstbilgi güvenlik nedenleri için gerekir, tarayıcınızın üçüncü taraf "
-"uygulamalar tarafından ele geçirilmediğinden emin olun."
+"Bu HTTPS sitesi, web tarayıcınız tarafından gönderilmesi için bir "
+"'Yönlendirici başlığı' gerektirir, ancak hiçbiri gönderilmedi. Bu başlık, "
+"güvenlik nedeniyle, tarayıcınızın üçüncü taraflarca kaçırılmaması için "
+"gereklidir."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have configured your browser to disable 'Referer' headers, please "
-#| "re-enable them, at least for this site, or for HTTPS connections, or for "
-#| "'same-origin' requests."
 msgid ""
 "If you have set up your browser to not send 'Referer' headers, please turn "
 "that on, at-least for this site, for HTTPS connections, or for 'same-origin' "
 "requests."
 msgstr ""
-"Eğer tarayıcınızı 'Referer' üstbilgilerini etkisizleştirmek için "
-"yapılandırdıysanız, lütfen bunları, en azından bu site ya da HTTPS "
-"bağlantıları veya 'aynı-kaynakta' olan istekler için yeniden etkinleştirin."
+"Tarayıcınızı 'Yönlendirici' başlıkları göndermeyecek şekilde ayarladıysanız, "
+"lütfen en azından bu site, HTTPS bağlantıları veya 'aynı kaynaklı' istekler "
+"için açın."
 
 #: weblate/templates/403_csrf.html:16
-#, fuzzy
-#| msgid ""
-#| "You are seeing this message because this site requires a CSRF cookie when "
-#| "submitting forms. This cookie is required for security reasons, to ensure "
-#| "that your browser is not being hijacked by third parties."
 msgid ""
 "This site requires a CSRF cookie when submitting forms. This cookie is "
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third-parties."
 msgstr ""
-"Bu iletiyi görüyorsunuz çünkü bu site, formları gönderdiğinizde bir CSRF "
-"tanımlama bilgisini gerektirir. Bu tanımlama bilgisi güvenlik nedenleri için "
-"gerekir, tarayıcınızın üçüncü taraf uygulamalar tarafından ele "
-"geçirilmediğinden emin olun."
+"Bu site form gönderirken bir CSRF çerezi gerektiriyor. Bu tanımlama bilgisi, "
+"tarayıcınızın üçüncü taraflarca kaçırılmaması için güvenlik nedeniyle "
+"gereklidir."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have configured your browser to disable cookies, please re-enable "
-#| "them, at least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again, at-least for this site, or for 'same-origin' requests."
 msgstr ""
-"Eğer tarayıcınızı tanımlama bilgilerini etkisizleştirmek için "
-"yapılandırdıysanız, lütfen bunları, en azından bu site ya da 'aynı-kaynakta' "
-"olan istekler için yeniden etkinleştirin."
+"Tarayıcınızı çerezleri kaydetmeyecek şekilde ayarladıysanız, lütfen en "
+"azından bu site veya 'aynı kaynaklı' istekler için tekrar açın."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:38
 msgid "Page Not Found"
@@ -3728,10 +3690,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Kimlik doğrulama sağlayıcısına yönlendiriliyorsunuz."
 
 #: weblate/templates/accounts/register.html:18
-#, fuzzy
-#| msgid "Please read our Terms of Service prior to registration."
 msgid "Please read our Terms of Service before registering."
-msgstr "Lütfen kaydolmadan önce Hizmet Şartları'mızı okuyun."
+msgstr "Lütfen kayıt olmadan önce Hizmet Şartlarımızı okuyun."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -3752,10 +3712,8 @@ msgid "Third party registration"
 msgstr "Üçüncü taraf kayıt"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "Sorry, but registrations on this site are disabled."
 msgid "Sorry, new registrations are turned off on this site."
-msgstr "Üzgünüz, fakat kayıtlar bu sitede devre dışı."
+msgstr "Üzgünüz bu sitede yeni kayıtlar kapatıldı."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
@@ -5911,16 +5869,12 @@ msgid "Add new user"
 msgstr "Yeni kullanıcı ekle"
 
 #: weblate/templates/manage-access.html:82
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
 msgstr ""
-"Weblate'ten kullanıcı yönetimi devre dışı, izinleri Django yönetici "
-"arayüzünden değiştirebilirsiniz."
+"Weblate kullanıcı yönetimi kapalı, Django admin arayüzünden izinleri "
+"değiştirebilirsiniz."
 
 #: weblate/templates/manage-access.html:94
 msgid "Project access control"
@@ -5947,10 +5901,8 @@ msgid "Choose"
 msgstr "Seç"
 
 #: weblate/templates/memory/index.html:13
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory for the whole platform"
-msgstr "Çeviri belleği durumu"
+msgstr "Tüm platform için çeviri belleği"
 
 #: weblate/templates/memory/index.html:26
 msgid "Translation memory status"
@@ -5972,7 +5924,7 @@ msgstr "kapalı"
 
 #: weblate/templates/memory/index.html:42
 msgid "Set up"
-msgstr ""
+msgstr "Ayarla"
 
 #: weblate/templates/memory/index.html:49
 #, python-format
@@ -5980,10 +5932,8 @@ msgid "Number of entries for %(project)s"
 msgstr "%(project)s için girdi sayısı"
 
 #: weblate/templates/memory/index.html:51
-#, fuzzy
-#| msgid "Number of entries for %(project)s"
 msgid "Number of entries on the whole platform"
-msgstr "%(project)s için girdi sayısı"
+msgstr "Tüm platformdaki girişlerin sayısı"
 
 #: weblate/templates/memory/index.html:53
 msgid "Number of your entries"
@@ -6493,14 +6443,11 @@ msgid "Additional branch"
 msgstr "Ek dal"
 
 #: weblate/templates/trans/component_create.html:42
-#, fuzzy
-#| msgid ""
-#| "Create new translation component from remote version control system "
-#| "repository."
 msgid ""
 "Create a new translation component from the remote version control system "
 "repository."
-msgstr "Uzak sürüm kontrol sistemi deposundan yeni çeviri bileşeni oluşturun."
+msgstr ""
+"Uzak sürüm kontrol sistemi deposundan yeni bir çeviri bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:44
 #: weblate/templates/trans/component_create.html:57
@@ -6510,37 +6457,28 @@ msgid "Continue"
 msgstr "Devam et"
 
 #: weblate/templates/trans/component_create.html:55
-#, fuzzy
-#| msgid ""
-#| "Create new translation component from repository already cloned in "
-#| "Weblate."
 msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
-"Weblate'te zaten klonlanmış olan depodan yeni çeviri bileşeni oluşturun."
+"Weblate'te zaten çoğaltılmış olan bir depodan yeni bir çeviri bileşeni "
+"oluşturun."
 
 #: weblate/templates/trans/component_create.html:68
-#, fuzzy
-#| msgid ""
-#| "Create new translation component for additional branch of existing "
-#| "translation component."
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
-msgstr "Mevcut çeviri bileşeninin ek dalı için yeni çeviri bileşeni oluşturun."
+msgstr ""
+"Mevcut çeviri bileşeninin ek bir dalı için yeni bir çeviri bileşeni "
+"oluşturun."
 
 #: weblate/templates/trans/component_create.html:70
-#, fuzzy
-#| msgid ""
-#| "The new component will be created for selected branch with exactly same "
-#| "configuration as existing one."
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
 msgstr ""
-"Yeni bileşen, mevcut olan ile tamamen aynı konfigürasyona sahip seçilen dal "
-"için oluşturulacak."
+"Yeni bileşen, seçilen dal için mevcut olan ile tamamen aynı konfigürasyona "
+"sahip olacak."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -6583,10 +6521,8 @@ msgid "Translation is licensed under OSI approved license."
 msgstr "Çeviri OSI onaylı lisans altında lisanslanmıştır."
 
 #: weblate/templates/trans/merge_instructions.html:6
-#, fuzzy
-#| msgid "Typical workflow for fixing merge conflicts:"
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Birleştirme çakışmalarını düzeltmek için tipik iş akışı:"
+msgstr "Birleştirme çakışmalarını düzeltmek için tipik iş akışı"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
@@ -8354,28 +8290,20 @@ msgid "Autoaccept suggestions"
 msgstr "Önerileri kendiliğinden kabul et"
 
 #: weblate/trans/models/component.py:321
-#, fuzzy
-#| msgid ""
-#| "Automatically accept suggestions with this number of votes, use 0 to "
-#| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Bu sayıda oyla önerileri kendiliğinden kabul eder, devre dışı kılmak için 0 "
+"Bu oylama sayısıyla önerileri otomatik olarak kabul et, kapatmak için 0 "
 "kullanın."
 
 #: weblate/trans/models/component.py:330
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks, check "
-#| "documentation for possible values."
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
 msgstr ""
-"Kalite denetimlerini etkilemek için virgülle ayrılmış ilave bayraklar, olası "
-"değerler için belgelere bakın."
+"Kalite denetimlerini etkilemek için virgülle ayrılmış ek bayraklar. Olası "
+"değerler belgelerde bulunabilir."
 
 #: weblate/trans/models/component.py:344
 msgid "Optional short summary of license used for translations."
