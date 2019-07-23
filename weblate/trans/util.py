@@ -261,6 +261,8 @@ def path_separator(path):
 
 def sort_unicode(choices, key):
     """Unicode aware sorting if available"""
+    if six.PY2:
+        return sorted(choices, key=lambda tup: locale.strxfrm(key(tup).encode('utf-8')))
     return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
 
 
