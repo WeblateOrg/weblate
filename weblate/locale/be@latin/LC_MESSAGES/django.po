@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-01-31 07:04+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -1370,10 +1370,8 @@ msgstr "Pravić zdymak ekrana"
 msgid "Delete screenshot"
 msgstr "Vydalić zdymak ekrana"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "Pravić zychodny radok"
 
 #: weblate/auth/data.py:66
@@ -1394,12 +1392,11 @@ msgstr "Vydalić prapanovu"
 msgid "Vote on suggestion"
 msgstr "Halasavać za prapanovu"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Pačać novy pieraklad"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "Dadać jak іnšy pieraklad"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1412,7 +1409,7 @@ msgstr "Vydalić najaŭny pieraklad"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Dadać jak іnšy pieraklad"
 
 #: weblate/auth/data.py:76
@@ -4694,6 +4691,12 @@ msgstr "Matryčny vyhliad"
 msgid "Source strings review"
 msgstr "Prahliad kliučoŭ"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Pačać novy pieraklad"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -7181,10 +7184,6 @@ msgstr "Dadatkovyja kantekst"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Kantekst:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "Pravić zychodny radok"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -10507,6 +10506,11 @@ msgstr "Spravazdačy"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Nie atrymalasia adchilić pamylku kanfihuracyi!"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "Pravić zychodny radok"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"

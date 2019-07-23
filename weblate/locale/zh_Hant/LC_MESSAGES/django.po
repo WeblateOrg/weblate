@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-14 12:00+0000\n"
 "Last-Translator: byStarTW <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1212,10 +1212,8 @@ msgstr "編輯畫面快照"
 msgid "Delete screenshot"
 msgstr "刪除畫面快照"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "編輯來源字串"
 
 #: weblate/auth/data.py:66
@@ -1236,12 +1234,11 @@ msgstr "刪除建議"
 msgid "Vote on suggestion"
 msgstr "為建議投票"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "開始新翻譯"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "新增為其他翻譯"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1254,7 +1251,7 @@ msgstr "刪除既有的翻譯"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "新增為其他翻譯"
 
 #: weblate/auth/data.py:76
@@ -4390,6 +4387,12 @@ msgstr "對照表檢視"
 msgid "Source strings review"
 msgstr "來源字串檢閱"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "開始新翻譯"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6606,10 +6609,6 @@ msgstr "附加的情境"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "情境："
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "編輯來源字串"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -9586,6 +9585,11 @@ msgstr "回報"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "編輯來源字串"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"

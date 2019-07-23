@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-16 22:04+0000\n"
 "Last-Translator: Iván Seoane <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -1338,10 +1338,10 @@ msgstr "Editar captura da pantalla"
 msgid "Delete screenshot"
 msgstr "Eliminar captura da pantalla"
 
-#: weblate/auth/data.py:64
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
 #, fuzzy
 #| msgid "Source string:"
-msgid "Edit source string info"
+msgid "Edit source string"
 msgstr "Cadea de orixe:"
 
 #: weblate/auth/data.py:66
@@ -1362,12 +1362,11 @@ msgstr "Eliminar suxestión"
 msgid "Vote on suggestion"
 msgstr "Votar suxestión"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Comezar unha nova tradución"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "Engadir coma outra tradución"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1380,7 +1379,7 @@ msgstr "Eliminar tradución existente"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Engadir coma outra tradución"
 
 #: weblate/auth/data.py:76
@@ -4722,6 +4721,12 @@ msgstr "Vista en matriz"
 msgid "Source strings review"
 msgstr "Revisión das cadeas de orixe"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Comezar unha nova tradución"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -7183,12 +7188,6 @@ msgstr "Mensaxe adicional"
 #| msgid "Context"
 msgid "Context:"
 msgstr "Contexto"
-
-#: weblate/templates/translate.html:193
-#, fuzzy
-#| msgid "Source string:"
-msgid "Edit source string"
-msgstr "Cadea de orixe:"
 
 #: weblate/templates/translate.html:210
 #, fuzzy
@@ -10576,6 +10575,11 @@ msgstr "Informes"
 #| msgid "New password confirmation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Confirmación do novo contrasinal"
+
+#, fuzzy
+#~| msgid "Source string:"
+#~ msgid "Edit source string info"
+#~ msgstr "Cadea de orixe:"
 
 #, fuzzy
 #~| msgid ""

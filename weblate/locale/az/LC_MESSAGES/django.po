@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -1411,10 +1411,10 @@ msgstr "Qaynaq sətir:"
 msgid "Delete screenshot"
 msgstr "Bu hesabı sil"
 
-#: weblate/auth/data.py:64
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
 #, fuzzy
 #| msgid "Source string:"
-msgid "Edit source string info"
+msgid "Edit source string"
 msgstr "Qaynaq sətir:"
 
 #: weblate/auth/data.py:66
@@ -1441,12 +1441,11 @@ msgstr "Yanlış(invalid) təklif!"
 msgid "Vote on suggestion"
 msgstr "Yanlış(invalid) təklif!"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Yeni tərcümə başlat"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "Digər tərcümə olaraq əlavə et"
 
 #: weblate/auth/data.py:72
 #, fuzzy
@@ -1463,7 +1462,7 @@ msgstr "Mövcud tərcümələrin üzərinə yaz"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Digər tərcümə olaraq əlavə et"
 
 #: weblate/auth/data.py:76
@@ -5135,6 +5134,12 @@ msgstr "Gözdən keçirməni başlat"
 msgid "Source strings review"
 msgstr "Qaynaq sətirləri gözdən keçirmək"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Yeni tərcümə başlat"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 #, fuzzy
@@ -7801,12 +7806,6 @@ msgstr "Əlavə mesaj"
 #| msgid "Context"
 msgid "Context:"
 msgstr "kontekst(məzmun)"
-
-#: weblate/templates/translate.html:193
-#, fuzzy
-#| msgid "Source string:"
-msgid "Edit source string"
-msgstr "Qaynaq sətir:"
 
 #: weblate/templates/translate.html:210
 #, fuzzy
@@ -11437,6 +11436,11 @@ msgstr "Hesabatlar"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfiqurasiya xətaları"
+
+#, fuzzy
+#~| msgid "Source string:"
+#~ msgid "Edit source string info"
+#~ msgstr "Qaynaq sətir:"
 
 #, fuzzy
 #~| msgid ""

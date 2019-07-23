@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-11 01:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1273,10 +1273,8 @@ msgstr "Képernyőkép szerkesztése"
 msgid "Delete screenshot"
 msgstr "Képernyőkép törlése"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "Forrásszöveg szerkesztése"
 
 #: weblate/auth/data.py:66
@@ -1297,12 +1295,11 @@ msgstr "Javaslat törlése"
 msgid "Vote on suggestion"
 msgstr "Szavazás a javaslatra"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Új fordítás indítása"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "Hozzáadás egyéb fordításként"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1315,7 +1312,7 @@ msgstr "Meglévő fordítás törlése"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Hozzáadás egyéb fordításként"
 
 #: weblate/auth/data.py:76
@@ -4577,6 +4574,12 @@ msgstr "Mátrixnézet"
 msgid "Source strings review"
 msgstr "Forrásszövegek felülvizsgálata"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Új fordítás indítása"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6945,10 +6948,6 @@ msgstr "További környezet"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Környezet:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "Forrásszöveg szerkesztése"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -10079,6 +10078,11 @@ msgstr "Jelentések"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "Forrásszöveg szerkesztése"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"

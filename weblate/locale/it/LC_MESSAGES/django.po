@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-19 07:04+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1278,10 +1278,8 @@ msgstr "Modifica cattura schermo"
 msgid "Delete screenshot"
 msgstr "Elimina immagine"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "Modifica stringa sorgente"
 
 #: weblate/auth/data.py:66
@@ -1302,12 +1300,11 @@ msgstr "Elimina suggerimento"
 msgid "Vote on suggestion"
 msgstr "Vota suggerimento"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Inizia nuova traduzione"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "Aggiungi come altra traduzione"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1320,7 +1317,7 @@ msgstr "Elimina traduzione esistente"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Aggiungi come altra traduzione"
 
 #: weblate/auth/data.py:76
@@ -4566,6 +4563,12 @@ msgstr "Vista matrice"
 msgid "Source strings review"
 msgstr "Riesame stringhe sorgenti"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Inizia nuova traduzione"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6924,10 +6927,6 @@ msgstr "Contesto aggiuntivo"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Contesto:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "Modifica stringa sorgente"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -10079,6 +10078,11 @@ msgstr "Rapporti"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Errore fallita dismissione configurazione!"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "Modifica stringa sorgente"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"

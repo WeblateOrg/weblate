@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-03-03 01:23+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1401,10 +1401,8 @@ msgstr "Уреди снимак екрана"
 msgid "Delete screenshot"
 msgstr "Обриши снимак екрана"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "Уреди изворни низ"
 
 #: weblate/auth/data.py:66
@@ -1431,12 +1429,11 @@ msgstr "Низови са предлозима"
 msgid "Vote on suggestion"
 msgstr "Предлог"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Започните нови превод"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Used languages"
+msgid "Add language for translation"
+msgstr "Коришћени језици"
 
 #: weblate/auth/data.py:72
 #, fuzzy
@@ -1453,7 +1450,7 @@ msgstr "Твитуј овај превод!"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Used languages"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Коришћени језици"
 
 #: weblate/auth/data.py:76
@@ -4983,6 +4980,12 @@ msgstr "Matrix приказ"
 msgid "Source strings review"
 msgstr "Овера изворних низова"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Започните нови превод"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 #, fuzzy
@@ -7509,10 +7512,6 @@ msgstr "Додатни фајлови за извршавање"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Контекст:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "Уреди изворни низ"
 
 #: weblate/templates/translate.html:210
 #, fuzzy
@@ -10848,6 +10847,11 @@ msgstr "Извештаји"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Грешке поставе"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "Уреди изворни низ"
 
 #, fuzzy
 #~| msgid ""

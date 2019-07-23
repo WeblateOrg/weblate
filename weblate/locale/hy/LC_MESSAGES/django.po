@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Armenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1268,11 +1268,9 @@ msgstr ""
 msgid "Delete screenshot"
 msgstr ""
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Search"
-msgid "Edit source string info"
-msgstr "Որոնում"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
+msgstr ""
 
 #: weblate/auth/data.py:66
 #, fuzzy
@@ -1298,12 +1296,11 @@ msgstr "Տարբերակներ"
 msgid "Vote on suggestion"
 msgstr "Տարբերակներ"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr ""
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Add language for translation"
+msgstr "Միջերեսի լեզու"
 
 #: weblate/auth/data.py:72
 #, fuzzy
@@ -1320,7 +1317,7 @@ msgstr "Կառավարվող նախագծեր"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Interface Language"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Միջերեսի լեզու"
 
 #: weblate/auth/data.py:76
@@ -4611,6 +4608,12 @@ msgstr ""
 msgid "Source strings review"
 msgstr ""
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr ""
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6968,10 +6971,6 @@ msgstr ""
 
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
-msgstr ""
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
 msgstr ""
 
 #: weblate/templates/translate.html:210
@@ -10147,6 +10146,11 @@ msgstr ""
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Edit source string info"
+#~ msgstr "Որոնում"
 
 #~ msgid "About"
 #~ msgstr "Մեր մասին"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -1384,10 +1384,10 @@ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 msgid "Delete screenshot"
 msgstr "Diverkañ ar bann-mañ"
 
-#: weblate/auth/data.py:64
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
 #, fuzzy
 #| msgid "Source strings review"
-msgid "Edit source string info"
+msgid "Edit source string"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/auth/data.py:66
@@ -1414,12 +1414,11 @@ msgstr "Kinnigoù"
 msgid "Vote on suggestion"
 msgstr "Kinnigoù"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Kregiñ gant un droidigezh nevez"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Used languages"
+msgid "Add language for translation"
+msgstr "Yezhoù implijet"
 
 #: weblate/auth/data.py:72
 #, fuzzy
@@ -1436,7 +1435,7 @@ msgstr "Rannit an droidigezh-mañ dre Twitter !"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Used languages"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Yezhoù implijet"
 
 #: weblate/auth/data.py:76
@@ -5015,6 +5014,12 @@ msgstr "Stagañ gant an adwelet"
 msgid "Source strings review"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Kregiñ gant un droidigezh nevez"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 #, fuzzy
@@ -7599,12 +7604,6 @@ msgstr "Kemennadenn ouzhpenn"
 #| msgid "Context"
 msgid "Context:"
 msgstr "Kendestenn"
-
-#: weblate/templates/translate.html:193
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Edit source string"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/templates/translate.html:210
 #, fuzzy
@@ -11101,6 +11100,11 @@ msgstr "Danevelloù"
 #| msgid "Start new translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Edit source string info"
+#~ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #, fuzzy
 #~| msgid ""

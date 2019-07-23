@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -1242,10 +1242,8 @@ msgstr "스크린샷 편집"
 msgid "Delete screenshot"
 msgstr "스크린샷 삭제"
 
-#: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
-msgid "Edit source string info"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
 msgstr "원본 문자열 편집"
 
 #: weblate/auth/data.py:66
@@ -1266,12 +1264,11 @@ msgstr "제안 삭제"
 msgid "Vote on suggestion"
 msgstr "제안 투표하기"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "새로운 번역 시작하기"
+#: weblate/auth/data.py:71
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Add language for translation"
+msgstr "다른 번역으로서 추가"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1284,7 +1281,7 @@ msgstr "기존 번역 삭제하기"
 #: weblate/auth/data.py:74
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "다른 번역으로서 추가"
 
 #: weblate/auth/data.py:76
@@ -4461,6 +4458,12 @@ msgstr "매트릭스 보기"
 msgid "Source strings review"
 msgstr "원본 문자열 검토"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "새로운 번역 시작하기"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6748,10 +6751,6 @@ msgstr "추가 문맥"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "문맥:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "원본 문자열 편집"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -9796,6 +9795,11 @@ msgstr "보고"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류를 버리지 못했습니다!"
+
+#, fuzzy
+#~| msgid "Edit source string"
+#~ msgid "Edit source string info"
+#~ msgstr "원본 문자열 편집"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"

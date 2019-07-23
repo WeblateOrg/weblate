@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-23 07:33+0000\n"
+"POT-Creation-Date: 2019-07-23 08:26+0000\n"
 "PO-Revision-Date: 2019-07-23 06:16+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -1223,9 +1223,9 @@ msgstr "Muokkaa ruudunkaappauskuvaa"
 msgid "Delete screenshot"
 msgstr "Poista ruudunkaappauskuva"
 
-#: weblate/auth/data.py:64
-msgid "Edit source string info"
-msgstr "Muokkaa lähdetekstin tietoja"
+#: weblate/auth/data.py:64 weblate/templates/translate.html:193
+msgid "Edit source string"
+msgstr "Muokkaa lähdetekstiä"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
@@ -1245,12 +1245,9 @@ msgstr "Poista ehdotus"
 msgid "Vote on suggestion"
 msgstr "Äänestä ehdotusta"
 
-#: weblate/auth/data.py:71 weblate/templates/component.html:70
-#: weblate/templates/component.html:138 weblate/templates/component.html:140
-#: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38
-msgid "Start new translation"
-msgstr "Aloita uusi käännös"
+#: weblate/auth/data.py:71
+msgid "Add language for translation"
+msgstr "Lisää kieli käännettäväksi"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1261,7 +1258,9 @@ msgid "Delete existing translation"
 msgstr "Poista aiempi käännös"
 
 #: weblate/auth/data.py:74
-msgid "Add language for translation"
+#, fuzzy
+#| msgid "Add language for translation"
+msgid "Add several languages for translation"
 msgstr "Lisää kieli käännettäväksi"
 
 #: weblate/auth/data.py:76
@@ -4484,6 +4483,12 @@ msgstr "Matriisinäkymä"
 msgid "Source strings review"
 msgstr "Lähdetekstien yhteenveto"
 
+#: weblate/templates/component.html:70 weblate/templates/component.html:138
+#: weblate/templates/component.html:140 weblate/templates/new-language.html:22
+#: weblate/templates/new-language.html:38
+msgid "Start new translation"
+msgstr "Aloita uusi käännös"
+
 #: weblate/templates/component.html:77 weblate/templates/memory/index.html:12
 #: weblate/templates/project.html:65 weblate/templates/translation.html:78
 msgid "Manage"
@@ -6826,10 +6831,6 @@ msgstr "Laajempi asiayhteys"
 #: weblate/templates/translate.html:184 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "Asiayhteys:"
-
-#: weblate/templates/translate.html:193
-msgid "Edit source string"
-msgstr "Muokkaa lähdetekstiä"
 
 #: weblate/templates/translate.html:210
 msgid "Please log in to save translations."
@@ -9942,6 +9943,9 @@ msgstr "Raportit"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Asetusvirheen hylkääminen epäonnistui!"
+
+#~ msgid "Edit source string info"
+#~ msgstr "Muokkaa lähdetekstin tietoja"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"
