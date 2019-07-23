@@ -95,7 +95,7 @@ class GoogleTranslation(MachineTranslation):
             try:
                 data = json.loads(content)
                 return data['error']['message']
-            except:
+            except Exception:
                 pass
 
         return super(GoogleTranslation, self).get_error_message(exc)
