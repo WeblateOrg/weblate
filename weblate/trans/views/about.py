@@ -34,7 +34,7 @@ MENU = (
     (
         'index',
         'about',
-        _('About'),
+        _('About Weblate'),
     ),
     (
         'stats',
