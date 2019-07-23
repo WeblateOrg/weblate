@@ -215,7 +215,7 @@ del {
 {% if translation %}
         <div class="box">
             <h1>
-                {% trans "Translation summary" %}
+                {% trans "Translation Information" %}
             </h1>
             <div class="line">
                 <div class="line-left">{% get_filter_name "all" %}</div>
@@ -238,7 +238,53 @@ del {
                 <div class="line-right">{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</div>
             </div>
             <div class="line buttons">
-                <a class="button" href="{{ translation_url }}">{% trans "View the translation" %}</a>
+                <a class="button" href="{{ translation_url }}">{% trans "View" %}</a>
+            </div>
+        </div>
+{% elif component %}
+        <div class="box">
+            <h1>
+                {% trans "Component Information" %}
+            </h1>
+            <div class="line">
+                <div class="line-left">{% trans "Languages" %}</div>
+                <div class="line-right">{{ component.stats.languages }}</div>
+            </div>
+            <div class="line">
+                <div class="line-left">{% get_filter_name "all" %}</div>
+                <div class="line-right">{{ component.stats.all }}</div>
+            </div>
+            <div class="line">
+                <div class="line-left">{% get_filter_name "translated" %}</div>
+                <div class="line-right">{{ component.stats.translated }} ({{ component.stats.translated_percent }}%)</div>
+            </div>
+            <div class="line buttons">
+                <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url  }}">{% trans "View" %}</a>
+            </div>
+        </div>
+{% elif project %}
+        <div class="box">
+            <h1>
+                {% trans "Project Information" %}
+            </h1>
+            <div class="line">
+                <div class="line-left">{% trans "Components" %}</div>
+                <div class="line-right">{{ project.component_set.count }}</div>
+            </div>
+            <div class="line">
+                <div class="line-left">{% trans "Languages" %}</div>
+                <div class="line-right">{{ project.stats.languages }}</div>
+            </div>
+            <div class="line">
+                <div class="line-left">{% get_filter_name "all" %}</div>
+                <div class="line-right">{{ project.stats.all }}</div>
+            </div>
+            <div class="line">
+                <div class="line-left">{% get_filter_name "translated" %}</div>
+                <div class="line-right">{{ project.stats.translated }} ({{ project.stats.translated_percent }}%)</div>
+            </div>
+            <div class="line buttons">
+                <a class="button" href="{{ current_site_url }}{{ project.get_absolute_url  }}">{% trans "View" %}</a>
             </div>
         </div>
 {% endif %}
