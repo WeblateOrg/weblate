@@ -218,7 +218,7 @@ class ComponentDiscovery(object):
             'new_base': match['new_base'],
             'file_format': self.file_format,
             'language_regex': self.language_re,
-            'addons_from': main.pk if self.copy_addons else None,
+            'addons_from': main.pk if self.copy_addons and main else None,
         })
 
         self.log('Creating component %s', name)
