@@ -22,20 +22,16 @@
 Tests for unicode sorting.
 """
 
+from __future__ import unicode_literals
+
 from django.test import TestCase
 
 import weblate.trans.util
 
 
 class SortTest(TestCase):
-    def sort_tester(self):
-        result = weblate.trans.util.sort_choices(
-            ((2, 'zkouška'), (3, 'zkouzka'), (1, 'zkouaka'))
-        )
-        self.assertEqual(
-            [1, 2, 3],
-            [x[0] for x in result]
-        )
-
     def test_sort(self):
-        self.sort_tester()
+        result = weblate.trans.util.sort_choices(
+            ((2, "zkouška"), (3, "zkouzka"), (1, "zkouaka"))
+        )
+        self.assertEqual([1, 2, 3], [x[0] for x in result])
