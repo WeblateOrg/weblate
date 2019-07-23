@@ -774,7 +774,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
-        for dummy, unit in store.iterate_merge(fuzzy):
+        for _unused, unit in store.iterate_merge(fuzzy):
             # Grab database unit
             try:
                 dbunit = self.unit_set.get_unit(unit)

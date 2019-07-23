@@ -374,7 +374,7 @@ class Repository(object):
 
         if os.path.isdir(real_path):
             files = []
-            for root, dummy, filenames in os.walk(real_path):
+            for root, _unused, filenames in os.walk(real_path):
                 for filename in filenames:
                     full_name = os.path.join(root, filename)
                     files.append((

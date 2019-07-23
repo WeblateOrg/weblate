@@ -56,7 +56,7 @@ class ChangeQuerySet(models.QuerySet):
 
         # Count number of changes
         result = []
-        for dummy in six.moves.range(0, days, step):
+        for _unused in six.moves.range(0, days, step):
             # Calculate interval
             int_start = dtstart
             int_end = int_start + timezone.timedelta(days=step)

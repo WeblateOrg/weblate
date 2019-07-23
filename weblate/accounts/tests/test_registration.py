@@ -234,7 +234,7 @@ class RegistrationTest(BaseRegistrationTest):
         User.objects.create_user('testuser', 'test@example.com', 'x')
         self.assertEqual(len(mail.outbox), 0)
 
-        for dummy in range(10):
+        for _unused in range(10):
             response = self.client.post(
                 reverse('password_reset'),
                 {'email': 'test@example.com'},

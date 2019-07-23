@@ -59,7 +59,7 @@ class RateLimitTest(SimpleTestCase):
     )
     def test_limit(self):
         request = self.get_request()
-        for dummy in range(5):
+        for _unused in range(5):
             self.assertTrue(
                 check_rate_limit('test', request)
             )

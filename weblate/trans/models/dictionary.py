@@ -50,7 +50,7 @@ class DictionaryManager(models.Manager):
         ret = 0
 
         # process all units
-        for dummy, unit in store.iterate_merge(False):
+        for _unused, unit in store.iterate_merge(False):
             source = unit.source
             target = unit.target
 

@@ -410,7 +410,7 @@ class VerifyPluralsTest(TestCase):
 
     def test_valid(self):
         """Validate that we can name all plural equations"""
-        for code, dummy, dummy, pluraleq in self.all_data():
+        for code, _unused, _unused, pluraleq in self.all_data():
             self.assertNotEqual(
                 get_plural_type(
                     code.replace('_', '-').split('-')[0],
@@ -427,7 +427,7 @@ class VerifyPluralsTest(TestCase):
         # Verify we get an error on invalid syntax
         with self.assertRaises((SyntaxError, ValueError)):
             gettext.c2py('n==0 ? 1 2')
-        for code, dummy, nplurals, pluraleq in self.all_data():
+        for code, _unused, nplurals, pluraleq in self.all_data():
             # Validate plurals can be parsed
             plural = gettext.c2py(pluraleq)
             # Get maximal plural

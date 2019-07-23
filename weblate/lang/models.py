@@ -321,7 +321,7 @@ class LanguageQuerySet(models.QuerySet):
                 continue
 
         # Create addditiona plurals
-        for code, dummy, nplurals, pluraleq in languages.EXTRAPLURALS:
+        for code, _unused, nplurals, pluraleq in languages.EXTRAPLURALS:
             lang = self.get(code=code)
 
             # Get plural type

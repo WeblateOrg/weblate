@@ -432,7 +432,7 @@ class TranslationStats(BaseStats):
         # Prefetch basic stats at once
         save = self.ensure_basic(save=False)
         # Fetch remaining ones
-        for item, dummy in get_filter_choice():
+        for item, _unused in get_filter_choice():
             if item not in self._data:
                 self.calculate_item(item)
                 save = True
