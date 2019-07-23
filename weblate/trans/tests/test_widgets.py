@@ -20,8 +20,8 @@
 
 """Test for widgets."""
 
-from django.urls import reverse
 import six
+from django.urls import reverse
 
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
