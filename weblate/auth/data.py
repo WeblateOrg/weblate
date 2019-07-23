@@ -61,17 +61,17 @@ PERMISSIONS = (
     ('screenshot.edit', _('Edit screenshot')),
     ('screenshot.delete', _('Delete screenshot')),
 
-    ('source.edit', _('Edit source string info')),
+    ('source.edit', _('Edit source string')),
 
     ('suggestion.accept', _('Accept suggestion')),
     ('suggestion.add', _('Add suggestion')),
     ('suggestion.delete', _('Delete suggestion')),
     ('suggestion.vote', _('Vote on suggestion')),
 
-    ('translation.add', _('Start new translation')),
+    ('translation.add', _('Add language for translation')),
     ('translation.auto', _('Perform automatic translation')),
     ('translation.delete', _('Delete existing translation')),
-    ('translation.add_more', _('Add language for translation')),
+    ('translation.add_more', _('Add several languages for translation')),
 
     ('unit.add', _('Add new string')),
     ('unit.check', _('Ignore failing check')),
