@@ -498,10 +498,6 @@ class Profile(models.Model):
             })
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
                 and self.dashboard_component_list is not None):
-            raise ValidationError({
-                'dashboard_component_list':
-                _("Component list can not be chosen when unused.")
-            })
             message = _(
                 "Selecting component list makes no effect when not shown on "
                 "the dashboard."
