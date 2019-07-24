@@ -148,6 +148,7 @@
 </div>
 
 <div class="tab-pane" id="alerts">
+{% if user.is_authenticated %}
 {% for alert in alerts %}
 <div class="panel panel-warning">
 <div class="panel-heading">{{ alert }}</div>
@@ -155,6 +156,10 @@
 <div class="panel-footer">{{ alert.timestamp|naturaltime }}</div>
 </div>
 {% endfor %}
+{% else %}
+{% trans "Please log in to see the alerts." as msg %}
+{% show_message "error" msg %}
+{% endif %}
 </div>
 
 <div class="tab-pane" id="information">
