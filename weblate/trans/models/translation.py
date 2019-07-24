@@ -35,8 +35,8 @@ from django.utils.translation import ugettext as _
 from weblate.checks import CHECKS
 from weblate.formats.auto import try_load
 from weblate.lang.models import Language, Plural
-from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.checklists import TranslationChecklist
+from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.mixins import LoggerMixin, URLMixin
