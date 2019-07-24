@@ -526,6 +526,7 @@ class Unit(models.Model, LoggerMixin):
 
     def propagate(self, request, change_action=None):
         """Propagate current translation to all others."""
+        result = False
         for unit in self.same_source_units:
             if not request.user.has_perm('unit.edit', unit):
                 continue
@@ -534,6 +535,8 @@ class Unit(models.Model, LoggerMixin):
             unit.target = self.target
             unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
+            result = True
+        return result
 
     def save_backend(self, request, propagate=True, change_action=None,
                      user=None):
@@ -557,8 +560,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
+        propagated = False
         if propagate:
-            self.propagate(request, change_action)
+            propagated = self.propagate(request, change_action)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -590,7 +594,7 @@ class Unit(models.Model, LoggerMixin):
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             # Update translation stats
-            self.translation.invalidate_cache(recurse=False)
+            self.translation.invalidate_cache(recurse=propagated)
 
             # Update user stats
             user.profile.translated += 1
