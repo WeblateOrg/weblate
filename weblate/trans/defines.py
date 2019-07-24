@@ -25,6 +25,9 @@ COMPONENT_NAME_LENGTH = 100
 # Project name and slug length
 PROJECT_NAME_LENGTH = 60
 
+# Repository length
+REPO_LENGTH = 200
+
 # Maximal length of filename or mask
 FILENAME_LENGTH = 400
 

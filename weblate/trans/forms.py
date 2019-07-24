@@ -51,7 +51,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
     Change,
@@ -1634,7 +1634,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
     )
     repo = forms.CharField(
         label=_('Source code repository'),
-        max_length=200,
+        max_length=REPO_LENGTH,
         help_text=_(
             'URL of a repository, use weblate://project/component '
             'for sharing with other component.'
@@ -1642,7 +1642,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
     )
     branch = forms.CharField(
         label=_('Repository branch'),
-        max_length=200,
+        max_length=REPO_LENGTH,
         help_text=_('Repository branch to translate'),
         required=False,
     )

@@ -47,7 +47,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH, REPO_LENGTH
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
@@ -180,7 +180,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     repo = models.CharField(
         verbose_name=ugettext_lazy('Source code repository'),
-        max_length=200,
+        max_length=REPO_LENGTH,
         help_text=ugettext_lazy(
             'URL of a repository, use weblate://project/component '
             'to share it with other component.'
@@ -195,7 +195,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     push = models.CharField(
         verbose_name=ugettext_lazy('Repository push URL'),
-        max_length=200,
+        max_length=REPO_LENGTH,
         help_text=ugettext_lazy(
             'URL of a push repository, pushing is turned off if empty.'
         ),
@@ -229,7 +229,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     branch = models.CharField(
         verbose_name=ugettext_lazy('Repository branch'),
-        max_length=200,
+        max_length=REPO_LENGTH,
         help_text=ugettext_lazy('Repository branch to translate'),
         default='',
         blank=True
