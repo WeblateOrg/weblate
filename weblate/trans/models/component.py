@@ -47,7 +47,12 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import (
+    COMPONENT_NAME_LENGTH,
+    FILENAME_LENGTH,
+    PROJECT_NAME_LENGTH,
+    REPO_LENGTH,
+)
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
@@ -212,7 +217,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     git_export = models.CharField(
         verbose_name=ugettext_lazy('Exported repository URL'),
-        max_length=200,
+        max_length=60 + PROJECT_NAME_LENGTH + COMPONENT_NAME_LENGTH,
         help_text=ugettext_lazy(
             'URL of repository where users can fetch changes from Weblate'
         ),
