@@ -403,7 +403,7 @@ class TranslationStats(BaseStats):
     def count_changes(self):
         if self.last_changed:
             monthly = timezone.now() - timedelta(days=30)
-            recently = timezone.now() - timedelta(days=4)
+            recently = self.last_changed - timedelta(hours=6)
             content = self._object.change_set.content()
             self.store('recent_changes', content.filter(timestamp__gt=recently).count())
             self.store('monthly_changes', content.filter(timestamp__gt=monthly).count())
