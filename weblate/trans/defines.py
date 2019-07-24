@@ -27,3 +27,7 @@ PROJECT_NAME_LENGTH = 60
 
 # Maximal length of filename or mask
 FILENAME_LENGTH = 400
+
+# Glossary entry length
+# Note: This is currently limited by 192 to allow index on MySQL
+GLOSSARY_LENGTH = 190

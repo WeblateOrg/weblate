@@ -51,7 +51,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.defines import COMPONENT_NAME_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
     Change,
@@ -1029,13 +1029,15 @@ class CommaSeparatedIntegerField(forms.Field):
 
 class OneWordForm(forms.Form):
     """Simple one-word form"""
-    term = forms.CharField(label=_('Search'), max_length=30, required=False)
+    term = forms.CharField(
+        label=_('Search'), max_length=GLOSSARY_LENGTH, required=False
+    )
 
 
 class WordForm(forms.Form):
     """Form for adding word to a glossary."""
-    source = forms.CharField(label=_('Source'), max_length=190)
-    target = forms.CharField(label=_('Translation'), max_length=190)
+    source = forms.CharField(label=_('Source'), max_length=GLOSSARY_LENGTH)
+    target = forms.CharField(label=_('Translation'), max_length=GLOSSARY_LENGTH)
     words = CommaSeparatedIntegerField(
         widget=forms.HiddenInput,
         required=False

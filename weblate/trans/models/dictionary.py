@@ -32,6 +32,7 @@ from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
 from weblate.lang.models import Language
+from weblate.trans.defines import GLOSSARY_LENGTH
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
@@ -174,8 +175,8 @@ class DictionaryQuerySet(models.QuerySet):
 class Dictionary(models.Model):
     project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
-    source = models.CharField(max_length=190, db_index=True)
-    target = models.CharField(max_length=190)
+    source = models.CharField(max_length=GLOSSARY_LENGTH, db_index=True)
+    target = models.CharField(max_length=GLOSSARY_LENGTH)
 
     objects = DictionaryManager.from_queryset(DictionaryQuerySet)()
 
