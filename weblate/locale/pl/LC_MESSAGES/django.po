@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-24 08:58+0000\n"
-"PO-Revision-Date: 2019-07-23 06:16+0000\n"
+"PO-Revision-Date: 2019-07-25 06:29+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -256,10 +256,8 @@ msgid "Password reset requested."
 msgstr "Żądanie resetowania hasła."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
-msgstr "Zresetowanie hasła zostało potwierdzone, a hasło zostało wyłączone."
+msgstr "Resetowanie hasła potwierdzone, hasło wyłączone."
 
 #: weblate/accounts/models.py:105
 #, python-brace-format
@@ -428,19 +426,14 @@ msgid "Special characters"
 msgstr "Znaki specjalne"
 
 #: weblate/accounts/models.py:407
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"Możesz wybrać dodatkowe znaki specjalne, które mają być widoczne na "
-"klawiaturze ekranowej podczas tłumaczenia. Może to być użyteczne, jeśli "
-"często używasz znaków, które trudno jest wpisać na twojej klawiaturze."
+"Można określić dodatkowe specjalne znaki klawiatury wizualnej, które będą "
+"wyświetlane podczas tłumaczenia. Może być przydatne w przypadku znaków, "
+"których często używasz, ale trudno je wpisać na klawiaturze."
 
 #: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
@@ -712,16 +705,12 @@ msgstr ""
 "Nie można zresetować hasła, uwierzytelnianie poprzez e-mail jest wyłączone."
 
 #: weblate/accounts/views.py:991
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
 msgstr ""
-"Nie udało się potwierdzić rejestracji! Prawdopodobnie wygasł token. Proszę "
-"spróbować zarejestrować się ponownie."
+"Nie można zweryfikować rejestracji! Token weryfikacyjny prawdopodobnie "
+"wygasł. Spróbuj zarejestrować się ponownie."
 
 #: weblate/accounts/views.py:1001
 msgid "Could not authenticate due to invalid session state."
@@ -744,15 +733,11 @@ msgid "New registrations are turned off."
 msgstr "Nowe rejestracje są wyłączone."
 
 #: weblate/accounts/views.py:1054
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Uwierzytelnienie nie powiodło się, prawdopodobnie z powodu wygaśnięcia "
-"tokena lub błędu połączenia."
+"Nie można uwierzytelnić, prawdopodobnie z powodu wygasłego tokena lub błędu "
+"połączenia."
 
 #: weblate/accounts/views.py:1059
 msgid "Authentication cancelled."
@@ -1275,10 +1260,8 @@ msgid "Delete existing translation"
 msgstr "Usuń istniejące tłumaczenie"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "Add several languages for translation"
-msgstr "Dodaj język do tłumaczenia"
+msgstr "Dodaj kilka języków do tłumaczenia"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -1345,46 +1328,36 @@ msgid "Use management interface (on the entire platform)"
 msgstr "Użyj interfejsu zarządzania (na całej platformie)"
 
 #: weblate/auth/data.py:99
-#, fuzzy
-#| msgid "Add language definitions (global)"
 msgid "Add language definitions (on the entire platform)"
-msgstr "Dodaj definicje języków (globalne)"
+msgstr "Dodaj definicje językowe (na całej platformie)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgid "Manage language definitions (global)"
 msgid "Manage language definitions (on the entire platform)"
-msgstr "Zarządzaj definicjami językowymi (globalne)"
+msgstr "Zarządzaj definicjami językowymi (na całej platformie)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (on the entire platform)"
-msgstr ""
+msgstr "Dodawanie grup (na całej platformie)"
 
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Manage groups (global)"
 msgid "Manage groups (on the entire platform)"
-msgstr "Zarządzaj grupami (globalne)"
+msgstr "Zarządzaj grupami (na całej platformie)"
 
 #: weblate/auth/data.py:105
 msgid "Add users (on the entire platform)"
-msgstr ""
+msgstr "Dodawanie użytkowników (na całej platformie)"
 
 #: weblate/auth/data.py:106
 msgid "Manage users (on the entire platform)"
-msgstr ""
+msgstr "Zarządzanie użytkownikami (na całej platformie)"
 
 #: weblate/auth/data.py:108
-#, fuzzy
-#| msgid "Manage whiteboard (global)"
 msgid "Manage whiteboard (on the entire platform)"
-msgstr "Zarządzaj tablicą (globalne)"
+msgstr "Zarządzaj białą tablicą (na całej platformie)"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgid "Manage translation memory (global)"
 msgid "Manage translation memory (on the entire platform)"
-msgstr "Zarządzaj pamięcią tłumaczeniową (globalne)"
+msgstr "Zarządzaj pamięcią tłumaczeń (na całej platformie)"
 
 #: weblate/auth/data.py:133
 msgctxt "Access control role"
@@ -1983,20 +1956,17 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Nieprawidłowa flaga tłumaczenia \"%s\""
 
 #: weblate/checks/flags.py:134
-#, fuzzy, python-format
-#| msgid "Translation flag has no params: \"%s\""
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "Flaga tłumaczenia bez parametrów: \"%s\""
+msgstr "Flaga tłumaczenia nie ma parametrów: \"%s\""
 
 #: weblate/checks/flags.py:140
-#, fuzzy, python-format
-#| msgid "Wrong params for translation flag: \"%s\""
+#, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Błędne parametry dla flagi tłumaczenia: \"%s\""
 
 #: weblate/checks/flags.py:144
-#, fuzzy, python-format
-#| msgid "Missing params for translation flag: \"%s\""
+#, python-format
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Brakujące parametry dla flagi tłumaczenia: \"%s\""
 
@@ -2233,22 +2203,16 @@ msgstr "Nieobsługiwany format pliku."
 
 #: weblate/fonts/views.py:69 weblate/fonts/views.py:127
 #: weblate/fonts/views.py:139
-#, fuzzy
-#| msgid "Entry with same name already exists."
 msgid "Entry by the same name already exists."
 msgstr "Wpis o tej samej nazwie już istnieje."
 
 #: weblate/fonts/views.py:71
-#, fuzzy
-#| msgid "Failed to create, please fix errors below."
 msgid "Creation failed, please the fix errors below."
-msgstr "Nie udało się utworzyć, popraw poniższe błędy."
+msgstr "Tworzenie nie powiodło się, proszę naprawić błędy poniżej."
 
 #: weblate/fonts/views.py:93
-#, fuzzy
-#| msgid "Font was deleted."
 msgid "Font deleted."
-msgstr "Czcionka została usunięta."
+msgstr "Usunięto czcionkę."
 
 #: weblate/fonts/views.py:148
 #, fuzzy
@@ -2257,10 +2221,8 @@ msgid "No override found."
 msgstr "Nie znaleziono innych napisów."
 
 #: weblate/fonts/views.py:151
-#, fuzzy
-#| msgid "Font group was deleted."
 msgid "Font group deleted."
-msgstr "Grupa czcionek została usunięta."
+msgstr "Usunięto grupę czcionek."
 
 #: weblate/formats/auto.py:79
 msgid "Automatic detection"
@@ -2303,16 +2265,12 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:673
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gettext PO file"
-msgstr "Plik Gettext PO"
+msgstr "Plik gettext PO"
 
 #: weblate/formats/ttkit.py:729
-#, fuzzy
-#| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
-msgstr "Plik Gettext PO (jednojęzyczny)"
+msgstr "Plik gettext PO (jednojęzyczny)"
 
 #: weblate/formats/ttkit.py:743
 msgid "Qt Linguist Translation File"
@@ -2355,8 +2313,6 @@ msgid "PHP strings"
 msgstr "Ciągi PHP"
 
 #: weblate/formats/ttkit.py:875
-#, fuzzy
-#| msgid ".Net resource file"
 msgid ".NET resource file"
 msgstr "Plik zasobów .Net"
 
@@ -3350,6 +3306,8 @@ msgid ""
 "If your email address exists in our database, you will receive further "
 "password recovery instructions in your inbox."
 msgstr ""
+"Jeśli Twój adres e-mail znajduje się w naszej bazie danych, otrzymasz dalsze "
+"instrukcje dotyczące odzyskiwania hasła w swojej skrzynce odbiorczej."
 
 #: weblate/templates/accounts/email-sent.html:26
 msgid ""
@@ -3804,11 +3762,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Przekierowywanie do dostawcy uwierzytelniania."
 
 #: weblate/templates/accounts/register.html:18
-#, fuzzy
-#| msgid "Please read our Terms of Service prior to registration."
 msgid "Please read our Terms of Service before registering."
-msgstr ""
-"Przed zarejestrowaniem zapoznaj się z naszymi Warunkami korzystania z usługi."
+msgstr "Przed rejestracją przeczytaj nasze Warunki korzystania z usługi."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -3830,10 +3785,8 @@ msgid "Third party registration"
 msgstr "Rejestracja przez zewnętrzne serwisy"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "Sorry, but registrations on this site are disabled."
 msgid "Sorry, new registrations are turned off on this site."
-msgstr "Przepraszamy, ale rejestracje w tej witrynie są wyłączone."
+msgstr "Przepraszamy, nowe rejestracje są wyłączone w tej witrynie."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
@@ -5027,10 +4980,8 @@ msgid "Comma separated values (CSV)"
 msgstr "Wartości oddzielone przecinkami (CSV)"
 
 #: weblate/templates/dictionary.html:34
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext (PO)"
-msgstr "Gettext (PO)"
+msgstr "gettext (PO)"
 
 #: weblate/templates/dictionary.html:35
 msgid "XML Localization Interchange File Format (XLIFF)"
