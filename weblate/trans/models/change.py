@@ -43,10 +43,7 @@ class ChangeQuerySet(models.QuerySet):
         base = self
         if prefetch:
             base = base.prefetch()
-        return base.filter(
-            action__in=Change.ACTIONS_CONTENT,
-            user__isnull=False,
-        )
+        return base.filter(action__in=Change.ACTIONS_CONTENT)
 
     @staticmethod
     def count_stats(days, step, dtstart, base):
