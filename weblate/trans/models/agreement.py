@@ -42,7 +42,7 @@ class ContributorAgreementManager(models.Manager):
         )
 
     def order(self):
-        return self.order_by('component__project__slug', 'component__slug')
+        return self.order_by('component__project__name', 'component__name')
 
 
 @python_2_unicode_compatible

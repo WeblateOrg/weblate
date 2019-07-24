@@ -157,7 +157,7 @@ class TranslationAdmin(WeblateModelAdmin):
         'component', 'language', 'revision', 'filename'
     ]
     search_fields = [
-        'component__slug', 'language__code', 'revision', 'filename'
+        'component__name', 'language__code', 'revision', 'filename'
     ]
     list_filter = ['component__project', 'component', 'language']
 
@@ -232,4 +232,4 @@ class SourceAdmin(WeblateModelAdmin):
 class ContributorAgreementAdmin(WeblateModelAdmin):
     list_display = ['user', 'component', 'timestamp']
     date_hierarchy = 'timestamp'
-    ordering = ('user__username', 'component__project__slug', 'component__slug')
+    ordering = ('user__username', 'component__project__name', 'component__name')
