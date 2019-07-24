@@ -60,7 +60,7 @@ class SamePluralsCheck(TargetCheck):
             return False
         if targets[0] == '':
             return False
-        return len(set(targets)) != len(targets)
+        return len(set(targets)) == 1
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
