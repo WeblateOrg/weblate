@@ -47,7 +47,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
-from weblate.trans.defines import COMPONENT_NAME_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, FILENAME_LENGTH
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
@@ -236,7 +236,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     filemask = models.CharField(
         verbose_name=ugettext_lazy('Filemask'),
-        max_length=200,
+        max_length=FILENAME_LENGTH,
         validators=[validate_filemask],
         help_text=ugettext_lazy(
             'Path of files to translate relative to repository root,'
@@ -246,7 +246,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     template = models.CharField(
         verbose_name=ugettext_lazy('Monolingual base language file'),
-        max_length=200,
+        max_length=FILENAME_LENGTH,
         blank=True,
         help_text=ugettext_lazy(
             'Filename of translation base file, containing all strings '
@@ -264,7 +264,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     new_base = models.CharField(
         verbose_name=ugettext_lazy('Base file for new translations'),
-        max_length=200,
+        max_length=FILENAME_LENGTH,
         blank=True,
         help_text=ugettext_lazy(
             'Filename of file used for creating new translations. '

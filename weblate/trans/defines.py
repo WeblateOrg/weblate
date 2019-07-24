@@ -21,3 +21,6 @@
 
 # Component name and slug length
 COMPONENT_NAME_LENGTH = 100
+
+# Maximal length of filename or mask
+FILENAME_LENGTH = 400

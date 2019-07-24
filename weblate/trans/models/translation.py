@@ -35,6 +35,7 @@ from django.utils.translation import ugettext as _
 from weblate.checks import CHECKS
 from weblate.formats.auto import try_load
 from weblate.lang.models import Language, Plural
+from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.filter import get_filter_choice
@@ -97,7 +98,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
     revision = models.CharField(max_length=100, default='', blank=True)
-    filename = models.CharField(max_length=200)
+    filename = models.CharField(max_length=FILENAME_LENGTH)
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 
