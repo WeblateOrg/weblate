@@ -156,9 +156,6 @@ Translate-URL: {{ url }}'''
     # Special chars for visual keyboard
     SPECIAL_CHARS = ('\t', '\n', '…')
 
-    # Following probably should not be configured
-    COMPONENT_NAME_LENGTH = 100
-
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
 

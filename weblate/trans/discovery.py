@@ -24,7 +24,6 @@ import os
 import re
 from itertools import chain
 
-from django.conf import settings
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -32,6 +31,7 @@ from django.utils.text import slugify
 from weblate.addons.models import Addon
 from weblate.celery import app
 from weblate.logger import LOGGER
+from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.models import Change, Component, Project
 from weblate.trans.util import path_separator
 from weblate.utils.render import render_template
@@ -174,7 +174,7 @@ class ComponentDiscovery(object):
             LOGGER.info(*args)
 
     def create_component(self, main, match, background=False, **kwargs):
-        max_length = settings.COMPONENT_NAME_LENGTH
+        max_length = COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
             result = match[key]

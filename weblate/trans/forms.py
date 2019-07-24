@@ -51,6 +51,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
     Change,
@@ -1549,12 +1550,12 @@ class ComponentCreateForm(SettingsBaseForm):
 class ComponentNameForm(forms.Form):
     name = forms.CharField(
         label=_('Component name'),
-        max_length=settings.COMPONENT_NAME_LENGTH,
+        max_length=COMPONENT_NAME_LENGTH,
         help_text=_('Display name')
     )
     slug = forms.SlugField(
         label=_('URL slug'),
-        max_length=settings.COMPONENT_NAME_LENGTH,
+        max_length=COMPONENT_NAME_LENGTH,
         help_text=_('Name used in URLs and filenames.')
     )
 

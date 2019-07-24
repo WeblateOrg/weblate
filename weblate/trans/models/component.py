@@ -47,6 +47,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
@@ -152,12 +153,12 @@ class ComponentQuerySet(models.QuerySet):
 class Component(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
-        max_length=settings.COMPONENT_NAME_LENGTH,
+        max_length=COMPONENT_NAME_LENGTH,
         help_text=ugettext_lazy('Display name')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
-        max_length=settings.COMPONENT_NAME_LENGTH,
+        max_length=COMPONENT_NAME_LENGTH,
         help_text=ugettext_lazy('Name used in URLs and filenames.')
     )
     project = models.ForeignKey(
