@@ -317,11 +317,7 @@ def handle_merge(translation, request, next_unit_url):
         return None
 
     # Store unit
-    saved = unit.translate(request, merged.target, merged.state)
-    # Update stats if there was change
-    if saved:
-        request.user.profile.translated += 1
-        request.user.profile.save()
+    unit.translate(request, merged.target, merged.state)
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 
