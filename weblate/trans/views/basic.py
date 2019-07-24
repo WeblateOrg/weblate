@@ -127,7 +127,7 @@ def show_project(request, project):
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
+        obj.stats.get_language_stats(), lambda x: force_text(x.language)
     )
 
     # Paginate components of project.
