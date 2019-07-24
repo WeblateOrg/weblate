@@ -529,6 +529,8 @@ class Unit(models.Model, LoggerMixin):
         for unit in self.same_source_units:
             if not request.user.has_perm('unit.edit', unit):
                 continue
+            if unit.target == self.target and unit.state == self.state:
+                continue
             unit.target = self.target
             unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
