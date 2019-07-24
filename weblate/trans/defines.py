@@ -22,5 +22,8 @@
 # Component name and slug length
 COMPONENT_NAME_LENGTH = 100
 
+# Project name and slug length
+PROJECT_NAME_LENGTH = 60
+
 # Maximal length of filename or mask
 FILENAME_LENGTH = 400

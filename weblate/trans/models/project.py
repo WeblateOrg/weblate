@@ -36,6 +36,7 @@ from django.utils.translation import ugettext_lazy
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
+from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
@@ -64,14 +65,14 @@ class Project(models.Model, URLMixin, PathMixin):
 
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
-        max_length=60,
+        max_length=PROJECT_NAME_LENGTH,
         unique=True,
         help_text=ugettext_lazy('Display name')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
         unique=True,
-        max_length=60,
+        max_length=PROJECT_NAME_LENGTH,
         help_text=ugettext_lazy('Name used in URLs and filenames.')
     )
     web = models.URLField(

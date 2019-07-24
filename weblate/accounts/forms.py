@@ -50,6 +50,7 @@ from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
+from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple
@@ -589,7 +590,7 @@ class HostingForm(forms.Form):
     project = forms.CharField(
         label=_('Project name'),
         required=True,
-        max_length=60,
+        max_length=PROJECT_NAME_LENGTH,
     )
     url = forms.URLField(
         label=_('Project website'),
