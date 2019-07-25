@@ -75,7 +75,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: arn
     ('arn', _('Mapudungun'), 2, 'n > 1'),
     # Translators: Language name, ISO code: ars
-    ('ars', _('Najdi Arabic'), 6, '(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))))'),
+    ('ars', _('Arabic (Najdi)'), 6, '(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))))'),
     # Translators: Language name, ISO code: as
     ('as', _('Assamese'), 2, 'n > 1'),
     # Translators: Language name, ISO code: asa
@@ -169,9 +169,9 @@ LANGUAGES = (
     # Translators: Language name, ISO code: de
     ('de', _('German'), 2, 'n != 1'),
     # Translators: Language name, ISO code: de_AT
-    ('de_AT', _('Austrian German'), 2, 'n != 1'),
+    ('de_AT', _('German (Austria)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: de_CH
-    ('de_CH', _('Swiss High German'), 2, 'n != 1'),
+    ('de_CH', _('German (Swiss High)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: doi
     ('doi', _('Dogri'), 2, 'n != 1'),
     # Translators: Language name, ISO code: dsb
@@ -269,7 +269,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: gn
     ('gn', _('Guarani'), 2, 'n != 1'),
     # Translators: Language name, ISO code: gsw
-    ('gsw', _('Swiss German'), 2, 'n != 1'),
+    ('gsw', _('German (Swiss)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: gu
     ('gu', _('Gujarati'), 2, 'n > 1'),
     # Translators: Language name, ISO code: gun
@@ -465,7 +465,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: nd
     ('nd', _('North Ndebele'), 2, 'n != 1'),
     # Translators: Language name, ISO code: nds
-    ('nds', _('Low German'), 2, 'n != 1'),
+    ('nds', _('German (Low)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: ne
     ('ne', _('Nepali'), 2, 'n != 1'),
     # Translators: Language name, ISO code: ng
@@ -617,7 +617,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: sw
     ('sw', _('Swahili'), 2, 'n != 1'),
     # Translators: Language name, ISO code: sw_CD
-    ('sw_CD', _('Congo Swahili'), 2, 'n != 1'),
+    ('sw_CD', _('Swahili (Congo)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: syr
     ('syr', _('Syriac'), 2, 'n != 1'),
     # Translators: Language name, ISO code: szl
@@ -691,7 +691,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: wa
     ('wa', _('Walloon'), 2, 'n > 1'),
     # Translators: Language name, ISO code: wae
-    ('wae', _('Walser German'), 2, 'n != 1'),
+    ('wae', _('German (Walser)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: wal
     ('wal', _('Wolaytta'), 2, 'n != 1'),
     # Translators: Language name, ISO code: wen
