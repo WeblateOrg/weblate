@@ -1058,6 +1058,8 @@ class Component(models.Model, URLMixin, PathMixin):
         for translation in translations.iterator():
             if translation.component_id == self.id:
                 translation.component = self
+            if translation.linked_component_id == self.id:
+                translation.linked_component = self
             translation.commit_pending(
                 reason, request, skip_push=True, force=True
             )
