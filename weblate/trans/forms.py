@@ -602,6 +602,7 @@ class SimpleUploadForm(forms.Form):
             ('approve', _('Add as approved translation')),
             ('suggest', _('Add as suggestion')),
             ('fuzzy', _('Add as translation needing edit')),
+            ('replace', _('Replace existing translation file')),
         ),
     )
     fuzzy = forms.ChoiceField(
@@ -666,6 +667,8 @@ def get_upload_form(user, translation, *args):
         result.remove_translation_choice('suggest')
     if not user.has_perm('unit.review', translation):
         result.remove_translation_choice('approve')
+    if not user.has_perm('component.edit', translation):
+        result.remove_translation_choice('replace')
     return result
 
 

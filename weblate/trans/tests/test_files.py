@@ -470,5 +470,25 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice('suggest')
         self.assertEqual(
             [x[0] for x in form.fields['method'].choices],
-            ['translate', 'approve', 'fuzzy']
+            ['translate', 'approve', 'fuzzy', 'replace']
         )
+
+
+class ImportReplaceTest(ImportBaseTest):
+    """Testing of file imports."""
+    test_file = TEST_BADPLURALS
+
+    def test_import(self):
+        """Test importing normally."""
+        response = self.do_import(method="replace")
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 1)
+
+        # Verify unit
+        unit = self.get_unit()
+        self.assertEqual(unit.target, TRANSLATION_PO)
