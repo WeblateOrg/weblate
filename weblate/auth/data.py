@@ -82,7 +82,7 @@ PERMISSIONS = (
 
     ('upload.authorship', _('Define author of uploaded translation')),
     ('upload.overwrite', _('Overwrite existing strings with upload')),
-    ('upload.perform', _('Upload strings for translation')),
+    ('upload.perform', _('Upload translations')),
 
     ('vcs.access', _('Access the internal repository')),
     ('vcs.commit', _('Commit changes to the internal repository')),
