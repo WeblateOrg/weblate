@@ -485,6 +485,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
             raise PermissionDenied()
+        if data['replace'] and not user.has_perm('component.edit', obj):
+            raise PermissionDenied()
 
         if (not user.has_perm('unit.edit', obj)
                 and data['method'] in ('translate', 'fuzzy')):

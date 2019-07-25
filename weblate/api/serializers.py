@@ -349,7 +349,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
-        choices=('translate', 'approve', 'suggest', 'fuzzy'),
+        choices=('translate', 'approve', 'suggest', 'fuzzy', 'replace'),
         required=False,
         default='translate',
     )

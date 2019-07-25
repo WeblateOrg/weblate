@@ -34,6 +34,7 @@ from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
 from weblate.formats.auto import try_load
+from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
@@ -227,10 +228,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Return absolute filename."""
         return os.path.join(self.component.full_path, self.filename)
 
-    def load_store(self):
+    def load_store(self, fileobj=None):
         """Load translate-toolkit storage from disk."""
+        if fileobj is None:
+            fileobj = self.get_filename()
         store = self.component.file_format_cls.parse(
-            self.get_filename(),
+            fileobj,
             self.component.template_store,
             language_code=self.language_code,
             is_template=self.is_template,
@@ -795,9 +798,54 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return (not_found, skipped, accepted, len(list(store.translatable_units)))
 
+    def handle_replace(self, request, fileobj):
+        """Replace file content with uploaded one."""
+        filecopy = fileobj.read()
+        fileobj.close()
+        fileobj = BytesIOMode(fileobj.name, filecopy)
+        with self.component.repository.lock:
+            self.commit_pending('replace file', request)
+            # This will throw an exception in case of error
+            store2 = self.load_store(fileobj)
+
+            # Actually replace file content
+            self.store.save_atomic(
+                self.store.storefile,
+                lambda handle: handle.write(filecopy)
+            )
+
+            # Commit to VCS
+            self.__git_commit(request.user.get_author_name(), timezone.now())
+
+            # Drop store cache
+            del self.__dict__['store']
+
+            # Parse the file again
+            self.check_sync(force=True, request=request, change=Change.ACTION_UPLOAD)
+            self.invalidate_cache()
+
+        return (0, 0, self.unit_set.count(), len(list(store2.translatable_units)))
+
     def merge_upload(self, request, fileobj, overwrite, author_name=None,
                      author_email=None, method='translate', fuzzy=''):
         """Top level handler for file uploads."""
+        # Optionally set authorship
+        orig_user = None
+        if author_email:
+            from weblate.auth.models import User
+            orig_user = request.user
+            request.user = User.objects.get_or_create(
+                email=author_email,
+                defaults={
+                    'username': author_email,
+                    'is_active': False,
+                    'full_name': author_name or author_email,
+                }
+            )[0]
+
+        if method == 'replace':
+            return self.handle_replace(request, fileobj)
+
         filecopy = fileobj.read()
         fileobj.close()
 
@@ -823,20 +871,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             except (ValueError, KeyError):
                 # Formula wrong or missing
                 pass
-
-        # Optionally set authorship
-        orig_user = None
-        if author_email:
-            from weblate.auth.models import User
-            orig_user = request.user
-            request.user = User.objects.get_or_create(
-                email=author_email,
-                defaults={
-                    'username': author_email,
-                    'is_active': False,
-                    'full_name': author_name or author_email,
-                }
-            )[0]
 
         try:
             if method in ('translate', 'fuzzy', 'approve'):

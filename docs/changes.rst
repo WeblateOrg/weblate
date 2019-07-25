@@ -15,6 +15,7 @@ Not yet released.
 * Improved performance on most of translation pages.
 * Fixed listing of languages not known to Weblate.
 * Add support for cloning addons to discovered components.
+* Add support for replacing file content with uploaded.
 
 weblate 3.7.1
 -------------
