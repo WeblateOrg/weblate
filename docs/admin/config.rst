@@ -1065,6 +1065,25 @@ achieved by setting ``WSGIScriptAlias``.
     This setting does not work with Django's builtin server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: VCS_BACKENDS
+
+VCS_BACKENDS
+------------
+
+Configuration of available VCS backends. Weblate tries to use all supported
+backends for which you have tools available. You can limit choices or add
+custom VCS backends using this.
+
+.. code-block:: python
+
+   VCS_BACKENDS = (
+      'weblate.vcs.git.GitRepository',
+   )
+
+.. seealso:: 
+   
+   :ref:`vcs`
+
 .. setting:: WEBLATE_ADDONS
 
 WEBLATE_ADDONS
