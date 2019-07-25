@@ -34,6 +34,7 @@ from weblate.vcs.git import (
     GithubRepository,
     GitRepository,
     GitWithGerritRepository,
+    LocalRepository,
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
@@ -151,6 +152,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         # Verify that VCS directory exists
         if self._vcs == 'mercurial':
             dirname = '.hg'
+        elif self._vcs == 'local':
+            dirname = '.git'
         else:
             dirname = '.{}'.format(self._vcs)
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
@@ -547,3 +550,53 @@ class VCSHgTest(VCSGitTest):
     def test_status(self):
         status = self.repo.status()
         self.assertEqual(status, '')
+
+
+class VCSLocalTest(VCSGitTest):
+    """
+    Local repository testing.
+    """
+    _class = LocalRepository
+    _vcs = 'local'
+    _remote_branches = []
+
+    @classmethod
+    def setUpClass(cls):
+        super(VCSLocalTest, cls).setUpClass()
+        # Global setup to configure git committer
+        GitRepository.global_setup()
+
+    def test_status(self):
+        status = self.repo.status()
+        # Older git print up-to-date, newer up to date
+        self.assertIn(
+            "On branch master", status
+        )
+
+    def test_upstream_changes(self):
+        raise SkipTest('Not supported')
+
+    def test_get_file(self):
+        raise SkipTest('Not supported')
+
+    def test_remove(self):
+        raise SkipTest('Not supported')
+
+    def test_needs_push(self):
+        self.test_commit()
+        self.assertFalse(self.repo.needs_push())
+
+    def test_reset(self):
+        raise SkipTest('Not supported')
+
+    def test_merge_conflict(self):
+        raise SkipTest('Not supported')
+
+    def test_rebase_conflict(self):
+        raise SkipTest('Not supported')
+
+    def test_configure_remote(self):
+        raise SkipTest('Not supported')
+
+    def test_configure_remote_no_push(self):
+        raise SkipTest('Not supported')

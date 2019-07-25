@@ -82,6 +82,8 @@ class RepoTestMixin(object):
     """Mixin for testing with test repositories."""
     updated_base_repos = set()
 
+    local_repo_path = 'local:'
+
     def optional_extract(self, output, tarname):
         """Extract test repository data if needed
 

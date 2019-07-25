@@ -28,6 +28,7 @@ import os.path
 from defusedxml import ElementTree
 from django.conf import settings
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
@@ -606,3 +607,50 @@ class GithubRepository(GitRepository):
     def configure_remote(self, pull_url, push_url, branch):
         # We don't use push URL at all
         super(GithubRepository, self).configure_remote(pull_url, None, branch)
+
+
+class LocalRepository(GitRepository):
+    """Local filesystem driver with no upstream repo."""
+    name = ugettext_lazy('No remote repository')
+
+    @staticmethod
+    def get_identifier():
+        return 'local'
+
+    def get_remote_branch_name(self):
+        return self.branch
+
+    def update_remote(self):
+        return
+
+    def push(self):
+        return
+
+    def reset(self):
+        return
+
+    def rebase(self, abort=False):
+        return
+
+    def merge(self, abort=False, message=None):
+        return
+
+    def list_remote_branches(self):
+        return []
+
+    @classmethod
+    def _clone(cls, source, target, branch=None):
+        if not os.path.exists(target):
+            os.makedirs(target)
+        cls._popen(['init', target])
+        with open(os.path.join(target, 'README.md'), 'w') as handle:
+            handle.write('Translations repository created by Weblate\n')
+            handle.write('==========================================\n')
+            handle.write('\n')
+            handle.write('See https://weblate.org/ for more info.\n')
+        cls._popen(['add', 'README.md'], target)
+        cls._popen(['commit', '--message', 'Repository created by Weblate'], target)
+
+    @cached_property
+    def last_remote_revision(self):
+        return self.last_revision
