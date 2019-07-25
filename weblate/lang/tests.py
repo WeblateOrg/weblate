@@ -83,7 +83,7 @@ LANGUAGES = (
         'de_AT',
         'ltr',
         'n != 1',
-        'Austrian German',
+        'German (Austria)',
         False,
     ),
     (
