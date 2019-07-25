@@ -31,6 +31,7 @@ from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db.models import Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
@@ -1616,7 +1617,31 @@ class ComponentBranchForm(ComponentSelectForm):
             raise ValidationError(error.messages)
 
 
-class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
+class ComponentProjectForm(ComponentNameForm):
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.none(),
+        label=_('Project'),
+    )
+
+    def __init__(self, request, *args, **kwargs):
+        if 'instance' in kwargs:
+            kwargs.pop('instance')
+        super(ComponentProjectForm, self).__init__(*args, **kwargs)
+        self.request = request
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.instance = None
+
+
+class ComponentZipCreateForm(ComponentProjectForm):
+    zipfile = forms.FileField(
+        label=_('ZIP file with translations'),
+        validators=[FileExtensionValidator(allowed_extensions=['zip'])],
+        widget=forms.FileInput(attrs={'accept': '.zip,application/zip'})
+    )
+
+
+class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     """Component creation form.
 
     This is mostly copy from Component model. Probably
@@ -1649,15 +1674,6 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
         help_text=_('Repository branch to translate'),
         required=False,
     )
-
-    def __init__(self, request, *args, **kwargs):
-        if 'instance' in kwargs:
-            kwargs.pop('instance')
-        super(ComponentInitCreateForm, self).__init__(*args, **kwargs)
-        self.request = request
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.instance = None
 
     def clean_instance(self, data):
         params = copy.copy(data)
@@ -1713,6 +1729,8 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             if field == 'discovery':
                 continue
             value.widget = forms.HiddenInput()
+        # Allow all VCS now (to handle zip file upload case)
+        self.fields['vcs'].choices = VCS_REGISTRY.get_choices()
         self.discovered = self.perform_discovery(request, kwargs)
         for i, value in enumerate(self.discovered):
             self.fields['discovery'].choices.append(

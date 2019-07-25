@@ -479,6 +479,7 @@ backends for other VCSes.
 
 You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.
 
+Weblate also supports VCS less operation, see :ref:`vcs-local`.
 
 .. note::
 

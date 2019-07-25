@@ -319,3 +319,20 @@ environment variable set to the DATA_DIR::
 .. seealso::
 
     :setting:`DATA_DIR`
+
+
+.. _vcs-local:
+
+Local files
+-----------
+
+.. versionadded:: 3.8
+
+Weblate can operate without remote VCS as well. The initial translations are
+imported by ZIP upload. Later you can replace individual files by file upload
+or add translation strings directly in Weblate (currently available only for
+monolingual translations).
+
+In the background Weblate creates Git repository for you and all changes are
+tracked in in. In case you decide later to use VCS to store the translations,
+it's already within Weblate and you can base on that.

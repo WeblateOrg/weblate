@@ -18,7 +18,7 @@
 {% include "billing-failure.html" %}
 {% endif %}
 
-{% endif %}
+{% else %}
 
 <ul class="nav nav-pills">
 {% if projects %}
@@ -29,6 +29,9 @@
 {% endif %}
 {% if branch_form.fields.component.queryset %}
   <li role="presentation"><a href="#branch" data-toggle="tab">{% trans "Additional branch" %}</a></li>
+{% endif %}
+{% if zip_form %}
+  <li role="presentation"><a href="#zip" data-toggle="tab">{% trans "Upload translations files" %}</a></li>
 {% endif %}
 </ul>
 
@@ -73,6 +76,19 @@
 </div>
 {% endif %}
 
+{% if zip_form %}
+<div class="tab-pane" id="zip">
+<form action="{% url 'create-component-zip' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="project" value="{{ selected_project }}" />
+<p>{% trans "Create a new translation component from uploaded ZIP file with translations." %}</p>
+{{ zip_form | crispy }}
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
+</form>
 </div>
+{% endif %}
+
+</div>
+{% endif %}
 
 {% endblock %}
