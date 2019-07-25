@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.lang.models import Language
@@ -358,6 +359,21 @@ class UploadRequestSerializer(ReadOnlySerializer):
         required=False,
         default=''
     )
+
+    def check_perms(self, user, obj):
+        data = self.validated_data
+        if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
+            raise PermissionDenied()
+
+        if (not user.has_perm('unit.edit', obj)
+                and data['method'] in ('translate', 'fuzzy')):
+            raise PermissionDenied()
+        if not user.has_perm('suggestion.add', obj) and data['method'] == 'suggest':
+            raise PermissionDenied()
+        if not user.has_perm('unit.review', obj) and data['method'] == 'approve':
+            raise PermissionDenied()
+        if not user.has_perm('component.edit', obj) and data['method'] == 'replace':
+            raise PermissionDenied()
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
