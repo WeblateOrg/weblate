@@ -295,10 +295,9 @@ class MoExporter(PoExporter):
         if translation:
             self.monolingual = translation.component.has_template()
         if self.monolingual:
-            for unit in translation.store.all_units:
-                if unit.is_translatable():
-                    self.use_context = not unit.template.source
-                    break
+            for unit in translation.store.translatable_units:
+                self.use_context = not unit.template.source
+                break
 
     def add_unit(self, unit):
         # We do not store not translated units

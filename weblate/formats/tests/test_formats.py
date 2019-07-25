@@ -304,10 +304,9 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def test_flags(self):
         """Check flags on first translatable unit."""
         storage = self.parse_file(self.FILE)
-        for unit in storage.all_units:
-            if unit.is_translatable():
-                self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
-                break
+        for unit in storage.translatable_units:
+            self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
+            break
 
 
 class XMLMixin(object):
