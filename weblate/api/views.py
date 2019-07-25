@@ -481,22 +481,9 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.check_perms(request.user, obj)
+
         data = serializer.validated_data
-
-        if data['overwrite'] and not user.has_perm('upload.overwrite', obj):
-            raise PermissionDenied()
-        if data['replace'] and not user.has_perm('component.edit', obj):
-            raise PermissionDenied()
-
-        if (not user.has_perm('unit.edit', obj)
-                and data['method'] in ('translate', 'fuzzy')):
-            raise PermissionDenied()
-        if (not user.has_perm('suggestion.add', obj)
-                and data['method'] == 'suggest'):
-            raise PermissionDenied()
-        if (not user.has_perm('unit.review', obj)
-                and data['method'] == 'approve'):
-            raise PermissionDenied()
 
         author_name = None
         author_email = None
