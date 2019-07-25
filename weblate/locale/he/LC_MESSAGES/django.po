@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-25 06:30+0000\n"
-"PO-Revision-Date: 2019-07-24 08:58+0000\n"
+"PO-Revision-Date: 2019-07-26 06:21+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -240,20 +240,14 @@ msgid "Component: {}"
 msgstr "רכיב: {}"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password changed."
 msgstr "הססמה הוחלפה."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset requested."
 msgstr "הבקשה לאיפוס הססמה התקבלה."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
 msgstr "איפוס הססמה התקבל והססמה הושבתה."
 
@@ -336,10 +330,6 @@ msgid "Translated languages"
 msgstr "שפות מתורגמות"
 
 #: weblate/accounts/models.py:338
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -367,31 +357,23 @@ msgid "Show secondary translations in zen mode"
 msgstr "הצגת תרגומים משניים במצב ריכוז"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary language translation exists"
-msgstr "הסתרת מקור אם ישנה שפה משנית"
+msgstr "הסתרת המקור אם ישנו תרגום לשפה משנית"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "קישור לעורך"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is a good option."
 msgstr ""
-"יש להזין כתובת בהתאמה אישית שתשמש כקישור לקוד פתוח. ניתן להשתמש ב־{{branch}} "
-"בתור ענף, {{filename}} ו־{{line}} בתור שם קובץ וממלאי מקום שורה. בדרך כלל "
-"משהו בסגנון editor://open/?file={{filename}}&line={{line}} עובד היטב."
+"יש להזין כתובת בהתאמה אישית שתשמש כקישור לקוד. ניתן להשתמש ב־{{branch}} בתור "
+"ענף, {{filename}} ו־{{line}} בתור שם קובץ וממלאי מקום שורה. בדרך כלל משהו "
+"בסגנון editor://open/?file={{filename}}&line={{line}} עובד היטב."
 
 #: weblate/accounts/models.py:385
 msgid "Translation editor mode"
@@ -688,10 +670,8 @@ msgid "Password reset has been already completed!"
 msgstr "איפוס הססמה כבר הושלם!"
 
 #: weblate/accounts/views.py:818
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, email authentication is turned off."
-msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא״ל מושבת!"
+msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא״ל מושבת."
 
 #: weblate/accounts/views.py:991
 #, fuzzy
@@ -704,16 +684,12 @@ msgid ""
 msgstr "אימות ההרשמה נכשל! כנראה שאסימון האימות פג. נא לנסות להירשם שוב."
 
 #: weblate/accounts/views.py:1001
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "האימות נכשל עקב מצב הפעלה שגוי."
+msgstr "לא ניתן לאמת עקב מצב הפעלה שגוי."
 
 #: weblate/accounts/views.py:1010
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
-msgstr "לא התקבלה הודעה בדוא״ל מספק אימות בצד שלישי!"
+msgstr "לא התקבלה הודעה בדוא״ל מספק אימות בצד שלישי."
 
 #: weblate/accounts/views.py:1012
 msgid "Please register using e-mail instead."
@@ -724,10 +700,8 @@ msgid "Can not change authentication for demo!"
 msgstr "לא ניתן לשנות את האימות למערכת ההדגמה!"
 
 #: weblate/accounts/views.py:1026
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "הרשמות חדשות מושבתות!"
+msgstr "הרשמות חדשות מושבתות."
 
 #: weblate/accounts/views.py:1054
 #, fuzzy
@@ -739,8 +713,6 @@ msgid ""
 msgstr "האימות נכשל, כנראה עקב אסימון שתוקפו פג או בעיית חיבור."
 
 #: weblate/accounts/views.py:1059
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
 msgstr "האימות בוטל."
 
@@ -933,10 +905,6 @@ msgid "Votes threshold"
 msgstr "סף הצבעה"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting "
-#| "disabled."
 msgid ""
 "Votes threshold for removal. This field has no effect with voting turned off."
 msgstr "סף הצבעות להסרה. לשדה זה אין השפעה כשאפשרות ההצבעה כבויה."
@@ -1029,22 +997,16 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "עדכון קובץ ה־LINGUAS כשנוסף תרגום חדש."
 
 #: weblate/addons/gettext.py:126
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "עדכון המשתנה ALL_LINGUAS בקובץ ההגדרות configure"
+msgstr "עדכון המשתנה ALL_LINGUAS בקובץ ההגדרות „configure”"
 
 #: weblate/addons/gettext.py:128
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"עדכון המשתנה ALL_LINGUAS בקבצים configure,‏ configure.in‏ או configure.ac כאשר "
-"נוסף תרגום חדש."
+"עדכון המשתנה ALL_LINGUAS בקבצים „configure”,‏ „configure.in‏” או "
+"„configure.ac” כאשר נוסף תרגום חדש."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
@@ -1151,10 +1113,8 @@ msgid "Edit component settings"
 msgstr "עריכת הגדרות רכיב"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Lock component from translating"
 msgid "Lock component, preventing translations"
-msgstr "נעילת רכיב מפני תרגום"
+msgstr "נעילת רכיב, למניעת עריכת תרגומים"
 
 #: weblate/auth/data.py:42
 msgid "Post comment"
@@ -1235,16 +1195,12 @@ msgid "Delete suggestion"
 msgstr "מחיקת הצעה"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Vote on suggestion"
 msgstr "הצבעה על הצעה"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add language for translation"
-msgstr "הוספה כתרגום אחר"
+msgstr "הוספת שפה לתרגום"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1255,10 +1211,8 @@ msgid "Delete existing translation"
 msgstr "מחיקת תרגום קיים"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add several languages for translation"
-msgstr "הוספה כתרגום אחר"
+msgstr "הוספת מגוון שפות לתרגום"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -1285,20 +1239,16 @@ msgid "Edit source strings"
 msgstr "עריכת מחרוזות מקור"
 
 #: weblate/auth/data.py:83
-#, fuzzy
-#| msgid "Define author of translation upload"
 msgid "Define author of uploaded translation"
-msgstr "הגדרת העלאת עורך התרגום"
+msgstr "הגדרת יוצר לתרגומים שהועלו"
 
 #: weblate/auth/data.py:84
 msgid "Overwrite existing strings with upload"
 msgstr "שכתוב על מחרוזות קיימות עם מה שהועלה"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translations"
-msgstr "העלאת תרגום"
+msgstr "העלאת תרגומים"
 
 #: weblate/auth/data.py:87
 msgid "Access the internal repository"
@@ -1325,32 +1275,24 @@ msgid "Update the internal repository"
 msgstr "עדכון המאגר הפנימי"
 
 #: weblate/auth/data.py:97
-#, fuzzy
-#| msgid "Use management interface (global)"
 msgid "Use management interface (on the entire platform)"
-msgstr "שימוש במנשק ניהול (כללי)"
+msgstr "שימוש במנשק ניהול (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:99
-#, fuzzy
-#| msgid "Add language definitions (global)"
 msgid "Add language definitions (on the entire platform)"
-msgstr "הוספת הגדרות שפה (כללי)"
+msgstr "הוספת הגדרות שפה (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:100
-#, fuzzy
-#| msgid "Manage language definitions (global)"
 msgid "Manage language definitions (on the entire platform)"
-msgstr "ניהול הגדרות שפות (כללי)"
+msgstr "ניהול הגדרות שפות (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:102
 msgid "Add groups (on the entire platform)"
 msgstr "הוספת קבוצות (בכל הפלטפורמה)"
 
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Manage groups (global)"
 msgid "Manage groups (on the entire platform)"
-msgstr "ניהול קבוצות (כללי)"
+msgstr "ניהול קבוצות (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:105
 msgid "Add users (on the entire platform)"
@@ -1361,16 +1303,12 @@ msgid "Manage users (on the entire platform)"
 msgstr "ניהול משתמשים (בכל הפלטפורמה)"
 
 #: weblate/auth/data.py:108
-#, fuzzy
-#| msgid "Manage whiteboard (global)"
 msgid "Manage whiteboard (on the entire platform)"
-msgstr "ניהול לוח כתיבה (כללי)"
+msgstr "ניהול לוח כתיבה (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:110
-#, fuzzy
-#| msgid "Manage translation memory (global)"
 msgid "Manage translation memory (on the entire platform)"
-msgstr "ניהול זיכרון תרגום (כללי)"
+msgstr "ניהול זיכרון תרגום (לפלטפורמה כולה)"
 
 #: weblate/auth/data.py:133
 msgctxt "Access control role"
@@ -1959,14 +1897,12 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "דגל תרגום שגוי: „%s”"
 
 #: weblate/checks/flags.py:134
-#, fuzzy, python-format
-#| msgid "Translation flag has no params: \"%s\""
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
 msgstr "לדגלון התרגום אין משתנים: „%s”"
 
 #: weblate/checks/flags.py:140
-#, fuzzy, python-format
-#| msgid "Wrong params for translation flag: \"%s\""
+#, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "משתנים שגויים לדגלון תרגום: „%s”"
 
