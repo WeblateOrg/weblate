@@ -822,7 +822,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             try:
                 number, equation = Plural.parse_formula(header['Plural-Forms'])
                 if not self.plural.same_plural(number, equation):
-                    raise Exception('Plural forms do not match the language.')
+                    raise Exception(_('Plural forms do not match the language.'))
             except (ValueError, KeyError):
                 # Formula wrong or missing
                 pass
