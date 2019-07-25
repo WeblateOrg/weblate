@@ -327,6 +327,13 @@ class TranslationFormat(object):
         ]
 
     @property
+    def translatable_units(self):
+        for unit in self.all_units:
+            if not unit.is_translatable():
+                continue
+            yield unit
+
+    @property
     def mimetype(self):
         """Return most common mime type for format."""
         return 'text/plain'
@@ -400,11 +407,7 @@ class TranslationFormat(object):
 
         Note: This can change fuzzy state of units!
         """
-        for unit in self.all_units:
-            # Handle header and other special units
-            if not unit.is_translatable():
-                continue
-
+        for unit in self.translatable_units:
             # Skip fuzzy (if asked for that)
             if unit.is_fuzzy():
                 if not fuzzy:

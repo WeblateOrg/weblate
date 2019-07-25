@@ -235,9 +235,7 @@ class ViewTestCase(RepoTestCase):
         messages = set()
         translated = 0
 
-        for unit in store.all_units:
-            if not unit.is_translatable():
-                continue
+        for unit in store.translatable_units:
             id_hash = unit.id_hash
             self.assertFalse(
                 id_hash in messages,

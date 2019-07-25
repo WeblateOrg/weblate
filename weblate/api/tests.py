@@ -448,11 +448,11 @@ class TranslationAPITest(APIBaseTest):
             response.data,
             {
                 'accepted': 1,
-                'count': 5,
+                'count': 4,
                 'not_found': 0,
                 'result': True,
                 'skipped': 0,
-                'total': 5
+                'total': 4
             }
         )
         translation = self.component.translation_set.get(language_code='cs')
@@ -488,11 +488,11 @@ class TranslationAPITest(APIBaseTest):
             response.data,
             {
                 'accepted': 1,
-                'count': 5,
+                'count': 4,
                 'not_found': 0,
                 'result': True,
                 'skipped': 0,
-                'total': 5
+                'total': 4
             }
         )
 
@@ -510,11 +510,11 @@ class TranslationAPITest(APIBaseTest):
             response.data,
             {
                 'accepted': 1,
-                'count': 5,
+                'count': 4,
                 'not_found': 0,
                 'result': True,
                 'skipped': 0,
-                'total': 5
+                'total': 4
             }
         )
         self.assertEqual(self.component.project.suggestion_set.count(), 1)
@@ -530,11 +530,11 @@ class TranslationAPITest(APIBaseTest):
             response.data,
             {
                 'accepted': 0,
-                'count': 5,
+                'count': 4,
                 'not_found': 0,
                 'result': False,
                 'skipped': 1,
-                'total': 5
+                'total': 4
             }
         )
 
