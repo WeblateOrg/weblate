@@ -25,7 +25,7 @@ from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_text, smart_text
 from django.utils.safestring import mark_safe
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -502,25 +502,31 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             author_name = data.get('author_name')
             author_email = data.get('author_email')
 
-        not_found, skipped, accepted, total = obj.merge_upload(
-            request,
-            data['file'],
-            data['overwrite'],
-            author_name,
-            author_email,
-            data['method'],
-            data['fuzzy'],
-        )
+        try:
+            not_found, skipped, accepted, total = obj.merge_upload(
+                request,
+                data['file'],
+                data['overwrite'],
+                author_name,
+                author_email,
+                data['method'],
+                data['fuzzy'],
+            )
 
-        return Response(data={
-            'not_found': not_found,
-            'skipped': skipped,
-            'accepted': accepted,
-            'total': total,
-            # Compatibility with older less detailed API
-            'result': accepted > 0,
-            'count': total,
-        })
+            return Response(data={
+                'not_found': not_found,
+                'skipped': skipped,
+                'accepted': accepted,
+                'total': total,
+                # Compatibility with older less detailed API
+                'result': accepted > 0,
+                'count': total,
+            })
+        except Exception as error:
+            return Response(data={
+                'result': False,
+                'detail': force_text(error),
+            })
 
     @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):
