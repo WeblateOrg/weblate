@@ -1532,7 +1532,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                 template='layout/pills.html',
             )
         )
-        vcses = ('git', 'gerrit', 'github')
+        vcses = ('git', 'gerrit', 'github', 'local')
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs, )
         self.fields['vcs'].choices = [
@@ -1632,7 +1632,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentNameForm):
             'Version control system to use to access your '
             'repository with translations.'
         ),
-        choices=VCS_REGISTRY.get_choices(),
+        choices=VCS_REGISTRY.get_choices(exclude={'local'}),
         initial=settings.DEFAULT_VCS,
     )
     repo = forms.CharField(
