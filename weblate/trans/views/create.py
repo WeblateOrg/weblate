@@ -20,6 +20,7 @@
 from __future__ import unicode_literals
 
 import json
+from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -29,6 +30,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
+from django.utils.translation import ugettext as _
 from django.views.generic.edit import CreateView
 
 from weblate.trans.forms import (
@@ -37,9 +39,12 @@ from weblate.trans.forms import (
     ComponentDiscoverForm,
     ComponentInitCreateForm,
     ComponentSelectForm,
+    ComponentZipCreateForm,
     ProjectCreateForm,
 )
 from weblate.trans.models import Change, Component, Project
+from weblate.vcs.git import LocalRepository
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class BaseCreateView(CreateView):
@@ -135,6 +140,7 @@ class CreateComponent(BaseCreateView):
     selected_project = ''
     basic_fields = ('repo', 'name', 'slug', 'vcs')
     empty_form = False
+    form_class = ComponentInitCreateForm
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -142,7 +148,7 @@ class CreateComponent(BaseCreateView):
             return ComponentCreateForm
         if self.stage == 'discover':
             return ComponentDiscoverForm
-        return ComponentInitCreateForm
+        return self.form_class
 
     def get_form_kwargs(self):
         if not self.initial and not self.empty_form:
@@ -241,6 +247,36 @@ class CreateComponent(BaseCreateView):
         return super(CreateComponent, self).dispatch(request, *args, **kwargs)
 
 
+class CreateFromZip(CreateComponent):
+    form_class = ComponentZipCreateForm
+
+    def form_valid(self, form):
+        if self.stage != 'init':
+            return super(CreateFromZip, self).form_valid(form)
+
+        # Create fake component (needed to calculate path)
+        fake = Component(
+            project=form.cleaned_data['project'],
+            slug=form.cleaned_data['slug'],
+            name=form.cleaned_data['name'],
+        )
+
+        # Create repository
+        try:
+            LocalRepository.from_zip(fake.full_path, form.cleaned_data['zipfile'])
+        except BadZipfile:
+            form.add_error('zipfile', _('Failed to parse uploaded ZIP file.'))
+            return self.form_invalid(form)
+
+        # Move to discover phase
+        self.stage = 'discover'
+        self.initial = form.cleaned_data
+        self.initial['vcs'] = 'local'
+        self.initial['repo'] = 'local:'
+        self.initial.pop('zipfile')
+        return self.get(self, self.request)
+
+
 class CreateComponentSelection(CreateComponent):
     template_name = 'trans/component_create.html'
 
@@ -284,6 +320,8 @@ class CreateComponentSelection(CreateComponent):
             kwargs['branch_form'] = self.get_form(ComponentBranchForm, empty=True)
         kwargs['branch_data'] = json.dumps(self.branch_data)
         kwargs['full_form'] = self.get_form(ComponentInitCreateForm, empty=True)
+        if 'local' in VCS_REGISTRY:
+            kwargs['zip_form'] = self.get_form(ComponentZipCreateForm, empty=True)
         return kwargs
 
     def get_form(self, form_class=None, empty=False):

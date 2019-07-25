@@ -24,6 +24,7 @@ from __future__ import unicode_literals
 import email.utils
 import os
 import os.path
+from zipfile import ZipFile
 
 from defusedxml import ElementTree
 from django.conf import settings
@@ -617,6 +618,9 @@ class LocalRepository(GitRepository):
     def get_identifier():
         return 'local'
 
+    def configure_remote(self, pull_url, push_url, branch):
+        return
+
     def get_remote_branch_name(self):
         return self.branch
 
@@ -654,3 +658,14 @@ class LocalRepository(GitRepository):
     @cached_property
     def last_remote_revision(self):
         return self.last_revision
+
+    @classmethod
+    def from_zip(cls, target, zipfile):
+        # Create empty repo
+        if not os.path.exists(target):
+            cls._clone('local:', target)
+        # Extract zip file content
+        ZipFile(zipfile).extractall(target)
+        # Add to repository
+        cls._popen(['add', '.'], target)
+        cls._popen(['commit', '--message', 'ZIP file upladed into Weblate'], target)

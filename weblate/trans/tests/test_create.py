@@ -27,10 +27,19 @@ from django.test.utils import modify_settings
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import create_billing
+from weblate.trans.tests.utils import create_billing, get_test_file
+from weblate.vcs.git import GitRepository
+
+TEST_ZIP = get_test_file('translations.zip')
+TEST_INVALID_ZIP = get_test_file('invalid.zip')
 
 
 class CreateTest(ViewTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(CreateTest, cls).setUpClass()
+        # Global setup to configure git committer
+        GitRepository.global_setup()
 
     def assert_create_project(self, result):
         response = self.client.get(reverse('create-project'))
@@ -240,3 +249,47 @@ class CreateTest(ViewTestCase):
             follow=True
         )
         self.assertContains(response, "Download statistics")
+
+    def test_create_invalid_zip(self):
+        self.user.is_superuser = True
+        self.user.save()
+        with open(TEST_INVALID_ZIP, 'rb') as handle:
+            response = self.client.post(
+                reverse('create-component-zip'),
+                {
+                    "zipfile": handle,
+                    'name': 'Create Component',
+                    'slug': 'create-component',
+                    'project': self.project.pk,
+                }
+            )
+        self.assertContains(response, 'Failed to parse uploaded ZIP file.')
+
+    def test_create_zip(self):
+        self.user.is_superuser = True
+        self.user.save()
+        with open(TEST_ZIP, 'rb') as handle:
+            response = self.client.post(
+                reverse('create-component-zip'),
+                {
+                    "zipfile": handle,
+                    'name': 'Create Component',
+                    'slug': 'create-component',
+                    'project': self.project.pk,
+                }
+            )
+        self.assertContains(response, '*.po')
+
+        response = self.client.post(
+            reverse('create-component-zip'),
+            {
+                'name': 'Create Component',
+                'slug': 'create-component',
+                'project': self.project.pk,
+                'vcs': 'local',
+                'repo': 'local:',
+                'discovery': '0',
+            }
+        )
+        self.assertContains(response, 'New translation')
+        self.assertContains(response, '*.po')

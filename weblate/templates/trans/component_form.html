@@ -17,7 +17,7 @@
 {% endif %}
 
 {% else %}
-<form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-primary">
 <div class="panel-heading">
