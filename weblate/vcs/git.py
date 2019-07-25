@@ -358,6 +358,12 @@ class GitRepository(Repository):
                 'merge.weblate-merge-gettext-po.driver',
                 '{0} %O %A %B'.format(merge_driver),
             ])
+        cls._popen(
+            ['config', '--global', 'user.email', settings.DEFAULT_COMMITER_EMAIL]
+        )
+        cls._popen(
+            ['config', '--global', 'user.name', settings.DEFAULT_COMMITER_NAME]
+        )
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
