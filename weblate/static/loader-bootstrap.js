@@ -1457,6 +1457,9 @@ $(function () {
                 $pre.animate({scrollTop: $pre.get(0).scrollHeight});
                 if (! data.in_progress) {
                     clearInterval(progress_interval);
+                    if ($('#progress-redirect').prop('checked')) {
+                        window.location = $('#progress-return').attr('href');
+                    }
                 }
             });
         }, 1000);
