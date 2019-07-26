@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-26 11:51+0000\n"
-"PO-Revision-Date: 2019-07-26 11:50+0000\n"
+"PO-Revision-Date: 2019-07-27 06:08+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -5779,15 +5779,13 @@ msgid "New string to translate in %(translation)s"
 msgstr "Новы радок на пераклад у %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"У перакладзе %(translation)s на %(site_title)s з'явілася новая прапанова."
+"У перакладзе %(translation)s на %(site_title)s ад %(user)s з'явілася новая "
+"прапанова."
 
 #: weblate/templates/mail/new_suggestion.html:12
 #: weblate/templates/trans/suggestion_list.html:15
@@ -5872,18 +5870,17 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
+"Калі ласка, націсніце на кнопку ніжэй, каб пацвердзіць. Калі яна не працуе, "
+"патрэбна будзе скапіяваць URL з наступнага радка ў радок адрасу браўзера, "
+"каб працягнуць."
 
 #: weblate/templates/mail/shared-registration.html:11
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
-msgstr "Пры ўзнікненні праблем з рэгістрацыяй звяжыцеся з намі:"
+msgstr "Пры ўзнікненні праблем з рэгістрацыяй звяжыцеся з намі."
 
 #: weblate/templates/mail/shared-registration.html:15
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Рэгістрацыя карыстальніка"
+msgstr "Пацвердзіць рэгістрацыю"
 
 #: weblate/templates/mail/snippets/source-string.html:3
 #: weblate/templates/screenshots/screenshot_detail.html:26
@@ -5915,10 +5912,6 @@ msgid "Add new user"
 msgstr "Дадаць новага карыстальніка"
 
 #: weblate/templates/manage-access.html:82
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
@@ -5951,10 +5944,8 @@ msgid "Choose"
 msgstr "Абраць"
 
 #: weblate/templates/memory/index.html:13
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory for the whole platform"
-msgstr "Статус памяці перакладаў"
+msgstr "Памяць перакладаў для ўсёй платформы"
 
 #: weblate/templates/memory/index.html:26
 msgid "Translation memory status"
@@ -5966,20 +5957,17 @@ msgstr "Агульная памяць перакладаў"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:36
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "on"
-msgstr "Невядома"
+msgstr "уключана"
 
 #. Translators: Shared translation memory is disabled
 #: weblate/templates/memory/index.html:39
 msgid "off"
-msgstr ""
+msgstr "выключана"
 
 #: weblate/templates/memory/index.html:42
 msgid "Set up"
-msgstr ""
+msgstr "Наладка"
 
 #: weblate/templates/memory/index.html:49
 #, python-format
@@ -5987,10 +5975,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Колькасць запісаў для %(project)s"
 
 #: weblate/templates/memory/index.html:51
-#, fuzzy
-#| msgid "Number of entries for %(project)s"
 msgid "Number of entries on the whole platform"
-msgstr "Колькасць запісаў для %(project)s"
+msgstr "Колькасць запісаў на ўсёй платформе"
 
 #: weblate/templates/memory/index.html:53
 msgid "Number of your entries"
@@ -6125,18 +6111,14 @@ msgstr ""
 "давядзецца абнавіць закладкі і спасылкі ў кланаваных рэпазіторыях!"
 
 #: weblate/templates/project.html:271
-#, fuzzy
-#| msgid ""
-#| "Lists all translators contributing to this component in a given time "
-#| "period. Useful for inclusion in documentation or the app itself, to thank "
-#| "translators and generate feedback to them."
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
 "Адлюстроўвае спіс перакладчыкаў, што ўдзельнічалі ў перакладзе за пэўны "
-"перыяд. Можа быць карысна для ўключэння ў дакументацыю або праграму."
+"перыяд. Можа быць карысна для ўключэння ў дакументацыю або праграму, каб "
+"аддзячыць ім альбо ствараць ім водгукі."
 
 #: weblate/templates/project_info.html:10
 msgid "Mailing list for translators"
@@ -6171,8 +6153,6 @@ msgstr ""
 "абмежаваны па хуткасці."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please login and try again later."
 msgid "You have been logged out, please log in and try again later."
 msgstr "Вы выйшлі з сістэмы. Калі ласка, увайдзіце і паспрабуйце пазней."
 
@@ -6279,32 +6259,23 @@ msgstr ""
 "удзельнікаў."
 
 #: weblate/templates/snippets/legend-button.html:6
-#, fuzzy
-#| msgid "Shows machine translation tab"
 msgid "Progress bar colors indicate translation state:"
-msgstr "Паказвае ўкладку машыннага перакладу"
+msgstr "Колеры індыкатару прагрэсу адлюстроўваюць стан перакладу:"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:36
-#, fuzzy
-#| msgid "Strings status"
 msgid "Strings of total"
-msgstr "Статус радкоў"
+msgstr "Агулам радкоў"
 
 #: weblate/templates/snippets/list-objects.html:15
 #: weblate/templates/snippets/list-objects.html:38
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Не перакладзена"
 
 #: weblate/templates/snippets/list-objects.html:18
 #: weblate/templates/snippets/list-objects.html:41
-#, fuzzy
-#| msgid "Words to translate"
 msgid "Words of total"
-msgstr "Словы на пераклад"
+msgstr "Агулам слоў"
 
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/snippets/list-objects.html:45
@@ -6330,10 +6301,8 @@ msgid "You administrate this project."
 msgstr "Вы адмініструеце гэты праект."
 
 #: weblate/templates/snippets/list-objects.html:70
-#, fuzzy
-#| msgid "Admin"
 msgid "admin"
-msgstr "Адміністратар"
+msgstr "адміністратар"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -6495,22 +6464,16 @@ msgid "You do not have permission to create components in any projects."
 msgstr "У вас няма правоў на стварэнне кампанентаў ні ў якім праекце."
 
 #: weblate/templates/trans/component_create.html:25
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Кантроль версій"
+msgstr "З кантролю версій"
 
 #: weblate/templates/trans/component_create.html:28
-#, fuzzy
-#| msgid "From component list"
 msgid "From existing component"
 msgstr "Са спіса кампанентаў"
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Дадатковае паведамленне"
+msgstr "Дадатковая галіна"
 
 #: weblate/templates/trans/component_create.html:34
 #, fuzzy
@@ -6527,6 +6490,8 @@ msgid ""
 "Create a new translation component from the remote version control system "
 "repository."
 msgstr ""
+"Стварыць новы кампанент перакладу з рэпазіторыя сістэмы адлеглага кіравання "
+"версіямі."
 
 #: weblate/templates/trans/component_create.html:50
 #: weblate/templates/trans/component_create.html:63
@@ -6542,12 +6507,15 @@ msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
+"Стварыць новы кампанент перакладу з рэпазіторыя, ўжо кланаванага ў Weblate."
 
 #: weblate/templates/trans/component_create.html:74
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
+"Стварыць новы кампанент перакладу для дадатковай галіны існага кампанента "
+"перакладу."
 
 #: weblate/templates/trans/component_create.html:76
 msgid ""
