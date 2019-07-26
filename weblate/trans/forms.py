@@ -1632,6 +1632,17 @@ class ComponentProjectForm(ComponentNameForm):
         self.helper.form_tag = False
         self.instance = None
 
+    def clean(self):
+        if 'project' not in self.cleaned_data:
+            return
+        project = self.cleaned_data['project']
+        name = self.cleaned_data.get('name')
+        if name and project.component_set.filter(name=name).exists():
+            raise ValidationError({'name': _("Entry by the same name already exists.")})
+        slug = self.cleaned_data.get('slug')
+        if slug and project.component_set.filter(slug=slug).exists():
+            raise ValidationError({'slug': _("Entry by the same name already exists.")})
+
 
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
