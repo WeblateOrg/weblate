@@ -442,7 +442,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
     @classmethod
     def load(cls, storefile):
-        return type('', (object, ), {"units": []})()
+        return type(six.text_type(''), (object, ), {"units": []})()
 
     def save(self):
         return
