@@ -177,20 +177,24 @@ class TranslationMemory(WhooshIndex):
                 'origin': origin,
             }
         found = 0
-        if isinstance(data, list):
-            for entry in data:
-                if not isinstance(entry, dict):
+        if not isinstance(data, list):
+            raise MemoryImportError(_('Failed to parse JSON file!'))
+        for entry in data:
+            if not isinstance(entry, dict):
+                raise MemoryImportError(_('Failed to parse JSON file!'))
+            # Apply overrides
+            entry.update(updates)
+            # Ensure all fields are set
+            for field in fields:
+                if not entry.get(field):
                     continue
-                # Apply overrides
-                entry.update(updates)
-                # Ensure all fields are set
-                for field in fields:
-                    if not entry.get(field):
-                        continue
-                # Ensure there are not extra fields
+            # Ensure there are not extra fields
+            try:
                 record = {field: entry[field] for field in fields}
-                update_memory_task.delay(**record)
-                found += 1
+            except KeyError:
+                raise MemoryImportError(_('Failed to parse JSON file!'))
+            update_memory_task.delay(**record)
+            found += 1
         return found
 
     @classmethod

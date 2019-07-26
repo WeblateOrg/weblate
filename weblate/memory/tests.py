@@ -260,7 +260,7 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
         else:
-            self.assertContains(response, 'No valid entries found')
+            self.assertContains(response, 'Failed to parse JSON file')
 
         # Test invalid upload
         response = self.upload_file('memory-broken.json', **kwargs)
