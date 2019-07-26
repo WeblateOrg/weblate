@@ -512,10 +512,10 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
                 'count': total,
             })
         except Exception as error:
-            return Response(data={
-                'result': False,
-                'detail': force_text(error),
-            })
+            return Response(
+                data={'result': False, 'detail': force_text(error)},
+                status=400
+            )
 
     @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):

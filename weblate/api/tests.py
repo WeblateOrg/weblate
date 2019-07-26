@@ -31,6 +31,7 @@ from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
 TEST_PO = get_test_file('cs.po')
+TEST_BADPLURALS = get_test_file('cs-badplurals.po')
 TEST_SCREENSHOT = get_test_file('screenshot.png')
 
 
@@ -547,6 +548,16 @@ class TranslationAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_upload_error(self):
+        self.authenticate()
+        with open(TEST_BADPLURALS, 'rb') as handle:
+            response = self.client.put(
+                reverse('api:translation-file', kwargs=self.translation_kwargs),
+                {'file': handle},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('detail', response.data)
 
     def test_repo_status_denied(self):
         self.do_request(
