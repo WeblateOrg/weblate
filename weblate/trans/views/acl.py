@@ -20,14 +20,18 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
+from social_django.views import complete
 
-from weblate.auth.models import Group, User
+from weblate.accounts.strategy import create_session
+from weblate.accounts.views import store_userid
+from weblate.auth.models import Group, User, get_anonymous
 from weblate.trans.forms import (
     DisabledProjectAccessForm,
+    InviteUserForm,
     ProjectAccessForm,
     UserManageForm,
 )
@@ -37,7 +41,7 @@ from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
 
 
-def check_user_form(request, project, verbose=False):
+def check_user_form(request, project, verbose=False, form_class=UserManageForm):
     """Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all
@@ -49,7 +53,7 @@ def check_user_form(request, project, verbose=False):
             or obj.access_control == obj.ACCESS_CUSTOM):
         raise PermissionDenied()
 
-    form = UserManageForm(request.POST)
+    form = form_class(request.POST)
 
     if form.is_valid():
         return obj, form
@@ -150,6 +154,48 @@ def add_user(request, project):
 
 @require_POST
 @login_required
+def invite_user(request, project):
+    """Invite user to a project."""
+    obj, form = check_user_form(request, project, True, form_class=InviteUserForm)
+
+    if form is not None:
+        try:
+            user = form.save()
+            obj.add_user(user)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_INVITE_USER,
+                user=request.user,
+                details={'username': user.username},
+            )
+            fake = HttpRequest()
+            fake.user = get_anonymous()
+            fake.method = 'POST'
+            fake.session = create_session()
+            fake.session['invitation_context'] = {
+                'from_user': request.user.full_name,
+                'project_name': obj.name,
+            }
+            fake.POST['email'] = form.cleaned_data['email']
+            fake.META = request.META
+            store_userid(fake, invite=True)
+            complete(fake, 'email')
+            messages.success(
+                request, _('User has been invited to this project.')
+            )
+        except Group.DoesNotExist:
+            messages.error(
+                request, _('Failed to find group to add a user!')
+            )
+
+    return redirect(
+        'manage-access',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
 def delete_user(request, project):
     """Remove user from a project."""
     obj, form = check_user_form(request, project, True)
@@ -232,6 +278,7 @@ def manage_access(request, project):
             'groups': Group.objects.for_project(obj),
             'all_users': User.objects.for_project(obj),
             'add_user_form': UserManageForm(),
+            'invite_user_form': InviteUserForm(),
             'access_form': access_form,
         }
     )

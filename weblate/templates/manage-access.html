@@ -72,6 +72,20 @@
   </div>
 </div>
 </form>
+<form action="{% url "invite-user" project=object.slug %}" method="post">
+{% csrf_token %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+  {% trans "Invite new user" %}
+  </h4></div>
+  <div class="panel-body">
+    {{ invite_user_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
+  </div>
+</div>
+</form>
 {% else %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">

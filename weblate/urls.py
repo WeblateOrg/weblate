@@ -383,6 +383,11 @@ real_patterns = [
         name='add-user',
     ),
     url(
+        r'^access/' + PROJECT + 'invite/$',
+        weblate.trans.views.acl.invite_user,
+        name='invite-user',
+    ),
+    url(
         r'^access/' + PROJECT + 'remove/$',
         weblate.trans.views.acl.delete_user,
         name='delete-user',

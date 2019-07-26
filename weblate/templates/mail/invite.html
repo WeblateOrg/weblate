@@ -1,0 +1,12 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% blocktrans %}{{ from_user }} invites you to collaborate on the {{ project_name }} translation project at {{ site_title }}.{% endblocktrans %}
+
+{% include "mail/shared-registration.html" %}
+
+{% endblock %}
+

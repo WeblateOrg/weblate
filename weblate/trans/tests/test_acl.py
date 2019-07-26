@@ -21,6 +21,7 @@
 """Test for ACL management."""
 
 from django.conf import settings
+from django.core import mail
 from django.urls import reverse
 
 from weblate.auth.models import Group, User
@@ -118,6 +119,41 @@ class ACLTest(FixtureTestCase):
         response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
         self.assertContains(response, self.second_user.email)
+
+    def test_invite_invalid(self):
+        """Test inviting invalid form."""
+        self.project.add_user(self.user, '@Administration')
+        response = self.client.post(
+            reverse('invite-user', kwargs=self.kw_project),
+            {'email': 'invalid', 'full_name': 'name'},
+            follow=True
+        )
+        self.assertContains(response, 'Enter a valid email addres')
+
+    def test_invite_existing(self):
+        """Test inviting existing user."""
+        self.project.add_user(self.user, '@Administration')
+        response = self.client.post(
+            reverse('invite-user', kwargs=self.kw_project),
+            {'email': self.user.email, 'full_name': 'name'},
+            follow=True
+        )
+        self.assertContains(response, 'User with this Email already exists')
+
+    def test_invite_user(self):
+        """Test inviting user."""
+        self.project.add_user(self.user, '@Administration')
+        response = self.client.post(
+            reverse('invite-user', kwargs=self.kw_project),
+            {'email': 'user@example.com', 'full_name': 'name'},
+            follow=True
+        )
+        # Ensure user is now listed
+        self.assertContains(response, 'user@example.com')
+        # Check invitation mail
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(message.subject, '[Weblate] Invitation to Weblate')
 
     def remove_user(self):
         # Remove user

@@ -128,26 +128,29 @@ def send_validation(strategy, backend, code, partial_token):
         session.create()
     session['registration-email-sent'] = True
 
-    template = 'activation'
-    if session.get('password_reset'):
-        template = 'reset'
-    elif session.get('account_remove'):
-        template = 'remove'
-
     url = '{0}?verification_code={1}&partial_token={2}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code,
         partial_token,
     )
 
+    context = {'url': url}
+
+    template = 'activation'
+    if session.get('password_reset'):
+        template = 'reset'
+    elif session.get('account_remove'):
+        template = 'remove'
+    elif session.get('user_invite'):
+        template = 'invite'
+        context.update(session['invitation_context'])
+
     send_notification_email(
         None,
         code.email,
         template,
         info=url,
-        context={
-            'url': url
-        }
+        context=context,
     )
 
 
@@ -233,6 +236,8 @@ def store_params(strategy, user, **kwargs):
         action = 'reset'
     elif session.get('account_remove'):
         action = 'remove'
+    elif session.get('user_invite'):
+        action = 'invite'
     else:
         action = 'activation'
 

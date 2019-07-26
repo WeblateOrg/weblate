@@ -1285,6 +1285,43 @@ class UserManageForm(forms.Form):
     )
 
 
+class InviteUserForm(forms.ModelForm):
+    class Meta(object):
+        model = User
+        fields = ['email', 'full_name']
+
+    def clean(self):
+        data = super(InviteUserForm, self).clean()
+        if 'email' in data:
+            data['username'] = data['email']
+        return data
+
+    def _get_validation_exclusions(self):
+        result = super(InviteUserForm, self)._get_validation_exclusions()
+        result.remove('username')
+        return result
+
+    def _post_clean(self):
+        self._meta.fields.append('username')
+        try:
+            super(InviteUserForm, self)._post_clean()
+        finally:
+            self._meta.fields.remove('username')
+
+    def add_error(self, field, error):
+        if field == 'username':
+            field = 'email'
+        if (isinstance(error, ValidationError)
+                and hasattr(error, 'error_dict')
+                and 'username' in error.error_dict):
+            if 'email' not in error.error_dict:
+                error.error_dict['email'] = error.error_dict['username']
+            else:
+                error.error_dict['email'].extend(error.error_dict['username'])
+            del error.error_dict['username']
+        super(InviteUserForm, self).add_error(field, error)
+
+
 class ReportsForm(forms.Form):
     style = forms.ChoiceField(
         label=_('Report format'),

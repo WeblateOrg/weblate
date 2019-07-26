@@ -142,6 +142,8 @@ class EmailSentView(TemplateView):
         )
         context['is_reset'] = False
         context['is_remove'] = False
+        # This view is not visible for invitation that's
+        # why don't handle user_invite here
         if kwargs['password_reset']:
             context['title'] = _('Password reset')
             context['is_reset'] = True
@@ -159,6 +161,7 @@ class EmailSentView(TemplateView):
 
         kwargs['password_reset'] = request.session['password_reset']
         kwargs['account_remove'] = request.session['account_remove']
+        kwargs['user_invite'] = request.session['user_invite']
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
@@ -652,6 +655,7 @@ def fake_email_sent(request, reset=False):
     request.session['registration-email-sent'] = True
     request.session['password_reset'] = reset
     request.session['account_remove'] = False
+    request.session['user_invite'] = False
     return redirect('email-sent')
 
 
@@ -961,11 +965,12 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, reset=False, remove=False):
+def store_userid(request, reset=False, remove=False, invite=False):
     """Store user ID in the session."""
     request.session['social_auth_user'] = request.user.pk
     request.session['password_reset'] = reset
     request.session['account_remove'] = remove
+    request.session['user_invite'] = invite
 
 
 @require_POST

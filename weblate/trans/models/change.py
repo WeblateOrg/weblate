@@ -201,6 +201,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REQUESTED_LANGUAGE = 49
     ACTION_CREATE_PROJECT = 50
     ACTION_CREATE_COMPONENT = 51
+    ACTION_INVITE_USER = 52
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -258,6 +259,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
         (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),
         (ACTION_CREATE_COMPONENT, ugettext_lazy('Created component')),
+        (ACTION_INVITE_USER, ugettext_lazy('Invited user')),
     )
 
     ACTIONS_REVERTABLE = frozenset((
@@ -420,12 +422,18 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):
         if not self.details:
             return ''
+        user_actions = {
+            self.ACTION_ADD_USER,
+            self.ACTION_INVITE_USER,
+            self.ACTION_REMOVE_USER
+        }
+
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
                 if number == self.details['access_control']:
                     return name
             return 'Unknonwn {}'.format(self.details['access_control'])
-        elif self.action in (self.ACTION_ADD_USER, self.ACTION_REMOVE_USER):
+        elif self.action in user_actions:
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']

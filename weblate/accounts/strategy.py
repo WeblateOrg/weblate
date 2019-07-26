@@ -28,6 +28,11 @@ from social_django.strategy import DjangoStrategy
 from weblate.utils.site import get_site_url
 
 
+def create_session(*args):
+    engine = import_module(settings.SESSION_ENGINE)
+    return engine.SessionStore(*args)
+
+
 class WeblateStrategy(DjangoStrategy):
     def __init__(self, storage, request=None, tpl=None):
         """
@@ -35,8 +40,7 @@ class WeblateStrategy(DjangoStrategy):
         """
         super(WeblateStrategy, self).__init__(storage, request, tpl)
         if request and 'verification_code' in request.GET and 'id' in request.GET:
-            engine = import_module(settings.SESSION_ENGINE)
-            self.session = engine.SessionStore(request.GET['id'])
+            self.session = create_session(request.GET['id'])
 
     def request_data(self, merge=True):
         if not self.request:
