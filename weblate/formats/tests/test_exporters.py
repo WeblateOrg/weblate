@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
+from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     CSVExporter,
     MoExporter,
@@ -30,6 +31,7 @@ from weblate.formats.exporters import (
     XliffExporter,
     XlsxExporter,
 )
+from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import Component, Dictionary, Project, Translation, Unit
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -39,7 +41,7 @@ class PoExporterTest(TestCase):
     _class = PoExporter
     _has_context = True
 
-    def get_exporter(self, lang=None):
+    def get_exporter(self, lang=None, **kwargs):
         if lang is None:
             lang, created = Language.objects.get_or_create(code='xx')
             if created:
@@ -47,6 +49,7 @@ class PoExporterTest(TestCase):
         return self._class(
             language=lang,
             project=Project(slug='test', name='TEST'),
+            **kwargs
         )
 
     def check_export(self, exporter):
@@ -72,7 +75,7 @@ class PoExporterTest(TestCase):
     def test_dictionary_special(self):
         self.check_dict(Dictionary(source='bar\x1e\x1efoo', target='br\x1eff'))
 
-    def check_unit(self, nplurals=3, **kwargs):
+    def check_unit(self, nplurals=3, template=None, **kwargs):
         if nplurals == 3:
             equation = 'n==0 ? 0 : n==1 ? 1 : 2'
         else:
@@ -89,25 +92,29 @@ class PoExporterTest(TestCase):
             slug='test',
             source_language=Language.objects.get(code='en'),
         )
-        component = Component(slug='comp', project=project)
-        unit = Unit(
-            translation=Translation(
-                language=lang,
-                component=component,
-                plural=plural,
-            ),
-            id_hash=-1,
-            **kwargs
+        component = Component(
+            slug='comp',
+            project=project,
+            file_format='xliff',
+            template=template
         )
-        exporter = self.get_exporter(lang)
+        translation = Translation(
+            language=lang,
+            component=component,
+            plural=plural,
+        )
+        # Fake file format to avoid need for actual files
+        translation.store = EmptyFormat(BytesIOMode('', b''))
+        unit = Unit(translation=translation, id_hash=-1, **kwargs)
+        exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
 
     def test_unit(self):
-        self.check_unit(
-            source='xxx',
-            target='yyy',
-        )
+        self.check_unit(source='xxx', target='yyy')
+
+    def test_unit_mono(self):
+        self.check_unit(source='xxx', target='yyy', template='template')
 
     def test_unit_plural(self):
         result = self.check_unit(

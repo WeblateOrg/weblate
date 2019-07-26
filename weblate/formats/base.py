@@ -436,3 +436,13 @@ class TranslationFormat(object):
     @classmethod
     def get_class(cls):
         raise NotImplementedError()
+
+
+class EmptyFormat(TranslationFormat):
+    """For testing purposes."""
+    @classmethod
+    def load(cls, storefile):
+        return type('', (object, ), {"units": []})()
+
+    def save(self):
+        return
