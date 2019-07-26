@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-26 11:51+0000\n"
-"PO-Revision-Date: 2019-07-26 06:21+0000\n"
+"PO-Revision-Date: 2019-07-27 06:08+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -2601,11 +2601,11 @@ msgstr "Type de pluriel"
 
 #: weblate/lang/models.py:545
 msgid "Plural form"
-msgstr "Pluriel"
+msgstr "Forme plurielle"
 
 #: weblate/lang/models.py:546
 msgid "Plural forms"
-msgstr "Pluriels"
+msgstr "Formes plurielles"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:613
@@ -4398,10 +4398,8 @@ msgid "Abort the update"
 msgstr "Interrompre la mise à jour"
 
 #: weblate/templates/component-progress.html:40
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Return to the component after completion"
-msgstr "Retourner au composant"
+msgstr "Retourner au composant après avoir terminé"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -6607,14 +6605,12 @@ msgid "Additional branch"
 msgstr "Branche supplémentaire"
 
 #: weblate/templates/trans/component_create.html:34
-#, fuzzy
-#| msgid "Upload translations"
 msgid "Upload translations files"
-msgstr "Téléverser les traductions"
+msgstr "Téléverser les fichiers de traduction"
 
 #: weblate/templates/trans/component_create.html:37
 msgid "Start from scratch"
-msgstr ""
+msgstr "Démarrer de zéro"
 
 #: weblate/templates/trans/component_create.html:48
 msgid ""
@@ -6658,27 +6654,19 @@ msgstr ""
 "la même configuration que celle existante."
 
 #: weblate/templates/trans/component_create.html:87
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from a repository already cloned in "
-#| "Weblate."
 msgid ""
 "Create a new translation component from uploaded ZIP file with translations."
 msgstr ""
-"Créer un nouveau composant de traduction à partir d'un dépôt déjà cloné dans "
-"Weblate."
+"Créer un nouveau composant de traduction à partir d'un fichier Zip contenant "
+"des traductions."
 
 #: weblate/templates/trans/component_create.html:100
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component for an additional branch of the "
-#| "existing translation component."
 msgid ""
 "Create a new empty translation component to start with translations from "
 "scratch."
 msgstr ""
-"Créer un nouveau composant de traduction pour une branche supplémentaire du "
-"composant de traduction existant."
+"Créer un nouveau composant de traduction vide pour démarrer les traductions "
+"de zéro."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -7553,8 +7541,8 @@ msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Cette équation identifie quelle forme plurielle sera employée en fonction de "
-"la valeur donnée (n)."
+"Cette équation identifie quelle forme plurielle sera employée en fonction du "
+"nombre (n) donné."
 
 #: weblate/trans/forms.py:397
 msgid "Missing translated string!"
@@ -7626,10 +7614,8 @@ msgid "Add as translation needing edit"
 msgstr "Ajouter comme traduction à vérifier"
 
 #: weblate/trans/forms.py:606
-#, fuzzy
-#| msgid "Delete existing translation"
 msgid "Replace existing translation file"
-msgstr "Supprimer une traduction existante"
+msgstr "Remplacer le fichier de traduction existant"
 
 #: weblate/trans/forms.py:610
 msgid "Processing of strings needing edit"
@@ -8002,10 +7988,8 @@ msgstr ""
 "Sélectionnez le composant existant à partir duquel copier la configuration."
 
 #: weblate/trans/forms.py:1649
-#, fuzzy
-#| msgid "View the translation"
 msgid "ZIP file with translations"
-msgstr "Afficher la traduction"
+msgstr "Fichier Zip contenant des traductions"
 
 #: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
 msgid "Version control system"
@@ -8985,10 +8969,8 @@ msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Échec de l’analyse du fichier %(file)s : %(error)s"
 
 #: weblate/trans/models/translation.py:870
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Plural forms do not match the language."
-msgstr "La chaîne au format Perl ne correspond pas à la source"
+msgstr "Les formes plurielles ne correspondent pas à la langue."
 
 #: weblate/trans/models/unit.py:351
 #, python-brace-format
@@ -9462,10 +9444,8 @@ msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
 #: weblate/trans/views/create.py:291
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Failed to parse uploaded ZIP file."
-msgstr "Échec de l’analyse du fichier TMX !"
+msgstr "Échec d'analyse du fichier Zip téléversé."
 
 #: weblate/trans/views/dashboard.py:154
 msgid ""
@@ -9643,10 +9623,9 @@ msgstr[1] ""
 "mises à jour {3})."
 
 #: weblate/trans/views/files.py:122
-#, fuzzy, python-format
-#| msgid "File upload has failed: %s"
+#, python-format
 msgid "File upload failed: %s"
-msgstr "Échec de téléversement du fichier : %s"
+msgstr "Le téléversement du fichier a échoué : %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9872,10 +9851,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Erreur dans le paramètre %(field)s : %(error)s"
 
 #: weblate/vcs/git.py:615
-#, fuzzy
-#| msgid "Source code repository"
 msgid "No remote repository"
-msgstr "Dépôt du code source"
+msgstr "Aucun dépôt distant"
 
 # Translators: placeholder SSH hashed hostname
 #. Translators: placeholder SSH hashed hostname
