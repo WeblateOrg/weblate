@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-25 06:30+0000\n"
+"POT-Creation-Date: 2019-07-26 11:51+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -171,7 +171,7 @@ msgstr "Názov projektu"
 msgid "Project website"
 msgstr "Stránky projektu"
 
-#: weblate/accounts/forms.py:601 weblate/trans/forms.py:1636
+#: weblate/accounts/forms.py:601 weblate/trans/forms.py:1675
 #: weblate/trans/models/component.py:187
 msgid "Source code repository"
 msgstr "Zdrojový repozitár"
@@ -552,7 +552,7 @@ msgid "Mentioned in comment"
 msgstr "Spomenutý v komentári"
 
 #: weblate/accounts/notifications.py:398 weblate/templates/translate.html:412
-#: weblate/trans/forms.py:1137
+#: weblate/trans/forms.py:1141
 msgid "New comment"
 msgstr "Nový komentár"
 
@@ -977,7 +977,7 @@ msgid "Regular expression to match translation files"
 msgstr "Regulárny výraz pre párovanie súborov prekladov"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
-#: weblate/trans/forms.py:584 weblate/trans/models/component.py:280
+#: weblate/trans/forms.py:585 weblate/trans/models/component.py:280
 msgid "File format"
 msgstr "Formát súboru"
 
@@ -1557,7 +1557,7 @@ msgid "Permission"
 msgstr "Oprávnenie"
 
 #: weblate/auth/models.py:82 weblate/auth/models.py:111
-#: weblate/templates/fonts/fontgroup_detail.html:18 weblate/trans/forms.py:1445
+#: weblate/templates/fonts/fontgroup_detail.html:18 weblate/trans/forms.py:1449
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1612,7 +1612,7 @@ msgid "Language selection"
 msgstr "Výber jazyka"
 
 #: weblate/auth/models.py:150 weblate/templates/dashboard/user.html:44
-#: weblate/trans/forms.py:1150
+#: weblate/trans/forms.py:1154
 msgid "All languages"
 msgstr "Všetky jazyky"
 
@@ -1624,8 +1624,8 @@ msgstr "Všetky jazyky"
 #: weblate/templates/mail/base.html:250 weblate/templates/mail/base.html:275
 #: weblate/templates/project.html:28
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:106
-#: weblate/trans/forms.py:876 weblate/trans/forms.py:1171
-#: weblate/trans/forms.py:1874
+#: weblate/trans/forms.py:880 weblate/trans/forms.py:1175
+#: weblate/trans/forms.py:1906
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -1767,7 +1767,7 @@ msgstr "VCS repozitáre"
 
 #: weblate/billing/models.py:245 weblate/templates/about/stats.html:86
 #: weblate/templates/translation.html:127 weblate/trans/admin.py:97
-#: weblate/trans/forms.py:764
+#: weblate/trans/forms.py:768
 msgid "Source strings"
 msgstr "Zdrojové reťazce"
 
@@ -2242,7 +2242,7 @@ msgstr "Písmo"
 #: weblate/templates/languages.html:11 weblate/templates/project.html:151
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:1207 weblate/trans/models/whiteboard.py:102
+#: weblate/trans/forms.py:1211 weblate/trans/models/whiteboard.py:102
 #, fuzzy
 #| msgid "Language"
 msgid "Language"
@@ -2254,7 +2254,8 @@ msgid "Unsupported file format."
 msgstr "Nepodporovaný formát súboru."
 
 #: weblate/fonts/views.py:69 weblate/fonts/views.py:127
-#: weblate/fonts/views.py:139
+#: weblate/fonts/views.py:139 weblate/trans/forms.py:1641
+#: weblate/trans/forms.py:1644
 #, fuzzy
 #| msgid "Entry with same name already exists."
 msgid "Entry by the same name already exists."
@@ -2316,11 +2317,11 @@ msgstr "TMX"
 msgid "gettext MO"
 msgstr "gettext MO"
 
-#: weblate/formats/exporters.py:337
+#: weblate/formats/exporters.py:335
 msgid "CSV"
 msgstr "CSV"
 
-#: weblate/formats/exporters.py:361 weblate/formats/external.py:48
+#: weblate/formats/exporters.py:359 weblate/formats/external.py:48
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
@@ -2636,7 +2637,7 @@ msgid "Number of plurals"
 msgstr "Počet množných čísel"
 
 #: weblate/lang/models.py:532 weblate/templates/language.html:79
-#: weblate/trans/forms.py:355
+#: weblate/trans/forms.py:356
 msgid "Plural equation"
 msgstr "Rovnica tvaru množného čísla"
 
@@ -2833,8 +2834,8 @@ msgstr "Podmienky"
 msgid "Overview"
 msgstr "Prehľad"
 
-#: weblate/memory/forms.py:31 weblate/trans/forms.py:595
-#: weblate/trans/forms.py:1059
+#: weblate/memory/forms.py:31 weblate/trans/forms.py:596
+#: weblate/trans/forms.py:1063
 msgid "File"
 msgstr "Súbor"
 
@@ -3837,13 +3838,14 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:341 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:35 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:10 weblate/trans/forms.py:1624
-#: weblate/trans/models/component.py:171 weblate/trans/models/component.py:196
-#: weblate/trans/models/project.py:150 weblate/trans/models/whiteboard.py:88
+#: weblate/templates/snippets/list-objects.html:10 weblate/trans/forms.py:1623
+#: weblate/trans/forms.py:1663 weblate/trans/models/component.py:171
+#: weblate/trans/models/component.py:196 weblate/trans/models/project.py:150
+#: weblate/trans/models/whiteboard.py:88
 msgid "Project"
 msgstr "Projekt"
 
-#: weblate/templates/accounts/profile.html:341 weblate/trans/forms.py:1449
+#: weblate/templates/accounts/profile.html:341 weblate/trans/forms.py:1453
 msgid "License"
 msgstr "Licencia"
 
@@ -4034,7 +4036,7 @@ msgid ""
 "groups to match component and language, some examples:"
 msgstr ""
 
-#: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:756
+#: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:760
 #, fuzzy
 #| msgid "Email regular expression"
 msgid "Regular expression"
@@ -4090,7 +4092,7 @@ msgstr ""
 #: weblate/templates/dashboard/user.html:105
 #: weblate/templates/language-project.html:43
 #: weblate/templates/project.html:118 weblate/templates/translate.html:331
-#: weblate/templates/translation.html:175 weblate/trans/forms.py:1568
+#: weblate/templates/translation.html:175 weblate/trans/forms.py:1572
 #: weblate/trans/models/component.py:503 weblate/trans/models/whiteboard.py:95
 msgid "Component"
 msgstr "Komponent"
@@ -4142,7 +4144,7 @@ msgstr "Nepreložené reťazce"
 msgid "Translation filename"
 msgstr "Súbor s prekladom"
 
-#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1554
+#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1558
 #: weblate/trans/models/component.py:160
 msgid "Component name"
 msgstr "Názov komponentu"
@@ -4378,7 +4380,7 @@ msgid "No invoices found."
 msgstr "Neboli nájdené žiadne faktúry!"
 
 #: weblate/templates/billing/overview.html:7
-#: weblate/templates/project_info.html:28 weblate/trans/forms.py:1790
+#: weblate/templates/project_info.html:28 weblate/trans/forms.py:1822
 msgid "Billing"
 msgstr "Účtovanie"
 
@@ -4491,7 +4493,7 @@ msgstr ""
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16
 #: weblate/templates/mail/base.html:271 weblate/templates/project.html:27
-#: weblate/trans/forms.py:949 weblate/trans/models/component.py:504
+#: weblate/trans/forms.py:953 weblate/trans/models/component.py:504
 msgid "Components"
 msgstr "Komponenty"
 
@@ -4518,17 +4520,23 @@ msgstr ""
 msgid "Component is being updated…"
 msgstr "Názov zoznamu komponentov"
 
-#: weblate/templates/component-progress.html:31
+#: weblate/templates/component-progress.html:33
 #, fuzzy
 #| msgid "Other components"
 msgid "Return to the component"
 msgstr "Ďalšie komentáre"
 
-#: weblate/templates/component-progress.html:33
+#: weblate/templates/component-progress.html:35
 #, fuzzy
 #| msgid "Resource update"
 msgid "Abort the update"
 msgstr "Aktualizácia zdroja"
+
+#: weblate/templates/component-progress.html:40
+#, fuzzy
+#| msgid "Other components"
+msgid "Return to the component after completion"
+msgstr "Ďalšie komentáre"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4557,7 +4565,7 @@ msgstr ""
 #: weblate/templates/search.html:15 weblate/templates/translate.html:60
 #: weblate/templates/translation.html:35 weblate/templates/translation.html:367
 #: weblate/templates/translation.html:372 weblate/templates/zen.html:44
-#: weblate/trans/forms.py:1033
+#: weblate/trans/forms.py:1037
 msgid "Search"
 msgstr "Hľadať"
 
@@ -4926,8 +4934,8 @@ msgstr "Zobraziť"
 msgid "Repository"
 msgstr "Repozitár"
 
-#: weblate/templates/component_info.html:73 weblate/trans/forms.py:1579
-#: weblate/trans/forms.py:1644 weblate/trans/models/component.py:236
+#: weblate/templates/component_info.html:73 weblate/trans/forms.py:1583
+#: weblate/trans/forms.py:1683 weblate/trans/models/component.py:236
 msgid "Repository branch"
 msgstr "Vetva repozitára"
 
@@ -5228,7 +5236,7 @@ msgstr "TermBase eXchange (TBX)"
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/templates/translate.html:188 weblate/templates/translate.html:261
 #: weblate/templates/translate.html:382 weblate/templates/translate.html:466
-#: weblate/trans/forms.py:325 weblate/trans/forms.py:1039
+#: weblate/trans/forms.py:326 weblate/trans/forms.py:1043
 msgid "Source"
 msgstr "Zdroj"
 
@@ -5237,8 +5245,8 @@ msgstr "Zdroj"
 #: weblate/templates/mail/changed_translation.html:12
 #: weblate/templates/translate.html:261 weblate/templates/translate.html:331
 #: weblate/templates/translate.html:381 weblate/templates/translate.html:467
-#: weblate/trans/forms.py:327 weblate/trans/forms.py:1040
-#: weblate/trans/forms.py:1461
+#: weblate/trans/forms.py:328 weblate/trans/forms.py:1044
+#: weblate/trans/forms.py:1465
 msgid "Translation"
 msgstr "Preklad"
 
@@ -6523,7 +6531,7 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/progress.html:5
-#: weblate/templates/snippets/legend-button.html:10 weblate/trans/forms.py:470
+#: weblate/templates/snippets/legend-button.html:10 weblate/trans/forms.py:471
 #: weblate/trans/templatetags/translations.py:567 weblate/utils/state.py:34
 msgid "Approved"
 msgstr ""
@@ -6537,8 +6545,8 @@ msgstr ""
 #: weblate/templates/snippets/legend-button.html:25
 #: weblate/templates/snippets/list-objects.html:20
 #: weblate/templates/snippets/list-objects.html:43
-#: weblate/templates/translation.html:430 weblate/trans/forms.py:450
-#: weblate/trans/forms.py:468 weblate/trans/templatetags/translations.py:557
+#: weblate/templates/translation.html:430 weblate/trans/forms.py:451
+#: weblate/trans/forms.py:469 weblate/trans/templatetags/translations.py:557
 #: weblate/utils/state.py:32
 msgid "Needs editing"
 msgstr "Vyžaduje úpravu"
@@ -6776,7 +6784,7 @@ msgstr "Slov na preklad"
 #: weblate/templates/snippets/list-objects.html:45
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:241 weblate/templates/translate.html:440
-#: weblate/trans/forms.py:1463
+#: weblate/trans/forms.py:1467
 msgid "Suggestions"
 msgstr "Návrhy"
 
@@ -6809,7 +6817,7 @@ msgstr "zdrojové reťazce"
 msgid "review"
 msgstr "skontrolovať"
 
-#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1234
+#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1238
 #: weblate/trans/models/component.py:486
 msgid "Priority"
 msgstr "Priorita"
@@ -6993,35 +7001,58 @@ msgstr "Zo zoznamu komponentov"
 msgid "Additional branch"
 msgstr "Váš odkaz"
 
-#: weblate/templates/trans/component_create.html:42
+#: weblate/templates/trans/component_create.html:34
+#, fuzzy
+#| msgid "Upload translation"
+msgid "Upload translations files"
+msgstr "Nahrať preklad"
+
+#: weblate/templates/trans/component_create.html:37
+msgid "Start from scratch"
+msgstr ""
+
+#: weblate/templates/trans/component_create.html:48
 msgid ""
 "Create a new translation component from the remote version control system "
 "repository."
 msgstr ""
 
-#: weblate/templates/trans/component_create.html:44
-#: weblate/templates/trans/component_create.html:57
-#: weblate/templates/trans/component_create.html:71
+#: weblate/templates/trans/component_create.html:50
+#: weblate/templates/trans/component_create.html:63
+#: weblate/templates/trans/component_create.html:77
+#: weblate/templates/trans/component_create.html:89
+#: weblate/templates/trans/component_create.html:102
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
 msgstr "Pokračovať"
 
-#: weblate/templates/trans/component_create.html:55
+#: weblate/templates/trans/component_create.html:61
 msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
 
-#: weblate/templates/trans/component_create.html:68
+#: weblate/templates/trans/component_create.html:74
 msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
 
-#: weblate/templates/trans/component_create.html:70
+#: weblate/templates/trans/component_create.html:76
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
+msgstr ""
+
+#: weblate/templates/trans/component_create.html:87
+msgid ""
+"Create a new translation component from uploaded ZIP file with translations."
+msgstr ""
+
+#: weblate/templates/trans/component_create.html:100
+msgid ""
+"Create a new empty translation component to start with translations from "
+"scratch."
 msgstr ""
 
 #: weblate/templates/trans/component_form.html:33
@@ -7290,7 +7321,7 @@ msgstr "Upraviť zdrojový reťazec"
 msgid "Source change"
 msgstr "Zmena zdroja"
 
-#: weblate/templates/translate.html:174 weblate/trans/forms.py:1244
+#: weblate/templates/translate.html:174 weblate/trans/forms.py:1248
 #, fuzzy
 #| msgid "Additional commit files"
 msgid "Additional context"
@@ -7365,7 +7396,7 @@ msgstr "Posledná zmena"
 msgid "Machine translation suggestions"
 msgstr "Návrhy strojového prekladu"
 
-#: weblate/templates/translate.html:250 weblate/trans/forms.py:944
+#: weblate/templates/translate.html:250 weblate/trans/forms.py:948
 msgid "Machine translation"
 msgstr "Strojový preklad"
 
@@ -7541,7 +7572,7 @@ msgstr ""
 msgid "Upload translation"
 msgstr "Nahrať preklad"
 
-#: weblate/templates/translation.html:49 weblate/trans/forms.py:1509
+#: weblate/templates/translation.html:49 weblate/trans/forms.py:1513
 msgid "Files"
 msgstr "Súbory"
 
@@ -7985,41 +8016,41 @@ msgstr "Reťazce s akoukoľvek nevyhovujúcou kontrolou"
 msgid "Strings with source comments"
 msgstr "Reťazce s komentármi"
 
-#: weblate/trans/forms.py:169
+#: weblate/trans/forms.py:170
 #, fuzzy
 #| msgid "Invalid user specified!"
 msgid "Invalid checksum specified!"
 msgstr "Zadaný neplatný užívateľ!"
 
-#: weblate/trans/forms.py:179
+#: weblate/trans/forms.py:180
 #, fuzzy
 #| msgid "No matching user found!"
 msgid "No matching user found."
 msgstr "Nebol nájdený žiadny zodpovedajúci užívateľ!"
 
-#: weblate/trans/forms.py:181
+#: weblate/trans/forms.py:182
 #, fuzzy
 #| msgid "More users matched!"
 msgid "More users matched."
 msgstr "Vyhovuje viac užívateľov!"
 
-#: weblate/trans/forms.py:218 weblate/trans/forms.py:226
+#: weblate/trans/forms.py:219 weblate/trans/forms.py:227
 msgid "Toggle text direction"
 msgstr "Prepnúť smer textu"
 
-#: weblate/trans/forms.py:256
+#: weblate/trans/forms.py:257
 msgid "Fill in with source string"
 msgstr "Prepísať zdrojovým reťazcom"
 
-#: weblate/trans/forms.py:258
+#: weblate/trans/forms.py:259
 msgid "Copy"
 msgstr "Kopírovať"
 
-#: weblate/trans/forms.py:349
+#: weblate/trans/forms.py:350
 msgid "Documentation for plurals."
 msgstr "Dokumentácia množných čísiel."
 
-#: weblate/trans/forms.py:352
+#: weblate/trans/forms.py:353
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
@@ -8027,272 +8058,278 @@ msgstr ""
 "Podľa tejto rovnice je zvolený použitý množný tvar v závislosti na danom "
 "počte (n)."
 
-#: weblate/trans/forms.py:396
+#: weblate/trans/forms.py:397
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Missing translated string!"
 msgstr "Nepreložené reťazce"
 
-#: weblate/trans/forms.py:403
+#: weblate/trans/forms.py:404
 msgid "Search filter"
 msgstr "Filter vyhľadávania"
 
-#: weblate/trans/forms.py:408
+#: weblate/trans/forms.py:409
 msgid "Please choose a valid filter type."
 msgstr ""
 
-#: weblate/trans/forms.py:442
+#: weblate/trans/forms.py:443
 #, fuzzy
 #| msgid "Message you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available!"
 msgstr "Reťazec, ktorý ste chcel preložiť, už nie je dostupný!"
 
-#: weblate/trans/forms.py:452
+#: weblate/trans/forms.py:453
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
 
-#: weblate/trans/forms.py:466
+#: weblate/trans/forms.py:467
 #, fuzzy
 #| msgid "Service"
 msgid "Review state"
 msgstr "Služba"
 
-#: weblate/trans/forms.py:469
+#: weblate/trans/forms.py:470
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Waiting for review"
 msgstr "Kontrola zdrojových reťazcov"
 
-#: weblate/trans/forms.py:528
+#: weblate/trans/forms.py:529
 msgid "Source string has been changed meanwhile. Please check your changes."
 msgstr ""
 
-#: weblate/trans/forms.py:536
+#: weblate/trans/forms.py:537
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
 msgstr ""
 
-#: weblate/trans/forms.py:545
+#: weblate/trans/forms.py:546
 #, fuzzy
 #| msgid "Translation settings"
 msgid "Translation text too long!"
 msgstr "Nastavenia prekladu"
 
-#: weblate/trans/forms.py:599 weblate/trans/forms.py:1067
+#: weblate/trans/forms.py:600 weblate/trans/forms.py:1071
 msgid "Merge method"
 msgstr "Spôsob nahrania"
 
-#: weblate/trans/forms.py:601
+#: weblate/trans/forms.py:602
 #, fuzzy
 #| msgid "Add as translation needing review"
 msgid "Add as translation needing review"
 msgstr "Pridať ako preklad vyžadujúci kontrolu"
 
-#: weblate/trans/forms.py:602
+#: weblate/trans/forms.py:603
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Add as approved translation"
 msgstr "Pridať ako ďalší preklad"
 
-#: weblate/trans/forms.py:603
+#: weblate/trans/forms.py:604
 #, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Add as suggestion"
 msgstr "Pridať ako návrh"
 
-#: weblate/trans/forms.py:604
+#: weblate/trans/forms.py:605
 #, fuzzy
 #| msgid "Add as translation needing review"
 msgid "Add as translation needing edit"
 msgstr "Pridať ako preklad vyžadujúci kontrolu"
 
-#: weblate/trans/forms.py:608
+#: weblate/trans/forms.py:606
+#, fuzzy
+#| msgid "Delete existing translation"
+msgid "Replace existing translation file"
+msgstr "Zmazať existujúci preklad"
+
+#: weblate/trans/forms.py:610
 #, fuzzy
 #| msgid "Processing of strings needing review"
 msgid "Processing of strings needing edit"
 msgstr "Spracovanie reťazcov vyžadujúcich kontrolu"
 
-#: weblate/trans/forms.py:610
+#: weblate/trans/forms.py:612
 msgid "Do not import"
 msgstr "Neimportovať"
 
-#: weblate/trans/forms.py:611
+#: weblate/trans/forms.py:613
 #, fuzzy
 #| msgid "Import as string needing review"
 msgid "Import as string needing edit"
 msgstr "Importovať ako reťazec vyžadujúci kontrolu"
 
-#: weblate/trans/forms.py:612
+#: weblate/trans/forms.py:614
 msgid "Import as translated"
 msgstr "Importovať ako preložené"
 
-#: weblate/trans/forms.py:628
+#: weblate/trans/forms.py:630
 msgid "Overwrite existing translations"
 msgstr "Prepísať existujúce preklady"
 
-#: weblate/trans/forms.py:630
+#: weblate/trans/forms.py:632
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "Či sa majú prepísať existujúce preklady ak je reťazec už preložený."
 
-#: weblate/trans/forms.py:641
+#: weblate/trans/forms.py:643
 msgid "Author name"
 msgstr "Meno autora"
 
-#: weblate/trans/forms.py:643 weblate/trans/forms.py:648
+#: weblate/trans/forms.py:645 weblate/trans/forms.py:650
 #, fuzzy
 #| msgid "Keep empty for using currently logged in user."
 msgid "Leave empty for using currently logged in user."
 msgstr "Ponechajte prázdne pre použitie prihláseného užívateľa."
 
-#: weblate/trans/forms.py:646
+#: weblate/trans/forms.py:648
 msgid "Author email"
 msgstr "E-mail autora"
 
-#: weblate/trans/forms.py:744
+#: weblate/trans/forms.py:748
 msgid "Query"
 msgstr "Dotaz"
 
-#: weblate/trans/forms.py:750
+#: weblate/trans/forms.py:754
 msgid "Search type"
 msgstr "Spôsob vyhľadávania"
 
-#: weblate/trans/forms.py:753
+#: weblate/trans/forms.py:757
 msgid "Fulltext"
 msgstr "Fulltextové"
 
-#: weblate/trans/forms.py:754
+#: weblate/trans/forms.py:758
 msgid "Substring"
 msgstr "Čiastočný reťazec"
 
-#: weblate/trans/forms.py:755
+#: weblate/trans/forms.py:759
 msgid "Exact match"
 msgstr "Presná zhoda"
 
-#: weblate/trans/forms.py:760
+#: weblate/trans/forms.py:764
 msgid "Please choose a valid search type."
 msgstr ""
 
-#: weblate/trans/forms.py:769
+#: weblate/trans/forms.py:773
 #, fuzzy
 #| msgid "Source strings"
 msgid "Target strings"
 msgstr "Zdrojové reťazce"
 
-#: weblate/trans/forms.py:774
+#: weblate/trans/forms.py:778
 #, fuzzy
 #| msgid "Search in context strings"
 msgid "Context strings"
 msgstr "Vyhľadávať v reťazcoch kontextu"
 
-#: weblate/trans/forms.py:779
+#: weblate/trans/forms.py:783
 #, fuzzy
 #| msgid "Action"
 msgid "Location strings"
 msgstr "Akcia"
 
-#: weblate/trans/forms.py:784
+#: weblate/trans/forms.py:788
 #, fuzzy
 #| msgid "C format string"
 msgid "Comment strings"
 msgstr "Formátovací reťazec C"
 
-#: weblate/trans/forms.py:791
+#: weblate/trans/forms.py:795
 msgid "Show ignored checks as well"
 msgstr "Zobraziť aj ignorované kontroly"
 
-#: weblate/trans/forms.py:796
+#: weblate/trans/forms.py:800
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed since"
 msgstr "Zmeny"
 
-#: weblate/trans/forms.py:800
+#: weblate/trans/forms.py:804
 #, fuzzy
 #| msgctxt "Changes by user"
 #| msgid "Changes by %s"
 msgid "Changed by user"
 msgstr "Zmeny užívateľa %s"
 
-#: weblate/trans/forms.py:804
+#: weblate/trans/forms.py:808
 #, fuzzy
 #| msgctxt "Changes by user"
 #| msgid "Changes by %s"
 msgid "Exclude changes by user"
 msgstr "Zmeny užívateľa %s"
 
-#: weblate/trans/forms.py:822
+#: weblate/trans/forms.py:826
 #, fuzzy
 #| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
 msgstr "Regulárny výraz pre email"
 
-#: weblate/trans/forms.py:845
+#: weblate/trans/forms.py:849
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Fulltextové vyhľadávanie \"%s\""
 
-#: weblate/trans/forms.py:847
+#: weblate/trans/forms.py:851
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Vyhľadávanie celého reťazca \"%s\""
 
-#: weblate/trans/forms.py:849
+#: weblate/trans/forms.py:853
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Vyhľadávanie čiastočného reťazca \"%s\""
 
-#: weblate/trans/forms.py:860
+#: weblate/trans/forms.py:864
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
-#: weblate/trans/forms.py:910 weblate/trans/forms.py:912
+#: weblate/trans/forms.py:914 weblate/trans/forms.py:916
 msgid "Could not find merged string."
 msgstr ""
 
-#: weblate/trans/forms.py:930
+#: weblate/trans/forms.py:934
 msgid "Could not find reverted change."
 msgstr ""
 
-#: weblate/trans/forms.py:941
+#: weblate/trans/forms.py:945
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic translation source"
 msgstr "Automatický preklad"
 
-#: weblate/trans/forms.py:943
+#: weblate/trans/forms.py:947
 #, fuzzy
 #| msgid "Merge translation comments"
 msgid "Other translation components"
 msgstr "Zlúčiť komentáre k prekladom"
 
-#: weblate/trans/forms.py:954
+#: weblate/trans/forms.py:958
 #, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Machine translation engines"
 msgstr "Návrhy strojového prekladu"
 
-#: weblate/trans/forms.py:959
+#: weblate/trans/forms.py:963
 msgid "Score threshold"
 msgstr ""
 
-#: weblate/trans/forms.py:986
+#: weblate/trans/forms.py:990
 msgid "All components in current project"
 msgstr "Všetky komponenty v aktuálnom projekte"
 
-#: weblate/trans/forms.py:1027
+#: weblate/trans/forms.py:1031
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Invalid integer list!"
 msgstr "Chybná požiadavka na zlúčenie!"
 
-#: weblate/trans/forms.py:1062
+#: weblate/trans/forms.py:1066
 #, fuzzy
 #| msgid ""
 #| "You can upload any format which is understood by Translate Toolkit "
@@ -8304,23 +8341,23 @@ msgstr ""
 "Môžete nahrať akýkoľvek formát, ktorému rozumie Translate Toolkit (vrátane "
 "TBX, CSV alebo PO súboru gettext)."
 
-#: weblate/trans/forms.py:1069
+#: weblate/trans/forms.py:1073
 msgid "Keep current"
 msgstr "Zachovať existujúci"
 
-#: weblate/trans/forms.py:1070
+#: weblate/trans/forms.py:1074
 msgid "Overwrite existing"
 msgstr "Prepísať existujúci"
 
-#: weblate/trans/forms.py:1071
+#: weblate/trans/forms.py:1075
 msgid "Add as other translation"
 msgstr "Pridať ako ďalší preklad"
 
-#: weblate/trans/forms.py:1080 weblate/trans/forms.py:1304
+#: weblate/trans/forms.py:1084 weblate/trans/forms.py:1308
 msgid "Starting date"
 msgstr "Počiatočný dátum"
 
-#: weblate/trans/forms.py:1097
+#: weblate/trans/forms.py:1101
 #, fuzzy
 #| msgctxt "Select starting letter in glossary"
 #| msgid "Any"
@@ -8328,65 +8365,65 @@ msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Akékoľvek"
 
-#: weblate/trans/forms.py:1099
+#: weblate/trans/forms.py:1103
 msgid "Starting letter"
 msgstr "Počiatočné písmeno"
 
-#: weblate/trans/forms.py:1115
+#: weblate/trans/forms.py:1119
 msgid "Scope"
 msgstr "Rozsah"
 
-#: weblate/trans/forms.py:1117
+#: weblate/trans/forms.py:1121
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 "Je váš komentár špecifický pre tento preklad alebo všeobecný pre všetky?"
 
-#: weblate/trans/forms.py:1124
+#: weblate/trans/forms.py:1128
 #, fuzzy
 #| msgid "Source string comment, suggestions to change this string"
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "Komentár zdrojového reťazca, návrhy na jeho zmenu"
 
-#: weblate/trans/forms.py:1130
+#: weblate/trans/forms.py:1134
 msgid "Translation comment, discussions with other translators"
 msgstr "Komentár k prekladu, diskusie s ďalšími prekladateľmi"
 
-#: weblate/trans/forms.py:1139
+#: weblate/trans/forms.py:1143
 msgid "You can include external links or mention other users by @username."
 msgstr ""
 
-#: weblate/trans/forms.py:1154
+#: weblate/trans/forms.py:1158
 #, fuzzy
 #| msgid "Components"
 msgid "All components"
 msgstr "Komponenty"
 
-#: weblate/trans/forms.py:1195
+#: weblate/trans/forms.py:1199
 #, fuzzy, python-brace-format
 #| msgid "Chosen translation already exists in this project!"
 msgid "Similar translation already exists in the project ({0})!"
 msgstr "Vybraný jazyk už je v projekte prekladaný!"
 
-#: weblate/trans/forms.py:1215
+#: weblate/trans/forms.py:1219
 #, fuzzy
 #| msgid "Please select"
 msgid "Please choose"
 msgstr "Vyberte prosím"
 
-#: weblate/trans/forms.py:1237
+#: weblate/trans/forms.py:1241
 #, fuzzy
 #| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
 msgstr "Reťazce s vyššou prioritou sú ponúkané skôr na preklad."
 
-#: weblate/trans/forms.py:1251 weblate/trans/models/component.py:333
+#: weblate/trans/forms.py:1255 weblate/trans/models/component.py:333
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation flags"
 msgstr "Súbor s prekladom"
 
-#: weblate/trans/forms.py:1258
+#: weblate/trans/forms.py:1262
 #, fuzzy, python-brace-format
 #| msgid ""
 #| "Please enter a comma separated list of check flags, see <a href="
@@ -8398,11 +8435,11 @@ msgstr ""
 "Zadajte prosím zoznam príznakov kontrol oddelených čiarkami, viac informácii "
 "viď <a href=\"{url}\">dokumentácia</a>."
 
-#: weblate/trans/forms.py:1276
+#: weblate/trans/forms.py:1280
 msgid "User to add"
 msgstr "Užívateľ"
 
-#: weblate/trans/forms.py:1278
+#: weblate/trans/forms.py:1282
 #, fuzzy
 #| msgid ""
 #| "Please provide username or email. User needs to already have an active "
@@ -8414,151 +8451,157 @@ msgstr ""
 "Zadajte prosím meno užívateľa alebo email. Užívateľ musí mať aktívny Weblate "
 "účet."
 
-#: weblate/trans/forms.py:1286
+#: weblate/trans/forms.py:1290
 msgid "Report format"
 msgstr "Formát výstupu"
 
-#: weblate/trans/forms.py:1287
+#: weblate/trans/forms.py:1291
 msgid "Choose file format for the report"
 msgstr "Zvoľte formát súboru pre export"
 
-#: weblate/trans/forms.py:1289
+#: weblate/trans/forms.py:1293
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/trans/forms.py:1290
+#: weblate/trans/forms.py:1294
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/trans/forms.py:1291
+#: weblate/trans/forms.py:1295
 msgid "HTML"
 msgstr "HTML"
 
-#: weblate/trans/forms.py:1295
+#: weblate/trans/forms.py:1299
 #, fuzzy
 #| msgid "Report format"
 msgid "Report period"
 msgstr "Formát výstupu"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1301
 #, fuzzy
 #| msgid "Last login"
 msgid "Last month"
 msgstr "Posledné prihlásenie"
 
-#: weblate/trans/forms.py:1298
+#: weblate/trans/forms.py:1302
 #, fuzzy
 #| msgid "Last author"
 msgid "Last year"
 msgstr "Posledný autor"
 
-#: weblate/trans/forms.py:1299
+#: weblate/trans/forms.py:1303
 msgid "As specified"
 msgstr ""
 
-#: weblate/trans/forms.py:1309
+#: weblate/trans/forms.py:1313
 msgid "Ending date"
 msgstr "Koncový dátum"
 
-#: weblate/trans/forms.py:1347 weblate/trans/forms.py:1349
+#: weblate/trans/forms.py:1351 weblate/trans/forms.py:1353
 #, fuzzy
 #| msgid "Ending date"
 msgid "Missing date!"
 msgstr "Koncový dátum"
 
-#: weblate/trans/forms.py:1361
+#: weblate/trans/forms.py:1365
 msgid "Starting date has to be before ending date!"
 msgstr ""
 
-#: weblate/trans/forms.py:1377
+#: weblate/trans/forms.py:1381
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to access this component!"
 msgstr "Na prijatie návrhu nemáte oprávnenie!"
 
-#: weblate/trans/forms.py:1443
+#: weblate/trans/forms.py:1447
 msgid "Basic"
 msgstr ""
 
-#: weblate/trans/forms.py:1455
+#: weblate/trans/forms.py:1459
 msgid "Upstream links"
 msgstr ""
 
-#: weblate/trans/forms.py:1469
+#: weblate/trans/forms.py:1473
 msgid "Translation settings"
 msgstr "Nastavenia prekladu"
 
-#: weblate/trans/forms.py:1477
+#: weblate/trans/forms.py:1481
 msgid "Version control"
 msgstr "Správa revízií"
 
-#: weblate/trans/forms.py:1479
+#: weblate/trans/forms.py:1483
 #, fuzzy
 #| msgid "Action"
 msgid "Locations"
 msgstr "Akcia"
 
-#: weblate/trans/forms.py:1488
+#: weblate/trans/forms.py:1492
 #, fuzzy
 #| msgid "Version control system"
 msgid "Version control settings"
 msgstr "Systém na správu verzií"
 
-#: weblate/trans/forms.py:1496 weblate/trans/forms.py:1498
+#: weblate/trans/forms.py:1500 weblate/trans/forms.py:1502
 msgid "Commit messages"
 msgstr "Texty pre commit"
 
-#: weblate/trans/forms.py:1511
+#: weblate/trans/forms.py:1515
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation files"
 msgstr "Súbor s prekladom"
 
-#: weblate/trans/forms.py:1517
+#: weblate/trans/forms.py:1521
 #, fuzzy
 #| msgid "Hosting translations"
 msgid "Monolingual translations"
 msgstr "Hostovanie prekladov"
 
-#: weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1526
 #, fuzzy
 #| msgid "Add new language"
 msgid "Adding new languages"
 msgstr "Pridať nový jazyk"
 
-#: weblate/trans/forms.py:1556 weblate/trans/models/component.py:162
+#: weblate/trans/forms.py:1560 weblate/trans/models/component.py:162
 #: weblate/trans/models/componentlist.py:46 weblate/trans/models/project.py:70
 #, fuzzy
 #| msgid "Used languages"
 msgid "Display name"
 msgstr "Používaných jazykov"
 
-#: weblate/trans/forms.py:1559 weblate/trans/models/component.py:165
+#: weblate/trans/forms.py:1563 weblate/trans/models/component.py:165
 #: weblate/trans/models/componentlist.py:50 weblate/trans/models/project.py:73
 msgid "URL slug"
 msgstr "URL slug"
 
-#: weblate/trans/forms.py:1561 weblate/trans/models/component.py:167
+#: weblate/trans/forms.py:1565 weblate/trans/models/component.py:167
 #: weblate/trans/models/componentlist.py:53 weblate/trans/models/project.py:76
 msgid "Name used in URLs and filenames."
 msgstr "Názov použitý v URL a cestách súborov."
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1573
 msgid "Select existing component to copy configuration from."
 msgstr ""
 
-#: weblate/trans/forms.py:1627 weblate/trans/models/component.py:175
+#: weblate/trans/forms.py:1649
+#, fuzzy
+#| msgid "New translation"
+msgid "ZIP file with translations"
+msgstr "Nový preklad"
+
+#: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
 msgid "Version control system"
 msgstr "Systém na správu verzií"
 
-#: weblate/trans/forms.py:1629
+#: weblate/trans/forms.py:1668
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 "Systém na správu verzií, ktorý používate na prístup k vášmu repozitáru s "
 "prekladmi."
 
-#: weblate/trans/forms.py:1639
+#: weblate/trans/forms.py:1678
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -8566,89 +8609,89 @@ msgstr ""
 "URL repozitára, použite weblate://projekt/komponent pre zdieľanie s iným "
 "komponentom."
 
-#: weblate/trans/forms.py:1646 weblate/trans/models/component.py:238
+#: weblate/trans/forms.py:1685 weblate/trans/models/component.py:238
 msgid "Repository branch to translate"
 msgstr "Vetva repozitára na preklad"
 
-#: weblate/trans/forms.py:1687
+#: weblate/trans/forms.py:1717
 #, fuzzy
 #| msgid "Translation file"
 msgid "Choose translation files to import"
 msgstr "Súbor s prekladom"
 
-#: weblate/trans/forms.py:1689
+#: weblate/trans/forms.py:1719
 msgid "Specify configuration manually"
 msgstr ""
 
-#: weblate/trans/forms.py:1816
+#: weblate/trans/forms.py:1848
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
 
-#: weblate/trans/forms.py:1838
+#: weblate/trans/forms.py:1870
 msgid "Search string"
 msgstr "Hľadaný reťazec"
 
-#: weblate/trans/forms.py:1844
+#: weblate/trans/forms.py:1876
 msgid "Replacement string"
 msgstr "Nahradiť reťazcom"
 
-#: weblate/trans/forms.py:1890
+#: weblate/trans/forms.py:1922
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "Preklad"
 
-#: weblate/trans/forms.py:1892
+#: weblate/trans/forms.py:1924
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:1898
+#: weblate/trans/forms.py:1930
 #, fuzzy
 #| msgid "Source language"
 msgid "Source language text"
 msgstr "Zdrojový jazyk"
 
-#: weblate/trans/forms.py:1900
+#: weblate/trans/forms.py:1932
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 
-#: weblate/trans/forms.py:1921
+#: weblate/trans/forms.py:1953
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Prispejte na Weblate"
 
-#: weblate/trans/forms.py:1954
+#: weblate/trans/forms.py:1986
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
 msgstr "Dohoda s prispievateľom"
 
-#: weblate/trans/forms.py:1965
+#: weblate/trans/forms.py:1997
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Name of the translation"
 msgstr "Pridať ako ďalší preklad"
 
-#: weblate/trans/forms.py:1966
+#: weblate/trans/forms.py:1998
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Please type in the name of the translation to confirm."
 msgstr "Základný súbor pre nové preklady"
 
-#: weblate/trans/forms.py:1975
+#: weblate/trans/forms.py:2007
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
 
-#: weblate/trans/forms.py:1992
+#: weblate/trans/forms.py:2024
 #, fuzzy
 #| msgid "BBcode in translation does not match source"
 msgid "The translation name does not match the one to delete!"
@@ -9683,18 +9726,18 @@ msgstr "Jazyk, ktorý je použitý ako zdrojový vo všetkých komponentoch"
 msgid "Failed to accept suggestion!"
 msgstr "Automaticky príjmať návrhy"
 
-#: weblate/trans/models/translation.py:125
+#: weblate/trans/models/translation.py:126
 msgid "source"
 msgstr "zdroj"
 
-#: weblate/trans/models/translation.py:126
+#: weblate/trans/models/translation.py:127
 #, fuzzy
 #| msgid ""
 #| "This translation is being used as source strings within this component."
 msgid "This translation is used for source strings."
 msgstr "Tento preklad je v tomto komponente použitý ako zdrojové reťazce."
 
-#: weblate/trans/models/translation.py:155
+#: weblate/trans/models/translation.py:156
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -9703,10 +9746,16 @@ msgstr ""
 "Súbor %s sa v repozitári nenašiel! Ak chcete pridať nový preklad, pridajte "
 "súbor s prekladom do repozitára."
 
-#: weblate/trans/models/translation.py:164
+#: weblate/trans/models/translation.py:165
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nepodarilo sa spracovať súbor %(file)s: %(error)s"
+
+#: weblate/trans/models/translation.py:870
+#, fuzzy
+#| msgid "Perl format string does not match source"
+msgid "Plural forms do not match the language."
+msgstr "Reťazec v Perl formáte nezodpovedá zdroju"
 
 #: weblate/trans/models/unit.py:351
 #, fuzzy, python-brace-format
@@ -10208,6 +10257,12 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
+#: weblate/trans/views/create.py:291
+#, fuzzy
+#| msgid "Failed to parse TMX file!"
+msgid "Failed to parse uploaded ZIP file."
+msgstr "Nepodarilo sa sparsovať TMX súbor!"
+
 #: weblate/trans/views/dashboard.py:154
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
@@ -10390,10 +10445,11 @@ msgstr[0] "Zo súboru bolo spracované %d slovo."
 msgstr[1] "Zo súboru boli spracované %d slová."
 msgstr[2] "Zo súboru bolo spracovaných %d slov."
 
-#: weblate/trans/views/files.py:123
-#, python-format
-msgid "File content merge failed: %s"
-msgstr "Zlyhalo zlúčenie obsahu súboru: %s"
+#: weblate/trans/views/files.py:122
+#, fuzzy, python-format
+#| msgid "File upload has failed: %s"
+msgid "File upload failed: %s"
+msgstr "Zlyhalo nahranie obsahu súboru: %s"
 
 #: weblate/trans/views/git.py:43
 #, fuzzy
@@ -10640,6 +10696,12 @@ msgstr ""
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Chyba v parametri %(field)s: %(error)s"
 
+#: weblate/vcs/git.py:615
+#, fuzzy
+#| msgid "Source code repository"
+msgid "No remote repository"
+msgstr "Zdrojový repozitár"
+
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:75
 msgid "[hostname hashed]"
@@ -10856,6 +10918,9 @@ msgstr "Správy"
 msgid "Failed to dismiss configuration error!"
 msgstr "Chyby v nastavení"
 
+#~ msgid "File content merge failed: %s"
+#~ msgstr "Zlyhalo zlúčenie obsahu súboru: %s"
+
 #, fuzzy
 #~| msgid "Notification on new string to translate"
 #~ msgid "Upload strings for translation"
@@ -10868,11 +10933,6 @@ msgstr "Chyby v nastavení"
 #~| msgid "Translation summary:"
 #~ msgid "Translation summary"
 #~ msgstr "Súhrn prekladu:"
-
-#, fuzzy
-#~| msgid "New translation"
-#~ msgid "View the translation"
-#~ msgstr "Nový preklad"
 
 #, fuzzy
 #~| msgid "Support Weblate at {0}"
