@@ -33,11 +33,13 @@ from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import CreateView
 
+from weblate.formats.ttkit import PoMonoFormat
 from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
     ComponentInitCreateForm,
+    ComponentProjectForm,
     ComponentSelectForm,
     ComponentZipCreateForm,
     ProjectCreateForm,
@@ -45,6 +47,27 @@ from weblate.trans.forms import (
 from weblate.trans.models import Change, Component, Project
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
+
+
+def scratch_create_component(project, name, slug):
+    template = '{}.po'.format(project.source_language.code)
+    fake = Component(project=project, slug=slug, name=name)
+    # Create VCS with empty file
+    LocalRepository.from_files(
+        fake.full_path,
+        {template: PoMonoFormat.new_translation}
+    )
+    # Create component
+    return Component.objects.create(
+        file_format='po-mono',
+        filemask='*.po',
+        template=template,
+        vcs='local',
+        repo='local:',
+        project=project,
+        name=name,
+        slug=slug,
+    )
 
 
 class BaseCreateView(CreateView):
@@ -312,16 +335,19 @@ class CreateComponentSelection(CreateComponent):
         kwargs = super(CreateComponentSelection, self).get_context_data(**kwargs)
         kwargs['components'] = self.components
         kwargs['selected_project'] = self.selected_project
-        if self.origin == 'branch':
-            kwargs['branch_form'] = kwargs['form']
-            kwargs['existing_form'] = self.get_form(ComponentSelectForm, empty=True)
-        else:
-            kwargs['existing_form'] = kwargs['form']
-            kwargs['branch_form'] = self.get_form(ComponentBranchForm, empty=True)
+        kwargs['existing_form'] = self.get_form(ComponentSelectForm, empty=True)
+        kwargs['branch_form'] = self.get_form(ComponentBranchForm, empty=True)
         kwargs['branch_data'] = json.dumps(self.branch_data)
         kwargs['full_form'] = self.get_form(ComponentInitCreateForm, empty=True)
         if 'local' in VCS_REGISTRY:
             kwargs['zip_form'] = self.get_form(ComponentZipCreateForm, empty=True)
+            kwargs['scratch_form'] = self.get_form(ComponentProjectForm, empty=True)
+        if self.origin == 'branch':
+            kwargs['branch_form'] = kwargs['form']
+        elif self.origin == 'scratch':
+            kwargs['scratch_form'] = kwargs['form']
+        else:
+            kwargs['existing_form'] = kwargs['form']
         return kwargs
 
     def get_form(self, form_class=None, empty=False):
@@ -340,6 +366,8 @@ class CreateComponentSelection(CreateComponent):
     def get_form_class(self):
         if self.origin == 'branch':
             return ComponentBranchForm
+        elif self.origin == 'scratch':
+            return ComponentProjectForm
         return ComponentSelectForm
 
     def redirect_create(self, **kwargs):
@@ -348,6 +376,12 @@ class CreateComponentSelection(CreateComponent):
         )
 
     def form_valid(self, form):
+        if self.origin == 'scratch':
+            component = scratch_create_component(**form.cleaned_data)
+            return redirect(reverse(
+                'component_progress',
+                kwargs=component.get_reverse_url_kwargs()
+            ))
         component = form.cleaned_data['component']
         if self.origin == 'existing':
             return self.redirect_create(

@@ -669,3 +669,20 @@ class LocalRepository(GitRepository):
         # Add to repository
         cls._popen(['add', '.'], target)
         cls._popen(['commit', '--message', 'ZIP file upladed into Weblate'], target)
+
+    @classmethod
+    def from_files(cls, target, files):
+        # Create empty repo
+        if not os.path.exists(target):
+            cls._clone('local:', target)
+        # Create files
+        for name, content in files.items():
+            fullname = os.path.join(target, name)
+            dirname = os.path.dirname(fullname)
+            if not os.path.exists(dirname):
+                os.makedirs(dirname)
+            with open(fullname, 'w') as handle:
+                handle.write(content)
+        # Add to repository
+        cls._popen(['add', '.'], target)
+        cls._popen(['commit', '--message', 'Started tranlation using Weblate'], target)

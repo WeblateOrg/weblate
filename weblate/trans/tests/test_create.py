@@ -293,3 +293,25 @@ class CreateTest(ViewTestCase):
         )
         self.assertContains(response, 'New translation')
         self.assertContains(response, '*.po')
+
+    def test_create_scratch(self):
+        def create():
+            return self.client.post(
+                reverse('create-component'),
+                {
+                    "origin": "scratch",
+                    'name': 'Create Component',
+                    'slug': 'create-component',
+                    'project': self.project.pk,
+                },
+                follow=True
+            )
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = create()
+        self.assertContains(response, 'Test/Create Component')
+
+        response = create()
+        self.assertContains(response, "Entry by the same name already exists.")
