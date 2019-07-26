@@ -238,6 +238,7 @@ function initEditor() {
             $.parseJSON($this.data('content'))
         );
         autosize.update($('.translation-editor'));
+        $('.translation-editor').change();
         $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
         $this.button('reset');
         e.preventDefault();
