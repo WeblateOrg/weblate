@@ -9,21 +9,22 @@
 # Nikolay Parukhin <parukhin@gmail.com>, 2019.
 # Игорь Поляков (ihoru) <ihor.polyakov@gmail.com>, 2019.
 # Schwonder Reismus <schw0reismus@protonmail.com>, 2019.
+# Nikolay Korotkiy <sikmir@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-25 06:30+0000\n"
-"PO-Revision-Date: 2019-07-24 08:58+0000\n"
-"Last-Translator: Schwonder Reismus <schw0reismus@protonmail.com>\n"
+"PO-Revision-Date: 2019-07-26 11:50+0000\n"
+"Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -557,8 +558,6 @@ msgid "New whiteboard message"
 msgstr "Новое сообщение на совместной доске"
 
 #: weblate/accounts/notifications.py:459 weblate/trans/models/change.py:256
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
 msgstr "Новое оповещение"
 
@@ -1230,10 +1229,8 @@ msgid "Delete suggestion"
 msgstr "Удалить предложение"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Vote on suggestion"
-msgstr "Голосовать по предложению"
+msgstr "Голосовать за предложение"
 
 #: weblate/auth/data.py:71
 msgid "Add language for translation"
@@ -1248,10 +1245,8 @@ msgid "Delete existing translation"
 msgstr "Удалить существующий перевод"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "Add several languages for translation"
-msgstr "Добавить язык перевода"
+msgstr "Добавить несколько языков для перевода"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -1948,8 +1943,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Недопустимый флаг перевода: \"%s\""
 
 #: weblate/checks/flags.py:134
-#, fuzzy, python-format
-#| msgid "Translation flag has no params: \"%s\""
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
 msgstr "Флаг перевода не имеет параметров: \"%s\""
 
@@ -2200,8 +2194,6 @@ msgid "Entry by the same name already exists."
 msgstr "Запись с таким именем уже существует."
 
 #: weblate/fonts/views.py:71
-#, fuzzy
-#| msgid "Failed to create, please fix errors below."
 msgid "Creation failed, please the fix errors below."
 msgstr "Не удалось создать, исправьте нижеприведенные ошибки."
 
@@ -2210,8 +2202,6 @@ msgid "Font deleted."
 msgstr "Шрифт удален."
 
 #: weblate/fonts/views.py:148
-#, fuzzy
-#| msgid "No words found!"
 msgid "No override found."
 msgstr "Переопределение не найдено."
 
@@ -3758,8 +3748,6 @@ msgid "Third party registration"
 msgstr "Регистрация третьей стороной"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "Sorry, but registrations on this site are disabled."
 msgid "Sorry, new registrations are turned off on this site."
 msgstr "Извините, но регистрация на этом сайте отключена."
 
@@ -4965,10 +4953,8 @@ msgid "Comma separated values (CSV)"
 msgstr "Значения, разделенные запятыми (CSV)"
 
 #: weblate/templates/dictionary.html:34
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext (PO)"
-msgstr "Gettext (PO)"
+msgstr "gettext (PO)"
 
 #: weblate/templates/dictionary.html:35
 msgid "XML Localization Interchange File Format (XLIFF)"
@@ -5590,16 +5576,12 @@ msgid "Your registration on %(site_title)s"
 msgstr "Ваша регистрация на %(site_title)s"
 
 #: weblate/templates/mail/base.html:218 weblate/templates/translation.html:183
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation Information"
-msgstr "Уведомления о переводах"
+msgstr "Информация о переводе"
 
 #: weblate/templates/mail/base.html:247
-#, fuzzy
-#| msgid "Project Information"
 msgid "Component Information"
-msgstr "Информация о проекте"
+msgstr "Информация о компоненте"
 
 #: weblate/templates/mail/base.html:268 weblate/templates/source.html:34
 msgid "Project Information"
@@ -5664,18 +5646,14 @@ msgstr "Сделано изменение в переводе в %(translation)s
 
 #: weblate/templates/mail/changed_translation.html:17
 #: weblate/templates/mail/new_suggestion.html:17
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation change"
-msgstr "Изменения в переводе:"
+msgstr "Изменение в переводе"
 
 #: weblate/templates/mail/changed_translation.html:23
 #: weblate/templates/mail/new_comment.html:19
 #: weblate/templates/mail/new_suggestion.html:23
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit this string"
-msgstr "Править строку"
+msgstr "Править эту строку"
 
 #: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
@@ -5814,10 +5792,8 @@ msgstr ""
 "документации."
 
 #: weblate/templates/mail/new_language.html:28
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested language"
-msgstr "Запрашиваемый язык:"
+msgstr "Запрашиваемый язык"
 
 #: weblate/templates/mail/new_language_subject.txt:4
 #, python-format
@@ -5947,10 +5923,8 @@ msgid "If there is a problem with your registration, please contact us."
 msgstr "Если есть проблемы с регистрацией, свяжитесь с нами:"
 
 #: weblate/templates/mail/shared-registration.html:15
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Регистрация пользователя"
+msgstr "Подтвердить регистрацию"
 
 #: weblate/templates/mail/snippets/source-string.html:3
 #: weblate/templates/screenshots/screenshot_detail.html:26
@@ -6033,10 +6007,8 @@ msgstr "Совместный накопитель переводов"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:36
-#, fuzzy
-#| msgid "Font"
 msgid "on"
-msgstr "Шрифт"
+msgstr "включено"
 
 #. Translators: Shared translation memory is disabled
 #: weblate/templates/memory/index.html:39
@@ -6053,10 +6025,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Количество записей для %(project)s"
 
 #: weblate/templates/memory/index.html:51
-#, fuzzy
-#| msgid "Number of entries for %(project)s"
 msgid "Number of entries on the whole platform"
-msgstr "Количество записей для %(project)s"
+msgstr "Количество записей на всей платформе"
 
 #: weblate/templates/memory/index.html:53
 msgid "Number of your entries"
@@ -6559,10 +6529,8 @@ msgid "From existing component"
 msgstr "Из списка компонентов"
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Дополнительное сообщение"
+msgstr "Дополнительная ветка"
 
 #: weblate/templates/trans/component_create.html:42
 msgid ""
@@ -6643,10 +6611,8 @@ msgid "Translation is licensed under OSI approved license."
 msgstr "Перевод осуществляется по лицензии, одобренной OSI."
 
 #: weblate/templates/trans/merge_instructions.html:6
-#, fuzzy
-#| msgid "Typical workflow for fixing merge conflicts:"
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Типичный рабочий процесс для устранения конфликтов слияния:"
+msgstr "Типичный рабочий процесс для устранения конфликтов слияния"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
