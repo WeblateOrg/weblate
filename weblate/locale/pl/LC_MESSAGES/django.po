@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-26 11:51+0000\n"
+"POT-Creation-Date: 2019-07-27 06:09+0000\n"
 "PO-Revision-Date: 2019-07-27 06:08+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -2784,11 +2784,12 @@ msgstr "Nie wspierany plik!"
 msgid "No valid entries found in the uploaded file!"
 msgstr "W przesłanym pliku nie znaleziono poprawnych wpisów!"
 
-#: weblate/memory/storage.py:171
+#: weblate/memory/storage.py:171 weblate/memory/storage.py:181
+#: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
 msgstr "Nie można przeanalizować pliku JSON!"
 
-#: weblate/memory/storage.py:206
+#: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
 msgstr "Nie można przeanalizować pliku TMX!"
 
@@ -2893,9 +2894,9 @@ msgid ""
 "that on, at-least for this site, for HTTPS connections, or for 'same-origin' "
 "requests."
 msgstr ""
-"Jeśli skonfigurowałeś przeglądarkę tak, aby nie wysyłała nagłówków „Referer”"
-", włącz ją przynajmniej dla tej witryny, dla połączeń HTTPS lub dla żądań „"
-"tego samego pochodzenia”."
+"Jeśli skonfigurowałeś przeglądarkę tak, aby nie wysyłała nagłówków "
+"„Referer”, włącz ją przynajmniej dla tej witryny, dla połączeń HTTPS lub dla "
+"żądań „tego samego pochodzenia”."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -9381,7 +9382,7 @@ msgstr[0] "Zaimportowano %d słowo z wysłanego pliku."
 msgstr[1] "Zaimportowano %d słowa z wysłanego pliku."
 msgstr[2] "Zaimportowano %d słów z wysłanego pliku."
 
-#: weblate/trans/views/dictionary.py:191
+#: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:122
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Nie udało się przesłać pliku: %s"
@@ -9517,11 +9518,6 @@ msgstr[1] ""
 msgstr[2] ""
 "Przetworzono {0} tekstów z wczytanych plików (pominięto: {1}, nie "
 "znaleziono: {2}, uaktualniono: {3})."
-
-#: weblate/trans/views/files.py:122
-#, python-format
-msgid "File upload failed: %s"
-msgstr "Przesyłanie pliku nie powiodło się: %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9949,6 +9945,9 @@ msgstr "Raporty"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Nie można odrzucić błędu konfiguracji!"
+
+#~ msgid "File upload failed: %s"
+#~ msgstr "Przesyłanie pliku nie powiodło się: %s"
 
 #~ msgid "File content merge failed: %s"
 #~ msgstr "Nie udało się połączyć zawartości pliku: %s"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-26 11:51+0000\n"
+"POT-Creation-Date: 2019-07-27 06:09+0000\n"
 "PO-Revision-Date: 2019-07-14 12:00+0000\n"
 "Last-Translator: byStarTW <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -2795,11 +2795,12 @@ msgstr "不支援的檔案！"
 msgid "No valid entries found in the uploaded file!"
 msgstr "在上傳的檔案中找不到有效的條目！"
 
-#: weblate/memory/storage.py:171
+#: weblate/memory/storage.py:171 weblate/memory/storage.py:181
+#: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
 msgstr "解析 JSON 檔案失敗！"
 
-#: weblate/memory/storage.py:206
+#: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
 msgstr "解析 TMX 檔失敗！"
 
@@ -9111,7 +9112,7 @@ msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "已從上傳的檔案匯入 %d 個單字。"
 
-#: weblate/trans/views/dictionary.py:191
+#: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:122
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "檔案上傳失敗：%s"
@@ -9237,12 +9238,6 @@ msgid_plural ""
 "updated: {3})."
 msgstr[0] ""
 "已處理上傳檔案中的 {0} 條字串（略過：{1}，找不到：{2}，已更新：{3}）。"
-
-#: weblate/trans/views/files.py:122
-#, fuzzy, python-format
-#| msgid "File upload has failed: %s"
-msgid "File upload failed: %s"
-msgstr "檔案上傳失敗：%s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9657,6 +9652,11 @@ msgstr "回報"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
+
+#, fuzzy
+#~| msgid "File upload has failed: %s"
+#~ msgid "File upload failed: %s"
+#~ msgstr "檔案上傳失敗：%s"
 
 #~ msgid "File content merge failed: %s"
 #~ msgstr "檔案內容合併失敗：%s"

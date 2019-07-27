@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-26 11:51+0000\n"
+"POT-Creation-Date: 2019-07-27 06:09+0000\n"
 "PO-Revision-Date: 2019-06-09 18:37+0000\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -3104,13 +3104,14 @@ msgstr "Nepodprta oblika datoteke."
 msgid "No valid entries found in the uploaded file!"
 msgstr "V slovarju nismo našli sorodnih nizov."
 
-#: weblate/memory/storage.py:171
+#: weblate/memory/storage.py:171 weblate/memory/storage.py:181
+#: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
 msgstr "Nismo uspeli razčleniti %d ujemajočih se datotek!"
 
-#: weblate/memory/storage.py:206
+#: weblate/memory/storage.py:210
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse TMX file!"
@@ -10512,7 +10513,7 @@ msgstr[1] "Iz datoteke smo uvozili %d besedi."
 msgstr[2] "Iz datoteke smo uvozili %d besede."
 msgstr[3] "Iz datoteke smo uvozili %d besed."
 
-#: weblate/trans/views/dictionary.py:191
+#: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:122
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
@@ -10656,12 +10657,6 @@ msgstr[2] ""
 msgstr[3] ""
 "Iz naloženih datotek smo obdelali {0} nizov (preskočeno: {1}, ni najdeno: "
 "{2}, posodobljeno: {3})."
-
-#: weblate/trans/views/files.py:122
-#, fuzzy, python-format
-#| msgid "File upload has failed: %s"
-msgid "File upload failed: %s"
-msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: weblate/trans/views/git.py:43
 #, fuzzy
@@ -11128,6 +11123,11 @@ msgstr "Poročila"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Napake konfiguracije"
+
+#, fuzzy
+#~| msgid "File upload has failed: %s"
+#~ msgid "File upload failed: %s"
+#~ msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #~ msgid "File content merge failed: %s"
 #~ msgstr "Združitev vsebine datoteke je spodletelo: %s"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-26 11:51+0000\n"
+"POT-Creation-Date: 2019-07-27 06:09+0000\n"
 "PO-Revision-Date: 2019-07-26 11:50+0000\n"
 "Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2787,11 +2787,12 @@ msgstr "Неподдерживаемый файл!"
 msgid "No valid entries found in the uploaded file!"
 msgstr "В выгруженном файле не найдено действительных записей!"
 
-#: weblate/memory/storage.py:171
+#: weblate/memory/storage.py:171 weblate/memory/storage.py:181
+#: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
 msgstr "Не удалось разобрать JSON-файл!"
 
-#: weblate/memory/storage.py:206
+#: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
 msgstr "Не удалось разобрать TMX-файл!"
 
@@ -9429,7 +9430,7 @@ msgstr[0] "Импортировано %d слово из выгруженног�
 msgstr[1] "Импортировано %d слова из выгруженного файла."
 msgstr[2] "Импортировано %d слов из выгруженного файла."
 
-#: weblate/trans/views/dictionary.py:191
+#: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:122
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Ошибка выгрузки файла: %s"
@@ -9564,12 +9565,6 @@ msgstr[1] ""
 msgstr[2] ""
 "Обработаны {0} строк из выгруженных файлов (пропущено: {1}, не найдено {2}, "
 "обновлено {3})."
-
-#: weblate/trans/views/files.py:122
-#, fuzzy, python-format
-#| msgid "File upload has failed: %s"
-msgid "File upload failed: %s"
-msgstr "Ошибка выгрузки файла: %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -10000,6 +9995,11 @@ msgstr "Отчеты"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Скрыть ошибку конфигурации не удалось!"
+
+#, fuzzy
+#~| msgid "File upload has failed: %s"
+#~ msgid "File upload failed: %s"
+#~ msgstr "Ошибка выгрузки файла: %s"
 
 #~ msgid "File content merge failed: %s"
 #~ msgstr "Ошибка при слиянии содержания файла: %s"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-26 11:51+0000\n"
+"POT-Creation-Date: 2019-07-27 06:09+0000\n"
 "PO-Revision-Date: 2019-07-27 06:08+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -2741,11 +2741,12 @@ msgstr "הקובץ אינו נתמך!"
 msgid "No valid entries found in the uploaded file!"
 msgstr "לא נמצאו רשומות תקניות בקובץ שהועלה!"
 
-#: weblate/memory/storage.py:171
+#: weblate/memory/storage.py:171 weblate/memory/storage.py:181
+#: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
 msgstr "פענוח קובץ ה־JSON נכשל!"
 
-#: weblate/memory/storage.py:206
+#: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
 msgstr "פענוח קובץ ה־TMX נכשל!"
 
@@ -9223,7 +9224,7 @@ msgstr[1] "יובאו %d מילים מהקובץ שהועלה."
 msgstr[2] "יובאו %d מילים מהקובץ שהועלה."
 msgstr[3] "יובאו %d מילים מהקובץ שהועלה."
 
-#: weblate/trans/views/dictionary.py:191
+#: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:122
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "העלאת הקובץ נכשלה: %s"
@@ -9361,12 +9362,6 @@ msgstr[2] ""
 msgstr[3] ""
 "{0} מחרוזות מהקבצים שהועלו עברו עיבוד (דולגו: {1}, לא נמצאו: {2}, עודכנו "
 "{3})."
-
-#: weblate/trans/views/files.py:122
-#, fuzzy, python-format
-#| msgid "File upload has failed: %s"
-msgid "File upload failed: %s"
-msgstr "העלאת הקובץ נכשלה: %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9788,6 +9783,11 @@ msgstr "דיווחים"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "ההתעלמות משגיאות התצורה נכשלה!"
+
+#, fuzzy
+#~| msgid "File upload has failed: %s"
+#~ msgid "File upload failed: %s"
+#~ msgstr "העלאת הקובץ נכשלה: %s"
 
 #~ msgid "File content merge failed: %s"
 #~ msgstr "מיזוג תוכן הקובץ נכשל: %s"
