@@ -119,7 +119,7 @@ def upload_translation(request, project, component, lang):
         else:
             messages.success(request, message)
     except Exception as error:
-        messages.error(request, _('File upload failed: %s') % force_text(error))
+        messages.error(request, _('File upload has failed: %s') % force_text(error))
         report_error(error, request, prefix='Upload error')
 
     return redirect(obj)
