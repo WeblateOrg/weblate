@@ -807,6 +807,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.commit_pending('replace file', request)
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
+            store2.check_valid()
 
             # Actually replace file content
             self.store.save_atomic(
