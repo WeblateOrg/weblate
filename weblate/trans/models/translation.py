@@ -815,7 +815,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             )
 
             # Commit to VCS
-            self.__git_commit(request.user.get_author_name(), timezone.now())
+            if self.repo_needs_commit():
+                self.__git_commit(request.user.get_author_name(), timezone.now())
 
             # Drop store cache
             del self.__dict__['store']
