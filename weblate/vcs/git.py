@@ -667,8 +667,11 @@ class LocalRepository(GitRepository):
         # Extract zip file content
         ZipFile(zipfile).extractall(target)
         # Add to repository
-        cls._popen(['add', '.'], target)
-        cls._popen(['commit', '--message', 'ZIP file upladed into Weblate'], target)
+        repo = cls(target)
+        with repo.lock:
+            repo.execute(['add', target])
+            if repo.needs_commit():
+                repo.commit('ZIP file upladed into Weblate')
 
     @classmethod
     def from_files(cls, target, files):
@@ -684,5 +687,8 @@ class LocalRepository(GitRepository):
             with open(fullname, 'w') as handle:
                 handle.write(content)
         # Add to repository
-        cls._popen(['add', '.'], target)
-        cls._popen(['commit', '--message', 'Started tranlation using Weblate'], target)
+        repo = cls(target)
+        with repo.lock:
+            repo.execute(['add', target])
+            if repo.needs_commit():
+                repo.commit('Started tranlation using Weblate')
