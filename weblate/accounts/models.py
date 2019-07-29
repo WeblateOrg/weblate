@@ -163,9 +163,9 @@ NOTIFY_ACTIVITY = frozenset((
 
 class AuditLogManager(models.Manager):
     def is_new_login(self, user, address, user_agent):
-        """Checks whether this login is coming from new device.
+        """Checks whether this login is coming from a new device.
 
-        This is currently based purely on the IP address.
+        Currently based purely on the IP address.
         """
         logins = self.filter(user=user, activity='login-new')
 
@@ -371,9 +371,9 @@ class Profile(models.Model):
         max_length=200,
         verbose_name=_('Editor link'),
         help_text=_(
-            'Enter custom URL to be used as link to the source code. '
+            'Enter a custom URL to be used as link to the source code. '
             'You can use {{branch}} for branch, '
-            '{{filename}} and  {{line}} as filename and line placeholders. '
+            '{{filename}} and {{line}} as filename and line placeholders. '
             'Usually something like editor://open/?file={{filename}}&line={{line}}'
             ' is a good option.'
         ),
