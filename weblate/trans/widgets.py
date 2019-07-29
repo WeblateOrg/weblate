@@ -103,7 +103,8 @@ class BitmapWidget(ContentWidget):
     content_type = 'image/png'
     order = 100
     show = True
-    head_template = '<span size="x-large" weight="bold">{}</span>'
+    head_template = '<span letter_spacing="-1000" size="x-large" weight="bold">{}</span>'
+    foot_template = '<span letter_spacing="2000">{}</span>'
     font_size = 10
     offset = 0
     column_offset = 0
@@ -237,21 +238,21 @@ class NormalWidget(BitmapWidget):
                 self.head_template.format(
                     number_format(self.total, force_grouping=True)
                 ),
-                npgettext(
+                self.foot_template.format(npgettext(
                     "Label on enage page", "String", "Strings", self.total
-                ).upper(),
+                ).upper()),
             ],
             [
                 self.head_template.format(
                     number_format(self.languages, force_grouping=True)
                 ),
-                npgettext(
+                self.foot_template.format(npgettext(
                     "Label on enage page", "Language", "Languages", self.languages
-                ).upper(),
+                ).upper()),
             ],
             [
                 self.head_template.format(self.get_percent_text()),
-                _('Translated').upper(),
+                self.foot_template.format(_('Translated').upper()),
             ],
         ]
 
@@ -266,7 +267,7 @@ class SmallWidget(BitmapWidget):
         return [
             [
                 self.head_template.format(self.get_percent_text()),
-                _('Translated').upper(),
+                self.foot_template.format(_('Translated').upper()),
             ],
         ]
 
@@ -280,7 +281,7 @@ class OpenGraphWidget(NormalWidget):
     offset = 300
     font_size = 20
     column_offset = 265
-    head_template = '{}'
+    head_template = '<span letter_spacing="-1000">{}</span>'
 
     def get_column_width(self, surface, columns):
         return 230
