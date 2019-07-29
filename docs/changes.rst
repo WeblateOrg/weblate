@@ -17,6 +17,7 @@ Not yet released.
 * Add support for cloning addons to discovered components.
 * Add support for replacing file content with uploaded.
 * Add support for translating non VCS based content.
+* Added OpenGraph widget image to use on social networks.
 
 weblate 3.7.1
 -------------
