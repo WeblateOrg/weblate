@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 
 import six.moves
 from django.conf import settings
+from django.core.cache import cache
 from django.db import models
 from django.db.models import Count, Q
 from django.utils import timezone
@@ -453,4 +454,12 @@ class Change(models.Model, UserDisplayMixin):
         if self.dictionary:
             self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
+        # Update last content change for a translation
+        if self.action in Change.ACTIONS_CONTENT:
+            cache.set(
+                'last-content-change-{}'.format(self.translation.pk),
+                self.pk,
+                180 * 86400
+            )
+        # Trigger change notifications
         notify_change.delay(self.pk)
