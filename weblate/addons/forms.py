@@ -114,8 +114,8 @@ class GettextCustomizeForm(BaseAddonForm):
         required=True,
         initial=77,
         help_text=_(
-            'By default gettext wraps lines at 77 chars and newlines, '
-            'with --no-wrap parameter, it wraps only at newlines.'
+            'By default gettext wraps lines at 77 chars and newlines. '
+            'With --no-wrap parameter, it wraps only at newlines.'
         )
     )
 
@@ -180,11 +180,11 @@ class RemoveForm(BaseAddonForm):
 
 class RemoveSuggestionForm(RemoveForm):
     votes = forms.IntegerField(
-        label=_('Votes threshold'),
+        label=_('Voting threshold'),
         initial=0,
         required=True,
         help_text=_(
-            'Votes threshold for removal. This field has no effect with '
+            'Threshold for removal. This field has no effect with '
             'voting turned off.'
         )
     )
@@ -203,7 +203,7 @@ class ContextDiv(Div):
 
 class DiscoveryForm(BaseAddonForm):
     match = forms.CharField(
-        label=_('Regular expression to match translation files'),
+        label=_('Regular expression to match translation files against'),
         required=True,
     )
     file_format = forms.ChoiceField(
@@ -312,7 +312,7 @@ class DiscoveryForm(BaseAddonForm):
         self.cleaned_data['preview'] = True
         if not self.cleaned_data['confirm']:
             raise forms.ValidationError(
-                _('Please review and confirm matched components.')
+                _('Please review and confirm the matched components.')
             )
 
     def clean_match(self):
