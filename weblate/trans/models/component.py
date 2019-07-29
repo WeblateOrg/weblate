@@ -578,19 +578,18 @@ class Component(models.Model, URLMixin, PathMixin):
         task = self.background_task
         if task is None:
             return 100, []
+        result = task.result
         if is_task_ready(task):
             # Completed task
             progress = 100
-        elif task.state == 'PROGRESS':
+        elif task.state == 'PROGRESS' and result:
             # In progress
-            progress = task.result['progress']
+            progress = result['progress']
+
         else:
             # Not yet started
             progress = 0
-        return (
-            progress,
-            cache.get('task-log-{}'.format(task.id), []),
-        )
+        return (progress, cache.get('task-log-{}'.format(task.id), []))
 
     def in_progress(self):
         return (
