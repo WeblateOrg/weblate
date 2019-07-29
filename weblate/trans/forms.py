@@ -1698,7 +1698,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         self.instance = instance
 
         # Create linked repos automatically
-        if not self.instance.is_repo_link:
+        if not self.instance.is_repo_link and self.instance.vcs != 'local':
             same_repo = instance.project.component_set.filter(
                 repo=instance.repo, vcs=instance.vcs, branch=instance.branch
             )
