@@ -126,7 +126,7 @@ ACCOUNT_ACTIVITY = {
         'Account locked due to many failed logins.'
     ),
     'removed': _(
-        'Account and all private data have been removed.'
+        'Account and all private data removed.'
     ),
     'tos': _(
         'Agreement with Terms of Service {date}.'
@@ -363,7 +363,7 @@ class Profile(models.Model):
         default=True
     )
     hide_source_secondary = models.BooleanField(
-        verbose_name=_('Hide source if a secondary language translation exists'),
+        verbose_name=_('Hide source if a secondary translation exists'),
         default=False
     )
     editor_link = models.CharField(
