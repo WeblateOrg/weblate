@@ -52,10 +52,7 @@ BASIC_KEYS = frozenset(
         'allchecks_words_percent',
     ]
     + list(BASICS)
-    + [
-        'last_changed', 'last_author', 'recent_changes', 'monthly_changes',
-        'total_changes'
-    ]
+    + ['last_changed', 'last_author']
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
@@ -288,7 +285,7 @@ class DummyTranslationStats(BaseStats):
         return {}
 
     def calculate_item(self, item):
-        return 0
+        return
 
     def prefetch_basic(self):
         self._data = zero_stats(self.basic_keys)
@@ -367,9 +364,6 @@ class TranslationStats(BaseStats):
         # Last change timestamp
         self.fetch_last_change()
 
-        # Count recent changes
-        self.count_changes()
-
     def get_last_change_obj(self):
         from weblate.trans.models import Change
         change_pk = cache.get('last-content-change-{}'.format(self._object.pk))
@@ -415,6 +409,9 @@ class TranslationStats(BaseStats):
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
+        if item.endswith('_changes'):
+            self.count_changes()
+            return
         if item.endswith('_words'):
             item = item[:-6]
         translation = self._object
