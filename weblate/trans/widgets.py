@@ -27,6 +27,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.formats import number_format
+from django.utils.html import escape
 from django.utils.translation import get_language, npgettext, pgettext
 from django.utils.translation import ugettext as _
 
@@ -152,6 +153,9 @@ class BitmapWidget(ContentWidget):
         font = Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
         return [font, font]
 
+    def render_additional(self, ctx):
+        return
+
     def render(self, response):
         """Render widget."""
         configure_fontconfig()
@@ -193,6 +197,8 @@ class BitmapWidget(ContentWidget):
                 ctx.move_to(column_width * i, self.offset)
                 ctx.line_to(column_width * i, height - self.offset)
                 ctx.stroke()
+
+        self.render_additional(ctx)
 
         surface.write_to_png(response)
 
@@ -291,6 +297,15 @@ class OpenGraphWidget(NormalWidget):
             Pango.FontDescription('Source Sans Pro {}'.format(42)),
             Pango.FontDescription('Source Sans Pro {}'.format(18))
         ]
+
+    def render_additional(self, ctx):
+        ctx.move_to(280, 170)
+        layout = PangoCairo.create_layout(ctx)
+        layout.set_font_description(
+            Pango.FontDescription('Source Sans Pro {}'.format(52))
+        )
+        layout.set_markup('Project <b>{}</b>'.format(escape(self.obj.name)))
+        PangoCairo.show_layout(ctx, layout)
 
 
 @register_widget
