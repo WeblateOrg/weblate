@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='hide_source_secondary',
-            field=models.BooleanField(default=False, verbose_name='Hide source if a secondary language translation exists'),
+            field=models.BooleanField(default=False, verbose_name='Hide source if a secondary translation exists'),
         ),
         migrations.AlterField(
             model_name='profile',
