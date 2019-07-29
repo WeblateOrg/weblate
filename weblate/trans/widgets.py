@@ -26,6 +26,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_text
+from django.utils.formats import number_format
 from django.utils.translation import get_language, npgettext, pgettext
 from django.utils.translation import ugettext as _
 
@@ -233,13 +234,17 @@ class NormalWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                self.head_template.format(self.total),
+                self.head_template.format(
+                    number_format(self.total, force_grouping=True)
+                ),
                 npgettext(
                     "Label on enage page", "String", "Strings", self.total
                 ).upper(),
             ],
             [
-                self.head_template.format(self.languages),
+                self.head_template.format(
+                    number_format(self.languages, force_grouping=True)
+                ),
                 npgettext(
                     "Label on enage page", "Language", "Languages", self.languages
                 ).upper(),
