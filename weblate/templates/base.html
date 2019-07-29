@@ -16,6 +16,13 @@
 
   <title>{% include "title.html" %}</title>
   <meta name="description" content="{{ description }}" />
+  {% if object.slug and object.project.slug %}
+  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
+  {% elif object.component.slug and object.component.project.slug %}
+  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.component.project.slug widget='open' color='graph' extension='png' %}" />
+  {% elif object.slug and object.web %}
+  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.slug widget='open' color='graph' extension='png' %}" />
+  {% endif %}
 
 {% include "snippets/meta-css.html" %}
 
