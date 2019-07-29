@@ -16,12 +16,16 @@
 
   <title>{% include "title.html" %}</title>
   <meta name="description" content="{{ description }}" />
+
   {% if object.slug and object.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
+  <meta name="twitter:card" content="summary_large_image" />
   {% elif object.component.slug and object.component.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.component.project.slug widget='open' color='graph' extension='png' %}" />
+  <meta name="twitter:card" content="summary_large_image" />
   {% elif object.slug and object.web %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.slug widget='open' color='graph' extension='png' %}" />
+  <meta name="twitter:card" content="summary_large_image" />
   {% endif %}
 
 {% include "snippets/meta-css.html" %}
