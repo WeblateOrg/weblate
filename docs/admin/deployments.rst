@@ -37,6 +37,8 @@ The following examples assume you have a working Docker environment, with
         version: '3'
         services:
           weblate:
+            ports:
+              - 80:8080
             environment:
               WEBLATE_EMAIL_HOST: smtp.example.com
               WEBLATE_EMAIL_HOST_USER: user
