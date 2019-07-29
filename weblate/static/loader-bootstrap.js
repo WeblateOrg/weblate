@@ -616,9 +616,9 @@ $(function () {
         $content.load(
             $target.data('href'),
             function (response, status, xhr) {
-                if ( status === 'error' ) {
+                if ( status !== 'success' ) {
                     var msg = gettext('Error while loading page:');
-                    $content.html( msg + ' '  + xhr.status + ' ' + xhr.statusText );
+                    $content.text(msg + ' ' + xhr.statusText + ' (' + xhr.status + '): ' + responseText);
                 }
                 $target.data('loaded', 1);
                 loadTableSorting();
