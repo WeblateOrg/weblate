@@ -106,7 +106,7 @@ class BitmapWidget(ContentWidget):
     content_type = 'image/png'
     order = 100
     show = True
-    head_template = '<span letter_spacing="-1000" size="x-large" weight="bold">{}</span>'
+    head_template = '<span letter_spacing="-1000"><b>{}</b></span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
     font_size = 10
     offset = 0
@@ -152,8 +152,10 @@ class BitmapWidget(ContentWidget):
         return surface.get_width() // len(columns)
 
     def get_column_fonts(self):
-        font = Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
-        return [font, font]
+        return [
+            Pango.FontDescription('Source Sans Pro {}'.format(self.font_size * 1.5)),
+            Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
+        ]
 
     def render_additional(self, ctx):
         return
@@ -162,7 +164,6 @@ class BitmapWidget(ContentWidget):
         """Render widget."""
         configure_fontconfig()
         surface = cairo.ImageSurface.create_from_png(self.get_filename())
-        width = surface.get_width()
         height = surface.get_height()
         ctx = cairo.Context(surface)
 
