@@ -615,7 +615,7 @@ $(function () {
         };
         $content.load(
             $target.data('href'),
-            function (response, status, xhr) {
+            function (responseText, status, xhr) {
                 if ( status !== 'success' ) {
                     var msg = gettext('Error while loading page:');
                     $content.text(msg + ' ' + xhr.statusText + ' (' + xhr.status + '): ' + responseText);
