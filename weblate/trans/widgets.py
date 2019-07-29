@@ -40,6 +40,7 @@ COLOR_DATA = {
     'grey': (0, 0, 0),
     'white': (0, 0, 0),
     'black': (255, 255, 255),
+    'graph': (255, 255, 255),
 }
 
 WIDGETS = {}
@@ -104,6 +105,8 @@ class BitmapWidget(ContentWidget):
     head_template = '<span size="x-large" weight="bold">{}</span>'
     font_size = 10
     offset = 0
+    column_offset = 0
+    lines = True
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -140,6 +143,13 @@ class BitmapWidget(ContentWidget):
     def get_columns(self):
         raise NotImplementedError()
 
+    def get_column_width(self, surface, columns):
+        return surface.get_width() // len(columns)
+
+    def get_column_fonts(self):
+        font = Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
+        return [font, font]
+
     def render(self, response):
         """Render widget."""
         configure_fontconfig()
@@ -149,18 +159,18 @@ class BitmapWidget(ContentWidget):
         ctx = cairo.Context(surface)
 
         columns = self.get_columns()
-        column_width = width // len(columns)
+        column_width = self.get_column_width(surface, columns)
 
-        font = Pango.FontDescription('Source Sans Pro {}'.format(self.font_size))
+        fonts = self.get_column_fonts()
 
         for i, column in enumerate(columns):
             offset = self.offset
-            for text in column:
+            for row, text in enumerate(column):
                 layout = PangoCairo.create_layout(ctx)
-                layout.set_font_description(font)
+                layout.set_font_description(fonts[row])
 
                 # Set color and position
-                ctx.move_to(column_width * i, offset)
+                ctx.move_to(self.column_offset + column_width * i, offset)
                 ctx.set_source_rgb(*COLOR_DATA[self.color])
 
                 # Add text
@@ -174,7 +184,7 @@ class BitmapWidget(ContentWidget):
                 PangoCairo.show_layout(ctx, layout)
 
             # Render column separators
-            if i > 0:
+            if self.lines and i > 0:
                 ctx.new_path()
                 ctx.set_source_rgb(*COLOR_DATA[self.color])
                 ctx.set_line_width(0.5)
@@ -253,6 +263,27 @@ class SmallWidget(BitmapWidget):
                 self.head_template.format(self.get_percent_text()),
                 _('Translated').upper(),
             ],
+        ]
+
+
+@register_widget
+class OpenGraphWidget(NormalWidget):
+    name = 'open'
+    colors = ('graph', )
+    order = 120
+    lines = False
+    offset = 300
+    font_size = 20
+    column_offset = 265
+    head_template = '{}'
+
+    def get_column_width(self, surface, columns):
+        return 230
+
+    def get_column_fonts(self):
+        return [
+            Pango.FontDescription('Source Sans Pro {}'.format(42)),
+            Pango.FontDescription('Source Sans Pro {}'.format(18))
         ]
 
 
