@@ -92,6 +92,7 @@ def widgets(request, project):
         widget_list.append({
             'name': widget_name,
             'colors': color_list,
+            'verbose': widget_class.verbose,
         })
 
     return render(

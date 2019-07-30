@@ -28,7 +28,7 @@
 </p>
 
 {% for widget in widget_list %}
-<h4>{% blocktrans with widget.name as widget %}Image {{ widget }}{% endblocktrans %}</h4>
+<h4>{{ widget.verbose }}</h4>
 
 <p>{% trans "Color variants:" %}</p>
 
