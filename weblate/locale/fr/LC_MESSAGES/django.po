@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-30 07:49+0000\n"
-"PO-Revision-Date: 2019-07-27 06:08+0000\n"
+"PO-Revision-Date: 2019-07-31 15:05+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -303,8 +303,6 @@ msgstr ""
 "connexion échouées."
 
 #: weblate/accounts/models.py:129
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
 msgstr ""
 "Votre compte ainsi que toutes vos informations personnelles ont été "
@@ -378,22 +376,14 @@ msgid "Show secondary translations in zen mode"
 msgstr "Afficher les traductions secondaires en mode Zen"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if a secondary language translation exists"
 msgid "Hide source if a secondary translation exists"
-msgstr "Masquer la source lorsqu’il y a une langue secondaire"
+msgstr "Masquer la source lorsqu’une traduction secondaire existe"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "Lien de l’éditeur"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -402,8 +392,8 @@ msgid ""
 msgstr ""
 "Saisissez une URL personnalisée qui permettra d’accéder au code source. Vous "
 "pouvez utiliser {{branch}} pour une branche, {{filename}} et {{line}} pour "
-"un fichier et une ligne. Le plus souvent quelque chose du type editor://"
-"open/?file={{filename}}&line={{line}} est un bon choix."
+"un fichier et une ligne. Le plus souvent quelque chose du type editor://open/"
+"?file={{filename}}&line={{line}} est un bon choix."
 
 #: weblate/accounts/models.py:385
 msgid "Translation editor mode"
@@ -901,10 +891,6 @@ msgid "No line wrapping"
 msgstr "Pas de retour à la ligne automatique"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
@@ -954,28 +940,20 @@ msgid "Days to keep"
 msgstr "Nombre de jours à conserver"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
 msgstr "Seuil de votes"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting turned "
-#| "off."
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
-"Seuil de votes pour la suppression d'une suggestion. Ce champ est sans effet "
-"lorsque le vote est désactivé."
+"Seuil pour la suppression d'une suggestion. Ce champ est sans effet lorsque "
+"le vote est désactivé."
 
 #: weblate/addons/forms.py:206
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr ""
-"Expression rationnelle à laquelle des fichiers de traduction doivent "
-"correspondre"
+"Expression rationnelle à laquelle faire correspondre les fichiers de "
+"traduction"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/forms.py:585 weblate/trans/models/component.py:280
@@ -1032,8 +1010,6 @@ msgid "I confirm the above matches look correct"
 msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
 
 #: weblate/addons/forms.py:315
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
 msgstr "Veuillez examiner et confirmer les composants correspondants."
 
@@ -6714,30 +6690,24 @@ msgid "The detected file format is not supported."
 msgstr "Le format de fichier détecté n'est pas pris en charge."
 
 #: weblate/templates/trans/embed-alert.html:4
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation is locked."
-msgstr "Cette traduction est actuellement verrouillée."
+msgstr "Cette traduction est verrouillée."
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "View translation component"
 msgid "Updating translation component…"
-msgstr "Afficher le composant de traduction"
+msgstr "Mise à jour du composant de traduction…"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Fix this component to clear its alerts."
-msgstr ""
+msgstr "Corriger ce composant pour effacer ses alertes."
 
 #: weblate/templates/trans/embed-alert.html:18
 msgid "Libre license translation according to the FSF."
 msgstr ""
 
 #: weblate/templates/trans/embed-alert.html:20
-#, fuzzy
-#| msgid "Translation is licensed under OSI approved license."
 msgid "Translation license OSI approved."
-msgstr "La traduction est publiée sous une licence approuvée par l'OSI."
+msgstr "Licence de traduction approuvée par l'OSI."
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -9197,7 +9167,7 @@ msgstr "Il y a une seconde"
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
-msgstr[0] "Il y a une seconde"
+msgstr[0] "Il y a %(count)s seconde"
 msgstr[1] "Il y a %(count)s secondes"
 
 #: weblate/trans/templatetags/translations.py:392
@@ -9208,7 +9178,7 @@ msgstr "Il y a une minute"
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
-msgstr[0] "Il y a une minute"
+msgstr[0] "Il y a %(count)s minute"
 msgstr[1] "Il y a %(count)s minutes"
 
 #: weblate/trans/templatetags/translations.py:398
@@ -9219,7 +9189,7 @@ msgstr "Il y a une heure"
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
-msgstr[0] "Il y a une heure"
+msgstr[0] "Il y a %(count)s heure"
 msgstr[1] "Il y a %(count)s heures"
 
 #: weblate/trans/templatetags/translations.py:415
@@ -9230,7 +9200,7 @@ msgstr "dans un an"
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "dans un an"
+msgstr[0] "dans %(count)s an"
 msgstr[1] "dans %(count)s ans"
 
 #: weblate/trans/templatetags/translations.py:422
@@ -9241,14 +9211,14 @@ msgstr "dans un mois"
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "dans un mois"
+msgstr[0] "dans %(count)s mois"
 msgstr[1] "dans %(count)s mois"
 
 #: weblate/trans/templatetags/translations.py:429
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "dans une semaine"
+msgstr[0] "dans %(count)s semaine"
 msgstr[1] "dans %(count)s semaines"
 
 #: weblate/trans/templatetags/translations.py:433
@@ -9263,7 +9233,7 @@ msgstr "dans une semaine"
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "dans un jour"
+msgstr[0] "dans %(count)s jour"
 msgstr[1] "dans %(count)s jours"
 
 #: weblate/trans/templatetags/translations.py:443
@@ -9274,7 +9244,7 @@ msgstr "dans une seconde"
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "dans une seconde"
+msgstr[0] "dans %(count)s seconde"
 msgstr[1] "dans %(count)s secondes"
 
 #: weblate/trans/templatetags/translations.py:452
@@ -9285,7 +9255,7 @@ msgstr "dans une minute"
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "dans une minute"
+msgstr[0] "dans %(count)s minute"
 msgstr[1] "dans %(count)s minutes"
 
 #: weblate/trans/templatetags/translations.py:460
@@ -9296,7 +9266,7 @@ msgstr "dans une heure"
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "dans une heure"
+msgstr[0] "dans %(count)s heure"
 msgstr[1] "dans %(count)s heures"
 
 #: weblate/trans/templatetags/translations.py:562
@@ -9778,26 +9748,20 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:243
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Big status badge"
-msgstr "Modification en masse d'état"
+msgstr "Grand badge de statut"
 
 #: weblate/trans/widgets.py:275
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Small status badge"
-msgstr "Modification en masse d'état"
+msgstr "Petit badge de statut"
 
 #: weblate/trans/widgets.py:297
 msgid "Open Graph image"
-msgstr ""
+msgstr "Image Open Graph"
 
 #: weblate/trans/widgets.py:338
-#, fuzzy
-#| msgid "Status widgets"
 msgid "Status badge"
-msgstr "Widgets d’état"
+msgstr "Badge de statut"
 
 #: weblate/trans/widgets.py:341
 msgid "translated"
@@ -9805,11 +9769,11 @@ msgstr "Traduit à"
 
 #: weblate/trans/widgets.py:380
 msgid "Vertical multi language status widget"
-msgstr ""
+msgstr "Widget de statut multi-langues vertical"
 
 #: weblate/trans/widgets.py:441
 msgid "Horizontal multi language status widget"
-msgstr ""
+msgstr "Widget de statut multi-langues horizontal"
 
 #: weblate/utils/render.py:46
 #, python-format
