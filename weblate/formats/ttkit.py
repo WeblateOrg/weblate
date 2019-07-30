@@ -65,14 +65,14 @@ class TTKitUnit(TranslationUnit):
 
     @cached_property
     def source(self):
-        """Return source string from a TTKit unit."""
+        """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
             return get_string(self.template.target)
         return get_string(self.unit.source)
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
         return get_string(self.unit.target)
@@ -166,14 +166,14 @@ class TTKitUnit(TranslationUnit):
 class KeyValueUnit(TTKitUnit):
     @cached_property
     def source(self):
-        """Return source string from a TTKit unit."""
+        """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
             return self.template.value
         return self.unit.name
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
         return self.unit.value
@@ -225,7 +225,7 @@ class TTKitFormat(TranslationFormat):
 
     @staticmethod
     def serialize(store):
-        """Serialize given TTKit store."""
+        """Serialize given Translate Toolkit store."""
         return bytes(store)
 
     @classmethod
@@ -298,7 +298,7 @@ class TTKitFormat(TranslationFormat):
     def is_valid(self):
         """Check whether store seems to be valid.
 
-        In some cases TTKit happily "parses" the file, even though it
+        In some cases Translate Toolkit happily "parses" the file, even though it
         really did not do so (e.g. gettext parser on random text file).
         """
         if self.store is None:
@@ -318,7 +318,7 @@ class TTKitFormat(TranslationFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from TTKit store."""
+        """Remove translations from Translate Toolkit store."""
         store.settargetlanguage(
             cls.get_language_code(language.code)
         )
@@ -379,7 +379,7 @@ class PropertiesUnit(KeyValueUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
         # Need to decode property encoded string
@@ -428,7 +428,7 @@ class PoUnit(TTKitUnit):
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF
 
-    XLIFF is special in TTKit - it uses locations for what
+    XLIFF is special in Translate Toolkit - it uses locations for what
     is context in other formats.
     """
     FUZZY_STATES = frozenset((
@@ -437,7 +437,7 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def source(self):
-        """Return source string from a TTKit unit."""
+        """Return source string from a Translate Toolkit unit."""
 
         if self.template is not None:
             # Use target if set, otherwise fall back to source
@@ -448,7 +448,7 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
 
@@ -580,7 +580,7 @@ class TSUnit(MonolingualIDUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
         if not self.unit.isreview() and not self.unit.istranslated():
@@ -701,7 +701,7 @@ class PoFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from TTKit store."""
+        """Remove translations from Translate Toolkit store."""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
         plural = language.plural
 
@@ -748,7 +748,7 @@ class TSFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from TTKit store."""
+        """Remove translations from Translate Toolkit store."""
         # We need to mark all units as fuzzy to get
         # type="unfinished" on empty strings, which are otherwise
         # treated as translated same as source
@@ -837,7 +837,7 @@ class PropertiesFormat(PropertiesUtf8Format):
         """Force encoding.
 
         Java properties need to be ISO 8859-1, but
-        TTKit converts them to UTF-8.
+        Translate Toolkit converts them to UTF-8.
         """
         store.encoding = 'iso-8859-1'
         return store
@@ -1134,7 +1134,7 @@ class SubtitleUnit(MonolingualIDUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a TTKit unit."""
+        """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ''
         return get_string(self.unit.source)
