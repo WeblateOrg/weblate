@@ -294,7 +294,7 @@ class OpenGraphWidget(NormalWidget):
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
-    verbose = ugettext_lazy('OpenGraph image')
+    verbose = ugettext_lazy('Open Graph image')
 
     def get_column_width(self, surface, columns):
         return 230
