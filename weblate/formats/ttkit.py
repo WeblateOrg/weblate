@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""translate-toolkit based file format wrappers."""
+"""Translate Toolkit based file format wrappers."""
 
 from __future__ import unicode_literals
 
@@ -65,14 +65,14 @@ class TTKitUnit(TranslationUnit):
 
     @cached_property
     def source(self):
-        """Return source string from a ttkit unit."""
+        """Return source string from a TTKit unit."""
         if self.template is not None:
             return get_string(self.template.target)
         return get_string(self.unit.source)
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
         return get_string(self.unit.target)
@@ -108,7 +108,7 @@ class TTKitUnit(TranslationUnit):
         return self.unit.istranslated()
 
     def is_fuzzy(self, fallback=False):
-        """Check whether unit needs edit."""
+        """Check whether unit needs editing."""
         if self.unit is None:
             return fallback
         # Most of the formats do not support this, but they
@@ -166,14 +166,14 @@ class TTKitUnit(TranslationUnit):
 class KeyValueUnit(TTKitUnit):
     @cached_property
     def source(self):
-        """Return source string from a ttkit unit."""
+        """Return source string from a TTKit unit."""
         if self.template is not None:
             return self.template.value
         return self.unit.name
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
         return self.unit.value
@@ -225,7 +225,7 @@ class TTKitFormat(TranslationFormat):
 
     @staticmethod
     def serialize(store):
-        """Serialize given ttkit store."""
+        """Serialize given TTKit store."""
         return bytes(store)
 
     @classmethod
@@ -287,7 +287,7 @@ class TTKitFormat(TranslationFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return self.store.Mimetypes[0]
 
     @property
@@ -298,8 +298,8 @@ class TTKitFormat(TranslationFormat):
     def is_valid(self):
         """Check whether store seems to be valid.
 
-        In some cases ttkit happily "parses" the file, even though it
-        really did not do so (eg. Gettext parser on random text file).
+        In some cases TTKit happily "parses" the file, even though it
+        really did not do so (e.g. gettext parser on random text file).
         """
         if self.store is None:
             return False
@@ -318,7 +318,7 @@ class TTKitFormat(TranslationFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store."""
+        """Remove translations from TTKit store."""
         store.settargetlanguage(
             cls.get_language_code(language.code)
         )
@@ -379,7 +379,7 @@ class PropertiesUnit(KeyValueUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
         # Need to decode property encoded string
@@ -392,7 +392,7 @@ class PropertiesUnit(KeyValueUnit):
 
 
 class PoUnit(TTKitUnit):
-    """Wrapper for Gettext PO unit."""
+    """Wrapper for gettext PO unit."""
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
         super(PoUnit, self).mark_fuzzy(fuzzy)
@@ -428,7 +428,7 @@ class PoUnit(TTKitUnit):
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF
 
-    XLIFF is special in ttkit - it uses locations for what
+    XLIFF is special in TTKit - it uses locations for what
     is context in other formats.
     """
     FUZZY_STATES = frozenset((
@@ -437,7 +437,7 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def source(self):
-        """Return source string from a ttkit unit."""
+        """Return source string from a TTKit unit."""
 
         if self.template is not None:
             # Use target if set, otherwise fall back to source
@@ -448,7 +448,7 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
 
@@ -495,7 +495,7 @@ class XliffUnit(TTKitUnit):
         """Return context of message.
 
         Use resname if available as it usually is more interesting
-        for translator than id."""
+        for the translator than ID."""
         resname = self.mainunit.xmlelement.get('resname')
         if resname:
             return resname
@@ -509,7 +509,7 @@ class XliffUnit(TTKitUnit):
     def is_translated(self):
         """Check whether unit is translated.
 
-        We replace translate-toolkit logic here as the isfuzzy
+        We replace Translate Toolkit logic here as the isfuzzy
         is pretty much wrong there, see is_fuzzy docs.
         """
         return bool(self.target)
@@ -517,7 +517,7 @@ class XliffUnit(TTKitUnit):
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
 
-        The isfuzzy on Xliff is really messing up approved flag with fuzzy
+        The isfuzzy on XLIFF is really messing up approved flag with fuzzy
         and leading to various problems.
 
         That's why we handle it on our own.
@@ -580,7 +580,7 @@ class TSUnit(MonolingualIDUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
         if not self.unit.isreview() and not self.unit.istranslated():
@@ -614,7 +614,7 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
 class CSVUnit(MonolingualSimpleUnit):
     @cached_property
     def context(self):
-        # Needed to avoid translate-toolkit construct ID
+        # Needed to avoid Translate Toolkit construct ID
         # as context\04source
         if self.template is not None:
             if self.template.id:
@@ -626,7 +626,7 @@ class CSVUnit(MonolingualSimpleUnit):
 
     @cached_property
     def source(self):
-        # Needed to avoid translate-toolkit construct ID
+        # Needed to avoid Translate Toolkit construct ID
         # as context\04source
         if self.template is None:
             return get_string(self.mainunit.source)
@@ -701,7 +701,7 @@ class PoFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store."""
+        """Remove translations from TTKit store."""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
         plural = language.plural
 
@@ -740,7 +740,7 @@ class PoMonoFormat(PoFormat):
 
 
 class TSFormat(TTKitFormat):
-    name = _('Qt Linguist Translation File')
+    name = _('Qt Linguist translation file')
     format_id = 'ts'
     loader = tsfile
     autoload = ('*.ts',)
@@ -748,7 +748,7 @@ class TSFormat(TTKitFormat):
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
-        """Remove translations from ttkit store."""
+        """Remove translations from TTKit store."""
         # We need to mark all units as fuzzy to get
         # type="unfinished" on empty strings, which are otherwise
         # treated as translated same as source
@@ -756,7 +756,7 @@ class TSFormat(TTKitFormat):
 
 
 class XliffFormat(TTKitFormat):
-    name = _('XLIFF Translation File')
+    name = _('XLIFF translation file')
     format_id = 'xliff'
     loader = xlifffile
     autoload = ('*.xlf', '*.xliff')
@@ -771,7 +771,7 @@ class XliffFormat(TTKitFormat):
 
 
 class PoXliffFormat(XliffFormat):
-    name = _('XLIFF Translation File with PO extensions')
+    name = _('XLIFF translation file with PO extensions')
     format_id = 'poxliff'
     autoload = ('*.poxliff',)
     loader = PoXliffFile
@@ -786,19 +786,19 @@ class PropertiesBaseFormat(TTKitFormat):
             return False
 
         # Accept emty file, but reject file without a delimiter.
-        # Translate-toolkit happily parses anything into a property
+        # Translate Toolkit happily parses anything into a property
         # even if there is no delimiter used in the line.
         return not self.store.units or self.store.units[0].delimiter
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         # Properties files do not expose mimetype
         return 'text/plain'
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _('iOS Strings')
+    name = _('iOS strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
     new_translation = '\n'.encode('utf-16')
@@ -807,7 +807,7 @@ class StringsFormat(PropertiesBaseFormat):
 
 
 class StringsUtf8Format(StringsFormat):
-    name = _('iOS Strings (UTF-8)')
+    name = _('iOS strings (UTF-8)')
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
     new_translation = '\n'
@@ -827,7 +827,7 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
 
 
 class PropertiesFormat(PropertiesUtf8Format):
-    name = _('Java Properties (ISO-8859-1)')
+    name = _('Java Properties (ISO 8859-1)')
     format_id = 'properties'
     loader = ('properties', 'javafile')
     autoload = ('*.properties',)
@@ -836,8 +836,8 @@ class PropertiesFormat(PropertiesUtf8Format):
     def fixup(cls, store):
         """Force encoding.
 
-        Java properties need to be iso-8859-1, but
-        ttkit converts them to utf-8.
+        Java properties need to be ISO 8859-1, but
+        TTKit converts them to UTF-8.
         """
         store.encoding = 'iso-8859-1'
         return store
@@ -862,7 +862,7 @@ class PhpFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'text/x-php'
 
     @property
@@ -904,7 +904,7 @@ class JSONFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'application/json'
 
     @property
@@ -955,7 +955,7 @@ class CSVFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'text/csv'
 
     @property
@@ -979,7 +979,7 @@ class CSVFormat(TTKitFormat):
         # Parse file
         store = storeclass()
         store.parse(content)
-        # Did headers detection work?
+        # Did detection of headers work?
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
@@ -1054,7 +1054,7 @@ class YAMLFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'text/yaml'
 
     @property
@@ -1080,7 +1080,7 @@ class DTDFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'application/xml-dtd'
 
     @property
@@ -1107,7 +1107,7 @@ class WindowsRCFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'text/plain'
 
     @property
@@ -1120,7 +1120,7 @@ class WindowsRCFormat(TTKitFormat):
         """Return class for handling this module."""
         if six.PY3:
             raise ImportError(
-                'Windows RC file format is not supported on Python 3'
+                'Windows RC file format unsupported on Python 3'
             )
         return importlib.import_module(
             'translate.storage.rc'
@@ -1134,7 +1134,7 @@ class SubtitleUnit(MonolingualIDUnit):
 
     @cached_property
     def target(self):
-        """Return target string from a ttkit unit."""
+        """Return target string from a TTKit unit."""
         if self.unit is None:
             return ''
         return get_string(self.unit.source)
@@ -1154,26 +1154,26 @@ class SubRipFormat(TTKitFormat):
 
     @property
     def mimetype(self):
-        """Return most common mime type for format."""
+        """Return most common media type for format."""
         return 'text/plain'
 
 
 class MicroDVDFormat(SubRipFormat):
-    name = _("MicroDVD subtitles file")
+    name = _("MicroDVD subtitle file")
     format_id = 'sub'
     loader = ('subtitles', 'MicroDVDFile')
     autoload = ('*.sub',)
 
 
 class AdvSubStationAlphaFormat(SubRipFormat):
-    name = _("Advanced Substation Alpha subtitles file")
+    name = _("Advanced SubStation Alpha subtitle file")
     format_id = 'ass'
     loader = ('subtitles', 'AdvSubStationAlphaFile')
     autoload = ('*.ass',)
 
 
 class SubStationAlphaFormat(SubRipFormat):
-    name = _("Substation Alpha subtitles file")
+    name = _("SubStation Alpha subtitle file")
     format_id = 'ssa'
     loader = ('subtitles', 'SubStationAlphaFile')
     autoload = ('*.ssa',)
