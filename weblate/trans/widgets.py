@@ -107,7 +107,7 @@ class BitmapWidget(ContentWidget):
     order = 100
     show = True
     head_template = '<span letter_spacing="-1000"><b>{}</b></span>'
-    foot_template = '<span letter_spacing="2000">{}</span>'
+    foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
     offset = 0
     column_offset = 0
@@ -291,6 +291,7 @@ class OpenGraphWidget(NormalWidget):
     font_size = 20
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
+    foot_template = '<span letter_spacing="2000">{}</span>'
 
     def get_column_width(self, surface, columns):
         return 230
