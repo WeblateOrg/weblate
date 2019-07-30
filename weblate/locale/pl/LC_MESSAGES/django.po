@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-30 07:49+0000\n"
-"PO-Revision-Date: 2019-07-27 06:08+0000\n"
+"PO-Revision-Date: 2019-07-31 15:05+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -297,10 +297,8 @@ msgid "Account locked due to many failed logins."
 msgstr "Konto zostało zablokowane z powodu wielu nieudanych prób logowania."
 
 #: weblate/accounts/models.py:129
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
-msgstr "Konto i wszelkie prywatne dane zostały usunięte."
+msgstr "Usunięto konto i wszystkie prywatne dane."
 
 #: weblate/accounts/models.py:132
 #, python-brace-format
@@ -369,22 +367,14 @@ msgid "Show secondary translations in zen mode"
 msgstr "Pokaż dodatkowe tłumaczenia w trybie zen"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if a secondary language translation exists"
 msgid "Hide source if a secondary translation exists"
-msgstr "Ukryj źródło, jeśli istnieje dodatkowe tłumaczenie języka"
+msgstr "Ukryj źródło, jeśli istnieje dodatkowe tłumaczenie"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "Odnośnik edytora"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -886,16 +876,12 @@ msgid "No line wrapping"
 msgstr "Bez zawijania linii"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"Domyślnie gettext zawija linie przy 77 znakach i znakach nowej linii, z "
-"parametrem --no-wrap, zawija tylko w nowych liniach."
+"Domyślnie gettext zawija linie przy 77 znakach i znakach nowej linii. Z "
+"parametrem --no-wrap, zawija tylko w nowych wierszach."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated strings"
@@ -938,25 +924,16 @@ msgid "Days to keep"
 msgstr "Dni do zachowania"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
-msgstr "Próg głosów"
+msgstr "Próg głosowania"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting turned "
-#| "off."
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr ""
-"Próg głosów do usunięcia. To pole nie ma wpływu na wyłączone głosowanie."
+msgstr "Próg do usunięcia. To pole nie ma wpływu na wyłączone głosowanie."
 
 #: weblate/addons/forms.py:206
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "Wyrażenie regularne, stosowane w celu dopasowania plików tłumaczenia"
+msgstr "Wyrażenie regularne pasujące do plików tłumaczeń"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/forms.py:585 weblate/trans/models/component.py:280
@@ -1010,10 +987,8 @@ msgid "I confirm the above matches look correct"
 msgstr "Potwierdzam, że powyższe dopasowania wyglądają prawidłowo"
 
 #: weblate/addons/forms.py:315
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
-msgstr "Proszę przejrzeć i potwierdzić pasujące składniki."
+msgstr "Proszę przejrzeć i potwierdzić dopasowane komponenty."
 
 #: weblate/addons/forms.py:331
 msgid "Please include component markup in the template."
@@ -6615,32 +6590,24 @@ msgid "The detected file format is not supported."
 msgstr "Wykryty format pliku nie jest obsługiwany."
 
 #: weblate/templates/trans/embed-alert.html:4
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation is locked."
-msgstr "Tłumaczenie jest aktualnie zablokowanie."
+msgstr "Tłumaczenie jest zablokowane."
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "View translation component"
 msgid "Updating translation component…"
-msgstr "Wyświetl komponent tłumaczenia"
+msgstr "Aktualizowanie komponentu tłumaczenia…"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Fix this component to clear its alerts."
-msgstr ""
+msgstr "Napraw ten komponent, aby usunąć jego alerty."
 
 #: weblate/templates/trans/embed-alert.html:18
 msgid "Libre license translation according to the FSF."
-msgstr ""
+msgstr "Wolna licencja na tłumaczenie zgodnie z FSF."
 
 #: weblate/templates/trans/embed-alert.html:20
-#, fuzzy
-#| msgid "Translation is licensed under OSI approved license."
 msgid "Translation license OSI approved."
-msgstr ""
-"Tłumaczenie jest licencjonowane na podstawie licencji zatwierdzonej przez "
-"OSI."
+msgstr "Licencja na tłumaczenie zatwierdzona przez OSI."
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -9674,26 +9641,20 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:243
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Big status badge"
-msgstr "Zmiana statusu zbiorczego"
+msgstr "Duży znak stanu"
 
 #: weblate/trans/widgets.py:275
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Small status badge"
-msgstr "Zmiana statusu zbiorczego"
+msgstr "Mały znak stanu"
 
 #: weblate/trans/widgets.py:297
 msgid "Open Graph image"
-msgstr ""
+msgstr "Otwórz obraz wykresu"
 
 #: weblate/trans/widgets.py:338
-#, fuzzy
-#| msgid "Status widgets"
 msgid "Status badge"
-msgstr "Widżety stanu"
+msgstr "Znak stanu"
 
 #: weblate/trans/widgets.py:341
 msgid "translated"
@@ -9701,11 +9662,11 @@ msgstr "przetłumaczone"
 
 #: weblate/trans/widgets.py:380
 msgid "Vertical multi language status widget"
-msgstr ""
+msgstr "Pionowy widget stanu wielu języków"
 
 #: weblate/trans/widgets.py:441
 msgid "Horizontal multi language status widget"
-msgstr ""
+msgstr "Poziomy widżet stanu wielu języków"
 
 #: weblate/utils/render.py:46
 #, python-format
