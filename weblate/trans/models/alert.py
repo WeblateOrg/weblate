@@ -186,7 +186,7 @@ class RepositoryChanges(BaseAlert):
 
 @register
 class MissingLicense(BaseAlert):
-    verbose = _('License information missing.')
+    verbose = _('License info missing.')
 
 
 @register
