@@ -30,8 +30,9 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.formats import number_format
 from django.utils.html import escape
-from django.utils.translation import get_language, npgettext, pgettext, ugettext_lazy
+from django.utils.translation import get_language, npgettext, pgettext
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
