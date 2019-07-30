@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-30 07:49+0000\n"
-"PO-Revision-Date: 2019-07-27 06:08+0000\n"
+"PO-Revision-Date: 2019-07-31 15:05+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -297,8 +297,6 @@ msgid "Account locked due to many failed logins."
 msgstr "Birçok başarısız oturum açma nedeniyle hesap kilitlendi."
 
 #: weblate/accounts/models.py:129
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
 msgstr "Hesap ve tüm özel veriler kaldırıldı."
 
@@ -368,32 +366,24 @@ msgid "Show secondary translations in zen mode"
 msgstr "İkincil çevirileri zen kipinde göster"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if a secondary language translation exists"
 msgid "Hide source if a secondary translation exists"
-msgstr "İkincil bir dil çeviri varsa kaynağı gizle"
+msgstr "İkincil çeviri varsa kaynağı gizle"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "Düzenleyici bağlantısı"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is a good option."
 msgstr ""
-"Kaynak koduna bağlantı olarak kullanılacak özel URL'yi girin. Dal için "
-"{{branch}}, dosya adı ve satır yer tutucuları olarak {{filename}} ve "
-"{{line}} kullanabilirsiniz. Genellikle editor://open/?file={{filename}}"
-"&line={{line}} gibi birşey iyi bir seçenektir."
+"Kaynak koduna bağlantı olarak kullanılacak bir özel URL girin. Dal için "
+"{{branch}}, dosya adı ve satır yer tutucuları olarak {{filename}} ve {{line}}"
+" kullanabilirsiniz. Genellikle editor://open/?file={{filename}}&line={{line}}"
+" gibi birşey iyi bir seçenektir."
 
 #: weblate/accounts/models.py:385
 msgid "Translation editor mode"
@@ -874,16 +864,12 @@ msgid "No line wrapping"
 msgstr "Satır kaydırma yok"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
 "Varsayılan olarak gettext satırları 77 karakterde ve yeni satırlarda "
-"kaydırır, --no-wrap parametresi yalnızca yeni satırlarda kaydırır."
+"kaydırır, --no-wrap parametresi ile yalnızca yeni satırlarda kaydırır."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated strings"
@@ -926,25 +912,16 @@ msgid "Days to keep"
 msgstr "Saklanacak günler"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
-msgstr "Oy eşiği"
+msgstr "Oy verme eşiği"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting turned "
-#| "off."
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr ""
-"Kaldırma için oy eşiği. Bu alanın oylamanın kapatılması ile etkisi yoktur."
+msgstr "Kaldırma eşiği. Bu alanın oylamanın kapatılması ile etkisi yoktur."
 
 #: weblate/addons/forms.py:206
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "Çeviri dosyaları ile eşleşecek düzenli ifade"
+msgstr "Çeviri dosyalarına karşı eşleştirmek için düzenli ifade"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/forms.py:585 weblate/trans/models/component.py:280
@@ -998,10 +975,8 @@ msgid "I confirm the above matches look correct"
 msgstr "Yukarıdakilerin doğru göründüğünü onaylıyorum"
 
 #: weblate/addons/forms.py:315
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
-msgstr "Lütfen eşleşen bileşenleri gözden geçirip onaylayın."
+msgstr "Lütfen eşleşen bileşenleri gözden geçirin ve onaylayın."
 
 #: weblate/addons/forms.py:331
 msgid "Please include component markup in the template."
@@ -6561,30 +6536,24 @@ msgid "The detected file format is not supported."
 msgstr "Algılanan dosya formatı desteklenmiyor."
 
 #: weblate/templates/trans/embed-alert.html:4
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This translation is locked."
-msgstr "Bu çeviri şu anda kilitli."
+msgstr "Bu çeviri kilitlendi."
 
 #: weblate/templates/trans/embed-alert.html:9
-#, fuzzy
-#| msgid "View translation component"
 msgid "Updating translation component…"
-msgstr "Çeviri bileşenini görüntüle"
+msgstr "Çeviri bileşeni güncelleniyor…"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Fix this component to clear its alerts."
-msgstr ""
+msgstr "Uyarıları silmek için bu bileşeni düzeltin."
 
 #: weblate/templates/trans/embed-alert.html:18
 msgid "Libre license translation according to the FSF."
-msgstr ""
+msgstr "FSF'ye göre libre lisans çevirisi."
 
 #: weblate/templates/trans/embed-alert.html:20
-#, fuzzy
-#| msgid "Translation is licensed under OSI approved license."
 msgid "Translation license OSI approved."
-msgstr "Çeviri OSI onaylı lisans altında lisanslanmıştır."
+msgstr "OSI onaylı çeviri lisansı."
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -9573,26 +9542,20 @@ msgid "{0}%"
 msgstr "%{0}"
 
 #: weblate/trans/widgets.py:243
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Big status badge"
-msgstr "Toplu durum değişikliği"
+msgstr "Büyük durum rozeti"
 
 #: weblate/trans/widgets.py:275
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Small status badge"
-msgstr "Toplu durum değişikliği"
+msgstr "Küçük durum rozeti"
 
 #: weblate/trans/widgets.py:297
 msgid "Open Graph image"
-msgstr ""
+msgstr "Grafik görüntüsünü aç"
 
 #: weblate/trans/widgets.py:338
-#, fuzzy
-#| msgid "Status widgets"
 msgid "Status badge"
-msgstr "Durum gereçleri"
+msgstr "Durum rozeti"
 
 #: weblate/trans/widgets.py:341
 msgid "translated"
@@ -9600,11 +9563,11 @@ msgstr "çevrilen"
 
 #: weblate/trans/widgets.py:380
 msgid "Vertical multi language status widget"
-msgstr ""
+msgstr "Dikey çoklu dil durum gereci"
 
 #: weblate/trans/widgets.py:441
 msgid "Horizontal multi language status widget"
-msgstr ""
+msgstr "Yatay çoklu dil durum gereci"
 
 #: weblate/utils/render.py:46
 #, python-format
