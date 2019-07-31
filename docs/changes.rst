@@ -18,6 +18,7 @@ Not yet released.
 * Add support for replacing file content with uploaded.
 * Add support for translating non VCS based content.
 * Added OpenGraph widget image to use on social networks.
+* Added support for animated screenshots.
 
 weblate 3.7.1
 -------------
