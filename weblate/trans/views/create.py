@@ -174,12 +174,14 @@ class CreateComponent(BaseCreateView):
         return self.form_class
 
     def get_form_kwargs(self):
-        if not self.initial and not self.empty_form:
-            return super(CreateComponent, self).get_form_kwargs()
-
-        result = {'initial': self.initial, 'request': self.request}
-        if self.has_all_fields() and not self.empty_form:
-            result['data'] = self.request.GET
+        result = super(CreateComponent, self).get_form_kwargs()
+        if self.request.method != 'POST':
+            if self.initial:
+                # When going from other form (eg. ZIP import)
+                result.pop('data', None)
+                result.pop('files', None)
+            if self.has_all_fields() and not self.empty_form:
+                result['data'] = self.request.GET
         return result
 
     def get_success_url(self):
@@ -202,9 +204,11 @@ class CreateComponent(BaseCreateView):
             # Move to create
             self.initial = form.cleaned_data
             self.stage = 'create'
+            self.request.method = 'GET'
             return self.get(self, self.request)
         # Move to discover
         self.stage = 'discover'
+        self.request.method = 'GET'
         self.initial = form.cleaned_data
         return self.get(self, self.request)
 
@@ -297,6 +301,7 @@ class CreateFromZip(CreateComponent):
         self.initial['vcs'] = 'local'
         self.initial['repo'] = 'local:'
         self.initial.pop('zipfile')
+        self.request.method = 'GET'
         return self.get(self, self.request)
 
 
