@@ -250,6 +250,7 @@ class CreateTest(ViewTestCase):
         )
         self.assertContains(response, "Download statistics")
 
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
     def test_create_invalid_zip(self):
         self.user.is_superuser = True
         self.user.save()
@@ -265,6 +266,7 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, 'Failed to parse uploaded ZIP file.')
 
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
     def test_create_zip(self):
         self.user.is_superuser = True
         self.user.save()
@@ -294,6 +296,7 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, 'New translation')
         self.assertContains(response, '*.po')
 
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
     def test_create_scratch(self):
         def create():
             return self.client.post(
