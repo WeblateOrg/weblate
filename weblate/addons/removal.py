@@ -54,6 +54,7 @@ class RemoveComments(RemovalAddon):
         self.delete_older(
             component.project.comment_set.all()
         )
+        component.project.update_unit_flags()
 
 
 class RemoveSuggestions(RemovalAddon):
@@ -71,3 +72,4 @@ class RemoveSuggestions(RemovalAddon):
                 | Q(vote__value__sum=None)
             )
         )
+        component.project.update_unit_flags()
