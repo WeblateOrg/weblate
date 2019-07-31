@@ -12,7 +12,7 @@
 {% for billing in billings %}
 {% include "billing/detail.html" %}
 {% empty %}
-{% trans "You currently do not have any billings active." as msg %}
+{% trans "No subscriptions or due payments." as msg %}
 {% show_message "info" msg %}
 
 {% if offer_hosting %}
