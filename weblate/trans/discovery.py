@@ -46,6 +46,7 @@ COPY_ATTRIBUTES = (
     'commit_message', 'add_message', 'delete_message', 'merge_message',
     'committer_name', 'committer_email',
     'push_on_commit', 'commit_pending_age',
+    'edit_template',
 )
 
 
