@@ -185,7 +185,7 @@ class WeblateAdminSite(AdminSite):
     @never_cache
     def logout(self, request, extra_context=None):
         if request.method == 'POST':
-            messages.info(request, _('Thanks for using Weblate!'))
+            messages.info(request, _('Thank you for using Weblate.'))
             request.current_app = self.name
             return LogoutView.as_view(
                 next_page=reverse('admin:login')
