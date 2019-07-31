@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-30 07:49+0000\n"
+"POT-Creation-Date: 2019-07-31 15:06+0000\n"
 "PO-Revision-Date: 2014-10-01 09:41+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Colognian <https://hosted.weblate.org/projects/weblate/master/"
@@ -31,7 +31,7 @@ msgid ""
 msgstr "Di Adräß för de e-mail es ald belääsch. Doh moß De en andere nämme."
 
 #: weblate/accounts/forms.py:116 weblate/auth/models.py:307
-#: weblate/utils/validators.py:173
+#: weblate/utils/validators.py:171
 #, fuzzy
 #| msgid ""
 #| "This value may contain only letters, numbers and following characters: "
@@ -735,7 +735,7 @@ msgstr "Väsjohne"
 msgid "Log in to use Weblate."
 msgstr "Övver Weblate"
 
-#: weblate/accounts/views.py:646
+#: weblate/accounts/views.py:646 weblate/wladmin/sites.py:188
 #, fuzzy
 #| msgid "Thanks for using Weblate!"
 msgid "Thank you for using Weblate."
@@ -1179,13 +1179,13 @@ msgstr ""
 msgid "Set timeframe for removal of comments."
 msgstr ""
 
-#: weblate/addons/removal.py:61
+#: weblate/addons/removal.py:62
 #, fuzzy
 #| msgid "Suggestions made"
 msgid "Stale suggestion removal"
 msgstr "Vörschääsch jemaat"
 
-#: weblate/addons/removal.py:62
+#: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
 msgstr ""
 
@@ -2430,7 +2430,7 @@ msgid "Language"
 msgstr "Schprohch"
 
 #: weblate/fonts/validators.py:33 weblate/fonts/validators.py:37
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:160
 msgid "Unsupported file format."
 msgstr ""
 
@@ -2519,23 +2519,31 @@ msgid "gettext PO file (monolingual)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:743
-msgid "Qt Linguist Translation File"
-msgstr ""
+#, fuzzy
+#| msgid "Translation"
+msgid "Qt Linguist translation file"
+msgstr "Övversäzong"
 
 #: weblate/formats/ttkit.py:759
-msgid "XLIFF Translation File"
-msgstr ""
+#, fuzzy
+#| msgid "Translation"
+msgid "XLIFF translation file"
+msgstr "Övversäzong"
 
 #: weblate/formats/ttkit.py:774
-msgid "XLIFF Translation File with PO extensions"
-msgstr ""
+#, fuzzy
+#| msgid "Your translations"
+msgid "XLIFF translation file with PO extensions"
+msgstr "Ding Övversäzonge"
 
 #: weblate/formats/ttkit.py:801
-msgid "iOS Strings"
-msgstr ""
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "iOS strings"
+msgstr "Övverhollte Täxschtöckscher"
 
 #: weblate/formats/ttkit.py:810
-msgid "iOS Strings (UTF-8)"
+msgid "iOS strings (UTF-8)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:817
@@ -2547,7 +2555,7 @@ msgid "Java Properties (UTF-16)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:830
-msgid "Java Properties (ISO-8859-1)"
+msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:847
@@ -2619,15 +2627,15 @@ msgid "SubRip subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1162
-msgid "MicroDVD subtitles file"
+msgid "MicroDVD subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1169
-msgid "Advanced Substation Alpha subtitles file"
+msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1176
-msgid "Substation Alpha subtitles file"
+msgid "SubStation Alpha subtitle file"
 msgstr ""
 
 #: weblate/formats/txt.py:181
@@ -3359,8 +3367,8 @@ msgstr "Metmaacher"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:265
-#: weblate/trans/widgets.py:281 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:266
+#: weblate/trans/widgets.py:282 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Övversaz"
 
@@ -4267,15 +4275,13 @@ msgstr "Projäkte"
 
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
-"All Weblate commits from all components within this repository will be "
-"squashed."
+"Weblate commits from components within this repository will be squashed."
 msgstr ""
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
-"Resulting commits will include all original commit messages, but lose commit "
-"authorship, unless \"Per author\" is selected, or you customize the commit "
-"message to include it."
+"Original commit messages are kept, but authorship is lost unless \"Per author"
+"\" is selected or the commit message is customized to include it."
 msgstr ""
 
 #: weblate/templates/base.html:101
@@ -4481,7 +4487,7 @@ msgid "Billing"
 msgstr ""
 
 #: weblate/templates/billing/overview.html:15
-msgid "You currently do not have any billings active."
+msgid "No subscriptions or due payments."
 msgstr ""
 
 #: weblate/templates/billing/status.html:6
@@ -5351,7 +5357,7 @@ msgid ""
 "designed to ease translating for both developers and translators."
 msgstr ""
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:252
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:253
 #, fuzzy
 #| msgid "Strings with any failing checks"
 msgctxt "Label on enage page"
@@ -5361,7 +5367,7 @@ msgstr[0] "Täxschtöckscher med scheif jejange Pröövonge"
 msgstr[1] "Täxschtöckscher med scheif jejange Pröövonge"
 msgstr[2] "Täxschtöckscher med scheif jejange Pröövonge"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:260
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:261
 #, fuzzy
 #| msgid "Language"
 msgctxt "Label on enage page"
@@ -6557,8 +6563,8 @@ msgstr "Quäll"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
-"You have recently performed too many operations and your request has been "
-"rate limited."
+"Your request was rejected because you have performed too many operations "
+"recently."
 msgstr ""
 
 #: weblate/templates/ratelimit.html:7
@@ -6575,8 +6581,8 @@ msgstr ""
 
 #: weblate/templates/replace.html:22
 msgid ""
-"There are too many matches for this search. Showing and replacing only first "
-"250 ones. To replace remaining ones, please perform the replacement again."
+"Showing and replacing only the first 250 matches. Perform the replacement "
+"again to replace more entries."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
@@ -6679,7 +6685,7 @@ msgstr ""
 #: weblate/templates/snippets/legend-button.html:6
 #, fuzzy
 #| msgid "Most active translators"
-msgid "Progress bar colors indicate translation state:"
+msgid "Progress bar color indicates translation state:"
 msgstr "De aktievßde Övversäzere"
 
 #: weblate/templates/snippets/list-objects.html:13
@@ -8431,7 +8437,7 @@ msgstr ""
 #: weblate/trans/forms.py:1649
 #, fuzzy
 #| msgid "Your translations"
-msgid "ZIP file with translations"
+msgid "ZIP file containing translations"
 msgstr "Ding Övversäzonge"
 
 #: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
@@ -8510,8 +8516,10 @@ msgid "State to set"
 msgstr ""
 
 #: weblate/trans/forms.py:1986
-msgid "I agree with the contributor agreement"
-msgstr ""
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "I accept the contributor agreement"
+msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
 #: weblate/trans/forms.py:1997
 #, fuzzy
@@ -8534,7 +8542,7 @@ msgstr ""
 #: weblate/trans/forms.py:2024
 #, fuzzy
 #| msgid "Translations made"
-msgid "The translation name does not match the one to delete!"
+msgid "The translation name does not match the one marked for deletion!"
 msgstr "Övversäzonge jemaat"
 
 #: weblate/trans/models/alert.py:141
@@ -8584,11 +8592,11 @@ msgid "Repository has changes."
 msgstr "Täxschtöcke zom övversäze"
 
 #: weblate/trans/models/alert.py:189
-msgid "License information missing."
+msgid "License info missing."
 msgstr ""
 
 #: weblate/trans/models/alert.py:194 weblate/trans/models/alert.py:199
-msgid "Error when executing addon."
+msgid "Could not run addon."
 msgstr ""
 
 #: weblate/trans/models/alert.py:204
@@ -9959,7 +9967,7 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr ""
 
-#: weblate/trans/views/create.py:291
+#: weblate/trans/views/create.py:295
 #, fuzzy
 #| msgid "Your translations"
 msgid "Failed to parse uploaded ZIP file."
@@ -10273,43 +10281,43 @@ msgstr "Ding Övversäzonge"
 msgid "Failed to change translation flags!"
 msgstr "Ding Övversäzonge"
 
-#: weblate/trans/widgets.py:97
+#: weblate/trans/widgets.py:98
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr ""
 
-#: weblate/trans/widgets.py:243
+#: weblate/trans/widgets.py:244
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Big status badge"
 msgstr "Änderonge dorschbläddere"
 
-#: weblate/trans/widgets.py:275
+#: weblate/trans/widgets.py:276
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Small status badge"
 msgstr "Änderonge dorschbläddere"
 
-#: weblate/trans/widgets.py:297
+#: weblate/trans/widgets.py:298
 msgid "Open Graph image"
 msgstr ""
 
-#: weblate/trans/widgets.py:338
+#: weblate/trans/widgets.py:339
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Status badge"
 msgstr "Änderonge dorschbläddere"
 
-#: weblate/trans/widgets.py:341
+#: weblate/trans/widgets.py:342
 msgid "translated"
 msgstr ""
 
-#: weblate/trans/widgets.py:380
+#: weblate/trans/widgets.py:381
 msgid "Vertical multi language status widget"
 msgstr ""
 
-#: weblate/trans/widgets.py:441
+#: weblate/trans/widgets.py:442
 msgid "Horizontal multi language status widget"
 msgstr ""
 
@@ -10340,62 +10348,62 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: weblate/utils/validators.py:71
+#: weblate/utils/validators.py:69
 #, python-brace-format
 msgid "Failed to compile: {0}"
 msgstr ""
 
-#: weblate/utils/validators.py:78
+#: weblate/utils/validators.py:76
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
 
-#: weblate/utils/validators.py:120
+#: weblate/utils/validators.py:118
 #, fuzzy
 #| msgid "Songhai languages"
 msgid "Invalid image!"
 msgstr "De Songhai-Schprohche"
 
-#: weblate/utils/validators.py:129
+#: weblate/utils/validators.py:127
 #, python-format
 msgid "Not supported image type: %s"
 msgstr ""
 
-#: weblate/utils/validators.py:136
+#: weblate/utils/validators.py:134
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 
-#: weblate/utils/validators.py:153
+#: weblate/utils/validators.py:151
 msgid "Please avoid using special chars in the full name."
 msgstr ""
 
-#: weblate/utils/validators.py:169
+#: weblate/utils/validators.py:167
 msgid "Username can not start with a full stop."
 msgstr ""
 
-#: weblate/utils/validators.py:182
+#: weblate/utils/validators.py:180
 msgid "Enter a valid email address."
 msgstr ""
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:182
 #, fuzzy
 #| msgid "User with this email address was not found."
 msgid "This email address is not allowed."
 msgstr "Ene Metmaacher met heh dä e-mail-Addräß wohr nit ze fenge."
 
-#: weblate/utils/validators.py:192
+#: weblate/utils/validators.py:190
 #, fuzzy
 #| msgid "Your translations"
 msgid "Failed to evaluate plural equation: {}"
 msgstr "Ding Övversäzonge"
 
-#: weblate/utils/validators.py:199
+#: weblate/utils/validators.py:197
 msgid "Filename can not contain reference to a parent directory."
 msgstr ""
 
-#: weblate/utils/validators.py:202
+#: weblate/utils/validators.py:200
 msgid "Filename can not be an absolute path."
 msgstr ""
 
@@ -10449,10 +10457,6 @@ msgstr ""
 #| msgid "Your translations"
 msgid "Weblate administration"
 msgstr "Ding Övversäzonge"
-
-#: weblate/wladmin/sites.py:188
-msgid "Thanks for using Weblate!"
-msgstr "Bedangk för Weblate ze bruche!"
 
 #: weblate/wladmin/sites.py:199
 msgid "Object listing turned off"
@@ -10611,6 +10615,9 @@ msgstr ""
 #| msgid "Your translations"
 msgid "Failed to dismiss configuration error!"
 msgstr "Ding Övversäzonge"
+
+#~ msgid "Thanks for using Weblate!"
+#~ msgstr "Bedangk för Weblate ze bruche!"
 
 #, fuzzy
 #~| msgid "Translations made"
@@ -10974,11 +10981,6 @@ msgstr "Ding Övversäzonge"
 
 #~ msgid "E-mail"
 #~ msgstr "e-mail"
-
-#, fuzzy
-#~| msgid "Your translations"
-#~ msgid "Download translation as XLIFF with gettext extensions"
-#~ msgstr "Ding Övversäzonge"
 
 #, fuzzy
 #~| msgid "Your translations"

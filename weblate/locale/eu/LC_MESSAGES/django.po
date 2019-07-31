@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-30 07:49+0000\n"
+"POT-Creation-Date: 2019-07-31 15:06+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/weblate/master/eu/"
@@ -32,7 +32,7 @@ msgid ""
 msgstr "E-mail helbide hau erabilita dago. Eman e-mail helbide desberdin bat."
 
 #: weblate/accounts/forms.py:116 weblate/auth/models.py:307
-#: weblate/utils/validators.py:173
+#: weblate/utils/validators.py:171
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -720,7 +720,7 @@ msgstr ""
 msgid "Log in to use Weblate."
 msgstr "Txiokatu itzulpen hau"
 
-#: weblate/accounts/views.py:646
+#: weblate/accounts/views.py:646 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
 msgstr ""
 
@@ -1139,11 +1139,11 @@ msgstr ""
 msgid "Set timeframe for removal of comments."
 msgstr ""
 
-#: weblate/addons/removal.py:61
+#: weblate/addons/removal.py:62
 msgid "Stale suggestion removal"
 msgstr ""
 
-#: weblate/addons/removal.py:62
+#: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
 msgstr ""
 
@@ -2299,7 +2299,7 @@ msgid "Language"
 msgstr ""
 
 #: weblate/fonts/validators.py:33 weblate/fonts/validators.py:37
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:160
 msgid "Unsupported file format."
 msgstr ""
 
@@ -2380,23 +2380,31 @@ msgid "gettext PO file (monolingual)"
 msgstr "Gettext PO fitxategia (bildu gabe)"
 
 #: weblate/formats/ttkit.py:743
-msgid "Qt Linguist Translation File"
-msgstr ""
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Qt Linguist translation file"
+msgstr "Ikuskatutako itzulpenak"
 
 #: weblate/formats/ttkit.py:759
-msgid "XLIFF Translation File"
-msgstr ""
+#, fuzzy
+#| msgid "Translation key"
+msgid "XLIFF translation file"
+msgstr "Itzulpen gakoa"
 
 #: weblate/formats/ttkit.py:774
-msgid "XLIFF Translation File with PO extensions"
-msgstr ""
+#, fuzzy
+#| msgid "Download translation as TMX"
+msgid "XLIFF translation file with PO extensions"
+msgstr "Deskargatu itzulpena TMX gisa"
 
 #: weblate/formats/ttkit.py:801
-msgid "iOS Strings"
-msgstr ""
+#, fuzzy
+#| msgid "Source strings"
+msgid "iOS strings"
+msgstr "Jatorrizko kateak"
 
 #: weblate/formats/ttkit.py:810
-msgid "iOS Strings (UTF-8)"
+msgid "iOS strings (UTF-8)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:817
@@ -2408,7 +2416,7 @@ msgid "Java Properties (UTF-16)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:830
-msgid "Java Properties (ISO-8859-1)"
+msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:847
@@ -2476,15 +2484,15 @@ msgid "SubRip subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1162
-msgid "MicroDVD subtitles file"
+msgid "MicroDVD subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1169
-msgid "Advanced Substation Alpha subtitles file"
+msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1176
-msgid "Substation Alpha subtitles file"
+msgid "SubStation Alpha subtitle file"
 msgstr ""
 
 #: weblate/formats/txt.py:181
@@ -3215,8 +3223,8 @@ msgstr "erabiltzailea"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:265
-#: weblate/trans/widgets.py:281 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:266
+#: weblate/trans/widgets.py:282 weblate/utils/state.py:33
 msgid "Translated"
 msgstr ""
 
@@ -4072,15 +4080,13 @@ msgstr "Proiektuak"
 
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
-"All Weblate commits from all components within this repository will be "
-"squashed."
+"Weblate commits from components within this repository will be squashed."
 msgstr ""
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
-"Resulting commits will include all original commit messages, but lose commit "
-"authorship, unless \"Per author\" is selected, or you customize the commit "
-"message to include it."
+"Original commit messages are kept, but authorship is lost unless \"Per author"
+"\" is selected or the commit message is customized to include it."
 msgstr ""
 
 #: weblate/templates/base.html:101
@@ -4273,7 +4279,7 @@ msgid "Billing"
 msgstr "Fakturazioa"
 
 #: weblate/templates/billing/overview.html:15
-msgid "You currently do not have any billings active."
+msgid "No subscriptions or due payments."
 msgstr ""
 
 #: weblate/templates/billing/status.html:6
@@ -5086,7 +5092,7 @@ msgid ""
 "designed to ease translating for both developers and translators."
 msgstr ""
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:252
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:253
 #, fuzzy
 #| msgid "Strings limit"
 msgctxt "Label on enage page"
@@ -5095,7 +5101,7 @@ msgid_plural "Strings"
 msgstr[0] "Kateen muga"
 msgstr[1] "Kateen muga"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:260
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:261
 #, fuzzy
 #| msgid "Your languages"
 msgctxt "Label on enage page"
@@ -6230,8 +6236,8 @@ msgstr ""
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
-"You have recently performed too many operations and your request has been "
-"rate limited."
+"Your request was rejected because you have performed too many operations "
+"recently."
 msgstr ""
 
 #: weblate/templates/ratelimit.html:7
@@ -6248,8 +6254,8 @@ msgstr ""
 
 #: weblate/templates/replace.html:22
 msgid ""
-"There are too many matches for this search. Showing and replacing only first "
-"250 ones. To replace remaining ones, please perform the replacement again."
+"Showing and replacing only the first 250 matches. Perform the replacement "
+"again to replace more entries."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
@@ -6336,7 +6342,7 @@ msgstr ""
 #: weblate/templates/snippets/legend-button.html:6
 #, fuzzy
 #| msgid "Watched translations"
-msgid "Progress bar colors indicate translation state:"
+msgid "Progress bar color indicates translation state:"
 msgstr "Ikuskatutako itzulpenak"
 
 #: weblate/templates/snippets/list-objects.html:13
@@ -7951,7 +7957,7 @@ msgstr ""
 #: weblate/trans/forms.py:1649
 #, fuzzy
 #| msgid "Watched translations"
-msgid "ZIP file with translations"
+msgid "ZIP file containing translations"
 msgstr "Ikuskatutako itzulpenak"
 
 #: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
@@ -8022,7 +8028,7 @@ msgid "State to set"
 msgstr ""
 
 #: weblate/trans/forms.py:1986
-msgid "I agree with the contributor agreement"
+msgid "I accept the contributor agreement"
 msgstr ""
 
 #: weblate/trans/forms.py:1997
@@ -8044,8 +8050,10 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:2024
-msgid "The translation name does not match the one to delete!"
-msgstr ""
+#, fuzzy
+#| msgid "Translatable strings"
+msgid "The translation name does not match the one marked for deletion!"
+msgstr "Kate itzulgarriak"
 
 #: weblate/trans/models/alert.py:141
 #, fuzzy
@@ -8098,11 +8106,11 @@ msgid "Repository has changes."
 msgstr "Pasahitza aldatu da."
 
 #: weblate/trans/models/alert.py:189
-msgid "License information missing."
+msgid "License info missing."
 msgstr ""
 
 #: weblate/trans/models/alert.py:194 weblate/trans/models/alert.py:199
-msgid "Error when executing addon."
+msgid "Could not run addon."
 msgstr ""
 
 #: weblate/trans/models/alert.py:204
@@ -9386,7 +9394,7 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr ""
 
-#: weblate/trans/views/create.py:291
+#: weblate/trans/views/create.py:295
 msgid "Failed to parse uploaded ZIP file."
 msgstr ""
 
@@ -9679,43 +9687,43 @@ msgstr ""
 msgid "Failed to change translation flags!"
 msgstr "Ikuskatutako itzulpenak"
 
-#: weblate/trans/widgets.py:97
+#: weblate/trans/widgets.py:98
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr ""
 
-#: weblate/trans/widgets.py:243
+#: weblate/trans/widgets.py:244
 #, fuzzy
 #| msgid "Password has been changed."
 msgid "Big status badge"
 msgstr "Pasahitza aldatu da."
 
-#: weblate/trans/widgets.py:275
+#: weblate/trans/widgets.py:276
 #, fuzzy
 #| msgid "Password has been changed."
 msgid "Small status badge"
 msgstr "Pasahitza aldatu da."
 
-#: weblate/trans/widgets.py:297
+#: weblate/trans/widgets.py:298
 msgid "Open Graph image"
 msgstr ""
 
-#: weblate/trans/widgets.py:338
+#: weblate/trans/widgets.py:339
 #, fuzzy
 #| msgid "Password has been changed."
 msgid "Status badge"
 msgstr "Pasahitza aldatu da."
 
-#: weblate/trans/widgets.py:341
+#: weblate/trans/widgets.py:342
 msgid "translated"
 msgstr ""
 
-#: weblate/trans/widgets.py:380
+#: weblate/trans/widgets.py:381
 msgid "Vertical multi language status widget"
 msgstr ""
 
-#: weblate/trans/widgets.py:441
+#: weblate/trans/widgets.py:442
 msgid "Horizontal multi language status widget"
 msgstr ""
 
@@ -9746,58 +9754,58 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: weblate/utils/validators.py:71
+#: weblate/utils/validators.py:69
 #, python-brace-format
 msgid "Failed to compile: {0}"
 msgstr ""
 
-#: weblate/utils/validators.py:78
+#: weblate/utils/validators.py:76
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
 
-#: weblate/utils/validators.py:120
+#: weblate/utils/validators.py:118
 msgid "Invalid image!"
 msgstr ""
 
-#: weblate/utils/validators.py:129
+#: weblate/utils/validators.py:127
 #, python-format
 msgid "Not supported image type: %s"
 msgstr ""
 
-#: weblate/utils/validators.py:136
+#: weblate/utils/validators.py:134
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 
-#: weblate/utils/validators.py:153
+#: weblate/utils/validators.py:151
 msgid "Please avoid using special chars in the full name."
 msgstr ""
 
-#: weblate/utils/validators.py:169
+#: weblate/utils/validators.py:167
 #, fuzzy
 #| msgid "Username can not start with full stop."
 msgid "Username can not start with a full stop."
 msgstr "Erabiltzaile-izena ezin da puntu batekin hasi."
 
-#: weblate/utils/validators.py:182
+#: weblate/utils/validators.py:180
 msgid "Enter a valid email address."
 msgstr "Sartu baliozko e-mail helbide bat."
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:182
 msgid "This email address is not allowed."
 msgstr "E-mail helbide hau eza dago baimenduta."
 
-#: weblate/utils/validators.py:192
+#: weblate/utils/validators.py:190
 msgid "Failed to evaluate plural equation: {}"
 msgstr ""
 
-#: weblate/utils/validators.py:199
+#: weblate/utils/validators.py:197
 msgid "Filename can not contain reference to a parent directory."
 msgstr ""
 
-#: weblate/utils/validators.py:202
+#: weblate/utils/validators.py:200
 msgid "Filename can not be an absolute path."
 msgstr ""
 
@@ -9848,10 +9856,6 @@ msgstr ""
 
 #: weblate/wladmin/sites.py:92 weblate/wladmin/sites.py:93
 msgid "Weblate administration"
-msgstr ""
-
-#: weblate/wladmin/sites.py:188
-msgid "Thanks for using Weblate!"
 msgstr ""
 
 #: weblate/wladmin/sites.py:199
@@ -10169,11 +10173,6 @@ msgstr ""
 
 #~ msgid "E-mail"
 #~ msgstr "E-mail"
-
-#, fuzzy
-#~| msgid "Download translation as TMX"
-#~ msgid "Download translation as XLIFF with gettext extensions"
-#~ msgstr "Deskargatu itzulpena TMX gisa"
 
 #, fuzzy
 #~| msgid "Download translation as TMX"

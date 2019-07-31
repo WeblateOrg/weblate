@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-30 07:49+0000\n"
+"POT-Creation-Date: 2019-07-31 15:06+0000\n"
 "PO-Revision-Date: 2019-07-31 15:05+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -34,7 +34,7 @@ msgstr ""
 "Гэты адрас электроннай пошты ўжо выкарыстоўваецца. Калі ласка, абярыце іншы."
 
 #: weblate/accounts/forms.py:116 weblate/auth/models.py:307
-#: weblate/utils/validators.py:173
+#: weblate/utils/validators.py:171
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -383,8 +383,8 @@ msgid ""
 msgstr ""
 "Увядзіце URL, які будзе выкарыстоўваецца для адкрыцця зыходнага коду. Можна "
 "ўжываць {{ branch }} для галіны, {{ filename }} для назвы файла і {{ line }} "
-"як нумар радка. Звычайна штосці накшталт editor://open/?file={{ filename "
-"}}&line={{ line }} будзе добрым варыянтам."
+"як нумар радка. Звычайна штосці накшталт editor://open/?file={{ filename }}"
+"&line={{ line }} будзе добрым варыянтам."
 
 #: weblate/accounts/models.py:385
 msgid "Translation editor mode"
@@ -666,7 +666,7 @@ msgstr "Карыстальнік з правамі рэцэнзента"
 msgid "Log in to use Weblate."
 msgstr "Увайсці, каб выкарыстоўваць Weblate."
 
-#: weblate/accounts/views.py:646
+#: weblate/accounts/views.py:646 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
 msgstr "Дзякуем за выкарыстанне Weblate."
 
@@ -1098,11 +1098,11 @@ msgstr "Выдаленне састарэлага каментара"
 msgid "Set timeframe for removal of comments."
 msgstr "Вызначце тэрміны выдалення каментароў."
 
-#: weblate/addons/removal.py:61
+#: weblate/addons/removal.py:62
 msgid "Stale suggestion removal"
 msgstr "Састарэлая прапанова выдаленая"
 
-#: weblate/addons/removal.py:62
+#: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
 msgstr "Вызначыць тэрміны выдалення прапаноў."
 
@@ -2171,7 +2171,7 @@ msgid "Language"
 msgstr "Мова"
 
 #: weblate/fonts/validators.py:33 weblate/fonts/validators.py:37
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:160
 msgid "Unsupported file format."
 msgstr "Непадтрымліваемы фармат файла."
 
@@ -2246,23 +2246,33 @@ msgid "gettext PO file (monolingual)"
 msgstr "Файл PO Gettext (аднамоўны)"
 
 #: weblate/formats/ttkit.py:743
-msgid "Qt Linguist Translation File"
+#, fuzzy
+#| msgid "Qt Linguist Translation File"
+msgid "Qt Linguist translation file"
 msgstr "Файл перакладу Qt Linguist"
 
 #: weblate/formats/ttkit.py:759
-msgid "XLIFF Translation File"
+#, fuzzy
+#| msgid "XLIFF Translation File"
+msgid "XLIFF translation file"
 msgstr "Файл перакладу XLIFF"
 
 #: weblate/formats/ttkit.py:774
-msgid "XLIFF Translation File with PO extensions"
+#, fuzzy
+#| msgid "XLIFF Translation File with PO extensions"
+msgid "XLIFF translation file with PO extensions"
 msgstr "Файл перакладу XLIFF з PO-пашырэннямі"
 
 #: weblate/formats/ttkit.py:801
-msgid "iOS Strings"
+#, fuzzy
+#| msgid "iOS Strings"
+msgid "iOS strings"
 msgstr "Радкі iOS"
 
 #: weblate/formats/ttkit.py:810
-msgid "iOS Strings (UTF-8)"
+#, fuzzy
+#| msgid "iOS Strings (UTF-8)"
+msgid "iOS strings (UTF-8)"
 msgstr "Радкі iOS (UTF-8)"
 
 #: weblate/formats/ttkit.py:817
@@ -2274,7 +2284,9 @@ msgid "Java Properties (UTF-16)"
 msgstr "Уласцівасці Java (UTF-16)"
 
 #: weblate/formats/ttkit.py:830
-msgid "Java Properties (ISO-8859-1)"
+#, fuzzy
+#| msgid "Java Properties (ISO-8859-1)"
+msgid "Java Properties (ISO 8859-1)"
 msgstr "Уласцівасці Java (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:847
@@ -2342,15 +2354,21 @@ msgid "SubRip subtitle file"
 msgstr "Файл субцітраў SubRip"
 
 #: weblate/formats/ttkit.py:1162
-msgid "MicroDVD subtitles file"
+#, fuzzy
+#| msgid "MicroDVD subtitles file"
+msgid "MicroDVD subtitle file"
 msgstr "Файл субцітраў MicroDVD"
 
 #: weblate/formats/ttkit.py:1169
-msgid "Advanced Substation Alpha subtitles file"
+#, fuzzy
+#| msgid "Advanced Substation Alpha subtitles file"
+msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Файл субцітраў Advanced Substation Alpha"
 
 #: weblate/formats/ttkit.py:1176
-msgid "Substation Alpha subtitles file"
+#, fuzzy
+#| msgid "Substation Alpha subtitles file"
+msgid "SubStation Alpha subtitle file"
 msgstr "Файл субцітраў Substation Alpha"
 
 #: weblate/formats/txt.py:181
@@ -3086,8 +3104,8 @@ msgstr "Карыстальнік"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:265
-#: weblate/trans/widgets.py:281 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:266
+#: weblate/trans/widgets.py:282 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "Перакладзена"
 
@@ -3986,17 +4004,24 @@ msgid "Project URL slug"
 msgstr "URL-форма праекта"
 
 #: weblate/templates/addons/squash_help.html:4
+#, fuzzy
+#| msgid ""
+#| "All Weblate commits from all components within this repository will be "
+#| "squashed."
 msgid ""
-"All Weblate commits from all components within this repository will be "
-"squashed."
+"Weblate commits from components within this repository will be squashed."
 msgstr ""
 "Усе Weblate-унёскі ўсіх кампанентаў гэтага рэпазіторыя будуць аб'яднаныя."
 
 #: weblate/templates/addons/squash_help.html:7
+#, fuzzy
+#| msgid ""
+#| "Resulting commits will include all original commit messages, but lose "
+#| "commit authorship, unless \"Per author\" is selected, or you customize "
+#| "the commit message to include it."
 msgid ""
-"Resulting commits will include all original commit messages, but lose commit "
-"authorship, unless \"Per author\" is selected, or you customize the commit "
-"message to include it."
+"Original commit messages are kept, but authorship is lost unless \"Per author"
+"\" is selected or the commit message is customized to include it."
 msgstr ""
 "Выніковыя ўнёскі будуць ўключаць у сябе ўсе зыходныя паведамленні ўнёска, "
 "але будуць страчваць аўтарства, калі не абрана \"Па аўтары\", альбо калі вы "
@@ -4186,8 +4211,8 @@ msgid "Billing"
 msgstr "Аплата"
 
 #: weblate/templates/billing/overview.html:15
-msgid "You currently do not have any billings active."
-msgstr "У вас няма аніякіх актыўных падпісак."
+msgid "No subscriptions or due payments."
+msgstr ""
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -5012,7 +5037,7 @@ msgstr ""
 "інструмента, спраектаванага, каб палегчыць працу распрацоўшчыкаў і "
 "перакладчыкаў."
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:252
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:253
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
@@ -5020,7 +5045,7 @@ msgstr[0] "Радок"
 msgstr[1] "Радкі"
 msgstr[2] "Радкоў"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:260
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:261
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -6144,11 +6169,9 @@ msgstr "Колькасць зыходных слоў"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
-"You have recently performed too many operations and your request has been "
-"rate limited."
+"Your request was rejected because you have performed too many operations "
+"recently."
 msgstr ""
-"За апошні час вы выканалі занадта шмат аперацый, там ваш запыт быў "
-"абмежаваны па хуткасці."
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please log in and try again later."
@@ -6164,11 +6187,9 @@ msgstr "Калі ласка, праглядзіце і пацвердзіце в
 
 #: weblate/templates/replace.html:22
 msgid ""
-"There are too many matches for this search. Showing and replacing only first "
-"250 ones. To replace remaining ones, please perform the replacement again."
+"Showing and replacing only the first 250 matches. Perform the replacement "
+"again to replace more entries."
 msgstr ""
-"Выяўлена занадта шмат супадзенняў. Пакажуцца ды заменяцца толькі першыя 250. "
-"Каб замяніць рэшту, выканайце замену зноў."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -6256,7 +6277,9 @@ msgstr ""
 "удзельнікаў."
 
 #: weblate/templates/snippets/legend-button.html:6
-msgid "Progress bar colors indicate translation state:"
+#, fuzzy
+#| msgid "Progress bar colors indicate translation state:"
+msgid "Progress bar color indicates translation state:"
 msgstr "Колеры індыкатару прагрэсу адлюстроўваюць стан перакладу:"
 
 #: weblate/templates/snippets/list-objects.html:13
@@ -7841,7 +7864,9 @@ msgid "Select existing component to copy configuration from."
 msgstr "Абярыце існы кампанент для капіявання канфігурацыі."
 
 #: weblate/trans/forms.py:1649
-msgid "ZIP file with translations"
+#, fuzzy
+#| msgid "ZIP file with translations"
+msgid "ZIP file containing translations"
 msgstr "Файл ZIP з перакладамі"
 
 #: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
@@ -7918,7 +7943,9 @@ msgid "State to set"
 msgstr "Вызначаемы стан"
 
 #: weblate/trans/forms.py:1986
-msgid "I agree with the contributor agreement"
+#, fuzzy
+#| msgid "I agree with the contributor agreement"
+msgid "I accept the contributor agreement"
 msgstr "Я згодны з пагадненнем удзельнікаў"
 
 #: weblate/trans/forms.py:1997
@@ -7938,7 +7965,9 @@ msgstr ""
 "выдаляцца."
 
 #: weblate/trans/forms.py:2024
-msgid "The translation name does not match the one to delete!"
+#, fuzzy
+#| msgid "The translation name does not match the one to delete!"
+msgid "The translation name does not match the one marked for deletion!"
 msgstr "Назва перакладу не супадае з назвай для выдалення!"
 
 #: weblate/trans/models/alert.py:141
@@ -7978,12 +8007,16 @@ msgid "Repository has changes."
 msgstr "Рэпазіторый мае змены."
 
 #: weblate/trans/models/alert.py:189
-msgid "License information missing."
+#, fuzzy
+#| msgid "License information missing."
+msgid "License info missing."
 msgstr "Звесткі аб ліцэнзіі адсутнічаюць."
 
 #: weblate/trans/models/alert.py:194 weblate/trans/models/alert.py:199
-msgid "Error when executing addon."
-msgstr "Падчас запуску дапаўнення адбылася памылка."
+#, fuzzy
+#| msgid "Could not log in using password."
+msgid "Could not run addon."
+msgstr "Не ўдалося ўвайсці выкарыстоўваючы пароль."
 
 #: weblate/trans/models/alert.py:204
 msgid "Misconfigured monolingual translation."
@@ -9283,7 +9316,7 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/create.py:291
+#: weblate/trans/views/create.py:295
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Не атрымалася разабраць ZIP-файл."
 
@@ -9582,37 +9615,37 @@ msgstr "Не атрымалася змяніць кантэкст!"
 msgid "Failed to change translation flags!"
 msgstr "Не атрымалася змяніць сцягі перакладу!"
 
-#: weblate/trans/widgets.py:97
+#: weblate/trans/widgets.py:98
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr "{0} %"
 
-#: weblate/trans/widgets.py:243
+#: weblate/trans/widgets.py:244
 msgid "Big status badge"
 msgstr "Вялікі значок статусу"
 
-#: weblate/trans/widgets.py:275
+#: weblate/trans/widgets.py:276
 msgid "Small status badge"
 msgstr "Малы значок статусу"
 
-#: weblate/trans/widgets.py:297
+#: weblate/trans/widgets.py:298
 msgid "Open Graph image"
 msgstr "Адкрыць малюнак дыяграмы"
 
-#: weblate/trans/widgets.py:338
+#: weblate/trans/widgets.py:339
 msgid "Status badge"
 msgstr "Значок статусу"
 
-#: weblate/trans/widgets.py:341
+#: weblate/trans/widgets.py:342
 msgid "translated"
 msgstr "перакладзена"
 
-#: weblate/trans/widgets.py:380
+#: weblate/trans/widgets.py:381
 msgid "Vertical multi language status widget"
 msgstr "Вертыкальны віджэт статусу на некалькіх мовах"
 
-#: weblate/trans/widgets.py:441
+#: weblate/trans/widgets.py:442
 msgid "Horizontal multi language status widget"
 msgstr "Гарызантальны віджэт статусу на некалькіх мовах"
 
@@ -9643,12 +9676,12 @@ msgstr "Забароненая URL-схема!"
 msgid "Empty"
 msgstr "Пуста"
 
-#: weblate/utils/validators.py:71
+#: weblate/utils/validators.py:69
 #, python-brace-format
 msgid "Failed to compile: {0}"
 msgstr "Не атрымалася скампіляваць: {0}"
 
-#: weblate/utils/validators.py:78
+#: weblate/utils/validators.py:76
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
@@ -9657,45 +9690,45 @@ msgstr ""
 "Рэгулярны выраз не змяшчае названую групу «{0}». Найпрасцейшы спосаб "
 "вызначыць яе — {1}."
 
-#: weblate/utils/validators.py:120
+#: weblate/utils/validators.py:118
 msgid "Invalid image!"
 msgstr "Хібная выява!"
 
-#: weblate/utils/validators.py:129
+#: weblate/utils/validators.py:127
 #, python-format
 msgid "Not supported image type: %s"
 msgstr "Тып выявы не падтрымліваецца: %s"
 
-#: weblate/utils/validators.py:136
+#: weblate/utils/validators.py:134
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 "Выява занадта вялікая, калі ласка, паменшыце яе ці выражце патрэбную частку!"
 
-#: weblate/utils/validators.py:153
+#: weblate/utils/validators.py:151
 msgid "Please avoid using special chars in the full name."
 msgstr "Калі ласка, пазбягайце адмысловых сімвалаў у поўным імені."
 
-#: weblate/utils/validators.py:169
+#: weblate/utils/validators.py:167
 msgid "Username can not start with a full stop."
 msgstr "Імя карыстальніка не павінна пачынацца з кропкі."
 
-#: weblate/utils/validators.py:182
+#: weblate/utils/validators.py:180
 msgid "Enter a valid email address."
 msgstr "Увядзіце дзейны адрас электроннай пошты."
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:182
 msgid "This email address is not allowed."
 msgstr "Такі адрас электроннай пошты забаронены."
 
-#: weblate/utils/validators.py:192
+#: weblate/utils/validators.py:190
 msgid "Failed to evaluate plural equation: {}"
 msgstr "Не ўдалося вылічыць множную форму: {}"
 
-#: weblate/utils/validators.py:199
+#: weblate/utils/validators.py:197
 msgid "Filename can not contain reference to a parent directory."
 msgstr "Назва файла не можа змяшчаць спасылкі на бацькоўскі каталог."
 
-#: weblate/utils/validators.py:202
+#: weblate/utils/validators.py:200
 msgid "Filename can not be an absolute path."
 msgstr "Назва файла не можа быць абсалютным шляхам."
 
@@ -9747,10 +9780,6 @@ msgstr "Не ўдалося атрымаць ключ хоста: %s"
 #: weblate/wladmin/sites.py:92 weblate/wladmin/sites.py:93
 msgid "Weblate administration"
 msgstr "Адміністраванне Weblate"
-
-#: weblate/wladmin/sites.py:188
-msgid "Thanks for using Weblate!"
-msgstr "Дзякуем за выкарыстанне сістэмы Weblate!"
 
 #: weblate/wladmin/sites.py:199
 msgid "Object listing turned off"
@@ -9909,6 +9938,30 @@ msgstr "Справаздачы"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "Не атрымалася адхіліць памылку канфігурацыі!"
+
+#~ msgid "You currently do not have any billings active."
+#~ msgstr "У вас няма аніякіх актыўных падпісак."
+
+#~ msgid ""
+#~ "You have recently performed too many operations and your request has been "
+#~ "rate limited."
+#~ msgstr ""
+#~ "За апошні час вы выканалі занадта шмат аперацый, там ваш запыт быў "
+#~ "абмежаваны па хуткасці."
+
+#~ msgid ""
+#~ "There are too many matches for this search. Showing and replacing only "
+#~ "first 250 ones. To replace remaining ones, please perform the replacement "
+#~ "again."
+#~ msgstr ""
+#~ "Выяўлена занадта шмат супадзенняў. Пакажуцца ды заменяцца толькі першыя "
+#~ "250. Каб замяніць рэшту, выканайце замену зноў."
+
+#~ msgid "Error when executing addon."
+#~ msgstr "Падчас запуску дапаўнення адбылася памылка."
+
+#~ msgid "Thanks for using Weblate!"
+#~ msgstr "Дзякуем за выкарыстанне сістэмы Weblate!"
 
 #~ msgid "This translation component is currently being updated."
 #~ msgstr "Гэты кампанент зараз абнаўляецца."

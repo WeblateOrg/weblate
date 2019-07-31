@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-07-30 07:49+0000\n"
+"POT-Creation-Date: 2019-07-31 15:06+0000\n"
 "PO-Revision-Date: 2019-07-14 12:00+0000\n"
 "Last-Translator: byStarTW <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -33,7 +33,7 @@ msgid ""
 msgstr "此電子郵件位址已被使用。請提供其他電子郵件位址。"
 
 #: weblate/accounts/forms.py:116 weblate/auth/models.py:307
-#: weblate/utils/validators.py:173
+#: weblate/utils/validators.py:171
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -665,7 +665,7 @@ msgstr "具檢閱者權利的使用者"
 msgid "Log in to use Weblate."
 msgstr "請登入使用 Weblate。"
 
-#: weblate/accounts/views.py:646
+#: weblate/accounts/views.py:646 weblate/wladmin/sites.py:188
 msgid "Thank you for using Weblate."
 msgstr "感謝您使用 Weblate。"
 
@@ -1111,11 +1111,11 @@ msgstr "陳舊評註移除"
 msgid "Set timeframe for removal of comments."
 msgstr "設定移除評註的時間間隔。"
 
-#: weblate/addons/removal.py:61
+#: weblate/addons/removal.py:62
 msgid "Stale suggestion removal"
 msgstr "陳舊建議移除"
 
-#: weblate/addons/removal.py:62
+#: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
 msgstr "設定建議移除的時間間隔。"
 
@@ -2197,7 +2197,7 @@ msgid "Language"
 msgstr "語言"
 
 #: weblate/fonts/validators.py:33 weblate/fonts/validators.py:37
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:160
 msgid "Unsupported file format."
 msgstr "不支援的檔案格式。"
 
@@ -2286,23 +2286,33 @@ msgid "gettext PO file (monolingual)"
 msgstr "Gettext PO 檔（單語）"
 
 #: weblate/formats/ttkit.py:743
-msgid "Qt Linguist Translation File"
+#, fuzzy
+#| msgid "Qt Linguist Translation File"
+msgid "Qt Linguist translation file"
 msgstr "Qt Linguist 翻譯檔"
 
 #: weblate/formats/ttkit.py:759
-msgid "XLIFF Translation File"
+#, fuzzy
+#| msgid "XLIFF Translation File"
+msgid "XLIFF translation file"
 msgstr "XLIFF 翻譯檔"
 
 #: weblate/formats/ttkit.py:774
-msgid "XLIFF Translation File with PO extensions"
+#, fuzzy
+#| msgid "XLIFF Translation File with PO extensions"
+msgid "XLIFF translation file with PO extensions"
 msgstr "XLIFF 翻譯檔，附 PO 擴展"
 
 #: weblate/formats/ttkit.py:801
-msgid "iOS Strings"
+#, fuzzy
+#| msgid "iOS Strings"
+msgid "iOS strings"
 msgstr "iOS 字串"
 
 #: weblate/formats/ttkit.py:810
-msgid "iOS Strings (UTF-8)"
+#, fuzzy
+#| msgid "iOS Strings (UTF-8)"
+msgid "iOS strings (UTF-8)"
 msgstr "iOS 字串 (UTF-8)"
 
 #: weblate/formats/ttkit.py:817
@@ -2314,7 +2324,9 @@ msgid "Java Properties (UTF-16)"
 msgstr "Java 屬性（UTF-16）"
 
 #: weblate/formats/ttkit.py:830
-msgid "Java Properties (ISO-8859-1)"
+#, fuzzy
+#| msgid "Java Properties (ISO-8859-1)"
+msgid "Java Properties (ISO 8859-1)"
 msgstr "Java 屬性（ISO-8859-1）"
 
 #: weblate/formats/ttkit.py:847
@@ -2384,15 +2396,21 @@ msgid "SubRip subtitle file"
 msgstr "SubRip 字幕檔"
 
 #: weblate/formats/ttkit.py:1162
-msgid "MicroDVD subtitles file"
+#, fuzzy
+#| msgid "MicroDVD subtitles file"
+msgid "MicroDVD subtitle file"
 msgstr "MicroDVD 字幕檔"
 
 #: weblate/formats/ttkit.py:1169
-msgid "Advanced Substation Alpha subtitles file"
+#, fuzzy
+#| msgid "Advanced Substation Alpha subtitles file"
+msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced Substation Alpha 字幕檔"
 
 #: weblate/formats/ttkit.py:1176
-msgid "Substation Alpha subtitles file"
+#, fuzzy
+#| msgid "Substation Alpha subtitles file"
+msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha 字幕檔"
 
 #: weblate/formats/txt.py:181
@@ -3123,8 +3141,8 @@ msgstr "使用者"
 
 #: weblate/templates/about/stats.html:23 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:424
-#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:265
-#: weblate/trans/widgets.py:281 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:572 weblate/trans/widgets.py:266
+#: weblate/trans/widgets.py:282 weblate/utils/state.py:33
 msgid "Translated"
 msgstr "已翻譯"
 
@@ -3972,16 +3990,23 @@ msgid "Project URL slug"
 msgstr "專案 URL slug"
 
 #: weblate/templates/addons/squash_help.html:4
+#, fuzzy
+#| msgid ""
+#| "All Weblate commits from all components within this repository will be "
+#| "squashed."
 msgid ""
-"All Weblate commits from all components within this repository will be "
-"squashed."
+"Weblate commits from components within this repository will be squashed."
 msgstr "來自此儲存庫內所有元件的所有 Weblate 提交將會壓縮成一個提交記錄。"
 
 #: weblate/templates/addons/squash_help.html:7
+#, fuzzy
+#| msgid ""
+#| "Resulting commits will include all original commit messages, but lose "
+#| "commit authorship, unless \"Per author\" is selected, or you customize "
+#| "the commit message to include it."
 msgid ""
-"Resulting commits will include all original commit messages, but lose commit "
-"authorship, unless \"Per author\" is selected, or you customize the commit "
-"message to include it."
+"Original commit messages are kept, but authorship is lost unless \"Per author"
+"\" is selected or the commit message is customized to include it."
 msgstr ""
 "結果提交將包含所有原本的提交訊息，但會遺失提交者的資訊。除非您選取了「每位作"
 "者」，或者自訂提交訊息以在提交加入提交者資訊。"
@@ -4166,8 +4191,8 @@ msgid "Billing"
 msgstr "帳單"
 
 #: weblate/templates/billing/overview.html:15
-msgid "You currently do not have any billings active."
-msgstr "您目前沒有任何運作中的付費方案。"
+msgid "No subscriptions or due payments."
+msgstr ""
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -4968,13 +4993,13 @@ msgstr ""
 "%(project)s 專案採用 %(weblate_name_link)s 作翻譯。Weblate 是以讓開發者和翻譯"
 "者皆能輕鬆處理翻譯為設計目標的網頁介面工具。"
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:252
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:253
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "字串"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:260
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:261
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -6059,9 +6084,9 @@ msgstr "來源單字數"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
-"You have recently performed too many operations and your request has been "
-"rate limited."
-msgstr "您最近做了過多次動作，且您的請求已被限制速度。"
+"Your request was rejected because you have performed too many operations "
+"recently."
+msgstr ""
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please log in and try again later."
@@ -6077,11 +6102,9 @@ msgstr "請檢閱並確認搜尋和取代結果。"
 
 #: weblate/templates/replace.html:22
 msgid ""
-"There are too many matches for this search. Showing and replacing only first "
-"250 ones. To replace remaining ones, please perform the replacement again."
+"Showing and replacing only the first 250 matches. Perform the replacement "
+"again to replace more entries."
 msgstr ""
-"這個搜尋有太多符合項目。儘先顯示與取代前 250 項。若要繼續取代剩餘項目，請再次"
-"執行取代動作。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -6163,7 +6186,9 @@ msgid ""
 msgstr "若要成為此翻譯的貢獻者，您必須同意貢獻者協議書。"
 
 #: weblate/templates/snippets/legend-button.html:6
-msgid "Progress bar colors indicate translation state:"
+#, fuzzy
+#| msgid "Progress bar colors indicate translation state:"
+msgid "Progress bar color indicates translation state:"
 msgstr "進度條色彩表示翻譯狀態："
 
 #: weblate/templates/snippets/list-objects.html:13
@@ -7726,7 +7751,7 @@ msgstr "請選取要作為設定檔複製來源的存在組件。"
 #: weblate/trans/forms.py:1649
 #, fuzzy
 #| msgid "View the translation"
-msgid "ZIP file with translations"
+msgid "ZIP file containing translations"
 msgstr "檢視翻譯"
 
 #: weblate/trans/forms.py:1666 weblate/trans/models/component.py:175
@@ -7795,7 +7820,9 @@ msgid "State to set"
 msgstr "要設定的狀態"
 
 #: weblate/trans/forms.py:1986
-msgid "I agree with the contributor agreement"
+#, fuzzy
+#| msgid "I agree with the contributor agreement"
+msgid "I accept the contributor agreement"
 msgstr "我同意貢獻者協議書"
 
 #: weblate/trans/forms.py:1997
@@ -7813,7 +7840,9 @@ msgid ""
 msgstr "這個動作無法取消。這會永久刪除 {} 翻譯及其所有相關內容。"
 
 #: weblate/trans/forms.py:2024
-msgid "The translation name does not match the one to delete!"
+#, fuzzy
+#| msgid "The translation name does not match the one to delete!"
+msgid "The translation name does not match the one marked for deletion!"
 msgstr "翻譯的名稱與想要刪除的項目不符！"
 
 #: weblate/trans/models/alert.py:141
@@ -7853,12 +7882,16 @@ msgid "Repository has changes."
 msgstr "儲存庫有更動。"
 
 #: weblate/trans/models/alert.py:189
-msgid "License information missing."
+#, fuzzy
+#| msgid "License information missing."
+msgid "License info missing."
 msgstr "授權條款資訊遺失。"
 
 #: weblate/trans/models/alert.py:194 weblate/trans/models/alert.py:199
-msgid "Error when executing addon."
-msgstr "執行附加元件時發生錯誤。"
+#, fuzzy
+#| msgid "Could not log in using password."
+msgid "Could not run addon."
+msgstr "無法使用密碼登入。"
 
 #: weblate/trans/models/alert.py:204
 msgid "Misconfigured monolingual translation."
@@ -9086,7 +9119,7 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{month}/{day}"
 
-#: weblate/trans/views/create.py:291
+#: weblate/trans/views/create.py:295
 #, fuzzy
 #| msgid "Failed to parse TMX file!"
 msgid "Failed to parse uploaded ZIP file."
@@ -9369,43 +9402,43 @@ msgstr "情境更動失敗！"
 msgid "Failed to change translation flags!"
 msgstr "無法變更翻譯旗標！"
 
-#: weblate/trans/widgets.py:97
+#: weblate/trans/widgets.py:98
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
 msgstr "{0}%"
 
-#: weblate/trans/widgets.py:243
+#: weblate/trans/widgets.py:244
 #, fuzzy
 #| msgid "Bulk status change"
 msgid "Big status badge"
 msgstr "大量狀態更動"
 
-#: weblate/trans/widgets.py:275
+#: weblate/trans/widgets.py:276
 #, fuzzy
 #| msgid "Bulk status change"
 msgid "Small status badge"
 msgstr "大量狀態更動"
 
-#: weblate/trans/widgets.py:297
+#: weblate/trans/widgets.py:298
 msgid "Open Graph image"
 msgstr ""
 
-#: weblate/trans/widgets.py:338
+#: weblate/trans/widgets.py:339
 #, fuzzy
 #| msgid "Status widgets"
 msgid "Status badge"
 msgstr "狀態小元件"
 
-#: weblate/trans/widgets.py:341
+#: weblate/trans/widgets.py:342
 msgid "translated"
 msgstr "已翻譯"
 
-#: weblate/trans/widgets.py:380
+#: weblate/trans/widgets.py:381
 msgid "Vertical multi language status widget"
 msgstr ""
 
-#: weblate/trans/widgets.py:441
+#: weblate/trans/widgets.py:442
 msgid "Horizontal multi language status widget"
 msgstr ""
 
@@ -9436,56 +9469,56 @@ msgstr "禁止的 URL 規劃！"
 msgid "Empty"
 msgstr "空"
 
-#: weblate/utils/validators.py:71
+#: weblate/utils/validators.py:69
 #, python-brace-format
 msgid "Failed to compile: {0}"
 msgstr "編譯失敗：{0}"
 
-#: weblate/utils/validators.py:78
+#: weblate/utils/validators.py:76
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr "正則表達式缺少命名群組「{0}」，最簡單的方法是將之定義為 {1}。"
 
-#: weblate/utils/validators.py:120
+#: weblate/utils/validators.py:118
 msgid "Invalid image!"
 msgstr "無效的影像！"
 
-#: weblate/utils/validators.py:129
+#: weblate/utils/validators.py:127
 #, python-format
 msgid "Not supported image type: %s"
 msgstr "不支援的影像類型：%s"
 
-#: weblate/utils/validators.py:136
+#: weblate/utils/validators.py:134
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "影像過大，請縮小並適當裁切！"
 
-#: weblate/utils/validators.py:153
+#: weblate/utils/validators.py:151
 msgid "Please avoid using special chars in the full name."
 msgstr "全名中請避免使用特殊字元。"
 
-#: weblate/utils/validators.py:169
+#: weblate/utils/validators.py:167
 msgid "Username can not start with a full stop."
 msgstr "使用者名稱不能以英文句號開頭。"
 
-#: weblate/utils/validators.py:182
+#: weblate/utils/validators.py:180
 msgid "Enter a valid email address."
 msgstr "請輸入有效的電子郵件位址。"
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:182
 msgid "This email address is not allowed."
 msgstr "不能使用這個電子郵件。"
 
-#: weblate/utils/validators.py:192
+#: weblate/utils/validators.py:190
 msgid "Failed to evaluate plural equation: {}"
 msgstr "評估複數形等式時失敗：{}"
 
-#: weblate/utils/validators.py:199
+#: weblate/utils/validators.py:197
 msgid "Filename can not contain reference to a parent directory."
 msgstr "檔案名稱不能包含上層目錄的參照。"
 
-#: weblate/utils/validators.py:202
+#: weblate/utils/validators.py:200
 msgid "Filename can not be an absolute path."
 msgstr "檔案名稱不能為絕對路徑。"
 
@@ -9539,10 +9572,6 @@ msgstr "無法取得主機金鑰：%s"
 #: weblate/wladmin/sites.py:92 weblate/wladmin/sites.py:93
 msgid "Weblate administration"
 msgstr "Weblate 管理"
-
-#: weblate/wladmin/sites.py:188
-msgid "Thanks for using Weblate!"
-msgstr "感謝您使用 Weblate！"
 
 #: weblate/wladmin/sites.py:199
 msgid "Object listing turned off"
@@ -9697,6 +9726,28 @@ msgstr "回報"
 #: weblate/wladmin/views.py:61
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
+
+#~ msgid "You currently do not have any billings active."
+#~ msgstr "您目前沒有任何運作中的付費方案。"
+
+#~ msgid ""
+#~ "You have recently performed too many operations and your request has been "
+#~ "rate limited."
+#~ msgstr "您最近做了過多次動作，且您的請求已被限制速度。"
+
+#~ msgid ""
+#~ "There are too many matches for this search. Showing and replacing only "
+#~ "first 250 ones. To replace remaining ones, please perform the replacement "
+#~ "again."
+#~ msgstr ""
+#~ "這個搜尋有太多符合項目。儘先顯示與取代前 250 項。若要繼續取代剩餘項目，請"
+#~ "再次執行取代動作。"
+
+#~ msgid "Error when executing addon."
+#~ msgstr "執行附加元件時發生錯誤。"
+
+#~ msgid "Thanks for using Weblate!"
+#~ msgstr "感謝您使用 Weblate！"
 
 #~ msgid "This translation component is currently being updated."
 #~ msgstr "此翻譯組件目前正在更新。"
