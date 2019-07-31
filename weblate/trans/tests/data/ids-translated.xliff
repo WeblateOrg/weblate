@@ -9,15 +9,17 @@
 </target>
       </trans-unit>
       <trans-unit id="orangutan">
-        <source xml:space="preserve">Orangutan has %d banana.
+        <source xml:space="preserve">Orangutan has <x id="c" equiv-text="{{count}}"/> banana.
 </source>
+        <target>Opicka ma <x id="c" equiv-text="{{count}}"/> banan.
+</target>
       </trans-unit>
       <trans-unit id="try">
         <source xml:space="preserve">Try Weblate at &lt;https://demo.weblate.org/&gt;!
 </source>
       </trans-unit>
       <trans-unit id="thanks">
-        <source>Thank you for using Weblate.</source>
+        <source><x id="count" equiv-text="{{count}}"/><x id="unit" equiv-text="{{unit}}"/></source>
       </trans-unit>
     </body>
   </file>
