@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-07-30 07:49+0000\n"
-"PO-Revision-Date: 2019-07-29 05:02+0000\n"
+"PO-Revision-Date: 2019-07-31 15:05+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -289,8 +289,6 @@ msgid "Account locked due to many failed logins."
 msgstr "החשבון ננעל עקב ריבוי ניסיונות כניסה כושלים."
 
 #: weblate/accounts/models.py:129
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
 msgstr "החשבון וכל הנתונים האישיים הוסרו."
 
@@ -359,22 +357,14 @@ msgid "Show secondary translations in zen mode"
 msgstr "הצגת תרגומים משניים במצב ריכוז"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if a secondary language translation exists"
 msgid "Hide source if a secondary translation exists"
-msgstr "הסתרת המקור אם ישנו תרגום לשפה משנית"
+msgstr "הסתרת המקור אם ישנו תרגום משני"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "קישור לעורך"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -679,14 +669,10 @@ msgid "Cannot reset password, email authentication is turned off."
 msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא״ל מושבת."
 
 #: weblate/accounts/views.py:991
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
-msgstr "אימות ההרשמה נכשל! כנראה שאסימון האימות פג. נא לנסות להירשם שוב."
+msgstr "לא ניתן לאמת את ההרשמה! כנראה שאסימון האימות פג. נא לנסות להירשם שוב."
 
 #: weblate/accounts/views.py:1001
 msgid "Could not authenticate due to invalid session state."
@@ -858,15 +844,11 @@ msgid "No line wrapping"
 msgstr "ללא גלישת שורות"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"כבררת מחדל gettext גורם לגלישת שורות לאחר 77 תווים או תווי שורה חדשה, עם "
+"כבררת מחדל gettext גורם לגלישת שורות לאחר 77 תווים או תווי שורה חדשה. עם "
 "המשתנה ‎--no-wrap, הגלישה תתבצע רק עם תווי שורה חדשה."
 
 #: weblate/addons/forms.py:125
@@ -910,24 +892,16 @@ msgid "Days to keep"
 msgstr "ימים לשמור"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
 msgstr "סף הצבעה"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting turned "
-#| "off."
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr "סף הצבעות להסרה. לשדה זה אין השפעה כשאפשרות ההצבעה כבויה."
+msgstr "סף להסרה. לשדה זה אין השפעה כשאפשרות ההצבעה כבויה."
 
 #: weblate/addons/forms.py:206
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "ביטוי רגולרי להתאמת קובצי תרגום"
+msgstr "ביטוי רגולרי להתאמת קובצי תרגום מולם"
 
 #: weblate/addons/forms.py:210 weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/forms.py:585 weblate/trans/models/component.py:280
@@ -979,8 +953,6 @@ msgid "I confirm the above matches look correct"
 msgstr "ההתאמות שלהלן נראות תקינות לעניות דעתי"
 
 #: weblate/addons/forms.py:315
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
 msgstr "נא לסקור ולאשר את הרכיבים שעלו בחיפוש."
 
@@ -2176,8 +2148,6 @@ msgid "No override found."
 msgstr "לא נמצאו מילים!"
 
 #: weblate/fonts/views.py:151
-#, fuzzy
-#| msgid "Font group was deleted."
 msgid "Font group deleted."
 msgstr "קבוצת גופנים נמחקה."
 
@@ -2222,16 +2192,12 @@ msgid "Excel Open XML"
 msgstr "Excel בתצורת XML פתוח"
 
 #: weblate/formats/ttkit.py:673
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gettext PO file"
-msgstr "קובץ PO לפי Gettext"
+msgstr "קובץ PO לפי gettext"
 
 #: weblate/formats/ttkit.py:729
-#, fuzzy
-#| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
-msgstr "קובץ PO לפי Gettext (חד־לשוני)"
+msgstr "קובץ PO לפי gettext (חד־לשוני)"
 
 #: weblate/formats/ttkit.py:743
 msgid "Qt Linguist Translation File"
@@ -2274,10 +2240,8 @@ msgid "PHP strings"
 msgstr "מחרוזות PHP"
 
 #: weblate/formats/ttkit.py:875
-#, fuzzy
-#| msgid ".Net resource file"
 msgid ".NET resource file"
-msgstr "קובץ מקור ‎.Net"
+msgstr "קובץ מקור ‎.NET"
 
 #: weblate/formats/ttkit.py:885
 msgid "Android String Resource"
@@ -2519,10 +2483,8 @@ msgid "Default plural"
 msgstr "ריבוי כבררת מחדל"
 
 #: weblate/lang/models.py:520
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural gettext formula"
-msgstr "צורת ריבוי"
+msgstr "נוסחת ריבוי של gettext"
 
 #: weblate/lang/models.py:525 weblate/templates/language.html:59
 msgid "Number of plurals"
@@ -6510,11 +6472,11 @@ msgstr "הצגת רכיב תרגום"
 
 #: weblate/templates/trans/embed-alert.html:14
 msgid "Fix this component to clear its alerts."
-msgstr ""
+msgstr "יש לתקן את הרכיב הזה כדי להעלים את ההתראות."
 
 #: weblate/templates/trans/embed-alert.html:18
 msgid "Libre license translation according to the FSF."
-msgstr ""
+msgstr "תרגום ברישיון חופשי בהגדרת הקרן לתכנה חופשית."
 
 #: weblate/templates/trans/embed-alert.html:20
 #, fuzzy
@@ -9524,7 +9486,7 @@ msgstr "שינוי מצב כמותי"
 
 #: weblate/trans/widgets.py:297
 msgid "Open Graph image"
-msgstr ""
+msgstr "תמונת Open Graph"
 
 #: weblate/trans/widgets.py:338
 #, fuzzy
@@ -9538,11 +9500,11 @@ msgstr "מתורגם"
 
 #: weblate/trans/widgets.py:380
 msgid "Vertical multi language status widget"
-msgstr ""
+msgstr "וידג׳ט מצב אנכי למגוון שפות"
 
 #: weblate/trans/widgets.py:441
 msgid "Horizontal multi language status widget"
-msgstr ""
+msgstr "וידג׳ט מצב אופקי למגוון שפות"
 
 #: weblate/utils/render.py:46
 #, python-format
