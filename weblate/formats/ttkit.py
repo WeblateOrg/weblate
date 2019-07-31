@@ -542,6 +542,17 @@ class XliffUnit(TTKitUnit):
         if self.xliff_state:
             self.xliff_node.set('state', 'final' if value else 'translated')
 
+    def is_translatable(self):
+        """Check whether unit is translatable.
+
+        For some reason, blank string does not mean non translatable
+        unit in some formats (XLIFF), so lets skip those as well.
+        """
+        return (
+            self.mainunit.istranslatable()
+            and bool(rich_to_xliff_string(self.mainunit.rich_source))
+        )
+
 
 class MonolingualIDUnit(TTKitUnit):
     @cached_property

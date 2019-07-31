@@ -499,6 +499,7 @@ class XliffIdFormatTest(XliffFormatTest):
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = 'hello'
     EXPECTED_FLAGS = ''
+    COUNT = 5
 
     def test_edit_xliff(self):
         with open(get_test_file('ids-translated.xliff')) as handle:
@@ -513,7 +514,6 @@ class XliffIdFormatTest(XliffFormatTest):
         source = self.FORMAT(template_name, template, is_template=True)
         translation = self.FORMAT(translated_name, template)
 
-        self.assertEqual(len(source.all_units), 4)
 
         unit = source.all_units[0]
         self.assertEqual(unit.source, 'Hello, world!\n')
@@ -531,6 +531,13 @@ class XliffIdFormatTest(XliffFormatTest):
         self.assertEqual(unit.source, 'Orangutan has <x id="c" equiv-text="{{count}}"/> banana.\n')
         self.assertEqual(unit.target, '')
         unit.set_target('Opicka ma <x id="c" equiv-text="{{count}}"/> banan.\n')
+
+        self.assertEqual(len(translation.all_units), 5)
+        self.assertTrue(translation.all_units[0].is_translatable())
+        self.assertTrue(translation.all_units[1].is_translatable())
+        self.assertTrue(translation.all_units[2].is_translatable())
+        self.assertTrue(translation.all_units[3].is_translatable())
+        self.assertFalse(translation.all_units[4].is_translatable())
 
         translation.save()
 
