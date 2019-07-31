@@ -202,6 +202,9 @@ class BaseFormatCheck(TargetCheck):
             return text.replace('\'', '')
         return text
 
+    def normalize(self, matches):
+        return [m for m in matches if m != '%']
+
     def check_format(self, source, target, ignore_missing):
         """Generic checker for format strings."""
         if not target or not source:
@@ -209,31 +212,22 @@ class BaseFormatCheck(TargetCheck):
 
         uses_position = True
 
-        # We ignore %% in the matches as this is really not relevant. However
-        # it needs to be matched to prevent handling %%s as %s.
-
         # Calculate value
-        src_matches = [
-            self.cleanup_string(x[0])
-            for x in self.regexp.findall(source)
-            if x[0] != '%'
-        ]
+        src_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(source)]
         if src_matches:
-            uses_position = any(
-                (self.is_position_based(x) for x in src_matches)
-            )
+            uses_position = any((self.is_position_based(x) for x in src_matches))
 
-        tgt_matches = [
-            self.cleanup_string(x[0])
-            for x in self.regexp.findall(target)
-            if x[0] != '%'
-        ]
+        tgt_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(target)]
 
         if not uses_position:
             src_matches = set(src_matches)
             tgt_matches = set(tgt_matches)
 
         if src_matches != tgt_matches:
+            # Ignore mismatch in percent position
+            if (len(src_matches) == len(tgt_matches)
+                    and self.normalize(src_matches) == self.normalize(tgt_matches)):
+                return False
             # We can ignore missing format strings
             # for first of plurals
             if ignore_missing and tgt_matches < src_matches:
