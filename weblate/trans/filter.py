@@ -45,7 +45,7 @@ def get_filter_choice(include_source=False):
         ('unapproved', _('Strings waiting for review')),
     ]
     result.extend([
-        (CHECKS[check].url_id, CHECKS[check].description)
+        (CHECKS[check].url_id, _('Failed check: %s') % CHECKS[check].name)
         for check in CHECKS if include_source or CHECKS[check].target
     ])
     if include_source:
