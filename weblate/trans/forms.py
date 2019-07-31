@@ -1646,7 +1646,7 @@ class ComponentProjectForm(ComponentNameForm):
 
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
-        label=_('ZIP file with translations'),
+        label=_('ZIP file containing translations'),
         validators=[FileExtensionValidator(allowed_extensions=['zip'])],
         widget=forms.FileInput(attrs={'accept': '.zip,application/zip'})
     )
@@ -1983,7 +1983,7 @@ class BulkStateForm(forms.Form):
 
 class ContributorAgreementForm(forms.Form):
     confirm = forms.BooleanField(
-        label=_("I agree with the contributor agreement"),
+        label=_("I accept the contributor agreement"),
         required=True
     )
     next = forms.CharField(
@@ -2021,7 +2021,7 @@ class DeleteForm(forms.Form):
     def clean(self):
         if self.cleaned_data.get('confirm') != self.obj.full_slug:
             raise ValidationError(
-                _('The translation name does not match the one to delete!')
+                _('The translation name does not match the one marked for deletion!')
             )
 
 
