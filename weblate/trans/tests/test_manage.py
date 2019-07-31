@@ -39,7 +39,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
             response,
-            'The translation name does not match the one to delete!'
+            'The translation name does not match the one marked for deletion!'
         )
         response = self.client.post(
             url, {'confirm': 'test/test/cs'}, follow=True
@@ -55,7 +55,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
             response,
-            'The translation name does not match the one to delete!'
+            'The translation name does not match the one marked for deletion!'
         )
         response = self.client.post(url, {'confirm': 'test/test'}, follow=True)
         self.assertContains(
@@ -69,7 +69,7 @@ class RemovalTest(ViewTestCase):
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
             response,
-            'The translation name does not match the one to delete!'
+            'The translation name does not match the one marked for deletion!'
         )
         response = self.client.post(url, {'confirm': 'test'}, follow=True)
         self.assertContains(
