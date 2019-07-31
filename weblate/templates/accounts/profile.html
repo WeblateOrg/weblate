@@ -38,7 +38,7 @@
   <div class="panel-body">
     {% crispy languagesform %}
     <p class="help-block">
-      {% blocktrans %}Only languages which are currently being translated are listed. If you want to translate to another language, please request it first on the project you want to translate.{% endblocktrans %}
+      {% blocktrans %}Send a request to the project you want to translate to add a missing language.{% endblocktrans %}
     </p>
   </div>
   <div class="panel-footer">
@@ -66,7 +66,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Watched projects" %}</h4></div>
   <div class="panel-body">
 {% crispy subscriptionform %}
-    <p class="help-block">{% trans "Watched projects are also shown on dashboard, so choose all projects you want to translate." %}</p>
+    <p class="help-block">{% trans "Add all projects you want to translate to see them as watched projects on the dashboard." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
@@ -107,7 +107,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {% crispy userform %}
-    <p class="help-block">{% trans "Your name and email will appear as author on the commits." %}</p>
+    <p class="help-block">{% trans "Your name and email will appear as commit authorship." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
@@ -162,7 +162,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
   <div class="panel-body">
 
-    <p>{% trans "Removal of the account deletes all your private data." %}</p>
+    <p>{% trans "Account removal deletes all your private data." %}</p>
    </div>
    <div class="panel-footer">
     <a class="btn btn-danger" href="{% url 'remove' %}"><i class="fa fa-trash"></i> {% trans "Remove my account" %}</a>
@@ -216,7 +216,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
-    <p>{% blocktrans %}Audit log shows important changes on your account. In case you see something suspicious don't hesitate to contact us.{% endblocktrans %}</p>
+    <p>{% blocktrans %}Contact us immediately if you see anything suspicious in the audit log.{% endblocktrans %}</p>
   </div>
 </div>
 
@@ -256,7 +256,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'api' right=True %}{% trans "API access" %}</h4></div>
 <table class="table">
 <tr><td colspan="2">
-    <p>{% blocktrans %}You can control Weblate using HTTP REST API and API key is used to authenticate to it.{% endblocktrans %}</p>
+    <p>{% blocktrans %}You can control Weblate using the HTTP REST API and your API key is used to authenticate to it.{% endblocktrans %}</p>
 </td></tr>
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
@@ -318,9 +318,9 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses" %}</h4></div>
   <div class="panel-body">
-    <p>{% trans "Please pay attention to the licensing information as these specify how others are allowed to use your translations." %}</p>
+    <p>{% trans "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
 <p>
-{% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
+{% trans "By registering you agree to use your name and email in the commits, and provide your contribution under the license defined by each localization project." %}
 </p>
 
 {% with agreements=user.contributoragreement_set.order %}
@@ -335,7 +335,7 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 {% endwith %}
 
 {% if licenses %}
-<p>{% trans "Following translations have explicitly specified their licensing and copyright conditions:" %}</p>
+<p>{% trans "The following translations have explicitly specified their license:" %}</p>
 <table class="table">
 <thead>
 <tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
