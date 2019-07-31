@@ -191,12 +191,12 @@ class MissingLicense(BaseAlert):
 
 @register
 class AddonScriptError(MultiAlert):
-    verbose = _('Error when executing addon.')
+    verbose = _('Could not run addon.')
 
 
 @register
 class MsgmergeAddonError(MultiAlert):
-    verbose = _('Error when executing addon.')
+    verbose = _('Could not run addon.')
 
 
 @register
