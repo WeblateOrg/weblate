@@ -1254,6 +1254,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.updated_sources = {}
         self.alerts_trigger = {}
         self.checks_cache = defaultdict(list)
+        was_change = False
         check_values = Check.objects.filter(
             project=self.project
         ).values_list(
@@ -1312,6 +1313,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation = Translation.objects.check_sync(
                     self, lang, code, path, force, request=request
                 )
+                was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = code
                 # Remove fuzzy flag on template name change
@@ -1345,7 +1347,9 @@ class Component(models.Model, URLMixin, PathMixin):
                 component, pos + 1, len(self.linked_childs),
             )
             component.translations_count = -1
-            component.create_translations(force, langs, request=request, from_link=True)
+            was_change |= component.create_translations(
+                force, langs, request=request, from_link=True
+            )
             projects[component.project_id] = component.project
 
         # Run source checks on updated source strings
@@ -1353,7 +1357,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.update_source_checks()
 
         # Run batch checks, update flags and stats
-        if not from_link:
+        if not from_link and was_change:
             for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()
@@ -1371,6 +1375,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         self.checks_cache = None
         self.log_info('updating completed')
+        return was_change
 
     def get_lang_code(self, path):
         """Parse language code from path."""

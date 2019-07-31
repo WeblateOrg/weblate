@@ -119,6 +119,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.addon_commit_files = []
         self.commit_template = ''
         self.was_new = False
+        self.reason = ''
 
     def get_badges(self):
         if self.is_template:
@@ -267,15 +268,16 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Check if we're not already up to date
         if not self.revision:
-            reason = 'new file'
+            self.reason = 'new file'
         elif self.revision != self.get_git_blob_hash():
-            reason = 'content changed'
+            self.reason = 'content changed'
         elif force:
-            reason = 'check forced'
+            self.reason = 'check forced'
         else:
+            self.reason = ''
             return
 
-        self.log_info('processing %s, %s', self.filename, reason)
+        self.log_info('processing %s, %s', self.filename, self.reason)
 
         # List of created units (used for cleanup and duplicates detection)
         created = {}
