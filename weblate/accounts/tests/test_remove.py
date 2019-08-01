@@ -29,10 +29,7 @@ from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
     def test_page(self):
         response = self.client.get(reverse('remove'))
-        self.assertContains(
-            response,
-            'Removal of the account deletes all your private data'
-        )
+        self.assertContains(response, 'Account removal deletes all your private data.')
 
     def verify_removal(self, response):
         self.assertRedirects(response, reverse('email-sent'))
