@@ -9,7 +9,7 @@
 
 {% block content %}
 
-{% trans 'Removal of the account deletes all your private data.' as msg %}
+{% trans "Account removal deletes all your private data." as msg %}
 {% show_message 'danger' msg %}
 
 <form method="post" action="{% url 'remove' %}">
