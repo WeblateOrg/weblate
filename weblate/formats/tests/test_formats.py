@@ -514,7 +514,6 @@ class XliffIdFormatTest(XliffFormatTest):
         source = self.FORMAT(template_name, template, is_template=True)
         translation = self.FORMAT(translated_name, template)
 
-
         unit = source.all_units[0]
         self.assertEqual(unit.source, 'Hello, world!\n')
         self.assertEqual(unit.target, 'Hello, world!\n')
@@ -528,7 +527,10 @@ class XliffIdFormatTest(XliffFormatTest):
         unit.set_target('Ahoj, svete!\n')
 
         unit = translation.all_units[1]
-        self.assertEqual(unit.source, 'Orangutan has <x id="c" equiv-text="{{count}}"/> banana.\n')
+        self.assertEqual(
+            unit.source,
+            'Orangutan has <x id="c" equiv-text="{{count}}"/> banana.\n'
+        )
         self.assertEqual(unit.target, '')
         unit.set_target('Opicka ma <x id="c" equiv-text="{{count}}"/> banan.\n')
 
