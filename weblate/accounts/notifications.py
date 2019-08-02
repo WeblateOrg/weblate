@@ -19,8 +19,8 @@
 #
 from __future__ import unicode_literals
 
-from copy import copy
 from collections import defaultdict
+from copy import copy
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
