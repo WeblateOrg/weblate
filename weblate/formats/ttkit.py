@@ -689,7 +689,7 @@ class PoFormat(TTKitFormat):
         # Avoid empty files with possibly syntax errors
         # This can be removed once https://github.com/translate/translate/pull/3912
         # is merged and relased in the Translate Toolkit
-        return not self.store.units
+        return bool(self.store.units)
 
     def get_plural(self, language):
         """Return matching plural object."""
