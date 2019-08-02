@@ -948,6 +948,7 @@ class CSVFormat(TTKitFormat):
     loader = ('csvl10n', 'csvfile')
     unit_class = CSVUnit
     autoload = ('*.csv',)
+    encoding = 'auto'
 
     def __init__(self, storefile, template_store=None, language_code=None,
                  is_template=False):
@@ -1003,8 +1004,24 @@ class CSVFormat(TTKitFormat):
         if len(header) != 2:
             return store
 
-        result = storeclass(fieldnames=['source', 'target'])
+        return cls.parse_simple_csv(content, storefile)
+
+    @classmethod
+    def parse_simple_csv(cls, content, storefile):
+        storeclass = cls.get_class()
+        result = storeclass(
+            fieldnames=['source', 'target'],
+            encoding=cls.encoding,
+        )
         result.parse(content)
+        result.fileobj = storefile
+        filename = getattr(
+            storefile,
+            "name",
+            getattr(storefile, "filename", None)
+        )
+        if filename:
+            result.filename = filename
         return result
 
 
@@ -1022,26 +1039,11 @@ class CSVSimpleFormat(CSVFormat):
     @classmethod
     def parse_store(cls, storefile):
         """Parse the store."""
-        storeclass = cls.get_class()
-
         # Did we get file or filename?
         if not hasattr(storefile, 'read'):
             storefile = open(storefile, 'rb')
 
-        result = storeclass(
-            fieldnames=['source', 'target'],
-            encoding=cls.encoding,
-        )
-        result.parse(storefile.read())
-        result.fileobj = storefile
-        filename = getattr(
-            storefile,
-            "name",
-            getattr(storefile, "filename", None)
-        )
-        if filename:
-            result.filename = filename
-        return result
+        return cls.parse_simple_csv(storefile.read(), storefile)
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
