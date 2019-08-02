@@ -304,9 +304,6 @@ class TTKitFormat(TranslationFormat):
         if self.store is None:
             return False
 
-        if (self.template_store is None or self.is_template) and not self.store.units:
-            return False
-
         return True
 
     def create_unit(self, key, source):
@@ -683,6 +680,16 @@ class PoFormat(TTKitFormat):
     monolingual = False
     autoload = ('*.po', '*.pot')
     unit_class = PoUnit
+
+    def is_valid(self):
+        result = super(PoFormat, self).is_valid()
+        if not result:
+            return False
+
+        # Avoid empty files with possibly syntax errors
+        # This can be removed once https://github.com/translate/translate/pull/3912
+        # is merged and relased in the Translate Toolkit
+        return not self.store.units
 
     def get_plural(self, language):
         """Return matching plural object."""
