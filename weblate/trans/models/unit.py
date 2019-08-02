@@ -867,6 +867,8 @@ class Unit(models.Model, LoggerMixin):
                 same_content=True, same_state=True,
                 update_fields=['has_suggestion']
             )
+            return True
+        return False
 
     def update_has_comment(self):
         """Update flag counting comments."""
@@ -877,6 +879,8 @@ class Unit(models.Model, LoggerMixin):
                 same_content=True, same_state=True,
                 update_fields=['has_comment']
             )
+            return True
+        return False
 
     def nearby(self):
         """Return list of nearby messages based on location."""

@@ -113,8 +113,8 @@ def update_comment_flag(sender, instance, **kwargs):
     """Update related unit comment flags"""
     for unit in instance.related_units:
         # Update unit stats
-        unit.update_has_comment()
-        unit.translation.invalidate_cache()
+        if unit.update_has_comment():
+            unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Suggestion)
@@ -124,8 +124,8 @@ def update_suggestion_flag(sender, instance, **kwargs):
     """Update related unit suggestion flags"""
     for unit in instance.related_units:
         # Update unit stats
-        unit.update_has_suggestion()
-        unit.translation.invalidate_cache()
+        if unit.update_has_suggestion():
+            unit.translation.invalidate_cache()
 
 
 @receiver(user_pre_delete)
