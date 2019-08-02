@@ -127,7 +127,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(3, '[Weblate] Merge failure in Test/Test')
+        self.validate_notifications(2, '[Weblate] Merge failure in Test/Test')
 
     def test_notify_parse_error(self):
         change = Change.objects.create(
