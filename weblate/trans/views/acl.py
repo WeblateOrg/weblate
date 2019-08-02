@@ -34,7 +34,7 @@ from weblate.trans.forms import (
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
-from weblate.utils.views import get_project
+from weblate.utils.views import get_project, show_form_errors
 
 
 def check_user_form(request, project, verbose=False):
@@ -54,9 +54,7 @@ def check_user_form(request, project, verbose=False):
     if form.is_valid():
         return obj, form
     if verbose:
-        for error in form.errors:
-            for message in form.errors[error]:
-                messages.error(request, message)
+        show_form_errors(request, form)
     return obj, None
 
 
