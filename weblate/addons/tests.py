@@ -314,6 +314,24 @@ class ResxAddonTest(ViewTestCase):
         self.assertIn('resx/cs.resx', commit)
 
 
+class CSVAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_csv_mono()
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = CleanupAddon.create(self.component)
+        addon.post_update(
+            self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303'
+        )
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(
+            self.component.repository.last_revision
+        )
+        self.assertIn('csv-mono/cs.csv', commit)
+
+
 class JsonAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono(suffix='mono-sync')
