@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                             ("NewSuggestionNotificaton", "New suggestion"),
                             (
                                 "LastAuthorCommentNotificaton",
-                                "Comment on authored translation",
+                                "Comment on own translation",
                             ),
                             ("MentionCommentNotificaton", "Mentioned in comment"),
                             ("NewCommentNotificaton", "New comment"),

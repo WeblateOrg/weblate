@@ -359,7 +359,7 @@ class NewSuggestionNotificaton(Notification):
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
-    verbose = _('Comment on authored translation')
+    verbose = _('Comment on own translation')
     template_name = 'new_comment'
     ignore_watched = True
     required_attr = 'comment'
