@@ -961,10 +961,10 @@ class Migration(migrations.Migration):
             name="new_lang",
             field=models.CharField(
                 choices=[
-                    ("contact", "Use contact form"),
+                    ("contact", "Contact maintainers"),
                     ("url", "Point to translation instructions URL"),
                     ("add", "Automatically add language file"),
-                    ("none", "No language additions"),
+                    ("none", "Disable adding new translations"),
                 ],
                 default="add",
                 help_text="How to handle requests for creating new translations.",
