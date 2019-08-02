@@ -436,6 +436,26 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
 
+    def test_skip(self):
+        self.user.profile.watched.add(self.project)
+        # Not subscriptions
+        self.user.subscription_set.all().delete()
+        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+        # Default subscription
+        self.user.subscription_set.create(
+            scope=SCOPE_DEFAULT,
+            notification=self.notification.get_name(),
+            frequency=FREQ_INSTANT
+        )
+        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
+        # Subscribe to parent event
+        self.user.subscription_set.create(
+            scope=SCOPE_DEFAULT,
+            notification='NewAlertNotificaton',
+            frequency=FREQ_INSTANT
+        )
+        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+
 
 class SendMailsTest(SimpleTestCase):
     @override_settings(

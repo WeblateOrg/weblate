@@ -19,6 +19,7 @@
 #
 from __future__ import unicode_literals
 
+from copy import copy
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
@@ -34,7 +35,7 @@ from weblate import VERSION
 from weblate.accounts.tasks import send_mails
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.models import Change
+from weblate.trans.models import Alert, Change
 from weblate.utils.site import get_site_domain, get_site_url
 
 FREQ_NONE = 0
@@ -167,6 +168,8 @@ class Notification(object):
                     and not user.profile.watched.filter(pk=change.project_id).exists()):
                 continue
             last_user = user
+            if frequency == FREQ_INSTANT and self.should_skip(user, change):
+                continue
             if subscription.frequency == frequency:
                 yield last_user
 
@@ -262,6 +265,9 @@ class Notification(object):
                 self.get_headers(context),
             )
 
+    def should_skip(self, user, change):
+        return False
+
     def notify_immediate(self, change):
         for user in self.get_users(FREQ_INSTANT, change):
             if change.project is None or user.can_access_project(change.project):
@@ -323,6 +329,13 @@ class MergeFailureNotification(Notification):
     verbose = _('Merge failure')
     template_name = 'merge_failure'
 
+    def should_skip(self, user, change):
+        fake = copy(change)
+        fake.action = Change.ACTION_ALERT
+        fake.alert = Alert()
+        notify = NewAlertNotificaton(None)
+        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, fake)}
+
 
 @register_notification
 class ParseErrorNotification(Notification):
@@ -364,6 +377,10 @@ class LastAuthorCommentNotificaton(Notification):
     ignore_watched = True
     required_attr = 'comment'
 
+    def should_skip(self, user, change):
+        notify = MentionCommentNotificaton([])
+        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
+
     def get_users(self, frequency, change, users=None):
         last_author = change.unit.get_last_content_change(None, silent=True)[0]
         if last_author.is_anonymous:
@@ -382,6 +399,10 @@ class MentionCommentNotificaton(Notification):
     template_name = 'new_comment'
     ignore_watched = True
     required_attr = 'comment'
+
+    def should_skip(self, user, change):
+        notify = NewCommentNotificaton([])
+        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
 
     def get_users(self, frequency, change, users=None):
         if self.has_required_attrs(change):

@@ -20,6 +20,7 @@ Not yet released.
 * Added OpenGraph widget image to use on social networks.
 * Added support for animated screenshots.
 * Improved handling of monolingual Xliff files.
+* Avoid sending multiple notifications for single event.
 
 weblate 3.7.1
 -------------
