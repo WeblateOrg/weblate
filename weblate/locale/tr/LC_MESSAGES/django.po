@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-03 14:38+0000\n"
-"PO-Revision-Date: 2019-08-02 06:04+0000\n"
+"PO-Revision-Date: 2019-08-04 06:57+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -523,10 +523,8 @@ msgid "New suggestion"
 msgstr "Yeni öneri"
 
 #: weblate/accounts/notifications.py:375
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "Yazılı çeviriye yorum yapın"
+msgstr "Kendi çevirine yorum yap"
 
 #: weblate/accounts/notifications.py:398
 msgid "Mentioned in comment"
@@ -4496,7 +4494,7 @@ msgstr ""
 #: weblate/templates/component.html:195 weblate/templates/project.html:182
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:250
 msgid "Replace"
-msgstr ""
+msgstr "Değiştir"
 
 #: weblate/templates/component.html:208
 msgid "You can change the state of all strings matching a given type at once."
@@ -4508,7 +4506,7 @@ msgstr ""
 #: weblate/templates/translation.html:231
 #: weblate/templates/translation.html:268
 msgid "Apply"
-msgstr ""
+msgstr "Uygula"
 
 #: weblate/templates/component.html:222 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -5494,15 +5492,9 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "%(site_title)s sitesinde hesabınızda bir değişiklik oldu:"
 
 #: weblate/templates/mail/account_activity.html:30
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form."
 msgid ""
 "If you did not request this change, please report it as soon as possible."
-msgstr ""
-"Bu değişikliği siz talep etmediyseniz, lütfen aşağıdaki formu kullanarak "
-"bizi en kısa sürede bilgilendirin."
+msgstr "Bu değişikliği istemediyseniz, lütfen en kısa zamanda bildirin."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5621,12 +5613,13 @@ msgid ""
 "%(from_user)s invites you to collaborate on the %(project_name)s translation "
 "project at %(site_title)s."
 msgstr ""
+"%(from_user)s sizi %(site_title)s adresindeki %(project_name)s çeviri "
+"projesinde işbirliği yapmaya davet ediyor."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Invitation to %(site_title)s"
-msgstr "%(site_title)s üstündeki kaydınız"
+msgstr "%(site_title)s davetiyesi"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5906,14 +5899,12 @@ msgid "Add new user"
 msgstr "Yeni kullanıcı ekle"
 
 #: weblate/templates/manage-access.html:79
-#, fuzzy
-#| msgid "Add new user"
 msgid "Invite new user"
-msgstr "Yeni kullanıcı ekle"
+msgstr "Yeni kullanıcı davet et"
 
 #: weblate/templates/manage-access.html:85
 msgid "Invite"
-msgstr ""
+msgstr "Davet et"
 
 #: weblate/templates/manage-access.html:96
 msgid ""
@@ -8180,10 +8171,8 @@ msgid "Created component"
 msgstr "Oluşturulmuş bileşen"
 
 #: weblate/trans/models/change.py:262
-#, fuzzy
-#| msgid "Removed user"
 msgid "Invited user"
-msgstr "Kullanıcı kaldırıldı"
+msgstr "Davet edilen kullanıcı"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8192,26 +8181,20 @@ msgstr ""
 "%(user)s tarafından %(translation)s Dilinde %(time)s tarihinde %(action)s"
 
 #: weblate/trans/models/component.py:100
-#, fuzzy
-#| msgid "Contact us"
 msgid "Contact maintainers"
-msgstr "Bizimle iletişime geçin"
+msgstr "İletişim sorumlusu"
 
 #: weblate/trans/models/component.py:101
 msgid "Point to translation instructions URL"
 msgstr "Çeviri yönergeleri URL'sini göster"
 
 #: weblate/trans/models/component.py:102
-#, fuzzy
-#| msgid "Requested new language"
 msgid "Create new language file"
-msgstr "İstenen yeni dil"
+msgstr "Yeni dil dosyası oluştur"
 
 #: weblate/trans/models/component.py:103
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Disable adding new translations"
-msgstr "Yeni çeviri dosyası eklenemedi!"
+msgstr "Yeni çeviri ekleme devre dışı"
 
 #: weblate/trans/models/component.py:106
 msgid "Default based on the file format"
@@ -8320,10 +8303,8 @@ msgstr ""
 "düzenleyemeyeceği."
 
 #: weblate/trans/models/component.py:271
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "Yeni çeviriler için taban dosya"
+msgstr "Yeni çeviriler için şablon"
 
 #: weblate/trans/models/component.py:287
 msgid "Locked"
@@ -9217,10 +9198,8 @@ msgid "Failed to find group to add a user!"
 msgstr "Bir kullanıcı eklemek için grup bulunmadı!"
 
 #: weblate/trans/views/acl.py:184
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been invited to this project."
-msgstr "Kullanıcı bu projeye eklendi."
+msgstr "Kullanıcı bu projeye davet edildi."
 
 #: weblate/trans/views/acl.py:218
 msgid "User has been removed from this project."
