@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-03 14:38+0000\n"
-"PO-Revision-Date: 2019-08-03 14:37+0000\n"
+"PO-Revision-Date: 2019-08-04 06:58+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -4515,7 +4515,7 @@ msgstr ""
 #: weblate/templates/component.html:195 weblate/templates/project.html:182
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:250
 msgid "Replace"
-msgstr ""
+msgstr "Erstatt"
 
 #: weblate/templates/component.html:208
 msgid "You can change the state of all strings matching a given type at once."
@@ -4527,7 +4527,7 @@ msgstr ""
 #: weblate/templates/translation.html:231
 #: weblate/templates/translation.html:268
 msgid "Apply"
-msgstr ""
+msgstr "Bruk"
 
 #: weblate/templates/component.html:222 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -5636,12 +5636,13 @@ msgid ""
 "%(from_user)s invites you to collaborate on the %(project_name)s translation "
 "project at %(site_title)s."
 msgstr ""
+"%(from_user)s inviterer deg til å samarbeide på %(project_name)s-"
+"oversettelsesprosjektet på %(site_title)s."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Invitation to %(site_title)s"
-msgstr "Din registrering på %(site_title)s"
+msgstr "Invitasjon til %(site_title)s"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5917,14 +5918,13 @@ msgid "Add new user"
 msgstr "Legg til ny bruker"
 
 #: weblate/templates/manage-access.html:79
-#, fuzzy
-#| msgid "Add new user"
 msgid "Invite new user"
-msgstr "Legg til ny bruker"
+msgstr "Inviter ny bruker"
 
 #: weblate/templates/manage-access.html:85
+#, fuzzy
 msgid "Invite"
-msgstr ""
+msgstr "Inviter"
 
 #: weblate/templates/manage-access.html:96
 msgid ""
@@ -8193,10 +8193,8 @@ msgid "Created component"
 msgstr "Opprettet komponent"
 
 #: weblate/trans/models/change.py:262
-#, fuzzy
-#| msgid "Removed user"
 msgid "Invited user"
-msgstr "Fjernet bruker"
+msgstr "Inviterte bruker"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8204,26 +8202,20 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s på %(time)s i %(translation)s av %(user)s"
 
 #: weblate/trans/models/component.py:100
-#, fuzzy
-#| msgid "Contact us"
 msgid "Contact maintainers"
-msgstr "Ta kontakt"
+msgstr "Kontakt vedlikeholdere"
 
 #: weblate/trans/models/component.py:101
 msgid "Point to translation instructions URL"
 msgstr "Pek til nettadressen for oversettelsesinstruksjoner"
 
 #: weblate/trans/models/component.py:102
-#, fuzzy
-#| msgid "Requested new language"
 msgid "Create new language file"
-msgstr "Forespurte nytt språk"
+msgstr "Opprett ny språkfil"
 
 #: weblate/trans/models/component.py:103
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Disable adding new translations"
-msgstr "Klarte ikke å legge til ny oversettelsesfil!"
+msgstr "Skru av tillegg av nye oversettelser"
 
 #: weblate/trans/models/component.py:106
 msgid "Default based on the file format"
@@ -8332,10 +8324,8 @@ msgstr ""
 "Om brukere skal kunne redigere basisfilen for ettspråklige oversettelser."
 
 #: weblate/trans/models/component.py:271
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "Basisfil for nye oversettelser"
+msgstr "Mal for nye oversettelser"
 
 #: weblate/trans/models/component.py:287
 msgid "Locked"
@@ -9233,7 +9223,7 @@ msgstr "Klarte ikke finne gruppen som brukeren skulle legges inn i!"
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
-msgstr "Bruker er lagt til dette prosjektet."
+msgstr "Bruker invitert til dette prosjektet."
 
 #: weblate/trans/views/acl.py:218
 msgid "User has been removed from this project."
