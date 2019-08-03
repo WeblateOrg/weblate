@@ -99,7 +99,7 @@ from weblate.vcs.ssh import add_host_key
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Contact maintainers')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
-    ('add', ugettext_lazy('Automatically add language file')),
+    ('add', ugettext_lazy('Create new language file')),
     ('none', ugettext_lazy('Disable adding new translations')),
 )
 LANGUAGE_CODE_STYLE_CHOICES = (

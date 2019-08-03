@@ -278,7 +278,7 @@ Template for new translations   ``po/hello.pot``
 
 File format                     Choose :guilabel:`Gettext PO file`
 
-New language                    Choose :guilabel:`Automatically add language file`
+New language                    Choose :guilabel:`Create new language file`
 =============================== ==================================================
 
 And that's it, you're now ready to start translating your software!

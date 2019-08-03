@@ -963,7 +963,7 @@ class Migration(migrations.Migration):
                 choices=[
                     ("contact", "Contact maintainers"),
                     ("url", "Point to translation instructions URL"),
-                    ("add", "Automatically add language file"),
+                    ("add", "Create new language file"),
                     ("none", "Disable adding new translations"),
                 ],
                 default="add",
