@@ -337,7 +337,7 @@ function processMachineTranslation(data) {
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
             /* Standard worflow */
-            $('#id_fuzzy').prop('checked', false);
+            $('.translation-form input[name="fuzzy"]').prop('checked', true);
             /* Review workflow */
             $('.translation-form input[name="review"][value="20"]').prop('checked', true);
             submitForm({target:$('.translation-editor')});
