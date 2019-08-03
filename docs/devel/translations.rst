@@ -7,7 +7,7 @@ Adding new translations
 -----------------------
 
 Weblate can add new translations to your translation components when configured
-:guilabel:`Base file for new translations` (see :ref:`component`) or your file
+:guilabel:`Template for new translations` (see :ref:`component`) or your file
 format doesn't require it (for most of monolingual files it is okay to start
 with blank files).
 

@@ -201,7 +201,7 @@ Monolingual base language file
     Base file containing string definitions for :ref:`monolingual`.
 Edit base file
     Whether to allow editing the base file for :ref:`monolingual`.
-Base file for new translations
+Template for new translations
     Base file used to generate new translations, e.g. ``.pot`` file with Gettext,
     see :ref:`new-translations` for more info.
 File format

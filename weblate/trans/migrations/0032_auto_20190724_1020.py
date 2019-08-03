@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 help_text="Filename of file used for creating new translations. For gettext choose .pot file.",
                 max_length=400,
-                verbose_name="Base file for new translations",
+                verbose_name="Template for new translations",
             ),
         ),
         migrations.AlterField(

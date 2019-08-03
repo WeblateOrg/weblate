@@ -147,7 +147,7 @@ The bilingual gettext PO file typically looks like:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``po/messages.pot``              |
+| Template for new translations  | ``po/messages.pot``              |
 +--------------------------------+----------------------------------+
 | File format                    | `Gettext PO file`                |
 +--------------------------------+----------------------------------+
@@ -211,7 +211,7 @@ While the base language file will be:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``po/en.po``                     |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``po/messages.pot``              |
+| Template for new translations  | ``po/messages.pot``              |
 +--------------------------------+----------------------------------+
 | File format                    | `Gettext PO file (monolingual)`  |
 +--------------------------------+----------------------------------+
@@ -292,7 +292,7 @@ attribute from the Xliff specification:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``localizations/en-US.xliff``    |
+| Template for new translations  | ``localizations/en-US.xliff``    |
 +--------------------------------+----------------------------------+
 | File format                    | `XLIFF Translation File`         |
 +--------------------------------+----------------------------------+
@@ -304,7 +304,7 @@ attribute from the Xliff specification:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``localizations/en-US.xliff``    |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``localizations/en-US.xliff``    |
+| Template for new translations  | ``localizations/en-US.xliff``    |
 +--------------------------------+----------------------------------+
 | File format                    | `XLIFF Translation File`         |
 +--------------------------------+----------------------------------+
@@ -343,7 +343,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``src/app/Bundle.properties``    |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `Java Properties (ISO-8859-1)`   |
 +--------------------------------+----------------------------------+
@@ -376,7 +376,7 @@ Joomla translations are usually used as monolingual.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``language/en-GB/com_foobar.ini``|
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `Joomla Language File`           |
 +--------------------------------+----------------------------------+
@@ -406,7 +406,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``i18n/app.de.ts``               |
+| Template for new translations  | ``i18n/app.de.ts``               |
 +--------------------------------+----------------------------------+
 | File format                    | `Qt Linguist Translation File`   |
 +--------------------------------+----------------------------------+
@@ -418,7 +418,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``i18n/app.en.ts``               |
+| Template for new translations  | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
 | File format                    | `Qt Linguist Translation File`   |
 +--------------------------------+----------------------------------+
@@ -451,7 +451,7 @@ location from the others :file:`res/values/strings.xml`.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``res/values/strings.xml``       |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `Android String Resource`        |
 +--------------------------------+----------------------------------+
@@ -509,7 +509,7 @@ Apple iOS strings are usually used as bilingual.
 +--------------------------------+------------------------------------------+
 | Monolingual base language file |``Resources/en.lproj/Localizable.strings``|
 +--------------------------------+------------------------------------------+
-| Base file for new translations | `Empty`                                  |
+| Template for new translations  | `Empty`                                  |
 +--------------------------------+------------------------------------------+
 | File format                    | `iOS Strings (UTF-8)`                    |
 +--------------------------------+------------------------------------------+
@@ -544,7 +544,7 @@ Example file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en/texts.php``            |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``lang/en/texts.php``            |
+| Template for new translations  | ``lang/en/texts.php``            |
 +--------------------------------+----------------------------------+
 | File format                    | `PHP strings`                    |
 +--------------------------------+----------------------------------+
@@ -612,7 +612,7 @@ Nested files are supported as well (see above for requirements), such file can l
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/translation-en.json``    |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
 +--------------------------------+----------------------------------+
@@ -661,7 +661,7 @@ Example file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/en.json``                |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `i18next JSON file`              |
 +--------------------------------+----------------------------------+
@@ -697,7 +697,7 @@ Example file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``_locales/en/messages.json``    |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `WebExtension JSON file`         |
 +--------------------------------+----------------------------------+
@@ -730,7 +730,7 @@ syntax to .resx.
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``Resources/Language.resx``      |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `.NET resource file`             |
 +--------------------------------+----------------------------------+
@@ -781,7 +781,7 @@ Example file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``locale/en.csv``                |
+| Template for new translations  | ``locale/en.csv``                |
 +--------------------------------+----------------------------------+
 | File format                    | `CSV file`                       |
 +--------------------------------+----------------------------------+
@@ -814,7 +814,7 @@ Example YAML file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `YAML file`                      |
 +--------------------------------+----------------------------------+
@@ -848,7 +848,7 @@ Example Ruby i18n YAML file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `Ruby YAML file`                 |
 +--------------------------------+----------------------------------+
@@ -878,7 +878,7 @@ Example DTD file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.dtd``                |
 +--------------------------------+----------------------------------+
-| Base file for new translations | `Empty`                          |
+| Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
 | File format                    | `DTD file`                       |
 +--------------------------------+----------------------------------+
@@ -910,7 +910,7 @@ Example Windows RC file:
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en-US.rc``                |
 +--------------------------------+----------------------------------+
-| Base file for new translations | ``lang/en-US.rc``                |
+| Template for new translations  | ``lang/en-US.rc``                |
 +--------------------------------+----------------------------------+
 | File format                    | `RC file`                        |
 +--------------------------------+----------------------------------+
@@ -941,7 +941,7 @@ separate strings to translate.
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``fastlane/android/metadata/en-US`` |
 +--------------------------------+-------------------------------------+
-| Base file for new translations | ``fastlane/android/metadata/en-US`` |
+| Template for new translations  | ``fastlane/android/metadata/en-US`` |
 +--------------------------------+-------------------------------------+
 | File format                    | `App store metadata files`          |
 +--------------------------------+-------------------------------------+
@@ -967,7 +967,7 @@ Weblate can translate various subtile files:
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``path/en.srt``                     |
 +--------------------------------+-------------------------------------+
-| Base file for new translations | ``path/en.srt``                     |
+| Template for new translations  | ``path/en.srt``                     |
 +--------------------------------+-------------------------------------+
 | File format                    | `SubRip subtitle file`              |
 +--------------------------------+-------------------------------------+
@@ -1025,11 +1025,11 @@ keys present (eg. :ref:`gettext`). In some situations this really doesn't depend
 on the format, but rather on framework you use to handle the translation (eg. with
 :ref:`json`).
 
-When you specify :guilabel:`Base file for new translations` in
+When you specify :guilabel:`Template for new translations` in
 :ref:`component`, Weblate will use this file to start new translations. Any
 exiting translations will be removed from the file when doing so.
 
-When :guilabel:`Base file for new translations` is empty and file format
+When :guilabel:`Template for new translations` is empty and file format
 supports it, empty file is created where new strings will be added once they are
 translated.
 

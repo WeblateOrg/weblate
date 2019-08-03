@@ -268,7 +268,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
     )
     new_base = models.CharField(
-        verbose_name=ugettext_lazy('Base file for new translations'),
+        verbose_name=ugettext_lazy('Template for new translations'),
         max_length=FILENAME_LENGTH,
         blank=True,
         help_text=ugettext_lazy(

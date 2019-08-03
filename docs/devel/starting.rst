@@ -274,7 +274,7 @@ Source code repository          URL of the VCS repository with your project
 
 File mask                       ``po/*.po``
 
-Base file for new translations  ``po/hello.pot``
+Template for new translations   ``po/hello.pot``
 
 File format                     Choose :guilabel:`Gettext PO file`
 
