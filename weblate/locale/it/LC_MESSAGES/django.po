@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-03 14:38+0000\n"
-"PO-Revision-Date: 2019-08-03 14:37+0000\n"
+"PO-Revision-Date: 2019-08-06 12:37+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -534,10 +534,8 @@ msgid "New suggestion"
 msgstr "Nuovo suggerimento"
 
 #: weblate/accounts/notifications.py:375
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "Commenti alla traduzione effettuata"
+msgstr "Commenti alla propria traduzione"
 
 #: weblate/accounts/notifications.py:398
 msgid "Mentioned in comment"
@@ -4548,7 +4546,7 @@ msgstr ""
 #: weblate/templates/component.html:195 weblate/templates/project.html:182
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:250
 msgid "Replace"
-msgstr ""
+msgstr "Sostituisci"
 
 #: weblate/templates/component.html:208
 msgid "You can change the state of all strings matching a given type at once."
@@ -4560,7 +4558,7 @@ msgstr ""
 #: weblate/templates/translation.html:231
 #: weblate/templates/translation.html:268
 msgid "Apply"
-msgstr ""
+msgstr "Applica"
 
 #: weblate/templates/component.html:222 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -5554,15 +5552,9 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "C'è stata una modifica nel tuo account in %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:30
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form."
 msgid ""
 "If you did not request this change, please report it as soon as possible."
-msgstr ""
-"Se non hai richiesto questa modifica, notificacelo il prima possibile usando "
-"il seguente modulo."
+msgstr "Se non hai richiesto questa modifica, segnalalo il prima possibile."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5682,12 +5674,13 @@ msgid ""
 "%(from_user)s invites you to collaborate on the %(project_name)s translation "
 "project at %(site_title)s."
 msgstr ""
+"%(from_user)s ti ha invitato a collaborare al progetto di traduzione "
+"%(project_name)s nel sito %(site_title)s."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Invitation to %(site_title)s"
-msgstr "La tua registrazione su %(site_title)s"
+msgstr "invito a %(site_title)s"
 
 #: weblate/templates/mail/merge_failure.html:7
 #, python-format
@@ -5969,14 +5962,12 @@ msgid "Add new user"
 msgstr "Aggiungi nuovo utente"
 
 #: weblate/templates/manage-access.html:79
-#, fuzzy
-#| msgid "Add new user"
 msgid "Invite new user"
-msgstr "Aggiungi nuovo utente"
+msgstr "Invita nuovo utente"
 
 #: weblate/templates/manage-access.html:85
 msgid "Invite"
-msgstr ""
+msgstr "Invita"
 
 #: weblate/templates/manage-access.html:96
 msgid ""
@@ -8268,10 +8259,8 @@ msgid "Created component"
 msgstr "Componente creato"
 
 #: weblate/trans/models/change.py:262
-#, fuzzy
-#| msgid "Removed user"
 msgid "Invited user"
-msgstr "Utente rimosso"
+msgstr "Utente invitato"
 
 #: weblate/trans/models/change.py:359
 #, python-format
@@ -8279,26 +8268,20 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s in %(time)s in %(translation)s di %(user)s"
 
 #: weblate/trans/models/component.py:100
-#, fuzzy
-#| msgid "Contact us"
 msgid "Contact maintainers"
-msgstr "Contattaci"
+msgstr "Contatta i manutentori"
 
 #: weblate/trans/models/component.py:101
 msgid "Point to translation instructions URL"
 msgstr "Collegamento alla URL istruzioni traduzione"
 
 #: weblate/trans/models/component.py:102
-#, fuzzy
-#| msgid "Requested new language"
 msgid "Create new language file"
-msgstr "Richiesta nuova lingua"
+msgstr "Crea file nuova lingua"
 
 #: weblate/trans/models/component.py:103
-#, fuzzy
-#| msgid "Failed to add new translation file!"
 msgid "Disable adding new translations"
-msgstr "Aggiunta al file traduzione fallita!"
+msgstr "Disabilita aggiunta nuove traduzioni"
 
 #: weblate/trans/models/component.py:106
 msgid "Default based on the file format"
@@ -8410,10 +8393,8 @@ msgstr ""
 "traduzioni monolingue."
 
 #: weblate/trans/models/component.py:271
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "File base per nuove traduzioni"
+msgstr "Modello per nuove traduzioni"
 
 #: weblate/trans/models/component.py:287
 msgid "Locked"
@@ -9334,10 +9315,8 @@ msgid "Failed to find group to add a user!"
 msgstr "Impossibile trovare il gruppo a cui aggiungere l'utente!"
 
 #: weblate/trans/views/acl.py:184
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been invited to this project."
-msgstr "L'utente è stato aggiunto a questo progetto."
+msgstr "L'utente è stato invitato a questo progetto."
 
 #: weblate/trans/views/acl.py:218
 msgid "User has been removed from this project."
