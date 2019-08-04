@@ -20,11 +20,9 @@
 
 from __future__ import print_function, unicode_literals
 
-import json
 import math
 import os
 import time
-from base64 import b64encode
 from contextlib import contextmanager
 from datetime import timedelta
 from io import BytesIO
@@ -53,7 +51,6 @@ from selenium.webdriver.support.expected_conditions import (
     staleness_of,
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
-from six.moves.http_client import HTTPConnection
 
 import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
@@ -98,32 +95,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     image_path = None
     port = 9090
 
-    def set_test_status(self, passed=True):
-        connection = HTTPConnection("saucelabs.com")
-        connection.request(
-            'PUT',
-            '/rest/v1/{0}/jobs/{1}'.format(
-                self.username, self.driver.session_id
-            ),
-            json.dumps({"passed": passed}),
-            headers={"Authorization": "Basic {0}".format(self.sauce_auth)}
-        )
-        result = connection.getresponse()
-        return result.status == 200
-
-    def run(self, result=None):
-        if result is None:
-            result = self.defaultTestResult()
-
-        errors = len(result.errors)
-        failures = len(result.failures)
-        super(SeleniumTests, self).run(result)
-
-        if DO_SELENIUM:
-            self.set_test_status(
-                errors == len(result.errors) and failures == len(result.failures)
-            )
-
     @contextmanager
     def wait_for_page_load(self, timeout=30):
         old_page = self.driver.find_element_by_tag_name('html')
@@ -135,7 +106,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     @classmethod
     def setUpClass(cls):
         if DO_SELENIUM:
-            cls.caps['name'] = 'Weblate CI build'
             if 'screenResolution' not in cls.caps:
                 cls.caps['screenResolution'] = '1280x1024'
             # Fill in Travis details in caps
@@ -147,51 +117,62 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                     'django-{0}'.format(django.get_version()),
                     'CI'
                 ]
-
-            # Use Sauce connect
-            cls.username = os.environ['SAUCE_USERNAME']
-            cls.key = os.environ['SAUCE_ACCESS_KEY']
-            cls.sauce_auth = b64encode(
-                '{}:{}'.format(cls.username, cls.key).encode('utf-8')
-            )
-            # We do not want to use file detector as it magically uploads
-            # anything what matches local filename
-            cls.driver = webdriver.Remote(
-                desired_capabilities=cls.caps,
-                command_executor="http://{0}:{1}@{2}/wd/hub".format(
-                    cls.username,
-                    cls.key,
-                    'ondemand.saucelabs.com',
-                ),
-                file_detector=UselessFileDetector(),
-            )
-            cls.driver.implicitly_wait(10)
-            cls.actions = webdriver.ActionChains(cls.driver)
-            jobid = cls.driver.session_id
-            print(
-                'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
-            )
-            cls.image_path = os.path.join(settings.BASE_DIR, 'test-images')
-            if not os.path.exists(cls.image_path):
-                os.makedirs(cls.image_path)
+            # Saucelabs credentials
+            cls.caps['username'] = os.environ['SAUCE_USERNAME']
+            cls.caps['accessKey'] = os.environ['SAUCE_ACCESS_KEY']
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
-        if self.driver is None:
-            raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
+        if not DO_SELENIUM:
+            raise SkipTest('Selenium Tests disabled')
+        self.caps['name'] = self.id()
+        # We do not want to use file detector as it magically uploads
+        # anything what matches local filename
+        self.driver = webdriver.Remote(
+            desired_capabilities=self.caps,
+            command_executor="https://ondemand.saucelabs.com:443/wd/hub",
+            file_detector=UselessFileDetector(),
+        )
+        self.driver.implicitly_wait(5)
+        self.actions = webdriver.ActionChains(self.driver)
+        print('Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(
+            self.driver.session_id
+        ))
+        self.image_path = os.path.join(settings.BASE_DIR, 'test-images')
+        if not os.path.exists(self.image_path):
+            os.makedirs(self.image_path)
+
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
         self.driver.set_window_size(1280, 1024)
         site = Site.objects.get(pk=1)
         site.domain = '{}:{}'.format(self.host, self.server_thread.port)
         site.save()
 
-    @classmethod
-    def tearDownClass(cls):
-        super(SeleniumTests, cls).tearDownClass()
-        if cls.driver is not None:
-            cls.driver.quit()
-            cls.driver = None
+    def tearDown(self):
+        if self.driver is not None:
+            if hasattr(self, '_outcome'):  # Python 3.4+
+                # these 2 methods have no side effects
+                result = self.defaultTestResult()
+                self._feedErrorsToResult(result, self._outcome.errors)
+            else:  # Python 3.2 - 3.3 or 3.0 - 3.1 and 2.7
+                result = getattr(
+                    self, '_outcomeForDoCleanups', self._resultForDoCleanups
+                )
+            error = self.list2reason(result.errors)
+            failure = self.list2reason(result.failures)
+            if not error and not failure:
+                self.driver.execute_script('sauce:job-result=passed')
+            else:
+                self.driver.execute_script('sauce:job-result=failed')
+
+            self.driver.quit()
+            self.driver = None
+
+    def list2reason(self, exc_list):
+        if exc_list and exc_list[-1][0] is self:
+            return exc_list[-1][1]
+        return None
 
     def scroll_top(self):
         self.driver.execute_script('window.scrollTo(0, 0)')
