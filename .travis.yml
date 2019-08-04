@@ -10,11 +10,14 @@ dist: xenial
 language: python
 python:
   - "3.7"
+stages:
+  - name: "Static analysis"
+  - name: "Tests"
+  - name: "Sanity checks"
 # build matrix configuration
 env:
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
-    - CI_MODE=test
     - CI_DATABASE=postgresql
     - SAUCE_USERNAME=nijel
     - CC_TEST_REPORTER_ID=b477753e9d539176556058b92f0f6594e7823ab95d1db1348f189745ea618af6
@@ -34,23 +37,19 @@ install:
   - pip install $CI_DEPS Cython pycairo
   - pip install -r ci/requirements-travis.txt
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
-  - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
   - ./ci/prepare-database
   - ./manage.py collectstatic --noinput
   - ./manage.py list_versions
+  - ./manage.py compilemessages
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-# commands to run tests
 script:
-  - ./manage.py compilemessages
-  - ./ci/run-$CI_MODE
+  - ./ci/run-test
 # upload coverage
 after_script:
-  # Kill Sauce Connect Proxy if running
-  - if [ -f ~/.sauce-pid ] ; then kill `cat ~/.sauce-pid` ; cat ~/.sauce-log ; fi
   # Combine partial reports
   - coverage combine
   - coverage xml
@@ -58,35 +57,12 @@ after_script:
   - codecov
   # CodeClimate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-matrix:
-  include:
-    - name: "Django 2.2, sqlite"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=sqlite
-    - name: "Django 2.2, mysql"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=mysql
-    - name: "Django 2.2, postgresql"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=postgresql
-    - name: "Django 2.2, selenium"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_MODE=selenium
-    - name: 'Django 2.1'
-      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
-    - name: 'Django 2.2, Python 3.5'
-      python: "3.5"
-      env: CI_DEPS="Django>=2.2,<2.3"
-    - name: 'Django 1.11, Python 2.7'
-      python: "2.7"
-      env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
-    - name: 'translate-toolkit pre-release'
-      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
-    - name: "Setup"
-      env: CI_MODE=setup
-    - name: "Migrations"
-      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7" CI_MODE=migrate
-    - name: "Documentation"
-      env: CI_MODE=docs
-    - name: "Lint"
-      env: CI_MODE=lint
-addons:
+cache:
+  pip: true
+git:
+  depth: 100
+  submodules: false
+addons: &aptaddon
   apt:
     packages:
     - git-svn
@@ -98,13 +74,110 @@ addons:
     - g++
     sources:
     - git-core
-  postgresql: "9.6"
-  mariadb: "10.3"
-services:
-  - postgresql
-  - mysql
-cache:
-  pip: true
-git:
-  depth: 100
-  submodules: false
+
+jobs:
+  include:
+    - stage: "Static analysis"
+      name: "Locales (gettext)"
+      env: CI_DATABASE=sqlite
+      before_script: skip
+      after_script: skip
+      script: 
+        - ./manage.py compilemessages
+    - stage: "Static analysis"
+      name: "Coding style (flake8)"
+      env: CI_DATABASE=sqlite
+      before_script: skip
+      after_script: skip
+      script: 
+        - flake8
+    - stage: "Static analysis"
+      name: "Documentation (sphinx)"
+      env: CI_DATABASE=sqlite
+      before_script: skip
+      after_script: skip
+      script: 
+        - make -C docs html SPHINXOPTS='-n -W -a'
+
+    - stage: "Tests"
+      name: "Django 2.2, sqlite"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=sqlite
+    - stage: "Tests"
+      name: "Django 2.2, mysql"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=mysql
+      addons:
+        <<: *aptaddon
+        mariadb: "10.3"
+      services:
+        - mysql
+    - stage: "Tests"
+      name: "Django 2.2, postgresql"
+      env: CI_DEPS="Django>=2.2,<2.3"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Tests"
+      name: "Django 2.2, selenium"
+      env: CI_DEPS="Django>=2.2,<2.3"
+      script:
+        - ./ci/run-selenium
+      addons:
+        <<: *aptaddon
+        sauce_connect: true
+        postgresql: "9.6"
+    - stage: "Tests"
+      name: 'Django 2.1'
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Tests"
+      name: 'Django 2.2, Python 3.5'
+      python: "3.5"
+      env: CI_DEPS="Django>=2.2,<2.3"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Tests"
+      name: 'Django 1.11, Python 2.7'
+      python: "2.7"
+      env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Tests"
+      name: 'translate-toolkit pre-release'
+      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+
+    - stage: "Sanity checks"
+      name: "Setup"
+      script:
+        - ./ci/run-setup
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Sanity checks"
+      name: "Migrations"
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
+      script:
+        - ./ci/run-migrate
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql

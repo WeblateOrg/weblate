@@ -4,5 +4,9 @@
 
 cleanup_database
 
-mysql -e 'SHOW VARIABLES LIKE "%version%";' -uroot
-psql -c 'SELECT version();' -U postgres
+if [ $CI_DATABASE = "mysql" ] ; then
+    mysql -e 'SHOW VARIABLES LIKE "%version%";' -uroot
+fi
+if [ $CI_DATABASE = "postgresql" ] ; then
+    psql -c 'SELECT version();' -U postgres
+fi
