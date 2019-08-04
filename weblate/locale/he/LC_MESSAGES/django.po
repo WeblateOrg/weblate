@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-03 14:38+0000\n"
-"PO-Revision-Date: 2019-07-31 15:05+0000\n"
+"PO-Revision-Date: 2019-08-06 12:37+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -508,10 +508,8 @@ msgid "New suggestion"
 msgstr "הצעה חדשה"
 
 #: weblate/accounts/notifications.py:375
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "הוספת הערה על התרגום שנערך"
+msgstr "הוספת הערה על תרגום שלך"
 
 #: weblate/accounts/notifications.py:398
 msgid "Mentioned in comment"
@@ -2144,10 +2142,8 @@ msgid "Font deleted."
 msgstr "הגופן נמחק."
 
 #: weblate/fonts/views.py:148
-#, fuzzy
-#| msgid "No words found!"
 msgid "No override found."
-msgstr "לא נמצאו מילים!"
+msgstr "לא נמצא שכתוב."
 
 #: weblate/fonts/views.py:151
 msgid "Font group deleted."
@@ -2202,32 +2198,22 @@ msgid "gettext PO file (monolingual)"
 msgstr "קובץ PO לפי gettext (חד־לשוני)"
 
 #: weblate/formats/ttkit.py:757
-#, fuzzy
-#| msgid "Qt Linguist Translation File"
 msgid "Qt Linguist translation file"
 msgstr "קובץ תרגום של Qt Linguist"
 
 #: weblate/formats/ttkit.py:773
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF translation file"
 msgstr "קובץ תרגום XLIFF"
 
 #: weblate/formats/ttkit.py:788
-#, fuzzy
-#| msgid "XLIFF Translation File with PO extensions"
 msgid "XLIFF translation file with PO extensions"
 msgstr "קובץ תרגום XLIFF עם הרחבות PO"
 
 #: weblate/formats/ttkit.py:815
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "iOS strings"
 msgstr "מחרוזות iOS"
 
 #: weblate/formats/ttkit.py:824
-#, fuzzy
-#| msgid "iOS Strings (UTF-8)"
 msgid "iOS strings (UTF-8)"
 msgstr "מחרוזות iOS‏ (UTF-8)"
 
@@ -2240,8 +2226,6 @@ msgid "Java Properties (UTF-16)"
 msgstr "קובץ מאפיינים של Java‏ (UTF-16)"
 
 #: weblate/formats/ttkit.py:844
-#, fuzzy
-#| msgid "Java Properties (ISO-8859-1)"
 msgid "Java Properties (ISO 8859-1)"
 msgstr "קובץ מאפיינים של Java‏ (ISO-8859-1)"
 
@@ -2310,20 +2294,14 @@ msgid "SubRip subtitle file"
 msgstr "קובץ כתוביות SubRip"
 
 #: weblate/formats/ttkit.py:1178
-#, fuzzy
-#| msgid "MicroDVD subtitles file"
 msgid "MicroDVD subtitle file"
 msgstr "קובץ כתוביות MicroDVD"
 
 #: weblate/formats/ttkit.py:1185
-#, fuzzy
-#| msgid "Advanced Substation Alpha subtitles file"
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "קובץ כתוביות Advanced Substation Alpha"
 
 #: weblate/formats/ttkit.py:1192
-#, fuzzy
-#| msgid "Substation Alpha subtitles file"
 msgid "SubStation Alpha subtitle file"
 msgstr "קובץ כתוביות Substation Alpha"
 
@@ -3420,7 +3398,7 @@ msgstr "גישת API"
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
-msgstr ""
+msgstr "ניתן לשלוח בקשה למיזם אותו ברצונך לתרגם כדי להוסיף שפה חסרה."
 
 #: weblate/templates/accounts/profile.html:45
 #: weblate/templates/accounts/profile.html:58
@@ -3449,6 +3427,8 @@ msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
 msgstr ""
+"ניתן להוסיף את כל המיזמים אותם ברצונך לתרגם כדי לצפות בהם כמיזמים במעקב בלוח "
+"הבקרה."
 
 #: weblate/templates/accounts/profile.html:77
 msgid "Notification settings"
@@ -3497,10 +3477,8 @@ msgstr "הסרה"
 
 #: weblate/templates/accounts/profile.html:165
 #: weblate/templates/accounts/removal.html:12
-#, fuzzy
-#| msgid "Removal of the account deletes all your private data."
 msgid "Account removal deletes all your private data."
-msgstr "הסרת החשבון מוחקת את כל הנתונים הפרטיים שלך."
+msgstr "הסרת חשבון מוחקת את כל הנתונים הפרטיים שלך."
 
 #: weblate/templates/accounts/profile.html:168
 msgid "Remove my account"
@@ -3545,7 +3523,7 @@ msgstr "תיאור"
 
 #: weblate/templates/accounts/profile.html:219
 msgid "Contact us immediately if you see anything suspicious in the audit log."
-msgstr ""
+msgstr "רצוי ליצור קשר באופן בהול אם משהו נראה חשוד ביומן הפיקוח."
 
 #: weblate/templates/accounts/profile.html:228
 #: weblate/templates/last-changes-content.html:8
@@ -3671,8 +3649,6 @@ msgid "Redirecting you to the authentication provider."
 msgstr "הופנית לספק האימות."
 
 #: weblate/templates/accounts/register.html:18
-#, fuzzy
-#| msgid "Please read our Terms of Service prior to registration."
 msgid "Please read our Terms of Service before registering."
 msgstr "נא לקרוא את תנאי השירות שלנו לפני ההרשמה."
 
@@ -3946,13 +3922,9 @@ msgid "Project URL slug"
 msgstr "כתובת מופשטת של מיזם"
 
 #: weblate/templates/addons/squash_help.html:4
-#, fuzzy
-#| msgid ""
-#| "All Weblate commits from all components within this repository will be "
-#| "squashed."
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "כל ההגשות מצד Weblate מכל הרכיבים שבמאגר זה יימעכו."
+msgstr "הגשות מצד Weblate מהרכיבים שבמאגר זה יימעכו."
 
 #: weblate/templates/addons/squash_help.html:7
 #, fuzzy
@@ -4152,7 +4124,7 @@ msgstr "חיוב"
 
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
-msgstr ""
+msgstr "אין תשלומי מינוי או תפוגת תוקף."
 
 #: weblate/templates/billing/status.html:6
 msgid "Current plan"
@@ -4281,10 +4253,8 @@ msgid "Abort the update"
 msgstr "ביטול העדכון"
 
 #: weblate/templates/component-progress.html:40
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Return to the component after completion"
-msgstr "חזרה לרכיב"
+msgstr "חזרה לרכיב לאחר ההשלמה"
 
 #: weblate/templates/component.html:32
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4472,10 +4442,8 @@ msgid "Please log in to start new translation"
 msgstr "נא להיכנס כדי להתחיל תרגום חדש"
 
 #: weblate/templates/component.html:160
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please log in to see the alerts."
-msgstr "נא להיכנס כדי לשמור תרגומים."
+msgstr "נא להיכנס כדי לצפות בהתראות."
 
 #: weblate/templates/component.html:190 weblate/templates/project.html:177
 #: weblate/templates/translation.html:245
@@ -4489,7 +4457,7 @@ msgstr ""
 #: weblate/templates/component.html:195 weblate/templates/project.html:182
 #: weblate/templates/replace.html:51 weblate/templates/translation.html:250
 msgid "Replace"
-msgstr ""
+msgstr "החלפה"
 
 #: weblate/templates/component.html:208
 msgid "You can change the state of all strings matching a given type at once."
@@ -4499,7 +4467,7 @@ msgstr "ניתן לשנות את מצבן של כל המחרוזות שתואמ�
 #: weblate/templates/translation.html:231
 #: weblate/templates/translation.html:268
 msgid "Apply"
-msgstr ""
+msgstr "החלה"
 
 #: weblate/templates/component.html:222 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -4884,10 +4852,8 @@ msgid "Comma separated values (CSV)"
 msgstr "ערכים מופרדים בפסיקים (CSV)‎"
 
 #: weblate/templates/dictionary.html:34
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext (PO)"
-msgstr "Gettext (PO)‎"
+msgstr "gettext (PO)"
 
 #: weblate/templates/dictionary.html:35
 msgid "XML Localization Interchange File Format (XLIFF)"
@@ -5507,20 +5473,16 @@ msgid "Your registration on %(site_title)s"
 msgstr "הרשמתך באתר %(site_title)s"
 
 #: weblate/templates/mail/base.html:218 weblate/templates/translation.html:183
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation Information"
-msgstr "התרעות על תרגום"
+msgstr "מידע על תרגום"
 
 #: weblate/templates/mail/base.html:247
-#, fuzzy
-#| msgid "Project Information"
 msgid "Component Information"
-msgstr "מידע על המיזם"
+msgstr "מידע על רכיב"
 
 #: weblate/templates/mail/base.html:268 weblate/templates/source.html:34
 msgid "Project Information"
-msgstr "מידע על המיזם"
+msgstr "מידע על מיזם"
 
 #: weblate/templates/mail/base.html:300
 msgid "Weblate, the continuous localization system"
@@ -5605,6 +5567,8 @@ msgid ""
 "%(from_user)s invites you to collaborate on the %(project_name)s translation "
 "project at %(site_title)s."
 msgstr ""
+"קיבלת הזמנה מאת %(from_user)s להשתתף במיזם התרגום של %(project_name)s תחת "
+"%(site_title)s."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, fuzzy, python-format
@@ -5880,7 +5844,7 @@ msgstr "הוספת משתמש חדש"
 
 #: weblate/templates/manage-access.html:85
 msgid "Invite"
-msgstr ""
+msgstr "הזמנה"
 
 #: weblate/templates/manage-access.html:96
 #, fuzzy
@@ -6122,7 +6086,7 @@ msgstr "מספר מילות המקור"
 msgid ""
 "Your request was rejected because you have performed too many operations "
 "recently."
-msgstr ""
+msgstr "הבקשה שלך נדחתה כיוון שביצעת יותר מדי פעולות לאחרונה."
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please log in and try again later."
@@ -6141,6 +6105,8 @@ msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more entries."
 msgstr ""
+"מוצגים ומתבצעות החלפות ב־250 התוצאות הראשונות. יש לבצע את ההחלפה שוב כדי "
+"להחליף ברשומות נוספות."
 
 #: weblate/templates/screenshots/screenshot_detail.html:21
 msgid "Assigned source strings"
@@ -9195,10 +9161,8 @@ msgid "Failed to find group to add a user!"
 msgstr "חיפוש הקבוצה להוספת המשתמש נכשל!"
 
 #: weblate/trans/views/acl.py:184
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been invited to this project."
-msgstr "המשתמש נוסף למיזם הזה."
+msgstr "המשתמש הוזמן למיזם הזה."
 
 #: weblate/trans/views/acl.py:218
 msgid "User has been removed from this project."
@@ -9273,10 +9237,8 @@ msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
 #: weblate/trans/views/create.py:295
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Failed to parse uploaded ZIP file."
-msgstr "פענוח קובץ ה־TMX נכשל!"
+msgstr "פענוח קובץ ה־ZIP שהועלה נכשל."
 
 #: weblate/trans/views/dashboard.py:154
 msgid ""
@@ -9583,26 +9545,20 @@ msgid "{0}%"
 msgstr "{0}%"
 
 #: weblate/trans/widgets.py:244
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Big status badge"
-msgstr "שינוי מצב כמותי"
+msgstr "חלונית מצב גדולה"
 
 #: weblate/trans/widgets.py:276
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Small status badge"
-msgstr "שינוי מצב כמותי"
+msgstr "חלונית מצב קטנה"
 
 #: weblate/trans/widgets.py:298
 msgid "Open Graph image"
 msgstr "תמונת Open Graph"
 
 #: weblate/trans/widgets.py:339
-#, fuzzy
-#| msgid "Status widgets"
 msgid "Status badge"
-msgstr "וידג׳טים לתמונת מצב"
+msgstr "חלונית מצב"
 
 #: weblate/trans/widgets.py:342
 msgid "translated"
