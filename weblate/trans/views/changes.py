@@ -55,7 +55,7 @@ class ChangesView(ListView):
         self.translation = None
         self.language = None
         self.user = None
-        self.glossary = False
+        self.actions = set()
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -124,8 +124,9 @@ class ChangesView(ListView):
                     'Changes by user', 'Changes by %s'
                 ) % self.user.full_name
 
-        if self.glossary:
-            url['glossary'] = 1
+        url = list(url.items())
+        for action in self.actions:
+            url.append(('action', action))
 
         if not url:
             context['changes_rss'] = reverse('rss')
@@ -177,6 +178,14 @@ class ChangesView(ListView):
                     _('Failed to find matching user!')
                 )
 
+    def _get_request_actions(self):
+        if 'action' in self.request.GET:
+            for action in self.request.GET.getlist('action'):
+                try:
+                    self.actions.add(int(action))
+                except ValueError:
+                    continue
+
     def get_queryset(self):
         """Return list of changes to browse."""
         self._get_queryset_project()
@@ -185,8 +194,7 @@ class ChangesView(ListView):
 
         self._get_queryset_user()
 
-        # Glossary entries
-        self.glossary = 'glossary' in self.request.GET
+        self._get_request_actions()
 
         result = Change.objects.last_changes(self.request.user)
 
@@ -203,8 +211,8 @@ class ChangesView(ListView):
                 | Q(dictionary__language=self.language)
             )
 
-        if self.glossary:
-            result = result.filter(dictionary__isnull=False)
+        if self.actions:
+            result = result.filter(action__in=self.actions)
 
         if self.user is not None:
             result = result.filter(user=self.user)

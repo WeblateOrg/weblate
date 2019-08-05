@@ -111,11 +111,13 @@ def edit_dictionary(request, project, lang, pk):
             'language': lang,
             'form': form,
             'last_changes': last_changes,
-            'last_changes_url': urlencode({
-                'project': prj.slug,
-                'lang': lang.code,
-                'glossary': 1
-            }),
+            'last_changes_url': urlencode((
+                ('project', prj.slug),
+                ('lang', lang.code),
+                ('action', Change.ACTION_DICTIONARY_NEW),
+                ('action', Change.ACTION_DICTIONARY_EDIT),
+                ('action', Change.ACTION_DICTIONARY_UPLOAD),
+            )),
         }
     )
 
@@ -356,10 +358,12 @@ def show_dictionary(request, project, lang):
             'searchform': searchform,
             'letter': letter,
             'last_changes': last_changes,
-            'last_changes_url': urlencode({
-                'project': prj.slug,
-                'lang': lang.code,
-                'glossary': 1
-            }),
+            'last_changes_url': urlencode((
+                ('project', prj.slug),
+                ('lang', lang.code),
+                ('action', Change.ACTION_DICTIONARY_NEW),
+                ('action', Change.ACTION_DICTIONARY_EDIT),
+                ('action', Change.ACTION_DICTIONARY_UPLOAD),
+            )),
         }
     )
