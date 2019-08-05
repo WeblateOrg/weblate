@@ -299,8 +299,10 @@ del {
         <div class="row">
 			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the continuous localization system" %}</a></div>
             <div class="footer-right">
-                <a href="{{ current_site_url }}{% url 'home' %}">{{ current_site_url }}{% url 'home' %}</a> • 
-                <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Change notification settings" %}</a>
+                <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
+                {% if unsubscribe_nonce %}
+                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Unsubscribe" %}</a>
+                {% endif %}
             </div>
 		</div>
         <div class="row">

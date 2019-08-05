@@ -30,6 +30,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail.message import EmailMultiAlternatives
+from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -81,7 +82,7 @@ from weblate.accounts.forms import (
     UserForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, set_lang
+from weblate.accounts.models import AuditLog, Subscription, set_lang
 from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
@@ -1073,3 +1074,22 @@ def social_complete(request, backend):
             'Could not complete registration. The supplied authentication, '
             'email or username is already in use for another account.'
         ))
+
+
+def unsubscribe(request):
+    if 'i' in request.GET:
+        signer = TimestampSigner()
+        try:
+            subscription = Subscription.objects.get(
+                pk=int(signer.unsign(request.GET['i'], max_age=24 * 3600))
+            )
+            subscription.frequency = FREQ_NONE
+            subscription.save(update_fields=['frequency'])
+            messages.success(request, _('Subscription settings adjusted.'))
+        except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
+            messages.error(request, _(
+                'The unsubscribe link is no longer valid, '
+                'please log in to configure notifications.'
+            ))
+
+    return redirect_profile('#notifications')

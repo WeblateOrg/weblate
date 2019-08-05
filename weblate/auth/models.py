@@ -359,6 +359,7 @@ class User(AbstractBaseUser):
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
         self.perm_cache = {}
+        self.current_subscription = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)

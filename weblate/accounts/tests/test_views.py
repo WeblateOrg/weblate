@@ -22,12 +22,14 @@
 
 from django.conf import settings
 from django.core import mail
+from django.core.signing import TimestampSigner
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.encoding import force_text
 
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, Subscription
+from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -510,3 +512,30 @@ class ProfileTest(FixtureTestCase):
             0
         )
         self.assertEqual(self.user.subscription_set.count(), 9)
+
+    def test_unsubscribe(self):
+        response = self.client.get(reverse('unsubscribe'), follow=True)
+        self.assertRedirects(response, reverse('profile') + '#notifications')
+
+        response = self.client.get(reverse('unsubscribe'), {'i': 'x'}, follow=True)
+        self.assertRedirects(response, reverse('profile') + '#notifications')
+        self.assertContains(response, 'unsubscribe link is no longer valid')
+
+        response = self.client.get(
+            reverse('unsubscribe'), {'i': TimestampSigner().sign(-1)}, follow=True
+        )
+        self.assertRedirects(response, reverse('profile') + '#notifications')
+        self.assertContains(response, 'unsubscribe link is no longer valid')
+
+        subscription = Subscription.objects.create(
+            user=self.user, notification='x', frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
+        )
+        response = self.client.get(
+            reverse('unsubscribe'),
+            {'i': TimestampSigner().sign(subscription.pk)},
+            follow=True
+        )
+        self.assertRedirects(response, reverse('profile') + '#notifications')
+        self.assertContains(response, 'Subscription settings adjusted')
+        subscription.refresh_from_db()
+        self.assertEqual(subscription.frequency, FREQ_NONE)

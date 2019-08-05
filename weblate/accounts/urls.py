@@ -78,6 +78,7 @@ urlpatterns = [
     ),
     url(r'^profile/$', weblate.accounts.views.user_profile, name='profile'),
     url(r'^userdata/$', weblate.accounts.views.userdata, name='userdata'),
+    url(r'^unsubscribe/$', weblate.accounts.views.unsubscribe, name='unsubscribe'),
     url(
         r'^watch/(?P<project>[^/]+)/$',
         weblate.accounts.views.watch,

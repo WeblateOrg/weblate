@@ -25,6 +25,7 @@ Not yet released.
 * Extended predefined periods for reporting.
 * Added support for Azure Repos webhooks.
 * New opt-in notifications on pending suggestions or untranslated strings.
+* Add one click unsubscribe link to notification emails.
 
 weblate 3.7.1
 -------------

@@ -24,6 +24,7 @@ from copy import copy
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
+from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -179,6 +180,7 @@ class Notification(object):
             if frequency == FREQ_INSTANT and self.should_skip(user, change):
                 continue
             if subscription.frequency == frequency:
+                last_user.current_subscription = subscription
                 yield last_user
 
     def send(self, address, subject, body, headers):
@@ -197,7 +199,7 @@ class Notification(object):
         )
         return render_to_string(template_name, context).strip()
 
-    def get_context(self, change=None, extracontext=None):
+    def get_context(self, change=None, subscription=None, extracontext=None):
         """Return context for rendering mail"""
         result = {
             'LANGUAGE_CODE': get_language(),
@@ -206,6 +208,8 @@ class Notification(object):
             'site_title': settings.SITE_TITLE,
             'notification_name': self.verbose,
         }
+        if subscription is not None:
+            result['unsubscribe_nonce'] = TimestampSigner().sign(subscription.pk)
         if extracontext:
             result.update(extracontext)
         if change:
@@ -258,9 +262,10 @@ class Notification(object):
             headers['References'] = references
         return headers
 
-    def send_immediate(self, language, email, change, extracontext=None):
+    def send_immediate(self, language, email, change, extracontext=None,
+                       subscription=None):
         with override('en' if language is None else language):
-            context = self.get_context(change, extracontext)
+            context = self.get_context(change, subscription, extracontext)
             subject = self.render_template('_subject.txt', context)
             context['subject'] = subject
             LOGGER.info(
@@ -281,12 +286,13 @@ class Notification(object):
         for user in self.get_users(FREQ_INSTANT, change):
             if change.project is None or user.can_access_project(change.project):
                 self.send_immediate(
-                    user.profile.language, user.email, change
+                    user.profile.language, user.email, change,
+                    subscription=user.current_subscription,
                 )
 
-    def send_digest(self, language, email, changes):
+    def send_digest(self, language, email, changes, subscription=None):
         with override('en' if language is None else language):
-            context = self.get_context()
+            context = self.get_context(subscription=subscription)
             context['changes'] = changes
             subject = self.render_template(
                 '_subject.txt', context, digest=True
@@ -313,7 +319,8 @@ class Notification(object):
                     users[user.pk] = user
         for user in users.values():
             self.send_digest(
-                user.profile.language, user.email, notifications[user.pk]
+                user.profile.language, user.email, notifications[user.pk],
+                subscription=user.current_subscription,
             )
 
     def filter_changes(self, **kwargs):
@@ -458,9 +465,9 @@ class NewTranslationNotificaton(Notification):
     verbose = _('New language')
     template_name = 'new_language'
 
-    def get_context(self, change=None, extracontext=None):
+    def get_context(self, change=None, subscription=None, extracontext=None):
         context = super(NewTranslationNotificaton, self).get_context(
-            change, extracontext
+            change, subscription, extracontext
         )
         if change:
             context['language'] = Language.objects.get(
@@ -524,7 +531,10 @@ class SummaryNotification(Notification):
                 'translation': translation,
             }
             for user in self.get_users(frequency, **context):
-                self.send_immediate(user.profile.language, user.email, None, context)
+                self.send_immediate(
+                    user.profile.language, user.email, None, context,
+                    subscription=user.current_subscription,
+                )
 
 
 @register_notification
