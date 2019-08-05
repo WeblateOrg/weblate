@@ -100,7 +100,7 @@ jobs:
       env: CI_DEPS="Django>=2.2,<2.3"
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
     - stage: "Basic tests"
@@ -111,7 +111,7 @@ jobs:
       addons:
         <<: *aptaddon
         sauce_connect: true
-        postgresql: "9.6"
+        postgresql: "11"
 
     - stage: "Sanity checks"
       name: "Setup"
@@ -119,7 +119,7 @@ jobs:
         - ./ci/run-setup
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
     - stage: "Sanity checks"
@@ -129,7 +129,7 @@ jobs:
         - ./ci/run-migrate
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
         mariadb: "10.3"
       services:
         - postgresql
@@ -151,7 +151,7 @@ jobs:
       env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
     - stage: "Extended tests"
@@ -160,7 +160,7 @@ jobs:
       env: CI_DEPS="Django>=2.2,<2.3"
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
     - stage: "Extended tests"
@@ -169,7 +169,7 @@ jobs:
       env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
     - stage: "Extended tests"
@@ -177,6 +177,6 @@ jobs:
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
       addons:
         <<: *aptaddon
-        postgresql: "9.6"
+        postgresql: "11"
       services:
         - postgresql
