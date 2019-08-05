@@ -43,9 +43,6 @@ before_script:
   - ./manage.py collectstatic --noinput
   - ./manage.py list_versions
   - ./manage.py compilemessages
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 script:
   - ./ci/run-test
 # upload coverage
@@ -55,8 +52,6 @@ after_script:
   - coverage xml
   # CodeCov
   - codecov
-  # CodeClimate
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 cache:
   pip: true
 git:
