@@ -538,6 +538,8 @@ LANGUAGES = (
     ('rof', _('Rombo'), 2, 'n != 1'),
     # Translators: Language name, ISO code: ru
     ('ru', _('Russian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    # Translators: Language name, ISO code: ru_UA
+    ('ru_UA', _('Russian (Ukraine)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
     # Translators: Language name, ISO code: rue
     ('rue', _('Rusyn'), 2, 'n != 1'),
     # Translators: Language name, ISO code: rw
