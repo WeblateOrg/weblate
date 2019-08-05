@@ -3,7 +3,7 @@
 
 <tr>
 <td{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %} rowspan="2"{% endif %} class="vertical-badge">
-{% if item.translation.component == unit.translation.component %}
+{% if item.pk == unit.pk %}
 <span class="badge pull-right flip">{% trans "This translation" %}</span>
 {% endif %}
 {% get_state_badge item %}
