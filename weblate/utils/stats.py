@@ -40,8 +40,9 @@ from weblate.utils.state import (
 )
 
 BASICS = frozenset((
-    'all', 'fuzzy', 'todo', 'translated', 'approved', 'allchecks',
-    'suggestions', 'comments', 'approved_suggestions', 'languages',
+    'all', 'fuzzy', 'todo', 'nottranslated', 'translated', 'approved',
+    'allchecks', 'suggestions', 'comments', 'approved_suggestions',
+    'languages',
 ))
 BASIC_KEYS = frozenset(
     ['{}_words'.format(x) for x in BASICS if x != 'languages']
