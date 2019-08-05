@@ -21,6 +21,7 @@ Not yet released.
 * Added support for animated screenshots.
 * Improved handling of monolingual Xliff files.
 * Avoid sending multiple notifications for single event.
+* Add support for filtering changes.
 
 weblate 3.7.1
 -------------

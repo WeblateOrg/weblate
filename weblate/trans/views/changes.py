@@ -33,6 +33,7 @@ from django.views.generic.list import ListView
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.forms import ChangesForm
 from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.site import get_site_url
@@ -133,6 +134,8 @@ class ChangesView(ListView):
 
         context['query_string'] = urlencode(url)
 
+        context['form'] = ChangesForm(self.request, data=self.request.GET)
+
         return context
 
     def _get_queryset_project(self):
@@ -154,7 +157,7 @@ class ChangesView(ListView):
 
     def _get_queryset_language(self):
         """Filtering by language"""
-        if self.translation is None and 'lang' in self.request.GET:
+        if self.translation is None and self.request.GET.get('lang'):
             try:
                 self.language = Language.objects.get(
                     code=self.request.GET['lang']

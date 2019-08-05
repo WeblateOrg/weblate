@@ -2070,3 +2070,33 @@ class WhiteboardForm(forms.ModelForm):
         widgets = {
             'expiry': WeblateDateInput()
         }
+
+
+class ChangesForm(forms.Form):
+    project = forms.ChoiceField(
+        label=_('Project'),
+        choices=[('', '')],
+        required=False,
+    )
+    lang = forms.ChoiceField(
+        label=_('Language'),
+        choices=[('', '')],
+        required=False,
+    )
+    action = forms.MultipleChoiceField(
+        label=_('Action'),
+        required=False,
+        widget=SortedSelectMultiple,
+        choices=Change.ACTION_CHOICES,
+    )
+
+    def __init__(self, request, *args, **kwargs):
+        super(ChangesForm, self).__init__(*args, **kwargs)
+        self.fields['lang'].choices += [
+            (l.code, force_text(l))
+            for l in Language.objects.have_translation()
+        ]
+        self.fields['project'].choices += [
+            (p.slug, p.name)
+            for p in request.user.allowed_projects
+        ]

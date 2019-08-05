@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -47,5 +48,23 @@
 {% endwith %}
 
 {% include "paginator.html" %}
+
+<form method="get">
+{% if changes_user %}
+<input type="hidden" name="user" value="{{ changes_user.username }}" />
+{% endif %}
+{% if component %}
+<input type="hidden" name="component" value="{{ component.slug }}" />
+{% endif %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
+  <div class="panel-body">
+  {{ form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
+</div>
+</div>
+</form>
 
 {% endblock %}
