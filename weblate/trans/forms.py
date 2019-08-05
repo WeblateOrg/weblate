@@ -436,9 +436,6 @@ class ChecksumForm(forms.Form):
                 id_hash=self.cleaned_data['checksum']
             )[0]
         except (Unit.DoesNotExist, IndexError):
-            self.translation.log_error(
-                'string %s disappeared!', self.cleaned_data['checksum']
-            )
             raise ValidationError(_(
                 'The string you wanted to translate is no longer available!'
             ))
