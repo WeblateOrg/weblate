@@ -23,6 +23,7 @@
   <th>{% trans "Username" %}</th>
   <th>{% trans "Full name" %}</th>
   <th>{% trans "Email" %}</th>
+  <th>{% trans "Last login" %}</th>
   {% for group in groups %}
   <th class="vertical-text">{{ group.short_name }}</th>
   {% endfor %}
@@ -34,6 +35,7 @@
   <td>{{ user.username }}</td>
   <td>{{ user.full_name }}</td>
   <td>{{ user.email }}</td>
+  <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet logged in" %}{% endif %}</td>
   {% user_permissions user groups %}
   <td>
 <form action="{% url "delete-user" project=object.slug %}" method="post">
