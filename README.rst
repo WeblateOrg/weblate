@@ -1,9 +1,9 @@
 Weblate
 =======
 
-.. image:: https://travis-ci.org/WeblateOrg/weblate.svg
+.. image:: https://travis-ci.com/WeblateOrg/weblate.svg
     :alt: Build status
-    :target: https://travis-ci.org/WeblateOrg/weblate
+    :target: https://travis-ci.com/WeblateOrg/weblate
 
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
