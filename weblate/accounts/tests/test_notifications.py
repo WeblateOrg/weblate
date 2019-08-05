@@ -354,10 +354,44 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_digest_monthly(self):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
-    def test_diget_new_lang(self):
+    def test_digest_new_lang(self):
         self.test_digest(
             change=Change.ACTION_REQUESTED_LANGUAGE,
             subj='New language'
+        )
+
+    def test_reminder(self, frequency=FREQ_DAILY, notify=notify_daily,
+                      notification='ToDoStringsNotification',
+                      subj='Strings needing action in Test/Test'):
+        self.user.subscription_set.create(
+            scope=SCOPE_DEFAULT,
+            notification=notification,
+            frequency=frequency
+        )
+        # Check mail
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Trigger notification
+        notify()
+        self.validate_notifications(1, '[Weblate] {}'.format(subj))
+
+    def test_reminder_weekly(self):
+        self.test_reminder(FREQ_WEEKLY, notify_weekly)
+
+    def test_reminder_monthly(self):
+        self.test_reminder(FREQ_MONTHLY, notify_monthly)
+
+    def test_reminder_suggestion(self):
+        unit = self.get_unit()
+        Suggestion.objects.create(
+            content_hash=unit.content_hash,
+            project=unit.translation.component.project,
+            language=unit.translation.language,
+            target='Foo'
+        )
+        self.test_reminder(
+            notification='PendingSuggestionsNotification',
+            subj='Pending suggestions in Test/Test'
         )
 
 

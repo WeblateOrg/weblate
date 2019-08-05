@@ -1,0 +1,15 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% blocktrans count count=translation.stats.suggestions %}There is {{ count }} string with suggestion in {{ component }}.{% plural %}There are {{ count }} strings with suggestions in {{ component }}.{% endblocktrans %}
+</p>
+
+<div class="line buttons">
+    <a class="button" href="{{ current_site_url }}{{ translation.get_absolute_url }}?type=suggestions">{% trans "View" %}</a>
+</div>
+
+{% endblock %}
+

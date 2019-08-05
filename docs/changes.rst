@@ -24,6 +24,7 @@ Not yet released.
 * Add support for filtering changes.
 * Extended predefined periods for reporting.
 * Added support for Azure Repos webhooks.
+* New opt-in notifications on pending suggestions or untranslated strings.
 
 weblate 3.7.1
 -------------

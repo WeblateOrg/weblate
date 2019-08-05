@@ -35,7 +35,7 @@ from weblate import VERSION
 from weblate.accounts.tasks import send_mails
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.models import Alert, Change
+from weblate.trans.models import Alert, Change, Translation
 from weblate.utils.site import get_site_domain, get_site_url
 
 FREQ_NONE = 0
@@ -493,6 +493,56 @@ class NewAlertNotificaton(Notification):
     verbose = _('New alert')
     template_name = 'new_alert'
     required_attr = 'alert'
+
+
+class SummaryNotification(Notification):
+    filter_languages = True
+
+    @staticmethod
+    def get_freq_choices():
+        return [x for x in FREQ_CHOICES if x[0] != FREQ_INSTANT]
+
+    def notify_daily(self):
+        self.notify_summary(FREQ_DAILY)
+
+    def notify_weekly(self):
+        self.notify_summary(FREQ_WEEKLY)
+
+    def notify_monthly(self):
+        self.notify_summary(FREQ_MONTHLY)
+
+    def should_notify(self, translation):
+        return False
+
+    def notify_summary(self, frequency):
+        for translation in Translation.objects.prefetch().iterator():
+            if not self.should_notify(translation):
+                continue
+            context = {
+                'project': translation.component.project,
+                'component': translation.component,
+                'translation': translation,
+            }
+            for user in self.get_users(frequency, **context):
+                self.send_immediate(user.profile.language, user.email, None, context)
+
+
+@register_notification
+class PendingSuggestionsNotification(SummaryNotification):
+    verbose = _('Pending suggestions')
+    template_name = 'pending_suggestions'
+
+    def should_notify(self, translation):
+        return translation.stats.suggestions > 0
+
+
+@register_notification
+class ToDoStringsNotification(SummaryNotification):
+    verbose = _('Strings needing action')
+    template_name = 'todo_strings'
+
+    def should_notify(self, translation):
+        return translation.stats.todo > 0
 
 
 def get_notification_emails(language, email, notification, context=None, info=None):
