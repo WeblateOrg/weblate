@@ -39,7 +39,7 @@ install:
   - pip install -r ci/requirements-travis.txt
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
 # create databases
-before_script:
+before_script: &before
   - ./ci/prepare-database
   - ./manage.py collectstatic --noinput
   - ./manage.py list_versions
@@ -47,7 +47,7 @@ before_script:
 script:
   - ./ci/run-test
 # upload coverage
-after_script:
+after_script: &after
   # Combine partial reports
   - coverage combine
   - coverage xml
@@ -106,11 +106,18 @@ jobs:
     - stage: "Basic tests"
       name: "Django 2.2, selenium"
       env: CI_DEPS="Django>=2.2,<2.3"
+      before_script:
+        <<: *before
+        - ./ci/install-sauce
       script:
         - ./ci/run-selenium
+      after_script:
+        <<: *after
+        # Kill Sauce Connect Proxy if running
+        - kill `cat ~/.sauce-pid`
+        - cat ~/.sauce-log
       addons:
         <<: *aptaddon
-        sauce_connect: true
         postgresql: "9.6"
 
     - stage: "Sanity checks"
