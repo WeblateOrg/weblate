@@ -353,6 +353,14 @@ Generic settings
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
 
+.. envvar:: WEBLATE_GPG_IDENTITY
+
+   Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`.
+
+   .. seealso::
+
+       :ref:`gpg-sign`
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
