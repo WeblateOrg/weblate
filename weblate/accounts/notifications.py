@@ -106,19 +106,20 @@ class Notification(object):
     def get_name(cls):
         return force_text(cls.__name__)
 
-    def filter_subscriptions(self, change, users, lang_filter):
+    def filter_subscriptions(self, project, component, translation, users,
+                             lang_filter):
         from weblate.accounts.models import Subscription
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
             result = result.filter(user_id__in=users)
         query = Q(scope=SCOPE_DEFAULT) | Q(scope=SCOPE_ADMIN)
-        if change.component:
-            query |= Q(component=change.component)
-        if change.project:
-            query |= Q(project=change.project)
+        if component:
+            query |= Q(component=component)
+        if project:
+            query |= Q(project=project)
         if lang_filter:
             result = result.filter(
-                user__profile__languages=change.translation.language
+                user__profile__languages=translation.language
             )
         return result.filter(
             query
@@ -128,19 +129,19 @@ class Notification(object):
             'user__profile'
         )
 
-    def get_subscriptions(self, change, users):
+    def get_subscriptions(self, change, project, component, translation, users):
         lang_filter = self.need_language_filter(change)
         cache_key = (
-            change.translation.language_id if lang_filter else lang_filter,
-            change.component.pk if change.component else None,
-            change.project.pk if change.project else None
+            translation.language_id if lang_filter else lang_filter,
+            component.pk if component else None,
+            project.pk if project else None
         )
         if users is not None:
             users.sort()
             cache_key += tuple(users)
         if cache_key not in self.subscription_cache:
             self.subscription_cache[cache_key] = self.filter_subscriptions(
-                change, users, lang_filter
+                project, component, translation, users, lang_filter
             )
         return self.subscription_cache[cache_key]
 
@@ -149,23 +150,30 @@ class Notification(object):
             self.required_attr and getattr(change, self.required_attr) is None
         )
 
-    def get_users(self, frequency, change, users=None):
+    def get_users(self, frequency, change=None, project=None, component=None,
+                  translation=None, users=None):
         if self.has_required_attrs(change):
             return
+        if change is not None:
+            project = change.project
+            component = change.component
+            translation = change.translation
         last_user = None
-        subscriptions = self.get_subscriptions(change, users)
+        subscriptions = self.get_subscriptions(
+            change, project, component, translation, users
+        )
         for subscription in subscriptions:
             user = subscription.user
             # Skip lower priority subscription and own changes
-            if user in (last_user, change.user):
+            if change is not None and user in (last_user, change.user):
                 continue
             if (subscription.scope == SCOPE_ADMIN
-                    and not user.has_perm('project.edit', change.project)):
+                    and not user.has_perm('project.edit', project)):
                 continue
             if (subscription.scope == SCOPE_DEFAULT
                     and not self.ignore_watched
-                    and change.project_id is not None
-                    and not user.profile.watched.filter(pk=change.project_id).exists()):
+                    and project is not None
+                    and not user.profile.watched.filter(pk=project.id).exists()):
                 continue
             last_user = user
             if frequency == FREQ_INSTANT and self.should_skip(user, change):
@@ -189,7 +197,7 @@ class Notification(object):
         )
         return render_to_string(template_name, context).strip()
 
-    def get_context(self, change=None):
+    def get_context(self, change=None, extracontext=None):
         """Return context for rendering mail"""
         result = {
             'LANGUAGE_CODE': get_language(),
@@ -198,19 +206,20 @@ class Notification(object):
             'site_title': settings.SITE_TITLE,
             'notification_name': self.verbose,
         }
-        if not change:
-            return result
-        result['change'] = change
-        # Extract change attributes
-        attribs = (
-            'unit', 'translation', 'component', 'project', 'dictionary',
-            'comment', 'suggestion', 'whiteboard', 'alert',
-            'user',
-            'target', 'old', 'details',
-        )
-        for attrib in attribs:
-            result[attrib] = getattr(change, attrib)
-        if result['translation']:
+        if extracontext:
+            result.update(extracontext)
+        if change:
+            result['change'] = change
+            # Extract change attributes
+            attribs = (
+                'unit', 'translation', 'component', 'project', 'dictionary',
+                'comment', 'suggestion', 'whiteboard', 'alert',
+                'user',
+                'target', 'old', 'details',
+            )
+            for attrib in attribs:
+                result[attrib] = getattr(change, attrib)
+        if result.get('translation'):
             result['translation_url'] = get_site_url(
                 result['translation'].get_absolute_url()
             )
@@ -249,9 +258,9 @@ class Notification(object):
             headers['References'] = references
         return headers
 
-    def send_immediate(self, language, email, change):
+    def send_immediate(self, language, email, change, extracontext=None):
         with override('en' if language is None else language):
-            context = self.get_context(change)
+            context = self.get_context(change, extracontext)
             subject = self.render_template('_subject.txt', context)
             context['subject'] = subject
             LOGGER.info(
@@ -381,14 +390,15 @@ class LastAuthorCommentNotificaton(Notification):
         notify = MentionCommentNotificaton([])
         return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
 
-    def get_users(self, frequency, change, users=None):
+    def get_users(self, frequency, change=None, project=None, component=None,
+                  translation=None, users=None):
         last_author = change.unit.get_last_content_change(None, silent=True)[0]
         if last_author.is_anonymous:
             users = []
         else:
             users = [last_author.pk]
         return super(LastAuthorCommentNotificaton, self).get_users(
-            frequency, change, users
+            frequency, change, project, component, translation, users
         )
 
 
@@ -404,12 +414,13 @@ class MentionCommentNotificaton(Notification):
         notify = NewCommentNotificaton([])
         return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
 
-    def get_users(self, frequency, change, users=None):
+    def get_users(self, frequency, change=None, project=None, component=None,
+                  translation=None, users=None):
         if self.has_required_attrs(change):
             return []
         users = [user.pk for user in change.comment.get_mentions()]
         return super(MentionCommentNotificaton, self).get_users(
-            frequency, change, users
+            frequency, change, project, component, translation, users
         )
 
 
@@ -447,8 +458,10 @@ class NewTranslationNotificaton(Notification):
     verbose = _('New language')
     template_name = 'new_language'
 
-    def get_context(self, change=None):
-        context = super(NewTranslationNotificaton, self).get_context(change)
+    def get_context(self, change=None, extracontext=None):
+        context = super(NewTranslationNotificaton, self).get_context(
+            change, extracontext
+        )
         if change:
             context['language'] = Language.objects.get(
                 code=change.details['language']
