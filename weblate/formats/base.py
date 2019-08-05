@@ -52,6 +52,10 @@ def move_atomic(source, target):
         os.rename(source, target)
 
 
+class UnitNotFound(Exception):
+    pass
+
+
 class TranslationUnit(object):
     """Wrapper for translate-toolkit unit.
 
@@ -251,7 +255,7 @@ class TranslationFormat(object):
         # We always need new unit to translate
         if ttkit_unit is None:
             if template_ttkit_unit is None:
-                return (None, False)
+                raise UnitNotFound('Unit not found: {}'.format(context))
             ttkit_unit = deepcopy(template_ttkit_unit)
             add = True
         else:
@@ -271,7 +275,7 @@ class TranslationFormat(object):
         try:
             return (self._source_index[context, source], False)
         except KeyError:
-            return (None, False)
+            raise UnitNotFound('Unit not found: {}, {}'.format(context, source))
 
     def find_unit(self, context, source):
         """Find unit by context and source.

@@ -34,6 +34,7 @@ from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
 from weblate.formats.auto import try_load
+from weblate.formats.base import UnitNotFound
 from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
@@ -51,6 +52,7 @@ from weblate.trans.models.unit import (
 )
 from weblate.trans.signals import store_post_load, vcs_post_commit, vcs_pre_commit
 from weblate.trans.util import split_plural
+from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import TranslationStats
@@ -556,7 +558,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if change_author.id != author_id:
                 continue
 
-            pounit, add = self.store.find_unit(unit.context, unit.source)
+            try:
+                pounit, add = self.store.find_unit(unit.context, unit.source)
+            except UnitNotFound as error:
+                report_error(error, prefix='String disappeared')
+                pounit = None
 
             unit.pending = False
 
