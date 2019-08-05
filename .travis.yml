@@ -12,8 +12,9 @@ python:
   - "3.7"
 stages:
   - name: "Static analysis"
-  - name: "Tests"
+  - name: "Basic tests"
   - name: "Sanity checks"
+  - name: "Extended tests"
 # build matrix configuration
 env:
   global:
@@ -94,18 +95,7 @@ jobs:
       script: 
         - make -C docs html SPHINXOPTS='-n -W -a'
 
-    - stage: "Tests"
-      name: "Django 2.2, sqlite"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=sqlite
-    - stage: "Tests"
-      name: "Django 2.2, mysql"
-      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=mysql
-      addons:
-        <<: *aptaddon
-        mariadb: "10.3"
-      services:
-        - mysql
-    - stage: "Tests"
+    - stage: "Basic tests"
       name: "Django 2.2, postgresql"
       env: CI_DEPS="Django>=2.2,<2.3"
       addons:
@@ -113,7 +103,7 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
-    - stage: "Tests"
+    - stage: "Basic tests"
       name: "Django 2.2, selenium"
       env: CI_DEPS="Django>=2.2,<2.3"
       script:
@@ -122,40 +112,6 @@ jobs:
         <<: *aptaddon
         sauce_connect: true
         postgresql: "9.6"
-    - stage: "Tests"
-      name: 'Django 2.1'
-      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
-    - stage: "Tests"
-      name: 'Django 2.2, Python 3.5'
-      python: "3.5"
-      env: CI_DEPS="Django>=2.2,<2.3"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
-    - stage: "Tests"
-      name: 'Django 1.11, Python 2.7'
-      python: "2.7"
-      env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
-    - stage: "Tests"
-      name: 'translate-toolkit pre-release'
-      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
 
     - stage: "Sanity checks"
       name: "Setup"
@@ -178,3 +134,49 @@ jobs:
       services:
         - postgresql
         - mysql
+
+    - stage: "Extended tests"
+      name: "Django 2.2, sqlite"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=sqlite
+    - stage: "Extended tests"
+      name: "Django 2.2, mysql"
+      env: CI_DEPS="Django>=2.2,<2.3" CI_DATABASE=mysql
+      addons:
+        <<: *aptaddon
+        mariadb: "10.3"
+      services:
+        - mysql
+    - stage: "Extended tests"
+      name: 'Django 2.1'
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Extended tests"
+      name: 'Django 2.2, Python 3.5'
+      python: "3.5"
+      env: CI_DEPS="Django>=2.2,<2.3"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Extended tests"
+      name: 'Django 1.11, Python 2.7'
+      python: "2.7"
+      env: CI_DEPS="Django>=1.11,<1.12 psycopg2-binary==2.7.7"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
+    - stage: "Extended tests"
+      name: 'translate-toolkit pre-release'
+      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
+      addons:
+        <<: *aptaddon
+        postgresql: "9.6"
+      services:
+        - postgresql
