@@ -34,8 +34,8 @@ from django.views.decorators.http import require_POST
 from weblate.formats.exporters import get_exporter
 from weblate.lang.models import Language
 from weblate.trans.forms import DictUploadForm, LetterForm, OneWordForm, WordForm
-from weblate.trans.models import Change, Dictionary, Translation, Unit
-from weblate.trans.util import redirect_next, redirect_param, render
+from weblate.trans.models import Change, Dictionary, Unit
+from weblate.trans.util import redirect_next, redirect_param, render, sort_objects
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -54,16 +54,14 @@ def dict_title(prj, lang):
 @never_cache
 def show_dictionaries(request, project):
     obj = get_project(request, project)
-    dicts = Translation.objects.filter(
-        component__project=obj
-    ).values_list('language', flat=True).distinct()
-
     return render(
         request,
         'dictionaries.html',
         {
             'title': _('Dictionaries'),
-            'dicts': Language.objects.filter(id__in=dicts),
+            'dicts': sort_objects(
+                Language.objects.filter(translation__component__project=obj).distinct()
+            ),
             'project': obj,
         }
     )
