@@ -147,7 +147,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 ),
                 file_detector=UselessFileDetector(),
             )
-            cls.driver.implicitly_wait(10)
+            cls.driver.implicitly_wait(5)
             cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
             print(
