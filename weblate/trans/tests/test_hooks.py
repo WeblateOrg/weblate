@@ -663,7 +663,7 @@ AZURE_PAYLOAD = r'''
     },
     "pushId": 14,
     "date": "2014-05-02T19:17:13.3309587Z",
-    "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249/pushes/14"
+    "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2/pushes/14"
   },
   "resourceVersion": "1.0",
   "resourceContainers": {
