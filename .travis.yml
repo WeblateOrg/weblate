@@ -11,8 +11,8 @@ language: python
 python:
   - "3.7"
 stages:
+  - name: "Static analysis"
   - name: "Basic tests"
-  - name: "Integration tests"
   - name: "Extended tests"
 # build matrix configuration
 env:
@@ -72,27 +72,28 @@ addons: &aptaddon
 
 jobs:
   include:
-    - stage: "Basic tests"
+    - stage: "Static analysis"
       name: "Locales (gettext)"
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
       script: 
         - ./manage.py compilemessages
-    - stage: "Basic tests"
+    - stage: "Static analysis"
       name: "Coding style (flake8)"
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
       script: 
         - flake8
-    - stage: "Basic tests"
+    - stage: "Static analysis"
       name: "Documentation (sphinx)"
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
       script: 
         - make -C docs html SPHINXOPTS='-n -W -a'
+
     - stage: "Basic tests"
       name: "Django 2.2, postgresql"
       env: CI_DEPS="Django>=2.2,<2.3"
@@ -101,8 +102,7 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
-
-    - stage: "Integration tests"
+    - stage: "Basic tests"
       name: "Django 2.2, selenium"
       env: CI_DEPS="Django>=2.2,<2.3"
       script:
@@ -113,7 +113,7 @@ jobs:
       addons:
         <<: *aptaddon
         postgresql: "9.6"
-    - stage: "Integration tests"
+    - stage: "Basic tests"
       name: "Setup"
       script:
         - ./ci/run-setup
@@ -122,7 +122,7 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
-    - stage: "Integration tests"
+    - stage: "Basic tests"
       name: "Migrations"
       env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
       script:
