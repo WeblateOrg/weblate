@@ -22,6 +22,8 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
+
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
 from django.urls import reverse
@@ -315,6 +317,22 @@ class AndroidImportTest(ViewTestCase):
         self.assertEqual(translation.stats.translated, 2)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
+
+    def test_replace(self):
+        self.user.is_superuser = True
+        self.user.save()
+        kwargs = self.kw_translation
+        kwargs['lang'] = 'en'
+        with open(TEST_ANDROID, 'rb') as handle:
+            self.client.post(
+                reverse('upload_translation', kwargs=kwargs),
+                {'file': handle, 'method': 'replace'}
+            )
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 2)
 
 
 class CSVImportTest(ViewTestCase):
