@@ -162,6 +162,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         if self.driver is None:
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
+        self.driver.execute_script('sauce:context={}'.format(self.id()))
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
         self.driver.set_window_size(1280, 1024)
         site = Site.objects.get(pk=1)
