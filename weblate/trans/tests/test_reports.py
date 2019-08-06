@@ -168,6 +168,16 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
 
+    def test_counts_view_30days(self):
+        response = self.get_counts('json', period='30days')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+
+    def test_counts_view_this_month(self):
+        response = self.get_counts('json', period='this-month')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+
     def test_counts_view_month(self):
         response = self.get_counts('json', period='month')
         self.assertEqual(response.status_code, 200)
@@ -177,6 +187,11 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_counts('json', period='year')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode('utf-8'), [])
+
+    def test_counts_view_this_year(self):
+        response = self.get_counts('json', period='this-year')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')

@@ -1333,7 +1333,10 @@ class ReportsForm(forms.Form):
     period = forms.ChoiceField(
         label=_('Report period'),
         choices=(
+            ('30days', _('Last 30 days')),
+            ('this-month', _('This month')),
             ('month', _('Last month')),
+            ('this-year', _('This year')),
             ('year', _('Last year')),
             ('', _('As specified')),
         ),
@@ -1373,11 +1376,22 @@ class ReportsForm(forms.Form):
             return
 
         # Handle predefined periods
-        if self.cleaned_data['period'] == 'month':
+        if self.cleaned_data['period'] == '30days':
+            end = timezone.now()
+            start = end - timedelta(days=30)
+        elif self.cleaned_data['period'] == 'month':
             end = timezone.now().replace(day=1) - timedelta(days=1)
+            start = end.replace(day=1)
+        elif self.cleaned_data['period'] == 'this-month':
+            end = timezone.now().replace(day=1) + timedelta(days=31)
+            end = end.replace(day=1) - timedelta(days=1)
             start = end.replace(day=1)
         elif self.cleaned_data['period'] == 'year':
             year = timezone.now().year - 1
+            end = timezone.make_aware(datetime(year, 12, 31))
+            start = timezone.make_aware(datetime(year, 1, 1))
+        elif self.cleaned_data['period'] == 'this-year':
+            year = timezone.now().year
             end = timezone.make_aware(datetime(year, 12, 31))
             start = timezone.make_aware(datetime(year, 1, 1))
         else:

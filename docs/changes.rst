@@ -22,6 +22,7 @@ Not yet released.
 * Improved handling of monolingual Xliff files.
 * Avoid sending multiple notifications for single event.
 * Add support for filtering changes.
+* Extended predefined periods for reporting.
 
 weblate 3.7.1
 -------------
