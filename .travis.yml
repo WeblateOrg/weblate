@@ -106,14 +106,9 @@ jobs:
     - stage: "Basic tests"
       name: "Django 2.2, selenium"
       env: CI_DEPS="Django>=2.2,<2.3"
-      before_script:
-        <<: *before
-        - ./ci/install-sauce
       script:
+        - ./ci/install-sauce
         - ./ci/run-selenium
-      after_script:
-        <<: *after
-        # Kill Sauce Connect Proxy if running
         - kill `cat ~/.sauce-pid`
         - cat ~/.sauce-log
       addons:
