@@ -321,7 +321,7 @@ class AndroidImportTest(ViewTestCase):
     def test_replace(self):
         self.user.is_superuser = True
         self.user.save()
-        kwargs = self.kw_translation
+        kwargs = copy(self.kw_translation)
         kwargs['lang'] = 'en'
         with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
