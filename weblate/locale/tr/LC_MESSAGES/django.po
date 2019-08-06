@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-06 14:39+0000\n"
-"PO-Revision-Date: 2019-08-04 06:57+0000\n"
+"PO-Revision-Date: 2019-08-07 06:00+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -744,16 +744,16 @@ msgstr ""
 "başka bir hesap için kullanılıyor."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Subscription settings"
 msgid "Subscription settings adjusted."
-msgstr "Abonelik ayarları"
+msgstr "Abonelik ayarları düzenlendi."
 
 #: weblate/accounts/views.py:1091
 msgid ""
 "The unsubscribe link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
+"Abonelikten çıkma bağlantısı artık geçerli değil, lütfen bildirimleri "
+"yapılandırmak için giriş yapın."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -5561,7 +5561,7 @@ msgstr "Weblate, sürekli yerelleştirme sistemi"
 
 #: weblate/templates/mail/base.html:304
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Abonelikten çık"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5848,19 +5848,16 @@ msgid "Parse error in %(component)s"
 msgstr "%(component)s içinde ayrıştırma hatası"
 
 #: weblate/templates/mail/pending_suggestions.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
+#, python-format
 msgid "There is %(count)s string with suggestion in %(component)s."
 msgid_plural "There are %(count)s strings with suggestions in %(component)s."
-msgstr[0] "%(count)s öneri var."
-msgstr[1] "%(count)s öneri var."
+msgstr[0] "%(component)s bileşeninde %(count)s önerili satır var."
+msgstr[1] "%(component)s bileşeninde %(count)s önerili satır var."
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "Pending suggestions in %(component)s"
-msgstr "Bekleyen öneriler"
+msgstr "%(component)s bileşeninde bekleyen öneriler"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -5927,19 +5924,16 @@ msgid "Context"
 msgstr "Bağlam"
 
 #: weblate/templates/mail/todo_strings.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "There is %(count)s string needing action in %(component)s."
 msgid_plural "There are %(count)s strings needing action in %(component)s."
-msgstr[0] "Gözden geçirilmesi gereken %(count)s satır var."
-msgstr[1] "Gözden geçirilmesi gereken %(count)s satır var."
+msgstr[0] "%(component)s bileşeninde işlem gerektiren %(count)s satır var."
+msgstr[1] "%(component)s bileşeninde işlem gerektiren %(count)s satır var."
 
 #: weblate/templates/mail/todo_strings_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "Strings needing action in %(component)s"
-msgstr "İşlem gerektiren satırlar"
+msgstr "%(component)s bileşeninde işlem gerektiren satırlar"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -5952,7 +5946,7 @@ msgstr "Son oturum açma"
 
 #: weblate/templates/manage-access.html:38
 msgid "Not yet logged in"
-msgstr ""
+msgstr "Henüz giriş yapılmadı"
 
 #: weblate/templates/manage-access.html:55
 msgid ""
@@ -7510,10 +7504,8 @@ msgid "Translation text too long!"
 msgstr "Çeviri metni çok uzun!"
 
 #: weblate/trans/forms.py:597
-#, fuzzy
-#| msgid "File upload failed: %s"
 msgid "File upload mode"
-msgstr "Dosya yükleme başarısız: %s"
+msgstr "Dosya yükleme modu"
 
 #: weblate/trans/forms.py:599
 msgid "Add as translation needing review"
@@ -7815,26 +7807,20 @@ msgid "Report period"
 msgstr "Bildirim aralığı"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Last 30 days"
-msgstr "Son 30 günlük etkinlik"
+msgstr "Son 30 gün"
 
 #: weblate/trans/forms.py:1337
-#, fuzzy
-#| msgid "Last month"
 msgid "This month"
-msgstr "Son ayda"
+msgstr "Bu ay"
 
 #: weblate/trans/forms.py:1338
 msgid "Last month"
 msgstr "Son ayda"
 
 #: weblate/trans/forms.py:1339
-#, fuzzy
-#| msgid "Last year"
 msgid "This year"
-msgstr "Son yılda"
+msgstr "Bu yıl"
 
 #: weblate/trans/forms.py:1340
 msgid "Last year"
