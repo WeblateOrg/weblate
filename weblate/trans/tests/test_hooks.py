@@ -607,14 +607,14 @@ AZURE_PAYLOAD = r'''
   "eventType": "git.push",
   "publisherId": "tfs",
   "message": {
-    "text": "Jamal Hartnett pushed updates to Fabrikam-Fiber-Git:master.",
-    "html": "Jamal Hartnett pushed updates to Fabrikam-Fiber-Git:master.",
-    "markdown": "Jamal Hartnett pushed updates to `Fabrikam-Fiber-Git`:`master`."
+    "text": "Jamal Hartnett pushed updates to ATEST:master.",
+    "html": "Jamal Hartnett pushed updates to ATEST:master.",
+    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`master`."
   },
   "detailedMessage": {
-    "text": "Jamal Hartnett pushed a commit to Fabrikam-Fiber-Git:master.\n - Fixed bug in web.config file 33b55f7c",
-    "html": "Jamal Hartnett pushed a commit to <a href=\"https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/\">Fabrikam-Fiber-Git</a>:<a href=\"https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/#version=GBmaster\">master</a>.\n<ul>\n<li>Fixed bug in web.config file <a href=\"https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/commit/33b55f7cb7e7e245323987634f960cf4a6e6bc74\">33b55f7c</a>\n</ul>",
-    "markdown": "Jamal Hartnett pushed a commit to [Fabrikam-Fiber-Git](https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/):[master](https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/#version=GBmaster).\n* Fixed bug in web.config file [33b55f7c](https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/commit/33b55f7cb7e7e245323987634f960cf4a6e6bc74)"
+    "text": "Jamal Hartnett pushed a commit to ATEST:master.",
+    "html": "Jamal Hartnett pushed a commit to ",
+    "markdown": "Jamal Hartnett pushed a commit to [ATEST])"
   },
   "resource": {
     "commits": [
@@ -631,7 +631,7 @@ AZURE_PAYLOAD = r'''
           "date": "2015-02-25T19:01:00Z"
         },
         "comment": "Fixed bug in web.config file",
-        "url": "https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git/commit/33b55f7cb7e7e245323987634f960cf4a6e6bc74"
+        "url": "https://f.visualstudio.com/c/_git/ATEST/commit/33b55f7cb7e7e2453239"
       }
     ],
     "refUpdates": [
@@ -643,18 +643,18 @@ AZURE_PAYLOAD = r'''
     ],
     "repository": {
       "id": "278d5cd2-584d-4b63-824a-2ba458937249",
-      "name": "Fabrikam-Fiber-Git",
-      "url": "https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249",
+      "name": "ATEST",
+      "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63",
       "project": {
         "id": "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c",
-        "name": "Fabrikam-Fiber-Git",
-        "url": "https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_apis/projects/6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c",
+        "name": "ATEST",
+        "url": "https://f.visualstudio.com/c/_apis/projects/6ce954b1-ce1f-45d1",
         "state": "wellFormed",
         "visibility": "unchanged",
         "lastUpdateTime": "0001-01-01T00:00:00"
       },
       "defaultBranch": "refs/heads/master",
-      "remoteUrl": "https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git"
+      "remoteUrl": "https://f.visualstudio.com/c/_git/ATEST"
     },
     "pushedBy": {
       "displayName": "Jamal Hartnett",
@@ -663,7 +663,7 @@ AZURE_PAYLOAD = r'''
     },
     "pushId": 14,
     "date": "2014-05-02T19:17:13.3309587Z",
-    "url": "https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249/pushes/14"
+    "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249/pushes/14"
   },
   "resourceVersion": "1.0",
   "resourceContainers": {
@@ -1138,12 +1138,12 @@ class AzureBackendTest(HookBackendTestCase):
         self.assert_hook('{"diagnostics": "ping"}', None)
 
     def test_git(self):
-        url = 'https://fabrikam-fiber-inc.visualstudio.com/DefaultCollection/_git/Fabrikam-Fiber-Git'
+        url = 'https://f.visualstudio.com/c/_git/ATEST'
         self.assert_hook(
             AZURE_PAYLOAD,
             {
                 'branch': 'master',
-                'full_name': 'Fabrikam-Fiber-Git',
+                'full_name': 'ATEST',
                 'repo_url': url,
                 'repos': [url],
                 'service_long_name': 'Azure'
