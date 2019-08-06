@@ -1163,7 +1163,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             self.click("Fonts")
 
-        # Upload second fint
+        # Upload second font
         element = self.driver.find_element_by_id('id_font')
         element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
