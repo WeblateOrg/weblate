@@ -160,6 +160,11 @@ curl \
 <td>{{ site_url }}{% url 'webhook' service='pagure' %}</td>
 <td><a href="{% documentation "admin/continuous" "pagure-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
 </tr>
+<tr>
+<th><a href="https://azure.microsoft.com/services/devops/repos/">Azure Repos</a></th>
+<td>{{ site_url }}{% url 'webhook' service='azure' %}</td>
+<td><a href="{% documentation "admin/continuous" "azure-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+</tr>
 </tbody>
 </table>
 

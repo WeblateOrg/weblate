@@ -1165,9 +1165,23 @@ update individual repositories; see
     .. seealso::
 
         :ref:`pagure-setup`
-            For instruction on setting up Bitbucket integration
+            For instruction on setting up Pagure integration
         https://docs.pagure.org/pagure/usage/using_webhooks.html
-            Generic information about Bitbucket Webhooks
+            Generic information about Pagure Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
+.. http:post:: /hooks/azure/
+
+    Special hook for handling Azure Repos notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`azure-setup`
+            For instruction on setting up Azure integration
+        https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks
+            Generic information about Azure Repos Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 

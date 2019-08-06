@@ -177,6 +177,24 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 
    :http:post:`/hooks/pagure/`, :ref:`hosted-push`
 
+.. _azure-setup:
+
+Automatically receiving changes from Azure Repos
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.8
+
+Weblate has support for Azure Repos web hooks, add a webhook
+with destination to ``/hooks/azure/`` URL on your Weblate installation (for
+example ``https://hosted.weblate.org/hooks/azure/``). This can be done in
+:guilabel:`Service hooks` under :guilabel:`Project settings`.
+
+
+.. seealso::
+
+   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks>`_,
+   :http:post:`/hooks/azure/`, :ref:`hosted-push`
+
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++
 

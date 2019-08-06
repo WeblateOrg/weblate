@@ -23,6 +23,7 @@ Not yet released.
 * Avoid sending multiple notifications for single event.
 * Add support for filtering changes.
 * Extended predefined periods for reporting.
+* Added support for Azure Repos webhooks.
 
 weblate 3.7.1
 -------------

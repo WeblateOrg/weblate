@@ -388,3 +388,17 @@ def pagure_hook_helper(data):
         'branch': data['msg']['branch'],
         'full_name': project,
     }
+
+
+@register_hook
+def azure_hook_helper(data):
+    if data.get("eventType") != "git.push":
+        return None
+    http_url = data["resource"]["repository"]["remoteUrl"]
+    return {
+        'service_long_name': 'Azure',
+        'repo_url': http_url,
+        'repos': [http_url],
+        'branch': data["resource"]["refUpdates"][0]["name"].rsplit('/')[-1],
+        'full_name': data["resource"]["repository"]["name"],
+    }
