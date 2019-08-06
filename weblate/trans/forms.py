@@ -594,7 +594,7 @@ class SimpleUploadForm(forms.Form):
         validators=[validate_file_extension],
     )
     method = forms.ChoiceField(
-        label=_('Merge method'),
+        label=_('File upload mode'),
         choices=(
             ('translate', _('Add as translation needing review')),
             ('approve', _('Add as approved translation')),
@@ -602,6 +602,7 @@ class SimpleUploadForm(forms.Form):
             ('fuzzy', _('Add as translation needing edit')),
             ('replace', _('Replace existing translation file')),
         ),
+        widget=forms.RadioSelect,
     )
     fuzzy = forms.ChoiceField(
         label=_('Processing of strings needing edit'),
