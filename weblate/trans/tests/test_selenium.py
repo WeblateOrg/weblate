@@ -1156,7 +1156,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         element = self.driver.find_element_by_id('id_font')
         element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
-            element.submit()
+            self.click(self.driver.find_element_by_id('upload_font_submit'))
 
         self.screenshot('font-edit.png')
 
@@ -1167,7 +1167,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         element = self.driver.find_element_by_id('id_font')
         element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
-            element.submit()
+            self.click(self.driver.find_element_by_id('upload_font_submit'))
 
         with self.wait_for_page_load():
             self.click("Fonts")
