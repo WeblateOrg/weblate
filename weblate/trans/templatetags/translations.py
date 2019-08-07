@@ -778,7 +778,7 @@ def get_filter_name(name):
 
 @register.inclusion_tag('trans/embed-alert.html')
 def indicate_alerts(obj):
-    alerts = None
+    alerts = False
     component = None
     project = None
 
@@ -787,14 +787,14 @@ def indicate_alerts(obj):
     elif isinstance(obj, Component):
         component = obj
     elif isinstance(obj, Project):
-        alerts = Alert.objects.filter(component__project=obj)
+        alerts = Alert.objects.filter(component__project=obj).exists()
         project = obj
 
     if component:
-        alerts = component.alert_set.all()
+        alerts = component.alert_set.exists()
         project = component.project
 
-    return {'alerts': alerts.exists(), 'component': component, 'project': project}
+    return {'alerts': alerts, 'component': component, 'project': project}
 
 
 @register.filter
