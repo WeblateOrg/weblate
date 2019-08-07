@@ -669,11 +669,11 @@ class Unit(models.Model, LoggerMixin):
         # Action type to store
         if change_action is not None:
             action = change_action
+        elif self.state == STATE_FUZZY:
+            action = Change.ACTION_MARKED_EDIT
         elif self.old_unit.state >= STATE_TRANSLATED:
             if self.state == STATE_APPROVED:
                 action = Change.ACTION_APPROVE
-            elif self.state == STATE_FUZZY:
-                action = Change.ACTION_MARKED_EDIT
             else:
                 action = Change.ACTION_CHANGE
         else:
