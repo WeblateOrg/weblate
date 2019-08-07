@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import dateutil.parser
 import requests
+from django.conf import settings
 from django.contrib.admin import ModelAdmin
 from django.db import models
 from django.utils import timezone
@@ -91,7 +92,6 @@ SUPPORT_NAMES = {
     'basic': ugettext_lazy('Basic self-hosted support'),
     'extended': ugettext_lazy('Extended self-hosted support'),
 }
-SUPPORT_URL = 'https://weblate.org/api/support/'
 
 
 class SupportStatusManager(models.Manager):
@@ -129,7 +129,9 @@ class SupportStatus(models.Model):
         headers = {
             'User-Agent': USER_AGENT,
         }
-        response = requests.request('post', SUPPORT_URL, headers=headers, data=data)
+        response = requests.request(
+            'post', settings.SUPPORT_API_URL, headers=headers, data=data
+        )
         response.raise_for_status()
         payload = response.json()
         self.name = payload['name']
