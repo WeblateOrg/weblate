@@ -26,6 +26,7 @@ Not yet released.
 * Added support for Azure Repos webhooks.
 * New opt-in notifications on pending suggestions or untranslated strings.
 * Add one click unsubscribe link to notification emails.
+* Fixed false positives with Has been translated check.
 
 weblate 3.7.1
 -------------

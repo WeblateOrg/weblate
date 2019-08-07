@@ -284,6 +284,17 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_MARKED_EDIT,
     ))
 
+    ACTIONS_TRANSLATED = frozenset((
+        ACTION_CHANGE,
+        ACTION_NEW,
+        ACTION_AUTO,
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_UPLOAD,
+        ACTION_REPLACE,
+        ACTION_APPROVE,
+    ))
+
     ACTIONS_REPOSITORY = frozenset((
         ACTION_PUSH,
         ACTION_RESET,

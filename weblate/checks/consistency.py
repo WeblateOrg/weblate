@@ -124,7 +124,7 @@ class TranslatedCheck(TargetCheck):
         from weblate.trans.models import Unit, Change
         return Unit.objects.filter(
             translation__component__project=project,
-            change__action__in=Change.ACTIONS_CONTENT,
+            change__action__in=Change.ACTIONS_TRANSLATED,
             state__lt=STATE_TRANSLATED,
         ).values(
             'content_hash', 'translation__language'
