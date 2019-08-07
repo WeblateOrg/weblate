@@ -10,8 +10,12 @@
 {% endif %}
 
 {% if alerts %}
+{% if component %}
 <a href="{{ component.get_absolute_url }}#alerts">
 <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "Fix this component to clear its alerts." %}"></i></a>
+{% else %}
+<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "Some of the components within this project have alerts." %}"></i>
+{% endif %}
 {% endif %}
 
 {% if component.fsf_approved_license %}

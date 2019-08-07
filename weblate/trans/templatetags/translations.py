@@ -42,6 +42,7 @@ from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
+    Alert,
     Component,
     ContributorAgreement,
     Dictionary,
@@ -779,16 +780,21 @@ def get_filter_name(name):
 def indicate_alerts(obj):
     alerts = None
     component = None
+    project = None
 
     if isinstance(obj, Translation):
         component = obj.component
     elif isinstance(obj, Component):
         component = obj
+    elif isinstance(obj, Project):
+        alerts = Alert.objects.filter(component__project=obj)
+        project = obj
 
     if component:
         alerts = component.alert_set.all()
+        project = component.project
 
-    return {'alerts': alerts, 'component': component}
+    return {'alerts': alerts.exists(), 'component': component, 'project': project}
 
 
 @register.filter
