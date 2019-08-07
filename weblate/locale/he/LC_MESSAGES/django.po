@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-07 15:44+0000\n"
-"PO-Revision-Date: 2019-08-06 12:37+0000\n"
+"PO-Revision-Date: 2019-08-07 18:15+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -705,10 +705,6 @@ msgid "New registrations are turned off."
 msgstr "הרשמות חדשות מושבתות."
 
 #: weblate/accounts/views.py:1060
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr "האימות נכשל, כנראה עקב אסימון שתוקפו פג או בעיית חיבור."
@@ -730,16 +726,14 @@ msgstr ""
 "בחשבון אחר."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Subscription settings"
 msgid "Subscription settings adjusted."
-msgstr "הגדרות מינוי"
+msgstr "הגדרות המינוי נערכו."
 
 #: weblate/accounts/views.py:1091
 msgid ""
 "The unsubscribe link is no longer valid, please log in to configure "
 "notifications."
-msgstr ""
+msgstr "קישור ביטול המינוי אינו זמין עוד, נא להיכנס כדי להגדיר התראות."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -5523,7 +5517,7 @@ msgstr "מערכת התרגום הרציף, Weblate"
 
 #: weblate/templates/mail/base.html:304
 msgid "Unsubscribe"
-msgstr ""
+msgstr "ביטול מינוי"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5900,7 +5894,7 @@ msgstr "כניסה אחרונה"
 
 #: weblate/templates/manage-access.html:38
 msgid "Not yet logged in"
-msgstr ""
+msgstr "עדיין לא נכנסת"
 
 #: weblate/templates/manage-access.html:55
 msgid ""
@@ -5966,7 +5960,7 @@ msgstr "ניתן לתמוך במיזם Weblate"
 
 #: weblate/templates/manage/index.html:34
 msgid "Purchase support package"
-msgstr ""
+msgstr "רכישת חבילת תמיכה"
 
 #: weblate/templates/manage/index.html:37
 #, fuzzy
@@ -5976,11 +5970,11 @@ msgstr "ניהול הגישה למיזם"
 
 #: weblate/templates/manage/index.html:38
 msgid "Get support"
-msgstr ""
+msgstr "קבלת תמיכה"
 
 #: weblate/templates/manage/index.html:48
 msgid "Activate support package"
-msgstr ""
+msgstr "הפעלת חבילת תמיכה"
 
 #: weblate/templates/manage/index.html:54
 #, fuzzy
@@ -6089,13 +6083,13 @@ msgstr ""
 #: weblate/templates/manage/tools.html:17
 #: weblate/templates/manage/tools.html:24
 msgid "Django admin interface"
-msgstr ""
+msgstr "מנשק ניהול של Django"
 
 #: weblate/templates/manage/tools.html:21
 msgid ""
 "The Django admin interface might be useful to perform certain management "
 "operations."
-msgstr ""
+msgstr "מנשק הניהול של Django עשוי לשמש לטובת מגוון פעולות ניהול."
 
 #: weblate/templates/manage/tools.html:31
 #, fuzzy
@@ -6716,6 +6710,8 @@ msgid ""
 "In case you have existing translation files, create ZIP file with them and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
+"אם כבר יש לך קובצי תרגום קיימים, עליך לארוז אותם בקובץ ZIP ו%(link_start)"
+"sלהעלות אותו%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -6757,7 +6753,7 @@ msgstr "יש לתקן את הרכיב הזה כדי להעלים את ההתרא
 
 #: weblate/templates/trans/embed-alert.html:17
 msgid "Some of the components within this project have alerts."
-msgstr ""
+msgstr "על חלק מהרכיבים במיזם יש התראות."
 
 #: weblate/templates/trans/embed-alert.html:22
 #, fuzzy
@@ -9957,11 +9953,11 @@ msgstr "קבלת מפתח המארח נכשלה: %s"
 
 #: weblate/wladmin/forms.py:32
 msgid "Activation token"
-msgstr ""
+msgstr "אסימון הפעלה"
 
 #: weblate/wladmin/forms.py:36
 msgid "Please anter activation token obtained when making the subscription."
-msgstr ""
+msgstr "נא לספק אסימון הפעלה שמתקבל בעת עריכת המינוי."
 
 #: weblate/wladmin/forms.py:44
 #, fuzzy
@@ -9977,21 +9973,19 @@ msgstr "לכתובת הזאת נשלחת הודעת ההפעלה."
 
 #: weblate/wladmin/models.py:90
 msgid "Community support"
-msgstr ""
+msgstr "תמיכה קהילתית"
 
 #: weblate/wladmin/models.py:91
-#, fuzzy
-#| msgid "Hosting site"
 msgid "Hosted service"
-msgstr "אתר מארח"
+msgstr "שירות מתארח"
 
 #: weblate/wladmin/models.py:92
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "תמיכה בסיסית לאירוח עצמי"
 
 #: weblate/wladmin/models.py:93
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "תמיכה מורחבת לאירוח עצמי"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
@@ -10034,7 +10028,7 @@ msgstr "הסטטיסטיקה של Weblate"
 
 #: weblate/wladmin/views.py:112
 msgid "The test email was sent."
-msgstr ""
+msgstr "הודעת הבדיקה נשלחה בדוא״ל."
 
 #: weblate/wladmin/views.py:135
 #, fuzzy
@@ -10044,7 +10038,7 @@ msgstr "תרגום הושלם"
 
 #: weblate/wladmin/views.py:140
 msgid "The activation failed. Please check your activation token."
-msgstr ""
+msgstr "ההפעלה נכשלה. נא לבדוק את אסימון ההפעלה."
 
 #: weblate/wladmin/views.py:173
 msgid "Failed to dismiss configuration error!"
