@@ -698,6 +698,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.format.JavaFormatCheck',
 #     'weblate.checks.format.JavaMessageFormatCheck',
 #     'weblate.checks.angularjs.AngularJSInterpolationCheck',
+#     'weblate.checks.qt.QtFormatCheck',
+#     'weblate.checks.qt.QtPluralCheck',
 #     'weblate.checks.consistency.PluralsCheck',
 #     'weblate.checks.consistency.SamePluralsCheck',
 #     'weblate.checks.consistency.ConsistencyCheck',
