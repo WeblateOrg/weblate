@@ -108,13 +108,13 @@ class XlsxFormat(CSVFormat):
         # Load the file as CSV
         return super(XlsxFormat, cls).parse_store(BytesIOMode(name, content))
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common mime type for format."""
         return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'xlsx'
 

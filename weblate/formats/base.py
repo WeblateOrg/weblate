@@ -337,13 +337,13 @@ class TranslationFormat(object):
                 continue
             yield unit
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common mime type for format."""
         return 'text/plain'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'txt'
 

@@ -285,15 +285,15 @@ class TTKitFormat(TranslationFormat):
         """Save underlaying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
-    @property
-    def mimetype(self):
+    @classmethod
+    def mimetype(cls):
         """Return most common media type for format."""
-        return self.store.Mimetypes[0]
+        return cls.get_class().Mimetypes[0]
 
-    @property
-    def extension(self):
+    @classmethod
+    def extension(cls):
         """Return most common file extension for format."""
-        return self.store.Extensions[0]
+        return cls.get_class().Extensions[0]
 
     def is_valid(self):
         """Check whether store seems to be valid.
@@ -804,8 +804,8 @@ class PropertiesBaseFormat(TTKitFormat):
         # even if there is no delimiter used in the line.
         return not self.store.units or self.store.units[0].delimiter
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         # Properties files do not expose mimetype
         return 'text/plain'
@@ -874,13 +874,13 @@ class PhpFormat(TTKitFormat):
     autoload = ('*.php',)
     unit_class = PHPUnit
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'text/x-php'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'php'
 
@@ -916,13 +916,13 @@ class JSONFormat(TTKitFormat):
     autoload = ('*.json',)
     new_translation = '{}\n'
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'application/json'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'json'
 
@@ -968,13 +968,13 @@ class CSVFormat(TTKitFormat):
                 and not isinstance(template_store, CSVFormat)):
             self.template_store = None
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'text/csv'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'csv'
 
@@ -1038,8 +1038,8 @@ class CSVSimpleFormat(CSVFormat):
     autoload = ('*.txt',)
     encoding = 'auto'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'csv'
 
@@ -1068,13 +1068,13 @@ class YAMLFormat(TTKitFormat):
     autoload = ('*.pyml',)
     new_translation = '{}\n'
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'text/yaml'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'yml'
 
@@ -1094,13 +1094,13 @@ class DTDFormat(TTKitFormat):
     unit_class = MonolingualSimpleUnit
     new_translation = '\n'
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'application/xml-dtd'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'dtd'
 
@@ -1121,13 +1121,13 @@ class WindowsRCFormat(TTKitFormat):
     can_add_unit = False
     language_format = 'bcp'
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'text/plain'
 
-    @property
-    def extension(self):
+    @staticmethod
+    def extension():
         """Return most common file extension for format."""
         return 'rc'
 
@@ -1168,8 +1168,8 @@ class SubRipFormat(TTKitFormat):
     autoload = ('*.srt',)
     monolingual = True
 
-    @property
-    def mimetype(self):
+    @staticmethod
+    def mimetype():
         """Return most common media type for format."""
         return 'text/plain'
 

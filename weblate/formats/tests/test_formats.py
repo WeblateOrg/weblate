@@ -183,8 +183,8 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def test_parse(self):
         storage = self.parse_file(self.FILE)
         self.assertEqual(len(storage.all_units), self.COUNT)
-        self.assertEqual(storage.mimetype, self.MIME)
-        self.assertEqual(storage.extension, self.EXT)
+        self.assertEqual(storage.mimetype(), self.MIME)
+        self.assertEqual(storage.extension(), self.EXT)
 
     def test_save(self, edit=False):
         # Read test content

@@ -202,12 +202,12 @@ def download_translation_file(translation, fmt=None, units=None):
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.store.extension
+            extension = translation.store.extension()
             # Create response
             with open(filenames[0], 'rb') as handle:
                 response = HttpResponse(
                     handle.read(),
-                    content_type=translation.store.mimetype
+                    content_type=translation.store.mimetype()
                 )
         else:
             extension = 'zip'

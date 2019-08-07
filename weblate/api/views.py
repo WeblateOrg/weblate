@@ -372,7 +372,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.download_file(
             obj.get_template_filename(),
-            obj.template_store.mimetype,
+            obj.template_store.mimetype(),
             component=obj
         )
 
