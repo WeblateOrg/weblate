@@ -104,8 +104,12 @@ class ClassLoader(object):
     def exists(self):
         return bool(self.data)
 
-    def get_choices(self, empty=False, exclude=()):
-        result = [(x, self[x].name) for x in sorted(self) if x not in exclude]
+    def get_choices(self, empty=False, exclude=(), cond=lambda x: True):
+        result = [
+            (x, self[x].name)
+            for x in sorted(self)
+            if x not in exclude and cond(self[x])
+        ]
         if empty:
             result = [('', '')] + result
         return result
