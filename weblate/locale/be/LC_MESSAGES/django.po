@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-06 14:39+0000\n"
-"PO-Revision-Date: 2019-08-06 12:37+0000\n"
+"PO-Revision-Date: 2019-08-07 06:00+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -749,16 +749,16 @@ msgstr ""
 "пошта ці імя карыстальніка выкарыстоўваюцца іншым акаўнтам."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Subscription settings"
 msgid "Subscription settings adjusted."
-msgstr "Налады падпіскі"
+msgstr "Налады падпіскі змененыя."
 
 #: weblate/accounts/views.py:1091
 msgid ""
 "The unsubscribe link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
+"Спасылка для скасавання падпіскі больш не дзейнічае. Калі ласка, увайдзіце, "
+"каб наладзіць апавяшчэнні."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -5591,7 +5591,7 @@ msgstr "Weblate, сістэма лакалізацыі"
 
 #: weblate/templates/mail/base.html:304
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Адпісацца"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5875,20 +5875,17 @@ msgid "Parse error in %(component)s"
 msgstr "Разбор не ўдаўся ў %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
+#, python-format
 msgid "There is %(count)s string with suggestion in %(component)s."
 msgid_plural "There are %(count)s strings with suggestions in %(component)s."
-msgstr[0] "У перакладзе %(count)s прапанова."
-msgstr[1] "У перакладзе %(count)s прапановы."
-msgstr[2] "У перакладзе %(count)s прапановаў."
+msgstr[0] "Ёсць %(count)s радок з прапановай у %(component)s."
+msgstr[1] "Ёсць %(count)s радкі з прапановамі ў %(component)s."
+msgstr[2] "Ёсць %(count)s радкоў з прапановамі ў %(component)s."
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "Pending suggestions in %(component)s"
-msgstr "Нявырашаныя прапановы"
+msgstr "Прапановы ў чаканні ў %(component)s"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -5954,20 +5951,17 @@ msgid "Context"
 msgstr "Кантэкст"
 
 #: weblate/templates/mail/todo_strings.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "There is %(count)s string needing action in %(component)s."
 msgid_plural "There are %(count)s strings needing action in %(component)s."
-msgstr[0] "Ёсць %(count)s радок для перагляду."
-msgstr[1] "Ёсць %(count)s радкі для перагляду."
-msgstr[2] "Ёсць %(count)s радкоў для перагляду."
+msgstr[0] "Ёсць %(count)s радок, над якім патрабуецца дзеянне ў %(component)s."
+msgstr[1] "Ёсць %(count)s радкі,  над якімі патрабуюцца дзеянні ў %(component)s."
+msgstr[2] "Ёсць %(count)s радкоў, над якімі патрабуюцца дзеянні ў %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "Strings needing action in %(component)s"
-msgstr "Радкі, над якімі патрабуюцца дзеянні"
+msgstr "Радкі, над якімі патрабуюцца дзеянні ў %(component)s"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -5980,7 +5974,7 @@ msgstr "Апошні ўваход"
 
 #: weblate/templates/manage-access.html:38
 msgid "Not yet logged in"
-msgstr ""
+msgstr "Вы не ўвайшлі"
 
 #: weblate/templates/manage-access.html:55
 msgid ""
@@ -7541,10 +7535,8 @@ msgid "Translation text too long!"
 msgstr "Пераклад занадта доўгі!"
 
 #: weblate/trans/forms.py:597
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File upload mode"
-msgstr "Не атрымалася запампаваць файл: %s"
+msgstr "Рэжым запампоўкі файла"
 
 #: weblate/trans/forms.py:599
 msgid "Add as translation needing review"
@@ -7844,26 +7836,20 @@ msgid "Report period"
 msgstr "Перыяд справаздачы"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Last 30 days"
-msgstr "Актыўнасць за апошнія 30 дзён"
+msgstr "Апошнія 30 дзён"
 
 #: weblate/trans/forms.py:1337
-#, fuzzy
-#| msgid "Last month"
 msgid "This month"
-msgstr "Апошні месяц"
+msgstr "Гэты месяц"
 
 #: weblate/trans/forms.py:1338
 msgid "Last month"
 msgstr "Апошні месяц"
 
 #: weblate/trans/forms.py:1339
-#, fuzzy
-#| msgid "Last year"
 msgid "This year"
-msgstr "Апошні год"
+msgstr "Гэты год"
 
 #: weblate/trans/forms.py:1340
 msgid "Last year"
