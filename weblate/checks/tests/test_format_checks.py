@@ -35,6 +35,7 @@ from weblate.checks.format import (
     PythonFormatCheck,
 )
 from weblate.checks.qt import QtFormatCheck, QtPluralCheck
+from weblate.checks.ruby import RubyFormatCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, Unit
@@ -895,6 +896,186 @@ class QtPluralCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format(
             '%n string(s)',
             'string',
+            False
+        ))
+
+
+class RubyFormatCheckTest(CheckTestCase):
+    check = RubyFormatCheck()
+    flag = 'ruby-format'
+
+    def setUp(self):
+        super(RubyFormatCheckTest, self).setUp()
+
+    def test_check_highlight(self):
+        self.test_highlight = (
+            self.flag,
+            '%dstring%s',
+            [(0, 2, u'%d'), (8, 10, u'%s')],
+        )
+        super(RubyFormatCheckTest, self).test_check_highlight()
+
+    def test_check_highlight_named(self):
+        self.test_highlight = (
+            self.flag,
+            '%<int>dstring%<str>s',
+            [(0, 7, u'%<int>d'), (13, 20, u'%<str>s')],
+        )
+        super(RubyFormatCheckTest, self).test_check_highlight()
+
+    def test_check_highlight_named_template(self):
+        self.test_highlight = (
+            self.flag,
+            '%{int}string%{str}',
+            [(0, 6, u'%{int}'), (12, 18, u'%{str}')],
+        )
+        super(RubyFormatCheckTest, self).test_check_highlight()
+
+    def test_check_highlight_complex_named_template(self):
+        self.test_highlight = (
+            self.flag,
+            '%8.8{foo}string%+08.2<float>fstring',
+            [(0, 9, u'%8.8{foo}'), (15, 29, u'%+08.2<float>f')],
+        )
+        super(RubyFormatCheckTest, self).test_check_highlight()
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format(
+            'strins',
+            'string',
+            False
+        ))
+
+    def test_format(self):
+        self.assertFalse(self.check.check_format(
+            '%s string',
+            '%s string',
+            False
+        ))
+
+    def test_space_format(self):
+        self.assertTrue(self.check.check_format(
+            '%d % string',
+            '%d % other',
+            False
+        ))
+
+    def test_percent_format(self):
+        self.assertFalse(self.check.check_format(
+            '%d%% string',
+            '%d%% string',
+            False
+        ))
+
+    def test_named_format(self):
+        self.assertFalse(self.check.check_format(
+            '%<name>s string',
+            '%<name>s string',
+            False
+        ))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format(
+            '%s string',
+            'string',
+            False
+        ))
+
+    def test_missing_named_format(self):
+        self.assertTrue(self.check.check_format(
+            '%<name>s string',
+            'string',
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            '%<name>s string',
+            'string',
+            True
+        ))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format(
+            '%s string',
+            '%c string',
+            False
+        ))
+
+    def test_reordered_format(self):
+        self.assertTrue(self.check.check_format(
+            '%s %d string',
+            '%d %s string',
+            False
+        ))
+
+    def test_wrong_named_format(self):
+        self.assertTrue(self.check.check_format(
+            '%<name>s string',
+            '%<jmeno>s string',
+            False
+        ))
+
+    def test_reordered_named_format(self):
+        self.assertFalse(self.check.check_format(
+            '%<name>s %<foo>s string',
+            '%<foo>s %<name>s string',
+            False
+        ))
+
+    def test_reordered_named_format_long(self):
+        self.assertFalse(self.check.check_format(
+            '%<count>d strings into %<languages>d languages %<percent>d%%',
+            '%<languages>d dil içinde %<count>d satır %%%<percent>d',
+            False
+        ))
+
+    def test_formatting_named_format(self):
+        self.assertFalse(self.check.check_format(
+            '%+08.2<foo>f string',
+            '%+08.2<foo>f string',
+            False
+        ))
+
+    def test_missing_named_template_format(self):
+        self.assertTrue(self.check.check_format(
+            '%{name} string',
+            'string',
+            False
+        ))
+
+    def test_missing_named_template_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            '%{name} string',
+            'string',
+            True
+        ))
+
+    def test_wrong_named_template_format(self):
+        self.assertTrue(self.check.check_format(
+            '%{name} string',
+            '%{jmeno} string',
+            False
+        ))
+
+    def test_reordered_named_template_format(self):
+        self.assertFalse(self.check.check_format(
+            '%{name} %{foo} string',
+            '%{foo} %{name} string',
+            False
+        ))
+
+    def test_formatting_named_template_format(self):
+        self.assertFalse(self.check.check_format(
+            '%8.8{foo} string',
+            '%8.8{foo} string',
+            False
+        ))
+
+    def test_reordered_named_template_format_long(self):
+        self.assertFalse(self.check.check_format(
+            '%{count} strings into %{languages} languages %{percent}%%',
+            '%{languages} dil içinde %{count} satır %%%{percent}',
             False
         ))
 

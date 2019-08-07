@@ -700,6 +700,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.checks.angularjs.AngularJSInterpolationCheck',
 #     'weblate.checks.qt.QtFormatCheck',
 #     'weblate.checks.qt.QtPluralCheck',
+#     'weblate.checks.ruby.RubyFormatCheck',
 #     'weblate.checks.consistency.PluralsCheck',
 #     'weblate.checks.consistency.SamePluralsCheck',
 #     'weblate.checks.consistency.ConsistencyCheck',
