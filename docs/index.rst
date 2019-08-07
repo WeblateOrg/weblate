@@ -51,6 +51,7 @@
     admin/optionals
     admin/customize
     admin/admin
+    admin/support
     changes
 
 .. toctree::
