@@ -268,9 +268,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         return user
 
-    def open_admin(self):
+    def open_admin(self, login=True):
         # Login as superuser
-        user = self.do_login(superuser=True)
+        if login:
+            user = self.do_login(superuser=True)
+        else:
+            user = None
 
         # Open admin page
         with self.wait_for_page_load():
@@ -416,11 +419,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 )
 
         # Add SSH host key
-        self.driver.find_element_by_id(
-            'ssh-host'
-        ).send_keys(
-            'github.com'
-        )
+        self.driver.find_element_by_id('id_host').send_keys('github.com')
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element_by_id('ssh-add-button'),
@@ -429,8 +428,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('ssh-keys-added.png')
 
         # Open SSH page for final screenshot
-        with self.wait_for_page_load():
-            self.click('Home')
         with self.wait_for_page_load():
             self.click('SSH keys')
         self.screenshot('ssh-keys.png')
@@ -604,10 +601,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('admin-wrench.png')
         self.create_component()
         # Open admin page
-        with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('admin-button'),
-            )
+        self.open_admin(login=False)
 
         # Component list
         with self.wait_for_page_load():
