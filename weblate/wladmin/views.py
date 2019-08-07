@@ -21,7 +21,9 @@
 from __future__ import unicode_literals
 
 from django.core.checks import run_checks
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
@@ -37,7 +39,7 @@ from weblate.vcs.ssh import (
     get_host_keys,
     get_key_data,
 )
-from weblate.wladmin.forms import ActivateForm, SSHAddForm
+from weblate.wladmin.forms import ActivateForm, SSHAddForm, TestMailForm
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 MENU = (
@@ -89,14 +91,33 @@ def manage(request):
     )
 
 
+def send_test_mail(email):
+    send_mail(
+        subject='Test email from Weblate on %s' % timezone.now(),
+        message="If you\'re reading this, it was successful.",
+        recipient_list=[email],
+        from_email=None,
+    )
+
+
 @management_access
 def tools(request):
+    emailform = TestMailForm(initial={'email': request.user.email})
+
+    if request.method == 'POST':
+        if 'email' in request.POST:
+            emailform = TestMailForm(request.POST)
+            if emailform.is_valid():
+                send_test_mail(**emailform.cleaned_data)
+                messages.success(request, _('The test email was sent.'))
+
     return render(
         request,
         "manage/tools.html",
         {
             'menu_items': MENU,
             'menu_page': 'tools',
+            'email_form': emailform,
         }
     )
 

@@ -24,6 +24,8 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.accounts.forms import EmailField
+
 
 class ActivateForm(forms.Form):
     secret = forms.CharField(
@@ -48,3 +50,11 @@ class SSHAddForm(forms.Form):
         self.helper.form_tag = False
         self.helper.form_class = "form-inline"
         self.helper.field_template = "bootstrap3/layout/inline_field.html"
+
+
+class TestMailForm(forms.Form):
+    email = EmailField(
+        required=True,
+        label=_("Email"),
+        help_text=_("The test email will be sent to this address."),
+    )

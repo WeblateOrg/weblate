@@ -27,6 +27,7 @@ Not yet released.
 * New opt-in notifications on pending suggestions or untranslated strings.
 * Add one click unsubscribe link to notification emails.
 * Fixed false positives with Has been translated check.
+* New management interface for admins.
 
 weblate 3.7.1
 -------------
