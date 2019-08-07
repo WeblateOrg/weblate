@@ -51,6 +51,21 @@ MENU = (
         'manage-memory',
         ugettext_lazy('Translation memory'),
     ),
+    (
+        'performance',
+        'manage-performance',
+        ugettext_lazy('Performance report'),
+    ),
+    (
+        'ssh',
+        'manage-ssh',
+        ugettext_lazy('SSH keys'),
+    ),
+    (
+        'repos',
+        'manage-repos',
+        ugettext_lazy('Status of repositories'),
+    ),
 )
 
 
@@ -91,13 +106,17 @@ def activate(request):
     return redirect('manage')
 
 
-def report(request, admin_site):
+@management_access
+def repos(request):
     """Provide report about git status of all repos."""
-    context = admin_site.each_context(request)
-    context['components'] = Component.objects.order_project()
+    context = {
+        'components': Component.objects.order_project(),
+        'menu_items': MENU,
+        'menu_page': 'repos',
+    }
     return render(
         request,
-        "admin/report.html",
+        "manage/repos.html",
         context,
     )
 
@@ -114,26 +133,31 @@ def handle_dismiss(request):
             error.delete()
     except (ValueError, KeyError, ConfigurationError.DoesNotExist):
         messages.error(request, _('Failed to dismiss configuration error!'))
-    return redirect('admin:performance')
+    return redirect('manage-performance')
 
 
-def performance(request, admin_site):
+@management_access
+def performance(request):
     """Show performance tuning tips."""
     if request.method == 'POST':
         return handle_dismiss(request)
 
-    context = admin_site.each_context(request)
-    context['checks'] = run_checks(include_deployment_checks=True)
-    context['errors'] = ConfigurationError.objects.filter(ignored=False)
+    context = {
+        'checks': run_checks(include_deployment_checks=True),
+        'errors': ConfigurationError.objects.filter(ignored=False),
+        'menu_items': MENU,
+        'menu_page': 'performance',
+    }
 
     return render(
         request,
-        "admin/performance.html",
+        "manage/performance.html",
         context,
     )
 
 
-def ssh(request, admin_site):
+@management_access
+def ssh(request):
     """Show information and manipulate with SSH key."""
     # Check whether we can generate SSH key
     can_generate = can_generate_key()
@@ -156,13 +180,16 @@ def ssh(request, admin_site):
             request.POST.get('port', '')
         )
 
-    context = admin_site.each_context(request)
-    context['public_key'] = key
-    context['can_generate'] = can_generate
-    context['host_keys'] = get_host_keys()
+    context = {
+        'public_key': key,
+        'can_generate': can_generate,
+        'host_keys': get_host_keys(),
+        'menu_items': MENU,
+        'menu_page': 'ssh',
+    }
 
     return render(
         request,
-        "admin/ssh.html",
+        "manage/ssh.html",
         context,
     )

@@ -28,6 +28,8 @@ like ``weblate://project/component``. This way, the component will share the VCS
 repository configuration with referenced component and the VCS repository will
 be stored just once on the disk.
 
+.. _ssh-repos:
+
 SSH repositories
 ++++++++++++++++
 
@@ -55,6 +57,8 @@ done this, Weblate should be able to access your repository.
 
     On GitHub, you can add the key to only one repository. See the following
     sections for other solutions for GitHub.
+
+.. _verify-ssh:
 
 Verifying SSH host keys
 ~~~~~~~~~~~~~~~~~~~~~~~

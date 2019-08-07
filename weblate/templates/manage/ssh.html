@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+    {% if public_key %}
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+    {% trans "Public SSH key" %}
+  </h4>
+</div>
+<div class="panel-body">
+    <p>{% trans "Weblate currently uses following SSH key:" %}</p>
+    <form>
+    <textarea style="width:100%" readonly="readonly">{{ public_key.key }}</textarea>
+    </form>
+</div>
+</div>
+
+
+    {% elif can_generate %}
+    <form method="post">
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+    {% trans "Generate SSH key" %}
+  </h4>
+</div>
+<div class="panel-body">
+    <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate it for you." %}</p>
+    {% csrf_token %}
+    <input type="hidden" name="action" value="generate" />
+</div>
+  <div class="panel-footer">
+    <input type="submit" id="generate-ssh-button" class="btn btn-primary" value="{% trans "Generate" %}" />
+    </div>
+    </div>
+    </form>
+
+    {% endif %}
+
+    {% if host_keys %}
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'vcs' 'verify-ssh' right=True %}
+    {% trans "Known host keys" %}
+  </h4>
+</div>
+
+  <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>{% trans "Hostname" %}</th>
+    <th>{% trans "Key type" %}</th>
+    <th>{% trans "Fingerprint" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for key in host_keys %}
+    <tr class="row{% cycle '1' '2' %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td><td>{{ key.2 }}</td></tr>
+    {% endfor %}
+  </tbody>
+    </table>
+</div>
+    {% endif %}
+
+    <form method="post" class="form-inline">
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'vcs' 'verify-ssh' right=True %}
+    {% trans "Add host key" %}
+  </h4>
+</div>
+<div class="panel-body">
+    <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
+    <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="add-host" />
+    <div class="form-group">
+    <label for="ssh-host">{% trans "Host:" %}</label>
+    <input type="text" id="ssh-host" name="host" class="form-control" />
+    </div>
+    <div class="form-group">
+    <label for="ssh-port">{% trans "Port:" %}</label>
+    <input type="text" id="ssh-port" name="port" class="form-control" />
+    </div>
+</div>
+  <div class="panel-footer">
+    <input type="submit" id="ssh-add-button" class="btn btn-primary" value="{% trans "Submit" %}" />
+    </div>
+    </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

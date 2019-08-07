@@ -18,10 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from functools import update_wrapper
-
 from django.conf import settings
-from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.contrib.auth.views import LogoutView
@@ -36,7 +33,6 @@ from rest_framework.authtoken.models import Token
 from social_django.admin import AssociationOption, NonceOption, UserSocialAuthOption
 from social_django.models import Association, Nonce, UserSocialAuth
 
-import weblate.wladmin.views
 from weblate.accounts.admin import AuditLogAdmin, ProfileAdmin, VerifiedEmailAdmin
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
@@ -203,34 +199,6 @@ class WeblateAdminSite(AdminSite):
             ignored=False
         )
         return result
-
-    def get_urls(self):
-        def wrap(view, cacheable=False):
-            def wrapper(*args, **kwargs):
-                return self.admin_view(view, cacheable)(
-                    *args, admin_site=self, **kwargs
-                )
-            return update_wrapper(wrapper, view)
-
-        urls = super(WeblateAdminSite, self).get_urls()
-        urls += [
-            url(
-                r'^report/$',
-                wrap(weblate.wladmin.views.report),
-                name='report'
-            ),
-            url(
-                r'^ssh/$',
-                wrap(weblate.wladmin.views.ssh),
-                name='ssh'
-            ),
-            url(
-                r'^performance/$',
-                wrap(weblate.wladmin.views.performance),
-                name='performance'
-            ),
-        ]
-        return urls
 
     @property
     def urls(self):

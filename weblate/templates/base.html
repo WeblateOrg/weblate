@@ -151,7 +151,7 @@ var _rollbarConfig = {
         {% if user.is_superuser %}
         <li><a class="button" id="admin-button" href="{% url 'admin:index' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
         {% if configuration_errors.exists %}
-        <li><a class="button" id="errors-button" href="{% url 'admin:performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>
+        <li><a class="button" id="errors-button" href="{% url 'manage-performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>
         {% endif %}
         {% endif %}
 

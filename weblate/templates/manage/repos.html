@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-repos' %}">{% trans "Status of repositories" %}</a></li>
+{% endblock %}
+
+{% block content %}
+{% for sp in components %}
+<h3 id="component-{{ sp.pk }}"><a href="{{ sp.get_absolute_url }}">{{ sp }}</a></h3>
+{% if sp.is_repo_link %}
+<p>
+{% trans "This repository is linked to:" %} <a href="#component-{{ sp.linked_component.pk }}">{{ sp.repo }}</a>
+</p>
+{% else %}
+<pre>
+{{ sp.repository.status }}
+</pre>
+{% endif %}
+{% endfor %}
+{% endblock %}

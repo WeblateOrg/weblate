@@ -1,28 +1,24 @@
-{% extends "admin/base_site.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
 {% load check_links %}
 
-{% block title %}{% trans "Performance report" %}{% endblock %}
-
 {% block breadcrumbs %}
-<div class="breadcrumbs"><a href="../">
-{% trans "Home" %}</a> &rsaquo; {% trans "Performance" %}
-</div>{% endblock %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-performance' %}">{% trans "Performance report" %}</a></li>
+{% endblock %}
+
 
 {% block content %}
-<div id="content-main">
-  <h1>{% trans "Performance overview" %}</h1>
-  <ul class="object-tools">
-    <li>
-        <a href="{% documentation 'admin/install' 'production' %}" class="doclink">{% trans "Documentation" %}</a>
-    </li>
-  </ul>
-  {% if errors %}
-  <h2>{% trans "Configuration errors" %}</h2>
-  <div class="module filtered">
-    <div class="results">
-  <table class="orderable-initalized">
+{% if errors %}
+<div class="panel panel-danger">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'admin/install' 'production' right=True %}
+    {% trans "Configuration errors" %}
+  </h4>
+</div>
+  <table class="table table-striped">
   <thead>
   <tr>
     <th>{% trans "Last occurrence" %}</th>
@@ -41,26 +37,31 @@
       <form method="POST">
       {% csrf_token %}
       <input type="hidden" name="pk" value="{{ error.pk }}"/>
-      <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" />
-      <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" />
+      <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" class="btn btn-primary" />
+      <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" class="btn btn-primary" />
       </form>
       </td>
   </tr>
   {% endfor %}
   </tbody>
   </table>
-    <p class="help">
+<div class="panel-footer">
+    <p class="help-text">
     {% trans "You can safely permanently ignore errors for file formats you do not intend to use. These are usually caused by missing or outdated dependencies." %}
     </p>
-    </div>
-  </div>
+</div>
+</div>
   {% endif %}
 
   {% if checks %}
-  <h2>{% trans "System checks" %}</h2>
-  <div class="module filtered">
-    <div class="results">
-  <table class="orderable-initalized">
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'admin/install' 'production' right=True %}
+    {% trans "System checks" %}
+  </h4>
+</div>
+  <table class="table table-striped">
   <thead>
   <tr>
     <th>{% trans "Name" %}</th>
@@ -80,13 +81,13 @@
   {% endfor %}
   </tbody>
   </table>
-    </div>
   </div>
 
   {% endif %}
 
   {% if not checks and not errors %}
-  <p>{% trans "Congratulations, your setup seems to work." %}</p>
+  {% trans "Congratulations, your setup seems to work." as msg %}
+  {% show_message "success" msg %}
   {% endif %}
 
 </div>

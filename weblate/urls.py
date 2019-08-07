@@ -1036,6 +1036,13 @@ real_patterns = [
     # Weblate management interface
     url(r'^manage/$', weblate.wladmin.views.manage, name='manage'),
     url(r'^manage/activate/$', weblate.wladmin.views.activate, name='manage-activate'),
+    url(r'^manage/repos/$', weblate.wladmin.views.repos, name='manage-repos'),
+    url(r'^manage/ssh/$', weblate.wladmin.views.ssh, name='manage-ssh'),
+    url(
+        r'^manage/performance/$',
+        weblate.wladmin.views.performance,
+        name='manage-performance'
+    ),
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
