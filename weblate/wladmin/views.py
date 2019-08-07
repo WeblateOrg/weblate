@@ -66,6 +66,11 @@ MENU = (
         'manage-repos',
         ugettext_lazy('Status of repositories'),
     ),
+    (
+        'tools',
+        'manage-tools',
+        ugettext_lazy('Tools'),
+    ),
 )
 
 
@@ -80,6 +85,18 @@ def manage(request):
             'menu_page': 'index',
             'support': support,
             'activate_form': ActivateForm(),
+        }
+    )
+
+
+@management_access
+def tools(request):
+    return render(
+        request,
+        "manage/tools.html",
+        {
+            'menu_items': MENU,
+            'menu_page': 'tools',
         }
     )
 

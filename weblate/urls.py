@@ -1035,6 +1035,7 @@ real_patterns = [
     ),
     # Weblate management interface
     url(r'^manage/$', weblate.wladmin.views.manage, name='manage'),
+    url(r'^manage/tools/$', weblate.wladmin.views.tools, name='manage-tools'),
     url(r'^manage/activate/$', weblate.wladmin.views.activate, name='manage-activate'),
     url(r'^manage/repos/$', weblate.wladmin.views.repos, name='manage-repos'),
     url(r'^manage/ssh/$', weblate.wladmin.views.ssh, name='manage-ssh'),

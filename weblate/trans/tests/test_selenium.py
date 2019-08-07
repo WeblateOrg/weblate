@@ -277,6 +277,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(
                 self.driver.find_element_by_id('admin-button'),
             )
+        with self.wait_for_page_load():
+            self.click("Tools")
+        with self.wait_for_page_load():
+            self.click("Django admin interface")
         return user
 
     def test_failed_login(self):
