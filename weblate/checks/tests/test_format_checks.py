@@ -34,6 +34,7 @@ from weblate.checks.format import (
     PythonBraceFormatCheck,
     PythonFormatCheck,
 )
+from weblate.checks.qt import QtFormatCheck, QtPluralCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, Unit
@@ -798,6 +799,102 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format(
             '{0} string {1}',
             "'{1}' strin'g '{0}'",
+            False
+        ))
+
+
+class QtFormatCheckTest(CheckTestCase):
+    check = QtFormatCheck()
+    flag = 'qt-format'
+
+    def setUp(self):
+        super(QtFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            self.flag,
+            '%1string%2',
+            [(0, 2, u'%1'), (8, 10, u'%2')],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format(
+            'strins',
+            'string',
+            False
+        ))
+
+    def test_simple_format(self):
+        self.assertFalse(self.check.check_format(
+            '%1 strins',
+            '%1 string',
+            False
+        ))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format(
+            '%1 strins',
+            'string',
+            False
+        ))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format(
+            '%1 string',
+            '%2 string',
+            False
+        ))
+
+    def test_reordered_format(self):
+        self.assertFalse(self.check.check_format(
+            '%1 string %2',
+            '%2 string %1',
+            False
+        ))
+
+    def test_reused_format(self):
+        self.assertFalse(self.check.check_format(
+            '%1 string %1',
+            '%1 string %1',
+            False
+        ))
+
+
+class QtPluralCheckTest(CheckTestCase):
+    check = QtPluralCheck()
+    flag = 'qt-plural-format'
+
+    def setUp(self):
+        super(QtPluralCheckTest, self).setUp()
+        self.test_highlight = (
+            self.flag,
+            '%Lnstring',
+            [(0, 3, u'%Ln')],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format(
+            'strins',
+            'string',
+            False
+        ))
+
+    def test_plural_format(self):
+        self.assertFalse(self.check.check_format(
+            '%n string(s)',
+            '%n string',
+            False
+        ))
+
+    def test_plural_localized_format(self):
+        self.assertFalse(self.check.check_format(
+            '%Ln string(s)',
+            '%Ln string',
+            False
+        ))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format(
+            '%n string(s)',
+            'string',
             False
         ))
 

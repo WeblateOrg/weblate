@@ -169,6 +169,8 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-c-sharp-format:
 .. _check-java-format:
 .. _check-java-messageformat:
+.. _check-qt-format:
+.. _check-qt-plural-format:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -342,6 +344,22 @@ Java MessageFormat
 .. seealso::
 
    `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+
+Qt format
+*********
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are %1 apples``                                    |
++------------------------+------------------------------------------------------------+
+| Plural format string   | ``There are %Ln apple(s)``                                 |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `qt-format`, `qt-plural-format`                            |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_,
+    `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
 
 .. _check-plurals:
 
