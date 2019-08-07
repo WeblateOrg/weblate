@@ -35,6 +35,7 @@ from weblate.memory.storage import MemoryImportError, TranslationMemory
 from weblate.memory.tasks import import_memory
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
+from weblate.wladmin.views import MENU
 
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
@@ -146,6 +147,9 @@ class MemoryView(TemplateView):
             if 'project' in self.objects:
                 context['import_form'] = ImportForm()
                 context['import_url'] = self.get_url('memory-import')
+        if 'use_file' in self.objects:
+            context['menu_items'] = MENU
+            context['menu_page'] = 'memory'
         return context
 
 

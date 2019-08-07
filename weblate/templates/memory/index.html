@@ -9,7 +9,7 @@
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
 {% elif use_file %}
-<li><a href="">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
 <li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
 {% else %}
 <li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>

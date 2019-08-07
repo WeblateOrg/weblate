@@ -23,9 +23,13 @@ from __future__ import unicode_literals
 from django.core.checks import run_checks
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 
+from weblate.auth.decorators import management_access
 from weblate.trans.models import Component
 from weblate.utils import messages
+from weblate.utils.errors import report_error
+from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
     add_host_key,
     can_generate_key,
@@ -33,7 +37,58 @@ from weblate.vcs.ssh import (
     get_host_keys,
     get_key_data,
 )
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.forms import ActivateForm
+from weblate.wladmin.models import ConfigurationError, SupportStatus
+
+MENU = (
+    (
+        'index',
+        'manage',
+        ugettext_lazy('Weblate status'),
+    ),
+    (
+        'memory',
+        'manage-memory',
+        ugettext_lazy('Translation memory'),
+    ),
+)
+
+
+@management_access
+def manage(request):
+    support = SupportStatus.objects.get_current()
+    return render(
+        request,
+        "manage/index.html",
+        {
+            'menu_items': MENU,
+            'menu_page': 'index',
+            'support': support,
+            'activate_form': ActivateForm(),
+        }
+    )
+
+
+@management_access
+def activate(request):
+    form = ActivateForm(request.POST)
+    if form.is_valid():
+        support = SupportStatus(**form.cleaned_data)
+        try:
+            support.refresh()
+            if not support.expiry:
+                raise Exception('expired')
+            support.save()
+            messages.error(request, _('Activation completed.'))
+        except Exception as error:
+            report_error(error, request)
+            messages.error(
+                request,
+                _('The activation failed. Please check your activation token.')
+            )
+    else:
+        show_form_errors(request, form)
+    return redirect('manage')
 
 
 def report(request, admin_site):

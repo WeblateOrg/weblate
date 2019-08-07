@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% trans "Weblate support status" %}
+  </h4>
+</div>
+  <table class="table table-condensed table-striped">
+  <tr>
+  <th>{% trans "Support status" %}</th>
+  <td>{{ support.get_verbose }}</td>
+  </tr>
+  {% if support.expiry %}
+  <tr>
+  <th>{% trans "Support expiry" %}</th>
+  <td>{{ support.expiry|naturaltime }}</td>
+  </tr>
+  {% endif %}
+  </table>
+  <div class="panel-footer">
+  {% if support.name == 'community' %}
+  <a href="https://weblate.org/support/" class="btn btn-primary">{% trans "Purchase support package" %}</a>
+  <a href="https://weblate.org/donate/" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
+  {% else %}
+  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
+  {% endif %}
+  </div>
+</div>
+
+<form action="{% url 'manage-activate' %}" method="POST">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Activate support package" %}</h4></div>
+  <div class="panel-body">
+  {{ activate_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Activate" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}
+

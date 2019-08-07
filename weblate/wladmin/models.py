@@ -18,10 +18,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
+import dateutil.parser
+import requests
 from django.contrib.admin import ModelAdmin
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy
+
+from weblate import USER_AGENT
+from weblate.auth.models import User
+from weblate.trans.models import Component, Project
+from weblate.utils.site import get_site_url
+from weblate.utils.stats import GlobalStats
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -72,3 +83,54 @@ class ConfigurationError(models.Model):
 
     def __str__(self):
         return self.name
+
+
+SUPPORT_NAMES = {
+    'community': ugettext_lazy('Community support'),
+    'hosted': ugettext_lazy('Hosted service'),
+    'basic': ugettext_lazy('Basic self-hosted support'),
+    'extended': ugettext_lazy('Extended self-hosted support'),
+}
+SUPPORT_URL = 'https://weblate.org/api/support/'
+
+
+class SupportStatusManager(models.Manager):
+    def get_current(self):
+        try:
+            return self.latest('expiry')
+        except SupportStatus.DoesNotExist:
+            return SupportStatus(name='community')
+
+
+@python_2_unicode_compatible
+class SupportStatus(models.Model):
+    name = models.CharField(max_length=150)
+    secret = models.CharField(max_length=400)
+    expiry = models.DateTimeField(db_index=True, null=True)
+
+    objects = SupportStatusManager()
+
+    def get_verbose(self):
+        return SUPPORT_NAMES.get(self.name, self.name)
+
+    def __str__(self):
+        return '{}:{}'.format(self.name, self.expiry)
+
+    def refresh(self):
+        stats = GlobalStats()
+        data = {
+            'secret': self.secret,
+            'site_url': get_site_url(),
+            'users': User.objects.count(),
+            'projects': Project.objects.count(),
+            'components': Component.objects.count(),
+            'languages': stats.languages,
+        }
+        headers = {
+            'User-Agent': USER_AGENT,
+        }
+        response = requests.request('post', SUPPORT_URL, headers=headers, data=data)
+        response.raise_for_status()
+        payload = response.json()
+        self.name = payload['name']
+        self.expiry = dateutil.parser.parse(payload['expiry'])

@@ -61,6 +61,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.sites
+import weblate.wladmin.views
 from weblate.auth.decorators import management_access
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import (
@@ -728,6 +729,12 @@ real_patterns = [
         management_access(weblate.memory.views.MemoryView.as_view()),
         name='memory',
     ),
+    # This is hacky way of adding second name to a URL
+    url(
+        r'^manage/memory/$',
+        management_access(weblate.memory.views.MemoryView.as_view()),
+        name='manage-memory',
+    ),
     url(
         r'^(?P<manage>manage)/memory/delete/$',
         management_access(weblate.memory.views.DeleteView.as_view()),
@@ -1026,6 +1033,9 @@ real_patterns = [
             namespace='admin'
         )
     ),
+    # Weblate management interface
+    url(r'^manage/$', weblate.wladmin.views.manage, name='manage'),
+    url(r'^manage/activate/$', weblate.wladmin.views.activate, name='manage-activate'),
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
