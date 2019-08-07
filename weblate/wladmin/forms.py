@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -33,3 +34,17 @@ class ActivateForm(forms.Form):
             "Please anter activation token obtained when making the subscription."
         ),
     )
+
+
+class SSHAddForm(forms.Form):
+    host = forms.CharField(label=_("Hostname"), required=True, max_length=400)
+    port = forms.IntegerField(
+        label=_("Port"), required=False, min_value=1, max_value=65535
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(SSHAddForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.form_class = "form-inline"
+        self.helper.field_template = "bootstrap3/layout/inline_field.html"

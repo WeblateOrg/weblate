@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
@@ -84,17 +85,8 @@
 </div>
 <div class="panel-body">
     <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
-    <form method="post">
-    {% csrf_token %}
+    {% crispy add_form %}
     <input type="hidden" name="action" value="add-host" />
-    <div class="form-group">
-    <label for="ssh-host">{% trans "Host:" %}</label>
-    <input type="text" id="ssh-host" name="host" class="form-control" />
-    </div>
-    <div class="form-group">
-    <label for="ssh-port">{% trans "Port:" %}</label>
-    <input type="text" id="ssh-port" name="port" class="form-control" />
-    </div>
 </div>
   <div class="panel-footer">
     <input type="submit" id="ssh-add-button" class="btn btn-primary" value="{% trans "Submit" %}" />

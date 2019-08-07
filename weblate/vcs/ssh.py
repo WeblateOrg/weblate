@@ -138,7 +138,7 @@ def add_host_key(request, host, port=''):
     else:
         cmdline = ['ssh-keyscan']
         if port:
-            cmdline.extend(['-p', port])
+            cmdline.extend(['-p', str(port)])
         cmdline.append(host)
         try:
             output = subprocess.check_output(

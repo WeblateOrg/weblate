@@ -37,7 +37,7 @@ from weblate.vcs.ssh import (
     get_host_keys,
     get_key_data,
 )
-from weblate.wladmin.forms import ActivateForm
+from weblate.wladmin.forms import ActivateForm, SSHAddForm
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 MENU = (
@@ -190,12 +190,11 @@ def ssh(request):
     key = get_key_data()
 
     # Add host key
+    form = SSHAddForm()
     if action == 'add-host':
-        add_host_key(
-            request,
-            request.POST.get('host', ''),
-            request.POST.get('port', '')
-        )
+        form = SSHAddForm(request.POST)
+        if form.is_valid():
+            add_host_key(request, **form.cleaned_data)
 
     context = {
         'public_key': key,
@@ -203,6 +202,7 @@ def ssh(request):
         'host_keys': get_host_keys(),
         'menu_items': MENU,
         'menu_page': 'ssh',
+        'add_form': form,
     }
 
     return render(
