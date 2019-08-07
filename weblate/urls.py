@@ -1034,8 +1034,8 @@ real_patterns = [
     url(r'^api/', include((weblate.api.urls, 'weblate.api'), namespace='api')),
 
     # Static pages
-    url(r'^contact/', weblate.accounts.views.contact, name='contact'),
-    url(r'^hosting/', weblate.accounts.views.hosting, name='hosting'),
+    url(r'^contact/$', weblate.accounts.views.contact, name='contact'),
+    url(r'^hosting/$', weblate.accounts.views.hosting, name='hosting'),
     url(
         r'^about/$',
         weblate.trans.views.about.AboutView.as_view(),
