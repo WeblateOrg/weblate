@@ -132,7 +132,7 @@ def activate(request):
             if not support.expiry:
                 raise Exception('expired')
             support.save()
-            messages.error(request, _('Activation completed.'))
+            messages.success(request, _('Activation completed.'))
         except Exception as error:
             report_error(error, request)
             messages.error(
