@@ -168,7 +168,7 @@ class BaseExporter(object):
         filename = filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
-            extension=self.extension()
+            extension=self.extension
         )
 
         response = HttpResponse(
