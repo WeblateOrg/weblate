@@ -1693,6 +1693,16 @@ class ComponentProjectForm(ComponentNameForm):
             raise ValidationError({'slug': _("Entry by the same name already exists.")})
 
 
+class ComponentScratchCreateForm(ComponentProjectForm):
+    file_format = forms.ChoiceField(
+        label=_('File format'),
+        initial='po-mono',
+        choices=FILE_FORMATS.get_choices(
+            cond=lambda x: bool(x.new_translation)
+        ),
+    )
+
+
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
         label=_('ZIP file containing translations'),

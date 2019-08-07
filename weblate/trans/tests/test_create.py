@@ -306,6 +306,7 @@ class CreateTest(ViewTestCase):
                     'name': 'Create Component',
                     'slug': 'create-component',
                     'project': self.project.pk,
+                    "file_format": "po-mono",
                 },
                 follow=True
             )
@@ -318,3 +319,22 @@ class CreateTest(ViewTestCase):
 
         response = create()
         self.assertContains(response, "Entry by the same name already exists.")
+
+    @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
+    def test_create_scratch_android(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse('create-component'),
+            {
+                "origin": "scratch",
+                'name': 'Create Component',
+                'slug': 'create-component',
+                'project': self.project.pk,
+                "file_format": "aresource",
+            },
+            follow=True
+        )
+        self.assertContains(response, 'Test/Create Component')

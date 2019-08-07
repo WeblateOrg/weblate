@@ -33,13 +33,13 @@ from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import CreateView
 
-from weblate.formats.ttkit import PoMonoFormat
+from weblate.formats.models import FILE_FORMATS
 from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
     ComponentInitCreateForm,
-    ComponentProjectForm,
+    ComponentScratchCreateForm,
     ComponentSelectForm,
     ComponentZipCreateForm,
     ProjectCreateForm,
@@ -49,18 +49,19 @@ from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
 
-def scratch_create_component(project, name, slug):
-    template = '{}.po'.format(project.source_language.code)
+def scratch_create_component(project, name, slug, file_format):
+    format_cls = FILE_FORMATS[file_format]
+    template = '{}.{}'.format(project.source_language.code, format_cls.extension())
     fake = Component(project=project, slug=slug, name=name)
     # Create VCS with empty file
     LocalRepository.from_files(
         fake.full_path,
-        {template: PoMonoFormat.new_translation}
+        {template: format_cls.new_translation}
     )
     # Create component
     return Component.objects.create(
-        file_format='po-mono',
-        filemask='*.po',
+        file_format=file_format,
+        filemask='*.{}'.format(format_cls.extension()),
         template=template,
         vcs='local',
         repo='local:',
@@ -346,7 +347,9 @@ class CreateComponentSelection(CreateComponent):
         kwargs['full_form'] = self.get_form(ComponentInitCreateForm, empty=True)
         if 'local' in VCS_REGISTRY:
             kwargs['zip_form'] = self.get_form(ComponentZipCreateForm, empty=True)
-            kwargs['scratch_form'] = self.get_form(ComponentProjectForm, empty=True)
+            kwargs['scratch_form'] = self.get_form(
+                ComponentScratchCreateForm, empty=True
+            )
         if self.origin == 'branch':
             kwargs['branch_form'] = kwargs['form']
         elif self.origin == 'scratch':
@@ -372,7 +375,7 @@ class CreateComponentSelection(CreateComponent):
         if self.origin == 'branch':
             return ComponentBranchForm
         elif self.origin == 'scratch':
-            return ComponentProjectForm
+            return ComponentScratchCreateForm
         return ComponentSelectForm
 
     def redirect_create(self, **kwargs):

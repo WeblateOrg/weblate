@@ -209,7 +209,6 @@ class KeyValueUnit(TTKitUnit):
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
     loader = ('', '')
-    new_translation = None
 
     def __init__(self, storefile, template_store=None, language_code=None,
                  is_template=False):
