@@ -35,6 +35,7 @@ from weblate.checks.format import (
 )
 from weblate.checks.languages import LANGUAGES
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
+from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
 # Email address to ignore
 EMAIL_RE = re.compile(
@@ -102,6 +103,8 @@ def strip_format(msg, flags):
         regex = QT_FORMAT_MATCH
     elif 'qt-plural-format' in flags:
         regex = QT_PLURAL_MATCH
+    elif 'ruby-format' in flags:
+        regex = RUBY_FORMAT_MATCH
     elif 'rst-text' in flags:
         regex = RST_MATCH
     else:

@@ -57,10 +57,10 @@ Here is a list of flags currently accepted:
     Define font size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define font spacing for rendering checks, see :ref:`fonts`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
-    :ref:`check-qt-format`, :ref:`check-qt-plural-format`,
+    :ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
     :ref:`check-java-messageformat`, :ref:`check-same`.
@@ -126,6 +126,8 @@ Here is a list of flags currently accepted:
     Skip the "Qt format" quality check.
 ``ignore-qt-plural-format``
     Skip the "Qt plural format" quality check.
+``ignore-ruby-format``
+    Skip the "Ruby format" quality check.
 
 .. note::
 

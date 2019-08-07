@@ -171,6 +171,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-java-messageformat:
 .. _check-qt-format:
 .. _check-qt-plural-format:
+.. _check-ruby-format:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -360,6 +361,25 @@ Qt format
 
     `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_,
     `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+
+Ruby format
+***********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$f %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Named format string    | ``Your balance is %+.2<amount>f %<currency>s``             |
++------------------------+------------------------------------------------------------+
+| Named template string  | ``Your balance is %{amount} %{currency}``                  |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `ruby-format`                                              |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
 
 .. _check-plurals:
 
