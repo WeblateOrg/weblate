@@ -33,7 +33,7 @@ class ActivateForm(forms.Form):
         required=True,
         max_length=400,
         help_text=_(
-            "Please anter activation token obtained when making the subscription."
+            "Please enter activation token obtained when making the subscription."
         ),
     )
 
