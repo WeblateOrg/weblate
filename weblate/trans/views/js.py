@@ -23,6 +23,7 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
+from django.views.decorators.http import require_POST
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import PLAIN_FLAGS, TYPED_FLAGS
@@ -38,6 +39,7 @@ from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_component, get_project, get_translation
 
 
+@require_POST
 def translate(request, unit_id, service):
     """AJAX handler for translating."""
     if service not in MACHINE_TRANSLATION_SERVICES:

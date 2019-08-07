@@ -397,14 +397,19 @@ function failedMachineTranslation(jqXHR, textStatus, errorThrown) {
 }
 
 function loadMachineTranslations(data, textStatus) {
+    var $form = $('#link-post');
     decreaseLoading('#mt-loading');
     data.forEach(function (el, idx) {
         increaseLoading('#mt-loading');
         $.ajax({
+            type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', el),
             success: processMachineTranslation,
             error: failedMachineTranslation,
-            dataType: 'json'
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: $form.find('input').val(),
+            },
         });
     });
 }

@@ -56,7 +56,7 @@ class JSViewsTest(FixtureTestCase):
     def test_translate(self):
         self.ensure_dummy_mt()
         unit = self.get_unit()
-        response = self.client.get(
+        response = self.client.post(
             reverse(
                 'js-translate',
                 kwargs={'unit_id': unit.id, 'service': 'dummy'}
@@ -83,7 +83,7 @@ class JSViewsTest(FixtureTestCase):
         )
 
         # Invalid service
-        response = self.client.get(
+        response = self.client.post(
             reverse(
                 'js-translate',
                 kwargs={'unit_id': unit.id, 'service': 'invalid'}
