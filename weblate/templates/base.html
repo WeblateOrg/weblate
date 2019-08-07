@@ -231,6 +231,7 @@ var _rollbarConfig = {
 </header>
 
 <div class="content">
+
 <!--[if lte IE 8]>
 {% trans 'Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser like Firefox, Chrome or Edge.' as msg %}
 {% show_message "error" msg %}
@@ -241,6 +242,10 @@ var _rollbarConfig = {
 {% endfor %}
 {% endif %}
 
+{% endif %}
+
+{% if menu_items %}
+{% include 'snippets/menu.html' %}
 {% endif %}
 
 {% block content %}
