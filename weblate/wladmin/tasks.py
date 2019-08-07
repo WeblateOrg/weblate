@@ -25,7 +25,7 @@ from django.core.checks import run_checks
 from django.utils.timezone import now
 
 from weblate.celery import app
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 
 @app.task
@@ -69,10 +69,23 @@ def configuration_health_check(include_deployment_checks=True):
             ConfigurationError.objects.remove(check_id)
 
 
+@app.task
+def support_status_update():
+    support = SupportStatus.objects.get_current()
+    if support.secret:
+        support.refresh()
+        support.save()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         3600,
         configuration_health_check.s(),
         name='configuration-health-check',
+    )
+    sender.add_periodic_task(
+        24 * 3600,
+        support_status_update.s(),
+        name='support-status-update',
     )
