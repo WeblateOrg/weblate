@@ -37,6 +37,10 @@ from weblate.utils.views import get_paginator, get_project
 
 
 def show_languages(request):
+    if request.user.has_perm('language.edit'):
+        languages = Language.objects.all()
+    else:
+        languages = Language.objects.have_translation()
     return render(
         request,
         'languages.html',
