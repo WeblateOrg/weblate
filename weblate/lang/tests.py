@@ -519,6 +519,25 @@ class LanguagesViewTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse('show_language', kwargs={'lang': 'xx'}))
 
+    def test_delete(self):
+        response = self.client.post(reverse(
+            'show_language',
+            kwargs={'lang': 'br'}
+        ))
+        self.assertEqual(response.status_code, 200)
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(reverse(
+            'show_language',
+            kwargs={'lang': 'cs'}
+        ))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse(
+            'show_language',
+            kwargs={'lang': 'br'}
+        ))
+        self.assertRedirects(response, reverse('languages'))
+
 
 class PluralsCompareTest(TestCase):
     def test_match(self):

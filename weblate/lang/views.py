@@ -32,6 +32,7 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
+from weblate.utils import messages
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
 
@@ -46,11 +47,7 @@ def show_languages(request):
         'languages.html',
         {
             'allow_index': True,
-            'languages': prefetch_stats(
-                sort_objects(
-                    Language.objects.have_translation()
-                )
-            ),
+            'languages': prefetch_stats(sort_objects(languages)),
             'title': _('Languages'),
             'global_stats': GlobalStats(),
         }
@@ -65,6 +62,16 @@ def show_language(request, lang):
         if isinstance(obj, Language):
             return redirect(obj)
         raise Http404('No Language matches the given query.')
+
+    if request.method == 'POST' and request.user.has_perm('language.edit'):
+        if obj.translation_set.exists():
+            messages.error(
+                request, _('Remove all translations using this language first.')
+            )
+        else:
+            obj.delete()
+            messages.success(request, _('Language %s removed.') % obj)
+            return redirect('languages')
 
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
@@ -10,6 +11,8 @@
 {% block content %}
 
 {% whiteboard_messages language=object %}
+
+{% perm 'language.edit' as user_can_edit_language %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
@@ -24,6 +27,12 @@
     <ul class="dropdown-menu">
       <li><a href="{% url 'checks' %}?language={{ object.code }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?language={{ object.code }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+      {% if user_can_edit_language %}
+      <li role="separator" class="divider"></li>
+      {% if not object.translation_set.exists %}
+      <li><a href="{% url 'show_language' lang=object.code %}" class="link-post">{% trans "Delete" %}</a></li>
+      {% endif %}
+      {% endif %}
     </ul>
    </li>
 </ul>
