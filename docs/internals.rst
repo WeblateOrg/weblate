@@ -7,7 +7,7 @@ Internals
 
     This chapter will give you basic overview of Weblate internals.
 
-Weblate is derives most of its code structure from, and is based on `Django`_.
+Weblate derives most of its code structure from, and is based on `Django`_.
 Familiarize yourself with
 :doc:`django:intro/overview` to get a basic understanding of its file structure.
 
