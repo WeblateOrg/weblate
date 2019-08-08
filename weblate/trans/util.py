@@ -44,6 +44,7 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 from weblate.utils.data import data_dir
 
 PLURAL_SEPARATOR = '\x1e\x1e'
+LOCALE_SETUP = True
 
 PRIORITY_CHOICES = (
     (60, ugettext_lazy('Very high')),
@@ -56,9 +57,11 @@ PRIORITY_CHOICES = (
 # Initialize to sane locales for strxfrm
 try:
     locale.setlocale(locale.LC_ALL, ('C', 'UTF-8'))
-except:
-    locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
-
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+    except locale.Error:
+        LOCALE_SETUP = False
 
 def is_plural(text):
     """Check whether string is plural form."""

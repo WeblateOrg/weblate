@@ -24,6 +24,8 @@ Tests for unicode sorting.
 
 from __future__ import unicode_literals
 
+from unittest import SkipTest
+
 from django.test import TestCase
 
 import weblate.trans.util
@@ -31,6 +33,8 @@ import weblate.trans.util
 
 class SortTest(TestCase):
     def test_sort(self):
+        if not weblate.trans.util.LOCALE_SETUP:
+            raise SkipTest("Failed to setup locales")
         result = weblate.trans.util.sort_choices(
             ((2, "zkouška"), (3, "zkouzka"), (1, "zkouaka"))
         )
