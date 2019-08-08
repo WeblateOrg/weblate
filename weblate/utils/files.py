@@ -32,8 +32,10 @@ SCRIPTS_DIR = os.path.join(settings.BASE_DIR, 'scripts')
 EXAMPLES_DIR = os.path.join(settings.BASE_DIR, 'weblate', 'examples')
 
 
-def remove_readonly(func, path, _):
+def remove_readonly(func, path, excinfo):
     """Clear the readonly bit and reattempt the removal."""
+    if isinstance(excinfo[1], FileNotFoundError):
+        return
     os.chmod(path, stat.S_IWRITE)
     func(path)
 

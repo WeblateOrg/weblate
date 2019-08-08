@@ -41,5 +41,5 @@ class tempdir_setting(override_settings):  # noqa
     def disable(self):
         super(tempdir_setting, self).disable()
         if self._tempdir is not None:
-            shutil.rmtree(self._tempdir)
+            shutil.rmtree(self._tempdir, onerror=remove_readonly)
             self._tempdir = None
