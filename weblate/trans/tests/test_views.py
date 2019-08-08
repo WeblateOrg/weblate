@@ -755,14 +755,13 @@ class SourceStringsTest(ViewTestCase):
 
         source = self.get_unit().source_info
         response = self.client.post(
-            reverse('edit_priority', kwargs={'pk': source.pk}),
-            {'priority': 60}
+            reverse('edit_check_flags', kwargs={'pk': source.pk}),
+            {'flags': 'priority:60'}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
         self.assertEqual(unit.priority, 60)
-        self.assertEqual(unit.source_info.priority, 60)
 
     def test_edit_context(self):
         # Need extra power
