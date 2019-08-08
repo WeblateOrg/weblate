@@ -161,7 +161,8 @@ def delete_configuration_error(name, force_cache=False):
 def get_clean_env(extra=None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
-        'LANG': 'en_US.UTF-8',
+        'LANG': 'C.UTF-8',
+        'LC_ALL': 'C.UTF-8',
         'HOME': data_dir('home'),
     }
     if extra is not None:
