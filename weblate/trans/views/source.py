@@ -29,12 +29,7 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.forms import (
-    CheckFlagsForm,
-    ContextForm,
-    MatrixLanguageForm,
-    PriorityForm,
-)
+from weblate.trans.forms import CheckFlagsForm, ContextForm, MatrixLanguageForm
 from weblate.trans.models import Source, Translation, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
@@ -115,25 +110,6 @@ def show_source(request, project, component):
             'title': _('Source strings in %s') % force_text(obj),
         }
     )
-
-
-@require_POST
-@login_required
-def edit_priority(request, pk):
-    """Change source string priority."""
-    source = get_object_or_404(Source, pk=pk)
-
-    if not request.user.has_perm('source.edit', source.component):
-        raise PermissionDenied()
-
-    form = PriorityForm(request.POST)
-    if form.is_valid():
-        source.priority = form.cleaned_data['priority']
-        source.save()
-    else:
-        messages.error(request, _('Failed to change a priority!'))
-        show_form_errors(request, form)
-    return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
 @require_POST

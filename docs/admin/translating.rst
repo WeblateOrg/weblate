@@ -50,8 +50,7 @@ All these features can be set on the
 .. image:: /images/source-review-edit.png
 
 Access this directly from the translating interface by clicking the
-"Edit" icon next to :guilabel:`Screenshot context`, :guilabel:`Flags`
-or :guilabel:`String priority`:
+"Edit" icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`.
 
 .. image:: /images/source-information.png
 
@@ -62,7 +61,10 @@ Strings prioritization
 
 You can change string priority, strings with higher priority are offered first
 for translation. This can be useful for prioritizing translation of strings
-which are seen first by users or are otherwise important.
+which are seen first by users or are otherwise important. This can be achieved
+using ``priority`` flag.
+
+.. seealso:: :ref:`checks`
 
 Translation flags
 +++++++++++++++++

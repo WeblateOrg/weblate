@@ -62,7 +62,6 @@ from weblate.trans.models import (
     Unit,
     WhiteboardMessage,
 )
-from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
@@ -1229,16 +1228,6 @@ def get_new_language_form(request, component):
     if request.user.has_perm('translation.add_more', component):
         return NewLanguageOwnerForm
     return NewLanguageForm
-
-
-class PriorityForm(forms.Form):
-    priority = forms.ChoiceField(
-        label=_('Priority'),
-        choices=PRIORITY_CHOICES,
-        help_text=_(
-            'Higher priority strings are presented to translators earlier.'
-        ),
-    )
 
 
 class ContextForm(forms.Form):

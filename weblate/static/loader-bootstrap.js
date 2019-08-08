@@ -716,12 +716,6 @@ $(function () {
         }
     });
 
-    /* Priority editor */
-    $('.edit-priority').click(function (e) {
-        e.preventDefault();
-        $(this).closest('tr').find('.expander').first().click();
-    });
-
     /* Auto expand expander */
     $('.auto-expand').each(function () {
         $(this).click();

@@ -187,11 +187,6 @@ real_patterns = [
         name='matrix-load',
     ),
     url(
-        r'^source/(?P<pk>[0-9]+)/priority/$',
-        weblate.trans.views.source.edit_priority,
-        name='edit_priority'
-    ),
-    url(
         r'^source/(?P<pk>[0-9]+)/context/$',
         weblate.trans.views.source.edit_context,
         name='edit_context'

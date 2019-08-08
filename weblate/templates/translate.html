@@ -560,17 +560,6 @@
     </tr>
     {% endif %}
     {% include "unit-details.html" %}
-    <tr>
-    <th>
-    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
-    {% trans "String priority" %}
-    </th>
-    </tr>
-    <tr>
-    <td>
-    {{ unit.source_info.get_priority_display }}
-    </td>
-    </tr>
     {% with unit.active_source_checks as checks %}
     {% if checks %}
     <tr>

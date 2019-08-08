@@ -442,7 +442,7 @@ class SourceSerializer(RemovableSerializer):
     class Meta(object):
         model = Source
         fields = (
-            'id_hash', 'component', 'timestamp', 'priority', 'check_flags',
+            'id_hash', 'component', 'timestamp', 'check_flags',
             'url', 'units', 'screenshots',
         )
         extra_kwargs = {

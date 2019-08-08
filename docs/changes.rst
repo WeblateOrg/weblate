@@ -28,6 +28,7 @@ Not yet released.
 * Add one click unsubscribe link to notification emails.
 * Fixed false positives with Has been translated check.
 * New management interface for admins.
+* String priority can now be specified using flags.
 
 weblate 3.7.1
 -------------

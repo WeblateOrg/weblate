@@ -28,7 +28,6 @@ from django.utils.functional import cached_property
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
-from weblate.trans.util import PRIORITY_CHOICES
 from weblate.trans.validators import validate_check_flags
 
 
@@ -39,10 +38,6 @@ class Source(models.Model):
         'Component', on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True)
-    priority = models.IntegerField(
-        default=100,
-        choices=PRIORITY_CHOICES,
-    )
     check_flags = models.TextField(
         default='',
         validators=[validate_check_flags],
@@ -62,7 +57,6 @@ class Source(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(Source, self).__init__(*args, **kwargs)
-        self.priority_modified = False
         self.check_flags_modified = False
 
     def __str__(self):
@@ -70,15 +64,13 @@ class Source(models.Model):
 
     def save(self, force_insert=False, **kwargs):
         """
-        Wrapper around save to indicate whether priority has been
+        Wrapper around save to indicate whether flags has been
         modified.
         """
         if force_insert:
-            self.priority_modified = (self.priority != 100)
             self.check_flags_modified = (self.check_flags != '')
         else:
             old = Source.objects.get(pk=self.pk)
-            self.priority_modified = (old.priority != self.priority)
             self.check_flags_modified = (old.check_flags != self.check_flags)
         super(Source, self).save(force_insert, **kwargs)
 

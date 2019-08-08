@@ -54,6 +54,8 @@ TYPED_FLAGS["font-weight"] = ugettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = get_font_weight
 TYPED_FLAGS["font-spacing"] = ugettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = int
+TYPED_FLAGS["priority"] = ugettext_lazy("Priority")
+TYPED_FLAGS_ARGS["priority"] = int
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
@@ -85,17 +87,17 @@ class Flags(object):
         """Parse comma separated list of flags."""
         for flag in flags.split(","):
             value = flag.strip()
-            if not value or value in ('fuzzy', '#'):
+            if not value or value in ("fuzzy", "#"):
                 continue
             yield value
 
     @classmethod
     def parse_xml(cls, flags):
         """Parse comma separated list of flags."""
-        maxwidth = flags.get('maxwidth')
+        maxwidth = flags.get("maxwidth")
         if maxwidth:
-            yield 'max-length:{0}'.format(maxwidth)
-        text = flags.get('weblate-flags')
+            yield "max-length:{0}".format(maxwidth)
+        text = flags.get("weblate-flags")
         if text is not None:
             for flag in cls.parse(text):
                 yield flag

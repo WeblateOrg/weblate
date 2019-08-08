@@ -31,7 +31,7 @@ from weblate.checks.models import Check
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
 from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.forms import CheckFlagsForm, ContextForm, PriorityForm
+from weblate.trans.forms import CheckFlagsForm, ContextForm
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import sort_objects
 from weblate.utils.errors import report_error
@@ -247,9 +247,6 @@ def get_detail(request, project, component, checksum):
             'source': source,
             'project': component.project,
             'next': request.GET.get('next', ''),
-            'priority_form': PriorityForm(
-                initial={'priority': source.priority}
-            ),
             'context_form': ContextForm(
                 initial={'context': source.context}
             ),

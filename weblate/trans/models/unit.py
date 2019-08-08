@@ -295,7 +295,7 @@ class UnitQuerySet(models.QuerySet):
         raise Unit.DoesNotExist('No matching unit found!')
 
     def order(self):
-        return self.order_by('priority', 'position')
+        return self.order_by('-priority', 'position')
 
 
 @python_2_unicode_compatible
@@ -465,7 +465,7 @@ class Unit(models.Model, LoggerMixin):
         self.comment = comment
         self.content_hash = content_hash
         self.previous_source = previous_source
-        self.priority = source_info.priority
+        self.update_priority(save=False)
 
         # Sanitize number of plurals
         if self.is_plural():
@@ -491,6 +491,19 @@ class Unit(models.Model, LoggerMixin):
         # Track updated sources for source checks
         if source_created or not same_source:
             component.updated_sources[self.id_hash] = self
+
+    def update_priority(self, save=True):
+        if self.all_flags.has_value('priority'):
+            priority = self.all_flags.get_value('priority')
+        else:
+            priority = 100
+        if self.priority != priority:
+            self.priority = priority
+            if save:
+                self.save(
+                    same_content=True, same_state=True,
+                    update_fields=['priority']
+                )
 
     def is_plural(self):
         """Check whether message is plural."""

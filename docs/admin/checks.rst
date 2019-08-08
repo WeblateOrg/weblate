@@ -41,6 +41,10 @@ Here is a list of flags currently accepted:
     Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``url``
     The string should consist of URL only.
+``priority:N``
+    Priority of the string. Higher priority strings are presented first to translate. 
+    The default priority is 100, the higher priority string has, the earlier is 
+    offered to translate.
 ``max-length:N``
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``

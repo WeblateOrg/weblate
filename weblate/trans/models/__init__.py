@@ -90,20 +90,13 @@ def component_post_delete(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
-    if instance.priority_modified:
-        Unit.objects.filter(
-            id_hash=instance.id_hash,
-            translation__component=instance.component,
-        ).exclude(
-            priority=instance.priority
-        ).update(priority=instance.priority)
-
     if instance.check_flags_modified:
         for unit in instance.units:
             unit.run_checks()
         instance.run_checks()
         for unit in instance.units:
             unit.translation.invalidate_cache()
+            unit.update_priority()
 
 
 @receiver(post_delete, sender=Comment)
