@@ -94,7 +94,7 @@ def manage(request):
 def send_test_mail(email):
     send_mail(
         subject='Test email from Weblate on %s' % timezone.now(),
-        message="If you\'re reading this, it was successful.",
+        message="It works.",
         recipient_list=[email],
         from_email=None,
     )
@@ -109,7 +109,7 @@ def tools(request):
             emailform = TestMailForm(request.POST)
             if emailform.is_valid():
                 send_test_mail(**emailform.cleaned_data)
-                messages.success(request, _('The test email was sent.'))
+                messages.success(request, _('Test email sent.'))
 
     return render(
         request,
@@ -146,7 +146,7 @@ def activate(request):
 
 @management_access
 def repos(request):
-    """Provide report about git status of all repos."""
+    """Provide report about Git status of all repos."""
     context = {
         'components': Component.objects.order_project(),
         'menu_items': MENU,
@@ -170,7 +170,7 @@ def handle_dismiss(request):
         else:
             error.delete()
     except (ValueError, KeyError, ConfigurationError.DoesNotExist):
-        messages.error(request, _('Failed to dismiss configuration error!'))
+        messages.error(request, _('Could not dismiss the configuration error!'))
     return redirect('manage-performance')
 
 
