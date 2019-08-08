@@ -48,6 +48,8 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
+        if 'DRONE' is os.environ:
+            DATABASES['default']['HOST'] = 'database'
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 

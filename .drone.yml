@@ -1,0 +1,30 @@
+---
+kind: pipeline
+name: python-3-5
+
+services:
+- name: database
+  image: postgres:11-alpine
+  ports:
+  - 5432
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_DB: weblate
+
+steps:
+- name: test
+  image: python:3.5
+  commands: 
+  - apt install -y git-svn graphviz libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++
+  - pip install  psycopg2-binary twine
+  - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+  - export DJANGO_SETTINGS_MODULE=weblate.settings_test
+  - export CI_DATABASE=postgresql
+  - ./manage.py collectstatic --noinput
+  - ./manage.py list_versions
+  - ./manage.py compilemessages
+  - ./manage.py test
+  - ./setup.py sdist
+  - twine check dist/*
+  - flake8
+...
