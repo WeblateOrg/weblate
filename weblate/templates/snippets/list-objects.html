@@ -25,9 +25,10 @@
 
 <div class="btn-group">
 
-{% include "snippets/legend-button.html" with button_css="btn-link" %}
+  <button type="button" class="btn btn-link columns-dropdown">
+{% include "snippets/legend-button.html" %}
+  </button>
 
-<div class="btn-group">
   <button type="button" class="btn btn-link columns-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
     <i class="fa fa-columns"></i>
   </button>
