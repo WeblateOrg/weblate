@@ -296,7 +296,7 @@ class SourceTest(ModelTestCase):
         unit = Unit.objects.all()[0]
         self.assertEqual(unit.priority, 100)
         source = unit.source_info
-        source.priority = 200
+        source.check_flags = 'priority:200'
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit2.priority, 200)
