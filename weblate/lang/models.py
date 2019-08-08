@@ -512,12 +512,14 @@ class Plural(models.Model):
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
+    SOURCE_MANUAL = 2
     source = models.SmallIntegerField(
         default=SOURCE_DEFAULT,
         verbose_name=ugettext_lazy('Plural definition source'),
         choices=(
             (SOURCE_DEFAULT, ugettext_lazy('Default plural')),
             (SOURCE_GETTEXT, ugettext_lazy('Plural gettext formula')),
+            (SOURCE_MANUAL, ugettext_lazy('Manually entered formula')),
         ),
     )
     number = models.SmallIntegerField(

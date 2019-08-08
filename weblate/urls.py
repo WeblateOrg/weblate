@@ -304,6 +304,11 @@ real_patterns = [
         name='new-language',
     ),
     url(
+        r'^new-lang/$',
+        weblate.lang.views.CreateLanguageView.as_view(),
+        name='create-language',
+    ),
+    url(
         r'^addons/' + COMPONENT + '$',
         weblate.addons.views.AddonList.as_view(),
         name='addons',

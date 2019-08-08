@@ -495,6 +495,30 @@ class LanguagesViewTest(FixtureTestCase):
         ))
         self.assertEqual(response.status_code, 404)
 
+    def test_add(self):
+        response = self.client.get(reverse('create-language'))
+        self.assertEqual(response.status_code, 302)
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse('create-language'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(
+            reverse('create-language'),
+            {'code': 'x'}
+        )
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(
+            reverse('create-language'),
+            {
+                'code': 'xx',
+                'name': 'XX',
+                'direction': 'ltr',
+                'number': '2',
+                'equation': 'n != 1',
+            }
+        )
+        self.assertRedirects(response, reverse('show_language', kwargs={'lang': 'xx'}))
+
 
 class PluralsCompareTest(TestCase):
     def test_match(self):

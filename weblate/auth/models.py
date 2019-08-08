@@ -429,6 +429,9 @@ class User(AbstractBaseUser):
         """Compatibility API for third party modules."""
         return self.full_name
 
+    def has_perms(self, perm_list, obj=None):
+        return all(self.has_perm(perm, obj) for perm in perm_list)
+
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check."""

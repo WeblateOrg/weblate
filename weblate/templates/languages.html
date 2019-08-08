@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load translations %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
@@ -9,5 +9,10 @@
 {% block content %}
 
 {% include "snippets/list-objects.html" with objects=languages name_template="snippets/list-object-name.html" label=_("Language") project=object global_base=global_stats %}
+
+{% perm 'language.add' as user_can_add_language %}
+{% if user_can_add_language %}
+<a href="{% url 'create-language' %}" class="btn btn-primary">{% trans "Add language" %}</a>
+{% endif %}
 
 {% endblock %}

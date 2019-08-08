@@ -22,8 +22,13 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView
 
-from weblate.lang.models import Language
+from weblate.lang.forms import LanguageForm, PluralForm
+from weblate.lang import data
+from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
@@ -126,3 +131,33 @@ def show_project(request, lang, project):
             'licenses': ', '.join(sorted(pobj.get_licenses())),
         }
     )
+
+
+@method_decorator(permission_required('language.add'), name='dispatch')
+class CreateLanguageView(CreateView):
+    template_name = "lang/create.html"
+
+    def get_form(self, form_class=None):
+        kwargs = self.get_form_kwargs()
+        return (
+            LanguageForm(**kwargs),
+            PluralForm(**kwargs),
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        forms = self.get_form()
+        if all(form.is_valid() for form in forms):
+            return self.form_valid(forms)
+        else:
+            return self.form_invalid(forms)
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form[0].save()
+        plural = form[1].instance
+        plural.language = self.object
+        plural.type = data.PLURAL_UNKNOWN
+        plural.source = Plural.SOURCE_MANUAL
+        plural.save()
+        return redirect(self.object)

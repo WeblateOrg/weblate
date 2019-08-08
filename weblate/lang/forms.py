@@ -17,13 +17,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from django import template
 
-register = template.Library()
+from __future__ import unicode_literals
+
+from django import forms
+
+from weblate.lang.models import Language, Plural
 
 
-@register.simple_tag(takes_context=True)
-def perm(context, permission, obj=None, *args):
-    return context['user'].has_perm(
-        permission, obj, *args
-    )
+class LanguageForm(forms.ModelForm):
+    class Meta(object):
+        model = Language
+        exclude = []
+
+
+class PluralForm(forms.ModelForm):
+    class Meta(object):
+        model = Plural
+        fields = ["number", "equation"]
