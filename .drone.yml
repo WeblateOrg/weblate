@@ -19,7 +19,7 @@ steps:
   image: python:3.5
   commands: 
   - apt update
-  - apt install -y git-svn graphviz libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++
+  - apt install -y git-svn graphviz libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng
   - pip install  psycopg2-binary twine
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - export DJANGO_SETTINGS_MODULE=weblate.settings_test
