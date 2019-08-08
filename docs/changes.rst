@@ -29,6 +29,7 @@ Not yet released.
 * Fixed false positives with Has been translated check.
 * New management interface for admins.
 * String priority can now be specified using flags.
+* Added language management views.
 
 weblate 3.7.1
 -------------

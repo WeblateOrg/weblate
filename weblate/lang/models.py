@@ -649,6 +649,11 @@ class Plural(models.Model):
                     break
         super(Plural, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return '{}#information'.format(
+            reverse('show_language', kwargs={'lang': self.language.code})
+        )
+
 
 class WeblateLanguagesConf(AppConf):
     """Languages settings."""

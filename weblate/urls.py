@@ -793,6 +793,11 @@ real_patterns = [
         name='edit-language',
     ),
     url(
+        r'^edit-plural/(?P<pk>[0-9]+)/$',
+        weblate.lang.views.EditPluralView.as_view(),
+        name='edit-plural',
+    ),
+    url(
         r'^languages/' + LANGUAGE + '/' + PROJECT + '$',
         weblate.lang.views.show_project,
         name='project-language',

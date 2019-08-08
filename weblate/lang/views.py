@@ -18,16 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import permission_required
-from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
-from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang import data
+from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Change
@@ -174,8 +174,13 @@ class CreateLanguageView(CreateView):
         return redirect(self.object)
 
 
-
 @method_decorator(permission_required('language.edit'), name='dispatch')
 class EditLanguageView(UpdateView):
     form_class = LanguageForm
     model = Language
+
+
+@method_decorator(permission_required('language.edit'), name='dispatch')
+class EditPluralView(UpdateView):
+    form_class = PluralForm
+    model = Plural
