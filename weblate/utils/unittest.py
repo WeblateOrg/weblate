@@ -23,6 +23,8 @@ import tempfile
 
 from django.test.utils import override_settings
 
+from weblate.utils.files import remove_readonly
+
 
 # Lowercase name to be consistent with Django
 # pylint: disable=invalid-name
