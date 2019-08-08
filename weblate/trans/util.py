@@ -53,6 +53,12 @@ PRIORITY_CHOICES = (
     (140, ugettext_lazy('Very low')),
 )
 
+# Initialize to sane locales for strxfrm
+try:
+    locale.setlocale(locale.LC_ALL, ('C', 'UTF-8'))
+except:
+    locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+
 
 def is_plural(text):
     """Check whether string is plural form."""
