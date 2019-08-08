@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-08 06:26+0000\n"
-"PO-Revision-Date: 2019-08-07 18:15+0000\n"
+"PO-Revision-Date: 2019-08-09 18:22+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -2826,20 +2826,14 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "אימות CSRF נכשל. הבקשה בוטלה."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "You are seeing this message because this HTTPS site requires a 'Referer "
-#| "header' to be sent by your Web browser, but none was sent. This header is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third parties."
 msgid ""
 "This HTTPS site requires a 'Referer header' to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "that your browser is not being hijacked by third-parties."
 msgstr ""
-"הודעה זו מופיעה מאחר ואתר HTTPS זה דורש שליחת 'Referer header' על ידי הדפדפן "
-"שלך, אשר לא נשלח. הדבר נדרש מסיבות אבטחה, כדי לוודא שהדפדפן שלך לא נחטף על "
-"ידי אחרים."
+"אתר HTTPS זה דורש שליחת ‚Referer header’ (כותרת הפניה) על ידי הדפדפן שלך, "
+"אשר לא נשלחה. הדבר נדרש מסיבות אבטחה, כדי לוודא שהדפדפן שלך לא נחטף על ידי "
+"אחרים."
 
 #: weblate/templates/403_csrf.html:13
 #, fuzzy
@@ -5799,10 +5793,9 @@ msgstr[2] "יש %(count)s הצעות."
 msgstr[3] "יש %(count)s הצעות."
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "Pending suggestions in %(component)s"
-msgstr "הצעות ממתינות"
+msgstr "הצעות ממתינות ברכיב %(component)s"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -5867,21 +5860,18 @@ msgid "Context"
 msgstr "הקשר"
 
 #: weblate/templates/mail/todo_strings.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "There is %(count)s string needing action in %(component)s."
 msgid_plural "There are %(count)s strings needing action in %(component)s."
-msgstr[0] "ישנה מחרוזת אחת שדורשת סקירה."
-msgstr[1] "ישנן %(count)s מחרוזות שדורשות סקירה."
-msgstr[2] "ישנן %(count)s מחרוזות שדורשות סקירה."
-msgstr[3] "ישנן %(count)s מחרוזות שדורשות סקירה."
+msgstr[0] "ישנה מחרוזת אחת שדורשת פעולה ברכיב %(component)s."
+msgstr[1] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
+msgstr[2] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
+msgstr[3] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "Strings needing action in %(component)s"
-msgstr "מחרוזות טעונות שיפור"
+msgstr "מחרוזות שדורשות פעולה ברכיב %(component)s"
 
 #: weblate/templates/manage-access.html:9
 msgid "Manage users"
@@ -5907,25 +5897,18 @@ msgid "Add new user"
 msgstr "הוספת משתמש חדש"
 
 #: weblate/templates/manage-access.html:81
-#, fuzzy
-#| msgid "Add new user"
 msgid "Invite new user"
-msgstr "הוספת משתמש חדש"
+msgstr "הזמנת משתמש חדש"
 
 #: weblate/templates/manage-access.html:87
 msgid "Invite"
 msgstr "הזמנה"
 
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid ""
-#| "The user management in Weblate is disabled, you can change permissions in "
-#| "the Django admin interface."
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
-msgstr ""
-"ניהול המשתמשים ב־Weblate הושבת, ניתן לנהל הרשאות במנשק הניהול של Django."
+msgstr "ניהול המשתמשים ב־Weblate כבוי, ניתן לנהל הרשאות במנשק הניהול של Django."
 
 #: weblate/templates/manage-access.html:110
 msgid "Project access control"
@@ -5941,32 +5924,24 @@ msgstr "אין לך הרשאות לשנות את בקרת הגישה של המי
 
 #: weblate/templates/manage/index.html:17
 #: weblate/wladmin/templates/admin/weblate-index.html:14
-#, fuzzy
-#| msgid "Weblate statistics"
 msgid "Weblate support status"
-msgstr "הסטטיסטיקה של Weblate"
+msgstr "מצב התמיכה של Weblate"
 
 #: weblate/templates/manage/index.html:22
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support status"
-msgstr "ניתן לתמוך במיזם Weblate"
+msgstr "מצב תמיכה"
 
 #: weblate/templates/manage/index.html:27
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support expiry"
-msgstr "ניתן לתמוך במיזם Weblate"
+msgstr "תפוגת תמיכה"
 
 #: weblate/templates/manage/index.html:34
 msgid "Purchase support package"
 msgstr "רכישת חבילת תמיכה"
 
 #: weblate/templates/manage/index.html:37
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage support package"
-msgstr "ניהול הגישה למיזם"
+msgstr "ניהול חבילות תמיכה"
 
 #: weblate/templates/manage/index.html:38
 msgid "Get support"
@@ -5977,10 +5952,8 @@ msgid "Activate support package"
 msgstr "הפעלת חבילת תמיכה"
 
 #: weblate/templates/manage/index.html:54
-#, fuzzy
-#| msgid "Active"
 msgid "Activate"
-msgstr "פעיל"
+msgstr "הפעלה"
 
 #: weblate/templates/manage/performance.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:36
@@ -6092,10 +6065,8 @@ msgid ""
 msgstr "מנשק הניהול של Django עשוי לשמש לטובת מגוון פעולות ניהול."
 
 #: weblate/templates/manage/tools.html:31
-#, fuzzy
-#| msgid "Register email"
 msgid "Send test email"
-msgstr "הרשמה דוא\"ל"
+msgstr "שליחת דוא״ל לבדיקה"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
