@@ -225,7 +225,7 @@ class ComponentListAdmin(WeblateModelAdmin):
 
 
 class SourceAdmin(WeblateModelAdmin):
-    list_display = ['id_hash', 'priority', 'timestamp']
+    list_display = ['id_hash', 'timestamp', 'check_flags']
     date_hierarchy = 'timestamp'
 
 
