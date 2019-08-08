@@ -788,6 +788,11 @@ real_patterns = [
         name='show_language',
     ),
     url(
+        r'^edit-language/(?P<pk>[0-9]+)/$',
+        weblate.lang.views.EditLanguageView.as_view(),
+        name='edit-language',
+    ),
+    url(
         r'^languages/' + LANGUAGE + '/' + PROJECT + '$',
         weblate.lang.views.show_project,
         name='project-language',

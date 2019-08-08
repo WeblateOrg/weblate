@@ -538,6 +538,16 @@ class LanguagesViewTest(FixtureTestCase):
         ))
         self.assertRedirects(response, reverse('languages'))
 
+    def test_edit(self):
+        language = Language.objects.get(code='cs')
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse('edit-language', kwargs={'pk': language.pk}),
+            {'code': 'xx', 'name': 'XX', 'direction': 'ltr'},
+        )
+        self.assertRedirects(response, reverse('show_language', kwargs={'lang': 'xx'}))
+
 
 class PluralsCompareTest(TestCase):
     def test_match(self):

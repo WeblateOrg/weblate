@@ -32,6 +32,7 @@
       {% if not object.translation_set.exists %}
       <li><a href="{% url 'show_language' lang=object.code %}" class="link-post">{% trans "Delete" %}</a></li>
       {% endif %}
+      <li><a href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a></li>
       {% endif %}
     </ul>
    </li>

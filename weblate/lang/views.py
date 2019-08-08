@@ -24,7 +24,7 @@ from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang import data
@@ -172,3 +172,10 @@ class CreateLanguageView(CreateView):
         plural.source = Plural.SOURCE_MANUAL
         plural.save()
         return redirect(self.object)
+
+
+
+@method_decorator(permission_required('language.edit'), name='dispatch')
+class EditLanguageView(UpdateView):
+    form_class = LanguageForm
+    model = Language

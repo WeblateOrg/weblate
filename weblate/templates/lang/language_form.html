@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+<li><a href="{% url 'show_language' lang=object.code %}">{{ object }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+{% csrf_token %}
+{{ form|crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+</form>
+
+{% endblock %}
