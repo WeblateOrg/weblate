@@ -53,6 +53,8 @@ if 'CI_DATABASE' in os.environ:
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 
+print(os.environ)
+print(DATABASES)
 
 # Configure admins
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
