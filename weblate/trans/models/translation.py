@@ -281,8 +281,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         self.log_info('processing %s, %s', self.filename, self.reason)
 
-        # List of created units (used for cleanup and duplicates detection)
-        created = {}
+        # List of updated units (used for cleanup and duplicates detection)
+        updated = {}
 
         try:
             store = self.store
@@ -310,8 +310,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 pos += 1
 
                 # Check for possible duplicate units
-                if id_hash in created:
-                    newunit = created[id_hash]
+                if id_hash in updated:
+                    newunit = updated[id_hash]
                     self.log_warning(
                         'duplicate string to translate: %s (%s)',
                         newunit,
@@ -357,19 +357,18 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
 
                 # Store current unit ID
-                created[id_hash] = newunit
+                updated[id_hash] = newunit
         except FileParseError as error:
             self.log_warning('skipping update due to parse error: %s', error)
             return
 
-        # Following query can get huge, so we should find better way
-        # to delete stale units, probably sort of garbage collection
+        # Delete stale units
+        stale = set(dbunits) - set(updated)
+        if stale:
+            self.unit_set.filter(id_hash__in=stale).delete()
+            self.component.needs_cleanup = True
 
         # We should also do cleanup on source strings tracking objects
-
-        # Delete stale units
-        if self.unit_set.exclude(id_hash__in=created.keys()).delete()[0]:
-            self.component.needs_cleanup = True
 
         # Update revision and stats
         self.store_hash()
