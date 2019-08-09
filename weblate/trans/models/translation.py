@@ -840,6 +840,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     self.check_sync(
                         force=True, request=request, change=Change.ACTION_UPLOAD
                     )
+                    self.invalidate_cache()
 
         return (0, 0, self.unit_set.count(), len(list(store2.translatable_units)))
 
