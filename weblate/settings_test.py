@@ -43,13 +43,15 @@ if 'CI_DATABASE' in os.environ:
             'charset': 'utf8',
             'isolation_level': 'read committed',
         }
+        if 'DRONE' in os.environ:
+            DATABASES['default']['HOST'] = 'mysql'
     elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
         if 'DRONE' in os.environ:
-            DATABASES['default']['HOST'] = 'database'
+            DATABASES['default']['HOST'] = 'postgres'
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 
