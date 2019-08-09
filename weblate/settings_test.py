@@ -28,6 +28,7 @@ import warnings
 from weblate.settings_example import *  # noqa
 
 if 'CI_DATABASE' in os.environ:
+    DATABASES['default']['HOST'] = os.environ['CI_DB_HOST']
     if os.environ['CI_DATABASE'] == 'mysql':
         DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
         DATABASES['default']['NAME'] = 'weblate'
@@ -43,15 +44,11 @@ if 'CI_DATABASE' in os.environ:
             'charset': 'utf8',
             'isolation_level': 'read committed',
         }
-        if 'DRONE' in os.environ:
-            DATABASES['default']['HOST'] = 'mysql'
     elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
-        if 'DRONE' in os.environ:
-            DATABASES['default']['HOST'] = 'postgres'
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 

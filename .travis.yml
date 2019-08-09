@@ -21,6 +21,7 @@ env:
     - CI_DATABASE=postgresql
     - SAUCE_USERNAME=nijel
     - CC_TEST_REPORTER_ID=b477753e9d539176556058b92f0f6594e7823ab95d1db1348f189745ea618af6
+    - CI_DB_HOST=127.0.0.1
 before_install:
  - python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
 # commands to install dependencies
@@ -123,17 +124,15 @@ jobs:
       services:
         - postgresql
     - stage: "Basic tests"
-      name: "Migrations"
+      name: "PostgreSQL Migrations"
       env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7"
       script:
         - ./ci/run-migrate
       addons:
         <<: *aptaddon
         postgresql: "9.6"
-        mariadb: "10.3"
       services:
         - postgresql
-        - mysql
 
     - stage: "Extended tests"
       name: "Django 2.2, sqlite"
@@ -180,3 +179,13 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
+    - stage: "Basic tests"
+      name: "MySQL migrations"
+      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7" CI_DATABASE=mysql
+      script:
+        - ./ci/run-migrate
+      addons:
+        <<: *aptaddon
+        mariadb: "10.3"
+      services:
+        - mysql

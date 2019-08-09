@@ -4,47 +4,36 @@
 . ci/lib
 
 TAGS="weblate-3.1.1 weblate-3.2.2 weblate-3.3 weblate-3.4 weblate-3.5.1 weblate-3.7.1"
-DBS="sqlite mysql postgresql"
 
-for CI_DATABASE in $DBS ; do
-    export CI_DATABASE
-
-    for tag in $TAGS ; do
-        echo
-        echo "Testing migration from $tag on $CI_DATABASE..."
-        cleanup_database
-        git fetch --depth 1 origin tag $tag
-        check
-        git checkout $tag
-        if [ "$DRONE" = true ] ; then
-            if [ $CI_DATABASE = "postgresql" ] ; then
-                echo "DATABASES['default']['HOST'] = 'postgres'" >> weblate/settings_test.py
-            elif [ $CI_DATABASE = "mysql" ] ; then
-                echo "DATABASES['default']['HOST'] = 'mysql'" >> weblate/settings_test.py
-            fi
-        fi
-        check
-        run_coverage ./manage.py migrate
-        check
-        ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
-        check
-        # Load basic project fixture
-        ./manage.py loaddata simple-project.json
-        check
-        # Enable suggestion voting
-        ./manage.py shell -c 'from weblate.trans.models import Component; Component.objects.all().update(suggestion_voting=True, suggestion_autoaccept=2)'
-        check
-        # Add suggestions
-        ./manage.py add_suggestions test test cs weblate/trans/tests/data/cs.po
-        check
-        # Add vote for suggestion
-        ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
-        check
-        git reset --hard
-        git checkout $TRAVIS_COMMIT$DRONE_COMMIT
-        run_coverage ./manage.py migrate
-        check
-    done
+for tag in $TAGS ; do
+    echo
+    echo "Testing migration from $tag on $CI_DATABASE..."
+    cleanup_database
+    git fetch --depth 1 origin tag $tag
+    check
+    git checkout $tag
+    echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
+    check
+    run_coverage ./manage.py migrate
+    check
+    ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
+    check
+    # Load basic project fixture
+    ./manage.py loaddata simple-project.json
+    check
+    # Enable suggestion voting
+    ./manage.py shell -c 'from weblate.trans.models import Component; Component.objects.all().update(suggestion_voting=True, suggestion_autoaccept=2)'
+    check
+    # Add suggestions
+    ./manage.py add_suggestions test test cs weblate/trans/tests/data/cs.po
+    check
+    # Add vote for suggestion
+    ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
+    check
+    git reset --hard
+    git checkout $TRAVIS_COMMIT$DRONE_COMMIT
+    run_coverage ./manage.py migrate
+    check
 done
 
 ./manage.py makemigrations

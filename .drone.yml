@@ -41,7 +41,7 @@ clone:
   depth: 100
 
 services:
-- name: postgres
+- name: database
   image: postgres:11-alpine
   ports:
   - 5432
@@ -57,6 +57,7 @@ steps:
     LC_ALL: C.UTF-8
     DJANGO_SETTINGS_MODULE: weblate.settings_test
     CI_DATABASE: postgresql
+    CI_DB_HOST: database
   commands:
   - apt update
   - apt install -y git-svn  libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng gettext locales
@@ -68,24 +69,50 @@ steps:
   - ./manage.py test
 ---
 kind: pipeline
-name: migrations
+name: migrations:postges
 
 clone:
   depth: 100
 
 services:
-- name: postgres
+- name: database
   image: postgres:11-alpine
   ports:
   - 5432
   environment:
     POSTGRES_USER: postgres
     POSTGRES_DB: weblate
-- name: mysql
+    CI_DATABASE: postgresql
+
+steps:
+- name: test
+  image: python:3.5
+  environment:
+    LANG: C
+    LC_ALL: C
+    DJANGO_SETTINGS_MODULE: weblate.settings_test
+    CI_DATABASE: postgresql
+    CI_DB_HOST: database
+  commands:
+  - apt update
+  - apt install -y git-svn libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng gettext locales postgresql-client
+  - pip install 'Django>=2.1,<2.2' psycopg2-binary mysqlclient
+  - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+  - ./ci/run-migrate
+---
+kind: pipeline
+name: migrations:mysql
+
+clone:
+  depth: 100
+
+services:
+- name: database
   image: mysql
   command: ["--default-authentication-plugin=mysql_native_password"]
   ports:
   - 3306
+  - 5432
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     MYSQL_DATABASE: weblate
@@ -97,9 +124,11 @@ steps:
     LANG: C
     LC_ALL: C
     DJANGO_SETTINGS_MODULE: weblate.settings_test
+    CI_DATABASE: postgresql
+    CI_DB_HOST: database
   commands:
   - apt update
-  - apt install -y git-svn libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng gettext locales
+  - apt install -y git-svn libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng gettext locales mysql-client
   - pip install 'Django>=2.1,<2.2' psycopg2-binary mysqlclient
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
