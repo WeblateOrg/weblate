@@ -89,7 +89,7 @@ steps:
   commands: 
   - apt update
   - apt install -y git-svn graphviz libcairo-dev gir1.2-pango-1.0 libgirepository1.0-dev libenchant1c2a g++ libtesseract-dev libleptonica-dev tesseract-ocr-eng gettext locales
-  - pip install  psycopg2-binary mysqlclient
+  - pip install  psycopg2-binary mysqlclient coverage
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
 ...
