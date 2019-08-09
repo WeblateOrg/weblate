@@ -90,6 +90,9 @@ steps:
   - ./ci/run-test
 - name: codecov
   image: python:3.5
+  environment:
+    CODECOV_TOKEN:
+      from_secret: CODECOV_TOKEN
   commands:
   - pip install codecov
   - codecov
@@ -139,6 +142,9 @@ steps:
   - ./ci/run-migrate
 - name: codecov
   image: python:3.5
+  environment:
+    CODECOV_TOKEN:
+      from_secret: CODECOV_TOKEN
   commands:
   - pip install codecov
   - codecov
@@ -187,6 +193,9 @@ steps:
   - ./ci/run-migrate
 - name: codecov
   image: python:3.5
+  environment:
+    CODECOV_TOKEN:
+      from_secret: CODECOV_TOKEN
   commands:
   - pip install codecov
   - codecov
