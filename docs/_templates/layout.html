@@ -1,0 +1,11 @@
+{% extends "!layout.html" %}
+
+{%- block extrahead %}
+{{ super() }}
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Weblate: {{ title|striptags|e }}" />
+  <meta property="og:image" content="https://weblate.org/static/og.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WeblateOrg" />
+{% endblock %}

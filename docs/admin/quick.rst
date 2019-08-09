@@ -13,10 +13,6 @@ Installation instructions
     install/source
     install/openshift2
 
-
-Choosing installation method
-----------------------------
-
 Depending on your setup and experience, choose appropriate installation method:
 
 * :ref:`quick-docker`, recommended for production setup.

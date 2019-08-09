@@ -29,7 +29,7 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = "Weblate Documentation"
+project = "Weblate"
 copyright = "2012 - 2019 Michal Čihař"
 author = "Michal Čihař"
 
