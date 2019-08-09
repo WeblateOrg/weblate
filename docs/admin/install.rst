@@ -3,29 +3,10 @@
 Configuration instructions
 ==========================
 
+Installing Weblate
+------------------
 
-Hardware requirements
----------------------
-
-Weblate should run on all contemporary hardware without problems, the following is
-the minimal configuration required to run Weblate on a single host (Weblate, database
-and webserver):
-
-* 2 GB of RAM
-* 2 CPU cores
-* 1 GB of storage space
-
-The more memory the better - it is used for caching on all
-levels (filesystem, database and Weblate).
-
-Many concurrent users increases the amount of needed CPU cores.
-For hundreds of translation components at least 4 GB of RAM is
-recommended.
-
-.. note::
-
-    Actual requirements for your installation of Weblate vary heavily based on the size of
-    the translations managed in it.
+Choose an installation method that best fits your environment in our :doc:`quick`.
 
 .. _requirements:
 
@@ -138,12 +119,121 @@ Python bindings for those you need to install system libraries first - you need
 both Cairo and Pango, which in turn need Glib. All those should be installed
 with development files and GObject introspection data.
 
-.. _install-weblate:
+.. _verify:
 
-Installing Weblate
-------------------
+Verifying release signatures
+----------------------------
 
-Choose an installation method that best fits your environment in our :doc:`quick`.
+Weblate release are cryptographically signed by the releasing developer.
+Currently this is Michal Čihař. Fingerprint of his PGP key is:
+
+.. code-block:: console
+
+    63CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 511D
+
+and you can get more identification information from <https://keybase.io/nijel>.
+
+You should verify that the signature matches the archive you have downloaded.
+This way you can be sure that you are using the same code that was released.
+You should also verify the date of the signature to make sure that you
+downloaded the latest version.
+
+Each archive is accompanied with ``.asc`` files which contains the PGP signature
+for it. Once you have both of them in the same folder, you can verify the signature:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Can't check signature: public key not found
+
+As you can see gpg complains that it does not know the public key. At this
+point you should do one of the following steps:
+
+* Use wkd to download the key:
+
+.. code-block:: console
+
+   $ gpg --auto-key-locate wkd --locate-keys michal@cihar.com
+   pub   rsa4096 2009-06-17 [SC]
+         63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D
+   uid           [ultimate] Michal Čihař <michal@cihar.com>
+   uid           [ultimate] Michal Čihař <nijel@debian.org>
+   uid           [ultimate] [jpeg image of size 8848]
+   uid           [ultimate] Michal Čihař (Braiins) <michal.cihar@braiins.cz>
+   sub   rsa4096 2009-06-17 [E]
+   sub   rsa4096 2015-09-09 [S]
+
+
+* Download the keyring from `Michal's server <https://cihar.com/.well-known/openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:
+
+.. code-block:: console
+
+   $ gpg --import wmxth3chu9jfxdxywj1skpmhsj311mzm
+
+* Download and import the key from one of the key servers:
+
+.. code-block:: console
+
+   $ gpg --keyserver hkp://pgp.mit.edu --recv-keys 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: key 9C27B31342B7511D: "Michal Čihař <michal@cihar.com>" imported
+   gpg: Total number processed: 1
+   gpg:              unchanged: 1
+
+This will improve the situation a bit - at this point you can verify that the
+signature from the given key is correct but you still can not trust the name used
+in the key:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Ne 3. března 2019, 16:43:15 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
+   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
+   gpg: WARNING: This key is not certified with a trusted signature!
+   gpg:          There is no indication that the signature belongs to the owner.
+   Primary key fingerprint: 63CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D
+
+The problem here is that anybody could issue the key with this name.  You need to
+ensure that the key is actually owned by the mentioned person.  The GNU Privacy
+Handbook covers this topic in the chapter `Validating other keys on your public
+keyring`_. The most reliable method is to meet the developer in person and
+exchange key fingerprints, however you can also rely on the web of trust. This way
+you can trust the key transitively though signatures of others, who have met
+the developer in person.
+
+Once the key is trusted, the warning will not occur:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: assuming signed data in 'Weblate-3.5.tar.xz'
+   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+   gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
+   gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
+
+
+Should the signature be invalid (the archive has been changed), you would get a
+clear error regardless of the fact that the key is trusted or not:
+
+.. code-block:: console
+
+   $ gpg --verify Weblate-3.5.tar.xz.asc
+   gpg: Signature made Sun Mar  3 16:43:15 2019 CET
+   gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
+   gpg: BAD signature from "Michal Čihař <michal@cihar.com>" [ultimate]
+
+
+.. _Validating other keys on your public keyring: https://www.gnupg.org/gph/en/manual.html#AEN335
 
 .. _file-permissions:
 
@@ -412,10 +502,10 @@ environment. The recommended approach is to define proxy settings in
 
    `Proxy Environment Variables <https://ec.haxx.se/usingcurl-proxies.html#proxy-environment-variables>`_
 
-.. _installation:
+.. _configuration:
 
-Installation
-------------
+Adjusting configuration
+-----------------------
 
 .. seealso::
 
@@ -591,7 +681,7 @@ of errors, which is not desired in a production setup.
 
 .. seealso::
 
-   :ref:`installation`
+   :ref:`configuration`
 
 .. _production-admins:
 
@@ -609,7 +699,7 @@ emails in case something goes wrong on the server, for example:
 
 .. seealso::
 
-   :ref:`installation`
+   :ref:`configuration`
 
 .. _production-site:
 
@@ -671,7 +761,7 @@ for more info.
 .. seealso::
 
     :ref:`database-setup`,
-    :ref:`installation`,
+    :ref:`configuration`,
     :doc:`django:ref/databases`
 
 .. _production-cache:
@@ -756,7 +846,7 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 
 .. seealso::
 
-    :ref:`installation`,
+    :ref:`configuration`,
     :ref:`out-mail`,
     :std:setting:`django:DEFAULT_FROM_EMAIL`,
     :std:setting:`django:SERVER_EMAIL`

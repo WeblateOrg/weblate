@@ -1,7 +1,12 @@
 .. _quick-docker:
 
 Installing using Docker
------------------------
+=======================
+
+.. include:: steps/hw.rst
+
+Installation
+------------
 
 #. Clone weblate-docker repo:
 
@@ -19,4 +24,3 @@ Installing using Docker
 .. seealso::
 
     See :ref:`docker` for more detailed instructions and customization options.
-

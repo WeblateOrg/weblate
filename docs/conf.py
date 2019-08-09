@@ -77,7 +77,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "admin/install/steps/*.rst"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -208,6 +208,7 @@ intersphinx_mapping = {
     "celery": ("http://docs.celeryproject.org/en/latest/", None),
     "sphinx": ("http://www.sphinx-doc.org/en/stable/", None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
+    "venv": ("https://virtualenv.pypa.io/en/stable/", None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

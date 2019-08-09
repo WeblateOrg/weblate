@@ -34,8 +34,7 @@ Documentation
 
 Detailed documentation is available in the ``docs`` directory of the sources.
 
-The documentation can be also viewed online on
-https://docs.weblate.org/.
+The documentation can be also viewed online on https://docs.weblate.org/.
 
 Installation
 ------------

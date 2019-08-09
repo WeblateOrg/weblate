@@ -1,7 +1,7 @@
 .. _quick-openshift:
 
 Installing on OpenShift 2
--------------------------
+=========================
 
 #. You can install Weblate on OpenShift PaaS directly from its Git repository using the OpenShift Client Tools:
 

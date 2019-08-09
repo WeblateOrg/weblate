@@ -1,0 +1,41 @@
+Configuring Weblate
++++++++++++++++++++
+
+#. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
+   to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
+
+#.
+   .. include:: steps/adjust-config.rst
+
+#. Create the database and its structure for Weblate (the example settings use
+   SQLite, check :ref:`database-setup` for pruduction ready setup):
+
+   .. code-block:: sh
+
+        weblate migrate
+
+#. Create the administrator user account and copy the password it outputs
+   to the clipboard, and also save it for later use:
+
+   .. code-block:: sh
+
+        weblate createadmin
+
+#. Collect static files for web server (see :ref:`server`):
+
+   .. code-block:: sh
+
+        weblate collectstatic
+
+#. Start Celery workers. This is not necessary for development purposes, but
+   strongly recommended otherwise. See :ref:`celery` for more info:
+
+   .. code-block:: sh
+
+         ~/weblate-env/lib/python3.7/site-packages/weblate/examples/celery start
+
+#. Start the development server (see :ref:`server` for production setup):
+
+   .. code-block:: sh
+
+        weblate runserver
