@@ -805,6 +805,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return (not_found, skipped, accepted, len(list(store.translatable_units)))
 
+    def drop_store_cache(self):
+        if 'store' in self.__dict__:
+            del self.__dict__['store']
+
     def handle_replace(self, request, fileobj):
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
@@ -827,7 +831,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.__git_commit(request.user.get_author_name(), timezone.now())
 
                 # Drop store cache
-                del self.__dict__['store']
+                self.drop_store_cache()
 
                 # Parse the file again
                 if self.is_template:

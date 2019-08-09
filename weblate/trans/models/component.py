@@ -1248,8 +1248,7 @@ class Component(models.Model, URLMixin, PathMixin):
         """Load translations from VCS."""
         self.store_background_task()
         # Ensure we start from fresh template
-        if 'template_store' in self.__dict__:
-            del self.__dict__['template_store']
+        self.drop_template_store_cache()
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
@@ -1788,6 +1787,10 @@ class Component(models.Model, URLMixin, PathMixin):
     def load_template_store(self):
         """Load translate-toolkit store for template."""
         return self.file_format_cls.parse(self.get_template_filename())
+
+    def drop_template_store_cache(self):
+        if 'template_store' in self.__dict__:
+            del self.__dict__['template_store']
 
     @cached_property
     def template_store(self):

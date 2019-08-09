@@ -732,9 +732,9 @@ class ComponentEditTest(ViewTestCase):
             self.remove_units(self.component.template_store.store)
         self.remove_units(translation.store.store)
 
-        # Clean class cache, pylint: disable=protected-access
-        del self.component.__dict__['template_store']
-        del translation.__dict__['store']
+        # Clean class cache
+        self.component.drop_template_store_cache()
+        translation.drop_store_cache()
 
         unit = translation.unit_set.all()[0]
         request = self.get_request()
@@ -759,8 +759,8 @@ class ComponentEditMonoTest(ComponentEditTest):
 
         self.remove_units(translation.store.store)
 
-        # Clean class cache, pylint: disable=protected-access
-        del translation.__dict__['store']
+        # Clean class cache
+        translation.drop_store_cache()
 
         unit = translation.unit_set.all()[0]
         request = self.get_request()
