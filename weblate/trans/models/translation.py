@@ -837,7 +837,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 if self.is_template:
                     self.component.create_translations(request=request, force=True)
                 else:
-                    self.check_sync(force=True, request=request, change=Change.ACTION_UPLOAD)
+                    self.check_sync(
+                        force=True, request=request, change=Change.ACTION_UPLOAD
+                    )
 
         return (0, 0, self.unit_set.count(), len(list(store2.translatable_units)))
 

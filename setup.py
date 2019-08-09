@@ -44,7 +44,7 @@ setup(
         "tight version control integration"
     ),
     long_description=README,
-    long_description_content_type='text/x-rst',
+    long_description_content_type="text/x-rst",
     keywords="i18n l10n gettext git mercurial translate",
     url="https://weblate.org/",
     download_url="https://weblate.org/download/",
