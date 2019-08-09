@@ -65,10 +65,6 @@ def get_optional_versions():
     result = []
 
     get_optional_module(
-        result, 'pytz', 'https://pypi.org/project/pytz/'
-    )
-
-    get_optional_module(
         result, 'ruamel.yaml', 'https://pypi.org/project/ruamel.yaml/'
     )
 
