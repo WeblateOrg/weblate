@@ -16,6 +16,13 @@ for CI_DATABASE in $DBS ; do
         git fetch --depth 1 origin tag $tag
         check
         git checkout $tag
+        if [ "$DRONE" = true ] ; then
+            if [ $CI_DATABASE = "postgresql" ] ; then
+                echo "DATABASES['default']['HOST'] = 'postgres'" >> weblate/settings_test.py
+            elif [ $CI_DATABASE = "mysql" ] ; then
+                echo "DATABASES['default']['HOST'] = 'mysql'" >> weblate/settings_test.py
+            fi
+        fi
         check
         run_coverage ./manage.py migrate
         check
@@ -33,7 +40,8 @@ for CI_DATABASE in $DBS ; do
         # Add vote for suggestion
         ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
         check
-        git checkout $TRAVIS_COMMIT
+        git reset --hard
+        git checkout $TRAVIS_COMMIT$DRONE_COMMIT
         run_coverage ./manage.py migrate
         check
     done
