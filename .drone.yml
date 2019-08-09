@@ -17,6 +17,18 @@ steps:
   - pip install -r requirements-lint.txt
   - ./setup.py sdist
   - twine check dist/*
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
 
 ---
 kind: pipeline
@@ -33,6 +45,18 @@ steps:
   - apt install -y graphviz
   - pip install -r docs/requirements.txt
   - make -C docs html SPHINXOPTS='-n -W -a'
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
 ---
 kind: pipeline
 name: tests
@@ -67,6 +91,18 @@ steps:
   - ./manage.py list_versions
   - ./manage.py compilemessages
   - ./manage.py test
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
 ---
 kind: pipeline
 name: migrations:postges
@@ -99,6 +135,18 @@ steps:
   - pip install 'Django>=2.1,<2.2' psycopg2-binary==2.7.7
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
 ---
 kind: pipeline
 name: migrations:mariadb
@@ -130,4 +178,16 @@ steps:
   - pip install 'Django>=2.1,<2.2' mysqlclient
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
 ...
