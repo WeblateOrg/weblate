@@ -19,7 +19,7 @@
 #
 
 """
-Tests for unicode sorting.
+Tests for Unicode sorting.
 """
 
 from __future__ import unicode_literals
