@@ -5,15 +5,6 @@ name: lint
 clone:
   depth: 100
 
-services:
-- name: postgres 
-  image: postgres:11-alpine
-  ports:
-  - 5432
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_DB: weblate
-
 steps:
 - name: flake8 
   image: python:3.7
