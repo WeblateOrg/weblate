@@ -89,10 +89,10 @@ steps:
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-test
 - name: codecov
-  image: plugins/codecov
-  settings:
-    token:
-      from_secret: CODECOV_TOKEN
+  image: python:3.5
+  commands:
+  - pip install codecov
+  - codecov
 - name: notify
   image: drillster/drone-email
   settings:
@@ -138,10 +138,10 @@ steps:
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
 - name: codecov
-  image: plugins/codecov
-  settings:
-    token:
-      from_secret: CODECOV_TOKEN
+  image: python:3.5
+  commands:
+  - pip install codecov
+  - codecov
 - name: notify
   image: drillster/drone-email
   settings:
@@ -186,10 +186,10 @@ steps:
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-migrate
 - name: codecov
-  image: plugins/codecov
-  settings:
-    token:
-      from_secret: CODECOV_TOKEN
+  image: python:3.5
+  commands:
+  - pip install codecov
+  - codecov
 - name: notify
   image: drillster/drone-email
   settings:
