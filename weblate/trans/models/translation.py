@@ -826,15 +826,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if self.repo_needs_commit():
                 self.__git_commit(request.user.get_author_name(), timezone.now())
 
-            # Drop store cache
-            del self.__dict__['store']
+                # Drop store cache
+                del self.__dict__['store']
 
-            # Parse the file again
-            self.check_sync(force=True, request=request, change=Change.ACTION_UPLOAD)
-            if self.is_template:
-                self.component.create_translations(request=request)
-            else:
-                self.invalidate_cache()
+                # Parse the file again
+                if self.is_template:
+                    self.component.create_translations(request=request, force=True)
+                else:
+                    self.check_sync(force=True, request=request, change=Change.ACTION_UPLOAD)
 
         return (0, 0, self.unit_set.count(), len(list(store2.translatable_units)))
 
