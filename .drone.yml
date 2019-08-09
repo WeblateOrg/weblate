@@ -92,6 +92,7 @@ steps:
     CI: drone
   commands:
   - pip install codecov
+  - export CI=drone
   - codecov
 - name: notify
   image: drillster/drone-email
@@ -143,7 +144,7 @@ steps:
     CI: drone
   commands:
   - pip install codecov
-  - env
+  - export CI=drone
   - codecov
 - name: notify
   image: drillster/drone-email
@@ -191,9 +192,9 @@ steps:
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
-    CI: drone
   commands:
   - pip install codecov
+  - export CI=drone
   - codecov
 - name: notify
   image: drillster/drone-email
