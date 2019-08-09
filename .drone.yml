@@ -143,6 +143,7 @@ steps:
     CI: drone
   commands:
   - pip install codecov
+  - env
   - codecov
 - name: notify
   image: drillster/drone-email
