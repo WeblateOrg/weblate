@@ -1,9 +1,8 @@
 .. _install:
 
-Installation instructions
-=========================
+Configuration instructions
+==========================
 
-Looking for quick installation instructions? See :doc:`quick`.
 
 Hardware requirements
 ---------------------

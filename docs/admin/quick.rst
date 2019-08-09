@@ -1,14 +1,24 @@
-Quick setup guide
-=================
+Installation instructions
+=========================
 
-Installation method
--------------------
+.. toctree::
+    :caption: Quick setup guide
+    :maxdepth: 1
+    :hidden:
 
-1. Docker if you are familiar with that and if you are not going to change Weblate code, see :ref:`quick-docker`.
-2. Virtualenv, If you are not going to change Weblate code, but want to avoid Docker, see :ref:`quick-virtualenv`.
-3. Pip, see :ref:`quick-pip`.
-4. Git, if you want to develop and/or change Weblate code, see :ref:`quick-source`.
-5. Quick Openshift, :ref:`quick-openshift`.
+    install/docker
+    install/openshift2
+
+
+Choosing installation method
+----------------------------
+
+Depending on your setup and experience, choose appropriate installation method:
+
+* :ref:`quick-docker`, recommended for production setup.
+* :ref:`quick-virtualenv`, recommended for production setup.
+* :ref:`quick-source`, recommended for development.
+* :ref:`quick-openshift`.
 
 .. _quick-virtualenv:
 
@@ -196,47 +206,6 @@ Installing from sources
 .. seealso::
 
    :ref:`server`
-
-
-.. _quick-docker:
-
-Installing using Docker
------------------------
-
-#. Clone weblate-docker repo:
-
-   .. code-block:: sh
-
-        git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
-        cd weblate-docker
-
-#. Start Weblate containers:
-
-   .. code-block:: sh
-
-        docker-compose up
-
-.. seealso::
-
-    See :ref:`docker` for more detailed instructions and customization options.
-
-.. _quick-openshift:
-
-Installing on OpenShift 2
--------------------------
-
-#. You can install Weblate on OpenShift PaaS directly from its Git repository using the OpenShift Client Tools:
-
-   .. parsed-literal::
-
-        rhc -aweblate app create -t python-2.7 --from-code \https://github.com/WeblateOrg/weblate.git --no-git
-
-#. After installation everything should be preconfigured, and you can immediately start adding a translation
-   project as described below.
-
-.. seealso::
-
-    For more info, including how to retrieve the generated admin password, see :ref:`openshift`.
 
  .. _add-translatable-contents:
 
