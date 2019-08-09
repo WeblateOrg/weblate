@@ -227,6 +227,31 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                '%Ln C',
+                '%Ln C',
+                'qt-format',
+            )
+        )
+        self.do_test(
+            False,
+            (
+                '%+.2<amount>f C',
+                '%+.2<amount>f C',
+                'ruby-format',
+            )
+        )
+        self.do_test(
+            False,
+            (
+                '%{amount} C',
+                '%{amount} C',
+                'ruby-format',
+            )
+        )
+
     def test_same_rst(self):
         self.do_test(
             False,
