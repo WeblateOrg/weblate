@@ -101,18 +101,16 @@ steps:
   - ./ci/run-migrate
 ---
 kind: pipeline
-name: migrations:mysql
+name: migrations:mariadb
 
 clone:
   depth: 100
 
 services:
 - name: database
-  image: mysql
-  command: ["--default-authentication-plugin=mysql_native_password"]
+  image: mariadb
   ports:
   - 3306
-  - 5432
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     MYSQL_DATABASE: weblate
