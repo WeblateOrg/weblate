@@ -34,7 +34,7 @@ import weblate.trans.util
 class SortTest(TestCase):
     def test_sort(self):
         if not weblate.trans.util.LOCALE_SETUP:
-            raise SkipTest("Failed to setup locales")
+            raise SkipTest("Could not set up locales")
         result = weblate.trans.util.sort_choices(
             ((2, "zkouška"), (3, "zkouzka"), (1, "zkouaka"))
         )
