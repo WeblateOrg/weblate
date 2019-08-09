@@ -19,7 +19,7 @@
   </h4>
 </div>
 <div class="panel-body">
-    <p>{% trans "Weblate currently uses following SSH key:" %}</p>
+    <p>{% trans "Weblate currently uses this SSH key:" %}</p>
     <form>
     <textarea style="width:100%" readonly="readonly">{{ public_key.key }}</textarea>
     </form>
@@ -37,7 +37,7 @@
   </h4>
 </div>
 <div class="panel-body">
-    <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate it for you." %}</p>
+    <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate one for you." %}</p>
     {% csrf_token %}
     <input type="hidden" name="action" value="generate" />
 </div>
