@@ -30,6 +30,7 @@ Not yet released.
 * New management interface for admins.
 * String priority can now be specified using flags.
 * Added language management views.
+* Add checks for Qt library and Ruby format strings.
 
 weblate 3.7.1
 -------------
