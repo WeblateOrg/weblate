@@ -8,11 +8,13 @@ clone:
 steps:
 - name: flake8
   image: weblate/cidocker:3.7
+  pull: always
   commands:
   - pip install -r requirements-lint.txt
   - flake8
 - name: sdist
   image: weblate/cidocker:3.7
+  pull: always
   commands:
   - pip install -r requirements-lint.txt
   - ./setup.py sdist
@@ -40,6 +42,7 @@ clone:
 steps:
 - name: docs
   image: weblate/cidocker:3.7
+  pull: always
   commands:
   - pip install -r docs/requirements.txt
   - make -C docs html SPHINXOPTS='-n -W -a'
@@ -74,6 +77,7 @@ services:
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
@@ -95,6 +99,7 @@ steps:
   - cat ~/.sauce-log
 - name: codecov
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
@@ -134,6 +139,7 @@ services:
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
@@ -146,6 +152,7 @@ steps:
   - ./ci/run-test
 - name: codecov
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
@@ -186,6 +193,7 @@ services:
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
@@ -198,6 +206,7 @@ steps:
   - ./ci/run-test
 - name: codecov
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
@@ -238,6 +247,7 @@ services:
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     LANG: C
     LC_ALL: C
@@ -250,6 +260,7 @@ steps:
   - ./ci/run-migrate
 - name: codecov
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
@@ -289,6 +300,7 @@ services:
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     LANG: C
     LC_ALL: C
@@ -301,6 +313,7 @@ steps:
   - ./ci/run-migrate
 - name: codecov
   image: weblate/cidocker:3.7
+  pull: always
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
