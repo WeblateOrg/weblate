@@ -45,7 +45,7 @@
 <form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<p>{% trans "Create a new translation component from the remote version control system repository." %}</p>
+<p>{% trans "Create a new translation component from remote version control system repository." %}</p>
 {{ full_form | crispy }}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
@@ -84,7 +84,7 @@
 <form action="{% url 'create-component-zip' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<p>{% trans "Create a new translation component from uploaded ZIP file with translations." %}</p>
+<p>{% trans "Create a new translation component from an uploaded ZIP file containing strings for translation." %}</p>
 {{ zip_form | crispy }}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
@@ -98,8 +98,8 @@
 <input type="hidden" name="origin" value="scratch" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p class="check">
-{% trans "Create a new empty translation component to start with translations from scratch." %}
-{% blocktrans with link_start='<a href="#zip" data-toggle="tab">' link_end='</a>' %}In case you have existing translation files, create ZIP file with them and {{ link_start }}upload it{{ link_end }}.{% endblocktrans %}
+{% trans "Create a new empty translation component to start from scratch." %}
+{% blocktrans with link_start='<a href="#zip" data-toggle="tab">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktrans %}
 </p>
 {{ scratch_form | crispy }}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
