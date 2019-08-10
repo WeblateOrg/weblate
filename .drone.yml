@@ -121,6 +121,7 @@ services:
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     MYSQL_DATABASE: weblate
+  command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
 
 steps:
 - name: test
