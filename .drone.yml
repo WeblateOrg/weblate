@@ -57,7 +57,7 @@ steps:
     status: [ changed, failure ]
 ---
 kind: pipeline
-name: tests
+name: tests:postgresql
 
 clone:
   depth: 100
@@ -79,6 +79,57 @@ steps:
     LC_ALL: C.UTF-8
     DJANGO_SETTINGS_MODULE: weblate.settings_test
     CI_DATABASE: postgresql
+    CI_DB_HOST: database
+  commands:
+  - pip install  psycopg2-binary
+  - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+  - ./ci/run-test
+- name: codecov
+  image: weblate/cidocker:3.7
+  environment:
+    CODECOV_TOKEN:
+      from_secret: CODECOV_TOKEN
+    CI: drone
+  commands:
+  - pip install codecov
+  - export CI=drone
+  - codecov
+- name: notify
+  image: drillster/drone-email
+  settings:
+    host:
+      from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASS
+    from: noreply+ci@weblate.org
+  when:
+    status: [ changed, failure ]
+---
+kind: pipeline
+name: tests:mysql
+
+clone:
+  depth: 100
+
+services:
+- name: database
+  image: mariadb
+  ports:
+  - 3306
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    MYSQL_DATABASE: weblate
+
+steps:
+- name: test
+  image: weblate/cidocker:3.7
+  environment:
+    LANG: C.UTF-8
+    LC_ALL: C.UTF-8
+    DJANGO_SETTINGS_MODULE: weblate.settings_test
+    CI_DATABASE: mysql
     CI_DB_HOST: database
   commands:
   - pip install  psycopg2-binary
