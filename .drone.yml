@@ -89,8 +89,6 @@ steps:
     SAUCE_ACCESS_KEY:
       from_secret: SAUCE_ACCESS_KEY
   commands:
-  - apt update
-  - apt install -y daemon
   - pip install  psycopg2-binary
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/install-sauce
