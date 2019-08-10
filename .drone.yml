@@ -132,7 +132,7 @@ steps:
     CI_DATABASE: mysql
     CI_DB_HOST: database
   commands:
-  - pip install  psycopg2-binary
+  - pip install mysqlclient
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-test
 - name: codecov
