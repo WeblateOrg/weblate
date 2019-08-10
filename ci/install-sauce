@@ -10,7 +10,7 @@ rm -f ~/.sauce-log
 SC_TEMP=`mktemp -d -t sc.XXXX`
 wget -O - https://saucelabs.com/downloads/$NAME | tar -x -z -C $SC_TEMP
 
-daemon -- $SC_TEMP/*/bin/sc \
+daemon --unsafe -- $SC_TEMP/*/bin/sc \
     -i ${TRAVIS_JOB_NUMBER} \
     -f ~/.sauce-ready \
     -l ~/.sauce-log
