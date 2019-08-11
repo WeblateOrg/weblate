@@ -108,7 +108,7 @@ class ViewTest(TestCase):
         data = CONTACT_DATA.copy()
         data['email'] = 'rejected&mail@example.com'
         response = self.client.post(reverse('contact'), data)
-        self.assertContains(response, 'Enter a valid email address.')
+        self.assertContains(response, 'Enter a valid e-mail address.')
 
     @override_settings(
         RATELIMIT_ATTEMPTS=0,

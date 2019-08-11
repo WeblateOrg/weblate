@@ -174,7 +174,10 @@ def validate_username(value):
 
 
 def validate_email(value):
-    validate_email_django(value)
+    try:
+        validate_email_django(value)
+    except ValidationError:
+        raise ValidationError(_('Enter a valid e-mail address.'))
     user_part = value.rsplit('@', 1)[0]
     if EMAIL_BLACKLIST.match(user_part):
         raise ValidationError(_('Enter a valid e-mail address.'))
