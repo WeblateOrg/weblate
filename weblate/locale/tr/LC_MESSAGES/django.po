@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-10 19:31+0000\n"
-"PO-Revision-Date: 2019-08-09 18:22+0000\n"
+"PO-Revision-Date: 2019-08-11 12:02+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -2092,28 +2092,20 @@ msgid "The translation does not contain an URL"
 msgstr "Çeviri bir URL içermiyor"
 
 #: weblate/checks/qt.py:49
-#, fuzzy
-#| msgid "C format"
 msgid "Qt format"
-msgstr "C biçimi"
+msgstr "Qt biçimi"
 
 #: weblate/checks/qt.py:50
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Qt format string does not match source"
-msgstr "C biçim satırı kaynakla eşleşmiyor"
+msgstr "Qt biçim satırı kaynakla eşleşmiyor"
 
 #: weblate/checks/qt.py:61
-#, fuzzy
-#| msgid "Plural form"
 msgid "Qt plural format"
-msgstr "Çoğul biçimi"
+msgstr "Qt çoğul biçimi"
 
 #: weblate/checks/qt.py:62
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Qt plural format string does not match source"
-msgstr "Perl biçim satırı kaynakla eşleşmiyor"
+msgstr "Qt çoğul biçim satırı kaynakla eşleşmiyor"
 
 #: weblate/checks/render.py:49
 msgid "Maximum size of translation"
@@ -2124,16 +2116,12 @@ msgid "Translation rendered text should not exceed given size"
 msgstr "Çevrilmiş metnin belirtilen boyutu aşmaması gerekir"
 
 #: weblate/checks/ruby.py:68
-#, fuzzy
-#| msgid "C format"
 msgid "Ruby format"
-msgstr "C biçimi"
+msgstr "Ruby biçimi"
 
 #: weblate/checks/ruby.py:69
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Ruby format string does not match source"
-msgstr "C biçim satırı kaynakla eşleşmiyor"
+msgstr "Ruby biçim satırı kaynakla eşleşmiyor"
 
 #: weblate/checks/same.py:157
 msgid "Unchanged translation"
@@ -2591,10 +2579,8 @@ msgid "Plural gettext formula"
 msgstr "Çoğul gettext formülü"
 
 #: weblate/lang/models.py:522
-#, fuzzy
-#| msgid "Plural gettext formula"
 msgid "Manually entered formula"
-msgstr "Çoğul gettext formülü"
+msgstr "El ile girilen formül"
 
 #: weblate/lang/models.py:527 weblate/templates/language.html:77
 msgid "Number of plurals"
@@ -2637,16 +2623,13 @@ msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
 
 #: weblate/lang/views.py:69
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "Remove all translations using this language first."
-msgstr "Çeviri iki dilli dosyaları kullanır."
+msgstr "Önce bu dili kullanarak tüm çevirileri kaldırın."
 
 #: weblate/lang/views.py:73
-#, fuzzy, python-format
-#| msgid "Language overrides"
+#, python-format
 msgid "Language %s removed."
-msgstr "Dil geçersiz kılmaları"
+msgstr "%s dili kaldırıldı."
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
@@ -5533,10 +5516,8 @@ msgid "Prevent any changes in the local repository"
 msgstr "Yerel havuzdaki her değişikliği önle"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
-#, fuzzy
-#| msgid "Added language"
 msgid "Add language"
-msgstr "Eklenen dil"
+msgstr "Dil ekle"
 
 #: weblate/templates/language-project.html:66
 #: weblate/templates/language.html:107
@@ -5549,12 +5530,11 @@ msgid "Plural: %(source_description)s"
 msgstr "Çoğul: %(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Çevirileriniz"
-msgstr[1] "Çevirileriniz"
+msgstr[0] "%(count)s çeviri"
+msgstr[1] "%(count)s çeviri"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -6160,26 +6140,20 @@ msgid "Public SSH key"
 msgstr "Açık SSH anahtarı"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy
-#| msgid "Weblate currently uses following SSH key:"
 msgid "Weblate currently uses this SSH key:"
-msgstr "Weblate şu anda belirtilen SSH anahtarını kullanır:"
+msgstr "Weblate şu anda bu SSH anahtarını kullanıyor:"
 
 #: weblate/templates/manage/ssh.html:36
 msgid "Generate SSH key"
 msgstr "SSH anahtarı üret"
 
 #: weblate/templates/manage/ssh.html:40
-#, fuzzy
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate it for you."
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
 msgstr ""
 "Var olan SSH anahtarına sahip görünmüyorsunuz, aşağıdaki düğmeye basınca "
-"Weblate onu sizin için üretecek."
+"Weblate sizin için bir tane üretecek."
 
 #: weblate/templates/manage/ssh.html:57
 msgid "Known host keys"
@@ -6773,10 +6747,6 @@ msgid "Start from scratch"
 msgstr "Sıfırdan başla"
 
 #: weblate/templates/trans/component_create.html:48
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from the remote version control system "
-#| "repository."
 msgid ""
 "Create a new translation component from remote version control system "
 "repository."
@@ -6817,24 +6787,16 @@ msgstr ""
 "sahip olacak."
 
 #: weblate/templates/trans/component_create.html:87
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from uploaded ZIP file with "
-#| "translations."
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
-"Yüklenen ZIP dosyasının çevirileriyle yeni bir çeviri bileşeni oluşturun."
+"Çeviri için satırları içeren yüklenen bir ZIP dosyasından yeni bir çeviri "
+"bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:101
-#, fuzzy
-#| msgid ""
-#| "Create a new empty translation component to start with translations from "
-#| "scratch."
 msgid "Create a new empty translation component to start from scratch."
-msgstr ""
-"Sıfırdan çevirilerle başlamak için yeni bir boş çeviri bileşeni oluşturun."
+msgstr "Sıfırdan başlamak için yeni bir boş çeviri bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:102
 #, fuzzy, python-format
@@ -10049,12 +10011,9 @@ msgid "Activation token"
 msgstr "Etkinleştirme belirteci"
 
 #: weblate/wladmin/forms.py:36
-#, fuzzy
-#| msgid "Please enter activation token obtained when making the subscription."
 msgid ""
 "Please enter the activation token obtained when making the subscription."
-msgstr ""
-"Lütfen abonelik yapılırken elde edilen etkinleştirme belirtecini girin."
+msgstr "Lütfen aboneliği yaparken edinilen aktivasyon belirtecini girin."
 
 #: weblate/wladmin/forms.py:44
 msgid "Port"
