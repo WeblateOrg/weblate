@@ -183,7 +183,7 @@ jobs:
         - postgresql
     - stage: "Basic tests"
       name: "MySQL migrations"
-      env: CI_DEPS="Django>=2.1,<2.2 psycopg2-binary==2.7.7" CI_DATABASE=mysql
+      env: CI_DEPS="Django>=2.1,<2.2" CI_DATABASE=mysql
       script:
         - ./ci/run-migrate
       addons:
