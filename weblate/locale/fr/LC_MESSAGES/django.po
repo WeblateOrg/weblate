@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-10 19:31+0000\n"
-"PO-Revision-Date: 2019-08-09 18:22+0000\n"
+"PO-Revision-Date: 2019-08-11 12:03+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -2151,28 +2151,20 @@ msgid "The translation does not contain an URL"
 msgstr "La traduction ne contient pas d'URL"
 
 #: weblate/checks/qt.py:49
-#, fuzzy
-#| msgid "C format"
 msgid "Qt format"
-msgstr "Format C"
+msgstr "Format Qt"
 
 #: weblate/checks/qt.py:50
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Qt format string does not match source"
-msgstr "La chaîne de format C ne correspond pas à celle de la source"
+msgstr "La chaîne de format Qt ne correspond pas à la source"
 
 #: weblate/checks/qt.py:61
-#, fuzzy
-#| msgid "Plural form"
 msgid "Qt plural format"
-msgstr "Forme plurielle"
+msgstr "Forme plurielle Qt"
 
 #: weblate/checks/qt.py:62
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Qt plural format string does not match source"
-msgstr "La chaîne au format Perl ne correspond pas à la source"
+msgstr "La chaîne au format Qt pluriel ne correspond pas à la source"
 
 #: weblate/checks/render.py:49
 msgid "Maximum size of translation"
@@ -2183,16 +2175,12 @@ msgid "Translation rendered text should not exceed given size"
 msgstr "Le texte traduit ne doit pas dépasser une taille donnée"
 
 #: weblate/checks/ruby.py:68
-#, fuzzy
-#| msgid "C format"
 msgid "Ruby format"
-msgstr "Format C"
+msgstr "Format Ruby"
 
 #: weblate/checks/ruby.py:69
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Ruby format string does not match source"
-msgstr "La chaîne de format C ne correspond pas à celle de la source"
+msgstr "La chaîne de format Ruby ne correspond pas à la source"
 
 #: weblate/checks/same.py:157
 msgid "Unchanged translation"
@@ -2654,10 +2642,8 @@ msgid "Plural gettext formula"
 msgstr "Formule gettext plurielle"
 
 #: weblate/lang/models.py:522
-#, fuzzy
-#| msgid "Plural gettext formula"
 msgid "Manually entered formula"
-msgstr "Formule gettext plurielle"
+msgstr "Formule saisie manuellement"
 
 #: weblate/lang/models.py:527 weblate/templates/language.html:77
 msgid "Number of plurals"
@@ -2706,10 +2692,9 @@ msgid "Remove all translations using this language first."
 msgstr "La traduction utilise des fichiers bilingues."
 
 #: weblate/lang/views.py:73
-#, fuzzy, python-format
-#| msgid "Language overrides"
+#, python-format
 msgid "Language %s removed."
-msgstr "Écrasements par la langue"
+msgstr "Langue %s supprimée."
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
@@ -5649,10 +5634,8 @@ msgid "Prevent any changes in the local repository"
 msgstr "Interdire les modifications dans le dépôt local"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
-#, fuzzy
-#| msgid "Added language"
 msgid "Add language"
-msgstr "Langue ajoutée"
+msgstr "Ajouter la langue"
 
 #: weblate/templates/language-project.html:66
 #: weblate/templates/language.html:107
@@ -6295,26 +6278,20 @@ msgid "Public SSH key"
 msgstr "Clé SSH publique"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy
-#| msgid "Weblate currently uses following SSH key:"
 msgid "Weblate currently uses this SSH key:"
-msgstr "Weblate utilise actuellement la clé SSH suivante : "
+msgstr "Weblate utilise actuellement la clé SSH suivante :"
 
 #: weblate/templates/manage/ssh.html:36
 msgid "Generate SSH key"
 msgstr "Générer une clé SSH"
 
 #: weblate/templates/manage/ssh.html:40
-#, fuzzy
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate it for you."
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
 msgstr ""
-"Vous n’avez pas de clé SSH existante, en utilisant le bouton ci-dessous "
-"Weblate en génèrera une pour vous."
+"Vous n’avez pas de clé SSH actuellement. Appuyez sur le bouton ci-dessous "
+"afin que Weblate génère votre clé SSH."
 
 #: weblate/templates/manage/ssh.html:57
 msgid "Known host keys"
@@ -6929,15 +6906,11 @@ msgid "Start from scratch"
 msgstr "Démarrer de zéro"
 
 #: weblate/templates/trans/component_create.html:48
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from the remote version control system "
-#| "repository."
 msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Créer un nouveau composant de traduction à partir du dépôt distant du "
+"Créer un nouveau composant de traduction à partir d'un dépôt distant du "
 "système de contrôle de version."
 
 #: weblate/templates/trans/component_create.html:50
@@ -6974,10 +6947,6 @@ msgstr ""
 "la même configuration que celle existante."
 
 #: weblate/templates/trans/component_create.html:87
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from uploaded ZIP file with "
-#| "translations."
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
@@ -6986,10 +6955,6 @@ msgstr ""
 "des traductions."
 
 #: weblate/templates/trans/component_create.html:101
-#, fuzzy
-#| msgid ""
-#| "Create a new empty translation component to start with translations from "
-#| "scratch."
 msgid "Create a new empty translation component to start from scratch."
 msgstr ""
 "Créer un nouveau composant de traduction vide pour démarrer les traductions "
@@ -10262,8 +10227,6 @@ msgid "Activation token"
 msgstr "Jeton d'activation"
 
 #: weblate/wladmin/forms.py:36
-#, fuzzy
-#| msgid "Please enter activation token obtained when making the subscription."
 msgid ""
 "Please enter the activation token obtained when making the subscription."
 msgstr "Veuillez entrer le jeton d'activation obtenu lors de l'inscription."
