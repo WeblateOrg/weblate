@@ -27,4 +27,5 @@ echo $PID > ~/.sauce-pid
 echo "Waiting for Sauce Connect readyfile"
 while [ ! -f ~/.sauce-ready ]; do
     sleep .5
+    cat ~/.sauce-log
 done

@@ -143,7 +143,7 @@ steps:
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
   - ./ci/run-test
 - name: codecov
-  image: weblate/cidocker:3.7
+  image: weblate/cidocker:2.7
   environment:
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
