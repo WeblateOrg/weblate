@@ -11,7 +11,7 @@ SC_TEMP=`mktemp -d -t sc.XXXX`
 wget -O - https://saucelabs.com/downloads/$NAME | tar -x -z -C $SC_TEMP
 
 daemon --unsafe -- $SC_TEMP/*/bin/sc \
-    -i ${TRAVIS_JOB_NUMBER}${DRONE_BUILD_NUMBER } \
+    -i ${TRAVIS_JOB_NUMBER}${DRONE_BUILD_NUMBER} \
     -f ~/.sauce-ready \
     -l ~/.sauce-log
 
