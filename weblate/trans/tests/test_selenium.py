@@ -132,7 +132,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                     'django-{0}'.format(django.get_version()),
                     'CI'
                 ]
-            elif 'DRONE_BUILD_NUMBER' in os.eviron:
+            elif 'DRONE_BUILD_NUMBER' in os.environ:
                 cls.caps['tunnel-identifier'] = os.environ['DRONE_BUILD_NUMBER']
                 cls.caps['build'] = os.environ['DRONE_BUILD_NUMBER']
                 cls.caps['tags'] = ['CI']
