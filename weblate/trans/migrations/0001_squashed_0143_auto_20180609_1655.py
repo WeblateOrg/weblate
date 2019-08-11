@@ -481,7 +481,7 @@ class Migration(migrations.Migration):
                     "report_source_bugs",
                     models.EmailField(
                         blank=True,
-                        help_text="Email address for reports on errors in source strings. Leave empty for no emails.",
+                        help_text="E-mail address for reports on errors in source strings. Leave empty for no e-mails.",
                         max_length=254,
                         verbose_name="Source string bug reporting address",
                     ),
@@ -912,7 +912,7 @@ class Migration(migrations.Migration):
             field=models.EmailField(
                 default=settings.DEFAULT_COMMITER_EMAIL,
                 max_length=254,
-                verbose_name="Committer email",
+                verbose_name="Committer e-mail",
             ),
         ),
         migrations.AddField(
