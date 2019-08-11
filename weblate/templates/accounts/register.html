@@ -18,7 +18,7 @@
 <a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service before registering.{% endblocktrans %}</a>
 </div>
 {% else %}
-{% trans "By registering you agree to use your name and email in version control system commits and provide your contribution under license defined by each translated project." as msg %}
+{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." as msg %}
 {% show_message "info" msg %}
 {% endif %}
 
@@ -34,7 +34,7 @@
 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Register using email" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Register using e-mail" %}</h4></div>
   <div class="panel-body">
 
 {% csrf_token %}

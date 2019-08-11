@@ -226,8 +226,8 @@ class Component(models.Model, URLMixin, PathMixin):
     report_source_bugs = models.EmailField(
         verbose_name=ugettext_lazy('Source string bug reporting address'),
         help_text=ugettext_lazy(
-            'Email address for reports on errors in source strings. '
-            'Leave empty for no emails.'
+            'E-mail address for reports on errors in source strings. '
+            'Leave empty for no e-mails.'
         ),
         max_length=254,
         blank=True,
@@ -450,7 +450,7 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_COMMITER_NAME,
     )
     committer_email = models.EmailField(
-        verbose_name=ugettext_lazy('Committer email'),
+        verbose_name=ugettext_lazy('Committer e-mail'),
         max_length=254,
         default=settings.DEFAULT_COMMITER_EMAIL,
     )

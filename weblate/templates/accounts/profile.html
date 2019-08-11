@@ -107,7 +107,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {% crispy userform %}
-    <p class="help-block">{% trans "Your name and email will appear as commit authorship." %}</p>
+    <p class="help-block">{% trans "Your name and e-mail will appear as commit authorship." %}</p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
@@ -320,7 +320,7 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
   <div class="panel-body">
     <p>{% trans "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
 <p>
-{% trans "By registering you agree to use your name and email in the commits, and provide your contribution under the license defined by each localization project." %}
+{% trans "By registering you agree to use your name and e-mail in the commits, and provide your contribution under the license defined by each localization project." %}
 </p>
 
 {% with agreements=user.contributoragreement_set.order %}

@@ -33,7 +33,7 @@ from PIL import Image
 
 USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
 
-# Reject some suspicious email addresses, based on checks enforced by Exim MTA
+# Reject some suspicious e-mail addresses, based on checks enforced by Exim MTA
 EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
 ALLOWED_IMAGES = frozenset((
@@ -177,9 +177,9 @@ def validate_email(value):
     validate_email_django(value)
     user_part = value.rsplit('@', 1)[0]
     if EMAIL_BLACKLIST.match(user_part):
-        raise ValidationError(_('Enter a valid email address.'))
+        raise ValidationError(_('Enter a valid e-mail address.'))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-        raise ValidationError(_('This email address is not allowed.'))
+        raise ValidationError(_('This e-mail address is not allowed.'))
 
 
 def validate_pluraleq(value):

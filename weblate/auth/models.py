@@ -210,7 +210,7 @@ class UserManager(BaseUserManager):
 
     def _create_user(self, username, email, password, **extra_fields):
         """
-        Creates and saves a User with the given username, email and password.
+        Creates and saves a User with the given username, e-mail and password.
         """
         if not username:
             raise ValueError('The given username must be set')
@@ -319,7 +319,7 @@ class User(AbstractBaseUser):
         validators=[validate_fullname],
     )
     email = models.EmailField(  # noqa: DJ01
-        _('Email'),
+        _('E-mail'),
         blank=False,
         null=True,
         max_length=190,
@@ -503,13 +503,13 @@ class User(AbstractBaseUser):
         return full_name
 
     def get_author_name(self, email=True):
-        """Return formatted author name with email."""
+        """Return formatted author name with e-mail."""
         # The < > are replace to avoid tricking Git to use
-        # name as email
+        # name as e-mail
 
         full_name = self.get_visible_name()
 
-        # Add email if we are asked for it
+        # Add e-mail if we are asked for it
         if not email:
             return full_name
         return '{0} <{1}>'.format(full_name, self.email)
@@ -518,11 +518,11 @@ class User(AbstractBaseUser):
 @python_2_unicode_compatible
 class AutoGroup(models.Model):
     match = RegexField(
-        verbose_name=_('Email regular expression'),
+        verbose_name=_('E-mail regular expression'),
         max_length=200,
         default='^.*$',
         help_text=_(
-            'Regular expression used to match user email.'
+            'Regular expression used to match user e-mail.'
         ),
     )
     group = models.ForeignKey(
@@ -570,7 +570,7 @@ def sync_create_groups(sender, **kwargs):
 
 
 def auto_assign_group(user):
-    """Automatic group assignment based on user email."""
+    """Automatic group assignment based on user e-mail."""
     if user.username == settings.ANONYMOUS_USER_NAME:
         return
     # Add user to automatic groups

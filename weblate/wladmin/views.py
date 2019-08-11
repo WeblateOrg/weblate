@@ -93,7 +93,7 @@ def manage(request):
 
 def send_test_mail(email):
     send_mail(
-        subject='Test email from Weblate on %s' % timezone.now(),
+        subject='Test e-mail from Weblate on %s' % timezone.now(),
         message="It works.",
         recipient_list=[email],
         from_email=None,
@@ -109,7 +109,7 @@ def tools(request):
             emailform = TestMailForm(request.POST)
             if emailform.is_valid():
                 send_test_mail(**emailform.cleaned_data)
-                messages.success(request, _('Test email sent.'))
+                messages.success(request, _('Test e-mail sent.'))
 
     return render(
         request,

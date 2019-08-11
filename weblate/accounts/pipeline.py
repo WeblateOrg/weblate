@@ -48,7 +48,7 @@ CLEANUP_MATCHER = re.compile(r'[-\s]+')
 
 
 def get_github_email(access_token):
-    """Get real email from GitHub"""
+    """Get real e-mail from GitHub"""
 
     request = Request('https://api.github.com/user/emails')
     request.add_header('User-Agent', USER_AGENT)
@@ -92,7 +92,7 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action,
 @partial
 def require_email(backend, details, weblate_action, user=None, is_new=False,
                   **kwargs):
-    """Force entering email for backends which don't provide it."""
+    """Force entering e-mail for backends which don't provide it."""
 
     if backend.name == 'github':
         email = get_github_email(kwargs['response']['access_token'])
@@ -101,7 +101,7 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
         if details.get('email', '').endswith('@users.noreply.github.com'):
             del details['email']
 
-    # Remove any pending email validation codes
+    # Remove any pending e-mail validation codes
     if details.get('email') and backend.name == 'email':
         invalidate_reset_codes(emails=(details['email'],))
         # Remove all account reset codes
@@ -109,7 +109,7 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
             invalidate_reset_codes(user=user)
 
     if user and user.email:
-        # Force validation of new email address
+        # Force validation of new e-mail address
         if backend.name == 'email':
             return {'is_new': True}
 
@@ -121,7 +121,7 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
 
 
 def send_validation(strategy, backend, code, partial_token):
-    """Send verification email."""
+    """Send verification e-mail."""
     # We need to have existing session
     session = strategy.request.session
     if not session.session_key:
@@ -301,7 +301,7 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
             raise AuthMissingParameter(backend, 'user')
         return
 
-    # Add email/register should stay on same user
+    # Add e-mail/register should stay on same user
     if user and user.is_authenticated:
         current_user = user.pk
     else:
@@ -339,11 +339,11 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
                 strategy.request,
                 'connect'
             )
-            raise AuthAlreadyAssociated(backend, 'Email exists')
+            raise AuthAlreadyAssociated(backend, 'E-mail exists')
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
-    """Store verified email."""
+    """Store verified e-mail."""
     verified, created = VerifiedEmail.objects.get_or_create(
         social=social,
         defaults={
@@ -452,7 +452,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     messages.warning(
         strategy.request,
         _(
-            'Your email no longer belongs to verified account, '
+            'Your e-mail no longer belongs to verified account, '
             'it has been changed to {0}.'
         ).format(
             user.email
@@ -461,7 +461,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
 
 
 def notify_disconnect(strategy, backend, entries, user, **kwargs):
-    """Store verified email."""
+    """Store verified e-mail."""
     for social in entries:
         AuditLog.objects.create(
             user,

@@ -79,8 +79,8 @@ class UniqueEmailMixin(object):
             if self.validate_unique_mail:
                 raise forms.ValidationError(
                     _(
-                        "This email address is already in use. "
-                        "Please supply a different email address."
+                        "This e-mail address is already in use. "
+                        "Please supply a different e-mail address."
                     )
                 )
         return self.cleaned_data['email']
@@ -251,8 +251,8 @@ class UserForm(forms.ModelForm):
     """User information form."""
     username = UsernameField()
     email = forms.ChoiceField(
-        label=_('Email'),
-        help_text=_('You can add another email address below.'),
+        label=_('E-mail'),
+        help_text=_('You can add another e-mail address below.'),
         choices=(('', ''),),
         required=True
     )
@@ -298,7 +298,7 @@ class ContactForm(forms.Form):
         max_length=30
     )
     email = EmailField(
-        label=_('Your email'),
+        label=_('Your e-mail'),
         required=True,
     )
     message = forms.CharField(
@@ -327,8 +327,8 @@ class EmailForm(forms.Form, UniqueEmailMixin):
 
     email = EmailField(
         strip=False,
-        label=_("Email"),
-        help_text=_('Activation email will be sent here.'),
+        label=_("E-mail"),
+        help_text=_('Activation e-mail will be sent here.'),
     )
     content = forms.CharField(required=False)
 
@@ -502,7 +502,7 @@ class ResetForm(EmailForm):
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=254,
-        label=_('Username or email')
+        label=_('Username or e-mail')
     )
     password = PasswordField(
         label=_("Password"),
@@ -584,7 +584,7 @@ class HostingForm(forms.Form):
         max_length=30,
     )
     email = EmailField(
-        label=_('Your email'),
+        label=_('Your e-mail'),
         required=True
     )
     project = forms.CharField(

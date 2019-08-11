@@ -55,6 +55,6 @@ class SSHAddForm(forms.Form):
 class TestMailForm(forms.Form):
     email = EmailField(
         required=True,
-        label=_("Email"),
-        help_text=_("The test email will be sent to this address."),
+        label=_("E-mail"),
+        help_text=_("The test e-mail will be sent to this address."),
     )

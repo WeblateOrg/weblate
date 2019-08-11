@@ -642,7 +642,7 @@ class ExtraUploadForm(UploadForm):
         help_text=_('Leave empty for using currently logged in user.')
     )
     author_email = forms.EmailField(
-        label=_('Author email'),
+        label=_('Author e-mail'),
         required=False,
         help_text=_('Leave empty for using currently logged in user.')
     )
@@ -1266,7 +1266,7 @@ class UserManageForm(forms.Form):
     user = UserField(
         label=_('User to add'),
         help_text=_(
-            'Please provide username or email. '
+            'Please provide username or e-mail. '
             'User needs to already have an active account in Weblate.'
         ),
     )

@@ -177,7 +177,7 @@ def home(request):
             mark_safe('<a href="{0}">{1}</a>'.format(
                 reverse('profile') + '#account',
                 escape(
-                    _('Please set your full name and email in your profile.')
+                    _('Please set your full name and e-mail in your profile.')
                 )
             ))
         )
