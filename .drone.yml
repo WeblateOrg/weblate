@@ -70,10 +70,19 @@ services:
   environment:
     POSTGRES_USER: postgres
     POSTGRES_DB: weblate
+- name: sauce
+  image: nijel/sauce-connect:latest
+  environment:
+    SAUCE_USERNAME:
+      from_secret: SAUCE_USERNAME
+    SAUCE_ACCESS_KEY:
+      from_secret: SAUCE_ACCESS_KEY
 
 steps:
 - name: test
   image: weblate/cidocker:3.7
+  ports:
+  - 9090
   environment:
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
@@ -89,10 +98,7 @@ steps:
   - apt install -y daemon
   - pip install  psycopg2-binary
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
-  - ./ci/install-sauce
   - ./ci/run-selenium
-  - kill `cat ~/.sauce-pid`
-  - cat ~/.sauce-log
 - name: codecov
   image: weblate/cidocker:3.7
   environment:

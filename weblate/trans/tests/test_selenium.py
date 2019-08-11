@@ -119,6 +119,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     @classmethod
     def setUpClass(cls):
+        if 'DRONE_BUILD_NUMBER' in os.environ:
+            # Listen on Docker interface in Drone
+            cls.host = socket.gethostbyname(socket.gethostname())
         if DO_SELENIUM:
             cls.caps['name'] = 'Weblate CI build'
             if 'screenResolution' not in cls.caps:
