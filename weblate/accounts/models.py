@@ -114,10 +114,10 @@ ACCOUNT_ACTIVITY = {
         'Logged on using {method} ({name}) from a new device.'
     ),
     'register': _(
-        'Somebody has attempted to register with your email.'
+        'Somebody has attempted to register with your e-mail.'
     ),
     'connect': _(
-        'Somebody has attempted to register using your email address.'
+        'Somebody has attempted to register using your e-mail address.'
     ),
     'failed-auth': _(
         'Could not log in using {method} ({name}).'
@@ -302,7 +302,7 @@ class AuditLog(models.Model):
 
 @python_2_unicode_compatible
 class VerifiedEmail(models.Model):
-    """Storage for verified emails from auth backends."""
+    """Storage for verified e-mails from auth backends."""
 
     social = models.ForeignKey(
         UserSocialAuth,
@@ -584,13 +584,13 @@ def post_login_handler(sender, request, user, **kwargs):
         user.full_name = user.username
         user.save(update_fields=['full_name'])
 
-    # Warn about not set email
+    # Warn about not set e-mail
     if not user.email:
         messages.error(
             request,
             _(
                 'You can not submit translations as '
-                'you do not have assigned any email address.'
+                'you do not have assigned any e-mail address.'
             )
         )
 

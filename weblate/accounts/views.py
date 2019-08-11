@@ -133,7 +133,7 @@ NOTIFICATION_PREFIX_TEMPLATE = 'notifications__{}'
 
 
 class EmailSentView(TemplateView):
-    """Class for rendering email sent page."""
+    """Class for rendering e-mail sent page."""
     template_name = 'accounts/email-sent.html'
 
     def get_context_data(self, **kwargs):
@@ -652,7 +652,7 @@ class WeblateLogoutView(LogoutView):
 
 
 def fake_email_sent(request, reset=False):
-    """Fake redirect to email sent page."""
+    """Fake redirect to e-mail sent page."""
     request.session['registration-email-sent'] = True
     request.session['password_reset'] = reset
     request.session['account_remove'] = False
@@ -707,7 +707,7 @@ def register(request):
 @login_required
 @never_cache
 def email_login(request):
-    """Connect email."""
+    """Connect e-mail."""
     captcha = None
 
     if request.method == 'POST':
@@ -734,7 +734,7 @@ def email_login(request):
         request,
         'accounts/email.html',
         {
-            'title': _('Register email'),
+            'title': _('Register e-mail'),
             'form': form,
             'captcha_form': captcha,
         }
@@ -820,7 +820,7 @@ def reset_password(request):
     if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
             request,
-            _('Cannot reset password, email authentication is turned off.')
+            _('Cannot reset password, e-mail authentication is turned off.')
         )
         return redirect('login')
 
@@ -1072,7 +1072,7 @@ def social_complete(request, backend):
     except AuthAlreadyAssociated:
         return auth_fail(request, _(
             'Could not complete registration. The supplied authentication, '
-            'email or username is already in use for another account.'
+            'e-mail or username is already in use for another account.'
         ))
 
 
