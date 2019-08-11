@@ -24,6 +24,7 @@ import copy
 import json
 import re
 from datetime import date, datetime, timedelta
+from uuid import uuid4
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1281,6 +1282,8 @@ class InviteUserForm(forms.ModelForm):
         data = super(InviteUserForm, self).clean()
         if 'email' in data:
             data['username'] = data['email']
+        else:
+            data['username'] = uuid4().hex
         return data
 
     def _get_validation_exclusions(self):
