@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-07-11 01:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -291,13 +291,13 @@ msgstr "Bejelentkezett {method} ({name}) használatával egy új eszközről."
 #: weblate/accounts/models.py:117
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr "Valaki megpróbált az Ön e-mail címével regisztrálni."
 
 #: weblate/accounts/models.py:120
 #, fuzzy
 #| msgid "Somebody has attempted to register using your e-mail address."
-msgid "Somebody has attempted to register using your email address."
+msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Valaki megpróbált az Ön e-mail címe használatával regisztrálni."
 
 #: weblate/accounts/models.py:123
@@ -517,7 +517,7 @@ msgstr ""
 #| "You can not submit translations as you do not have assigned any e-mail "
 #| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
 "Nem küldhet be a fordításokat, mivel nincs egyetlen hozzárendelt e-mail címe "
@@ -723,10 +723,8 @@ msgstr "Jelentkezzen be a Weblate használatához."
 msgid "Thank you for using Weblate."
 msgstr "Köszönjük, hogy a Weblate-et használja."
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "E-mail cím regisztrálása"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -741,7 +739,7 @@ msgstr "A jelszó visszaállítása már befejeződött!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Nem lehet visszaállítani a jelszót, az e-mail hitelesítés le van tiltva!"
 
@@ -810,7 +808,7 @@ msgstr ""
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 "Nem sikerült befejezni a regisztrációt. A megadott hitelesítés, e-mail vagy "
@@ -3572,10 +3570,6 @@ msgstr "Hiba jelentése a regisztrációval kapcsolatban"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Javítsa a regisztrációs űrlapon lévő hibákat."
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "E-mail cím regisztrálása"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10570,6 +10564,11 @@ msgstr ""
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "E-mail cím regisztrálása"
 
 #~ msgid "String priority"
 #~ msgstr "Szöveg prioritása"

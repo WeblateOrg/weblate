@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-08-09 18:22+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -285,13 +285,13 @@ msgstr "Zalogowany przy użyciu {method} ({name}) z nowego urządzenia."
 #: weblate/accounts/models.py:117
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr "Ktoś usiłował się zarejestrować za pomocą twojego adresu e-mail."
 
 #: weblate/accounts/models.py:120
 #, fuzzy
 #| msgid "Somebody has attempted to register using your e-mail address."
-msgid "Somebody has attempted to register using your email address."
+msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Ktoś próbował zarejestrować się przy użyciu Twojego adresu e-mail."
 
 #: weblate/accounts/models.py:123
@@ -490,7 +490,7 @@ msgstr ""
 #| "You can not submit translations as you do not have assigned any e-mail "
 #| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
 "Nie możesz przesłać tłumaczeń, ponieważ nie masz przypisanego adresu e-mail."
@@ -696,10 +696,8 @@ msgstr "Zaloguj się, by korzystać z Weblate."
 msgid "Thank you for using Weblate."
 msgstr "Dziękujemy za korzystanie z Weblate."
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "Zarejestruj e-mail"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -714,7 +712,7 @@ msgstr "Resetowanie hasła jest już zakończone!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Cannot reset password, e-mail authentication is turned off."
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Nie można zresetować hasła, uwierzytelnianie poprzez e-mail jest wyłączone."
 
@@ -767,7 +765,7 @@ msgstr "Serwer nie zezwala na uwierzytelnianie."
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 "Nie można dokończyć rejestracji. Dostarczone uwierzytelnienie, adres e-mail "
@@ -3416,10 +3414,6 @@ msgstr "Zgłoszenie problemu związanego z rejestracją"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Proszę poprawić błędy w formularzu rejestracyjnym."
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "Zarejestruj e-mail"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10256,6 +10250,11 @@ msgstr "Aktywacja nie powiodła się. Proszę sprawdzić token aktywacyjny."
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr "Nie można odrzucić błędu konfiguracji!"
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "Zarejestruj e-mail"
 
 #~ msgid "String priority"
 #~ msgstr "Priorytet tekstu"

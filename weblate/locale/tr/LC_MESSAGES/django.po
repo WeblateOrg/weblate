@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-08-11 12:02+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -285,13 +285,13 @@ msgstr "Yeni bir cihazdan {method} ({name}) kullanarak oturum açtınız."
 #: weblate/accounts/models.py:117
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr "Birisi sizin epostanızla kaydolmaya çalıştı."
 
 #: weblate/accounts/models.py:120
 #, fuzzy
 #| msgid "Somebody has attempted to register using your e-mail address."
-msgid "Somebody has attempted to register using your email address."
+msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Birisi e-posta adresinizi kullanarak kaydolmaya çalıştı."
 
 #: weblate/accounts/models.py:123
@@ -486,7 +486,7 @@ msgstr "Bileşen listesinin seçilmesi, panelde gösterilmediğinde etkili olmaz
 #| "You can not submit translations as you do not have assigned any e-mail "
 #| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
 "Herhangi bir e-posta adresi atamamış olduğunuz için çevirileri "
@@ -686,10 +686,8 @@ msgstr "Weblate'i kullanmak için oturum açın."
 msgid "Thank you for using Weblate."
 msgstr "Weblate'i kullandığınız için teşekkür ederiz."
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "Eposta kaydettir"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -704,7 +702,7 @@ msgstr "Parola sıfırlama zaten tamamlandı!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Cannot reset password, e-mail authentication is turned off."
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Parola sıfırlanamıyor, eposta kimlik doğrulaması kapatıldı."
 
 #: weblate/accounts/views.py:997
@@ -756,7 +754,7 @@ msgstr "Sunucu kimlik doğrulamasına izin vermiyor."
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 "Kayıt tamamlanamadı. Sağlanan kimlik doğrulama, e-posta veya kullanıcı adı "
@@ -3371,10 +3369,6 @@ msgstr "Kayıtla ilgili bir sorunu bildir"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Lütfen kayıt formundaki hataları düzeltin."
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "Eposta kaydettir"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10116,6 +10110,11 @@ msgstr ""
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr "Yapılandırma hatası iptal edilemedi!"
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "Eposta kaydettir"
 
 #~ msgid "String priority"
 #~ msgstr "Satır önceliği"

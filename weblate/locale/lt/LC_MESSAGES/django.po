@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -286,12 +286,14 @@ msgid "Logged on using {method} ({name}) from a new device."
 msgstr ""
 
 #: weblate/accounts/models.py:117
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr ""
 
 #: weblate/accounts/models.py:120
-msgid "Somebody has attempted to register using your email address."
-msgstr ""
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Somebody has attempted to register using your e-mail address."
+msgstr "Stebimi vertimai"
 
 #: weblate/accounts/models.py:123
 #, python-brace-format
@@ -483,7 +485,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:592
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
 
@@ -712,10 +714,8 @@ msgstr "Prisijungti prie „Weblate“"
 msgid "Thank you for using Weblate."
 msgstr "Ačiū, kad naudojatės „Weblate“!"
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "El. pašto adreso užregistravimas"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -728,7 +728,7 @@ msgid "Password reset has been already completed!"
 msgstr ""
 
 #: weblate/accounts/views.py:823
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 #: weblate/accounts/views.py:997
@@ -778,7 +778,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1074
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 
@@ -3571,10 +3571,6 @@ msgstr "Naudotojo registracija"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr ""
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "El. pašto adreso užregistravimas"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10484,6 +10480,11 @@ msgstr ""
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "El. pašto adreso užregistravimas"
 
 #, fuzzy
 #~| msgid "Action"

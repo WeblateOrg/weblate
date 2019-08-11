@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-08-08 06:24+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -288,13 +288,13 @@ msgstr "سُجل دخول باستخدام ({method} {name}) من جهاز جد�
 #: weblate/accounts/models.py:117
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr "أحد ما حاول إنشاء حساب جديد ببريدك الإلكتروني."
 
 #: weblate/accounts/models.py:120
 #, fuzzy
 #| msgid "Somebody has attempted to register using your e-mail address."
-msgid "Somebody has attempted to register using your email address."
+msgid "Somebody has attempted to register using your e-mail address."
 msgstr "أحدهم حاول إنشاء حساب جديد بإستخدام بريدك الإلكتروني."
 
 #: weblate/accounts/models.py:123
@@ -487,7 +487,7 @@ msgstr ""
 #| "You can not submit translations as you do not have assigned any e-mail "
 #| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr "لا يمكنك تقديم الترجمات في حين أنك لم تحدد أي بريد إلكتروني."
 
@@ -688,10 +688,8 @@ msgstr "قم بتسجيل الدخول لاستخدام ويب لايت."
 msgid "Thank you for using Weblate."
 msgstr "شكراً لكم على استخدام ويب لايت."
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "سجل البريد الإلكتروني"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -706,7 +704,7 @@ msgstr "إرجاع كلمة السر قد تم بنجاح!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Cannot reset password, e-mail authentication is turned off."
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "لا يمكن إرجاع كلمة السر، استيثاق البريد الإلكتروني معطل."
 
 #: weblate/accounts/views.py:997
@@ -756,7 +754,7 @@ msgstr "لا يسمح الخادوم بالاستيثاق."
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 "فشل إكمال التسجيل! إنَّ هذا الاستيثاق أو البريد الإلكتروني أو اسم المستخدم "
@@ -3432,10 +3430,6 @@ msgstr "الإبلاغ عن خلل متعلق بتسجيل الحسابات"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "من فضلك أصلح الأخطاء في استمارة التسجيل."
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "سجل البريد الإلكتروني"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10455,6 +10449,11 @@ msgstr ""
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"
 msgstr "خطأ في التكوين"
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "سجل البريد الإلكتروني"
 
 #~ msgid "String priority"
 #~ msgstr "أفضلية السلسة"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-11 13:18+0000\n"
+"POT-Creation-Date: 2019-08-11 13:22+0000\n"
 "PO-Revision-Date: 2019-08-10 19:30+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -284,13 +284,13 @@ msgstr "Innlogget med ({method}:{name}) fra ny enhet."
 #: weblate/accounts/models.py:117
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
-msgid "Somebody has attempted to register with your email."
+msgid "Somebody has attempted to register with your e-mail."
 msgstr "Noen har prøvd å registrere med din e-post."
 
 #: weblate/accounts/models.py:120
 #, fuzzy
 #| msgid "Somebody has attempted to register using your e-mail address."
-msgid "Somebody has attempted to register using your email address."
+msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Noen har prøvd å registrere seg med din e-posadresset."
 
 #: weblate/accounts/models.py:123
@@ -486,7 +486,7 @@ msgstr ""
 #| "You can not submit translations as you do not have assigned any e-mail "
 #| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any email "
+"You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
 "Du kan ikke få levert oversettelser om du ikke har knyttet til en e-"
@@ -690,10 +690,8 @@ msgstr "Logg inn for å bruke Weblate."
 msgid "Thank you for using Weblate."
 msgstr "Takk for at du bruker Weblate."
 
-#: weblate/accounts/views.py:737
-#, fuzzy
-#| msgid "Register e-mail"
-msgid "Register email"
+#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
 msgstr "Registrer e-post"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -708,7 +706,7 @@ msgstr "Passordnullstillingen er allerede gjennomført!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Cannot reset password, e-mail authentication is turned off."
-msgid "Cannot reset password, email authentication is turned off."
+msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Kan ikke nullstille passord, e-postbekreftelse er skrudd av."
 
 #: weblate/accounts/views.py:997
@@ -761,7 +759,7 @@ msgstr "Tjeneren tillater ikke identitetsbekreftelse."
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, email or "
+"Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
 "Kunne ikke fullføre registrering! Denne identitetsdetaljen, e-posten eller "
@@ -3395,10 +3393,6 @@ msgstr "Innrapporter feil med registreringen"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Rett feilene i registreringsskjemaet."
-
-#: weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
-msgstr "Registrer e-post"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -10222,6 +10216,11 @@ msgstr "Aktivering mislyktes. Sjekk ditt aktiveringssymbol."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke avvise oppsettfeil!"
+
+#, fuzzy
+#~| msgid "Register e-mail"
+#~ msgid "Register email"
+#~ msgstr "Registrer e-post"
 
 #~ msgid "String priority"
 #~ msgstr "Strengprioritet"
