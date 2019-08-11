@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-10 19:31+0000\n"
+"POT-Creation-Date: 2019-08-11 13:18+0000\n"
 "PO-Revision-Date: 2019-08-09 18:22+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
@@ -288,11 +288,15 @@ msgstr ""
 "Accesso eseguito da un nuovo dispositivo utilizzando {method} ({name})."
 
 #: weblate/accounts/models.py:117
-msgid "Somebody has attempted to register with your e-mail."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your e-mail."
+msgid "Somebody has attempted to register with your email."
 msgstr "Qualcuno ha tentato di registrarsi con la tua email."
 
 #: weblate/accounts/models.py:120
-msgid "Somebody has attempted to register using your e-mail address."
+#, fuzzy
+#| msgid "Somebody has attempted to register using your e-mail address."
+msgid "Somebody has attempted to register using your email address."
 msgstr "Qualcuno ha tentato di registrarsi usando la tua email."
 
 #: weblate/accounts/models.py:123
@@ -489,8 +493,12 @@ msgstr ""
 "viene visualizzato sulla pagina principale."
 
 #: weblate/accounts/models.py:592
+#, fuzzy
+#| msgid ""
+#| "You can not submit translations as you do not have assigned any e-mail "
+#| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any e-mail "
+"You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
 "Non puoi inserire traduzioni poiché non hai nessun indirizzo email assegnato."
@@ -692,8 +700,10 @@ msgstr "Accedi per utilizzare Weblate."
 msgid "Thank you for using Weblate."
 msgstr "Grazie per aver utilizzato Weblate."
 
-#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
+#: weblate/accounts/views.py:737
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Register email"
 msgstr "Email registrazione"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -706,7 +716,9 @@ msgid "Password reset has been already completed!"
 msgstr "La tua password è già stata modificata!"
 
 #: weblate/accounts/views.py:823
-msgid "Cannot reset password, e-mail authentication is turned off."
+#, fuzzy
+#| msgid "Cannot reset password, e-mail authentication is turned off."
+msgid "Cannot reset password, email authentication is turned off."
 msgstr ""
 "Impossibile ripristinare la password. \n"
 "L'autenticazione via email è disabilitata."
@@ -756,8 +768,12 @@ msgid "The server does not allow authentication."
 msgstr "Il server non permette l'autentificazione."
 
 #: weblate/accounts/views.py:1074
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
+"Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
 msgstr ""
 "La registrazione non è stata completata. L'autenticazione fornita, email o "
@@ -3405,6 +3421,10 @@ msgstr "Segnala un problema con la registrazione"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Correggi gli errori segnalati nei campi della registrazione."
+
+#: weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
+msgstr "Email registrazione"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -8677,8 +8697,8 @@ msgstr "Indirizzo segnalazione bug stringa sorgente"
 
 #: weblate/trans/models/component.py:229
 msgid ""
-"E-mail address for reports on errors in source strings. Leave empty for no "
-"e-mails."
+"E-mail address for reports on errors in source strings. Leave empty for no e-"
+"mails."
 msgstr ""
 "Indirizzo email a cui segnalare errori nella stringa sorgente. \n"
 "Lascialo vuoto per non ricevere nessuna email."

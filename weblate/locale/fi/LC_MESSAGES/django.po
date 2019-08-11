@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-10 19:31+0000\n"
+"POT-Creation-Date: 2019-08-11 13:18+0000\n"
 "PO-Revision-Date: 2019-08-07 06:00+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -281,11 +281,15 @@ msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Kirjauduttu sisään uudella laitteella käyttäen {method} ({name})."
 
 #: weblate/accounts/models.py:117
-msgid "Somebody has attempted to register with your e-mail."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your e-mail."
+msgid "Somebody has attempted to register with your email."
 msgstr "Joku on yrittänyt rekisteröityä sähköpostiosoitteellasi."
 
 #: weblate/accounts/models.py:120
-msgid "Somebody has attempted to register using your e-mail address."
+#, fuzzy
+#| msgid "Somebody has attempted to register using your e-mail address."
+msgid "Somebody has attempted to register using your email address."
 msgstr "Joku on yrittänyt rekisteröityä sähköpostiosoitteellasi."
 
 #: weblate/accounts/models.py:123
@@ -484,8 +488,12 @@ msgstr ""
 "kojelaudalla."
 
 #: weblate/accounts/models.py:592
+#, fuzzy
+#| msgid ""
+#| "You can not submit translations as you do not have assigned any e-mail "
+#| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any e-mail "
+"You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
 "Et voi lisätä käännöksiä koska et ole liittänyt tiliisi yhtään "
@@ -691,8 +699,10 @@ msgstr "Kirjaudu käyttääksesi Weblatea."
 msgid "Thank you for using Weblate."
 msgstr "Kiitoksia Weblaten käyttämisestä."
 
-#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
+#: weblate/accounts/views.py:737
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Register email"
 msgstr "Rekisteröi sähköposti"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -705,7 +715,9 @@ msgid "Password reset has been already completed!"
 msgstr "Salasanasi palutuspyyntö on jo suoritettu loppuun asti!"
 
 #: weblate/accounts/views.py:823
-msgid "Cannot reset password, e-mail authentication is turned off."
+#, fuzzy
+#| msgid "Cannot reset password, e-mail authentication is turned off."
+msgid "Cannot reset password, email authentication is turned off."
 msgstr ""
 "Salasanaa ei voi palauttaa, sähköpostitunnistautuminen ei ole käytössä."
 
@@ -758,8 +770,12 @@ msgid "The server does not allow authentication."
 msgstr ""
 
 #: weblate/accounts/views.py:1074
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
+"Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
 msgstr ""
 "Rekisteröinti epäonnistui! Käyttämäsi tunniste, joko sähköposti tai "
@@ -3449,6 +3465,10 @@ msgstr "Ilmoita rekisteröitymisongelmasta"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Ole hyvä ja korjaa virheet rekisteröitymislomakkeessa."
+
+#: weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
+msgstr "Rekisteröi sähköposti"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -8738,8 +8758,8 @@ msgstr "Lähdetekstissä olevan virheen raportointiosoite"
 
 #: weblate/trans/models/component.py:229
 msgid ""
-"E-mail address for reports on errors in source strings. Leave empty for no "
-"e-mails."
+"E-mail address for reports on errors in source strings. Leave empty for no e-"
+"mails."
 msgstr ""
 "Sähköpostiosoite jonne lähdeteksteissä olevat virheet raportoidaan. Jätä "
 "tyhjäksi jos et halua raportteja."

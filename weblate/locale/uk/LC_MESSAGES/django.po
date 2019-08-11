@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-10 19:31+0000\n"
+"POT-Creation-Date: 2019-08-11 13:18+0000\n"
 "PO-Revision-Date: 2019-08-08 06:24+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -290,11 +290,15 @@ msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Здійснено вхід через  {method} ({name}) з нового пристрою."
 
 #: weblate/accounts/models.py:117
-msgid "Somebody has attempted to register with your e-mail."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your e-mail."
+msgid "Somebody has attempted to register with your email."
 msgstr "Хтось спробував зареєструватися з вашим email."
 
 #: weblate/accounts/models.py:120
-msgid "Somebody has attempted to register using your e-mail address."
+#, fuzzy
+#| msgid "Somebody has attempted to register using your e-mail address."
+msgid "Somebody has attempted to register using your email address."
 msgstr "Хтось спробував зареєструватися з вашою адресою ел. пошти."
 
 #: weblate/accounts/models.py:123
@@ -510,8 +514,12 @@ msgstr ""
 "Після увімкнення цей список компонентів буде показаний на вкладці у домівці"
 
 #: weblate/accounts/models.py:592
+#, fuzzy
+#| msgid ""
+#| "You can not submit translations as you do not have assigned any e-mail "
+#| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any e-mail "
+"You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
 "Ви не зможете відправити переклади, коли у вас не має жодної прикріпленої "
@@ -717,8 +725,10 @@ msgstr "Увійдіть для використання Weblate."
 msgid "Thank you for using Weblate."
 msgstr "Дякуємо за використання Weblate."
 
-#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
+#: weblate/accounts/views.py:737
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Register email"
 msgstr "Зареєструвати електронну пошту"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -733,7 +743,7 @@ msgstr "Відновлення пароля вже завершено!"
 #: weblate/accounts/views.py:823
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
-msgid "Cannot reset password, e-mail authentication is turned off."
+msgid "Cannot reset password, email authentication is turned off."
 msgstr ""
 "Не можна відновити пароль, бо вимкнена перевірка через електронну пошту!"
 
@@ -799,8 +809,12 @@ msgid "The server does not allow authentication."
 msgstr ""
 
 #: weblate/accounts/views.py:1074
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
+"Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
 msgstr ""
 "Не вдалося завершити вашу реєстрацію! Надані дані — адреса ел. пошти чи імʼя "
@@ -3564,6 +3578,10 @@ msgstr "Звіт про помилку з реєстрацією"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Будь ласка, виправте помилки у реєстраційній формі."
+
+#: weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
+msgstr "Зареєструвати електронну пошту"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -8958,8 +8976,8 @@ msgstr "Адреса для повідомлень про помилки у ря
 
 #: weblate/trans/models/component.py:229
 msgid ""
-"E-mail address for reports on errors in source strings. Leave empty for no "
-"e-mails."
+"E-mail address for reports on errors in source strings. Leave empty for no e-"
+"mails."
 msgstr ""
 "Адреса e-mail для звітів про помилки в джерельному коді. Залиште поле "
 "порожнім, щоб не отримувати листів."

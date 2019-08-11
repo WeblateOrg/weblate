@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-08-10 19:31+0000\n"
+"POT-Creation-Date: 2019-08-11 13:18+0000\n"
 "PO-Revision-Date: 2019-08-08 15:26+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -286,11 +286,15 @@ msgstr ""
 "S'ha iniciat la sessió utilitzant {method} ({name}) en un dispositiu nou."
 
 #: weblate/accounts/models.py:117
-msgid "Somebody has attempted to register with your e-mail."
+#, fuzzy
+#| msgid "Somebody has attempted to register with your e-mail."
+msgid "Somebody has attempted to register with your email."
 msgstr "Algú ha provat de registrar-se amb el vostre correu electrònic."
 
 #: weblate/accounts/models.py:120
-msgid "Somebody has attempted to register using your e-mail address."
+#, fuzzy
+#| msgid "Somebody has attempted to register using your e-mail address."
+msgid "Somebody has attempted to register using your email address."
 msgstr ""
 "Algú ha provat de registrar-se fent servir el vostre correu electrònic."
 
@@ -485,8 +489,12 @@ msgstr ""
 "principal."
 
 #: weblate/accounts/models.py:592
+#, fuzzy
+#| msgid ""
+#| "You can not submit translations as you do not have assigned any e-mail "
+#| "address."
 msgid ""
-"You can not submit translations as you do not have assigned any e-mail "
+"You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
 "No podeu enviar traduccions, ja que no teniu assignada cap adreça de correu "
@@ -692,8 +700,10 @@ msgstr "Inicieu la sessió per a utilitzar el Weblate."
 msgid "Thank you for using Weblate."
 msgstr "Gràcies per utilitzar el Weblate."
 
-#: weblate/accounts/views.py:737 weblate/templates/accounts/email.html:17
-msgid "Register e-mail"
+#: weblate/accounts/views.py:737
+#, fuzzy
+#| msgid "Register e-mail"
+msgid "Register email"
 msgstr "Registra un correu electrònic"
 
 #: weblate/accounts/views.py:777 weblate/templates/accounts/password.html:13
@@ -706,7 +716,9 @@ msgid "Password reset has been already completed!"
 msgstr "Ja s'ha completat el restabliment de la contrasenya!"
 
 #: weblate/accounts/views.py:823
-msgid "Cannot reset password, e-mail authentication is turned off."
+#, fuzzy
+#| msgid "Cannot reset password, e-mail authentication is turned off."
+msgid "Cannot reset password, email authentication is turned off."
 msgstr ""
 "No es pot restablir la contrasenya, l'autenticació amb correu electrònic "
 "està desactivada."
@@ -756,8 +768,12 @@ msgid "The server does not allow authentication."
 msgstr "Aquest servidor no permet autenticar-se."
 
 #: weblate/accounts/views.py:1074
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
+"Could not complete registration. The supplied authentication, email or "
 "username is already in use for another account."
 msgstr ""
 "No s'ha pogut completar el registre. L'autenticació, el correu electrònic o "
@@ -3413,6 +3429,10 @@ msgstr "Informa d'un problema amb el registre"
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "Corregiu els errors del formulari de registre."
+
+#: weblate/templates/accounts/email.html:17
+msgid "Register e-mail"
+msgstr "Registra un correu electrònic"
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -8678,8 +8698,8 @@ msgstr "Adreça per a informes d'errors de les cadenes d'origen"
 
 #: weblate/trans/models/component.py:229
 msgid ""
-"E-mail address for reports on errors in source strings. Leave empty for no "
-"e-mails."
+"E-mail address for reports on errors in source strings. Leave empty for no e-"
+"mails."
 msgstr ""
 "Adreça de correu electrònic on informar d'errors a les cadenes d'origen. "
 "Deixeu-la en blanc si no voleu correus."
