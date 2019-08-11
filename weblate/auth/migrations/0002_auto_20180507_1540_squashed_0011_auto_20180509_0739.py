@@ -180,9 +180,9 @@ class Migration(migrations.Migration):
                     "match",
                     weblate.trans.fields.RegexField(
                         default="^.*$",
-                        help_text="Regular expression used to match user email.",
+                        help_text="Regular expression used to match user e-mail.",
                         max_length=200,
-                        verbose_name="Email regular expression",
+                        verbose_name="E-mail regular expression",
                     ),
                 ),
                 (
@@ -207,7 +207,7 @@ class Migration(migrations.Migration):
                 max_length=190,
                 unique=True,
                 validators=[weblate.utils.validators.validate_email],
-                verbose_name="Email",
+                verbose_name="E-mail",
             ),
         ),
     ]
