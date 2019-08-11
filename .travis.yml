@@ -36,6 +36,7 @@ install:
   - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_DEPS Cython pycairo
+  - if [ -f requirements-$CI_DATABASE.txt ] ; then pip install -r requirements-$CI_DATABASE.txt ; fi
   - pip install -r ci/requirements-travis.txt
   - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
 # create databases
