@@ -50,7 +50,7 @@ String comments
 ---------------
 
 Translators can comment on both translation and source strings.
-Each :ref:`component` can be configured to receive such comments to an email
+Each :ref:`component` can be configured to receive such comments to an e-mail
 address, and using the developers mailing list is usually the best approach.
 This way you can keep an eye on when problems arise in translation, tend to, and fix them quickly.
 

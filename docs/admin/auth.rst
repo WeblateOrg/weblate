@@ -5,7 +5,7 @@ User registration
 -----------------
 
 The default setup for Weblate is to use python-social-auth, a form on the website
-to handle registration of new users. After confirming their email a new user can
+to handle registration of new users. After confirming their e-mail a new user can
 contribute or authenticate by using one of the third party services.
 
 You can also turn off registration of new users using
@@ -36,8 +36,8 @@ in :doc:`psa:configuration/django`.
 .. note::
 
     By default, Weblate relies on third-party authentication services to
-    provide a validated email address. If some of the services you want to use
-    don't support this, please enforce email validation on the Weblate side
+    provide a validated e-mail address. If some of the services you want to use
+    don't support this, please enforce e-mail validation on the Weblate side
     by configuring FORCE_EMAIL_VALIDATION for them. For example:
 
     .. code-block:: python
@@ -48,7 +48,7 @@ in :doc:`psa:configuration/django`.
 
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for a given
-authentication method. Please note that some backends do not provide user email by
+authentication method. Please note that some backends do not provide user e-mail by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit contributions users make.
 
@@ -358,7 +358,7 @@ CAS authentication
 
 CAS authentication can be achieved using a package such as `django-cas-ng`.
 
-Step one is disclosing the email field of the user via CAS. This has to be
+Step one is disclosing the e-mail field of the user via CAS. This has to be
 configured on the CAS server itself, and requires you run at least CAS v2 since
 CAS v1 doesn't support attributes at all.
 
@@ -391,7 +391,7 @@ authentication system by modifying the :file:`settings.py` file:
         'django_cas_ng'
     )
 
-Finally, a signal can be used to map the email field to the user object. For
+Finally, a signal can be used to map the e-mail field to the user object. For
 this to work you have to import the signal from the `django-cas-ng` package and
 connect your code with this signal. Doing this in settings file can
 cause problems, therefore it's suggested to put it:

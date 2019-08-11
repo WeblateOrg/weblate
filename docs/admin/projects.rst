@@ -247,7 +247,7 @@ Committer name
     Name of the committer used for Weblate commits, the author will always be the
     real translator. On some VCSs this might be not supported. Default value
     can be changed by :setting:`DEFAULT_COMMITER_NAME`.
-Committer email
+Committer e-mail
     Email of committer used for Weblate commits, the author will always be the
     real translator. On some VCSs this might be not supported. Default value
     can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.

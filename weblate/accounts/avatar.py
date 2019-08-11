@@ -41,7 +41,7 @@ from weblate.utils.errors import report_error
 def avatar_for_email(email, size=80):
     """Generate url for avatar."""
 
-    # Safely handle blank email
+    # Safely handle blank e-mail
     if not email:
         email = 'noreply@weblate.org'
 

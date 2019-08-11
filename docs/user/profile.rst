@@ -11,7 +11,7 @@ every translation made.
 You can register by following a few simple steps:
 
 1. Fill out the registration form with your credentials
-2. Activate registration by following in email you receive
+2. Activate registration by following in e-mail you receive
 3. Possibly adjust your profile to choose which languages you know
 
 .. _dashboard:
@@ -51,7 +51,7 @@ your user profile settings.
 User profile
 ------------
 
-User profile contains your preferences, name and email. Name and email
+User profile contains your preferences, name and e-mail. Name and e-mail
 are being used in VCS commits, so keep this information accurate.
 
 

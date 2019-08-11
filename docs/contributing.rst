@@ -85,8 +85,8 @@ line to your patch:
 using your real name (sorry, no pseudonyms or anonymous contributions).
 
 If you are a developer authorized to contribute to Weblate on
-behalf of your employer, please use your corporate email address in the
-"Signed-off-by" tag.  If not, please use a personal email address.
+behalf of your employer, please use your corporate e-mail address in the
+"Signed-off-by" tag.  If not, please use a personal e-mail address.
 
 Testsuite
 ---------
@@ -134,7 +134,7 @@ Alternatively, report to security@weblate.org, which ends up on
 HackerOne as well.
 
 If you don't want to use HackerOne, for whatever reason, you can send the report
-by email to michal@cihar.com. You can choose to encrypt it using this PGP key
+by e-mail to michal@cihar.com. You can choose to encrypt it using this PGP key
 `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`.
 
 .. note::

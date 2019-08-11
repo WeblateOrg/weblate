@@ -21,7 +21,7 @@ following services running:
 
 * PostgreSQL database server, see :ref:`database-setup`.
 * Redis server for cache and tasks queue, see :ref:`celery`.
-* SMTP server for outgoing email, see :ref:`out-mail`.
+* SMTP server for outgoing e-mail, see :ref:`out-mail`.
 
 .. _python-deps:
 
@@ -466,10 +466,10 @@ Other configurations
 
 .. _out-mail:
 
-Configuring outgoing email
-++++++++++++++++++++++++++
+Configuring outgoing e-mail
++++++++++++++++++++++++++++
 
-Weblate sends out emails on various occasions - for account activation and on
+Weblate sends out e-mails on various occasions - for account activation and on
 various notifications configured by users. For this it needs access to a SMTP
 server.
 
@@ -481,7 +481,7 @@ Django documentation.
 
 .. note::
 
-   You can verify whether outgoing email is working correctly by using the
+   You can verify whether outgoing e-mail is working correctly by using the
    :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
    for instructions how to invoke it in different environments).
 
@@ -581,7 +581,7 @@ options:
 
     Disable this for any production server. With debug mode enabled, Django will
     show backtraces in case of error to users, when you disable it, errors will
-    be sent per email to ``ADMINS`` (see above).
+    be sent per e-mail to ``ADMINS`` (see above).
 
     Debug mode also slows down Weblate, as Django stores much more info
     internally in this case.
@@ -594,7 +594,7 @@ options:
 
 ``DEFAULT_FROM_EMAIL``
 
-    Email sender address for outgoing email, for example registration emails.
+    Email sender address for outgoing e-mail, for example registration e-mails.
 
     .. seealso::
 
@@ -611,7 +611,7 @@ options:
 
 ``SERVER_EMAIL``
 
-    Email used as sender address for sending emails to the administrator, for
+    Email used as sender address for sending e-mails to the administrator, for
     example notifications on failed merges.
 
     .. seealso::
@@ -689,7 +689,7 @@ Properly configure admins
 +++++++++++++++++++++++++
 
 Set the correct admin addresses to the :setting:`ADMINS` setting to defining who will receive
-emails in case something goes wrong on the server, for example:
+e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
 
@@ -707,7 +707,7 @@ Set correct sitename
 ++++++++++++++++++++
 
 Adjust sitename in the admin interface, otherwise links in RSS or registration
-emails will not work.
+e-mails will not work.
 
 Please open the admin interface and edit the default sitename and domain under the
 :guilabel:`Sites › Sites` (or do it directly at the
@@ -832,10 +832,10 @@ recommended to use a separate, file-backed cache for this purpose:
 
 .. _production-email:
 
-Configure email addresses
-+++++++++++++++++++++++++
+Configure e-mail addresses
+++++++++++++++++++++++++++
 
-Weblate needs to send out emails on several occasions, and these emails should
+Weblate needs to send out e-mails on several occasions, and these e-mails should
 have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 :setting:`DEFAULT_FROM_EMAIL` to match your environment, for example:
 

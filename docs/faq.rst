@@ -253,7 +253,7 @@ How do I review others translations?
 ------------------------------------
 
 - You can subscribe to any changes made in :ref:`subscriptions` and then check
-  others contributions in email.
+  others contributions in e-mail.
 - There is a review tool available at the bottom of the translation view, where you can
   choose to browse translations made by others since a given date.
 

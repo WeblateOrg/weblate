@@ -174,7 +174,7 @@ After installation the legal documents are shown in Weblate UI.
 Avatars
 -------
 
-Weblate comes with built in support for showing user avatars based on emails.
+Weblate comes with built in support for showing user avatars based on e-mails.
 This can be disabled using :setting:`ENABLE_AVATARS`. The avatars are
 downloaded and cached server side to reduce information leaks to the sites
 serving them.

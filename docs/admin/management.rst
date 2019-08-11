@@ -261,7 +261,7 @@ Creates ``admin`` account with random password unless it is specified.
 
 .. django-admin-option:: --email USER@EXAMPLE.COM
 
-    Specify admin email.
+    Specify admin e-mail.
 
 .. django-admin-option:: --name
 
@@ -536,7 +536,7 @@ Imports users from JSON dump of Django auth_users database.
 .. django-admin-option:: --check
 
     With this option it will just check whether given file can be imported and
-    report possible conflicts on usernames or emails.
+    report possible conflicts on usernames or e-mails.
 
 You can dump users from existing Django installation using:
 

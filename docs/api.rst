@@ -835,7 +835,7 @@ Translations
     :type language: string
     :form boolean overwrite: Whether to overwrite existing translations (defaults to no)
     :form file file: Uploaded file
-    :form string email: Author email
+    :form string email: Author e-mail
     :form string author: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``)
     :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)

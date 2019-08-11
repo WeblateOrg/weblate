@@ -10,7 +10,7 @@ Not yet released.
 * Added support for parsing translation flags from the XML based file formats.
 * Log exceptions into Celery log.
 * Improve performance of repository scoped addons.
-* Improved look of notification emails.
+* Improved look of notification e-mails.
 * Fixed password reset behavior.
 * Improved performance on most of translation pages.
 * Fixed listing of languages not known to Weblate.
@@ -25,7 +25,7 @@ Not yet released.
 * Extended predefined periods for reporting.
 * Added support for Azure Repos webhooks.
 * New opt-in notifications on pending suggestions or untranslated strings.
-* Add one click unsubscribe link to notification emails.
+* Add one click unsubscribe link to notification e-mails.
 * Fixed false positives with Has been translated check.
 * New management interface for admins.
 * String priority can now be specified using flags.
@@ -388,7 +388,7 @@ Released on October 13th 2017.
 
 * Weblate by default does shallow Git clones now.
 * Improved performance when updating large translation files.
-* Added support for blocking certain emails from registration.
+* Added support for blocking certain e-mails from registration.
 * Users can now delete their own comments.
 * Added preview step to search and replace feature.
 * Client side persistence of settings in search and upload forms.
@@ -816,7 +816,7 @@ Released on November 7th 2013.
 * Better visible options for sharing.
 * More control over anonymous users privileges.
 * Supports login using third party services, check manual for more details.
-* Users can login by email instead of username.
+* Users can login by e-mail instead of username.
 * Documentation improvements.
 * Improved source strings review.
 * Searching across all strings.
@@ -898,7 +898,7 @@ Released on January 23rd 2013.
 * Added option to subscribe for merge failures.
 * Correctly import on projects which needs custom ttkit loader.
 * Added sitemaps to allow easier access by crawlers.
-* Provide direct links to string in notification emails or feeds.
+* Provide direct links to string in notification e-mails or feeds.
 * Various improvements to admin interface.
 * Provide hints for production setup in admin interface.
 * Added per language widgets and engage page.
@@ -955,7 +955,7 @@ Released on August 14th 2012.
 * Simple antispam protection.
 * Better layout of main page.
 * Support for automatically pushing changes on every commit.
-* Support for email notifications of translators.
+* Support for e-mail notifications of translators.
 * List only used languages in preferences.
 * Improved handling of not known languages when importing project.
 * Support for locking translation by translator.

@@ -377,7 +377,7 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Default committer email when creating translation component (see
+Default committer e-mail when creating translation component (see
 :ref:`component`), defaults to ``noreply@weblate.org``.
 
 .. seealso::
@@ -780,7 +780,7 @@ Client key for Microsoft Cognitive Services Translator API.
 MT_MYMEMORY_EMAIL
 -----------------
 
-MyMemory identification email, you can get 1000 requests per day with this.
+MyMemory identification e-mail, you can get 1000 requests per day with this.
 
 .. seealso::
 
@@ -968,11 +968,11 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is protected by captcha. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
-If enabled the captcha is added to all pages where users enter email address:
+If enabled the captcha is added to all pages where users enter e-mail address:
 
 * New account registration.
 * Password recovery.
-* Adding email to an account.
+* Adding e-mail to an account.
 * Contact form for users who are not logged in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
@@ -982,11 +982,11 @@ REGISTRATION_EMAIL_MATCH
 
 .. versionadded:: 2.17
 
-Allows you to filter email addresses which can register.
+Allows you to filter e-mail addresses which can register.
 
 Defaults to ``.*`` which allows any address to register.
 
-You can use it to restrict registration to a single email domain:
+You can use it to restrict registration to a single e-mail domain:
 
 .. code-block:: python
 
@@ -1018,7 +1018,7 @@ Disable this if you are having different translations for both variants.
 SITE_TITLE
 ----------
 
-Site title to be used in website and emails as well.
+Site title to be used in website and e-mails as well.
 
 .. setting:: SPECIAL_CHARS
 

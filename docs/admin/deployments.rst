@@ -176,7 +176,7 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
-    Configures the site-admin's name and email.
+    Configures the site-admin's name and e-mail.
 
     **Example:**
 
@@ -204,7 +204,7 @@ Generic settings
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
-    Configures the address for outgoing emails.
+    Configures the address for outgoing e-mails.
 
     .. seealso::
 
@@ -270,7 +270,7 @@ Generic settings
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
     Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes
-    Weblate use HTTPS in email and API links or set secure flags on cookies.
+    Weblate use HTTPS in e-mail and API links or set secure flags on cookies.
 
     .. note::
 
@@ -489,7 +489,7 @@ Other authentication settings
 
 .. envvar:: WEBLATE_NO_EMAIL_AUTH
 
-    Disables email authentication when set to any value.
+    Disables e-mail authentication when set to any value.
 
 
 PostgreSQL database setup
@@ -553,7 +553,7 @@ instance when running Weblate in Docker.
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 
-To make outgoing email work, you need to provide a mail server.
+To make outgoing e-mail work, you need to provide a mail server.
 
 .. seealso:: :ref:`out-mail`
 
@@ -585,7 +585,7 @@ To make outgoing email work, you need to provide a mail server.
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
     Whether to use an implicit TLS (secure) connection when talking to the SMTP
-    server. In most email documentation, this type of TLS connection is referred
+    server. In most e-mail documentation, this type of TLS connection is referred
     to as SSL. It is generally used on port 465. If you are experiencing
     problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
 

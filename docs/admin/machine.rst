@@ -182,7 +182,7 @@ MyMemory
 Huge translation memory with machine translation.
 
 Free, anonymous usage is currently limited to 100 requests/day, or to 1000
-requests/day when you provide contact email in :setting:`MT_MYMEMORY_EMAIL`.
+requests/day when you provide contact e-mail in :setting:`MT_MYMEMORY_EMAIL`.
 You can also ask them for more.
 
 To enable this service, add ``weblate.machinery.mymemory.MyMemoryTranslation`` to
