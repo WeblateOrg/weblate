@@ -11,9 +11,10 @@ SC_TEMP=`mktemp -d -t sc.XXXX`
 wget -O - https://saucelabs.com/downloads/$NAME | tar -x -z -C $SC_TEMP
 
 daemon --unsafe -- $SC_TEMP/*/bin/sc \
-    -i ${TRAVIS_JOB_NUMBER}${DRONE_BUILD_NUMBER} \
-    -f ~/.sauce-ready \
-    -l ~/.sauce-log
+    --tunnel-identifier ${TRAVIS_JOB_NUMBER}${DRONE_BUILD_NUMBER} \
+    --readyfile ~/.sauce-ready \
+    --logfile ~/.sauce-log \
+    --pidfile ~/.sauce-pid
 
 PID=$!
 
@@ -21,8 +22,6 @@ if [ $? -ne 0 ] ; then
     cat ~/.sauce-log
     exit 1
 fi
-
-echo $PID > ~/.sauce-pid
 
 echo "Waiting for Sauce Connect readyfile"
 while [ ! -f ~/.sauce-ready ]; do
