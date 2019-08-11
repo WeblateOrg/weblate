@@ -128,7 +128,7 @@ class ACLTest(FixtureTestCase):
             {'email': 'invalid', 'full_name': 'name'},
             follow=True
         )
-        self.assertContains(response, 'Enter a valid email addres')
+        self.assertContains(response, 'Enter a valid e-mail addres')
 
     def test_invite_existing(self):
         """Test inviting existing user."""
@@ -138,7 +138,7 @@ class ACLTest(FixtureTestCase):
             {'email': self.user.email, 'full_name': 'name'},
             follow=True
         )
-        self.assertContains(response, 'User with this Email already exists')
+        self.assertContains(response, 'User with this E-mail already exists')
 
     def test_invite_user(self):
         """Test inviting user."""

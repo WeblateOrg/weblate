@@ -243,12 +243,12 @@ class RegistrationTest(BaseRegistrationTest):
             self.assertContains(response, 'Password reset almost complete')
 
         # Even though we've asked 10 times for reset, user should get only
-        # emails until rate limit is applied
+        # e-mails until rate limit is applied
         self.assertEqual(len(mail.outbox), 4)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_nonexisting(self):
-        """Test for password reset of nonexisting email."""
+        """Test for password reset of nonexisting e-mail."""
         response = self.client.get(
             reverse('password_reset'),
         )
@@ -265,7 +265,7 @@ class RegistrationTest(BaseRegistrationTest):
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalid(self):
-        """Test for password reset of invalid email."""
+        """Test for password reset of invalid e-mail."""
         response = self.client.get(
             reverse('password_reset'),
         )
@@ -278,7 +278,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertContains(
             response,
-            'Enter a valid email address.'
+            'Enter a valid e-mail address.'
         )
         self.assertEqual(len(mail.outbox), 0)
 
@@ -433,7 +433,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(
             response,
-            'Enter a valid email address.'
+            'Enter a valid e-mail address.'
         )
 
     @override_settings(REGISTRATION_EMAIL_MATCH='^.*@weblate.org$')
@@ -443,7 +443,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(
             response,
-            'This email address is not allowed.'
+            'This e-mail address is not allowed.'
         )
         data['email'] = 'noreply@weblate.org'
         response = self.client.post(
@@ -453,7 +453,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertNotContains(
             response,
-            'This email address is not allowed.'
+            'This e-mail address is not allowed.'
         )
 
     def test_spam(self):
@@ -471,12 +471,12 @@ class RegistrationTest(BaseRegistrationTest):
         # Create user
         self.perform_registration()
 
-        # Check adding email page
+        # Check adding e-mail page
         response = self.client.post(
             reverse('social:begin', args=('email',)),
             follow=True,
         )
-        self.assertContains(response, 'Register email')
+        self.assertContains(response, 'Register e-mail')
 
         # Try invalid address first
         response = self.client.post(
@@ -485,7 +485,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertContains(response, 'has-error')
 
-        # Add email account
+        # Add e-mail account
         response = self.client.post(
             reverse('email_login'),
             {'email': 'second@example.net'},
@@ -564,7 +564,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertContains(
             response,
-            'Your email no longer belongs to verified account'
+            'Your e-mail no longer belongs to verified account'
         )
         notification = mail.outbox.pop()
         self.assert_notify_mailbox(notification)
@@ -730,7 +730,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.client.login(username='weblate', password='x')
         # Switch to second user
         User.objects.create_user('second', 'noreply-second@example.org', 'x')
-        # Try to add GitHub auth with other email
+        # Try to add GitHub auth with other e-mail
         self.client.login(username='second', password='x')
         self.test_github(fail=True)
         # User should get an notification
