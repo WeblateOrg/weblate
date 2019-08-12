@@ -1085,10 +1085,10 @@ def unsubscribe(request):
             )
             subscription.frequency = FREQ_NONE
             subscription.save(update_fields=['frequency'])
-            messages.success(request, _('Subscription settings adjusted.'))
+            messages.success(request, _('Notification settings adjusted.'))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(request, _(
-                'The unsubscribe link is no longer valid, '
+                'The notification change link is no longer valid, '
                 'please log in to configure notifications.'
             ))
 

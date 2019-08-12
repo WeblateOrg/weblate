@@ -301,7 +301,7 @@ del {
             <div class="footer-right">
                 <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
                 {% if unsubscribe_nonce %}
-                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Unsubscribe" %}</a>
+                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Disable this notification" %}</a>
                 {% endif %}
             </div>
 		</div>
