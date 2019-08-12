@@ -396,6 +396,14 @@
 </div>
 
 <div class="tab-pane" id="memory">
+<form class="form-inline" id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}"> 
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="memory-search-input">{% trans "Translation memory" %}</label>
+    <input type="text" class="form-control" id="memory-search-input" name="q">
+  </div>
+  <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+</form>
 <table class="table table-compact table-striped">
 <thead>
 <tr>

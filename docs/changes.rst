@@ -33,6 +33,7 @@ Not yet released.
 * Add checks for Qt library and Ruby format strings.
 * Added configuration to better fit single project installations.
 * Notify about new string on source string change on monolingual translations.
+* Added separate view for translation memory with search capability.
 
 weblate 3.7.1
 -------------

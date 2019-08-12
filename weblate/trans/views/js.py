@@ -19,7 +19,7 @@
 #
 
 from django.core.exceptions import PermissionDenied
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
@@ -39,13 +39,7 @@ from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_component, get_project, get_translation
 
 
-@require_POST
-def translate(request, unit_id, service):
-    """AJAX handler for translating."""
-    if service not in MACHINE_TRANSLATION_SERVICES:
-        raise Http404('Invalid service specified')
-
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+def handle_machinery(request, service, unit, source):
     request.user.check_access(unit.translation.component.project)
     if not request.user.has_perm('machinery.view', unit.translation):
         raise PermissionDenied()
@@ -65,7 +59,7 @@ def translate(request, unit_id, service):
     try:
         response['translations'] = translation_service.translate(
             unit.translation.language.code,
-            unit.get_source_plurals()[0],
+            source,
             unit,
             request
         )
@@ -80,6 +74,32 @@ def translate(request, unit_id, service):
         )
 
     return JsonResponse(data=response)
+
+
+@require_POST
+def translate(request, unit_id, service):
+    """AJAX handler for translating."""
+    if service not in MACHINE_TRANSLATION_SERVICES:
+        raise Http404('Invalid service specified')
+
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    return handle_machinery(
+        request,
+        service,
+        unit,
+        unit.get_source_plurals()[0]
+    )
+
+
+@require_POST
+def memory(request, unit_id):
+    """AJAX handler for translation memory."""
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    query = request.POST.get('q')
+    if not query:
+        return HttpResponseBadRequest('Missing search string')
+
+    return handle_machinery(request, 'weblate-translation-memory', unit, query)
 
 
 def get_unit_changes(request, unit_id):

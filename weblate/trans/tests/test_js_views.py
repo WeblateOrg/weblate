@@ -91,6 +91,18 @@ class JSViewsTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_memory(self):
+        unit = self.get_unit()
+        url = reverse('js-memory', kwargs={'unit_id': unit.id})
+        # Missing param
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 400)
+        # Valid query
+        response = self.client.post(url, {'q': 'a'})
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(data["service"], "Weblate Translation Memory")
+
     def test_get_unit_changes(self):
         unit = self.get_unit()
         response = self.client.get(

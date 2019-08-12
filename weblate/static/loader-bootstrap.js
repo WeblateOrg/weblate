@@ -411,7 +411,7 @@ function processMachineTranslation(data, scope) {
 function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
     decreaseLoading('#' + scope + '-loading');
     $('#' + scope + '-errors').append(
-        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
+        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown + '</li>')
     );
 }
 
@@ -691,7 +691,6 @@ $(function () {
         translationMemoryLoaded = true;
         increaseLoading('#memory-loading');
         var $form = $('#link-post');
-        increaseLoading('#mt-loading');
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
@@ -702,6 +701,22 @@ $(function () {
                 csrfmiddlewaretoken: $form.find('input').val(),
             },
         });
+    });
+
+    $('#memory-search').submit(function () {
+        var form = $(this);
+
+        increaseLoading('#memory-loading');
+        $('#memory-translations').empty();
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {processMachineTranslation(data, 'memory');},
+            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');},
+        });
+        return false;
     });
 
     /* Git commit tooltip */
