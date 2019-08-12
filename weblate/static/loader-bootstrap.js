@@ -236,9 +236,8 @@ function initEditor() {
         $this.button('loading');
         $this.parents('.translation-item').find('.translation-editor').val(
             $.parseJSON($this.data('content'))
-        );
+        ).change();
         autosize.update($('.translation-editor'));
-        $('.translation-editor').change();
         $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
         $this.button('reset');
         e.preventDefault();
@@ -259,7 +258,7 @@ function initEditor() {
         var $this = $(this);
         var text = $this.data('value');
 
-        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text);
+        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).change();
         autosize.update($('.translation-editor'));
         e.preventDefault();
     });
@@ -324,7 +323,7 @@ function processMachineTranslation(data) {
         $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
-            $('.translation-editor').val(text);
+            $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
             /* Standard worflow */
             $('.translation-form input[name="fuzzy"]').prop('checked', true);
@@ -334,7 +333,7 @@ function processMachineTranslation(data) {
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
-            $('.translation-editor').val(text);
+            $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
             /* Standard worflow */
             $('.translation-form input[name="fuzzy"]').prop('checked', false);
@@ -561,7 +560,7 @@ function insertEditor(text, element)
         }
     }
 
-    editor.insertAtCaret($.trim(text));
+    editor.insertAtCaret($.trim(text)).change();
     autosize.update(editor);
 }
 
