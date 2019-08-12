@@ -282,7 +282,11 @@ function processMachineTranslation(data) {
 
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
-            newRow.append($('<td/>').text(el.service));
+            if (typeof el.origin === 'undefined') {
+                newRow.append($('<td/>').text(el.service));
+            } else {
+                newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, el.origin])));
+            }
             /* Quality score as bar with the text */
             newRow.append($(
                 '<td>' +

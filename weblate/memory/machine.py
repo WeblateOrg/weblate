@@ -43,10 +43,8 @@ class WeblateMemory(MachineTranslation):
         return {
             'text': target,
             'quality': similarity,
-            'service': '{0} ({1})'.format(
-                self.name,
-                get_category_name(category, origin),
-            ),
+            'service': self.name,
+            'origin': get_category_name(category, origin),
             'source': text,
         }
 

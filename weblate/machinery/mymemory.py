@@ -57,20 +57,17 @@ class MyMemoryTranslation(MachineTranslation):
         else:
             quality = 0
 
-        if match['last-updated-by'] != '':
-            source = '{0} ({1})'.format(
-                self.name,
-                match['last-updated-by']
-            )
-        else:
-            source = self.name
-
-        return {
+        result = {
             'text': match['translation'],
             'quality': int(quality * match['match']),
-            'service': source,
+            'service': self.name,
             'source': match['segment'],
         }
+
+        if match['last-updated-by']:
+            result['origin'] = match['last-updated-by']
+
+        return result
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from MyMemory."""

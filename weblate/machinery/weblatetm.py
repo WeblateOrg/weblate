@@ -43,10 +43,8 @@ class WeblateTranslation(MachineTranslation):
         return {
             'text': unit.get_target_plurals()[0],
             'quality': quality,
-            'service': '{0} ({1})'.format(
-                self.name,
-                force_text(unit.translation.component)
-            ),
+            'service': self.name,
+            'origin': force_text(unit.translation.component),
             'source': unit.get_source_plurals()[0],
         }
 
