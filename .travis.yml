@@ -181,7 +181,7 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
-    - stage: "Basic tests"
+    - stage: "Extended tests"
       name: "MySQL migrations"
       env: CI_DEPS="Django>=2.1,<2.2" CI_DATABASE=mysql
       script:
