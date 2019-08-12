@@ -519,13 +519,13 @@ class ProfileTest(FixtureTestCase):
 
         response = self.client.get(reverse('unsubscribe'), {'i': 'x'}, follow=True)
         self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'unsubscribe link is no longer valid')
+        self.assertContains(response, 'notification change link is no longer valid')
 
         response = self.client.get(
             reverse('unsubscribe'), {'i': TimestampSigner().sign(-1)}, follow=True
         )
         self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'unsubscribe link is no longer valid')
+        self.assertContains(response, 'notification change link is no longer valid')
 
         subscription = Subscription.objects.create(
             user=self.user, notification='x', frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
@@ -536,6 +536,6 @@ class ProfileTest(FixtureTestCase):
             follow=True
         )
         self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'Subscription settings adjusted')
+        self.assertContains(response, 'Notification settings adjusted')
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
