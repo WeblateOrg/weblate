@@ -45,6 +45,7 @@ class WeblateTranslation(MachineTranslation):
             'quality': quality,
             'service': self.name,
             'origin': force_text(unit.translation.component),
+            'origin_url': unit.get_absolute_url(),
             'source': unit.get_source_plurals()[0],
         }
 
