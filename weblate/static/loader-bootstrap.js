@@ -282,11 +282,22 @@ function processMachineTranslation(data) {
 
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
-            if (typeof el.origin === 'undefined') {
-                newRow.append($('<td/>').text(el.service));
-            } else {
-                newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, el.origin])));
+            var service = $('<td/>').text(el.service);
+            if (typeof el.origin !== 'undefined') {
+                service.append(' (');
+                var origin;
+                if (typeof el.origin_detail !== 'undefined') {
+                    origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
+                } else if (typeof el.origin_url !== 'undefined') {
+                    origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
+                } else {
+                    origin = el.origin;
+                }
+                service.append(origin);
+                service.append(')');
+                // newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, ])));
             }
+            newRow.append(service);
             /* Quality score as bar with the text */
             newRow.append($(
                 '<td>' +
