@@ -67,6 +67,9 @@ class MyMemoryTranslation(MachineTranslation):
         if match['last-updated-by']:
             result['origin'] = match['last-updated-by']
 
+        if match['reference']:
+            result['origin_detail'] = match['reference']
+
         return result
 
     def download_translations(self, source, language, text, unit, request):
