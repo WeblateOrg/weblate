@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 null=True,
                 unique=True,
                 validators=[weblate.utils.validators.validate_email],
-                verbose_name="Email",
+                verbose_name="E-mail",
             ),
         )
     ]
