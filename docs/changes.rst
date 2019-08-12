@@ -31,6 +31,7 @@ Not yet released.
 * String priority can now be specified using flags.
 * Added language management views.
 * Add checks for Qt library and Ruby format strings.
+* Added configuration to better fit single project installations.
 
 weblate 3.7.1
 -------------

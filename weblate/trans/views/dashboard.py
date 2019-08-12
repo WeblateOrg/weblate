@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -33,7 +34,7 @@ from django.views.decorators.cache import never_cache
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm, SiteSearchForm
-from weblate.trans.models import ComponentList, Translation
+from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -144,6 +145,7 @@ def get_user_translations(request, user):
 @never_cache
 def home(request):
     """Home page handler serving different views based on user."""
+    user = request.user
 
     # This is used on Hosted Weblate to handle removed translation projects.
     # The redirect itself is done in the http server.
@@ -155,9 +157,6 @@ def home(request):
                 'however you are welcome to contribute to other ones.'
             )
         )
-
-    if not request.user.is_authenticated:
-        return dashboard_anonymous(request)
 
     if 'show_set_password' in request.session:
         messages.warning(
@@ -171,7 +170,7 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if not request.user.full_name or not request.user.email:
+    if user.is_authenticated and (not user.full_name or not user.email):
         messages.warning(
             request,
             mark_safe('<a href="{0}">{1}</a>'.format(
@@ -181,6 +180,17 @@ def home(request):
                 )
             ))
         )
+
+    # Redirect to single project or component
+    if settings.SINGLE_PROJECT:
+        if Component.objects.count() == 1:
+            return redirect(Component.objects.first())
+
+        if Project.objects.count() == 1:
+            return redirect(Project.objects.first())
+
+    if not user.is_authenticated:
+        return dashboard_anonymous(request)
 
     return dashboard_user(request)
 

@@ -160,5 +160,7 @@ Translate-URL: {{ url }}'''
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
 
+    SINGLE_PROJECT = False
+
     class Meta(object):
         prefix = ''

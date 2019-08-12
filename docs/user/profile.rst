@@ -46,6 +46,11 @@ of project components preconfigured by the Weblate administrator, see
 You can configure your preferred view in the :guilabel:`Preferences` section of
 your user profile settings.
 
+.. note::
+
+   When Weblate is configured for single project using
+   :setting:`SINGLE_PROJECT`, the dashboard month not be shown at all.
+
 .. _user-profile:
 
 User profile

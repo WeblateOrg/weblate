@@ -1033,6 +1033,15 @@ The default value is:
 
     SPECIAL_CHARS = ('\t', '\n', '…')
 
+.. setting:: SINGLE_PROJECT
+
+SINGLE_PROJECT
+--------------
+
+.. versionadded:: 3.8
+
+Redirect user directly to single project or component instead of showing dashboard.
+
 .. setting:: STATUS_URL
 
 STATUS_URL

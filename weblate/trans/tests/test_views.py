@@ -28,6 +28,7 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 from django.urls import reverse
 from PIL import Image
 from six.moves.urllib.parse import urlsplit
@@ -745,6 +746,11 @@ class HomeViewTest(ViewTestCase):
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')
+
+    @override_settings(SINGLE_PROJECT=True)
+    def test_single_project(self):
+        response = self.client.get(reverse('home'))
+        self.assertRedirects(response, reverse('component', kwargs=self.kw_component))
 
 
 class SourceStringsTest(ViewTestCase):
