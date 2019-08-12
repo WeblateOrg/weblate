@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-12 11:52+0000\n"
-"PO-Revision-Date: 2019-08-12 11:24+0000\n"
+"PO-Revision-Date: 2019-08-13 06:41+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.8-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -283,8 +283,6 @@ msgid "Logged on using {method} ({name}) from a new device."
 msgstr "Увайшоў выкарыстоўваючы {method} ({name}) з новай прылады."
 
 #: weblate/accounts/models.py:117
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody has attempted to register with your e-mail."
 msgstr "Нехта спрабаваў зарэгістравацца з вашым адрасам электроннай пошты."
 
@@ -754,21 +752,15 @@ msgstr ""
 "пошта ці імя карыстальніка выкарыстоўваюцца іншым акаўнтам."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "Налады апавяшчэнняў"
+msgstr "Апавяшчэнні наладжаныя."
 
 #: weblate/accounts/views.py:1091
-#, fuzzy
-#| msgid ""
-#| "The unsubscribe link is no longer valid, please log in to configure "
-#| "notifications."
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
-"Спасылка для скасавання падпіскі больш не дзейнічае. Калі ласка, увайдзіце, "
+"Спасылка для наладкі апавяшчэнняў больш не дзейнічае. Калі ласка, увайдзіце, "
 "каб наладзіць апавяшчэнні."
 
 #: weblate/addons/cleanup.py:36
@@ -2641,16 +2633,13 @@ msgid "Plural form %d"
 msgstr "Форма множнага ліку %d"
 
 #: weblate/lang/views.py:69
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "Remove all translations using this language first."
-msgstr "У перакладзе выкарыстоўваюцца двухмоўныя файлы."
+msgstr "Спачатку выдаліце ўсе пераклады, выкарыстоўваючы гэтую мову."
 
 #: weblate/lang/views.py:73
-#, fuzzy, python-format
-#| msgid "Language overrides"
+#, python-format
 msgid "Language %s removed."
-msgstr "Перавызначэнні моў"
+msgstr "Мова %s выдаленая."
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
@@ -5560,10 +5549,8 @@ msgid "Prevent any changes in the local repository"
 msgstr "Забараніць любыя змены ў лакальным рэпазіторыі"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
-#, fuzzy
-#| msgid "Added language"
 msgid "Add language"
-msgstr "Дададзена мова"
+msgstr "Дадаць мову"
 
 #: weblate/templates/language-project.html:66
 #: weblate/templates/language.html:107
@@ -5576,13 +5563,12 @@ msgid "Plural: %(source_description)s"
 msgstr "Множны лік: %(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Вашыя пераклады"
-msgstr[1] "Вашыя пераклады"
-msgstr[2] "Вашыя пераклады"
+msgstr[0] "%(count)s пераклад"
+msgstr[1] "%(count)s пераклады"
+msgstr[2] "%(count)s перакладаў"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -5672,10 +5658,8 @@ msgid "Weblate, the continuous localization system"
 msgstr "Weblate, сістэма лакалізацыі"
 
 #: weblate/templates/mail/base.html:304
-#, fuzzy
-#| msgid "View notification"
 msgid "Disable this notification"
-msgstr "Прагляд апавяшчэнняў"
+msgstr "Адключыць гэтае апавяшчэнне"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -6191,20 +6175,14 @@ msgid "Public SSH key"
 msgstr "Публічны SSH-ключ"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy
-#| msgid "Weblate currently uses following SSH key:"
 msgid "Weblate currently uses this SSH key:"
-msgstr "SSH-ключ, які зараз выкарыстоўвае Weblate:"
+msgstr "Weblate зараз выкарыстоўвае гэты ключ SSH:"
 
 #: weblate/templates/manage/ssh.html:36
 msgid "Generate SSH key"
 msgstr "Згенераваць SSH-ключ"
 
 #: weblate/templates/manage/ssh.html:40
-#, fuzzy
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate it for you."
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
@@ -6803,10 +6781,6 @@ msgid "Start from scratch"
 msgstr "Пачаць ад пачатку"
 
 #: weblate/templates/trans/component_create.html:48
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from the remote version control system "
-#| "repository."
 msgid ""
 "Create a new translation component from remote version control system "
 "repository."
@@ -6847,36 +6821,25 @@ msgstr ""
 "канфігурацыяй, што і ў існай."
 
 #: weblate/templates/trans/component_create.html:87
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from uploaded ZIP file with "
-#| "translations."
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
-"Стварыць новы кампанент перакладу з запампаванага файла ZIP з перакладамі."
+"Стварыць новы кампанент перакладу з запампаванага файла ZIP, што змяшчае "
+"радкі на пераклад."
 
 #: weblate/templates/trans/component_create.html:101
-#, fuzzy
-#| msgid ""
-#| "Create a new empty translation component to start with translations from "
-#| "scratch."
 msgid "Create a new empty translation component to start from scratch."
-msgstr ""
-"Стварыце новы пусты кампанент перакладу, каб пачаць перакладаць ад пачатку."
+msgstr "Стварыць новы пусты кампанент перакладу, каб пачаць нанова."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy, python-format
-#| msgid ""
-#| "In case you have existing translation files, create ZIP file with them "
-#| "and %(link_start)supload it%(link_end)s."
+#, python-format
 msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
-"Калі ў вас ёсць файлы перакладу, стварыце ZIP з імі і %(link_start)s "
-"запампуйце яго %(link_end)s."
+"Стварыце ZIP з наяўнымі файламі перакладу і %(link_start)s запампуйце яго "
+"%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -7263,11 +7226,11 @@ msgstr "Дакладнасць"
 
 #: weblate/templates/translate.html:412
 msgid "Origin"
-msgstr ""
+msgstr "Паходжанне"
 
 #: weblate/templates/translate.html:413
 msgid "Similarity"
-msgstr ""
+msgstr "Падабенства"
 
 #: weblate/templates/translate.html:443
 msgid "Comment on this string for fellow translators and developers to read."
@@ -10112,12 +10075,9 @@ msgid "Activation token"
 msgstr "Токен актывацыі"
 
 #: weblate/wladmin/forms.py:36
-#, fuzzy
-#| msgid "Please enter activation token obtained when making the subscription."
 msgid ""
 "Please enter the activation token obtained when making the subscription."
-msgstr ""
-"Калі ласка, увядзіце токен актывацыі, атрыманы пры афармленні падпіскі."
+msgstr "Калі ласка, увядзіце токен актывацыі, атрыманы пры афармленні падпіскі."
 
 #: weblate/wladmin/forms.py:44
 msgid "Port"
