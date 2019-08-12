@@ -22,7 +22,6 @@ import six
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from lxml.etree import Element
 
 from weblate.checks import CHECKS
 from weblate.fonts.utils import get_font_weight
@@ -70,7 +69,7 @@ class Flags(object):
     def merge(self, flags):
         if isinstance(flags, six.string_types):
             flags = self.parse(flags)
-        elif getattr(flags, 'tag', None) is Element:
+        elif hasattr(flags, 'tag'):
             flags = self.parse_xml(flags)
         elif isinstance(flags, Flags):
             flags = flags.items()
