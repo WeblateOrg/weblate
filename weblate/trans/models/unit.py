@@ -482,7 +482,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
         # Create change object for new source string
-        if source_created or (not same_source and not self.translated):
+        if source_created:
             Change.objects.create(
                 action=Change.ACTION_NEW_SOURCE,
                 unit=self,

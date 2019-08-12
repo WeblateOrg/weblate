@@ -348,11 +348,16 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # - new and untranslated
                 # - newly not translated
                 # - newly fuzzy
+                # - source string changed
                 self.was_new = (
                     self.was_new
                     or (
                         newunit.state < STATE_TRANSLATED
-                        and (newunit.state != newunit.old_unit.state or is_new)
+                        and (
+                            newunit.state != newunit.old_unit.state
+                            or is_new
+                            or newunit.source != newunit.old_unit.source
+                        )
                     )
                 )
 
