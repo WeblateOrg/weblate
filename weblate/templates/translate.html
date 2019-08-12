@@ -248,6 +248,7 @@
 {% endif %}
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+<li><a href="#memory" data-toggle="tab" id="toggle-machine" data-load="memory">{% trans "Translation memory" %}</a></li>
 {% endif %}
 <li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" id="toggle-history" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
@@ -387,10 +388,30 @@
 </th>
 <tr>
 </thead>
-<tbody id="machine-translations">
+<tbody id="mt-translations">
 </tbody>
 </table>
 <ul id="mt-errors">
+</ul>
+</div>
+
+<div class="tab-pane" id="memory">
+<table class="table table-compact table-striped">
+<thead>
+<tr>
+<th>{% trans "Translation" %}</th>
+<th>{% trans "Source" %}</th>
+<th>{% trans "Origin" %}</th>
+<th>{% trans "Similarity" %}</th>
+<th colspan="2">
+<i id="memory-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
+</th>
+<tr>
+</thead>
+<tbody id="memory-translations">
+</tbody>
+</table>
+<ul id="memory-errors">
 </ul>
 </div>
 {% endif %}

@@ -1,5 +1,6 @@
 var loading = 0;
 var machineTranslationLoaded = false;
+var translationMemoryLoaded = false;
 var activityDataLoaded = false;
 var lastEditor = null;
 
@@ -272,32 +273,36 @@ function testChangeHandler(e) {
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
-function processMachineTranslation(data) {
-    decreaseLoading('#mt-loading');
+function processMachineTranslation(data, scope) {
+    decreaseLoading('#' + scope + '-loading');
     if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
-            var $machineTranslations = $('#machine-translations');
+            var $machineTranslations = $('#' + scope + '-translations');
 
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
-            var service = $('<td/>').text(el.service);
-            if (typeof el.origin !== 'undefined') {
-                service.append(' (');
-                var origin;
-                if (typeof el.origin_detail !== 'undefined') {
-                    origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
-                } else if (typeof el.origin_url !== 'undefined') {
-                    origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
-                } else {
-                    origin = el.origin;
+            if (scope === "mt") {
+                var service = $('<td/>').text(el.service);
+                if (typeof el.origin !== 'undefined') {
+                    service.append(' (');
+                    var origin;
+                    if (typeof el.origin_detail !== 'undefined') {
+                        origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
+                    } else if (typeof el.origin_url !== 'undefined') {
+                        origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
+                    } else {
+                        origin = el.origin;
+                    }
+                    service.append(origin);
+                    service.append(')');
+                    // newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, ])));
                 }
-                service.append(origin);
-                service.append(')');
-                // newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, ])));
+                newRow.append(service);
+            } else {
+                newRow.append($('<td/>').text(el.origin));
             }
-            newRow.append(service);
             /* Quality score as bar with the text */
             newRow.append($(
                 '<td>' +
@@ -366,7 +371,7 @@ function processMachineTranslation(data) {
             );
         }
 
-        var $machineTranslations = $('#machine-translations');
+        var $machineTranslations = $('#' + scope + '-translations');
 
         $machineTranslations.children('tr').each(function (idx) {
             if (idx < 10) {
@@ -382,7 +387,7 @@ function processMachineTranslation(data) {
                 Mousetrap.bindGlobal(
                     ['ctrl+m ' + key, 'command+m ' + key],
                     function() {
-                        $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
+                        $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
                         return false;
                     }
                 );
@@ -397,15 +402,15 @@ function processMachineTranslation(data) {
             [data.service]
         );
 
-        $('#mt-errors').append(
+        $('#' + scope + '-errors').append(
             $('<li>' + msg + ' ' + data.responseDetails + '</li>')
         );
     }
 }
 
-function failedMachineTranslation(jqXHR, textStatus, errorThrown) {
-    decreaseLoading('#mt-loading');
-    $('#mt-errors').append(
+function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
+    decreaseLoading('#' + scope + '-loading');
+    $('#' + scope + '-errors').append(
         $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
     );
 }
@@ -418,8 +423,8 @@ function loadMachineTranslations(data, textStatus) {
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', el),
-            success: processMachineTranslation,
-            error: failedMachineTranslation,
+            success: function (data) {processMachineTranslation(data, 'mt');},
+            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'mt');},
             dataType: 'json',
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
@@ -675,6 +680,27 @@ $(function () {
             success: loadMachineTranslations,
             error: failedMachineTranslation,
             dataType: 'json'
+        });
+    });
+
+    /* Translation memory */
+    $document.on('show.bs.tab', '[data-load="memory"]', function (e) {
+        if (translationMemoryLoaded) {
+            return;
+        }
+        translationMemoryLoaded = true;
+        increaseLoading('#memory-loading');
+        var $form = $('#link-post');
+        increaseLoading('#mt-loading');
+        $.ajax({
+            type: 'POST',
+            url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
+            success: function (data) {processMachineTranslation(data, 'memory');},
+            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');},
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: $form.find('input').val(),
+            },
         });
     });
 
