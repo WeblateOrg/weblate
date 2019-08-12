@@ -28,6 +28,7 @@
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.slug widget='open' color='graph' extension='png' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-project' project=object.slug %}" />
   {% else %}
+  <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
   {% endif %}
 

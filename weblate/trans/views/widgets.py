@@ -30,7 +30,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
 from weblate.trans.models import Component
 from weblate.trans.util import render
-from weblate.trans.widgets import WIDGETS
+from weblate.trans.widgets import WIDGETS, SiteOpenGraphWidget
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_component, get_project, try_set_language
 
@@ -157,6 +157,18 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
             kwargs['lang'] = lang.code
             return redirect('widget-image', permanent=True, **kwargs)
         return redirect('widget-image', permanent=True, **kwargs)
+
+    # Render widget
+    response = HttpResponse(content_type=widget_obj.content_type)
+    widget_obj.render(response)
+    return response
+
+
+@vary_on_cookie
+@cache_control(max_age=3600)
+def render_og(request):
+    # Construct object
+    widget_obj = SiteOpenGraphWidget()
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)

@@ -55,6 +55,10 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, 'Test')
 
+    def test_site_og(self):
+        response = self.client.get(reverse('og-image'))
+        self.assert_png(response)
+
 
 class WidgetsMeta(type):
     def __new__(mcs, name, bases, attrs):  # noqa

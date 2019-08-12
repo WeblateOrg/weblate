@@ -36,6 +36,7 @@ from django.utils.translation import ugettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
+from weblate.utils.stats import GlobalStats
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -306,14 +307,28 @@ class OpenGraphWidget(NormalWidget):
             Pango.FontDescription('Source Sans Pro {}'.format(18))
         ]
 
+    def get_title(self):
+        return 'Project <b>{}</b>'.format(escape(self.obj.name))
+
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
         layout.set_font_description(
             Pango.FontDescription('Source Sans Pro {}'.format(52))
         )
-        layout.set_markup('Project <b>{}</b>'.format(escape(self.obj.name)))
+        layout.set_markup(self.get_title())
         PangoCairo.show_layout(ctx, layout)
+
+
+class SiteOpenGraphWidget(OpenGraphWidget):
+    def __init__(self, obj=None, color=None, lang=None):
+        super(SiteOpenGraphWidget, self).__init__(GlobalStats())
+
+    def get_title(self):
+        return '<b>{}</b>'.format(escape(settings.SITE_TITLE))
+
+    def get_text_params(self):
+        return {}
 
 
 @register_widget

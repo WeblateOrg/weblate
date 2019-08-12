@@ -923,6 +923,11 @@ real_patterns = [
 
     # Engagement widgets
     url(
+        r'^exports/og\.png$',
+        weblate.trans.views.widgets.render_og,
+        name='og-image',
+    ),
+    url(
         r'^widgets/' + PROJECT + '-/' + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
