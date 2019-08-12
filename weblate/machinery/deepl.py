@@ -56,6 +56,11 @@ class DeepLTranslation(MachineTranslation):
         )
 
         return [
-            (translation['text'], self.max_score, self.name, text)
+            {
+                'text': translation['text'],
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text
+            }
             for translation in response['translations']
         ]

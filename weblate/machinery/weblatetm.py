@@ -40,29 +40,29 @@ class WeblateTranslation(MachineTranslation):
         """Format unit to translation service result."""
         if quality < 50:
             return None
-        return (
-            unit.get_target_plurals()[0],
-            quality,
-            '{0} ({1})'.format(
+        return {
+            'text': unit.get_target_plurals()[0],
+            'quality': quality,
+            'service': '{0} ({1})'.format(
                 self.name,
                 force_text(unit.translation.component)
             ),
-            unit.get_source_plurals()[0],
-        )
+            'source': unit.get_source_plurals()[0],
+        }
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
             translation__component__project__in=request.user.allowed_projects
-        ).more_like_this(unit, 1000)
+        ).more_like_this(unit, 1000).distinct()
 
-        result = {
+        result = [
             self.format_unit_match(
                 munit,
                 self.comparer.similarity(text, munit.get_source_plurals()[0])
             )
             for munit in matching_units
-        }
-        if None in result:
+        ]
+        while None in result:
             result.remove(None)
         return result

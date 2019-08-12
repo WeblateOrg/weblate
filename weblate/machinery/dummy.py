@@ -35,7 +35,17 @@ class DummyTranslation(MachineTranslation):
         """Dummy translation supports just single phrase."""
         if source == 'en' and text.strip() == 'Hello, world!':
             return [
-                ('Nazdar světe!', self.max_score, 'Dummy', text),
-                ('Ahoj světe!', self.max_score, 'Dummy', text),
+                {
+                    'text': 'Nazdar světe!',
+                    'quality': self.max_score,
+                    'service': 'Dummy',
+                    'source': text,
+                },
+                {
+                    'text': 'Ahoj světe!',
+                    'quality': self.max_score,
+                    'service': 'Dummy',
+                    'source': text
+                },
             ]
         return []

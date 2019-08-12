@@ -125,4 +125,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [(response, self.max_score, self.name, text)]
+        return [{
+            'text': response,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }]

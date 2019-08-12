@@ -141,9 +141,9 @@ class ApertiumAPYTranslation(MachineTranslation):
             **args
         )
 
-        return [(
-            response['responseData']['translatedText'],
-            self.max_score,
-            self.name,
-            text
-        )]
+        return [{
+            'text': response['responseData']['translatedText'],
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text
+        }]

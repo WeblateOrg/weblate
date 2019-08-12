@@ -34,4 +34,7 @@ class SampleTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Return tuple with translations."""
-        return [(t, 100, self.name, text) for t in dictionary.translate(text)]
+        return [
+            {'text': t, 'quality': 100, 'service', self.name, 'source': text}
+            for t in dictionary.translate(text)
+        ]

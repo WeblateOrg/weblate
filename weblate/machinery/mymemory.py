@@ -65,12 +65,12 @@ class MyMemoryTranslation(MachineTranslation):
         else:
             source = self.name
 
-        return (
-            match['translation'],
-            int(quality * match['match']),
-            source,
-            match['segment'],
-        )
+        return {
+            'text': match['translation'],
+            'quality': int(quality * match['match']),
+            'service': source,
+            'source': match['segment'],
+        }
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from MyMemory."""

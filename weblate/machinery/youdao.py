@@ -95,4 +95,9 @@ class YoudaoTranslation(MachineTranslation):
 
         translation = response['translation'][0]
 
-        return [(translation, self.max_score, self.name, text)]
+        return [{
+            'text': translation,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }]

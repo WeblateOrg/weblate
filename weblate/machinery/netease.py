@@ -97,4 +97,9 @@ class NeteaseSightTranslation(MachineTranslation):
 
         translation = response['relatedObject']['content'][0]['transContent']
 
-        return [(translation, self.max_score, _(self.name), text)]
+        return [{
+            'text': translation,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }]

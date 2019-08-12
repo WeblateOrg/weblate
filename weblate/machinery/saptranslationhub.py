@@ -125,11 +125,11 @@ class SAPTranslationHub(MachineTranslation):
         # prepare the translations for weblate
         for item in response['units']:
             for translation in item['translations']:
-                translations.append((
-                    translation['value'],
-                    translation.get('qualityIndex', 100),
-                    self.name,
-                    text
-                ))
+                translations.append({
+                    'text': translation['value'],
+                    'quality': translation.get('qualityIndex', 100),
+                    'service': self.name,
+                    'source': text
+                })
 
         return translations

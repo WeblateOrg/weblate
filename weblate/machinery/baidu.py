@@ -122,6 +122,11 @@ class BaiduTranslation(MachineTranslation):
             )
 
         return [
-            (item['dst'], self.max_score, self.name, item['src'])
+            {
+                'text': item['dst'],
+                'quality': self.max_score,
+                'service': self.name,
+                'source': item['src']
+            }
             for item in response['trans_result']
         ]

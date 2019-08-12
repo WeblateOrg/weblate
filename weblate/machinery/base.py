@@ -165,8 +165,8 @@ class MachineTranslation(object):
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service.
 
-        Should return tuple - (translation text, translation quality, source of
-        translation, source string).
+        Should return dict with translation text, translation quality, source of
+        translation, source string.
 
         You can use self.name as source of translation, if you can not give
         better hint and text parameter as source string if you do no fuzzy
@@ -294,19 +294,9 @@ class MachineTranslation(object):
                 return result
 
         try:
-            translations = self.download_translations(
+            result = self.download_translations(
                 source, language, text, unit, request
             )
-
-            result = [
-                {
-                    'text': trans[0],
-                    'quality': trans[1],
-                    'service': trans[2],
-                    'source': trans[3]
-                }
-                for trans in translations
-            ]
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
             return result

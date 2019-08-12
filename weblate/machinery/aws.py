@@ -51,6 +51,9 @@ class AWSTranslation(MachineTranslation):
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )
-        return [
-            (response['TranslatedText'], self.max_score, self.name, text)
-        ]
+        return [{
+            'text': response['TranslatedText'],
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text
+        }]

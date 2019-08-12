@@ -40,15 +40,15 @@ class WeblateMemory(MachineTranslation):
 
     def format_unit_match(self, text, target, similarity, category, origin):
         """Format match to translation service result."""
-        return (
-            target,
-            similarity,
-            '{0} ({1})'.format(
+        return {
+            'text': target,
+            'quality': similarity,
+            'service': '{0} ({1})'.format(
                 self.name,
                 get_category_name(category, origin),
             ),
-            text,
-        )
+            'source': text,
+        }
 
     def download_translations(self, source, language, text, unit, request):
         """Download list of possible translations from a service."""

@@ -78,12 +78,12 @@ class MicrosoftTerminologyService(MachineTranslation):
             target = force_text(
                 item['Translations']['Translation'][0]['TranslatedText']
             )
-            translations.append((
-                target,
-                self.comparer.similarity(text, target),
-                self.name,
-                item['OriginalText'],
-            ))
+            translations.append({
+                'text': target,
+                'quality': self.comparer.similarity(text, target),
+                'service': self.name,
+                'source': item['OriginalText'],
+            })
         return translations
 
     def convert_language(self, language):

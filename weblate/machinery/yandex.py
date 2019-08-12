@@ -77,6 +77,11 @@ class YandexTranslation(MachineTranslation):
         self.check_failure(response)
 
         return [
-            (translation, self.max_score, self.name, text)
+            {
+                'text': translation,
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text
+            }
             for translation in response['text']
         ]

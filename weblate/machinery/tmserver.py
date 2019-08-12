@@ -86,7 +86,12 @@ class TMServerTranslation(MachineTranslation):
         response = self.json_req(url)
 
         return [
-            (line['target'], int(line['quality']), self.name, line['source'])
+            {
+                'text': line['target'],
+                'quality': int(line['quality']),
+                'service': self.name,
+                'source': line['source']
+            }
             for line in response
         ]
 
