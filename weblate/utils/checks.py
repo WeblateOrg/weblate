@@ -167,7 +167,7 @@ def check_settings(app_configs, **kwargs):
     errors = []
 
     if (not settings.ADMINS
-            or 'noreply@weblate.org' in [x[1] for x in settings.ADMINS]):
+            or 'noreply@weblate.org' in (x[1] for x in settings.ADMINS)):
         errors.append(
             Error(
                 'The site admins seem to be wrongly configured',
