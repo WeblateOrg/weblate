@@ -42,7 +42,10 @@ class WhooshIndex(object):
         directory = data_dir(cls.LOCATION)
         if os.path.exists(directory):
             shutil.rmtree(directory)
-        del cls.THREAD.instance
+        try:
+            del cls.THREAD.instance
+        except AttributeError:
+            pass
 
     @cached_property
     def storage(self):
