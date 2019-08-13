@@ -253,11 +253,16 @@ Committer e-mail
     can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.
 Push on commit
     Whether committed changes should be automatically pushed to the upstream
-    repository.
+    repository. When enabled, the push is initiated once Weblate commits
+    changes to its internal repository (see :ref:`lazy-commit`). To actually
+    enable pushing :guilabel:`Repository push URL` has to be configured as
+    well.
 Age of changes to commit
     Sets how old changes (in hours) are to get before they are committed by
-    :djadmin:`commit_pending` management command (usually executed by Cron).
-    The Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
+    background task or :djadmin:`commit_pending` management command.  All
+    changes in a component are committed once there is at least one older than
+    this period.  The Default value can be changed by
+    :setting:`COMMIT_PENDING_HOURS`.
 Language filter
     Regular expression used to filter the translation when scanning for
     file mask. This can be used to limit the list of languages managed by Weblate
