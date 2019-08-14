@@ -63,6 +63,22 @@ class CommandTest(TestCase, TempDirMixin):
         user = User.objects.get(username='admin')
         self.assertTrue(user.check_password('123456'))
 
+    def test_createadmin_update_duplicate(self):
+        email = 'noreply+admin@weblate.org'
+        User.objects.create(username='another', email=email)
+        call_command('createadmin', update=True)
+        with self.assertRaises(CommandError):
+            call_command('createadmin', update=True, password='123456', email=email)
+        user = User.objects.get(username='another')
+        self.assertFalse(user.check_password('123456'))
+
+    def test_createadmin_update_email(self):
+        email = 'noreply+admin@weblate.org'
+        User.objects.create(username='another', email=email)
+        call_command('createadmin', update=True, password='123456', email=email)
+        user = User.objects.get(username='another')
+        self.assertTrue(user.check_password('123456'))
+
     def test_importusers(self):
         # First import
         call_command('importusers', get_test_file('users.json'))

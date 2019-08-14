@@ -24,6 +24,7 @@ import string
 from random import SystemRandom
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Q
 
 from weblate.auth.models import User
 
@@ -77,31 +78,33 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         """
-        exists = User.objects.filter(username=options['username']).exists()
-        if exists and not options['update']:
-            raise CommandError(
-                'User exists, specify --update to update existing'
-            )
+        try:
+            user = User.objects.filter(
+                Q(username=options['username']) | Q(email=options['email'])
+            ).get()
+        except User.DoesNotExist:
+            user = None
+        except User.MultipleObjectsReturned:
+            raise CommandError('Multiple users matched given parameters!')
+
+        if user and not options['update']:
+            raise CommandError('User exists, specify --update to update existing')
 
         if options['no_password']:
             password = None
         elif options['password']:
             password = options['password']
-            self.stdout.write('Creating user {}'.format(options['username']))
         else:
             password = self.make_password(13)
-            self.stdout.write(
-                'Creating user {} with password {}'.format(
-                    options['username'], password
-                )
-            )
+            self.stdout.write('Using generated password: {}'.format(password))
 
-        if exists and options['update']:
-            user = User.objects.get(username=options['username'])
+        if user and options['update']:
+            self.stdout.write('Updating user {}'.format(user.username))
             user.email = options['email']
             if password is not None:
                 user.set_password(password)
         else:
+            self.stdout.write('Creating user {}'.format(options['username']))
             user = User.objects.create_user(
                 options['username'],
                 options['email'],
