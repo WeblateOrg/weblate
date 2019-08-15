@@ -174,7 +174,14 @@ whenever new changes are pulled from the upstream repository.
 Squash Git commits
 ------------------
 
-Squash Git commits prior to pushing changes.
+Squash Git commits prior to pushing changes. You can choose one of following modes:
+
+* All commits into one
+* Per language
+* Per file
+* Per author
+
+Original commit messages are kept, but authorship is lost unless "Per author" is selected or the commit message is customized to include it.
 
 .. _addon-weblate.json.customize:
 
