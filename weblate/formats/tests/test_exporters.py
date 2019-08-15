@@ -39,6 +39,7 @@ from weblate.trans.models import (
     Dictionary,
     Project,
     Source,
+    Suggestion,
     Translation,
     Unit,
 )
@@ -124,6 +125,9 @@ class PoExporterTest(TestCase):
         unit.__dict__['source_info'] = Source(**source_info)
         if source_info:
             unit.get_comments = fake_get_comments
+            unit.__dict__['suggestions'] = [
+                Suggestion(target='Weblate translator suggestion')
+            ]
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
@@ -188,6 +192,8 @@ class PoExporterTest(TestCase):
         if self._has_comments:
             self.assertIn(b'Context in Weblate', result)
             self.assertIn(b'Weblate translator comment', result)
+            self.assertIn(b'Suggested in Weblate', result)
+            self.assertIn(b'Weblate translator suggestion', result)
 
     def setUp(self):
         self.exporter = self.get_exporter()

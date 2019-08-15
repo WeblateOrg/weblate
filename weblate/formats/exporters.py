@@ -158,6 +158,12 @@ class BaseExporter(object):
         # Comments
         for comment in unit.get_comments():
             output.addnote(comment.comment, origin='translator')
+        # Suggestions
+        for suggestion in unit.suggestions:
+            output.addnote(
+                'Suggested in Weblate: {}'.format(suggestion.target),
+                origin='translator'
+            )
 
         # Store flags
         if unit.all_flags:
