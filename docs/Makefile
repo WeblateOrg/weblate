@@ -181,7 +181,7 @@ update-screenshots:
 	@cd .. && \
 		export DJANGO_SETTINGS_MODULE=weblate.settings_test && \
 		./manage.py collectstatic --noinput && \
-		./manage.py test weblate.trans.tests.test_selenium.SeleniumTests
+		./manage.py test weblate.trans.tests.test_selenium.SeleniumTests.test_gpg
 	@set -e ;for file in ../test-images/*.png ; do \
 		echo Processing `basename $$file` ; \
 		cp $$file tmp.png ; \
