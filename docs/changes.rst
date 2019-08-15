@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 3.9
+------------
+
+Not yet released.
+
 weblate 3.8
 -----------
 
