@@ -155,6 +155,9 @@ class BaseExporter(object):
         note = self.string_filter(unit.source_info.context)
         if context:
             output.addnote(note, origin='developer')
+        # Comments
+        for comment in unit.get_comments():
+            output.addnote(comment.comment, origin='translator')
 
         # Store flags
         if unit.all_flags:

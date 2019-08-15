@@ -34,6 +34,7 @@ from weblate.formats.exporters import (
 from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
+    Comment,
     Component,
     Dictionary,
     Project,
@@ -44,9 +45,14 @@ from weblate.trans.models import (
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
+def fake_get_comments():
+    return [Comment(comment='Weblate translator comment')]
+
+
 class PoExporterTest(TestCase):
     _class = PoExporter
     _has_context = True
+    _has_comments = True
 
     def get_exporter(self, lang=None, **kwargs):
         if lang is None:
@@ -116,6 +122,8 @@ class PoExporterTest(TestCase):
         translation.store = EmptyFormat(BytesIOMode('', b''))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
         unit.__dict__['source_info'] = Source(**source_info)
+        if source_info:
+            unit.get_comments = fake_get_comments
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
@@ -177,7 +185,9 @@ class PoExporterTest(TestCase):
             self.assertIn(b'context', result)
         elif self._has_context is not None:
             self.assertNotIn(b'context', result)
-        print(result)
+        if self._has_comments:
+            self.assertIn(b'Context in Weblate', result)
+            self.assertIn(b'Weblate translator comment', result)
 
     def setUp(self):
         self.exporter = self.get_exporter()
@@ -227,6 +237,7 @@ class TBXExporterTest(PoExporterTest):
 class MoExporterTest(PoExporterTest):
     _class = MoExporter
     _has_context = True
+    _has_comments = False
 
     def check_plurals(self, result):
         self.assertIn(b'www', result)
@@ -251,6 +262,7 @@ class CSVExporterTest(PoExporterTest):
 class XlsxExporterTest(PoExporterTest):
     _class = XlsxExporter
     _has_context = False
+    _has_comments = False
 
     def check_plurals(self, result):
         # Doesn't support plurals
