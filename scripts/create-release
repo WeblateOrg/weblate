@@ -22,6 +22,7 @@ if [ "x$1" = "x--tag" ] ; then
     ./scripts/prepare-release
     git tag -s $namever -m "Version $version"
     cd ~/weblate/test
+    git pull -q
     git tag -s $namever -m "Test data for version $version"
     cd ~/weblate/weblate
 fi
@@ -47,6 +48,12 @@ if [ "x$1" = "x--tag" ] ; then
 
     # Download server
     scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
+
+    # Git tags
+    git push --tags
+    cd ~/weblate/test
+    git push --tags
+    cd ~/weblate/weblate
 
     # Upload to GitHub
     ./scripts/extract-release-notes $version > dist/Weblate-$version.md
