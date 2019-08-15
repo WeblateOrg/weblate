@@ -28,7 +28,7 @@
 <th>{% trans "Billing" %}</th>
 <td colspan="2">
 {% for billing in billings %}
-<a href="{% url 'billing' %}#billing-{{ billing.pk }}">{{ billing.plan }}{% if not billing.is_active %} ({% trans "Expired" %}){% endif %}</a>
+<a href="{{ billing.get_absolute_url }}">{{ billing.plan }}{% if not billing.is_active %} ({% trans "Expired" %}){% endif %}</a>
 {% endfor %}
 </td>
 </tr>

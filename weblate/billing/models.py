@@ -29,6 +29,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
@@ -191,6 +192,9 @@ class Billing(models.Model):
         else:
             base = 'Unassigned'
         return '{0} ({1})'.format(base, self.plan)
+
+    def get_absolute_url(self):
+        return '{}#billing-{}'.format(reverse('billing'), self.pk)
 
     def count_changes(self, interval):
         return Change.objects.filter(
