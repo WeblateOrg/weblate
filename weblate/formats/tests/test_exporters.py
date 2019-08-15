@@ -33,7 +33,14 @@ from weblate.formats.exporters import (
 )
 from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
-from weblate.trans.models import Component, Dictionary, Project, Translation, Unit
+from weblate.trans.models import (
+    Component,
+    Dictionary,
+    Project,
+    Source,
+    Translation,
+    Unit,
+)
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
@@ -106,6 +113,7 @@ class PoExporterTest(TestCase):
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(BytesIOMode('', b''))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
+        unit.__dict__['source_info'] = Source(check_flags='max-length:200')
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
