@@ -151,6 +151,10 @@ class BaseExporter(object):
         note = self.string_filter(unit.comment)
         if note:
             output.addnote(note, origin='developer')
+        # In Weblate context
+        note = self.string_filter(unit.source_info.context)
+        if context:
+            output.addnote(note, origin='developer')
 
         # Store flags
         if unit.all_flags:

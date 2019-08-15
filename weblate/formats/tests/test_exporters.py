@@ -82,7 +82,9 @@ class PoExporterTest(TestCase):
     def test_dictionary_special(self):
         self.check_dict(Dictionary(source='bar\x1e\x1efoo', target='br\x1eff'))
 
-    def check_unit(self, nplurals=3, template=None, **kwargs):
+    def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
+        if source_info is None:
+            source_info = {}
         if nplurals == 3:
             equation = 'n==0 ? 0 : n==1 ? 1 : 2'
         else:
@@ -113,7 +115,7 @@ class PoExporterTest(TestCase):
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(BytesIOMode('', b''))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
-        unit.__dict__['source_info'] = Source(check_flags='max-length:200')
+        unit.__dict__['source_info'] = Source(**source_info)
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
@@ -159,6 +161,23 @@ class PoExporterTest(TestCase):
             self.assertIn(b'context', result)
         elif self._has_context is not None:
             self.assertNotIn(b'context', result)
+
+    def test_extra_info(self):
+        result = self.check_unit(
+            source='foo',
+            target='bar',
+            context='context',
+            state=STATE_TRANSLATED,
+            source_info={
+                'check_flags': 'max-length:200',
+                'context': 'Context in Weblate',
+            },
+        )
+        if self._has_context:
+            self.assertIn(b'context', result)
+        elif self._has_context is not None:
+            self.assertNotIn(b'context', result)
+        print(result)
 
     def setUp(self):
         self.exporter = self.get_exporter()
