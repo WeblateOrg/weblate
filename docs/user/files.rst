@@ -16,6 +16,10 @@ Translatable files can be downloaded using the :guilabel:`Download source file`
 in the :guilabel:`Files` menu, producing a copy of the file as it is stored
 in upstream version control system.
 
+You can either download the original file as is or converted into one of widely
+used localization formats. The converted files will be enriched with data
+provided in Weblate such as additional context, comments or flags.
+
 Several file formats are available, including a compiled file
 to use in your choice of application (for example ``.mo`` files for GNU Gettext) using
 the :guilabel:`Files`.
