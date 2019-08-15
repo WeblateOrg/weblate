@@ -4,7 +4,7 @@ Changes
 weblate 3.8
 -----------
 
-Not yet released.
+Released on August 15th 2019.
 
 * Added support for simplified creating of similar components.
 * Added support for parsing translation flags from the XML based file formats.
