@@ -152,11 +152,9 @@ class BaseExporter(object):
         if note:
             output.addnote(note, origin='developer')
 
-        # Set type comment (for Gettext)
-        if hasattr(output, 'settypecomment'):
-            for flag in unit.flags.split(','):
-                if flag:
-                    output.settypecomment(flag)
+        # Store flags
+        if unit.all_flags:
+            self.store_flags(output, unit.all_flags)
 
         # Store fuzzy flag
         if unit.fuzzy:
@@ -187,6 +185,9 @@ class BaseExporter(object):
         """Return storage content"""
         return TTKitFormat.serialize(self.storage)
 
+    def store_flags(self, output, flags):
+        return
+
 
 @register_exporter
 class PoExporter(BaseExporter):
@@ -195,6 +196,10 @@ class PoExporter(BaseExporter):
     extension = 'po'
     verbose = _('gettext PO')
     _storage = pofile
+
+    def store_flags(self, output, flags):
+        for flag in flags.items():
+            output.settypecomment(flag)
 
     def get_storage(self):
         store = self._storage()
@@ -241,9 +246,15 @@ class PoXliffExporter(XMLExporter):
     def get_storage(self):
         return PoXliffFile()
 
+    def store_flags(self, output, flags):
+        if flags.has_value('max-length'):
+            output.xmlelement.set("maxwidth", str(flags.get_value('max-length')))
+
+        output.xmlelement.set("weblate-flags", flags.format())
+
 
 @register_exporter
-class XliffExporter(XMLExporter):
+class XliffExporter(PoXliffExporter):
     name = 'xliff11'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
@@ -297,6 +308,9 @@ class MoExporter(PoExporter):
             if self.monolingual:
                 unit = next(translation.store.translatable_units, None)
                 self.use_context = unit is not None and not unit.template.source
+
+    def store_flags(self, output, flags):
+        return
 
     def add_unit(self, unit):
         # We do not store not translated units
