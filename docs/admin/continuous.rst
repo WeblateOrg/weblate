@@ -306,6 +306,12 @@ fulfilled:
 * An explicit commit is requested.
 * Change is older than period defined as :guilabel:`Age of changes to commit` on :ref:`component`.
 
+.. hint::
+
+   Commits are created for every component. So in case you have many components
+   you will still see lot of commits. You might utilize
+   :ref:`addon-weblate.git.squash` addon in that case.
+
 If you want to commit changes more frequently and without checking of age, you
 can schedule a regular task to perform a commit:
 
