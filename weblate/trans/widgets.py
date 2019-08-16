@@ -272,7 +272,7 @@ class NormalWidget(BitmapWidget):
 @register_widget
 class SmallWidget(BitmapWidget):
     name = '88x31'
-    order = 120
+    order = 111
     font_size = 7
     verbose = ugettext_lazy('Small status badge')
 
@@ -391,7 +391,7 @@ class SVGBadgeWidget(SVGWidget):
 class MultiLanguageWidget(SVGWidget):
     name = 'multi'
     order = 81
-    colors = ('red', 'green', 'blue', 'auto')
+    colors = ('auto', 'red', 'green', 'blue')
     template_name = 'multi-language-badge.svg'
     verbose = ugettext_lazy('Vertical multi language status widget')
 
