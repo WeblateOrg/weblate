@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-12 11:52+0000\n"
-"PO-Revision-Date: 2019-08-15 07:40+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"PO-Revision-Date: 2019-08-20 14:23+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.8\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -8363,6 +8363,7 @@ msgid "The translation name does not match the one marked for deletion!"
 msgstr "Antamasi käännöksen nimi ei täsmää poistettavan kännöksen nimeen!"
 
 #: weblate/trans/models/alert.py:141
+#, fuzzy
 msgid "Duplicated string for translation."
 msgstr "Monistettu teksti kääntämiseen."
 
@@ -8384,11 +8385,11 @@ msgstr "Arkistoa ei voitu pushata."
 
 #: weblate/trans/models/alert.py:168
 msgid "Could not parse translation files."
-msgstr "Käännöstiedoston jäsennys epäonnistui."
+msgstr "Käännöstiedostojen jäsennys epäonnistui."
 
 #: weblate/trans/models/alert.py:174
 msgid "Your billing plan has exceeded its limits."
-msgstr "Laskutussuunnitelmasi on mennyt yli rajojen."
+msgstr "Laskutussuunnitelmasi on ylittänyt rajansa."
 
 #: weblate/trans/models/alert.py:179
 msgid "Repository outdated."
@@ -8496,11 +8497,11 @@ msgstr "Uudelleen alustettu (rebase) arkisto"
 
 #: weblate/trans/models/change.py:229
 msgid "Failed merge on repository"
-msgstr "Arkiston yhdistäminen epäonnistui: %s"
+msgstr "Arkiston yhdistäminen epäonnistui"
 
 #: weblate/trans/models/change.py:230
 msgid "Failed rebase on repository"
-msgstr "Arkiston uudelleen alustaminen (rebase) epäonnistui: %s"
+msgstr "Arkiston uudelleen alustaminen (rebase) epäonnistui"
 
 #: weblate/trans/models/change.py:231
 msgid "Failed push on repository"
@@ -8520,7 +8521,7 @@ msgstr "Ehdotus poistettu puhdistuksen yhteydessä"
 
 #: weblate/trans/models/change.py:240
 msgid "Source string changed"
-msgstr "Lähdeteksti muutettu"
+msgstr "Lähdetekstiä muutettu"
 
 #: weblate/trans/models/change.py:241
 msgid "New string added"
@@ -8622,15 +8623,15 @@ msgstr "Oletus perustuen tiedostomuotoon"
 
 #: weblate/trans/models/component.py:107
 msgid "POSIX style using underscore as a separator"
-msgstr "POSIX -tyylisesti käyttäen alaviivaa erottimena"
+msgstr "POSIX-tyylisesti käyttäen alaviivaa erottimena"
 
 #: weblate/trans/models/component.py:108
 msgid "BCP style using hyphen as a separator"
-msgstr "BCP -tyylisesti käyttäen väliviivaa erottimena"
+msgstr "BCP-tyylisesti käyttäen yhdysmerkkiä erottimena"
 
 #: weblate/trans/models/component.py:109
 msgid "Android style"
-msgstr "Android -tyylisesti"
+msgstr "Android-tyylisesti"
 
 #: weblate/trans/models/component.py:113
 msgid "Merge"
@@ -8661,7 +8662,7 @@ msgstr "Etäarkiston päivityslinkki (push URL)"
 #: weblate/trans/models/component.py:205
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
-"Etäarkiston push -osoite. Push ei ole käytettävissä jos tämä kohta jätetään "
+"Etäarkiston push-osoite. Push ei ole käytettävissä jos tämä kohta jätetään "
 "tyhjäksi."
 
 #: weblate/trans/models/component.py:210
@@ -8682,7 +8683,7 @@ msgstr "Viedyn arkiston osoite (URL)"
 
 #: weblate/trans/models/component.py:222
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "URL -osoite etäarkistoon josta Weblate voi hakea muutoksia"
+msgstr "URL-osoite etäarkistoon josta Weblate voi hakea muutoksia"
 
 #: weblate/trans/models/component.py:227
 msgid "Source string bug reporting address"
@@ -8710,9 +8711,8 @@ msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
 msgstr ""
-"Tiedostonimi käännöksen kantatiedostolle joka sisältää kaikki lähdetekstit; "
-"Kantatiedostoa on suositeltavaa käyttää jos on valittu yksikielinen "
-"käännösmuotoilu."
+"Tiedostonimi käännöksen kantatiedostolle joka sisältää kaikki lähdetekstit. "
+"Kantatiedostoa on suositeltavaa käyttää yksikielisille käännösmuodoille."
 
 #: weblate/trans/models/component.py:263
 msgid "Edit base file"
@@ -8722,9 +8722,7 @@ msgstr "Muokkaa kantatiedostoa"
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
-msgstr ""
-"Saavatko käyttäjät vai eivätkö he saa muokata kantatiedostoa yksikieliselle "
-"käännökselle."
+msgstr "Saavatko käyttäjät muokata kantatiedostoa yksikieliselle käännökselle."
 
 #: weblate/trans/models/component.py:271
 #, fuzzy
@@ -8741,6 +8739,7 @@ msgid "Locked component will not get any translation updates."
 msgstr "Lukittu käännöskomponentti ei voi vastaanottaa käännöspäivityksiä."
 
 #: weblate/trans/models/component.py:294
+#, fuzzy
 msgid "Allow translation propagation"
 msgstr "Salli automaattiset käännökset"
 
@@ -8749,8 +8748,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Käännösten päivitykset muihin komponentteihin aiheuttavat automaattisesti "
-"käännösten päivitykset myös tässä komponentissa"
+"Aiheuttavatko käännösten päivitykset muissa komponenteissa automaattisesti "
+"käännöksen tässä"
 
 #: weblate/trans/models/component.py:303
 msgid "Save translation history"
@@ -8758,7 +8757,7 @@ msgstr "Tallenna käännöshistoria"
 
 #: weblate/trans/models/component.py:306
 msgid "Whether Weblate should keep track of old translations."
-msgstr "Kuinka Weblaten tulisi säilyttää käännöshistoria."
+msgstr "Tuleeko Weblaten pitää kirjaa vanhoista käännöksistä."
 
 #: weblate/trans/models/component.py:310
 msgid "Turn on suggestions"
