@@ -93,7 +93,7 @@ Here is a list of flags currently accepted:
 ``ignore-javascript-format``
     Skip the "JavaScript format" quality check.
 ``ignore-optional-plural``
-    Skip the "Optional plural" quality check.
+    Skip the "Unpluralized" quality check.
 ``ignore-end-exclamation``
     Skip the "Trailing exclamation" quality check.
 ``ignore-end-colon``

@@ -622,11 +622,11 @@ Source checks can help developers improve the quality of source strings.
 
 .. _check-optional-plural:
 
-Optional plural
-~~~~~~~~~~~~~~~
+Unpluralised
+~~~~~~~~~~~~
 
-The string is optionally used as a plural, but does not use plural forms. In case
-your translation system supports this, you should use the plural aware variant of
+The string is used as a plural, but does not use plural forms. In case your
+translation system supports this, you should use the plural aware variant of
 it.
 
 For example with Gettext in Python it could be:

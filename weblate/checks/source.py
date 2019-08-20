@@ -35,9 +35,9 @@ PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
 class OptionalPluralCheck(SourceCheck):
     """Check for not used plural form."""
     check_id = 'optional_plural'
-    name = _('Optional plural')
+    name = _('Unpluralised')
     description = _(
-        'The string is optionally used as plural, but not using plural forms'
+        'The string is used as plural, but not using plural forms'
     )
     severity = 'info'
 
