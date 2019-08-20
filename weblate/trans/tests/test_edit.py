@@ -657,15 +657,15 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         # Ignore check for all languages
-        response = self.client.post(
-            reverse('js-ignore-check-source', kwargs={'check_id': check_id, 'pk': unit.source_info.pk})
+        ignore_url = reverse(
+            'js-ignore-check-source',
+            kwargs={'check_id': check_id, 'pk': unit.source_info.pk}
         )
+        response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(
-            reverse('js-ignore-check-source', kwargs={'check_id': check_id, 'pk': unit.source_info.pk})
-        )
+        response = self.client.post(ignore_url)
         self.assertContains(response, 'ok')
         # Should have one less check
         unit = self.get_unit()
