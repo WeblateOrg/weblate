@@ -9,6 +9,7 @@ Not yet released.
 * Include Weblate metadata in downloaded files.
 * Improved UI for failing checks.
 * Indicate missing strings in format checks.
+* Separate check for French punctuation spacing.
 
 weblate 3.8
 -----------

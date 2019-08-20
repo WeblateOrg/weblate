@@ -40,6 +40,7 @@ from weblate.checks.chars import (
     KashidaCheck,
     MaxLengthCheck,
     NewlineCountingCheck,
+    PuctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
@@ -88,10 +89,6 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
-    def test_french(self):
-        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
-        self.do_test(True, ('Text', 'Texte ', ''), 'fr')
-
 
 class EndStopCheckTest(CheckTestCase):
     check = EndStopCheck()
@@ -137,18 +134,6 @@ class EndColonCheckTest(CheckTestCase):
     def test_japanese_ignore(self):
         self.do_test(False, ('Text', 'Texte', ''), 'ja')
 
-    def test_french_1(self):
-        self.do_test(False, ('Text:', 'Texte : ', ''), 'fr')
-
-    def test_french_2(self):
-        self.do_test(False, ('Text:', 'Texte :', ''), 'fr')
-
-    def test_french_ignore(self):
-        self.do_test(False, ('Text', 'Texte', ''), 'fr')
-
-    def test_french_wrong(self):
-        self.do_test(True, ('Text:', 'Texte:', ''), 'fr')
-
 
 class EndQuestionCheckTest(CheckTestCase):
     check = EndQuestionCheck()
@@ -163,17 +148,6 @@ class EndQuestionCheckTest(CheckTestCase):
         self.do_test(False, ('Text?', 'Texte՞', ''), 'hy')
         self.do_test(True, ('Text?', 'Texte', ''), 'hy')
         self.do_test(False, ('Text', 'Texte?', ''), 'hy')
-
-    def test_french(self):
-        self.do_test(False, ('Text?', 'Texte ?', ''), 'fr')
-        self.do_test(False, ('Text?', 'Texte\u202F?', ''), 'fr')
-        self.do_test(False, ('Text?', 'Texte&nbsp;?', ''), 'fr')
-
-    def test_french_ignore(self):
-        self.do_test(False, ('Text', 'Texte', ''), 'fr')
-
-    def test_french_wrong(self):
-        self.do_test(True, ('Text?', 'Texte?', ''), 'fr')
 
     def test_greek(self):
         self.do_test(False, ('Text?', 'Texte;', ''), 'el')
@@ -202,16 +176,6 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_eu(self):
         self.do_test(False, ('Text!', '¡Texte!', ''), 'eu')
-
-    def test_french(self):
-        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
-
-    def test_french_ignore(self):
-        self.do_test(False, ('Text', 'Texte', ''), 'fr')
-
-    def test_french_wrong(self):
-        self.do_test(True, ('Text!', 'Texte!', ''), 'fr')
-        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
 
 
 class EndEllipsisCheckTest(CheckTestCase):
@@ -322,3 +286,20 @@ class KashidaCheckTest(CheckTestCase):
         self.test_failure_1 = ('string', 'string\u0640', '')
         self.test_failure_2 = ('string', 'string\uFE79', '')
         self.test_failure_3 = ('string', 'string\uFE7F', '')
+
+
+class PuctuationSpacingCheckTest(CheckTestCase):
+    check = PuctuationSpacingCheck()
+    default_lang = 'fr'
+
+    def setUp(self):
+        super(PuctuationSpacingCheckTest, self).setUp()
+        self.test_good_matching = (
+            'string? string! string: string;',
+            'string ? string\u202F! string&nbsp;; string\u00A0:',
+            ''
+        )
+        self.test_good_none = ('string', 'string', '')
+        self.test_failure_1 = ('string', 'string!', '')
+        self.test_failure_2 = ('string', 'string\u00A0? string;', '')
+        self.test_failure_3 = ('string', 'string\u00A0; string?', '')

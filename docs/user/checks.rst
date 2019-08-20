@@ -104,10 +104,9 @@ The presence of full stops is checked for various languages where they do not be
 Trailing colon
 ~~~~~~~~~~~~~~
 
-Checks that colons are replicated between both source and translation, and
-that the they are correctly spaced. This includes rules for languages like French or
-Breton. The presence of colons is also checked for various languages where they do not belong
-(Chinese or Japanese).
+Checks that colons are replicated between both source and translation. The
+presence of colons is also checked for various languages where they do not
+belong (Chinese or Japanese).
 
 .. seealso::
 
@@ -118,10 +117,10 @@ Breton. The presence of colons is also checked for various languages where they 
 Trailing question mark
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Checks that question marks are replicated between both source and translation, and
-that they are correctly spaced or similar. This includes spacing rules for languages like French or
-Breton. The presence of question marks is also checked for various languages where they
-do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or Coptic).
+Checks that question marks are replicated between both source and translation.
+The presence of question marks is also checked for various languages where they
+do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
+Coptic).
 
 .. seealso::
 
@@ -132,14 +131,30 @@ do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or Cop
 Trailing exclamation
 ~~~~~~~~~~~~~~~~~~~~
 
-Checks that exclamations are replicated between both source and translation, and that they are
-correctly spaced. This includes spacing rules for languages like French or
-Breton. The presence of exclamation marks is also checked for various languages where they
-do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
+Checks that exclamations are replicated between both source and translation.
+The presence of exclamation marks is also checked for various languages where
+they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or
+Nko).
 
 .. seealso::
 
    `Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/Exclamation_mark>`_
+
+.. _check-punctuation-spacing:
+
+Punctuation spacing
+~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.9
+
+Checks that there is non breakable space before double punctuation sign
+(exclamation mark, question mark, semicolon and colon). This rule is used only
+in a few selected languages like French or Breton, where space before double
+punctuation sign is a typographic rule.
+
+.. seealso::
+
+   `French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/History_of_sentence_spacing#French_and_English_spacing>`_
 
 .. _check-end-ellipsis:
 

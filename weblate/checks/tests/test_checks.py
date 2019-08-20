@@ -87,6 +87,7 @@ class MockUnit(object):
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
     check = None
+    default_lang = 'cs'
 
     def setUp(self):
         self.test_empty = ('', '', '')
@@ -102,7 +103,9 @@ class CheckTestCase(SimpleTestCase):
         )
         self.test_highlight = ()
 
-    def do_test(self, expected, data, lang='cs'):
+    def do_test(self, expected, data, lang=None):
+        if lang is None:
+            lang = self.default_lang
         """Perform single check if we have data to test."""
         if not data or self.check is None:
             return
@@ -150,7 +153,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_flag[0]],
                 [self.test_good_flag[1]],
-                MockUnit(None, self.test_good_flag[2])
+                MockUnit(None, self.test_good_flag[2], self.default_lang)
             )
         )
 
@@ -161,7 +164,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(None, self.test_good_matching[2])
+                MockUnit(None, self.test_good_matching[2], self.default_lang)
             )
         )
 
@@ -172,7 +175,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
-                MockUnit(None, self.test_good_matching[2])
+                MockUnit(None, self.test_good_matching[2], self.default_lang)
             )
         )
 
@@ -183,7 +186,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
-                MockUnit(None, self.test_failure_1[2])
+                MockUnit(None, self.test_failure_1[2], self.default_lang)
             )
         )
 
@@ -194,7 +197,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
-                MockUnit(None, self.test_failure_1[2])
+                MockUnit(None, self.test_failure_1[2], self.default_lang)
             )
         )
 
@@ -205,7 +208,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_ignore_check[0]] * 2,
                 [self.test_ignore_check[1]] * 3,
-                MockUnit(None, self.test_ignore_check[2])
+                MockUnit(None, self.test_ignore_check[2], self.default_lang)
             )
         )
 
@@ -215,6 +218,7 @@ class CheckTestCase(SimpleTestCase):
         unit = MockUnit(
             None,
             self.test_highlight[0],
+            self.default_lang,
             source=self.test_highlight[1]
         )
         self.assertEqual(

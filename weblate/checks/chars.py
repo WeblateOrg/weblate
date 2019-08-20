@@ -98,9 +98,6 @@ class EndSpaceCheck(TargetCheck):
             return False
         if not source or not target:
             return False
-        if (self.is_language(unit, ('fr', 'br'))
-                and source[-1] in [':', '!', '?'] and target[-1] == ' '):
-            return False
 
         stripped_target = target.rstrip(' ')
         stripped_source = source.rstrip(' ')
@@ -168,21 +165,9 @@ class EndColonCheck(TargetCheck):
     check_id = 'end_colon'
     name = _('Trailing colon')
     description = _(
-        'Source and translation do not both end with a colon '
-        'or colon is not correctly spaced'
-    )
-    colon_fr = (
-        ' :', ' : ',
-        '&nbsp;:', '&nbsp;: ',
-        '\u00A0:', '\u00A0: ',
-        '\u202F:', '\u202F: '
+        'Source and translation do not both end with a colon'
     )
     severity = 'warning'
-
-    def _check_fr(self, source, target):
-        if source[-1] != ':':
-            return False
-        return not self.check_ends(target, self.colon_fr)
 
     def _check_hy(self, source, target):
         if source[-1] == ':':
@@ -211,8 +196,6 @@ class EndColonCheck(TargetCheck):
             return False
         if self.is_language(unit, ('jbo', )):
             return False
-        if self.is_language(unit, ('fr', 'br')):
-            return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
             return self._check_hy(source, target)
         if self.is_language(unit, ('ja', )):
@@ -226,22 +209,10 @@ class EndQuestionCheck(TargetCheck):
     check_id = 'end_question'
     name = _('Trailing question')
     description = _(
-        'Source and translation do not both end with a question mark '
-        'or it is not correctly spaced'
-    )
-    question_fr = (
-        ' ?', ' ? ',
-        '&nbsp;?', '&nbsp;? ',
-        '\u00A0?', '\u00A0? ',
-        '\u202F?', '\u202F? '
+        'Source and translation do not both end with a question mark'
     )
     question_el = ('?', ';', ';')
     severity = 'warning'
-
-    def _check_fr(self, source, target):
-        if source[-1] != '?':
-            return False
-        return not self.check_ends(target, self.question_fr)
 
     def _check_hy(self, source, target):
         if source[-1] == '?':
@@ -263,8 +234,6 @@ class EndQuestionCheck(TargetCheck):
             return False
         if self.is_language(unit, ('jbo', )):
             return False
-        if self.is_language(unit, ('fr', 'br')):
-            return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
             return self._check_hy(source, target)
         if self.is_language(unit, ('el', )):
@@ -284,21 +253,8 @@ class EndExclamationCheck(TargetCheck):
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
     description = _(
-        'Source and translation do not both end with an exclamation mark '
-        'or it is not correctly spaced'
+        'Source and translation do not both end with an exclamation mark'
     )
-    exclamation_fr = (
-        ' !', ' ! ',
-        '&nbsp;!', '&nbsp;! ',
-        '\u00A0!', '\u00A0! ',
-        '\u202F!', '\u202F! ',
-    )
-    severity = 'warning'
-
-    def _check_fr(self, source, target):
-        if source[-1] != '!':
-            return False
-        return not self.check_ends(target, self.exclamation_fr)
 
     def check_single(self, source, target, unit):
         if not source or not target:
@@ -308,8 +264,6 @@ class EndExclamationCheck(TargetCheck):
             return False
         if self.is_language(unit, ('hy', 'jbo')):
             return False
-        if self.is_language(unit, ('fr', 'br')):
-            return self._check_fr(source, target)
         if source.endswith('Texy!') or target.endswith('Texy!'):
             return False
         return self.check_chars(
@@ -400,3 +354,26 @@ class KashidaCheck(TargetCheck):
 
     def check_single(self, source, target, unit):
         return any((x in target for x in KASHIDA_CHARS))
+
+
+class PuctuationSpacingCheck(TargetCheck):
+    check_id = 'punctuation-spacing'
+    name = _('Punctuation spacing')
+    description = _('Missing non breakable space before double punctuation sign')
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        if not self.is_language(unit, ('fr', 'br')):
+            return False
+
+        # Replace HTML markup to simplify parsing
+        target = target.replace('&nbsp;', '\u00A0')
+
+        punctuation = {';', ':', '?', '!'}
+        whitespace = {' ', '\u00A0', '\u202F'}
+
+        for i, char in enumerate(target):
+            if char in punctuation:
+                if i == 0 or target[i - 1] not in whitespace:
+                    return True
+        return False
