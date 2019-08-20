@@ -32,7 +32,7 @@ from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import CheckFlagsForm, ContextForm
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Source, Unit
 from weblate.trans.util import sort_objects
 from weblate.utils.errors import report_error
 from weblate.utils.hash import checksum_to_hash
@@ -140,6 +140,7 @@ def get_unit_translations(request, unit_id):
     )
 
 
+@require_POST
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     request.user.check_access(obj.project)
@@ -149,6 +150,31 @@ def ignore_check(request, check_id):
 
     # Mark check for ignoring
     obj.set_ignore()
+    # response for AJAX
+    return HttpResponse('ok')
+
+
+@require_POST
+def ignore_check_source(request, check_id, pk):
+    obj = get_object_or_404(Check, pk=int(check_id))
+    request.user.check_access(obj.project)
+    source = get_object_or_404(Source, pk=int(pk))
+
+    if (obj.project != source.component.project
+            or not request.user.has_perm('unit.check', obj.project)
+            or not request.user.has_perm('source.edit', source.component)):
+        raise PermissionDenied()
+
+    # Mark check for ignoring
+    ignore = obj.check_obj.ignore_string
+    if ignore not in source.check_flags:
+        if source.check_flags:
+            source.check_flags += ', {}'.format(ignore)
+        else:
+            source.check_flags = ignore
+        source.save()
+
+    #obj.set_ignore()
     # response for AJAX
     return HttpResponse('ok')
 

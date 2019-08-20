@@ -923,13 +923,20 @@ $(function () {
         $this.tooltip('destroy');
     });
 
-
     /* Check ignoring */
-    $('.check').on('close.bs.alert', function () {
+    $('.dismiss-single,.dismiss-all').click(function () {
         var $this = $(this);
+        var $form = $('#link-post');
 
-        $.get($this.data('href'));
-        $this.tooltip('destroy');
+        $.ajax({
+            type: 'POST',
+            url: $this.attr('href'),
+            data: {
+                csrfmiddlewaretoken: $form.find('input').val(),
+            },
+        });
+        $this.parents('.check').remove();
+        return false;
     });
 
     /* Check link clicking */
@@ -1249,7 +1256,7 @@ $(function () {
                 Mousetrap.bindGlobal(
                     ['ctrl+i ' + key, 'command+i ' + key],
                     function(e) {
-                        $this.find('.close').click();
+                        $this.find('.dismiss-single').click();
                         return false;
                     }
                 );

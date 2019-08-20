@@ -646,14 +646,31 @@ class EditComplexTest(ViewTestCase):
 
         # Ignore check
         check_id = unit.active_checks()[0].id
-        response = self.client.get(
+        response = self.client.post(
             reverse('js-ignore-check', kwargs={'check_id': check_id})
+        )
+        self.assertContains(response, 'ok')
+        # Should have one less failing check
+        unit = self.get_unit()
+        self.assertFalse(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(unit.translation.stats.allchecks, 0)
+        # Ignore check for all languages
+        response = self.client.post(
+            reverse('js-ignore-check-source', kwargs={'check_id': check_id, 'pk': unit.source_info.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse('js-ignore-check-source', kwargs={'check_id': check_id, 'pk': unit.source_info.pk})
         )
         self.assertContains(response, 'ok')
         # Should have one less check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
 

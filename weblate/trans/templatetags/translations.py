@@ -335,15 +335,6 @@ def show_message(tags, message):
     }
 
 
-@register.inclusion_tag('list-checks.html')
-def show_checks(obj, checks, user):
-    return {
-        'checks': checks,
-        'user': user,
-        'object': obj,
-    }
-
-
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
 

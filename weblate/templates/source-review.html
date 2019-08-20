@@ -37,11 +37,13 @@
 <td class="translatetext expander">{% format_translation source.source source.translation.component.project.source_language %}</td>
 <td class="translatetext expander">{% if source.context %}{% format_translation source.context source.translation.component.project.source_language %}{% endif %}</td>
 <td class="source-checks">
+<div class="list-group">
 {% if ignored %}
-{% show_checks source.translation.component.project source.source_checks user %}
+{% include "snippets/list-checks.html" with object=source.translation.component.project checks=source.source_checks %}
 {% else %}
-{% show_checks source.translation.component.project source.active_source_checks user %}
+{% include "snippets/list-checks.html" with object=source.translation.component.project checks=source.active_source_checks %}
 {% endif %}
+    </div>
 {% if comments %}
 <div class="alert alert-info check">{% trans "Comment" %}</div>
 {% endif %}

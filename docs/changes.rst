@@ -7,6 +7,7 @@ weblate 3.9
 Not yet released.
 
 * Include Weblate metadata in downloaded files.
+* Improved UI for failing checks.
 
 weblate 3.8
 -----------

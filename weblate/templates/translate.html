@@ -462,16 +462,33 @@
 
 {% with unit.active_checks as checks %}
 {% if checks or unit.suggestions %}
-<div class="panel panel-danger">
+<div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
+
+  <div class="list-group">
   {% if unit.suggestions %}
-  <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions|length }}</span></div>
+    <div class="list-group-item list-group-item-{% if unit.approved %}danger{% else %}warning{% endif %} check">
+        <h4 class="list-group-item-heading">{% trans "Suggestions" %} {% documentation_icon 'user/translating' 'suggestions' %}</h4>
+        <p class="list-group-item-text">{% blocktrans count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text list-buttons">
+            <a href="#suggestions" data-toggle="tab" class="btn btn-primary btn-sm">{% trans "View" %}</a>
+        </p>
+    </div>
   {% endif %}
-  {% show_checks unit.translation checks user %}
+  {% include "snippets/list-checks.html" with source=unit.source_info object=unit.translation checks=checks %}
+
   {% if comments %}
-  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments|length }}</span></div>
+    <div class="list-group-item list-group-item-info check">
+        <h4 class="list-group-item-heading">{% trans "Comments" %} {% documentation_icon 'user/translating' 'comments' %}</h4>
+        <p class="list-group-item-text">{% blocktrans count count=comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text list-buttons">
+            <a href="#comments" data-toggle="tab" class="btn btn-primary btn-sm">{% trans "View" %}</a>
+        </p>
+    </div>
   {% endif %}
+
+  </div>
   </div>
 </div>
 {% endif %}
@@ -595,7 +612,11 @@
     <th>{% trans "Failing checks" %}</th>
     </tr>
     <tr>
-    <td>{% show_checks unit.translation checks user %}</td>
+    <td>
+    <div class="list-group">
+    {% include "snippets/list-checks.html" with object=unit.translation checks=checks %}
+    </div>
+    </td>
     </tr>
     {% endif %}
     {% endwith %}

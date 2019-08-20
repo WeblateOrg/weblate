@@ -23,7 +23,11 @@
 <tr>
 <th>{{ unit.translation.language }}</th>
 <td>{% get_state_flags unit %}</td>
-<td>{% show_checks project unit.checks user %}</td>
+<td>
+<div class="list-group">
+{% include "snippets/list-checks.html" with object=project checks=unit.checks %}
+</div>
+</td>
 <td><a href="{{ unit.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}

@@ -978,6 +978,11 @@ real_patterns = [
         name='js-ignore-check',
     ),
     url(
+        r'^js/ignore-check/(?P<check_id>[0-9]+)/source/(?P<pk>[0-9]+)/$',
+        weblate.trans.views.js.ignore_check_source,
+        name='js-ignore-check-source',
+    ),
+    url(
         r'^js/i18n/$',
         cache_page(3600)(
             vary_on_cookie(
