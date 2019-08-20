@@ -49,6 +49,14 @@ arises, which will prompt another translator to review it.
 The suggestions are dialy scanned to remove duplicate ones or the one where
 suggestion matches current translation.
 
+Comments
+--------
+
+The comments can be posted in two scopes - source string or translation. Choose
+the one which matches topic you want to discuss. The source string comments are
+good for prividing feedback on the original string, for example that it should
+be rephrased or is confusing.
+
 Translating
 -----------
 
