@@ -99,9 +99,9 @@ Here is a list of flags currently accepted:
 ``ignore-end-colon``
     Skip the "Trailing colon" quality check.
 ``ignore-xml-invalid``
-    Skip the "Invalid XML markup" quality check.
+    Skip the "XML syntax" quality check.
 ``ignore-xml-tags``
-    Skip the "XML tags mismatch" quality check.
+    Skip the "XML markup" quality check.
 ``ignore-python-format``
     Skip the "Python format" quality check.
 ``ignore-plurals``
@@ -109,7 +109,7 @@ Here is a list of flags currently accepted:
 ``ignore-begin-space``
     Skip the "Starting spaces" quality check.
 ``ignore-bbcode``
-    Skip the "Mismatched BBcode" quality check.
+    Skip the "BBcode markup" quality check.
 ``ignore-multiple-failures``
     Skip the "Multiple failing checks" quality check.
 ``ignore-php-format``

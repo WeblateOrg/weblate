@@ -465,8 +465,8 @@ Check fails if the number of ``\\n`` literals in translation do not match the so
 
 .. _check-bbcode:
 
-Mismatched BBCode
-~~~~~~~~~~~~~~~~~
+BBcode markup
+~~~~~~~~~~~~~
 
 BBCode represents simple markup, like for example highlighting important parts of a
 message in bold font, or italics.
@@ -495,8 +495,8 @@ in translation. Some programs might have problems when this character is used.
 
 .. _check-xml-invalid:
 
-Invalid XML markup
-~~~~~~~~~~~~~~~~~~
+XML syntax
+~~~~~~~~~~
 
 .. versionadded:: 2.8
 
@@ -504,8 +504,8 @@ The XML markup is not valid.
 
 .. _check-xml-tags:
 
-XML tags mismatch
-~~~~~~~~~~~~~~~~~
+XML markup
+~~~~~~~~~~
 
 This usually means the resulting output will look different. In most cases this is
 not desired result from changing the translation, but occasionally it is.
@@ -515,12 +515,12 @@ Checks that XML tags are replicated between both source and translation.
 
 .. _check-md-reflink:
 
-Markdown link references
-~~~~~~~~~~~~~~~~~~~~~~~~
+Markdown references
+~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 3.5
 
-Markdown link references does not match source.
+Markdown link references do not match source.
 
 .. seealso::
 

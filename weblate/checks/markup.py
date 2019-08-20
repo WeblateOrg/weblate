@@ -73,7 +73,7 @@ def strip_entities(text):
 class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
     check_id = 'bbcode'
-    name = _('Mismatched BBcode')
+    name = _('BBcode markup')
     description = _('BBcode in translation does not match source')
     severity = 'warning'
 
@@ -136,7 +136,7 @@ class BaseXMLCheck(TargetCheck):
 class XMLValidityCheck(BaseXMLCheck):
     """Check whether XML in target is valid."""
     check_id = 'xml-invalid'
-    name = _('Invalid XML markup')
+    name = _('XML syntax')
     description = _('The translation is not valid XML')
     severity = 'danger'
 
@@ -164,7 +164,7 @@ class XMLValidityCheck(BaseXMLCheck):
 class XMLTagsCheck(BaseXMLCheck):
     """Check whether XML in target matches source."""
     check_id = 'xml-tags'
-    name = _('XML tags mismatch')
+    name = _('XML markup')
     description = _('XML tags in translation do not match source')
     severity = 'warning'
 
@@ -216,8 +216,8 @@ class MarkdownBaseCheck(TargetCheck):
 
 class MarkdownRefLinkCheck(MarkdownBaseCheck):
     check_id = 'md-reflink'
-    name = _('Markdown link references')
-    description = _('Markdown link references does not match source')
+    name = _('Markdown references')
+    description = _('Markdown link references do not match source')
 
     def check_single(self, source, target, unit):
         src_match = MD_REFLINK.findall(source)
