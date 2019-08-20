@@ -357,7 +357,7 @@ class KashidaCheck(TargetCheck):
 
 
 class PuctuationSpacingCheck(TargetCheck):
-    check_id = 'punctuation-spacing'
+    check_id = 'punctuation_spacing'
     name = _('Punctuation spacing')
     description = _('Missing non breakable space before double punctuation sign')
     severity = 'warning'

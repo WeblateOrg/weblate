@@ -128,6 +128,8 @@ Here is a list of flags currently accepted:
     Skip the "Qt plural format" quality check.
 ``ignore-ruby-format``
     Skip the "Ruby format" quality check.
+``ignore-punctuation-spacing``
+    Skip the "Punctuation spacing" quality check.
 
 .. note::
 
