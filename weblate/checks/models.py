@@ -153,7 +153,7 @@ class Check(UnitData):
 
     def get_description(self):
         if self.check_obj:
-            return self.check_obj.description
+            return self.check_obj.get_description(self.related_units[0])
         return self.check
 
     def get_name(self):

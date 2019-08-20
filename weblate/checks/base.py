@@ -131,6 +131,9 @@ class Check(object):
         """
         return []
 
+    def get_description(self, unit):
+        return self.description
+
 
 class TargetCheck(Check):
     """Basic class for target checks."""

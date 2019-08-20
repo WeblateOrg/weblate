@@ -162,39 +162,42 @@ class BaseFormatCheck(TargetCheck):
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
+        for result in self.check_generator(sources, targets, unit):
+            if result:
+                return True
+        return False
+
+    def check_generator(self, sources, targets, unit):
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
-            return self.check_format(
+            yield self.check_format(
                 sources[1],
                 targets[0],
                 False
             )
+            return
 
         # Check singular
-        singular_check = self.check_format(
+        yield self.check_format(
             sources[0],
             targets[0],
             len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1
         )
-        if singular_check:
-            return True
 
         # Do we have more to check?
         if len(sources) == 1:
-            return False
+            return
 
         # Check plurals against plural from source
         for i, target in enumerate(targets[1:]):
-            plural_check = self.check_format(
+            yield self.check_format(
                 sources[1],
                 target,
                 len(unit.translation.plural.examples[i + 1]) == 1
             )
-            if plural_check:
-                return True
 
-        # Check did not fire
-        return False
+    def format_string(self, string):
+        return '%{}'.format(string)
 
     def cleanup_string(self, text):
         """Remove locale specific code from format string"""
@@ -232,8 +235,15 @@ class BaseFormatCheck(TargetCheck):
             # for first of plurals
             if ignore_missing and tgt_matches < src_matches:
                 return False
-            return True
-
+            if not uses_position:
+                return src_matches - tgt_matches
+            result = []
+            for i in range(min(len(src_matches), len(tgt_matches))):
+                if src_matches[i] != tgt_matches[i]:
+                    result.append(src_matches[i])
+            result.extend(src_matches[len(tgt_matches):])
+            result.extend(tgt_matches[len(src_matches):])
+            return result
         return False
 
     def is_position_based(self, string):
@@ -251,6 +261,17 @@ class BaseFormatCheck(TargetCheck):
         for match in match_objects:
             ret.append((match.start(), match.end(), match.group()))
         return ret
+
+    def get_description(self, unit):
+        checks = self.check_generator(
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
+        )
+        for result in checks:
+            if result:
+                return _('Following format strings are wrong: %s') % ', '.join(
+                    self.format_string(x) for x in result
+                )
+        return super(BaseFormatCheck, self).get_description(unit)
 
 
 class PythonFormatCheck(BaseFormatCheck):
@@ -314,6 +335,9 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return string == ''
 
+    def format_string(self, string):
+        return '{%s}' % string
+
 
 class CSharpFormatCheck(BaseFormatCheck):
     """Check for C# format string"""
@@ -324,6 +348,9 @@ class CSharpFormatCheck(BaseFormatCheck):
 
     def is_position_based(self, string):
         return string == ''
+
+    def format_string(self, string):
+        return '{%s}' % string
 
 
 class JavaFormatCheck(BaseFormatCheck):
@@ -347,6 +374,9 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     def is_position_based(self, string):
         return False
 
+    def format_string(self, string):
+        return '{%s}' % string
+
     def should_skip(self, unit):
         if 'auto-java-messageformat' in unit.all_flags and '{0' in unit.source:
             return False
@@ -364,7 +394,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
         # Even number of quotes
         if target.count("'") % 2 != 0:
-            return True
+            return ["'"]
 
         return super(JavaMessageFormatCheck, self).check_format(
             source, target, ignore_missing

@@ -8,6 +8,7 @@ Not yet released.
 
 * Include Weblate metadata in downloaded files.
 * Improved UI for failing checks.
+* Indicate missing strings in format checks.
 
 weblate 3.8
 -----------
