@@ -174,7 +174,6 @@ def ignore_check_source(request, check_id, pk):
             source.check_flags = ignore
         source.save()
 
-    #obj.set_ignore()
     # response for AJAX
     return HttpResponse('ok')
 
