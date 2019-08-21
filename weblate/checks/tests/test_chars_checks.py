@@ -299,7 +299,9 @@ class PuctuationSpacingCheckTest(CheckTestCase):
             'string ? string\u202F! string&nbsp;; string\u00A0:',
             ''
         )
-        self.test_good_none = ('string', 'string', '')
+        self.test_good_none = (
+            'string http://example.com', 'string http://example.com', ''
+        )
         self.test_failure_1 = ('string', 'string!', '')
         self.test_failure_2 = ('string', 'string\u00A0? string;', '')
         self.test_failure_3 = ('string', 'string\u00A0; string?', '')
