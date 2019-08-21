@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-12 11:52+0000\n"
-"PO-Revision-Date: 2019-08-20 14:23+0000\n"
+"PO-Revision-Date: 2019-08-22 10:57+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -8769,15 +8769,15 @@ msgstr "Sallitaanko käännösehdotukset vai ei."
 
 #: weblate/trans/models/component.py:317
 msgid "Suggestion voting"
-msgstr "Äänestä ehdotusta"
+msgstr "Ehdotuksista äänestäminen"
 
 #: weblate/trans/models/component.py:320
 msgid "Whether users can vote for suggestions."
-msgstr "Käyttäjät voivat äänestää käännösehdotuksia."
+msgstr "Voivatko käyttäjät äänestää käännösehdotuksia."
 
 #: weblate/trans/models/component.py:324
 msgid "Autoaccept suggestions"
-msgstr "Vaadittava äänimäärä ehdotuksen automaattiseen hyväksymiseen"
+msgstr "Hyväksy ehdotukset automaattisesti"
 
 #: weblate/trans/models/component.py:327
 msgid ""
@@ -8805,11 +8805,11 @@ msgstr "Valinnainen lyhyt yhteenveto käännöksissä käytettävästä lisenssi
 
 #: weblate/trans/models/component.py:354
 msgid "License URL"
-msgstr "Lisenssin URL"
+msgstr "Lisenssin URL-osoite"
 
 #: weblate/trans/models/component.py:357
 msgid "Optional URL with license details."
-msgstr "Valinnainen URL lisenssin tietoihin."
+msgstr "Valinnainen URL-osoite lisenssin tietoihin."
 
 #: weblate/trans/models/component.py:364
 msgid ""
@@ -8821,7 +8821,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:376
 msgid "How to handle requests for creating new translations."
-msgstr "Miten käsitellään uusien kielien lisäämispyynnöt."
+msgstr "Miten uusien kielien lisäämispyynnöt käsitellään."
 
 #: weblate/trans/models/component.py:380
 msgid "Language code style"
@@ -8832,8 +8832,8 @@ msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
-"Muokkaa kielikoodin muotoa jota Weblate käyttää uusien käännösten "
-"tiedostonimien generoimiseen."
+"Muokkaa kielikoodia, jota Weblate käyttää uusien käännösten tiedostonimien "
+"generoimiseen."
 
 #: weblate/trans/models/component.py:393
 msgid "Merge style"
@@ -8849,7 +8849,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:403
 msgid "Commit message when translating"
-msgstr "Käännösten commit -viesti"
+msgstr "Käännösten commit-viesti"
 
 #: weblate/trans/models/component.py:405 weblate/trans/models/component.py:414
 #: weblate/trans/models/component.py:423 weblate/trans/models/component.py:432
@@ -8863,19 +8863,19 @@ msgstr ""
 
 #: weblate/trans/models/component.py:412
 msgid "Commit message when adding translation"
-msgstr "Commit -viesti uuden kielen lisäyksen yhteydessä"
+msgstr "Commit-viesti käännöstä lisättäessä"
 
 #: weblate/trans/models/component.py:421
 msgid "Commit message when removing translation"
-msgstr "Commit -viesti kielen poistamisen yhteydessä"
+msgstr "Commit-viesti käännöstä poistettaessa"
 
 #: weblate/trans/models/component.py:430
 msgid "Commit message when merging translation"
-msgstr "Commit -viesti käännöksen mergeämisen yhteydessä"
+msgstr "Commit-viesti käännöstä yhdistettäessä (merge)"
 
 #: weblate/trans/models/component.py:439
 msgid "Commit message when addon makes a change"
-msgstr "Commit -viesti lisäosan tekemän muutoksen yhteydessä"
+msgstr "Commit-viesti lisäosan tehdessä muutoksen"
 
 #: weblate/trans/models/component.py:448
 msgid "Committer name"
@@ -8924,14 +8924,14 @@ msgstr "linkitetty"
 #: weblate/trans/models/component.py:605
 #, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "Tämä käännöskomponentti on liitetty %(target)s etäarkistoon."
+msgstr "Tämä käännöskomponentti on linkitetty %(target)s-etäarkistoon."
 
 #: weblate/trans/models/component.py:762
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"SSH isännän avainta ei voitu vahvistaa. Lisää tarvittavat avaimet SSH -"
+"SSH-isännän avainta ei voitu vahvistaa. Lisää tarvittavat avaimet SSH-"
 "asetusten hallintasivulla."
 
 #: weblate/trans/models/component.py:767
@@ -8970,15 +8970,16 @@ msgid "Could not merge remote branch into %s."
 msgstr "Etäarkiston haaran yhdistäminen epäonnistui kohteeseen %s."
 
 #: weblate/trans/models/component.py:1421
+#, fuzzy
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Virheellinen viittaus Weblate -projektiin. Projektia ei voida liittää "
+"Virheellinen linkki Weblate-projektiin. Projektia ei voida liittää "
 "etäarkistoon!"
 
 #: weblate/trans/models/component.py:1428
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
-"Virheellinen viittaus Weblate -projektiin. Projekti ei voi viitata itseensä!"
+"Virheellinen linkki Weblate-projektiin. Projekti ei voi linkittää itseensä!"
 
 #: weblate/trans/models/component.py:1435
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -9015,7 +9016,7 @@ msgstr ""
 "kääntämiseen."
 
 #: weblate/trans/models/component.py:1487
-#, python-format
+#, fuzzy, python-format
 msgid "Could not parse %d matched files."
 msgstr "%d:n kanssa täsmäävien tiedostojen jäsennys epäonnistui."
 
@@ -9037,7 +9038,7 @@ msgstr "Et voi käyttää kantatiedostoa kaksikieliselle käännökselle."
 
 #: weblate/trans/models/component.py:1525
 msgid "Using a .pot file as base file is unsupported."
-msgstr ".pot -tiedoston käyttäminen kantatiedostona ei ole mahdollista."
+msgstr ".pot-tiedoston käyttämistä kantatiedostona ei tueta."
 
 #: weblate/trans/models/component.py:1535
 msgid "Could not find template file."
@@ -9068,13 +9069,15 @@ msgstr "Arkiston päivitys epäonnistui: %s"
 msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
-msgstr "Anna URL ohjeeseen tai käytä eri vaihtoehtoa uuden kielen lisäämiseen."
+msgstr ""
+"Anna URL-osoite ohjeeseen tai käytä eri vaihtoehtoa uuden kielen lisäämiseen."
 
 #: weblate/trans/models/component.py:1591
 msgid "License URL can not be used without a license summary."
-msgstr "Lisenssin URL -osoitetta ei voi käyttää ilman yhteenvetoa lisenssistä."
+msgstr "Lisenssin URL-osoitetta ei voi käyttää ilman yhteenvetoa lisenssistä."
 
 #: weblate/trans/models/component.py:1621
+#, fuzzy
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Käännöstiedostoja ei voida varmistaa koska säännöllinen lauseke ei kelpaa."
@@ -9136,7 +9139,7 @@ msgstr "Automaattiset komponenttilistojen liittämiset"
 
 #: weblate/trans/models/project.py:80
 msgid "Main website of translated project."
-msgstr "Käännösprojektin pääsivusto."
+msgstr "Käännettävän projektin pääsivusto."
 
 #: weblate/trans/models/project.py:83
 msgid "Mailing list"
@@ -9152,7 +9155,7 @@ msgstr "Kääntämisohjeet"
 
 #: weblate/trans/models/project.py:91
 msgid "URL with instructions for translators."
-msgstr "URL kääntäjien käännösohjeeseen."
+msgstr "URL-osoite, jossa on ohjeita kääntäjille."
 
 #: weblate/trans/models/project.py:95
 msgid "Set \"Language-Team\" header"
@@ -9188,7 +9191,7 @@ msgstr "Ota käyttöön tarkistus"
 
 #: weblate/trans/models/project.py:123
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "Edellyttää määrättyjen tarkastajien hyväksynnän käännösteksteille."
+msgstr "Edellyttää määrättyjen tarkastajien hyväksyvän käännökset."
 
 #: weblate/trans/models/project.py:127
 msgid "Enable hooks"
@@ -9204,7 +9207,7 @@ msgstr "Lähdetekstin kieli"
 
 #: weblate/trans/models/project.py:137
 msgid "Language used for source strings in all components"
-msgstr "Kaikissa komponenteissa käytetty lähdetekstin kieli"
+msgstr "Kaikkien komponenttien lähdeteksteissä käytetty kieli"
 
 #: weblate/trans/models/suggestion.py:167
 msgid "Failed to accept suggestion!"
@@ -9230,7 +9233,7 @@ msgstr ""
 #: weblate/trans/models/translation.py:168
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "%(file)s: %(error)s täsmäävien tiedostojen jäsennys epäonnitui"
+msgstr "Tiedoston %(file)s jäsentäminen epäonnistui: %(error)s"
 
 #: weblate/trans/models/translation.py:893
 msgid "Plural forms do not match the language."
@@ -9239,13 +9242,14 @@ msgstr "Monikkomuodot eivät vastaa kieltä."
 #: weblate/trans/models/unit.py:351
 #, python-brace-format
 msgid "{translation}, string {position}"
-msgstr "{translation}, käännösteksti {position}"
+msgstr "{translation}, teksti {position}"
 
 #: weblate/trans/models/whiteboard.py:77
 msgid "Render as HTML"
-msgstr "Näytä HTML -muodossa"
+msgstr "Näytä HTML-muodossa"
 
 #: weblate/trans/models/whiteboard.py:79
+#, fuzzy
 msgid ""
 "When turned off, URLs will be converted to links and any markup will be "
 "escaped."
@@ -9286,8 +9290,9 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Tätä viestiä ei näytetä tämän päivämaaran jälkeen. Käytä sitä ilmoittaaksesi "
-"lähdetekstien jäädyttämisen ajankohdan ja seuraavan julkaisun takarajaksi."
+"Viestiä ei näytetä tämän päivämäärän jälkeen. Käytä sitä ilmoittaaksesi "
+"lähdetekstien jäädyttämisen ajankohdasta ja seuraavaan julkaisuun tulevien "
+"käännösten takarajasta."
 
 #: weblate/trans/models/whiteboard.py:137
 msgid "Whiteboard message"
@@ -9299,7 +9304,7 @@ msgstr "Valkotauluviestit"
 
 #: weblate/trans/models/whiteboard.py:147
 msgid "Do not specify both component and project!"
-msgstr "Älä määritä molempia, sekä komponenttia että projektia!"
+msgstr "Älä määritä sekä komponenttia että projektia!"
 
 #: weblate/trans/specialchars.py:33
 msgid "Insert tab character"
@@ -9307,7 +9312,7 @@ msgstr "Lisää sarkainmerkki"
 
 #: weblate/trans/specialchars.py:34
 msgid "Insert new line"
-msgstr "Lisää uusi rivi"
+msgstr "Lisää rivinvaihto"
 
 #: weblate/trans/specialchars.py:35
 msgid "Insert horizontal ellipsis"
