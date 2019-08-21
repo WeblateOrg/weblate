@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from collections import defaultdict
+import os.path
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -62,6 +63,11 @@ class GitSquashAddon(BaseAddon):
                 languages[code].extend(translation.filenames)
         return languages
 
+    def commit_existing(self, repository, message, files):
+        files = [name for name in files if os.path.exists(name)]
+        if files:
+            repository.commit(message, files=files)
+
     def squash_language(self, component, repository):
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
@@ -79,7 +85,7 @@ class GitSquashAddon(BaseAddon):
         for code, message in messages.items():
             if not message:
                 continue
-            repository.commit(message, files=languages[code])
+            self.commit_existing(repository, message, languages[code])
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -98,7 +104,7 @@ class GitSquashAddon(BaseAddon):
         for filename, message in messages.items():
             if not message:
                 continue
-            repository.commit(message, files=[filename])
+            self.commit_existing(repository, message, [filename])
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
