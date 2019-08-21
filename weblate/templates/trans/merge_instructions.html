@@ -12,8 +12,7 @@
 </li>
 <li>
 {% trans "Add Weblate exported repository as a remote." %}<br />
-<code>git remote add weblate {{ component.get_export_url }}</code>
-<code>git remote update weblate</code>
+<code>git remote add weblate {{ component.get_export_url }} ; git remote update weblate</code>
 </li>
 <li>
 {% trans "Merge Weblate changes and resolve any conflicts." %}<br />
