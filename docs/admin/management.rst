@@ -21,6 +21,18 @@ Invoking management commands
 
 As mentioned before, invocation depends on how you have installed Weblate.
 
+If you are using virtualenv for Weblate, you can either specify full path to
+:command:`weblate` or activate the virtualenv prior invoking it:
+
+.. code-block:: sh
+   
+   # Direct invocation
+   ~/weblate-env/bin/weblate
+
+   # Activating virtualenv adds it to search path
+   . ~/weblate-env/bin/activate
+   weblate
+
 If you are using source code directly (either tarball or Git checkout), the
 management script is :file:`./manage.py` in Weblate sources. Execution can be
 done as:
@@ -29,9 +41,9 @@ done as:
 
     python ./manage.py list_versions
 
-If you've installed Weblate using PIP installer or by :file:`./setup.py` script,
-the :command:`weblate` is installed to your path and you can use it to control
-Weblate:
+If you've installed Weblate using PIP installer or by :file:`./setup.py`
+script, the :command:`weblate` is installed to your path (or virtualenv path)
+and you can use it to control Weblate:
 
 .. code-block:: sh
 
