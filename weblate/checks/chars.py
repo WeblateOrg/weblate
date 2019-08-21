@@ -84,6 +84,16 @@ class BeginSpaceCheck(TargetCheck):
         # Compare numbers
         return source_space != target_space
 
+    def get_fixup(self, unit):
+        source = unit.get_source_plurals()[0]
+        stripped_source = source.lstrip(' ')
+        spaces = len(source) - len(stripped_source)
+        if spaces:
+            replacement = source[:spaces]
+        else:
+            replacement = ''
+        return [(' *$', replacement)]
+
 
 class EndSpaceCheck(TargetCheck):
     """Whitespace check."""
@@ -113,6 +123,16 @@ class EndSpaceCheck(TargetCheck):
 
         # Compare numbers
         return source_space != target_space
+
+    def get_fixup(self, unit):
+        source = unit.get_source_plurals()[0]
+        stripped_source = source.rstrip(' ')
+        spaces = len(source) - len(stripped_source)
+        if spaces:
+            replacement = source[-spaces:]
+        else:
+            replacement = ''
+        return [(' *$', replacement)]
 
 
 class EndStopCheck(TargetCheck):
