@@ -945,9 +945,7 @@ $(function () {
         $('.translation-editor').each(function () {
             var $this = $(this);
             $.each(fixups, function (key, value) {
-                console.log(value);
                 var re = new RegExp(value[0], "gu");
-                console.log(re)
                 $this.val($this.val().replace(re, value[1]));
             });
         });
