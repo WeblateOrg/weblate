@@ -28,6 +28,7 @@ KASHIDA_CHARS = (
     '\u0640', '\uFCF2', '\uFCF3', '\uFCF4', '\uFE71', '\uFE77', '\uFE79',
     '\uFE7B', '\uFE7D', '\uFE7F'
 )
+FRENCH_PUNCTUATION = {';', ':', '?', '!'}
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -372,11 +373,18 @@ class PuctuationSpacingCheck(TargetCheck):
         # Replace HTML markup to simplify parsing
         target = target.replace('&nbsp;', '\u00A0')
 
-        punctuation = {';', ':', '?', '!'}
-        whitespace = {' ', '\u00A0', '\u202F'}
+        whitespace = {' ', '\u00A0', '\u202F', '\u2009'}
 
         for i, char in enumerate(target):
-            if char in punctuation:
+            if char in FRENCH_PUNCTUATION:
                 if i == 0 or target[i - 1] not in whitespace:
                     return True
         return False
+
+    def get_fixup(self, unit):
+        return [
+            # First fix possibly wrong whitespace
+            ('([ \u00A0\u2009])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '\u202F$2'),
+            # Then add missing ones
+            ('([^\u202F])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '$1\u202F$2'),
+        ]
