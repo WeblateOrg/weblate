@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.8\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-12 11:52+0000\n"
-"PO-Revision-Date: 2019-08-18 20:22+0000\n"
+"PO-Revision-Date: 2019-08-21 14:47+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -338,14 +338,10 @@ msgid "Translated languages"
 msgstr "번역된 언어"
 
 #: weblate/accounts/models.py:338
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
-msgstr "번역할수 있는 언어를 선택합니다. 이는 번역을 쉽게 선택할 수 있도록 참여 프로젝트에 보여질 것입니다."
+msgstr "번역 할 수있는 언어를 선택합니다. 선택한 번역에 더 쉽게 접근할 수 있도록 계기판에 제공됩니다."
 
 #: weblate/accounts/models.py:345
 msgid "Secondary languages"
@@ -368,32 +364,23 @@ msgid "Show secondary translations in zen mode"
 msgstr "젠 모드에서 제2언어 번역 표시"
 
 #: weblate/accounts/models.py:366
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary translation exists"
-msgstr "제 2 언어가 있을 경우 원문 숨기기"
+msgstr "보조 번역이 있는 경우 소스 숨기기"
 
 #: weblate/accounts/models.py:372
 msgid "Editor link"
 msgstr "편집기 링크"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders. Usually something like editor://open/?file={{filename}}"
 "&line={{line}} is a good option."
 msgstr ""
-"소스 코드를 열고 싶을 때 쓰일 URL을 입력해주십시오. 브랜치를 위하여 "
-"{{ branch }}, 파일이름을 위하여 {{ filename }} 그리고 라인 플레이스 홀더를 위"
-"한 {{ line }}을 쓸수 있습니다. 주로 editor://open/?file={{ filename }}"
-"&line={{ line }}와 같은 형식이 쓰입니다."
+"소스 코드를 열고 싶을 때 쓰일 URL을 입력해주십시오. 분기에 {{ branch }}, 파일이름에{{ filename }} 그리고 줄 "
+"자리 표시자에 {{ line }}을 쓸수 있습니다. 주로 editor://open/?file={{ filename }}&line={{ "
+"line }}와 같은 형식이 쓰입니다."
 
 #: weblate/accounts/models.py:385
 msgid "Translation editor mode"
@@ -424,18 +411,13 @@ msgid "Special characters"
 msgstr "특수 문자"
 
 #: weblate/accounts/models.py:407
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"당신은 번역 중 쓰일 시각 키보드를 위한 추가적인 특수 문자를 설정할 수 있습니"
-"다. 이 기능은 키보드의 자주 쓰이지만, 입력하기 어려운 문자를 위하여 쓰입니다."
+"번역하는 동안 표시 할 추가 특수 시각적 키보드 문자를 지정할 수 있습니다. 자주 사용하는 문자에 유용하지만, 키보드로 입력하기가 "
+"어렵습니다."
 
 #: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
@@ -489,14 +471,10 @@ msgstr ""
 "다."
 
 #: weblate/accounts/models.py:592
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
-msgstr "설정된 이메일 주소 없이는 번역을 제출할 수 없습니다."
+msgstr "전자우편 주소를 지정하지 않았으므로 번역을 제출할 수 없습니다."
 
 #: weblate/accounts/notifications.py:49
 msgid "Do not notify"
@@ -539,10 +517,8 @@ msgid "New suggestion"
 msgstr "새로운 제안"
 
 #: weblate/accounts/notifications.py:391
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "작성자 번역에 대한 주석"
+msgstr "작성자 번역에 대한 의견"
 
 #: weblate/accounts/notifications.py:415
 msgid "Mentioned in comment"
@@ -710,34 +686,22 @@ msgid "Password reset has been already completed!"
 msgstr "비밀번호 초기화가 이미 완료되었습니다!"
 
 #: weblate/accounts/views.py:823
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "이메일 인증이 활성화되어 있지 않아서, 비밀번호를 초기화할 수 없습니다!"
+msgstr "암호를 재설정 할 수 없으며, 전자우편 인증이 해제되어 있습니다."
 
 #: weblate/accounts/views.py:997
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
-msgstr ""
-"등록을 확인할 수 없습니다! 토큰이 만료되었을 수 있습니다. 다시 한번 등록해주"
-"시기 바랍니다."
+msgstr "등록을 확인할 수 없습니다! 확인 토큰이 만료되었을 수 있습니다. 다시 등록하십시오."
 
 #: weblate/accounts/views.py:1007
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "잘못된 세션 상태로 인해 인증에 실패했습니다."
+msgstr "잘못된 세션 상태로 인해 인증 할 수 없습니다."
 
 #: weblate/accounts/views.py:1016
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
-msgstr "타사 인증 서비스에서 이메일 주소를 받지 못했습니다!"
+msgstr "타사 인증 서비스에서 전자우편이 없습니다."
 
 #: weblate/accounts/views.py:1018
 msgid "Please register using e-mail instead."
@@ -748,10 +712,8 @@ msgid "Can not change authentication for demo!"
 msgstr "데모 환경은 인증을 변경할 수 없습니다!"
 
 #: weblate/accounts/views.py:1032
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "회원 가입이 비활성화 되어 있습니다!"
+msgstr "새로운 등록이 해제되었습니다."
 
 #: weblate/accounts/views.py:1060
 #, fuzzy
