@@ -127,6 +127,9 @@ class Check(object):
     def get_description(self, unit):
         return self.description
 
+    def get_fixup(self, unit):
+        return None
+
 
 class TargetCheck(Check):
     """Basic class for target checks."""

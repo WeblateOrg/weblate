@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from appconf import AppConf
 from django.db import IntegrityError, models, transaction
 from django.db.models.signals import post_save
@@ -159,6 +161,20 @@ class Check(UnitData):
             except IndexError:
                 return self.check_obj.description
         return self.check
+
+    def get_fixup(self):
+        if self.check_obj:
+            try:
+                return self.check_obj.get_fixup(self.related_units[0])
+            except IndexError:
+                return None
+        return None
+
+    def get_fixup_json(self):
+        fixup = self.get_fixup()
+        if not fixup:
+            return None
+        return json.dumps(fixup)
 
     def get_name(self):
         if self.check_obj:

@@ -355,6 +355,9 @@ class KashidaCheck(TargetCheck):
     def check_single(self, source, target, unit):
         return any((x in target for x in KASHIDA_CHARS))
 
+    def get_fixup(self, unit):
+        return [('[{}]'.format(''.join(KASHIDA_CHARS)), '')]
+
 
 class PuctuationSpacingCheck(TargetCheck):
     check_id = 'punctuation_spacing'

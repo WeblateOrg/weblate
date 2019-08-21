@@ -10,6 +10,7 @@ Not yet released.
 * Improved UI for failing checks.
 * Indicate missing strings in format checks.
 * Separate check for French punctuation spacing.
+* Add support for fixing some of quality checks errors.
 
 weblate 3.8
 -----------
