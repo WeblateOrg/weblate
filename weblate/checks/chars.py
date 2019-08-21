@@ -395,8 +395,11 @@ class PuctuationSpacingCheck(TargetCheck):
 
         whitespace = {' ', '\u00A0', '\u202F', '\u2009'}
 
+        total = len(target)
         for i, char in enumerate(target):
             if char in FRENCH_PUNCTUATION:
+                if i + 1 < total and not target[i + 1].isspace():
+                    continue
                 if i == 0 or target[i - 1] not in whitespace:
                     return True
         return False
