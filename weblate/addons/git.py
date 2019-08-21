@@ -20,8 +20,8 @@
 
 from __future__ import unicode_literals
 
-from collections import defaultdict
 import os.path
+from collections import defaultdict
 
 from django.utils.translation import ugettext_lazy as _
 
