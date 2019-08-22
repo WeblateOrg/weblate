@@ -40,6 +40,7 @@ from django.utils import timezone
 from django.utils.encoding import force_text, python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from django.utils.translation import ugettext_lazy
 from six.moves.urllib.parse import urlparse
 
@@ -1490,7 +1491,11 @@ class Component(models.Model, URLMixin, PathMixin):
                 errors.append('{0}: {1}'.format(match, str(error)))
         if errors:
             raise ValidationError('{0}\n{1}'.format(
-                (_('Could not parse %d matched files.') % len(errors)),
+                ungettext(
+                    'Could not parse %d matched file.',
+                    'Could not parse %d matched files.',
+                    len(errors)
+                ) % len(errors),
                 '\n'.join(errors)
             ))
 
