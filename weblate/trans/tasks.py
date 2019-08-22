@@ -343,7 +343,10 @@ def component_removal(pk):
 
 @app.task
 def project_removal(pk):
-    Project.objects.get(pk=pk).delete()
+    try:
+        Project.objects.get(pk=pk).delete()
+    except Project.DoesNotExist:
+        return
 
 
 @app.on_after_finalize.connect
