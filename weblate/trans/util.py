@@ -27,7 +27,7 @@ import sys
 import six
 from django.apps import apps
 from django.core.cache import cache
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render as django_render
@@ -134,7 +134,7 @@ def add_configuration_error(name, message, force_cache=False):
         try:
             ConfigurationError.objects.add(name, message)
             return
-        except OperationalError:
+        except (OperationalError, ProgrammingError):
             # The table does not have to be created yet (eg. migration
             # is about to be executed)
             pass
@@ -156,7 +156,7 @@ def delete_configuration_error(name, force_cache=False):
         try:
             ConfigurationError.objects.remove(name)
             return
-        except OperationalError:
+        except (OperationalError, ProgrammingError):
             # The table does not have to be created yet (eg. migration
             # is about to be executed)
             pass
