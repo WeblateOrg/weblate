@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-22 11:07+0000\n"
-"PO-Revision-Date: 2019-08-21 14:47+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2019-08-24 05:47+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
 "Language: nb\n"
@@ -288,10 +288,8 @@ msgid "Somebody has attempted to register with your e-mail."
 msgstr "Noen har prøvd å registrere med din e-post."
 
 #: weblate/accounts/models.py:120
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr "Noen har prøvd å registrere seg med din e-posadresset."
+msgstr "Noen har prøvd å registrere seg med din e-posadresse."
 
 #: weblate/accounts/models.py:123
 #, python-brace-format
@@ -481,16 +479,11 @@ msgstr ""
 "Valg av komponentliste har ingen effekt når den ikke vises i oversikten."
 
 #: weblate/accounts/models.py:592
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
-"Du kan ikke få levert oversettelser om du ikke har knyttet til en e-"
-"postadresse."
+"Du kan ikke levere oversettelser om du ikke har tilknyttet en e-postadresse."
 
 #: weblate/accounts/notifications.py:49
 msgid "Do not notify"
@@ -766,10 +759,8 @@ msgstr ""
 "brukernavnet er allerede satt opp med en annen konto."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "Merknadsinnstillinger"
+msgstr "Merknadsinnstillinger justert."
 
 #: weblate/accounts/views.py:1091
 #, fuzzy
@@ -1813,30 +1804,24 @@ msgid "Trailing colon"
 msgstr "Etterfølgende kolon"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "Kilde og oversettelse slutter ikke begge med et semikolon"
+msgstr "Kilde og oversettelse slutter ikke begge med kolon"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Etterfølgende spørsmålstegn"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
-msgstr "Kilde og oversettelse slutter ikke begge med et punktum"
+msgstr "Kilde og oversettelse slutter ikke begge med spørsmålstegn"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Etterfølgende utropstegn"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "Kilde og oversettelse slutter ikke begge med et semikolon"
+msgstr "Kilde og oversettelse slutter ikke begge med utropstegn"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1887,14 +1872,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "De dekorative kashida-bokstavene kan ikke brukes"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "Skriftavstand"
+msgstr "Tegnsettingsavstand"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Manglende hardt mellomrom før dobbel interpunksjon"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1997,10 +1980,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Manglende parametre for oversettelsesflagg: \"%s\""
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Følgende rettinger ble brukt til oversettelse: %s"
+msgstr "Følgende formatstrenger har feil: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2075,46 +2057,38 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Java-meldingsformatstreng samsvarer ikke med kilde"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "BB-kode"
+msgstr "BB-kode-oppmerking"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BBcode i oversettelsen stemmer ikke med kilden"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "XML-tekst"
+msgstr "XML-syntaks"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "Oversettelsen er ikke gyldig XML"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Ugyldige XML-tagger"
+msgstr "XML-oppmerking"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "XML-koder i oversettelsen stemmer ikke med kilden"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Referanser for Markdown-lenker"
+msgstr "Markdown-referanser"
 
 #: weblate/checks/markup.py:220
 #, fuzzy
 #| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
-msgstr "Markdownlenkereferanser stemmer ikke med kilden"
+msgstr "Markdownlenkereferanser stemmer ikke overens med kilden"
 
 #: weblate/checks/markup.py:236
 msgid "Markdown links"
@@ -2180,14 +2154,11 @@ msgstr "Kilde og oversettelse er identiske"
 #, fuzzy
 #| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Flertall"
+msgstr "Flertall mangler"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"Strengen er eventuelt brukt som flertall, men bruker ikke flertallsformer"
+msgstr "Strengen brukes som flertall, men bruker ikke flertallsformer"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -2679,7 +2650,7 @@ msgstr "Fjern alle oversettelser som bruker dette språket først."
 #, fuzzy, python-format
 #| msgid "Language overrides"
 msgid "Language %s removed."
-msgstr "Språkoverstyringer"
+msgstr "Språk %s fjernet."
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
@@ -5695,7 +5666,7 @@ msgstr "Weblate, det kontinuerlige lokaliseringssystemet"
 #, fuzzy
 #| msgid "View notification"
 msgid "Disable this notification"
-msgstr "Vis merknad"
+msgstr "Skru av denne merknaden"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5978,19 +5949,16 @@ msgid "Parse error in %(component)s"
 msgstr "Analysefeil i %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
+#, python-format
 msgid "There is %(count)s string with suggestion in %(component)s."
 msgid_plural "There are %(count)s strings with suggestions in %(component)s."
-msgstr[0] "Det er %(count)s forslag."
-msgstr[1] "Det er %(count)s forslag."
+msgstr[0] "Det er %(count)s streng medforslag i %(component)s."
+msgstr[1] "Det er %(count)s strenger med forslag i %(component)s."
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "Pending suggestions in %(component)s"
-msgstr "Ventende forslag"
+msgstr "Ventende forslag i %(component)s"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6057,13 +6025,11 @@ msgid "Context"
 msgstr "Kontekst"
 
 #: weblate/templates/mail/todo_strings.html:7
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "There is %(count)s string needing action in %(component)s."
 msgid_plural "There are %(count)s strings needing action in %(component)s."
-msgstr[0] "Det er %(count)s streng som trenger gjennomgang."
-msgstr[1] "Det er %(count)s strenger som trenger gjennomgang."
+msgstr[0] "Det er %(count)s streng i påvente av handling i %(component)s."
+msgstr[1] "Det er %(count)s strenger i påvente av handling i %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:3
 #, python-format
@@ -6142,10 +6108,8 @@ msgid "Purchase support package"
 msgstr "Kjøp støttepakke"
 
 #: weblate/templates/manage/index.html:37
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage support package"
-msgstr "Behandle støttepakke"
+msgstr "Håndter støttepakke"
 
 #: weblate/templates/manage/index.html:38
 msgid "Get support"
@@ -6610,10 +6574,8 @@ msgid "Progress bar color indicates translation state:"
 msgstr "Framdriftsfeltfarger indikerer oversettelsestilstand:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "iOS-strenger"
+msgstr "Fiks streng"
 
 #: weblate/templates/snippets/list-checks.html:22
 #, fuzzy
@@ -6845,15 +6807,11 @@ msgid "Start from scratch"
 msgstr "Start fra ingenting"
 
 #: weblate/templates/trans/component_create.html:48
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from the remote version control system "
-#| "repository."
 msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Opprett en ny oversettelseskomponent fra versjonskontrollpakkebrønnen "
+"Opprett en ny oversettelseskomponent fra versjonskontrollpakkebrønn "
 "annensteds hen."
 
 #: weblate/templates/trans/component_create.html:50
@@ -6890,35 +6848,24 @@ msgstr ""
 "oppsett som eksisterende."
 
 #: weblate/templates/trans/component_create.html:87
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from uploaded ZIP file with "
-#| "translations."
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
 "Opprett en ny oversettelseskomponent fra opplastet ZIP-fil inneholdende "
-"oversettelser."
+"strenger for oversettelse."
 
 #: weblate/templates/trans/component_create.html:101
-#, fuzzy
-#| msgid ""
-#| "Create a new empty translation component to start with translations from "
-#| "scratch."
 msgid "Create a new empty translation component to start from scratch."
-msgstr "Opprett ny tom komponent for å starte oversettelsene fra ingenting."
+msgstr "Opprett ny tom komponent for å starte fra ingenting."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy, python-format
-#| msgid ""
-#| "In case you have existing translation files, create ZIP file with them "
-#| "and %(link_start)supload it%(link_end)s."
+#, python-format
 msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
-"I fall du har eksisterende oversettelsesfiler, lag en ZIP-fil med dem, og "
+"Lag en ZIP-fil inneholdende eksisterende oversettelsesfiler du måtta ha, og "
 "%(link_start)slast den opp%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
@@ -7301,12 +7248,13 @@ msgid "Quality"
 msgstr "Kvalitet"
 
 #: weblate/templates/translate.html:412
+#, fuzzy
 msgid "Origin"
-msgstr ""
+msgstr "Opphav"
 
 #: weblate/templates/translate.html:413
 msgid "Similarity"
-msgstr ""
+msgstr "Sammenlignbarhet"
 
 #: weblate/templates/translate.html:443
 msgid "Comment on this string for fellow translators and developers to read."
@@ -7318,22 +7266,18 @@ msgid "Things to check"
 msgstr "Ting å sjekke"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Det er %(count)s ikke-oversatt streng."
-msgstr[1] "Det er %(count)s ikke oversatte strenger."
+msgstr[0] "Det er %(count)s forslag for denne strengen."
+msgstr[1] "Det er %(count)s forslag for denne strengen."
 
 #: weblate/templates/translate.html:484
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "Det er %(count)s ikke-oversatt streng."
-msgstr[1] "Det er %(count)s ikke oversatte strenger."
+msgstr[0] "Det er %(count)s kommentar for denne strengen."
+msgstr[1] "Det er %(count)s kommentarer for denne strengen."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8356,10 +8300,8 @@ msgstr "Oversettelsesnavnet stemmer ikke overens det det merket for sletting!"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Ingen relaterte strenger ble funnet i ordlisten."
+msgstr "Duplisert streng funnet i filen."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -10171,10 +10113,8 @@ msgid "Port"
 msgstr "Port"
 
 #: weblate/wladmin/forms.py:59
-#, fuzzy
-#| msgid "Activation email will be sent here."
 msgid "The test e-mail will be sent to this address."
-msgstr "Aktiverings-e-post vil bli sendt hit."
+msgstr "Test-e-post vil bli sendt til denne adressen."
 
 #: weblate/wladmin/models.py:90
 msgid "Community support"
