@@ -456,6 +456,8 @@ The :file:`settings.py` snippet for MySQL:
                 # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
                 # If your server supports it, see the Unicode issues above
                'charset': 'utf8mb4',
+               # Change connection timeout in case you get MySQL gone away error:
+               'connect_timeout': 28800,
             }
 
         }
