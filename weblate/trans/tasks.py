@@ -327,7 +327,7 @@ def component_alerts():
         component.update_alerts()
 
 
-@app.task
+@app.task(autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(pk, changed_git, changed_setup, changed_template,
                          skip_push):
     component = Component.objects.get(pk=pk)
