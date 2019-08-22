@@ -139,7 +139,7 @@ class MultiAlert(BaseAlert):
 @register
 class DuplicateString(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Duplicated string for translation.')
+    verbose = _('Duplicated string found in the file.')
     on_import = True
 
 
