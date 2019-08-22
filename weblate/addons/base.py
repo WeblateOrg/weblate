@@ -77,10 +77,11 @@ class BaseAddon(object):
     @classmethod
     def create_object(cls, component, **kwargs):
         from weblate.addons.models import Addon
-        if cls.repo_scope and component.linked_component:
-            component = component.linked_component
-        # Clear addon cache
         if component:
+            # Reallocate to repository
+            if cls.repo_scope and component.linked_component:
+                component = component.linked_component
+            # Clear addon cache
             component.addons_cache = None
         return Addon(
             component=component,
