@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-22 11:07+0000\n"
-"PO-Revision-Date: 2019-08-13 06:42+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"PO-Revision-Date: 2019-08-24 05:47+0000\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1787,18 +1787,14 @@ msgid "Trailing colon"
 msgstr "Koncová dvojtečka"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "Překlad a zdroj oba nekončí středníkem"
+msgstr "Překlad a zdroj oba nekončí dvojtečkou"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Koncový otazník"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with question mark"
 msgid "Source and translation do not both end with a question mark"
 msgstr "Překlad a zdroj oba nekončí otazníkem"
 
@@ -1807,8 +1803,6 @@ msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem"
 
@@ -1861,14 +1855,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "Dekorativní znaky kašída by se neměly používat"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "Mezery mezi písmeny"
+msgstr "Mezery u interpunkce"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Chybějící nedělitelná mezera před dvojitou interpunkcí"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1971,10 +1963,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Chybějící parametry pro příznak překladu: „%s“"
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Na vašem překladu byly provedeny následující opravy: %s"
+msgstr "Následující formátovací řetězce jsou chybně: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2049,44 +2040,34 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Formátovací řetězec Java zpráv v překladu neodpovídá zdroji"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "BB kód"
+msgstr "BBcode značky"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BBcode v překladu neodpovídá zdroji"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "XML text"
+msgstr "Syntaxe XML"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "Tento překlad není platné XML"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Chybná syntaxe XML"
+msgstr "XML značky"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Cíle odkazů v markdownu"
+msgstr "Mardown reference"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Cíle odkazů v markdownu neodpovídají zdroji"
 
@@ -2151,18 +2132,13 @@ msgid "Source and translation are identical"
 msgstr "Překlad je stejný jako zdroj"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Množná čísla"
+msgstr "Nepluralizováno"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"Řetězec je občas používán jako tvar množného čísla, ale nepoužívá množné "
-"tvary"
+"Řetězec je používán jako tvar množného čísla, ale nepoužívá množné tvary"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6562,16 +6538,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "Barvy ukazatele průběhu značící stav překladu:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "Řetězce iOS"
+msgstr "Opravit řetězec"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Procházet všechny jazyky"
+msgstr "Zahodit pro všechny jazyky"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -7246,24 +7218,20 @@ msgid "Things to check"
 msgstr "Položky ke kontrole"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "V překladu je %(count)s nepřeložený řetězec."
-msgstr[1] "V překladu jsou %(count)s nepřeložené řetězce."
-msgstr[2] "V překladu je %(count)s nepřeložených řetězců."
+msgstr[0] "Pro tento řetězec je %(count)s návrh."
+msgstr[1] "Pro tento řetězec jsou %(count)s návrhy."
+msgstr[2] "Pro tento řetězec je %(count)s návrhů."
 
 #: weblate/templates/translate.html:484
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "V překladu je %(count)s nepřeložený řetězec."
-msgstr[1] "V překladu jsou %(count)s nepřeložené řetězce."
-msgstr[2] "V překladu je %(count)s nepřeložených řetězců."
+msgstr[0] "Pro tento řetězec je %(count)s komentář."
+msgstr[1] "Pro tento řetězec jsou %(count)s komentáře."
+msgstr[2] "Pro tento řetězec je %(count)s komentářů."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8283,10 +8251,8 @@ msgstr "Název překladu neodpovídá názvu, který byl označen k odstranění
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "V glosáři nebyly nalezeny žádná související položky."
+msgstr "V souboru nalezen opakujicí se řetězec."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -8931,12 +8897,11 @@ msgstr ""
 "použijte součásti pro překládání různých souborů."
 
 #: weblate/trans/models/component.py:1495
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Nepodařilo ze zpracovat %d nalezených souborů."
-msgstr[1] "Nepodařilo ze zpracovat %d nalezených souborů."
+msgstr[0] "Nepodařilo ze zpracovat %d nalezený soubor."
+msgstr[1] "Nepodařilo ze zpracovat %d nalezené soubory."
 msgstr[2] "Nepodařilo ze zpracovat %d nalezených souborů."
 
 #: weblate/trans/models/component.py:1516
