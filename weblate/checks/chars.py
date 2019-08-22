@@ -337,6 +337,9 @@ class ZeroWidthSpaceCheck(TargetCheck):
             return False
         return ('\u200b' in target) != ('\u200b' in source)
 
+    def get_fixup(self, unit):
+        return [('\u200b', '')]
+
 
 class MaxLengthCheck(TargetCheckParametrized):
     """Check for maximum length of translation."""
