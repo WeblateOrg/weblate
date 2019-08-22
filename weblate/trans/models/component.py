@@ -40,8 +40,7 @@ from django.utils import timezone
 from django.utils.encoding import force_text, python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import ugettext_lazy, ungettext
 from six.moves.urllib.parse import urlparse
 
 from weblate.checks.flags import Flags
