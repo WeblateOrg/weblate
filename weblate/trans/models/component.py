@@ -97,9 +97,13 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
 
 NEW_LANG_CHOICES = (
+    # Translators: Action when adding new translation
     ('contact', ugettext_lazy('Contact maintainers')),
+    # Translators: Action when adding new translation
     ('url', ugettext_lazy('Point to translation instructions URL')),
+    # Translators: Action when adding new translation
     ('add', ugettext_lazy('Create new language file')),
+    # Translators: Action when adding new translation
     ('none', ugettext_lazy('Disable adding new translations')),
 )
 LANGUAGE_CODE_STYLE_CHOICES = (
