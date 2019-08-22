@@ -385,6 +385,10 @@ class GitRepository(Repository):
             if not branch.startswith('origin/HEAD')
         ]
 
+    def update_remote(self):
+        self.execute(['remote', 'prune', 'origin'])
+        super(GitRepository, self).update_remote()
+
 
 class GitWithGerritRepository(GitRepository):
 
