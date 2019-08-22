@@ -1128,12 +1128,14 @@ class Component(models.Model, URLMixin, PathMixin):
                 method_func(**kwargs)
                 self.log_info('%s remote into repo', method)
             except RepositoryException as error:
+                # Report error
+                report_error(error, prefix='Failed {}'.format(method))
+
                 # In case merge has failer recover
                 error = self.error_text(error)
                 status = self.repository.status()
 
                 # Log error
-                report_error(error, prefix='Failed {}'.format(method))
                 if self.id:
                     Change.objects.create(
                         component=self, action=action_failed, target=error,
