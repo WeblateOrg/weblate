@@ -108,6 +108,8 @@ class GitRepository(Repository):
         if abort:
             if self.has_rev('ORIG_HEAD'):
                 self.execute(['rebase', '--abort'])
+            if self.needs_commit():
+                self.execute(['reset', '--hard'])
         else:
             self.execute(['rebase', self.get_remote_branch_name()])
 
@@ -125,6 +127,8 @@ class GitRepository(Repository):
             # Abort merge if there is one to abort
             if self.has_rev('MERGE_HEAD'):
                 self.execute(['merge', '--abort'])
+            if self.needs_commit():
+                self.execute(['reset', '--hard'])
             # Checkout original branch (we might be on tmp)
             self.execute(['checkout', self.branch])
         else:
