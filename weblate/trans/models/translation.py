@@ -572,7 +572,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Bail out if we have not found anything
             if pounit is None or pounit.is_obsolete():
-                self.log_error('string %s:%s disappeared!', unit.context, unit.source)
+                self.log_error('disappeared string: %s', unit)
                 unit.save(update_fields=['pending'], same_content=True)
                 continue
 

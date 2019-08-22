@@ -31,7 +31,6 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
@@ -348,10 +347,11 @@ class Unit(models.Model, LoggerMixin):
         self.is_batch_update = False
 
     def __str__(self):
-        return _('{translation}, string {position}').format(
-            translation=self.translation,
-            position=self.position,
-        )
+        if self.translation.is_template:
+            return self.context
+        if self.context:
+            return '[{}] {}'.format(self.context, self.source)
+        return self.source
 
     @property
     def approved(self):
