@@ -35,10 +35,13 @@ class VCSConfig(AppConfig):
     verbose_name = 'VCS'
 
     def ready(self):
+        home = data_dir('home')
+        if not os.path.exists(home):
+            os.makedirs(home)
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
-        lockfile = FileLock(os.path.join(data_dir('home'), 'gitlock'))
+        lockfile = FileLock(os.path.join(home, 'gitlock'))
         with lockfile:
             try:
                 GitRepository.global_setup()
@@ -50,7 +53,7 @@ class VCSConfig(AppConfig):
                 )
 
         # Use it for *.po by default
-        configdir = os.path.join(data_dir('home'), '.config', 'git')
+        configdir = os.path.join(home, '.config', 'git')
         configfile = os.path.join(configdir, 'attributes')
         if not os.path.exists(configfile):
             if not os.path.exists(configdir):
