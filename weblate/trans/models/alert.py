@@ -138,67 +138,80 @@ class MultiAlert(BaseAlert):
 
 @register
 class DuplicateString(MultiAlert):
+    # Translators: Name of an alert
     verbose = _('Duplicated string for translation.')
     on_import = True
 
 
 @register
 class DuplicateLanguage(MultiAlert):
+    # Translators: Name of an alert
     verbose = _('Duplicated translation.')
     on_import = True
 
 
 @register
 class MergeFailure(ErrorAlert):
+    # Translators: Name of an alert
     verbose = _('Could not merge the repository.')
 
 
 @register
 class UpdateFailure(ErrorAlert):
+    # Translators: Name of an alert
     verbose = _('Could not update the repository.')
 
 
 @register
 class PushFailure(ErrorAlert):
+    # Translators: Name of an alert
     verbose = _('Could not push the repository.')
 
 
 @register
 class ParseError(MultiAlert):
+    # Translators: Name of an alert
     verbose = _('Could not parse translation files.')
     on_import = True
 
 
 @register
 class BillingLimit(BaseAlert):
+    # Translators: Name of an alert
     verbose = _('Your billing plan has exceeded its limits.')
 
 
 @register
 class RepositoryOutdated(BaseAlert):
+    # Translators: Name of an alert
     verbose = _('Repository outdated.')
 
 
 @register
 class RepositoryChanges(BaseAlert):
+    # Translators: Name of an alert
     verbose = _('Repository has changes.')
 
 
 @register
 class MissingLicense(BaseAlert):
+    # Translators: Name of an alert
     verbose = _('License info missing.')
 
 
 @register
 class AddonScriptError(MultiAlert):
+    # Translators: Name of an alert
     verbose = _('Could not run addon.')
 
 
 @register
 class MsgmergeAddonError(MultiAlert):
+    # Translators: Name of an alert
     verbose = _('Could not run addon.')
 
 
 @register
 class MonolingualTranslation(BaseAlert):
+    # Translators: Name of an alert
     verbose = _('Misconfigured monolingual translation.')
