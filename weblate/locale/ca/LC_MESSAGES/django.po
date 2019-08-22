@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-22 11:07+0000\n"
-"PO-Revision-Date: 2019-08-20 10:38+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2019-08-22 14:41+0000\n"
+"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1815,30 +1815,24 @@ msgid "Trailing colon"
 msgstr "Dos punts finals"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "L'original o la traducció no acaba amb punt i coma"
+msgstr "L'original o la traducció no acaba amb dos punts"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Signe d'interrogació final"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
-msgstr "L'original o la traducció no acaba amb un punt"
+msgstr "L'original o la traducció no acaba amb un signe d'interrogació"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Signe d'exclamació final"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "L'original o la traducció no acaba amb punt i coma"
+msgstr "L'original o la traducció no acaba amb un signe d'exclamació"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1889,14 +1883,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "No s'haurien de fer servir les lletres decoratives kashida"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "Espaiat de la lletra"
+msgstr "Espaiat de la puntuació"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Manca un espai no divisible davant del doble signe de puntuació"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1999,10 +1991,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Manquen paràmetres per a la marca de traducció: \"%s\""
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "S'han aplicat les següents correccions a la traducció: %s"
+msgstr "Les següents cadenes de format són errònies: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2077,44 +2068,34 @@ msgid "Java MessageFormat string does not match source"
 msgstr "La cadena de format Java MessageFormat no coincideix amb la d'origen"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "Codi BB"
+msgstr "Sintaxi de codi BB"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "El BBcode de la traducció no coincideix amb el d'origen"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "Text XML"
+msgstr "Sintaxi XML"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "La traducció no és XML vàlid"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Sintaxi XML invàlida"
+msgstr "Marcatge XML"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "Les etiquetes XML de la traducció no coincideixen amb l'original"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Referències d'enllaços Markdown"
+msgstr "Referències de Markdown"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Les referències d'enllaços Markdown no coincideixen amb les d'origen"
 
@@ -2180,18 +2161,12 @@ msgid "Source and translation are identical"
 msgstr "La cadena d'origen i la traducció són idèntiques"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Plurals"
+msgstr "No pluralitzada"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"La cadena s'utilitza opcionalment com a plural, però no utilitza formes "
-"plurals"
+msgstr "La cadena s'utilitza com a plural, però no utilitza formes plurals"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6637,16 +6612,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "El color de la barra de progrés indica l'estat de la traducció:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "Cadenes d'iOS"
+msgstr "Corregeix la cadena"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Explora totes les llengües"
+msgstr "Ignora per a totes les llengües"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -7334,22 +7305,18 @@ msgid "Things to check"
 msgstr "Elements a comprovar"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Hi ha %(count)s cadena no traduïda."
-msgstr[1] "Hi ha %(count)s cadenes no traduïdes."
+msgstr[0] "Hi ha %(count)s suggeriment per a aquesta cadena."
+msgstr[1] "Hi ha %(count)s suggeriments per a aquesta cadena."
 
 #: weblate/templates/translate.html:484
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "Hi ha %(count)s cadena no traduïda."
-msgstr[1] "Hi ha %(count)s cadenes no traduïdes."
+msgstr[0] "Hi ha %(count)s comentari per a aquesta cadena."
+msgstr[1] "Hi ha %(count)s comentaris per a aquesta cadena."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8382,10 +8349,8 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "No s'ha trobat cap cadena relacionada al glossari."
+msgstr "S'ha trobat una cadena duplicada al fitxer."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -9045,11 +9010,10 @@ msgstr ""
 "utilitzeu components per a traduir els diferents recursos."
 
 #: weblate/trans/models/component.py:1495
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "No s'han pogut analitzar %d fitxers coincidents."
+msgstr[0] "No s'ha pogut analitzar %d fitxer coincident."
 msgstr[1] "No s'han pogut analitzar %d fitxers coincidents."
 
 #: weblate/trans/models/component.py:1516
