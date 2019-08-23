@@ -207,7 +207,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are several new checks included in the :setting:`CHECK_LIST`.
-* There is new (``numba``) dependency.
+* There is updated (``jellyfish``) dependency.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -249,7 +249,7 @@ def get_versions():
     result.append(get_single(
         'jellyfish',
         'https://github.com/jamesturk/jellyfish',
-        '0.6.1',
+        '0.7.2',
     ))
 
     result.append(get_single(
