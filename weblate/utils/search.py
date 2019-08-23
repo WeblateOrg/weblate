@@ -21,6 +21,9 @@
 from __future__ import unicode_literals
 
 from jellyfish import damerau_levenshtein_distance
+from jellyfish._jellyfish import (
+    damerau_levenshtein_distance as py_damerau_levenshtein_distance,
+)
 
 
 class Comparer(object):
@@ -31,7 +34,12 @@ class Comparer(object):
     def similarity(self, first, second):
         """Returns string similarity in range 0 - 100%."""
         try:
-            distance = damerau_levenshtein_distance(first, second)
+            try:
+                distance = damerau_levenshtein_distance(first, second)
+            except ValueError:
+                # Needed on Python 2 only (actually jellyfish < 0.7.2)
+                distance = py_damerau_levenshtein_distance(first, second)
+
             return int(
                 100 * (1.0 - (float(distance) / max(len(first), len(second), 1)))
             )
