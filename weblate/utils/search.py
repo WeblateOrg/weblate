@@ -20,9 +20,8 @@
 
 from __future__ import unicode_literals
 
-from numba import njit
-
 from jellyfish import damerau_levenshtein_distance
+from numba import njit
 
 
 @njit
@@ -49,7 +48,6 @@ def jit_damerau_levenshtein_distance(s1, s2):
     for i in range(1, len1 + 1):
         db = 0
         for j in range(1, len2 + 1):
-            k = s2[j - 1]
             i1 = da.get(s2[j - 1], 0)
             j1 = db
             cost = 1
