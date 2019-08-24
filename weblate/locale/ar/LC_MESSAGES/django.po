@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-22 11:07+0000\n"
-"PO-Revision-Date: 2019-08-20 14:22+0000\n"
+"PO-Revision-Date: 2019-08-24 05:47+0000\n"
 "Last-Translator: Omar Aglan <omar.aglan91@yahoo.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
 ">\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -254,16 +254,12 @@ msgid "Password changed."
 msgstr "عُدلت كلمة السر."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset requested."
-msgstr "تم طلب تغيير كلمة السر."
+msgstr "طلب تغيير كلمة السر."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
-msgstr "تم تأكيد إعادة تعيين الكلمة السرية وإبطال القديمة."
+msgstr "تم تأكيد إعادة تعيين كلمة السر، تم إيقاف كلمة السر."
 
 #: weblate/accounts/models.py:105
 #, python-brace-format
@@ -289,11 +285,9 @@ msgstr "سُجل دخول باستخدام ({method} {name}) من جهاز جد�
 #, fuzzy
 #| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody has attempted to register with your e-mail."
-msgstr "أحد ما حاول إنشاء حساب جديد ببريدك الإلكتروني."
+msgstr "أحدهم حاول إنشاء حساب جديد ببريدك الإلكتروني."
 
 #: weblate/accounts/models.py:120
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody has attempted to register using your e-mail address."
 msgstr "أحدهم حاول إنشاء حساب جديد بإستخدام بريدك الإلكتروني."
 
@@ -482,14 +476,10 @@ msgstr ""
 "تحديد قائمة المكونات لا يكون له أي تأثير عندما لا يظهر على لوحة المراقبة."
 
 #: weblate/accounts/models.py:592
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
-msgstr "لا يمكنك تقديم الترجمات في حين أنك لم تحدد أي بريد إلكتروني."
+msgstr "لا يمكنك تقديم الترجمات في حين أنك لم تضع أي بريد إلكتروني."
 
 #: weblate/accounts/notifications.py:49
 msgid "Do not notify"
@@ -532,10 +522,8 @@ msgid "New suggestion"
 msgstr "اقتراح جديد"
 
 #: weblate/accounts/notifications.py:391
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "التعليق على الترجمة المؤلفة"
+msgstr "التعليق على ترجمتك"
 
 #: weblate/accounts/notifications.py:415
 msgid "Mentioned in comment"
@@ -702,10 +690,8 @@ msgid "Password reset has been already completed!"
 msgstr "إرجاع كلمة السر قد تم بنجاح!"
 
 #: weblate/accounts/views.py:823
-#, fuzzy
-#| msgid "Cannot reset password, e-mail authentication is turned off."
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "لا يمكن إرجاع كلمة السر، استيثاق البريد الإلكتروني معطل."
+msgstr "لا يمكن ارجاع كلمة السر، استيثاق البريد الإلكتروني معطل."
 
 #: weblate/accounts/views.py:997
 msgid ""
@@ -749,28 +735,23 @@ msgid "The server does not allow authentication."
 msgstr "لا يسمح الخادوم بالاستيثاق."
 
 #: weblate/accounts/views.py:1074
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
-"فشل إكمال التسجيل! إنَّ هذا الاستيثاق أو البريد الإلكتروني أو اسم المستخدم "
-"مستعمل سابقاً مع حساب آخَر."
+"فشل إكمال التسجيل. هذا التوثيق أو البريد الإلكتروني أو اسم المستخدم مستعمل "
+"سابقاً مع حساب آخر."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "إعدادات الإشعارات"
+msgstr "عُدلت إعدادات الإشعارات."
 
 #: weblate/accounts/views.py:1091
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
+"رابط تغيير الإشعارات لم يعد صالحاً، من فضلك سجل الدخول لتعديل الإشعارات."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -944,7 +925,7 @@ msgstr "إزاحة JSON"
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
-msgstr ""
+msgstr "الأيام ليبقي"
 
 #: weblate/addons/forms.py:183
 #, fuzzy
@@ -5705,16 +5686,15 @@ msgid "Plural: %(source_description)s"
 msgstr "الجمع : %(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Previous translation:"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "الترجمة السابقة:"
-msgstr[1] "الترجمة السابقة:"
-msgstr[2] "الترجمة السابقة:"
-msgstr[3] "الترجمة السابقة:"
-msgstr[4] "الترجمة السابقة:"
-msgstr[5] "الترجمة السابقة:"
+msgstr[0] "لا ترجمات"
+msgstr[1] "%(count)s ترجمة"
+msgstr[2] "%(count)s ترجمتان"
+msgstr[3] "%(count)s ترجمات"
+msgstr[4] "%(count)s تراجم"
+msgstr[5] "%(count)s تراجم"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -7013,7 +6993,7 @@ msgstr ""
 #: weblate/templates/trans/component_create.html:105
 #: weblate/templates/trans/component_form.html:38
 msgid "Continue"
-msgstr "المواصلة"
+msgstr "المتابعة"
 
 #: weblate/templates/trans/component_create.html:61
 msgid ""
@@ -10448,7 +10428,7 @@ msgstr ""
 
 #: weblate/wladmin/forms.py:32
 msgid "Activation token"
-msgstr ""
+msgstr "رمز التفعيل"
 
 #: weblate/wladmin/forms.py:36
 msgid ""
