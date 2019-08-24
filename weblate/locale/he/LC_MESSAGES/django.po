@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-22 11:07+0000\n"
-"PO-Revision-Date: 2019-08-15 07:40+0000\n"
+"PO-Revision-Date: 2019-08-24 05:47+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1752,30 +1752,24 @@ msgid "Trailing colon"
 msgstr "נקודתיים בסוף"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק"
+msgstr "המקור והתרגום לא מסתיימים שניהם בנקודתיים"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "סימן שאלה בסוף"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
-msgstr "מקור ותרגום לא מסתיימים בנקודה"
+msgstr "מקור ותרגום לא מסתיימים בסימן שאלה"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "סימן קריאה בסוף"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק"
+msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1826,14 +1820,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "אין סיבה להשתמש באותיות קשידה לעיטור"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "ריווח גופן"
+msgstr "ריווח פיסוק"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "חסר רווח ללא שבירה לפני סימן פיסוק כפול"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1936,10 +1928,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "חסרים משתנים לדגלון תרגום: „%s”"
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "בתרגום בוצעו התיקונים הבאים: %s"
+msgstr "מחרוזות התבנית הבאות שגויות: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2014,46 +2005,36 @@ msgid "Java MessageFormat string does not match source"
 msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "קוד BB"
+msgstr "סימון קוד BB"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BBCode שבתרגום לא תואם למקור"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "טקסט XML"
+msgstr "תחביר XML"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "התרגום אינו XML תקני"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "סימון XML שגוי"
+msgstr "סימון XML"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "תגי XML בתרגום לא תואמים למקור"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "הפניות קישורים ב־Markdown"
+msgstr "הפניות ב־Markdown"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
-msgstr "הפניות הקישורים ב־Markdown אינם תואמים למקור"
+msgstr "הפניות הקישורים ב־Markdown אינן תואמות למקור"
 
 #: weblate/checks/markup.py:236
 msgid "Markdown links"
@@ -2116,16 +2097,12 @@ msgid "Source and translation are identical"
 msgstr "המקור והתרגום זהים"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "רבים"
+msgstr "לא ברבים"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr "ניתן להשתמש במחרוזת כרבים אך ללא שימוש בצורות רבים"
+msgstr "המחרוזת משמשת כרבים אך ללא שימוש בצורות רבים"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6430,16 +6407,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "צבע סרגל ההתקדמות מציין את מצב התרגום:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "מחרוזות iOS"
+msgstr "תיקון מחרוזת"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "עיון בכל השפות"
+msgstr "להתעלם  עבור כל השפות"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -8121,10 +8094,8 @@ msgstr "שם התרגום אינו תואם את זה שסומן למחיקה!"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "לא נמצאו מחרוזות דומות במונחון."
+msgstr "נמצאה מחרוזת כפולה בקובץ."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
