@@ -190,7 +190,7 @@ def get_versions():
 
     result.append(get_single(
         'defusedxml',
-        'https://bitbucket.org/tiran/defusedxml',
+        'https://github.com/tiran/defusedxml',
         '0.4',
     ))
 
