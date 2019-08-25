@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-25 12:23+0000\n"
-"Last-Translator: Katarzyna Twardowska <katarina.twardowska@gmail.com>\n"
+"PO-Revision-Date: 2019-08-28 08:23+0000\n"
+"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -1806,28 +1806,24 @@ msgid "Trailing colon"
 msgstr "Końcowy dwukropek"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "Źródło i tłumaczenie nie kończą się jednocześnie średnikiem"
+msgstr "Źródło i tłumaczenie nie kończą się dwukropkiem"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Końcowy znak zapytania"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
 msgid "Source and translation do not both end with a question mark"
-msgstr "Nie przetłumaczone ciągi (%d)"
+msgstr "Źródło i tłumaczenie nie kończą się znakiem zapytania"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Końcowy wykrzyknik"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "Nie przetłumaczone ciągi (%d)"
+msgstr "Źródło i tłumaczenie nie kończą się wykrzyknikiem"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1988,10 +1984,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Brakujące parametry dla flagi tłumaczenia: \"%s\""
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Zastosowano następujące poprawki do tłumaczenia: %s"
+msgstr "Niepoprawne są następujące ciągi formatu: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2066,30 +2061,24 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Ciąg Java MessageFormat nie pasuje do źródła"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "Kod BB"
+msgstr "Znaczniki BBcode"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BBcode w tłumaczeniu nie pasuje do źródła"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "Tekst XML"
+msgstr "Składnia XML"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "Tłumaczenie nie jest w prawidłowym formacie XML"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Nieprawidłowy znacznik XML"
+msgstr "Znaczniki XML"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
@@ -2102,10 +2091,8 @@ msgid "Markdown references"
 msgstr "Odnośniki do linków Markdown"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
-msgstr "Odsyłacze do linków Markdown nie pasują do źródła"
+msgstr "Odnośniki do linków Markdown nie pasują do źródła"
 
 #: weblate/checks/markup.py:236
 msgid "Markdown links"
@@ -2136,16 +2123,12 @@ msgid "Qt format string does not match source"
 msgstr "Tekst w formacie Qt nie pasuje do źródła"
 
 #: weblate/checks/qt.py:61
-#, fuzzy
-#| msgid "Plural form"
 msgid "Qt plural format"
-msgstr "Forma liczby mnogiej"
+msgstr "Liczba mnoga Qt"
 
 #: weblate/checks/qt.py:62
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Qt plural format string does not match source"
-msgstr "Tekst w formacie Perl nie pasuje do źródła"
+msgstr "Ciąg w formacie liczby mnogiej Qt nie pasuje do źródła"
 
 #: weblate/checks/render.py:49
 msgid "Maximum size of translation"
@@ -2182,9 +2165,7 @@ msgstr "Liczba mnoga"
 #, fuzzy
 #| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"Tekst jest opcjonalnie używany w liczbie mnogiej, lecz formy liczby mnogiej "
-"nie są używane"
+msgstr "Ciąg jest używany jako liczba mnoga, ale nie przy użyciu form mnogich"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6624,16 +6605,14 @@ msgid "Progress bar color indicates translation state:"
 msgstr "Kolor paska postępu wskazuje stan tłumaczenia:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "Teksty iOS"
+msgstr "Popraw ciąg"
 
 #: weblate/templates/snippets/list-checks.html:22
 #, fuzzy
 #| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Przeglądaj wszystkie języki"
+msgstr "Odrzuć dla wszystkich języków"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -8363,10 +8342,8 @@ msgstr "Nazwa tłumaczenia nie jest zgodna z zaznaczoną do usunięcia!"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Nie odnaleziono w słowniku powiązanych ciągów źródłowych."
+msgstr "W pliku znaleziono zduplikowany ciąg."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
