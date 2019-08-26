@@ -8,13 +8,14 @@
 # Kata <nagykatt@gmail.com>, 2019.
 # Balázs Úr <balazs@urbalazs.hu>, 2019.
 # Balázs Meskó <meskobalazs@gmail.com>, 2019.
+# miles <varota@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-15 07:40+0000\n"
-"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
+"PO-Revision-Date: 2019-08-27 05:07+0000\n"
+"Last-Translator: miles <varota@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
 "Language: hu\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1810,30 +1811,24 @@ msgid "Trailing colon"
 msgstr "Lezáró kettőspont"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "A forrás és a fordítás nem végződik egyformán pontosvesszővel"
+msgstr "A forrás és a fordítás nem végződik egyformán kettősponttal"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Lezáró kérdőjel"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
-msgstr "A forrás és a fordítás nem végződik egyformán ponttal"
+msgstr "A forrás és a fordítás nem végződik egyformán kérdőjellel"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Lezáró felkiáltójel"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "A forrás és a fordítás nem végződik egyformán pontosvesszővel"
+msgstr "A forrás és a fordítás nem végződik egyformán felkiáltójellel"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1994,10 +1989,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Hiányzó paraméterek a fordítási jelzőnél: „%s”"
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Az alábbi javítások lettek alkalmazva a fordításra: %s"
+msgstr "A következő formázási karakterláncok helytelenek: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2072,40 +2066,32 @@ msgid "Java MessageFormat string does not match source"
 msgstr "A Java MessageFormat szöveg nem egyezik a forrással"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "BB kód"
+msgstr "BB kód jelölő"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "A fordításban lévő BBcode nem egyezik a forrással"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "XML szöveg"
+msgstr "XML szintaxis"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "A fordítás nem érvényes XML"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Érvénytelen XML jelölőnyelv"
+msgstr "XML jelölő"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "A fordításban lévő XML-címkék nem egyeznek a forrással"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Markdown hivatkozás referenciája"
+msgstr "Markdown referenciák"
 
 #: weblate/checks/markup.py:220
 #, fuzzy
@@ -2180,12 +2166,9 @@ msgid "Unpluralised"
 msgstr "Többes számok"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"A szöveg elhagyhatóan használható többes számként, de nem használ többes "
-"számú alakot"
+"A szöveg használható többes számként, de nem használ többes számú alakot"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6642,10 +6625,8 @@ msgid "Progress bar color indicates translation state:"
 msgstr "A folyamatsáv színe jelzi a fordítás állapotát:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "iOS szövegek"
+msgstr "Szöveg javítása"
 
 #: weblate/templates/snippets/list-checks.html:22
 #, fuzzy
@@ -7351,19 +7332,18 @@ msgid "Things to check"
 msgstr "Ellenőrzendő dolgok"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "Source string comment, suggestions for changes to this string"
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Forrásszöveg megjegyzés, javaslatok ezen szöveg változtatásaihoz"
-msgstr[1] "Forrásszöveg megjegyzés, javaslatok ezen szöveg változtatásaihoz"
+msgstr[0] "%(count)s javaslat van ehhez a szöveghez."
+msgstr[1] "%(count)s javaslat van ehhez a szöveghez."
 
 #: weblate/templates/translate.html:484
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s megjegyzés van ehhez a szöveghez."
+msgstr[1] "%(count)s megjegyzés van ehhez a szöveghez."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8390,10 +8370,8 @@ msgstr "A fordítás neve nem egyezik a törlésre megjelölt nevével!"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Nem találhatók kapcsolódó szövegek a szójegyzékben."
+msgstr "Duplikált szöveg található a fájlban."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
