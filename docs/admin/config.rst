@@ -593,9 +593,11 @@ please see :ref:`legal`.
 LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 -----------------------------------------
 
-By default the length of a given translation is limited to the length of the source string * 10 characters. Set this option to False to allow longer translations (up to 10.000 characters) irrespective of the source length.
+By default the length of a given translation is limited to the length of the
+source string * 10 characters. Set this option to ``False`` to allow longer
+translations (up to 10.000 characters) irrespective of the source length.
 
-Defaults to True.
+Defaults to ``True``.
 
 .. setting:: LOGIN_REQUIRED_URLS
 
