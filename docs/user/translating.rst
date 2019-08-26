@@ -192,6 +192,22 @@ Every change is by default (unless turned off in component settings) saved in
 the database, and can be reverted. Optionally one can still also revert anything
 in the underlying version control system.
 
+Translated string length
+++++++++++++++++++++++++
+
+Weblate can limit length of translation in several ways to ensure the
+translated string is not too long.
+
+* The default limitation for translation is ten times longer than source
+  string. This can be turned of by
+  :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting
+  this, it might be also caused by monolingual translation being configured as
+  bilingual, making Weblate see translation key as source string instead of the
+  actual source string. See :ref:`bimono` for more info.
+* Maximal length in chars defined by translation file or flag, see
+  :ref:`check-max-length`.
+* Maximal rendered size in pixelx defined by flags, see :ref:`check-max-size`.
+
 Glossary
 --------
 
