@@ -1,8 +1,9 @@
 Translating using Weblate
 =========================
 
-Thank you for interest in translating using Weblate.
-Projects can be either be set up for direct translation, or by way of accepting suggestions on behalf of users without accounts.
+Thank you for interest in translating using Weblate. Projects can be either be
+set up for direct translation, or by way of accepting suggestions on behalf of
+users without accounts.
 
 Overall, there are the modes of translation:
 
@@ -29,8 +30,9 @@ Translation links
 -----------------
 
 Having navigated to a component, a set of links lead to actual translation.
-The translation is further divided into indivudual checks, like "Untranslated" or "Needing review".
-If the whole project is translated, without error, "All translations" is still available.
+The translation is further divided into individual checks, like
+:guilabel:`Untranslated` or :guilabel:`Needing review`.  If the whole project
+is translated, without error, :guilabel:`All translations` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
 .. image:: /images/strings-to-check.png
@@ -80,15 +82,19 @@ can in turn accept, accept and make changes, or delete.
 Plurals
 +++++++
 
-Words that change form to account of their numeric designation are called plurals.
-Each language has its own definition of plurals. English, for example, supports one plural.
-In the singular definition of for example "car", implicitly one car is referenced, in the
-plural definition, "cars" two or more cars are referenced, or the concept of cars as a noun. 
-Languages like for example Czech or Arabic have more plurals and also their rules for plurals are different.
+Words that change form to account of their numeric designation are called
+plurals.  Each language has its own definition of plurals. English, for
+example, supports one plural.  In the singular definition of for example "car",
+implicitly one car is referenced, in the plural definition, "cars" two or more
+cars are referenced, or the concept of cars as a noun.  Languages like for
+example Czech or Arabic have more plurals and also their rules for plurals are
+different.
 
-Weblate has full support for each of these forms, in each respective language by translating every plural separately.
-The number of fields and how it is used in the translated application depends on the configured plural equation.
-Weblate shows the basic info, but you can find a more detailed description in the `Language Plural Rules`_ by the Unicode Consortium.
+Weblate has full support for each of these forms, in each respective language
+by translating every plural separately.  The number of fields and how it is
+used in the translated application depends on the configured plural equation.
+Weblate shows the basic info, but you can find a more detailed description in
+the `Language Plural Rules`_ by the Unicode Consortium.
 
 .. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 
@@ -161,7 +167,7 @@ Translation context
 This contextual description provides related info about the current string.
 
 String attributes
-    Things like message ID, context (msgctxt) or location in source code.
+    Things like message ID, context (``msgctxt``) or location in source code.
 Screenshots
     Can be uploaded to Weblate to better inform translators
     of where and how the string is used, see :ref:`screenshots`.
@@ -206,7 +212,7 @@ translated string is not too long.
   actual source string. See :ref:`bimono` for more info.
 * Maximal length in chars defined by translation file or flag, see
   :ref:`check-max-length`.
-* Maximal rendered size in pixelx defined by flags, see :ref:`check-max-size`.
+* Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`.
 
 Glossary
 --------
