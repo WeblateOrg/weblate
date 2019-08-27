@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-27 05:07+0000\n"
-"Last-Translator: miles <varota@gmail.com>\n"
+"PO-Revision-Date: 2019-08-28 08:23+0000\n"
+"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
 "Language: hu\n"
@@ -1879,14 +1879,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "A dekoratív kasida betűket nem szabad használni"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "Betűköz"
+msgstr "Írásjel térköze"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Hiányzó nem törhető szóköz a dupla írásjel jel előtt"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1991,7 +1989,7 @@ msgstr "Hiányzó paraméterek a fordítási jelzőnél: „%s”"
 #: weblate/checks/format.py:271
 #, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "A következő formázási karakterláncok helytelenek: %s"
+msgstr "A következő formátumszövegek rosszak: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2094,8 +2092,6 @@ msgid "Markdown references"
 msgstr "Markdown referenciák"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "A Markdown hivatkozás referenciái nem egyeznek a forrással"
 
@@ -2160,15 +2156,13 @@ msgid "Source and translation are identical"
 msgstr "A forrás és a fordítás megegyezik"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Többes számok"
+msgstr "Többes szám nélküli"
 
 #: weblate/checks/source.py:40
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"A szöveg használható többes számként, de nem használ többes számú alakot"
+"A szöveg többes számként van használva, de nem használ többes számú alakot"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6629,10 +6623,8 @@ msgid "Fix string"
 msgstr "Szöveg javítása"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Az összes nyelv böngészése"
+msgstr "Eltüntetés az összes nyelvnél"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -8371,7 +8363,7 @@ msgstr "A fordítás neve nem egyezik a törlésre megjelölt nevével!"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
 msgid "Duplicated string found in the file."
-msgstr "Duplikált szöveg található a fájlban."
+msgstr "Kettőzött szöveg található a fájlban."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -9027,12 +9019,11 @@ msgstr ""
 "és használja az összetevőket a különböző fájlok fordításához."
 
 #: weblate/trans/models/component.py:1494
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Nem sikerült összehasonlítani %d egyező fájlokat."
-msgstr[1] "Nem sikerült összehasonlítani %d egyező fájlokat."
+msgstr[0] "Nem sikerült feldolgozni %d egyező fájlt."
+msgstr[1] "Nem sikerült feldolgozni %d egyező fájlt."
 
 #: weblate/trans/models/component.py:1515
 msgid "Unrecognized base file for new translations."
