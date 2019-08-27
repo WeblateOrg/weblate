@@ -369,6 +369,22 @@ to rely on Weblate internal management.
    :ref:`acl`,
    :ref:`privileges`
 
+.. setting:: DEFAULT_COMMIT_MESSAGE
+.. setting:: DEFAULT_ADD_MESSAGE
+.. setting:: DEFAULT_DELETE_MESSAGE
+.. setting:: DEFAULT_MERGE_MESSAGE
+.. setting:: DEFAULT_ADDON_MESSAGE
+
+DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE
+-----------------------------------------------------------------------------------------------------------------
+
+Default commit messages for different operations, see :ref:`component` for detailed description.
+
+
+.. seealso::
+
+   :ref:`markup`, :ref:`component`
+
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 

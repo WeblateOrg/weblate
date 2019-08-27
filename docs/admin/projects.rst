@@ -242,7 +242,8 @@ Merge style
     This might not be supported for some VCSs. See :ref:`merge-rebase` for
     more details.
 Commit message
-    Message used when committing a translation, see :ref:`markup`.
+    Message used when committing a translation, see :ref:`markup`, default can be 
+    changed by :setting:`DEFAULT_COMMIT_MESSAGE`.
 Committer name
     Name of the committer used for Weblate commits, the author will always be the
     real translator. On some VCSs this might be not supported. Default value
