@@ -14,13 +14,14 @@
 # Andreas Kleinert <Andy.Kleinert@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
 # Tobias Groza <tooobi14@gmail.com>, 2019.
+# Swann Martinet <swann.ranskassa@laposte.net>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-15 07:39+0000\n"
-"Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
+"PO-Revision-Date: 2019-08-28 08:23+0000\n"
+"Last-Translator: Swann Martinet <swann.ranskassa@laposte.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1851,33 +1852,29 @@ msgid "Trailing colon"
 msgstr "Doppelpunkt am Ende"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Semikolon"
+"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Doppelpunkt"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Fragezeichen am Ende"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Punkt"
+"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
+"Fragezeichen"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Ausrufezeichen am Ende"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Semikolon"
+"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
+"Ausrufezeichen"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1932,14 +1929,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr "Dekorative Kashida-Schriftzüge sollten nicht verwendet werden"
 
 #: weblate/checks/chars.py:388
-#, fuzzy
-#| msgid "Font spacing"
 msgid "Punctuation spacing"
-msgstr "Zeichenabstand"
+msgstr "Satzzeichenabstand"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Es fehlt ein untrennbares Leerzeichen vor doppelten Satzzeichen"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -1997,7 +1992,7 @@ msgstr "URL"
 
 #: weblate/checks/flags.py:45
 msgid "Automatically detect Java MessageFormat"
-msgstr "Automatisches Erkennen von Java MessageFormat"
+msgstr "Java MessageFormat automatisch erkennen"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:43
 #: weblate/templates/fonts/font_detail.html:18
@@ -2042,10 +2037,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Fehlende Parameter für das Übersetzungskennzeichen: \"%s\""
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Folgende Korrekturen erfolgten an der Übersetzung: %s"
+msgstr "Folgende Formatzeichenfolgen sind falsch: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2122,46 +2116,36 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Java-MessageFormat-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "BB-Code"
+msgstr "BBcode-Markup"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BBcode in der Übersetzung passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "XML-Text"
+msgstr "XML-Syntax"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "Die Übersetzung ist kein gültiges XML"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Ungültige XML-Auszeichnung"
+msgstr "XML-Auszeichnung"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "XML Tags in der Übersetzung passen nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Markdown-Link Referenzen"
+msgstr "Markdown-Referenzen"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
-msgstr "Markdown-Link Referenzen passen nicht zur Ausgangszeichenkette"
+msgstr "Markdown-Link-Referenzen passen nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:236
 msgid "Markdown links"
@@ -2227,18 +2211,12 @@ msgid "Source and translation are identical"
 msgstr "Ausgangs- und übersetzte Zeichenkette sind identisch"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Plural"
+msgstr "Unpluralisiert"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"Die Zeichenkette wird optional im Plural verwendet, hat aber keine "
-"Pluralformen"
+msgstr "Die Zeichenkette wird im Plural verwendet, hat aber keine Pluralformen"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6748,16 +6726,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "Farben der Fortschrittsanzeige zeigen den Übersetzungsstatus an:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "iOS-Zeichenketten"
+msgstr "Fix-Zeichenfolge"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Alle Sprachen durchsuchen"
+msgstr "Für alle Sprachen verwerfen"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -7461,22 +7435,18 @@ msgid "Things to check"
 msgstr "Folgendes prüfen"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Es gibt %(count)s nicht übersetzte Zeichenkette."
-msgstr[1] "Es gibt %(count)s nicht übersetzte Zeichenketten."
+msgstr[0] "Es gibt %(count)s Vorschlag für diese Zeichenfolge."
+msgstr[1] "Es gibt %(count)s Vorschläge für diese Zeichenfolge."
 
 #: weblate/templates/translate.html:484
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "Es gibt %(count)s nicht übersetzte Zeichenkette."
-msgstr[1] "Es gibt %(count)s nicht übersetzte Zeichenketten."
+msgstr[0] "Es gibt %(count)s Kommentar für diese Zeichenfolge."
+msgstr[1] "Es gibt %(count)s Kommentare für diese Zeichenfolge."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8524,10 +8494,8 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Es wurden keine zugehörigen Begriffe im Glossar gefunden."
+msgstr "Duplizierte Zeichenfolge in der Datei gefunden."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -9186,11 +9154,10 @@ msgstr ""
 "unterschiedliche Ressourcen zu übersetzen."
 
 #: weblate/trans/models/component.py:1494
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Konnte %d passende Dateien nicht analysieren."
+msgstr[0] "Konnte %d passende Datei nicht analysieren."
 msgstr[1] "Konnte %d passende Dateien nicht analysieren."
 
 #: weblate/trans/models/component.py:1515
@@ -10372,7 +10339,7 @@ msgstr "Fehler beim Besorgen des Schlüssels: %s"
 
 #: weblate/wladmin/forms.py:32
 msgid "Activation token"
-msgstr "Aktivierungstoken"
+msgstr "Aktivierungs-Token"
 
 #: weblate/wladmin/forms.py:36
 msgid ""
