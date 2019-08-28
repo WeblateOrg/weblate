@@ -223,7 +223,7 @@ LANGUAGES = (
         'zh_Hant_HK',
         'ltr',
         '0',
-        'Chinese (Hong Kong)',
+        'Chinese (Traditional, Hong Kong)',
         False,
     ),
     (
@@ -231,7 +231,7 @@ LANGUAGES = (
         'zh_Hant_HK',
         'ltr',
         '0',
-        'Chinese (Hong Kong)',
+        'Chinese (Traditional, Hong Kong)',
         False,
     ),
     (
