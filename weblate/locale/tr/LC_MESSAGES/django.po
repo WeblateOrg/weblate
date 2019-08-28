@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-28 08:23+0000\n"
+"PO-Revision-Date: 2019-09-01 08:13+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -2135,15 +2135,11 @@ msgstr "Kaynak ve çeviri aynı"
 
 #: weblate/checks/source.py:38
 msgid "Unpluralised"
-msgstr ""
+msgstr "Çoğulsuz"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"Satır isteğe bağlı bir şekilde çoğul olarak kullanılır ama çoğul biçimleri "
-"kullanarak değil"
+msgstr "Satır çoğul olarak kullanılır, ancak çoğul form kullanmaz"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -5631,10 +5627,8 @@ msgid "Weblate, the continuous localization system"
 msgstr "Weblate, sürekli yerelleştirme sistemi"
 
 #: weblate/templates/mail/base.html:304
-#, fuzzy
-#| msgid "View notification"
 msgid "Disable this notification"
-msgstr "Bildirim görüntüle"
+msgstr "Bu bildirimi devre dışı bırak"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -6542,16 +6536,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "İlerleme çubuğu rengi, çeviri durumunu gösterir:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "iOS satırları"
+msgstr "Satır düzelt"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Tüm dillere gözat"
+msgstr "Tüm diller için reddet"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -7209,11 +7199,11 @@ msgstr "Nitelik"
 
 #: weblate/templates/translate.html:412
 msgid "Origin"
-msgstr ""
+msgstr "Menşei"
 
 #: weblate/templates/translate.html:413
 msgid "Similarity"
-msgstr ""
+msgstr "Benzerlik"
 
 #: weblate/templates/translate.html:443
 msgid "Comment on this string for fellow translators and developers to read."
@@ -7226,22 +7216,18 @@ msgid "Things to check"
 msgstr "Denetlenecekler"
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "%(count)s çevrilmemiş satır var."
-msgstr[1] "%(count)s çevrilmemiş satır var."
+msgstr[0] "Bu satır için %(count)s öneri var."
+msgstr[1] "Bu satır için %(count)s öneri var."
 
 #: weblate/templates/translate.html:484
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "%(count)s çevrilmemiş satır var."
-msgstr[1] "%(count)s çevrilmemiş satır var."
+msgstr[0] "Bu satır için %(count)s yorum var."
+msgstr[1] "Bu satır için %(count)s yorum var."
 
 #: weblate/templates/translate.html:504
 msgid "Manage glossary"
@@ -8270,10 +8256,8 @@ msgstr "Çeviri adı, silmek için işaretlenmiş olanla eşleşmiyor!"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Sözlükte ilgili satır bulunmadı."
+msgstr "Dosyada çoğaltılmış satır bulundu."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -8924,12 +8908,11 @@ msgstr ""
 "farklı kaynakları çevirmek için bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:1494
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "%d eşleşmiş dosyalar ayrıştırılamadı."
-msgstr[1] "%d eşleşmiş dosyalar ayrıştırılamadı."
+msgstr[0] "Eşleşen %d dosya ayrıştırılamadı."
+msgstr[1] "Eşleşen %d dosya ayrıştırılamadı."
 
 #: weblate/trans/models/component.py:1515
 msgid "Unrecognized base file for new translations."
