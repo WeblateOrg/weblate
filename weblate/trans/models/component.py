@@ -626,9 +626,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @property
     def filemask_re(self):
-        return re.compile(
-            fnmatch.translate(self.filemask).replace('.*', '(.*)')
-        )
+        return re.compile(fnmatch.translate(self.filemask).replace('.*', '([^/]*)'))
 
     @cached_property
     def full_slug(self):
