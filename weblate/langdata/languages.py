@@ -714,10 +714,12 @@ LANGUAGES = (
     ('za', _('Zhuang'), 2, 'n != 1'),
     # Translators: Language name, ISO code: zh_Hans
     ('zh_Hans', _('Chinese (Simplified)'), 1, '0'),
+    # Translators: Language name, ISO code: zh_Hans_SG
+    ('zh_Hans_SG', _('Chinese (Simplified, Singapore)'), 1, '0'),
     # Translators: Language name, ISO code: zh_Hant
     ('zh_Hant', _('Chinese (Traditional)'), 1, '0'),
     # Translators: Language name, ISO code: zh_Hant_HK
-    ('zh_Hant_HK', _('Chinese (Hong Kong)'), 1, '0'),
+    ('zh_Hant_HK', _('Chinese (Traditional, Hong Kong)'), 1, '0'),
     # Translators: Language name, ISO code: zu
     ('zu', _('Zulu'), 2, 'n > 1'),
 )
@@ -823,6 +825,7 @@ ALIASES = {
     'zh': 'zh_Hans',
     'zh_cn': 'zh_Hans',
     'zh_chs': 'zh_Hans',
+    'zh_sg': 'zh_Hans_SG',
     'zh_tw': 'zh_Hant',
     'cmn': 'zh_Hans',
     'zh_hk': 'zh_Hant_HK',
