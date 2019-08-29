@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-24 05:47+0000\n"
+"PO-Revision-Date: 2019-09-01 08:13+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -1813,10 +1813,8 @@ msgid "Trailing exclamation"
 msgstr "Канцавы клічнік"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "Зыходны тэкст і пераклад не завяршаюцца кропкаю з коскай"
+msgstr "Зыходны тэкст і пераклад не заканчваюцца клічнікам"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -1975,10 +1973,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Адсутныя параметры для сцягу перакладу: \"%s\""
 
 #: weblate/checks/format.py:271
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "Да перакладу ўжытыя наступныя выпраўленні: %s"
+msgstr "У наступных радкоў няправільны фармат: %s"
 
 #: weblate/checks/format.py:280
 msgid "Python format"
@@ -2053,44 +2050,34 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Фарматаванне ў Java Message радка не адпавядае зыходнаму тэксту"
 
 #: weblate/checks/markup.py:76
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "Код BB"
+msgstr "Разметка BBcode"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode in translation does not match source"
 msgstr "BB-код у перакладзе не адпавядае зыходнаму тэксту"
 
 #: weblate/checks/markup.py:139
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "Тэкст XML"
+msgstr "Сінтаксіс XML"
 
 #: weblate/checks/markup.py:140
 msgid "The translation is not valid XML"
 msgstr "Пераклад з'яўляецца непрыдатным XML-файлам"
 
 #: weblate/checks/markup.py:167
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Хібная разметка XML"
+msgstr "Разметка XML"
 
 #: weblate/checks/markup.py:168
 msgid "XML tags in translation do not match source"
 msgstr "Пазнакі XML ў перакладзе не адпавядаюць зыходнаму тэксту"
 
 #: weblate/checks/markup.py:219
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
 msgstr "Спасылкі Markdown"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Спасылка Markdown не адпавядае зыходнаму тэксту"
 
@@ -2161,12 +2148,9 @@ msgid "Unpluralised"
 msgstr "Множны лік"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"Радок дадаткова ўжываецца у якасці множнага ліку, але не ўтрымлівае формаў "
-"множнага ліку"
+"Радок ужываецца у якасці множнага ліку, але не змяшчае формаў множнага ліку"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -6585,16 +6569,12 @@ msgid "Progress bar color indicates translation state:"
 msgstr "Колеры індыкатараў прагрэсу адлюстроўваюць стан перакладу:"
 
 #: weblate/templates/snippets/list-checks.html:16
-#, fuzzy
-#| msgid "iOS strings"
 msgid "Fix string"
-msgstr "Радкі iOS"
+msgstr "Выправіць радок"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Dismiss for all languages"
-msgstr "Прагляд ўсіх моў"
+msgstr "Адхіліць для ўсіх моў"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
@@ -8317,10 +8297,8 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Не знойдзена звязаных радкоў у гласарыі."
+msgstr "У файле знойдзеныя прадубляваныя радкі."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -8972,11 +8950,10 @@ msgstr ""
 "файлавую маску і выкарыстоўвайце кампаненты для перакладу розных файлаў."
 
 #: weblate/trans/models/component.py:1494
-#, fuzzy, python-format
-#| msgid "Could not parse %d matched files."
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Не атрымалася разабраць %d супастаўленых файлаў."
+msgstr[0] "Не атрымалася разабраць %d супастаўлены файл."
 msgstr[1] "Не атрымалася разабраць %d супастаўленых файлаў."
 msgstr[2] "Не атрымалася разабраць %d супастаўленых файлаў."
 
