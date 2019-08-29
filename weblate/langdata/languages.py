@@ -247,7 +247,7 @@ LANGUAGES = (
     # Translators: Language name, ISO code: fr
     ('fr', _('French'), 2, 'n > 1'),
     # Translators: Language name, ISO code: fr_AG
-    ('fr_AG', _('French (Argentina)'), 2, 'n > 1'),
+    ('fr_AG', _('French (Antigua and Barbuda)'), 2, 'n > 1'),
     # Translators: Language name, ISO code: fr_BE
     ('fr_BE', _('French (Belgium)'), 2, 'n > 1'),
     # Translators: Language name, ISO code: fr_CA
