@@ -32,7 +32,7 @@ from django.test.utils import override_settings
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     AutoComponentList,
     Component,
@@ -47,12 +47,12 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 def fixup_languages_seq():
-    # Reset sequence for Language objects as
+    # Reset sequence for Language and Plural objects as
     # we're manipulating with them in FixtureTestCase.setUpTestData
     # and that seems to affect sequence for other tests as well
     # on some PostgreSQL versions (probably sequence is not rolled back
     # in a transaction).
-    commands = connection.ops.sequence_reset_sql(no_style(), [Language])
+    commands = connection.ops.sequence_reset_sql(no_style(), [Language, Plural])
     if commands:
         with connection.cursor() as cursor:
             for sql in commands:
