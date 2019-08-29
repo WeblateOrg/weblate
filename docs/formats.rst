@@ -1047,6 +1047,8 @@ BCP style using hyphen as a separator
 Android style
    Used only on Android apps, produces language codes like
    `pt-rBR`.
+Java style
+   User by Java - mostly BCP with legacy codes for Chinese.
 
 .. note::
 

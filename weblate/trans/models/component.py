@@ -111,6 +111,7 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ('posix', ugettext_lazy('POSIX style using underscore as a separator')),
     ('bcp', ugettext_lazy('BCP style using hyphen as a separator')),
     ('android', ugettext_lazy('Android style')),
+    ('java', ugettext_lazy('Java style')),
 )
 
 MERGE_CHOICES = (

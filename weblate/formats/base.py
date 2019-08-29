@@ -385,6 +385,19 @@ class TranslationFormat(object):
         return sanitized.replace('_', '-r')
 
     @classmethod
+    def get_language_java(cls, code):
+        # Java doesn't use Hans/Hant, but rather TW/CN variants
+        if code == 'zh_Hans':
+            return 'zh-CN'
+        if code == 'zh_Hant':
+            return 'zh-TW'
+        if code == 'zh_Hans_SG':
+            return 'zh-SG'
+        if code == 'zh_Hant_HK':
+            return 'zh-HK'
+        return cls.get_language_bcp(code)
+
+    @classmethod
     def get_language_filename(cls, mask, code):
         """
         Return full filename of a language file for given
