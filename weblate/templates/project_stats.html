@@ -11,6 +11,11 @@
 </tr>
 
 <tr>
+<th>{% trans "Number of chars" %}</th>
+<td colspan="2">{{ object.stats.all_chars }}</td>
+</tr>
+
+<tr>
 <th>{% trans "Number of languages" %}</th>
 <td colspan="2">{{ object.stats.languages }}</td>
 </tr>
@@ -23,4 +28,9 @@
 <tr>
 <th>{% trans "Number of source words" %}</th>
 <td colspan="2">{{ object.stats.source_words }}</td>
+</tr>
+
+<tr>
+<th>{% trans "Number of source chars" %}</th>
+<td colspan="2">{{ object.stats.source_chars }}</td>
 </tr>
