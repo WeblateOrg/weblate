@@ -39,13 +39,13 @@ from weblate.utils import messages
 def get_page_limit(request, default):
     """Return page and limit as integers."""
     try:
-        limit = int(request.GET.get('limit', default))
+        limit = int(request.GET.get("limit", default))
     except ValueError:
         limit = default
     # Cap it to range 10 - 2000
     limit = min(max(10, limit), 2000)
     try:
-        page = int(request.GET.get('page', 1))
+        page = int(request.GET.get("page", 1))
     except ValueError:
         page = 1
     page = max(1, page)
@@ -67,9 +67,7 @@ class ComponentViewMixin(object):
     # This should be done in setup once we drop support for older Django
     def get_component(self):
         return get_component(
-            self.request,
-            self.kwargs['project'],
-            self.kwargs['component']
+            self.request, self.kwargs["project"], self.kwargs["component"]
         )
 
 
@@ -88,7 +86,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
         Translation.objects.prefetch(),
         language__code=lang,
         component__slug=component,
-        component__project__slug=project
+        component__project__slug=project,
     )
     if not skip_acl:
         request.user.check_access(translation.component.project)
@@ -98,9 +96,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug=project,
-        slug=component
+        Component.objects.prefetch(), project__slug=project, slug=component
     )
     if not skip_acl:
         request.user.check_access(component.project)
@@ -109,10 +105,7 @@ def get_component(request, project, component, skip_acl=False):
 
 def get_project(request, project, skip_acl=False):
     """Return project matching parameters."""
-    project = get_object_or_404(
-        Project,
-        slug=project,
-    )
+    project = get_object_or_404(Project, slug=project)
     if not skip_acl:
         request.user.check_access(project)
     return project
@@ -147,7 +140,7 @@ def try_set_language(lang):
         activate(lang)
     except Exception:
         # Ignore failure on activating language
-        activate('en')
+        activate("en")
 
 
 def import_message(request, count, message_none, message_ok):
@@ -160,21 +153,18 @@ def import_message(request, count, message_none, message_ok):
 def zip_download_dir(path):
     result = []
     for root, _unused, files in os.walk(path):
-        if '/.git/' in root or '/.hg/' in root:
+        if "/.git/" in root or "/.hg/" in root:
             continue
         result.extend((os.path.join(root, name) for name in files))
     return zip_download(path, result)
 
 
 def zip_download(root, filenames):
-    response = HttpResponse(content_type='application/zip')
-    with ZipFile(response, 'w') as zipfile:
+    response = HttpResponse(content_type="application/zip")
+    with ZipFile(response, "w") as zipfile:
         for filename in filenames:
-            with open(filename, 'rb') as handle:
-                zipfile.writestr(
-                    os.path.relpath(filename, root),
-                    handle.read()
-                )
+            with open(filename, "rb") as handle:
+                zipfile.writestr(os.path.relpath(filename, root), handle.read())
     return response
 
 
@@ -183,52 +173,49 @@ def download_translation_file(translation, fmt=None, units=None):
         try:
             exporter_cls = get_exporter(fmt)
         except KeyError:
-            raise Http404('File format not supported')
+            raise Http404("File format not supported")
         if not exporter_cls.supports(translation):
-            raise Http404('File format not supported')
+            raise Http404("File format not supported")
         exporter = exporter_cls(translation=translation)
         if units is None:
             units = translation.unit_set.all()
         exporter.add_units(units)
         response = exporter.get_response(
-            '{{project}}-{0}-{{language}}.{{extension}}'.format(
+            "{{project}}-{0}-{{language}}.{{extension}}".format(
                 translation.component.slug
             )
         )
     else:
         # Force flushing pending units
-        translation.commit_pending('download', None)
+        translation.commit_pending("download", None)
 
         filenames = translation.filenames
 
         if len(filenames) == 1:
             extension = translation.store.extension()
             # Create response
-            with open(filenames[0], 'rb') as handle:
+            with open(filenames[0], "rb") as handle:
                 response = HttpResponse(
-                    handle.read(),
-                    content_type=translation.store.mimetype()
+                    handle.read(), content_type=translation.store.mimetype()
                 )
         else:
-            extension = 'zip'
+            extension = "zip"
             response = zip_download(translation.get_filename(), filenames)
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
-        filename = '{0}-{1}-{2}.{3}'.format(
+        filename = "{0}-{1}-{2}.{3}".format(
             translation.component.project.slug,
             translation.component.slug,
             translation.language.code,
-            extension
+            extension,
         )
 
         # Fill in response headers
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(
-            filename
-        )
+        response["Content-Disposition"] = "attachment; filename={0}".format(filename)
 
     if translation.stats.last_changed:
-        response['Last-Modified'] = http_date(
+        response["Last-Modified"] = http_date(
             mktime(translation.stats.last_changed.timetuple())
         )
 
@@ -243,10 +230,8 @@ def show_form_errors(request, form):
         for error in field.errors:
             messages.error(
                 request,
-                _('Error in parameter %(field)s: %(error)s') % {
-                    'field': field.name,
-                    'error': error
-                }
+                _("Error in parameter %(field)s: %(error)s")
+                % {"field": field.name, "error": error},
             )
 
 
