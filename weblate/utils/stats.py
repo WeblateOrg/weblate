@@ -26,6 +26,7 @@ from datetime import timedelta
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Sum
+from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -46,6 +47,7 @@ BASICS = frozenset((
 ))
 BASIC_KEYS = frozenset(
     ['{}_words'.format(x) for x in BASICS if x != 'languages']
+    + ['{}_chars'.format(x) for x in BASICS if x != 'languages']
     + [
         'translated_percent', 'approved_percent', 'fuzzy_percent',
         'allchecks_percent', 'translated_words_percent',
@@ -55,7 +57,9 @@ BASIC_KEYS = frozenset(
     + list(BASICS)
     + ['last_changed', 'last_author']
 )
-SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
+SOURCE_KEYS = frozenset(
+    list(BASIC_KEYS) + ['source_strings', 'source_words', 'source_chars']
+)
 
 
 def aggregate(stats, item, stats_obj):
@@ -237,12 +241,14 @@ class BaseStats(object):
         if total is None:
             if base.endswith('_words'):
                 total = self.all_words
+            elif base.endswith('_chars'):
+                total = self.all_chars
             else:
                 total = self.all
         if self.has_review:
-            completed = {'approved', 'approved_words'}
+            completed = {'approved', 'approved_words', 'approved_chars'}
         else:
-            completed = {'translated', 'translated_words'}
+            completed = {'translated', 'translated_words', 'translated_chars'}
         return translation_percent(getattr(self, base), total, base in completed)
 
     def store_percents(self, item, total=None):
@@ -314,43 +320,71 @@ class TranslationStats(BaseStats):
         stats = self._object.unit_set.aggregate(
             all=Count('id'),
             all_words=Sum('num_words'),
+            all_chars=Sum(Length('source')),
             fuzzy=conditional_sum(1, state=STATE_FUZZY),
             fuzzy_words=conditional_sum(
                 'num_words', state=STATE_FUZZY
+            ),
+            fuzzy_chars=conditional_sum(
+                Length('source'), state=STATE_FUZZY
             ),
             translated=conditional_sum(1, state__gte=STATE_TRANSLATED),
             translated_words=conditional_sum(
                 'num_words', state__gte=STATE_TRANSLATED
             ),
+            translated_chars=conditional_sum(
+                Length('source'), state__gte=STATE_TRANSLATED
+            ),
             todo=conditional_sum(1, state__lt=STATE_TRANSLATED),
             todo_words=conditional_sum(
                 'num_words', state__lt=STATE_TRANSLATED
+            ),
+            todo_chars=conditional_sum(
+                Length('source'), state__lt=STATE_TRANSLATED
             ),
             nottranslated=conditional_sum(1, state=STATE_EMPTY),
             nottranslated_words=conditional_sum(
                 'num_words', state=STATE_EMPTY
             ),
+            nottranslated_chars=conditional_sum(
+                Length('source'), state=STATE_EMPTY
+            ),
             approved=conditional_sum(1, state__gte=STATE_APPROVED),
             approved_words=conditional_sum(
                 'num_words', state__gte=STATE_APPROVED
+            ),
+            approved_chars=conditional_sum(
+                Length('source'), state__gte=STATE_APPROVED
             ),
             allchecks=conditional_sum(1, has_failing_check=True),
             allchecks_words=conditional_sum(
                 'num_words', has_failing_check=True
             ),
+            allchecks_chars=conditional_sum(
+                Length('source'), has_failing_check=True
+            ),
             suggestions=conditional_sum(1, has_suggestion=True),
             suggestions_words=conditional_sum(
                 'num_words', has_suggestion=True
             ),
+            suggestions_chars=conditional_sum(
+                Length('source'), has_suggestion=True
+            ),
             comments=conditional_sum(1, has_comment=True),
             comments_words=conditional_sum(
                 'num_words', has_comment=True,
+            ),
+            comments_chars=conditional_sum(
+                Length('source'), has_comment=True,
             ),
             approved_suggestions=conditional_sum(
                 1, state__gte=STATE_APPROVED, has_suggestion=True
             ),
             approved_suggestions_words=conditional_sum(
                 'num_words', state__gte=STATE_APPROVED, has_suggestion=True
+            ),
+            approved_suggestions_chars=conditional_sum(
+                Length('source'), state__gte=STATE_APPROVED, has_suggestion=True
             ),
         )
         for key, value in stats.items():
@@ -415,15 +449,18 @@ class TranslationStats(BaseStats):
             return
         if item.endswith('_words'):
             item = item[:-6]
+        if item.endswith('_chars'):
+            item = item[:-6]
         translation = self._object
         stats = translation.unit_set.filter_type(
             item,
             translation.component.project,
             translation.language,
             strict=True
-        ).aggregate(Count('pk'), Sum('num_words'))
-        self.store(item, stats['pk__count'])
-        self.store('{}_words'.format(item), stats['num_words__sum'])
+        ).aggregate(strings=Count('pk'), words=Sum('num_words'), chars=Sum(Length('source')))
+        self.store(item, stats['strings'])
+        self.store('{}_words'.format(item), stats['words'])
+        self.store('{}_chars'.format(item), stats['chars'])
 
     def ensure_all(self):
         """Ensure we have complete set."""
@@ -454,6 +491,9 @@ class LanguageStats(BaseStats):
                 aggregate(stats, item, stats_obj)
             # This is meaningless for language stats, but we share code
             # with the ComponentStats
+            stats['source_chars'] = max(
+                stats_obj.all_chars, stats['source_chars']
+            )
             stats['source_words'] = max(
                 stats_obj.all_words, stats['source_words']
             )
