@@ -359,7 +359,7 @@ class PropertiesFormatTest(AutoFormatTest):
     COUNT = 12
     EXT = 'properties'
     MASK = 'java/swing_messages_*.properties'
-    EXPECTED_PATH = 'java/swing_messages_cs_CZ.properties'
+    EXPECTED_PATH = 'java/swing_messages_cs-CZ.properties'
     FIND = 'IGNORE'
     FIND_CONTEXT = 'IGNORE'
     FIND_MATCH = 'Ignore'
