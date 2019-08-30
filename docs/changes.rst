@@ -11,6 +11,7 @@ Not yet released.
 * Indicate missing strings in format checks.
 * Separate check for French punctuation spacing.
 * Add support for fixing some of quality checks errors.
+* Add separate permission to create new projects.
 
 weblate 3.8
 -----------

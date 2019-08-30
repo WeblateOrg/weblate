@@ -96,6 +96,8 @@ PERMISSIONS = (
 GLOBAL_PERMISSIONS = (
     ('management.use', _('Use management interface (on the entire platform)')),
 
+    ('project.add', _('Add new projects (on the entire platform)')),
+
     ('language.add', _('Add language definitions (on the entire platform)')),
     ('language.edit', _('Manage language definitions (on the entire platform)')),
 
