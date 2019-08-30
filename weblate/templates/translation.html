@@ -411,6 +411,7 @@
 <th>{% trans "Percent" %}</th>
 <th>{% trans "Strings" %}</th>
 <th>{% trans "Words" %}</th>
+<th>{% trans "Chars" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -419,23 +420,29 @@
 <td class="percent"></td>
 <td class="number">{{ object.stats.all }}</td>
 <td class="number">{{ object.stats.all_words }}</td>
+<td class="number">{{ object.stats.all_chars }}</td>
 </tr>
 <tr>
 <th>{% trans "Translated" %}</th>
 <td class="percent">{{ object.stats.translated_percent }}%</td>
 <td class="number">{{ object.stats.translated }}</td>
 <td class="number">{{ object.stats.translated_words }}</td>
+<td class="number">{{ object.stats.translated_chars }}</td>
 </tr>
 <tr>
 <th>{% trans "Needs editing" %}</th>
 <td class="percent">{{ object.stats.fuzzy_percent }}%</td>
 <td class="number">{{ object.stats.fuzzy }}</td>
+<td class="number">{{ object.stats.fuzzy_words }}</td>
+<td class="number">{{ object.stats.fuzzy_chars }}</td>
 <td class="number"></td>
 </tr>
 <tr>
 <th>{% trans "Failing check" %}</th>
 <td class="percent">{{ object.stats.allchecks_percent }}%</td>
 <td class="number">{{ object.stats.allchecks }}</td>
+<td class="number">{{ object.stats.allchecks_words }}</td>
+<td class="number">{{ object.stats.allchecks_chars }}</td>
 <td class="number"></td>
 </tr>
 </tbody>
