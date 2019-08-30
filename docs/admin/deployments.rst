@@ -361,6 +361,10 @@ Generic settings
 
        :ref:`gpg-sign`
 
+.. envvar:: WEBLATE_URL_PREFIX
+
+   Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
