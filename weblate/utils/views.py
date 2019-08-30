@@ -137,7 +137,7 @@ def get_project_translation(request, project=None, component=None, lang=None):
             project = get_project(request, project)
 
     # Return tuple
-    return project, component, translation
+    return project or None, component or None, translation or None
 
 
 def try_set_language(lang):
