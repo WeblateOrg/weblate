@@ -12,6 +12,8 @@ Not yet released.
 * Separate check for French punctuation spacing.
 * Add support for fixing some of quality checks errors.
 * Add separate permission to create new projects.
+* Extend stats for char counts.
+* Improve support for Java style language codes.
 
 weblate 3.8
 -----------
