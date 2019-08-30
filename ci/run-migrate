@@ -12,6 +12,7 @@ for tag in $TAGS ; do
     git fetch --depth 1 origin tag $tag
     check
     git checkout $tag
+    pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
     echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
     check
     run_coverage ./manage.py migrate
@@ -32,6 +33,7 @@ for tag in $TAGS ; do
     check
     git reset --hard
     git checkout $TRAVIS_COMMIT$DRONE_COMMIT
+    pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
     run_coverage ./manage.py migrate
     check
 done
