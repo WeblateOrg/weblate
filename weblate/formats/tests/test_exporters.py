@@ -41,8 +41,8 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.trans.tests.test_models import BaseTestCase
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 def fake_get_comments():
