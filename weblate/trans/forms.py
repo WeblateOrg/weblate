@@ -596,7 +596,7 @@ class SimpleUploadForm(forms.Form):
     method = forms.ChoiceField(
         label=_('File upload mode'),
         choices=(
-            ('translate', _('Add as translation needing review')),
+            ('translate', _('Add as translation')),
             ('approve', _('Add as approved translation')),
             ('suggest', _('Add as suggestion')),
             ('fuzzy', _('Add as translation needing edit')),
