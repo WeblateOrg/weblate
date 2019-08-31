@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-08-24 06:57+0000\n"
-"PO-Revision-Date: 2019-08-28 08:23+0000\n"
+"PO-Revision-Date: 2019-09-01 08:14+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -725,8 +725,6 @@ msgid ""
 msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
 
 #: weblate/accounts/views.py:1065
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
 msgstr "인증이 취소되었습니다."
 
@@ -735,28 +733,20 @@ msgid "The server does not allow authentication."
 msgstr "서버가 인증을 허용하지 않습니다."
 
 #: weblate/accounts/views.py:1074
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
-msgstr ""
-"등록을 완료하지 못했습니다. 제공된 인증, 이메일 또는 사용자 이름이 이미 다른 "
-"계정에 연결되어 있습니다."
+msgstr "등록을 완료하지 못했습니다. 제공된 인증, 전자우편 또는 사용자 이름이 이미 다른 계정에 연결되어 있습니다."
 
 #: weblate/accounts/views.py:1088
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "알림 설정"
+msgstr "알림 설정이 조정되었습니다."
 
 #: weblate/accounts/views.py:1091
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
-msgstr ""
+msgstr "알림 변경 고리가 비활성화 되었습니다. 알림을 구성하려면 로그인하십시오."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -884,16 +874,12 @@ msgid "No line wrapping"
 msgstr "줄 바꿈 없음"
 
 #: weblate/addons/forms.py:117
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"기본적으로 gettext는 영문자 기준 문자를 77자 마다 새 줄로 줄 바꿈합니다, --"
-"no-wrap 매개변수, 새 줄에서만 줄 바꿈합니다."
+"기본적으로 gettext는 영문자 기준 문자를 77자를 넘기거나 줄바꿈이 있는경우 줄을 바꿉니다. --no-wrap 매개변수를 이용하면 "
+"줄바꿈에서만 줄을 바꿉니다."
 
 #: weblate/addons/forms.py:125
 msgid "Keep previous msgids of translated strings"
@@ -936,24 +922,14 @@ msgid "Days to keep"
 msgstr "보관할 일수"
 
 #: weblate/addons/forms.py:183
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
 msgstr "투표 한계값"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting "
-#| "disabled."
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr ""
-"제거를 위한 최소 투표 수. 이것은 투표 기능을 사용하지않으면 아무 효과도 없습"
-"니다."
+msgstr "삭제하기 쉬운 값을 지정합니다. 이 영역은 투표 기능이 해제된 상태에서는 효과가 없습니다."
 
 #: weblate/addons/forms.py:206
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr "번역 파일과 일치하는 정규 표현식"
 
@@ -998,7 +974,7 @@ msgstr "파일 마스크를 검사할 때 번역을 골라내는데 사용되는
 
 #: weblate/addons/forms.py:246
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "기본 구성 요소에서 새로 작성된 구성 요소로 부가기능을 복제"
 
 #: weblate/addons/forms.py:251
 msgid "Remove components for inexistant files"
@@ -1009,10 +985,8 @@ msgid "I confirm the above matches look correct"
 msgstr "나는 위의 일치 항목이 올바른지 확인합니다"
 
 #: weblate/addons/forms.py:315
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
-msgstr "맞는 구성요소인지 검토하고 확인하십시오."
+msgstr "일치하는 구성요소인지 검토하고 확인하십시오."
 
 #: weblate/addons/forms.py:331
 msgid "Please include component markup in the template."
@@ -1045,21 +1019,15 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "새 번역이 추가될 때 LINGUAS 파일을 업데이트 합니다."
 
 #: weblate/addons/gettext.py:126
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "configure 파일에서 ALL_LINGUAS 변수를 업데이트하기"
+msgstr "\"configure\" 파일에서 ALL_LINGUAS 변수를 업데이트하기"
 
 #: weblate/addons/gettext.py:128
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"새 번역이 추가될 때, configure, configure.in 혹은 configure.ac 파일에서 "
+"새 번역이 추가될 때, \"configure\", \"configure.in\", \"configure.ac\" 중의 파일에서 "
 "ALL_LINGUAS 파일을 업데이트 합니다."
 
 #: weblate/addons/gettext.py:186
@@ -4018,7 +3986,7 @@ msgstr "현재 설치된 부가기능이 없습니다."
 #, python-format
 msgid "There is currently %(count)s addon installed."
 msgid_plural "There are currently %(count)s addons installed."
-msgstr[0] "현재 %(count)s개의 부가기능이 설치되어 있습니다."
+msgstr[0] "현재 %(count)s 개의 부가기능이 설치되어 있습니다."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available addons"
@@ -4809,7 +4777,7 @@ msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "제안은 %(count)s 의 표를 받으면 자동으로 번역으로 승인됩니다."
+msgstr[0] "제안은 %(count)s 개의 표를 얻으면 번역이 자동으로 받아들여집니다."
 
 #: weblate/templates/component_info.html:18
 msgid "Translations can be made directly."
@@ -4919,7 +4887,7 @@ msgstr ""
 #, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "모든 %(count)s 프로젝트 찾아보기"
+msgstr[0] "%(count)s 개의 프로젝트 모두 찾아보기"
 
 #: weblate/templates/dashboard/user.html:46
 msgid "Checks overview"
@@ -5231,9 +5199,9 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"%(project)s 번역 프로젝트에는 현재 총 <strong>%(total)s개의 문자열</strong>"
-"이 남아 있으며, <strong>%(languages)s가지의 언어</strong>로 번역되고 있습니"
-"다. 이 프로젝트의 번역은 현재 <strong>%(percent)s진행</strong>되었습니다."
+"%(project)s 번역 프로젝트에는 현재 총 <strong>%(total)s 개의 문자열</strong>이 남아 있으며, "
+"<strong>%(languages)s 가지의 언어</strong>로 번역되고 있습니다. 전체적으로 번역은 "
+"<strong>%(percent)s%% 완료</strong>되었습니다."
 
 #: weblate/templates/engage.html:47
 #, python-format
@@ -5648,11 +5616,10 @@ msgid "Plural: %(source_description)s"
 msgstr "복수형: %(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "당신의 번역"
+msgstr[0] "%(count)s 개 번역"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -7313,7 +7280,7 @@ msgstr "제안된 변경 사항:"
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
-msgstr[0] "%(count)s개의 투표"
+msgstr[0] "%(count)s 개의 투표"
 
 #: weblate/templates/translate.html:307
 msgid "Vote for"
@@ -10217,7 +10184,7 @@ msgstr "키 가져오기에 실패하였습니다: %s"
 
 #: weblate/wladmin/forms.py:32
 msgid "Activation token"
-msgstr ""
+msgstr "활성화 코드"
 
 #: weblate/wladmin/forms.py:36
 msgid ""
@@ -10237,7 +10204,6 @@ msgid "The test e-mail will be sent to this address."
 msgstr "본인 확인용 이메일이 이 주소로 전송됩니다."
 
 #: weblate/wladmin/models.py:90
-#, fuzzy
 msgid "Community support"
 msgstr "커뮤니티 지원"
 
