@@ -38,6 +38,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Unit
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 
 
@@ -472,6 +473,7 @@ class Invoice(models.Model):
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
+@disable_for_loaddata
 def update_project_bill(sender, instance, **kwargs):
     if isinstance(instance, Component):
         instance = instance.project
@@ -480,6 +482,7 @@ def update_project_bill(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Invoice)
+@disable_for_loaddata
 def update_invoice_bill(sender, instance, **kwargs):
     instance.billing.check_limits()
 
