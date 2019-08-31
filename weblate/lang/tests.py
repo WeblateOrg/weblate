@@ -606,7 +606,7 @@ class PluralsCompareTest(TestCase):
         )
 
 
-class PluralTest(TestCase):
+class PluralTest(BaseTestCase):
     def test_examples(self):
         plural = Plural(number=2, equation='n!=1')
         self.assertEqual(

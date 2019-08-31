@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-from django.test import TestCase
-
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     CSVExporter,
@@ -44,13 +42,14 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
+from weblate.trans.tests.test_models import BaseTestCase
 
 
 def fake_get_comments():
     return [Comment(comment='Weblate translator comment')]
 
 
-class PoExporterTest(TestCase):
+class PoExporterTest(BaseTestCase):
     _class = PoExporter
     _has_context = True
     _has_comments = True
