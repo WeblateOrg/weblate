@@ -369,7 +369,7 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
         self.test_private_use('en-US-x-twain', 'en_US-x-twain')
 
 
-class CommandTest(TestCase):
+class CommandTest(BaseTestCase):
     """Test for management commands."""
     def test_setuplang(self):
         call_command('setuplang')
