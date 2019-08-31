@@ -122,16 +122,17 @@ def check_celery(app_configs, **kwargs):
 
 
 def check_database(app_configs, **kwargs):
-    errors = []
-    if 'sqlite' in settings.DATABASES['default']['ENGINE']:
-        errors.append(
-            Error(
-                'SQLite is not a good database backend for production use',
-                hint=get_doc_url('admin/install', 'production-database'),
-                id='weblate.E006',
-            )
+    if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+        return []
+    return [
+        Error(
+            'Please migrate your database to use PostgreSQL. '
+            'Support for other database backends will be dropped in Weblate 4.0 '
+            'currently sheduled on April 2020.',
+            hint=get_doc_url('admin/install', 'production-database'),
+            id='weblate.E006',
         )
-    return errors
+    ]
 
 
 def check_cache(app_configs, **kwargs):

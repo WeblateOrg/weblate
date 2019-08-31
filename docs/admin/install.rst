@@ -321,116 +321,37 @@ The :file:`settings.py` snippet for PostgreSQL:
         }
     }
 
-MySQL or MariaDB
-++++++++++++++++
+.. _database-migration:
 
-MySQL or MariaDB are quite good choices for running Weblate. However when using MySQL
-you might hit some problems caused by it.
+Migrating from other databases
+++++++++++++++++++++++++++++++
 
-.. warning::
+If you are running Weblate on other dabatase than PostgreSQL, you should
+migrate to PostgreSQL as that will be the only supported database backend in
+the 4.0 release. The following steps will guide you in migrating your data
+between the databases. Please remember to stop both web and Celery servers
+prior to the migration, otherwise you might end up with inconsistent data.
 
-   It's likely that MySQL/MariaDB support will be dropped in future Weblate
-   releases, so it's not recommended for new installations.
+Creating a database in PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. seealso::
+It is usually a good idea to run Weblate in a separate database, and separate user account:
 
-    :ref:`django:mysql-notes`
+.. code-block:: sh
 
-Unicode issues in MySQL
-~~~~~~~~~~~~~~~~~~~~~~~
+    # If PostgreSQL was not installed before, set the master password
+    sudo -u postgres psql postgres -c "\password postgres"
 
-MySQL by default uses something called ``utf8``, which can not store all Unicode
-characters, only those who fit into three bytes in ``utf-8`` encoding. In case
-you're using emojis or some other higher Unicode symbols you might hit errors
-when saving such data. Depending on the MySQL and Python bindings version, the
-produced error might look like this:
+    # Create a database user called "weblate"
+    sudo -u postgres createuser -D -P weblate
 
-* `OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")`
-* `UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)`
+    # Create the database "weblate" owned by "weblate"
+    sudo -u postgres createdb -O weblate weblate
 
-To solve this, you need to change your database to use ``utf8mb4`` (which is again
-a subset of Unicode, but this time one which can be stored in four bytes in ``utf-8``
-encoding, thus covering all chars currently defined in Unicode).
+Configuring Weblate to use PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This can be achieved during creation of the database by selecting this
-character set (see :ref:`mysql-create`) and specifying that character set in
-the connection settings (see :ref:`mysql-config`).
-
-In case you have an existing database, you can change it to ``utf8mb4`` by, but
-this won't change collation of existing fields:
-
-.. code-block:: mysql
-
-    ALTER DATABASE weblate CHARACTER SET utf8mb4;
-
-Using this charset might however lead to problems with the default MySQL server
-settings, as each character now takes 4 bytes to store, and MySQL has an upper limit
-of 767 bytes for an index. In case this happens you will get one of the following
-error messages:
-
-* `1071: Specified key was too long; max key length is 767 bytes`
-* `1709: Index column size too large. The maximum column size is 767 bytes.`
-
-There are two ways to work around this limitation. You can configure MySQL to
-not have this limit, see `Using Innodb_large_prefix to Avoid ERROR 1071
-<https://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_.
-Alternatively you can also adjust several settings for social-auth in your
-:file:`settings.py` (see :doc:`psa:configuration/settings`):
-
-.. code-block:: python
-
-   # Limit some social-auth fields to 191 chars to fit
-   # them in 767 bytes
-
-   SOCIAL_AUTH_UID_LENGTH = 191
-   SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 191
-   SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 191
-   SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 191
-   SOCIAL_AUTH_EMAIL_LENGTH = 191
-
-
-Transaction locking
-~~~~~~~~~~~~~~~~~~~
-
-MySQL by default uses a different transaction locking scheme than other
-databases, and in case you see errors like `Deadlock found when trying to get
-lock; try restarting transaction` it might be good idea to enable
-`STRICT_TRANS_TABLES` mode in MySQL. This can be done in the server
-configuration file (usually :file:`/etc/mysql/my.cnf` on Linux):
-
-.. code-block:: ini
-
-    [mysqld]
-    sql-mode=STRICT_TRANS_TABLES
-
-.. seealso::
-
-    :ref:`django:mysql-sql-mode`
-
-.. _mysql-create:
-
-Creating a database in MySQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Create ``weblate`` user to access the ``weblate`` database:
-
-.. code-block:: mysql
-
-    # Grant all privileges to the user ``weblate``
-    GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
-
-    # Create a database on MySQL >= 5.7.7
-    CREATE DATABASE weblate CHARACTER SET utf8mb4;
-
-    # Use utf8 for older versions
-    # CREATE DATABASE weblate CHARACTER SET utf8;
-
-.. _mysql-config:
-
-Configuring Weblate to use MySQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The :file:`settings.py` snippet for MySQL:
+Add PostgeSQL as additional database connection to the :file:`settings.py`:
 
 .. code-block:: python
 
@@ -459,9 +380,48 @@ The :file:`settings.py` snippet for MySQL:
                # Change connection timeout in case you get MySQL gone away error:
                'connect_timeout': 28800,
             }
-
+        },
+        'postgresql': {
+            # Database engine
+            'ENGINE': 'django.db.backends.postgresql',
+            # Database name
+            'NAME': 'weblate',
+            # Database user
+            'USER': 'weblate',
+            # Database password
+            'PASSWORD': 'password',
+            # Set to empty string for localhost
+            'HOST': 'database.example.com',
+            # Set to empty string for default
+            'PORT': '',
         }
     }
+
+Create empty tables in the PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run migrations and drop any data inserted into the tables:
+
+.. code-block:: sh
+
+   python manage.py migrate --database=postgresql
+   python manage.py sqlflush --database=postgresql | psql
+
+Dump legacy database and import to PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: sh
+
+   python manage.py dumpdata --all --output weblate.json
+   python manage.py loaddata weblate.json --database=postgresql
+
+Adjust configuration
+~~~~~~~~~~~~~~~~~~~~
+
+Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
+remove legacy connection.
+
+Weblate should be now ready to run from the PostgreSQL database.
 
 Other configurations
 --------------------
@@ -763,6 +723,7 @@ for more info.
 .. seealso::
 
     :ref:`database-setup`,
+    :ref:`database-migration`,
     :ref:`configuration`,
     :doc:`django:ref/databases`
 
