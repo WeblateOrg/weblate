@@ -1085,7 +1085,13 @@ URL_PREFIX
 This settings allows you to run Weblate under some path (otherwise it relies on
 being executed from webserver root). To use this setting, you also need to
 configure your server to strip this prefix. For example with WSGI, this can be
-achieved by setting ``WSGIScriptAlias``.
+achieved by setting ``WSGIScriptAlias``. The prefix should start with a ``/``.
+
+Example:
+
+.. code-block:: python
+
+   URL_PREFIX = '/translations'
 
 .. note::
 
