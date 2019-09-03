@@ -84,11 +84,50 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 Docker container with HTTPS support
 +++++++++++++++++++++++++++++++++++
 
-Please see :ref:`docker-deploy` for generic deployment instructions. To add a
-reverse HTTPS proxy an additional Docker container is required,
-`https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_ will be used.
-This is made use of in the :file:`docker-compose-https.yml` file.
-Then create a :file:`docker-compose-https.override.yml` file with your settings:
+Please see :ref:`docker-deploy` for generic deployment instructions, this
+section only mentions differences compared to it.
+
+Using own SSL certificates
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.8-3
+
+In case you have own SSL certificate you want to use, simply place the files
+into the Weblate data volume:
+
+* :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
+* :file:`ssl/privkey.pem` containing the private key
+
+
+.. hint::
+
+   The placement of the Docker volume depends on your Docker configuration, but
+   usually it is stored in
+   :file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. See
+   `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
+   for more info.
+
+Additionally Weblate container will now accept SSL connections on port 4443,
+you will want include the port forwarding for HTTPS in docker compose override:
+
+.. code-block:: yaml
+
+     version: '3'
+     services:
+       weblate:
+         ports:
+           - 80:8080
+           - 443:4443
+
+Automatic SSL certificates using Let’s Encrypt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case you want to use `Let’s Encrypt <https://letsencrypt.org/>`_
+automatically generated SSL certificates on public installation, you need to
+add a reverse HTTPS proxy an additional Docker container, `https-portal
+<https://hub.docker.com/r/steveltn/https-portal/>`_ will be used for that.
+This is made use of in the :file:`docker-compose-https.yml` file.  Then create
+a :file:`docker-compose-https.override.yml` file with your settings:
 
 .. code-block:: yaml
 
@@ -275,8 +314,7 @@ Generic settings
     .. note::
 
         This does not make the Weblate container accept HTTPS connections, you
-        need to use a standalone reverse HTTPS proxy, see :ref:`docker-ssl` for
-        example.
+        need to configure that as well, see :ref:`docker-ssl` for examples.
 
     **Example:**
 
