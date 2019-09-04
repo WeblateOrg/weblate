@@ -241,7 +241,6 @@ def dashboard_user(request):
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)
-            user_translations = get_untranslated(user_translations)
             for componentlist in componentlists:
                 componentlist.translations = get_untranslated(
                     componentlist.translations
@@ -256,9 +255,6 @@ def dashboard_user(request):
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
             'usersubscriptions': get_paginator(request, usersubscriptions),
-            'userlanguages': prefetch_stats(
-                get_paginator(request, user_translations)
-            ),
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(ComponentList.objects.filter(
                 components__project__in=request.user.allowed_projects
