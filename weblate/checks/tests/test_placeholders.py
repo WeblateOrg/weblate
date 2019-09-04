@@ -25,7 +25,7 @@ Tests for quality checks.
 from __future__ import unicode_literals
 
 from weblate.checks.placeholders import PlaceholderCheck
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.checks.tests.test_checks import CheckTestCase
 
 
 class PlaceholdersTest(CheckTestCase):

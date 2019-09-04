@@ -617,10 +617,11 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
 class WebExtensionJSONUnit(MonolingualSimpleUnit):
     @cached_property
     def flags(self):
-        if not self.mainunit.placeholders:
+        placeholders = self.mainunit.placeholders
+        if not placeholders:
             return ''
         return 'placeholders:{}'.format(
-            ':'.join('${}$'.format(key.upper()) for key in self.mainunit.placeholders.keys())
+            ':'.join('${}$'.format(key.upper()) for key in placeholders.keys())
         )
 
 
