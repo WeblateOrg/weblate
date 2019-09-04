@@ -170,12 +170,14 @@ class TargetCheckParametrized(Check):
     default_disabled = True
     target = True
 
+    def get_value(self, unit):
+        return unit.all_flags.get_value(self.enable_string)
+
     def check_target(self, sources, targets, unit):
         """Check flag value"""
         if unit.all_flags.has_value(self.enable_string):
             return self.check_target_params(
-                sources, targets, unit,
-                unit.all_flags.get_value(self.enable_string)
+                sources, targets, unit, self.get_value(unit)
             )
         return False
 
