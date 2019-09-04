@@ -36,6 +36,7 @@ from weblate.formats.ttkit import (
     CSVFormat,
     CSVSimpleFormat,
     DTDFormat,
+    FlatXMLFormat,
     JoomlaFormat,
     JSONFormat,
     JSONNestedFormat,
@@ -58,6 +59,7 @@ from weblate.trans.tests.utils import TempDirMixin, get_test_file
 TEST_PO = get_test_file('cs.po')
 TEST_CSV = get_test_file('cs-mono.csv')
 TEST_CSV_NOHEAD = get_test_file('cs.csv')
+TEST_FLATXML = get_test_file('cs-flat.xml')
 TEST_JSON = get_test_file('cs.json')
 TEST_NESTED_JSON = get_test_file('cs-nested.json')
 TEST_WEBEXT_JSON = get_test_file('cs-webext.json')
@@ -707,4 +709,21 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     FORMAT = CSVSimpleFormat
+    EXPECTED_FLAGS = ''
+
+
+class FlatXMLFormatTest(AutoFormatTest):
+    FORMAT = FlatXMLFormat
+    FILE = TEST_FLATXML
+    MIME = 'text/xml'
+    COUNT = 2
+    EXT = 'xml'
+    MASK = 'xml/*.xml'
+    BASE = TEST_FLATXML
+    EXPECTED_PATH = 'xml/cs_CZ.xml'
+    MATCH = 'hello'
+    FIND = 'Hello World!'
+    FIND_CONTEXT = 'hello_world'
+    FIND_MATCH = 'Hello World!'
+    NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
     EXPECTED_FLAGS = ''

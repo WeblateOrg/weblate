@@ -16,6 +16,7 @@ Not yet released.
 * Improve support for Java style language codes.
 * Added new generic check for placeholders.
 * Added support for WebExtension JSON placeholders.
+* Added support for flat XML format.
 
 weblate 3.8
 -----------

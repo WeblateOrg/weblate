@@ -91,6 +91,7 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.SubStationAlphaFormat',
         'weblate.formats.ttkit.DTDFormat',
         'weblate.formats.ttkit.WindowsRCFormat',
+        'weblate.formats.ttkit.FlatXMLFormat',
         'weblate.formats.external.XlsxFormat',
         'weblate.formats.txt.AppStoreFormat',
     )

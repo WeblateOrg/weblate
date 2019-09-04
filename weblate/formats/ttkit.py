@@ -550,6 +550,18 @@ class XliffUnit(TTKitUnit):
         )
 
 
+class FlatXMLUnit(TTKitUnit):
+    @cached_property
+    def context(self):
+        if self.template is not None:
+            return self.template.source
+        return self.mainunit.source
+
+    @cached_property
+    def source(self):
+        return self.mainunit.target
+
+
 class MonolingualIDUnit(TTKitUnit):
     @cached_property
     def context(self):
@@ -1207,3 +1219,14 @@ class SubStationAlphaFormat(SubRipFormat):
     format_id = 'ssa'
     loader = ('subtitles', 'SubStationAlphaFile')
     autoload = ('*.ssa',)
+
+
+class FlatXMLFormat(TTKitFormat):
+    name = _('Flat XML file')
+    format_id = 'flatxml'
+    loader = ('flatxml', 'FlatXMLFile')
+    monolingual = True
+    unit_class = FlatXMLUnit
+    new_translation = (
+        '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+    )
