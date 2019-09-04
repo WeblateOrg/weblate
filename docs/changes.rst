@@ -15,6 +15,7 @@ Not yet released.
 * Extend stats for char counts.
 * Improve support for Java style language codes.
 * Added new generic check for placeholders.
+* Added support for WebExtension JSON placeholders.
 
 weblate 3.8
 -----------

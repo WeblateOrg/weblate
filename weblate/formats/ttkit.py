@@ -614,6 +614,16 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return True
 
 
+class WebExtensionJSONUnit(MonolingualSimpleUnit):
+    @cached_property
+    def flags(self):
+        if not self.mainunit.placeholders:
+            return ''
+        return 'placeholders:{}'.format(
+            ':'.join('${}$'.format(key.upper()) for key in self.mainunit.placeholders.keys())
+        )
+
+
 class CSVUnit(MonolingualSimpleUnit):
     @cached_property
     def context(self):
@@ -942,6 +952,7 @@ class WebExtensionJSONFormat(JSONFormat):
     loader = ('jsonl10n', 'WebExtensionJsonFile')
     monolingual = True
     autoload = ('messages*.json',)
+    unit_class = WebExtensionJSONUnit
 
 
 class I18NextFormat(JSONFormat):

@@ -427,7 +427,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     NEW_UNIT_MATCH = (
         b'\n    "key": {\n        "message": "Source string"\n    }\n'
     )
-    EXPECTED_FLAGS = ''
+    EXPECTED_FLAGS = 'placeholders:$URL$'
 
     def test_new_unit(self):
         if translate.__version__.ver <= (2, 2, 5):
