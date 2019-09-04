@@ -33,17 +33,17 @@ class PlaceholdersTest(CheckTestCase):
 
     def setUp(self):
         super(PlaceholdersTest, self).setUp()
-        self.test_good_matching = ('string $URL$', 'string $URL$', 'placeholders:$URL$')
-        self.test_good_none = ('string', 'string', 'placeholders:')
-        self.test_good_ignore = ('$URL', '$OTHER')
-        self.test_failure_1 = ('string $URL$', 'string', 'placeholders:$URL$')
-        self.test_failure_2 = ('string $URL$', 'string $URL', 'placeholders:$URL$')
-        self.test_failure_3 = ('string $URL$ $2$', 'string $URL$', 'placeholders:$URL$:$2$:')
-        self.test_highlight = (
-            'placeholders:$URL$',
-            'See $URL$',
-            [(4, 9, '$URL$')],
+        self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
+        self.test_good_none = ("string", "string", "placeholders:")
+        self.test_good_ignore = ("$URL", "$OTHER")
+        self.test_failure_1 = ("string $URL$", "string", "placeholders:$URL$")
+        self.test_failure_2 = ("string $URL$", "string $URL", "placeholders:$URL$")
+        self.test_failure_3 = (
+            "string $URL$ $2$",
+            "string $URL$",
+            "placeholders:$URL$:$2$:",
         )
+        self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
     def do_test(self, expected, data, lang=None):
         return

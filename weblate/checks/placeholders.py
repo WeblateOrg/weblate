@@ -46,7 +46,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             return []
         ret = []
 
-        regexp = '|'.join(re.escape(param) for param in self.get_value(unit))
+        regexp = "|".join(re.escape(param) for param in self.get_value(unit))
 
         for match in re.finditer(regexp, source):
             ret.append((match.start(), match.end(), match.group()))
