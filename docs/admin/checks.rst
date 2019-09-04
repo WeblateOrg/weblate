@@ -57,6 +57,8 @@ Here is a list of flags currently accepted:
     Define font size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define font spacing for rendering checks, see :ref:`fonts`.
+``placeholders:NAME``
+    Placeholder strings expected in the translation, see :ref:`check-placeholders`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,

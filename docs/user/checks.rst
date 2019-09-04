@@ -416,6 +416,21 @@ Ruby format
 
     `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
 
+.. _check-placeholders:
+
+Placeholders
+~~~~~~~~~~~~
+
+.. versionadded:: 3.9
+
+Translation is missing some placeholders. These are either extracted from the
+translation file or defined manually using ``placeholders`` flag, more can be
+sparated with colon:
+
+.. code-block:: text
+
+   placeholders:$URL$:$TARGET$
+
 .. _check-plurals:
 
 Missing plurals

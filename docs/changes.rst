@@ -14,6 +14,7 @@ Not yet released.
 * Add separate permission to create new projects.
 * Extend stats for char counts.
 * Improve support for Java style language codes.
+* Added new generic check for placeholders.
 
 weblate 3.8
 -----------
