@@ -33,7 +33,7 @@ from django.utils import timezone
 from filelock import Timeout
 from whoosh.index import EmptyIndexError
 
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import User, get_anonymous
 from weblate.celery import app
 from weblate.checks.models import Check
 from weblate.lang.models import Language
@@ -337,14 +337,34 @@ def component_after_save(pk, changed_git, changed_setup, changed_template,
 
 
 @app.task
-def component_removal(pk):
-    Component.objects.get(pk=pk).delete()
+def component_removal(pk, uid):
+    user = User.objects.get(pk=uid)
+    try:
+        obj = Component.objects.get(pk=pk)
+        Change.objects.create(
+            project=obj.project,
+            action=Change.ACTION_REMOVE_COMPONENT,
+            target=obj.slug,
+            user=user,
+            author=user
+        )
+        obj.delete()
+    except Project.DoesNotExist:
+        return
 
 
 @app.task
-def project_removal(pk):
+def project_removal(pk, uid):
+    user = User.objects.get(pk=uid)
     try:
-        Project.objects.get(pk=pk).delete()
+        obj = Project.objects.get(pk=pk)
+        Change.objects.create(
+            action=Change.ACTION_REMOVE_PROJECT,
+            target=obj.slug,
+            user=user,
+            author=user
+        )
+        obj.delete()
     except Project.DoesNotExist:
         return
 

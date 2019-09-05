@@ -76,16 +76,9 @@ def remove_component(request, project, component):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
-    component_removal.delay(obj.pk)
+    component_removal.delay(obj.pk, request.user.pk)
     messages.success(
         request, _('Translation component was scheduled for removal.')
-    )
-    Change.objects.create(
-        project=obj.project,
-        action=Change.ACTION_REMOVE_COMPONENT,
-        target=obj.slug,
-        user=request.user,
-        author=request.user
     )
 
     return redirect(obj.project)
@@ -104,15 +97,8 @@ def remove_project(request, project):
         show_form_errors(request, form)
         return redirect_param(obj, '#delete')
 
-    project_removal.delay(obj.pk)
+    project_removal.delay(obj.pk, request.user.pk)
     messages.success(request, _('Project was scheduled for removal.'))
-    Change.objects.create(
-        action=Change.ACTION_REMOVE_PROJECT,
-        target=obj.slug,
-        user=request.user,
-        author=request.user
-    )
-
     return redirect('home')
 
 
