@@ -104,9 +104,9 @@ class CheckTestCase(SimpleTestCase):
         self.test_highlight = ()
 
     def do_test(self, expected, data, lang=None):
+        """Perform single check if we have data to test."""
         if lang is None:
             lang = self.default_lang
-        """Perform single check if we have data to test."""
         if not data or self.check is None:
             return
         result = self.check.check_single(
