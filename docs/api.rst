@@ -282,6 +282,15 @@ Projects
             "web_url": "http://example.com/projects/hello/"
         }
 
+.. http:delete:: /api/projects/(string:project)/
+
+    .. versionadded:: 3.9
+
+    Deletes a project.
+
+    :param project: Project URL slug
+    :type project: string
+
 .. http:get:: /api/projects/(string:project)/changes/
 
     Returns a list of project changes.
@@ -495,6 +504,17 @@ Components
             "vcs": "git",
             "web_url": "http://example.com/projects/hello/weblate/"
         }
+
+.. http:delete:: /api/components/(string:project)/(string:component)/
+
+    .. versionadded:: 3.9
+
+    Deletes a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
 
 .. http:get::  /api/components/(string:project)/(string:component)/changes/
 
@@ -762,6 +782,20 @@ Translations
             "url": "http://example.com/api/translations/hello/weblate/cs/",
             "web_url": "http://example.com/projects/hello/weblate/cs/"
         }
+
+
+.. http:delete:: /api/translations/(string:project)/(string:component)/(string:language)/
+
+    .. versionadded:: 3.9
+
+    Deletes a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
 

@@ -27,9 +27,10 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_text, smart_text
 from django.utils.safestring import mark_safe
-from rest_framework import parsers, viewsets
+from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
+from rest_framework.mixins import DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -67,6 +68,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.stats import get_project_stats
+from weblate.trans.tasks import component_removal, project_removal
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import GlobalStats
@@ -269,7 +271,7 @@ class WeblateViewSet(DownloadViewSet):
         return Response(data)
 
 
-class ProjectViewSet(WeblateViewSet):
+class ProjectViewSet(WeblateViewSet, DestroyModelMixin):
     """Translation projects API."""
 
     queryset = Project.objects.none()
@@ -330,7 +332,15 @@ class ProjectViewSet(WeblateViewSet):
         return self.get_paginated_response(serializer.data)
 
 
-class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm('project.edit', instance):
+            self.permission_denied(request, message='Can not delete project')
+        project_removal.delay(instance.pk, request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     """Translation components API."""
 
     queryset = Component.objects.none()
@@ -434,8 +444,15 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm('component.edit', instance):
+            self.permission_denied(request, message='Can not delete component')
+        component_removal.delay(instance.pk, request.user.pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
+
+class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     """Translation components API."""
 
     queryset = Translation.objects.none()
@@ -557,6 +574,13 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         )
 
         return self.get_paginated_response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm('translation.delete', instance):
+            self.permission_denied(request, message='Can not delete translation')
+        instance.remove(request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):

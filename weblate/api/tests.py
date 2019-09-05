@@ -26,7 +26,7 @@ from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group, User
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Project, Source, Unit
+from weblate.trans.models import Change, Component, Project, Source, Translation, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -82,13 +82,10 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
     def do_request(self, name, kwargs, data=None, code=200, superuser=False,
-                   get=True, request=None, skip=()):
+                   method="get", request=None, skip=()):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
-        if get:
-            response = self.client.get(url)
-        else:
-            response = self.client.post(url, request)
+        response = getattr(self.client, method)(url, request)
         self.assertEqual(response.status_code, code)
         if data is not None:
             for item in skip:
@@ -129,7 +126,7 @@ class ProjectAPITest(APIBaseTest):
                 'api:project-repository',
                 self.project_kwargs,
                 code=403,
-                get=False,
+                method="post",
                 request={'operation': operation},
             )
 
@@ -138,7 +135,7 @@ class ProjectAPITest(APIBaseTest):
             self.do_request(
                 'api:project-repository',
                 self.project_kwargs,
-                get=False,
+                method="post",
                 superuser=True,
                 request={'operation': operation},
             )
@@ -148,7 +145,7 @@ class ProjectAPITest(APIBaseTest):
             'api:project-repository',
             self.project_kwargs,
             code=400,
-            get=False,
+            method="post",
             superuser=True,
             request={'operation': 'invalid'},
         )
@@ -200,6 +197,22 @@ class ProjectAPITest(APIBaseTest):
             self.project_kwargs,
         )
         self.assertEqual(len(request.data), 3)
+
+    def test_delete(self):
+        self.do_request(
+            'api:project-detail',
+            self.project_kwargs,
+            method="delete",
+            code=403
+        )
+        self.do_request(
+            'api:project-detail',
+            self.project_kwargs,
+            method="delete",
+            superuser=True,
+            code=204
+        )
+        self.assertEqual(Project.objects.count(), 0)
 
 
 class ComponentAPITest(APIBaseTest):
@@ -342,6 +355,22 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
         )
         self.assertEqual(request.data['count'], 12)
+
+    def test_delete(self):
+        self.do_request(
+            'api:component-detail',
+            self.component_kwargs,
+            method="delete",
+            code=403
+        )
+        self.do_request(
+            'api:component-detail',
+            self.component_kwargs,
+            method="delete",
+            superuser=True,
+            code=204
+        )
+        self.assertEqual(Component.objects.count(), 0)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -617,6 +646,23 @@ class TranslationAPITest(APIBaseTest):
             self.translation_kwargs,
         )
         self.assertEqual(request.data['count'], 4)
+
+    def test_delete(self):
+        self.assertEqual(Translation.objects.count(), 3)
+        self.do_request(
+            'api:translation-detail',
+            self.translation_kwargs,
+            method="delete",
+            code=403
+        )
+        self.do_request(
+            'api:translation-detail',
+            self.translation_kwargs,
+            method="delete",
+            superuser=True,
+            code=204
+        )
+        self.assertEqual(Translation.objects.count(), 2)
 
 
 class UnitAPITest(APIBaseTest):
