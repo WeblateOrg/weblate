@@ -327,14 +327,12 @@ class User(AbstractBaseUser):
         validators=[validate_email],
     )
     is_superuser = models.BooleanField(
-        _('superuser status'),
+        _('Superuser status'),
         default=False,
-        help_text=_(
-            'User has all permissions without having been given them.'
-        ),
+        help_text=_('User has all possible permissions.'),
     )
     is_active = models.BooleanField(
-        _('active'),
+        _('Active'),
         default=True,
         help_text=_('Mark user as inactive instead of removing.'),
     )
