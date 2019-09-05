@@ -23,6 +23,7 @@ import os.path
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_text, smart_text
@@ -30,7 +31,7 @@ from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -274,7 +275,7 @@ class WeblateViewSet(DownloadViewSet):
         return Response(data)
 
 
-class ProjectViewSet(WeblateViewSet, DestroyModelMixin):
+class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     """Translation projects API."""
 
     queryset = Project.objects.none()
@@ -333,6 +334,30 @@ class ProjectViewSet(WeblateViewSet, DestroyModelMixin):
         )
 
         return self.get_paginated_response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        if not request.user.has_perm('project.add'):
+            self.permission_denied(request, message='Can not create projects')
+        self.request = request
+        return super(ProjectViewSet, self).create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        with transaction.atomic():
+            super(ProjectViewSet, self).perform_create(serializer)
+            if (
+                not self.request.user.is_superuser
+                and 'weblate.billing' in settings.INSTALLED_APPS
+            ):
+                from weblate.billing.models import Billing
+                try:
+                    billing = Billing.objects.get_valid().for_user(
+                        self.request.user
+                    )[0]
+                except IndexError:
+                    billing = None
+            else:
+                billing = None
+            serializer.instance.post_create(self.request.user, billing)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

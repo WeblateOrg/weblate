@@ -110,17 +110,10 @@ class CreateProject(BaseCreateView):
     def form_valid(self, form):
         result = super(CreateProject, self).form_valid(form)
         if self.has_billing and form.cleaned_data['billing']:
-            form.cleaned_data['billing'].projects.add(self.object)
-            self.object.access_control = Project.ACCESS_PRIVATE
-            self.object.save()
-        if not self.request.user.is_superuser:
-            self.object.add_user(self.request.user, '@Administration')
-        Change.objects.create(
-            action=Change.ACTION_CREATE_PROJECT,
-            project=self.object,
-            user=self.request.user,
-            author=self.request.user,
-        )
+            billing = form.cleaned_data['billing']
+        else:
+            billing = None
+        self.object.post_create(self.request.user, billing)
         return result
 
     def can_create(self):
