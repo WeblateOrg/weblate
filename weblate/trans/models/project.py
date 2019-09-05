@@ -400,3 +400,15 @@ class Project(models.Model, URLMixin, PathMixin):
             'url': self.get_share_url(),
             'url_translate': get_site_url(self.get_absolute_url()),
         }
+
+    def post_create(self, user, billing=None):
+        from weblate.trans.models import Change
+        if billing:
+            billing.projects.add(self)
+            self.access_control = Project.ACCESS_PRIVATE
+            self.save()
+        if not user.is_superuser:
+            self.add_user(user, '@Administration')
+        Change.objects.create(
+            action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user,
+        )

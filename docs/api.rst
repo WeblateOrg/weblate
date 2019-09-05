@@ -245,6 +245,19 @@ Projects
 
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
 
+.. http:post:: /api/projects/
+
+    .. versionadded:: 3.9
+
+    Creates a new project.
+
+    :param name: project name
+    :type name: string
+    :param slug: project slug
+    :type slug: string
+    :param web: project website
+    :type web: string
+
 .. http:get:: /api/projects/(string:project)/
 
     Returns information about a project.

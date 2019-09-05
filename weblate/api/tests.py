@@ -81,7 +81,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key
         )
 
-    def do_request(self, name, kwargs, data=None, code=200, superuser=False,
+    def do_request(self, name, kwargs=None, data=None, code=200, superuser=False,
                    method="get", request=None, skip=()):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
@@ -213,6 +213,30 @@ class ProjectAPITest(APIBaseTest):
             code=204
         )
         self.assertEqual(Project.objects.count(), 0)
+
+    def test_create(self):
+        self.do_request(
+            'api:project-list',
+            method="post",
+            code=403,
+            request={
+                'name': 'API project',
+                'slug': 'api-project',
+                'web': 'https://weblate.org/',
+            },
+        )
+        self.do_request(
+            'api:project-list',
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                'name': 'API project',
+                'slug': 'api-project',
+                'web': 'https://weblate.org/',
+            },
+        )
+        self.assertEqual(Project.objects.count(), 2)
 
 
 class ComponentAPITest(APIBaseTest):
