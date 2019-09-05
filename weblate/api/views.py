@@ -331,7 +331,6 @@ class ProjectViewSet(WeblateViewSet, DestroyModelMixin):
 
         return self.get_paginated_response(serializer.data)
 
-
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm('project.edit', instance):
