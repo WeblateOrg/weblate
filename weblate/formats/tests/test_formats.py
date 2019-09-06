@@ -25,6 +25,7 @@ import shutil
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
+import six
 import translate.__version__
 from django.utils.encoding import force_text
 from translate.storage.po import pofile
@@ -554,6 +555,11 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     COUNT = 5
     MATCH = '<file original="cs.po"'
     FIND_MATCH = 'Ahoj světe!\n'
+
+    def test_save(self, edit=False):
+        if six.PY2:
+            raise SkipTest('Known to be broken on Python 2')
+        super(PoXliffFormatTest2, self).test_save(edit)
 
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):
