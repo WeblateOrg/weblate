@@ -103,8 +103,14 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Use shared translation memory'),
         default=settings.DEFAULT_SHARED_TM,
         help_text=ugettext_lazy(
-            'Uses and contributes to the pool of shared translations '
-            'between projects.'
+            'Uses the pool of shared translations between projects.'
+        )
+    )
+    contribute_shared_tm = models.BooleanField(
+        verbose_name=ugettext_lazy('Contribute to shared translation memory'),
+        default=settings.DEFAULT_SHARED_TM,
+        help_text=ugettext_lazy(
+            'Contributes to the pool of shared translations between projects.'
         )
     )
     access_control = models.IntegerField(

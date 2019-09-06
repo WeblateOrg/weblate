@@ -1849,13 +1849,25 @@ class ProjectSettingsForm(SettingsBaseForm):
             'instructions',
             'set_language_team',
             'use_shared_tm',
+            'contribute_shared_tm',
             'enable_hooks',
             'source_language',
         )
 
+    def clean(self):
+        data = self.cleaned_data
+        if settings.OFFER_HOSTING:
+            data['contribute_shared_tm'] = data['use_shared_tm']
+
     def __init__(self, request, *args, **kwargs):
         super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
         self.helper.disable_csrf = True
+        if settings.OFFER_HOSTING:
+            self.fields['contribute_shared_tm'].widget = forms.HiddenInput()
+            self.fields['use_shared_tm'].help_text = _(
+                'Uses and contributes to the pool of shared translations '
+                'between projects.'
+            )
 
 
 class ProjectRenameForm(SettingsBaseForm):

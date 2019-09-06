@@ -20,6 +20,7 @@ Not yet released.
 * Exteded API with project, component and translation removal.
 * Added support for Gitea webhooks.
 * Added new custom regex based check.
+* Allow to configure contributing to shared translation memory.
 
 weblate 3.8
 -----------
