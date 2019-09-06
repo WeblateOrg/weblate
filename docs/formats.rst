@@ -108,7 +108,7 @@ Below are listed capabilities of all supported formats.
 .. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The Gettext type comments are used as flags.
-.. [#xl] The flags are extracted from non standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through ``maxwidth`` attribute as defined in the Xliff standard.
+.. [#xl] The flags are extracted from non standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through ``maxwidth`` attribute as defined in the Xliff standard, see :ref:`xliff-flags`.
 
 .. _gettext:
 
@@ -274,6 +274,8 @@ For example:
     </target>
         </trans-unit>
 
+.. _xliff-flags:
+
 Specifying translation flags
 ++++++++++++++++++++++++++++
 
@@ -283,7 +285,13 @@ attribute from the Xliff specification:
 
 .. code-block:: xml
 
-   <trans-unit id="10" maxwidth="100" size-unit="chars" weblate-flags="c-format">
+   <trans-unit
+         id="10"
+         maxwidth="100" size-unit="pixel"
+         weblate-flags="font-family:ubuntu, font-size:22">
+      <source>Hello %s</source>
+   </trans-unit>
+   <trans-unit id="20" maxwidth="100" size-unit="char" >
       <source>Hello %s</source>
    </trans-unit>
 
