@@ -14,7 +14,7 @@
         {
             "name": "APPLICATION_NAME",
             "description": "The name of the Weblate instance.",
-            "value": "my-weblate-site",
+            "value": "weblate-site",
             "from": "[a-zA-Z0-9]",
             "required": true
         },
@@ -23,6 +23,12 @@
             "description": "The URL of the Weblate Git repository.",
             "value": "https://github.com/WeblateOrg/weblate",
             "required": true
+        },
+        {
+          "name": "WEBLATE_VERSION",
+          "description": "Weblate docker image version (see: https://hub.docker.com/r/weblate/weblate/tags)",
+          "value": "latest",
+          "required": true
         },
         {
             "name": "WEBLATE_VOLUME_SIZE",
@@ -49,12 +55,6 @@
             "required": true
         },
         {
-            "name": "WEBLATE_ADMIN_USERNAME",
-            "description": "Name of initial admin user to create",
-            "from": "admin[0-9]{5}",
-            "generate": "expression"
-        },
-        {
             "name": "WEBLATE_ADMIN_PASSWORD",
             "description": "Password of the initial admin user.",
             "from": "[a-zA-Z0-9]{12}",
@@ -63,6 +63,12 @@
         {
             "name": "WEBLATE_ADMIN_EMAIL",
             "description": "Email address of the initial admin user.",
+            "value": "noreply@example.com",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_SERVER_EMAIL",
+            "description": "Email address for outgoing emails.",
             "value": "noreply@example.com",
             "required": true
         },
@@ -124,84 +130,6 @@
     ],
     "objects": [
         {
-            "kind": "ImageStream",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-img",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            }
-        },
-        {
-            "kind": "BuildConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange"
-                    }
-                ],
-                "source": {
-                    "type": "Git",
-                    "git": {
-                        "uri": "${WEBLATE_REPOSITORY_URL}"
-                    }
-                },
-                "strategy": {
-                    "type": "Source",
-                    "sourceStrategy": {
-                        "from": {
-                            "kind": "ImageStreamTag",
-                            "namespace": "openshift",
-                            "name": "python:${PYTHON_VERSION}"
-                        },
-                        "env": [
-                            {
-                              "name": "OPENSHIFT_APP_NAME",
-                              "value": "weblate"
-                            },
-                            {
-                                "name": "OPENSHIFT_POSTGRESQL_DB_URL",
-                                "value": "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${APPLICATION_NAME}-db:5432/weblate"
-                            },
-                            {
-                                "name": "OPENSHIFT_POSTGRESQL_DB_USERNAME",
-                                "value": "${DATABASE_USERNAME}"
-                            },
-                            {
-                                "name": "OPENSHIFT_POSTGRESQL_DB_PASSWORD",
-                                "value": "${DATABASE_PASSWORD}"
-                            },
-                            {
-                                "name": "OPENSHIFT_POSTGRESQL_DB_HOST",
-                                "value": "${APPLICATION_NAME}-db"
-                            },
-                            {
-                                "name": "OPENSHIFT_POSTGRESQL_DB_PORT",
-                                "value": "5432"
-                            }
-                        ]
-                    }
-                },
-                "output": {
-                    "to": {
-                        "kind": "ImageStreamTag",
-                        "name": "${APPLICATION_NAME}-img:latest"
-                    }
-                }
-            }
-        },
-        {
             "kind": "DeploymentConfig",
             "apiVersion": "v1",
             "metadata": {
@@ -217,19 +145,6 @@
                 "triggers": [
                     {
                         "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "weblate"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "name": "${APPLICATION_NAME}-img:latest"
-                            }
-                        }
                     }
                 ],
                 "replicas": 1,
@@ -256,7 +171,8 @@
                         "containers": [
                             {
                                 "name": "weblate",
-                                "image": "${APPLICATION_NAME}-img",
+                                "image": "weblate/weblate:${WEBLATE_VERSION}",
+                                "imagePullPolicy": "Always",
                                 "ports": [
                                     {
                                         "containerPort": 8080,
@@ -270,44 +186,45 @@
                                 },
                                 "env": [
                                     {
-                                        "name": "DJANGO_ADMIN_USERNAME",
-                                        "value": "${WEBLATE_ADMIN_USERNAME}"
-                                    },
-                                    {
-                                        "name": "DJANGO_ADMIN_PASSWORD",
+                                        "name": "WEBLATE_ADMIN_PASSWORD",
                                         "valueFrom": {
                                           "secretKeyRef": {
                                               "key": "weblate-admin-password",
-                                              "name": "weblate-admin-password"
+                                              "name": "weblate"
                                           }
                                         }
                                     },
                                     {
-                                        "name": "DJANGO_ADMIN_EMAIL",
+                                        "name": "WEBLATE_ADMIN_EMAIL",
                                         "value": "${WEBLATE_ADMIN_EMAIL}"
                                     },
                                     {
-                                        "name": "OPENSHIFT_APP_NAME",
+                                        "name": "WEBLATE_ADMIN_NAME",
+                                        "value": "${WEBLATE_ADMIN_EMAIL}"
+                                    },
+                                    {
+                                        "name": "POSTGRES_DATABASE",
                                         "value": "weblate"
                                     },
                                     {
-                                        "name": "OPENSHIFT_POSTGRESQL_DB_URL",
-                                        "value": "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${APPLICATION_NAME}-db:5432/weblate"
-                                    },
-                                    {
-                                        "name": "OPENSHIFT_POSTGRESQL_DB_USERNAME",
+                                        "name": "POSTGRES_USER",
                                         "value": "${DATABASE_USERNAME}"
                                     },
                                     {
-                                        "name": "OPENSHIFT_POSTGRESQL_DB_PASSWORD",
-                                        "value": "${DATABASE_PASSWORD}"
+                                        "name": "POSTGRES_PASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "db-password",
+                                                "name": "weblate"
+                                            }
+                                        }
                                     },
                                     {
-                                        "name": "OPENSHIFT_POSTGRESQL_DB_HOST",
+                                        "name": "POSTGRES_HOST",
                                         "value": "${APPLICATION_NAME}-db"
                                     },
                                     {
-                                        "name": "OPENSHIFT_POSTGRESQL_DB_PORT",
+                                        "name": "POSTGRES_PORT",
                                         "value": "5432"
                                     },
                                     {
@@ -323,15 +240,27 @@
                                       "valueFrom": {
                                           "secretKeyRef": {
                                               "key": "redis-password",
-                                              "name": "redis"
+                                              "name": "weblate"
                                           }
                                       }
+                                    },
+                                    {
+                                      "name": "WEBLATE_DEBUG",
+                                      "value": "0"
+                                    },
+                                    {
+                                      "name": "WEBLATE_SERVER_EMAIL",
+                                      "value": "${WEBLATE_SERVER_EMAIL}"
+                                    },
+                                    {
+                                      "name": "WEBLATE_DEFAULT_FROM_EMAIL",
+                                      "value": "${WEBLATE_SERVER_EMAIL}"
                                     }
                                 ],
                                 "volumeMounts": [
                                     {
                                         "name": "data",
-                                        "mountPath": "/opt/app-root/data"
+                                        "mountPath": "/app/data"
                                     }
                                 ]
                             }
@@ -437,7 +366,7 @@
                                         "valueFrom": {
                                           "secretKeyRef": {
                                               "key": "db-password",
-                                              "name": "db-password"
+                                              "name": "weblate"
                                           }
                                         }
                                     }
@@ -553,7 +482,7 @@
                             "valueFrom": {
                                 "secretKeyRef": {
                                     "key": "redis-password",
-                                    "name": "redis"
+                                    "name": "weblate"
                                 }
                             }
                         }
@@ -571,30 +500,12 @@
               "annotations": {
                   "template.openshift.io/expose-password": "{.data['redis-password']}"
               },
-              "name": "redis"
+              "name": "weblate"
           },
           "stringData": {
+              "weblate-admin-password": "${WEBLATE_ADMIN_PASSWORD}",
+              "db-password": "${DATABASE_PASSWORD}",
               "redis-password": "${REDIS_PASSWORD}"
-          }
-        },
-        {
-          "apiVersion": "v1",
-          "kind": "Secret",
-          "metadata": {
-              "name": "weblate-admin-password"
-          },
-          "stringData": {
-              "weblate-admin-password": "${WEBLATE_ADMIN_PASSWORD}"
-          }
-        },
-        {
-          "apiVersion": "v1",
-          "kind": "Secret",
-          "metadata": {
-              "name": "db-password"
-          },
-          "stringData": {
-              "db-password": "${DATABASE_PASSWORD}"
           }
         },
         {
