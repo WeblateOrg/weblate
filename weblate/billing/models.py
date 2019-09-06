@@ -238,26 +238,17 @@ class Billing(models.Model):
     display_projects.short_description = _('Projects')
 
     def count_strings(self):
-        return sum(
-            (p.stats.source_strings for p in self.projects.iterator())
-        )
+        return sum(p.stats.source_strings for p in self.projects.iterator())
 
     def display_strings(self):
-        return '{0} / {1}'.format(
-            self.count_strings(),
-            self.plan.display_limit_strings
-        )
+        return '{0} / {1}'.format(self.count_strings(), self.plan.display_limit_strings)
     display_strings.short_description = _('Source strings')
 
     def count_words(self):
-        return sum(
-            (p.stats.source_words for p in self.projects.iterator())
-        )
+        return sum(p.stats.source_words for p in self.projects.iterator())
 
     def display_words(self):
-        return '{0}'.format(
-            self.count_words(),
-        )
+        return '{0}'.format(self.count_words())
     display_words.short_description = _('Source words')
 
     def count_languages(self):
@@ -267,8 +258,7 @@ class Billing(models.Model):
 
     def display_languages(self):
         return '{0} / {1}'.format(
-            self.count_languages(),
-            self.plan.display_limit_languages
+            self.count_languages(), self.plan.display_limit_languages
         )
     display_languages.short_description = _('Languages')
 
