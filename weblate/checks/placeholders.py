@@ -22,9 +22,9 @@ from __future__ import unicode_literals
 
 import re
 
-from django.utils.translation import ugettext_lazy as _
-from django.utils.safestring import mark_safe
 from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
 
@@ -86,7 +86,6 @@ class RegexCheck(TargetCheckParametrized):
 
     def get_description(self, unit):
         regex = self.get_value(unit)
-        return mark_safe('{} <code>{}</code>'.format(
-            escape(self.description),
-            escape(regex.pattern)
-        ))
+        return mark_safe(
+            "{} <code>{}</code>".format(escape(self.description), escape(regex.pattern))
+        )
