@@ -21,6 +21,7 @@ Not yet released.
 * Added support for Gitea webhooks.
 * Added new custom regex based check.
 * Allow to configure contributing to shared translation memory.
+* Added ZIP download for more translation files.
 
 weblate 3.8
 -----------

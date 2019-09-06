@@ -224,6 +224,21 @@ real_patterns = [
         name='download_translation',
     ),
     url(
+        r'^download/' + COMPONENT + '$',
+        weblate.trans.views.files.download_component,
+        name='download_component',
+    ),
+    url(
+        r'^download/' + PROJECT + '$',
+        weblate.trans.views.files.download_project,
+        name='download_project',
+    ),
+    url(
+        r'^download-language/' + LANGUAGE + '/' + PROJECT + '$',
+        weblate.trans.views.files.download_lang_project,
+        name='download_lang_project',
+    ),
+    url(
         r'^upload/' + TRANSLATION + '$',
         weblate.trans.views.files.upload_translation,
         name='upload_translation',

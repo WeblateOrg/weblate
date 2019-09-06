@@ -510,3 +510,26 @@ class ImportReplaceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+
+
+class DownloadMultiTest(ViewTestCase):
+    def test_component(self):
+        response = self.client.get(
+            reverse('download_component', kwargs=self.kw_component)
+        )
+        self.assert_zip(response)
+
+    def test_project(self):
+        response = self.client.get(
+            reverse('download_project', kwargs=self.kw_project)
+        )
+        self.assert_zip(response)
+
+    def test_project_lang(self):
+        response = self.client.get(
+            reverse(
+                'download_lang_project',
+                kwargs={'lang': 'cs', 'project': self.project.slug}
+            )
+        )
+        self.assert_zip(response)

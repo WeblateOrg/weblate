@@ -20,20 +20,58 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.views.decorators.http import require_POST
 
+from weblate.lang.models import Language
 from weblate.trans.forms import DownloadForm, get_upload_form
+from weblate.trans.models import Translation
 from weblate.utils import messages
+from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.views import (
     download_translation_file,
+    get_component,
+    get_project,
     get_translation,
     show_form_errors,
+    zip_download,
 )
+
+
+def download_multi(translations, fmt=None):
+    return zip_download(data_dir('vcs'), [t.get_filename() for t in translations])
+
+
+def download_component(request, project, component):
+    obj = get_component(request, project, component)
+    obj.commit_pending("download", None)
+    return download_multi(
+        obj.translation_set.all(),
+        request.GET.get('format')
+    )
+
+
+def download_project(request, project):
+    obj = get_project(request, project)
+    obj.commit_pending("download", None)
+    return download_multi(
+        Translation.objects.filter(component__project=obj),
+        request.GET.get('format')
+    )
+
+
+def download_lang_project(request, lang, project):
+    obj = get_project(request, project)
+    obj.commit_pending("download", None)
+    langobj = get_object_or_404(Language, code=lang)
+    return download_multi(
+        Translation.objects.filter(component__project=obj, language=langobj),
+        request.GET.get('format')
+    )
 
 
 def download_translation(request, project, component, lang):

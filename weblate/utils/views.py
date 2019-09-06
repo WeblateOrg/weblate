@@ -165,6 +165,7 @@ def zip_download(root, filenames):
         for filename in filenames:
             with open(filename, "rb") as handle:
                 zipfile.writestr(os.path.relpath(filename, root), handle.read())
+    response['Content-Disposition'] = 'attachment; filename="translations.zip"'
     return response
 
 

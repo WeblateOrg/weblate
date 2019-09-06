@@ -28,6 +28,14 @@
   </li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Files" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url "download_lang_project"  project=project.slug lang=language.code %}?format=zip" title="{% trans "Download for an offline translation." %}">{% blocktrans %}Download original translation files in ZIP{% endblocktrans %}</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">

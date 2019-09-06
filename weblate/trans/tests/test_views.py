@@ -22,6 +22,7 @@
 
 from io import BytesIO
 from xml.dom import minidom
+from zipfile import ZipFile
 
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -217,6 +218,12 @@ class ViewTestCase(RepoTestCase):
         # Try to load PNG with PIL
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, 'PNG')
+
+    def assert_zip(self, response):
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], 'application/zip')
+        with ZipFile(BytesIO(response.content), 'r') as zipfile:
+            zipfile.testzip()
 
     def assert_svg(self, response):
         """Check whether response is a SVG image."""
