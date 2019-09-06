@@ -223,7 +223,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], 'application/zip')
         with ZipFile(BytesIO(response.content), 'r') as zipfile:
-            zipfile.testzip()
+            self.assertIsNone(zipfile.testzip())
 
     def assert_svg(self, response):
         """Check whether response is a SVG image."""
