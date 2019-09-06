@@ -46,13 +46,10 @@ class PlanQuerySet(models.QuerySet):
     def public(self, user=None):
         """List of public paid plans which are available."""
         base = self.exclude(Q(price=0) & Q(yearly_price=0))
-        result = base.filter(
-            public=True
-        )
+        result = base.filter(public=True)
         if user:
             result |= base.filter(
-                public=False,
-                billing__in=Billing.objects.for_user(user)
+                public=False, billing__in=Billing.objects.for_user(user)
             )
         return result.distinct().order_by('price')
 
@@ -116,10 +113,13 @@ class BillingQuerySet(models.QuerySet):
     def for_user(self, user):
         if user.is_superuser:
             return self.all().order_by('state')
-        return self.filter(
-            Q(projects__in=user.projects_with_perm('billing.view'))
-            | Q(owners=user)
-        ).distinct().order_by('state')
+        return (
+            self.filter(
+                Q(projects__in=user.projects_with_perm('billing.view')) | Q(owners=user)
+            )
+            .distinct()
+            .order_by('state')
+        )
 
 
 @python_2_unicode_compatible
@@ -132,18 +132,12 @@ class Billing(models.Model):
     EXPIRING_STATES = (STATE_TRIAL,)
 
     plan = models.ForeignKey(
-        Plan,
-        on_delete=models.deletion.CASCADE,
-        verbose_name=_('Billing plan'),
+        Plan, on_delete=models.deletion.CASCADE, verbose_name=_('Billing plan')
     )
     projects = models.ManyToManyField(
-        Project, blank=True,
-        verbose_name=_('Billed projects'),
+        Project, blank=True, verbose_name=_('Billed projects')
     )
-    owners = models.ManyToManyField(
-        User, blank=True,
-        verbose_name=_('Billing owners'),
-    )
+    owners = models.ManyToManyField(User, blank=True, verbose_name=_('Billing owners'))
     state = models.IntegerField(
         choices=(
             (STATE_ACTIVE, _('Active')),
@@ -155,27 +149,18 @@ class Billing(models.Model):
         verbose_name=_('Billing state'),
     )
     expiry = models.DateTimeField(
-        blank=True, null=True, default=None,
-        verbose_name=_('Trial expiry date'),
+        blank=True, null=True, default=None, verbose_name=_('Trial expiry date')
     )
     removal = models.DateTimeField(
-        blank=True, null=True, default=None,
-        verbose_name=_('Scheduled removal'),
+        blank=True, null=True, default=None, verbose_name=_('Scheduled removal')
     )
-    paid = models.BooleanField(
-        default=True,
-        verbose_name=_('Paid'),
-        editable=False,
-    )
+    paid = models.BooleanField(default=True, verbose_name=_('Paid'), editable=False)
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
-        default=True,
-        verbose_name=_('In limits'),
-        editable=False,
+        default=True, verbose_name=_('In limits'), editable=False
     )
     grace_period = models.IntegerField(
-        default=0,
-        verbose_name=_('Grace period for payments'),
+        default=0, verbose_name=_('Grace period for payments')
     )
     # Payment detailed information, used for integration
     # with payment processor
@@ -206,28 +191,34 @@ class Billing(models.Model):
     @cached_property
     def count_changes_1m(self):
         return self.count_changes(timedelta(days=31))
+
     count_changes_1m.short_description = _('Changes in last month')
 
     @cached_property
     def count_changes_1q(self):
         return self.count_changes(timedelta(days=93))
+
     count_changes_1q.short_description = _('Changes in last quarter')
 
     @cached_property
     def count_changes_1y(self):
         return self.count_changes(timedelta(days=365))
+
     count_changes_1y.short_description = _('Changes in last year')
 
     @cached_property
     def count_repositories(self):
-        return Component.objects.with_repo().filter(
-            project__in=self.projects.all(),
-        ).count()
+        return (
+            Component.objects.with_repo()
+            .filter(project__in=self.projects.all())
+            .count()
+        )
 
     def display_repositories(self):
         return '{0} / {1}'.format(
             self.count_repositories, self.plan.display_limit_repositories
         )
+
     display_repositories.short_description = _('VCS repositories')
 
     @cached_property
@@ -235,9 +226,8 @@ class Billing(models.Model):
         return self.projects.count()
 
     def display_projects(self):
-        return '{0} / {1}'.format(
-            self.count_projects, self.plan.display_limit_projects
-        )
+        return '{0} / {1}'.format(self.count_projects, self.plan.display_limit_projects)
+
     display_projects.short_description = _('Projects')
 
     @cached_property
@@ -246,6 +236,7 @@ class Billing(models.Model):
 
     def display_strings(self):
         return '{0} / {1}'.format(self.count_strings, self.plan.display_limit_strings)
+
     display_strings.short_description = _('Source strings')
 
     @cached_property
@@ -254,20 +245,25 @@ class Billing(models.Model):
 
     def display_words(self):
         return '{0}'.format(self.count_words)
+
     display_words.short_description = _('Source words')
 
     @cached_property
     def count_languages(self):
-        return Language.objects.filter(
-            translation__component__project__in=self.projects.all()
-        ).distinct().count()
+        return (
+            Language.objects.filter(
+                translation__component__project__in=self.projects.all()
+            )
+            .distinct()
+            .count()
+        )
 
     def display_languages(self):
         return '{0} / {1}'.format(
             self.count_languages, self.plan.display_limit_languages
         )
-    display_languages.short_description = _('Languages')
 
+    display_languages.short_description = _('Languages')
 
     def flush_cache(self):
         keys = list(self.__dict__.keys())
@@ -282,13 +278,10 @@ class Billing(models.Model):
             (
                 plan.limit_repositories == 0
                 or self.count_repositories <= plan.limit_repositories
-            ) and (
-                plan.limit_projects == 0
-                or self.count_projects <= plan.limit_projects
-            ) and (
-                plan.limit_strings == 0
-                or self.count_strings <= plan.limit_strings
-            ) and (
+            )
+            and (plan.limit_projects == 0 or self.count_projects <= plan.limit_projects)
+            and (plan.limit_strings == 0 or self.count_strings <= plan.limit_strings)
+            and (
                 plan.limit_languages == 0
                 or self.count_languages <= plan.limit_languages
             )
@@ -305,6 +298,7 @@ class Billing(models.Model):
         return Unit.objects.filter(
             translation__component__project__in=self.projects.all()
         ).count()
+
     unit_count.short_description = _('Number of strings')
 
     def last_invoice(self):
@@ -313,6 +307,7 @@ class Billing(models.Model):
             return '{0} - {1}'.format(invoice.start, invoice.end)
         except IndexError:
             return _('N/A')
+
     last_invoice.short_description = _('Last invoice')
 
     def in_display_limits(self, plan=None):
@@ -322,17 +317,21 @@ class Billing(models.Model):
             (
                 plan.display_limit_repositories == 0
                 or self.count_repositories <= plan.display_limit_repositories
-            ) and (
+            )
+            and (
                 plan.display_limit_projects == 0
                 or self.count_projects <= plan.display_limit_projects
-            ) and (
+            )
+            and (
                 plan.display_limit_strings == 0
                 or self.count_strings <= plan.display_limit_strings
-            ) and (
+            )
+            and (
                 plan.display_limit_languages == 0
                 or self.count_languages <= plan.display_limit_languages
             )
         )
+
     in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
@@ -400,10 +399,7 @@ class Invoice(models.Model):
     CURRENCY_USD = 2
     CURRENCY_CZK = 3
 
-    billing = models.ForeignKey(
-        Billing,
-        on_delete=models.deletion.CASCADE
-    )
+    billing = models.ForeignKey(Billing, on_delete=models.deletion.CASCADE)
     start = models.DateField()
     end = models.DateField()
     amount = models.FloatField()
@@ -426,8 +422,7 @@ class Invoice(models.Model):
 
     def __str__(self):
         return '{0} - {1}: {2}'.format(
-            self.start, self.end,
-            self.billing if self.billing_id else None
+            self.start, self.end, self.billing if self.billing_id else None
         )
 
     @cached_property
@@ -457,14 +452,10 @@ class Invoice(models.Model):
         overlapping = Invoice.objects.filter(
             (Q(start__lte=self.end) & Q(end__gte=self.end))
             | (Q(start__lte=self.start) & Q(end__gte=self.start))
-        ).filter(
-            billing=self.billing
-        )
+        ).filter(billing=self.billing)
 
         if self.pk:
-            overlapping = overlapping.exclude(
-                pk=self.pk
-            )
+            overlapping = overlapping.exclude(pk=self.pk)
 
         if overlapping.exists():
             raise ValidationError(
