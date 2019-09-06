@@ -103,7 +103,7 @@ class Flags(object):
         font = flags.get("font")
         if font:
             font = font.split(";")
-            yield "font-family:{}".format(font[0])
+            yield "font-family:{}".format(font[0].replace(' ', '_'))
             if len(font) > 1:
                 yield "font-size:{}".format(font[1])
             if len(font) > 2:
