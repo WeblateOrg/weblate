@@ -92,10 +92,7 @@ class AutoLoadTest(TestCase):
         self.assertEqual(fileclass, detect_filename(filename))
 
     def test_detect_android(self):
-        self.assertEqual(
-            AndroidFormat,
-            detect_filename('foo/bar/strings_baz.xml')
-        )
+        self.assertEqual(AndroidFormat, detect_filename('foo/bar/strings_baz.xml'))
 
     def test_po(self):
         self.single_test(TEST_PO, PoFormat)
@@ -171,9 +168,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
             raise SkipTest(
-                'File format {0} is not supported!'.format(
-                    self.FORMAT.format_id
-                )
+                'File format {0} is not supported!'.format(self.FORMAT.format_id)
             )
 
     def tearDown(self):
@@ -231,10 +226,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content
         aware comparing of translation files.
         """
-        self.assertEqual(
-            force_text(testdata).strip(),
-            force_text(newdata).strip()
-        )
+        self.assertEqual(force_text(testdata).strip(), force_text(newdata).strip())
 
     def test_find(self):
         storage = self.parse_file(self.FILE)
@@ -249,11 +241,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def test_add(self):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
         out = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
-        self.FORMAT.add_language(
-            out,
-            Language.objects.get(code='cs'),
-            self.BASE
-        )
+        self.FORMAT.add_language(out, Language.objects.get(code='cs'), self.BASE)
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
@@ -267,10 +255,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, 'cs_CZ'
-            ),
-            self.EXPECTED_PATH
+            self.FORMAT.get_language_filename(self.MASK, 'cs_CZ'), self.EXPECTED_PATH
         )
 
     def test_new_unit(self):
@@ -322,11 +307,7 @@ class PoFormatTest(AutoFormatTest):
 
     def test_add_encoding(self):
         out = os.path.join(self.tempdir, 'test.po')
-        self.FORMAT.add_language(
-            out,
-            Language.objects.get(code='cs'),
-            TEST_POT_UNICODE
-        )
+        self.FORMAT.add_language(out, Language.objects.get(code='cs'), TEST_POT_UNICODE)
         with open(out, 'rb') as handle:
             data = handle.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)
@@ -339,19 +320,15 @@ class PoFormatTest(AutoFormatTest):
     def test_plurals(self):
         self.assertEqual(
             self.load_plural(TEST_HE_CLDR).equation,
-            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'
+            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))',
         )
         self.assertEqual(
             self.load_plural(TEST_HE_CUSTOM).equation,
-            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))'
+            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))',
         )
+        self.assertEqual(self.load_plural(TEST_HE_SIMPLE).equation, '(n != 1)')
         self.assertEqual(
-            self.load_plural(TEST_HE_SIMPLE).equation,
-            '(n != 1)'
-        )
-        self.assertEqual(
-            self.load_plural(TEST_HE_THREE).equation,
-            'n==1 ? 0 : n==2 ? 2 : 1'
+            self.load_plural(TEST_HE_THREE).equation, 'n==1 ? 0 : n==2 ? 2 : 1'
         )
 
 
@@ -427,9 +404,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     MASK = 'webextension/_locales/*/messages.json'
     EXPECTED_PATH = 'webextension/_locales/cs_CZ/messages.json'
     FIND = 'hello'
-    NEW_UNIT_MATCH = (
-        b'\n    "key": {\n        "message": "Source string"\n    }\n'
-    )
+    NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
     EXPECTED_FLAGS = 'placeholders:$URL$'
 
     def test_new_unit(self):
@@ -472,10 +447,8 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(
-                self.MASK, 'sr_Latn'
-            ),
-            'res/values-b+sr+Latn/strings.xml'
+            self.FORMAT.get_language_filename(self.MASK, 'sr_Latn'),
+            'res/values-b+sr+Latn/strings.xml',
         )
 
 
@@ -531,8 +504,7 @@ class XliffIdFormatTest(XliffFormatTest):
 
         unit = translation.all_units[1]
         self.assertEqual(
-            unit.source,
-            'Orangutan has <x id="c" equiv-text="{{count}}"/> banana.\n'
+            unit.source, 'Orangutan has <x id="c" equiv-text="{{count}}"/> banana.\n'
         )
         self.assertEqual(unit.target, '')
         unit.set_target('Opicka ma <x id="c" equiv-text="{{count}}"/> banan.\n')
@@ -582,7 +554,6 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     COUNT = 5
     MATCH = '<file original="cs.po"'
     FIND_MATCH = 'Ahoj světe!\n'
-
 
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):
