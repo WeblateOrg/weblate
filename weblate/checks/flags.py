@@ -100,8 +100,16 @@ class Flags(object):
                 yield "max-size:{0}".format(maxwidth)
             elif sizeunit in ("byte", "char"):
                 yield "max-length:{0}".format(maxwidth)
+        font = flags.get("font")
+        if font:
+            font = font.split(";")
+            yield "font-family:{}".format(font[0])
+            if len(font) > 1:
+                yield "font-size:{}".format(font[1])
+            if len(font) > 2:
+                yield "font-weight:{}".format(font[2])
         text = flags.get("weblate-flags")
-        if text is not None:
+        if text:
             for flag in cls.parse(text):
                 yield flag
 

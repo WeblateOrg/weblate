@@ -280,18 +280,15 @@ Specifying translation flags
 ++++++++++++++++++++++++++++
 
 You can specify additional translation flags (see :ref:`custom-checks`) in
-using ``weblate-flags`` attribute. Weblate also understands ``maxwidth``
-attribute from the Xliff specification:
+using ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` and ``font``
+attributes from the Xliff specification:
 
 .. code-block:: xml
 
-   <trans-unit
-         id="10"
-         maxwidth="100" size-unit="pixel"
-         weblate-flags="font-family:ubuntu, font-size:22">
+   <trans-unit id="10" maxwidth="100" size-unit="pixel" font="ubuntu;22;bold">
       <source>Hello %s</source>
    </trans-unit>
-   <trans-unit id="20" maxwidth="100" size-unit="char" >
+   <trans-unit id="20" maxwidth="100" size-unit="char" weblate-flags="c-format">
       <source>Hello %s</source>
    </trans-unit>
 
@@ -322,7 +319,9 @@ attribute from the Xliff specification:
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    :doc:`tt:formats/xliff`
+    :doc:`tt:formats/xliff`,
+    `font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_,
+    `maxwidth attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_
 
 .. _javaprop:
 
