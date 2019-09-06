@@ -203,18 +203,22 @@ class Billing(models.Model):
             timestamp__gt=timezone.now() - interval,
         ).count()
 
+    @cached_property
     def count_changes_1m(self):
         return self.count_changes(timedelta(days=31))
     count_changes_1m.short_description = _('Changes in last month')
 
+    @cached_property
     def count_changes_1q(self):
         return self.count_changes(timedelta(days=93))
     count_changes_1q.short_description = _('Changes in last quarter')
 
+    @cached_property
     def count_changes_1y(self):
         return self.count_changes(timedelta(days=365))
     count_changes_1y.short_description = _('Changes in last year')
 
+    @cached_property
     def count_repositories(self):
         return Component.objects.with_repo().filter(
             project__in=self.projects.all(),
@@ -222,35 +226,37 @@ class Billing(models.Model):
 
     def display_repositories(self):
         return '{0} / {1}'.format(
-            self.count_repositories(),
-            self.plan.display_limit_repositories
+            self.count_repositories, self.plan.display_limit_repositories
         )
     display_repositories.short_description = _('VCS repositories')
 
+    @cached_property
     def count_projects(self):
         return self.projects.count()
 
     def display_projects(self):
         return '{0} / {1}'.format(
-            self.count_projects(),
-            self.plan.display_limit_projects
+            self.count_projects, self.plan.display_limit_projects
         )
     display_projects.short_description = _('Projects')
 
+    @cached_property
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.projects.iterator())
 
     def display_strings(self):
-        return '{0} / {1}'.format(self.count_strings(), self.plan.display_limit_strings)
+        return '{0} / {1}'.format(self.count_strings, self.plan.display_limit_strings)
     display_strings.short_description = _('Source strings')
 
+    @cached_property
     def count_words(self):
         return sum(p.stats.source_words for p in self.projects.iterator())
 
     def display_words(self):
-        return '{0}'.format(self.count_words())
+        return '{0}'.format(self.count_words)
     display_words.short_description = _('Source words')
 
+    @cached_property
     def count_languages(self):
         return Language.objects.filter(
             translation__component__project__in=self.projects.all()
@@ -258,9 +264,16 @@ class Billing(models.Model):
 
     def display_languages(self):
         return '{0} / {1}'.format(
-            self.count_languages(), self.plan.display_limit_languages
+            self.count_languages, self.plan.display_limit_languages
         )
     display_languages.short_description = _('Languages')
+
+
+    def flush_cache(self):
+        keys = list(self.__dict__.keys())
+        for key in keys:
+            if key.startswith('count_'):
+                del self.__dict__[key]
 
     def check_in_limits(self, plan=None):
         if plan is None:
@@ -268,16 +281,16 @@ class Billing(models.Model):
         return (
             (
                 plan.limit_repositories == 0
-                or self.count_repositories() <= plan.limit_repositories
+                or self.count_repositories <= plan.limit_repositories
             ) and (
                 plan.limit_projects == 0
-                or self.count_projects() <= plan.limit_projects
+                or self.count_projects <= plan.limit_projects
             ) and (
                 plan.limit_strings == 0
-                or self.count_strings() <= plan.limit_strings
+                or self.count_strings <= plan.limit_strings
             ) and (
                 plan.limit_languages == 0
-                or self.count_languages() <= plan.limit_languages
+                or self.count_languages <= plan.limit_languages
             )
         )
 
@@ -308,16 +321,16 @@ class Billing(models.Model):
         return (
             (
                 plan.display_limit_repositories == 0
-                or self.count_repositories() <= plan.display_limit_repositories
+                or self.count_repositories <= plan.display_limit_repositories
             ) and (
                 plan.display_limit_projects == 0
-                or self.count_projects() <= plan.display_limit_projects
+                or self.count_projects <= plan.display_limit_projects
             ) and (
                 plan.display_limit_strings == 0
-                or self.count_strings() <= plan.display_limit_strings
+                or self.count_strings <= plan.display_limit_strings
             ) and (
                 plan.display_limit_languages == 0
-                or self.count_languages() <= plan.display_limit_languages
+                or self.count_languages <= plan.display_limit_languages
             )
         )
     in_display_limits.boolean = True
@@ -337,6 +350,7 @@ class Billing(models.Model):
         )
 
     def check_limits(self, grace=30, save=True):
+        self.flush_cache()
         in_limits = self.check_in_limits()
         paid = self.check_payment_status(grace)
         modified = False
