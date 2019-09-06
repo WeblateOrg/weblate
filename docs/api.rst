@@ -1219,6 +1219,20 @@ update individual repositories; see
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
+.. http:post:: /hooks/gitea/
+
+    Special hook for handling Gitea Webhook notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`gitea-setup`
+            For instruction on setting up Azure integration
+        https://docs.gitea.io/en-us/webhooks/
+            Generic information about Gitea Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
 .. _exports:
 
 Exports

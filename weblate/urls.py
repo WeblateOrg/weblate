@@ -854,7 +854,7 @@ real_patterns = [
         name='hook-project',
     ),
     url(
-        r'^hooks/(?P<service>github|gitlab|bitbucket|pagure|azure)/$',
+        r'^hooks/(?P<service>github|gitlab|bitbucket|pagure|azure|gitea)/$',
         weblate.trans.views.hooks.vcs_service_hook,
         name='webhook',
     ),

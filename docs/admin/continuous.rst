@@ -196,6 +196,23 @@ settings`.
    `Web hooks in Azure DevOps manual <https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks>`_,
    :http:post:`/hooks/azure/`, :ref:`hosted-push`
 
+.. _gitea-setup:
+
+Automatically receiving changes from Gitea Repos
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.9
+
+Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` for
+:guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL on your
+Weblate installation (for example ``https://hosted.weblate.org/hooks/gitea/``).
+This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
+
+.. seealso::
+
+   `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_,
+   :http:post:`/hooks/gitea/`, :ref:`hosted-push`
+
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++
 

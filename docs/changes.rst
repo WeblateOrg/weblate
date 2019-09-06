@@ -18,6 +18,7 @@ Not yet released.
 * Added support for WebExtension JSON placeholders.
 * Added support for flat XML format.
 * Exteded API with project, component and translation removal.
+* Added support for Gitea webhooks.
 
 weblate 3.8
 -----------
