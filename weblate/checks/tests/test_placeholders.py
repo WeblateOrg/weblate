@@ -24,7 +24,7 @@ Tests for quality checks.
 
 from __future__ import unicode_literals
 
-from weblate.checks.placeholders import PlaceholderCheck
+from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase
 
 
@@ -44,6 +44,26 @@ class PlaceholdersTest(CheckTestCase):
             "placeholders:$URL$:$2$:",
         )
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
+
+    def do_test(self, expected, data, lang=None):
+        return
+
+
+class RegexTest(CheckTestCase):
+    check = RegexCheck()
+
+    def setUp(self):
+        super(RegexTest, self).setUp()
+        self.test_good_matching = ("string URL", "string URL", "regex:URL")
+        self.test_good_none = ("string", "string", "regex:")
+        self.test_failure_1 = ("string URL", "string", "regex:URL")
+        self.test_failure_2 = ("string URL", "string url", "regex:URL")
+        self.test_failure_3 = (
+            "string URL",
+            "string URL",
+            "regex:^URL$",
+        )
+        self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
     def do_test(self, expected, data, lang=None):
         return

@@ -19,6 +19,7 @@ Not yet released.
 * Added support for flat XML format.
 * Exteded API with project, component and translation removal.
 * Added support for Gitea webhooks.
+* Added new custom regex based check.
 
 weblate 3.8
 -----------

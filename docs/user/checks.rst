@@ -431,6 +431,21 @@ sparated with colon:
 
    placeholders:$URL$:$TARGET$
 
+.. _check-regex:
+
+Regular expression
+~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.9
+   
+Translation does not match regular expression. The expression iseither extracted from the
+translation file or defined manually using ``regex`` flag:
+
+.. code-block:: text
+
+   regex:^foo|bar$
+
+
 .. _check-plurals:
 
 Missing plurals
