@@ -25,4 +25,4 @@ Depending on your setup and experience, choose appropriate installation method:
 
 * :ref:`quick-source`, recommended for development.
 
-* :ref:`quick-openshift`.
+* :ref:`quick-openshift2`.
