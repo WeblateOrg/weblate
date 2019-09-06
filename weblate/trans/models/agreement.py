@@ -37,8 +37,7 @@ class ContributorAgreementManager(models.Manager):
     def create(self, user, component, **kwargs):
         user.perm_cache[('cla', user.pk, component.pk)] = True
         return super(ContributorAgreementManager, self).create(
-            user=user, component=component,
-            **kwargs
+            user=user, component=component, **kwargs
         )
 
     def order(self):
@@ -48,11 +47,9 @@ class ContributorAgreementManager(models.Manager):
 @python_2_unicode_compatible
 class ContributorAgreement(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE,
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
-    component = models.ForeignKey(
-        'Component', on_delete=models.deletion.CASCADE
-    )
+    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)
 
     objects = ContributorAgreementManager()

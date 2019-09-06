@@ -59,17 +59,12 @@ from weblate.utils.stats import TranslationStats
 
 
 class TranslationManager(models.Manager):
-    def check_sync(self, component, lang, code, path, force=False,
-                   request=None):
+    def check_sync(self, component, lang, code, path, force=False, request=None):
         """Parse translation meta info and updates translation object"""
         translation = self.get_or_create(
             language=lang,
             component=component,
-            defaults={
-                'filename': path,
-                'language_code': code,
-                'plural': lang.plural
-            },
+            defaults={'filename': path, 'language_code': code, 'plural': lang.plural},
         )[0]
         # Share component instance to improve performance
         # and to properly process updated data.
@@ -88,16 +83,12 @@ class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
         return self.select_related(
             'component', 'component__project', 'language'
-        ).prefetch_related(
-            'component__alert_set', 'language__plural_set'
-        )
+        ).prefetch_related('component__alert_set', 'language__plural_set')
 
 
 @python_2_unicode_compatible
 class Translation(models.Model, URLMixin, LoggerMixin):
-    component = models.ForeignKey(
-        'Component', on_delete=models.deletion.CASCADE
-    )
+    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -125,18 +116,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_badges(self):
         if self.is_template:
-            yield (
-                _('source'),
-                _('This translation is used for source strings.')
-            )
+            yield (_('source'), _('This translation is used for source strings.'))
 
     @cached_property
     def full_slug(self):
-        return '/'.join((
-            self.component.project.slug,
-            self.component.slug,
-            self.language.code,
-        ))
+        return '/'.join(
+            (self.component.project.slug, self.component.slug, self.language.code)
+        )
 
     def log_hook(self, level, msg, *args):
         self.component.store_log(self.full_slug, msg, *args)
@@ -158,17 +144,15 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 _(
                     'Filename %s not found in repository! To add new '
                     'translation, add language file into repository.'
-                ) %
-                self.filename
+                )
+                % self.filename
             )
         try:
             self.load_store()
         except Exception as error:
             raise ValidationError(
-                _('Failed to parse file %(file)s: %(error)s') % {
-                    'file': self.filename,
-                    'error': str(error)
-                }
+                _('Failed to parse file %(file)s: %(error)s')
+                % {'file': self.filename, 'error': str(error)}
             )
 
     def notify_new(self, request):
@@ -189,18 +173,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return {
             'project': self.component.project.slug,
             'component': self.component.slug,
-            'lang': self.language.code
+            'lang': self.language.code,
         }
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
         return get_site_url(
             '{0}?lang={1}&component={2}'.format(
-                reverse(
-                    'widgets', kwargs={
-                        'project': self.component.project.slug,
-                    }
-                ),
+                reverse('widgets', kwargs={'project': self.component.project.slug}),
                 self.language.code,
                 self.component.slug,
             )
@@ -213,8 +193,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 'engage',
                 kwargs={
                     'project': self.component.project.slug,
-                    'lang': self.language.code
-                }
+                    'lang': self.language.code,
+                },
             )
         )
 
@@ -222,10 +202,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return reverse('translate', kwargs=self.get_reverse_url_kwargs())
 
     def __str__(self):
-        return '{0} - {1}'.format(
-            force_text(self.component),
-            force_text(self.language)
-        )
+        return '{0} - {1}'.format(force_text(self.component), force_text(self.language))
 
     def get_filename(self):
         """Return absolute filename."""
@@ -241,11 +218,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             language_code=self.language_code,
             is_template=self.is_template,
         )
-        store_post_load.send(
-            sender=self.__class__,
-            translation=self,
-            store=store
-        )
+        store_post_load.send(sender=self.__class__, translation=self, store=store)
         return store
 
     @cached_property
@@ -299,9 +272,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             pos = 0
 
             # Select all current units for update
-            dbunits = {
-                unit.id_hash: unit for unit in self.unit_set.select_for_update()
-            }
+            dbunits = {unit.id_hash: unit for unit in self.unit_set.select_for_update()}
 
             for unit in store.translatable_units:
                 id_hash = unit.id_hash
@@ -315,13 +286,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     self.log_warning(
                         'duplicate string to translate: %s (%s)',
                         newunit,
-                        repr(newunit.source)
+                        repr(newunit.source),
                     )
                     Change.objects.create(
                         unit=newunit,
                         action=Change.ACTION_DUPLICATE_STRING,
                         user=user,
-                        author=user
+                        author=user,
                     )
                     self.component.trigger_alert(
                         'DuplicateString',
@@ -335,11 +306,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     newunit = dbunits[id_hash]
                     is_new = False
                 except KeyError:
-                    newunit = Unit(
-                        translation=self,
-                        id_hash=id_hash,
-                        state=-1,
-                    )
+                    newunit = Unit(translation=self, id_hash=id_hash, state=-1)
                     is_new = True
 
                 newunit.update_from_unit(unit, pos, is_new)
@@ -349,15 +316,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # - newly not translated
                 # - newly fuzzy
                 # - source string changed
-                self.was_new = (
-                    self.was_new
-                    or (
-                        newunit.state < STATE_TRANSLATED
-                        and (
-                            newunit.state != newunit.old_unit.state
-                            or is_new
-                            or newunit.source != newunit.old_unit.source
-                        )
+                self.was_new = self.was_new or (
+                    newunit.state < STATE_TRANSLATED
+                    and (
+                        newunit.state != newunit.old_unit.state
+                        or is_new
+                        or newunit.source != newunit.old_unit.source
                     )
                 )
 
@@ -379,12 +343,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.store_hash()
 
         # Store change entry
-        Change.objects.create(
-            translation=self,
-            action=change,
-            user=user,
-            author=user
-        )
+        Change.objects.create(translation=self, action=change, user=user, author=user)
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()
@@ -411,12 +370,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if not self.component.has_template():
             return ret
 
-        return ','.join([
-            ret,
-            self.component.repository.get_object_hash(
-                self.component.template
-            )
-        ])
+        return ','.join(
+            [ret, self.component.repository.get_object_hash(self.component.template)]
+        )
 
     def store_hash(self):
         """Store current hash in database."""
@@ -428,9 +384,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if not self.stats.last_author:
             return None
         from weblate.auth.models import User
-        return User.objects.get(
-            pk=self.stats.last_author
-        ).get_author_name(email)
+
+        return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
     def commit_pending(self, reason, request, skip_push=False, force=False):
         """Commit any pending changes."""
@@ -443,13 +398,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             while True:
                 # Find oldest change break loop if there is none left
                 try:
-                    unit = self.unit_set.filter(
-                        pending=True
-                    ).annotate(
-                        Max('change__timestamp')
-                    ).order_by(
-                        'change__timestamp__max'
-                    )[0]
+                    unit = (
+                        self.unit_set.filter(pending=True)
+                        .annotate(Max('change__timestamp'))
+                        .order_by('change__timestamp__max')[0]
+                    )
                 except IndexError:
                     break
 
@@ -462,9 +415,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.update_units(author_name, author.id)
 
                 # Commit changes
-                self.git_commit(
-                    request, author_name, timestamp, skip_push=skip_push
-                )
+                self.git_commit(request, author_name, timestamp, skip_push=skip_push)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -491,9 +442,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         msg = self.get_commit_message(author)
 
         # Pre commit hook
-        vcs_pre_commit.send(
-            sender=self.__class__, translation=self, author=author
-        )
+        vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
 
         # Create list of files to commit
         files = self.filenames
@@ -577,10 +526,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             # Check for changes
-            if ((not add or unit.target == '')
-                    and unit.target == pounit.target
-                    and unit.approved == pounit.is_approved(unit.approved)
-                    and unit.fuzzy == pounit.is_fuzzy()):
+            if (
+                (not add or unit.target == '')
+                and unit.target == pounit.target
+                and unit.approved == pounit.is_approved(unit.approved)
+                and unit.fuzzy == pounit.is_fuzzy()
+            ):
                 unit.save(update_fields=['pending'], same_content=True)
                 continue
 
@@ -609,10 +560,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
-            unit.save(
-                update_fields=['state', 'flags', 'pending'],
-                same_content=True
-            )
+            unit.save(update_fields=['state', 'flags', 'pending'], same_content=True)
 
         # Did we do any updates?
         if not updated:
@@ -635,8 +583,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Optionally store language team with link to website
         if self.component.project.set_language_team:
             headers['language_team'] = '{0} <{1}>'.format(
-                self.language.name,
-                get_site_url(self.get_absolute_url())
+                self.language.name, get_site_url(self.get_absolute_url())
             )
 
         # Optionally store email for reporting bugs in source
@@ -645,9 +592,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             headers['report_msgid_bugs_to'] = report_source_bugs
 
         # Update genric headers
-        self.store.update_header(
-            **headers
-        )
+        self.store.update_header(**headers)
 
         # save translation changes
         self.store.save()
@@ -666,11 +611,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             check_obj = CHECKS[check]
             if not check_obj.source:
                 continue
-            result.add_if(
-                self.stats, choices,
-                check_obj.url_id,
-                check_obj.severity,
-            )
+            result.add_if(self.stats, choices, check_obj.url_id, check_obj.severity)
 
         # Grab comments
         result.add_if(self.stats, choices, 'sourcecomments', 'info')
@@ -718,11 +659,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             check_obj = CHECKS[check]
             if not check_obj.target:
                 continue
-            result.add_if(
-                self.stats, choices,
-                check_obj.url_id,
-                check_obj.severity,
-            )
+            result.add_if(self.stats, choices, check_obj.url_id, check_obj.severity)
 
         # Grab comments
         result.add_if(self.stats, choices, 'comments', 'info')
@@ -737,8 +674,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         not_found = 0
         skipped = 0
         accepted = 0
-        add_fuzzy = (method == 'fuzzy')
-        add_approve = (method == 'approve')
+        add_fuzzy = method == 'fuzzy'
+        add_approve = method == 'approve'
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -747,8 +684,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 not_found += 1
                 continue
 
-            if ((unit.translated and not overwrite)
-                    or (not request.user.has_perm('unit.edit', unit))):
+            if (unit.translated and not overwrite) or (
+                not request.user.has_perm('unit.edit', unit)
+            ):
                 skipped += 1
                 continue
 
@@ -770,7 +708,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 split_plural(unit2.target),
                 state,
                 change_action=Change.ACTION_UPLOAD,
-                propagate=False
+                propagate=False,
             )
 
         if accepted > 0:
@@ -827,8 +765,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Actually replace file content
             self.store.save_atomic(
-                self.store.storefile,
-                lambda handle: handle.write(filecopy)
+                self.store.storefile, lambda handle: handle.write(filecopy)
             )
 
             # Commit to VCS
@@ -849,13 +786,22 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return (0, 0, self.unit_set.count(), len(list(store2.translatable_units)))
 
-    def merge_upload(self, request, fileobj, overwrite, author_name=None,
-                     author_email=None, method='translate', fuzzy=''):
+    def merge_upload(
+        self,
+        request,
+        fileobj,
+        overwrite,
+        author_name=None,
+        author_email=None,
+        method='translate',
+        fuzzy='',
+    ):
         """Top level handler for file uploads."""
         # Optionally set authorship
         orig_user = None
         if author_email:
             from weblate.auth.models import User
+
             orig_user = request.user
             request.user = User.objects.get_or_create(
                 email=author_email,
@@ -863,7 +809,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     'username': author_email,
                     'is_active': False,
                     'full_name': author_name or author_email,
-                }
+                },
             )[0]
 
         if method == 'replace':
@@ -881,7 +827,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             fileobj.name,
             filecopy,
             self.component.file_format_cls,
-            self.component.template_store
+            self.component.template_store,
         )
 
         # Check valid plural forms
@@ -900,11 +846,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Merge on units level
                 with self.component.repository.lock:
                     return self.merge_translations(
-                        request,
-                        store,
-                        overwrite,
-                        method,
-                        fuzzy,
+                        request, store, overwrite, method, fuzzy
                     )
 
             # Add as sugestions
@@ -922,9 +864,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 component__project=self.component.project,
                 component__allow_translation_propagation=True,
                 language=self.language,
-            ).exclude(
-                pk=self.pk
-            )
+            ).exclude(pk=self.pk)
             for translation in related.iterator():
                 translation.invalidate_cache(False)
 
@@ -964,9 +904,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.commit_template = 'delete'
             with self.component.repository.lock:
                 self.component.repository.remove(
-                    self.filenames,
-                    self.get_commit_message(author),
-                    author,
+                    self.filenames, self.get_commit_message(author), author
                 )
 
         # Delete from the database
@@ -979,7 +917,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             action=Change.ACTION_REMOVE_TRANSLATION,
             target=self.filename,
             user=user,
-            author=user
+            author=user,
         )
 
     def new_unit(self, request, key, value):
@@ -990,12 +928,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 action=Change.ACTION_NEW_UNIT,
                 target=value,
                 user=request.user,
-                author=request.user
+                author=request.user,
             )
             self.store.new_unit(key, value)
             self.component.create_translations(request=request)
-            self.__git_commit(
-                request.user.get_author_name(),
-                timezone.now()
-            )
+            self.__git_commit(request.user.get_author_name(), timezone.now())
             self.component.push_if_needed(request)

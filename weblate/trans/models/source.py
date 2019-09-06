@@ -34,14 +34,10 @@ from weblate.trans.validators import validate_check_flags
 @python_2_unicode_compatible
 class Source(models.Model):
     id_hash = models.BigIntegerField()
-    component = models.ForeignKey(
-        'Component', on_delete=models.deletion.CASCADE
-    )
+    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     check_flags = models.TextField(
-        default='',
-        validators=[validate_check_flags],
-        blank=True,
+        default='', validators=[validate_check_flags], blank=True
     )
     context = models.TextField(default='', blank=True)
 
@@ -68,10 +64,10 @@ class Source(models.Model):
         modified.
         """
         if force_insert:
-            self.check_flags_modified = (self.check_flags != '')
+            self.check_flags_modified = self.check_flags != ''
         else:
             old = Source.objects.get(pk=self.pk)
-            self.check_flags_modified = (old.check_flags != self.check_flags)
+            self.check_flags_modified = old.check_flags != self.check_flags
         super(Source, self).save(force_insert, **kwargs)
 
     @cached_property
@@ -84,17 +80,17 @@ class Source(models.Model):
     @cached_property
     def units(self):
         return self.units_model.objects.filter(
-            id_hash=self.id_hash,
-            translation__component=self.component
-        ).prefetch_related(
-            'translation', 'translation__component'
-        )
+            id_hash=self.id_hash, translation__component=self.component
+        ).prefetch_related('translation', 'translation__component')
 
     def get_absolute_url(self):
-        return reverse('review_source', kwargs={
-            'project': self.component.project.slug,
-            'component': self.component.slug,
-        })
+        return reverse(
+            'review_source',
+            kwargs={
+                'project': self.component.project.slug,
+                'component': self.component.slug,
+            },
+        )
 
     def run_checks(self, unit=None, project=None, batch=False):
         """Update checks for this unit."""
@@ -111,15 +107,11 @@ class Source(models.Model):
 
         # Fetch old checks
         if self.component.checks_cache is not None:
-            old_checks = self.component.checks_cache.get(
-                (content_hash, None), []
-            )
+            old_checks = self.component.checks_cache.get((content_hash, None), [])
         else:
             old_checks = set(
                 Check.objects.filter(
-                    content_hash=content_hash,
-                    project=project,
-                    language=None
+                    content_hash=content_hash, project=project, language=None
                 ).values_list('check', flat=True)
             )
         create = []
@@ -137,13 +129,15 @@ class Source(models.Model):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    create.append(Check(
-                        content_hash=content_hash,
-                        project=project,
-                        language=None,
-                        ignore=False,
-                        check=check
-                    ))
+                    create.append(
+                        Check(
+                            content_hash=content_hash,
+                            project=project,
+                            language=None,
+                            ignore=False,
+                            check=check,
+                        )
+                    )
 
         if create:
             Check.objects.bulk_create_ignore(create)
@@ -154,5 +148,5 @@ class Source(models.Model):
                 content_hash=content_hash,
                 project=project,
                 language=None,
-                check__in=old_checks
+                check__in=old_checks,
             ).delete()

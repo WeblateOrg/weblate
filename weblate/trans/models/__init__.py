@@ -46,10 +46,20 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
 
 __all__ = [
-    'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
-    'Comment', 'Vote', 'Change', 'Dictionary', 'Source',
-    'WhiteboardMessage', 'ComponentList',
-    'WeblateConf', 'ContributorAgreement',
+    'Project',
+    'Component',
+    'Translation',
+    'Unit',
+    'Suggestion',
+    'Comment',
+    'Vote',
+    'Change',
+    'Dictionary',
+    'Source',
+    'WhiteboardMessage',
+    'ComponentList',
+    'WeblateConf',
+    'ContributorAgreement',
     'Alert',
 ]
 
@@ -79,6 +89,7 @@ def component_post_delete(sender, instance, **kwargs):
 
     # Schedule project cleanup
     from weblate.trans.tasks import cleanup_project
+
     cleanup_project.delay(instance.project.pk)
 
     # Do not delete linked components
@@ -125,14 +136,10 @@ def update_suggestion_flag(sender, instance, **kwargs):
 def user_commit_pending(sender, instance, **kwargs):
     """Commit pending changes for user on account removal."""
     # All user changes
-    all_changes = Change.objects.last_changes(instance).filter(
-        user=instance,
-    )
+    all_changes = Change.objects.last_changes(instance).filter(user=instance)
 
     # Filter where project is active
-    user_translation_ids = all_changes.values_list(
-        'translation', flat=True
-    ).distinct()
+    user_translation_ids = all_changes.values_list('translation', flat=True).distinct()
 
     # Commit changes where user is last author
     for translation in Translation.objects.filter(pk__in=user_translation_ids):

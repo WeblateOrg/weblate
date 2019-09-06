@@ -67,13 +67,13 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Project name'),
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
-        help_text=ugettext_lazy('Display name')
+        help_text=ugettext_lazy('Display name'),
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
         unique=True,
         max_length=PROJECT_NAME_LENGTH,
-        help_text=ugettext_lazy('Name used in URLs and filenames.')
+        help_text=ugettext_lazy('Name used in URLs and filenames.'),
     )
     web = models.URLField(
         verbose_name=ugettext_lazy('Project website'),
@@ -95,8 +95,7 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Set \"Language-Team\" header'),
         default=True,
         help_text=ugettext_lazy(
-            'Lets Weblate update the \"Language-Team\" file header '
-            'of your project.'
+            'Lets Weblate update the \"Language-Team\" file header ' 'of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
@@ -104,14 +103,14 @@ class Project(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_SHARED_TM,
         help_text=ugettext_lazy(
             'Uses the pool of shared translations between projects.'
-        )
+        ),
     )
     contribute_shared_tm = models.BooleanField(
         verbose_name=ugettext_lazy('Contribute to shared translation memory'),
         default=settings.DEFAULT_SHARED_TM,
         help_text=ugettext_lazy(
             'Contributes to the pool of shared translations between projects.'
-        )
+        ),
     )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
@@ -120,28 +119,26 @@ class Project(models.Model, URLMixin, PathMixin):
         help_text=ugettext_lazy(
             'How to restrict access to this project is detailed '
             'in the documentation.'
-        )
+        ),
     )
     enable_review = models.BooleanField(
         verbose_name=ugettext_lazy('Enable reviews'),
         default=False,
         help_text=ugettext_lazy(
             'Requires dedicated reviewers to approve translations.'
-        )
+        ),
     )
     enable_hooks = models.BooleanField(
         verbose_name=ugettext_lazy('Enable hooks'),
         default=True,
         help_text=ugettext_lazy(
             'Whether to allow updating this repository by remote hooks.'
-        )
+        ),
     )
     source_language = models.ForeignKey(
         Language,
         verbose_name=ugettext_lazy('Source language'),
-        help_text=ugettext_lazy(
-            'Language used for source strings in all components'
-        ),
+        help_text=ugettext_lazy('Language used for source strings in all components'),
         default=get_english_lang,
         on_delete=models.deletion.CASCADE,
     )
@@ -175,9 +172,7 @@ class Project(models.Model, URLMixin, PathMixin):
     def remove_user(self, user, group=None):
         """Add user based on username or email address."""
         if group is None:
-            groups = self.group_set.filter(
-                internal=True, name__contains='@'
-            )
+            groups = self.group_set.filter(internal=True, name__contains='@')
             user.groups.remove(*groups)
         else:
             group = self.group_set.get(name='{0}{1}'.format(self.name, group))
@@ -185,21 +180,15 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
-        return {
-            'project': self.slug
-        }
+        return {'project': self.slug}
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return get_site_url(
-            reverse('widgets', kwargs={'project': self.slug})
-        )
+        return get_site_url(reverse('widgets', kwargs={'project': self.slug}))
 
     def get_share_url(self):
         """Return absolute URL usable for sharing."""
-        return get_site_url(
-            reverse('engage', kwargs={'project': self.slug})
-        )
+        return get_site_url(reverse('engage', kwargs={'project': self.slug}))
 
     @property
     def locked(self):
@@ -234,9 +223,11 @@ class Project(models.Model, URLMixin, PathMixin):
     @cached_property
     def languages(self):
         """Return list of all languages used in project."""
-        return Language.objects.filter(
-            translation__component__project=self
-        ).distinct().order()
+        return (
+            Language.objects.filter(translation__component__project=self)
+            .distinct()
+            .order()
+        )
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""
@@ -268,9 +259,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
-        return self.on_repo_components(
-            True, 'do_update', request, method=method
-        )
+        return self.on_repo_components(True, 'do_update', request, method=method)
 
     def do_push(self, request=None):
         """Push all Git repos."""
@@ -322,10 +311,7 @@ class Project(models.Model, URLMixin, PathMixin):
             data = getattr(check_obj, meth_name)(self)
             # Fetch existing check instances
             existing = set(
-                Check.objects.filter(
-                    project=self,
-                    check=check
-                ).values_list(
+                Check.objects.filter(project=self, check=check).values_list(
                     'content_hash', 'language_id'
                 )
             )
@@ -337,20 +323,22 @@ class Project(models.Model, URLMixin, PathMixin):
                 if key in existing:
                     existing.discard(key)
                 else:
-                    create.append(Check(
-                        content_hash=item['content_hash'],
-                        project=self,
-                        language_id=item['translation__language'],
-                        check=check,
-                        ignore=False,
-                    ))
+                    create.append(
+                        Check(
+                            content_hash=item['content_hash'],
+                            project=self,
+                            language_id=item['translation__language'],
+                            check=check,
+                            ignore=False,
+                        )
+                    )
             # Remove stale instances
             if existing:
                 query = functools.reduce(
-                    lambda q, value:
-                    q | (Q(content_hash=value[0]) & Q(language_id=value[1])),
+                    lambda q, value: q
+                    | (Q(content_hash=value[0]) & Q(language_id=value[1])),
                     existing,
-                    Q()
+                    Q(),
                 )
                 Check.objects.filter(check=check).filter(query).delete()
         # Create new checks
@@ -367,6 +355,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def update_unit_flags(self):
         from weblate.trans.models import Unit
+
         units = Unit.objects.filter(translation__component__project=self)
         updates = (
             ('has_failing_check', 'checks_check'),
@@ -385,6 +374,7 @@ class Project(models.Model, URLMixin, PathMixin):
     def invalidate_stats_deep(self):
         self.log_info('updating stats caches')
         from weblate.trans.models import Translation
+
         translations = Translation.objects.filter(component__project=self)
         for translation in translations.iterator():
             translation.stats.invalidate()

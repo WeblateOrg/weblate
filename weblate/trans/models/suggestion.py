@@ -82,7 +82,7 @@ class SuggestionManager(models.Manager):
                 action=Change.ACTION_SUGGESTION,
                 user=user,
                 target=target,
-                author=user
+                author=user,
             )
 
         # Add unit vote
@@ -106,13 +106,15 @@ class SuggestionManager(models.Manager):
         """
         suggestions = []
         for suggestion in self.iterator():
-            suggestions.append(Suggestion(
-                project=project,
-                target=suggestion.target,
-                content_hash=suggestion.content_hash,
-                user=suggestion.user,
-                language=suggestion.language,
-            ))
+            suggestions.append(
+                Suggestion(
+                    project=project,
+                    target=suggestion.target,
+                    content_hash=suggestion.content_hash,
+                    user=suggestion.user,
+                    language=suggestion.language,
+                )
+            )
         # The batch size is needed for MySQL
         self.bulk_create(suggestions, batch_size=500)
 
@@ -126,39 +128,34 @@ class SuggestionQuerySet(models.QuerySet):
 class Suggestion(UnitData, UserDisplayMixin):
     target = models.TextField()
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True,
-        on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     userdetails = JSONField()
-    language = models.ForeignKey(
-        Language, on_delete=models.deletion.CASCADE
-    )
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        through='Vote',
-        related_name='user_votes'
+        settings.AUTH_USER_MODEL, through='Vote', related_name='user_votes'
     )
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
     class Meta(object):
         app_label = 'trans'
-        index_together = [
-            ('project', 'language', 'content_hash'),
-        ]
+        index_together = [('project', 'language', 'content_hash')]
 
     def __str__(self):
         return 'suggestion for {0} by {1}'.format(
-            self.content_hash,
-            self.user.username if self.user else 'unknown',
+            self.content_hash, self.user.username if self.user else 'unknown'
         )
 
     @transaction.atomic
     def accept(self, translation, request, permission='suggestion.accept'):
         allunits = translation.unit_set.select_for_update().filter(
-            content_hash=self.content_hash,
+            content_hash=self.content_hash
         )
         failure = False
         for unit in allunits:
@@ -180,22 +177,15 @@ class Suggestion(UnitData, UserDisplayMixin):
         if not failure:
             self.delete()
 
-    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE,
-                   is_spam=False):
+    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE, is_spam=False):
         """Delete with logging change"""
         if is_spam and self.userdetails:
             report_spam(
-                self.userdetails['address'],
-                self.userdetails['agent'],
-                self.target
+                self.userdetails['address'], self.userdetails['agent'], self.target
             )
         for unit in self.related_units:
             Change.objects.create(
-                unit=unit,
-                action=change,
-                user=user,
-                target=self.target,
-                author=user
+                unit=unit, action=change, user=user, target=self.target, author=user
             )
         self.delete()
 
@@ -209,9 +199,7 @@ class Suggestion(UnitData, UserDisplayMixin):
             return
 
         vote, created = Vote.objects.get_or_create(
-            suggestion=self,
-            user=request.user,
-            defaults={'value': value}
+            suggestion=self, user=request.user, defaults={'value': value}
         )
         if not created or vote.value != value:
             vote.value = value
@@ -226,9 +214,8 @@ class Suggestion(UnitData, UserDisplayMixin):
 @python_2_unicode_compatible
 class Vote(models.Model):
     """Suggestion voting."""
-    suggestion = models.ForeignKey(
-        Suggestion, on_delete=models.deletion.CASCADE
-    )
+
+    suggestion = models.ForeignKey(Suggestion, on_delete=models.deletion.CASCADE)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
@@ -243,7 +230,5 @@ class Vote(models.Model):
 
     def __str__(self):
         return '{0:+d} for {1} by {2}'.format(
-            self.value,
-            self.suggestion,
-            self.user.username,
+            self.value, self.suggestion, self.user.username
         )

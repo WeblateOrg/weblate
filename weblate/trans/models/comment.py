@@ -43,14 +43,14 @@ class CommentManager(models.Manager):
             content_hash=unit.content_hash,
             project=unit.translation.component.project,
             comment=text,
-            language=lang
+            language=lang,
         )
         Change.objects.create(
             unit=unit,
             comment=new_comment,
             action=Change.ACTION_COMMENT,
             user=user,
-            author=user
+            author=user,
         )
 
     def copy(self, project):
@@ -63,13 +63,15 @@ class CommentManager(models.Manager):
         """
         comments = []
         for comment in self.iterator():
-            comments.append(Comment(
-                project=project,
-                comment=comment.comment,
-                content_hash=comment.content_hash,
-                user=comment.user,
-                language=comment.language,
-            ))
+            comments.append(
+                Comment(
+                    project=project,
+                    comment=comment.comment,
+                    content_hash=comment.content_hash,
+                    user=comment.user,
+                    language=comment.language,
+                )
+            )
         # The batch size is needed for MySQL
         self.bulk_create(comments, batch_size=500)
 
@@ -83,8 +85,10 @@ class CommentQuerySet(models.QuerySet):
 class Comment(UnitData, UserDisplayMixin):
     comment = models.TextField()
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True,
-        on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
@@ -92,18 +96,16 @@ class Comment(UnitData, UserDisplayMixin):
 
     class Meta(object):
         app_label = 'trans'
-        index_together = [
-            ('project', 'language', 'content_hash'),
-        ]
+        index_together = [('project', 'language', 'content_hash')]
 
     def __str__(self):
         return 'comment for {0} by {1}'.format(
-            self.content_hash,
-            self.user.username if self.user else 'unknown',
+            self.content_hash, self.user.username if self.user else 'unknown'
         )
 
     def get_mentions(self):
         from weblate.auth.models import User
+
         for match in MENTIONS_RE.findall(self.comment):
             try:
                 yield User.objects.get(username=match)

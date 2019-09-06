@@ -43,14 +43,15 @@ class ComponentList(models.Model):
         verbose_name=_('Component list name'),
         max_length=100,
         unique=True,
-        help_text=_('Display name')
+        help_text=_('Display name'),
     )
 
     slug = models.SlugField(
         verbose_name=_('URL slug'),
-        db_index=True, unique=True,
+        db_index=True,
+        unique=True,
         max_length=100,
-        help_text=_('Name used in URLs and filenames.')
+        help_text=_('Name used in URLs and filenames.'),
     )
     show_dashboard = models.BooleanField(
         verbose_name=_('Show on dashboard'),
@@ -59,7 +60,7 @@ class ComponentList(models.Model):
         help_text=_(
             'When enabled this component list will be shown as a tab on '
             'the dashboard'
-        )
+        ),
     )
 
     components = models.ManyToManyField('Component', blank=True)
@@ -90,17 +91,13 @@ class AutoComponentList(models.Model):
         verbose_name=_('Project regular expression'),
         max_length=200,
         default='^$',
-        help_text=_(
-            'Regular expression which is used to match project slug.'
-        ),
+        help_text=_('Regular expression which is used to match project slug.'),
     )
     component_match = RegexField(
         verbose_name=_('Component regular expression'),
         max_length=200,
         default='^$',
-        help_text=_(
-            'Regular expression which is used to match component slug.'
-        ),
+        help_text=_('Regular expression which is used to match component slug.'),
     )
     componentlist = models.ForeignKey(
         ComponentList,

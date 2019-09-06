@@ -46,6 +46,7 @@ class DictionaryManager(models.Manager):
     def upload(self, request, project, language, fileobj, method):
         """Handle dictionary upload."""
         from weblate.trans.models.change import Change
+
         store = AutodetectFormat.parse(fileobj)
 
         ret = 0
@@ -65,16 +66,10 @@ class DictionaryManager(models.Manager):
                     project=project,
                     language=language,
                     source=source,
-                    defaults={
-                        'target': target,
-                    },
+                    defaults={'target': target},
                 )
             except Dictionary.MultipleObjectsReturned:
-                word = self.filter(
-                    project=project,
-                    language=language,
-                    source=source
-                )[0]
+                word = self.filter(project=project, language=language, source=source)[0]
                 created = False
 
             # Already existing entry found
@@ -90,7 +85,7 @@ class DictionaryManager(models.Manager):
                         project=project,
                         language=language,
                         source=source,
-                        target=target
+                        target=target,
                     )
                 elif method == 'overwrite':
                     # Update word
@@ -104,13 +99,11 @@ class DictionaryManager(models.Manager):
     def create(self, user, **kwargs):
         """Create new dictionary object."""
         from weblate.trans.models.change import Change
+
         action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
         created = super(DictionaryManager, self).create(**kwargs)
         Change.objects.create(
-            action=action,
-            dictionary=created,
-            user=user,
-            target=created.target,
+            action=action, dictionary=created, user=user, target=created.target
         )
         return created
 
@@ -164,7 +157,7 @@ class DictionaryQuerySet(models.QuerySet):
             language=unit.translation.language,
             source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
                 '|'.join(re_escape(word) for word in islice(words, 1000))
-            )
+            ),
         )
 
     def order(self):
@@ -185,10 +178,7 @@ class Dictionary(models.Model):
 
     def __str__(self):
         return '{0}/{1}: {2} -> {3}'.format(
-            self.project,
-            self.language,
-            self.source,
-            self.target
+            self.project, self.language, self.source, self.target
         )
 
     def get_absolute_url(self):
@@ -198,18 +188,19 @@ class Dictionary(models.Model):
                 'project': self.project.slug,
                 'lang': self.language.code,
                 'pk': self.id,
-            }
+            },
         )
 
     def get_parent_url(self):
         return reverse(
             'show_dictionary',
-            kwargs={'project': self.project.slug, 'lang': self.language.code}
+            kwargs={'project': self.project.slug, 'lang': self.language.code},
         )
 
     def edit(self, request, source, target):
         """Edit word in a dictionary."""
         from weblate.trans.models.change import Change
+
         self.source = source
         self.target = target
         self.save()

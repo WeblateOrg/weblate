@@ -36,14 +36,10 @@ from weblate.lang.models import Language
 class WhiteboardManager(models.Manager):
     def context_filter(self, project=None, component=None, language=None):
         """Filter whiteboard messages by context."""
-        base = self.filter(
-            Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
-        )
+        base = self.filter(Q(expiry__isnull=True) | Q(expiry__gte=timezone.now()))
 
         if language and project is None and component is None:
-            return base.filter(
-                project=None, component=None, language=language
-            )
+            return base.filter(project=None, component=None, language=language)
 
         if component:
             if language:
@@ -63,16 +59,12 @@ class WhiteboardManager(models.Manager):
             return base.filter(Q(project=project) & Q(component=None))
 
         # All are None
-        return base.filter(
-            project=None, component=None, language=None
-        )
+        return base.filter(project=None, component=None, language=None)
 
 
 @python_2_unicode_compatible
 class WhiteboardMessage(models.Model):
-    message = models.TextField(
-        verbose_name=ugettext_lazy('Message'),
-    )
+    message = models.TextField(verbose_name=ugettext_lazy('Message'))
     message_html = models.BooleanField(  # noqa: DJ02
         verbose_name=ugettext_lazy('Render as HTML'),
         help_text=ugettext_lazy(
@@ -107,9 +99,7 @@ class WhiteboardMessage(models.Model):
     category = models.CharField(
         max_length=25,
         verbose_name=ugettext_lazy('Category'),
-        help_text=ugettext_lazy(
-            'Category defines color used for the message.'
-        ),
+        help_text=ugettext_lazy('Category defines color used for the message.'),
         choices=(
             ('info', ugettext_lazy('Info (light blue)')),
             ('warning', ugettext_lazy('Warning (yellow)')),
@@ -141,25 +131,23 @@ class WhiteboardMessage(models.Model):
         return self.message
 
     def clean(self):
-        if (self.project and self.component
-                and self.component.project != self.project):
-            raise ValidationError(
-                _('Do not specify both component and project!')
-            )
+        if self.project and self.component and self.component.project != self.project:
+            raise ValidationError(_('Do not specify both component and project!'))
         if not self.project and self.component:
             self.project = self.component.project
 
     def save(self, *args, **kwargs):
-        is_new = (not self.id)
+        is_new = not self.id
         super(WhiteboardMessage, self).save(*args, **kwargs)
         if is_new:
             from weblate.trans.models.change import Change
+
             Change.objects.create(
                 action=Change.ACTION_MESSAGE,
                 project=self.project,
                 component=self.component,
                 whiteboard=self,
-                target=self.message
+                target=self.message,
             )
 
     def render(self):

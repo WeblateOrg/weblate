@@ -70,9 +70,16 @@ class ChangeQuerySet(models.QuerySet):
 
         return result
 
-    def base_stats(self, days, step,
-                   project=None, component=None, translation=None,
-                   language=None, user=None):
+    def base_stats(
+        self,
+        days,
+        step,
+        project=None,
+        component=None,
+        translation=None,
+        language=None,
+        user=None,
+    ):
         """Core of daily/weekly/monthly stats calculation."""
 
         # Get range (actually start)
@@ -104,7 +111,11 @@ class ChangeQuerySet(models.QuerySet):
         individually.
         """
         return self.prefetch_related(
-            'user', 'translation', 'component', 'unit', 'dictionary',
+            'user',
+            'translation',
+            'component',
+            'unit',
+            'dictionary',
             'translation__language',
             'translation__component',
             'translation__component__project',
@@ -112,28 +123,28 @@ class ChangeQuerySet(models.QuerySet):
             'unit__translation__language',
             'unit__translation__component',
             'unit__translation__component__project',
-            'component__project'
+            'component__project',
         )
 
     def last_changes(self, user):
         """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.
         """
-        return self.prefetch().filter(
-            Q(component__project__in=user.allowed_projects)
-            | Q(dictionary__project__in=user.allowed_projects)
-        ).order()
+        return (
+            self.prefetch()
+            .filter(
+                Q(component__project__in=user.allowed_projects)
+                | Q(dictionary__project__in=user.allowed_projects)
+            )
+            .order()
+        )
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
         authors = self.content()
         if date_range is not None:
-            authors = authors.filter(
-                timestamp__range=date_range
-            )
-        return authors.values_list(
-            'author__email', 'author__full_name'
-        )
+            authors = authors.filter(timestamp__range=date_range)
+        return authors.values_list('author__email', 'author__full_name')
 
     def order(self):
         return self.order_by('-timestamp')
@@ -233,10 +244,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE_TRANSLATION, ugettext_lazy('Removed translation')),
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
         (ACTION_REPLACE, ugettext_lazy('Search and replace')),
-        (
-            ACTION_SUGGESTION_CLEANUP,
-            ugettext_lazy('Suggestion removed during cleanup')
-        ),
+        (ACTION_SUGGESTION_CLEANUP, ugettext_lazy('Suggestion removed during cleanup')),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
         (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
         (ACTION_MASS_STATE, ugettext_lazy('Bulk status change')),
@@ -262,64 +270,66 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_INVITE_USER, ugettext_lazy('Invited user')),
     )
 
-    ACTIONS_REVERTABLE = frozenset((
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_CHANGE,
-        ACTION_UPLOAD,
-        ACTION_NEW,
-        ACTION_REPLACE,
-    ))
-
-    ACTIONS_CONTENT = frozenset((
-        ACTION_CHANGE,
-        ACTION_NEW,
-        ACTION_AUTO,
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_UPLOAD,
-        ACTION_REPLACE,
-        ACTION_MASS_STATE,
-        ACTION_APPROVE,
-        ACTION_MARKED_EDIT,
-    ))
-
-    ACTIONS_TRANSLATED = frozenset((
-        ACTION_CHANGE,
-        ACTION_NEW,
-        ACTION_AUTO,
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_UPLOAD,
-        ACTION_REPLACE,
-        ACTION_APPROVE,
-    ))
-
-    ACTIONS_REPOSITORY = frozenset((
-        ACTION_PUSH,
-        ACTION_RESET,
-        ACTION_MERGE,
-        ACTION_REBASE,
-        ACTION_FAILED_MERGE,
-        ACTION_FAILED_REBASE,
-        ACTION_FAILED_PUSH,
-        ACTION_LOCK,
-        ACTION_UNLOCK,
-        ACTION_DUPLICATE_LANGUAGE,
-    ))
-
-    ACTIONS_MERGE_FAILURE = frozenset((
-        ACTION_FAILED_MERGE,
-        ACTION_FAILED_REBASE,
-        ACTION_FAILED_PUSH,
-    ))
-
-    unit = models.ForeignKey(
-        'Unit', null=True, on_delete=models.deletion.CASCADE
+    ACTIONS_REVERTABLE = frozenset(
+        (
+            ACTION_ACCEPT,
+            ACTION_REVERT,
+            ACTION_CHANGE,
+            ACTION_UPLOAD,
+            ACTION_NEW,
+            ACTION_REPLACE,
+        )
     )
-    project = models.ForeignKey(
-        'Project', null=True, on_delete=models.deletion.CASCADE
+
+    ACTIONS_CONTENT = frozenset(
+        (
+            ACTION_CHANGE,
+            ACTION_NEW,
+            ACTION_AUTO,
+            ACTION_ACCEPT,
+            ACTION_REVERT,
+            ACTION_UPLOAD,
+            ACTION_REPLACE,
+            ACTION_MASS_STATE,
+            ACTION_APPROVE,
+            ACTION_MARKED_EDIT,
+        )
     )
+
+    ACTIONS_TRANSLATED = frozenset(
+        (
+            ACTION_CHANGE,
+            ACTION_NEW,
+            ACTION_AUTO,
+            ACTION_ACCEPT,
+            ACTION_REVERT,
+            ACTION_UPLOAD,
+            ACTION_REPLACE,
+            ACTION_APPROVE,
+        )
+    )
+
+    ACTIONS_REPOSITORY = frozenset(
+        (
+            ACTION_PUSH,
+            ACTION_RESET,
+            ACTION_MERGE,
+            ACTION_REBASE,
+            ACTION_FAILED_MERGE,
+            ACTION_FAILED_REBASE,
+            ACTION_FAILED_PUSH,
+            ACTION_LOCK,
+            ACTION_UNLOCK,
+            ACTION_DUPLICATE_LANGUAGE,
+        )
+    )
+
+    ACTIONS_MERGE_FAILURE = frozenset(
+        (ACTION_FAILED_MERGE, ACTION_FAILED_REBASE, ACTION_FAILED_PUSH)
+    )
+
+    unit = models.ForeignKey('Unit', null=True, on_delete=models.deletion.CASCADE)
+    project = models.ForeignKey('Project', null=True, on_delete=models.deletion.CASCADE)
     component = models.ForeignKey(
         'Component', null=True, on_delete=models.deletion.CASCADE
     )
@@ -338,21 +348,18 @@ class Change(models.Model, UserDisplayMixin):
     whiteboard = models.ForeignKey(
         'WhiteboardMessage', null=True, on_delete=models.deletion.SET_NULL
     )
-    alert = models.ForeignKey(
-        'Alert', null=True, on_delete=models.deletion.SET_NULL
-    )
+    alert = models.ForeignKey('Alert', null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name='author_set',
-        on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL,
+        null=True,
+        related_name='author_set',
+        on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
-    action = models.IntegerField(
-        choices=ACTION_CHOICES,
-        default=ACTION_CHANGE
-    )
+    action = models.IntegerField(choices=ACTION_CHOICES, default=ACTION_CHANGE)
     target = models.TextField(default='', blank=True)
     old = models.TextField(default='', blank=True)
     details = JSONField()
@@ -402,10 +409,7 @@ class Change(models.Model, UserDisplayMixin):
         elif self.component is not None:
             return force_text(self.component)
         elif self.dictionary is not None:
-            return '{0}/{1}'.format(
-                self.dictionary.project,
-                self.dictionary.language
-            )
+            return '{0}/{1}'.format(self.dictionary.project, self.dictionary.language)
         elif self.project is not None:
             return force_text(self.project)
         return None
@@ -436,7 +440,7 @@ class Change(models.Model, UserDisplayMixin):
         user_actions = {
             self.ACTION_ADD_USER,
             self.ACTION_INVITE_USER,
-            self.ACTION_REMOVE_USER
+            self.ACTION_REMOVE_USER,
         }
 
         if self.action == self.ACTION_ACCESS_EDIT:
@@ -448,7 +452,10 @@ class Change(models.Model, UserDisplayMixin):
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']
-        elif self.action in (self.ACTION_ADDED_LANGUAGE, self.ACTION_REQUESTED_LANGUAGE):  # noqa: E501
+        elif self.action in (
+            self.ACTION_ADDED_LANGUAGE,
+            self.ACTION_REQUESTED_LANGUAGE,
+        ):  # noqa: E501
             try:
                 return Language.objects.get(code=self.details['language'])
             except Language.DoesNotExist:
@@ -463,6 +470,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
+
         if self.unit:
             self.translation = self.unit.translation
         if self.translation:

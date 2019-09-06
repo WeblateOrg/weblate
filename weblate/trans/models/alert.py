@@ -43,9 +43,7 @@ def register(cls):
 
 @python_2_unicode_compatible
 class Alert(models.Model):
-    component = models.ForeignKey(
-        'Component', on_delete=models.deletion.CASCADE
-    )
+    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=150)
     details = JSONField(default={})
@@ -64,10 +62,11 @@ class Alert(models.Model):
         return self.obj.render()
 
     def save(self, *args, **kwargs):
-        is_new = (not self.id)
+        is_new = not self.id
         super(Alert, self).save(*args, **kwargs)
         if is_new:
             from weblate.trans.models import Change
+
             Change.objects.create(
                 action=Change.ACTION_ALERT,
                 component=self.component,
@@ -96,7 +95,7 @@ class BaseAlert(object):
     def render(self):
         return render_to_string(
             'trans/alert/{}.html'.format(self.__class__.__name__.lower()),
-            self.get_context()
+            self.get_context(),
         )
 
 
@@ -119,6 +118,7 @@ class MultiAlert(BaseAlert):
     def process_occurrences(self, occurrences):
         from weblate.lang.models import Language
         from weblate.trans.models import Unit
+
         processors = (
             ('language_code', 'language', Language, 'code'),
             ('unit_pk', 'unit', Unit, 'pk'),
@@ -128,9 +128,7 @@ class MultiAlert(BaseAlert):
                 if key not in occurrence:
                     continue
                 try:
-                    occurrence[target] = obj.objects.get(
-                        **{lookup: occurrence[key]}
-                    )
+                    occurrence[target] = obj.objects.get(**{lookup: occurrence[key]})
                 except ObjectDoesNotExist:
                     occurrence[target] = None
         return occurrences

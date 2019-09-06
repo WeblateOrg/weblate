@@ -113,9 +113,7 @@ class WeblateConf(AppConf):
         'Translate-URL: {{ url }}'
     )
 
-    DEFAULT_ADD_MESSAGE = (
-        'Added translation using Weblate ({{ language_name }})\n\n'
-    )
+    DEFAULT_ADD_MESSAGE = 'Added translation using Weblate ({{ language_name }})\n\n'
 
     DEFAULT_DELETE_MESSAGE = (
         'Deleted translation using Weblate ({{ language_name }})\n\n'
@@ -132,9 +130,7 @@ Updated by "{{ addon_name }}" hook in Weblate.
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}'''
 
-    DEFAULT_PULL_MESSAGE = (
-        'Update from Weblate'
-    )
+    DEFAULT_PULL_MESSAGE = 'Update from Weblate'
 
     # Billing
     INVOICE_PATH = ''
