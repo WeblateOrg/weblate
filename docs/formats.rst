@@ -283,7 +283,7 @@ attribute from the Xliff specification:
 
 .. code-block:: xml
 
-   <trans-unit id="10" maxwidth="100" weblate-flags="c-format">
+   <trans-unit id="10" maxwidth="100" size-unit="chars" weblate-flags="c-format">
       <source>Hello %s</source>
    </trans-unit>
 

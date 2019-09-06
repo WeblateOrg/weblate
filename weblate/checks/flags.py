@@ -94,8 +94,12 @@ class Flags(object):
     def parse_xml(cls, flags):
         """Parse comma separated list of flags."""
         maxwidth = flags.get("maxwidth")
+        sizeunit = flags.get("size-unit")
         if maxwidth:
-            yield "max-length:{0}".format(maxwidth)
+            if sizeunit in (None, "pixel", "point"):
+                yield "max-size:{0}".format(maxwidth)
+            elif sizeunit in ("byte", "char"):
+                yield "max-length:{0}".format(maxwidth)
         text = flags.get("weblate-flags")
         if text is not None:
             for flag in cls.parse(text):

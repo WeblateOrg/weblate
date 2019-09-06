@@ -68,6 +68,7 @@ TEST_JOOMLA = get_test_file('cs.ini')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_XLIFF = get_test_file('cs.xliff')
+TEST_POXLIFF = get_test_file('cs.poxliff')
 TEST_XLIFF_ID = get_test_file('ids.xliff')
 TEST_POT = get_test_file('hello.pot')
 TEST_POT_UNICODE = get_test_file('unicode.pot')
@@ -569,6 +570,17 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<source>key</source>',
         b'<target state="translated">Source string</target>',
     )
+
+
+class PoXliffFormatTest2(PoXliffFormatTest):
+    FILE = TEST_POXLIFF
+    BASE = TEST_POXLIFF
+    EXPECTED_FLAGS = 'c-format, max-size:100'
+    FIND_CONTEXT = "cs.po///2"
+    COUNT = 5
+    MATCH = '<file original="cs.po"'
+    FIND_MATCH = 'Ahoj světe!\n'
+
 
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):

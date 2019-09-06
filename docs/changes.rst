@@ -22,6 +22,7 @@ Not yet released.
 * Added new custom regex based check.
 * Allow to configure contributing to shared translation memory.
 * Added ZIP download for more translation files.
+* Make Xliff standard compliant parsing of maxwidth.
 
 weblate 3.8
 -----------
