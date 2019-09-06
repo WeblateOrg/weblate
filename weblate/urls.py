@@ -234,6 +234,11 @@ real_patterns = [
         name='download_project',
     ),
     url(
+        r'^download-list/(?P<name>[^/]*)/$',
+        weblate.trans.views.files.download_component_list,
+        name='download_component_list',
+    ),
+    url(
         r'^download-language/' + LANGUAGE + '/' + PROJECT + '$',
         weblate.trans.views.files.download_lang_project,
         name='download_lang_project',

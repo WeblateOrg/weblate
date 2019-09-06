@@ -28,7 +28,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import DownloadForm, get_upload_form
-from weblate.trans.models import Translation
+from weblate.trans.models import ComponentList, Translation
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -44,6 +44,17 @@ from weblate.utils.views import (
 
 def download_multi(translations, fmt=None):
     return zip_download(data_dir('vcs'), [t.get_filename() for t in translations])
+
+
+def download_component_list(request, name):
+    obj = get_object_or_404(ComponentList, slug=name)
+    components = obj.components.filter(project__in=request.user.allowed_projects)
+    for component in components:
+        component.commit_pending("download", None)
+    return download_multi(
+        Translation.objects.filter(component__in=components),
+        request.GET.get('format')
+    )
 
 
 def download_component(request, project, component):

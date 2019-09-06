@@ -29,6 +29,7 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 
 from weblate.trans.forms import SimpleUploadForm
+from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -531,5 +532,13 @@ class DownloadMultiTest(ViewTestCase):
                 'download_lang_project',
                 kwargs={'lang': 'cs', 'project': self.project.slug}
             )
+        )
+        self.assert_zip(response)
+
+    def test_component_list(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.component)
+        response = self.client.get(
+            reverse('download_component_list', kwargs={'name': 'testcl'})
         )
         self.assert_zip(response)

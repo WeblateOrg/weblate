@@ -12,6 +12,14 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Files" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url "download_component_list" name=obj.slug %}?format=zip" title="{% trans "Download for an offline translation." %}">{% blocktrans %}Download original translation files in ZIP{% endblocktrans %}</a></li>
+    </ul>
+  </li>
 </ul>
 
 <div class="tab-content">
