@@ -10,7 +10,7 @@ Installing on SUSE and openSUSE
    zypper install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel \
       cairo-devel typelib-1_0-Pango-1_0 gobject-introspection-devel \
-      python3-pip python3-virtualenv python3-devel
+      python3-pip python3-virtualenv python3-devel git
 
 .. include:: steps/install-system-optional.rst
 
