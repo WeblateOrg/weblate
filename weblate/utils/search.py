@@ -20,9 +20,24 @@
 
 from __future__ import unicode_literals
 
+from functools import reduce
+
+import whoosh.qparser
+import whoosh.qparser.dateparse
+import whoosh.query
+from django.db.models import Q
+from django.utils import timezone
 from jellyfish import damerau_levenshtein_distance
 from jellyfish._jellyfish import (
     damerau_levenshtein_distance as py_damerau_levenshtein_distance,
+)
+from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
+
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
 )
 
 
@@ -46,3 +61,161 @@ class Comparer(object):
         except MemoryError:
             # Too long string, mark them as not much similar
             return 50
+
+
+class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
+    """Single and double quotes to specify a term"""
+
+    expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
+
+
+class DateParser(whoosh.qparser.dateparse.English):
+    def setup(self):
+        super(DateParser, self).setup()
+        # We prefer simple parser prior to datetime
+        # This might not be necessary after following issue is fixed:
+        # https://github.com/whoosh-community/whoosh/issues/552
+        self.bundle.elements = (self.plusdate, self.simple, self.datetime)
+
+
+class StateField(NUMERIC):
+    def parse_query(self, fieldname, qstring, boost=1.0):
+        return super(StateField, self).parse_query(
+            fieldname, state_to_int(qstring), boost
+        )
+
+    def parse_range(self, fieldname, start, end, startexcl, endexcl, boost=1.0):
+        return super(StateField, self).parse_range(
+            fieldname, state_to_int(start), state_to_int(end), startexcl, endexcl, boost
+        )
+
+    def to_bytes(self, x, shift=0):
+        return int(x)
+
+
+def state_to_int(text):
+    if text == "translated":
+        return str(STATE_TRANSLATED)
+    if text == "approved":
+        return str(STATE_APPROVED)
+    if text == "empty":
+        return str(STATE_EMPTY)
+    if text == "fuzzy":
+        return str(STATE_FUZZY)
+    return text
+
+
+class QueryParser(whoosh.qparser.QueryParser):
+    """
+    Weblate query parser, differences to Whoosh default
+
+    - no phrase plugin
+    - <> operators support
+    - double and single quotes behave identical
+    - multifield lookup for unspecified terms
+    """
+
+    def __init__(self):
+        # Define fields for parsing
+        schema = Schema(
+            # Unit fields
+            source=TEXT,
+            target=TEXT,
+            context=TEXT,
+            comment=TEXT,
+            location=TEXT,
+            state=StateField,
+            pending=BOOLEAN,
+            has_suggestion=BOOLEAN,
+            has_comment=BOOLEAN,
+            has_failing_check=BOOLEAN,
+            # Language
+            language=TEXT,
+            # Change fields
+            changed=DATETIME,
+            changed_by=TEXT,
+        )
+        # Features to implement and corresponding blockers
+        # - created timestamp, https://github.com/WeblateOrg/weblate/issues/2831
+        # - unitdata lookups, https://github.com/WeblateOrg/weblate/issues/3007
+
+        # List of plugins
+        plugins = [
+            whoosh.qparser.WhitespacePlugin(),
+            QuotePlugin(),
+            whoosh.qparser.FieldsPlugin(),
+            whoosh.qparser.RangePlugin(),
+            whoosh.qparser.GtLtPlugin(),
+            whoosh.qparser.GroupPlugin(),
+            whoosh.qparser.OperatorsPlugin(),
+            whoosh.qparser.dateparse.DateParserPlugin(dateparser=DateParser()),
+            whoosh.qparser.MultifieldPlugin(["source", "target", "context"]),
+        ]
+        super(QueryParser, self).__init__(None, schema, plugins=plugins)
+
+    def term_query(
+        self, fieldname, text, termclass, boost=1.0, tokenize=True, removestops=True
+    ):
+        if self.schema and fieldname in self.schema:
+            if isinstance(self.schema[fieldname], TEXT):
+                return termclass(fieldname, text, boost=boost)
+        return super(QueryParser, self).term_query(
+            fieldname, text, termclass, boost, tokenize, removestops
+        )
+
+
+PARSER = QueryParser()
+
+
+def field_name(field):
+    if field == "changed":
+        return "change__timestamp"
+    if field == "changed_by":
+        return "change__author__username"
+    if field == "language":
+        return "translation__language__code"
+    if field in ("source", "target", "context", "comment", "location"):
+        return "{}__icontains".format(field)
+    return field
+
+
+def range_sql(field, start, end, conv=int):
+    def range_lookup(field, op, value):
+        return {"{}__{}".format(field_name(field), op): conv(value)}
+
+    if start and end:
+        return Q(**range_lookup(field, "gte", start)) & Q(
+            **range_lookup(field, "lte", end)
+        )
+    if start:
+        return Q(**range_lookup(field, "gte", start))
+    return Q(**range_lookup(field, "lte", end))
+
+
+def query_sql(obj):
+    if isinstance(obj, whoosh.query.And):
+        return reduce(
+            lambda x, y: x & y,
+            (query_sql(q) for q in obj.subqueries if q != whoosh.query.NullQuery),
+        )
+    if isinstance(obj, whoosh.query.Or):
+        return reduce(
+            lambda x, y: x | y,
+            (query_sql(q) for q in obj.subqueries if q != whoosh.query.NullQuery),
+        )
+    if isinstance(obj, whoosh.query.Not):
+        return ~query_sql(obj.query)
+    if isinstance(obj, whoosh.query.Term):
+        return Q(**{field_name(obj.fieldname): obj.text})
+    if isinstance(obj, whoosh.query.DateRange):
+        return range_sql(obj.fieldname, obj.startdate, obj.enddate, timezone.make_aware)
+    if isinstance(obj, whoosh.query.NumericRange):
+        return range_sql(obj.fieldname, obj.start, obj.end)
+
+    if obj == whoosh.query.NullQuery:
+        return Q(pk=None)
+    raise ValueError("Unsupported: {!r}".format(obj))
+
+
+def parse_query(text):
+    return query_sql(PARSER.parse(text))
