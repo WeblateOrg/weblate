@@ -14,6 +14,7 @@
     user/translating
     user/files
     user/checks
+    user/search
     devel/index
     workflows
     faq
