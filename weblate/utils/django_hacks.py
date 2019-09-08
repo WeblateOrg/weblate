@@ -18,78 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import bleach
-import django.template.base
-import django.templatetags.i18n
-import six
-from django.utils import translation
-from django.utils.functional import lazy
-from django.utils.safestring import mark_safe
 from django.utils.translation import trans_real
-
-
-def escape(text):
-    return mark_safe(bleach.clean(text))
-
-
-def safe_ugettext(message):
-    return escape(translation.ugettext(message))
-
-
-def safe_pgettext(context, message):
-    return escape(translation.pgettext(context, message))
-
-
-def safe_ungettext(singular, plural, number):
-    return escape(translation.ungettext(singular, plural, number))
-
-
-safe_pgettext_lazy = lazy(safe_pgettext, six.text_type)
-safe_ugettext_lazy = lazy(safe_ugettext, six.text_type)
-
-
-class EscapeTranslate(object):
-    """Helper class to wrap some translate calls with automatic escaping.
-
-    We do not want translators to be able to inject HTML and unfortunately
-    there is no clean way to tell Django to do this, see
-    https://code.djangoproject.com/ticket/25872
-    """
-    @staticmethod
-    def ungettext(singular, plural, number):
-        return safe_ungettext(singular, plural, number)
-
-    @staticmethod
-    def ngettext(singular, plural, number):
-        return safe_ungettext(singular, plural, number)
-
-    @staticmethod
-    def ugettext(message):
-        return safe_ugettext(message)
-
-    @staticmethod
-    def ugettext_lazy(message):
-        return safe_ugettext_lazy(message)
-
-    @staticmethod
-    def gettext(message):
-        return safe_ugettext(message)
-
-    @staticmethod
-    def npgettext(context, singular, plural, number):
-        return escape(translation.npgettext(context, singular, plural, number))
-
-    @staticmethod
-    def pgettext(context, message):
-        return safe_pgettext(context, message)
-
-    @staticmethod
-    def pgettext_lazy(context, message):
-        return safe_pgettext_lazy(context, message)
-
-    def __getattr__(self, name):
-        return getattr(translation, name)
-
 
 DjangoTranslation = trans_real.DjangoTranslation
 
@@ -117,10 +46,5 @@ class WeblateTranslation(DjangoTranslation):
 
 
 def monkey_patch_translate():
-    """Mokey patch translate tags to emmit escaped strings."""
-    django.templatetags.i18n.translation = EscapeTranslate()
-    django.template.base.ugettext_lazy = safe_ugettext_lazy
-    django.template.base.gettext_lazy = safe_ugettext_lazy
-    django.template.base.pgettext_lazy = safe_pgettext_lazy
-
+    """Monkey patch translation to workaround Django bug in handling plurals"""
     trans_real.DjangoTranslation = WeblateTranslation
