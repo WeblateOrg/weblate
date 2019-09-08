@@ -548,6 +548,8 @@ Checks that XML tags are replicated between both source and translation.
 Unsafe HTML
 ~~~~~~~~~~~
 
+.. versionadded:: 3.9
+
 The translation uses unsafe HTML markup. This check has to be enabled using
 ``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
 autofixer which can automatically sanitize the markup.
