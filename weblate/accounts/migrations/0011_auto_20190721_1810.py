@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='editor_link',
-            field=models.CharField(blank=True, default='', help_text='Enter a custom URL to be used as link to the source code. You can use {{branch}} for branch, {{filename}} and {{line}} as filename and line placeholders. Usually something like editor://open/?file={{filename}}&line={{line}} is a good option.', max_length=200, validators=[weblate.utils.render.validate_editor], verbose_name='Editor link'),
+            field=models.CharField(blank=True, default='', help_text='Enter a custom URL to be used as link to the source code. You can use {{branch}} for branch, {{filename}} and {{line}} as filename and line placeholders.', max_length=200, validators=[weblate.utils.render.validate_editor], verbose_name='Editor link'),
         ),
         migrations.AlterField(
             model_name='profile',

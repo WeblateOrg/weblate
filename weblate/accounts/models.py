@@ -373,9 +373,7 @@ class Profile(models.Model):
         help_text=_(
             'Enter a custom URL to be used as link to the source code. '
             'You can use {{branch}} for branch, '
-            '{{filename}} and {{line}} as filename and line placeholders. '
-            'Usually something like editor://open/?file={{filename}}&line={{line}}'
-            ' is a good option.'
+            '{{filename}} and {{line}} as filename and line placeholders.'
         ),
         validators=[validate_editor],
     )
