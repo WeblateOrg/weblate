@@ -29,6 +29,7 @@ from weblate.checks.markup import (
     MarkdownLinkCheck,
     MarkdownRefLinkCheck,
     MarkdownSyntaxCheck,
+    SafeHTMLCheck,
     URLCheck,
     XMLTagsCheck,
     XMLValidityCheck,
@@ -242,3 +243,17 @@ class URLCheckTest(CheckTestCase):
         self.test_failure_1 = (url, 'https:weblate.org/', 'url')
         self.test_failure_2 = (url, 'weblate.org/', 'url')
         self.test_failure_3 = (url, 'weblate', 'url')
+
+
+class SafeHTMLCheckTest(CheckTestCase):
+    check = SafeHTMLCheck()
+
+    def setUp(self):
+        super(SafeHTMLCheckTest, self).setUp()
+        safe = '<a href="https://weblate.org/">link</a>'
+        self.test_good_matching = (safe, safe, 'safe-html')
+        self.test_good_none = ('string', 'string', 'safe-html')
+        self.test_good_flag = ('string', 'string', '')
+        self.test_failure_1 = (safe, '<a href="javascript:foo()">link</a>', 'safe-html')
+        self.test_failure_2 = (safe, '<a href="#" onclick="x()">link</a>', 'safe-html')
+        self.test_failure_3 = (safe, '<iframe src="xxx"></iframe>', 'safe-html')

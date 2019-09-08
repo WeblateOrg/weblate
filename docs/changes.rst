@@ -23,6 +23,7 @@ Not yet released.
 * Allow to configure contributing to shared translation memory.
 * Added ZIP download for more translation files.
 * Make Xliff standard compliant parsing of maxwidth and font.
+* Added new check and fixer for safe HTML markup for translating web applications.
 
 weblate 3.8
 -----------

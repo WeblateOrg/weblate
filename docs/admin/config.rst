@@ -201,8 +201,10 @@ Available fixes:
     Replaces trailing dots with ellipsis if source string has it.
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
     Removes zero width space char if source does not contain it.
-``weblate.trans.autofixes.chars.RemoveControlCharS``
+``weblate.trans.autofixes.chars.RemoveControlChars``
     Removes control characters if source does not contain it.
+``weblate.trans.autofixes.html.BleachHTML``
+    Removes unsafe HTML markup from string with flag ``safe-html`` (see :ref:`check-safe-html`).
 
 For example you can enable only few of them:
 

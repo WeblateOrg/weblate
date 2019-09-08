@@ -35,6 +35,7 @@ from weblate.trans.autofixes.chars import (
     ReplaceTrailingDotsWithEllipsis,
 )
 from weblate.trans.autofixes.custom import DoubleApostrophes
+from weblate.trans.autofixes.html import BleachHTML
 from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
 
@@ -103,6 +104,18 @@ class AutoFixTest(TestCase):
         self.assertEqual(
             fix.fix_target(['  str  '], unit),
             (['str  '], True)
+        )
+
+    def test_html(self):
+        fix = BleachHTML()
+        unit = MockUnit(source='str', flags='safe-html')
+        self.assertEqual(
+            fix.fix_target(['<a href="script:foo()">link</a>'], unit),
+            (['<a>link</a>'], True)
+        )
+        self.assertEqual(
+            fix.fix_target(['<a href="#" onclick="foo()">link</a>'], unit),
+            (['<a href="#">link</a>'], True)
         )
 
     def test_zerospace(self):

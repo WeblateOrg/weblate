@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import re
 
+import bleach
 from defusedxml import ElementTree
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -308,3 +309,19 @@ class URLCheck(TargetCheck):
             return False
         except ValidationError:
             return True
+
+
+class SafeHTMLCheck(TargetCheck):
+    check_id = 'safe-html'
+    name = _('Unsafe HTML')
+    description = _('The translation uses unsafe HTML markup')
+    default_disabled = True
+
+    @cached_property
+    def validator(self):
+        return URLValidator()
+
+    def check_single(self, source, target, unit):
+        if not source:
+            return False
+        return bleach.clean(target) != target

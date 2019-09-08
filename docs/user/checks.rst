@@ -543,6 +543,21 @@ not desired result from changing the translation, but occasionally it is.
 Checks that XML tags are replicated between both source and translation.
 
 
+.. _check-safe-html:
+
+Unsafe HTML
+~~~~~~~~~~~
+
+The translation uses unsafe HTML markup. This check has to be enabled using
+``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
+autofixer which can automatically sanitize the markup.
+
+.. seealso::
+
+   The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
+   library developed by Mozilla.
+
+
 .. _check-md-reflink:
 
 Markdown references

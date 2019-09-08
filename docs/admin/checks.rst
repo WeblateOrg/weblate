@@ -41,6 +41,8 @@ Here is a list of flags currently accepted:
     Use DOS end of line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``url``
     The string should consist of URL only.
+``safe-html``
+    The string should be HTML safe, see :ref:`check-safe-html`.
 ``priority:N``
     Priority of the string. Higher priority strings are presented first to translate. 
     The default priority is 100, the higher priority string has, the earlier is 
