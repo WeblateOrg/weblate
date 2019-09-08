@@ -316,6 +316,7 @@ class SafeHTMLCheck(TargetCheck):
     name = _('Unsafe HTML')
     description = _('The translation uses unsafe HTML markup')
     default_disabled = True
+    severity = 'danger'
 
     @cached_property
     def validator(self):
