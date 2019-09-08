@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-07 08:46+0000\n"
+"POT-Creation-Date: 2019-09-08 06:51+0000\n"
 "PO-Revision-Date: 2019-09-04 11:34+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -230,7 +230,7 @@ msgstr ""
 msgid "Use default setting"
 msgstr "استخدم الإعداد الافتراضي"
 
-#: weblate/accounts/forms.py:738 weblate/accounts/models.py:455
+#: weblate/accounts/forms.py:738 weblate/accounts/models.py:453
 #: weblate/templates/accounts/profile.html:66
 msgid "Watched projects"
 msgstr "المشاريع المُراقبة"
@@ -373,45 +373,50 @@ msgid "Editor link"
 msgstr "رابط المُحرر"
 
 #: weblate/accounts/models.py:374
+#, fuzzy
+#| msgid ""
+#| "Enter a custom URL to be used as link to the source code. You can use "
+#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
+#| "placeholders. Usually something like editor://open/?file={{filename}}"
+#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-"placeholders. Usually something like editor://open/?file={{filename}}"
-"&line={{line}} is a good option."
+"placeholders."
 msgstr ""
 "أدخل رابطًا مخصصًا لكي يُستخدم رابطًا للكود المصدري. يمكنك إستخدام {{branch}} "
 "لأجل التشعب، {{filename}} و{{line}} لأجل اسم الملف و ومكان السطر. غالبًا شيءٌ "
 "مثل: editor://open/?file={{filename}}&line={{line}} هو خيار جيد."
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:383
 msgid "Translation editor mode"
 msgstr "وضع محرر الترجمة"
 
-#: weblate/accounts/models.py:387
+#: weblate/accounts/models.py:385
 msgid "Full editor"
 msgstr "المحرر الكامل"
 
-#: weblate/accounts/models.py:388
+#: weblate/accounts/models.py:386
 msgid "Zen mode"
 msgstr "وضع زين"
 
-#: weblate/accounts/models.py:395
+#: weblate/accounts/models.py:393
 msgid "Zen editor mode"
 msgstr "وضع تعديل  زين"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:395
 msgid "Top to bottom"
 msgstr "من الأعلى إلى الأسفل"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:396
 msgid "Side by side"
 msgstr "جنبًا إلى جنب"
 
-#: weblate/accounts/models.py:405
+#: weblate/accounts/models.py:403
 msgid "Special characters"
 msgstr "الأحرف الخاصة"
 
-#: weblate/accounts/models.py:407
+#: weblate/accounts/models.py:405
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -421,38 +426,38 @@ msgstr ""
 "الترجمة. يمكنها أن تكون نافعةً في بعض الأحيان للأحرف التي تستخدمها غالباً لكن "
 "يصعب كتابتها بلوحة المفاتيح."
 
-#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
+#: weblate/accounts/models.py:418 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
 msgstr "الترجمات المُراقبة"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:419
 msgid "Your languages"
 msgstr "لغاتك"
 
-#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:18
+#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:18
 #: weblate/trans/models/componentlist.py:72
 msgid "Component lists"
 msgstr "قوائم المكونات"
 
-#: weblate/accounts/models.py:423 weblate/auth/models.py:140
+#: weblate/accounts/models.py:421 weblate/auth/models.py:140
 #: weblate/templates/dashboard/user.html:74
 #: weblate/trans/models/componentlist.py:71
 msgid "Component list"
 msgstr "قائمة المكونات"
 
-#: weblate/accounts/models.py:424 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:20
 msgid "Suggested translations"
 msgstr "الترجمات المُقترحة"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:439
 msgid "Default dashboard view"
 msgstr "عرض لوحة المراقبة الإفتراضية"
 
-#: weblate/accounts/models.py:447
+#: weblate/accounts/models.py:445
 msgid "Default component list"
 msgstr "قائمة المكونات الافتراضية"
 
-#: weblate/accounts/models.py:457 weblate/templates/watch-dropdown.html:22
+#: weblate/accounts/models.py:455 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -460,18 +465,18 @@ msgstr ""
 "يمكنك استقبال الإشعارات من الترجمات المُراقبة وسوف تظهر على لوحة المراقبة "
 "افتراضيًا."
 
-#: weblate/accounts/models.py:492
+#: weblate/accounts/models.py:490
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "يرجى اختيار قائمة المكونات التي تريد عرضها على لوحة المراقبة."
 
-#: weblate/accounts/models.py:502
+#: weblate/accounts/models.py:500
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr ""
 "تحديد قائمة المكونات لا يكون له أي تأثير عندما لا يظهر على لوحة المراقبة."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:590
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -1908,7 +1913,7 @@ msgstr "نص XML"
 msgid "DOS line endings"
 msgstr ""
 
-#: weblate/checks/flags.py:43 weblate/checks/markup.py:295
+#: weblate/checks/flags.py:43 weblate/checks/markup.py:296
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
@@ -2041,65 +2046,75 @@ msgstr "صيغة جافا MessageFormat"
 msgid "Java MessageFormat string does not match source"
 msgstr "صيغة سلسلة الجافا MessageFormat لا تطابق السلسلة المصدرية"
 
-#: weblate/checks/markup.py:76
+#: weblate/checks/markup.py:77
 #, fuzzy
 #| msgid "BB code"
 msgid "BBcode markup"
 msgstr "شيفرة BB"
 
-#: weblate/checks/markup.py:77
+#: weblate/checks/markup.py:78
 msgid "BBcode in translation does not match source"
 msgstr ""
 
-#: weblate/checks/markup.py:139
+#: weblate/checks/markup.py:140
 #, fuzzy
 #| msgid "XML text"
 msgid "XML syntax"
 msgstr "نص XML"
 
-#: weblate/checks/markup.py:140
+#: weblate/checks/markup.py:141
 msgid "The translation is not valid XML"
 msgstr "الترجمة لا تحترم نسق XML"
 
-#: weblate/checks/markup.py:167
+#: weblate/checks/markup.py:168
 #, fuzzy
 #| msgid "Invalid XML markup"
 msgid "XML markup"
 msgstr "علامات XML غير صالحة"
 
-#: weblate/checks/markup.py:168
+#: weblate/checks/markup.py:169
 msgid "XML tags in translation do not match source"
 msgstr "وسوم XML في الترجمة لا تطابق المصدر"
 
-#: weblate/checks/markup.py:219
+#: weblate/checks/markup.py:220
 msgid "Markdown references"
 msgstr "مَراجع مارك داون"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:221
 #, fuzzy
 #| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "مرجع رابط ماركداون (Markdown) لا يتطابق مع المصدر"
 
-#: weblate/checks/markup.py:236
+#: weblate/checks/markup.py:237
 msgid "Markdown links"
 msgstr "رابط ماركداون (Markdown)"
 
-#: weblate/checks/markup.py:237
+#: weblate/checks/markup.py:238
 msgid "Markdown links do not match source"
 msgstr "وسوم ماركداون (Markdown) في الترجمة لا تطابق المصدر"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:261
 msgid "Markdown syntax"
 msgstr "تركيب جمل ماركداون (Markdown)"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:262
 msgid "Markdown syntax does not match source"
 msgstr "تركيب جملة ماركداون (Markdown) لا يطابق المصدر"
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:297
 msgid "The translation does not contain an URL"
 msgstr "لا تحتوي الترجمة على عنوان رابط الكتروني"
+
+#: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
+msgid "Unsafe HTML"
+msgstr ""
+
+#: weblate/checks/markup.py:317
+#, fuzzy
+#| msgid "The translation uses bilingual files."
+msgid "The translation uses unsafe HTML markup"
+msgstr "تستخدم الترجمة ملفات ثنائية اللغة."
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -5104,7 +5119,9 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "شارك في <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-msgid "Hello & thank you for your interest"
+#, fuzzy
+#| msgid "Hello & thank you for your interest"
+msgid "Hello and thank you for your interest"
 msgstr "أهلاً، وشكراً لاهتمامكم"
 
 #: weblate/templates/engage.html:19

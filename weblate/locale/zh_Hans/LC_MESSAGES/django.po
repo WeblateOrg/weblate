@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-07 08:46+0000\n"
+"POT-Creation-Date: 2019-09-08 06:51+0000\n"
 "PO-Revision-Date: 2019-09-08 04:58+0000\n"
 "Last-Translator: 微别累特 <1365143958@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -226,7 +226,7 @@ msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通
 msgid "Use default setting"
 msgstr "使用默认设置"
 
-#: weblate/accounts/forms.py:738 weblate/accounts/models.py:455
+#: weblate/accounts/forms.py:738 weblate/accounts/models.py:453
 #: weblate/templates/accounts/profile.html:66
 msgid "Watched projects"
 msgstr "已关注项目"
@@ -368,45 +368,50 @@ msgid "Editor link"
 msgstr "编辑者链接"
 
 #: weblate/accounts/models.py:374
+#, fuzzy
+#| msgid ""
+#| "Enter a custom URL to be used as link to the source code. You can use "
+#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
+#| "placeholders. Usually something like editor://open/?file={{filename}}"
+#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-"placeholders. Usually something like editor://open/?file={{filename}}"
-"&line={{line}} is a good option."
+"placeholders."
 msgstr ""
 "键入自定义 URL 作为源代码的链接。您可以使用 {{branch}} 作为分割符， "
 "{{filename}} 与 {{line}} 作为文件名和行占位符。通常情况下，如下样式 editor://"
 "open/?file={{filename}}&line={{line}} 作为首选。"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:383
 msgid "Translation editor mode"
 msgstr "翻译编辑器模式"
 
-#: weblate/accounts/models.py:387
+#: weblate/accounts/models.py:385
 msgid "Full editor"
 msgstr "完整编辑器"
 
-#: weblate/accounts/models.py:388
+#: weblate/accounts/models.py:386
 msgid "Zen mode"
 msgstr "禅模式"
 
-#: weblate/accounts/models.py:395
+#: weblate/accounts/models.py:393
 msgid "Zen editor mode"
 msgstr "禅编辑模式"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:395
 msgid "Top to bottom"
 msgstr "从上到下"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:396
 msgid "Side by side"
 msgstr "并排"
 
-#: weblate/accounts/models.py:405
+#: weblate/accounts/models.py:403
 msgid "Special characters"
 msgstr "特殊字符"
 
-#: weblate/accounts/models.py:407
+#: weblate/accounts/models.py:405
 #, fuzzy
 #| msgid ""
 #| "You can specify additional special characters to be shown in the visual "
@@ -420,54 +425,54 @@ msgstr ""
 "在翻译时您可以指定额外的特殊字母显示于可视键盘上。在您需要使用一些常用但难于"
 "通过键盘输入的字符时，这将会非常有用。"
 
-#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
+#: weblate/accounts/models.py:418 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
 msgstr "已关注翻译"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:419
 msgid "Your languages"
 msgstr "您的语言"
 
-#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:18
+#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:18
 #: weblate/trans/models/componentlist.py:72
 msgid "Component lists"
 msgstr "组件列表"
 
-#: weblate/accounts/models.py:423 weblate/auth/models.py:140
+#: weblate/accounts/models.py:421 weblate/auth/models.py:140
 #: weblate/templates/dashboard/user.html:74
 #: weblate/trans/models/componentlist.py:71
 msgid "Component list"
 msgstr "组件列表"
 
-#: weblate/accounts/models.py:424 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:20
 msgid "Suggested translations"
 msgstr "翻译建议"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:439
 msgid "Default dashboard view"
 msgstr "控制面板默认界面"
 
-#: weblate/accounts/models.py:447
+#: weblate/accounts/models.py:445
 msgid "Default component list"
 msgstr "默认组件列表"
 
-#: weblate/accounts/models.py:457 weblate/templates/watch-dropdown.html:22
+#: weblate/accounts/models.py:455 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr "您可以接收已关注项目的通知，并且它们将默认显示在控制面板中。"
 
-#: weblate/accounts/models.py:492
+#: weblate/accounts/models.py:490
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "请选择您想要显示在控制面板上的组件列表。"
 
-#: weblate/accounts/models.py:502
+#: weblate/accounts/models.py:500
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr "当尚未显示在控制面板上时，选择组件列表将不会起作用。"
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:590
 #, fuzzy
 #| msgid ""
 #| "You can not submit translations as you do not have assigned any e-mail "
@@ -1976,7 +1981,7 @@ msgstr "XML 文本"
 msgid "DOS line endings"
 msgstr "DOS 行尾"
 
-#: weblate/checks/flags.py:43 weblate/checks/markup.py:295
+#: weblate/checks/flags.py:43 weblate/checks/markup.py:296
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
@@ -2109,67 +2114,77 @@ msgstr "Java MessageFormat"
 msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 格式的字符串与源文不匹配"
 
-#: weblate/checks/markup.py:76
+#: weblate/checks/markup.py:77
 #, fuzzy
 #| msgid "BB code"
 msgid "BBcode markup"
 msgstr "BB 代码"
 
-#: weblate/checks/markup.py:77
+#: weblate/checks/markup.py:78
 msgid "BBcode in translation does not match source"
 msgstr "译文中的 BBcode 和原文不一致"
 
-#: weblate/checks/markup.py:139
+#: weblate/checks/markup.py:140
 #, fuzzy
 #| msgid "XML text"
 msgid "XML syntax"
 msgstr "XML 文本"
 
-#: weblate/checks/markup.py:140
+#: weblate/checks/markup.py:141
 msgid "The translation is not valid XML"
 msgstr "该翻译不是有效的 XML"
 
-#: weblate/checks/markup.py:167
+#: weblate/checks/markup.py:168
 #, fuzzy
 #| msgid "Invalid XML markup"
 msgid "XML markup"
 msgstr "无效 XML 标记"
 
-#: weblate/checks/markup.py:168
+#: weblate/checks/markup.py:169
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: weblate/checks/markup.py:219
+#: weblate/checks/markup.py:220
 #, fuzzy
 #| msgid "Markdown link references"
 msgid "Markdown references"
 msgstr "Markdown 链接引用"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:221
 #, fuzzy
 #| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Markdown 链接引用和原文不一致"
 
-#: weblate/checks/markup.py:236
+#: weblate/checks/markup.py:237
 msgid "Markdown links"
 msgstr "Markdown 链接"
 
-#: weblate/checks/markup.py:237
+#: weblate/checks/markup.py:238
 msgid "Markdown links do not match source"
 msgstr "Markdown 链接和原文不一致"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:261
 msgid "Markdown syntax"
 msgstr "Markdown 语法"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:262
 msgid "Markdown syntax does not match source"
 msgstr "Markdown 语法与原文不匹配"
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:297
 msgid "The translation does not contain an URL"
 msgstr "翻译未包含 URL"
+
+#: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
+msgid "Unsafe HTML"
+msgstr ""
+
+#: weblate/checks/markup.py:317
+#, fuzzy
+#| msgid "The translation is using bilingual files."
+msgid "The translation uses unsafe HTML markup"
+msgstr "该翻译正在使用双语文件。"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -5230,7 +5245,7 @@ msgstr "参与 <strong>%(project)s</strong>"
 #: weblate/templates/engage.html:17
 #, fuzzy
 #| msgid "Hi, and thank you for your interest."
-msgid "Hello & thank you for your interest"
+msgid "Hello and thank you for your interest"
 msgstr "您好，感谢您的关注。"
 
 #: weblate/templates/engage.html:19

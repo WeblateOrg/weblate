@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-07 08:46+0000\n"
+"POT-Creation-Date: 2019-09-08 06:51+0000\n"
 "PO-Revision-Date: 2019-08-28 08:23+0000\n"
 "Last-Translator: Iván Seoane <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -235,7 +235,7 @@ msgstr ""
 msgid "Use default setting"
 msgstr "Empregar os axustes predefinidos"
 
-#: weblate/accounts/forms.py:738 weblate/accounts/models.py:455
+#: weblate/accounts/forms.py:738 weblate/accounts/models.py:453
 #: weblate/templates/accounts/profile.html:66
 msgid "Watched projects"
 msgstr "Proxectos observados"
@@ -382,46 +382,51 @@ msgid "Editor link"
 msgstr "Ligazón do editor"
 
 #: weblate/accounts/models.py:374
+#, fuzzy
+#| msgid ""
+#| "Enter a custom URL to be used as link to the source code. You can use "
+#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
+#| "placeholders. Usually something like editor://open/?file={{filename}}"
+#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-"placeholders. Usually something like editor://open/?file={{filename}}"
-"&line={{line}} is a good option."
+"placeholders."
 msgstr ""
 "Insire unha ligazón URL persoalizada para empregarse coma ligazón de código "
 "fonte. Podes empregar {{branch}} para a póla, {{filename}} e {{line}} coma "
 "nome do ficheiro e localización da liña de marcaxes. Xeralmente algo coma "
 "editor://open/?file={{filename}}&line={{line}} é unha boa opción."
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:383
 msgid "Translation editor mode"
 msgstr "Modo editor da tradución"
 
-#: weblate/accounts/models.py:387
+#: weblate/accounts/models.py:385
 msgid "Full editor"
 msgstr "Editor completo"
 
-#: weblate/accounts/models.py:388
+#: weblate/accounts/models.py:386
 msgid "Zen mode"
 msgstr "Modo Cen"
 
-#: weblate/accounts/models.py:395
+#: weblate/accounts/models.py:393
 msgid "Zen editor mode"
 msgstr "Editor en modo Cen"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:395
 msgid "Top to bottom"
 msgstr "De enriba cara embaixo"
 
-#: weblate/accounts/models.py:398
+#: weblate/accounts/models.py:396
 msgid "Side by side"
 msgstr "En paralelo"
 
-#: weblate/accounts/models.py:405
+#: weblate/accounts/models.py:403
 msgid "Special characters"
 msgstr "Caracteres especiais"
 
-#: weblate/accounts/models.py:407
+#: weblate/accounts/models.py:405
 #, fuzzy
 #| msgid ""
 #| "You can specify additional special characters to be shown in the visual "
@@ -436,38 +441,38 @@ msgstr ""
 "visual ó traducires. Pode serche útil para caracteres de emprego corrente "
 "pero de difícil escritura no teclado."
 
-#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:15
+#: weblate/accounts/models.py:418 weblate/templates/dashboard/user.html:15
 msgid "Watched translations"
 msgstr "Traducións observadas"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:419
 msgid "Your languages"
 msgstr "As túas linguas"
 
-#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:18
+#: weblate/accounts/models.py:420 weblate/templates/dashboard/user.html:18
 #: weblate/trans/models/componentlist.py:72
 msgid "Component lists"
 msgstr "Listaxes dos compoñentes"
 
-#: weblate/accounts/models.py:423 weblate/auth/models.py:140
+#: weblate/accounts/models.py:421 weblate/auth/models.py:140
 #: weblate/templates/dashboard/user.html:74
 #: weblate/trans/models/componentlist.py:71
 msgid "Component list"
 msgstr "Listaxe dos compoñentes"
 
-#: weblate/accounts/models.py:424 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:422 weblate/templates/dashboard/user.html:20
 msgid "Suggested translations"
 msgstr "Traducións suxeridas"
 
-#: weblate/accounts/models.py:441
+#: weblate/accounts/models.py:439
 msgid "Default dashboard view"
 msgstr "Vista do taboleiro predeterminada"
 
-#: weblate/accounts/models.py:447
+#: weblate/accounts/models.py:445
 msgid "Default component list"
 msgstr "Listaxe dos compoñentes predeterminados"
 
-#: weblate/accounts/models.py:457 weblate/templates/watch-dropdown.html:22
+#: weblate/accounts/models.py:455 weblate/templates/watch-dropdown.html:22
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -475,19 +480,19 @@ msgstr ""
 "Podes recibir notificacións sobre proxectos observados. Istos amósanse por "
 "defecto, no taboleiro de control."
 
-#: weblate/accounts/models.py:492
+#: weblate/accounts/models.py:490
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "Escolle que listaxe de compoñentes desexas amosar no taboleiro."
 
-#: weblate/accounts/models.py:502
+#: weblate/accounts/models.py:500
 msgid ""
 "Selecting component list makes no effect when not shown on the dashboard."
 msgstr ""
 "Escoller unha listaxe de compoñentes non ten efecto cando non se amosan no "
 "taboleiro principal."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:590
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -2074,7 +2079,7 @@ msgstr ""
 msgid "DOS line endings"
 msgstr ""
 
-#: weblate/checks/flags.py:43 weblate/checks/markup.py:295
+#: weblate/checks/flags.py:43 weblate/checks/markup.py:296
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
@@ -2238,71 +2243,81 @@ msgstr "Formato C"
 msgid "Java MessageFormat string does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:76
+#: weblate/checks/markup.py:77
 #, fuzzy
 #| msgid "BB code"
 msgid "BBcode markup"
 msgstr "Código BB"
 
-#: weblate/checks/markup.py:77
+#: weblate/checks/markup.py:78
 #, fuzzy
 msgid "BBcode in translation does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:139
+#: weblate/checks/markup.py:140
 msgid "XML syntax"
 msgstr ""
 
-#: weblate/checks/markup.py:140
+#: weblate/checks/markup.py:141
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The translation is not valid XML"
 msgstr "Vostede acaba de bloquear esta tradución."
 
-#: weblate/checks/markup.py:167
+#: weblate/checks/markup.py:168
 msgid "XML markup"
 msgstr ""
 
-#: weblate/checks/markup.py:168
+#: weblate/checks/markup.py:169
 #, fuzzy
 msgid "XML tags in translation do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:219
+#: weblate/checks/markup.py:220
 #, fuzzy
 #| msgid "Preferences"
 msgid "Markdown references"
 msgstr "Preferencias"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:221
 #, fuzzy
 msgid "Markdown link references do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:236
+#: weblate/checks/markup.py:237
 msgid "Markdown links"
 msgstr ""
 
-#: weblate/checks/markup.py:237
+#: weblate/checks/markup.py:238
 #, fuzzy
 msgid "Markdown links do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:260
+#: weblate/checks/markup.py:261
 msgid "Markdown syntax"
 msgstr ""
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:262
 #, fuzzy
 #| msgid "Format string does not match source"
 msgid "Markdown syntax does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:297
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The translation does not contain an URL"
 msgstr "Vostede acaba de bloquear esta tradución."
+
+#: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
+msgid "Unsafe HTML"
+msgstr ""
+
+#: weblate/checks/markup.py:317
+#, fuzzy
+#| msgid "The translation uses bilingual files."
+msgid "The translation uses unsafe HTML markup"
+msgstr "A tradución emprega ficheiros bilingües."
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -5490,7 +5505,9 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Implícate en <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-msgid "Hello & thank you for your interest"
+#, fuzzy
+#| msgid "Hello & thank you for your interest"
+msgid "Hello and thank you for your interest"
 msgstr "Ola e grazas polo teu interese"
 
 #: weblate/templates/engage.html:19
