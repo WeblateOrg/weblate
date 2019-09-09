@@ -120,7 +120,7 @@ class CheckManager(models.Manager):
         """
         try:
             with transaction.atomic():
-                self.bulk_create(objs)
+                self.bulk_create(objs, batch_size=500)
         except IntegrityError:
             for obj in objs:
                 try:
