@@ -89,15 +89,11 @@ def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()
     else:
-        components = Component.objects.filter(
-            translation__pk__in=pks
-        ).distinct()
+        components = Component.objects.filter(translation__pk__in=pks).distinct()
 
     for component in components.prefetch():
         if hours is None:
-            age = timezone.now() - timedelta(
-                hours=component.commit_pending_age
-            )
+            age = timezone.now() - timedelta(hours=component.commit_pending_age)
         else:
             age = timezone.now() - timedelta(hours=hours)
 
@@ -152,13 +148,13 @@ def cleanup_sources(project):
     """Remove stale Source objects."""
     for pk in project.component_set.values_list('id', flat=True):
         with transaction.atomic():
-            source_ids = Unit.objects.filter(
-                translation__component_id=pk
-            ).values('id_hash').distinct()
+            source_ids = (
+                Unit.objects.filter(translation__component_id=pk)
+                .values('id_hash')
+                .distinct()
+            )
 
-            Source.objects.filter(
-                component_id=pk
-            ).exclude(
+            Source.objects.filter(component_id=pk).exclude(
                 id_hash__in=source_ids
             ).delete()
 
@@ -166,15 +162,15 @@ def cleanup_sources(project):
 def cleanup_source_data(project):
     with transaction.atomic():
         # List all current unit content_hashs
-        units = Unit.objects.filter(
-            translation__component__project=project
-        ).values('content_hash').distinct()
+        units = (
+            Unit.objects.filter(translation__component__project=project)
+            .values('content_hash')
+            .distinct()
+        )
 
         # Remove source comments and checks for deleted units
         for obj in Comment, Check:
-            obj.objects.filter(
-                language=None, project=project
-            ).exclude(
+            obj.objects.filter(language=None, project=project).exclude(
                 content_hash__in=units
             ).delete()
 
@@ -183,16 +179,17 @@ def cleanup_language_data(project):
     for lang in Language.objects.iterator():
         with transaction.atomic():
             # List current unit content_hashs
-            units = Unit.objects.filter(
-                translation__language=lang,
-                translation__component__project=project
-            ).values('content_hash').distinct()
+            units = (
+                Unit.objects.filter(
+                    translation__language=lang, translation__component__project=project
+                )
+                .values('content_hash')
+                .distinct()
+            )
 
             # Remove checks, suggestions and comments for deleted units
             for obj in Check, Suggestion, Comment:
-                obj.objects.filter(
-                    language=lang, project=project
-                ).exclude(
+                obj.objects.filter(language=lang, project=project).exclude(
                     content_hash__in=units
                 ).delete()
 
@@ -227,8 +224,7 @@ def cleanup_suggestions():
 
             if not is_different:
                 suggestion.delete_log(
-                    anonymous_user,
-                    change=Change.ACTION_SUGGESTION_CLEANUP
+                    anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
                 )
                 continue
 
@@ -237,16 +233,13 @@ def cleanup_suggestions():
                 content_hash=suggestion.content_hash,
                 language=suggestion.language,
                 project=suggestion.project,
-                target=suggestion.target
-            ).exclude(
-                id=suggestion.id
-            )
+                target=suggestion.target,
+            ).exclude(id=suggestion.id)
             # Do not rely on the SQL as MySQL compares strings case insensitive
             for other in sugs:
                 if other.target == suggestion.target:
                     suggestion.delete_log(
-                        anonymous_user,
-                        change=Change.ACTION_SUGGESTION_CLEANUP
+                        anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
                     )
                     break
 
@@ -278,12 +271,11 @@ def cleanup_stale_repos():
             continue
 
         # Parse path
-        project, component = os.path.split(path[len(prefix) + 1:])
+        project, component = os.path.split(path[len(prefix) + 1 :])
 
         # Find matching components
         objects = Component.objects.with_repo().filter(
-            slug=component,
-            project__slug=project
+            slug=component, project__slug=project
         )
 
         # Remove stale dirs
@@ -328,12 +320,9 @@ def component_alerts():
 
 
 @app.task(autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
-def component_after_save(pk, changed_git, changed_setup, changed_template,
-                         skip_push):
+def component_after_save(pk, changed_git, changed_setup, changed_template, skip_push):
     component = Component.objects.get(pk=pk)
-    component.after_save(
-        changed_git, changed_setup, changed_template, skip_push
-    )
+    component.after_save(changed_git, changed_setup, changed_template, skip_push)
 
 
 @app.task
@@ -346,7 +335,7 @@ def component_removal(pk, uid):
             action=Change.ACTION_REMOVE_COMPONENT,
             target=obj.slug,
             user=user,
-            author=user
+            author=user,
         )
         obj.delete()
     except Project.DoesNotExist:
@@ -359,10 +348,7 @@ def project_removal(pk, uid):
     try:
         obj = Project.objects.get(pk=pk)
         Change.objects.create(
-            action=Change.ACTION_REMOVE_PROJECT,
-            target=obj.slug,
-            user=user,
-            author=user
+            action=Change.ACTION_REMOVE_PROJECT, target=obj.slug, user=user, author=user
         )
         obj.delete()
     except Project.DoesNotExist:
@@ -371,45 +357,23 @@ def project_removal(pk, uid):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(3600, commit_pending.s(), name='commit-pending')
     sender.add_periodic_task(
-        3600,
-        commit_pending.s(),
-        name='commit-pending',
+        crontab(hour=3, minute=30), update_remotes.s(), name='update-remotes'
+    )
+    sender.add_periodic_task(3600 * 24, repository_alerts.s(), name='repository-alerts')
+    sender.add_periodic_task(3600 * 24, component_alerts.s(), name='component-alerts')
+    sender.add_periodic_task(
+        3600 * 24, cleanup_suggestions.s(), name='suggestions-cleanup'
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=30),
-        update_remotes.s(),
-        name='update-remotes',
+        3600 * 24, cleanup_stale_repos.s(), name='cleanup-stale-repos'
     )
     sender.add_periodic_task(
-        3600 * 24,
-        repository_alerts.s(),
-        name='repository-alerts',
+        3600 * 24, cleanup_old_suggestions.s(), name='cleanup-old-suggestions'
     )
     sender.add_periodic_task(
-        3600 * 24,
-        component_alerts.s(),
-        name='component-alerts',
-    )
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_suggestions.s(),
-        name='suggestions-cleanup',
-    )
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_stale_repos.s(),
-        name='cleanup-stale-repos',
-    )
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_old_suggestions.s(),
-        name='cleanup-old-suggestions',
-    )
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_old_comments.s(),
-        name='cleanup-old-comments',
+        3600 * 24, cleanup_old_comments.s(), name='cleanup-old-comments'
     )
 
     # Following fulltext maintenance tasks should not be
