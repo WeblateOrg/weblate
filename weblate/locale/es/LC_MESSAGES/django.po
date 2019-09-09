@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-08 06:51+0000\n"
-"PO-Revision-Date: 2019-09-08 04:58+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2019-09-09 04:22+0000\n"
+"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -379,12 +379,6 @@ msgid "Editor link"
 msgstr "Enlace del editor"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -392,9 +386,7 @@ msgid ""
 msgstr ""
 "Proporcione un URL personalizado que utilizar como enlace al código fuente. "
 "Puede utilizar {{branch}} para las ramas, así como {{filename}} y {{line}} "
-"como sustitutos para nombres de archivo y renglones respectivamente. "
-"Normalmente da buenos resultados algo como: editor://open/?file={{filename}}"
-"&line={{line}}."
+"como sustitutos para nombres de archivo y renglones respectivamente."
 
 #: weblate/accounts/models.py:383
 msgid "Translation editor mode"
@@ -1153,7 +1145,7 @@ msgstr "Retiro de sugerencias obsoletas"
 
 #: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
-msgstr "Fije un plazo para el retiro de sugerencias."
+msgstr "Fijar un plazo para el borrado de sugerencias."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1189,7 +1181,7 @@ msgstr "Editar configuración de los componentes"
 
 #: weblate/auth/data.py:40
 msgid "Lock component, preventing translations"
-msgstr "Bloquear componente para evitar su traducción"
+msgstr "Bloquear componente, impidiendo traducciones"
 
 #: weblate/auth/data.py:42
 msgid "Post comment"
@@ -2080,10 +2072,8 @@ msgstr ""
 "La cadena en formato de mensaje Java, no coincide con la cadena original"
 
 #: weblate/checks/markup.py:77
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "Código BB"
+msgstr "Marcado BBcode"
 
 #: weblate/checks/markup.py:78
 msgid "BBcode in translation does not match source"
@@ -2098,10 +2088,8 @@ msgid "The translation is not valid XML"
 msgstr "La traducción no es válida en XML"
 
 #: weblate/checks/markup.py:168
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Formato XML no válido"
+msgstr "Marcado XML"
 
 #: weblate/checks/markup.py:169
 msgid "XML tags in translation do not match source"
@@ -2138,13 +2126,11 @@ msgstr "La traducción no contiene un URL"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "HTML inseguro"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "La traducción usa ficheros bilingües."
+msgstr "La traducción utiliza marcado HTML inseguro"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -2311,10 +2297,8 @@ msgid "Font deleted."
 msgstr "Se eliminó el tipo de letra."
 
 #: weblate/fonts/views.py:148
-#, fuzzy
-#| msgid "No other strings found."
 msgid "No override found."
-msgstr "No se encontraron otras cadenas."
+msgstr "No se ha encontrado ninguna anulación."
 
 #: weblate/fonts/views.py:151
 msgid "Font group deleted."
@@ -5184,10 +5168,8 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Implíquese en <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
-msgstr "Hola. Gracias por su interés"
+msgstr "Hola y gracias por su interés"
 
 #: weblate/templates/engage.html:19
 #, python-format
@@ -5314,10 +5296,8 @@ msgid "Group name"
 msgstr "Nombre de grupo"
 
 #: weblate/templates/fonts/font_list.html:27
-#, fuzzy
-#| msgid "Language codes"
 msgid "Language overrides"
-msgstr "Códigos de idioma"
+msgstr "Anulaciones de idioma"
 
 #: weblate/templates/fonts/font_list.html:51
 msgid "Add font group"
@@ -5543,10 +5523,8 @@ msgid "There are some uncommitted changes!"
 msgstr "¡Hay algunos cambios no confirmados!"
 
 #: weblate/templates/js/git-status.html:25
-#, fuzzy
-#| msgid "There has been a merge failure in the repository:"
 msgid "There has been a merge failure in the repository"
-msgstr "Hubo un error de fusión en el repositorio:"
+msgstr "Hubo un error de fusión en el repositorio"
 
 #: weblate/templates/js/git-status.html:27
 #: weblate/templates/trans/merge_instructions.html:33
@@ -5718,8 +5696,7 @@ msgstr "Hubo un cambio en su cuenta, en %(site_title)s:"
 #: weblate/templates/mail/account_activity.html:30
 msgid ""
 "If you did not request this change, please report it as soon as possible."
-msgstr ""
-"Si no solicitó este cambio, notifíquenoslo tan pronto como sea posible."
+msgstr "Si no ha solicitado este cambio, notifíquelo lo antes posible."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -5862,10 +5839,9 @@ msgid "Merge failure in %(component)s"
 msgstr "Fallo de fusión en %(component)s"
 
 #: weblate/templates/mail/new_alert.html:7
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "New alert has been triggered on %(component)s at %(site_title)s."
-msgstr "Hubo un error en la fusión de %(component)s en %(site_title)s."
+msgstr "Se ha activado una nueva alerta sobre %(component)s en %(site_title)s."
 
 #: weblate/templates/mail/new_alert.html:15
 msgid "View all alerts"
@@ -5967,10 +5943,9 @@ msgid "New language added to %(component)s"
 msgstr "Se añadió un idioma nuevo a %(component)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New language request in %(translation)s"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "Solicitud de nuevo idioma en %(translation)s"
+msgstr "Solicitud de nuevo idioma en %(component)s"
 
 #: weblate/templates/mail/new_string.html:7
 #, python-format
@@ -5985,15 +5960,13 @@ msgid "New string to translate in %(translation)s"
 msgstr "Nueva cadena para traducir en %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "There is a new suggestion to evaluate on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Hay una nueva sugerencia que revisar sobre %(translation)s en %(site_title)s."
+"Hay una nueva sugerencia que revisar sobre %(translation)s en %(site_title)s "
+"por %(user)s."
 
 #: weblate/templates/mail/new_suggestion.html:12
 #: weblate/templates/trans/suggestion_list.html:15
@@ -6491,12 +6464,10 @@ msgid "Browse all project changes"
 msgstr "Ver todos los cambios del proyecto"
 
 #: weblate/templates/project.html:203 weblate/templates/translation.html:263
-#, fuzzy
-#| msgid "You can change state of all strings matching given type at once."
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
-"Puede cambiar a la vez el estado de todas las cadenas que coincidan con el "
-"tipo dado."
+"Puede cambiar el estado de todas las cadenas que coinciden con el tipo dado "
+"a la vez."
 
 #: weblate/templates/project.html:224
 #, fuzzy
@@ -6688,32 +6659,23 @@ msgid "Fix string"
 msgstr "Corregir cadena"
 
 #: weblate/templates/snippets/list-checks.html:22
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Dismiss for all languages"
-msgstr "Ver todos los cambios de idioma"
+msgstr "Descartar para todos los idiomas"
 
 #: weblate/templates/snippets/list-objects.html:13
 #: weblate/templates/snippets/list-objects.html:37
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings of total"
-msgstr "Estado del servicio"
+msgstr "Cadenas del total"
 
 #: weblate/templates/snippets/list-objects.html:15
 #: weblate/templates/snippets/list-objects.html:39
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Sin traducir"
 
 #: weblate/templates/snippets/list-objects.html:18
 #: weblate/templates/snippets/list-objects.html:42
-#, fuzzy
-#| msgid "Words to translate"
 msgid "Words of total"
-msgstr "Palabras a traducir"
+msgstr "Palabras del total"
 
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/snippets/list-objects.html:46
@@ -6739,10 +6701,8 @@ msgid "You administrate this project."
 msgstr "Administras este proyecto."
 
 #: weblate/templates/snippets/list-objects.html:71
-#, fuzzy
-#| msgid "Admin"
 msgid "admin"
-msgstr "Administrador"
+msgstr "Admin"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -6757,10 +6717,8 @@ msgid "No matching source strings found."
 msgstr "No se encontró ninguna cadena original que coincidiera."
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:162
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Estado del servicio"
+msgstr "Estado de las cadenas"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
