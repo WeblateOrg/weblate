@@ -1727,7 +1727,8 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check for uncommitted changes."""
-        return any((t.needs_commit() for t in self.translation_set.iterator()))
+        from weblate.trans.models import Unit
+        return Unit.objects.filter(translation__component=self, pending=True).exists()
 
     def repo_needs_merge(self):
         """Check for unmerged commits from remote repository."""
