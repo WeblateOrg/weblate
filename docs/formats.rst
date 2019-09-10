@@ -292,6 +292,12 @@ attributes from the Xliff specification:
       <source>Hello %s</source>
    </trans-unit>
 
+The ``font`` attribute is parsed for font family, size and weight, the above
+example shows all of that, though only font family is required. Any whitespace
+in the font family is converted to underscore, so ``Source Sans Pro`` becomes
+``Source_Sans_Pro``, please keep that in mind when naming font group (see
+:ref:`fonts`).
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual XLIFF              |
 +================================+==================================+

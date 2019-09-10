@@ -178,6 +178,16 @@ You can have number of fonts loaded into Weblate:
 
 .. image:: /images/font-list.png
 
+To use the fonts for checking the string length, you need to pass appropriate
+flags (see :ref:`custom-checks`). You will probably need following:
+
+``max-size:500``
+   Defines maximal width.
+``font-family:ubuntu``
+   Defines font group to use by specifying its identifier.
+``font-size:22``
+   Defines font size.
+
 
 .. _own-checks:
 
