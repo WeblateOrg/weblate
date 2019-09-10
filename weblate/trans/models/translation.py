@@ -389,7 +389,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def commit_pending(self, reason, request, skip_push=False, force=False):
         """Commit any pending changes."""
-        if not force and not self.unit_set.filter(pending=True).exists():
+        if not force and not self.needs_commit():
             return False
 
         self.log_info('committing pending changes (%s)', reason)
