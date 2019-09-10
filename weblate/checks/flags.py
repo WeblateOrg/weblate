@@ -103,11 +103,11 @@ class Flags(object):
         font = flags.get("font")
         if font:
             font = font.split(";")
-            yield "font-family:{}".format(font[0].replace(' ', '_'))
+            yield "font-family:{}".format(font[0].strip().replace(' ', '_'))
             if len(font) > 1:
-                yield "font-size:{}".format(font[1])
+                yield "font-size:{}".format(font[1].strip())
             if len(font) > 2:
-                yield "font-weight:{}".format(font[2])
+                yield "font-weight:{}".format(font[2].strip())
         text = flags.get("weblate-flags")
         if text:
             for flag in cls.parse(text):
