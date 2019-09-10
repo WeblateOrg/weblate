@@ -1725,9 +1725,19 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.can_push():
             self.delete_alert("PushFailure", childs=True)
 
+        if self.vcs not in VCS_REGISTRY or self.file_format not in FILE_FORMATS:
+            self.add_alert(
+                "UnsupportedConfiguration",
+                vcs=self.vcs not in VCS_REGISTRY,
+                file_format=self.file_format not in FILE_FORMATS,
+            )
+        else:
+            self.delete_alert("UnsupportedConfiguration")
+
     def needs_commit(self):
         """Check for uncommitted changes."""
         from weblate.trans.models import Unit
+
         return Unit.objects.filter(translation__component=self, pending=True).exists()
 
     def repo_needs_merge(self):

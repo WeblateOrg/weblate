@@ -213,3 +213,14 @@ class MsgmergeAddonError(MultiAlert):
 class MonolingualTranslation(BaseAlert):
     # Translators: Name of an alert
     verbose = _('Misconfigured monolingual translation.')
+
+
+@register
+class UnsupportedConfiguration(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _('Unsupported component configuration')
+
+    def __init__(self, instance, vcs, file_format):
+        super(UnsupportedConfiguration, self).__init__(instance)
+        self.vcs = vcs
+        self.file_format = file_format

@@ -24,6 +24,7 @@ Not yet released.
 * Added ZIP download for more translation files.
 * Make Xliff standard compliant parsing of maxwidth and font.
 * Added new check and fixer for safe HTML markup for translating web applications.
+* Add component alert on unsupported configuration.
 
 weblate 3.8
 -----------
