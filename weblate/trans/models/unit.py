@@ -539,7 +539,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Commit possible previous changes on this unit
         if self.pending:
-            change_author = self.get_last_content_change(request)[0]
+            change_author = self.get_last_content_change()[0]
             if change_author.id != author.id:
                 self.translation.commit_pending('pending unit', request)
 
@@ -963,7 +963,7 @@ class Unit(models.Model, LoggerMixin):
     def get_target_hash(self):
         return calculate_hash(None, self.target)
 
-    def get_last_content_change(self, request, silent=False):
+    def get_last_content_change(self, silent=False):
         """Wrapper to get last content change metadata
 
         Used when commiting pending changes, needs to handle and report
@@ -976,5 +976,5 @@ class Unit(models.Model, LoggerMixin):
             return change.author or get_anonymous(), change.timestamp
         except IndexError as error:
             if not silent:
-                report_error(error, request, level='error')
+                report_error(error, level='error')
             return get_anonymous(), timezone.now()
