@@ -544,7 +544,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Calculate progress for translations
         if progress is None:
             self.translations_progress += 1
-            progress = int(100 * self.translations_progress / self.translations_count)
+            progress = 100 * self.translations_progress // self.translations_count
         # Store task state
         current_task.update_state(state="PROGRESS", meta={"progress": progress})
 
