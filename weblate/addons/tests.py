@@ -600,7 +600,7 @@ class DiscoveryTest(ViewTestCase):
             },
         )
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
-        addon.perform()
+        addon.post_update(self.component, '')
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
 
     def test_form(self):
