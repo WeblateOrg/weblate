@@ -26,7 +26,6 @@ import shutil
 
 from django.core.management.color import no_style
 from django.db import connection
-from django.http.request import HttpRequest
 from django.test import LiveServerTestCase, TestCase
 from django.test.utils import override_settings
 

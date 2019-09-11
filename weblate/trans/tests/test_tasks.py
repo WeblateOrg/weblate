@@ -38,6 +38,7 @@ from weblate.utils.state import STATE_TRANSLATED
 class CleanupTest(ViewTestCase):
     def test_cleanup_suggestions_case_sensitive(self):
         unit = self.get_unit()
+        request = self.get_request()
 
         # Add two suggestions
         Suggestion.objects.add(unit, 'Zkouška', request)
