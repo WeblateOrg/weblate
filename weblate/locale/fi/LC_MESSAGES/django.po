@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-08 06:51+0000\n"
-"PO-Revision-Date: 2019-09-07 08:31+0000\n"
-"Last-Translator: Hannu Martinet <swann.ranskassa@laposte.net>\n"
+"PO-Revision-Date: 2019-09-12 05:37+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -8448,9 +8448,8 @@ msgstr ""
 "liittyä tiedostomuotokohtaisia sääntöjä."
 
 #: weblate/trans/forms.py:1993
-#, fuzzy
 msgid "Source language text"
-msgstr "Lähdetekstin kieli"
+msgstr "Lähdekielinen teksti"
 
 #: weblate/trans/forms.py:1995
 msgid ""
@@ -9414,7 +9413,7 @@ msgid ""
 "When turned off, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
-"Jos ei ole käytössä, URL -osoitteet muutetaan linkeiksi ja kaikki "
+"Jos tämä ei ole käytössä, URL-osoitteet muutetaan linkeiksi ja kaikki "
 "ohjausmerkinnät poistetaan käytöstä."
 
 #: weblate/trans/models/whiteboard.py:101
@@ -9439,7 +9438,7 @@ msgstr "Vaara (punainen)"
 
 #: weblate/trans/models/whiteboard.py:107
 msgid "Success (green)"
-msgstr "Ok (vihreä)"
+msgstr "Kaikki hyvin (vihreä)"
 
 #: weblate/trans/models/whiteboard.py:115
 msgid "Expiry date"
@@ -9498,23 +9497,23 @@ msgstr "Sulkeva lainausmerkki"
 
 #: weblate/trans/specialchars.py:475
 msgid "Opening single quote"
-msgstr "Avaava heittomerkki"
+msgstr "Avaava puolilainausmerkki"
 
 #: weblate/trans/specialchars.py:476
 msgid "Closing single quote"
-msgstr "Sulkeva heittomerkki"
+msgstr "Sulkeva puolilainausmerkki"
 
 #: weblate/trans/specialchars.py:479
 msgid "Hyphen"
-msgstr "Tavuviiva"
+msgstr "Yhdysmerkki"
 
 #: weblate/trans/specialchars.py:482
 msgid "En dash"
-msgstr "Lyhyt ajatusviiva (n -ajatusviiva)"
+msgstr "Lyhyt ajatusviiva (N-ajatusviiva)"
 
 #: weblate/trans/specialchars.py:485
 msgid "Em dash"
-msgstr "Pitkä ajatusviiva (m -ajatusviiva)"
+msgstr "Pitkä ajatusviiva (M-ajatusviiva)"
 
 #: weblate/trans/specialchars.py:488
 msgid "User configured character: {}"
@@ -9642,14 +9641,14 @@ msgstr "kuukauden päästä"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s kuukauden päästä"
-msgstr[1] "%(count)s kuukauden kuluttua"
+msgstr[1] "%(count)s kuukauden päästä"
 
 #: weblate/trans/templatetags/translations.py:421
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s viikon päästä"
-msgstr[1] "%(count)s viikon kuluttua"
+msgstr[1] "%(count)s viikon päästä"
 
 #: weblate/trans/templatetags/translations.py:425
 msgid "tomorrow"
@@ -9663,41 +9662,41 @@ msgstr "viikon päästä"
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "%(count)s sekunnin kuluttua"
-msgstr[1] "%(count)s sekunnin kuluttua"
+msgstr[0] "%(count)s päivän päästä"
+msgstr[1] "%(count)s päivän päästä"
 
 #: weblate/trans/templatetags/translations.py:435
 msgid "a second from now"
-msgstr "sekunnin kuluttua"
+msgstr "sekunnin päästä"
 
 #: weblate/trans/templatetags/translations.py:437
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "%(count)s sekunnin kuluttua"
-msgstr[1] "%(count)s sekunnin kuluttua"
+msgstr[0] "%(count)s sekunnin päästä"
+msgstr[1] "%(count)s sekunnin päästä"
 
 #: weblate/trans/templatetags/translations.py:444
 msgid "a minute from now"
-msgstr "minuutin kuluttua"
+msgstr "minuutin päästä"
 
 #: weblate/trans/templatetags/translations.py:446
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "%(count)s minuutin kuluttua"
-msgstr[1] "%(count)s minuutin kuluttua"
+msgstr[0] "%(count)s minuutin päästä"
+msgstr[1] "%(count)s minuutin päästä"
 
 #: weblate/trans/templatetags/translations.py:452
 msgid "an hour from now"
-msgstr "tunnin kuluttua"
+msgstr "tunnin päästä"
 
 #: weblate/trans/templatetags/translations.py:454
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "%(count)s tunnin kuluttua"
-msgstr[1] "%(count)s tunnin kuluttua"
+msgstr[0] "%(count)s tunnin päästä"
+msgstr[1] "%(count)s tunnin päästä"
 
 #: weblate/trans/templatetags/translations.py:554
 msgid "Not translated"
@@ -9705,13 +9704,14 @@ msgstr "Kääntämättä"
 
 #: weblate/trans/templatetags/translations.py:581
 msgid "Message needs edit"
-msgstr "Viesti vaatii muokkausta"
+msgstr "Viesti vaatii muokkaamista"
 
 #: weblate/trans/templatetags/translations.py:586
 msgid "Message is not translated"
-msgstr "Viesti ei ole käännetty"
+msgstr "Viestiä ei ole käännetty"
 
 #: weblate/trans/templatetags/translations.py:591
+#, fuzzy
 msgid "Message has failing checks"
 msgstr "Viestillä on epäonnistuvia tarkistuksia"
 
@@ -9730,7 +9730,7 @@ msgstr "Viestissä on kommentteja"
 #: weblate/trans/templatetags/translations.py:627
 #, python-format
 msgid "string ID %s"
-msgstr "Tekstin ID %s"
+msgstr "tekstin ID %s"
 
 #: weblate/trans/util.py:50
 msgid "Very high"
@@ -9762,6 +9762,7 @@ msgstr ""
 "joukkoon tai aloita oma käännösprojektisi."
 
 #: weblate/trans/validators.py:30
+#, fuzzy
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Tiedostomaski ei sisällä * kielen paikkamerkkinä!"
 
@@ -9770,7 +9771,7 @@ msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
-"Arvo 1 ei ole sallittu automaattiseen hyväksymiseen, koska se mahdollistaa "
+"Arvo 1 ei ole sallittu automaattiseen hyväksymiseen, koska se mahdollistaisi "
 "käyttäjän oman ehdotuksen hyväksymisen hänen omalla äänellään."
 
 #: weblate/trans/views/about.py:47
@@ -9787,13 +9788,14 @@ msgstr "Virheellisiä parametrejä!"
 
 #: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
 msgid "You can not remove last owner!"
-msgstr "Et voi poistaa edellistä omistajaa!"
+msgstr "Et voi poistaa viimeistä omistajaa!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been added to this project."
 msgstr "Käyttäjä on lisätty tähän projektiin."
 
 #: weblate/trans/views/acl.py:146 weblate/trans/views/acl.py:188
+#, fuzzy
 msgid "Failed to find group to add a user!"
 msgstr "Etsimääsi ryhmää käyttäjän lisäämiseksi ei löytynyt!"
 
@@ -9823,31 +9825,31 @@ msgstr "Uuden kielen lisäämisen pyyntö on lähetetty projektin ylläpitäjill
 #, python-format
 msgctxt "Changes in translation"
 msgid "Changes in %s"
-msgstr "%s:n muutokset"
+msgstr "Käännöksen %s muutokset"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
 msgctxt "Changes in component"
 msgid "Changes in %s"
-msgstr "%s:n muutokset"
+msgstr "Komponentin %s muutokset"
 
 #: weblate/trans/views/changes.py:104
 #, python-format
 msgctxt "Changes in project"
 msgid "Changes in %s"
-msgstr "%s:n muutokset"
+msgstr "Projektin %s muutokset"
 
 #: weblate/trans/views/changes.py:117
 #, python-format
 msgctxt "Changes in language"
 msgid "Changes in %s"
-msgstr "%s:n muutokset"
+msgstr "Kielen %s muutokset"
 
 #: weblate/trans/views/changes.py:125
 #, python-format
 msgctxt "Changes by user"
 msgid "Changes by %s"
-msgstr "%s:n tekemät muutokset"
+msgstr "Käyttäjän %s tekemät muutokset"
 
 #: weblate/trans/views/changes.py:155
 msgid "Failed to find matching project!"
