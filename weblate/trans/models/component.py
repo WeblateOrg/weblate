@@ -888,7 +888,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending("push", request.user, skip_push=True)
+            self.commit_pending("push", request.user if request else None, skip_push=True)
 
         # Do we have anything to push?
         if not self.repo_needs_push():

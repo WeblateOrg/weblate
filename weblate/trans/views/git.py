@@ -55,7 +55,7 @@ def perform_commit(request, obj):
         _('All pending translations were committed.'),
         obj.commit_pending,
         'commit',
-        request,
+        request.user,
     )
 
 
