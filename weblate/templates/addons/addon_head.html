@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load translations %}
 
 <h4>
 {% if addon.project_scope %}
@@ -16,7 +17,7 @@
 <div>
 {% for field in form %}
 {% if not field.is_hidden and field.value %}
-<span class="badge addon-summary">{{ field.label }} <span>{{ field.value }}</span></span>
+<span class="badge addon-summary">{{ field.label }} <span>{{ field|choiceval }}</span></span>
 {% endif %}
 {% endfor %}
 </div>

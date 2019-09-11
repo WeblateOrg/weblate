@@ -803,3 +803,22 @@ def render_comment(comment):
             get_user_display(user, icon=False, link=True, prefix='@'),
         )
     return mark_safe(result)
+
+
+@register.filter
+def choiceval(boundfield):
+    """
+    Get literal value from field's choices. Empty value is returned if value is
+    not selected or invalid.
+    """
+    value = boundfield.value()
+    if not hasattr(boundfield.field, 'choices'):
+        return value
+    if value is None:
+        return ''
+    choices = dict(boundfield.field.choices)
+    if value is True:
+        return _('enabled')
+    if isinstance(value, list):
+        return ', '.join(choices.get(val, val) for val in value)
+    return choices.get(value, value)
