@@ -338,12 +338,12 @@ def handle_revert(translation, request, next_unit_url):
         )
         return None
 
-    if change.target == "":
+    if not change.can_revert():
         messages.error(request, _('Can not revert to empty translation!'))
         return None
     # Store unit
     unit.translate(
-        request, change.target, unit.state,
+        request, change.details['old'], unit.state,
         change_action=Change.ACTION_REVERT
     )
     # Redirect to next entry

@@ -417,7 +417,8 @@ class Change(models.Model, UserDisplayMixin):
     def can_revert(self):
         return (
             self.unit is not None
-            and self.target
+            and 'old' in self.details
+            and self.details['old']
             and self.action in self.ACTIONS_REVERTABLE
         )
 

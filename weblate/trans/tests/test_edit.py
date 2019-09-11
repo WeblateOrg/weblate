@@ -596,7 +596,7 @@ class EditComplexTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': changes[1].id}
         )
         unit = self.get_unit()
-        self.assertEqual(unit.target, target)
+        self.assertEqual(unit.target, target_2)
         # check that we cannot revert to string from another translation
         self.edit_unit(
             'Thank you for using Weblate.',
