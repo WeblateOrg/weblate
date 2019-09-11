@@ -25,7 +25,6 @@ import subprocess
 from itertools import chain
 
 from django.core.exceptions import ValidationError
-from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 
 from weblate.addons.events import (
