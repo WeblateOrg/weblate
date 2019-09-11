@@ -60,7 +60,7 @@ class AutoTranslate(object):
             self.user.profile.save(update_fields=["translated"])
 
     @transaction.atomic
-    def process_others(self, source, check_acl=True):
+    def process_others(self, source):
         """Perform automatic translation based on other components."""
         sources = Unit.objects.filter(
             translation__language=self.translation.language, state__gte=STATE_TRANSLATED
@@ -68,7 +68,10 @@ class AutoTranslate(object):
         if source:
             subprj = Component.objects.get(id=source)
 
-            if check_acl and not self.user.can_access_project(subprj.project):
+            if (
+                not subprj.project.contribute_shared_tm
+                and not subprj.project != self.translation.component.project
+            ):
                 raise PermissionDenied()
             sources = sources.filter(translation__component=subprj)
         else:

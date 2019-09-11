@@ -136,5 +136,5 @@ class Command(WeblateTranslationCommand):
         if options['mt']:
             auto.process_mt(options['mt'], options['threshold'])
         else:
-            auto.process_others(source, check_acl=False)
+            auto.process_others(source)
         self.stdout.write('Updated {0} units'.format(auto.updated))
