@@ -950,6 +950,10 @@ class AutoForm(forms.Form):
     component = forms.ChoiceField(
         label=_('Components'),
         required=False,
+        help_text=_(
+            "Enable project contribution to shared translation memory on project to "
+            "get access to additional components."
+        ),
         initial=''
     )
     engines = forms.MultipleChoiceField(
@@ -964,20 +968,20 @@ class AutoForm(forms.Form):
         max_value=100,
     )
 
-    def __init__(self, user, obj, *args, **kwargs):
+    def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
-        other_components = obj.component.project.component_set.exclude(
+        components = obj.component.project.component_set.exclude(
             id=obj.component.id
         ).order_project()
-        choices = [(s.id, force_text(s)) for s in other_components]
+        choices = [(s.id, force_text(s)) for s in components]
 
-        # Add components from other owned projects
-        owned_components = Component.objects.filter(
-            project__in=user.owned_projects,
+        # Add components from other projects with enabled shared TM
+        components = Component.objects.filter(
+            project__contribute_shared_tm=True
         ).exclude(
             project=obj.component.project
-        ).distinct().order_project()
-        for component in owned_components:
+        ).order_project()
+        for component in components:
             choices.append(
                 (component.id, force_text(component))
             )
