@@ -25,6 +25,7 @@ import subprocess
 from itertools import chain
 
 from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 
 from weblate.addons.events import (
@@ -58,9 +59,6 @@ class BaseAddon(object):
     def __init__(self, storage=None):
         self.instance = storage
         self.alerts = []
-
-    def get_summary(self):
-        return ''
 
     @cached_property
     def doc_anchor(self):

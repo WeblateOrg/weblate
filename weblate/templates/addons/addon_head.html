@@ -10,7 +10,17 @@
 <i class="fa fa-{{ addon.icon }}"></i> 
 {{ addon.verbose }}
 </h4>
-{% if addon.instance and addon.has_summary %}
-<p><code>{{ addon.get_summary }}</code></p>
+{% if addon.instance %}
+{% with form=addon.get_settings_form %}
+{% if form %}
+<div>
+{% for field in form %}
+{% if not field.is_hidden and field.value %}
+<span class="badge addon-summary">{{ field.label }} <span>{{ field.value }}</span></span>
+{% endif %}
+{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
 {% endif %}
 <p>{{ addon.description }}</p>

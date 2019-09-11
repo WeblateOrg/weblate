@@ -233,7 +233,8 @@ class DiscoveryForm(BaseAddonForm):
         label=_('Remove components for inexistant files'), required=False
     )
     confirm = forms.BooleanField(
-        label=_('I confirm the above matches look correct'), required=False
+        label=_('I confirm the above matches look correct'), required=False,
+        widget=forms.HiddenInput
     )
 
     def __init__(self, *args, **kwargs):
@@ -255,6 +256,7 @@ class DiscoveryForm(BaseAddonForm):
             self.full_clean()
             # Show preview if form was submitted
             if self.cleaned_data['preview']:
+                self.fields['confirm'].widget = forms.CheckboxInput()
                 self.helper.layout.insert(0, Field('confirm'))
                 created, matched, deleted = self.discovery.perform(
                     preview=True, remove=self.cleaned_data['remove']

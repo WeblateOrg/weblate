@@ -40,7 +40,6 @@ class DiscoveryAddon(BaseAddon):
     settings_form = DiscoveryForm
     multiple = True
     icon = 'search'
-    has_summary = True
     repo_scope = True
 
     def post_update(self, component, previous_head):
@@ -65,6 +64,3 @@ class DiscoveryAddon(BaseAddon):
             self.instance.component,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration)
         )
-
-    def get_summary(self):
-        return self.instance.configuration['match']

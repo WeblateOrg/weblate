@@ -27,6 +27,7 @@ Not yet released.
 * Add component alert on unsupported configuration.
 * Added automatic translation addon to bootstrap translations.
 * Extend automatic translation to add suggestions.
+* Display addon parameters on overview.
 
 weblate 3.8
 -----------
