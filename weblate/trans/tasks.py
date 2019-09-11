@@ -37,6 +37,7 @@ from weblate.auth.models import User, get_anonymous
 from weblate.celery import app
 from weblate.checks.models import Check
 from weblate.lang.models import Language
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
     Change,
@@ -45,6 +46,7 @@ from weblate.trans.models import (
     Project,
     Source,
     Suggestion,
+    Translation,
     Unit,
 )
 from weblate.trans.search import Fulltext
@@ -353,6 +355,21 @@ def project_removal(pk, uid):
         obj.delete()
     except Project.DoesNotExist:
         return
+
+
+@app.task
+def auto_translate(
+    user_id, translation_id, filter_type, auto_source, component, engines, threshold
+):
+    auto = AutoTranslate(
+        User.objects.get(pk=user_id) if user_id else None,
+        Translation.objects.get(pk=translation_id),
+        filter_type,
+    )
+    if auto_source == 'mt':
+        auto.process_mt(engines, threshold)
+    else:
+        auto.process_others(component)
 
 
 @app.on_after_finalize.connect

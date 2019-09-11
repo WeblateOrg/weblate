@@ -935,10 +935,8 @@ class RevertForm(ChecksumForm):
 
 class AutoForm(forms.Form):
     """Automatic translation form."""
-    type = FilterField(
-        required=True,
-        initial='todo',
-    )
+
+    filter_type = FilterField(required=True, initial='todo')
     auto_source = forms.ChoiceField(
         label=_('Automatic translation source'),
         choices=[
@@ -995,13 +993,13 @@ class AutoForm(forms.Form):
             'all', 'nottranslated', 'todo', 'fuzzy', 'check:inconsistent',
         }
 
-        self.fields['type'].choices = [
-            x for x in self.fields['type'].choices if x[0] in use_types
+        self.fields['filter_type'].choices = [
+            x for x in self.fields['filter_type'].choices if x[0] in use_types
         ]
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('type'),
+            Field('filter_type'),
             InlineRadios('auto_source', id='select_auto_source'),
             Div(
                 'component',

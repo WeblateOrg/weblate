@@ -15,6 +15,20 @@ component.
 Built in addons
 +++++++++++++++
 
+.. _addon-weblate.autotranslate.autotranslate:
+
+Automatic translation
+---------------------
+
+.. versionadded:: 3.9
+
+This addon automatically translates strings using machine translation or other
+components.
+
+.. seealso:: 
+   
+   :ref:`auto-translation`
+
 .. _addon-weblate.cleanup.generic:
 
 Cleanup translation files

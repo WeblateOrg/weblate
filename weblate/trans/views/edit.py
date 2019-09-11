@@ -574,26 +574,26 @@ def auto_translation(request, project, component, lang):
         show_form_errors(request, autoform)
         return redirect(translation)
 
-    auto = AutoTranslate(request.user, translation, autoform.cleaned_data['type'])
+    auto = AutoTranslate(
+        request.user, translation, autoform.cleaned_data['filter_type']
+    )
 
     if autoform.cleaned_data['auto_source'] == 'mt':
         auto.process_mt(
-            autoform.cleaned_data['engines'],
-            autoform.cleaned_data['threshold'],
+            autoform.cleaned_data['engines'], autoform.cleaned_data['threshold']
         )
     else:
-        auto.process_others(
-            autoform.cleaned_data['component'],
-        )
+        auto.process_others(autoform.cleaned_data['component'])
 
     import_message(
-        request, auto.updated,
+        request,
+        auto.updated,
         _('Automatic translation completed, no strings were updated.'),
         ungettext(
             'Automatic translation completed, %d string was updated.',
             'Automatic translation completed, %d strings were updated.',
-            auto.updated
-        )
+            auto.updated,
+        ),
     )
 
     return redirect(translation)

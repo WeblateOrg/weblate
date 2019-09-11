@@ -31,18 +31,21 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
+from weblate.trans.forms import AutoForm
 from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
 
-class BaseAddonForm(forms.Form):
-    def __init__(self, addon, instance=None, *args, **kwargs):
-        self._addon = addon
-        super(BaseAddonForm, self).__init__(*args, **kwargs)
-
+class AddonFormMixin(object):
     def save(self):
         self._addon.configure(self.cleaned_data)
         return self._addon.instance
+
+
+class BaseAddonForm(forms.Form, AddonFormMixin):
+    def __init__(self, addon, instance=None, *args, **kwargs):
+        self._addon = addon
+        super(BaseAddonForm, self).__init__(*args, **kwargs)
 
 
 class GenerateMoForm(BaseAddonForm):
@@ -340,3 +343,11 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_new_base_template(self):
         return self.template_clean('new_base_template')
+
+
+class AutoAddonForm(AutoForm, AddonFormMixin):
+    def __init__(self, addon, instance=None, *args, **kwargs):
+        self._addon = addon
+        super(AutoAddonForm, self).__init__(
+            obj=addon.instance.component, *args, **kwargs
+        )

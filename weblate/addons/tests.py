@@ -30,6 +30,7 @@ from django.urls import reverse
 from django.utils import timezone
 from six import StringIO
 
+from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
@@ -828,3 +829,19 @@ class TestRemoval(FixtureTestCase):
         )
         daily_addons()
         self.assert_count(suggestions=1)
+
+
+class AutoTranslateAddonTest(FixtureTestCase):
+    def test_auto(self):
+        self.assertTrue(AutoTranslateAddon.can_install(self.component, None))
+        addon = AutoTranslateAddon.create(
+            self.component,
+            configuration={
+                'component': '',
+                'filter_type': 'todo',
+                'auto_source': 'mt',
+                'engines': [],
+                'threshold': 80,
+            },
+        )
+        addon.post_update(self.component, '')

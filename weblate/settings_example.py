@@ -754,6 +754,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.git.GitSquashAddon',
 #     'weblate.addons.removal.RemoveComments',
 #     'weblate.addons.removal.RemoveSuggestions',
+#     'weblate.addons.autotranslate.AutoTranslateAddon',
 # )
 
 # E-mail address that error messages come from.

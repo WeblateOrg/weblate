@@ -150,6 +150,7 @@ class AddonsConf(AppConf):
         'weblate.addons.cleanup.CleanupAddon',
         'weblate.addons.consistency.LangaugeConsistencyAddon',
         'weblate.addons.discovery.DiscoveryAddon',
+        'weblate.addons.autotranslate.AutoTranslateAddon',
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',
         'weblate.addons.flags.SameEditAddon',
