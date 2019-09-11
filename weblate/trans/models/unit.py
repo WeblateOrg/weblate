@@ -575,7 +575,7 @@ class Unit(models.Model, LoggerMixin):
         self.source_info.run_checks(unit=self)
 
         # Generate Change object for this change
-        self.generate_change(request, user, change_action)
+        self.generate_change(request.user if request else author, user, change_action)
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             # Update translation stats
@@ -631,9 +631,8 @@ class Unit(models.Model, LoggerMixin):
             )
             unit.translation.invalidate_cache()
 
-    def generate_change(self, request, author, change_action):
+    def generate_change(self, user, author, change_action):
         """Create Change entry for saving unit."""
-        user = request.user if request else author
         # Notify about new contributor
         user_changes = Change.objects.filter(translation=self.translation, user=user)
         if not user_changes.exists():
