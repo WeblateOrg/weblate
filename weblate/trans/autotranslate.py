@@ -28,9 +28,8 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class AutoTranslate(object):
-    def __init__(self, user, translation, filter_type, request=None):
+    def __init__(self, user, translation, filter_type):
         self.user = user
-        self.request = request
         self.translation = translation
         self.filter_type = filter_type
         self.updated = 0

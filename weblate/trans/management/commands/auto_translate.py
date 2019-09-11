@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.core.management.base import CommandError
-from django.http.request import HttpRequest
 
 from weblate.auth.models import User
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -133,10 +132,7 @@ class Command(WeblateTranslationCommand):
             filter_type = 'all'
         else:
             filter_type = 'todo'
-        # Create fake request object
-        request = HttpRequest()
-        request.user = user
-        auto = AutoTranslate(user, translation, filter_type, request)
+        auto = AutoTranslate(user, translation, filter_type)
         if options['mt']:
             auto.process_mt(options['mt'], options['threshold'])
         else:

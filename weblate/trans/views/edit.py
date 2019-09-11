@@ -574,12 +574,7 @@ def auto_translation(request, project, component, lang):
         show_form_errors(request, autoform)
         return redirect(translation)
 
-    auto = AutoTranslate(
-        request.user,
-        translation,
-        autoform.cleaned_data['type'],
-        request=request
-    )
+    auto = AutoTranslate(request.user, translation, autoform.cleaned_data['type'])
 
     if autoform.cleaned_data['auto_source'] == 'mt':
         auto.process_mt(
