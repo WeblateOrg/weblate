@@ -37,32 +37,24 @@ NETEASE_API_ROOT = 'https://jianwai.netease.com/api/text/trans'
 
 class NeteaseSightTranslation(MachineTranslation):
     """Netease Sight API machine translation support."""
+
     name = 'Netease Sight'
     max_score = 90
 
     # Map codes used by Netease Sight to codes used by Weblate
-    language_map = {
-        'zh_Hans': 'zh',
-    }
+    language_map = {'zh_Hans': 'zh'}
 
     def __init__(self):
         """Check configuration."""
         super(NeteaseSightTranslation, self).__init__()
         if settings.MT_NETEASE_KEY is None:
-            raise MissingConfiguration(
-                'Netease Sight Translate requires app key'
-            )
+            raise MissingConfiguration('Netease Sight Translate requires app key')
         if settings.MT_NETEASE_SECRET is None:
-            raise MissingConfiguration(
-                'Netease Sight Translate requires app secret'
-            )
+            raise MissingConfiguration('Netease Sight Translate requires app secret')
 
     def download_languages(self):
         """List of supported languages."""
-        return [
-            'zh',
-            'en',
-        ]
+        return ['zh', 'en']
 
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
@@ -81,14 +73,10 @@ class NeteaseSightTranslation(MachineTranslation):
         request.add_header('timestamp', timestamp)
         request.add_header('signature', sign)
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
-            NETEASE_API_ROOT,
-            http_post=True,
-            json_body=True,
-            lang=source,
-            content=text,
+            NETEASE_API_ROOT, http_post=True, json_body=True, lang=source, content=text
         )
 
         if not response['success']:
@@ -96,9 +84,11 @@ class NeteaseSightTranslation(MachineTranslation):
 
         translation = response['relatedObject']['content'][0]['transContent']
 
-        return [{
-            'text': translation,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
-        }]
+        return [
+            {
+                'text': translation,
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]

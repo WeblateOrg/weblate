@@ -29,6 +29,7 @@ DEEPL_API = 'https://api.deepl.com/v1/translate'
 
 class DeepLTranslation(MachineTranslation):
     """DeepL (Linguee) machine translation support."""
+
     name = 'DeepL'
     # This seems to be currently best MT service, so score it a bit
     # better than other ones.
@@ -44,7 +45,7 @@ class DeepLTranslation(MachineTranslation):
         """List of supported languages is currently hardcoded."""
         return ('en', 'de', 'fr', 'es', 'it', 'nl', 'pl', 'pt', 'ru')
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
             DEEPL_API,
@@ -60,7 +61,7 @@ class DeepLTranslation(MachineTranslation):
                 'text': translation['text'],
                 'quality': self.max_score,
                 'service': self.name,
-                'source': text
+                'source': text,
             }
             for translation in response['translations']
         ]

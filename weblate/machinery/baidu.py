@@ -33,6 +33,7 @@ BAIDU_API = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
 
 class BaiduTranslation(MachineTranslation):
     """Baidu API machine translation support."""
+
     name = 'Baidu'
     max_score = 90
 
@@ -59,13 +60,9 @@ class BaiduTranslation(MachineTranslation):
         """Check configuration."""
         super(BaiduTranslation, self).__init__()
         if settings.MT_BAIDU_ID is None:
-            raise MissingConfiguration(
-                'Baidu Translate requires app key'
-            )
+            raise MissingConfiguration('Baidu Translate requires app key')
         if settings.MT_BAIDU_SECRET is None:
-            raise MissingConfiguration(
-                'Baidu Translate requires app secret'
-            )
+            raise MissingConfiguration('Baidu Translate requires app secret')
 
     def download_languages(self):
         """List of supported languages."""
@@ -100,7 +97,7 @@ class BaiduTranslation(MachineTranslation):
             'vie',
         ]
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             settings.MT_BAIDU_ID, settings.MT_BAIDU_SECRET, text
@@ -126,7 +123,7 @@ class BaiduTranslation(MachineTranslation):
                 'text': item['dst'],
                 'quality': self.max_score,
                 'service': self.name,
-                'source': item['src']
+                'source': item['src'],
             }
             for item in response['trans_result']
         ]

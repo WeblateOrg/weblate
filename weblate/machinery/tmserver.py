@@ -31,6 +31,7 @@ AMAGAMA_LIVE = 'https://amagama-live.translatehouse.org/api/v1'
 
 class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
+
     name = 'tmserver'
 
     def __init__(self):
@@ -42,9 +43,7 @@ class TMServerTranslation(MachineTranslation):
     def get_server_url():
         """Return URL of a server."""
         if settings.MT_TMSERVER is None:
-            raise MissingConfiguration(
-                'Not configured tmserver URL'
-            )
+            raise MissingConfiguration('Not configured tmserver URL')
 
         return settings.MT_TMSERVER.rstrip('/')
 
@@ -75,13 +74,13 @@ class TMServerTranslation(MachineTranslation):
             return True
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         url = '{0}/{1}/{2}/unit/{3}'.format(
             self.url,
             quote(source, b''),
             quote(language, b''),
-            quote(text[:500].replace('\r', ' ').encode('utf-8'), b'')
+            quote(text[:500].replace('\r', ' ').encode('utf-8'), b''),
         )
         response = self.json_req(url)
 
@@ -90,7 +89,7 @@ class TMServerTranslation(MachineTranslation):
                 'text': line['target'],
                 'quality': int(line['quality']),
                 'service': self.name,
-                'source': line['source']
+                'source': line['source'],
             }
             for line in response
         ]
@@ -98,6 +97,7 @@ class TMServerTranslation(MachineTranslation):
 
 class AmagamaTranslation(TMServerTranslation):
     """Specific instance of tmserver ran by Virtaal authors."""
+
     name = 'Amagama'
 
     @staticmethod

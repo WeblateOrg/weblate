@@ -61,7 +61,7 @@ def handle_machinery(request, service, unit, source):
             unit.translation.language.code,
             source,
             unit,
-            request
+            request.user
         )
         response['responseStatus'] = 200
     except MachineTranslationError as exc:

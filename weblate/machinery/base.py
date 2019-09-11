@@ -166,7 +166,7 @@ class MachineTranslation(object):
         """Download list of supported languages from a service."""
         return []
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
@@ -192,7 +192,7 @@ class MachineTranslation(object):
         LOGGER.error(message, self.name)
         LOGGER.info('Last URL: %s, params: %s', extra['mt_url'], extra['mt_params'])
 
-    def get_supported_languages(self, request):
+    def get_supported_languages(self):
         """Return list of supported languages."""
         if self.supported_languages is not None:
             return
@@ -254,10 +254,10 @@ class MachineTranslation(object):
             self.mtid, calculate_hash(source, language), calculate_hash(None, text)
         )
 
-    def translate(self, language, text, unit, request, source=None):
+    def translate(self, language, text, unit, user, source=None):
         """Return list of machine translations."""
 
-        self.get_supported_languages(request)
+        self.get_supported_languages()
 
         if source is None:
             language = self.convert_language(language)
@@ -273,11 +273,11 @@ class MachineTranslation(object):
             source = source.replace('-', '_')
             if '_' in source:
                 source = source.split('_')[0]
-                return self.translate(language, text, unit, request, source)
+                return self.translate(language, text, unit, user, source)
             language = language.replace('-', '_')
             if '_' in language:
                 language = language.split('_')[0]
-                return self.translate(language, text, unit, request, source)
+                return self.translate(language, text, unit, user, source)
             if self.supported_languages_error:
                 raise MachineTranslationError(repr(self.supported_languages_error))
             return []
@@ -289,7 +289,7 @@ class MachineTranslation(object):
                 return result
 
         try:
-            result = self.download_translations(source, language, text, unit, request)
+            result = self.download_translations(source, language, text, unit, user)
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
             return result

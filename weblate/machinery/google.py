@@ -35,23 +35,18 @@ GOOGLE_API_ROOT = 'https://translation.googleapis.com/language/translate/v2/'
 
 class GoogleTranslation(MachineTranslation):
     """Google Translate API v2 machine translation support."""
+
     name = 'Google Translate'
     max_score = 90
 
     # Map old codes used by Google to new ones used by Weblate
-    language_map = {
-        'he': 'iw',
-        'jv': 'jw',
-        'nb': 'no',
-    }
+    language_map = {'he': 'iw', 'jv': 'jw', 'nb': 'no'}
 
     def __init__(self):
         """Check configuration."""
         super(GoogleTranslation, self).__init__()
         if settings.MT_GOOGLE_KEY is None:
-            raise MissingConfiguration(
-                'Google Translate requires API key'
-            )
+            raise MissingConfiguration('Google Translate requires API key')
 
     def convert_language(self, language):
         """Convert language to service specific code."""
@@ -62,8 +57,7 @@ class GoogleTranslation(MachineTranslation):
     def download_languages(self):
         """List of supported languages."""
         response = self.json_req(
-            GOOGLE_API_ROOT + 'languages',
-            key=settings.MT_GOOGLE_KEY
+            GOOGLE_API_ROOT + 'languages', key=settings.MT_GOOGLE_KEY
         )
 
         if 'error' in response:
@@ -71,7 +65,7 @@ class GoogleTranslation(MachineTranslation):
 
         return [d['language'] for d in response['data']['languages']]
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
             GOOGLE_API_ROOT,
@@ -87,12 +81,14 @@ class GoogleTranslation(MachineTranslation):
 
         translation = response['data']['translations'][0]['translatedText']
 
-        return [{
-            'text': translation,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
-        }]
+        return [
+            {
+                'text': translation,
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]
 
     def get_error_message(self, exc):
         if hasattr(exc, 'read'):

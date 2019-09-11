@@ -28,6 +28,7 @@ from weblate.trans.models import Unit
 
 class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
+
     name = 'Weblate'
     rank_boost = 1
     cache_translations = False
@@ -49,16 +50,18 @@ class WeblateTranslation(MachineTranslation):
             'source': unit.get_source_plurals()[0],
         }
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        matching_units = Unit.objects.prefetch().filter(
-            translation__component__project__in=request.user.allowed_projects
-        ).more_like_this(unit, 1000).distinct()
+        matching_units = (
+            Unit.objects.prefetch()
+            .filter(translation__component__project__in=user.allowed_projects)
+            .more_like_this(unit, 1000)
+            .distinct()
+        )
 
         result = [
             self.format_unit_match(
-                munit,
-                self.comparer.similarity(text, munit.get_source_plurals()[0])
+                munit, self.comparer.similarity(text, munit.get_source_plurals()[0])
             )
             for munit in matching_units
         ]

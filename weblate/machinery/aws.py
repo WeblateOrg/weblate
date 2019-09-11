@@ -43,17 +43,30 @@ class AWSTranslation(MachineTranslation):
 
     def download_languages(self):
         return (
-            'en', 'ar', 'zh', 'fr', 'de', 'pt', 'es',
-            'ja', 'ru', 'it', 'zh-TW', 'tr', 'cs',
+            'en',
+            'ar',
+            'zh',
+            'fr',
+            'de',
+            'pt',
+            'es',
+            'ja',
+            'ru',
+            'it',
+            'zh-TW',
+            'tr',
+            'cs',
         )
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )
-        return [{
-            'text': response['TranslatedText'],
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text
-        }]
+        return [
+            {
+                'text': response['TranslatedText'],
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]

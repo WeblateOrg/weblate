@@ -37,6 +37,7 @@ class MicrosoftTerminologyService(MachineTranslation):
     definitions and user interface (UI) strings available
     on the MS Language Portal through a web service (SOAP).
     """
+
     name = 'Microsoft Terminology'
 
     SERVICE = None
@@ -59,7 +60,7 @@ class MicrosoftTerminologyService(MachineTranslation):
             return []
         return [lang['Code'] for lang in languages]
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from the service."""
         args = {
             'text': text,
@@ -67,7 +68,7 @@ class MicrosoftTerminologyService(MachineTranslation):
             'to': language,
             'maxTranslations': 20,
             'sources': ['Terms', 'UiStrings'],
-            'searchOperator': 'AnyWord'
+            'searchOperator': 'AnyWord',
         }
         result = self.soap_req('GetTranslations', **args)
         translations = []
@@ -78,12 +79,14 @@ class MicrosoftTerminologyService(MachineTranslation):
             target = force_text(
                 item['Translations']['Translation'][0]['TranslatedText']
             )
-            translations.append({
-                'text': target,
-                'quality': self.comparer.similarity(text, target),
-                'service': self.name,
-                'source': item['OriginalText'],
-            })
+            translations.append(
+                {
+                    'text': target,
+                    'quality': self.comparer.similarity(text, target),
+                    'service': self.name,
+                    'source': item['OriginalText'],
+                }
+            )
         return translations
 
     def convert_language(self, language):

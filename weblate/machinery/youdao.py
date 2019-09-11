@@ -33,27 +33,20 @@ YOUDAO_API_ROOT = 'https://openapi.youdao.com/api'
 
 class YoudaoTranslation(MachineTranslation):
     """Youdao Zhiyun API machine translation support."""
+
     name = 'Youdao Zhiyun'
     max_score = 90
 
     # Map codes used by Youdao to codes used by Weblate
-    language_map = {
-        'zh_Hans': 'zh-CHS',
-        'zh': 'zh-CHS',
-        'en': 'EN',
-    }
+    language_map = {'zh_Hans': 'zh-CHS', 'zh': 'zh-CHS', 'en': 'EN'}
 
     def __init__(self):
         """Check configuration."""
         super(YoudaoTranslation, self).__init__()
         if settings.MT_YOUDAO_ID is None:
-            raise MissingConfiguration(
-                'Youdao Translate requires app key'
-            )
+            raise MissingConfiguration('Youdao Translate requires app key')
         if settings.MT_YOUDAO_SECRET is None:
-            raise MissingConfiguration(
-                'Youdao Translate requires app secret'
-            )
+            raise MissingConfiguration('Youdao Translate requires app secret')
 
     def download_languages(self):
         """List of supported languages."""
@@ -69,10 +62,10 @@ class YoudaoTranslation(MachineTranslation):
             'vi',
             'de',
             'ar',
-            'id'
+            'id',
         ]
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             settings.MT_YOUDAO_ID, settings.MT_YOUDAO_SECRET, text
@@ -95,9 +88,11 @@ class YoudaoTranslation(MachineTranslation):
 
         translation = response['translation'][0]
 
-        return [{
-            'text': translation,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
-        }]
+        return [
+            {
+                'text': translation,
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]

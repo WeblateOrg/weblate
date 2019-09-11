@@ -38,31 +38,26 @@ class SAPTranslationHub(MachineTranslation):
         """Check configuration."""
         super(SAPTranslationHub, self).__init__()
         if settings.MT_SAP_BASE_URL is None:
-            raise MissingConfiguration(
-                'missing SAP Translation Hub configuration'
-            )
+            raise MissingConfiguration('missing SAP Translation Hub configuration')
 
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
         # to access the sandbox
         if settings.MT_SAP_SANDBOX_APIKEY is not None:
-            request.add_header(
-                'APIKey',
-                settings.MT_SAP_SANDBOX_APIKEY.encode('utf-8')
-            )
+            request.add_header('APIKey', settings.MT_SAP_SANDBOX_APIKEY.encode('utf-8'))
 
         # to access the productive API
-        if settings.MT_SAP_USERNAME is not None \
-           and settings.MT_SAP_PASSWORD is not None:
+        if (
+            settings.MT_SAP_USERNAME is not None
+            and settings.MT_SAP_PASSWORD is not None
+        ):
             credentials = '{}:{}'.format(
-                settings.MT_SAP_USERNAME,
-                settings.MT_SAP_PASSWORD
+                settings.MT_SAP_USERNAME, settings.MT_SAP_PASSWORD
             )
             request.add_header(
                 'Authorization',
-                'Basic ' + base64.b64encode(
-                    credentials.encode('utf-8')
-                ).decode('utf-8')
+                'Basic '
+                + base64.b64encode(credentials.encode('utf-8')).decode('utf-8'),
             )
 
     def download_languages(self):
@@ -74,7 +69,7 @@ class SAPTranslationHub(MachineTranslation):
 
         return [d['id'] for d in response['languages']]
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
 
         # should the machine translation service be used?
@@ -90,9 +85,9 @@ class SAPTranslationHub(MachineTranslation):
                 'sourceLanguage': source,
                 'enableMT': enable_mt,
                 'enableTranslationQualityEstimation': enable_mt,
-                'units': [{'value': text}]
+                'units': [{'value': text}],
             },
-            ensure_ascii=False
+            ensure_ascii=False,
         ).encode('utf-8')
 
         # create the request
@@ -108,15 +103,11 @@ class SAPTranslationHub(MachineTranslation):
         self.authenticate(request)
 
         # Read and possibly convert response
-        content = urlopen(
-            request, request_data_as_bytes, timeout=0.5
-        ).read().decode('utf-8')
-        # Replace literal \t
-        content = content.strip().replace(
-            '\t', '\\t'
-        ).replace(
-            '\r', '\\r'
+        content = (
+            urlopen(request, request_data_as_bytes, timeout=0.5).read().decode('utf-8')
         )
+        # Replace literal \t
+        content = content.strip().replace('\t', '\\t').replace('\r', '\\r')
 
         response = json.loads(content)
 
@@ -125,11 +116,13 @@ class SAPTranslationHub(MachineTranslation):
         # prepare the translations for weblate
         for item in response['units']:
             for translation in item['translations']:
-                translations.append({
-                    'text': translation['value'],
-                    'quality': translation.get('qualityIndex', 100),
-                    'service': self.name,
-                    'source': text
-                })
+                translations.append(
+                    {
+                        'text': translation['value'],
+                        'quality': translation.get('qualityIndex', 100),
+                        'service': self.name,
+                        'source': text,
+                    }
+                )
 
         return translations

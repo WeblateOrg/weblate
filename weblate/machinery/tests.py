@@ -24,7 +24,6 @@ import json
 
 import httpretty
 from botocore.stub import ANY, Stubber
-from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
@@ -77,7 +76,9 @@ GLOSBE_JSON = '''
             "phrase":{"text":"svět","language":"ces"}}],
     "from":"eng"
 }
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 MYMEMORY_JSON = '''
 \r\n
 {"responseData":{"translatedText":"svět"},"responseDetails":"",
@@ -102,10 +103,14 @@ MYMEMORY_JSON = '''
 "create-date":"2013-06-12 17:02:07",
 "last-update-date":"2013-06-12 17:02:07","match":0.84}
 ]}
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 AMAGAMA_JSON = '''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 SAPTRANSLATIONHUB_JSON = '''
 {
     "units": [
@@ -125,7 +130,9 @@ SAPTRANSLATIONHUB_JSON = '''
         }
     ]
 }
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 
 TERMINOLOGY_LANGUAGES = '''
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -190,7 +197,9 @@ TERMINOLOGY_LANGUAGES = '''
     </GetLanguagesResponse>
   </s:Body>
 </s:Envelope>
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 TERMINOLOGY_TRANSLATE = '''
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
@@ -230,7 +239,9 @@ TERMINOLOGY_TRANSLATE = '''
     </GetTranslationsResponse>
   </s:Body>
 </s:Envelope>
-'''.encode('utf-8')
+'''.encode(
+    'utf-8'
+)
 TERMINOLOGY_WDSL = get_test_file('microsoftterminology.wsdl')
 
 DEEPL_RESPONSE = b'''{
@@ -242,6 +253,7 @@ DEEPL_RESPONSE = b'''{
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
+
     def get_machine(self, cls, cache=False):
         machine = cls()
         machine.delete_cache()
@@ -250,25 +262,18 @@ class MachineTranslationTest(TestCase):
 
     def test_support(self):
         machine_translation = self.get_machine(DummyTranslation)
-        machine_translation.get_supported_languages(HttpRequest())
+        machine_translation.get_supported_languages()
         self.assertTrue(machine_translation.is_supported('en', 'cs'))
         self.assertFalse(machine_translation.is_supported('en', 'de'))
 
     def test_translate(self):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
-            machine_translation.translate(
-                'cs', 'Hello', MockUnit(), HttpRequest()
-            ),
-            []
+            machine_translation.translate('cs', 'Hello', MockUnit(), None), []
         )
         self.assertEqual(
-            len(
-                machine_translation.translate(
-                    'cs', 'Hello, world!', MockUnit(), HttpRequest()
-                )
-            ),
-            2
+            len(machine_translation.translate('cs', 'Hello, world!', MockUnit(), None)),
+            2,
         )
 
     def test_translate_fallback(self):
@@ -276,23 +281,21 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    'cs_CZ', 'Hello, world!', MockUnit(), HttpRequest()
+                    'cs_CZ', 'Hello, world!', MockUnit(), None
                 )
             ),
-            2
+            2,
         )
 
     def test_translate_fallback_missing(self):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
-            machine_translation.translate(
-                'de_CZ', 'Hello, world!', MockUnit(), HttpRequest()
-            ),
-            []
+            machine_translation.translate('de_CZ', 'Hello, world!', MockUnit(), None),
+            [],
         )
 
     def assert_translate(self, machine, lang='cs', word='world', empty=False):
-        translation = machine.translate(lang, word, MockUnit(), HttpRequest())
+        translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(translation)
@@ -301,9 +304,7 @@ class MachineTranslationTest(TestCase):
     def test_glosbe(self):
         machine = self.get_machine(GlosbeTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            'https://glosbe.com/gapi/translate',
-            body=GLOSBE_JSON
+            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -326,9 +327,7 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(GlosbeTranslation)
         machine.set_rate_limit()
         httpretty.register_uri(
-            httpretty.GET,
-            'https://glosbe.com/gapi/translate',
-            body=GLOSBE_JSON
+            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine, empty=True)
 
@@ -337,9 +336,7 @@ class MachineTranslationTest(TestCase):
     def test_mymemory(self):
         machine = self.get_machine(MyMemoryTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            'https://mymemory.translated.net/api/get',
-            body=MYMEMORY_JSON
+            httpretty.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -349,13 +346,13 @@ class MachineTranslationTest(TestCase):
             httpretty.GET,
             'http://apertium.example.com/listPairs',
             body='{"responseStatus": 200, "responseData":'
-            '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}'
+            '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}',
         )
         httpretty.register_uri(
             httpretty.GET,
             'http://apertium.example.com/translate',
             body='{"responseData":{"translatedText":"Mundial"},'
-            '"responseDetails":null,"responseStatus":200}'
+            '"responseDetails":null,"responseStatus":200}',
         )
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
@@ -374,18 +371,18 @@ class MachineTranslationTest(TestCase):
             httpretty.POST,
             'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
             '?Subscription-Key=KEY',
-            body='TOKEN'
+            body='TOKEN',
         )
         httpretty.register_uri(
             httpretty.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
-            body='["en","cs"]'
+            body='["en","cs"]',
         )
         httpretty.register_uri(
             httpretty.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            body='"svět"'.encode('utf-8')
+            body='"svět"'.encode('utf-8'),
         )
 
         self.assert_translate(machine)
@@ -437,7 +434,7 @@ class MachineTranslationTest(TestCase):
     def test_microsoft_terminology_error(self):
         self.register_microsoft_terminology(True)
         machine = self.get_machine(MicrosoftTerminologyService)
-        machine.get_supported_languages(HttpRequest())
+        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -455,16 +452,16 @@ class MachineTranslationTest(TestCase):
                         'languages': [
                             {'language': 'en'},
                             {'language': 'iw'},
-                            {'language': 'cs'}
+                            {'language': 'cs'},
                         ]
                     }
                 }
-            )
+            ),
         )
         httpretty.register_uri(
             httpretty.GET,
             GOOGLE_API_ROOT,
-            body=b'{"data":{"translations":[{"translatedText":"svet"}]}}'
+            body=b'{"data":{"translations":[{"translatedText":"svet"}]}}',
         )
         self.assert_translate(machine)
         self.assert_translate(machine, lang='he')
@@ -476,18 +473,10 @@ class MachineTranslationTest(TestCase):
         """Test handling of server failure."""
         machine = self.get_machine(GoogleTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            GOOGLE_API_ROOT + 'languages',
-            body='',
-            status=500,
+            httpretty.GET, GOOGLE_API_ROOT + 'languages', body='', status=500
         )
-        httpretty.register_uri(
-            httpretty.GET,
-            GOOGLE_API_ROOT,
-            body='',
-            status=500,
-        )
-        machine.get_supported_languages(HttpRequest())
+        httpretty.register_uri(httpretty.GET, GOOGLE_API_ROOT, body='', status=500)
+        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -496,20 +485,13 @@ class MachineTranslationTest(TestCase):
     def test_amagama_nolang(self):
         machine = self.get_machine(AmagamaTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            AMAGAMA_LIVE + '/languages/',
-            body='',
-            status=404,
+            httpretty.GET, AMAGAMA_LIVE + '/languages/', body='', status=404
         )
         httpretty.register_uri(
-            httpretty.GET,
-            AMAGAMA_LIVE + '/en/cs/unit/world',
-            body=AMAGAMA_JSON
+            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
         )
         httpretty.register_uri(
-            httpretty.GET,
-            AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka',
-            body=AMAGAMA_JSON
+            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -527,14 +509,10 @@ class MachineTranslationTest(TestCase):
             body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
         )
         httpretty.register_uri(
-            httpretty.GET,
-            AMAGAMA_LIVE + '/en/cs/unit/world',
-            body=AMAGAMA_JSON
+            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
         )
         httpretty.register_uri(
-            httpretty.GET,
-            AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka',
-            body=AMAGAMA_JSON
+            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -546,12 +524,12 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            body=b'{"dirs": ["en-cs"]}'
+            body=b'{"dirs": ["en-cs"]}',
         )
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
-            body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}'
+            body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}',
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -563,14 +541,14 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            body=b'{"code": 401}'
+            body=b'{"code": 401}',
         )
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
-            body=b'{"code": 401, "message": "Invalid request"}'
+            body=b'{"code": 401, "message": "Invalid request"}',
         )
-        machine.get_supported_languages(HttpRequest())
+        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -592,9 +570,7 @@ class MachineTranslationTest(TestCase):
     def test_youdao_error(self):
         machine = self.get_machine(YoudaoTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            'https://openapi.youdao.com/api',
-            body=b'{"errorCode": 1}',
+            httpretty.GET, 'https://openapi.youdao.com/api', body=b'{"errorCode": 1}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
@@ -626,9 +602,7 @@ class MachineTranslationTest(TestCase):
     def test_netease_error(self):
         machine = self.get_machine(NeteaseSightTranslation)
         httpretty.register_uri(
-            httpretty.POST,
-            NETEASE_API_ROOT,
-            body=b'{"success": "false"}',
+            httpretty.POST, NETEASE_API_ROOT, body=b'{"success": "false"}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='zh', empty=True)
@@ -650,9 +624,7 @@ class MachineTranslationTest(TestCase):
     def test_baidu_error(self):
         machine = self.get_machine(BaiduTranslation)
         httpretty.register_uri(
-            httpretty.GET,
-            BAIDU_API,
-            body=b'{"error_code": 1, "error_msg": "Error"}',
+            httpretty.GET, BAIDU_API, body=b'{"error_code": 1, "error_msg": "Error"}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
@@ -670,16 +642,8 @@ class MachineTranslationTest(TestCase):
             body=json.dumps(
                 {
                     'languages': [
-                        {
-                            'id': 'en',
-                            'name': 'English',
-                            'bcp-47-code': 'en'
-                        },
-                        {
-                            'id': 'cs',
-                            'name': 'Czech',
-                            'bcp-47-code': 'cs'
-                        }
+                        {'id': 'en', 'name': 'English', 'bcp-47-code': 'en'},
+                        {'id': 'cs', 'name': 'Czech', 'bcp-47-code': 'cs'},
                     ]
                 }
             ),
@@ -690,7 +654,7 @@ class MachineTranslationTest(TestCase):
             'http://sth.example.com/translate',
             body=SAPTRANSLATIONHUB_JSON,
             status=200,
-            content_type='text/json'
+            content_type='text/json',
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -700,18 +664,12 @@ class MachineTranslationTest(TestCase):
     def test_saptranslationhub_invalid(self):
         machine = self.get_machine(SAPTranslationHub)
         httpretty.register_uri(
-            httpretty.GET,
-            'http://sth.example.com/languages',
-            body='',
-            status=500
+            httpretty.GET, 'http://sth.example.com/languages', body='', status=500
         )
         httpretty.register_uri(
-            httpretty.POST,
-            'http://sth.example.com/translate',
-            body='',
-            status=500
+            httpretty.POST, 'http://sth.example.com/translate', body='', status=500
         )
-        machine.get_supported_languages(HttpRequest())
+        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -721,9 +679,7 @@ class MachineTranslationTest(TestCase):
     def test_deepl(self):
         machine = self.get_machine(DeepLTranslation)
         httpretty.register_uri(
-            httpretty.POST,
-            'https://api.deepl.com/v1/translate',
-            body=DEEPL_RESPONSE,
+            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
         )
         self.assert_translate(machine, lang='de', word='Hello')
 
@@ -732,9 +688,7 @@ class MachineTranslationTest(TestCase):
     def test_cache(self):
         machine = self.get_machine(DeepLTranslation, True)
         httpretty.register_uri(
-            httpretty.POST,
-            'https://api.deepl.com/v1/translate',
-            body=DEEPL_RESPONSE,
+            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
@@ -755,11 +709,7 @@ class MachineTranslationTest(TestCase):
                     'SourceLanguageCode': 'en',
                     'TargetLanguageCode': 'de',
                 },
-                {
-                    'SourceLanguageCode': ANY,
-                    'TargetLanguageCode': ANY,
-                    'Text': ANY,
-                }
+                {'SourceLanguageCode': ANY, 'TargetLanguageCode': ANY, 'Text': ANY},
             )
             self.assert_translate(machine, lang='de', word='Hello')
 
@@ -782,20 +732,16 @@ class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation()
         unit = Unit.objects.all()[0]
-        request = HttpRequest()
-        request.user = self.user
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
             unit,
-            request,
+            self.user,
         )
         self.assertEqual(results, [])
 
     def test_exists(self):
         unit = Unit.objects.all()[0]
-        request = HttpRequest()
-        request.user = self.user
         # Create fake fulltext entry
         other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
         other.source = unit.source
@@ -818,6 +764,6 @@ class WeblateTranslationTest(FixtureTestCase):
             unit.translation.language.code,
             unit.get_source_plurals()[0],
             unit,
-            request,
+            self.user,
         )
         self.assertNotEqual(results, [])

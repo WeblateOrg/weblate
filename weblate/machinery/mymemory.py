@@ -27,6 +27,7 @@ from weblate.machinery.base import MachineTranslation
 
 class MyMemoryTranslation(MachineTranslation):
     """MyMemory machine translation support."""
+
     name = 'MyMemory'
 
     def convert_language(self, language):
@@ -72,7 +73,7 @@ class MyMemoryTranslation(MachineTranslation):
 
         return result
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from MyMemory."""
         args = {
             'q': text.split('. ')[0][:500],
@@ -86,8 +87,7 @@ class MyMemoryTranslation(MachineTranslation):
             args['key'] = settings.MT_MYMEMORY_KEY
 
         response = self.json_status_req(
-            'https://mymemory.translated.net/api/get',
-            **args
+            'https://mymemory.translated.net/api/get', **args
         )
 
         return [self.format_match(match) for match in response['matches']]

@@ -25,6 +25,7 @@ from weblate.machinery.base import MachineTranslation
 
 class GlosbeTranslation(MachineTranslation):
     """Glosbe machine translation support."""
+
     name = 'Glosbe'
     max_score = 90
 
@@ -36,18 +37,10 @@ class GlosbeTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        params = {
-            'from': source,
-            'dest': language,
-            'format': 'json',
-            'phrase': text,
-        }
-        response = self.json_req(
-            'https://glosbe.com/gapi/translate',
-            **params
-        )
+        params = {'from': source, 'dest': language, 'format': 'json', 'phrase': text}
+        response = self.json_req('https://glosbe.com/gapi/translate', **params)
 
         if 'tuc' not in response:
             return []
@@ -57,7 +50,7 @@ class GlosbeTranslation(MachineTranslation):
                 'text': match['phrase']['text'],
                 'quality': self.max_score,
                 'service': self.name,
-                'source': text
+                'source': text,
             }
             for match in response['tuc']
             if 'phrase' in match and match['phrase'] is not None

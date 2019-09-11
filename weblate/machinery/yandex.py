@@ -31,6 +31,7 @@ from weblate.machinery.base import (
 
 class YandexTranslation(MachineTranslation):
     """Yandex machine translation support."""
+
     name = 'Yandex'
     max_score = 90
 
@@ -38,24 +39,20 @@ class YandexTranslation(MachineTranslation):
         """Check configuration."""
         super(YandexTranslation, self).__init__()
         if settings.MT_YANDEX_KEY is None:
-            raise MissingConfiguration(
-                'Yandex Translate requires API key'
-            )
+            raise MissingConfiguration('Yandex Translate requires API key')
 
     def check_failure(self, response):
         if 'code' not in response or response['code'] == 200:
             return
         if 'message' in response:
             raise MachineTranslationError(response['message'])
-        raise MachineTranslationError(
-            'Error: {0}'.format(response['code'])
-        )
+        raise MachineTranslationError('Error: {0}'.format(response['code']))
 
     def download_languages(self):
         """Download list of supported languages from a service."""
         response = self.json_req(
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            key=settings.MT_YANDEX_KEY
+            key=settings.MT_YANDEX_KEY,
         )
         self.check_failure(response)
         return [tuple(item.split('-')) for item in response['dirs']]
@@ -64,7 +61,7 @@ class YandexTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
@@ -81,7 +78,7 @@ class YandexTranslation(MachineTranslation):
                 'text': translation,
                 'quality': self.max_score,
                 'service': self.name,
-                'source': text
+                'source': text,
             }
             for translation in response['text']
         ]

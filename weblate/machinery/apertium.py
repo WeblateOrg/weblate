@@ -86,6 +86,7 @@ LANGUAGE_MAP = {
 
 class ApertiumAPYTranslation(MachineTranslation):
     """Apertium machine translation support."""
+
     name = 'Apertium APy'
     max_score = 90
 
@@ -98,9 +99,7 @@ class ApertiumAPYTranslation(MachineTranslation):
     def get_server_url():
         """Return URL of a server."""
         if settings.MT_APERTIUM_APY is None:
-            raise MissingConfiguration(
-                'Not configured Apertium APy URL'
-            )
+            raise MissingConfiguration('Not configured Apertium APy URL')
 
         return settings.MT_APERTIUM_APY.rstrip('/')
 
@@ -130,20 +129,16 @@ class ApertiumAPYTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from Apertium."""
-        args = {
-            'langpair': '{0}|{1}'.format(source, language),
-            'q': text,
-        }
-        response = self.json_status_req(
-            '{0}/translate'.format(self.url),
-            **args
-        )
+        args = {'langpair': '{0}|{1}'.format(source, language), 'q': text}
+        response = self.json_status_req('{0}/translate'.format(self.url), **args)
 
-        return [{
-            'text': response['responseData']['translatedText'],
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text
-        }]
+        return [
+            {
+                'text': response['responseData']['translatedText'],
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]

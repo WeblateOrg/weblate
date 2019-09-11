@@ -37,6 +37,7 @@ TOKEN_EXPIRY = timedelta(minutes=9)
 
 class MicrosoftCognitiveTranslation(MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
+
     name = 'Microsoft Translator'
 
     language_map = {
@@ -57,9 +58,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         self._access_token = None
         self._token_expiry = None
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
-            raise MissingConfiguration(
-                'Microsoft Translator requires credentials'
-            )
+            raise MissingConfiguration('Microsoft Translator requires credentials')
 
     def is_token_expired(self):
         """Check whether token is about to expire."""
@@ -67,10 +66,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
-        request.add_header(
-            'Authorization',
-            'Bearer {0}'.format(self.access_token)
-        )
+        request.add_header('Authorization', 'Bearer {0}'.format(self.access_token))
 
     @property
     def access_token(self):
@@ -115,7 +111,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         return response
 
-    def download_translations(self, source, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         args = {
             'text': text[:5000],
@@ -125,9 +121,11 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [{
-            'text': response,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
-        }]
+        return [
+            {
+                'text': response,
+                'quality': self.max_score,
+                'service': self.name,
+                'source': text,
+            }
+        ]
