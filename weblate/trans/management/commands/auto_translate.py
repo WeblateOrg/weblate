@@ -132,7 +132,7 @@ class Command(WeblateTranslationCommand):
             filter_type = 'all'
         else:
             filter_type = 'todo'
-        auto = AutoTranslate(user, translation, filter_type)
+        auto = AutoTranslate(user, translation, filter_type, "translate")
         if options['mt']:
             auto.process_mt(options['mt'], options['threshold'])
         else:

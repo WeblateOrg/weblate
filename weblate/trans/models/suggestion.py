@@ -42,7 +42,8 @@ class SuggestionManager(models.Manager):
 
     def add(self, unit, target, request, vote=False):
         """Create new suggestion for this unit."""
-        user = request.user
+        from weblate.auth.models import get_anonymous
+        user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
             return False
@@ -69,8 +70,8 @@ class SuggestionManager(models.Manager):
             project=unit.translation.component.project,
             user=user,
             userdetails={
-                'address': get_ip_address(request),
-                'agent': request.META.get('HTTP_USER_AGENT', ''),
+                'address': get_ip_address(request) if request else '',
+                'agent': request.META.get('HTTP_USER_AGENT', '') if request else '',
             },
         )
 

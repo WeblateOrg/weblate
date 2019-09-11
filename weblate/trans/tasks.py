@@ -359,12 +359,20 @@ def project_removal(pk, uid):
 
 @app.task
 def auto_translate(
-    user_id, translation_id, filter_type, auto_source, component, engines, threshold
+    user_id,
+    translation_id,
+    mode,
+    filter_type,
+    auto_source,
+    component,
+    engines,
+    threshold,
 ):
     auto = AutoTranslate(
         User.objects.get(pk=user_id) if user_id else None,
         Translation.objects.get(pk=translation_id),
         filter_type,
+        mode,
     )
     if auto_source == 'mt':
         auto.process_mt(engines, threshold)

@@ -936,6 +936,14 @@ class RevertForm(ChecksumForm):
 class AutoForm(forms.Form):
     """Automatic translation form."""
 
+    mode = forms.ChoiceField(
+        label=_('Automatic translation mode'),
+        choices=[
+            ('translate', _('Add as translation')),
+            ('suggest', _('Add as suggestion')),
+        ],
+        initial='translate',
+    )
     filter_type = FilterField(required=True, initial='todo')
     auto_source = forms.ChoiceField(
         label=_('Automatic translation source'),

@@ -26,6 +26,7 @@ Not yet released.
 * Added new check and fixer for safe HTML markup for translating web applications.
 * Add component alert on unsupported configuration.
 * Added automatic translation addon to bootstrap translations.
+* Extend automatic translation to add suggestions.
 
 weblate 3.8
 -----------

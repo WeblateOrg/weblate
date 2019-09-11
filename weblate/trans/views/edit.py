@@ -575,7 +575,10 @@ def auto_translation(request, project, component, lang):
         return redirect(translation)
 
     auto = AutoTranslate(
-        request.user, translation, autoform.cleaned_data['filter_type']
+        request.user,
+        translation,
+        autoform.cleaned_data["filter_type"],
+        autoform.cleaned_data["mode"],
     )
 
     if autoform.cleaned_data['auto_source'] == 'mt':

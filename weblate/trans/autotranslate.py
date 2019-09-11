@@ -23,15 +23,16 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.utils.state import STATE_TRANSLATED
 
 
 class AutoTranslate(object):
-    def __init__(self, user, translation, filter_type):
+    def __init__(self, user, translation, filter_type, mode):
         self.user = user
         self.translation = translation
         self.filter_type = filter_type
+        self.mode = mode
         self.updated = 0
         self.total = 0
 
@@ -49,7 +50,10 @@ class AutoTranslate(object):
             )
 
     def update(self, unit, state, target):
-        unit.translate(self.user, target, state, Change.ACTION_AUTO, False)
+        if self.mode == 'suggest':
+            Suggestion.objects.add(unit, target, None, False)
+        else:
+            unit.translate(self.user, target, state, Change.ACTION_AUTO, False)
         self.updated += 1
 
     def post_process(self):

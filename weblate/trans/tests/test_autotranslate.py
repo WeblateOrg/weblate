@@ -67,8 +67,10 @@ class AutoTranslationTest(ViewTestCase):
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'others'
         kwargs['threshold'] = '100'
-        if 'type' not in kwargs:
-            kwargs['type'] = 'todo'
+        if 'filter_type' not in kwargs:
+            kwargs['filter_type'] = 'todo'
+        if 'mode' not in kwargs:
+            kwargs['mode'] = 'translate'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -85,14 +87,22 @@ class AutoTranslationTest(ViewTestCase):
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code='cs')
         translation.invalidate_cache()
-        self.assertEqual(translation.stats.translated, expected)
+        if kwargs['mode'] == 'suggest':
+            self.assertEqual(translation.stats.suggestions, expected)
+        else:
+            self.assertEqual(translation.stats.translated, expected)
 
     def test_different(self):
         """Test for automatic translation with different content."""
         self.perform_auto()
 
+    def test_sugggest(self):
+        """Test for automatic suggestion."""
+        self.perform_auto(mode='suggest')
+        self.perform_auto(mode='suggest')
+
     def test_inconsistent(self):
-        self.perform_auto(0, type='check:inconsistent')
+        self.perform_auto(0, filter_type='check:inconsistent')
 
     def test_overwrite(self):
         self.perform_auto(overwrite='1')
@@ -217,8 +227,10 @@ class AutoTranslationMtTest(ViewTestCase):
         params = {'project': 'test', 'lang': 'cs', 'component': 'test-3'}
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'mt'
-        if 'type' not in kwargs:
-            kwargs['type'] = 'todo'
+        if 'filter_type' not in kwargs:
+            kwargs['filter_type'] = 'todo'
+        if 'mode' not in kwargs:
+            kwargs['mode'] = 'translate'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -243,7 +255,7 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def test_inconsistent(self):
         self.perform_auto(
-            0, type='check:inconsistent', engines=['weblate'], threshold=80
+            0, filter_type='check:inconsistent', engines=['weblate'], threshold=80
         )
 
     def test_overwrite(self):

@@ -774,6 +774,7 @@ class AutoTranslateAddonTest(FixtureTestCase):
                 'auto_source': 'mt',
                 'engines': [],
                 'threshold': 80,
+                'mode': 'translate',
             },
         )
         addon.post_update(self.component, '')
