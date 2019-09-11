@@ -415,7 +415,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.update_units(author_name, author.id)
 
                 # Commit changes
-                self.git_commit(request, author_name, timestamp, skip_push=skip_push)
+                self.git_commit(request.user, author_name, timestamp, skip_push=skip_push)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -478,7 +478,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_commit(self):
         return self.component.repository.needs_commit(*self.filenames)
 
-    def git_commit(self, request, author, timestamp, skip_push=False):
+    def git_commit(self, user, author, timestamp, skip_push=False):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
         with repository.lock:
@@ -491,7 +491,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             Change.objects.create(
                 action=Change.ACTION_COMMIT,
                 translation=self,
-                user=request.user if request else None,
+                user=user,
             )
             self.__git_commit(author, timestamp)
 

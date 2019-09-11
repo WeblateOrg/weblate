@@ -112,7 +112,7 @@ class MultiRepoTest(ViewTestCase):
 
         # Do changes in first repo
         translation.git_commit(
-            self.request, 'TEST <test@example.net>', timezone.now(),
+            self.request.user, 'TEST <test@example.net>', timezone.now(),
         )
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)

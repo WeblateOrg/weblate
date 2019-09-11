@@ -1861,7 +1861,7 @@ class Component(models.Model, URLMixin, PathMixin):
             translation.check_sync(force=True, request=request)
             translation.commit_template = "add"
             translation.git_commit(
-                request,
+                request.user,
                 request.user.get_author_name()
                 if request
                 else "Weblate <noreply@weblate.org>",
