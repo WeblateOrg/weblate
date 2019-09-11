@@ -16,11 +16,6 @@
   {% include "billing/used.html" %}
   {% endwith %}
   </tr>
-  <tr><th>{% trans "Repositories limit" %}</th>
-  {% with plan.limit_repositories as max and plan.display_limit_repositories as total and billing.count_repositories as used %}
-  {% include "billing/used.html" %}
-  {% endwith %}
-  </tr>
   <tr><th>{% trans "Last invoice" %}</th>
   <td colspan="2">{{ billing.last_invoice }}</td></tr>
   <tr><th>{% trans "Projects limit" %}</th>

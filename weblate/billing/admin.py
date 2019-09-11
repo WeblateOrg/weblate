@@ -28,9 +28,9 @@ from weblate.wladmin.models import WeblateModelAdmin
 class PlanAdmin(WeblateModelAdmin):
     list_display = (
         'name', 'price', 'limit_strings', 'limit_languages',
-        'limit_repositories', 'limit_projects',
+        'limit_projects',
         'display_limit_strings', 'display_limit_languages',
-        'display_limit_repositories', 'display_limit_projects',
+        'display_limit_projects',
     )
     ordering = ['price']
 
@@ -46,7 +46,7 @@ class BillingAdmin(WeblateModelAdmin):
         'plan', 'state', 'removal', 'expiry',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'unit_count',
-        'display_projects', 'display_repositories', 'display_strings',
+        'display_projects', 'display_strings',
         'display_words', 'display_languages',
         'in_limits', 'in_display_limits', 'paid', 'last_invoice',
     )

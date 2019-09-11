@@ -63,8 +63,6 @@ class Plan(models.Model):
     display_limit_strings = models.IntegerField(default=0)
     limit_languages = models.IntegerField(default=0)
     display_limit_languages = models.IntegerField(default=0)
-    limit_repositories = models.IntegerField(default=0)
-    display_limit_repositories = models.IntegerField(default=0)
     limit_projects = models.IntegerField(default=0)
     display_limit_projects = models.IntegerField(default=0)
     change_access_control = models.BooleanField(default=True)
@@ -207,21 +205,6 @@ class Billing(models.Model):
     count_changes_1y.short_description = _('Changes in last year')
 
     @cached_property
-    def count_repositories(self):
-        return (
-            Component.objects.with_repo()
-            .filter(project__in=self.projects.all())
-            .count()
-        )
-
-    def display_repositories(self):
-        return '{0} / {1}'.format(
-            self.count_repositories, self.plan.display_limit_repositories
-        )
-
-    display_repositories.short_description = _('VCS repositories')
-
-    @cached_property
     def count_projects(self):
         return self.projects.count()
 
@@ -275,11 +258,7 @@ class Billing(models.Model):
         if plan is None:
             plan = self.plan
         return (
-            (
-                plan.limit_repositories == 0
-                or self.count_repositories <= plan.limit_repositories
-            )
-            and (plan.limit_projects == 0 or self.count_projects <= plan.limit_projects)
+            (plan.limit_projects == 0 or self.count_projects <= plan.limit_projects)
             and (plan.limit_strings == 0 or self.count_strings <= plan.limit_strings)
             and (
                 plan.limit_languages == 0
@@ -315,10 +294,6 @@ class Billing(models.Model):
             plan = self.plan
         return (
             (
-                plan.display_limit_repositories == 0
-                or self.count_repositories <= plan.display_limit_repositories
-            )
-            and (
                 plan.display_limit_projects == 0
                 or self.count_projects <= plan.display_limit_projects
             )
