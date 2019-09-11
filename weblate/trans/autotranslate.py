@@ -37,11 +37,14 @@ class AutoTranslate(object):
         self.total = 0
 
     def get_units(self):
-        return self.translation.unit_set.filter_type(
+        units = self.translation.unit_set.filter_type(
             self.filter_type,
             self.translation.component.project,
             self.translation.language,
         )
+        if self.mode == 'suggest':
+            units = units.exclude(has_suggestion=True)
+        return units
 
     def set_progress(self, current):
         if current_task and current_task.request.id:

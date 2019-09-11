@@ -61,7 +61,7 @@ class AutoTranslationTest(ViewTestCase):
             'Nazdar svete!\n'
         )
 
-    def perform_auto(self, expected=1, **kwargs):
+    def perform_auto(self, expected=1, expected_count=None, **kwargs):
         self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'component': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
@@ -87,10 +87,12 @@ class AutoTranslationTest(ViewTestCase):
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code='cs')
         translation.invalidate_cache()
+        if expected_count is None:
+            expected_count = expected
         if kwargs['mode'] == 'suggest':
-            self.assertEqual(translation.stats.suggestions, expected)
+            self.assertEqual(translation.stats.suggestions, expected_count)
         else:
-            self.assertEqual(translation.stats.translated, expected)
+            self.assertEqual(translation.stats.translated, expected_count)
 
     def test_different(self):
         """Test for automatic translation with different content."""
@@ -99,7 +101,7 @@ class AutoTranslationTest(ViewTestCase):
     def test_sugggest(self):
         """Test for automatic suggestion."""
         self.perform_auto(mode='suggest')
-        self.perform_auto(mode='suggest')
+        self.perform_auto(0, 1, mode='suggest')
 
     def test_inconsistent(self):
         self.perform_auto(0, filter_type='check:inconsistent')
