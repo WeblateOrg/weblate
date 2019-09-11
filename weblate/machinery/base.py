@@ -181,10 +181,10 @@ class MachineTranslation(object):
 
         return language
 
-    def report_error(self, exc, request, message):
+    def report_error(self, exc, message):
         """Wrapper for handling error situations"""
         extra = {'mt_url': self.request_url, 'mt_params': self.request_params}
-        report_error(exc, request, extra, prefix='Machine translation error')
+        report_error(exc, extra_data=extra, prefix='Machinery error')
         LOGGER.error(message, self.name)
         LOGGER.info(
             'Last URL: %s, params: %s', extra['mt_url'], extra['mt_params']
@@ -211,10 +211,7 @@ class MachineTranslation(object):
         except Exception as exc:
             self.supported_languages = self.default_languages
             self.supported_languages_error = exc
-            self.report_error(
-                exc, request,
-                'Failed to fetch languages from %s, using defaults',
-            )
+            self.report_error(exc, 'Failed to fetch languages from %s, using defaults')
             return
 
         # Update cache
@@ -304,7 +301,7 @@ class MachineTranslation(object):
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error(exc, request, 'Failed to fetch translations from %s')
+            self.report_error(exc, 'Failed to fetch translations from %s')
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):
