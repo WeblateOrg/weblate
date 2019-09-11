@@ -1007,6 +1007,7 @@ class AutoForm(forms.Form):
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            Field('mode'),
             Field('filter_type'),
             InlineRadios('auto_source', id='select_auto_source'),
             Div(
