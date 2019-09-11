@@ -254,7 +254,7 @@ def show_translation(request, project, component, lang):
             'download_form': DownloadForm(),
             'autoform': optional_form(
                 AutoForm, user, 'translation.auto', obj,
-                obj=obj
+                obj=obj.component
             ),
             'search_form': search_form,
             'review_form': review_form,
