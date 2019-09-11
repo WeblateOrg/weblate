@@ -49,6 +49,7 @@ class MissingConfiguration(ImproperlyConfigured):
 
 class MachineTranslation(object):
     """Generic object for machine translation services."""
+
     name = 'MT'
     max_score = 100
     rank_boost = 0
@@ -81,8 +82,15 @@ class MachineTranslation(object):
         """Hook for backends to allow add authentication headers to request."""
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
-                 json_body=False, **kwargs):
+    def json_req(
+        self,
+        url,
+        http_post=False,
+        skip_auth=False,
+        raw=False,
+        json_body=False,
+        **kwargs
+    ):
         """Perform JSON request."""
 
         # JSON body requires using POST
@@ -131,11 +139,7 @@ class MachineTranslation(object):
         else:
             text = text.decode('utf-8')
         # Replace literal \t
-        text = text.strip().replace(
-            '\t', '\\t'
-        ).replace(
-            '\r', '\\r'
-        )
+        text = text.strip().replace('\t', '\\t').replace('\r', '\\r')
         # Needed for Google
         while ',,' in text or '[,' in text:
             text = text.replace(',,', ',null,').replace('[,', '[')
@@ -186,9 +190,7 @@ class MachineTranslation(object):
         extra = {'mt_url': self.request_url, 'mt_params': self.request_params}
         report_error(exc, extra_data=extra, prefix='Machinery error')
         LOGGER.error(message, self.name)
-        LOGGER.info(
-            'Last URL: %s, params: %s', extra['mt_url'], extra['mt_params']
-        )
+        LOGGER.info('Last URL: %s, params: %s', extra['mt_url'], extra['mt_params'])
 
     def get_supported_languages(self, request):
         """Return list of supported languages."""
@@ -249,9 +251,7 @@ class MachineTranslation(object):
         if not self.cache_translations:
             return None
         return 'mt:{}:{}:{}'.format(
-            self.mtid,
-            calculate_hash(source, language),
-            calculate_hash(None, text),
+            self.mtid, calculate_hash(source, language), calculate_hash(None, text)
         )
 
     def translate(self, language, text, unit, request, source=None):
@@ -279,9 +279,7 @@ class MachineTranslation(object):
                 language = language.split('_')[0]
                 return self.translate(language, text, unit, request, source)
             if self.supported_languages_error:
-                raise MachineTranslationError(
-                    repr(self.supported_languages_error)
-                )
+                raise MachineTranslationError(repr(self.supported_languages_error))
             return []
 
         cache_key = self.translate_cache_key(source, language, text)
@@ -291,9 +289,7 @@ class MachineTranslation(object):
                 return result
 
         try:
-            result = self.download_translations(
-                source, language, text, unit, request
-            )
+            result = self.download_translations(source, language, text, unit, request)
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
             return result
