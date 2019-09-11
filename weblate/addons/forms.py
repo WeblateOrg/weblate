@@ -60,8 +60,7 @@ class GenerateMoForm(BaseAddonForm):
         super(GenerateMoForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('path'),
-            Div(template='addons/generatemo_help.html'),
+            Field('path'), Div(template='addons/generatemo_help.html')
         )
 
     def test_render(self, value):
@@ -74,14 +73,9 @@ class GenerateMoForm(BaseAddonForm):
 
 
 class GenerateForm(BaseAddonForm):
-    filename = forms.CharField(
-        label=_('Name of generated file'),
-        required=True,
-    )
+    filename = forms.CharField(label=_('Name of generated file'), required=True)
     template = forms.CharField(
-        widget=forms.Textarea(),
-        label=_('Content of generated file'),
-        required=True,
+        widget=forms.Textarea(), label=_('Content of generated file'), required=True
     )
 
     def __init__(self, *args, **kwargs):
@@ -119,7 +113,7 @@ class GettextCustomizeForm(BaseAddonForm):
         help_text=_(
             'By default gettext wraps lines at 77 chars and newlines. '
             'With --no-wrap parameter, it wraps only at newlines.'
-        )
+        ),
     )
 
 
@@ -130,9 +124,7 @@ class MsgmergeForm(BaseAddonForm):
         initial=True,
     )
     fuzzy = forms.BooleanField(
-        label=_('Use fuzzy matching'),
-        required=False,
-        initial=True,
+        label=_('Use fuzzy matching'), required=False, initial=True
     )
 
 
@@ -154,30 +146,20 @@ class GitSquashForm(BaseAddonForm):
         super(GitSquashForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('squash'),
-            Div(template='addons/squash_help.html'),
+            Field('squash'), Div(template='addons/squash_help.html')
         )
 
 
 class JSONCustomizeForm(BaseAddonForm):
-    sort_keys = forms.BooleanField(
-        label=_('Sort JSON keys'),
-        required=False
-    )
+    sort_keys = forms.BooleanField(label=_('Sort JSON keys'), required=False)
     indent = forms.IntegerField(
-        label=_('JSON indentation'),
-        min_value=0,
-        initial=4,
-        required=True,
+        label=_('JSON indentation'), min_value=0, initial=4, required=True
     )
 
 
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
-        label=_('Days to keep'),
-        min_value=0,
-        initial=30,
-        required=True,
+        label=_('Days to keep'), min_value=0, initial=30, required=True
     )
 
 
@@ -187,9 +169,8 @@ class RemoveSuggestionForm(RemoveForm):
         initial=0,
         required=True,
         help_text=_(
-            'Threshold for removal. This field has no effect with '
-            'voting turned off.'
-        )
+            'Threshold for removal. This field has no effect with ' 'voting turned off.'
+        ),
     )
 
 
@@ -198,16 +179,14 @@ class ContextDiv(Div):
         self.context = kwargs.pop('context', {})
         super(ContextDiv, self).__init__(*fields, **kwargs)
 
-    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK,
-               **kwargs):
+    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)
         return render_to_string(template, self.context)
 
 
 class DiscoveryForm(BaseAddonForm):
     match = forms.CharField(
-        label=_('Regular expression to match translation files against'),
-        required=True,
+        label=_('Regular expression to match translation files against'), required=True
     )
     file_format = forms.ChoiceField(
         label=_('File format'),
@@ -233,7 +212,7 @@ class DiscoveryForm(BaseAddonForm):
         help_text=_(
             'Filename of file used for creating new translations. '
             'For gettext choose .pot file.'
-        )
+        ),
     )
     language_regex = forms.CharField(
         label=_('Language filter'),
@@ -251,12 +230,10 @@ class DiscoveryForm(BaseAddonForm):
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_('Remove components for inexistant files'),
-        required=False
+        label=_('Remove components for inexistant files'), required=False
     )
     confirm = forms.BooleanField(
-        label=_('I confirm the above matches look correct'),
-        required=False
+        label=_('I confirm the above matches look correct'), required=False
     )
 
     def __init__(self, *args, **kwargs):
@@ -278,13 +255,9 @@ class DiscoveryForm(BaseAddonForm):
             self.full_clean()
             # Show preview if form was submitted
             if self.cleaned_data['preview']:
-                self.helper.layout.insert(
-                    0,
-                    Field('confirm'),
-                )
+                self.helper.layout.insert(0, Field('confirm'))
                 created, matched, deleted = self.discovery.perform(
-                    preview=True,
-                    remove=self.cleaned_data['remove'],
+                    preview=True, remove=self.cleaned_data['remove']
                 )
                 self.helper.layout.insert(
                     0,
@@ -294,7 +267,7 @@ class DiscoveryForm(BaseAddonForm):
                             'matches_created': created,
                             'matches_matched': matched,
                             'matches_deleted': deleted,
-                        }
+                        },
                     ),
                 )
 

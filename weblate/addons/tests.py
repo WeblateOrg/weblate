@@ -99,9 +99,7 @@ class IntegrationTest(ViewTestCase):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('po/cs.mo', commit)
 
     def test_add(self):
@@ -109,13 +107,9 @@ class IntegrationTest(ViewTestCase):
         UpdateConfigureAddon.create(self.component)
         TestAddon.create(self.component)
         rev = self.component.repository.last_revision
-        self.component.add_new_language(
-            Language.objects.get(code='sk'), None
-        )
+        self.component.add_new_language(Language.objects.get(code='sk'), None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('po/LINGUAS', commit)
         self.assertIn('configure', commit)
 
@@ -127,28 +121,20 @@ class IntegrationTest(ViewTestCase):
         rev = self.component.repository.last_revision
         self.component.update_branch()
         self.assertEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('po/cs.po', commit)
 
     def test_store(self):
         if not GettextCustomizeAddon.can_install(self.component, None):
             raise SkipTest('po wrap configuration not supported')
-        GettextCustomizeAddon.create(
-            self.component,
-            configuration={'width': -1}
-        )
+        GettextCustomizeAddon.create(self.component, configuration={'width': -1})
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(
-            'Last-Translator: Weblate Test <weblate@example.org>\\nLanguage',
-            commit
+            'Last-Translator: Weblate Test <weblate@example.org>\\nLanguage', commit
         )
 
     def test_crash(self):
@@ -173,36 +159,24 @@ class GettextAddonTest(ViewTestCase):
 
     def test_gettext_mo(self):
         translation = self.get_translation()
-        self.assertTrue(
-            GenerateMoAddon.can_install(translation.component, None)
-        )
+        self.assertTrue(GenerateMoAddon.can_install(translation.component, None))
         addon = GenerateMoAddon.create(translation.component)
         addon.pre_commit(translation, '')
-        self.assertTrue(
-            os.path.exists(translation.addon_commit_files[0])
-        )
+        self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
     def test_update_linguas(self):
         translation = self.get_translation()
-        self.assertTrue(
-            UpdateLinguasAddon.can_install(translation.component, None)
-        )
+        self.assertTrue(UpdateLinguasAddon.can_install(translation.component, None))
         addon = UpdateLinguasAddon.create(translation.component)
         addon.post_add(translation)
-        self.assertTrue(
-            os.path.exists(translation.addon_commit_files[0])
-        )
+        self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
     def test_update_configure(self):
         translation = self.get_translation()
-        self.assertTrue(
-            UpdateConfigureAddon.can_install(translation.component, None)
-        )
+        self.assertTrue(UpdateConfigureAddon.can_install(translation.component, None))
         addon = UpdateConfigureAddon.create(translation.component)
         addon.post_add(translation)
-        self.assertTrue(
-            os.path.exists(translation.addon_commit_files[0])
-        )
+        self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
     def test_msgmerge(self, wrapped=True):
         self.assertTrue(MsgmergeAddon.can_install(self.component, None))
@@ -212,20 +186,12 @@ class GettextAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon.post_update(self.component, '')
         self.assertEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('po/cs.po', commit)
-        self.assertEqual(
-            'msgid "Try using Weblate demo' in commit,
-            not wrapped
-        )
+        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
 
     def test_msgmerge_nowrap(self):
-        GettextCustomizeAddon.create(
-            self.component,
-            configuration={'width': -1}
-        )
+        GettextCustomizeAddon.create(self.component, configuration={'width': -1})
         self.test_msgmerge(False)
 
     def test_generate(self):
@@ -238,20 +204,16 @@ class GettextAddonTest(ViewTestCase):
                 'template': '''{
     "translated": {{ stats.translated_percent }}
 }''',
-            }
+            },
         )
         self.get_translation().commit_pending('test', None)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('stats/cs.json', commit)
         self.assertIn('"translated": 25', commit)
 
     def test_gettext_comment(self):
         translation = self.get_translation()
-        self.assertTrue(
-            GettextAuthorComments.can_install(translation.component, None)
-        )
+        self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
         addon = GettextAuthorComments.create(translation.component)
         addon.pre_commit(translation, 'Stojan Jakotyc <stojan@example.com>')
         with open(translation.get_filename(), 'r') as handle:
@@ -272,9 +234,7 @@ class AppStoreAddonTest(ViewTestCase):
         addon.post_update(self.component, '')
         self.assertEqual(rev, self.component.repository.last_revision)
         addon.post_update(self.component, '')
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('cs/changelogs/100000.txt', commit)
 
 
@@ -291,9 +251,7 @@ class AndroidAddonTest(ViewTestCase):
         addon.post_update(self.component, '')
         self.assertEqual(rev, self.component.repository.last_revision)
         addon.post_update(self.component, '')
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('android-not-synced/values-cs/strings.xml', commit)
 
 
@@ -305,13 +263,9 @@ class ResxAddonTest(ViewTestCase):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
         addon = CleanupAddon.create(self.component)
         rev = self.component.repository.last_revision
-        addon.post_update(
-            self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303'
-        )
+        addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('resx/cs.resx', commit)
 
 
@@ -323,13 +277,9 @@ class CSVAddonTest(ViewTestCase):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
-        addon.post_update(
-            self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303'
-        )
+        addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('csv-mono/cs.csv', commit)
 
 
@@ -345,9 +295,7 @@ class JsonAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon.post_update(self.component, '')
         self.assertEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('json-mono-sync/cs.json', commit)
 
     def test_unit(self):
@@ -360,29 +308,21 @@ class JsonAddonTest(ViewTestCase):
         Unit.objects.all().delete()
         self.component.create_translations(force=True)
         self.assertFalse(
-            Unit.objects.exclude(
-                state__in=(STATE_FUZZY, STATE_EMPTY)
-            ).exists()
+            Unit.objects.exclude(state__in=(STATE_FUZZY, STATE_EMPTY)).exists()
         )
 
     def test_customize(self):
         if not JSONCustomizeAddon.can_install(self.component, None):
             raise SkipTest('json dump configuration not supported')
         JSONCustomizeAddon.create(
-            self.component,
-            configuration={'indent': 8, 'sort': 1}
+            self.component, configuration={'indent': 8, 'sort': 1}
         )
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
-        self.assertIn(
-            '        "try"',
-            commit
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('        "try"', commit)
 
 
 class ViewTests(ViewTestCase):
@@ -391,16 +331,14 @@ class ViewTests(ViewTestCase):
         self.make_manager()
 
     def test_list(self):
-        response = self.client.get(
-            reverse('addons', kwargs=self.kw_component)
-        )
+        response = self.client.get(reverse('addons', kwargs=self.kw_component))
         self.assertContains(response, 'Generate MO files')
 
     def test_add_simple(self):
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),
             {'name': 'weblate.gettext.authors'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, '1 addon installed')
 
@@ -408,7 +346,7 @@ class ViewTests(ViewTestCase):
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),
             {'name': 'invalid'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Invalid addon name specified!')
 
@@ -416,7 +354,7 @@ class ViewTests(ViewTestCase):
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),
             {'name': 'weblate.generate.generate'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Configure addon')
         response = self.client.post(
@@ -427,7 +365,7 @@ class ViewTests(ViewTestCase):
                 'filename': 'stats/{{ language_code }}.json',
                 'template': '{"code":"{{ language_code }}"}',
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, '1 addon installed')
 
@@ -443,9 +381,7 @@ class ViewTests(ViewTestCase):
     def test_delete(self):
         addon = SourceEditAddon.create(self.component)
         response = self.client.post(
-            addon.instance.get_absolute_url(),
-            {'delete': '1'},
-            follow=True,
+            addon.instance.get_absolute_url(), {'delete': '1'}, follow=True
         )
         self.assertContains(response, 'no addons currently installed')
 
@@ -459,14 +395,13 @@ class PropertiesAddonTest(ViewTestCase):
         self.assertTrue(PropertiesSortAddon.can_install(self.component, None))
         PropertiesSortAddon.create(self.component)
         self.get_translation().commit_pending('test', None)
-        commit = self.component.repository.show(
-            self.component.repository.last_revision
-        )
+        commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('java/swing_messages_cs.properties', commit)
 
 
 class CommandTest(ViewTestCase):
     """Test for management commands."""
+
     def test_list_languages(self):
         output = StringIO()
         call_command('list_addons', stdout=output)
@@ -475,83 +410,81 @@ class CommandTest(ViewTestCase):
     def test_install_not_supported(self):
         output = StringIO()
         call_command(
-            'install_addon', '--all',
-            '--addon', 'weblate.flags.same_edit',
+            'install_addon',
+            '--all',
+            '--addon',
+            'weblate.flags.same_edit',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Can not install on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Can not install on Test/Test', output.getvalue())
 
     def test_install_no_form(self):
         output = StringIO()
         call_command(
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.authors',
+            'install_addon',
+            '--all',
+            '--addon',
+            'weblate.gettext.authors',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Successfully installed on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Successfully installed on Test/Test', output.getvalue())
 
     def test_install_missing_form(self):
         output = StringIO()
         call_command(
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.mo',
+            'install_addon',
+            '--all',
+            '--addon',
+            'weblate.gettext.mo',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Successfully installed on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Successfully installed on Test/Test', output.getvalue())
 
     def test_install_form(self):
         output = StringIO()
         call_command(
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{"width":77}',
+            'install_addon',
+            '--all',
+            '--addon',
+            'weblate.gettext.customize',
+            '--configuration',
+            '{"width":77}',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Successfully installed on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Successfully installed on Test/Test', output.getvalue())
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {'width': 77})
         output = StringIO()
         call_command(
-            'install_addon', '--all',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{"width":-1}',
+            'install_addon',
+            '--all',
+            '--addon',
+            'weblate.gettext.customize',
+            '--configuration',
+            '{"width":-1}',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Already installed on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Already installed on Test/Test', output.getvalue())
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {'width': 77})
         output = StringIO()
         call_command(
-            'install_addon', '--all', '--update',
-            '--addon', 'weblate.gettext.customize',
-            '--configuration', '{"width":-1}',
+            'install_addon',
+            '--all',
+            '--update',
+            '--addon',
+            'weblate.gettext.customize',
+            '--configuration',
+            '{"width":-1}',
             stdout=output,
             stderr=output,
         )
-        self.assertIn(
-            'Successfully updated on Test/Test',
-            output.getvalue()
-        )
+        self.assertIn('Successfully updated on Test/Test', output.getvalue())
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {'width': -1})
 
@@ -559,28 +492,40 @@ class CommandTest(ViewTestCase):
         output = StringIO()
         with self.assertRaises(CommandError):
             call_command(
-                'install_addon', '--all',
-                '--addon', 'weblate.gettext.nonexisting',
-                '--configuration', '{"width":77}',
+                'install_addon',
+                '--all',
+                '--addon',
+                'weblate.gettext.nonexisting',
+                '--configuration',
+                '{"width":77}',
             )
         with self.assertRaises(CommandError):
             call_command(
-                'install_addon', '--all',
-                '--addon', 'weblate.gettext.customize',
-                '--configuration', '{',
+                'install_addon',
+                '--all',
+                '--addon',
+                'weblate.gettext.customize',
+                '--configuration',
+                '{',
             )
         with self.assertRaises(CommandError):
             call_command(
-                'install_addon', '--all',
-                '--addon', 'weblate.gettext.customize',
-                '--configuration', '{}',
+                'install_addon',
+                '--all',
+                '--addon',
+                'weblate.gettext.customize',
+                '--configuration',
+                '{}',
                 stdout=output,
             )
         with self.assertRaises(CommandError):
             call_command(
-                'install_addon', '--all',
-                '--addon', 'weblate.gettext.customize',
-                '--configuration', '{"width":-65535}',
+                'install_addon',
+                '--all',
+                '--addon',
+                'weblate.gettext.customize',
+                '--configuration',
+                '{"width":-65535}',
                 stderr=output,
             )
 
@@ -610,11 +555,8 @@ class DiscoveryTest(ViewTestCase):
         # Missing params
         response = self.client.post(
             reverse('addons', kwargs=self.kw_component),
-            {
-                'name': 'weblate.discovery.discovery',
-                'form': '1',
-            },
-            follow=True
+            {'name': 'weblate.discovery.discovery', 'form': '1'},
+            follow=True,
         )
         self.assertNotContains(response, 'Please review and confirm')
         # Wrong params
@@ -625,7 +567,7 @@ class DiscoveryTest(ViewTestCase):
                 'name_template': 'xxx',
                 'form': '1',
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Please include component markup')
         # Correct params for confirmation
@@ -641,7 +583,7 @@ class DiscoveryTest(ViewTestCase):
                 'base_file_template': '',
                 'remove': True,
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Please review and confirm')
         # Confirmation
@@ -658,7 +600,7 @@ class DiscoveryTest(ViewTestCase):
                 'remove': True,
                 'confirm': True,
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, '1 addon installed')
 
@@ -671,10 +613,9 @@ class ScriptsTest(ViewTestCase):
         addon.pre_commit(translation, '')
         self.assertIn(
             os.path.join(
-                self.component.full_path,
-                'po/{}.po'.format(translation.language_code)
+                self.component.full_path, 'po/{}.po'.format(translation.language_code)
             ),
-            translation.addon_commit_files
+            translation.addon_commit_files,
         )
 
 
@@ -700,10 +641,9 @@ class LanguageConsistencyTest(ViewTestCase):
         self.component.add_new_language(language, None)
         self.assertEqual(
             Translation.objects.filter(
-                language=language,
-                component__project=self.component.project
+                language=language, component__project=self.component.project
             ).count(),
-            2
+            2,
         )
 
         # Trigger post update signal, should do nothing
@@ -714,17 +654,17 @@ class LanguageConsistencyTest(ViewTestCase):
 class GitSquashAddonTest(ViewTestCase):
     def create(self, mode):
         self.assertTrue(GitSquashAddon.can_install(self.component, None))
-        return GitSquashAddon.create(
-            self.component, configuration={'squash': mode}
-        )
+        return GitSquashAddon.create(self.component, configuration={'squash': mode})
 
     def edit(self):
         for lang in ('cs', 'de'):
             self.change_unit('Nazdar svete!\n', 'Hello, world!\n', lang)
             self.component.commit_pending('test', None)
             self.change_unit(
-                'Diky za pouziti Weblate.', 'Thank you for using Weblate.',
-                lang, user=self.anotheruser
+                'Diky za pouziti Weblate.',
+                'Thank you for using Weblate.',
+                lang,
+                user=self.anotheruser,
             )
             self.component.commit_pending('test', None)
 
@@ -751,9 +691,7 @@ class GitSquashAddonTest(ViewTestCase):
     def test_author(self):
         self.test_squash('author', 2)
         # Add commit which can not be squashed
-        self.change_unit(
-            'Diky za pouzivani Weblate.', 'Thank you for using Weblate.',
-        )
+        self.change_unit('Diky za pouzivani Weblate.', 'Thank you for using Weblate.')
         self.component.commit_pending('test', None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
 
@@ -766,12 +704,8 @@ class TestRemoval(FixtureTestCase):
     def install(self):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
-        RemoveSuggestions.create(
-            self.component, configuration={'age': 7}
-        )
-        RemoveComments.create(
-            self.component, configuration={'age': 7}
-        )
+        RemoveSuggestions.create(self.component, configuration={'age': 7})
+        RemoveComments.create(self.component, configuration={'age': 7})
 
     def assert_count(self, comments=0, suggestions=0):
         self.assertEqual(Comment.objects.count(), comments)
@@ -823,9 +757,7 @@ class TestRemoval(FixtureTestCase):
         self.add_content()
         self.age_content()
         Vote.objects.create(
-            user=self.user,
-            suggestion=Suggestion.objects.all()[0],
-            value=1
+            user=self.user, suggestion=Suggestion.objects.all()[0], value=1
         )
         daily_addons()
         self.assert_count(suggestions=1)

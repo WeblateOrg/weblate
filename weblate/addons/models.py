@@ -66,15 +66,12 @@ ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
-        return self.prefetch_related('event_set').filter((
-            Q(component=component) & Q(project_scope=False)
-        ) | (
-            Q(component__project=component.project) & Q(project_scope=True)
-        ) | (
-            Q(component__linked_component=component) & Q(repo_scope=True)
-        ) | (
-            Q(component=component.linked_component) & Q(repo_scope=True)
-        ))
+        return self.prefetch_related('event_set').filter(
+            (Q(component=component) & Q(project_scope=False))
+            | (Q(component__project=component.project) & Q(project_scope=True))
+            | (Q(component__linked_component=component) & Q(repo_scope=True))
+            | (Q(component=component.linked_component) & Q(repo_scope=True))
+        )
 
     def filter_event(self, component, event):
         if component.addons_cache is None:
@@ -87,9 +84,7 @@ class AddonQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Addon(models.Model):
-    component = models.ForeignKey(
-        Component, on_delete=models.deletion.CASCADE
-    )
+    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
     configuration = JSONField()
     state = JSONField()
@@ -117,7 +112,7 @@ class Addon(models.Model):
                 'project': self.component.project.slug,
                 'component': self.component.slug,
                 'pk': self.pk,
-            }
+            },
         )
 
     def delete(self, *args, **kwargs):
@@ -198,9 +193,7 @@ def pre_update(sender, component, **kwargs):
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
-    addons = Addon.objects.filter_event(
-        translation.component, EVENT_PRE_COMMIT
-    )
+    addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
     for addon in addons:
         translation.log_debug('running pre_commit addon: %s', addon.name)
         addon.addon.pre_commit(translation, author)
@@ -208,9 +201,7 @@ def pre_commit(sender, translation, author, **kwargs):
 
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
-    addons = Addon.objects.filter_event(
-        translation.component, EVENT_POST_COMMIT
-    )
+    addons = Addon.objects.filter_event(translation.component, EVENT_POST_COMMIT)
     for addon in addons:
         translation.log_debug('running post_commit addon: %s', addon.name)
         addon.addon.post_commit(translation)
@@ -218,9 +209,7 @@ def post_commit(sender, translation, **kwargs):
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
-    addons = Addon.objects.filter_event(
-        translation.component, EVENT_POST_ADD
-    )
+    addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
     for addon in addons:
         translation.log_debug('running post_add addon: %s', addon.name)
         addon.addon.post_add(translation)
@@ -232,9 +221,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.component, EVENT_UNIT_PRE_CREATE
     )
     for addon in addons:
-        unit.translation.log_debug(
-            'running unit_pre_create addon: %s', addon.name
-        )
+        unit.translation.log_debug('running unit_pre_create addon: %s', addon.name)
         addon.addon.unit_pre_create(unit)
 
 
@@ -245,17 +232,13 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
     for addon in addons:
-        instance.translation.log_debug(
-            'running unit_post_save addon: %s', addon.name
-        )
+        instance.translation.log_debug('running unit_post_save addon: %s', addon.name)
         addon.addon.unit_post_save(instance, created)
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
-    addons = Addon.objects.filter_event(
-        translation.component, EVENT_STORE_POST_LOAD
-    )
+    addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
     for addon in addons:
         translation.log_debug('running store_post_load addon: %s', addon.name)
         addon.addon.store_post_load(translation, store)
