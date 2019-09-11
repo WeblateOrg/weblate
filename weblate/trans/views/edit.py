@@ -221,7 +221,7 @@ def perform_translation(unit, form, request):
 
     # Save
     saved = unit.translate(
-        request,
+        request.user,
         new_target,
         form.cleaned_data['state']
     )
@@ -317,7 +317,7 @@ def handle_merge(translation, request, next_unit_url):
         return None
 
     # Store unit
-    unit.translate(request, merged.target, merged.state)
+    unit.translate(request.user, merged.target, merged.state)
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 
@@ -343,7 +343,7 @@ def handle_revert(translation, request, next_unit_url):
         return None
     # Store unit
     unit.translate(
-        request, change.details['old'], unit.state,
+        request.user, change.details['old'], unit.state,
         change_action=Change.ACTION_REVERT
     )
     # Redirect to next entry

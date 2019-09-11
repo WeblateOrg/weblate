@@ -510,21 +510,21 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, request, change_action=None, author=None):
+    def propagate(self, user, change_action=None, author=None):
         """Propagate current translation to all others."""
         result = False
         for unit in self.same_source_units:
-            if not request.user.has_perm('unit.edit', unit):
+            if not user.has_perm('unit.edit', unit):
                 continue
             if unit.target == self.target and unit.state == self.state:
                 continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(request, False, change_action=change_action, author=None)
+            unit.save_backend(user, False, change_action=change_action, author=None)
             result = True
         return result
 
-    def save_backend(self, request, propagate=True, change_action=None, author=None):
+    def save_backend(self, user, propagate=True, change_action=None, author=None):
         """
         Stores unit to backend.
 
@@ -533,23 +533,22 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a trasaction with updated unit
         locked for update.
         """
-        # For case when authorship specified, use user from request
-        if author is None or (author.is_anonymous and request):
-            author = request.user
+        # For case when authorship specified, use user
+        author = author or user
 
         # Commit possible previous changes on this unit
         if self.pending:
             change_author = self.get_last_content_change()[0]
             if change_author.id != author.id:
                 self.translation.commit_pending(
-                    'pending unit', request.user, force=True
+                    'pending unit', user, force=True
                 )
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
         propagated = False
         if propagate:
-            propagated = self.propagate(request, change_action, author=author)
+            propagated = self.propagate(user, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -577,7 +576,7 @@ class Unit(models.Model, LoggerMixin):
         self.source_info.run_checks(unit=self)
 
         # Generate Change object for this change
-        self.generate_change(request.user if request else author, author, change_action)
+        self.generate_change(user or author, author, change_action)
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             # Update translation stats
@@ -590,7 +589,7 @@ class Unit(models.Model, LoggerMixin):
         # Update related source strings if working on a template
         if self.translation.is_template:
             self.update_source_units(
-                self.old_unit.source, request.user if request else author, author
+                self.old_unit.source, user or author, author
             )
 
         return True
@@ -872,7 +871,7 @@ class Unit(models.Model, LoggerMixin):
 
     @transaction.atomic
     def translate(
-        self, request, new_target, new_state, change_action=None, propagate=True
+        self, user, new_target, new_state, change_action=None, propagate=True
     ):
         """Store new translation of a unit."""
         # Fetch current copy from database and lock it for update
@@ -895,15 +894,15 @@ class Unit(models.Model, LoggerMixin):
         else:
             self.state = STATE_EMPTY
         saved = self.save_backend(
-            request, change_action=change_action, propagate=propagate
+            user, change_action=change_action, propagate=propagate
         )
         if (
             propagate
-            and request
+            and user
             and self.target != self.old_unit.target
             and self.state >= STATE_TRANSLATED
         ):
-            update_memory(request.user, self)
+            update_memory(user, self)
 
         return saved
 

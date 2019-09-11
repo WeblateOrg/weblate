@@ -128,7 +128,7 @@ def search_replace(request, project, component=None, lang=None):
                 if not request.user.has_perm('unit.edit', unit):
                     continue
                 unit.translate(
-                    request,
+                    request.user,
                     unit.target.replace(search_text, replacement),
                     unit.state,
                     change_action=Change.ACTION_REPLACE
@@ -265,7 +265,7 @@ def state_change(request, project, component=None, lang=None):
             if not request.user.has_perm('unit.edit', unit):
                 continue
             unit.translate(
-                request,
+                request.user,
                 unit.target,
                 int(form.cleaned_data['state']),
                 change_action=Change.ACTION_MASS_STATE,

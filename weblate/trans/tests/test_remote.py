@@ -97,7 +97,7 @@ class MultiRepoTest(ViewTestCase):
             self.component2.save()
 
         unit = self.get_unit()
-        unit.translate(self.request, [newtext], STATE_TRANSLATED)
+        unit.translate(self.user, [newtext], STATE_TRANSLATED)
         self.assertEqual(self.get_translation().stats.translated, 1)
         self.component.do_push(self.request)
 
@@ -175,7 +175,7 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         unit = translation.unit_set.get(source='Hello, world!\n')
-        unit.translate(self.request, ['Ahoj svete!\n'], STATE_TRANSLATED)
+        unit.translate(self.user, ['Ahoj svete!\n'], STATE_TRANSLATED)
 
         self.assertFalse(translation.do_update(self.request))
 

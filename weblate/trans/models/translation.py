@@ -704,7 +704,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             elif add_approve:
                 state = STATE_APPROVED
             unit.translate(
-                request,
+                request.user,
                 split_plural(unit2.target),
                 state,
                 change_action=Change.ACTION_UPLOAD,

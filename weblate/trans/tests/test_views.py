@@ -173,7 +173,7 @@ class ViewTestCase(RepoTestCase):
                     user=None):
         unit = self.get_unit(source, language)
         unit.target = target
-        unit.save_backend(self.get_request(user=user))
+        unit.save_backend(user)
 
     def edit_unit(self, source, target, **kwargs):
         """Do edit single unit using web interface."""

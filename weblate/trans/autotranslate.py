@@ -50,7 +50,7 @@ class AutoTranslate(object):
             )
 
     def update(self, unit, state, target):
-        unit.translate(self.request, target, state, Change.ACTION_AUTO, False)
+        unit.translate(self.user, target, state, Change.ACTION_AUTO, False)
         self.updated += 1
 
     def post_process(self):

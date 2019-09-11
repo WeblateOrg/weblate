@@ -37,7 +37,6 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class CleanupTest(ViewTestCase):
     def test_cleanup_suggestions_case_sensitive(self):
-        request = self.get_request()
         unit = self.get_unit()
 
         # Add two suggestions
@@ -53,7 +52,7 @@ class CleanupTest(ViewTestCase):
         self.assertEqual(len(unit.suggestions), 2)
 
         # Translate string to one of suggestions
-        unit.translate(request, 'zkouška', STATE_TRANSLATED)
+        unit.translate(self.user, 'zkouška', STATE_TRANSLATED)
 
         # The cleanup should remove one
         cleanup_suggestions()

@@ -704,10 +704,8 @@ class LinkedEditTest(ViewTestCase):
         start_rev = self.component.repository.last_revision
 
         # Translate all units
-        request = self.factory.get('/')
-        request.user = self.user
         for unit in Unit.objects.iterator():
-            unit.translate(request, 'test', STATE_TRANSLATED)
+            unit.translate(self.user, 'test', STATE_TRANSLATED)
 
         # No commit now
         self.assertEqual(start_rev, self.component.repository.last_revision)
@@ -737,10 +735,9 @@ class ComponentEditTest(ViewTestCase):
         translation.drop_store_cache()
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request()
 
         self.assertTrue(
-            unit.translate(request, ['Empty'], STATE_TRANSLATED)
+            unit.translate(self.user, ['Empty'], STATE_TRANSLATED)
         )
 
 
@@ -763,8 +760,7 @@ class ComponentEditMonoTest(ComponentEditTest):
         translation.drop_store_cache()
 
         unit = translation.unit_set.all()[0]
-        request = self.get_request()
 
         self.assertTrue(
-            unit.translate(request, ['Empty'], STATE_TRANSLATED)
+            unit.translate(self.user, ['Empty'], STATE_TRANSLATED)
         )

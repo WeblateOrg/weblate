@@ -179,23 +179,22 @@ class TranslationTest(RepoTestCase):
     def test_commit_groupping(self):
         component = self.create_component()
         translation = component.translation_set.get(language_code='cs')
-        request = HttpRequest()
-        request.user = create_test_user()
+        user = create_test_user()
         start_rev = component.repository.last_revision
         # Initial translation
         for unit in translation.unit_set.iterator():
-            unit.translate(request, 'test2', STATE_TRANSLATED)
+            unit.translate(user, 'test2', STATE_TRANSLATED)
         # Translation completed, no commit forced
         self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from same author should not trigger commit
         for unit in translation.unit_set.iterator():
-            unit.translate(request, 'test3', STATE_TRANSLATED)
+            unit.translate(user, 'test3', STATE_TRANSLATED)
         for unit in translation.unit_set.iterator():
-            unit.translate(request, 'test4', STATE_TRANSLATED)
+            unit.translate(user, 'test4', STATE_TRANSLATED)
         self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from other author should trigger commmit
         for i, unit in enumerate(translation.unit_set.iterator()):
-            request.user = User.objects.create(
+            user = User.objects.create(
                 full_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),
                 email='{}@example.com'.format(unit.pk)
@@ -203,7 +202,7 @@ class TranslationTest(RepoTestCase):
             # Fetch current pending state, it might have been
             # updated by background commit
             unit.pending = Unit.objects.get(pk=unit.pk).pending
-            unit.translate(request, 'test', STATE_TRANSLATED)
+            unit.translate(user, 'test', STATE_TRANSLATED)
             if i == 0:
                 # First edit should trigger commit
                 self.assertNotEqual(
@@ -323,17 +322,16 @@ class UnitTest(ModelTestCase):
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 
     def test_newlines(self):
-        request = HttpRequest()
-        request.user = create_test_user()
+        user = create_test_user()
         unit = Unit.objects.all()[0]
-        unit.translate(request, 'new\nstring', STATE_TRANSLATED)
+        unit.translate(user, 'new\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'new\nstring')
         # New object to clear all_flags cache
         unit = Unit.objects.all()[0]
         unit.flags = 'dos-eol'
-        unit.translate(request, 'new\nstring', STATE_TRANSLATED)
+        unit.translate(user, 'new\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'new\r\nstring')
-        unit.translate(request, 'other\r\nstring', STATE_TRANSLATED)
+        unit.translate(user, 'other\r\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'other\r\nstring')
 
     def test_flags(self):
