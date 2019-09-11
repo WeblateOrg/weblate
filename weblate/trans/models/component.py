@@ -830,7 +830,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
             # commit possible pending changes if needed
             if self.needs_commit_upstream():
-                self.commit_pending("update", request, skip_push=True)
+                self.commit_pending("update", request.user, skip_push=True)
 
             # update local branch
             ret = self.update_branch(request, method=method)
@@ -872,7 +872,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_debug("skipped push: nothing to push")
             return
         if settings.CELERY_TASK_ALWAYS_EAGER:
-            self.do_push(request, force_commit=False, do_update=do_update)
+            self.do_push(None, force_commit=False, do_update=do_update)
         else:
             from weblate.trans.tasks import perform_push
 
@@ -888,7 +888,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending("push", request, skip_push=True)
+            self.commit_pending("push", request.user, skip_push=True)
 
         # Do we have anything to push?
         if not self.repo_needs_push():
@@ -1004,7 +1004,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return childs
 
     @perform_on_link
-    def commit_pending(self, reason, request, skip_push=False):
+    def commit_pending(self, reason, user, skip_push=False):
         """Check whether there is any translation to be committed."""
         # Get all translation with pending changes
         translations = (
@@ -1019,7 +1019,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation.component = self
             if translation.component.linked_component_id == self.id:
                 translation.component.linked_component = self
-            translation.commit_pending(reason, request, skip_push=True, force=True)
+            translation.commit_pending(reason, user, skip_push=True, force=True)
 
         # Push if enabled
         if not skip_push:

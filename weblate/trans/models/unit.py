@@ -541,7 +541,9 @@ class Unit(models.Model, LoggerMixin):
         if self.pending:
             change_author = self.get_last_content_change()[0]
             if change_author.id != author.id:
-                self.translation.commit_pending('pending unit', request, force=True)
+                self.translation.commit_pending(
+                    'pending unit', request.user, force=True
+                )
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
@@ -587,7 +589,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update related source strings if working on a template
         if self.translation.is_template:
-            self.update_source_units(self.old_unit.source, request.user if request else author, author)
+            self.update_source_units(
+                self.old_unit.source, request.user if request else author, author
+            )
 
         return True
 

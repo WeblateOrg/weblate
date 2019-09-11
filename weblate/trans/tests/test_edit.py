@@ -699,7 +699,7 @@ class EditComplexTest(ViewTestCase):
         self.assertTrue(self.component.needs_commit())
         self.assertTrue(self.component.project.needs_commit())
 
-        self.translation.commit_pending('test', self.get_request())
+        self.translation.commit_pending('test', self.user)
 
         self.assertFalse(self.translation.needs_commit())
         self.assertFalse(self.component.needs_commit())

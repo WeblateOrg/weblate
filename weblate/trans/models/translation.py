@@ -387,7 +387,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
-    def commit_pending(self, reason, request, skip_push=False, force=False):
+    def commit_pending(self, reason, user, skip_push=False, force=False):
         """Commit any pending changes."""
         if not force and not self.needs_commit():
             return False
@@ -415,7 +415,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.update_units(author_name, author.id)
 
                 # Commit changes
-                self.git_commit(request.user, author_name, timestamp, skip_push=skip_push)
+                self.git_commit(user, author_name, timestamp, skip_push=skip_push)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -758,7 +758,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         fileobj.close()
         fileobj = BytesIOMode(fileobj.name, filecopy)
         with self.component.repository.lock, transaction.atomic():
-            self.commit_pending('replace file', request)
+            self.commit_pending('replace file', request.user)
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
             store2.check_valid()
@@ -922,7 +922,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def new_unit(self, request, key, value):
         with self.component.repository.lock:
-            self.commit_pending('new unit', request)
+            self.commit_pending('new unit', request.user)
             Change.objects.create(
                 translation=self,
                 action=Change.ACTION_NEW_UNIT,
