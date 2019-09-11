@@ -497,7 +497,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Push if we should
             if not skip_push:
-                self.component.push_if_needed(request)
+                self.component.push_if_needed()
 
         return True
 
@@ -933,4 +933,4 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.store.new_unit(key, value)
             self.component.create_translations(request=request)
             self.__git_commit(request.user.get_author_name(), timezone.now())
-            self.component.push_if_needed(request)
+            self.component.push_if_needed()

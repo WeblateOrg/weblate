@@ -843,7 +843,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Push after possible merge
         if ret:
-            self.push_if_needed(request, do_update=False)
+            self.push_if_needed(do_update=False)
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges", childs=True)
 
@@ -853,7 +853,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return ret
 
     @perform_on_link
-    def push_if_needed(self, request, do_update=True):
+    def push_if_needed(self, do_update=True):
         """Wrapper to push if needed
 
         Checks for:
@@ -1023,7 +1023,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Push if enabled
         if not skip_push:
-            self.push_if_needed(request)
+            self.push_if_needed()
 
         return True
 
