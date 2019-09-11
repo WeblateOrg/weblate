@@ -510,7 +510,7 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, request, change_action=None):
+    def propagate(self, request, change_action=None, author=None):
         """Propagate current translation to all others."""
         result = False
         for unit in self.same_source_units:
@@ -520,7 +520,7 @@ class Unit(models.Model, LoggerMixin):
                 continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(request, False, change_action=change_action)
+            unit.save_backend(request, False, change_action=change_action, author=None)
             result = True
         return result
 
@@ -547,7 +547,7 @@ class Unit(models.Model, LoggerMixin):
         # This has to be done before changing source/content_hash for template
         propagated = False
         if propagate:
-            propagated = self.propagate(request, change_action)
+            propagated = self.propagate(request, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
