@@ -524,7 +524,7 @@ class Unit(models.Model, LoggerMixin):
             result = True
         return result
 
-    def save_backend(self, request, propagate=True, change_action=None, user=None):
+    def save_backend(self, request, propagate=True, change_action=None, author=None):
         """
         Stores unit to backend.
 
@@ -534,13 +534,13 @@ class Unit(models.Model, LoggerMixin):
         locked for update.
         """
         # For case when authorship specified, use user from request
-        if user is None or (user.is_anonymous and request):
-            user = request.user
+        if author is None or (author.is_anonymous and request):
+            author = request.user
 
         # Commit possible previous changes on this unit
         if self.pending:
             change_author = self.get_last_content_change(request)[0]
-            if change_author.id != user.id:
+            if change_author.id != author.id:
                 self.translation.commit_pending('pending unit', request)
 
         # Propagate to other projects
@@ -575,23 +575,23 @@ class Unit(models.Model, LoggerMixin):
         self.source_info.run_checks(unit=self)
 
         # Generate Change object for this change
-        self.generate_change(request.user if request else author, user, change_action)
+        self.generate_change(request.user if request else author, author, change_action)
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             # Update translation stats
             self.translation.invalidate_cache(recurse=propagated)
 
             # Update user stats
-            user.profile.translated += 1
-            user.profile.save()
+            author.profile.translated += 1
+            author.profile.save()
 
         # Update related source strings if working on a template
         if self.translation.is_template:
-            self.update_source_units(self.old_unit.source, user)
+            self.update_source_units(self.old_unit.source, request.user if request else author, author)
 
         return True
 
-    def update_source_units(self, previous_source, user):
+    def update_source_units(self, previous_source, user, author):
         """Update source for units withing same component.
 
         This is needed when editing template translation for monolingual
@@ -625,7 +625,7 @@ class Unit(models.Model, LoggerMixin):
                 unit=unit,
                 action=Change.ACTION_SOURCE_CHANGE,
                 user=user,
-                author=user,
+                author=author,
                 old=previous_source,
                 target=self.source,
             )

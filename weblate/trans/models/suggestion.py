@@ -171,7 +171,7 @@ class Suggestion(UnitData, UserDisplayMixin):
             unit.target = self.target
             unit.state = STATE_TRANSLATED
             unit.save_backend(
-                request, change_action=Change.ACTION_ACCEPT, user=self.user
+                request, change_action=Change.ACTION_ACCEPT, author=self.user
             )
 
         if not failure:
