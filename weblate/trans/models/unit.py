@@ -541,7 +541,7 @@ class Unit(models.Model, LoggerMixin):
         if self.pending:
             change_author = self.get_last_content_change()[0]
             if change_author.id != author.id:
-                self.translation.commit_pending('pending unit', request)
+                self.translation.commit_pending('pending unit', request, force=True)
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
