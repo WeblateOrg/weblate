@@ -34,6 +34,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Source
 from weblate.utils import messages
 from weblate.utils.locale import c_locale
+from weblate.utils.search import parse_query
 from weblate.utils.views import ComponentViewMixin
 
 try:
@@ -221,16 +222,7 @@ def search_source(request, pk):
     except IndexError:
         return search_results(500, obj)
 
-    units = translation.unit_set.search(
-        {
-            'search': 'substring',
-            'q': request.POST.get('q', ''),
-            'type': 'all',
-            'source': True,
-            'context': True,
-        },
-        translation=translation,
-    )
+    units = translation.unit_set.filter(parse_query(request.POST.get('q', '')))
 
     return search_results(200, obj, units)
 
