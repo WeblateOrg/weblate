@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from celery import current_task
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
@@ -33,6 +34,7 @@ class AutoTranslate(object):
         self.translation = translation
         self.filter_type = filter_type
         self.updated = 0
+        self.total = 0
 
     def get_units(self):
         return self.translation.unit_set.filter_type(
@@ -40,6 +42,12 @@ class AutoTranslate(object):
             self.translation.component.project,
             self.translation.language,
         )
+
+    def set_progress(self, current):
+        if current_task and current_task.request.id:
+            current_task.update_state(
+                state="PROGRESS", meta={"progress": 100 * current // self.total}
+            )
 
     def update(self, unit, state, target):
         unit.translate(self.request, target, state, Change.ACTION_AUTO, False)
@@ -50,14 +58,13 @@ class AutoTranslate(object):
             self.translation.invalidate_cache()
             self.user.profile.refresh_from_db()
             self.user.profile.translated += self.updated
-            self.user.profile.save(update_fields=['translated'])
+            self.user.profile.save(update_fields=["translated"])
 
     @transaction.atomic
     def process_others(self, source, check_acl=True):
         """Perform automatic translation based on other components."""
         sources = Unit.objects.filter(
-            translation__language=self.translation.language,
-            state__gte=STATE_TRANSLATED,
+            translation__language=self.translation.language, state__gte=STATE_TRANSLATED
         )
         if source:
             subprj = Component.objects.get(id=source)
@@ -67,18 +74,15 @@ class AutoTranslate(object):
             sources = sources.filter(translation__component=subprj)
         else:
             project = self.translation.component.project
-            sources = sources.filter(
-                translation__component__project=project
-            ).exclude(
+            sources = sources.filter(translation__component__project=project).exclude(
                 translation=self.translation
             )
 
         # Filter by strings
-        units = self.get_units().filter(
-            source__in=sources.values('source')
-        )
+        units = self.get_units().filter(source__in=sources.values("source"))
+        self.total = units.count()
 
-        for unit in units.select_for_update().iterator():
+        for pos, unit in enumerate(units.select_for_update().iterator()):
             # Get first matching entry
             update = sources.filter(source=unit.source)[0]
             # No save if translation is same
@@ -86,6 +90,7 @@ class AutoTranslate(object):
                 continue
             # Copy translation
             self.update(unit, update.state, update.target)
+            self.set_progress(pos / 2)
 
         self.post_process()
 
@@ -93,7 +98,7 @@ class AutoTranslate(object):
         """Get the translations"""
         translations = {}
 
-        for unit in self.get_units().iterator():
+        for pos, unit in enumerate(self.get_units().iterator()):
             # a list to store all found translations
             max_quality = threshold - 1
             translation = None
@@ -102,7 +107,7 @@ class AutoTranslate(object):
             engines = sorted(
                 engines,
                 key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
-                reverse=True
+                reverse=True,
             )
             for engine in engines:
                 translation_service = MACHINE_TRANSLATION_SERVICES[engine]
@@ -117,13 +122,13 @@ class AutoTranslate(object):
                     self.translation.language.code,
                     unit.get_source_plurals()[0],
                     unit,
-                    self.request
+                    self.request,
                 )
 
                 for item in result:
-                    if item['quality'] > max_quality:
-                        max_quality = item['quality']
-                        translation = item['text']
+                    if item["quality"] > max_quality:
+                        max_quality = item["quality"]
+                        translation = item["text"]
 
                 # Break if we can't get better match
                 if max_quality == 100:
@@ -133,21 +138,24 @@ class AutoTranslate(object):
                 continue
 
             translations[unit.pk] = translation
+            self.set_progress(pos / 2)
 
         return translations
 
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, threshold)
+        self.total = self.get_units().count()
 
         with transaction.atomic():
             # Perform the translation
-            for unit in self.get_units().select_for_update().iterator():
+            for pos, unit in enumerate(self.get_units().select_for_update().iterator()):
                 # Copy translation
                 try:
                     self.update(unit, STATE_TRANSLATED, translations[unit.pk])
                 except KeyError:
                     # Probably new unit, ignore it for now
                     continue
+                self.set_progress((self.total / 2) + (pos / 2))
 
             self.post_process()
