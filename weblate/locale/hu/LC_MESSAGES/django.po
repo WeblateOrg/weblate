@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-12 05:38+0000\n"
-"PO-Revision-Date: 2019-09-12 18:42+0000\n"
+"PO-Revision-Date: 2019-09-13 15:44+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -777,6 +777,8 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Ez a kiegészítő automatikusan lefordítja a szövegeket gépi fordítás vagy "
+"egyéb összetevők használatával."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -2124,10 +2126,8 @@ msgid "Unsafe HTML"
 msgstr "Nem biztonságos HTML"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "A fordítás többnyelvű fájlokat használ."
+msgstr "A fordítás nem biztonságos HTML jelölőt használ"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -5160,8 +5160,6 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Vegyen részt a(z) <strong>%(project)s</strong> projektben"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
 msgstr "Üdvözöljük és köszönjük az érdeklődését"
 
@@ -6853,10 +6851,8 @@ msgstr ""
 "automatizálásához."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "The component contains unsupported configuration."
-msgstr "Az összetevő több kettőzött fordítási szöveget tartalmaz."
+msgstr "Az összetevő nem támogatott beállítást tartalmaz."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1723 weblate/trans/models/component.py:177
@@ -6868,6 +6864,8 @@ msgid ""
 "This can happen after disabling support for these features or by missing "
 "dependencies."
 msgstr ""
+"Ez azután történhet, hogy letiltják a támogatást ezekhez a funkciókhoz, vagy "
+"hiányzó függőségek okozhatják."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8071,10 +8069,8 @@ msgid "Could not find reverted change."
 msgstr "Nem található visszaállított változtatás."
 
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Automatikus fordítás"
+msgstr "Automatikus fordítási mód"
 
 #: weblate/trans/forms.py:949
 msgid "Automatic translation source"
@@ -8089,6 +8085,8 @@ msgid ""
 "Enable project contribution to shared translation memory on project to get "
 "access to additional components."
 msgstr ""
+"A megosztott fordítási memórián történő projekt-közreműködés engedélyezése a "
+"projekten, hogy hozzáférést kapjon a további összetevőkhöz."
 
 #: weblate/trans/forms.py:966
 msgid "Machine translation engines"
@@ -8494,10 +8492,8 @@ msgstr "Helytelenül beállított egynyelvű fordítás."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported component configuration"
-msgstr "Nem támogatott fájlformátum."
+msgstr "Nem támogatott összetevő-beállítás"
 
 #: weblate/trans/models/change.py:218
 msgid "Resource update"
