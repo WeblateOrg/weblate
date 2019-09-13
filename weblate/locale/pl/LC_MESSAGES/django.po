@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-12 05:38+0000\n"
-"PO-Revision-Date: 2019-09-08 04:58+0000\n"
+"PO-Revision-Date: 2019-09-14 16:23+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -378,21 +378,14 @@ msgid "Editor link"
 msgstr "Odnośnik edytora"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
 "Wprowadź niestandardowy adres URL, który będzie używany jako link do kodu "
-"źródłowego. Możesz użyć {{branch}} dla oddziału, {{filename}} i  {{line}} "
-"jako nazwę pliku i linii symboli zastępczych. Zazwyczaj coś w rodzaju "
-"edytora://open/?file={{filename}}&line={{line}} jest dobrym rozwiązaniem."
+"źródłowego. Możesz użyć {{branch}} dla oddziału, {{filename}} i {{line}} "
+"jako nazwę pliku i linii symboli zastępczych."
 
 #: weblate/accounts/models.py:383
 msgid "Translation editor mode"
@@ -784,6 +777,8 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Ten dodatek automatycznie tłumaczy ciągi przy użyciu tłumaczenia maszynowego "
+"lub innych komponentów."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -1893,8 +1888,9 @@ msgid "Punctuation spacing"
 msgstr "Odstępy między czcionkami"
 
 #: weblate/checks/chars.py:389
+#, fuzzy
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Brakuje nieprzerwanej spacji przed znakiem podwójnej interpunkcji"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -2101,7 +2097,7 @@ msgstr "Znaczniki XML w przetłumaczonym tekście nie pasują do źródła"
 #, fuzzy
 #| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Odnośniki do linków Markdown"
+msgstr "Odsyłacz Markdown"
 
 #: weblate/checks/markup.py:221
 msgid "Markdown link references do not match source"
@@ -2128,14 +2124,15 @@ msgid "The translation does not contain an URL"
 msgstr "Tłumaczenie nie zawiera adresu URL"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
+#, fuzzy
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Niebezpieczny HTML"
 
 #: weblate/checks/markup.py:317
 #, fuzzy
 #| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "Tłumaczenie korzysta z plików dwujęzycznych."
+msgstr "Tłumaczenie używa niebezpiecznych znaczników HTML"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -2199,7 +2196,7 @@ msgstr "Źródło i tłumaczenie są identyczne"
 #, fuzzy
 #| msgid "Plurals"
 msgid "Unpluralised"
-msgstr "Liczba mnoga"
+msgstr "Niespluralizowane"
 
 #: weblate/checks/source.py:40
 msgid "The string is used as plural, but not using plural forms"
@@ -2468,7 +2465,7 @@ msgstr "Plik napisów SubStation Alpha"
 #, fuzzy
 #| msgid "YAML file"
 msgid "Flat XML file"
-msgstr "Płaski plik XML"
+msgstr "Jednolity plik XML"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -5159,8 +5156,6 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Zaangażuj się w <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
 msgstr "Witam i dziękuję za zainteresowanie"
 
@@ -6838,10 +6833,8 @@ msgstr ""
 "ręcznie lub wciśnij przycisk, aby je zautomatyzować."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "The component contains unsupported configuration."
-msgstr "Składnik zawiera kilka zduplikowanych ciągów tłumaczeń."
+msgstr "Składnik zawiera nieobsługiwaną konfigurację."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1723 weblate/trans/models/component.py:177
@@ -6853,6 +6846,8 @@ msgid ""
 "This can happen after disabling support for these features or by missing "
 "dependencies."
 msgstr ""
+"Może się to zdarzyć po wyłączeniu obsługi tych funkcji lub brakujących "
+"zależności."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7841,8 +7836,6 @@ msgid "Fill in with source string"
 msgstr "Wstawia ciąg źródłowy"
 
 #: weblate/trans/forms.py:259
-#, fuzzy
-#| msgid "source"
 msgid "Clone source"
 msgstr "Sklonuj źródło"
 
@@ -8056,10 +8049,8 @@ msgid "Could not find reverted change."
 msgstr "Nie można znaleźć przywróconej zmiany."
 
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Tłumaczenie automatyczne"
+msgstr "Tryb automatycznego tłumaczenia"
 
 #: weblate/trans/forms.py:949
 msgid "Automatic translation source"
@@ -8074,6 +8065,8 @@ msgid ""
 "Enable project contribution to shared translation memory on project to get "
 "access to additional components."
 msgstr ""
+"Włącz wkład projektu do wspólnej pamięci tłumaczeniowej w projekcie, aby "
+"uzyskać dostęp do dodatkowych komponentów."
 
 #: weblate/trans/forms.py:966
 msgid "Machine translation engines"
@@ -8480,10 +8473,8 @@ msgstr "Nieprawidłowo skonfigurowane tłumaczenie jednojęzyczne."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported component configuration"
-msgstr "Nieobsługiwany format pliku."
+msgstr "Nieobsługiwana konfiguracja komponentu"
 
 #: weblate/trans/models/change.py:218
 msgid "Resource update"
@@ -9251,10 +9242,8 @@ msgid "Uses the pool of shared translations between projects."
 msgstr "Korzysta z puli tłumaczeń udostępnionych między projektami."
 
 #: weblate/trans/models/project.py:109
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Contribute to shared translation memory"
-msgstr "Użyj wspólnej pamięci tłumaczeniowej"
+msgstr "Przyczynia się do wspólnej pamięci tłumaczeń"
 
 #: weblate/trans/models/project.py:112
 msgid "Contributes to the pool of shared translations between projects."
