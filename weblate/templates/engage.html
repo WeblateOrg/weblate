@@ -29,7 +29,7 @@
 <p>{% blocktrans count count=full_stats.languages context "Label on enage page" %}Language{% plural %}Languages{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ full_stats.translated_percent|intcomma }}%</strong>
+<strong>{% blocktrans with translated=full_stats.translated_percent|intcomma context "Translated percents" %}{{translated}}%{% endblocktrans %}</strong>
 <p>{% trans "Translated" %}</p>
 </div>
 </div>

@@ -96,9 +96,7 @@ class ContentWidget(Widget):
         self.percent = stats.translated_percent
 
     def get_percent_text(self):
-        return pgettext('Translated percents in widget', '{0}%').format(
-            int(self.percent)
-        )
+        return pgettext('Translated percents', '%(percent)s%') % int(self.percent)
 
 
 class BitmapWidget(ContentWidget):
