@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-12 05:38+0000\n"
-"PO-Revision-Date: 2019-09-06 18:23+0000\n"
+"PO-Revision-Date: 2019-09-14 16:23+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -384,12 +384,6 @@ msgid "Editor link"
 msgstr "Enllaç de l'editor"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -397,8 +391,7 @@ msgid ""
 msgstr ""
 "Introduïu una URL personalitzada per a utilitzar-la com a enllaç al codi "
 "font. Podeu utilitzar {{branch}} per a les branques, {{filename}} i {{line}} "
-"com a marcadors del nom de fitxer i línia. Normalment una cosa semblant a "
-"editor://open/?file={{filename}}&line={{line}} és una bona opció."
+"com a marcadors del nom de fitxer i línia."
 
 #: weblate/accounts/models.py:383
 msgid "Translation editor mode"
@@ -790,6 +783,8 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Aquest complement tradueix automàticament les cadenes fent servir traducció "
+"automàtica o altres components."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -1631,16 +1626,12 @@ msgid "A user with that username already exists."
 msgstr "Ja hi ha un usuari amb aquest nom."
 
 #: weblate/auth/models.py:330
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
-msgstr "estat de superusuari"
+msgstr "Estat de superusuari"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "Usuari amb permisos de revisió"
+msgstr "L'usuari té tots els permisos possibles."
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:141
 msgid "Active"
@@ -2138,23 +2129,19 @@ msgstr "La traducció no conté una URL"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "HTML insegur"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "La traducció utilitza fitxers bilingües."
+msgstr "La traducció utilitza marcatge HTML insegur"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "Marcadors de substitució"
 
 #: weblate/checks/placeholders.py:46
-#, fuzzy
-#| msgid "Translations with failing checks"
 msgid "Translation is missing some placeholders"
-msgstr "Traduccions amb comprovacions fallides"
+msgstr "Traducció sense alguns marcadors de substitució"
 
 #: weblate/checks/placeholders.py:68
 #: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:758
@@ -2162,12 +2149,8 @@ msgid "Regular expression"
 msgstr "Expressió regular"
 
 #: weblate/checks/placeholders.py:69
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "Translation does not match regular expression:"
-msgstr ""
-"El nom de la traducció no coincideix amb la que s'ha marcat per a la "
-"supressió!"
+msgstr "La traducció no coincideix amb l'expressió regular:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -2483,10 +2466,8 @@ msgid "SubStation Alpha subtitle file"
 msgstr "Fitxer de subtítols SubStation Alpha"
 
 #: weblate/formats/ttkit.py:1225
-#, fuzzy
-#| msgid "YAML file"
 msgid "Flat XML file"
-msgstr "Fitxer YAML"
+msgstr "Fitxer XML pla"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -4465,10 +4446,8 @@ msgstr "Baixa per a traduir sense connexió."
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:34 weblate/templates/project.html:51
-#, fuzzy
-#| msgid "Download original translation file (%(format)s)"
 msgid "Download original translation files in ZIP"
-msgstr "Baixa el fitxer de traducció original (%(format)s)"
+msgstr "Baixa els fitxers de traducció originals en ZIP"
 
 #: weblate/templates/component-list.html:35
 msgid "Number of components"
@@ -5191,8 +5170,6 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Involucreu-vos amb <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
 msgstr "Bon dia i gràcies pel vostre interès"
 
@@ -6866,10 +6843,8 @@ msgstr ""
 "per a automatitzar-ho."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "The component contains unsupported configuration."
-msgstr "El component conté diverses cadenes de traducció duplicades."
+msgstr "El component conté configuració no suportada."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1723 weblate/trans/models/component.py:177
@@ -6881,6 +6856,8 @@ msgid ""
 "This can happen after disabling support for these features or by missing "
 "dependencies."
 msgstr ""
+"Això pot passar després de desactivar el suport d'aquestes funcionalitats o "
+"si hi manquen dependències."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7860,10 +7837,8 @@ msgid "Fill in with source string"
 msgstr "Omple amb la cadena d'origen"
 
 #: weblate/trans/forms.py:259
-#, fuzzy
-#| msgid "source"
 msgid "Clone source"
-msgstr "origen"
+msgstr "Copia l'original"
 
 #: weblate/trans/forms.py:350
 msgid "Documentation for plurals."
@@ -8080,10 +8055,8 @@ msgid "Could not find reverted change."
 msgstr "No s'ha pogut trobar el canvi revertit."
 
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Traducció automàtica"
+msgstr "Mode de traducció automatitzada"
 
 #: weblate/trans/forms.py:949
 msgid "Automatic translation source"
@@ -8098,6 +8071,8 @@ msgid ""
 "Enable project contribution to shared translation memory on project to get "
 "access to additional components."
 msgstr ""
+"Activeu la contribució d'aquest projecte a la memòria de traducció "
+"compartida per a obtenir accés a components addicionals."
 
 #: weblate/trans/forms.py:966
 msgid "Machine translation engines"
@@ -8506,10 +8481,8 @@ msgstr "Traducció monolingüe mal configurada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported component configuration"
-msgstr "Format de fitxer no suportat."
+msgstr "Configuració del component no suportada"
 
 #: weblate/trans/models/change.py:218
 msgid "Resource update"
@@ -9284,28 +9257,16 @@ msgid "Use shared translation memory"
 msgstr "Utilitza la memòria de traducció compartida"
 
 #: weblate/trans/models/project.py:105
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects."
-msgstr ""
-"Utilitza i contribueix a l'agrupació de traduccions compartides entre "
-"projectes."
+msgstr "Utilitza l'agrupació de traduccions compartides entre projectes."
 
 #: weblate/trans/models/project.py:109
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Contribute to shared translation memory"
-msgstr "Utilitza la memòria de traducció compartida"
+msgstr "Contribueix a la memòria de traducció compartida"
 
 #: weblate/trans/models/project.py:112
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid "Contributes to the pool of shared translations between projects."
-msgstr ""
-"Utilitza i contribueix a l'agrupació de traduccions compartides entre "
-"projectes."
+msgstr "Contribueix a l'agrupació de traduccions compartides entre projectes."
 
 #: weblate/trans/models/project.py:118
 msgid "Access control"
