@@ -101,7 +101,7 @@ class Command(BaseCommand):
         if user and options['update']:
             self.stdout.write('Updating user {}'.format(user.username))
             user.email = options['email']
-            if password is not None:
+            if password is not None and not user.check_password(password):
                 user.set_password(password)
         else:
             self.stdout.write('Creating user {}'.format(options['username']))
