@@ -206,6 +206,10 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_USERNAME = None
 
+# GitLab username for sending merge requests.
+# Please see the documentation for more details.
+GITLAB_USERNAME = None
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.email.EmailAuth',

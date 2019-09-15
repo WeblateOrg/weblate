@@ -94,6 +94,9 @@ class WeblateConf(AppConf):
     # GitHub username for sending pull requests
     GITHUB_USERNAME = None
 
+    # GitLab username for sending merge requests
+    GITLAB_USERNAME = None
+
     # Default committer
     DEFAULT_COMMITER_EMAIL = 'noreply@weblate.org'
     DEFAULT_COMMITER_NAME = 'Weblate'
