@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-12 05:38+0000\n"
-"PO-Revision-Date: 2019-09-04 11:27+0000\n"
+"PO-Revision-Date: 2019-09-16 12:48+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -382,21 +382,13 @@ msgid "Editor link"
 msgstr "エディタ リンク"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"ソース コードにリンクする独自の URL を入力します。ブランチには {{branch}} 、"
-"ファイル名と行番号には {{filename}} と {{line}} をプレース ホルダとして使用で"
-"きます。一般的には editor://open/?file={{filename}}&line={{line}} が良いで"
-"しょう。"
+"ソース コードにリンクする独自の URL を入力します。ブランチには {{branch}} 、ファイル名と行番号には {{filename}} と "
+"{{line}} をプレース ホルダとして使用できます。"
 
 #: weblate/accounts/models.py:383
 msgid "Translation editor mode"
@@ -774,7 +766,7 @@ msgstr "自動翻訳"
 msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
-msgstr ""
+msgstr "このアドオンは、機械翻訳またはその他のコンポーネントを使用して文字列を自動的に変換します。"
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -1604,16 +1596,12 @@ msgid "A user with that username already exists."
 msgstr "指定したユーザ名はすでに存在しています。"
 
 #: weblate/auth/models.py:330
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
 msgstr "スーパーユーザの状態"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "査読者権限のあるユーザ"
+msgstr "ユーザーはすべての権限を持っています。"
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:141
 msgid "Active"
@@ -1877,7 +1865,7 @@ msgstr "句読点の間隔"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "二重句読点の前に改行できないスペースがありません"
+msgstr "二重句読点の前に、改行できないスペースがありません"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -2111,23 +2099,19 @@ msgstr "URL を含んでいない翻訳"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "安全でない HTML"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "翻訳はバイリンガル ファイルを使用しています。"
+msgstr "翻訳には、安全でない HTML マークアップが使用されています"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "プレースホルダー"
 
 #: weblate/checks/placeholders.py:46
-#, fuzzy
-#| msgid "Translations with failing checks"
 msgid "Translation is missing some placeholders"
-msgstr "チェックに失敗した文字列"
+msgstr "一部のプレースホルダが翻訳にありません"
 
 #: weblate/checks/placeholders.py:68
 #: weblate/templates/addons/discovery_help.html:8 weblate/trans/forms.py:758
@@ -2135,10 +2119,8 @@ msgid "Regular expression"
 msgstr "正規表現"
 
 #: weblate/checks/placeholders.py:69
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "Translation does not match regular expression:"
-msgstr "翻訳名は削除する名前と一致しません！"
+msgstr "正規表現と一致しない翻訳:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -2447,10 +2429,8 @@ msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha 字幕ファイル"
 
 #: weblate/formats/ttkit.py:1225
-#, fuzzy
-#| msgid "YAML file"
 msgid "Flat XML file"
-msgstr "YAML ファイル"
+msgstr "Flat XML ファイル"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -3190,7 +3170,7 @@ msgstr "最も活動している翻訳者"
 #: weblate/templates/about/stats.html:63
 #: weblate/templates/last-changes-content.html:9
 msgid "User"
-msgstr "ユーザ"
+msgstr "利用者"
 
 #: weblate/templates/about/stats.html:21 weblate/templates/engage.html:33
 #: weblate/templates/translation.html:426
@@ -4403,10 +4383,8 @@ msgstr "オフライン翻訳用にダウンロードします。"
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:34 weblate/templates/project.html:51
-#, fuzzy
-#| msgid "Download original translation file (%(format)s)"
 msgid "Download original translation files in ZIP"
-msgstr "オリジナルの翻訳ファイルのダウンロード (%(format)s)"
+msgstr "オリジナルの翻訳ファイルを ZIP 形式でダウンロード"
 
 #: weblate/templates/component-list.html:35
 msgid "Number of components"
@@ -5114,8 +5092,6 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "<strong>%(project)s</strong> にご参加ください"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
 msgstr "こんにちは、ご関心をお寄せいただきありがとうございます"
 
@@ -6772,10 +6748,8 @@ msgstr ""
 "ださい。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "The component contains unsupported configuration."
-msgstr "コンポーネントに複数の重複した翻訳文字列が含まれています。"
+msgstr "コンポーネントに、サポートされていない構成が含まれています。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1723 weblate/trans/models/component.py:177
@@ -6786,7 +6760,7 @@ msgstr "バージョン管理システム"
 msgid ""
 "This can happen after disabling support for these features or by missing "
 "dependencies."
-msgstr ""
+msgstr "この現象は、この機能のサポートを無効にした後、もしくは依存関係がないために発生する場合があります。"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7755,10 +7729,8 @@ msgid "Fill in with source string"
 msgstr "原文をそのまま入力"
 
 #: weblate/trans/forms.py:259
-#, fuzzy
-#| msgid "source"
 msgid "Clone source"
-msgstr "原文"
+msgstr "原文の複製"
 
 #: weblate/trans/forms.py:350
 msgid "Documentation for plurals."
@@ -7970,10 +7942,8 @@ msgid "Could not find reverted change."
 msgstr "巻き戻した変更が見つかりません。"
 
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "自動翻訳"
+msgstr "自動翻訳モード"
 
 #: weblate/trans/forms.py:949
 msgid "Automatic translation source"
@@ -7987,7 +7957,7 @@ msgstr "その他の翻訳コンポーネント"
 msgid ""
 "Enable project contribution to shared translation memory on project to get "
 "access to additional components."
-msgstr ""
+msgstr "プロジェクトへの共有翻訳メモリの貢献を有効にして、追加のコンポーネントへアクセス可能にします。"
 
 #: weblate/trans/forms.py:966
 msgid "Machine translation engines"
@@ -8384,10 +8354,8 @@ msgstr "単一言語の翻訳は間違って設定されています。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported component configuration"
-msgstr "未対応のファイル形式です。"
+msgstr "サポートしていないコンポーネント構成"
 
 #: weblate/trans/models/change.py:218
 msgid "Resource update"
@@ -9138,24 +9106,16 @@ msgid "Use shared translation memory"
 msgstr "共有翻訳メモリを使用する"
 
 #: weblate/trans/models/project.py:105
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects."
-msgstr "プロジェクト間で翻訳を相互に共有してください。"
+msgstr "プロジェクト間で共有する翻訳プールを使用します。"
 
 #: weblate/trans/models/project.py:109
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Contribute to shared translation memory"
-msgstr "共有翻訳メモリを使用する"
+msgstr "共有翻訳メモリに貢献する"
 
 #: weblate/trans/models/project.py:112
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid "Contributes to the pool of shared translations between projects."
-msgstr "プロジェクト間で翻訳を相互に共有してください。"
+msgstr "プロジェクト間で共有する翻訳プールに貢献します。"
 
 #: weblate/trans/models/project.py:118
 msgid "Access control"
