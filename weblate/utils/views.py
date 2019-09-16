@@ -153,7 +153,7 @@ def import_message(request, count, message_none, message_ok):
 def iter_files(filenames):
     for filename in filenames:
         if os.path.isdir(filename):
-            for root, _unused, files in os.walk(path):
+            for root, _unused, files in os.walk(filename):
                 if "/.git/" in root or "/.hg/" in root:
                     continue
                 for name in files:
