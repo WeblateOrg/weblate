@@ -20,7 +20,12 @@
 
 <script>
   Sentry.init({ dsn: '{{ sentry_dsn }}' });
-  Sentry.showReportDialog({ eventId: '{{ sentry_event_id }}' })
+  Sentry.showReportDialog({
+{% if request.user.is_authenticated %}
+    user: { name: "{{ user.full_name}}", email: "{{ user.email}}" },
+{% endif %}
+    eventId: '{{ sentry_event_id }}'
+  })
 </script>
 {% endif %}
 {% endif %}
