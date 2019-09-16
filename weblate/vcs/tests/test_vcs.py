@@ -23,8 +23,10 @@ from __future__ import unicode_literals
 import os.path
 import shutil
 import tempfile
-from unittest import SkipTest, TestCase
+from unittest import SkipTest
 
+from django.test import TestCase
+from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin, get_test_file
@@ -444,6 +446,7 @@ class VCSGerritTest(VCSGitTest):
             self._class = GitWithGerritRepository
 
 
+@override_settings(GITHUB_USERNAME="test")
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
     _vcs = 'git'

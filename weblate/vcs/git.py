@@ -556,7 +556,7 @@ class GithubRepository(GitRepository):
     @classmethod
     def _getenv(cls):
         """Generate environment for process execution."""
-        env = super(cls, GithubRepository)._getenv()
+        env = super(GithubRepository, cls)._getenv()
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')
         if os.path.exists(userconfig):
