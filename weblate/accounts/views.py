@@ -324,6 +324,8 @@ def user_profile(request):
         if all(form.is_valid() for form in forms):
             # Save changes
             for form in forms:
+                if hasattr(form, 'audit'):
+                    form.audit(request)
                 form.save()
 
             # Change language

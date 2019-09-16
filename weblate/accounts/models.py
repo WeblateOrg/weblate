@@ -95,6 +95,9 @@ ACCOUNT_ACTIVITY = {
     'password': _(
         'Password changed.'
     ),
+    'username': _('Username changed from {old} to {new}.'),
+    'email': _('E-mail changed from {old} to {new}.'),
+    'full_name': _('Full name changed from {old} to {new}.'),
     'reset-request': _(
         'Password reset requested.'
     ),
@@ -158,6 +161,7 @@ NOTIFY_ACTIVITY = frozenset((
     'locked',
     'removed',
     'login-new',
+    'email',
 ))
 
 

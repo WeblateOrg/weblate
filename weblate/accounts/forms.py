@@ -284,6 +284,20 @@ class UserForm(forms.ModelForm):
             return cls(request.POST, instance=request.user)
         return cls(instance=request.user)
 
+    def audit(self, request):
+        orig = User.objects.get(pk=self.instance.pk)
+        for attr in ('username', 'full_name', 'email'):
+            orig_attr = getattr(orig, attr)
+            new_attr = getattr(self.instance, attr)
+            if orig_attr != new_attr:
+                AuditLog.objects.create(
+                    orig,
+                    request,
+                    attr,
+                    old=orig_attr,
+                    new=new_attr,
+                )
+
 
 class ContactForm(forms.Form):
     """Form for contacting site owners."""
