@@ -44,7 +44,6 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
     ]
-    _cmd_update_remote = ['fetch', 'origin']
     _cmd_push = ['push', 'origin']
     _cmd_list_changed_files = ['diff', '--name-status']
 
@@ -390,8 +389,10 @@ class GitRepository(Repository):
         ]
 
     def update_remote(self):
+        """Update remote repository."""
         self.execute(['remote', 'prune', 'origin'])
-        super(GitRepository, self).update_remote()
+        self.execute(['fetch', 'origin'])
+        self.clean_revision_cache()
 
 
 class GitWithGerritRepository(GitRepository):
@@ -416,7 +417,6 @@ class SubversionRepository(GitRepository):
     name = 'Subversion'
     req_version = '1.6'
 
-    _cmd_update_remote = ['svn', 'fetch']
     _cmd_push = ['svn', 'dcommit']
     _is_supported = None
     _version = None
@@ -484,10 +484,10 @@ class SubversionRepository(GitRepository):
     def update_remote(self):
         """Update remote repository."""
         if self._fetch_revision:
-            self.execute(self._cmd_update_remote + [self._fetch_revision])
+            self.execute(['svn', 'fetch', self._fetch_revision])
             self._fetch_revision = None
         else:
-            self.execute(self._cmd_update_remote + ['--parent'])
+            self.execute(['svn', 'fetch', '--parent'])
         self.clean_revision_cache()
 
     @classmethod

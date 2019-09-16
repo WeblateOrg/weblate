@@ -41,7 +41,6 @@ class HgRepository(Repository):
     _cmd_last_remote_revision = [
         'log', '--limit', '1', '--template', '{node}', '--branch', '.'
     ]
-    _cmd_update_remote = ['pull', '--branch', '.']
     _cmd_list_changed_files = ['status', '--rev']
 
     name = 'Mercurial'
@@ -339,3 +338,8 @@ class HgRepository(Repository):
         """Remove not tracked files from the repository."""
         self.set_config('extensions.purge', '')
         self.execute(['purge'])
+
+    def update_remote(self):
+        """Update remote repository."""
+        self.execute(['pull', '--branch', '.'])
+        self.clean_revision_cache()
