@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-12 05:37+0000\n"
+"PO-Revision-Date: 2019-09-18 12:39+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -257,17 +257,17 @@ msgstr "Salasana vaihdettu."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Käyttäjänimi vaihdettu. Vanha: {old}, uusi: {new}."
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Sähköposti vaihdettu. Vanha: {old}, uusi: {new}."
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Koko nimi vaihdettu. Vanha: {old}, uusi: {new}."
 
 #: weblate/accounts/models.py:102
 msgid "Password reset requested."
@@ -808,6 +808,8 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Tämä lisäosa kääntää tekstejä automaattisesti konekäännöksenä tai muita "
+"komponentteja käyttäen."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -2180,13 +2182,11 @@ msgstr "Käännös ei sisällä URL-osoitetta"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Turvaton HTML"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "Käännös käyttää kaksikielisiä tiedostoja."
+msgstr "Käännös käyttää turvatonta HTML-merkintää"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -3550,7 +3550,7 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:22
 msgid "Translated content has to be released under libre software license."
-msgstr "Käännetty sisältö pitää julkaista vapaan ohjelmiston lisenssin alla."
+msgstr "Käännetty sisältö pitää julkaista vapaalla ohjelmistolisenssillä."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -7119,11 +7119,11 @@ msgstr "Käännöskomponenttia päivitetään…"
 
 #: weblate/templates/trans/embed-alert.html:15
 msgid "Fix this component to clear its alerts."
-msgstr ""
+msgstr "Korjaa tämä komponentti tyhjentääksesi sen hälytykset."
 
 #: weblate/templates/trans/embed-alert.html:17
 msgid "Some of the components within this project have alerts."
-msgstr ""
+msgstr "Osassa tämän projektin komponentteja on hälytyksiä."
 
 #: weblate/templates/trans/embed-alert.html:22
 msgid "Libre license according to the FSF"
@@ -7467,11 +7467,11 @@ msgstr "Laatu"
 
 #: weblate/templates/translate.html:412
 msgid "Origin"
-msgstr ""
+msgstr "Alkuperä"
 
 #: weblate/templates/translate.html:413
 msgid "Similarity"
-msgstr ""
+msgstr "Samankaltaisuus"
 
 #: weblate/templates/translate.html:443
 msgid "Comment on this string for fellow translators and developers to read."
@@ -9956,8 +9956,8 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
-"Olet nyt aktivoinut käyttäjätunnuksesi ja sinun pitäisi asettaa salasana "
-"jotta pystyisit kirjautumaan seuraavalla kerralla."
+"Olet aktivoinut käyttäjätilisi ja sinun tulee asettaa salasana, jotta "
+"pystyisit kirjautumaan seuraavalla kerralla."
 
 #: weblate/trans/views/dashboard.py:179
 msgid "Please set your full name and e-mail in your profile."
@@ -9966,7 +9966,7 @@ msgstr "Täydennä profiiliin koko nimesi ja sähköpostiosoitteesi."
 #: weblate/trans/views/dictionary.py:48
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr "%(language)s-kielinen sanasto %(project)s -projektille"
+msgstr "Kielen %(language)s sanasto projektille %(project)s"
 
 #: weblate/trans/views/dictionary.py:61
 msgid "Dictionaries"
@@ -9995,7 +9995,7 @@ msgstr "Lomakkeen käsittely epäonnistui!"
 
 #: weblate/trans/views/edit.py:152 weblate/trans/views/edit.py:451
 msgid "No string matched your search!"
-msgstr "Yhtään hakuehtosi täyttäävää osumaa ei löytynyt!"
+msgstr "Yhtään hakuehtosi täyttävää tekstiä ei löytynyt!"
 
 #: weblate/trans/views/edit.py:176
 msgid "Your suggestion is empty!"
@@ -10016,7 +10016,7 @@ msgstr "Ehdotuksesi on jo olemassa!"
 #: weblate/trans/views/edit.py:238
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr "Käännökseen on laitettu seuraavia korjauksia: %s"
+msgstr "Käännökseen tehtiin seuraavia korjauksia: %s"
 
 #: weblate/trans/views/edit.py:253
 #, python-brace-format
@@ -10053,11 +10053,11 @@ msgstr "Sinulla ei ole oikeutta äänestää käännösehdotuksia!"
 
 #: weblate/trans/views/edit.py:402
 msgid "Invalid suggestion!"
-msgstr "Sopimaton ehdotus!"
+msgstr "Virheellinen ehdotus!"
 
 #: weblate/trans/views/edit.py:514
 msgid "Invalid search string!"
-msgstr "Virheellinen hakusana!"
+msgstr "Virheellinen hakulause!"
 
 #: weblate/trans/views/edit.py:594
 msgid "Automatic translation completed, no strings were updated."
@@ -10080,7 +10080,7 @@ msgstr "Kommentin lisääminen epäonnistui!"
 
 #: weblate/trans/views/edit.py:653
 msgid "Translation comment has been deleted."
-msgstr "Käännösksen kommentti on poistettu."
+msgstr "Käännöksen kommentti on poistettu."
 
 #: weblate/trans/views/edit.py:811
 msgid "Translation with this key seem to already exist!"
@@ -10100,7 +10100,7 @@ msgstr "Käyttö estetty."
 
 #: weblate/trans/views/files.py:157
 msgid "No strings were imported from the uploaded file."
-msgstr "Yhtään tekstiä ei päivitettu tuodusta tiedostosta."
+msgstr "Yhtään tekstiä ei tuotu lähetetystä tiedostosta."
 
 #: weblate/trans/views/files.py:160
 #, python-brace-format
@@ -10119,8 +10119,7 @@ msgstr[1] ""
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
-msgstr ""
-"Arkiston lukitseminen epäonnistui koska toinen toiminto on jo työn alla."
+msgstr "Arkiston lukitseminen epäonnistui koska toinen toiminto on kesken."
 
 #: weblate/trans/views/git.py:55
 msgid "All pending translations were committed."
@@ -10128,7 +10127,7 @@ msgstr "Kaikki käännösmuutokset on commitoitu."
 
 #: weblate/trans/views/git.py:67
 msgid "All repositories were updated."
-msgstr "Kaikki arkistot ovat ajantasalla."
+msgstr "Kaikki arkistot päivitettiin."
 
 #: weblate/trans/views/git.py:79
 msgid "All repositories were pushed."
@@ -10165,27 +10164,27 @@ msgstr "Käännös on poistettu."
 
 #: weblate/trans/views/manage.py:81
 msgid "Translation component was scheduled for removal."
-msgstr "Käännöskomponentti on ajastettu poistettavaksi."
+msgstr "Käännöskomponentti oli ajastettu poistettavaksi."
 
 #: weblate/trans/views/manage.py:101
 msgid "Project was scheduled for removal."
-msgstr "Projekti on ajastettu poistettavaksi."
+msgstr "Projekti oli ajastettu poistettavaksi."
 
 #: weblate/trans/views/search.py:140
 msgid "Search and replace completed, no strings were updated."
-msgstr "Etsi ja korvaa valmistui, yhtään käännöstekstiä ei muutettu."
+msgstr "Etsi ja korvaa -toiminto tuli valmiiksi, yhtään tekstiä ei päivitetty."
 
 #: weblate/trans/views/search.py:142
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Etsi ja korvaa valmistui, %d käännösteksti päivitettiin."
-msgstr[1] "Etsi ja korvaa valmistui, %d käännöstekstiä päivitettiin."
+msgstr[0] "Etsi ja korvaa -toiminto tuli valmiiksi, %d teksti päivitettiin."
+msgstr[1] "Etsi ja korvaa -toiminto tuli valmiiksi, %d tekstiä päivitettiin."
 
 #: weblate/trans/views/search.py:218
 #, python-format
 msgid "Search for %s"
-msgstr "Haku hakusanalla %s"
+msgstr "Hae hakulauseella %s"
 
 #: weblate/trans/views/search.py:225
 msgid "Too many search queries, please try again later."
@@ -10197,14 +10196,14 @@ msgstr "Virheellinen hakukysely!"
 
 #: weblate/trans/views/search.py:277
 msgid "Bulk status change completed, no strings were updated."
-msgstr "Kaikkien tilaa on muutettu, yhtään tekstiä ei päivitetty."
+msgstr "Tilan massamuutos tuli valmiiksi, yhtäkään tekstiä ei päivitetty."
 
 #: weblate/trans/views/search.py:279
 #, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Kaikkien tila on muutettu, %d käännösteksti päivitettiin."
-msgstr[1] "Kaikkien tila on muutettu, %d käännöstekstiä päivitettiin."
+msgstr[0] "Tilan massamuutos tuli valmiiksi, %d teksti päivitettiin."
+msgstr[1] "Tilan massamuutos tuli valmiiksi, %d tekstiä päivitettiin."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10246,7 +10245,7 @@ msgstr "Tilan massamuutos"
 
 #: weblate/trans/widgets.py:304
 msgid "Open Graph image"
-msgstr ""
+msgstr "Open Graph -kuva"
 
 #: weblate/trans/widgets.py:361
 #, fuzzy
@@ -10330,7 +10329,7 @@ msgstr "Älä käytä nimessä erikoismerkkejä."
 
 #: weblate/utils/validators.py:167
 msgid "Username can not start with a full stop."
-msgstr "Käyttäjätunnus ei voi alkaa lopetusmerkillä."
+msgstr "Käyttäjätunnus ei voi alkaa pisteellä."
 
 #: weblate/utils/validators.py:180 weblate/utils/validators.py:183
 msgid "Enter a valid e-mail address."
@@ -10342,7 +10341,7 @@ msgstr "Tämä sähköpostiosoite ei ole sallittu."
 
 #: weblate/utils/validators.py:193
 msgid "Failed to evaluate plural equation: {}"
-msgstr "Monikkoyhtälön arviointi epäonnistui: {}"
+msgstr "Monikkoyhtälön laskeminen epäonnistui: {}"
 
 #: weblate/utils/validators.py:200
 msgid "Filename can not contain reference to a parent directory."
@@ -10365,6 +10364,7 @@ msgstr "Lähdekoodin arkisto"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:75
+#, fuzzy
 msgid "[hostname hashed]"
 msgstr "[isäntänimi hajautettu]"
 
@@ -10434,7 +10434,7 @@ msgstr "Laajennettu itseisännöity tuki"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
-msgstr "Weblate -hallinta"
+msgstr "Weblaten hallinnointi"
 
 #: weblate/wladmin/sites.py:195
 msgid "Object listing turned off"
