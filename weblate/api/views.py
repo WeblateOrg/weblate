@@ -72,7 +72,7 @@ from weblate.trans.tasks import component_removal, project_removal
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import GlobalStats
-from weblate.utils.views import download_translation_file, zip_download_dir
+from weblate.utils.views import download_translation_file, zip_download
 
 REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push', ()),
@@ -153,7 +153,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def download_file(self, filename, content_type, component=None):
         """Wrapper for file download"""
         if os.path.isdir(filename):
-            response = zip_download_dir(filename)
+            response = zip_download(filename, filename)
             filename = '{}.zip'.format(
                 component.slug if component else 'weblate'
             )

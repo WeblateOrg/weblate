@@ -150,19 +150,22 @@ def import_message(request, count, message_none, message_ok):
         messages.success(request, message_ok % count)
 
 
-def zip_download_dir(path):
-    result = []
-    for root, _unused, files in os.walk(path):
-        if "/.git/" in root or "/.hg/" in root:
-            continue
-        result.extend((os.path.join(root, name) for name in files))
-    return zip_download(path, result)
+def iter_files(filenames):
+    for filename in filenames:
+        if os.path.isdir(filename):
+            for root, _unused, files in os.walk(path):
+                if "/.git/" in root or "/.hg/" in root:
+                    continue
+                for name in files:
+                    yield os.path.join(root, name)
+        else:
+            yield filename
 
 
 def zip_download(root, filenames):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
-        for filename in filenames:
+        for filename in iter_files(filenames):
             with open(filename, "rb") as handle:
                 zipfile.writestr(os.path.relpath(filename, root), handle.read())
     response['Content-Disposition'] = 'attachment; filename="translations.zip"'
