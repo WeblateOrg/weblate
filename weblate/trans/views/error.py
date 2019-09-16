@@ -25,6 +25,8 @@ from django.conf import settings
 from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
 from django.utils.translation import ugettext as _
 
+from sentry_sdk import last_event_id
+
 from weblate.trans.util import render
 
 
@@ -58,14 +60,14 @@ def csrf_failure(request, reason=""):
 def server_error(request):
     """Error handler for server errors."""
     try:
-        if hasattr(settings, "RAVEN_CONFIG") and "public_dsn" in settings.RAVEN_CONFIG:
-            sentry_dsn = settings.RAVEN_CONFIG["public_dsn"]
-        else:
-            sentry_dsn = None
         return render(
             request,
             "500.html",
-            {"title": _("Internal Server Error"), "sentry_dsn": sentry_dsn},
+            {
+                "title": _("Internal Server Error"),
+                "sentry_dsn": settings.SENTRY_DSN,
+                'sentry_event_id': last_event_id(),
+            },
             status=500,
         )
     except Exception:

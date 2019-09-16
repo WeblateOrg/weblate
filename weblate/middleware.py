@@ -39,6 +39,7 @@ class ProxyMiddleware(object):
 
     Note that this can have security implications and settings
     have to match your actual proxy setup."""
+
     def __init__(self, get_response=None):
         self.get_response = get_response
 
@@ -60,6 +61,7 @@ class ProxyMiddleware(object):
 
 class SecurityMiddleware(object):
     """Middleware that sets Content-Security-Policy"""
+
     def __init__(self, get_response=None):
         self.get_response = get_response
 
@@ -75,20 +77,21 @@ class SecurityMiddleware(object):
         connect = {"'self'"}
         font = {"'self'"}
 
-        if (hasattr(settings, 'ROLLBAR')
-                and 'client_token' in settings.ROLLBAR
-                and 'environment' in settings.ROLLBAR):
+        if (
+            hasattr(settings, 'ROLLBAR')
+            and 'client_token' in settings.ROLLBAR
+            and 'environment' in settings.ROLLBAR
+        ):
             script.add("'unsafe-inline'")
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')
 
-        if (hasattr(settings, 'RAVEN_CONFIG')
-                and settings.RAVEN_CONFIG.get('public_dsn')):
-            domain = urlparse(settings.RAVEN_CONFIG['public_dsn']).hostname
+        if settings.SENTRY_DSN:
+            domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
             connect.add(domain)
             script.add("'unsafe-inline'")
-            script.add('cdn.ravenjs.com')
+            script.add('browser.sentry-cdn.com')
             image.add('data:')
 
         if settings.PIWIK_URL:

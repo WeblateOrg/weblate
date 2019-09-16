@@ -28,6 +28,7 @@ Not yet released.
 * Added automatic translation addon to bootstrap translations.
 * Extend automatic translation to add suggestions.
 * Display addon parameters on overview.
+* Sentry is now supported through modern Sentry SDK instead of Raven.
 
 weblate 3.8
 -----------

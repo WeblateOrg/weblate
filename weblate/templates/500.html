@@ -12,18 +12,15 @@
 {% blocktrans %}The server had serious problems serving your request. Trained monkeys are en-route fixing the issue.{% endblocktrans %}
 </p>
 
-{% if request.sentry.id %}
-<p>{% blocktrans with error_id=request.sentry.id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
+{% if sentry_event_id %}
+<p>{% blocktrans with error_id=sentry_event_id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
 {% if sentry_dsn %}
-<script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
-<script>
-Raven.showReportDialog({
-    eventId: '{{ request.sentry.id }}',
+<script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js" integrity="sha384-/Cqa/8kaWn7emdqIBLk3AkFMAHBk0LObErtMhO+hr52CntkaurEnihPmqYj3uJho" crossorigin="anonymous"></script>
 
-    // use the public DSN (dont include your secret!)
-    dsn: '{{ sentry_dsn }}'
-});
+<script>
+  Sentry.init({ dsn: '{{ sentry_dsn }}' });
+  Sentry.showReportDialog({ eventId: '{{ sentry_event_id }}' })
 </script>
 {% endif %}
 {% endif %}

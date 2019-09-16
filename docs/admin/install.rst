@@ -1198,30 +1198,11 @@ Sentry
 ++++++
 
 Weblate has built in support for `Sentry <https://sentry.io/>`_. To use
-it, it's enough to follow instructions for `Sentry for Python <https://docs.sentry.io/clients/python/>`_.
-
-In short, you need to adjust :file:`settings.py`:
+it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 
 .. code-block:: python
 
-    import raven
-
-    # Add raven to apps:
-    INSTALLED_APPS = (
-        # ... other app classes ...
-        'raven.contrib.django.raven_compat',
-    )
-
-
-    RAVEN_CONFIG = {
-        'dsn': 'https://id:key@your.sentry.example.com/',
-        # Setting public_dsn will allow collecting user feedback on errors
-        'public_dsn': 'https://id@your.sentry.example.com/',
-        # If you are using git, you can also automatically configure the
-        # release based on the git info.
-        'release': raven.fetch_git_sha(BASE_DIR),
-    }
-
+   SENTRY_DSN = "https://id@your.sentry.example.com/"
 
 Rollbar
 +++++++

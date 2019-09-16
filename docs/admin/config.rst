@@ -1021,6 +1021,19 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is currently permitted. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
+.. setting:: SENTRY_DSN
+
+SENTRY_DSN
+----------
+
+.. versionadded:: 3.9
+
+Sentry DSN to use for :ref:`collecting-errors`.
+
+.. seealso::
+
+   `Django integration for Sentry <https://docs.sentry.io/platforms/python/django/>`_
+
 .. setting:: SIMPLIFY_LANGUAGES
 
 SIMPLIFY_LANGUAGES

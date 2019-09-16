@@ -47,12 +47,15 @@ class WeblateConf(AppConf):
     RATELIMIT_GLOSSARY_ATTEMPTS = 30
     RATELIMIT_GLOSSARY_WINDOW = 60
 
+    SENTRY_DSN = None
+
     class Meta(object):
         prefix = ''
 
 
 class CeleryConf(AppConf):
     """Defaults for Celery settings."""
+
     TASK_ALWAYS_EAGER = True
     BROKER_URL = 'memory://'
 
@@ -70,12 +73,14 @@ class CeleryConf(AppConf):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def update_source(sender, instance, created, **kwargs):
-    if (not created
-            or instance.action not in Change.ACTIONS_CONTENT
-            or instance.translation is None):
+    if (
+        not created
+        or instance.action not in Change.ACTIONS_CONTENT
+        or instance.translation is None
+    ):
         return
     cache.set(
         'last-content-change-{}'.format(instance.translation.pk),
         instance.pk,
-        180 * 86400
+        180 * 86400,
     )

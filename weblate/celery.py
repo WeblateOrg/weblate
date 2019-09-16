@@ -20,25 +20,10 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import logging
 import os
 
 from celery import Celery
 from celery.signals import task_failure
-
-try:
-    import rollbar
-    HAS_ROLLBAR = True
-except ImportError:
-    HAS_ROLLBAR = False
-
-try:
-    from raven import Client
-    from raven.contrib.celery import register_signal, register_logger_signal
-    HAS_RAVEN = True
-except ImportError:
-    HAS_RAVEN = False
-
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'weblate.settings')
@@ -58,12 +43,13 @@ app.autodiscover_tasks()
 @task_failure.connect
 def handle_task_failure(exception=None, **kwargs):
     from weblate.utils.errors import report_error
+
     report_error(
         exception,
         extra_data=kwargs,
         prefix='Failure while executing task',
-        skip_raven=True,
-        print_tb=True
+        skip_sentry=True,
+        print_tb=True,
     )
 
 
@@ -77,20 +63,6 @@ def configure_error_handling(sender, **kargs):
     if not bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
         return
 
-    from django.conf import settings
-    if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
-        rollbar.init(**settings.ROLLBAR)
+    from weblate.utils.errors import init_error_collection
 
-        def celery_base_data_hook(request, data):
-            data['framework'] = 'celery'
-
-        rollbar.BASE_DATA_HOOK = celery_base_data_hook
-
-    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
-        client = Client(
-            settings.RAVEN_CONFIG['dsn'],
-            release=settings.RAVEN_CONFIG.get('release'),
-            environment=settings.RAVEN_CONFIG.get('environment'),
-        )
-        register_signal(client, ignore_expected=True)
-        register_logger_signal(client, loglevel=logging.ERROR)
+    init_error_collection(celery=True)

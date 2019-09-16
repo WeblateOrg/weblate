@@ -43,10 +43,3 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 application = get_wsgi_application()
-
-# Apply Sentry middleware
-try:
-    from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
-    application = Sentry(get_wsgi_application())
-except ImportError:
-    pass
