@@ -44,7 +44,6 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
     ]
-    _cmd_push = ['push', 'origin']
     _cmd_list_changed_files = ['diff', '--name-status']
 
     name = 'Git'
@@ -394,6 +393,10 @@ class GitRepository(Repository):
         self.execute(['fetch', 'origin'])
         self.clean_revision_cache()
 
+    def push(self):
+        """Push given branch to remote repository."""
+        self.execute(['push', 'origin', self.branch])
+
 
 class GitWithGerritRepository(GitRepository):
 
@@ -417,7 +420,6 @@ class SubversionRepository(GitRepository):
     name = 'Subversion'
     req_version = '1.6'
 
-    _cmd_push = ['svn', 'dcommit']
     _is_supported = None
     _version = None
 
@@ -536,6 +538,10 @@ class SubversionRepository(GitRepository):
 
     def list_remote_branches(self):
         return []
+
+    def push(self):
+        """Push given branch to remote repository."""
+        self.execute(['svn', 'dcommit', self.branch])
 
 
 class GithubRepository(GitRepository):
