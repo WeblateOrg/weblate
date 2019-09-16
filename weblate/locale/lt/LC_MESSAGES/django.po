@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-16 12:48+0000\n"
+"POT-Creation-Date: 2019-09-16 13:12+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -5401,12 +5401,11 @@ msgstr[1] "Kalba"
 msgstr[2] "Kalba"
 msgstr[3] "Kalba"
 
-#: weblate/templates/engage.html:32
-#, fuzzy, python-format
-#| msgid "translated"
+#: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
+#, python-format
 msgctxt "Translated percents"
-msgid "%(translated)s%%"
-msgstr "išversta"
+msgid "%(percent)s%%"
+msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -10430,12 +10429,6 @@ msgstr ""
 msgid "Failed to change translation flags!"
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/widgets.py:100
-#, python-format
-msgctxt "Translated percents"
-msgid "%(percent)s%%"
-msgstr ""
-
 #: weblate/trans/widgets.py:246
 #, fuzzy
 #| msgid "Password has been changed."
@@ -10690,6 +10683,12 @@ msgstr ""
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "translated"
+#~ msgctxt "Translated percents"
+#~ msgid "%(translated)s%%"
+#~ msgstr "išversta"
 
 #~ msgid "Copy"
 #~ msgstr "Kopijuoti"

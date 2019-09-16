@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-16 12:48+0000\n"
+"POT-Creation-Date: 2019-09-16 13:12+0000\n"
 "PO-Revision-Date: 2019-01-28 21:55+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Asturian <https://hosted.weblate.org/projects/weblate/master/"
@@ -5350,13 +5350,11 @@ msgid_plural "Languages"
 msgstr[0] "Llingua"
 msgstr[1] "Llingua"
 
-#: weblate/templates/engage.html:32
-#, fuzzy, python-format
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
+#: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
+#, python-format
 msgctxt "Translated percents"
-msgid "%(translated)s%%"
-msgstr "Sin traducir"
+msgid "%(percent)s%%"
+msgstr ""
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -10339,12 +10337,6 @@ msgstr "¡Fallu al camudar el contestu!"
 msgid "Failed to change translation flags!"
 msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
 
-#: weblate/trans/widgets.py:100
-#, python-format
-msgctxt "Translated percents"
-msgid "%(percent)s%%"
-msgstr ""
-
 #: weblate/trans/widgets.py:246
 #, fuzzy
 #| msgid "Last change"
@@ -10605,6 +10597,13 @@ msgstr ""
 #| msgid "Failed to add new translation file!"
 msgid "Could not dismiss the configuration error!"
 msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
+
+#, fuzzy
+#~| msgctxt "Number of untranslated strings"
+#~| msgid "Untranslated"
+#~ msgctxt "Translated percents"
+#~ msgid "%(translated)s%%"
+#~ msgstr "Sin traducir"
 
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"

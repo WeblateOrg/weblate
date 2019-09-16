@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-16 12:48+0000\n"
+"POT-Creation-Date: 2019-09-16 13:12+0000\n"
 "PO-Revision-Date: 2019-09-08 04:58+0000\n"
 "Last-Translator: 微别累特 <1365143958@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -5292,12 +5292,12 @@ msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "语言"
 
-#: weblate/templates/engage.html:32
+#: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
 #, fuzzy, python-format
-#| msgid "translated"
+#| msgid "Percent"
 msgctxt "Translated percents"
-msgid "%(translated)s%%"
-msgstr "已翻译"
+msgid "%(percent)s%%"
+msgstr "百分比"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -10352,13 +10352,6 @@ msgstr "更改上下文失败！"
 msgid "Failed to change translation flags!"
 msgstr "修改翻译旗标（flag）失败！"
 
-#: weblate/trans/widgets.py:100
-#, fuzzy, python-format
-#| msgid "Percent"
-msgctxt "Translated percents"
-msgid "%(percent)s%%"
-msgstr "百分比"
-
 #: weblate/trans/widgets.py:246
 #, fuzzy
 #| msgid "Bulk status change"
@@ -10603,6 +10596,12 @@ msgstr ""
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
+
+#, fuzzy
+#~| msgid "translated"
+#~ msgctxt "Translated percents"
+#~ msgid "%(translated)s%%"
+#~ msgstr "已翻译"
 
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"

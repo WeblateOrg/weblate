@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-16 12:48+0000\n"
+"POT-Creation-Date: 2019-09-16 13:12+0000\n"
 "PO-Revision-Date: 2019-09-13 15:44+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -5258,12 +5258,12 @@ msgid_plural "Languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
-#: weblate/templates/engage.html:32
+#: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
 #, fuzzy, python-format
-#| msgid "translated"
+#| msgid "Percent"
 msgctxt "Translated percents"
-msgid "%(translated)s%%"
-msgstr "Traduit à"
+msgid "%(percent)s%%"
+msgstr "Pourcentage"
 
 # Translators: line of text in engagement widget, please use your
 # language name instead of English
@@ -10215,13 +10215,6 @@ msgstr "Échec de modification d’un contexte !"
 msgid "Failed to change translation flags!"
 msgstr "Échec lors de la modification des marques de traduction !"
 
-#: weblate/trans/widgets.py:100
-#, fuzzy, python-format
-#| msgid "Percent"
-msgctxt "Translated percents"
-msgid "%(percent)s%%"
-msgstr "Pourcentage"
-
 #: weblate/trans/widgets.py:246
 msgid "Big status badge"
 msgstr "Grand badge de statut"
@@ -10470,6 +10463,12 @@ msgstr "L'activation a échoué. Veuillez vérifier votre jeton d'activation."
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossible d’ignorer l’erreur de configuration !"
+
+#, fuzzy
+#~| msgid "translated"
+#~ msgctxt "Translated percents"
+#~ msgid "%(translated)s%%"
+#~ msgstr "Traduit à"
 
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"

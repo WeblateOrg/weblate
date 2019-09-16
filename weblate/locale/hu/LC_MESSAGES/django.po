@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-16 12:48+0000\n"
+"POT-Creation-Date: 2019-09-16 13:12+0000\n"
 "PO-Revision-Date: 2019-09-13 15:44+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -5202,12 +5202,12 @@ msgid_plural "Languages"
 msgstr[0] "Nyelv"
 msgstr[1] "Nyelvek"
 
-#: weblate/templates/engage.html:32
+#: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
 #, fuzzy, python-format
-#| msgid "translated"
+#| msgid "Percent"
 msgctxt "Translated percents"
-msgid "%(translated)s%%"
-msgstr "lefordítva"
+msgid "%(percent)s%%"
+msgstr "Százalék"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -10121,13 +10121,6 @@ msgstr "Nem sikerült megváltoztatni egy környezetet!"
 msgid "Failed to change translation flags!"
 msgstr "Nem sikerült megváltoztatni a fordítási jelzőket!"
 
-#: weblate/trans/widgets.py:100
-#, fuzzy, python-format
-#| msgid "Percent"
-msgctxt "Translated percents"
-msgid "%(percent)s%%"
-msgstr "Százalék"
-
 #: weblate/trans/widgets.py:246
 msgid "Big status badge"
 msgstr "Nagy állapot matrica"
@@ -10371,6 +10364,12 @@ msgstr "A aktiválás nem sikerült. Ellenőrizze az aktiválási tokent."
 #: weblate/wladmin/views.py:173
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#, fuzzy
+#~| msgid "translated"
+#~ msgctxt "Translated percents"
+#~ msgid "%(translated)s%%"
+#~ msgstr "lefordítva"
 
 #~ msgctxt "Translated percents in widget"
 #~ msgid "{0}%"
