@@ -1181,19 +1181,23 @@ class NewLanguageOwnerForm(forms.Form):
         widget=SortedSelectMultiple,
     )
 
+    def get_lang_filter(self):
+        return (
+            Q(translation__component=self.component)
+            | Q(project=self.component.project)
+        )
+
     def __init__(self, component, *args, **kwargs):
         super(NewLanguageOwnerForm, self).__init__(*args, **kwargs)
-        languages = Language.objects.exclude(translation__component=component)
         self.component = component
+        languages = Language.objects.exclude(self.get_lang_filter())
         self.fields['lang'].choices = sort_choices([
             (l.code, '{0} ({1})'.format(ugettext(l.name), l.code))
             for l in languages
         ])
 
     def clean_lang(self):
-        existing = Language.objects.filter(
-            translation__component=self.component
-        )
+        existing = Language.objects.filter(self.get_lang_filter())
         for code in self.cleaned_data['lang']:
             if code not in ALIASES:
                 continue
