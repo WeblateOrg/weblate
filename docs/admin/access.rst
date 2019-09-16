@@ -197,7 +197,7 @@ Users with the :guilabel:`Can manage ACL rules for a project` privilege (see
 turned on through the project page. You can add users, or remove them from a project, or make
 them owners of it.
 
-The user management is available in the :guilabel:`Tools` menu of a project:
+The user management is available in the :guilabel:`Manage` menu of a project:
 
 .. image:: /images/manage-users.png
 

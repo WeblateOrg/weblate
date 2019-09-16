@@ -154,7 +154,7 @@ Managing fonts
 
 The :ref:`check-max-size` check needs fonts to properly calculate dimensions
 of rendered text. The fonts can be managed in Weblate in the font management
-tool which you can find as :guilabel:`Fonts` under :guilabel:`Tools` menu of
+tool which you can find as :guilabel:`Fonts` under :guilabel:`Manage` menu of
 your translation project.
 
 You can upload TrueType or OpenType fonts, configure font groups and use those

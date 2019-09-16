@@ -39,7 +39,7 @@ both Weblate and the upstream repository. You can usually avoid this by merging
 Weblate translations prior to doing some changes in the translation files (e.g.
 before executing msgmerge). Just tell Weblate to commit all pending
 translations (you can do it in the :guilabel:`Repository maintenance` in the
-:guilabel:`Tools` menu) and merge the repository (if automatic push is not
+:guilabel:`Manage` menu) and merge the repository (if automatic push is not
 enabled).
 
 If you've already ran into the merge conflict, the easiest way is to solve all
