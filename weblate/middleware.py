@@ -83,7 +83,7 @@ class SecurityMiddleware(object):
             connect.add('api.rollbar.com')
 
         if (hasattr(settings, 'RAVEN_CONFIG')
-                and 'public_dsn' in settings.RAVEN_CONFIG):
+                and settings.RAVEN_CONFIG.get('public_dsn')):
             domain = urlparse(settings.RAVEN_CONFIG['public_dsn']).hostname
             script.add(domain)
             connect.add(domain)
