@@ -341,5 +341,5 @@ class HgRepository(Repository):
 
     def update_remote(self):
         """Update remote repository."""
-        self.execute(['pull', '--branch', '.'])
+        self.execute(['pull', '--branch', self.branch])
         self.clean_revision_cache()
