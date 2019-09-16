@@ -24,7 +24,7 @@ from weblate.celery import app
 from weblate.fonts.models import FONT_STORAGE, Font
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_font_files():
     """Remove stale fonts"""
     try:

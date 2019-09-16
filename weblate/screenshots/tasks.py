@@ -28,7 +28,7 @@ from weblate.celery import app
 from weblate.screenshots.models import Screenshot
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_screenshot_files():
     """Remove stale screenshots"""
     storage = DefaultStorage()

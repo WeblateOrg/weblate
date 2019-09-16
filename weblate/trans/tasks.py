@@ -54,7 +54,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
 
 
-@app.task(autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
 def perform_update(cls, pk):
     try:
         if cls == 'Project':
@@ -68,25 +68,25 @@ def perform_update(cls, pk):
         return
 
 
-@app.task(autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
     component.create_translations(*args)
 
 
-@app.task(autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
 def perform_commit(pk, *args):
     component = Component.objects.get(pk=pk)
     component.commit_pending(*args)
 
 
-@app.task(autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
 def perform_push(pk, *args, **kwargs):
     component = Component.objects.get(pk=pk)
     component.do_push(*args, **kwargs)
 
 
-@app.task(autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()
@@ -114,7 +114,7 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(component.pk, 'commit_pending', None)
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_fulltext():
     """Remove stale units from fulltext"""
     fulltext = Fulltext()
@@ -135,7 +135,7 @@ def cleanup_fulltext():
             fulltext.clean_search_unit(item['pk'], lang)
 
 
-@app.task
+@app.task(trail=False)
 def optimize_fulltext():
     fulltext = Fulltext()
     index = fulltext.get_source_index()
@@ -196,7 +196,7 @@ def cleanup_language_data(project):
                 ).delete()
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_project(pk):
     """Perform cleanup of project models."""
     try:
@@ -209,7 +209,7 @@ def cleanup_project(pk):
     cleanup_language_data(project)
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()
@@ -246,7 +246,7 @@ def cleanup_suggestions():
                     break
 
 
-@app.task
+@app.task(trail=False)
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
@@ -257,7 +257,7 @@ def update_remotes():
             component.update_remote_branch()
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_stale_repos():
     prefix = data_dir('vcs')
     vcs_mask = os.path.join(prefix, '*', '*')
@@ -273,7 +273,7 @@ def cleanup_stale_repos():
             continue
 
         # Parse path
-        project, component = os.path.split(path[len(prefix) + 1:])
+        project, component = os.path.split(path[len(prefix) + 1 :])
 
         # Find matching components
         objects = Component.objects.with_repo().filter(
@@ -285,7 +285,7 @@ def cleanup_stale_repos():
             rmtree(path, onerror=remove_readonly)
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_old_suggestions():
     if not settings.SUGGESTION_CLEANUP_DAYS:
         return
@@ -293,7 +293,7 @@ def cleanup_old_suggestions():
     Suggestion.objects.filter(timestamp__lt=cutoff).delete()
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_old_comments():
     if not settings.COMMENT_CLEANUP_DAYS:
         return
@@ -301,7 +301,7 @@ def cleanup_old_comments():
     Comment.objects.filter(timestamp__lt=cutoff).delete()
 
 
-@app.task
+@app.task(trail=False)
 def repository_alerts(threshold=10):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
@@ -315,19 +315,19 @@ def repository_alerts(threshold=10):
             component.delete_alert('RepositoryChanges', childs=True)
 
 
-@app.task
+@app.task(trail=False)
 def component_alerts():
     for component in Component.objects.iterator():
         component.update_alerts()
 
 
-@app.task(autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+@app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(pk, changed_git, changed_setup, changed_template, skip_push):
     component = Component.objects.get(pk=pk)
     component.after_save(changed_git, changed_setup, changed_template, skip_push)
 
 
-@app.task
+@app.task(trail=False)
 def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -344,7 +344,7 @@ def component_removal(pk, uid):
         return
 
 
-@app.task
+@app.task(trail=False)
 def project_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -357,7 +357,7 @@ def project_removal(pk, uid):
         return
 
 
-@app.task
+@app.task(trail=False)
 def auto_translate(
     user_id,
     translation_id,

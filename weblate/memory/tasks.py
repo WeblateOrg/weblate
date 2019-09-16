@@ -39,7 +39,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_TRANSLATED
 
 
-@app.task
+@app.task(trail=False)
 def memory_backup(indent=2):
     filename = os.path.join(data_dir('backups'), 'memory.json')
     memory = TranslationMemory()
@@ -47,12 +47,12 @@ def memory_backup(indent=2):
         memory.dump(handle, indent)
 
 
-@app.task
+@app.task(trail=False)
 def import_memory(project_id):
     from weblate.trans.models import Unit
+
     units = Unit.objects.filter(
-        translation__component__project_id=project_id,
-        state__gte=STATE_TRANSLATED,
+        translation__component__project_id=project_id, state__gte=STATE_TRANSLATED
     )
     for unit in units.iterator():
         update_memory(None, unit)
@@ -62,9 +62,7 @@ def update_memory(user, unit):
     component = unit.translation.component
     project = component.project
 
-    categories = [
-        CATEGORY_PRIVATE_OFFSET + project.pk,
-    ]
+    categories = [CATEGORY_PRIVATE_OFFSET + project.pk]
     if user:
         categories.append(CATEGORY_USER_OFFSET + user.id)
     if unit.translation.component.project.use_shared_tm:
@@ -81,7 +79,7 @@ def update_memory(user, unit):
         )
 
 
-@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
+@app.task(trail=False, base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def update_memory_task(self, *args, **kwargs):
     def fixup_strings(data):
         result = {}
@@ -107,7 +105,7 @@ def update_memory_task(self, *args, **kwargs):
             update_memory_task.delay(**unit)
 
 
-@app.task
+@app.task(trail=False)
 def memory_optimize():
     memory = TranslationMemory()
     memory.index.optimize()
@@ -116,12 +114,8 @@ def memory_optimize():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600 * 24,
-        memory_backup.s(),
-        name='translation-memory-backup',
+        3600 * 24, memory_backup.s(), name='translation-memory-backup'
     )
     sender.add_periodic_task(
-        3600 * 24 * 7,
-        memory_optimize.s(),
-        name='translation-memory-optimize',
+        3600 * 24 * 7, memory_optimize.s(), name='translation-memory-optimize'
     )

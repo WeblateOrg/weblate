@@ -43,6 +43,7 @@ LOGGER = logging.getLogger('weblate.search')
 
 class TargetSchema(SchemaClass):
     """Fultext index schema for target strings."""
+
     pk = NUMERIC(stored=True, unique=True)
     target = TEXT()
     comment = TEXT()
@@ -50,6 +51,7 @@ class TargetSchema(SchemaClass):
 
 class SourceSchema(SchemaClass):
     """Fultext index schema for source and context strings."""
+
     pk = NUMERIC(stored=True, unique=True)
     source = TEXT()
     context = TEXT()
@@ -90,11 +92,7 @@ class Fulltext(WhooshIndex):
     def update_target_unit_index(writer, searcher, unit):
         """Update target index for given unit."""
         if not isinstance(unit, dict):
-            unit = {
-                'pk': unit.pk,
-                'target': unit.target,
-                'comment': unit.comment,
-            }
+            unit = {'pk': unit.pk, 'target': unit.target, 'comment': unit.comment}
         writer.delete_by_term('pk', unit['pk'], searcher)
         writer.add_document(
             pk=unit['pk'],
@@ -146,13 +144,9 @@ class Fulltext(WhooshIndex):
             for param in params:
                 if search[param]:
                     parser = qparser.QueryParser(param, schema)
-                    queries.append(
-                        parser.parse(query)
-                    )
+                    queries.append(parser.parse(query))
             terms = functools.reduce(lambda x, y: x | y, queries)
-            return [
-                result['pk'] for result in searcher.search(terms, limit=None)
-            ]
+            return [result['pk'] for result in searcher.search(terms, limit=None)]
 
     def search(self, query, langs, params):
         """Perform fulltext search in given areas.
@@ -177,7 +171,7 @@ class Fulltext(WhooshIndex):
                     query,
                     ('source', 'context', 'location'),
                     search,
-                    SourceSchema()
+                    SourceSchema(),
                 )
             )
 
@@ -189,7 +183,7 @@ class Fulltext(WhooshIndex):
                         query,
                         ('target', 'comment'),
                         search,
-                        TargetSchema()
+                        TargetSchema(),
                     )
                 )
 
@@ -201,20 +195,14 @@ class Fulltext(WhooshIndex):
         with index.searcher() as searcher:
             # Extract key terms
             kts = searcher.key_terms_from_text(
-                'source', source,
-                numterms=10,
-                normalize=False
+                'source', source, numterms=10, normalize=False
             )
             # Create an Or query from the key terms
-            query = Or(
-                [Term('source', word, boost=weight) for word, weight in kts]
-            )
+            query = Or([Term('source', word, boost=weight) for word, weight in kts])
             LOGGER.debug('more like query: %r', query)
 
             # Grab fulltext results
-            results = [
-                (h['pk'], h.score) for h in searcher.search(query, limit=top)
-            ]
+            results = [(h['pk'], h.score) for h in searcher.search(query, limit=top)]
             LOGGER.debug('found %d matches', len(results))
             if not results:
                 return []
@@ -222,9 +210,7 @@ class Fulltext(WhooshIndex):
             # Filter bad results
             threshold = max((h[1] for h in results)) / 2
             results = [h[0] for h in results if h[1] > threshold]
-            LOGGER.debug(
-                'filter %d matches over threshold %d', len(results), threshold
-            )
+            LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
 
             return results
 
@@ -244,19 +230,13 @@ class Fulltext(WhooshIndex):
     def delete_search_units(self, source_units, languages):
         """Delete fulltext index for given set of units."""
         # Update source index
-        self.delete_units_index(
-            self.get_source_index(),
-            source_units
-        )
+        self.delete_units_index(self.get_source_index(), source_units)
 
         for lang, units in languages.items():
-            self.delete_units_index(
-                self.get_target_index(lang),
-                units
-            )
+            self.delete_units_index(self.get_target_index(lang), units)
 
 
-@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
+@app.task(trail=False, base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def update_fulltext(self, *args, **kwargs):
     unitdata = extract_batch_kwargs(*args, **kwargs)
     fulltext = Fulltext()
@@ -273,7 +253,7 @@ def update_fulltext(self, *args, **kwargs):
             update_fulltext.delay(**unit)
 
 
-@app.task(base=Batches, flush_every=1000, flush_interval=300, bind=True)
+@app.task(trail=False, base=Batches, flush_every=1000, flush_interval=300, bind=True)
 def delete_fulltext(self, *args):
     ids = extract_batch_args(*args)
     fulltext = Fulltext()

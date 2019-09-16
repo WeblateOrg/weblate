@@ -186,7 +186,7 @@ def post_save_update_checks(sender, instance, **kwargs):
     update_checks.delay(instance.pk)
 
 
-@app.task
+@app.task(trail=False)
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
     for translation in component.translation_set.iterator():

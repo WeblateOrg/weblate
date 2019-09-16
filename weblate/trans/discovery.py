@@ -328,7 +328,7 @@ def create_component_real(addons_from=None, **kwargs):
     return component
 
 
-@app.task
+@app.task(trail=False)
 def create_component(**kwargs):
     kwargs['project'] = Project.objects.get(pk=kwargs['project'])
     create_component_real(**kwargs)

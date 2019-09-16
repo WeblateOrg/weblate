@@ -23,6 +23,6 @@ from __future__ import absolute_import, unicode_literals
 from weblate.celery import app
 
 
-@app.task
+@app.task(trail=False)
 def ping():
     return None

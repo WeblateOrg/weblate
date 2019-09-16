@@ -28,7 +28,7 @@ from weblate.celery import app
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 
-@app.task
+@app.task(trail=False)
 def configuration_health_check(include_deployment_checks=True):
     # Fetch errors from cache, these are created from
     # code executed without apps ready
@@ -69,7 +69,7 @@ def configuration_health_check(include_deployment_checks=True):
             ConfigurationError.objects.remove(check_id)
 
 
-@app.task
+@app.task(trail=False)
 def support_status_update():
     support = SupportStatus.objects.get_current()
     if support.secret:

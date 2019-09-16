@@ -37,7 +37,7 @@ from weblate.celery import app
 from weblate.utils.errors import report_error
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
     for partial in Partial.objects.iterator():
@@ -59,7 +59,7 @@ def cleanup_social_auth():
     ).delete()
 
 
-@app.task
+@app.task(trail=False)
 def cleanup_auditlog():
     """Cleanup old auditlog entries."""
     from weblate.accounts.models import AuditLog
@@ -70,7 +70,7 @@ def cleanup_auditlog():
 
 # Retry for not existing object (maybe transaction not yet committed) with
 # delay of 10 minutes growing exponentially
-@app.task(autoretry_for=(ObjectDoesNotExist,), retry_backoff=600)
+@app.task(trail=False, autoretry_for=(ObjectDoesNotExist,), retry_backoff=600)
 def notify_change(change_id):
     from weblate.trans.models import Change
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
@@ -94,22 +94,22 @@ def notify_digest(method):
         send_mails.delay(outgoing)
 
 
-@app.task
+@app.task(trail=False)
 def notify_daily():
     notify_digest('notify_daily')
 
 
-@app.task
+@app.task(trail=False)
 def notify_weekly():
     notify_digest('notify_weekly')
 
 
-@app.task
+@app.task(trail=False)
 def notify_monthly():
     notify_digest('notify_monthly')
 
 
-@app.task(autoretry_for=(ObjectDoesNotExist,))
+@app.task(trail=False, autoretry_for=(ObjectDoesNotExist,))
 def notify_auditlog(log_id):
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email
@@ -128,7 +128,7 @@ def notify_auditlog(log_id):
     )
 
 
-@app.task
+@app.task(trail=False)
 def send_mails(mails):
     """Send multiple mails in single connection."""
     filename = os.path.join(settings.STATIC_ROOT, 'email-logo.png')

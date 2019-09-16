@@ -33,12 +33,12 @@ from weblate.celery import app
 from weblate.utils.site import get_site_url
 
 
-@app.task
+@app.task(trail=False)
 def billing_check():
     Billing.objects.check_limits()
 
 
-@app.task
+@app.task(trail=False)
 def billing_alert():
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
         in_limit = bill.in_display_limits()
@@ -50,7 +50,7 @@ def billing_alert():
                     component.add_alert('BillingLimit')
 
 
-@app.task
+@app.task(trail=False)
 def billing_notify():
     billing_check()
 
@@ -64,7 +64,7 @@ def billing_notify():
         )
 
 
-@app.task
+@app.task(trail=False)
 def notify_expired():
     possible_billings = Billing.objects.filter(
         Q(state=Billing.STATE_ACTIVE) | Q(removal__isnull=False)
@@ -86,7 +86,7 @@ def notify_expired():
             )
 
 
-@app.task
+@app.task(trail=False)
 def schedule_removal():
     removal = timezone.now() + timedelta(days=15)
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
@@ -96,7 +96,7 @@ def schedule_removal():
         bill.save(update_fields=['removal'])
 
 
-@app.task
+@app.task(trail=False)
 def perform_removal():
     for bill in Billing.objects.filter(removal__lte=timezone.now()):
         for user in bill.get_notify_users():
