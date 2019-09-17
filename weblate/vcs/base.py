@@ -73,8 +73,6 @@ class Repository(object):
     _cmd = 'false'
     _cmd_last_revision = None
     _cmd_last_remote_revision = None
-    _cmd_update_remote = None
-    _cmd_push = None
     _cmd_status = ['status']
     _cmd_list_changed_files = None
 
@@ -231,8 +229,7 @@ class Repository(object):
 
     def update_remote(self):
         """Update remote repository."""
-        self.execute(self._cmd_update_remote)
-        self.clean_revision_cache()
+        raise NotImplementedError()
 
     def status(self):
         """Return status of the repository."""
@@ -241,7 +238,7 @@ class Repository(object):
 
     def push(self):
         """Push given branch to remote repository."""
-        self.execute(self._cmd_push + [self.branch])
+        raise NotImplementedError()
 
     def reset(self):
         """Reset working copy to match remote branch."""
