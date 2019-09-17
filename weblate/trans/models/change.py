@@ -466,6 +466,8 @@ class Change(models.Model, UserDisplayMixin):
                 return ALERTS[self.details['alert']].verbose
             except KeyError:
                 return self.details['alert']
+        elif self.action == self.ACTION_PARSE_ERROR:
+            return '{filename}: {error_message}'.format(**self.details)
 
         return ''
 
