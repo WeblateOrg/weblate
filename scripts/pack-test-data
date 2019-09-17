@@ -26,7 +26,7 @@ cp -r test-data test-base-repo.hg
 cd test-base-repo.hg
 hg init . 
 hg add .
-hg commit --date 1970-01-01 -m 'Import git files
+hg commit --date 2019-01-01 -m 'Import git files
 
 Zkouška'
 hg update null
@@ -34,16 +34,28 @@ cd ..
 
 # Create SVN repo with same content as Git
 svnadmin create --compatible-version 1.6 test-base-repo.svn
+# Hardcode UUID to make this reproducible
+echo "24fccd88-22b4-439e-bb17-3cda778ca655" > test-base-repo.svn/db/uuid
+# Allow propset to change timestamps
+cat > test-base-repo.svn/hooks/pre-revprop-change <<EOT
+#!/bin/sh
+exit 0
+EOT
+chmod +x test-base-repo.svn/hooks/pre-revprop-change
+# Import
 cd test-data
 svn import -m 'Import git files
 
 Zkouška' . file://$WD/test-base-repo.svn/trunk
 cd ..
+# Reset timestamps
+svn propset -r0 --revprop svn:date "2019-01-01T00:44:04.921324Z" file://$WD/test-base-repo.svn/trunk
+svn propset -rHEAD --revprop svn:date "2019-02-02T00:44:04.921324Z" file://$WD/test-base-repo.svn/trunk
 
 # Pack them
 reproducible_tar() {
     tar --sort=name \
-      --mtime="1970-01-01" \
+      --mtime="2019-01-01" \
       --owner=0 --group=0 --numeric-owner \
       -cf "$@"
 }
