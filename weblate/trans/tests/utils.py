@@ -267,6 +267,14 @@ class RepoTestMixin(object):
             vcs='mercurial'
         )
 
+    def create_po_mercurial_branch(self):
+        return self._create_component(
+            'po',
+            'translations/*.po',
+            branch='translations',
+            vcs='mercurial',
+        )
+
     def create_po_svn(self):
         return self.create_po(
             vcs='subversion'

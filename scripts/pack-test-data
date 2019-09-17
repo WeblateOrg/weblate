@@ -29,6 +29,12 @@ hg add .
 hg commit --date 2019-01-01 -m 'Import git files
 
 Zkouška'
+hg branch translations
+hg mv po translations
+hg commit --date 2019-02-02 -m 'Rename'
+hg update default
+echo "Mercurial copy" >> README.md
+hg commit --date 2019-02-02 -m 'Update'
 hg update null
 cd ..
 

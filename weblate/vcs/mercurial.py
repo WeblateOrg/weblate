@@ -46,7 +46,7 @@ class HgRepository(Repository):
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
-    ref_to_remote = 'heads(branch(.)) - .'
+    ref_to_remote = 'remote(.) - .'
     ref_from_remote = 'outgoing()'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
@@ -297,15 +297,12 @@ class HgRepository(Repository):
 
         self.branch = branch
 
-    def has_branch(self, branch):
-        branches = self.execute(
-            ['branches', '--template', '{branch}\n']
-        ).split()
-        return branch in branches
+    def on_branch(self, branch):
+        return branch == self.execute(['branch'])
 
     def configure_branch(self, branch):
         """Configure repository branch."""
-        if not self.has_branch(branch):
+        if not self.on_branch(branch):
             self.execute(['update', branch])
         self.branch = branch
 

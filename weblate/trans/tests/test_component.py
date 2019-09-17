@@ -156,6 +156,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_branch()
         self.verify_component(component, 3, 'cs', 4)
 
+    def test_create_po_mercurial_branch(self):
+        component = self.create_po_mercurial_branch()
+        self.verify_component(component, 3, 'cs', 4)
+
     def test_create_po_push(self):
         component = self.create_po_push()
         self.verify_component(component, 3, 'cs', 4)
@@ -331,6 +335,22 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 3, 'cs', 4)
         # Switch back to master branch
         component.branch = 'master'
+        component.filemask = 'po/*.po'
+        component.clean()
+        component.save()
+        self.verify_component(component, 3, 'cs', 4)
+
+    def test_switch_branch_mercurial(self):
+        component = self.create_po_mercurial()
+        # Switch to translation branch
+        self.verify_component(component, 3, 'cs', 4)
+        component.branch = 'translations'
+        component.filemask = 'translations/*.po'
+        component.clean()
+        component.save()
+        self.verify_component(component, 3, 'cs', 4)
+        # Switch back to master branch
+        component.branch = 'default'
         component.filemask = 'po/*.po'
         component.clean()
         component.save()
