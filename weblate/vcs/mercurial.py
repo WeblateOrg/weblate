@@ -67,7 +67,10 @@ class HgRepository(Repository):
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone repository."""
-        cls._popen(['clone', source, target])
+        if branch:
+            cls._popen(['clone', '--branch', branch, source, target])
+        else:
+            cls._popen(['clone', source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
