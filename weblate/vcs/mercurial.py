@@ -234,7 +234,7 @@ class HgRepository(Repository):
     def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--template', '"{node}\n"', '--rev', refspec],
+            ['log', '--template', '{node}\n', '--rev', refspec],
             needs_lock=False
         ).splitlines()
 
