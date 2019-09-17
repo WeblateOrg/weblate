@@ -307,7 +307,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             vcs='mercurial'
         )
-        self.assertEqual(project.component_set.count(), 3)
+        self.assertEqual(project.component_set.count(), 4)
 
     def test_import_mercurial_mixed(self):
         """Test importing Mercurial project with mixed component/lang"""
