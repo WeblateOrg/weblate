@@ -659,14 +659,6 @@ To enable support for Sentry, set following:
 
     Your Sentry DSN.
 
-.. envvar:: SENTRY_PUBLIC_DSN
-
-    Your Sentry public DSN.
-
-.. envvar:: SENTRY_ENVIRONMENT
-
-    Your Sentry environment, defaults to ``production``.
-
 Further configuration customization
 -----------------------------------
 
