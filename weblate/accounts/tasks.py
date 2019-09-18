@@ -48,21 +48,17 @@ def cleanup_social_auth():
 
     age = now() + timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
-    Code.objects.filter(
-        verified=False,
-        timestamp__lt=age
-    ).delete()
+    Code.objects.filter(verified=False, timestamp__lt=age).delete()
 
     # Delete old partial data
-    Partial.objects.filter(
-        timestamp__lt=age
-    ).delete()
+    Partial.objects.filter(timestamp__lt=age).delete()
 
 
 @app.task(trail=False)
 def cleanup_auditlog():
     """Cleanup old auditlog entries."""
     from weblate.accounts.models import AuditLog
+
     AuditLog.objects.filter(
         timestamp__lt=now() - timedelta(days=settings.AUDITLOG_EXPIRY)
     ).delete()
@@ -70,10 +66,16 @@ def cleanup_auditlog():
 
 # Retry for not existing object (maybe transaction not yet committed) with
 # delay of 10 minutes growing exponentially
-@app.task(trail=False, autoretry_for=(ObjectDoesNotExist,), retry_backoff=600)
+@app.task(
+    trail=False,
+    autoretry_for=(ObjectDoesNotExist,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def notify_change(change_id):
     from weblate.trans.models import Change
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+
     change = Change.objects.get(pk=change_id)
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []
@@ -86,6 +88,7 @@ def notify_change(change_id):
 
 def notify_digest(method):
     from weblate.accounts.notifications import NOTIFICATIONS
+
     outgoing = []
     for notification_cls in NOTIFICATIONS:
         notification = notification_cls(outgoing)
@@ -113,6 +116,7 @@ def notify_monthly():
 def notify_auditlog(log_id):
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email
+
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
         audit.user.profile.language,
@@ -164,20 +168,10 @@ def send_mails(mails):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(3600, cleanup_social_auth.s(), name='social-auth-cleanup')
+    sender.add_periodic_task(3600, cleanup_auditlog.s(), name='auditlog-cleanup')
     sender.add_periodic_task(
-        3600,
-        cleanup_social_auth.s(),
-        name='social-auth-cleanup',
-    )
-    sender.add_periodic_task(
-        3600,
-        cleanup_auditlog.s(),
-        name='auditlog-cleanup',
-    )
-    sender.add_periodic_task(
-        crontab(hour=1, minute=0),
-        notify_daily.s(),
-        name='notify-daily',
+        crontab(hour=1, minute=0), notify_daily.s(), name='notify-daily'
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=0, day_of_week='monday'),
@@ -185,7 +179,5 @@ def setup_periodic_tasks(sender, **kwargs):
         name='notify-weekly',
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=0, day=1),
-        notify_monthly.s(),
-        name='notify-monthly',
+        crontab(hour=3, minute=0, day=1), notify_monthly.s(), name='notify-monthly'
     )

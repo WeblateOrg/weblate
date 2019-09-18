@@ -54,7 +54,9 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
 
 
-@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(
+    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+)
 def perform_update(cls, pk):
     try:
         if cls == 'Project':
@@ -68,25 +70,33 @@ def perform_update(cls, pk):
         return
 
 
-@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(
+    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+)
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
     component.create_translations(*args)
 
 
-@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(
+    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+)
 def perform_commit(pk, *args):
     component = Component.objects.get(pk=pk)
     component.commit_pending(*args)
 
 
-@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(
+    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+)
 def perform_push(pk, *args, **kwargs):
     component = Component.objects.get(pk=pk)
     component.do_push(*args, **kwargs)
 
 
-@app.task(trail=False, autoretry_for=(Timeout,), retry_backoff=600)
+@app.task(
+    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+)
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         components = Component.objects.all()
