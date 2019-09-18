@@ -75,11 +75,11 @@ from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
 
 REPO_OPERATIONS = {
-    'push': ('vcs.push', 'do_push', ()),
-    'pull': ('vcs.update', 'do_update', ()),
-    'reset': ('vcs.reset', 'do_reset', ()),
-    'cleanup': ('vcs.reset', 'do_cleanup', ()),
-    'commit': ('vcs.commit', 'commit_pending', ('api',)),
+    'push': ('vcs.push', 'do_push', (), True),
+    'pull': ('vcs.update', 'do_update', (), True),
+    'reset': ('vcs.reset', 'do_reset', (), True),
+    'cleanup': ('vcs.reset', 'do_cleanup', (), True),
+    'commit': ('vcs.commit', 'commit_pending', ('api',), False),
 }
 
 DOC_TEXT = """
@@ -173,12 +173,15 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
     def repository_operation(self, request, obj, project, operation):
-        permission, method, args = REPO_OPERATIONS[operation]
+        permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
             raise PermissionDenied()
 
-        args = args + (request,)
+        if takes_request:
+            args = args + (request.user,)
+        else:
+            args = args + (request,)
 
         return getattr(obj, method)(*args)
 
