@@ -16,13 +16,14 @@
 # Tobias Groza <tooobi14@gmail.com>, 2019.
 # Swann Martinet <swann.ranskassa@laposte.net>, 2019.
 # Deleted User <noreply+16022@weblate.org>, 2019.
+# tinect <s.koenig@tinect.de>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-18 12:39+0000\n"
-"Last-Translator: Deleted User <noreply+16022@weblate.org>\n"
+"PO-Revision-Date: 2019-09-18 18:06+0000\n"
+"Last-Translator: tinect <s.koenig@tinect.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -271,17 +272,17 @@ msgstr "Passwort geändert."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Der Benutzername wurde von {old} in {new} geändert."
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Die E-Mail-Adresse wurde von {old} in {new} geändert."
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Der Name wurde von {old} in {new} geändert."
 
 #: weblate/accounts/models.py:102
 msgid "Password reset requested."
@@ -820,6 +821,8 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Diese Erweiterung übersetzt Zeichenketten automatisch mithilfe der \""
+"automatischen Übersetzung\" oder anderen Komponenten."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
@@ -5281,11 +5284,10 @@ msgstr[0] "Sprache"
 msgstr[1] "Sprachen"
 
 #: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
-#, fuzzy, python-format
-#| msgid "Percent"
+#, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
-msgstr "Prozent"
+msgstr "%(percent)s%%"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -6977,10 +6979,8 @@ msgstr ""
 "Hooks ein, um dies zu automatisieren."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "The component contains unsupported configuration."
-msgstr "Die Komponente enthält mehrere doppelte Übersetzungszeichenketten."
+msgstr "Die Komponente enthält nicht unterstützte Konfigurationen."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1723 weblate/trans/models/component.py:177
@@ -7745,7 +7745,7 @@ msgstr "Beobachten"
 #: weblate/templates/watch-dropdown.html:10
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Projekt ausblenden %(project)s"
+msgstr "Projekt %(project)s ausblenden"
 
 #: weblate/templates/watch-dropdown.html:12
 #: weblate/templates/watch-dropdown.html:15
@@ -8212,10 +8212,8 @@ msgid "Could not find reverted change."
 msgstr "Konnte rückgängig gemachte Änderung nicht finden."
 
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation mode"
-msgstr "Automatische Übersetzung"
+msgstr "Automatischer Übersetzungsmodus"
 
 #: weblate/trans/forms.py:949
 msgid "Automatic translation source"
@@ -8555,7 +8553,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:2022
 msgid "State to set"
-msgstr "An Weblate spenden"
+msgstr "Zu setzender Status"
 
 #: weblate/trans/forms.py:2055
 msgid "I accept the contributor agreement"
@@ -8644,10 +8642,8 @@ msgstr "Falsch konfigurierte einsprachige Übersetzung."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported component configuration"
-msgstr "Nicht unterstütztes Dateiformat."
+msgstr "Nicht unterstützte Konfiguration der Komponente"
 
 #: weblate/trans/models/change.py:218
 msgid "Resource update"
