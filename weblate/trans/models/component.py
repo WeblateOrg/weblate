@@ -830,7 +830,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
             # commit possible pending changes if needed
             if self.needs_commit_upstream():
-                self.commit_pending("update", request.user, skip_push=True)
+                self.commit_pending(
+                    "update", request.user if request else None, skip_push=True
+                )
 
             # update local branch
             ret = self.update_branch(request, method=method)
