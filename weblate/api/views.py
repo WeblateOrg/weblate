@@ -179,9 +179,9 @@ class WeblateViewSet(DownloadViewSet):
             raise PermissionDenied()
 
         if takes_request:
-            args = args + (request.user,)
-        else:
             args = args + (request,)
+        else:
+            args = args + (request.user,)
 
         return getattr(obj, method)(*args)
 
