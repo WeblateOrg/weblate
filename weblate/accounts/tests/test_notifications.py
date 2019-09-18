@@ -133,7 +133,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change = Change.objects.create(
             translation=self.get_translation(),
             details={
-                'error': 'Failed merge',
+                'error_message': 'Failed merge',
                 'filename': 'test/file.po',
             },
             action=Change.ACTION_PARSE_ERROR,
