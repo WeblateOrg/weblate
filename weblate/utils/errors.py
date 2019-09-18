@@ -68,7 +68,7 @@ def celery_base_data_hook(request, data):
 def init_error_collection(celery=False):
     if settings.SENTRY_DSN:
         sentry_sdk.init(
-            dsn="https://72b552d2b6644a0d81bc205b864236fc@sentry.io/1268937",
+            dsn=settings.SENTRY_DSN,
             integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
             send_default_pii=True,
         )
