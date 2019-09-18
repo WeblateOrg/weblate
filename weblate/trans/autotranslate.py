@@ -62,9 +62,10 @@ class AutoTranslate(object):
     def post_process(self):
         if self.updated > 0:
             self.translation.invalidate_cache()
-            self.user.profile.refresh_from_db()
-            self.user.profile.translated += self.updated
-            self.user.profile.save(update_fields=["translated"])
+            if self.user:
+                self.user.profile.refresh_from_db()
+                self.user.profile.translated += self.updated
+                self.user.profile.save(update_fields=["translated"])
 
     @transaction.atomic
     def process_others(self, source):
