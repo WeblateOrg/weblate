@@ -11,7 +11,7 @@ default_env = {
 
 
 def get_test_env(base):
-    base.extend(default_env)
+    base.update(default_env)
     return base
 
 
