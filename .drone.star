@@ -13,7 +13,9 @@ default_env = {
 def get_test_env(base=None):
     if not base:
         base = {}
-    base.update(default_env)
+    for key, value in default_env.items():
+        if key not in base:
+            base[key] = value
     return base
 
 
@@ -96,8 +98,10 @@ test_step_27 = {
 migrations_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
-    "environment": get_test_env(),
+    # Need C locale for tesserocr compatibility
+    "environment": get_test_env({"LANG": "C", "LC_ALL": "C"}),
     "commands": [
+        # Need older binary for Django copatibility
         "pip install  psycopg2-binary==2.7.7",
         "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt",
         "./ci/run-migrate",
