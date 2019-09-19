@@ -10,7 +10,9 @@ default_env = {
 }
 
 
-def get_test_env(base):
+def get_test_env(base=None):
+    if base is None:
+        base = {}
     base.update(default_env)
     return base
 
