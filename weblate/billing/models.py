@@ -147,10 +147,18 @@ class Billing(models.Model):
         verbose_name=_('Billing state'),
     )
     expiry = models.DateTimeField(
-        blank=True, null=True, default=None, verbose_name=_('Trial expiry date')
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name=_('Trial expiry date'),
+        help_text='After expiry removal with 15 days grace period is scheduled.',
     )
     removal = models.DateTimeField(
-        blank=True, null=True, default=None, verbose_name=_('Scheduled removal')
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name=_('Scheduled removal'),
+        help_text='This is automatically set after trial expiry.',
     )
     paid = models.BooleanField(default=True, verbose_name=_('Paid'), editable=False)
     # Translators: Whether the package is inside actual (hard) limits
