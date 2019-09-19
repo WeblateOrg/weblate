@@ -354,6 +354,23 @@ def gitea_hook_helper(data):
 
 
 @register_hook
+def gitee_hook_helper(data):
+    return {
+        'service_long_name': 'Gitee',
+        'repo_url': data['repository']['html_url'],
+        'repos': [
+            data['repository']['git_http_url'],
+            data['repository']['git_ssh_url'],
+            data['repository']['git_url'],
+            data['repository']['ssh_url'],
+            data['repository']['html_url'],
+        ],
+        'branch': re.sub(r'^refs/heads/', '', data['ref']),
+        'full_name': '{}.git'.format(data['repository']['path_with_namespace']),
+    }
+
+
+@register_hook
 def gitlab_hook_helper(data):
     """API to handle commit hooks from GitLab."""
     # Ignore non known events

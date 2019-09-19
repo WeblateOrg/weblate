@@ -18,7 +18,7 @@ Not yet released.
 * Added support for WebExtension JSON placeholders.
 * Added support for flat XML format.
 * Exteded API with project, component and translation removal.
-* Added support for Gitea webhooks.
+* Added support for Gitea and Gitee webhooks.
 * Added new custom regex based check.
 * Allow to configure contributing to shared translation memory.
 * Added ZIP download for more translation files.

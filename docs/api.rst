@@ -1193,6 +1193,8 @@ update individual repositories; see
 
 .. http:post:: /hooks/pagure/
 
+    .. versionadded:: 3.3
+
     Special hook for handling Pagure notifications and automatically
     updating matching components.
 
@@ -1206,6 +1208,8 @@ update individual repositories; see
             For enabling hooks for whole Weblate
 
 .. http:post:: /hooks/azure/
+
+    .. versionadded:: 3.8
 
     Special hook for handling Azure Repos notifications and automatically
     updating matching components.
@@ -1221,15 +1225,33 @@ update individual repositories; see
 
 .. http:post:: /hooks/gitea/
 
+    .. versionadded:: 3.9
+
     Special hook for handling Gitea Webhook notifications and automatically
     updating matching components.
 
     .. seealso::
 
         :ref:`gitea-setup`
-            For instruction on setting up Azure integration
+            For instruction on setting up Gitea integration
         https://docs.gitea.io/en-us/webhooks/
             Generic information about Gitea Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
+.. http:post:: /hooks/gitee/
+
+    .. versionadded:: 3.9
+
+    Special hook for handling Gitee Webhook notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`gitee-setup`
+            For instruction on setting up Gitee integration
+        https://gitee.com/help/categories/40
+            Generic information about Gitee Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 

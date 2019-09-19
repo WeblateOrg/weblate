@@ -753,6 +753,145 @@ GITEA_PAYLOAD = '''
 '''
 
 
+GITEE_PAYLOAD = '''
+{
+  "hook_name": "push_hooks",
+  "password": "pwd",
+  "ref": "refs/heads/master",
+  "before": "0000000000000000000000000000000000000000",
+  "after": "1cdcd819599cbb4099289dbbec762452f006cb40",
+  "created": true,
+  "deleted": false,
+  "compare": "https://gitee.com/oschina/gitee/compare/000",
+  "commits": [
+    {
+      "id": "1cdcd819599cbb4099289dbbec762452f006cb40",
+      "tree_id": "db78f3594ec0683f5d857ef731df0d860f14f2b2",
+      "distinct": true,
+      "message": "Update README.md",
+      "timestamp": "2018-02-05T23:46:46+08:00",
+      "url": "https://gitee.com/oschina/gitee/commit/1cdcd819599cbb4099289dbbec7624",
+      "author": {
+        "time": "2018-02-05T23:46:46+08:00",
+        "name": "robot",
+        "email": "robot@gitee.com",
+        "username": "robot",
+        "user_name": "robot",
+        "url": "https://gitee.com/robot"
+      },
+      "committer": {
+        "name": "robot",
+        "email": "robot@gitee.com",
+        "username": "robot",
+        "user_name": "robot",
+        "url": "https://gitee.com/robot"
+      },
+      "added": null,
+      "removed": null,
+      "modified": [
+        "README.md"
+      ]
+    }
+  ],
+  "head_commit": {
+    "id": "1cdcd819599cbb4099289dbbec762452f006cb40",
+    "tree_id": "db78f3594ec0683f5d857ef731df0d860f14f2b2",
+    "distinct": true,
+    "message": "Update README.md",
+    "timestamp": "2018-02-05T23:46:46+08:00",
+    "url": "https://gitee.com/oschina/gitee/commit/1cdcd819599cbb4099289dbbec76245",
+    "author": {
+      "time": "2018-02-05T23:46:46+08:00",
+      "name": "robot",
+      "email": "robot@gitee.com",
+      "username": "robot",
+      "user_name": "robot",
+      "url": "https://gitee.com/robot"
+    },
+    "committer": {
+      "name": "robot",
+      "email": "robot@gitee.com",
+      "username": "robot",
+      "user_name": "robot",
+      "url": "https://gitee.com/robot"
+    },
+    "added": null,
+    "removed": null,
+    "modified": [
+      "README.md"
+    ]
+  },
+  "total_commits_count": 0,
+  "commits_more_than_ten": false,
+  "repository": {
+    "id": 120249025,
+    "name": "Gitee",
+    "path": "gitee",
+    "full_name": "开源中国/Gitee",
+    "owner": {
+      "id": 1,
+      "login": "robot",
+      "avatar_url": "https://gitee.com/assets/favicon.ico",
+      "html_url": "https://gitee.com/robot",
+      "type": "User",
+      "site_admin": false,
+      "name": "robot",
+      "email": "robot@gitee.com",
+      "username": "robot",
+      "user_name": "robot",
+      "url": "https://gitee.com/robot"
+    },
+    "private": false,
+    "html_url": "https://gitee.com/oschina/gitee",
+    "url": "https://gitee.com/oschina/gitee",
+    "description": "",
+    "fork": false,
+    "created_at": "2018-02-05T23:46:46+08:00",
+    "updated_at": "2018-02-05T23:46:46+08:00",
+    "pushed_at": "2018-02-05T23:46:46+08:00",
+    "git_url": "git://gitee.com:oschina/gitee.git",
+    "ssh_url": "git@gitee.com:oschina/gitee.git",
+    "clone_url": "https://gitee.com/oschina/gitee.git",
+    "svn_url": "svn://gitee.com/oschina/gitee",
+    "git_http_url": "https://gitee.com/oschina/gitee.git",
+    "git_ssh_url": "git@gitee.com:oschina/gitee.git",
+    "git_svn_url": "svn://gitee.com/oschina/gitee",
+    "homepage": null,
+    "stargazers_count": 11,
+    "watchers_count": 12,
+    "forks_count": 0,
+    "language": "ruby",
+    "has_issues": true,
+    "has_wiki": true,
+    "has_pages": false,
+    "license": null,
+    "open_issues_count": 0,
+    "default_branch": "master",
+    "namespace": "oschina",
+    "name_with_namespace": "开源中国/Gitee",
+    "path_with_namespace": "oschina/gitee"
+  },
+  "sender": {
+    "id": 1,
+    "login": "robot",
+    "avatar_url": "https://gitee.com/assets/favicon.ico",
+    "html_url": "https://gitee.com/robot",
+    "type": "User",
+    "site_admin": false,
+    "name": "robot",
+    "email": "robot@gitee.com",
+    "username": "robot",
+    "user_name": "robot",
+    "url": "https://gitee.com/robot"
+  },
+  "enterprise": {
+    "name": "开源中国",
+    "url": "https://gitee.com/oschina"
+  }
+}
+'''
+
+
 class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
@@ -798,6 +937,17 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'gitea'}),
             {'payload': GITEA_PAYLOAD}
+        )
+        self.assertContains(response, 'Update triggered')
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitee(self):
+        # Adjust matching repo
+        self.component.repo = "https://gitee.com/oschina/gitee.git"
+        self.component.save()
+        response = self.client.post(
+            reverse('webhook', kwargs={'service': 'gitee'}),
+            {'payload': GITEE_PAYLOAD}
         )
         self.assertContains(response, 'Update triggered')
 

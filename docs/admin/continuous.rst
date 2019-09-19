@@ -213,6 +213,23 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
    `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_,
    :http:post:`/hooks/gitea/`, :ref:`hosted-push`
 
+.. _gitee-setup:
+
+Automatically receiving changes from Gitee Repos
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.9
+
+Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` for
+:guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your
+Weblate installation (for example ``https://hosted.weblate.org/hooks/gitee/``).
+This can be done in :guilabel:`WebHooks` under repository :guilabel:`Management`.
+
+.. seealso::
+
+   `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_,
+   :http:post:`/hooks/gitee/`, :ref:`hosted-push`
+
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++
 
