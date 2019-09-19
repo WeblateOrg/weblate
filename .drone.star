@@ -15,6 +15,10 @@ cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
 cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
 
 
+def secret(name):
+    return {"from_secret": name}
+
+
 def get_test_env(base=None):
     if not base:
         base = {}
@@ -29,9 +33,9 @@ notify_step = {
     "name": "notify",
     "image": "drillster/drone-email",
     "settings": {
-        "host": {"from_secret": "SMTP_HOST"},
-        "username": {"from_secret": "SMTP_USER"},
-        "password": {"from_secret": "SMTP_PASS"},
+        "host": secret("SMTP_HOST"),
+        "username": secret("SMTP_USER"),
+        "password": secret("SMTP_PASS"),
         "from": "noreply+ci@weblate.org",
     },
     "when": {"status": ["changed", "failure"]},
@@ -39,7 +43,7 @@ notify_step = {
 codecov_step = {
     "name": "codecov",
     "image": "weblate/cidocker:3.7",
-    "environment": {"CODECOV_TOKEN": {"from_secret": "CODECOV_TOKEN"}, "CI": "drone"},
+    "environment": {"CODECOV_TOKEN": secret("CODECOV_TOKEN"), "CI": "drone"},
     "commands": ["export CI=drone", "codecov"],
 }
 flake_step = {
@@ -67,8 +71,8 @@ selenium_step = {
     "ports": [9090],
     "environment": get_test_env(
         {
-            "SAUCE_USERNAME": {"from_secret": "SAUCE_USERNAME"},
-            "SAUCE_ACCESS_KEY": {"from_secret": "SAUCE_ACCESS_KEY"},
+            "SAUCE_USERNAME": secret("SAUCE_USERNAME"),
+            "SAUCE_ACCESS_KEY": secret("SAUCE_ACCESS_KEY"),
         }
     ),
     "commands": [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-selenium"],
@@ -104,8 +108,8 @@ sauce_service = {
     "name": "sauce",
     "image": "nijel/sauce-connect:latest",
     "environment": {
-        "SAUCE_USERNAME": {"from_secret": "SAUCE_USERNAME"},
-        "SAUCE_ACCESS_KEY": {"from_secret": "SAUCE_ACCESS_KEY"},
+        "SAUCE_USERNAME": secret("SAUCE_USERNAME"),
+        "SAUCE_ACCESS_KEY": secret("SAUCE_ACCESS_KEY"),
     },
 }
 
