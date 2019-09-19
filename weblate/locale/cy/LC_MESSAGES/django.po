@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-18 12:39+0000\n"
+"PO-Revision-Date: 2019-09-20 06:33+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/master/cy/>"
 "\n"
@@ -748,43 +748,51 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/views.py:1067
+#, fuzzy
 msgid "Authentication cancelled."
-msgstr ""
+msgstr "Diddymwyd y dilysiad."
 
 #: weblate/accounts/views.py:1072
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Nid yw'r gweinydd yn caniatáu dilysu."
 
 #: weblate/accounts/views.py:1076
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
+"Methu cwblhau cofrestriad. Mae'r dilysiad, yr e-bost neu'r enw defnyddiwr a "
+"gyflenwyd eisoes yn cael ei ddefnyddio ar gyfer cyfrif arall."
 
 #: weblate/accounts/views.py:1090
 msgid "Notification settings adjusted."
-msgstr ""
+msgstr "Addaswyd y gosodiadau hysbysu."
 
 #: weblate/accounts/views.py:1093
+#, fuzzy
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
+"Nid yw'r ddolen newid hysbysiad yn ddilys mwyach, mewngofnodwch i ffurfweddu "
+"hysbysiadau."
 
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:62
 #: weblate/templates/translation.html:222 weblate/trans/models/change.py:224
 msgid "Automatic translation"
-msgstr ""
+msgstr "Cyfieithu awtomatig"
 
 #: weblate/addons/autotranslate.py:36
 msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Mae'r ychwanegyn hwn yn trosi llinynnau'n awtomatig gan ddefnyddio cyfieithu "
+"peirianyddol neu gydrannau eraill."
 
 #: weblate/addons/cleanup.py:36
 msgid "Cleanup translation files"
-msgstr ""
+msgstr "Glanhau ffeiliau cyfieithu"
 
 #: weblate/addons/cleanup.py:38
 msgid ""
@@ -792,57 +800,68 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Diweddaru'r holl ffeiliau cyfieithu i gyfateb i'r ffeil sylfaen uniaith. Ar "
+"gyfer y rhan fwyaf o fformatau ffeil, mae hyn yn golygu dileu hen allweddi "
+"cyfieithu nad ydynt yn bresennol yn y ffeil sylfaen mwyach."
 
 #: weblate/addons/consistency.py:33
 msgid "Language consistency"
-msgstr ""
+msgstr "Cysondeb iaith"
 
 #: weblate/addons/consistency.py:35
 msgid ""
 "This addon ensures that all components within one project have translation "
 "to same languages."
 msgstr ""
+"Mae'r ychwanegyn hwn yn sicrhau bod gan pob cydran o fewn un project "
+"gyfieithiad i'r un ieithoedd."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
-msgstr ""
+msgstr "Darganfod cydrannau"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Mae'r ychwanegyn hwn yn ychwanegu neu'n dileu cydrannau i'r project yn "
+"awtomatig ar sail newidiadau i ffeiliau yn y system rheoli fersiwn."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
-msgstr ""
+msgstr "Ychwanegyn enghreifftiol"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example."
-msgstr ""
+msgstr "Nid yw'r ychwnaegyn hwn yn ddim ond enghraifft."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr ""
+msgstr "Gweithredu sgript cyn traddodi"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
-msgstr ""
+msgstr "Mae'r ychwanegyn hwn yn gweithredo sgript."
 
 #: weblate/addons/flags.py:49
 msgid "Flag new source strings as \"Needs editing\""
-msgstr ""
+msgstr "Nodwch y llinynnau ffynhonnell newydd fel \"Angen golygu\""
 
 #: weblate/addons/flags.py:51
+#, fuzzy
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Pryd bynnag y mae llinyn ffynhonnell newydd yn cael ei fewnforio o'r VCS, "
+"nodir bod angen ei olygu yn Weblate. Fel hyn, gallwch hidlo a golygu "
+"llinynnau ffynhonnell a ysgrifennwyd gan y datblygwyr yn hawdd."
 
 #: weblate/addons/flags.py:63
 msgid "Flag new translations as \"Needs editing\""
-msgstr ""
+msgstr "Nodwch y cyfieithiadau newydd fel \"Angen golygu\""
 
 #: weblate/addons/flags.py:65
 msgid ""
@@ -850,10 +869,13 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Pryd bynnag y mae llinyn cyfieithiadwy newydd yn cael ei fewnforio o'r VCS, "
+"nodir bod angen ei olygu yn Weblate. Fel hyn, gallwch chi hidlo a golygu "
+"cyfieithiadau a grëwyd gan y datblygwyr yn hawdd."
 
 #: weblate/addons/flags.py:77
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr ""
+msgstr "Nodwch cyfieithiadau heb eu newid fel \"Angen golygu\""
 
 #: weblate/addons/flags.py:79
 msgid ""
