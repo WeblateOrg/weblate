@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-18 12:39+0000\n"
+"PO-Revision-Date: 2019-09-20 06:34+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -717,7 +717,7 @@ msgstr "Vaihda salasana"
 
 #: weblate/accounts/views.py:794
 msgid "Password reset has been already completed!"
-msgstr "Salasanasi palutuspyyntö on jo suoritettu loppuun asti!"
+msgstr "Salasanan palautus on jo tehty!"
 
 #: weblate/accounts/views.py:825
 #, fuzzy
@@ -1386,10 +1386,8 @@ msgid "Use management interface (on the entire platform)"
 msgstr "Käytä hallintakäyttöliittymää (koko alustalla)"
 
 #: weblate/auth/data.py:99
-#, fuzzy
-#| msgid "Add users (on the entire platform)"
 msgid "Add new projects (on the entire platform)"
-msgstr "Lisää käyttäjiä (koko alustalla)"
+msgstr "Lisää uusia projekteja (koko alustalle)"
 
 #: weblate/auth/data.py:101
 msgid "Add language definitions (on the entire platform)"
@@ -1655,16 +1653,12 @@ msgid "A user with that username already exists."
 msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
 
 #: weblate/auth/models.py:330
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
-msgstr "pääkäyttäjän status"
+msgstr "Pääkäyttäjän status"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "Käyttäjä jolla on käännösten tarkistusoikeudet"
+msgstr "Käyttäjällä on kaikki mahdolliset oikeudet."
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:141
 msgid "Active"
@@ -1855,30 +1849,24 @@ msgid "Trailing colon"
 msgstr "Tekstin jälkeen kaksoispiste"
 
 #: weblate/checks/chars.py:189
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a colon"
-msgstr "Lähdeteksti ja käännös eivät molemmat pääty puolipisteeseen"
+msgstr "Lähdeteksti ja käännös eivät molemmat pääty kaksoispisteeseen"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
 msgstr "Tekstin jälkeen kysymysmerkki"
 
 #: weblate/checks/chars.py:233
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a question mark"
-msgstr "Lähde ja käännös eivät molemmat pääty pisteeseen"
+msgstr "Lähde ja käännös eivät molemmat pääty kysymysmerkkiin"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
 msgstr "Tekstin jälkeen huutomerkki"
 
 #: weblate/checks/chars.py:277
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "Lähdeteksti ja käännös eivät molemmat pääty puolipisteeseen"
+msgstr "Lähdeteksti ja käännös eivät molemmat pääty huutomerkkiin"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
@@ -2119,44 +2107,34 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat -muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/markup.py:77
-#, fuzzy
-#| msgid "BB code"
 msgid "BBcode markup"
-msgstr "BB-koodi"
+msgstr "BBcode-merkintä"
 
 #: weblate/checks/markup.py:78
 msgid "BBcode in translation does not match source"
 msgstr "Käännöksen BBcode ei vastaa lähdettä"
 
 #: weblate/checks/markup.py:140
-#, fuzzy
-#| msgid "XML text"
 msgid "XML syntax"
-msgstr "XML -teksti"
+msgstr "XML-syntaksi"
 
 #: weblate/checks/markup.py:141
 msgid "The translation is not valid XML"
 msgstr "Käännös ei ole kelvollista XML:ää"
 
 #: weblate/checks/markup.py:168
-#, fuzzy
-#| msgid "Invalid XML markup"
 msgid "XML markup"
-msgstr "Epäkelpo XML-merkintä"
+msgstr "XML-merkintä"
 
 #: weblate/checks/markup.py:169
 msgid "XML tags in translation do not match source"
 msgstr "Käännöksen XML-tägit eivät vastaa lähdettä"
 
 #: weblate/checks/markup.py:220
-#, fuzzy
-#| msgid "Markdown link references"
 msgid "Markdown references"
-msgstr "Markdown-linkkiviittaukset"
+msgstr "Markdown-viittaukset"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Markdown-linkkiviittaukset eivät vastaa lähdetekstiä"
 
@@ -2256,11 +2234,8 @@ msgid "Unpluralised"
 msgstr "Monikot"
 
 #: weblate/checks/source.py:40
-#, fuzzy
-#| msgid "The string is optionally used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms"
-msgstr ""
-"Tekstiä käytetään valinnaisesti monikossa, mutta ei käyttäen monikkomuotoja"
+msgstr "Tekstiä käytetään monikossa, muttei käyttäen monikkomuotoja"
 
 #: weblate/checks/source.py:53
 msgid "Ellipsis"
@@ -4527,10 +4502,8 @@ msgstr "Lataa offline-kääntämistä varten."
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:34 weblate/templates/project.html:51
-#, fuzzy
-#| msgid "Download original translation file (%(format)s)"
 msgid "Download original translation files in ZIP"
-msgstr "Lataa alkuperäinen käännöstiedosto (%(format)s)"
+msgstr "Lataa alkuperäiset käännöstiedostot ZIP-tiedostona"
 
 #: weblate/templates/component-list.html:35
 msgid "Number of components"
@@ -5250,8 +5223,6 @@ msgid "Get involved in <strong>%(project)s</strong>"
 msgstr "Tule mukaan kääntämään projektia <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
-#, fuzzy
-#| msgid "Hello & thank you for your interest"
 msgid "Hello and thank you for your interest"
 msgstr "Hei, ja kiitoksia mielenkiinnostasi"
 
@@ -6280,10 +6251,8 @@ msgid "Support status"
 msgstr "Tuen tila"
 
 #: weblate/templates/manage/index.html:27
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support expiry"
-msgstr "Tue Weblatea"
+msgstr "Tuen päättyminen"
 
 #: weblate/templates/manage/index.html:34
 msgid "Purchase support package"
@@ -8023,10 +7992,8 @@ msgid "File upload mode"
 msgstr "Tiedoston lähetys epäonnistui: %s"
 
 #: weblate/trans/forms.py:599 weblate/trans/forms.py:942
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as translation"
-msgstr "Lisää muuna käännöksenä"
+msgstr "Lisää käännöksenä"
 
 #: weblate/trans/forms.py:600
 msgid "Add as approved translation"
@@ -8532,8 +8499,6 @@ msgstr ""
 "ja siihen liittyvän sisällön."
 
 #: weblate/trans/forms.py:2093
-#, fuzzy
-#| msgid "The translation name does not match the one to delete!"
 msgid "The translation name does not match the one marked for deletion!"
 msgstr "Antamasi käännöksen nimi ei täsmää poistettavan kännöksen nimeen!"
 
@@ -8833,10 +8798,8 @@ msgid "Android style"
 msgstr "Android-tyylisesti"
 
 #: weblate/trans/models/component.py:114
-#, fuzzy
-#| msgid "Javanese"
 msgid "Java style"
-msgstr "Java"
+msgstr "Java-tyyli"
 
 #: weblate/trans/models/component.py:117
 msgid "Merge"
