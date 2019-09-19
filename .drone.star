@@ -15,6 +15,7 @@ def get_test_env(base):
     return base
 
 
+# Build steps
 notify_step = {
     "name": "notify",
     "image": "drillster/drone-email",
@@ -101,6 +102,7 @@ migrations_step = {
     ],
 }
 
+# Services
 database_service = {
     "name": "database",
     "image": "postgres:11-alpine",
@@ -115,12 +117,18 @@ sauce_service = {
         "SAUCE_ACCESS_KEY": {"from_secret": "SAUCE_ACCESS_KEY"},
     },
 }
-default_pipeline = {"kind": "pipeline", "clone": {"depth": 100}, "steps": [notify_step]}
+
+# Pipeline template
+pipeline_template = {
+    "kind": "pipeline",
+    "clone": {"depth": 100},
+    "steps": [notify_step],
+}
 
 
 def pipeline(name, steps, services=None):
     result = {"name": name}
-    result.update(default_pipeline)
+    result.update(pipeline_template)
     result["steps"] = steps + result.steps
     if services:
         result["services"] = services
