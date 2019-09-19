@@ -131,7 +131,7 @@ pipeline_template = {
 def pipeline(name, steps, services=None):
     result = {"name": name}
     result.update(pipeline_template)
-    result["steps"] = steps + result.steps
+    result["steps"] = steps + result["steps"]
     if services:
         result["services"] = services
     return result
