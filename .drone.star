@@ -9,6 +9,11 @@ default_env = {
     "CI_DB_HOST": "database",
 }
 
+cmd_pip_postgresql = "pip install -r requirements-postgresql.txt"
+# Some tests need older binary for Django copatibility
+cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
+cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
+
 
 def get_test_env(base=None):
     if not base:
@@ -54,10 +59,7 @@ sdist_step = {
 sphinx_step = {
     "name": "sphinx",
     "image": "weblate/cidocker:3.7",
-    "commands": [
-        "pip install -r docs/requirements.txt",
-        "make -C docs html SPHINXOPTS='-n -W -a'",
-    ],
+    "commands": [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
 }
 selenium_step = {
     "name": "test",
@@ -69,43 +71,26 @@ selenium_step = {
             "SAUCE_ACCESS_KEY": {"from_secret": "SAUCE_ACCESS_KEY"},
         }
     ),
-    "commands": [
-        "pip install -r requirements-postgresql.txt",
-        "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt",
-        "./ci/run-selenium",
-    ],
+    "commands": [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-selenium"],
 }
 test_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
     "environment": get_test_env(),
-    "commands": [
-        "pip install -r requirements-postgresql.txt",
-        "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt",
-        "./ci/run-test",
-    ],
+    "commands": [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
 }
 test_step_27 = {
     "name": "test",
     "image": "weblate/cidocker:2.7",
     "environment": get_test_env(),
-    "commands": [
-        "pip install  psycopg2-binary==2.7.7",
-        "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt",
-        "./ci/run-test",
-    ],
+    "commands": [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"],
 }
 migrations_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
     # Need C locale for tesserocr compatibility
     "environment": get_test_env({"LANG": "C", "LC_ALL": "C"}),
-    "commands": [
-        # Need older binary for Django copatibility
-        "pip install  psycopg2-binary==2.7.7",
-        "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt",
-        "./ci/run-migrate",
-    ],
+    "commands": [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-migrate"],
 }
 
 # Services
