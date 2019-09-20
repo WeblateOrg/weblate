@@ -88,19 +88,10 @@ Using own SSL certificates
 .. versionadded:: 3.8-3
 
 In case you have own SSL certificate you want to use, simply place the files
-into the Weblate data volume:
+into the Weblate data volume (see :ref:`docker-volume`):
 
 * :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
 * :file:`ssl/privkey.pem` containing the private key
-
-
-.. hint::
-
-   The placement of the Docker volume depends on your Docker configuration, but
-   usually it is stored in
-   :file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. See
-   `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
-   for more info.
 
 Additionally Weblate container will now accept SSL connections on port 4443,
 you will want include the port forwarding for HTTPS in docker compose override:
@@ -659,13 +650,66 @@ To enable support for Sentry, set following:
 
     Your Sentry DSN.
 
+.. _docker-volume:
+
+Docker container volumes
+------------------------
+
+There is single data volume exported by the Weblate container. The other
+service containers (PostgreSQL or Redis) have their data volumes as well, but
+those are not covered by this docs.
+
+The data volume is used to store Weblate persistent data such as cloned
+repositories or to customize Weblate installation.
+
+The placement of the Docker volume on host system depends on your Docker
+configuration, but usually it is stored in
+:file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. In the
+container it is mounted as :file:`/app/data`.
+
+.. seealso::
+   
+   `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
+
 Further configuration customization
 -----------------------------------
 
+You can further customize Weblate installation in the data volume, see
+:ref:`docker-volume`.
+
+.. _docker-custom-config:
+
+Custom configuration files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 You can additionally override the configuration in
-:file:`/app/data/settings-override.py`. This is executed after all environment
-settings are loaded, so it gets completely set up, and can be used to customize
-anything.
+:file:`/app/data/settings-override.py` (see :ref:`docker-volume`). This is
+executed after all environment settings are loaded, so it gets completely set
+up, and can be used to customize anything.
+
+Replacing logo and other static files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The static files coming with Weblate can be overridden by placing into
+:file:`/app/data/python/customize/static` (see :ref:`docker-volume`). For
+example creating :file:`/app/data/python/customize/static/favicon.ico` will
+replace the favicon.
+
+.. hint::
+
+   The files are copied to correspoding location on container startup, so
+   restart is needed after changing the volume content.
+
+Adding own Python modules
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can place own Python modules in :file:`/app/data/python/` (see
+:ref:`docker-volume`) and they can be then loaded by Weblate, most likely by
+using :ref:`docker-custom-config`.
+
+.. seealso::
+
+   :doc:`../customize`
 
 Hub setup
 ---------
