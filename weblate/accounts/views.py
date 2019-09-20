@@ -61,7 +61,7 @@ from social_core.exceptions import (
     AuthStateMissing,
     InvalidEmail,
 )
-from social_django.views import auth, complete
+from social_django.views import auth, complete, disconnect
 
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
@@ -974,6 +974,20 @@ def store_userid(request, reset=False, remove=False, invite=False):
     request.session['password_reset'] = reset
     request.session['account_remove'] = remove
     request.session['user_invite'] = invite
+
+
+@require_POST
+@login_required
+def social_disconnect(request, backend, association_id=None):
+    """Wrapper around social_django.views.disconnect.
+
+    - Requires POST (to avoid CSRF on auth)
+    - Blocks disconnecting last entry
+    """
+    if request.user.social_auth.count() <= 1:
+        messages.error(request, _('Failed to remove user identity'))
+        return redirect_profile('#account')
+    return disconnect(request, backend, association_id)
 
 
 @require_POST

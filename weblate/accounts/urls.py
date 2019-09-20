@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import social_django.views
 from django.conf import settings
 from django.conf.urls import include, url
 
@@ -44,12 +43,12 @@ social_urls = [
     # disconnection
     url(
         r'^disconnect/(?P<backend>[^/]+)/$',
-        social_django.views.disconnect,
+        weblate.accounts.views.social_disconnect,
         name='disconnect'
     ),
     url(
         r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>\d+)/$',
-        social_django.views.disconnect,
+        weblate.accounts.views.social_disconnect,
         name='disconnect_individual'
     ),
 ]
