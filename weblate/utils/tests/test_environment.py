@@ -24,7 +24,12 @@ import os
 
 from django.test import SimpleTestCase
 
-from weblate.utils.environment import get_env_bool, get_env_list, get_env_map
+from weblate.utils.environment import (
+    get_env_bool,
+    get_env_list,
+    get_env_map,
+    modify_env_list,
+)
 
 
 class EnvTest(SimpleTestCase):
@@ -39,9 +44,7 @@ class EnvTest(SimpleTestCase):
 
     def test_map(self):
         os.environ['TEST_DATA'] = 'foo:bar,baz:bag'
-        self.assertEqual(
-            get_env_map('TEST_DATA'), {'foo': 'bar', 'baz': 'bag'}
-        )
+        self.assertEqual(get_env_map('TEST_DATA'), {'foo': 'bar', 'baz': 'bag'})
         os.environ['TEST_DATA'] = 'foo:bar'
         self.assertEqual(get_env_map('TEST_DATA'), {'foo': 'bar'})
         del os.environ['TEST_DATA']
@@ -63,3 +66,12 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(get_env_bool('TEST_DATA'), False)
         del os.environ['TEST_DATA']
         self.assertEqual(get_env_bool('TEST_DATA'), False)
+
+    def test_modify_list(self):
+        os.environ['WEBLATE_ADD_TEST'] = 'foo,bar'
+        os.environ['WEBLATE_REMOVE_TEST'] = 'baz,bag'
+        setting = ['baz', 'bag', 'aaa']
+        modify_env_list(setting, 'TEST')
+        self.assertEqual(setting, ['aaa', 'foo', 'bar'])
+        del os.environ['WEBLATE_ADD_TEST']
+        del os.environ['WEBLATE_REMOVE_TEST']
