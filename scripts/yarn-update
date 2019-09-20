@@ -52,6 +52,9 @@ mv modernizr.js ../../weblate/static/js/
 # Slugify
 cp node_modules/slugify/slugify.js ../../weblate/static/js/slugify.js
 
+# Sentry
+cp node_modules/@sentry/browser/build/bundle.min.js ../../weblate/static/js/sentry.js
+
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans-pro/source-sans-pro.css > ../../weblate/static/font-source/source-sans-pro.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/font-source/source-code-pro.css

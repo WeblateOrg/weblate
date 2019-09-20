@@ -91,7 +91,6 @@ class SecurityMiddleware(object):
             script.add(domain)
             connect.add(domain)
             script.add("'unsafe-inline'")
-            script.add('browser.sentry-cdn.com')
             image.add('data:')
 
         if settings.PIWIK_URL:
