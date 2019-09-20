@@ -690,6 +690,8 @@ up, and can be used to customize anything.
 Replacing logo and other static files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 3.8-5
+
 The static files coming with Weblate can be overridden by placing into
 :file:`/app/data/python/customize/static` (see :ref:`docker-volume`). For
 example creating :file:`/app/data/python/customize/static/favicon.ico` will
@@ -702,6 +704,8 @@ replace the favicon.
 
 Adding own Python modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.8-5
 
 You can place own Python modules in :file:`/app/data/python/` (see
 :ref:`docker-volume`) and they can be then loaded by Weblate, most likely by
