@@ -658,6 +658,40 @@ To enable support for Sentry, set following:
 
     Your Sentry DSN.
 
+Changing enabled apps, checks, addons or autofixes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 3.8-5
+
+The built in configuration of enabled checks, addons or autofixes can be
+adjusted by following variables:
+
+.. envvar:: WEBLATE_ADD_APPS
+.. envvar:: WEBLATE_REMOVE_APPS
+.. envvar:: WEBLATE_ADD_CHECK
+.. envvar:: WEBLATE_REMOVE_CHECK
+.. envvar:: WEBLATE_ADD_AUTOFIX
+.. envvar:: WEBLATE_REMOVE_AUTOFIX
+.. envvar:: WEBLATE_ADD_ADDONS
+.. envvar:: WEBLATE_REMOVE_ADDONS
+
+For example:
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_REMOVE_AUTOFIX: weblate.trans.autofixes.whitespace.SameBookendingWhitespace
+          WEBLATE_ADD_ADDONS: customize.addons.MyAddon,customize.addons.OtherAddon
+
+.. seealso::
+
+   :setting:`CHECK_LIST`,
+   :setting:`AUTOFIX_LIST`,
+   :setting:`WEBLATE_ADDONS`,
+   :setting:`django:INSTALLED_APPS`
+
 .. _docker-volume:
 
 Docker container volumes
