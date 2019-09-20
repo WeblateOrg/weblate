@@ -53,7 +53,9 @@ class GitSquashAddon(BaseAddon):
                 'log', '--format=%B', '{}..HEAD'.format(remote)
             ])
             repository.execute(['reset', '--mixed', remote])
-            repository.commit(message, author)
+            # Can happen for added and removed translation
+            if repository.needs_commit():
+                repository.commit(message, author)
 
     def get_filenames(self, component):
         languages = defaultdict(list)
