@@ -578,6 +578,14 @@ instance when running Weblate in Docker.
    
     The Redis server password, not used by default.
 
+.. envvar:: REDIS_TLS
+   
+    Enables using SSL for Redis connection.
+
+.. envvar:: REDIS_VERIFY_SSL
+   
+    Can be used to disable SSL certificate verification for Redis connection.
+
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 
