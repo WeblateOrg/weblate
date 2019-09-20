@@ -85,10 +85,10 @@ into :setting:`django:INSTALLED_APPS`:
 .. code-block:: python
 
    INSTALLED_APPS = (
-      # Weblate apps are here...
-
-      # Add your customization as last
+      # Add your customization as first
       'weblate_customization',
+
+      # Weblate apps are here...
    )
 
 And then execute :samp:`./manage.py collectstatic --noinput`, this will collect
