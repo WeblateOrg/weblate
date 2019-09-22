@@ -51,6 +51,10 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['PASSWORD'] = ''
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
+else:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = 'weblate.db'
+
 
 # Configure admins
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
