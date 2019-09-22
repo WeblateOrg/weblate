@@ -66,6 +66,9 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
     DATA_DIR, 'celery', 'beat-schedule'
 )
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_BROKER_URL = 'memory://'
+CELERY_TASK_EAGER_PROPAGATES = True
 
 # Silent logging setup
 LOGGING = {
@@ -107,6 +110,13 @@ LOGGING = {
             'handlers': [],
             'level': 'ERROR',
         },
+    }
+}
+
+# Reset caches
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
 

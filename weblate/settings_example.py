@@ -768,27 +768,27 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com'
 ALLOWED_HOSTS = []
 
 # Example configuration for caching
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://127.0.0.1:6379/0',
-#         # If redis is running on same host as Weblate, you might
-#         # want to use unix sockets instead:
-#         # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#             'PARSER_CLASS': 'redis.connection.HiredisParser',
-#         }
-#     },
-#     'avatar': {
-#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
-#         'TIMEOUT': 3600,
-#         'OPTIONS': {
-#             'MAX_ENTRIES': 1000,
-#         },
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        # If redis is running on same host as Weblate, you might
+        # want to use unix sockets instead:
+        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+        }
+    },
+    'avatar': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
+        'TIMEOUT': 3600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        },
+    }
+}
 
 # REST framework settings for API
 REST_FRAMEWORK = {
@@ -846,13 +846,13 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 
 # Celery worker configuration for testing
-CELERY_TASK_ALWAYS_EAGER = True
-CELERY_BROKER_URL = 'memory://'
-CELERY_TASK_EAGER_PROPAGATES = True
+# CELERY_TASK_ALWAYS_EAGER = True
+# CELERY_BROKER_URL = 'memory://'
+# CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
-# CELERY_TASK_ALWAYS_EAGER = False
-# CELERY_BROKER_URL = 'redis://localhost:6379'
-# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_TASK_ALWAYS_EAGER = False
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
