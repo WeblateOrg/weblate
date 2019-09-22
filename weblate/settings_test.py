@@ -126,7 +126,6 @@ SESSION_COOKIE_HTTPONLY = False
 # Test optional apps as well
 INSTALLED_APPS += (
     'weblate.billing',
-    'weblate.gitexport',
     'weblate.legal',
 )
 
