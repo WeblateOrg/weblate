@@ -419,7 +419,7 @@ class Profile(models.Model):
     DASHBOARD_COMPONENT_LISTS = 6
 
     DASHBOARD_CHOICES = (
-        (DASHBOARD_WATCHED, _('Watched translations')),
+        (DASHBOARD_WATCHED, _('Watched components')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_COMPONENT_LISTS, _('Component lists')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
@@ -456,8 +456,8 @@ class Profile(models.Model):
         'trans.Project',
         verbose_name=_('Watched projects'),
         help_text=_(
-            'You can receive notifications for watched projects and '
-            'they are shown on the dashboard by default.'
+            'Shows notifications for watched projects '
+            'on your dashboard.'
         ),
         blank=True,
     )
@@ -501,7 +501,7 @@ class Profile(models.Model):
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
                 and self.dashboard_component_list is not None):
             message = _(
-                "Selecting component list makes no effect when not shown on "
+                "Selecting component list has no effect when not shown on "
                 "the dashboard."
             )
             raise ValidationError({
