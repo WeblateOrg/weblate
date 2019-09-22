@@ -386,7 +386,7 @@ INSTALLED_APPS = (
     'weblate',
 
     # Optional: Git exporter
-    # 'weblate.gitexport',
+    'weblate.gitexport',
 )
 
 # Path to locales
