@@ -413,14 +413,12 @@ class Profile(models.Model):
     )
 
     DASHBOARD_WATCHED = 1
-    DASHBOARD_LANGUAGES = 2
     DASHBOARD_COMPONENT_LIST = 4
     DASHBOARD_SUGGESTIONS = 5
     DASHBOARD_COMPONENT_LISTS = 6
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_WATCHED, _('Watched translations')),
-        (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_COMPONENT_LISTS, _('Component lists')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
         (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
@@ -428,14 +426,9 @@ class Profile(models.Model):
 
     DASHBOARD_SLUGS = {
         DASHBOARD_WATCHED: 'your-subscriptions',
-        DASHBOARD_LANGUAGES: 'your-languages',
         DASHBOARD_COMPONENT_LIST: 'list',
         DASHBOARD_SUGGESTIONS: 'suggestions',
         DASHBOARD_COMPONENT_LISTS: 'componentlists'
-    }
-
-    DASHBOARD_SLUGMAP = {
-        d[1]: d[0] for d in DASHBOARD_SLUGS.items()
     }
 
     dashboard_view = models.IntegerField(
