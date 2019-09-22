@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-22 10:27+0000\n"
+"PO-Revision-Date: 2019-09-22 20:22+0000\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -8403,7 +8403,7 @@ msgstr "Stato da impostare"
 
 #: weblate/trans/forms.py:2055
 msgid "I accept the contributor agreement"
-msgstr "Accetto l'accordo di contribuzione"
+msgstr "Accetto l'accordo di collaborazione"
 
 #: weblate/trans/forms.py:2066
 msgid "Name of the translation"
@@ -8454,7 +8454,7 @@ msgstr "Impossibile inviare modifiche al repository."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:172
 msgid "Could not parse translation files."
-msgstr "Impossibile analizzare i file traduzione."
+msgstr "Impossibile analizzare i file di traduzione."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:179
@@ -8479,12 +8479,12 @@ msgstr "Informazioni licenza mancanti."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:203 weblate/trans/models/alert.py:209
 msgid "Could not run addon."
-msgstr "Impossibile eseguire addon."
+msgstr "Impossibile eseguire il componente aggiuntivo."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:215
 msgid "Misconfigured monolingual translation."
-msgstr "Traduzione monolingua con configurazione errata."
+msgstr "Traduzione monolingue con configurazione errata."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
@@ -8525,7 +8525,7 @@ msgstr "Regressione traduzione"
 
 #: weblate/trans/models/change.py:227
 msgid "Translation uploaded"
-msgstr "Upload traduzione"
+msgstr "Caricamento traduzione"
 
 #: weblate/trans/models/change.py:228
 msgid "Glossary added"
@@ -8577,15 +8577,15 @@ msgstr "Rifondazione nel repository"
 
 #: weblate/trans/models/change.py:240
 msgid "Failed merge on repository"
-msgstr "Unione nel repository fallita"
+msgstr "Unione nel repository non riuscita"
 
 #: weblate/trans/models/change.py:241
 msgid "Failed rebase on repository"
-msgstr "Rifondazione nel repository fallita"
+msgstr "Rifondazione nel repository non riuscita"
 
 #: weblate/trans/models/change.py:242
 msgid "Failed push on repository"
-msgstr "Push nel repository fallito"
+msgstr "Push nel repository non riuscito"
 
 #: weblate/trans/models/change.py:244
 msgid "Removed translation"
@@ -8683,12 +8683,12 @@ msgstr "%(action)s in %(time)s in %(translation)s di %(user)s"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:101
 msgid "Contact maintainers"
-msgstr "Contatta i manutentori"
+msgstr "Contatta i responsabili"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:103
 msgid "Point to translation instructions URL"
-msgstr "Collegamento alla URL istruzioni traduzione"
+msgstr "Collegamento all'URL delle istruzioni traduzione"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:105
@@ -8698,7 +8698,7 @@ msgstr "Crea file nuova lingua"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:107
 msgid "Disable adding new translations"
-msgstr "Disabilita aggiunta nuove traduzioni"
+msgstr "Disabilita aggiunta di nuove traduzioni"
 
 #: weblate/trans/models/component.py:110
 msgid "Default based on the file format"
@@ -8706,7 +8706,7 @@ msgstr "Predefinito in base al formato del file"
 
 #: weblate/trans/models/component.py:111
 msgid "POSIX style using underscore as a separator"
-msgstr "Standard POSIX con underscore come separatore"
+msgstr "Standard POSIX con trattino basso come separatore"
 
 #: weblate/trans/models/component.py:112
 msgid "BCP style using hyphen as a separator"
@@ -8730,10 +8730,9 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"Sistema controllo versione da usare per accedere al repository con le "
-"traduzioni.\n"
-"Puoi anche scegliere l'integrazione addizionale con provider di terze parti "
-"per includere richieste di integrazione."
+"Sistema di controllo versione da usare per accedere al repository con le "
+"traduzioni. Puoi anche scegliere l'integrazione aggiuntiva con provider di "
+"terze parti per includere richieste di integrazione."
 
 #: weblate/trans/models/component.py:192
 msgid ""
@@ -8745,11 +8744,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:204
 msgid "Repository push URL"
-msgstr "URL repository push"
+msgstr "URL di invio al repository"
 
 #: weblate/trans/models/component.py:207
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr "URL di un repository push, push disabilitato se vuoto."
+msgstr "URL di un repository push, invio disattivato se vuoto."
 
 #: weblate/trans/models/component.py:212
 msgid "Repository browser"
@@ -8761,7 +8760,7 @@ msgid ""
 "{{line}} as filename and line placeholders."
 msgstr ""
 "Collegamento per la navigazione in un repository. Usa {{ branch }} per il "
-"ramo, {{ filename }} e {{ line }} per nome file e riga."
+"ramo, {{ filename }} e {{ line }} per nome file e segnaposto della riga."
 
 #: weblate/trans/models/component.py:221
 msgid "Exported repository URL"
@@ -8782,7 +8781,7 @@ msgid ""
 "mails."
 msgstr ""
 "Indirizzo email a cui segnalare errori nella stringa sorgente. \n"
-"Lascialo vuoto per non ricevere nessuna email."
+"Lascialo vuoto per non ricevere email."
 
 #: weblate/trans/models/component.py:249
 msgid ""
@@ -8797,7 +8796,7 @@ msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
 msgstr ""
-"Nome file del file della traduzioni base, che contiene tutte le stringhe e "
+"Nome file del file della traduzione base, che contiene tutte le stringhe e "
 "la loro sorgente. \n"
 "Questo è raccomandato per i formati di traduzione monolingue."
 
@@ -8815,7 +8814,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:273
 msgid "Template for new translations"
-msgstr "Modello per nuove traduzioni"
+msgstr "Modello per le nuove traduzioni"
 
 #: weblate/trans/models/component.py:289
 msgid "Locked"
@@ -8824,7 +8823,7 @@ msgstr "Bloccato"
 #: weblate/trans/models/component.py:292
 msgid "Locked component will not get any translation updates."
 msgstr ""
-"Il componente bloccato non otterrà nessun aggiornamento della traduzione."
+"Il componente bloccato non otterrà alcun aggiornamento della traduzione."
 
 #: weblate/trans/models/component.py:296
 msgid "Allow translation propagation"
@@ -8852,7 +8851,7 @@ msgstr "Abilita suggerimenti"
 
 #: weblate/trans/models/component.py:314
 msgid "Whether to allow translation suggestions at all."
-msgstr "Se consentire i suggerimenti traduzione a tutti."
+msgstr "Se consentire i suggerimenti di traduzione a tutti."
 
 #: weblate/trans/models/component.py:317
 msgid "Suggestion voting"
@@ -8905,7 +8904,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:374
 msgid "How to handle requests for creating new translations."
-msgstr "Come gestire le richieste per creazione di nuove traduzioni."
+msgstr "Come gestire le richieste per la creazione di nuove traduzioni."
 
 #: weblate/trans/models/component.py:378
 msgid "Language code style"
@@ -8955,11 +8954,12 @@ msgstr "Messaggio commit quando rimuovi una traduzione"
 
 #: weblate/trans/models/component.py:428
 msgid "Commit message when merging translation"
-msgstr "Messaggio di commit quando unisci una traduzione"
+msgstr "Messaggio commit quando unisci una traduzione"
 
 #: weblate/trans/models/component.py:437
 msgid "Commit message when addon makes a change"
-msgstr "Messaggio commit quando l'addon ha effettuato una modifica"
+msgstr ""
+"Messaggio commit quando il componente aggiuntivo ha effettuato una modifica"
 
 #: weblate/trans/models/component.py:446
 msgid "Committer name"
@@ -8967,7 +8967,7 @@ msgstr "Autore modifiche"
 
 #: weblate/trans/models/component.py:451
 msgid "Committer e-mail"
-msgstr "Email committer"
+msgstr "Email dell'autore modifiche"
 
 #: weblate/trans/models/component.py:456
 msgid "Push on commit"
@@ -9020,12 +9020,12 @@ msgstr ""
 #: weblate/trans/models/component.py:736
 #, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Impossibile comunicare con il repository: %s"
+msgstr "Impossibile recuperare dal repository: %s"
 
 #: weblate/trans/models/component.py:886
 #, python-format
 msgid "Push is turned off for %s."
-msgstr "Push è disabilitato per %s."
+msgstr "Il push è disabilitato per %s."
 
 #: weblate/trans/models/component.py:929
 #, python-format
@@ -9062,8 +9062,8 @@ msgstr ""
 #: weblate/trans/models/component.py:1378
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
-"Collegamento non valido ad un progetto Weblate. \n"
-"Impossibile collegarsi a se stessi!"
+"Collegamento non valido ad un progetto Weblate. Impossibile collegarsi a sé "
+"stesso!"
 
 #: weblate/trans/models/component.py:1387
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -9147,7 +9147,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1523
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Non è possibile usare la traduzione monolingua senza un file base."
+msgstr "Non è possibile usare la traduzione monolingue senza un file base."
 
 #: weblate/trans/models/component.py:1537
 #, python-format
@@ -9159,7 +9159,7 @@ msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
-"Compila l'URL delle istruzioni od utilizza un'opzione diversa per aggiungere "
+"Compila l'URL delle istruzioni o utilizza un'opzione diversa per aggiungere "
 "una nuova lingua."
 
 #: weblate/trans/models/component.py:1557
@@ -9170,7 +9170,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1587
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
-"Impossibile convalidare corrispondenze di file a causa di espressioni "
+"Impossibile convalidare le corrispondenze di file a causa di espressioni "
 "regolari non valide."
 
 #: weblate/trans/models/component.py:1597
@@ -9181,7 +9181,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1813
 msgid "Could not add new translation file."
-msgstr "Impossibile aggiungere un nuovo file traduzione."
+msgstr "Impossibile aggiungere un nuovo file di traduzione."
 
 #: weblate/trans/models/component.py:1824
 msgid "The given language is filtered by the language filter."
@@ -9189,7 +9189,7 @@ msgstr "Il file lingua fornito è filtrato dal filtro lingua."
 
 #: weblate/trans/models/component.py:1846
 msgid "Translation file already exists!"
-msgstr "Il file della traduzione esiste già!"
+msgstr "Il file di traduzione esiste già!"
 
 #: weblate/trans/models/componentlist.py:43
 msgid "Component list name"
@@ -9197,14 +9197,14 @@ msgstr "Nome elenco componenti"
 
 #: weblate/trans/models/componentlist.py:57
 msgid "Show on dashboard"
-msgstr "Visualizza nel menu"
+msgstr "Visualizza nel cruscotto"
 
 #: weblate/trans/models/componentlist.py:61
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
 "Se abilitato, questo elenco componenti verrà visualizzato come una scheda "
-"nel menu"
+"nel cruscotto"
 
 #: weblate/trans/models/componentlist.py:91
 msgid "Project regular expression"
@@ -9236,7 +9236,7 @@ msgstr "Elenco assegnazioni automatiche componenti"
 
 #: weblate/trans/models/project.py:80
 msgid "Main website of translated project."
-msgstr "Sito web principale progetto traduzione."
+msgstr "Sito web principale del progetto di traduzione."
 
 #: weblate/trans/models/project.py:83
 msgid "Mailing list"
@@ -9248,7 +9248,7 @@ msgstr "Mailing list dei traduttori."
 
 #: weblate/trans/models/project.py:89
 msgid "Translation instructions"
-msgstr "Istruzioni traduzione"
+msgstr "Istruzioni di traduzione"
 
 #: weblate/trans/models/project.py:91
 msgid "URL with instructions for translators."
@@ -9266,7 +9266,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:102
 msgid "Use shared translation memory"
-msgstr "Usa memoria traduzione condivisa"
+msgstr "Usa memoria di traduzione condivisa"
 
 #: weblate/trans/models/project.py:105
 msgid "Uses the pool of shared translations between projects."
@@ -9278,7 +9278,7 @@ msgstr "Contribuisci alla memoria di traduzione condivisa"
 
 #: weblate/trans/models/project.py:112
 msgid "Contributes to the pool of shared translations between projects."
-msgstr "Contribuisci al pool di traduzioni condivise tra progetti."
+msgstr "Contribuisci all'insieme di traduzioni condivise tra progetti."
 
 #: weblate/trans/models/project.py:118
 msgid "Access control"
@@ -9293,7 +9293,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:125
 msgid "Enable reviews"
-msgstr "Abilita riesame"
+msgstr "Abilita revisioni"
 
 #: weblate/trans/models/project.py:128
 msgid "Requires dedicated reviewers to approve translations."
@@ -9327,7 +9327,7 @@ msgstr "sorgente"
 
 #: weblate/trans/models/translation.py:119
 msgid "This translation is used for source strings."
-msgstr "Questa traduzione è usata per le le stringhe sorgenti."
+msgstr "Questa traduzione è usata per le stringhe sorgenti."
 
 #: weblate/trans/models/translation.py:145
 #, python-format
@@ -9398,11 +9398,11 @@ msgstr ""
 
 #: weblate/trans/models/whiteboard.py:127
 msgid "Whiteboard message"
-msgstr "Messaggio aggiuntivo"
+msgstr "Messaggio in bacheca"
 
 #: weblate/trans/models/whiteboard.py:128
 msgid "Whiteboard messages"
-msgstr "Messaggi aggiuntivi"
+msgstr "Messaggi in bacheca"
 
 #: weblate/trans/models/whiteboard.py:135
 msgid "Do not specify both component and project!"
@@ -9418,7 +9418,7 @@ msgstr "Inserisci una nuova linea"
 
 #: weblate/trans/specialchars.py:35
 msgid "Insert horizontal ellipsis"
-msgstr "Inserisci elissi orizzontale"
+msgstr "Inserisci ellissi orizzontale"
 
 #: weblate/trans/specialchars.py:452
 #, python-brace-format
@@ -9432,19 +9432,19 @@ msgstr "Inserisci carattere {0}"
 
 #: weblate/trans/specialchars.py:473
 msgid "Opening double quote"
-msgstr "Apri virgolette"
+msgstr "Virgolette doppie di apertura"
 
 #: weblate/trans/specialchars.py:474
 msgid "Closing double quote"
-msgstr "Chiude virgolette"
+msgstr "Virgolette doppie di chiusura"
 
 #: weblate/trans/specialchars.py:475
 msgid "Opening single quote"
-msgstr "Apri virgolette singole"
+msgstr "Virgoletta singola di apertura"
 
 #: weblate/trans/specialchars.py:476
 msgid "Closing single quote"
-msgstr "Chiudi virgolette singole"
+msgstr "Virgoletta singola di chiusura"
 
 #: weblate/trans/specialchars.py:479
 msgid "Hyphen"
@@ -9555,7 +9555,7 @@ msgstr[1] "%(count)s minuti fa"
 
 #: weblate/trans/templatetags/translations.py:390
 msgid "an hour ago"
-msgstr "un ora fa"
+msgstr "un'ora fa"
 
 #: weblate/trans/templatetags/translations.py:392
 #, python-format
@@ -9659,7 +9659,7 @@ msgstr "Il messaggio contiene alcuni errori"
 
 #: weblate/trans/templatetags/translations.py:596
 msgid "Message is approved"
-msgstr "Il messaggio è stato approvato"
+msgstr "Il messaggio è approvato"
 
 #: weblate/trans/templatetags/translations.py:601
 msgid "Message is translated"
@@ -9704,8 +9704,8 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
-"{0} è tradotta in {1} lingue usando Weblate. Unisciti al progetto o inizia "
-"traducendo il tuo progetto."
+"{0} è tradotta in {1} lingue usando Weblate. Unisciti al progetto o inizia a "
+"tradurre il tuo progetto."
 
 #: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
@@ -9733,7 +9733,7 @@ msgstr "Parametri non validi!"
 
 #: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
 msgid "You can not remove last owner!"
-msgstr "Impossibile rimuovere ultimo proprietario!"
+msgstr "Impossibile rimuovere l'ultimo proprietario!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been added to this project."
@@ -9753,7 +9753,7 @@ msgstr "L'utente è stato rimosso da questo progetto."
 
 #: weblate/trans/views/acl.py:250
 msgid "Project access control has been changed."
-msgstr "La password è stata modificata."
+msgstr "Il controllo di accesso al progetto è stato modificato."
 
 #: weblate/trans/views/basic.py:117
 #, python-brace-format
@@ -9764,13 +9764,14 @@ msgstr "Partecipa a {0}!"
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
-"È stata inviata una richiesta di nuova traduzione ai gestori del progetto."
+"È stata inviata una richiesta di nuova traduzione ai responsabili del "
+"progetto."
 
 #: weblate/trans/views/changes.py:82
 #, python-format
 msgctxt "Changes in translation"
 msgid "Changes in %s"
-msgstr "Modificate in %s"
+msgstr "Modifiche in %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format
@@ -9822,7 +9823,7 @@ msgstr "{day}/{month}"
 
 #: weblate/trans/views/create.py:297
 msgid "Failed to parse uploaded ZIP file."
-msgstr "Analisi fallita file ZIP caricato."
+msgstr "Analisi del file ZIP caricato non riuscita."
 
 #: weblate/trans/views/dashboard.py:156
 msgid ""
@@ -9847,7 +9848,7 @@ msgstr "Imposta nel tuo profilo il nome completo e l'email."
 #: weblate/trans/views/dictionary.py:48
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr "%(language)s dizionario per %(project)s"
+msgstr "Dizionario %(language)s per %(project)s"
 
 #: weblate/trans/views/dictionary.py:61
 msgid "Dictionaries"
@@ -9867,7 +9868,7 @@ msgstr[1] "Importate %d parole dal file caricato."
 #: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:171
 #, python-format
 msgid "File upload has failed: %s"
-msgstr "Caricamento file fallito: %s"
+msgstr "Caricamento del file non riuscito: %s"
 
 #: weblate/trans/views/dictionary.py:194 weblate/trans/views/edit.py:573
 #: weblate/trans/views/search.py:87 weblate/trans/views/search.py:250
@@ -9888,7 +9889,7 @@ msgstr "Non hai i permessi per aggiungere i suggerimenti!"
 
 #: weblate/trans/views/edit.py:192
 msgid "Your suggestion has been identified as spam!"
-msgstr "Il tuo suggerimento esiste già!"
+msgstr "Il tuo suggerimento è stato identificato come spam!"
 
 #: weblate/trans/views/edit.py:204
 msgid "Your suggestion already exists!"
@@ -9905,7 +9906,7 @@ msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr ""
-"La traduzione è stata salvata, tuttavia alcuni nuovi controlli sono falliti: "
+"La traduzione è stata salvata, tuttavia sono presenti alcuni nuovi errori: "
 "{0}"
 
 #: weblate/trans/views/edit.py:306
@@ -9914,11 +9915,11 @@ msgstr "Richiesta unione non valida!"
 
 #: weblate/trans/views/edit.py:328
 msgid "Invalid revert request!"
-msgstr "Richiesta annullamento non valida!"
+msgstr "Richiesta ripristino non valida!"
 
 #: weblate/trans/views/edit.py:342
 msgid "Can not revert to empty translation!"
-msgstr "Impossibile tornare alla traduzione vuota!"
+msgstr "Impossibile ripristinare la traduzione vuota!"
 
 #: weblate/trans/views/edit.py:360
 msgid "You do not have privilege to accept suggestions!"
@@ -9938,7 +9939,7 @@ msgstr "Suggerimento non valido!"
 
 #: weblate/trans/views/edit.py:514
 msgid "Invalid search string!"
-msgstr "Stringa ricerca non valida!"
+msgstr "Stringa di ricerca non valida!"
 
 #: weblate/trans/views/edit.py:594
 msgid "Automatic translation completed, no strings were updated."
@@ -9957,7 +9958,7 @@ msgstr "Nuovo commento inviato"
 
 #: weblate/trans/views/edit.py:630
 msgid "Failed to add comment!"
-msgstr "Aggiunta documento fallita!"
+msgstr "Aggiunta del commento non riuscita!"
 
 #: weblate/trans/views/edit.py:653
 msgid "Translation comment has been deleted."
@@ -9981,7 +9982,7 @@ msgstr "Accesso negato."
 
 #: weblate/trans/views/files.py:157
 msgid "No strings were imported from the uploaded file."
-msgstr "Nessuna stringa è stata importata dal file caricato."
+msgstr "Non è stata importata alcuna stringa dal file caricato."
 
 #: weblate/trans/views/files.py:160
 #, python-brace-format
@@ -10001,11 +10002,11 @@ msgstr[1] ""
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr ""
-"Impossibile bloccare il repository poichè c'è un'altra operazione in corso."
+"Impossibile bloccare il repository poiché è in corso un'altra operazione."
 
 #: weblate/trans/views/git.py:55
 msgid "All pending translations were committed."
-msgstr "Tutte le traduzioni pendenti sono state aggiornate."
+msgstr "Tutte le traduzioni in sospeso sono state depositate."
 
 #: weblate/trans/views/git.py:67
 msgid "All repositories were updated."
@@ -10013,7 +10014,7 @@ msgstr "Tutti i repository sono stati aggiornati."
 
 #: weblate/trans/views/git.py:79
 msgid "All repositories were pushed."
-msgstr "Tutti repository sono stati aggiornati."
+msgstr "Tutti i repository sono stati aggiornati."
 
 #: weblate/trans/views/git.py:90
 msgid "All repositories have been reset."
@@ -10070,7 +10071,7 @@ msgstr "Ricerca di %s"
 
 #: weblate/trans/views/search.py:225
 msgid "Too many search queries, please try again later."
-msgstr "Hai inviato troppe richieste di ricerca. Riprova di nuovo più tardi."
+msgstr "Hai inviato troppe richieste di ricerca. Riprova più tardi."
 
 #: weblate/trans/views/search.py:228
 msgid "Invalid search query!"
@@ -10104,7 +10105,7 @@ msgstr "Impostazioni non valide. Controlla il modulo per gli errori!"
 #: weblate/trans/views/source.py:93
 #, python-format
 msgid "Review source strings in %s"
-msgstr "Verifica stringhe sorgenti in %s"
+msgstr "Revisiona le stringhe sorgenti in %s"
 
 #: weblate/trans/views/source.py:110
 #, python-format
@@ -10117,7 +10118,7 @@ msgstr "Impossibile modificare un contesto!"
 
 #: weblate/trans/views/source.py:148
 msgid "Failed to change translation flags!"
-msgstr "Modifica fallita flag traduzione!"
+msgstr "Modifica dei flag traduzione non riuscita!"
 
 #: weblate/trans/widgets.py:246
 msgid "Big status badge"
@@ -10177,7 +10178,7 @@ msgstr "Vuoto"
 #: weblate/utils/validators.py:69
 #, python-brace-format
 msgid "Failed to compile: {0}"
-msgstr "Compilazione fallita: {0}"
+msgstr "Compilazione non riuscita: {0}"
 
 #: weblate/utils/validators.py:76
 #, python-brace-format
@@ -10195,7 +10196,7 @@ msgstr "Immagine non valida!"
 #: weblate/utils/validators.py:127
 #, python-format
 msgid "Not supported image type: %s"
-msgstr "Tipo di immagine non supportata: %s"
+msgstr "Tipo di immagine non supportato: %s"
 
 #: weblate/utils/validators.py:134
 msgid "Image is too big, please scale it down or crop relevant part!"
@@ -10220,7 +10221,7 @@ msgstr "Questo indirizzo email non è permesso."
 
 #: weblate/utils/validators.py:193
 msgid "Failed to evaluate plural equation: {}"
-msgstr "Valutazione equazione plurale fallita: {}"
+msgstr "Valutazione equazione plurale non riuscita: {}"
 
 #: weblate/utils/validators.py:200
 msgid "Filename can not contain reference to a parent directory."
@@ -10282,8 +10283,7 @@ msgstr "Token attivazione"
 #: weblate/wladmin/forms.py:36
 msgid ""
 "Please enter the activation token obtained when making the subscription."
-msgstr ""
-"Inserisci il token di attivazione ottenuto al momento della sottoscrizione."
+msgstr "Inserisci il token di attivazione ottenuto al momento dell'iscrizione."
 
 #: weblate/wladmin/forms.py:44
 msgid "Port"
@@ -10303,11 +10303,11 @@ msgstr "Servizio hosting"
 
 #: weblate/wladmin/models.py:92
 msgid "Basic self-hosted support"
-msgstr "Supporto di base per installazioni personali"
+msgstr "Assistenza di base per installazioni personali"
 
 #: weblate/wladmin/models.py:93
 msgid "Extended self-hosted support"
-msgstr "Supporto esteso per installazioni personali"
+msgstr "Assistenza estesa per installazioni personali"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
@@ -10348,7 +10348,7 @@ msgstr "Stato Weblate"
 
 #: weblate/wladmin/views.py:112
 msgid "Test e-mail sent."
-msgstr "Mail test inviata."
+msgstr "Mail di test inviata."
 
 #: weblate/wladmin/views.py:135
 msgid "Activation completed."
