@@ -868,3 +868,8 @@ CELERY_TASK_ROUTES = {
     'weblate.accounts.tasks.notify_change': {'queue': 'notify'},
     'weblate.accounts.tasks.send_mails': {'queue': 'notify'},
 }
+
+# Third party services integration
+PIWIK_SITE_ID = None
+PIWIK_URL = None
+SENTRY_DSN = None
