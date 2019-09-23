@@ -26,6 +26,7 @@ from django.conf import settings
 from django.test import SimpleTestCase
 
 from weblate.memory.tasks import memory_backup
+from weblate.utils.backup import backup, get_paper_key, initialize, prune
 from weblate.utils.data import data_dir
 from weblate.utils.tasks import settings_backup
 from weblate.utils.unittest import tempdir_setting
@@ -47,3 +48,14 @@ class BackupTest(SimpleTestCase):
         with open(filename) as handle:
             data = json.load(handle)
         self.assertEqual(data, [])
+
+    @tempdir_setting("DATA_DIR")
+    @tempdir_setting("BACKUP_DIR")
+    def test_backup(self):
+        initialize(settings.BACKUP_DIR, "key")
+        output = get_paper_key(settings.BACKUP_DIR)
+        self.assertIn("BORG PAPER KEY", output)
+        output = backup(settings.BACKUP_DIR, "key")
+        self.assertIn("Creating archive", output)
+        output = prune(settings.BACKUP_DIR, "key")
+        self.assertIn("Keeping archive", output)
