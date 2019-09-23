@@ -27,34 +27,32 @@ import warnings
 
 from weblate.settings_example import *  # noqa
 
-if 'CI_DATABASE' in os.environ:
-    DATABASES['default']['HOST'] = os.environ['CI_DB_HOST']
-    if os.environ['CI_DATABASE'] == 'mysql':
-        DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-        DATABASES['default']['NAME'] = 'weblate'
-        DATABASES['default']['USER'] = 'root'
-        DATABASES['default']['PASSWORD'] = ''
-        DATABASES['default']['OPTIONS'] = {
-            'init_command': (
-                'SET NAMES utf8, '
-                'wait_timeout=28800, '
-                'default_storage_engine=INNODB, '
-                'sql_mode="STRICT_TRANS_TABLES"'
-            ),
-            'charset': 'utf8',
-            'isolation_level': 'read committed',
-        }
-    elif os.environ['CI_DATABASE'] == 'postgresql':
-        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-        DATABASES['default']['NAME'] = 'weblate'
-        DATABASES['default']['USER'] = 'postgres'
-        DATABASES['default']['PASSWORD'] = ''
-    else:
-        DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
+CI_DATABASE = os.environ.get('CI_DATABASE', '')
+
+DATABASES['default']['HOST'] = os.environ.get('CI_DB_HOST', '')
+if CI_DATABASE == 'mysql':
+    DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
+    DATABASES['default']['NAME'] = 'weblate'
+    DATABASES['default']['USER'] = 'root'
+    DATABASES['default']['PASSWORD'] = ''
+    DATABASES['default']['OPTIONS'] = {
+        'init_command': (
+            'SET NAMES utf8, '
+            'wait_timeout=28800, '
+            'default_storage_engine=INNODB, '
+            'sql_mode="STRICT_TRANS_TABLES"'
+        ),
+        'charset': 'utf8',
+        'isolation_level': 'read committed',
+    }
+elif CI_DATABASE == 'postgresql':
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    DATABASES['default']['NAME'] = 'weblate'
+    DATABASES['default']['USER'] = 'postgres'
+    DATABASES['default']['PASSWORD'] = ''
 else:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
     DATABASES['default']['NAME'] = 'weblate.db'
-
 
 # Configure admins
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
