@@ -20,7 +20,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import os.path
+import os
 from time import sleep
 
 from celery_batches import Batches
@@ -41,7 +41,8 @@ from weblate.utils.state import STATE_TRANSLATED
 
 @app.task(trail=False)
 def memory_backup(indent=2):
-    filename = os.path.join(data_dir('backups'), 'memory.json')
+    os.makedirs(data_dir('backups'))
+    filename = data_dir('backups', 'memory.json')
     memory = TranslationMemory()
     with open(filename, 'w') as handle:
         memory.dump(handle, indent)

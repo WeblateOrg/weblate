@@ -69,6 +69,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 :ref:`celery`).  Currently this includes:
 
 * Translation memory dump, in JSON format.
+* Weblate settings as :file:`settings.py`.
 
 Version control repositories
 ++++++++++++++++++++++++++++

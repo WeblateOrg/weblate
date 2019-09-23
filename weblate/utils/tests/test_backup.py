@@ -18,31 +18,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import absolute_import, unicode_literals
+import json
+import os.path
 
-import os
+from django.conf import settings
+from django.test import SimpleTestCase
 
-from django.core.management.commands import diffsettings
-
-from weblate.celery import app
+from weblate.memory.tasks import memory_backup
 from weblate.utils.data import data_dir
+from weblate.utils.tasks import settings_backup
+from weblate.utils.unittest import tempdir_setting
 
 
-@app.task(trail=False)
-def ping():
-    return None
+class BackupTest(SimpleTestCase):
+    @tempdir_setting("DATA_DIR")
+    def test_settings_backup(self):
+        settings_backup()
+        filename = data_dir("backups", "settings.py")
+        with open(filename) as handle:
+            self.assertIn(settings.DATA_DIR, handle.read())
 
-
-@app.task(trail=False)
-def settings_backup(indent=2):
-    os.makedirs(data_dir("backups"))
-    filename = data_dir("backups", "settings.py")
-    with open(filename, "w") as handle:
-        handle.write(
-            diffsettings.Command().handle(default=None, output="hash", all=False)
-        )
-
-
-@app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, settings_backup.s(), name="settings-backup")
+    @tempdir_setting("DATA_DIR")
+    def test_memory_backup(self):
+        memory_backup()
+        filename = data_dir("backups", "memory.json")
+        with open(filename) as handle:
+            data = json.load(handle)
+        self.assertEqual(data, [])
