@@ -38,9 +38,7 @@ def settings_backup(indent=2):
     os.makedirs(data_dir("backups"))
     filename = data_dir("backups", "settings.py")
     with open(filename, "w") as handle:
-        handle.write(
-            diffsettings.Command().handle(default=None, output="hash", all=False)
-        )
+        handle.write(diffsettings.Command().handle())
 
 
 @app.on_after_finalize.connect
