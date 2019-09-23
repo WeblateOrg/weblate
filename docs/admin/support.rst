@@ -18,8 +18,10 @@ servers.
 The submitted data include:
 
 * URL where Weblate is configured
+* Site title
 * Weblate version
 * Counts of some objects in Weblate database (projects, components, languages and users)
+* Public SSH key
 
 No other data is submitted.
 

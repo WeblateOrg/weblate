@@ -33,6 +33,7 @@ from weblate import USER_AGENT
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.site import get_site_url
+from weblate.vcs.ssh import get_key_data
 from weblate.utils.stats import GlobalStats
 
 
@@ -127,6 +128,9 @@ class SupportStatus(models.Model):
             'components': Component.objects.count(),
             'languages': stats.languages,
         }
+        ssh_key = get_key_data()
+        if ssh_key:
+            data['ssh_key'] = ssh_key['key']
         headers = {
             'User-Agent': USER_AGENT,
         }
