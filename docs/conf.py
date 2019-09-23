@@ -205,8 +205,8 @@ intersphinx_mapping = {
     ),
     "virtaal": ("https://virtaal.readthedocs.io/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
-    "celery": ("http://docs.celeryproject.org/en/latest/", None),
-    "sphinx": ("http://www.sphinx-doc.org/en/stable/", None),
+    "celery": ("https://docs.celeryproject.org/en/latest/", None),
+    "sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
 }
