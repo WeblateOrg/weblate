@@ -121,6 +121,7 @@ class SupportStatus(models.Model):
         data = {
             'secret': self.secret,
             'site_url': get_site_url(),
+            'site_title': settings.SITE_TITLE,
             'users': User.objects.count(),
             'projects': Project.objects.count(),
             'components': Component.objects.count(),
