@@ -19,7 +19,6 @@
 #
 
 import json
-import os.path
 
 from django.conf import settings
 from django.test import SimpleTestCase
