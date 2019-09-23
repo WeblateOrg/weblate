@@ -127,6 +127,7 @@ class SupportStatus(models.Model):
             'projects': Project.objects.count(),
             'components': Component.objects.count(),
             'languages': stats.languages,
+            'source_strings': stats.source_strings,
         }
         ssh_key = get_key_data()
         if ssh_key:

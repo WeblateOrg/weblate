@@ -20,7 +20,7 @@ The submitted data include:
 * URL where Weblate is configured
 * Site title
 * Weblate version
-* Counts of some objects in Weblate database (projects, components, languages and users)
+* Counts of some objects in Weblate database (projects, components, languages, source strings and users)
 * Public SSH key
 
 No other data is submitted.
