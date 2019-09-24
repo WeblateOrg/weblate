@@ -22,6 +22,9 @@ import json
 
 from django.conf import settings
 from django.test import SimpleTestCase
+from unittest import skipIf
+
+import six
 
 from weblate.memory.tasks import memory_backup
 from weblate.utils.data import data_dir
@@ -31,6 +34,7 @@ from weblate.utils.unittest import tempdir_setting
 
 class BackupTest(SimpleTestCase):
     @tempdir_setting("DATA_DIR")
+    @skipIf(six.PY2, 'override_settings seems to be broken on Python 2')
     def test_settings_backup(self):
         settings_backup()
         filename = data_dir("backups", "settings.py")
