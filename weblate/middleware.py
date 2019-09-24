@@ -33,6 +33,9 @@ CSP_TEMPLATE = (
     "frame-src 'none'; frame-ancestors 'none';"
 )
 
+# URLs requiring inline javascipt
+INLINE_PATHS = {'social:begin'}
+
 
 class ProxyMiddleware(object):
     """Middleware that updates REMOTE_ADDR from proxy
@@ -77,16 +80,20 @@ class SecurityMiddleware(object):
         connect = {"'self'"}
         font = {"'self'"}
 
+        if request.resolver_match.view_name in INLINE_PATHS:
+            script.add("'unsafe-inline'")
+
         if (
             hasattr(settings, 'ROLLBAR')
             and 'client_token' in settings.ROLLBAR
             and 'environment' in settings.ROLLBAR
+            and response.status_code == 500
         ):
             script.add("'unsafe-inline'")
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')
 
-        if settings.SENTRY_DSN:
+        if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
             connect.add(domain)
