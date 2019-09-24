@@ -19,12 +19,11 @@
 #
 
 import json
-
-from django.conf import settings
-from django.test import SimpleTestCase
 from unittest import skipIf
 
 import six
+from django.conf import settings
+from django.test import SimpleTestCase
 
 from weblate.memory.tasks import memory_backup
 from weblate.utils.data import data_dir
