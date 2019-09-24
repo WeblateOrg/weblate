@@ -37,8 +37,13 @@ def ping():
 def settings_backup(indent=2):
     os.makedirs(data_dir("backups"))
     filename = data_dir("backups", "settings.py")
+    command = diffsettings.Command()
+    kwargs = {"default": None, "all": False}
+    # Needed for Django 1.11 compatibility
+    if hasattr(command, "output_hash"):
+        kwargs["output"] = "hash"
     with open(filename, "w") as handle:
-        handle.write(diffsettings.Command().handle())
+        handle.write(command.handle(**kwargs))
 
 
 @app.on_after_finalize.connect
