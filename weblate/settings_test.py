@@ -53,6 +53,10 @@ elif CI_DATABASE == 'postgresql':
 else:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
     DATABASES['default']['NAME'] = 'weblate.db'
+    # Workaround for
+    # https://github.com/travis-ci/travis-ci/issues/7873
+    DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
+
 
 # Configure admins
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
