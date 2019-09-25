@@ -662,7 +662,7 @@ class Unit(models.Model, LoggerMixin):
             user=user,
             author=author,
             target=self.target,
-            old=old,
+            old=self.old_unit.target,
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False, **kwargs):
