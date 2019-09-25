@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-16 13:12+0000\n"
-"PO-Revision-Date: 2019-09-25 10:10+0000\n"
+"PO-Revision-Date: 2019-09-26 18:02+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/master/cy/>"
 "\n"
@@ -47,7 +47,6 @@ msgid "Username"
 msgstr "Enw defnyddiwr"
 
 #: weblate/accounts/forms.py:134
-#, fuzzy
 msgid "This username is already taken. Please choose another."
 msgstr "Mae'r enw defnyddiwr hwn eisoes wedi'i gymryd. Dewiswch un arall."
 
@@ -592,7 +591,6 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Nid oes modd i'ch cyfrinair gynnwys un nod neu dim ond gofod gwyn."
 
 #: weblate/accounts/password_validation.py:73
-#, fuzzy
 msgid "Can not reuse previously used password!"
 msgstr "Does dim modd ailddefnyddio cyfrinair a ddefnyddiwyd yn flaenorol!"
 
@@ -620,7 +618,7 @@ msgstr ""
 "Gallwch gadarnhau eich cofrestriad dim ond os ydych wedi eich mewngofnodi!"
 
 #: weblate/accounts/pipeline.py:455
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
@@ -728,27 +726,28 @@ msgstr "Methwyd dilysu oherwydd cyflwr annilys y sesiwn."
 
 #: weblate/accounts/views.py:1018
 msgid "Got no e-mail address from third party authentication service."
-msgstr ""
+msgstr "Heb dderbyn cyfeiriad e-bost gan wasanaeth dilysu trydydd parti."
 
 #: weblate/accounts/views.py:1020
 msgid "Please register using e-mail instead."
-msgstr ""
+msgstr "Cofrestrwch gan ddefnyddio e-bost yn lle hynny."
 
 #: weblate/accounts/views.py:1029
 msgid "Can not change authentication for demo!"
-msgstr ""
+msgstr "Nid oes modd newid dilysiant ar gyfer y demo!"
 
 #: weblate/accounts/views.py:1034
 msgid "New registrations are turned off."
-msgstr ""
+msgstr "Mae cofrestriadau newydd wedi cael eu diffodd."
 
 #: weblate/accounts/views.py:1062
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Methwyd dilysu, yn ôl pob tebyg oherwydd gwall tocyn neu gysylltiad sydd "
+"wedi dod i ben."
 
 #: weblate/accounts/views.py:1067
-#, fuzzy
 msgid "Authentication cancelled."
 msgstr "Diddymwyd y dilysiad."
 
@@ -769,7 +768,6 @@ msgid "Notification settings adjusted."
 msgstr "Addaswyd y gosodiadau hysbysu."
 
 #: weblate/accounts/views.py:1093
-#, fuzzy
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
@@ -849,7 +847,6 @@ msgid "Flag new source strings as \"Needs editing\""
 msgstr "Nodwch y llinynnau ffynhonnell newydd fel \"Angen golygu\""
 
 #: weblate/addons/flags.py:51
-#, fuzzy
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
@@ -1011,562 +1008,579 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
+"Enw ffeil y ffeil sy'n cael ei ddefnyddio ar gyfer creu cyfieithiadau "
+"newydd. Ar gyfer gettext, dewiswch ffeil .pot."
 
 #: weblate/addons/forms.py:218 weblate/trans/models/component.py:472
 msgid "Language filter"
-msgstr ""
+msgstr "Hidlydd iaith"
 
 #: weblate/addons/forms.py:223
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
+"Mynegiant rheolaidd i hidlydd hidlo yn ei erbyn wrth sganio am masg ffeil."
 
 #: weblate/addons/forms.py:228
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "Cloniwch ychwanegion o'r brif gydran i'r rhai newydd eu creu"
 
 #: weblate/addons/forms.py:233
 msgid "Remove components for inexistant files"
-msgstr ""
+msgstr "Tynnu cydrannau ffeiliau sydd ddim yn bodoli"
 
 #: weblate/addons/forms.py:236
 msgid "I confirm the above matches look correct"
-msgstr ""
+msgstr "Rwy'n cadarnhau fod y cydweddiadau uchod yn edrych yn gywir"
 
 #: weblate/addons/forms.py:293
 msgid "Please review and confirm the matched components."
-msgstr ""
+msgstr "Adolygwch a chadarnhewch y cydrannau cydweddus."
 
 #: weblate/addons/forms.py:309
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "Cofiwch gynnwys tagio cydrannau yn y templed."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
-msgstr ""
+msgstr "Cynhyrchydd ystadegau"
 
 #: weblate/addons/generate.py:36
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
 msgstr ""
+"Mae'r ychwanegyn hwn yn creu ffeil sy'n cynnwys gwybodaeth fanwl am y "
+"cyfieithiad."
 
 #: weblate/addons/gettext.py:45
 msgid "Generate MO files"
-msgstr ""
+msgstr "Cynhyrchu ffeiliau MO"
 
 #: weblate/addons/gettext.py:47
 msgid "Automatically generates MO file for every changed PO file."
-msgstr ""
+msgstr "Creu ffeil MO yn awtomatig ar gyfer pob ffeil PO sy wedi newid."
 
 #: weblate/addons/gettext.py:71
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Diweddaru ffeil LINGUAS"
 
 #: weblate/addons/gettext.py:73
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr ""
+"Yn diweddaru ffeil LINGUAS pan fydd cyfieithiad newydd wedi'i ychwanegu."
 
 #: weblate/addons/gettext.py:126
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr ""
+msgstr "Diweddaru newidyn ALL_LINGUAS yn y ffeil \"ffurfweddu\""
 
 #: weblate/addons/gettext.py:128
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
+"Yn diweddaru'r newidyn ALL_LINGUAS mewn ffeiliau \"configure\", \"configure."
+"in\" neu \"configure.ac\", pan fydd cyfieithiad newydd wedi'i ychwanegu."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
-msgstr ""
+msgstr "Diweddaru ffeiliau PO i gydweddu â POT (msgmerge)"
 
 #: weblate/addons/gettext.py:188
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
+"Diweddaru pob ffeil PO i gydweddu â ' r ffeil POT gan ddefnyddio msgmerge. "
+"Caiff hyn ei wneud pryd bynnag y bydd newidiadau newydd yn cael eu tynnu o'r "
+"ystorfa cyntaf."
 
 #: weblate/addons/gettext.py:232
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Cyfaddasu allbwn gettext"
 
 #: weblate/addons/gettext.py:234
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Yn caniatáu cyfaddasu ymddygiad allbwn gettext, er enghraifft amlapio "
+"llinell."
 
 #: weblate/addons/gettext.py:248
 msgid "Contributors in comment"
-msgstr ""
+msgstr "Cyfranwyr mewn sylwadau"
 
 #: weblate/addons/gettext.py:250
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
 msgstr ""
+"Diweddarwch y sylw ym mhennyn y ffeil PO i gynnwys enw'r cyfrannwr a "
+"blynyddoedd y cyfraniadau."
 
 #: weblate/addons/git.py:37
 msgid "Squash Git commits"
-msgstr ""
+msgstr "Datrys traddodiadau Git"
 
 #: weblate/addons/git.py:38
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "Datrys traddodiadau Git cyn gwthio newidiadau."
 
 #: weblate/addons/json.py:31
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Cyfaddasu allbwn JSON"
 
 #: weblate/addons/json.py:33
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Yn caniatáu cyfaddasu ymddygiad allbwn JSON, er enghraifft mewnoliad neu "
+"didoli."
 
 #: weblate/addons/properties.py:144
 msgid "Formats the Java properties file"
-msgstr ""
+msgstr "Yn fformatio'r ffeil priodweddau Java"
 
 #: weblate/addons/properties.py:146
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "Mae'r ychwanegyn hwn yn didoli ffeil priodweddau Java."
 
 #: weblate/addons/removal.py:50
 msgid "Stale comment removal"
-msgstr ""
+msgstr "Tynnu hen sylw"
 
 #: weblate/addons/removal.py:51
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "Pennu amserlen ar gyfer tynnu sylwadau."
 
 #: weblate/addons/removal.py:62
 msgid "Stale suggestion removal"
-msgstr ""
+msgstr "Tynnu hen sylw"
 
 #: weblate/addons/removal.py:63
 msgid "Set timeframe for removal of suggestions."
-msgstr ""
+msgstr "Pennu amserlen ar gyfer tynnu awgrymiadau."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
-msgstr ""
+msgstr "Enw ychwanegyn annilys wedi'i nodi!"
 
 #: weblate/auth/admin.py:93 weblate/auth/admin.py:98
 msgid "Personal info"
-msgstr ""
+msgstr "Manylion personol"
 
 #: weblate/auth/admin.py:94
 msgid "Authentication"
-msgstr ""
+msgstr "Dilysu"
 
 #: weblate/auth/admin.py:99 weblate/auth/models.py:73 weblate/auth/models.py:87
 msgid "Permissions"
-msgstr ""
+msgstr "Caniatâd"
 
 #: weblate/auth/admin.py:103
 msgid "Important dates"
-msgstr ""
+msgstr "Dyddiadau pwysig"
 
 #: weblate/auth/data.py:35
 msgid "View billing information"
-msgstr ""
+msgstr "Gweld manylion bilio"
 
 #: weblate/auth/data.py:37
 msgid "Download changes"
-msgstr ""
+msgstr "Llwytho newidiadau i lawr"
 
 #: weblate/auth/data.py:39
 msgid "Edit component settings"
-msgstr ""
+msgstr "Golygu gosodiadau cydran"
 
 #: weblate/auth/data.py:40
 msgid "Lock component, preventing translations"
-msgstr ""
+msgstr "Cloi cydran, i atal cyfieithu"
 
 #: weblate/auth/data.py:42
 msgid "Post comment"
-msgstr ""
+msgstr "Cofnodi sylw"
 
 #: weblate/auth/data.py:43
 msgid "Delete comment"
-msgstr ""
+msgstr "Dileu sylw"
 
 #: weblate/auth/data.py:45
 msgid "Add glossary entry"
-msgstr ""
+msgstr "Ychwanegu cofnod geirfa"
 
 #: weblate/auth/data.py:46
 msgid "Edit glossary entry"
-msgstr ""
+msgstr "Golygu cofnod geirfa"
 
 #: weblate/auth/data.py:47
 msgid "Delete glossary entry"
-msgstr ""
+msgstr "Dileu cofnod geirfa"
 
 #: weblate/auth/data.py:48
 msgid "Upload glossary entries"
-msgstr ""
+msgstr "Llwytho cofnodion geirfa i fyny"
 
 #: weblate/auth/data.py:50
 msgid "Use machine translation services"
-msgstr ""
+msgstr "Defnyddio gwasanaethau cyfieithu peirianyddol"
 
 #: weblate/auth/data.py:52
 msgid "Edit translation memory"
-msgstr ""
+msgstr "Golygu cof cyfieithu"
 
 #: weblate/auth/data.py:53
 msgid "Delete translation memory"
-msgstr ""
+msgstr "Dileu cof cyfieithu"
 
 #: weblate/auth/data.py:55
 msgid "Edit project settings"
-msgstr ""
+msgstr "Golygu gosodiadau project"
 
 #: weblate/auth/data.py:56
 msgid "Manage project access"
-msgstr ""
+msgstr "Rheoli mynediad i'r project"
 
 #: weblate/auth/data.py:58
 msgid "Download reports"
-msgstr ""
+msgstr "Llwytho adroddiadau i lawr"
 
 #: weblate/auth/data.py:60
 msgid "Add screenshot"
-msgstr ""
+msgstr "Ychwanegu llun sgrin"
 
 #: weblate/auth/data.py:61
 #: weblate/templates/screenshots/screenshot_detail.html:100
 msgid "Edit screenshot"
-msgstr ""
+msgstr "Golygu llun sgrin"
 
 #: weblate/auth/data.py:62
 #: weblate/templates/screenshots/screenshot_detail.html:123
 msgid "Delete screenshot"
-msgstr ""
+msgstr "Dileu llun sgrin"
 
 #: weblate/auth/data.py:64 weblate/templates/translate.html:193
 msgid "Edit source string"
-msgstr ""
+msgstr "Golygu llinyn ffynhonnell"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
-msgstr ""
+msgstr "Derbyn awgrym"
 
 #: weblate/auth/data.py:67
 msgid "Add suggestion"
-msgstr ""
+msgstr "Ychwanegu awgrym"
 
 #: weblate/auth/data.py:68
 msgid "Delete suggestion"
-msgstr ""
+msgstr "Dileu awgrym"
 
 #: weblate/auth/data.py:69
 msgid "Vote on suggestion"
-msgstr ""
+msgstr "Pleidleio ar awgrym"
 
 #: weblate/auth/data.py:71
 msgid "Add language for translation"
-msgstr ""
+msgstr "Ychwanegu iaith i'w chyfieithu"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
-msgstr ""
+msgstr "Cyflawni cyfieithu awtomatig"
 
 #: weblate/auth/data.py:73
 msgid "Delete existing translation"
-msgstr ""
+msgstr "Dileu'r cyfieithiad presennol"
 
 #: weblate/auth/data.py:74
 msgid "Add several languages for translation"
-msgstr ""
+msgstr "Ychwanegu sawl iaith i'w cyfieithu"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
-msgstr ""
+msgstr "Ychwanegu llinyn newydd"
 
 #: weblate/auth/data.py:77
 msgid "Ignore failing check"
-msgstr ""
+msgstr "Anwybyddu gwirio sy'n methu"
 
 #: weblate/auth/data.py:78
 msgid "Edit strings"
-msgstr ""
+msgstr "Golygu llinynnau"
 
 #: weblate/auth/data.py:79
 msgid "Review strings"
-msgstr ""
+msgstr "Adolygu llinynnau"
 
 #: weblate/auth/data.py:80
 msgid "Edit string when suggestions are enforced"
-msgstr ""
+msgstr "Golygu llinyn pan fydd awgrymiadau'n cael eu gorfodi"
 
 #: weblate/auth/data.py:81
 msgid "Edit source strings"
-msgstr ""
+msgstr "Golygu llinynnau ffynhonnell"
 
 #: weblate/auth/data.py:83
 msgid "Define author of uploaded translation"
-msgstr ""
+msgstr "Diffinio awdur cyfieithiad wedi'i llwytho i fyny"
 
 #: weblate/auth/data.py:84
 msgid "Overwrite existing strings with upload"
-msgstr ""
+msgstr "Trosysgrifo llinynnau presennol gyda'r llwytho i fyny"
 
 #: weblate/auth/data.py:85
 msgid "Upload translations"
-msgstr ""
+msgstr "Llwytho cyfieithiadau i fyny"
 
 #: weblate/auth/data.py:87
 msgid "Access the internal repository"
-msgstr ""
+msgstr "Cael mynediad i'r ystorfa fewnol"
 
 #: weblate/auth/data.py:88
 msgid "Commit changes to the internal repository"
-msgstr ""
+msgstr "Traddodi newidiadau i'r ystorfa fewnol"
 
 #: weblate/auth/data.py:89
 msgid "Push change from the internal repository"
-msgstr ""
+msgstr "Gwthio newid o'r ystorfa fewnol"
 
 #: weblate/auth/data.py:90
 msgid "Reset changes in the internal repository"
-msgstr ""
+msgstr "Ailosod newidiadau yn yr ystorfa fewnol"
 
 #: weblate/auth/data.py:91
 msgid "View upstream repository location"
-msgstr ""
+msgstr "Gweld lleoliad yr ystorfa cyntaf"
 
 #: weblate/auth/data.py:92
 msgid "Update the internal repository"
-msgstr ""
+msgstr "Diweddaru'r ystorfa fewnol"
 
 #: weblate/auth/data.py:97
 msgid "Use management interface (on the entire platform)"
-msgstr ""
+msgstr "Defnyddio rhyngwyneb rheoli (ar y platfform cyfan)"
 
 #: weblate/auth/data.py:99
 msgid "Add new projects (on the entire platform)"
-msgstr ""
+msgstr "Ychwanegu projectau newydd (ar y platfform cyfan)"
 
 #: weblate/auth/data.py:101
 msgid "Add language definitions (on the entire platform)"
-msgstr ""
+msgstr "Ychwanegu diffiniadau iaith (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:102
 msgid "Manage language definitions (on the entire platform)"
-msgstr ""
+msgstr "Rheoli diffiniadau iaith (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:104
 msgid "Add groups (on the entire platform)"
-msgstr ""
+msgstr "Ychwanegu grwpiau (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:105
 msgid "Manage groups (on the entire platform)"
-msgstr ""
+msgstr "Rheoli grwpiau (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:107
 msgid "Add users (on the entire platform)"
-msgstr ""
+msgstr "Ychwanegu defnyddwyr (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:108
 msgid "Manage users (on the entire platform)"
-msgstr ""
+msgstr "Rheoli defnyddwyr (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:110
 msgid "Manage whiteboard (on the entire platform)"
-msgstr ""
+msgstr "Rheoli bwrdd gwyn (ar y platfform cyfan)"
 
 #: weblate/auth/data.py:112
 msgid "Manage translation memory (on the entire platform)"
-msgstr ""
+msgstr "Rheoli cof cyfieithu (ar y llwyfan cyfan)"
 
 #: weblate/auth/data.py:135
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr ""
+msgstr "Ychwanegu awgrym"
 
 #: weblate/auth/data.py:141
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr ""
+msgstr "Mynediad i'r ystorfa"
 
 #: weblate/auth/data.py:147
 msgctxt "Access control role"
 msgid "Power user"
-msgstr ""
+msgstr "Defnyddiwr uwch"
 
 #: weblate/auth/data.py:155
 msgctxt "Access control role"
 msgid "Translate"
-msgstr ""
+msgstr "Cyfieithu"
 
 #: weblate/auth/data.py:159
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr ""
+msgstr "Golygu ffynhonnell"
 
 #: weblate/auth/data.py:163
 msgctxt "Access control role"
 msgid "Manage languages"
-msgstr ""
+msgstr "Rheoli ieithoedd"
 
 #: weblate/auth/data.py:167
 msgctxt "Access control role"
 msgid "Manage glossary"
-msgstr ""
+msgstr "Rheoli geirfa"
 
 #: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Manage translation memory"
-msgstr ""
+msgstr "Rheoli cof cyfieithu"
 
 #: weblate/auth/data.py:175
 msgctxt "Access control role"
 msgid "Manage screenshots"
-msgstr ""
+msgstr "Rheoli lluniau sgrin"
 
 #: weblate/auth/data.py:179
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr ""
+msgstr "Adolygu llinynnau"
 
 #: weblate/auth/data.py:183
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr ""
+msgstr "Rheoli ystorfa"
 
 #: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Administration"
-msgstr ""
+msgstr "Gweinyddiaeth"
 
 #: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Billing"
-msgstr ""
+msgstr "Bilio"
 
 #: weblate/auth/data.py:199
 msgctxt "Access control group"
 msgid "Guests"
-msgstr ""
+msgstr "Gwesteion"
 
 #: weblate/auth/data.py:204
 msgctxt "Access control group"
 msgid "Viewers"
-msgstr ""
+msgstr "Gwylwyr"
 
 #: weblate/auth/data.py:209
 msgctxt "Access control group"
 msgid "Users"
-msgstr ""
+msgstr "Defnyddwyr"
 
 #: weblate/auth/data.py:214
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr ""
+msgstr "Adolygwyr"
 
 #: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
-msgstr ""
+msgstr "Rheolwyr"
 
 #: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Translate"
-msgstr ""
+msgstr "Cyfieithu"
 
 #: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Template"
-msgstr ""
+msgstr "Templed"
 
 #: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "Languages"
-msgstr ""
+msgstr "Ieithoedd"
 
 #: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Glossary"
-msgstr ""
+msgstr "Geirfa"
 
 #: weblate/auth/data.py:235
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "Cof"
 
 #: weblate/auth/data.py:237
 msgctxt "Per project access control group"
 msgid "Screenshots"
-msgstr ""
+msgstr "Lluniau Sgrin"
 
 #: weblate/auth/data.py:239
 msgctxt "Per project access control group"
 msgid "Review"
-msgstr ""
+msgstr "Adolygu"
 
 #: weblate/auth/data.py:241
 msgctxt "Per project access control group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/auth/data.py:243
 msgctxt "Per project access control group"
 msgid "Administration"
-msgstr ""
+msgstr "Gweinyddiaeth"
 
 #: weblate/auth/data.py:245
 msgctxt "Per project access control group"
 msgid "Billing"
-msgstr ""
+msgstr "Bilio"
 
 #: weblate/auth/models.py:72
 msgid "Permission"
-msgstr ""
+msgstr "Caniatâd"
 
 #: weblate/auth/models.py:82 weblate/auth/models.py:111
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:25
 #: weblate/templates/manage/performance.html:67 weblate/trans/forms.py:1496
 msgid "Name"
-msgstr ""
+msgstr "Enw"
 
 #: weblate/auth/models.py:89
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Dewis y caniatâd a roddwyd i'r rôl hon."
 
 #: weblate/auth/models.py:117
 msgid "Roles"
-msgstr ""
+msgstr "Rolau"
 
 #: weblate/auth/models.py:119
 msgid "Choose roles granted to this group."
-msgstr ""
+msgstr "Dewiswch rolau a roddwyd i'r grŵp hwn."
 
 #: weblate/auth/models.py:123
 msgid "Project selection"
-msgstr ""
+msgstr "Dewis project"
 
 #: weblate/auth/models.py:125 weblate/auth/models.py:149
 msgid "As defined"
-msgstr ""
+msgstr "Fel y diffiniwyd"
 
 #: weblate/auth/models.py:126 weblate/templates/dashboard/user.html:44
 msgid "All projects"
-msgstr ""
+msgstr "Pob project"
 
 #: weblate/auth/models.py:127
 msgid "All public projects"
-msgstr ""
+msgstr "Pob project cyhoeddus"
 
 #: weblate/auth/models.py:128
 msgid "All protected projects"
-msgstr ""
+msgstr "Pob project gwarchodedig"
 
 #: weblate/auth/models.py:129
 msgid "From component list"
-msgstr ""
+msgstr "O'r rhestr gydrannau"
 
 #: weblate/auth/models.py:135 weblate/billing/admin.py:74
 #: weblate/billing/models.py:214 weblate/templates/accounts/user.html:38
@@ -1574,16 +1588,16 @@ msgstr ""
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:81
 msgid "Projects"
-msgstr ""
+msgstr "Projectau"
 
 #: weblate/auth/models.py:147
 msgid "Language selection"
-msgstr ""
+msgstr "Dewis iaith"
 
 #: weblate/auth/models.py:150 weblate/templates/dashboard/user.html:43
 #: weblate/trans/forms.py:1158
 msgid "All languages"
-msgstr ""
+msgstr "Pob iaith"
 
 #: weblate/auth/models.py:156 weblate/billing/models.py:249
 #: weblate/lang/models.py:390 weblate/lang/views.py:51
@@ -1598,402 +1612,409 @@ msgstr ""
 #: weblate/trans/forms.py:878 weblate/trans/forms.py:1179
 #: weblate/trans/forms.py:1975
 msgid "Languages"
-msgstr ""
+msgstr "Ieithoedd"
 
 #: weblate/auth/models.py:161
 msgid "Weblate internal group"
-msgstr ""
+msgstr "Grŵp mewnol Weblate"
 
 #: weblate/auth/models.py:303
 msgid "username"
-msgstr ""
+msgstr "enw defnyddiwr"
 
 #: weblate/auth/models.py:312
 msgid "A user with that username already exists."
-msgstr ""
+msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
 
 #: weblate/auth/models.py:330
 msgid "Superuser status"
-msgstr ""
+msgstr "Statws uwchddefnyddiwr"
 
 #: weblate/auth/models.py:332
 msgid "User has all possible permissions."
-msgstr ""
+msgstr "Mae gan y defnyddiwr bob caniatâd posibl."
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:141
 msgid "Active"
-msgstr ""
+msgstr "Gweithredol"
 
 #: weblate/auth/models.py:337
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Marcio'r defnyddiwr yn anweithgar yn lle'i ddileu."
 
 #: weblate/auth/models.py:339
 msgid "Date joined"
-msgstr ""
+msgstr "Dyddiad ymuno"
 
 #: weblate/auth/models.py:342
 msgid "Groups"
-msgstr ""
+msgstr "Grwpiau"
 
 #: weblate/auth/models.py:345
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
+"Mae'r defnyddiwr wedi derbyn pob caniatâd sy'n gynwysiedig yn aelodaeth y "
+"grwpiau hyn."
 
 #: weblate/auth/models.py:519
 msgid "E-mail regular expression"
-msgstr ""
+msgstr "Mynegiad rheolaidd e-bost"
 
 #: weblate/auth/models.py:523
 msgid "Regular expression used to match user e-mail."
-msgstr ""
+msgstr "Mynegiad rheolaidd wedi'i ddefnyddio i gydweddu e-bost defnyddiwr."
 
 #: weblate/auth/models.py:528
 msgid "Group to assign"
-msgstr ""
+msgstr "Grŵp i'w bennu"
 
 #: weblate/auth/models.py:533
 msgid "Automatic group assignment"
-msgstr ""
+msgstr "Aseinio grŵp yn awtomatig"
 
 #: weblate/auth/models.py:534
 msgid "Automatic group assignments"
-msgstr ""
+msgstr "Aseiniadau grŵp awtomatig"
 
 #: weblate/billing/admin.py:79
 msgid "Owners"
-msgstr ""
+msgstr "Perchnogion"
 
 #: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
 msgid "Billing plan"
-msgstr ""
+msgstr "Cynllun bilio"
 
 #: weblate/billing/models.py:136
 msgid "Billed projects"
-msgstr ""
+msgstr "Projectau wedi'u bilio"
 
 #: weblate/billing/models.py:138
 msgid "Billing owners"
-msgstr ""
+msgstr "Perchnogion bilio"
 
 #: weblate/billing/models.py:142
 msgid "Trial"
-msgstr ""
+msgstr "Profi"
 
 #: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
 #: weblate/templates/project_info.html:31
 msgid "Expired"
-msgstr ""
+msgstr "Wedi dod i ben"
 
 #: weblate/billing/models.py:144
 msgid "Terminated"
-msgstr ""
+msgstr "Wedi'i derfynu"
 
 #: weblate/billing/models.py:147
 msgid "Billing state"
-msgstr ""
+msgstr "Cyflwr bilio"
 
 #: weblate/billing/models.py:150
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Dyddiad dod a'r profi i ben"
 
 #: weblate/billing/models.py:153
 msgid "Scheduled removal"
-msgstr ""
+msgstr "Tynnu wedi'i drefnu"
 
 #: weblate/billing/models.py:155
 msgid "Paid"
-msgstr ""
+msgstr "Talu"
 
 #: weblate/billing/models.py:158
 msgid "In limits"
-msgstr ""
+msgstr "Mewn terfynau"
 
 #: weblate/billing/models.py:161
 msgid "Grace period for payments"
-msgstr ""
+msgstr "Cyfnod gras ar gyfer taliadau"
 
 #: weblate/billing/models.py:193
 msgid "Changes in last month"
-msgstr ""
+msgstr "Newidiadau yn y mis diwethaf"
 
 #: weblate/billing/models.py:199
 msgid "Changes in last quarter"
-msgstr ""
+msgstr "Newidiadau yn y chwarter diwethaf"
 
 #: weblate/billing/models.py:205
 msgid "Changes in last year"
-msgstr ""
+msgstr "Newidiadau yn y flwyddyn diwethaf"
 
 #: weblate/billing/models.py:223 weblate/templates/about/stats.html:84
 #: weblate/templates/translation.html:127 weblate/trans/admin.py:97
 #: weblate/trans/forms.py:766
 msgid "Source strings"
-msgstr ""
+msgstr "Llinynnau ffynhonnell"
 
 #: weblate/billing/models.py:232 weblate/trans/admin.py:101
 msgid "Source words"
-msgstr ""
+msgstr "Geiriau ffynhonnell"
 
 #: weblate/billing/models.py:281 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
-msgstr ""
+msgstr "Nifer y llinynnau"
 
 #: weblate/billing/models.py:288
 msgid "N/A"
-msgstr ""
+msgstr "Amherthnasol"
 
 #: weblate/billing/models.py:290 weblate/templates/billing/status.html:19
 msgid "Last invoice"
-msgstr ""
+msgstr "Anfoneb ddiwethaf"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:312
 msgid "In display limits"
-msgstr ""
+msgstr "Mewn cyfyngiadau dangos"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
-msgstr ""
+msgstr "Llinyn rhyngosod AngularJS"
 
 #: weblate/checks/angularjs.py:46
 msgid "AngularJS interpolation strings do not match source"
-msgstr ""
+msgstr "Nid yw llinynnau rhyngosod AngularJS yn cydweddu â'r ffynhonnell"
 
 #: weblate/checks/chars.py:38
 msgid "Starting newline"
-msgstr ""
+msgstr "Cychwyn llinell newydd"
 
 #: weblate/checks/chars.py:39
 msgid "Source and translation do not both start with a newline"
-msgstr ""
+msgstr "Nid yw ffynhonnell a'r cyfieithiad yn cychwyn gyda llinell newydd"
 
 #: weblate/checks/chars.py:50
 msgid "Trailing newline"
-msgstr ""
+msgstr "Llinell newydd dilynol"
 
 #: weblate/checks/chars.py:51
 msgid "Source and translation do not both end with a newline"
-msgstr ""
+msgstr "Nid yw ffynhonnell a'r cyfieithiad yn gorffen gyda llinell newydd"
 
 #: weblate/checks/chars.py:62
 msgid "Starting spaces"
-msgstr ""
+msgstr "Bylchau cychwynnol"
 
 #: weblate/checks/chars.py:64
 msgid "Source and translation do not both start with same number of spaces"
 msgstr ""
+"Nid yw'r ffynhonnell na'r cyfieithu yn cychwyn gyda'r un nifer o fylchau"
 
 #: weblate/checks/chars.py:102
 msgid "Trailing space"
-msgstr ""
+msgstr "Bwlch dilynol"
 
 #: weblate/checks/chars.py:103
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "Nid yw ffynhonnell a'r cyfieithiad yn gorffen gyda bwlch"
 
 #: weblate/checks/chars.py:141
 msgid "Trailing stop"
-msgstr ""
+msgstr "Stop dilynnol"
 
 #: weblate/checks/chars.py:142
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "Nid yw'r ffynhonnell a'r cyfieithu yn gorffen gydag atalnod llawn"
 
 #: weblate/checks/chars.py:187
 msgid "Trailing colon"
-msgstr ""
+msgstr "Colon dilynol"
 
 #: weblate/checks/chars.py:189
 msgid "Source and translation do not both end with a colon"
-msgstr ""
+msgstr "Nid yw ffynhonnell a'r cyfieithiad yn gorffen gyda cholon"
 
 #: weblate/checks/chars.py:231
 msgid "Trailing question"
-msgstr ""
+msgstr "Cwestiwn dilynol"
 
 #: weblate/checks/chars.py:233
 msgid "Source and translation do not both end with a question mark"
-msgstr ""
+msgstr "Nid yw'r ffynhonnell a'r cyfieithiad yn gorffen gyda marc cwestiwn"
 
 #: weblate/checks/chars.py:275
 msgid "Trailing exclamation"
-msgstr ""
+msgstr "Ebychnod dilynol"
 
 #: weblate/checks/chars.py:277
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr ""
+msgstr "Nid yw'r ffynhonnell a'r cyfieithiad yn gorffen gydag ebychnod"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:39
 msgid "Trailing ellipsis"
-msgstr ""
+msgstr "Elipsis dilynol"
 
 #: weblate/checks/chars.py:303
 msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
+msgstr "Nid yw'r ffynhonnell a'r cyfieithu yn gorffen gydag elipsis"
 
 #: weblate/checks/chars.py:322
 msgid "Mismatched \\n"
-msgstr ""
+msgstr "Camgydweddu \\n"
 
 #: weblate/checks/chars.py:323
 msgid "Number of \\n in translation does not match source"
 msgstr ""
+"Nid yw' r nifer o \\n"
+" yn y cyfieithiad yn cyfateb i'r ffynhonnell"
 
 #: weblate/checks/chars.py:331 weblate/trans/autofixes/chars.py:51
 msgid "Zero-width space"
-msgstr ""
+msgstr "Bwlch dim lled"
 
 #: weblate/checks/chars.py:332
 msgid "Translation contains extra zero-width space character"
-msgstr ""
+msgstr "Mae' r cyfieithiad yn cynnwys nod bwlch dim lled ychwanegol"
 
 #: weblate/checks/chars.py:348
 msgid "Maximum length of translation"
-msgstr ""
+msgstr "Uchafswm hyd y cyfieithiad"
 
 #: weblate/checks/chars.py:349
 msgid "Translation should not exceed given length"
-msgstr ""
+msgstr "Dylai'r cyfieithiad ddim bod yn fwy na'r hyd penodol"
 
 #: weblate/checks/chars.py:362
 msgid "Trailing semicolon"
-msgstr ""
+msgstr "Hanner colon dilynol"
 
 #: weblate/checks/chars.py:363
 msgid "Source and translation do not both end with a semicolon"
-msgstr ""
+msgstr "Nid yw'r ffynhonnell a'r cyfieithiad yn gorffen gyda hanner colon"
 
 #: weblate/checks/chars.py:375
 msgid "Kashida used"
-msgstr ""
+msgstr "Kashida wedi ei ddefnyddio"
 
 #: weblate/checks/chars.py:376
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "Dylai llythrennau addurniadol Kashida ddim cael eu defnyddio"
 
 #: weblate/checks/chars.py:388
 msgid "Punctuation spacing"
-msgstr ""
+msgstr "Bylchau atalnodi"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Bwlch di dor coll o flaen arwydd atalnodi dwbl"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
-msgstr ""
+msgstr "Lluosogion coll"
 
 #: weblate/checks/consistency.py:32
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "Nid yw rhai ffurfiau lluosog yn cael eu cyfieithu"
 
 #: weblate/checks/consistency.py:53
 msgid "Same plurals"
-msgstr ""
+msgstr "Yr un lluosogion"
 
 #: weblate/checks/consistency.py:54
 msgid "Some plural forms are translated in the same way"
-msgstr ""
+msgstr "Mae rhai ffurfiau lluosog yn cael eu cyfieithu yn yr un modd"
 
 #: weblate/checks/consistency.py:73
 msgid "Inconsistent"
-msgstr ""
+msgstr "Anghyson"
 
 #: weblate/checks/consistency.py:75
 msgid "This string has more than one translation in this project"
-msgstr ""
+msgstr "Mae gan y llinyn hwn fwy nag un cyfieithiad yn y project hwn"
 
 #: weblate/checks/consistency.py:114
 msgid "Has been translated"
-msgstr ""
+msgstr "Wedi ei gyfieithu"
 
 #: weblate/checks/consistency.py:116
 msgid "This string has been translated in the past"
-msgstr ""
+msgstr "Mae'r llinyn hwn wedi'i gyfieithu yn y gorffennol"
 
 #: weblate/checks/flags.py:39
 msgid "RST text"
-msgstr ""
+msgstr "Testun RST"
 
 #: weblate/checks/flags.py:40
 msgid "Markdown text"
-msgstr ""
+msgstr "Testun tagio"
 
 #: weblate/checks/flags.py:41
 msgid "XML text"
-msgstr ""
+msgstr "Testun XML"
 
 #: weblate/checks/flags.py:42
 msgid "DOS line endings"
-msgstr ""
+msgstr "Diweddiadau llinell DOS"
 
 #: weblate/checks/flags.py:43 weblate/checks/markup.py:296
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: weblate/checks/flags.py:45
+#, fuzzy
 msgid "Automatically detect Java MessageFormat"
-msgstr ""
+msgstr "Canfod Java MessageFormat yn awtomatig"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:43
 #: weblate/templates/fonts/font_detail.html:18
 #: weblate/templates/fonts/font_list.html:73
 msgid "Font family"
-msgstr ""
+msgstr "Teulu ffont"
 
 #: weblate/checks/flags.py:50
 msgid "Font size"
-msgstr ""
+msgstr "Maint y ffont"
 
 #: weblate/checks/flags.py:52
 msgid "Font weight"
-msgstr ""
+msgstr "Pwysau ' r ffont"
 
 #: weblate/checks/flags.py:54
 msgid "Font spacing"
-msgstr ""
+msgstr "Bylchiad ffont"
 
 #: weblate/checks/flags.py:56 weblate/trans/models/component.py:484
 msgid "Priority"
-msgstr ""
+msgstr "Flaenoriaeth"
 
 #: weblate/checks/flags.py:143
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr ""
+msgstr "Baner cyfieithu annilys: \"%s\""
 
 #: weblate/checks/flags.py:147
 #, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr ""
+msgstr "Does dim paramedrau gan y faner gyfieithu: \"%s\""
 
 #: weblate/checks/flags.py:153
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr ""
+msgstr "Paramedrau anghywir ar gyfer y faner gyfieithu: \"%s\""
 
 #: weblate/checks/flags.py:157
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr ""
+msgstr "Paramedrau coll ar gyfer baner gyfieithu: \"%s\""
 
 #: weblate/checks/format.py:271
 #, python-format
 msgid "Following format strings are wrong: %s"
-msgstr ""
+msgstr "Mae llinynnau fformat canlynol yn anghywir:%s"
 
 #: weblate/checks/format.py:280
+#, fuzzy
 msgid "Python format"
-msgstr ""
+msgstr "Fformat Python"
 
 #: weblate/checks/format.py:281
 msgid "Python format string does not match source"
-msgstr ""
+msgstr "Nid yw'r llinyn fformat Python yn cyfateb i'r ffynhonnell"
 
 #: weblate/checks/format.py:291
 msgid "PHP format"
@@ -4861,7 +4882,7 @@ msgstr ""
 #: weblate/templates/language-project.html:19
 #: weblate/templates/translate.html:506 weblate/templates/translation.html:36
 msgid "Glossary"
-msgstr ""
+msgstr "Geirfa"
 
 #: weblate/templates/dictionary.html:21
 msgid "Browse"
