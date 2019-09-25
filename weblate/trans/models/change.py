@@ -427,11 +427,15 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_content(self):
         """Whether to show content as translation."""
-        return self.action in (
-            self.ACTION_SUGGESTION,
-            self.ACTION_SUGGESTION_DELETE,
-            self.ACTION_SUGGESTION_CLEANUP,
-            self.ACTION_NEW_UNIT,
+        return (
+            self.action
+            in (
+                self.ACTION_SUGGESTION,
+                self.ACTION_SUGGESTION_DELETE,
+                self.ACTION_SUGGESTION_CLEANUP,
+                self.ACTION_NEW_UNIT,
+            )
+            or self.action in self.ACTIONS_REVERTABLE
         )
 
     def get_details_display(self):
