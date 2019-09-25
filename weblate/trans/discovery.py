@@ -40,7 +40,7 @@ from weblate.utils.render import render_template
 COPY_ATTRIBUTES = (
     'project', 'vcs',
     'license_url', 'license', 'agreement',
-    'report_source_bugs', 'allow_translation_propagation', 'save_history',
+    'report_source_bugs', 'allow_translation_propagation',
     'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
     'check_flags', 'new_lang', 'language_code_style',
     'commit_message', 'add_message', 'delete_message', 'merge_message',

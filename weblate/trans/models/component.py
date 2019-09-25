@@ -301,13 +301,6 @@ class Component(models.Model, URLMixin, PathMixin):
             "will cause automatic translation in this one"
         ),
     )
-    save_history = models.BooleanField(
-        verbose_name=ugettext_lazy("Save translation history"),
-        default=True,
-        help_text=ugettext_lazy(
-            "Whether Weblate should keep track of old translations."
-        ),
-    )
     enable_suggestions = models.BooleanField(
         verbose_name=ugettext_lazy("Turn on suggestions"),
         default=True,

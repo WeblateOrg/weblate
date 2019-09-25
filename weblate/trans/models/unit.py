@@ -540,9 +540,7 @@ class Unit(models.Model, LoggerMixin):
         if self.pending:
             change_author = self.get_last_content_change()[0]
             if change_author.id != author.id:
-                self.translation.commit_pending(
-                    'pending unit', user, force=True
-                )
+                self.translation.commit_pending('pending unit', user, force=True)
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
@@ -588,9 +586,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update related source strings if working on a template
         if self.translation.is_template:
-            self.update_source_units(
-                self.old_unit.source, user or author, author
-            )
+            self.update_source_units(self.old_unit.source, user or author, author)
 
         return True
 
@@ -659,16 +655,14 @@ class Unit(models.Model, LoggerMixin):
         else:
             action = Change.ACTION_NEW
 
-        kwargs = {}
-
-        # Should we store history of edits?
-        if self.translation.component.save_history:
-            kwargs['target'] = self.target
-            kwargs['old'] = self.old_unit.target
-
         # Create change object
         Change.objects.create(
-            unit=self, action=action, user=user, author=author, **kwargs
+            unit=self,
+            action=action,
+            user=user,
+            author=author,
+            target=self.target,
+            old=old,
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False, **kwargs):

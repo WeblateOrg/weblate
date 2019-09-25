@@ -1459,7 +1459,6 @@ class ComponentSettingsForm(SettingsBaseForm):
             'agreement',
 
             'allow_translation_propagation',
-            'save_history',
             'enable_suggestions',
             'suggestion_voting',
             'suggestion_autoaccept',
@@ -1523,7 +1522,6 @@ class ComponentSettingsForm(SettingsBaseForm):
                     Fieldset(
                         _('Translation settings'),
                         'allow_translation_propagation',
-                        'save_history',
                         'check_flags',
                     ),
                     css_id='translation',

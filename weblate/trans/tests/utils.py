@@ -225,7 +225,6 @@ class RepoTestMixin(object):
             template=template,
             file_format=file_format,
             repoweb=REPOWEB_URL,
-            save_history=True,
             new_base=new_base,
             vcs=vcs,
             **kwargs
