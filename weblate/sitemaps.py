@@ -36,7 +36,10 @@ class PagesSitemap(Sitemap):
         return obj[0]
 
     def lastmod(self, item):
-        return Change.objects.values_list('timestamp', flat=True).order()[0]
+        try:
+            return Change.objects.values_list('timestamp', flat=True).order()[0]
+        except Change.DoesNotExist:
+            return None
 
     def priority(self, item):
         return item[1]
