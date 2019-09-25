@@ -22,11 +22,7 @@
 <td><a href="{{ current_site_url }}{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
 <td>{% if c.can_revert %}
 <tr class="{{ rowcolors }}">
-{% if c.old %}
 <td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural diff=c.old %}</td>
-{% else %}
-<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
-{% endif %}
 <td>
 {% if not hide_links %}
 {% perm 'unit.edit' c.unit as user_can_translate %}
