@@ -48,7 +48,7 @@ Here is a list of flags currently accepted:
     The default priority is 100, the higher priority string has, the earlier is 
     offered to translate.
 ``max-length:N``
-    Limit maximal length for string to N chars, see :ref:`check-max-length`
+    Limit maximal length for string to N characters, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``font-family:NAME``
@@ -166,7 +166,7 @@ what is typically needed for non latin languages:
 .. image:: /images/font-group-edit.png
 
 The font groups are identified by name, which can not contain whitespace or
-special chars to be easy to use in check definition:
+special characters to be easy to use in check definition:
 
 .. image:: /images/font-group-list.png
 

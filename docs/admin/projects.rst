@@ -195,7 +195,7 @@ File mask
 
     For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 
-    In case your filename contains special chars such as ``[``, ``]``, these need
+    In case your filename contains special characters such as ``[``, ``]``, these need
     to be escaped as ``[[]`` or ``[]]``.
 Monolingual base language file
     Base file containing string definitions for :ref:`monolingual`.
@@ -356,7 +356,7 @@ You can use conditions:
 
     {% if stats.translated_percent > 80 %}Well translated!{% endif %}
 
-There is additional tag available for replacing chars:
+There is additional tag available for replacing characters:
 
 .. code-block:: django
 

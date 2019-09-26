@@ -214,7 +214,7 @@ function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
 
-    /* Count chars */
+    /* Count characters */
     $(".translation-editor").keyup(function() {
         var $this = $(this);
         var counter = $this.parent().find('.length-indicator');

@@ -136,7 +136,7 @@ def validate_bitmap(value):
 
 
 def clean_fullname(val):
-    """Remove special chars from user full name."""
+    """Remove special characters from user full name."""
     if not val:
         return val
     val = val.strip()
@@ -148,7 +148,7 @@ def clean_fullname(val):
 def validate_fullname(val):
     if val != clean_fullname(val):
         raise ValidationError(
-            _('Please avoid using special chars in the full name.')
+            _('Please avoid using special characters in the full name.')
         )
     return val
 

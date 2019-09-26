@@ -37,7 +37,7 @@ from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
 from weblate.utils.site import get_site_url
 
-# Map to remove control chars except newlines and tabs
+# Map to remove control characters except newlines and tabs
 _CHARMAP = dict.fromkeys(
     x for x in range(32) if x not in (9, 10, 13)
 )
@@ -236,7 +236,7 @@ class PoExporter(BaseExporter):
 
 
 class XMLExporter(BaseExporter):
-    """Wrapper for XML based exporters to strip control chars"""
+    """Wrapper for XML based exporters to strip control characters"""
 
     def string_filter(self, text):
         return text.translate(_CHARMAP)
@@ -369,7 +369,7 @@ class CSVExporter(BaseExporter):
 
         This is really bad idea, implemented in Excel, as this change leads
         to displaying additional ' in all other tools, but this seems to be
-        what most people have gotten used to. Hopefully these chars are not
+        what most people have gotten used to. Hopefully these characters are not
         widely used at first position of translatable strings, so that harm is
         reduced.
         """

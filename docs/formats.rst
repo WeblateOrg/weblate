@@ -349,7 +349,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 .. note::
 
    Loading of escape sequences will work in UTF-8 mode as well, so please be
-   careful choosing correct charset matching your application needs.
+   careful choosing correct enconding set matching your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -573,7 +573,7 @@ Example file:
     Following things are known to be broken:
 
     * Adding new strings to translation, every translation has to contain all strings (even if empty).
-    * Handling of special chars like newlines.
+    * Handling of special characters like newlines.
 
 
 .. seealso::
@@ -781,7 +781,7 @@ the following files:
    The CSV format currently automatically detects dialect of the CSV file. In
    some cases the automatic detection might fail and you will get mixed
    results. This is especially true for the CSV files with newlines in the
-   values. As a workaround it is recommended to avoid omitting quoting chars.
+   values. As a workaround it is recommended to avoid omitting quoting characters.
 
 Example file:
 

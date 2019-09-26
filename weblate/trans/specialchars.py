@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Helper code to get user special chars specific for given language."""
+"""Helper code to get user special characters specific for given language."""
 
 from __future__ import unicode_literals
 
@@ -28,7 +28,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
-# Names of hardcoded chars
+# Names of hardcoded characters
 CHAR_NAMES = {
     '\t': ugettext_lazy('Insert tab character'),
     '\n': ugettext_lazy('Insert new line'),
@@ -425,7 +425,7 @@ EXTRA_CHARS = {
     'brx': ('।', '॥'),
 }
 
-# Additional chars for RTL languages
+# Additional characters for RTL languages
 RTL_CHARS = (8204, 8205, 8206, 8207, 8234, 8235, 8236, 8237, 8238)
 
 
@@ -442,7 +442,7 @@ def format_char(char):
     if char in CHAR_NAMES:
         name = CHAR_NAMES[char]
     elif unicodedata.category(char)[0] in ('C', 'Z'):
-        # Various control and space chars
+        # Various control and space characters
         try:
             name = unicodedata.name(char)
             display = ''.join([
@@ -452,7 +452,7 @@ def format_char(char):
             name = _('Insert {0}').format(name)
         except ValueError:
             # Char now known to unicode data
-            # This mostly happens for control chars < 0x20
+            # This mostly happens for control characters < 0x20
             display = char.encode('unicode_escape').decode('ascii')
             name = _('Insert character {0}').format(display)
     else:

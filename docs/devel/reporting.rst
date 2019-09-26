@@ -80,9 +80,9 @@ The following metrics are available for each:
    Number of strings.
 `Source words`
    Number of words in the source string.
-`Source chars`
-   Number of chars in the source string.
+`Source characters`
+   Number of characters in the source string.
 `Target words`
    Number of words in the translated string.
-`Target chars`
-   Number of chars in the translated string.
+`Target characters`
+   Number of characters in the translated string.

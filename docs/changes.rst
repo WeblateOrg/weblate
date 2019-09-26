@@ -90,7 +90,7 @@ Released on June 21st 2019.
 * Allow to abort running background component update.
 * Extend template language for filename manipulations.
 * Use templates for editor link and repository browser URL.
-* Indicate max length and current chars count when editing translation.
+* Indicate max length and current characters count when editing translation.
 * Improved handling of abbreviations in unchanged translation check.
 * Refreshed landing page for new contributors.
 * Add support for configuring msgmerge addon.
@@ -137,7 +137,7 @@ Released on April 20th 2019.
 * Cleanup addon is now compatible with app store metadata translations.
 * Configurable language code syntax when adding new translations.
 * Warn about using Python 2 with planned termination of support in April 2020.
-* Extract special chars from the source string for visual keyboard.
+* Extract special characters from the source string for visual keyboard.
 * Extended contributor stats to reflect both source and target counts.
 * Admins and consistency addons can now add translations even if disabled for users.
 * Fixed description of toggle disabling ``Language-Team`` header manipulation.
@@ -196,7 +196,7 @@ Released on January 22nd 2019.
 * Added support for XLIFF placeholders.
 * Celery can now utilize multiple task queues.
 * Added support for renaming and moving projects and components.
-* Include chars counts in reports.
+* Include characters counts in reports.
 * Added guided adding of translation components with automatic detection of translation files.
 * Customizable merge commit messages for Git.
 * Added visual indication of component alerts in navigation.
@@ -395,7 +395,7 @@ weblate 2.18
 Released on December 15th 2017.
 
 * Extended contributor stats.
-* Improved configuration of special chars virtual keyboard.
+* Improved configuration of special characters virtual keyboard.
 * Added support for DTD file format.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
 * Improved support for approved flag in XLIFF files.
@@ -582,7 +582,7 @@ Released on Dec 15th 2016.
 * Added optional Git exporter module.
 * Support for Microsoft Cognitive Services Translator API.
 * Simplified project and component user interface.
-* Added automatic fix to remove control chars.
+* Added automatic fix to remove control characters.
 * Added per language overview to project.
 * Added support for CSV export.
 * Added CSV download for stats.
@@ -717,7 +717,7 @@ Released on Sep 20th 2015.
 * Ability to add ACL to anonymous user.
 * Improved configurability of import_project command.
 * Added CSV dump of history.
-* Avoid copy/paste errors with whitespace chars.
+* Avoid copy/paste errors with whitespace characters.
 * Added support for Bitbucket webhooks.
 * Tigher control on fuzzy strings on translation upload.
 * Several URLs have changed, you might have to update your bookmarks.
@@ -821,7 +821,7 @@ Released on Nov 6th 2014.
 * Fixed Git repository locking.
 * Compatibility with older Git versions.
 * Improved ACL support.
-* Added buttons for per language quotes and other special chars.
+* Added buttons for per language quotes and other special characters.
 * Support for exporting stats as JSONP.
 
 weblate 1.9

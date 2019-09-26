@@ -138,7 +138,7 @@ class LanguageQuerySet(models.QuerySet):
         # Handle duplicate language files eg. "cs (2)"
         code = COPY_RE.sub('', code)
 
-        # Remove some unwanted chars
+        # Remove some unwanted characters
         code = code.replace(' ', '').replace('(', '').replace(')', '')
 
         # Strip leading and trailing .

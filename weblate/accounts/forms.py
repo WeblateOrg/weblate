@@ -143,7 +143,7 @@ class FullNameField(forms.CharField):
     default_validators = [validate_fullname]
 
     def __init__(self, *args, **kwargs):
-        # The Django User model limit is 30 chars, this should
+        # The Django User model limit is 30 characters, this should
         # be raised if we switch to custom User model
         kwargs['max_length'] = 30
         kwargs['label'] = _('Full name')

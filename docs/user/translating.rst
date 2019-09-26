@@ -66,7 +66,7 @@ On the translation page, the source string and an edit area for translating it i
 Should the translation be plural, multiple source strings and edit areas are
 shown, each described and label in plural form.
 
-Any special whitespace chars you will find underlined in red and indicated with grey
+Any special whitespace characters you will find underlined in red and indicated with grey
 symbols. More than one subsequent space is also underlined in red to alert the translator to
 its formatting.
 
@@ -149,12 +149,12 @@ Visual keyboard
 +++++++++++++++
 
 A small visual keyboard is shown when translating. This can be useful for
-typing chars not usually found or otherwise hard to type.
+typing characters not usually found or otherwise hard to type.
 
 The shown symbols factor into three categories:
 
-* User configured chars defined in the :ref:`user-profile`
-* Per language chars provided by Weblate (e.g. quotes or RTL specific chars)
+* User configured characters defined in the :ref:`user-profile`
+* Per language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Chars configured using :setting:`SPECIAL_CHARS`
 
 .. image:: /images/visual-keyboard.png
@@ -210,7 +210,7 @@ translated string is not too long.
   this, it might be also caused by monolingual translation being configured as
   bilingual, making Weblate see translation key as source string instead of the
   actual source string. See :ref:`bimono` for more info.
-* Maximal length in chars defined by translation file or flag, see
+* Maximal length in characters defined by translation file or flag, see
   :ref:`check-max-length`.
 * Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`.
 

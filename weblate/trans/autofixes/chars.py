@@ -59,10 +59,10 @@ class RemoveZeroSpace(AutoFix):
 
 
 class RemoveControlChars(AutoFix):
-    """Remove control chars from the string."""
+    """Remove control characters from the string."""
 
     fix_id = 'control-chars'
-    name = _('Control chars')
+    name = _('Control characters')
 
     def fix_single_target(self, target, source, unit):
         modified = False

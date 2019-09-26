@@ -1058,7 +1058,7 @@ Site title to be used in website and e-mails as well.
 SPECIAL_CHARS
 -------------
 
-Additional chars to show in the visual keyboard, see :ref:`visual-keyboard`.
+Additional characters to show in the visual keyboard, see :ref:`visual-keyboard`.
 
 The default value is:
 
