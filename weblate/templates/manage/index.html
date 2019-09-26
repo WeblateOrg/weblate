@@ -20,7 +20,14 @@
   <table class="table table-condensed table-striped">
   <tr>
   <th>{% trans "Support status" %}</th>
-  <td>{{ support.get_verbose }}</td>
+  <td>
+    {{ support.get_verbose }}
+    {% if not support.in_limits %}
+    <div class="alert alert-danger" role="alert">
+    {% trans "Exceeding service limits" %}
+    </div>
+    {% endif %}
+  </td>
   </tr>
   {% if support.expiry %}
   <tr>

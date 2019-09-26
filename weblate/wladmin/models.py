@@ -108,6 +108,7 @@ class SupportStatus(models.Model):
     name = models.CharField(max_length=150)
     secret = models.CharField(max_length=400)
     expiry = models.DateTimeField(db_index=True, null=True)
+    in_limits = models.BooleanField(default=True)
 
     objects = SupportStatusManager()
 
@@ -142,3 +143,26 @@ class SupportStatus(models.Model):
         payload = response.json()
         self.name = payload['name']
         self.expiry = dateutil.parser.parse(payload['expiry'])
+        self.in_limits = payload['in_limits']
+        BackupService.objects.get_or_create(repository=payload['backup_repository'])
+
+
+@python_2_unicode_compatible
+class BackupService(models.Model):
+    repository = models.CharField(max_length=500, default='')
+    enabled = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.repository
+
+
+@python_2_unicode_compatible
+class BackupLog(models.Model):
+    service = models.ForeignKey(BackupService, on_delete=models.deletion.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now)
+    event = models.CharField(max_length=100)
+    log = models.TextField()
+
+    def __str__(self):
+        return '{}:{}'.format(self.service, self.event)
