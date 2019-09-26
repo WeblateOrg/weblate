@@ -415,12 +415,12 @@ Machine translation settings
 
     Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
 
-.. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
+.. envvar:: WEBLATE_MT_MYMEMORY_ENABLED: 1
 
     Enables :ref:`mymemory` machine translation and sets
     :setting:`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`.
 
-.. envvar:: WEBLATE_MT_GLOSBE_ENABLED
+.. envvar:: WEBLATE_MT_GLOSBE_ENABLED: 1
 
     Enables :ref:`glosbe` machine translation.
 
