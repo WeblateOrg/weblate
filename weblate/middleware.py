@@ -80,7 +80,7 @@ class SecurityMiddleware(object):
         connect = {"'self'"}
         font = {"'self'"}
 
-        if request.resolver_match.view_name in INLINE_PATHS:
+        if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")
 
         if (
