@@ -9,6 +9,7 @@ default_env = {
     "CI_DB_HOST": "database",
 }
 
+basic_install = ["apt-get update && apt-get install -y libacl1-dev", "pip install Cython"]
 cmd_pip_postgresql = "pip install -r requirements-postgresql.txt"
 # Some tests need older binary for Django copatibility
 cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
@@ -63,7 +64,8 @@ sdist_step = {
 sphinx_step = {
     "name": "sphinx",
     "image": "weblate/cidocker:3.7",
-    "commands": [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
+    "commands": basic_install
+    + [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
 }
 selenium_step = {
     "name": "test",
@@ -75,26 +77,27 @@ selenium_step = {
             "SAUCE_ACCESS_KEY": secret("SAUCE_ACCESS_KEY"),
         }
     ),
-    "commands": [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-selenium"],
+    "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-selenium"],
 }
 test_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
     "environment": get_test_env(),
-    "commands": [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
+    "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
 }
 test_step_27 = {
     "name": "test",
     "image": "weblate/cidocker:2.7",
     "environment": get_test_env(),
-    "commands": [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"],
+    "commands": basic_install + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"],
 }
 migrations_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
     # Need C locale for tesserocr compatibility
     "environment": get_test_env({"LANG": "C", "LC_ALL": "C"}),
-    "commands": [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-migrate"],
+    "commands": basic_install
+    + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-migrate"],
 }
 
 # Services
