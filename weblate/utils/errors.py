@@ -26,6 +26,7 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
+import weblate
 from weblate.logger import LOGGER
 
 try:
@@ -71,6 +72,7 @@ def init_error_collection(celery=False):
             dsn=settings.SENTRY_DSN,
             integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
             send_default_pii=True,
+            release=weblate.GIT_REVISION or weblate.VERSION,
         )
 
     if celery and HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):

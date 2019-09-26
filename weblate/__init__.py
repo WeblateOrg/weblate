@@ -45,8 +45,12 @@ USER_AGENT = 'Weblate/{0}'.format(VERSION)
 # Grab some information from git
 try:
     # Describe current checkout
-    GIT_VERSION = GitRepository(get_root_dir(), local=True).describe()
+    GIT_REPO = GitRepository(get_root_dir(), local=True)
+    GIT_VERSION = GIT_REPO.describe()
+    GIT_REVISION = GIT_REPO.last_revision
+    del GIT_REPO
 except (RepositoryException, OSError):
     # Import failed or git has troubles reading
     # repo (eg. swallow clone)
     GIT_VERSION = VERSION
+    GIT_REVISION = None
