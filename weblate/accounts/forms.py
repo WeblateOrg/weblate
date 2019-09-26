@@ -50,7 +50,12 @@ from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.defines import PROJECT_NAME_LENGTH
+from weblate.trans.defines import (
+    EMAIL_LENGTH,
+    FULLNAME_LENGTH,
+    PROJECT_NAME_LENGTH,
+    USERNAME_LENGTH,
+)
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple
@@ -103,7 +108,7 @@ class EmailField(forms.CharField):
     default_validators = [validate_email]
 
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 190
+        kwargs['max_length'] = EMAIL_LENGTH
         super(EmailField, self).__init__(*args, **kwargs)
 
 
@@ -111,7 +116,7 @@ class UsernameField(forms.CharField):
     default_validators = [validate_username]
 
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 30
+        kwargs['max_length'] = USERNAME_LENGTH
         kwargs['help_text'] = _(
             'Username may only contain letters, '
             'numbers or the following characters: @ . + - _'
@@ -143,9 +148,7 @@ class FullNameField(forms.CharField):
     default_validators = [validate_fullname]
 
     def __init__(self, *args, **kwargs):
-        # The Django User model limit is 30 characters, this should
-        # be raised if we switch to custom User model
-        kwargs['max_length'] = 30
+        kwargs['max_length'] = FULLNAME_LENGTH
         kwargs['label'] = _('Full name')
         kwargs['required'] = True
         super(FullNameField, self).__init__(*args, **kwargs)
@@ -309,7 +312,7 @@ class ContactForm(forms.Form):
     name = forms.CharField(
         label=_('Your name'),
         required=True,
-        max_length=30
+        max_length=FULLNAME_LENGTH,
     )
     email = EmailField(
         label=_('Your e-mail'),
@@ -595,7 +598,7 @@ class HostingForm(forms.Form):
     name = forms.CharField(
         label=_('Your name'),
         required=True,
-        max_length=30,
+        max_length=FULLNAME_LENGTH,
     )
     email = EmailField(
         label=_('Your e-mail'),

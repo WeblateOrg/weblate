@@ -40,6 +40,7 @@ from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import invalidate_reset_codes
 from weblate.auth.models import User
+from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
 
@@ -397,8 +398,8 @@ def user_full_name(strategy, details, user=None, **kwargs):
         full_name = clean_fullname(full_name)
 
         # The User model limit is 150 chars
-        if len(full_name) > 150:
-            full_name = full_name[:150]
+        if len(full_name) > FULLNAME_LENGTH:
+            full_name = full_name[:FULLNAME_LENGTH]
 
         if full_name:
             user.full_name = full_name

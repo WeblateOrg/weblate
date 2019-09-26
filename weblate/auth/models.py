@@ -53,6 +53,7 @@ from weblate.auth.utils import (
     migrate_roles,
 )
 from weblate.lang.models import Language
+from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
@@ -301,7 +302,7 @@ class GroupManyToManyField(models.ManyToManyField):
 class User(AbstractBaseUser):
     username = models.CharField(
         _('username'),
-        max_length=150,
+        max_length=USERNAME_LENGTH,
         unique=True,
         help_text=_(
             'Username may only contain letters, '
@@ -314,7 +315,7 @@ class User(AbstractBaseUser):
     )
     full_name = models.CharField(
         _('Full name'),
-        max_length=150,
+        max_length=FULLNAME_LENGTH,
         blank=False,
         validators=[validate_fullname],
     )
@@ -322,7 +323,7 @@ class User(AbstractBaseUser):
         _('E-mail'),
         blank=False,
         null=True,
-        max_length=190,
+        max_length=EMAIL_LENGTH,
         unique=True,
         validators=[validate_email],
     )
