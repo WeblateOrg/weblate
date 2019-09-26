@@ -24,6 +24,9 @@
     <textarea style="width:100%" readonly="readonly">{{ public_key.key }}</textarea>
     </form>
 </div>
+  <div class="panel-footer">
+    <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key for backup" %}</a>
+    </div>
 </div>
 
 

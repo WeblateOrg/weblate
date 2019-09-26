@@ -1084,6 +1084,8 @@ real_patterns = [
     url(r'^manage/activate/$', weblate.wladmin.views.activate, name='manage-activate'),
     url(r'^manage/repos/$', weblate.wladmin.views.repos, name='manage-repos'),
     url(r'^manage/ssh/$', weblate.wladmin.views.ssh, name='manage-ssh'),
+    url(r'^manage/ssh/key/$', weblate.wladmin.views.ssh_key, name='manage-ssh-key'),
+    url(r'^manage/backup/$', weblate.wladmin.views.backups, name='manage-backups'),
     url(
         r'^manage/performance/$',
         weblate.wladmin.views.performance,

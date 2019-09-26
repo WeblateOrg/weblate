@@ -876,6 +876,10 @@ CELERY_TASK_ROUTES = {
     'weblate.memory.tasks.*': {'queue': 'memory'},
     'weblate.accounts.tasks.notify_change': {'queue': 'notify'},
     'weblate.accounts.tasks.send_mails': {'queue': 'notify'},
+    'weblate.memory.tasks.memory_backup': {'queue': 'backup'},
+    'weblate.utils.tasks.settings_backup': {'queue': 'backup'},
+    'weblate.wladmin.tasks.backup': {'queue': 'backup'},
+    'weblate.wladmin.tasks.backup_service': {'queue': 'backup'},
 }
 
 # Third party services integration

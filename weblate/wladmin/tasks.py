@@ -25,7 +25,7 @@ from django.core.checks import run_checks
 from django.utils.timezone import now
 
 from weblate.celery import app
-from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 
 @app.task(trail=False)
@@ -77,6 +77,20 @@ def support_status_update():
         support.save()
 
 
+@app.task(trail=False)
+def backup():
+    for service in BackupService.objects.filter(active=True):
+        backup_service.delay(service.pk)
+
+
+@app.task(trail=False)
+def backup_service(pk):
+    service = BackupService.objects.get(pk=pk)
+    service.ensure_init()
+    service.backup()
+    service.prune()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -88,4 +102,9 @@ def setup_periodic_tasks(sender, **kwargs):
         24 * 3600,
         support_status_update.s(),
         name='support-status-update',
+    )
+    sender.add_periodic_task(
+        24 * 3600,
+        backup.s(),
+        name='backup',
     )

@@ -209,6 +209,7 @@ intersphinx_mapping = {
     "sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
+    "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

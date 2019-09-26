@@ -53,6 +53,10 @@ done this, Weblate should be able to access your repository.
     The keys need to be without password to make it work, so be sure they are
     well protected against malicious usage.
 
+.. hint::
+
+   You can backup the Weblate generated private key as well.
+
 .. warning::
 
     On GitHub, you can add the key to only one repository. See the following

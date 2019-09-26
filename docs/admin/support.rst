@@ -6,6 +6,8 @@ receive priority support at no extra charge. Prepaid help packages are
 available for everyone. You can find more information about current support
 offerings at <https://weblate.org/support/>.
 
+.. _activate-support:
+
 Activating support
 ------------------
 
@@ -14,6 +16,11 @@ management interface. The activation will enable peridic registration on
 Weblate servers. This allows you to directly navigate to your Weblate
 installation from subscription management and sends basic telemetry to Weblate
 servers.
+
+.. image:: /images/support.png
+
+Data submitted to the server
+----------------------------
 
 The submitted data include:
 

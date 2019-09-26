@@ -32,6 +32,7 @@ from django.utils.translation import ugettext_lazy
 from weblate import USER_AGENT
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
+from weblate.utils.backup import backup, get_paper_key, initialize, make_password, prune
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.ssh import get_key_data
@@ -40,10 +41,8 @@ from weblate.vcs.ssh import get_key_data
 class WeblateModelAdmin(ModelAdmin):
     """Customized Model Admin object."""
 
-    delete_confirmation_template = \
-        'wladmin/delete_confirmation.html'
-    delete_selected_confirmation_template = \
-        'wladmin/delete_selected_confirmation.html'
+    delete_confirmation_template = 'wladmin/delete_confirmation.html'
+    delete_selected_confirmation_template = 'wladmin/delete_selected_confirmation.html'
 
 
 class ConfigurationErrorManager(models.Manager):
@@ -51,11 +50,7 @@ class ConfigurationErrorManager(models.Manager):
         if timestamp is None:
             timestamp = timezone.now()
         obj, created = self.get_or_create(
-            name=name,
-            defaults={
-                'message': message,
-                'timestamp': timestamp,
-            }
+            name=name, defaults={'message': message, 'timestamp': timestamp}
         )
         if created:
             return obj
@@ -79,9 +74,7 @@ class ConfigurationError(models.Model):
     objects = ConfigurationErrorManager()
 
     class Meta(object):
-        index_together = [
-            ('ignored', 'timestamp'),
-        ]
+        index_together = [('ignored', 'timestamp')]
 
     def __str__(self):
         return self.name
@@ -133,9 +126,7 @@ class SupportStatus(models.Model):
         ssh_key = get_key_data()
         if ssh_key:
             data['ssh_key'] = ssh_key['key']
-        headers = {
-            'User-Agent': USER_AGENT,
-        }
+        headers = {'User-Agent': USER_AGENT}
         response = requests.request(
             'post', settings.SUPPORT_API_URL, headers=headers, data=data
         )
@@ -144,24 +135,55 @@ class SupportStatus(models.Model):
         self.name = payload['name']
         self.expiry = dateutil.parser.parse(payload['expiry'])
         self.in_limits = payload['in_limits']
-        BackupService.objects.get_or_create(repository=payload['backup_repository'])
+        BackupService.objects.get_or_create(
+            repository=payload['backup_repository'], defaults={"enabled": False}
+        )
 
 
 @python_2_unicode_compatible
 class BackupService(models.Model):
-    repository = models.CharField(max_length=500, default='')
-    enabled = models.BooleanField(default=False)
+    repository = models.CharField(
+        max_length=500, default='', verbose_name=ugettext_lazy('Backup repository')
+    )
+    enabled = models.BooleanField(default=True)
     timestamp = models.DateTimeField(default=timezone.now)
+    passphrase = models.CharField(max_length=100, default=make_password)
+    paperkey = models.TextField()
 
     def __str__(self):
         return self.repository
+
+    def last_logs(self):
+        return self.backuplog_set.order_by('-timestamp')[:10]
+
+    def ensure_init(self):
+        if not self.paperkey:
+            log = initialize(self.repository, self.passphrase)
+            self.backuplog_set.create(event='init', log=log)
+            self.paperkey = get_paper_key(self.repository)
+            self.save()
+
+    def backup(self):
+        log = backup(self.repository, self.passphrase)
+        self.backuplog_set.create(event='backup', log=log)
+
+    def prune(self):
+        log = prune(self.repository, self.passphrase)
+        self.backuplog_set.create(event='prune', log=log)
 
 
 @python_2_unicode_compatible
 class BackupLog(models.Model):
     service = models.ForeignKey(BackupService, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
-    event = models.CharField(max_length=100)
+    event = models.CharField(
+        max_length=100,
+        choices=(
+            ('backup', ugettext_lazy('Backup performed')),
+            ('prune', ugettext_lazy('Pruned old backups')),
+            ('init', ugettext_lazy('Repository initialization')),
+        ),
+    )
     log = models.TextField()
 
     def __str__(self):

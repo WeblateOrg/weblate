@@ -1,8 +1,92 @@
 Backing up and moving Weblate
 =============================
 
-Backing up
-----------
+Automated backup
+----------------
+
+.. versionadded:: 3.9
+
+Weblate has built in support for creating service backups using `Borg backup`_.
+Borg creates space effective encrypted backups which can be safely stored in
+the cloud. The backups can be controlled in the management interface on the
+:guilabel:`Backups` tab.
+
+.. image:: /images/backup.png
+
+.. _cloudbackup:
+
+Using Weblate provisioned backup storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The easiest approach to backup your Weblate instance is to purchase `backup
+service at weblate.org <https://weblate.org/support/#backup>`_. The process of
+activating can be performed in few steps:
+
+1. Purchase backup service on https://weblate.org/support/#backup.
+2. Enter obtained key in the management interface, see :ref:`activate-support`.
+3. Weblate will connect to the cloud service and obtain access information for the backups.
+4. Turn on the new backup configuration on the :guilabel:`Backups` tab.
+5. Backup Borg credentials in order to be able to restore the backups, see :ref:`borg-keys`.
+
+.. hint::
+
+   The manual step of turning on is there for your safety. Without your consent
+   no data is sent to the backup repository obtained through the registration
+   process.
+
+
+Using custom backup storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also use own storage for the backups. SSH can be used to store backups
+on the remote destination, the target server needs to have `Borg backup`_
+installed.
+
+.. seealso::
+
+   :doc:`borg:usage/general` in the Borg documentation
+
+.. _borg-keys:
+
+Borg encryption key
+~~~~~~~~~~~~~~~~~~~
+
+`Borg backup`_ creates encrypted backups and without a passphrase you will not
+be able to restore the backup. The passphrase is generated when adding new
+backup service and you should copy it and keep it in a secure place.
+
+In case you are using :ref:`cloudbackup`, please backup your private SSH key as
+well - it is used to access your backups.
+
+Restoring from Borg backup
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Restore access to your backup repository and prepare your backup passphrase.
+
+2. List backup existing on the server using ``borg list REPOSITORY``.
+
+3. Restore the desired backup to current directory using ``borg extract REPOSITORY::ARCHIVE``.
+
+4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
+
+5. Copy Weblate configuration and data dir to correct location.
+
+The borg session might look like:
+
+.. code-block:: console
+
+   $ borg list /tmp/xxx
+   Enter passphrase for key /tmp/xxx: 
+   2019-09-26T14:56:08                  Thu, 2019-09-26 14:56:08 [de0e0f13643635d5090e9896bdaceb92a023050749ad3f3350e788f1a65576a5]
+   $ borg extract /tmp/xxx::2019-09-26T14:56:08
+   Enter passphrase for key /tmp/xxx: 
+
+
+.. _Borg backup: https://www.borgbackup.org/
+
+
+Manual backup
+-------------
 
 Depending on what you want to save, back up the type data Weblate stores in each respective place.
 
@@ -127,8 +211,8 @@ restoring anyhow, so there is no problem in losing these.
 
    :ref:`celery`
 
-Restoring
----------
+Restoring manual backup
+-----------------------
 
 1. Restore all data you have backed up.
 
