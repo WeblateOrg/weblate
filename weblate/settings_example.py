@@ -885,6 +885,5 @@ SENTRY_DSN = None
 
 # Logging slow requests
 DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)
-DOGSLOW_LOGGER = 'dogslow' # can be anything, but must match `logger` below
-DOGSLOW_LOG_LEVEL = 'WARNING' # optional, defaults to 'WARNING'
+DOGSLOW_LOGGER = 'dogslow'
 DOGSLOW_TIMER = 60
