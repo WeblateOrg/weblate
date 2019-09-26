@@ -27,7 +27,7 @@ import time
 from contextlib import contextmanager
 from datetime import timedelta
 from io import BytesIO
-from unittest import SkipTest
+from unittest import SkipTest, skipIf
 
 import django
 import six
@@ -1221,6 +1221,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.screenshot('font-group-list.png')
 
+    @skipIf(six.PY2, 'borgbackup does not support Python 2')
     def test_backup(self):
         self.create_temp()
         try:
