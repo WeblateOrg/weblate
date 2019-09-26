@@ -336,6 +336,7 @@ REGISTRATION_OPEN = True
 # Middleware
 MIDDLEWARE = [
     'weblate.middleware.ProxyMiddleware',
+    'dogslow.WatchdogMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -464,6 +465,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
         },
+        'dogslow': {
+            'level': 'WARNING',
+            'class': 'sentry_sdk.integrations.logging.EventHandler',
+        },
         'syslog': {
             'level': 'DEBUG',
             'class': 'logging.handlers.SysLogHandler',
@@ -497,6 +502,10 @@ LOGGING = {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },
+        'dogslow': {
+            'level': 'WARNING',
+            'handlers': ['dogslow'],
+        },
         'weblate': {
             'handlers': [DEFAULT_LOG],
             'level': 'DEBUG',
@@ -873,3 +882,9 @@ CELERY_TASK_ROUTES = {
 PIWIK_SITE_ID = None
 PIWIK_URL = None
 SENTRY_DSN = None
+
+# Logging slow requests
+DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)
+DOGSLOW_LOGGER = 'dogslow' # can be anything, but must match `logger` below
+DOGSLOW_LOG_LEVEL = 'WARNING' # optional, defaults to 'WARNING'
+DOGSLOW_TIMER = 60

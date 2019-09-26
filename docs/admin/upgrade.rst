@@ -207,7 +207,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are several new checks included in the :setting:`CHECK_LIST`.
-* There is updated (``jellyfish``) dependency.
+* There are several updated and new dependencies.
 * Sentry is now supported through modern Sentry SDK instead of Raven, please adjust your configuration to use new :setting:`SENTRY_DSN`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
