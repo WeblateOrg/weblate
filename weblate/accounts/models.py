@@ -162,6 +162,8 @@ NOTIFY_ACTIVITY = frozenset((
     'removed',
     'login-new',
     'email',
+    'username',
+    'full_name',
 ))
 
 
