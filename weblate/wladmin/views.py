@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -33,11 +34,13 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
+    RSA_KEY,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
     get_host_keys,
     get_key_data,
+    ssh_file,
 )
 from weblate.wladmin.forms import ActivateForm, SSHAddForm, TestMailForm
 from weblate.wladmin.models import ConfigurationError, SupportStatus
@@ -192,6 +195,16 @@ def performance(request):
         "manage/performance.html",
         context,
     )
+
+
+@management_access
+def ssh_key(request):
+    with open(ssh_file(RSA_KEY), 'r') as handle:
+        data = handle.read()
+    response = HttpResponse(data, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(RSA_KEY)
+    response['Content-Length'] = len(data)
+    return response
 
 
 @management_access

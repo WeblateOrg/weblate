@@ -62,6 +62,8 @@ class AdminTest(ViewTestCase):
             {'action': 'generate'}
         )
         self.assertContains(response, 'Created new SSH key')
+        response = self.client.get(reverse('manage-ssh-key'))
+        self.assertContains(response, 'PRIVATE KEY')
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_add(self):
