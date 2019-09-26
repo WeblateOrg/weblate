@@ -25,6 +25,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.forms import EmailField
+from weblate.wladmin.models import BackupService
 
 
 class ActivateForm(forms.Form):
@@ -58,3 +59,9 @@ class TestMailForm(forms.Form):
         label=_("E-mail"),
         help_text=_("The test e-mail will be sent to this address."),
     )
+
+
+class BackupForm(forms.ModelForm):
+    class Meta(object):
+        model = BackupService
+        fields = ('repository',)

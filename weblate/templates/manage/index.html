@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
-{% load permissions %}
-{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
@@ -47,21 +45,7 @@
   </div>
 </div>
 
-<form action="{% url 'manage-activate' %}" method="POST">
-{% csrf_token %}
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">
-    {% documentation_icon 'admin/support' right=True %}
-    {% trans "Activate support package" %}
-</h4></div>
-  <div class="panel-body">
-  {{ activate_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Activate" %}" />
-  </div>
-</div>
-</form>
+{% include "manage/snippets/activation-form.html" %}
 
 {% endblock %}
 

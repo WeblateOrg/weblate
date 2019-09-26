@@ -59,7 +59,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Dictionary, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests.utils import create_billing, create_test_user
+from weblate.trans.tests.utils import TempDirMixin, create_billing, create_test_user
 from weblate.vcs.ssh import get_key_data
 
 # Check whether we should run Selenium tests
@@ -87,7 +87,7 @@ SOURCE_FONT = os.path.join(
 )
 
 
-class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
+class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     caps = {
         'browserName': 'firefox',
         'platform': 'Windows 10',
@@ -276,7 +276,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         return user
 
-    def open_admin(self, login=True):
+    def open_manage(self, login=True):
         # Login as superuser
         if login:
             user = self.do_login(superuser=True)
@@ -288,6 +288,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(
                 self.driver.find_element_by_id('admin-button'),
             )
+        return user
+
+    def open_admin(self, login=True):
+        user = self.open_manage(login)
         with self.wait_for_page_load():
             self.click("Tools")
         with self.wait_for_page_load():
@@ -1216,3 +1220,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Font groups')
 
         self.screenshot('font-group-list.png')
+
+    def test_backup(self):
+        self.create_temp()
+        try:
+            self.open_manage()
+            self.screenshot('support.png')
+            with self.wait_for_page_load():
+                self.click("Backups")
+            element = self.driver.find_element_by_id('id_repository')
+            element.send_keys(self.tempdir)
+            with self.wait_for_page_load():
+                element.submit()
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element_by_class_name('runbackup'))
+            self.click(self.driver.find_element_by_class_name('createdbackup'))
+            self.screenshot('backups.png')
+        finally:
+            self.remove_temp()

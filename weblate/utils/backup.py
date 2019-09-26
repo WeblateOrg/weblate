@@ -23,15 +23,17 @@ import subprocess
 from random import SystemRandom
 
 from django.conf import settings
+from six.moves.urllib.parse import urlparse
 
 from weblate.trans.util import get_clean_env
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 
 class BackupError(Exception):
     pass
 
 
-def make_password(length):
+def make_password(length=50):
     generator = SystemRandom()
     chars = string.ascii_letters + string.digits + '!@#$%^&*()'
     return ''.join(generator.choice(chars) for i in range(length))
@@ -41,7 +43,9 @@ def borg(cmd, env=None):
     """Wrapper to execute borgbackup."""
     try:
         return subprocess.check_output(
-            ["borg"] + cmd, stderr=subprocess.STDOUT, env=get_clean_env(env)
+            ["borg", "--rsh", SSH_WRAPPER.filename] + cmd,
+            stderr=subprocess.STDOUT,
+            env=get_clean_env(env),
         ).decode("utf-8")
     except (subprocess.CalledProcessError, OSError) as exc:
         raise BackupError("Borg invocation failed", getattr(exc, "stdout", ""))
@@ -49,6 +53,10 @@ def borg(cmd, env=None):
 
 def initialize(location, passphrase):
     """Initialize repository."""
+    parsed = urlparse(location)
+    if parsed.hostname:
+        print(parsed.hostname, parsed.port)
+        add_host_key(None, parsed.hostname, parsed.port)
     return borg(
         ["init", "--encryption", "repokey-blake2", location],
         {"BORG_NEW_PASSPHRASE": passphrase},

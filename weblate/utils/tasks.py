@@ -34,7 +34,7 @@ def ping():
 
 
 @app.task(trail=False)
-def settings_backup(indent=2):
+def settings_backup():
     os.makedirs(data_dir("backups"))
     filename = data_dir("backups", "settings.py")
     command = diffsettings.Command()

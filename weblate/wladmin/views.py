@@ -42,40 +42,18 @@ from weblate.vcs.ssh import (
     get_key_data,
     ssh_file,
 )
-from weblate.wladmin.forms import ActivateForm, SSHAddForm, TestMailForm
-from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
+from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
+from weblate.wladmin.tasks import backup_service
 
 MENU = (
-    (
-        'index',
-        'manage',
-        ugettext_lazy('Weblate status'),
-    ),
-    (
-        'memory',
-        'manage-memory',
-        ugettext_lazy('Translation memory'),
-    ),
-    (
-        'performance',
-        'manage-performance',
-        ugettext_lazy('Performance report'),
-    ),
-    (
-        'ssh',
-        'manage-ssh',
-        ugettext_lazy('SSH keys'),
-    ),
-    (
-        'repos',
-        'manage-repos',
-        ugettext_lazy('Status of repositories'),
-    ),
-    (
-        'tools',
-        'manage-tools',
-        ugettext_lazy('Tools'),
-    ),
+    ('index', 'manage', ugettext_lazy('Weblate status')),
+    ('backups', 'manage-backups', ugettext_lazy('Backups')),
+    ('memory', 'manage-memory', ugettext_lazy('Translation memory')),
+    ('performance', 'manage-performance', ugettext_lazy('Performance report')),
+    ('ssh', 'manage-ssh', ugettext_lazy('SSH keys')),
+    ('repos', 'manage-repos', ugettext_lazy('Status of repositories')),
+    ('tools', 'manage-tools', ugettext_lazy('Tools')),
 )
 
 
@@ -90,7 +68,7 @@ def manage(request):
             'menu_page': 'index',
             'support': support,
             'activate_form': ActivateForm(),
-        }
+        },
     )
 
 
@@ -117,11 +95,7 @@ def tools(request):
     return render(
         request,
         "manage/tools.html",
-        {
-            'menu_items': MENU,
-            'menu_page': 'tools',
-            'email_form': emailform,
-        }
+        {'menu_items': MENU, 'menu_page': 'tools', 'email_form': emailform},
     )
 
 
@@ -139,8 +113,7 @@ def activate(request):
         except Exception as error:
             report_error(error, request)
             messages.error(
-                request,
-                _('The activation failed. Please check your activation token.')
+                request, _('The activation failed. Please check your activation token.')
             )
     else:
         show_form_errors(request, form)
@@ -155,18 +128,37 @@ def repos(request):
         'menu_items': MENU,
         'menu_page': 'repos',
     }
-    return render(
-        request,
-        "manage/repos.html",
-        context,
-    )
+    return render(request, "manage/repos.html", context)
+
+
+@management_access
+def backups(request):
+    form = BackupForm()
+    if request.method == "POST":
+        if 'repository' in request.POST:
+            form = BackupForm(request.POST)
+            if form.is_valid():
+                form.save()
+        elif 'toggle' in request.POST:
+            service = BackupService.objects.get(pk=request.POST['service'])
+            service.enabled = not service.enabled
+            service.save()
+        elif 'trigger' in request.POST:
+            backup_service.delay(pk=request.POST['service'])
+
+    context = {
+        'services': BackupService.objects.all(),
+        'menu_items': MENU,
+        'menu_page': 'backups',
+        'form': form,
+        'activate_form': ActivateForm(),
+    }
+    return render(request, "manage/backups.html", context)
 
 
 def handle_dismiss(request):
     try:
-        error = ConfigurationError.objects.get(
-            pk=int(request.POST['pk'])
-        )
+        error = ConfigurationError.objects.get(pk=int(request.POST['pk']))
         if 'ignore' in request.POST:
             error.ignored = True
             error.save(update_fields=['ignored'])
@@ -190,11 +182,7 @@ def performance(request):
         'menu_page': 'performance',
     }
 
-    return render(
-        request,
-        "manage/performance.html",
-        context,
-    )
+    return render(request, "manage/performance.html", context)
 
 
 @management_access
@@ -239,8 +227,4 @@ def ssh(request):
         'add_form': form,
     }
 
-    return render(
-        request,
-        "manage/ssh.html",
-        context,
-    )
+    return render(request, "manage/ssh.html", context)
