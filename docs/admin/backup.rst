@@ -11,6 +11,13 @@ Borg creates space effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
 
+.. warning::
+
+   Only PostgreSQL database is included in the automated backups. Other
+   database engines have to be backed up manually. You are recommended to
+   migrate to PostgreSQL as that will be the only supported database in the
+   4.0 release.
+
 .. image:: /images/backup.png
 
 .. _cloudbackup:
@@ -154,6 +161,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 
 * Translation memory dump, in JSON format.
 * Weblate settings as :file:`settings.py`.
+* PostgreSQL database backup as :file:`database.sql`.
 
 Version control repositories
 ++++++++++++++++++++++++++++

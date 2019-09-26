@@ -21,10 +21,13 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
+import subprocess
 
+from django.conf import settings
 from django.core.management.commands import diffsettings
 
 from weblate.celery import app
+from weblate.trans.util import get_clean_env
 from weblate.utils.data import data_dir
 
 
@@ -46,6 +49,29 @@ def settings_backup():
         handle.write(command.handle(**kwargs))
 
 
+@app.task(trail=False)
+def database_backup():
+    database = settings.DATABASES["default"]
+    if database["ENGINE"] != "django.db.backends.postgresql":
+        return
+    cmd = [
+        "pg_dump",
+        "--file",
+        data_dir("backups", "database.sql"),
+        "--dbname",
+        database["NAME"],
+    ]
+    if database["HOST"]:
+        cmd += ["--host", database["HOST"]]
+    if database["PORT"]:
+        cmd += ["--port", database["PORT"]]
+    if database["USER"]:
+        cmd += ["--username", database["USER"]]
+
+    subprocess.check_call(cmd, env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}))
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600 * 24, settings_backup.s(), name="settings-backup")
+    sender.add_periodic_task(3600 * 24, database_backup.s(), name="database-backup")
