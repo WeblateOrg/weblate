@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.SlugField(
-                        help_text="Identifier you will use in checks to select this font group. Avoid whitespace or special chars.",
+                        help_text="Identifier you will use in checks to select this font group. Avoid whitespace or special characters.",
                         max_length=100,
                         verbose_name="Font group name",
                     ),
