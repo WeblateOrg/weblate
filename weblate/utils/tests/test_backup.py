@@ -51,6 +51,7 @@ class BackupTest(SimpleTestCase):
 
     @tempdir_setting("DATA_DIR")
     @tempdir_setting("BACKUP_DIR")
+    @skipIf(six.PY2, 'borgbackup does not support Python 2')
     def test_backup(self):
         initialize(settings.BACKUP_DIR, "key")
         output = get_paper_key(settings.BACKUP_DIR)
