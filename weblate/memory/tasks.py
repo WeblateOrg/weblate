@@ -23,6 +23,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 from time import sleep
 
+from celery.schedules import crontab
 from celery_batches import Batches
 from django.utils.encoding import force_text
 from whoosh.index import LockError
@@ -115,7 +116,7 @@ def memory_optimize():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600 * 24, memory_backup.s(), name='translation-memory-backup'
+        crontab(hour=1, minute=0), memory_backup.s(), name='translation-memory-backup'
     )
     sender.add_periodic_task(
         3600 * 24 * 7, memory_optimize.s(), name='translation-memory-optimize'

@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from celery.schedules import crontab
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.utils.timezone import now
@@ -45,10 +46,7 @@ def configuration_health_check(include_deployment_checks=True):
     # Run deployment checks
     if not include_deployment_checks:
         return
-    checks = {
-        check.id: check
-        for check in run_checks(include_deployment_checks=True)
-    }
+    checks = {check.id: check for check in run_checks(include_deployment_checks=True)}
     criticals = {
         'weblate.E002',
         'weblate.E003',
@@ -94,17 +92,9 @@ def backup_service(pk):
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600,
-        configuration_health_check.s(),
-        name='configuration-health-check',
+        3600, configuration_health_check.s(), name='configuration-health-check'
     )
     sender.add_periodic_task(
-        24 * 3600,
-        support_status_update.s(),
-        name='support-status-update',
+        24 * 3600, support_status_update.s(), name='support-status-update'
     )
-    sender.add_periodic_task(
-        24 * 3600,
-        backup.s(),
-        name='backup',
-    )
+    sender.add_periodic_task(crontab(hour=1, minute=0), backup.s(), name='backup')
