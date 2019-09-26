@@ -23,6 +23,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import subprocess
 
+from celery.schedules import crontab
 from django.conf import settings
 from django.core.management.commands import diffsettings
 
@@ -73,5 +74,9 @@ def database_backup():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, settings_backup.s(), name="settings-backup")
-    sender.add_periodic_task(3600 * 24, database_backup.s(), name="database-backup")
+    sender.add_periodic_task(
+        crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
+    )
+    sender.add_periodic_task(
+        crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
+    )
