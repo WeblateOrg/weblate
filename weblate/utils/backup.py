@@ -18,7 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Backup automation based on borg."""
+import string
 import subprocess
+from random import SystemRandom
 
 from django.conf import settings
 
@@ -27,6 +29,12 @@ from weblate.trans.util import get_clean_env
 
 class BackupError(Exception):
     pass
+
+
+def make_password(length):
+    generator = SystemRandom()
+    chars = string.ascii_letters + string.digits + '!@#$%^&*()'
+    return ''.join(generator.choice(chars) for i in range(length))
 
 
 def borg(cmd, env=None):

@@ -20,13 +20,11 @@
 
 from __future__ import unicode_literals
 
-import string
-from random import SystemRandom
-
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
 
 from weblate.auth.models import User
+from weblate.utils.backup import make_password
 
 
 class Command(BaseCommand):
@@ -36,41 +34,33 @@ class Command(BaseCommand):
         parser.add_argument(
             '--password',
             default=None,
-            help='Password to set, random is generated if not specified'
+            help='Password to set, random is generated if not specified',
         )
         parser.add_argument(
             '--no-password',
             action='store_true',
             default=False,
-            help='Do not set password at all (useful with --update)'
+            help='Do not set password at all (useful with --update)',
         )
         parser.add_argument(
-            '--username',
-            default='admin',
-            help='Admin username, defaults to "admin"'
+            '--username', default='admin', help='Admin username, defaults to "admin"'
         )
         parser.add_argument(
             '--email',
             default='admin@example.com',
-            help='Admin email, defaults to "admin@example.com"'
+            help='Admin email, defaults to "admin@example.com"',
         )
         parser.add_argument(
             '--name',
             default='Weblate Admin',
-            help='Admin name, defaults to "Weblate Admin"'
+            help='Admin name, defaults to "Weblate Admin"',
         )
         parser.add_argument(
             '--update',
             action='store_true',
             default=False,
-            help='Change password for this account if exists'
+            help='Change password for this account if exists',
         )
-
-    @staticmethod
-    def make_password(length):
-        generator = SystemRandom()
-        chars = string.ascii_letters + string.digits + '!@#$%^&*()'
-        return ''.join(generator.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
         """Create admin account with admin password.
@@ -95,7 +85,7 @@ class Command(BaseCommand):
         elif options['password']:
             password = options['password']
         else:
-            password = self.make_password(13)
+            password = make_password(13)
             self.stdout.write('Using generated password: {}'.format(password))
 
         if user and options['update']:
@@ -106,9 +96,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write('Creating user {}'.format(options['username']))
             user = User.objects.create_user(
-                options['username'],
-                options['email'],
-                password
+                options['username'], options['email'], password
             )
         user.full_name = options['name']
         user.is_superuser = True
