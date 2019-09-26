@@ -72,6 +72,7 @@ def init_error_collection(celery=False):
             dsn=settings.SENTRY_DSN,
             integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
             send_default_pii=True,
+            attach_stacktrace=True,
             release=weblate.GIT_REVISION or weblate.VERSION,
         )
 
