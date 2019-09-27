@@ -55,7 +55,8 @@ else:
     DATABASES['default']['NAME'] = 'weblate.db'
     # Workaround for
     # https://github.com/travis-ci/travis-ci/issues/7873
-    DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
+    if 'TRAVIS' in os.environ:
+        DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 
 
 # Configure admins
