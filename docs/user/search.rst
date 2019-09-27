@@ -9,6 +9,8 @@ supports boolean operations, parenthesis or field specific lookups.
 When not defining any field, the lookup happens on :guilabel:`Source`,
 :guilabel:`Target` and :guilabel:`Context` fields.
 
+.. image:: /images/search.png
+
 Simple search
 -------------
 

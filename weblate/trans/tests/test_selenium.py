@@ -478,7 +478,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(element)
 
-    def test_activity(self):
+    def test_dashboard(self):
         self.do_login()
         # Generate nice changes data
         for day in range(365):
@@ -489,10 +489,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
-        # Render it
+        # Render activity
         self.click('Insights')
         self.click('Activity')
         self.screenshot('activity.png')
+
+        # Screenshot search
+        self.click('Tools')
+        self.click('Search')
+        self.screenshot('search.png')
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
