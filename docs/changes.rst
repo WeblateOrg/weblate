@@ -31,6 +31,7 @@ Not yet released.
 * Sentry is now supported through modern Sentry SDK instead of Raven.
 * Changed example settings to be better fit for production environment.
 * Added automated backups using Borg backup.
+* Split cleanup addon for RESX to avoid unwanted file updates.
 
 weblate 3.8
 -----------

@@ -246,6 +246,22 @@ Set timeframe for removal of suggestions. This can be very useful in connection
 with suggestion voting (see :ref:`peer-review`) to remove suggestions which
 don't receive enough positive votes until certain deadline.
 
+.. _addon-weblate.resx.update:
+
+Update RESX files
+-----------------
+
+.. versionadded:: 3.9
+
+Update all translation files to match the monolingual base file. It removes
+stale translation keys and adds new ones with source string as a translation.
+It also updates changed strings to new source string.
+
+.. hint::
+
+   Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale
+   translation keys.
+
 
 Customizing list of addons
 ++++++++++++++++++++++++++

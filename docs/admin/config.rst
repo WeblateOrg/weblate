@@ -1165,6 +1165,7 @@ example:
         'weblate.addons.git.GitSquashAddon',
         'weblate.addons.removal.RemoveComments',
         'weblate.addons.removal.RemoveSuggestions',
+        'weblate.addons.resx.ResxUpdateAddon',
         'weblate.addons.autotranslate.AutoTranslateAddon',
 
         # Addon you want to include

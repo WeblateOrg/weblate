@@ -155,6 +155,7 @@ class AddonsConf(AppConf):
         'weblate.addons.git.GitSquashAddon',
         'weblate.addons.removal.RemoveComments',
         'weblate.addons.removal.RemoveSuggestions',
+        'weblate.addons.resx.ResxUpdateAddon',
     )
 
     class Meta(object):

@@ -52,6 +52,7 @@ from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.models import ADDONS, Addon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
+from weblate.addons.resx import ResxUpdateAddon
 from weblate.addons.tasks import daily_addons
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
@@ -261,7 +262,16 @@ class ResxAddonTest(ViewTestCase):
 
     def test_cleanup(self):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
+        addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('resx/cs.resx', commit)
+
+    def test_update(self):
+        self.assertTrue(ResxUpdateAddon.can_install(self.component, None))
+        addon = ResxUpdateAddon.create(self.component)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
         self.assertNotEqual(rev, self.component.repository.last_revision)
