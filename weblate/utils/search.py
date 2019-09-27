@@ -170,7 +170,7 @@ class QueryParser(whoosh.qparser.QueryParser):
 PARSER = QueryParser()
 
 
-def field_name(field, suffix='icontains'):
+def field_name(field, suffix="icontains"):
     if field == "changed":
         return "change__timestamp"
     if field == "changed_by":
@@ -180,6 +180,14 @@ def field_name(field, suffix='icontains'):
     if field in ("source", "target", "context", "comment", "location"):
         return "{}__{}".format(field, suffix)
     return field
+
+
+def field_extra(field, query):
+    from weblate.trans.models import Change
+
+    if field in {"changed", "changed_by"}:
+        return query & Q(change__action__in=Change.ACTIONS_CONTENT)
+    return query
 
 
 def range_sql(field, start, end, conv=int):
@@ -211,15 +219,18 @@ def query_sql(obj):
     if isinstance(obj, whoosh.query.Term):
         return Q(**{field_name(obj.fieldname): obj.text})
     if isinstance(obj, whoosh.query.DateRange):
-        return range_sql(obj.fieldname, obj.startdate, obj.enddate, timezone.make_aware)
+        return field_extra(
+            obj.fieldname,
+            range_sql(obj.fieldname, obj.startdate, obj.enddate, timezone.make_aware),
+        )
     if isinstance(obj, whoosh.query.NumericRange):
         return range_sql(obj.fieldname, obj.start, obj.end)
     if isinstance(obj, whoosh.query.Regex):
         try:
             re.compile(obj.text)
-            return Q(**{field_name(obj.fieldname, 'regex'): obj.text})
+            return Q(**{field_name(obj.fieldname, "regex"): obj.text})
         except re.error as error:
-            raise ValueError(_('Invalid regular expression: {}').format(error))
+            raise ValueError(_("Invalid regular expression: {}").format(error))
 
     if obj == whoosh.query.NullQuery:
         return Q()

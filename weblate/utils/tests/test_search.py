@@ -28,7 +28,7 @@ from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
 from pytz import utc
 
-from weblate.trans.models import Unit
+from weblate.trans.models import Change, Unit
 from weblate.utils.search import Comparer, parse_query
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -92,9 +92,9 @@ class QueryParserTest(TestCase):
         self.assert_query("location:hello.c", Q(location__icontains="hello.c"))
 
     def test_regex(self):
-        self.assert_query("source:r\"^hello\"", Q(source__regex="^hello"))
+        self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
         with self.assertRaises(ValueError):
-            self.assert_query("source:r\"^(hello\"", Q(source__regex="^(hello"))
+            self.assert_query('source:r"^(hello"', Q(source__regex="^(hello"))
 
     def test_logic(self):
         self.assert_query(
@@ -115,6 +115,7 @@ class QueryParserTest(TestCase):
         )
 
     def test_dates(self):
+        action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
         self.assert_query(
             "changed:2018",
             Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
@@ -122,15 +123,18 @@ class QueryParserTest(TestCase):
                 change__timestamp__lte=datetime(
                     2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
                 )
-            ),
+            )
+            & action_change,
         )
         self.assert_query(
             "changed:>20190301",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc)),
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
+            & action_change,
         )
         self.assert_query(
             "changed:>2019-03-01",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc)),
+            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
+            & action_change,
         )
         self.assert_query(
             "changed:2019-03-01",
@@ -139,7 +143,8 @@ class QueryParserTest(TestCase):
                 change__timestamp__lte=datetime(
                     2019, 3, 1, 23, 59, 59, 999999, tzinfo=utc
                 )
-            ),
+            )
+            & action_change,
         )
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
@@ -148,7 +153,8 @@ class QueryParserTest(TestCase):
                 change__timestamp__lte=datetime(
                     2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc
                 )
-            ),
+            )
+            & action_change,
         )
 
     def test_bool(self):
