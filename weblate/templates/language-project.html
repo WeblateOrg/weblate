@@ -43,6 +43,9 @@
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
    </li>
+{% with project=project %}
+{% include "watch-dropdown.html" %}
+{% endwith %}
 </ul>
 
 <div class="tab-content">
