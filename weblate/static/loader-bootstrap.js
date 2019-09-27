@@ -1557,6 +1557,26 @@ $(function () {
         });
     });
 
+    /* Advanced search */
+    $('.search-group li a').click(function () {
+        var $this = $(this);
+        var $button = $this.parents('.input-group-btn').find('button');
+        $button.data('field', $this.data('field'));
+        $button.find('span.search-label').text($this.text());
+    });
+    $('.search-add').click(function () {
+        var group = $(this).parents('.input-group');
+        var button = group.find('button');
+        var input = group.find('input');
+
+        if (input.val() !== '') {
+            $('#id_q').insertAtCaret(' ' + button.data('field') + input.val() + ' ');
+        }
+    });
+    $('.search-insert').click(function () {
+        $('#id_q').insertAtCaret(' ' + $(this).parents('tr').find('code').text() + ' ');
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "

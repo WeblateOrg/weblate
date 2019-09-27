@@ -74,32 +74,23 @@ class SearchViewTest(ViewTestCase):
             response,
             '<span class="hlmatch">Hello</span>, world'
         )
-        response = self.client.get(url, {'date': '2010-01-10'})
+        response = self.client.get(url, {'q': 'changed:>=2010-01-10'})
         self.assertContains(response, '2010-01-10')
 
     @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_all_search(self):
         """Searching in all projects."""
-        response = self.client.get(
-            reverse('search'),
-            {'q': 'hello'}
-        )
+        response = self.client.get(reverse('search'), {'q': 'hello'})
         self.assertContains(
             response,
             '<span class="hlmatch">Hello</span>, world'
         )
-        response = self.client.get(
-            reverse('search'),
-            {'q': '^Hello', 'search': 'regex'}
-        )
+        response = self.client.get(reverse('search'), {'q': 'source:r"^Hello"'})
         self.assertContains(
             response,
             'Hello, world'
         )
-        response = self.client.get(
-            reverse('search'),
-            {'q': '^(Hello', 'search': 'regex'}
-        )
+        response = self.client.get(reverse('search'), {'q': 'source:r"^(Hello"'})
         self.assertContains(
             response,
             'Invalid regular expression'
@@ -208,34 +199,11 @@ class SearchViewTest(ViewTestCase):
     def test_translation_search(self):
         """Searching within translation."""
         # Default
-        self.do_search(
-            {'q': 'hello'},
-            'Fulltext search for'
-        )
-        # Fulltext
-        self.do_search(
-            {'q': 'hello', 'search': 'ftx'},
-            'Fulltext search for'
-        )
-        # Substring
-        self.do_search(
-            {'q': 'hello', 'search': 'substring'},
-            'Substring search for'
-        )
-        # Exact string
-        self.do_search(
-            {'q': 'Thank you for using Weblate.', 'search': 'exact'},
-            'Search for exact string'
-        )
+        self.do_search({'q': 'source:hello'}, 'source:hello')
         # Short exact
         self.do_search(
             {'q': 'x', 'search': 'exact'},
             None
-        )
-        # Wrong type
-        self.do_search(
-            {'q': 'Thank', 'search': 'xxxx'},
-            'Please choose a valid search type.'
         )
 
     def test_random(self):
@@ -255,25 +223,25 @@ class SearchViewTest(ViewTestCase):
     def test_review(self):
         # Review
         self.do_search(
-            {'date': '2010-01-10', 'type': 'all'},
+            {'q': 'changed:>=2010-01-10', 'type': 'all'},
             None
         )
         self.do_search(
-            {'date': '2010-01-10', 'type': 'all', 'exclude_user': 'testuser'},
+            {'q': 'changed:>=2010-01-10 AND NOT changed_by:testuser', 'type': 'all'},
             None
         )
         self.do_search(
-            {'date': '2010-01-10', 'type': 'all', 'only_user': 'testuser'},
+            {'q': 'changed:>2010-01-10 AND changed_by:testuser', 'type': 'all'},
             None
         )
         self.do_search(
-            {'only_user': 'testuser'},
+            {'q': 'changed_by:testuser'},
             None
         )
-        # Review, invalid date
+        # Review, partial date
         self.do_search(
-            {'date': '2010-01-', 'type': 'all'},
-            'Enter a valid date.'
+            {'q': 'changed:>=2010-01-', 'type': 'all'},
+            None
         )
 
     def extract_params(self, response):
@@ -284,10 +252,7 @@ class SearchViewTest(ViewTestCase):
         return QueryDict(search_url, mutable=True)
 
     def test_search_links(self):
-        response = self.do_search(
-            {'q': 'Weblate', 'search': 'substring'},
-            'Substring search for'
-        )
+        response = self.do_search({'q': 'source:Weblate'}, 'source:Weblate')
         # Extract search URL
         params = self.extract_params(response)
         # Try access to pages
@@ -364,10 +329,6 @@ class SearchViewTest(ViewTestCase):
         self.do_search(
             {'type': 'nonexisting-type'},
             'Please choose a valid filter type.',
-        )
-        self.do_search(
-            {'date': 'nonexisting'},
-            'Enter a valid date.'
         )
 
     def test_search_plural(self):

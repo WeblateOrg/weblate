@@ -1,0 +1,60 @@
+{% load i18n %}
+<div class="form-group">
+    <label class="control-label">{% trans "Advanced query builder" %}</label>
+
+    <div class="btn-toolbar" role="toolbar">
+
+        <div class="btn-group search-group" role="group">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="source:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "Source strings" %}</span> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" data-field="source:">{% trans "Source strings" %}</a></li>
+                  <li><a href="#" data-field="target:">{% trans "Target strings" %}</a></li>
+                  <li><a href="#" data-field="context:">{% trans "Context strings" %}</a></li>
+                  <li><a href="#" data-field="comment:">{% trans "Comment strings" %}</a></li>
+                  <li><a href="#" data-field="location:">{% trans "Location strings" %}</a></li>
+                  <li><a href="#" data-field="state:">{% trans "String state" %}</a></li>
+                  <li><a href="#" data-field="pending:">{% trans "Pending string" %}</a></li>
+                  <li><a href="#" data-field="has_suggestion:">{% trans "String has suggestion" %}</a></li>
+                  <li><a href="#" data-field="has_comment:">{% trans "String has comment" %}</a></li>
+                  <li><a href="#" data-field="has_failing_check:">{% trans "String has failing check" %}</a></li>
+                  <li><a href="#" data-field="language:">{% trans "String target language" %}</a></li>
+                  <li><a href="#" data-field="changed_by:">{% trans "String changed by" %}</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+              <input type="text" class="form-control" placeholder="{% trans "Search for…" %}">
+              <span class="input-group-btn">
+                <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
+              </span>
+            </div><!-- /input-group -->
+        </div>
+
+        <div class="btn-group search-group" role="group">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="changed:>=" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String changed after" %}</span> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" data-field="changed:>=">{% trans "String changed after" %}</a></li>
+                  <li><a href="#" data-field="changed:<=">{% trans "String changed before" %}</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+              <input type="date" class="form-control" placeholder="{% trans "Date" %}" data-provide="datepicker">
+              <span class="input-group-btn">
+                <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
+              </span>
+            </div><!-- /input-group -->
+
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label">{% trans "Query examples" %}</label>
+    <table class="table table-striped">
+    <tr>
+        <th>{% trans "Review translations changed by other users" %}</th>
+        <td><code>changed:&gt;={{ month_ago|date:"Y-m-d" }} AND NOT changed_by:{{ user.username }}</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    </table>
+</div>

@@ -358,15 +358,15 @@
 {% endif %}
 
 <div class="tab-pane" id="search">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 
 <form action="{{ translate_url }}" method="GET" data-persist="search-translation">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+{% documentation_icon 'user/search' right=True %}
+{% trans "Search" %}
+</h4></div>
   <div class="panel-body">
-{{ search_form|crispy }}
+{% crispy search_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
@@ -374,28 +374,6 @@
 </div>
 </form>
 
-</div>
-
-{% if review_form %}
-<div class="col-lg-6">
-<form action="{{ translate_url }}" method="GET">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Review" %}</h4></div>
-  <div class="panel-body">
-<p>{% trans "Review translations touched by other users." %}</p>
-{{ review_form|crispy }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Start review" %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
-
-</div>
-{% endif %}
-
-</div>
-</div>
 </div>
 
 <div class="tab-pane" id="stats">

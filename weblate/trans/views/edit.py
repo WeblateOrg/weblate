@@ -115,7 +115,7 @@ def cleanup_session(session):
 def search(translation, request):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = SearchForm(request.GET)
+    form = SearchForm(request.user, request.GET)
 
     # Process form
     form_valid = form.is_valid()

@@ -35,7 +35,7 @@ from weblate.trans.forms import (
     BulkStateForm,
     ReplaceConfirmForm,
     ReplaceForm,
-    SiteSearchForm,
+    SearchForm,
 )
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
@@ -152,7 +152,7 @@ def search_replace(request, project, component=None, lang=None):
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit('search', request)
-    search_form = SiteSearchForm(request.GET)
+    search_form = SearchForm(request.user, request.GET)
     context = {
         'search_form': search_form,
     }

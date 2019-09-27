@@ -33,7 +33,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
-from weblate.trans.forms import ReportsForm, SiteSearchForm
+from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -253,7 +253,7 @@ def dashboard_user(request):
         {
             'allow_index': True,
             'suggestions': suggestions,
-            'search_form': SiteSearchForm(),
+            'search_form': SearchForm(request.user),
             'usersubscriptions': get_paginator(request, usersubscriptions),
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(ComponentList.objects.filter(

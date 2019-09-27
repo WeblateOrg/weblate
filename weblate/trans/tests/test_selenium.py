@@ -967,9 +967,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click('Search')
         element = self.driver.find_element_by_id('id_q')
         element.send_keys('%(count)s word')
-        Select(
-            self.driver.find_element_by_id('id_search')
-        ).select_by_value('substring')
         with self.wait_for_page_load():
             element.submit()
         self.click('History')

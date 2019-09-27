@@ -43,7 +43,6 @@ from weblate.trans.forms import (
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
-    ReviewForm,
     SearchForm,
     WhiteboardForm,
     get_new_language_form,
@@ -149,7 +148,7 @@ def show_project(request, project):
                 {'project': obj.slug}
             ),
             'language_stats': language_stats,
-            'search_form': SearchForm(),
+            'search_form': SearchForm(request.user),
             'whiteboard_form': optional_form(
                 WhiteboardForm, user, 'project.edit', obj
             ),
@@ -216,7 +215,7 @@ def show_component(request, project, component):
                 ComponentMoveForm, user, 'component.edit', obj,
                 request=request, instance=obj
             ),
-            'search_form': SearchForm(),
+            'search_form': SearchForm(request.user),
             'alerts': obj.alert_set.order_by('name'),
         }
     )
@@ -232,16 +231,7 @@ def show_translation(request, project, component, lang):
     # Get form
     form = get_upload_form(user, obj)
 
-    # Search form for everybody
-    search_form = SearchForm()
-
-    # Review form for logged in users
-    if user.is_anonymous:
-        review_form = None
-    else:
-        review_form = ReviewForm(
-            initial={'exclude_user': user.username}
-        )
+    search_form = SearchForm(request.user)
 
     return render(
         request,
@@ -257,7 +247,6 @@ def show_translation(request, project, component, lang):
                 obj=obj.component
             ),
             'search_form': search_form,
-            'review_form': review_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
                 BulkStateForm, user, 'translation.auto', obj,

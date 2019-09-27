@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 import copy
 import json
-import re
 from datetime import date, datetime, timedelta
 from uuid import uuid4
 
@@ -67,8 +66,10 @@ from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.docs import get_doc_url
-from weblate.utils.forms import SortedSelect, SortedSelectMultiple
+from weblate.utils.errors import report_error
+from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_CHOICES,
@@ -671,7 +672,21 @@ def get_upload_form(user, translation, *args):
     return result
 
 
-class BaseSearchForm(forms.Form):
+class SearchForm(forms.Form):
+    """Text searching form."""
+    # pylint: disable=invalid-name
+    q = forms.CharField(
+        label=_('Query'),
+        min_length=1,
+        required=False,
+    )
+    type = FilterField()
+    ignored = forms.BooleanField(
+        widget=forms.HiddenInput,
+        label=_('Show ignored checks as well'),
+        required=False,
+        initial=False
+    )
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(
         min_value=-1,
@@ -679,27 +694,65 @@ class BaseSearchForm(forms.Form):
         widget=forms.HiddenInput,
     )
 
+    def __init__(self, user, *args, **kwargs):
+        """Generate choices for other component in same project."""
+        self.user = user
+        super(SearchForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field('q'),
+            ContextDiv(
+                template='snippets/query-builder.html',
+                context={
+                    'user': self.user,
+                    'month_ago': timezone.now() - timedelta(days=31),
+                }
+            ),
+            Field('type'),
+            Field('ignored'),
+            Field('checksum'),
+            Field('offset'),
+        )
+
+    def get_name(self):
+        """Return verbose name for a search."""
+        search_name = self.cleaned_data['q']
+        search_filter = self.cleaned_data['type']
+        filter_name = ''
+
+        if search_filter != 'all' or search_name == '':
+            for choice in self.fields['type'].choices:
+                if choice[0] == search_filter:
+                    filter_name = choice[1]
+                    break
+
+        if search_name and filter_name:
+            return pgettext(
+                'String to concatenate search and filter names',
+                '{filter_name}, {search_name}'
+            ).format(
+                search_name=search_name,
+                filter_name=filter_name
+            )
+        if search_name:
+            return search_name
+        return filter_name
+
+    def get_search_query(self):
+        return self.cleaned_data['q']
+
     def clean_offset(self):
         if self.cleaned_data.get('offset') is None:
             self.cleaned_data['offset'] = 1
         return self.cleaned_data['offset']
 
-    def get_name(self):
-        return ''
-
-    def get_search_query(self):
-        return None
-
     def items(self):
         items = []
         # Skip checksum and offset as these change
         ignored = {'checksum', 'offset'}
-        # Skip search params if query is empty
-        if not self.cleaned_data.get('q'):
-            ignored.update((
-                'search', 'source', 'target', 'context',
-                'location', 'comment'
-            ))
         for param in sorted(self.cleaned_data):
             value = self.cleaned_data[param]
             # We don't care about empty values or ignored
@@ -738,156 +791,22 @@ class BaseSearchForm(forms.Form):
         self.data = data
         return self
 
-
-class SearchForm(BaseSearchForm):
-    """Text searching form."""
-    # pylint: disable=invalid-name
-    q = forms.CharField(
-        label=_('Query'),
-        min_length=1,
-        required=False,
-        strip=False,
-    )
-    search = forms.ChoiceField(
-        label=_('Search type'),
-        required=False,
-        choices=(
-            ('ftx', _('Fulltext')),
-            ('substring', _('Substring')),
-            ('exact', _('Exact match')),
-            ('regex', _('Regular expression')),
-        ),
-        initial='ftx',
-        error_messages={
-            'invalid_choice': _('Please choose a valid search type.'),
-        }
-    )
-    source = forms.BooleanField(
-        label=_('Source strings'),
-        required=False,
-        initial=True
-    )
-    target = forms.BooleanField(
-        label=_('Target strings'),
-        required=False,
-        initial=True
-    )
-    context = forms.BooleanField(
-        label=_('Context strings'),
-        required=False,
-        initial=False
-    )
-    location = forms.BooleanField(
-        label=_('Location strings'),
-        required=False,
-        initial=False
-    )
-    comment = forms.BooleanField(
-        label=_('Comment strings'),
-        required=False,
-        initial=False
-    )
-    type = FilterField()
-    ignored = forms.BooleanField(
-        widget=forms.HiddenInput,
-        label=_('Show ignored checks as well'),
-        required=False,
-        initial=False
-    )
-    date = WeblateDateField(
-        label=_('Changed since'),
-        required=False,
-    )
-    only_user = UserField(
-        label=_('Changed by user'),
-        required=False
-    )
-    exclude_user = UserField(
-        label=_('Exclude changes by user'),
-        required=False
-    )
-
     def clean(self):
         """Sanity checking for search type."""
-        # Default to fulltext / all strings
-        if not self.cleaned_data.get('search'):
-            self.cleaned_data['search'] = 'ftx'
+        # Default to all strings
         if not self.cleaned_data.get('type'):
             self.cleaned_data['type'] = 'all'
 
-        # Validate regexp
-        if self.cleaned_data['search'] == 'regex':
-            try:
-                re.compile(self.cleaned_data.get('q', ''))
-            except re.error as error:
-                raise ValidationError({
-                    'q': _('Invalid regular expression: {}').format(error)
-                })
-
-        # Default to source and target search
-        if (not self.cleaned_data['source']
-                and not self.cleaned_data['target']
-                and not self.cleaned_data['location']
-                and not self.cleaned_data['comment']
-                and not self.cleaned_data['context']):
-            self.cleaned_data['source'] = True
-            self.cleaned_data['target'] = True
-
-    def get_name(self):
-        """Return verbose name for a search."""
-        search_name = ''
-        filter_name = ''
-
-        search_query = self.cleaned_data['q']
-        search_type = self.cleaned_data['search']
-        search_filter = self.cleaned_data['type']
-
-        if search_query:
-            if search_type == 'ftx':
-                search_name = _('Fulltext search for "%s"') % search_query
-            elif search_type == 'exact':
-                search_name = _('Search for exact string "%s"') % search_query
-            else:
-                search_name = _('Substring search for "%s"') % search_query
-
-        if search_filter != 'all' or search_name == '':
-            for choice in self.fields['type'].choices:
-                if choice[0] == search_filter:
-                    filter_name = choice[1]
-                    break
-
-        if search_name and filter_name:
-            return pgettext(
-                'String to concatenate search and filter names',
-                '{filter_name}, {search_name}'
-            ).format(
-                search_name=search_name,
-                filter_name=filter_name
+        # Try to parse query string
+        query = self.cleaned_data.get('q')
+        try:
+            parse_query(query)
+        except Exception as error:
+            report_error(error)
+            raise ValidationError(
+                {'q': _('Failed to parse query string: {}').format(error)}
             )
-        if search_name:
-            return search_name
-        return filter_name
-
-    def get_search_query(self):
-        return self.cleaned_data['q']
-
-
-class SiteSearchForm(SearchForm):
-    """Site wide search form"""
-    lang = forms.MultipleChoiceField(
-        label=_('Languages'),
-        required=False,
-        widget=SortedSelectMultiple,
-    )
-
-    def __init__(self, *args, **kwargs):
-        """Dynamically generate choices for used languages in project."""
-        super(SiteSearchForm, self).__init__(*args, **kwargs)
-
-        self.fields['lang'].choices += [
-            (l.code, force_text(l))
-            for l in Language.objects.have_translation()
-        ]
+        return self.cleaned_data
 
 
 class MergeForm(ChecksumForm):
@@ -1079,23 +998,6 @@ class DictUploadForm(forms.Form):
             ('add', _('Add as other translation')),
         ),
         required=False
-    )
-
-
-class ReviewForm(BaseSearchForm):
-    """Translation review form."""
-    date = WeblateDateField(
-        label=_('Starting date'),
-        initial=lambda: timezone.now() - timedelta(days=31),
-    )
-    type = forms.CharField(
-        widget=forms.HiddenInput,
-        initial='all',
-        required=False
-    )
-    exclude_user = forms.CharField(
-        widget=forms.HiddenInput,
-        required=True
     )
 
 

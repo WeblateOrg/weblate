@@ -32,6 +32,7 @@ Not yet released.
 * Changed example settings to be better fit for production environment.
 * Added automated backups using Borg backup.
 * Split cleanup addon for RESX to avoid unwanted file updates.
+* Added advanced search capabilities.
 
 weblate 3.8
 -----------

@@ -29,7 +29,7 @@ from django.views.generic import CreateView, UpdateView
 from weblate.lang import data
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import SiteSearchForm
+from weblate.trans.forms import SearchForm
 from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
@@ -138,7 +138,7 @@ def show_project(request, lang, project):
             ),
             'translations': translations,
             'title': '{0} - {1}'.format(pobj, obj),
-            'search_form': SiteSearchForm(),
+            'search_form': SearchForm(request.user),
             'licenses': ', '.join(sorted(pobj.get_licenses())),
         }
     )

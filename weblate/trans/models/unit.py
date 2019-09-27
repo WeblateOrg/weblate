@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-import functools
 import re
 from copy import copy
 
@@ -51,6 +50,7 @@ from weblate.trans.util import (
 )
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_CHOICES,
@@ -201,31 +201,7 @@ class UnitQuerySet(models.QuerySet):
         if 'q' not in params or not params['q']:
             return base
 
-        elif params['search'] in ('exact', 'substring', 'regex'):
-            queries = []
-
-            if params['search'] == 'exact':
-                modifier = '__iexact'
-            elif params['search'] == 'regex':
-                modifier = '__regex'
-            else:
-                modifier = '__icontains'
-
-            for param in SEARCH_FILTERS:
-                if param in params and params[param]:
-                    queries.append(param)
-
-            query = functools.reduce(
-                lambda q, value: q
-                | Q(**{'{0}{1}'.format(value, modifier): params['q']}),
-                queries,
-                Q(),
-            )
-
-            return base.filter(query)
-        else:
-            langs = set(self.values_list('translation__language__code', flat=True))
-            return base.filter(pk__in=Fulltext().search(params['q'], langs, params))
+        return base.filter(parse_query(params['q']))
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
