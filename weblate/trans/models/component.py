@@ -1893,3 +1893,12 @@ class Component(models.Model, URLMixin, PathMixin):
     @cached_property
     def fsf_approved_license(self):
         return is_fsf_approved(self.license)
+
+    def post_create(self, user):
+        from weblate.trans.models import Change
+        Change.objects.create(
+            action=Change.ACTION_CREATE_COMPONENT,
+            component=self,
+            user=user,
+            author=user,
+        )

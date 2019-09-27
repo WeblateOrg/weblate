@@ -35,6 +35,7 @@ from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
@@ -287,9 +288,26 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
             'source_language'
         ).order_by('id')
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['get', 'post'], serializer_class=ComponentSerializer)
     def components(self, request, **kwargs):
         obj = self.get_object()
+        if request.method == 'POST':
+            if not request.user.has_perm('project.edit', obj):
+                self.permission_denied(request, message='Can not create components')
+            with transaction.atomic():
+                serializer = ComponentSerializer(
+                    data=request.data, context={'request': request}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(project=obj)
+                serializer.instance.post_create(self.request.user)
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED,
+                    headers={
+                        'Location': str(serializer.data[api_settings.URL_FIELD_NAME])
+                    }
+                )
 
         queryset = obj.component_set.all().order_by('id')
         page = self.paginate_queryset(queryset)

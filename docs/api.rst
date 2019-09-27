@@ -407,6 +407,15 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+.. http:post:: /api/projects/(string:project)/components/
+
+    .. versionadded:: 3.9
+
+    Creates translation components in the given project.
+
+    :param project: Project URL slug
+    :type project: string
+
 .. http:get:: /api/projects/(string:project)/languages/
 
     Returns paginated statistics for all languages within a project.

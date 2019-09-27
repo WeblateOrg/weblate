@@ -44,7 +44,7 @@ from weblate.trans.forms import (
     ComponentZipCreateForm,
     ProjectCreateForm,
 )
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.models import Component, Project
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -188,12 +188,7 @@ class CreateComponent(BaseCreateView):
     def form_valid(self, form):
         if self.stage == 'create':
             result = super(CreateComponent, self).form_valid(form)
-            Change.objects.create(
-                action=Change.ACTION_CREATE_COMPONENT,
-                component=self.object,
-                user=self.request.user,
-                author=self.request.user,
-            )
+            self.object.post_create(self.request.user)
             return result
         if self.stage == 'discover':
             # Move to create

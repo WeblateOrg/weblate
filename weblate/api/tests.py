@@ -238,6 +238,34 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Project.objects.count(), 2)
 
+    def test_create_component(self):
+        self.do_request(
+            'api:project-components',
+            self.project_kwargs,
+            method="post",
+            code=403,
+            request={
+                'name': 'API project',
+                'slug': 'api-project',
+                'web': 'https://weblate.org/',
+            },
+        )
+        self.do_request(
+            'api:project-components',
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                'name': 'API project',
+                'slug': 'api-project',
+                'repo': self.format_local_path(self.git_repo_path),
+                'filemask': 'po/*.po',
+                'file_format': 'po',
+            },
+        )
+        self.assertEqual(Component.objects.count(), 2)
+
 
 class ComponentAPITest(APIBaseTest):
     def test_list_components(self):

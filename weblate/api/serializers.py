@@ -136,6 +136,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
 
+class RepoURLField(serializers.CharField):
+    def get_attribute(self, instance):
+        return instance.get_repo_url()
+
+
 class ComponentSerializer(RemovableSerializer):
     web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
@@ -159,7 +164,7 @@ class ComponentSerializer(RemovableSerializer):
         view_name='api:component-changes',
         lookup_field=('project__slug', 'slug'),
     )
-    repo = serializers.CharField(source='get_repo_url')
+    repo = RepoURLField()
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -170,7 +175,7 @@ class ComponentSerializer(RemovableSerializer):
             'branch', 'filemask', 'template', 'new_base', 'file_format',
             'license', 'license_url', 'web_url', 'url',
             'repository_url', 'translations_url', 'statistics_url',
-            'lock_url', 'changes_list_url',
+            'lock_url', 'changes_list_url', 'new_lang',
         )
         extra_kwargs = {
             'url': {
