@@ -57,14 +57,17 @@ from weblate.utils.files import remove_readonly
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
-def perform_update(cls, pk):
+def perform_update(cls, pk, auto=False):
     try:
         if cls == 'Project':
             obj = Project.objects.get(pk=pk)
         else:
             obj = Component.objects.get(pk=pk)
 
-        obj.do_update()
+        if not auto or settings.AUTO_UPDATE:
+            obj.do_update()
+        else:
+            obj.update_remote_branch()
     except FileParseError:
         # This is stored as alert, so we can silently ignore here
         return
@@ -261,10 +264,7 @@ def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
-        if settings.AUTO_UPDATE:
-            component.do_update()
-        else:
-            component.update_remote_branch()
+        perform_update.delay('Component', component.pk, auto=True)
 
 
 @app.task(trail=False)

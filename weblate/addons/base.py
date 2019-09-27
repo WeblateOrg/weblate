@@ -26,6 +26,7 @@ from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
 from weblate.addons.events import (
     EVENT_DAILY,
@@ -35,7 +36,9 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
 )
 from weblate.addons.forms import BaseAddonForm
+from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
+from weblate.utils import messages
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
@@ -53,6 +56,7 @@ class BaseAddon(object):
     repo_scope = False
     has_summary = False
     alert = None
+    trigger_update = False
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
@@ -262,6 +266,19 @@ class BaseAddon(object):
             return None
 
         return filename
+
+    @classmethod
+    def pre_install(cls, component, request):
+        if cls.trigger_update:
+            perform_update.delay('Component', component.pk, auto=True)
+            if component.repo_needs_merge():
+                messages.warning(
+                    request,
+                    _(
+                        'The Weblate repository is outdated, you might not get '
+                        'expected results until you update it.'
+                    )
+                )
 
 
 class TestAddon(BaseAddon):

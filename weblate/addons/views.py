@@ -96,6 +96,7 @@ class AddonList(AddonViewMixin, ListView):
                 return self.redirect_list()
         else:
             form = addon.get_add_form(component)
+        addon.pre_install(component, request)
         return self.response_class(
             request=self.request,
             template=['addons/addon_detail.html'],
