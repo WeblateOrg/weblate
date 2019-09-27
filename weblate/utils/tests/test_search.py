@@ -106,6 +106,9 @@ class QueryParserTest(TestCase):
             Q(source__icontains="hello") | Q(target__icontains="world"),
         )
 
+    def test_empty(self):
+        self.assert_query("", Q())
+
     def test_invalid(self):
         self.assert_query(
             "changed:inval AND target:world", Q(target__icontains="world")

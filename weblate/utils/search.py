@@ -222,7 +222,7 @@ def query_sql(obj):
             raise ValueError(_('Invalid regular expression: {}').format(error))
 
     if obj == whoosh.query.NullQuery:
-        return Q(pk=None)
+        return Q()
     raise ValueError("Unsupported: {!r}".format(obj))
 
 
