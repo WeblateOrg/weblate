@@ -343,8 +343,7 @@ def handle_revert(translation, request, next_unit_url):
         return None
     # Store unit
     unit.translate(
-        request.user, change.details['old'], unit.state,
-        change_action=Change.ACTION_REVERT
+        request.user, change.old, unit.state, change_action=Change.ACTION_REVERT
     )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
