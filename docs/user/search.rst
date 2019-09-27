@@ -65,3 +65,9 @@ You can specify operators, ranges or partial lookups for date or numeric searche
    Changed in year 2019.
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
+
+
+Regular expressions
+-------------------
+
+Anywhere text is accepted you can also specify regular expression as ``r"regexp"``.

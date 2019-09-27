@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import re
 from functools import reduce
 
 import whoosh.qparser
@@ -27,6 +28,7 @@ import whoosh.qparser.dateparse
 import whoosh.query
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 from jellyfish import damerau_levenshtein_distance
 from jellyfish._jellyfish import (
     damerau_levenshtein_distance as py_damerau_levenshtein_distance,
@@ -146,6 +148,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             whoosh.qparser.FieldsPlugin(),
             whoosh.qparser.RangePlugin(),
             whoosh.qparser.GtLtPlugin(),
+            whoosh.qparser.RegexPlugin(),
             whoosh.qparser.GroupPlugin(),
             whoosh.qparser.OperatorsPlugin(),
             whoosh.qparser.dateparse.DateParserPlugin(dateparser=DateParser()),
@@ -167,7 +170,7 @@ class QueryParser(whoosh.qparser.QueryParser):
 PARSER = QueryParser()
 
 
-def field_name(field):
+def field_name(field, suffix='icontains'):
     if field == "changed":
         return "change__timestamp"
     if field == "changed_by":
@@ -175,7 +178,7 @@ def field_name(field):
     if field == "language":
         return "translation__language__code"
     if field in ("source", "target", "context", "comment", "location"):
-        return "{}__icontains".format(field)
+        return "{}__{}".format(field, suffix)
     return field
 
 
@@ -211,6 +214,12 @@ def query_sql(obj):
         return range_sql(obj.fieldname, obj.startdate, obj.enddate, timezone.make_aware)
     if isinstance(obj, whoosh.query.NumericRange):
         return range_sql(obj.fieldname, obj.start, obj.end)
+    if isinstance(obj, whoosh.query.Regex):
+        try:
+            re.compile(obj.text)
+            return Q(**{field_name(obj.fieldname, 'regex'): obj.text})
+        except re.error as error:
+            raise ValueError(_('Invalid regular expression: {}').format(error))
 
     if obj == whoosh.query.NullQuery:
         return Q(pk=None)

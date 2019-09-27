@@ -91,6 +91,11 @@ class QueryParserTest(TestCase):
         )
         self.assert_query("location:hello.c", Q(location__icontains="hello.c"))
 
+    def test_regex(self):
+        self.assert_query("source:r\"^hello\"", Q(source__regex="^hello"))
+        with self.assertRaises(ValueError):
+            self.assert_query("source:r\"^(hello\"", Q(source__regex="^(hello"))
+
     def test_logic(self):
         self.assert_query(
             "source:hello AND NOT target:world",
