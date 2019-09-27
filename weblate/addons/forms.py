@@ -22,16 +22,15 @@ from __future__ import unicode_literals
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout
-from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.http import QueryDict
-from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm
+from weblate.utils.forms import ContextDiv
 from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
@@ -172,16 +171,6 @@ class RemoveSuggestionForm(RemoveForm):
             'Threshold for removal. This field has no effect with ' 'voting turned off.'
         ),
     )
-
-
-class ContextDiv(Div):
-    def __init__(self, *fields, **kwargs):
-        self.context = kwargs.pop('context', {})
-        super(ContextDiv, self).__init__(*fields, **kwargs)
-
-    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
-        template = self.get_template_name(template_pack)
-        return render_to_string(template, self.context)
 
 
 class DiscoveryForm(BaseAddonForm):

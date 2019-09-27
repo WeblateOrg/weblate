@@ -20,7 +20,10 @@
 
 from __future__ import unicode_literals
 
+from crispy_forms.layout import Div
+from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
+from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 
 from weblate.trans.util import sort_unicode
@@ -40,3 +43,13 @@ class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
 
 class SortedSelect(SortedSelectMixin, forms.Select):
     """Wrapper class to sort choices alphabetically."""
+
+
+class ContextDiv(Div):
+    def __init__(self, *fields, **kwargs):
+        self.context = kwargs.pop('context', {})
+        super(ContextDiv, self).__init__(*fields, **kwargs)
+
+    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
+        template = self.get_template_name(template_pack)
+        return render_to_string(template, self.context)
