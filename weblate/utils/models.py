@@ -49,17 +49,10 @@ class WeblateConf(AppConf):
 
     SENTRY_DSN = None
 
-    class Meta(object):
-        prefix = ''
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_BROKER_URL = 'memory://'
 
-
-class CeleryConf(AppConf):
-    """Defaults for Celery settings."""
-
-    TASK_ALWAYS_EAGER = True
-    BROKER_URL = 'memory://'
-
-    IMPORTS = [
+    CELERY_IMPORTS = [
         'weblate.accounts.notifications',
         'weblate.trans.discovery',
         'weblate.trans.models',
@@ -67,7 +60,7 @@ class CeleryConf(AppConf):
     ]
 
     class Meta(object):
-        prefix = 'CELERY'
+        prefix = ''
 
 
 @receiver(post_save, sender=Change)
