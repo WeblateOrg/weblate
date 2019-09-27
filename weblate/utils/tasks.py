@@ -37,9 +37,15 @@ def ping():
     return None
 
 
+def ensure_backup_dir():
+    backup_dir = data_dir("backups")
+    if not os.path.exists(backup_dir):
+        os.makedirs(backup_dir)
+
+
 @app.task(trail=False)
 def settings_backup():
-    os.makedirs(data_dir("backups"))
+    ensure_backup_dir()
     filename = data_dir("backups", "settings.py")
     command = diffsettings.Command()
     kwargs = {"default": None, "all": False}
@@ -52,6 +58,7 @@ def settings_backup():
 
 @app.task(trail=False)
 def database_backup():
+    ensure_backup_dir()
     database = settings.DATABASES["default"]
     if database["ENGINE"] != "django.db.backends.postgresql":
         return
