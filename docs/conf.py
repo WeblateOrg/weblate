@@ -192,8 +192,7 @@ graphviz_output_format = "svg"
 
 # Configuration for intersphinx
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.5", None),
-    "python2": ("https://docs.python.org/2.7", None),
+    "python": ("https://docs.python.org/3.7", None),
     "django": (
         "https://docs.djangoproject.com/en/stable/",
         "https://docs.djangoproject.com/en/stable/_objects/",

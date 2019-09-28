@@ -244,7 +244,7 @@ Python format
 
 .. seealso::
 
-    :ref:`Python string formatting <python2:string-formatting>`,
+    :ref:`Python string formatting <python:old-string-formatting>`,
     `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
 
 Python brace format
