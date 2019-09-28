@@ -876,7 +876,7 @@ class AutoForm(forms.Form):
         label=_('Components'),
         required=False,
         help_text=_(
-            "Enable project contribution to shared translation memory on project to "
+            "Turn on contribution to shared translation memory for the project to "
             "get access to additional components."
         ),
         initial=''
