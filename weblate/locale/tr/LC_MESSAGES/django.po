@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-28 08:17+0000\n"
 "PO-Revision-Date: 2019-09-29 08:08+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -705,7 +705,7 @@ msgstr "Parola sıfırlanamıyor, e-posta kimlik doğrulaması kapalı."
 
 #: weblate/accounts/views.py:988
 msgid "Failed to remove user identity"
-msgstr ""
+msgstr "Kullanıcı kimliği kaldırılamadı"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -788,6 +788,8 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"Weblate deposu güncel değil, siz güncelleyene kadar beklenen sonuçları "
+"alamayabilirsin."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1159,24 +1161,17 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Önerilerin kaldırılması için zaman dilimi ayarlayın."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "LINGUAS dosyasını güncelle"
+msgstr "RESX dosyalarını güncelle"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
 msgstr ""
-"Tüm çeviri dosyalarını tek dilli taban dosyayla eşleşmesi için güncelle. "
-"Çoğu dosya biçimi için bu, taban dosyada artık bulunmayan eski çeviri "
-"anahtarlarını kaldırmak anlamına gelir."
+"Tek dilli temel dosyaya uyması için tüm çeviri dosyalarını güncelleştirin. "
+"Eski çeviri anahtarlarını kaldırır ve çeviri olarak kaynak satıra sahip "
+"yenilerini ekler."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2258,16 +2253,12 @@ msgid "Font group name"
 msgstr "Yazı tipi grubu adı"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special characters."
 msgstr ""
 "Bu yazı tipi grubunu seçmek için denetimlerinde kullanacağınız tanımlayıcı. "
-"Boşluk veya özel karakterden kaçının."
+"Boşluk veya özel karakterlerden kaçının."
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -4898,10 +4889,8 @@ msgstr[0] "%(count)s projeye göz at"
 msgstr[1] "Tüm %(count)s projeye göz at"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "Düzenleyiciyi yapılandır"
+msgstr "Panoyu Yapılandır"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -6159,51 +6148,49 @@ msgstr "Proje erişim kontrolünü değiştirmek için yetkiniz yok."
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Yedekler"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Yedekleme hizmeti: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Kapalı"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Yedekleme hizmeti kimlik bilgileri"
 
 #: weblate/templates/manage/backups.html:39
-#, fuzzy
-#| msgid "Repository"
 msgid "Backup pepository"
-msgstr "Havuz"
+msgstr "Yedek depo"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "Parola"
 
 #: weblate/templates/manage/backups.html:48
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "Yedekleme için özel anahtarı indirin"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn off"
-msgstr ""
+msgstr "Kapat"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn on"
-msgstr ""
+msgstr "Aç"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Run backup"
-msgstr ""
+msgstr "Yedeklemeyi çalıştır"
 
 #: weblate/templates/manage/backups.html:89
 msgid "Add backup service"
-msgstr ""
+msgstr "Yedekleme hizmeti ekle"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6215,10 +6202,8 @@ msgid "Support status"
 msgstr "Destek durumu"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
-msgstr "Sınırları aşıyor"
+msgstr "Hizmet limitlerini aşıyor"
 
 #: weblate/templates/manage/index.html:32
 msgid "Support expiry"
@@ -6292,6 +6277,8 @@ msgid ""
 "The support packages include priority email support or cloud backups for "
 "your Weblate installation."
 msgstr ""
+"Destek paketleri, Weblate kurulumunuz için öncelikli e-posta desteğini veya "
+"bulut yedeklerini içerir."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6573,8 +6560,6 @@ msgid "Number of words"
 msgstr "Kelime sayısı"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "Karakter sayısı"
 
@@ -6591,8 +6576,6 @@ msgid "Number of source words"
 msgstr "Kaynak kelime sayısı"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "Kaynak karakter sayısı"
 
@@ -6763,7 +6746,7 @@ msgstr "yönetici"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Gelişmiş sorgu oluşturucu"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6782,82 +6765,57 @@ msgid "Location strings"
 msgstr "Yer satırları"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
 msgstr "Satırlar durumu"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "Bekleyen öneriler"
+msgstr "Bekleyen satırlar"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "Önerileri olan satırlar"
+msgstr "Satır önerisi var"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Yorumları olan satırlar"
+msgstr "Satır yorumu var"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Denetimde kusurlu görülen satırlar"
+msgstr "Satır denetim kusurlu"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Dilleri yönetme"
+msgstr "Satır hedef dili"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "Kaynak satır değiştirildi"
+msgstr "Satırı değiştiren"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "%s ara"
+msgstr "Ara…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "Kaynak satır değiştirildi"
+msgstr "Satır sonradan değişti"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Düzenlenmesi için işaretlenen satırlar"
+msgstr "Satır önceden değişti"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
 msgstr "Tarih"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "API kullanım örneği:"
+msgstr "Sorgu örnekleri"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "Diğer kullanıcılar tarafından dokunulan çevirileri gözden geçir."
+msgstr "Diğer kullanıcılar tarafından değiştirilen çevirileri inceleyin"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -6988,10 +6946,8 @@ msgstr ""
 "olarak birleştirin veya otomatikleştirme kurulumunu yapın."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "Bu bileşen %(target)s havuzuna bağlandı."
+msgstr "Bu bileşen yanlış ayarlanmış."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -6999,16 +6955,12 @@ msgid "Version control system"
 msgstr "Sürüm kontrol sistemi"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
-"Bu bu özellikler için desteği devre dışı bıraktıktan sonra veya "
-"bağımlılıklar eksik olduğunda ortaya çıkabilir."
+"Bu, bu özellikler için desteği kapattıktan sonra veya bağımlılıklar eksik "
+"olduğunda gerçekleşebilir."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7860,8 +7812,6 @@ msgid "Weblate translations"
 msgstr "Weblate çevirileri"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
 msgstr "Kontrol karakterleri"
 
@@ -8114,10 +8064,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "Çoğul eşitliği ölçülemedi: {}"
+msgstr "Sorgu metni ayrıştırılamadı: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -8140,16 +8088,12 @@ msgid "Other translation components"
 msgstr "Diğer çeviri bileşenleri"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Ek bileşenlere erişmek için projedeki paylaşılan çeviri belleğine proje "
-"katkısını etkinleştirin."
+"Projenin ek bileşenlere erişebilmesi için paylaşılan çeviri belleğine "
+"katkıyı açın."
 
 #: weblate/trans/forms.py:885
 msgid "Machine translation engines"
@@ -10225,8 +10169,6 @@ msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "Resim çok büyük, lütfen bunu küçültün veya uygun kısmı kırpın!"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Lütfen tam adda özel karakterler kullanmaktan kaçının."
 
@@ -10338,17 +10280,15 @@ msgstr "Yedek depo"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "Yedekleme gerçekleştirildi"
 
 #: weblate/wladmin/models.py:183
 msgid "Pruned old backups"
-msgstr ""
+msgstr "Eski yedekleri buda"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Havuz bakımı"
+msgstr "Havuz başlatma"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
