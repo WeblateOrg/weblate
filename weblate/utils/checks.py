@@ -36,15 +36,13 @@ from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
 from weblate.utils.tasks import ping
 
-GOOD_CACHE = frozenset((
-    'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
-))
-DEFAULT_MAILS = frozenset((
+GOOD_CACHE = {'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'}
+DEFAULT_MAILS = {
     'root@localhost',
     'webmaster@localhost',
     'noreply@weblate.org',
-    'noreply@example.com'
-))
+    'noreply@example.com',
+}
 
 
 def check_mail_connection(app_configs, **kwargs):
@@ -167,8 +165,7 @@ def check_settings(app_configs, **kwargs):
     """Check for sane settings"""
     errors = []
 
-    if (not settings.ADMINS
-            or 'noreply@weblate.org' in (x[1] for x in settings.ADMINS)):
+    if not settings.ADMINS or 'noreply@weblate.org' in (x[1] for x in settings.ADMINS):
         errors.append(
             Error(
                 'The site admins seem to be wrongly configured',
@@ -219,11 +216,7 @@ def check_templates(app_configs, **kwargs):
     errors = []
 
     if settings.TEMPLATES:
-        loaders = settings.TEMPLATES[0].get(
-            'OPTIONS', {}
-        ).get(
-            'loaders', [['']]
-        )
+        loaders = settings.TEMPLATES[0].get('OPTIONS', {}).get('loaders', [['']])
     else:
         loaders = settings.TEMPLATE_LOADERS
 
@@ -276,6 +269,7 @@ def check_data_writable(app_configs=None, **kwargs):
 
 def check_site(app_configs, **kwargs):
     from weblate.utils.site import get_site_domain, check_domain
+
     errors = []
     if not check_domain(get_site_domain()):
         errors.append(
@@ -317,7 +311,11 @@ def check_perms(app_configs=None, **kwargs):
 
 def check_errors(app_configs=None, **kwargs):
     """Check there is error collection configured."""
-    if hasattr(settings, 'ROLLBAR') or hasattr(settings, 'RAVEN_CONFIG'):
+    if (
+        hasattr(settings, 'ROLLBAR')
+        or hasattr(settings, 'RAVEN_CONFIG')
+        or settings.SENTRY_DSN
+    ):
         return []
     return [
         Info(
