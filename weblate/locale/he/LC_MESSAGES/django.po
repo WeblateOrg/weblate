@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-28 08:17+0000\n"
-"PO-Revision-Date: 2019-09-18 12:39+0000\n"
+"PO-Revision-Date: 2019-09-29 08:09+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -690,7 +690,7 @@ msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא�
 
 #: weblate/accounts/views.py:988
 msgid "Failed to remove user identity"
-msgstr ""
+msgstr "הסרת זהות המשתמש נכשלה"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -765,6 +765,7 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"תוקף המאגר של Weblate פג, יכול להיות שתופענה תוצאות לא הגיוניות עד לעדכון."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1120,23 +1121,16 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "הגדרת פרק זמן להסרת הצעות."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "עדכון קובץ LINGUAS"
+msgstr "עדכון קובצי RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
 msgstr ""
-"עדכון כל קובצי התרגום כדי שיתאימו לקובץ הבסיס החד־לשוני. ברוב תבניות הקבצים "
-"משמעות הדבר היא הסרת מפתחות של תרגומים שאינם קיימים עוד בקובץ הבסיס."
+"עדכון כל קובצי התרגום כדי שיתאימו לקובץ הבסיס החד־לשוני. פעולה זו מסירה "
+"מפתחות של תרגומים שאינם בשימוש ומוסיפה חדשים עם מחרוזות מקור לתרגום."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2218,10 +2212,6 @@ msgid "Font group name"
 msgstr "שם קבוצת גופנים"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special characters."
@@ -4803,10 +4793,8 @@ msgstr[2] "עיון ב־%(count)s מיזמים"
 msgstr[3] "עיון ב־%(count)s מיזמים"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "הגדרת עורך"
+msgstr "הגדרת לוח ראשי"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -6045,51 +6033,49 @@ msgstr "אין לך הרשאות לשנות את בקרת הגישה של המי
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "גיבויים"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "שירות גיבוי: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "כבוי"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "פרטי גישה לשירות הגיבוי"
 
 #: weblate/templates/manage/backups.html:39
-#, fuzzy
-#| msgid "Repository"
 msgid "Backup pepository"
-msgstr "מאגר"
+msgstr "מאגר גיבוי"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "מילת צופן"
 
 #: weblate/templates/manage/backups.html:48
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "הורדת מפתח פרטי לגיבוי"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn off"
-msgstr ""
+msgstr "כיבוי"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn on"
-msgstr ""
+msgstr "הפעלה"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Run backup"
-msgstr ""
+msgstr "הרצת גיבוי"
 
 #: weblate/templates/manage/backups.html:89
 msgid "Add backup service"
-msgstr ""
+msgstr "הוספת שירות גיבוי"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6101,10 +6087,8 @@ msgid "Support status"
 msgstr "מצב תמיכה"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
-msgstr "חורג מהגבולות"
+msgstr "חורג מגבולות השירות"
 
 #: weblate/templates/manage/index.html:32
 msgid "Support expiry"
@@ -6177,6 +6161,8 @@ msgid ""
 "The support packages include priority email support or cloud backups for "
 "your Weblate installation."
 msgstr ""
+"חבילות התמיכה כוללות תמיכה בדוא״ל עם עדיפות או גיבויים בענן להתקנת ה־Weblate "
+"שלך."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6447,8 +6433,6 @@ msgid "Number of words"
 msgstr "מספר מילים"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "מספר תווים"
 
@@ -6465,8 +6449,6 @@ msgid "Number of source words"
 msgstr "מספר מילות המקור"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "מספר תווים במקור"
 
@@ -6631,7 +6613,7 @@ msgstr "ניהול"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "בונה שאילתות מתקדם"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6650,82 +6632,57 @@ msgid "Location strings"
 msgstr "מחרוזות מיקום"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
-msgstr "מצב מחרוזות"
+msgstr "מצב מחרוזת"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "הצעות ממתינות"
+msgstr "מחרוזת ממתינה"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "מחרוזות עם הצעות"
+msgstr "למחרוזת יש הצעה"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "מחרוזות עם הערות"
+msgstr "למחרוזת יש הערה"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
+msgstr "למחרוזות יש בדיקות שנכשלו"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "ניהול שפות"
+msgstr "שפת היעד של המחרוזת"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "מחרוזת המקור השתנתה"
+msgstr "המחרוזת נערכה על ידי"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "חיפוש אחר %s"
+msgstr "חיפוש אחר…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "מחרוזת המקור השתנתה"
+msgstr "המחרוזת נערכה לאחר"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "מחרוזות שסומנו כטעונות שיפור"
+msgstr "המחרוזת נערכה לפני"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
-msgstr ""
+msgstr "תאריך"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "דוגמה לשימוש ב־API:"
+msgstr "דוגמאות לשאילתות"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "סקירת תרגומים שנערכו על ידי משתמשים אחרים."
+msgstr "סקירת תרגומים שנערכו על ידי משתמשים אחרים"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -6849,10 +6806,8 @@ msgstr ""
 "ידנית או להגדיר דחיפה עם התלייה כדי להפוך את התהליך לאוטומטי."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "רכיב זה מקושר אל המאגר %(target)s."
+msgstr "רכיב זה לא מוגדר נכון."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -6860,14 +6815,10 @@ msgid "Version control system"
 msgstr "מערכת בקרת גרסאות"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
-msgstr "מצב כזה יכול לקרות לאחר השבתת התמיכה בתכונות האלו או עקב תלויות חסרות."
+msgstr "מצב כזה יכול לקרות לאחר כיבוי התמיכה בתכונות אלו או עקב תלויות חסרות."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7708,8 +7659,6 @@ msgid "Weblate translations"
 msgstr "תרגומי Weblate"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
 msgstr "תווי בקרה"
 
@@ -7952,10 +7901,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "פענוח נוסחת הריבוי נכשל: {}"
+msgstr "פענוח מחרוזת השאילתה נכשל: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -7978,15 +7925,10 @@ msgid "Other translation components"
 msgstr "רכיבי תרגום אחרים"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
-msgstr ""
-"הפעלת מיזם תרומה לזיכרון תרגום משותף למיזם כדי לקבל גישה לרכיבים נוספים."
+msgstr "הפעלת תרומה לזיכרון תרגום משותף למיזם כדי לקבל גישה לרכיבים נוספים."
 
 #: weblate/trans/forms.py:885
 msgid "Machine translation engines"
@@ -10058,8 +10000,6 @@ msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "התמונה גדולה מדי, נא להקטין או לחתוך ממנה רק את הקטע הנחוץ!"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "נא להימנע משימוש בתווים מיוחדים בשם המלא."
 
@@ -10166,25 +10106,20 @@ msgid "Extended self-hosted support"
 msgstr "תמיכה מורחבת לאירוח עצמי"
 
 #: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "גישה למאגר"
+msgstr "מאגר גיבוי"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "הגיבוי בוצע"
 
 #: weblate/wladmin/models.py:183
 msgid "Pruned old backups"
-msgstr ""
+msgstr "גיבויים ישנים סולקו"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "תחזוקת מאגר"
+msgstr "חניכת מאגר"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
