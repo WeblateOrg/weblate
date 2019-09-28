@@ -210,6 +210,7 @@ Notable configuration or dependencies changes:
 * There are several updated and new dependencies.
 * Sentry is now supported through modern Sentry SDK instead of Raven, please adjust your configuration to use new :setting:`SENTRY_DSN`.
 * There are new addons, you might want to include them in case you modified the :setting:`WEBLATE_ADDONS`.
+* The Celery now uses separate queue for backups, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
