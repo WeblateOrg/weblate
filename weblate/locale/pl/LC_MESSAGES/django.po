@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-28 08:17+0000\n"
-"PO-Revision-Date: 2019-09-26 18:02+0000\n"
-"Last-Translator: Piotr Strebski <strebski@gmail.com>\n"
+"PO-Revision-Date: 2019-09-29 08:09+0000\n"
+"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -718,7 +718,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:988
 msgid "Failed to remove user identity"
-msgstr ""
+msgstr "Nie udało się usunąć tożsamości użytkownika"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -801,6 +801,8 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"Repozytorium Weblate jest przestarzałe, możesz nie uzyskać oczekiwanych "
+"wyników dopóki go nie zaktualizujesz."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1173,25 +1175,17 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Ustaw przedział czasowy na usunięcie sugestii."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Aktualizuj plik LINGUAS"
+msgstr "Zaktualizuj pliki RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
 msgstr ""
-"Zaktualizuj wszystkie pliki tłumaczeń tak, aby odpowiadały jednojęzykowemu "
-"plikowi podstawowemu. W przypadku większości formatów plików oznacza to "
-"usunięcie nieaktualnych kluczy tłumaczeń, których nie ma już w pliku "
-"podstawowym."
+"Zaktualizuj wszystkie pliki tłumaczeń, aby pasowały do jednojęzycznego pliku "
+"podstawowego. Usuwa przestarzałe klucze tłumaczenia i dodaje nowe z ciągiem "
+"źródłowym jako tłumaczenie."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2278,16 +2272,12 @@ msgid "Font group name"
 msgstr "Nazwa grupy czcionek"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special characters."
 msgstr ""
-"Identyfikator, którego będziesz używać podczas sprawdzania, aby wybrać tę "
-"grupę czcionek. Unikaj białych znaków lub znaków specjalnych."
+"Identyfikator, który będzie używany w kontrolach, aby wybrać tę grupę "
+"czcionek. Unikaj spacji i znaków specjalnych."
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -4943,10 +4933,8 @@ msgstr[1] "Przeglądaj %(count)s projekty"
 msgstr[2] "Przeglądanie %(count)s projektów"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "Konfiguruj edytor"
+msgstr "Konfiguracja pulpitu nawigacyjnego"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -6222,20 +6210,20 @@ msgstr "Nie masz uprawnień do zmiany ustawień kontroli dostępu do projektu."
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Kopie zapasowe"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Usługa tworzenia kopii zapasowych: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Wyłączone"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Poświadczenia usługi tworzenia kopii zapasowych"
 
 #: weblate/templates/manage/backups.html:39
 #, fuzzy
@@ -6244,29 +6232,30 @@ msgid "Backup pepository"
 msgstr "Repozytorium"
 
 #: weblate/templates/manage/backups.html:43
+#, fuzzy
 msgid "Passphrase"
-msgstr ""
+msgstr "Hasło"
 
 #: weblate/templates/manage/backups.html:48
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "Pobierz klucz prywatny do tworzenia kopii zapasowych"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn off"
-msgstr ""
+msgstr "Wyłącz"
 
 #: weblate/templates/manage/backups.html:74
 msgid "Turn on"
-msgstr ""
+msgstr "Włącz"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Run backup"
-msgstr ""
+msgstr "Uruchom kopię zapasową"
 
 #: weblate/templates/manage/backups.html:89
 msgid "Add backup service"
-msgstr ""
+msgstr "Dodaj usługę tworzenia kopii zapasowych"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6278,10 +6267,8 @@ msgid "Support status"
 msgstr "Status wsparcia"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
-msgstr "Przekracza ograniczenia"
+msgstr "Przekroczenie limitów serwisowych"
 
 #: weblate/templates/manage/index.html:32
 msgid "Support expiry"
@@ -6355,6 +6342,8 @@ msgid ""
 "The support packages include priority email support or cloud backups for "
 "your Weblate installation."
 msgstr ""
+"Pakiety wsparcia obejmują priorytetową obsługę poczty e-mail lub kopie "
+"zapasowe w chmurze dla instalacji Weblate."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6635,8 +6624,6 @@ msgid "Number of words"
 msgstr "Liczba słów"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "Liczba znaków"
 
@@ -6653,8 +6640,6 @@ msgid "Number of source words"
 msgstr "Liczba słów źródłowych"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "Liczba znaków źródłowych"
 
@@ -6826,7 +6811,7 @@ msgstr "administrator"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Zaawansowany kreator zapytań"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6845,16 +6830,12 @@ msgid "Location strings"
 msgstr "Teksty położenia"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
-msgstr "Status ciągów"
+msgstr "Stan łańcucha"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "Oczekujące sugestie"
+msgstr "Oczekujący ciąg"
 
 #: weblate/templates/snippets/query-builder.html:19
 #, fuzzy
@@ -10446,11 +10427,8 @@ msgid "Extended self-hosted support"
 msgstr "Rozszerzone wsparcie samodzielnego hostowania"
 
 #: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "Uzyskaj dostęp do repozytorium"
+msgstr "Repozytorium kopii zapasowych"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
