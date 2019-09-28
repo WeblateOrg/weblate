@@ -45,7 +45,7 @@
             <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ service.passphrase }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
         </td></tr>
         <tr><th>{% trans "SSH key" %}</th><td>
-            <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key for backup" %}</a>
+            <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key for performing backup" %}</a>
         </td></tr>
         </table>
     </div>
@@ -72,7 +72,7 @@
   <div class="panel-footer">
     <input type="hidden" name="service" value="{{ service.pk }}" />
     <input type="submit" class="btn btn-primary" name="toggle" value="{% if service.enabled %}{% trans "Turn off" %}{% else %}{% trans "Turn on" %}{% endif %}" />
-    <input type="submit" class="btn btn-primary runbackup" name="trigger" value="{% trans "Run backup" %}" />
+    <input type="submit" class="btn btn-primary runbackup" name="trigger" value="{% trans "Perform backup" %}" />
     </div>
     </div>
     </form>
