@@ -77,7 +77,7 @@ def support_status_update():
 
 @app.task(trail=False)
 def backup():
-    for service in BackupService.objects.filter(active=True):
+    for service in BackupService.objects.filter(enabled=True):
         backup_service.delay(service.pk)
 
 
