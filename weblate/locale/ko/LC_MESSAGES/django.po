@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-01 08:14+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -708,8 +708,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "암호를 재설정 할 수 없으며, 전자우편 인증이 해제되어 있습니다."
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Could not remove user identity"
+msgstr "현재 사용자 아이디"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3285,7 +3287,7 @@ msgid "Weblate keys"
 msgstr "Weblate 키"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH 키"
 
@@ -4274,7 +4276,7 @@ msgstr "설정 오류"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6295,34 +6297,48 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "저장소"
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "저장소 접속"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "보고서 내려받기"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "성능"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6417,7 +6433,7 @@ msgstr ""
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6442,6 +6458,10 @@ msgstr "공개 SSH 키"
 #| msgid "Weblate currently uses following SSH key:"
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate는 현재 다음 SSH 키를 사용:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10502,20 +10522,15 @@ msgstr "자체 기본 호스팅 지원"
 msgid "Extended self-hosted support"
 msgstr "자체 확장 호스팅 지원"
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "저장소 접속"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
-msgstr ""
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Deleted the oldest backups"
+msgstr "이 계정을 삭제"
 
 #: weblate/wladmin/models.py:184
 #, fuzzy
@@ -10584,6 +10599,11 @@ msgstr ""
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 버리지 못했습니다!"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "저장소"
 
 #~ msgid "Your languages"
 #~ msgstr "당신의 언어"
@@ -10723,9 +10743,6 @@ msgstr "구성 오류를 버리지 못했습니다!"
 
 #~ msgid "Home"
 #~ msgstr "홈"
-
-#~ msgid "Performance"
-#~ msgstr "성능"
 
 #~ msgid "Performance overview"
 #~ msgstr "성능 개요"

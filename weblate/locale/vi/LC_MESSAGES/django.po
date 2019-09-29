@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-06 18:23+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -796,8 +796,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Failed to generate key: %s"
+msgid "Could not remove user identity"
+msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3545,7 +3547,7 @@ msgid "Weblate keys"
 msgstr "PHP strings"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr ""
 
@@ -4546,7 +4548,7 @@ msgstr ""
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6631,34 +6633,47 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
 #| msgid "Failed to generate key: %s"
-msgid "Backup pepository"
+msgid "Backup repository"
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download"
+msgid "Download private key"
+msgstr "Tải về"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Plural form %d"
+msgid "Perform backup"
+msgstr "Dạng số nhiều %d"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6751,7 +6766,7 @@ msgstr ""
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6773,6 +6788,10 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
+msgstr ""
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
 msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
@@ -11082,18 +11101,12 @@ msgstr ""
 msgid "Extended self-hosted support"
 msgstr ""
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgid "Failed to generate key: %s"
-msgid "Backup repository"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
+msgid "Deleted the oldest backups"
 msgstr ""
 
 #: weblate/wladmin/models.py:184
@@ -11164,6 +11177,11 @@ msgstr ""
 #| msgid "Notification on any translation"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#~| msgid "Failed to generate key: %s"
+#~ msgid "Backup pepository"
+#~ msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #, fuzzy
 #~| msgid "Secondary languages"

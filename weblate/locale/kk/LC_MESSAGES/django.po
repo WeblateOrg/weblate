@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-16 02:23+0000\n"
 "Last-Translator: WWWesten <wwwesten@gmail.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
@@ -731,8 +731,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Paróldi ysyrý múmkin emes, e-poshta túpnusqalyq rastamasy óshirilgen!"
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Could not remove user identity"
+msgstr "Aǵymdyq paıdalanushynyń sáıkestik kýálikteri"
 
 #: weblate/accounts/views.py:1013
 #, fuzzy
@@ -3386,7 +3388,7 @@ msgid "Weblate keys"
 msgstr "Weblate kiltteri"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH-kilt"
 
@@ -4404,7 +4406,7 @@ msgstr "Konfigýrasıa qateleri"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6482,34 +6484,48 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "Repozıtorı"
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "Repozıtorıǵa qatynaý"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "Esepterdi júktep alý"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "Ónimdilik"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6605,7 +6621,7 @@ msgstr ""
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6630,6 +6646,10 @@ msgstr "Ashyq SSH-kilt"
 #| msgid "Weblate currently uses following SSH key:"
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate aǵymda kelesi SSH-kiltti paıdalanady:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10755,20 +10775,15 @@ msgstr "Óz hostiń negizgi qoldaýy"
 msgid "Extended self-hosted support"
 msgstr "Óz hostiń keńeıtilgen qoldaýy"
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "Repozıtorıǵa qatynaý"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
-msgstr ""
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Deleted the oldest backups"
+msgstr "Bul tirkelgini joıý"
 
 #: weblate/wladmin/models.py:184
 #, fuzzy
@@ -10836,6 +10851,11 @@ msgstr ""
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigýrasıa qatesin joıý sátsiz aıaqtaldy!"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "Repozıtorı"
 
 #~ msgid "Your languages"
 #~ msgstr "Sizdiń tilderińiz"
@@ -10979,9 +10999,6 @@ msgstr "Konfigýrasıa qatesin joıý sátsiz aıaqtaldy!"
 
 #~ msgid "Home"
 #~ msgstr "Basqy"
-
-#~ msgid "Performance"
-#~ msgstr "Ónimdilik"
 
 #~ msgid "Performance overview"
 #~ msgstr "Ónimdilik sholýy"

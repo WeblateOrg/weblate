@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-29 08:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -719,8 +719,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Kan ikke nullstille passord, e-postbekreftelse er skrudd av."
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Could not remove user identity"
+msgstr "Nåværende brukeridentiteter"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3212,7 +3214,7 @@ msgid "Weblate keys"
 msgstr "Weblate-nøkler"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH-nøkkel"
 
@@ -4208,7 +4210,7 @@ msgstr "Oppsettsfeil"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6237,37 +6239,48 @@ msgstr "Avskrudd"
 msgid "Backup service credentials"
 msgstr "Identitetsdetaljer for sikkerhetskopitjeneste"
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "Kodelager"
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "Gå til kodelager"
 
 #: weblate/templates/manage/backups.html:43
 #, fuzzy
 msgid "Passphrase"
 msgstr "Passord"
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:49
 #, fuzzy
-msgid "Download private key for backup"
+msgid "Download private key"
 msgstr "Last ned privat nøkkel for sikkerhetskopi"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr "Skru av"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr "Skru på"
 
-#: weblate/templates/manage/backups.html:75
+#: weblate/templates/manage/backups.html:77
 #, fuzzy
-msgid "Run backup"
-msgstr "Utfør sikkerhetskopiering"
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "Ytelse"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr "Legg til sikkerhetskopitjeneste"
 
@@ -6354,7 +6367,7 @@ msgstr "Aktiver støttepakke"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6375,6 +6388,11 @@ msgstr "Offentlig SSH-nøkkel"
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate bruker denne SSH-nøkkelen:"
+
+#: weblate/templates/manage/ssh.html:28
+#, fuzzy
+msgid "Download private key for backup"
+msgstr "Last ned privat nøkkel for sikkerhetskopi"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10426,21 +10444,16 @@ msgstr "Grunnleggende støtte for selvtjening"
 msgid "Extended self-hosted support"
 msgstr "Utvidet støtte for selvtjening"
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "Gå til kodelager"
-
 #: weblate/wladmin/models.py:182
 #, fuzzy
 msgid "Backup performed"
 msgstr "Sikkerhetskopi utført"
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
-msgstr ""
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Deleted the oldest backups"
+msgstr "Slett denne kontoen"
 
 #: weblate/wladmin/models.py:184
 #, fuzzy
@@ -10505,6 +10518,15 @@ msgstr "Aktivering mislyktes. Sjekk ditt aktiveringssymbol."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke avvise oppsettfeil!"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "Kodelager"
+
+#, fuzzy
+#~ msgid "Run backup"
+#~ msgstr "Utfør sikkerhetskopiering"
 
 #~ msgid "Your languages"
 #~ msgstr "Dine språk"
@@ -10651,9 +10673,6 @@ msgstr "Klarte ikke avvise oppsettfeil!"
 
 #~ msgid "Home"
 #~ msgstr "Hjem"
-
-#~ msgid "Performance"
-#~ msgstr "Ytelse"
 
 #~ msgid "Performance overview"
 #~ msgstr "Ytelsesoversikt"

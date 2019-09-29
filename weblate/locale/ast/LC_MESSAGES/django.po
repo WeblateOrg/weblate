@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-20 06:33+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Asturian <https://hosted.weblate.org/projects/weblate/master/"
@@ -780,8 +780,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Failed merge on repository"
+msgid "Could not remove user identity"
+msgstr "Nun pudo combinase'l depósitu"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3382,7 +3384,7 @@ msgid "Weblate keys"
 msgstr "Llingües de Weblate"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "Clave SSH"
 
@@ -4341,7 +4343,7 @@ msgstr ""
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6371,34 +6373,47 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "Depósitu"
+#| msgid "Reset repository"
+msgid "Backup repository"
+msgstr "Reaniciar el depósitu"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download translation as TMX"
+msgid "Download private key"
+msgstr "Descargar traducción como TMX"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "Rindimientu"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6491,7 +6506,7 @@ msgstr ""
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6513,6 +6528,10 @@ msgstr "Clave SSH pública"
 
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
+msgstr ""
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
 msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
@@ -10649,18 +10668,12 @@ msgstr ""
 msgid "Extended self-hosted support"
 msgstr ""
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgid "Reset repository"
-msgid "Backup repository"
-msgstr "Reaniciar el depósitu"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
+msgid "Deleted the oldest backups"
 msgstr ""
 
 #: weblate/wladmin/models.py:184
@@ -10728,6 +10741,11 @@ msgstr ""
 msgid "Could not dismiss the configuration error!"
 msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
 
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "Depósitu"
+
 #~ msgid "Your languages"
 #~ msgstr "Les tos llingües"
 
@@ -10773,9 +10791,6 @@ msgstr "¡Nun pudo añadise un ficheru de traducción nuevu!"
 
 #~ msgid "Failed to change a priority!"
 #~ msgstr "¡Fallu al camudar la prioridá!"
-
-#~ msgid "Performance"
-#~ msgstr "Rindimientu"
 
 #~ msgid "SSH keys management"
 #~ msgstr "Xestión de claves SSH"

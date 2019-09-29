@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-29 08:08+0000\n"
 "Last-Translator: C. Rüdinger <Mail-an-CR@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -740,7 +740,9 @@ msgstr ""
 "deaktiviert."
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
+#, fuzzy
+#| msgid "Failed to remove user identity"
+msgid "Could not remove user identity"
 msgstr "Benutzeridentität konnte nicht entfernt werden"
 
 #: weblate/accounts/views.py:1013
@@ -3265,7 +3267,7 @@ msgid "Weblate keys"
 msgstr "Weblate-Schlüssel"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH-Schlüssel"
 
@@ -4277,7 +4279,7 @@ msgstr "Fehler in der Konfiguration"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6347,32 +6349,45 @@ msgstr "Ausgeschaltet"
 msgid "Backup service credentials"
 msgstr "Anmeldeinformationen für den Sicherungsdienst"
 
-#: weblate/templates/manage/backups.html:39
-msgid "Backup pepository"
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
+msgid "Backup repository"
 msgstr "Sicherungs-Repository"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr "Passphrase"
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download private key for backup"
+msgid "Download private key"
 msgstr "Privaten Schlüssel für die Sicherung herunterladen"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr "Ausschalten"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr "Einschalten"
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr "Sicherung durchführen"
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "Performance"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr "Sicherungsdienst hinzufügen"
 
@@ -6457,8 +6472,12 @@ msgid "Activate support package"
 msgstr "Supportpaket aktivieren"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
+#, fuzzy
+#| msgid ""
+#| "The support packages include priority email support or cloud backups for "
+#| "your Weblate installation."
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 "Die Supportpakete beinhalten prioritäre E-Mail-Unterstützung oder Cloud-"
@@ -6481,6 +6500,10 @@ msgstr "Öffentlicher SSH-Schlüssel"
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate verwendet derzeit diesen SSH-Schlüssel:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr "Privaten Schlüssel für die Sicherung herunterladen"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -7004,7 +7027,8 @@ msgstr "Abfragebeispiele"
 
 #: weblate/templates/snippets/query-builder.html:55
 msgid "Review translations changed by other users"
-msgstr "Überprüfen Sie Übersetzungen, die von anderen Benutzern geändert wurden"
+msgstr ""
+"Überprüfen Sie Übersetzungen, die von anderen Benutzern geändert wurden"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -10561,16 +10585,14 @@ msgstr "Basis-Support selbst gehostet"
 msgid "Extended self-hosted support"
 msgstr "Erweiterter Support selbst gehostet"
 
-#: weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "Sicherungs-Repository"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr "Sicherung durchgeführt"
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
+#, fuzzy
+#| msgid "Pruned old backups"
+msgid "Deleted the oldest backups"
 msgstr "Gekürzte alte Sicherungen"
 
 #: weblate/wladmin/models.py:184
@@ -10633,6 +10655,12 @@ msgstr ""
 #: weblate/wladmin/views.py:168
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigurationsfehler konnte nicht behoben werden!"
+
+#~ msgid "Backup pepository"
+#~ msgstr "Sicherungs-Repository"
+
+#~ msgid "Run backup"
+#~ msgstr "Sicherung durchführen"
 
 #~ msgid "Your languages"
 #~ msgstr "Ihre Sprachen"
@@ -10779,9 +10807,6 @@ msgstr "Konfigurationsfehler konnte nicht behoben werden!"
 
 #~ msgid "Home"
 #~ msgstr "Startseite"
-
-#~ msgid "Performance"
-#~ msgstr "Performance"
 
 #~ msgid "Performance overview"
 #~ msgstr "Leistungsbericht"

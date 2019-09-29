@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-16 12:48+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -710,8 +710,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "パスワードをリセットできません。メール認証の設定が無効です。"
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Could not remove user identity"
+msgstr "現在のユーザ認証方法"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3169,7 +3171,7 @@ msgid "Weblate keys"
 msgstr "Weblate キー"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH 鍵"
 
@@ -4157,7 +4159,7 @@ msgstr "設定エラー"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6168,34 +6170,48 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 #, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "リポジトリ"
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "リポジトリのアクセス"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "レポートのダウンロード"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "性能"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6282,7 +6298,7 @@ msgstr "サポート パッケージを有効にする"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6303,6 +6319,10 @@ msgstr "公開 SSH 鍵"
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate で現在使用中の SSH 鍵:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10287,20 +10307,15 @@ msgstr "お客様のサーバへの基本サポート"
 msgid "Extended self-hosted support"
 msgstr "お客様のサーバへの追加サポート"
 
-#: weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "リポジトリのアクセス"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
-msgstr ""
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Deleted the oldest backups"
+msgstr "このアカウントを削除"
 
 #: weblate/wladmin/models.py:184
 #, fuzzy
@@ -10362,6 +10377,11 @@ msgstr "有効化に失敗しました。有効化トークンを確認してく
 #: weblate/wladmin/views.py:168
 msgid "Could not dismiss the configuration error!"
 msgstr "設定エラーは無視できません！"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "リポジトリ"
 
 #~ msgid "Your languages"
 #~ msgstr "あなたの母国語"
@@ -10498,9 +10518,6 @@ msgstr "設定エラーは無視できません！"
 
 #~ msgid "Home"
 #~ msgstr "トップ"
-
-#~ msgid "Performance"
-#~ msgstr "性能"
 
 #~ msgid "Performance overview"
 #~ msgstr "性能概要"

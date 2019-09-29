@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-29 08:09+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -689,7 +689,9 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא״ל מושבת."
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
+#, fuzzy
+#| msgid "Failed to remove user identity"
+msgid "Could not remove user identity"
 msgstr "הסרת זהות המשתמש נכשלה"
 
 #: weblate/accounts/views.py:1013
@@ -3106,7 +3108,7 @@ msgid "Weblate keys"
 msgstr "מפתחות Weblate"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "מפתח SSH"
 
@@ -4057,7 +4059,7 @@ msgstr "שגיאות בהגדרות"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6048,32 +6050,45 @@ msgstr "כבוי"
 msgid "Backup service credentials"
 msgstr "פרטי גישה לשירות הגיבוי"
 
-#: weblate/templates/manage/backups.html:39
-msgid "Backup pepository"
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
+msgid "Backup repository"
 msgstr "מאגר גיבוי"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr "מילת צופן"
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download private key for backup"
+msgid "Download private key"
 msgstr "הורדת מפתח פרטי לגיבוי"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr "כיבוי"
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr "הפעלה"
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr "הרצת גיבוי"
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "ביצועים"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr "הוספת שירות גיבוי"
 
@@ -6157,8 +6172,12 @@ msgid "Activate support package"
 msgstr "הפעלת חבילת תמיכה"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
+#, fuzzy
+#| msgid ""
+#| "The support packages include priority email support or cloud backups for "
+#| "your Weblate installation."
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 "חבילות התמיכה כוללות תמיכה בדוא״ל עם עדיפות או גיבויים בענן להתקנת ה־Weblate "
@@ -6181,6 +6200,10 @@ msgstr "מפתח SSH ציבורי"
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
 msgstr "ב־Weblate נעשה שימוש במפתח ה־SSH הזה כרגע:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr "הורדת מפתח פרטי לגיבוי"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10105,16 +10128,14 @@ msgstr "תמיכה בסיסית לאירוח עצמי"
 msgid "Extended self-hosted support"
 msgstr "תמיכה מורחבת לאירוח עצמי"
 
-#: weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "מאגר גיבוי"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr "הגיבוי בוצע"
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
+#, fuzzy
+#| msgid "Pruned old backups"
+msgid "Deleted the oldest backups"
 msgstr "גיבויים ישנים סולקו"
 
 #: weblate/wladmin/models.py:184
@@ -10173,6 +10194,12 @@ msgstr "ההפעלה נכשלה. נא לבדוק את אסימון ההפעלה.
 #: weblate/wladmin/views.py:168
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#~ msgid "Backup pepository"
+#~ msgstr "מאגר גיבוי"
+
+#~ msgid "Run backup"
+#~ msgstr "הרצת גיבוי"
 
 #~ msgid "Your languages"
 #~ msgstr "השפות שלך"
@@ -10312,9 +10339,6 @@ msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
 
 #~ msgid "Home"
 #~ msgstr "בית"
-
-#~ msgid "Performance"
-#~ msgstr "ביצועים"
 
 #~ msgid "Performance overview"
 #~ msgstr "סקירת ביצועים"

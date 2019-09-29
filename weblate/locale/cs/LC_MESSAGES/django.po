@@ -9,11 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-09-28 08:17+0000\n"
+"POT-Creation-Date: 2019-09-29 08:09+0000\n"
 "PO-Revision-Date: 2019-09-29 08:08+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -701,8 +701,10 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Nelze obnovit heslo, protože je vypnuté přihlašování přes e-mail."
 
 #: weblate/accounts/views.py:988
-msgid "Failed to remove user identity"
-msgstr ""
+#, fuzzy
+#| msgid "Current user identities"
+msgid "Could not remove user identity"
+msgstr "Vaše současné identity"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -3167,7 +3169,7 @@ msgid "Weblate keys"
 msgstr "Weblate klíče"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:47
+#: weblate/templates/manage/backups.html:48
 msgid "SSH key"
 msgstr "SSH klíč"
 
@@ -4150,7 +4152,7 @@ msgstr "Chyby v nastavení"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:96 weblate/templates/project.html:227
+#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:227
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -6182,34 +6184,45 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39
-#, fuzzy
-#| msgid "Repository"
-msgid "Backup pepository"
-msgstr "Repozitář"
+#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
+msgid "Backup repository"
+msgstr "Zálohovací úložiště"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:48
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key for backup"
+#: weblate/templates/manage/backups.html:46
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:49
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "Stáhnout výkazy"
+
+#: weblate/templates/manage/backups.html:50
+msgid "The private key is needed to acccess the remote backup repository."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:76
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:74
+#: weblate/templates/manage/backups.html:76
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:75
-msgid "Run backup"
-msgstr ""
+#: weblate/templates/manage/backups.html:77
+#, fuzzy
+#| msgid "Performance"
+msgid "Perform backup"
+msgstr "Výkonnost"
 
-#: weblate/templates/manage/backups.html:89
+#: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
 msgstr ""
 
@@ -6296,7 +6309,7 @@ msgstr "Aktivujte balíček podpory"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
 msgid ""
-"The support packages include priority email support or cloud backups for "
+"The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
 
@@ -6317,6 +6330,10 @@ msgstr "Veřejná část SSH klíče"
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
 msgstr "Weblate v současné době používá tento SSH klíč:"
+
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key for backup"
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -10347,17 +10364,15 @@ msgstr "Základní podpora pro vlastní instalaci"
 msgid "Extended self-hosted support"
 msgstr "Rozšířená podpora pro vlastní instalaci"
 
-#: weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "Zálohovací úložiště"
-
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
 msgstr ""
 
 #: weblate/wladmin/models.py:183
-msgid "Pruned old backups"
-msgstr ""
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Deleted the oldest backups"
+msgstr "Odstranit tento účet"
 
 #: weblate/wladmin/models.py:184
 #, fuzzy
@@ -10417,6 +10432,11 @@ msgstr "Aktivace selhala. Prosím zkontrolujte aktivační token."
 #: weblate/wladmin/views.py:168
 msgid "Could not dismiss the configuration error!"
 msgstr "Nepodařilo se pominout chybu v nastavení!"
+
+#, fuzzy
+#~| msgid "Repository"
+#~ msgid "Backup pepository"
+#~ msgstr "Repozitář"
 
 #~ msgid "Your languages"
 #~ msgstr "Vaše jazyky"
@@ -10552,9 +10572,6 @@ msgstr "Nepodařilo se pominout chybu v nastavení!"
 
 #~ msgid "Home"
 #~ msgstr "Domů"
-
-#~ msgid "Performance"
-#~ msgstr "Výkonnost"
 
 #~ msgid "Performance overview"
 #~ msgstr "Přehled výkonnosti"
