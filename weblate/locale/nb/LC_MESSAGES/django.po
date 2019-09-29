@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-29 08:09+0000\n"
-"PO-Revision-Date: 2019-09-29 08:09+0000\n"
+"PO-Revision-Date: 2019-09-30 06:55+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -394,12 +394,6 @@ msgid "Editor link"
 msgstr "Lenke til redigerer"
 
 #: weblate/accounts/models.py:380
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -407,8 +401,7 @@ msgid ""
 msgstr ""
 "Angi egendefinert nettadresse som skal brukes som lenke til kildekoden. Du "
 "kan bruke {{branch}} for forgrening, {{filename}} og {{line}} som filnavn og "
-"plassholdere for linje. Vanligvis vil noe som som redigerer://open/?"
-"file={{filename}}&line={{line}} være er et godt alternativ."
+"plassholdere for linje."
 
 #: weblate/accounts/models.py:389
 msgid "Translation editor mode"
@@ -542,8 +535,6 @@ msgid "New suggestion"
 msgstr "Nytt forslag"
 
 #: weblate/accounts/notifications.py:391
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
 msgstr "Kommenter egen oversettelse"
 
@@ -719,10 +710,8 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Kan ikke nullstille passord, e-postbekreftelse er skrudd av."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Nåværende brukeridentiteter"
+msgstr "Kunne ikke fjerne brukeridentitet"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -811,6 +800,8 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"Weblate-kodelageret er utdatert, det kan hende du må oppdatere det for at "
+"det skal fungere rett."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1182,10 +1173,8 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Sett tidsrom for fjerning av forslag."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Oppdater LINGUAS-fil"
+msgstr "Oppdater RESX-filer"
 
 #: weblate/addons/resx.py:33
 #, fuzzy
@@ -1400,10 +1389,8 @@ msgid "Use management interface (on the entire platform)"
 msgstr "Bruk håndteringsgrensesnitt (på hele plattformen)"
 
 #: weblate/auth/data.py:99
-#, fuzzy
-#| msgid "Add users (on the entire platform)"
 msgid "Add new projects (on the entire platform)"
-msgstr "Legg til brukere (på hele plattformen)"
+msgstr "Legg til nye prosjekter (på hele plattformen)"
 
 #: weblate/auth/data.py:101
 msgid "Add language definitions (on the entire platform)"
@@ -1668,16 +1655,14 @@ msgid "A user with that username already exists."
 msgstr "En bruker med det brukernavnet finnes allerede."
 
 #: weblate/auth/models.py:331
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
-msgstr "superbrukerstatus"
+msgstr "Superbrukerstatus"
 
 #: weblate/auth/models.py:333
 #, fuzzy
 #| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "Bruker med korrekturleser-rettigheter"
+msgstr "Bruker har alle mulige tilganger."
 
 #: weblate/auth/models.py:336 weblate/billing/models.py:141
 msgid "Active"
@@ -2149,8 +2134,6 @@ msgid "Markdown references"
 msgstr "Markdown-referanser"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Markdownlenkereferanser stemmer ikke overens med kilden"
 
@@ -2179,20 +2162,16 @@ msgid "Unsafe HTML"
 msgstr "Utrygg HTML"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "Oversettelsen bruker flerspråklige filer."
+msgstr "Oversettelsen bruker utrygg HTML-oppmerking"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
 msgstr "Plassholdere"
 
 #: weblate/checks/placeholders.py:46
-#, fuzzy
-#| msgid "Translations with failing checks"
 msgid "Translation is missing some placeholders"
-msgstr "Oversettelser med mislykkede kontroller"
+msgstr "Oversettelsen mangler noen plassholdere"
 
 #: weblate/checks/placeholders.py:68
 #: weblate/templates/addons/discovery_help.html:8
@@ -2200,10 +2179,8 @@ msgid "Regular expression"
 msgstr "Regulært uttrykk"
 
 #: weblate/checks/placeholders.py:69
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "Translation does not match regular expression:"
-msgstr "Oversettelsesnavnet stemmer ikke overens det det merket for sletting!"
+msgstr "Oversettelsen stemmer ikke overens med regulært uttrykk:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -2246,8 +2223,6 @@ msgid "Source and translation are identical"
 msgstr "Kilde og oversettelse er identiske"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plurals"
 msgid "Unpluralised"
 msgstr "Flertall mangler"
 
@@ -2298,10 +2273,6 @@ msgid "Font group name"
 msgstr "Skriftgruppenavn"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special characters."
@@ -2519,10 +2490,8 @@ msgid "SubStation Alpha subtitle file"
 msgstr "SubStation Alpha-undertekstfil"
 
 #: weblate/formats/ttkit.py:1225
-#, fuzzy
-#| msgid "YAML file"
 msgid "Flat XML file"
-msgstr "YAML-fil"
+msgstr "Flat XML-fil"
 
 #: weblate/formats/txt.py:181
 msgid "App store metadata files"
@@ -3849,18 +3818,13 @@ msgstr ""
 "kan brukes."
 
 #: weblate/templates/accounts/profile.html:323
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and email in the commits and "
-#| "provide your contribution under license defined by each translated "
-#| "project."
 msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
 "Ved å registrere deg samtykker du til å bruke ditt navn og din e-post i "
-"innsendelsene, og at bidragene kommer under den lisensen som er bestemt for "
+"innsendelsene, og at bidragene kommer under lisensen som er bestemt for "
 "hvert oversatte prosjekt."
 
 #: weblate/templates/accounts/profile.html:328
@@ -3868,12 +3832,8 @@ msgid "You have agreed to the following as a contributor:"
 msgstr "Du har samtykket til følgende som bidragsyter:"
 
 #: weblate/templates/accounts/profile.html:338
-#, fuzzy
-#| msgid ""
-#| "Following translations have explicitly specified their licensing and "
-#| "copyright conditions:"
 msgid "The following translations have explicitly specified their license:"
-msgstr "Følgende oversettelser har eksplisitt spesifisert sine lisenser:"
+msgstr "Følgende oversettelser har eksplisitt spesifisert sin lisens:"
 
 #: weblate/templates/accounts/profile.html:341 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -4164,14 +4124,9 @@ msgid "Project URL slug"
 msgstr "Prosjektnettadresse-slug"
 
 #: weblate/templates/addons/squash_help.html:4
-#, fuzzy
-#| msgid ""
-#| "All Weblate commits from all components within this repository will be "
-#| "squashed."
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr ""
-"Weblate-innsendelser fra alle komponenter i dette kodelageret vil bli most."
+msgstr "Weblate-innsendelser fra komponenter i dette kodelageret vil bli most."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -6256,6 +6211,8 @@ msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"Passordet brukes til å kryptere sikkerhetskopiene, og er nødvendig for å "
+"gjenopprette dem."
 
 #: weblate/templates/manage/backups.html:49
 #, fuzzy
@@ -6263,8 +6220,11 @@ msgid "Download private key"
 msgstr "Last ned privat nøkkel for sikkerhetskopi"
 
 #: weblate/templates/manage/backups.html:50
+#, fuzzy
 msgid "The private key is needed to acccess the remote backup repository."
 msgstr ""
+"Privatnøkkelen trengs for å få tilgang til sikkerhetskopilageret som finnes "
+"annensteds hen."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
@@ -6370,6 +6330,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Støttepakkene inneholder prioritert e-poststøtte, eller sky-"
+"sikkerhetskopiering av din Weblate-installasjon."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6850,8 +6812,9 @@ msgid "admin"
 msgstr "Administrator"
 
 #: weblate/templates/snippets/query-builder.html:3
+#, fuzzy
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Avansert søkekonstruksjon"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -8292,7 +8255,7 @@ msgstr "Legg til som en annen oversettelse"
 #: weblate/trans/forms.py:1007
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
-msgstr "Hvilke som helst"
+msgstr "Vilkårlig"
 
 #: weblate/trans/forms.py:1009
 msgid "Starting letter"
@@ -9070,14 +9033,14 @@ msgstr ""
 
 #: weblate/trans/models/component.py:384
 msgid "Merge style"
-msgstr "Flette stil"
+msgstr "Flettestil"
 
 #: weblate/trans/models/component.py:389
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Angi om Weblate skal flette oppstrømskodelager, eller rebase endringer til "
+"Angi om Weblate skal flette oppstrømskodelager, eller rebasere endringer til "
 "det."
 
 #: weblate/trans/models/component.py:394
