@@ -275,7 +275,7 @@ class BaseAddon(object):
                 messages.warning(
                     request,
                     _(
-                        'The Weblate repository is outdated, you might not get '
+                        'The repository is outdated, you might not get '
                         'expected results until you update it.'
                     )
                 )
