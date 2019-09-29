@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 choices=[
                     ("backup", "Backup performed"),
-                    ("prune", "Pruned old backups"),
+                    ("prune", "Deleted the oldest backups"),
                     ("init", "Repository initialization"),
                 ],
                 max_length=100,
