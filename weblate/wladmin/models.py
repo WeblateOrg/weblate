@@ -180,7 +180,7 @@ class BackupLog(models.Model):
         max_length=100,
         choices=(
             ('backup', ugettext_lazy('Backup performed')),
-            ('prune', ugettext_lazy('Pruned old backups')),
+            ('prune', ugettext_lazy('Deleted the oldest backups')),
             ('init', ugettext_lazy('Repository initialization')),
         ),
     )

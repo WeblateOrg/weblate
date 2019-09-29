@@ -985,7 +985,7 @@ def social_disconnect(request, backend, association_id=None):
     - Blocks disconnecting last entry
     """
     if request.user.social_auth.count() <= 1:
-        messages.error(request, _('Failed to remove user identity'))
+        messages.error(request, _('Could not remove user identity'))
         return redirect_profile('#account')
     return disconnect(request, backend, association_id)
 
