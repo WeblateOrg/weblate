@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-29 08:09+0000\n"
-"PO-Revision-Date: 2019-09-29 08:08+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"PO-Revision-Date: 2019-09-30 06:55+0000\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -701,10 +701,8 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "Nelze obnovit heslo, protože je vypnuté přihlašování přes e-mail."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Vaše současné identity"
+msgstr "Nepodařilo se odstranit uživatelskou identitu"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -788,6 +786,8 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"Repozitář je zastaralý, dokud ho neobnovíte nemusí výsledky odpovídat "
+"očekávaným."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1158,24 +1158,17 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Nastavit časový rámec pro odstraňování návhrů."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Aktualizovat LINGUAS soubor"
+msgstr "Aktualizovat RESX soubory"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
 msgstr ""
 "Aktualizovat všechny soubory s překlady tak, aby odpovídaly jednojazyčnému "
-"základnímu souboru. Pro většinu formátů souborů to znamená odebrání položek "
-"překladu, které se už nevyskytují v originálu."
+"základnímu souboru. Odstraní položky překladu, které se už nevyskytují v "
+"originálu, a přidá nové se zdrojovým řetězcem jako překladem."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2258,10 +2251,6 @@ msgid "Font group name"
 msgstr "Název skupiny písem"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespace or special characters."
@@ -4896,10 +4885,8 @@ msgstr[1] "Procházet všechny %(count)s projekty"
 msgstr[2] "Procházet všech %(count)s projektů"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "Nastavit editor"
+msgstr "Nastavit nástěnku"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -6169,20 +6156,20 @@ msgstr "Pro změnu přístupu nemáte oprávnění."
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Zálohy"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Zálohovací služba: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Vypnuté"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Přístupové údaje zálohovací služby"
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 msgid "Backup repository"
@@ -6190,41 +6177,39 @@ msgstr "Zálohovací úložiště"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "Heslo"
 
 #: weblate/templates/manage/backups.html:46
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"Heslo se používá na zašifrování záloh a je nezbytné pro jejich obnovení."
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download private key"
-msgstr "Stáhnout výkazy"
+msgstr "Stáhnout soukromý klíč"
 
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
 msgstr ""
+"Soukromý klíč je nezbytný pro přístup ke vzdálenému úložišti se zálohami."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
-msgstr ""
+msgstr "Vypnout"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn on"
-msgstr ""
+msgstr "Zapnout"
 
 #: weblate/templates/manage/backups.html:77
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "Výkonnost"
+msgstr "Provést zálohu"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
-msgstr ""
+msgstr "Přidat zálohovací službu"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6236,8 +6221,6 @@ msgid "Support status"
 msgstr "Stav podpory"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
 msgstr "Překročená omezení"
 
@@ -6312,6 +6295,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Balíček podpory obsahuje prioritní e-mailovou podporu nebo zálohovací služby "
+"pro vaší instalaci Weblate."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6333,7 +6318,7 @@ msgstr "Weblate v současné době používá tento SSH klíč:"
 
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "Stáhněte si soukromý klíč pro zálohu"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -6592,8 +6577,6 @@ msgid "Number of words"
 msgstr "Počet slov"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "Počet znaků"
 
@@ -6610,8 +6593,6 @@ msgid "Number of source words"
 msgstr "Počet zdrojových slov"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "Počet zdrojových znaků"
 
@@ -6781,7 +6762,7 @@ msgstr "správce"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Rozšířený tvůrce dotazů"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6800,82 +6781,57 @@ msgid "Location strings"
 msgstr "Řetězce umístění"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
 msgstr "Stav řetězce"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "Čekající návrhy"
+msgstr "Čekající řetězec"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "Řetězce s návrhy"
+msgstr "Řetězec s návrhem"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Řetězce s komentáři"
+msgstr "Řetězec s komentářem"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Řetězce s jakoukoliv nezdařilou kontrolou"
+msgstr "Řetězce má selhavší kontrolu"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Spravovat jazyky"
+msgstr "Cílový jazyk překladu"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "Změna zdrojového řetězce"
+msgstr "Řetězec změněn autorem"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Hledání %s"
+msgstr "Hledat…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "Změna zdrojového řetězce"
+msgstr "Řetězec změněn po"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Řetězce označené pro úpravu"
+msgstr "Řetězec změněn před"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
 msgstr "Datum"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "Příklad použití API:"
+msgstr "Příklady dotazů"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "Zkontrolovat překlady od ostatních uživatelů."
+msgstr "Zkontrolovat překlady ostatních uživatelů"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -7006,10 +6962,8 @@ msgstr ""
 "nastavte háčky pro automatické zpracování."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "Repozitář pro tuto součást je propojen s %(target)s."
+msgstr "Tato součást má chybné nastavení."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -7017,10 +6971,6 @@ msgid "Version control system"
 msgstr "Verzovací systém"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
@@ -7879,8 +7829,6 @@ msgid "Weblate translations"
 msgstr "Překlady Weblate"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
 msgstr "Řídící znaky"
 
@@ -8130,10 +8078,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "Nepodařilo se vyhodnotit rovnici množného čísla: {}"
+msgstr "Nepodařilo se zpracovat dotaz: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -8156,10 +8102,6 @@ msgid "Other translation components"
 msgstr "Ostatní součásti překladu"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -10257,8 +10199,6 @@ msgstr ""
 "část!"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Prosíme vyhněte se používání zvláštních znaků v názvu."
 
@@ -10366,19 +10306,15 @@ msgstr "Rozšířená podpora pro vlastní instalaci"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "Záloha proběhla"
 
 #: weblate/wladmin/models.py:183
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Odstranit tento účet"
+msgstr "Odstraněny nejstarší zálohy"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Správa repozitáře"
+msgstr "Inicializace úložiště"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
