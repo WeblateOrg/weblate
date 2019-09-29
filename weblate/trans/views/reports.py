@@ -48,7 +48,9 @@ def generate_credits(start_date, end_date, **kwargs):
         )
         if not authors:
             continue
-        result.append({language.name: sorted(set(authors))})
+        result.append(
+            {language.name: sorted(author for author in set(authors) if authors)}
+        )
 
     return result
 
