@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-29 08:09+0000\n"
-"PO-Revision-Date: 2019-09-28 23:24+0000\n"
+"PO-Revision-Date: 2019-09-30 06:55+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -721,10 +721,8 @@ msgstr ""
 "està desactivada."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Identitats de l'usuari actual"
+msgstr "No s'ha pogut suprimir la identitat de l'usuari"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -808,6 +806,8 @@ msgid ""
 "The Weblate repository is outdated, you might not get expected results until "
 "you update it."
 msgstr ""
+"El dipòsit del Weblate no està actualitzat, pot ser que no obtingueu els "
+"resultats esperats fins que l'actualitzeu."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -6218,20 +6218,20 @@ msgstr "No teniu permisos per a canviar el control d'accés al projecte."
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Còpies de seguretat"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Servei de còpia de seguretat: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Desactivat"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Credencials del servei de còpia de seguretat"
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 msgid "Backup repository"
@@ -6239,41 +6239,41 @@ msgstr "Dipòsit de les còpies de seguretat"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "Contrasenya"
 
 #: weblate/templates/manage/backups.html:46
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"La contrasenya s'utilitza per a xifrar les còpies de seguretat i és "
+"necessària per a restaurar-les."
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download private key"
-msgstr "Baixa informes"
+msgstr "Baixa la clau privada"
 
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
 msgstr ""
+"La clau privada és necessària per a accedir al dipòsit remot de còpies de "
+"seguretat."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
-msgstr ""
+msgstr "Desactiva"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn on"
-msgstr ""
+msgstr "Activa"
 
 #: weblate/templates/manage/backups.html:77
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "Rendiment"
+msgstr "Fes una còpia de seguretat"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
-msgstr ""
+msgstr "Afegeix un servei de còpia de seguretat"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6360,6 +6360,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Els paquets de suport inclouen suport prioritari per correu electrònic, o "
+"còpies de seguretat al núvol de la vostra instal·lació del Weblate."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6381,7 +6383,7 @@ msgstr "El Weblate actualment utilitza aquesta clau SSH:"
 
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "Baixa la clau privada per a les còpies de seguretat"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -6837,7 +6839,7 @@ msgstr "administrador"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Constructor de consultes avançades"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6865,67 +6867,48 @@ msgstr "Cadena pendent"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "String has suggestion"
-msgstr "La cadena té un suggeriment"
+msgstr "La cadena té suggeriments"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Cadenes amb comentaris"
+msgstr "La cadena té comentaris"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Cadenes amb comprovacions fallides"
+msgstr "La cadena té comprovacions fallides"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Gestiona les llengües"
+msgstr "Llengua de destinació de la cadena"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "S'ha canviat la cadena d'origen"
+msgstr "Cadena canviada per"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Cerca de %s"
+msgstr "Cerca…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "S'ha canviat la cadena d'origen"
+msgstr "Cadena canviada després de"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Cadenes que cal editar"
+msgstr "Cadena canviada abans de"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "Exemple d'ús de l'API:"
+msgstr "Exemples de consultes"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "Reviseu les traduccions modificades per altres usuaris."
+msgstr "Revisa les traduccions canviades per altres usuaris"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -7063,10 +7046,8 @@ msgstr ""
 "per a automatitzar-ho."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "Aquest component s'ha enllaçat al dipòsit %(target)s."
+msgstr "Aquest component està configurat de manera incorrecta."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -7074,15 +7055,11 @@ msgid "Version control system"
 msgstr "Sistema de control de versions"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
-"Això pot passar després de desactivar el suport d'aquestes funcionalitats o "
+"Això pot passar després de desactivar el suport d'aquestes funcionalitats, o "
 "si hi manquen dependències."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
@@ -7941,8 +7918,6 @@ msgid "Weblate translations"
 msgstr "Traduccions del Weblate"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
 msgstr "Caràcters de control"
 
@@ -8196,10 +8171,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "No s'ha pogut avaluar l'equació de plural: {}"
+msgstr "No s'ha pogut analitzar la cadena de la consulta: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -8222,10 +8195,6 @@ msgid "Other translation components"
 msgstr "Altres components"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -10340,8 +10309,6 @@ msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "La imatge és massa grossa, escaleu-la o retalleu-ne la part rellevant!"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Eviteu fer servir caràcters especials al nom complet."
 
@@ -10450,19 +10417,15 @@ msgstr "Suport estès autoallotjat"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "Còpia de seguretat feta"
 
 #: weblate/wladmin/models.py:183
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Suprimeix aquest compte"
+msgstr "S'han suprimit les còpies de seguretat més antigues"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Manteniment del dipòsit"
+msgstr "Inicialització del dipòsit"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
