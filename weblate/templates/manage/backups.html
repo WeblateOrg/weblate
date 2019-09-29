@@ -43,9 +43,11 @@
         <tr><th>{% trans "Passphrase" %}</th><td>
             <code>{{ service.passphrase }}</code>
             <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ service.passphrase }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+            <p class="helptext">{% trans "The passphrase is used to encrypt the backups and is necessary to restore them." %}</p>
         </td></tr>
         <tr><th>{% trans "SSH key" %}</th><td>
-            <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key (used to handle backups)" %}</a>
+            <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key" %}</a>
+            <p class="helptext">{% trans "The private key is needed to acccess the remote backup repository." %}</p>
         </td></tr>
         </table>
     </div>
