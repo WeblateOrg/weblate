@@ -178,10 +178,21 @@ class Repository(object):
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
-        self.last_output = self._popen(
-            args, self.path, fullcmd=fullcmd, local=self.local
-        )
+        try:
+            self.last_output = self._popen(
+                args, self.path, fullcmd=fullcmd, local=self.local
+            )
+        except RepositoryException as error:
+            self.log_status(error)
+            raise
         return self.last_output
+
+    def log_status(self, error):
+        try:
+            self.log('failure {}'.format(error))
+            self.log(self.status())
+        except RepositoryException:
+            pass
 
     def clean_revision_cache(self):
         if 'last_revision' in self.__dict__:
