@@ -48,7 +48,7 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "download_project"  project=object.slug %}?format=zip" title="{% trans "Download for an offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
+      <li><a href="{% url "download_project"  project=object.slug %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
