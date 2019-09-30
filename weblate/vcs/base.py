@@ -49,6 +49,7 @@ LOGGER = logging.getLogger('weblate.vcs')
 
 class RepositoryException(Exception):
     """Error while working with a repository."""
+
     def __init__(self, retcode, stderr, stdout):
         super(RepositoryException, self).__init__(stderr or stdout)
         self.retcode = retcode
@@ -70,6 +71,7 @@ class RepositoryException(Exception):
 
 class Repository(object):
     """Basic repository object."""
+
     _cmd = 'false'
     _cmd_last_revision = None
     _cmd_last_remote_revision = None
@@ -95,10 +97,7 @@ class Repository(object):
             self.branch = branch
         self.component = component
         self.last_output = ''
-        self.lock = FileLock(
-            self.path.rstrip('/').rstrip('\\') + '.lock',
-            timeout=120
-        )
+        self.lock = FileLock(self.path.rstrip('/').rstrip('\\') + '.lock', timeout=120)
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
@@ -125,29 +124,23 @@ class Repository(object):
     def resolve_symlinks(self, path):
         """Resolve any symlinks in the path."""
         # Resolve symlinks first
-        real_path = path_separator(
-            os.path.realpath(os.path.join(self.path, path))
-        )
-        repository_path = path_separator(
-            os.path.realpath(self.path)
-        )
+        real_path = path_separator(os.path.realpath(os.path.join(self.path, path)))
+        repository_path = path_separator(os.path.realpath(self.path))
 
         if not real_path.startswith(repository_path):
             raise ValueError('Too many symlinks or link outside tree')
 
-        return real_path[len(repository_path):].lstrip('/')
+        return real_path[len(repository_path) :].lstrip('/')
 
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        return get_clean_env({
-            'GIT_SSH': SSH_WRAPPER.filename,
-            'GIT_TERMINAL_PROMPT': '0',
-        })
+        return get_clean_env(
+            {'GIT_SSH': SSH_WRAPPER.filename, 'GIT_TERMINAL_PROMPT': '0'}
+        )
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False,
-               local=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
@@ -165,15 +158,12 @@ class Repository(object):
         retcode = process.poll()
         cls.log(
             'exec {0} [retcode={1}]'.format(
-                ' '.join([force_text(arg) for arg in args]),
-                retcode,
+                ' '.join([force_text(arg) for arg in args]), retcode
             )
         )
         if retcode:
             raise RepositoryException(
-                retcode,
-                output_err.decode('utf-8'),
-                output.decode('utf-8')
+                retcode, output_err.decode('utf-8'), output.decode('utf-8')
             )
         if not output and err:
             return output_err.decode('utf-8')
@@ -210,10 +200,7 @@ class Repository(object):
     @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
-        return self.execute(
-            self._cmd_last_remote_revision,
-            needs_lock=False
-        )
+        return self.execute(self._cmd_last_remote_revision, needs_lock=False)
 
     @classmethod
     def _clone(cls, source, target, branch=None):
@@ -258,15 +245,17 @@ class Repository(object):
 
     def count_missing(self):
         """Count missing commits."""
-        return len(self.log_revisions(
-            self.ref_to_remote.format(self.get_remote_branch_name())
-        ))
+        return len(
+            self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
+        )
 
     def count_outgoing(self):
         """Count outgoing commits."""
-        return len(self.log_revisions(
-            self.ref_from_remote.format(self.get_remote_branch_name())
-        ))
+        return len(
+            self.log_revisions(
+                self.ref_from_remote.format(self.get_remote_branch_name())
+            )
+        )
 
     def needs_merge(self):
         """Check whether repository needs merge with upstream
@@ -310,8 +299,9 @@ class Repository(object):
         except (OSError, RepositoryException):
             cls._is_supported = False
             return False
-        if (cls.req_version is None
-                or LooseVersion(version) >= LooseVersion(cls.req_version)):
+        if cls.req_version is None or LooseVersion(version) >= LooseVersion(
+            cls.req_version
+        ):
             cls._is_supported = True
             delete_configuration_error(cls.name.lower())
         else:
@@ -319,9 +309,8 @@ class Repository(object):
             add_configuration_error(
                 cls.name.lower(),
                 '{0} version is too old, please upgrade to {1}.'.format(
-                    cls.name,
-                    cls.req_version
-                )
+                    cls.name, cls.req_version
+                ),
             )
         return cls._is_supported
 
@@ -363,10 +352,7 @@ class Repository(object):
 
         For files in a way compatible with Git, for dirs it behaves differently
         as we do not need to track some attributes (eg. permissions)."""
-        real_path = os.path.join(
-            self.path,
-            self.resolve_symlinks(path)
-        )
+        real_path = os.path.join(self.path, self.resolve_symlinks(path))
         objhash = hashlib.sha1()
 
         if os.path.isdir(real_path):
@@ -374,9 +360,7 @@ class Repository(object):
             for root, _unused, filenames in os.walk(real_path):
                 for filename in filenames:
                     full_name = os.path.join(root, filename)
-                    files.append((
-                        full_name, os.path.relpath(full_name, self.path)
-                    ))
+                    files.append((full_name, os.path.relpath(full_name, self.path)))
             for filename, name in sorted(files):
                 self.update_hash(objhash, filename, name)
         else:
@@ -440,8 +424,7 @@ class Repository(object):
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            self._cmd_list_changed_files + [refspec],
-            needs_lock=False
+            self._cmd_list_changed_files + [refspec], needs_lock=False
         ).splitlines()
         # Strip action prefix we do not use
         return [x[2:] for x in lines]

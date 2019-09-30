@@ -111,9 +111,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def clone_repo(self, path):
         return self._class.clone(
-            self.format_local_path(
-                getattr(self, '{0}_repo_path'.format(self._vcs))
-            ),
+            self.format_local_path(getattr(self, '{0}_repo_path'.format(self._vcs))),
             path,
         )
 
@@ -139,10 +137,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             with repo.lock:
                 # Commit it
                 repo.commit(
-                    'Test commit',
-                    'Foo Bar <foo@bar.com>',
-                    timezone.now(),
-                    [filename]
+                    'Test commit', 'Foo Bar <foo@bar.com>', timezone.now(), [filename]
                 )
 
                 # Push it
@@ -161,10 +156,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
 
     def test_revision(self):
-        self.assertEqual(
-            self.repo.last_revision,
-            self.repo.last_remote_revision
-        )
+        self.assertEqual(self.repo.last_revision, self.repo.last_remote_revision)
 
     def test_update_remote(self):
         with self.repo.lock:
@@ -235,10 +227,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.add_remote_commit()
         with self.repo.lock:
             self.repo.update_remote()
-        self.assertEqual(
-            ['test2'],
-            self.repo.list_upstream_changed_files()
-        )
+        self.assertEqual(['test2'], self.repo.list_upstream_changed_files())
 
     def test_merge(self):
         self.test_update_remote()
@@ -253,9 +242,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_status(self):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
-        self.assertIn(
-            "date with 'origin/master'.", status
-        )
+        self.assertIn("date with 'origin/master'.", status)
 
     def test_needs_commit(self):
         self.assertFalse(self.repo.needs_commit())
@@ -303,12 +290,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_set_committer(self):
         with self.repo.lock:
             self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
-        self.assertEqual(
-            self.repo.get_config('user.name'), 'Foo Bar Žač'
-        )
-        self.assertEqual(
-            self.repo.get_config('user.email'), 'foo@example.net'
-        )
+        self.assertEqual(self.repo.get_config('user.name'), 'Foo Bar Žač')
+        self.assertEqual(self.repo.get_config('user.email'), 'foo@example.net')
 
     def test_commit(self, committer='Foo Bar'):
         committer_email = '{} <foo@example.com>'.format(committer)
@@ -322,26 +305,17 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         # Commit it
         with self.repo.lock:
             self.repo.commit(
-                'Test commit',
-                committer_email,
-                timezone.now(),
-                ['testfile']
+                'Test commit', committer_email, timezone.now(), ['testfile']
             )
         # Check we have new revision
-        self.assertNotEqual(
-            oldrev,
-            self.repo.last_revision
-        )
+        self.assertNotEqual(oldrev, self.repo.last_revision)
         info = self.repo.get_revision_info(self.repo.last_revision)
-        self.assertEqual(
-            info['author'],
-            committer_email,
-        )
+        self.assertEqual(info['author'], committer_email)
 
         # Check file hash
         self.assertEqual(
             self.repo.get_object_hash('testfile'),
-            'fafd745150eb1f20fc3719778942a96e2106d25b'
+            'fafd745150eb1f20fc3719778942a96e2106d25b',
         )
 
         # Check invalid commit
@@ -354,33 +328,22 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_remove(self):
         with self.repo.lock:
             self.repo.set_committer('Foo Bar', 'foo@example.net')
-        self.assertTrue(
-            os.path.exists(os.path.join(self.tempdir, 'po/cs.po'))
-        )
+        self.assertTrue(os.path.exists(os.path.join(self.tempdir, 'po/cs.po')))
         with self.repo.lock:
             self.repo.remove(['po/cs.po'], 'Remove Czech translation')
-        self.assertFalse(
-            os.path.exists(os.path.join(self.tempdir, 'po/cs.po'))
-        )
+        self.assertFalse(os.path.exists(os.path.join(self.tempdir, 'po/cs.po')))
 
     def test_object_hash(self):
         obj_hash = self.repo.get_object_hash('README.md')
-        self.assertEqual(
-            len(obj_hash),
-            40
-        )
+        self.assertEqual(len(obj_hash), 40)
 
     def test_configure_remote(self):
         with self.repo.lock:
             self.repo.configure_remote('pullurl', 'pushurl', 'branch')
-            self.assertEqual(
-                self.repo.get_config('remote.origin.url'),
-                'pullurl',
-            )
+            self.assertEqual(self.repo.get_config('remote.origin.url'), 'pullurl')
             if self._sets_push:
                 self.assertEqual(
-                    self.repo.get_config('remote.origin.pushURL'),
-                    'pushurl',
+                    self.repo.get_config('remote.origin.pushURL'), 'pushurl'
                 )
             # Test that we handle not set fetching
             self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
@@ -394,15 +357,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             if self._sets_push:
                 self.repo.configure_remote('pullurl', '', 'branch')
-                self.assertEqual(
-                    self.repo.get_config('remote.origin.pushURL'),
-                    '',
-                )
+                self.assertEqual(self.repo.get_config('remote.origin.pushURL'), '')
                 self.repo.configure_remote('pullurl', 'push', 'branch')
-                self.assertEqual(
-                    self.repo.get_config('remote.origin.pushURL'),
-                    'push',
-                )
+                self.assertEqual(self.repo.get_config('remote.origin.pushURL'), 'push')
 
     def test_configure_branch(self):
         # Existing branch
@@ -413,16 +370,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 self.repo.configure_branch('branch')
 
     def test_get_file(self):
-        self.assertIn(
-            'msgid',
-            self.repo.get_file('po/cs.po', self.repo.last_revision)
-        )
+        self.assertIn('msgid', self.repo.get_file('po/cs.po', self.repo.last_revision))
 
     def test_remote_branches(self):
-        self.assertEqual(
-            self._remote_branches,
-            self.repo.list_remote_branches()
-        )
+        self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 
 
 class VCSGerritTest(VCSGitTest):
@@ -459,9 +410,7 @@ class VCSSubversionTest(VCSGitTest):
     _remote_branches = []
 
     def test_clone(self):
-        self.assertTrue(os.path.exists(
-            os.path.join(self.tempdir, '.git', 'svn')
-        ))
+        self.assertTrue(os.path.exists(os.path.join(self.tempdir, '.git', 'svn')))
 
     def test_revision_info(self):
         # Latest commit
@@ -483,7 +432,7 @@ class VCSSubversionTest(VCSGitTest):
             self.repo.configure_remote(
                 self.format_local_path(self.subversion_repo_path),
                 self.format_local_path(self.subversion_repo_path),
-                'master'
+                'master',
             )
             with self.assertRaises(RepositoryException):
                 self.repo.configure_remote('pullurl', '', 'branch')
@@ -498,6 +447,7 @@ class VCSSubversionTest(VCSGitTest):
 
 class VCSSubversionBranchTest(VCSSubversionTest):
     """Cloning subversion branch directly."""
+
     def clone_test_repos(self):
         super(VCSSubversionBranchTest, self).clone_test_repos()
         self.subversion_repo_path += '/trunk'
@@ -507,6 +457,7 @@ class VCSHgTest(VCSGitTest):
     """
     Mercurial repository testing.
     """
+
     _class = HgRepository
     _vcs = 'mercurial'
     _remote_branches = []
@@ -514,28 +465,16 @@ class VCSHgTest(VCSGitTest):
     def test_configure_remote(self):
         with self.repo.lock:
             self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
-        self.assertEqual(
-            self.repo.get_config('paths.default'),
-            '/pullurl',
-        )
-        self.assertEqual(
-            self.repo.get_config('paths.default-push'),
-            '/pushurl',
-        )
+        self.assertEqual(self.repo.get_config('paths.default'), '/pullurl')
+        self.assertEqual(self.repo.get_config('paths.default-push'), '/pushurl')
 
     def test_configure_remote_no_push(self):
         with self.repo.lock:
             self.repo.configure_remote('/pullurl', '', 'branch')
-        self.assertEqual(
-            self.repo.get_config('paths.default-push'),
-            '',
-        )
+        self.assertEqual(self.repo.get_config('paths.default-push'), '')
         with self.repo.lock:
             self.repo.configure_remote('/pullurl', '/push', 'branch')
-        self.assertEqual(
-            self.repo.get_config('paths.default-push'),
-            '/push',
-        )
+        self.assertEqual(self.repo.get_config('paths.default-push'), '/push')
 
     def test_revision_info(self):
         # Latest commit
@@ -546,8 +485,7 @@ class VCSHgTest(VCSGitTest):
         with self.repo.lock:
             self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
-            self.repo.get_config('ui.username'),
-            'Foo Bar Žač <foo@example.net>'
+            self.repo.get_config('ui.username'), 'Foo Bar Žač <foo@example.net>'
         )
 
     def test_status(self):
@@ -559,6 +497,7 @@ class VCSLocalTest(VCSGitTest):
     """
     Local repository testing.
     """
+
     _class = LocalRepository
     _vcs = 'local'
     _remote_branches = []
@@ -572,9 +511,7 @@ class VCSLocalTest(VCSGitTest):
     def test_status(self):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
-        self.assertIn(
-            "On branch master", status
-        )
+        self.assertIn("On branch master", status)
 
     def test_upstream_changes(self):
         raise SkipTest('Not supported')

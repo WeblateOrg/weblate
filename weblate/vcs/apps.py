@@ -48,8 +48,7 @@ class VCSConfig(AppConfig):
                 delete_configuration_error('Git global setup')
             except RepositoryException as error:
                 add_configuration_error(
-                    'Git global setup',
-                    'Failed to do git setup: {0}'.format(error)
+                    'Git global setup', 'Failed to do git setup: {0}'.format(error)
                 )
 
         # Use it for *.po by default

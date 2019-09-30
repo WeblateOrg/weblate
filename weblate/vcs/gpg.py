@@ -39,12 +39,15 @@ def generate_gpg_key():
             [
                 'gpg',
                 '--batch',
-                '--pinentry-mode', 'loopback',
-                '--passphrase', '',
+                '--pinentry-mode',
+                'loopback',
+                '--passphrase',
+                '',
                 '--quick-generate-key',
                 settings.WEBLATE_GPG_IDENTITY,
                 settings.WEBLATE_GPG_ALGO,
-                'default', 'never',
+                'default',
+                'never',
             ],
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
@@ -103,13 +106,7 @@ def get_gpg_public_key():
     if not data:
         try:
             data = subprocess.check_output(
-                [
-                    'gpg',
-                    '--batch',
-                    '-armor',
-                    '--export',
-                    key,
-                ],
+                ['gpg', '--batch', '-armor', '--export', key],
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(),
             ).decode('utf-8')

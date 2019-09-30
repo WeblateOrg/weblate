@@ -42,10 +42,7 @@ RSA_KEY_PUB = 'id_rsa.pub'
 
 def ssh_file(filename):
     """Generate full path to SSH configuration file."""
-    return os.path.join(
-        data_dir('ssh'),
-        filename
-    )
+    return os.path.join(data_dir('ssh'), filename)
 
 
 def is_key_line(key):
@@ -59,9 +56,7 @@ def is_key_line(key):
     if key[0] == '@':
         return False
     return (
-        ' ssh-rsa ' in key
-        or ' ecdsa-sha2-nistp256 ' in key
-        or ' ssh-ed25519 ' in key
+        ' ssh-rsa ' in key or ' ecdsa-sha2-nistp256 ' in key or ' ssh-ed25519 ' in key
     )
 
 
@@ -113,11 +108,16 @@ def generate_ssh_key(request):
         # Actually generate the key
         subprocess.check_output(
             [
-                'ssh-keygen', '-q',
-                '-N', '',
-                '-C', 'Weblate',
-                '-t', 'rsa',
-                '-f', ssh_file(RSA_KEY)
+                'ssh-keygen',
+                '-q',
+                '-N',
+                '',
+                '-C',
+                'Weblate',
+                '-t',
+                'rsa',
+                '-f',
+                ssh_file(RSA_KEY),
             ],
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
@@ -125,9 +125,7 @@ def generate_ssh_key(request):
         messages.success(request, _('Created new SSH key.'))
     except (subprocess.CalledProcessError, OSError) as exc:
         messages.error(
-            request,
-            _('Failed to generate key: %s') %
-            getattr(exc, 'output', str(exc))
+            request, _('Failed to generate key: %s') % getattr(exc, 'output', str(exc))
         )
 
 
@@ -142,9 +140,7 @@ def add_host_key(request, host, port=''):
         cmdline.append(host)
         try:
             output = subprocess.check_output(
-                cmdline,
-                stderr=subprocess.STDOUT,
-                env=get_clean_env(),
+                cmdline, stderr=subprocess.STDOUT, env=get_clean_env()
             )
             keys = []
             for key in output.decode('utf-8').splitlines():
@@ -159,30 +155,18 @@ def add_host_key(request, host, port=''):
                         'Added host key for %(host)s with fingerprint '
                         '%(fingerprint)s (%(keytype)s), '
                         'please verify that it is correct.'
-                    ) % {
-                        'host': host,
-                        'fingerprint': fingerprint,
-                        'keytype': keytype,
-                    }
+                    )
+                    % {'host': host, 'fingerprint': fingerprint, 'keytype': keytype},
                 )
             if not keys:
-                messages.error(
-                    request,
-                    _('Failed to fetch public key for a host!')
-                )
+                messages.error(request, _('Failed to fetch public key for a host!'))
             with open(ssh_file(KNOWN_HOSTS), 'a') as handle:
                 for key in keys:
                     handle.write('{0}\n'.format(key))
         except subprocess.CalledProcessError as exc:
-            messages.error(
-                request,
-                _('Failed to get host key: %s') % exc.output
-            )
+            messages.error(request, _('Failed to get host key: %s') % exc.output)
         except OSError as exc:
-            messages.error(
-                request,
-                _('Failed to get host key: %s') % str(exc)
-            )
+            messages.error(request, _('Failed to get host key: %s') % str(exc))
 
 
 def can_generate_key():
@@ -216,10 +200,11 @@ class SSHWrapper(object):
             return
 
         with open(self.filename, 'w') as handle:
-            handle.write(self.SSH_WRAPPER_TEMPLATE.format(
-                known_hosts=ssh_file(KNOWN_HOSTS),
-                identity=ssh_file(RSA_KEY),
-            ))
+            handle.write(
+                self.SSH_WRAPPER_TEMPLATE.format(
+                    known_hosts=ssh_file(KNOWN_HOSTS), identity=ssh_file(RSA_KEY)
+                )
+            )
 
         os.chmod(self.filename, 0o755)
 

@@ -34,12 +34,17 @@ from weblate.vcs.ssh import SSH_WRAPPER
 
 class HgRepository(Repository):
     """Repository implementation for Mercurial."""
+
     _cmd = 'hg'
-    _cmd_last_revision = [
-        'log', '--limit', '1', '--template', '{node}'
-    ]
+    _cmd_last_revision = ['log', '--limit', '1', '--template', '{node}']
     _cmd_last_remote_revision = [
-        'log', '--limit', '1', '--template', '{node}', '--branch', '.'
+        'log',
+        '--limit',
+        '1',
+        '--template',
+        '{node}',
+        '--branch',
+        '.',
     ]
     _cmd_list_changed_files = ['status', '--rev']
 
@@ -107,10 +112,7 @@ class HgRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure commiter name."""
-        self.set_config(
-            'ui.username',
-            '{0} <{1}>'.format(name, mail)
-        )
+        self.set_config('ui.username', '{0} <{1}>'.format(name, mail))
 
     def reset(self):
         """Reset working copy to match remote branch."""
@@ -126,13 +128,9 @@ class HgRepository(Repository):
         merge_driver = self.get_merge_driver('po')
         if merge_driver is not None:
             self.set_config(
-                'merge-tools.weblate-merge-gettext-po.executable',
-                merge_driver
+                'merge-tools.weblate-merge-gettext-po.executable', merge_driver
             )
-            self.set_config(
-                'merge-patterns.**.po',
-                'weblate-merge-gettext-po'
-            )
+            self.set_config('merge-patterns.**.po', 'weblate-merge-gettext-po')
 
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
@@ -195,18 +193,11 @@ class HgRepository(Repository):
         {desc}
         '''
         text = self.execute(
-            [
-                'log',
-                '--limit', '1',
-                '--template', template,
-                '--rev', revision
-            ],
-            needs_lock=False
+            ['log', '--limit', '1', '--template', template, '--rev', revision],
+            needs_lock=False,
         )
 
-        result = {
-            'revision': revision,
-        }
+        result = {'revision': revision}
 
         message = []
         header = True
@@ -234,8 +225,7 @@ class HgRepository(Repository):
     def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--template', '{node}\n', '--rev', refspec],
-            needs_lock=False
+            ['log', '--template', '{node}\n', '--rev', refspec], needs_lock=False
         ).splitlines()
 
     def needs_ff(self):
@@ -311,10 +301,12 @@ class HgRepository(Repository):
         return self.execute(
             [
                 'log',
-                '-r', '.',
-                '--template', '{latesttag}-{latesttagdistance}-{node|short}'
+                '-r',
+                '.',
+                '--template',
+                '{latesttag}-{latesttagdistance}-{node|short}',
             ],
-            needs_lock=False
+            needs_lock=False,
         ).strip()
 
     def push(self):
@@ -329,10 +321,7 @@ class HgRepository(Repository):
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
-        return self.execute(
-            ['cat', '--rev', revision, path],
-            needs_lock=False
-        )
+        return self.execute(['cat', '--rev', revision, path], needs_lock=False)
 
     def cleanup(self):
         """Remove not tracked files from the repository."""

@@ -45,8 +45,7 @@ class GPGTest(TestCase):
         super(GPGTest, cls).setUpClass()
         try:
             output = subprocess.check_output(
-                ['gpg', '--version'],
-                stderr=subprocess.STDOUT,
+                ['gpg', '--version'], stderr=subprocess.STDOUT
             ).decode('utf-8')
             version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion('2.1'):
@@ -60,8 +59,7 @@ class GPGTest(TestCase):
 
     @tempdir_setting('DATA_DIR')
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
-        WEBLATE_GPG_ALGO='rsa512',
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
     )
     def test_generate(self):
         self.assertEqual(check_data_writable(), [])
@@ -72,8 +70,7 @@ class GPGTest(TestCase):
 
     @tempdir_setting('DATA_DIR')
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
-        WEBLATE_GPG_ALGO='rsa512',
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
     )
     def test_get(self):
         self.assertEqual(check_data_writable(), [])
@@ -88,8 +85,7 @@ class GPGTest(TestCase):
 
     @tempdir_setting('DATA_DIR')
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
-        WEBLATE_GPG_ALGO='rsa512',
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
     )
     def test_public(self):
         self.assertEqual(check_data_writable(), [])

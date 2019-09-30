@@ -34,6 +34,7 @@ TEST_HOSTS = get_test_file('known_hosts')
 
 class SSHTest(TestCase):
     """Test for customized admin interface."""
+
     @tempdir_setting('DATA_DIR')
     def test_parse(self):
         self.assertEqual(check_data_writable(), [])
@@ -52,9 +53,7 @@ class SSHTest(TestCase):
             self.assertTrue(ssh_file('known_hosts') in data)
             self.assertTrue(ssh_file('id_rsa') in data)
             self.assertTrue(settings.DATA_DIR in data)
-        self.assertTrue(
-            os.access(filename, os.X_OK)
-        )
+        self.assertTrue(os.access(filename, os.X_OK))
         # Second run should not touch the file
         timestamp = os.stat(filename).st_mtime
         wrapper.create()

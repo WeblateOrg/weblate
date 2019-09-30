@@ -37,13 +37,10 @@ from weblate.vcs.gpg import get_gpg_sign_key
 
 class GitRepository(Repository):
     """Repository implementation for Git."""
+
     _cmd = 'git'
-    _cmd_last_revision = [
-        'log', '-n', '1', '--format=format:%H', 'HEAD'
-    ]
-    _cmd_last_remote_revision = [
-        'log', '-n', '1', '--format=format:%H', '@{upstream}'
-    ]
+    _cmd_last_revision = ['log', '-n', '1', '--format=format:%H', 'HEAD']
+    _cmd_last_remote_revision = ['log', '-n', '1', '--format=format:%H', '@{upstream}']
     _cmd_list_changed_files = ['diff', '--name-status']
 
     name = 'Git'
@@ -54,10 +51,9 @@ class GitRepository(Repository):
 
     def is_valid(self):
         """Check whether this is a valid repository."""
-        return (
-            os.path.exists(os.path.join(self.path, '.git', 'config'))
-            or os.path.exists(os.path.join(self.path, 'config'))
-        )
+        return os.path.exists(
+            os.path.join(self.path, '.git', 'config')
+        ) or os.path.exists(os.path.join(self.path, 'config'))
 
     def init(self):
         """Initialize the repository."""
@@ -71,25 +67,15 @@ class GitRepository(Repository):
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone repository."""
-        cls._popen([
-            'clone',
-            '--depth', '1',
-            '--no-single-branch',
-            source, target
-        ])
+        cls._popen(['clone', '--depth', '1', '--no-single-branch', source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
-        return self.execute(
-            ['config', path],
-            needs_lock=False
-        ).strip()
+        return self.execute(['config', path], needs_lock=False).strip()
 
     def set_config(self, path, value):
         """Set entry in local configuration."""
-        self.execute(
-            ['config', '--replace-all', path, value]
-        )
+        self.execute(['config', '--replace-all', path, value])
 
     def set_committer(self, name, mail):
         """Configure commiter name."""
@@ -186,20 +172,11 @@ class GitRepository(Repository):
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
         text = self.execute(
-            [
-                'log',
-                '-1',
-                '--format=fuller',
-                '--date=rfc',
-                '--abbrev-commit',
-                revision
-            ],
-            needs_lock=False
+            ['log', '-1', '--format=fuller', '--date=rfc', '--abbrev-commit', revision],
+            needs_lock=False,
         )
 
-        result = {
-            'revision': revision,
-        }
+        result = {'revision': revision}
 
         message = []
 
@@ -231,8 +208,7 @@ class GitRepository(Repository):
     def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--format=format:%H', refspec, '--'],
-            needs_lock=False
+            ['log', '--format=format:%H', refspec, '--'], needs_lock=False
         ).splitlines()
 
     @classmethod
@@ -294,17 +270,12 @@ class GitRepository(Repository):
 
         # Fetch all branches (needed for clone branch)
         self.set_config(
-            'remote.origin.fetch',
-            '+refs/heads/*:refs/remotes/origin/*'.format(branch)
+            'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*'.format(branch)
         )
         # Set branch to track
+        self.set_config('branch.{0}.remote'.format(branch), 'origin')
         self.set_config(
-            'branch.{0}.remote'.format(branch),
-            'origin'
-        )
-        self.set_config(
-            'branch.{0}.merge'.format(branch),
-            'refs/heads/{0}'.format(branch)
+            'branch.{0}.merge'.format(branch), 'refs/heads/{0}'.format(branch)
         )
 
         self.branch = branch
@@ -326,15 +297,10 @@ class GitRepository(Repository):
         """Configure repository branch."""
         # Add branch
         if not self.has_branch(branch):
-            self.execute(
-                ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
-            )
+            self.execute(['checkout', '-b', branch, 'origin/{0}'.format(branch)])
         else:
             # Ensure it tracks correct upstream
-            self.set_config(
-                'branch.{0}.remote'.format(branch),
-                'origin',
-            )
+            self.set_config('branch.{0}.remote'.format(branch), 'origin')
 
         # Checkout
         self.execute(['checkout', branch])
@@ -342,38 +308,38 @@ class GitRepository(Repository):
 
     def describe(self):
         """Verbosely describes current revision."""
-        return self.execute(
-            ['describe', '--always'],
-            needs_lock=False
-        ).strip()
+        return self.execute(['describe', '--always'], needs_lock=False).strip()
 
     @classmethod
     def global_setup(cls):
         """Perform global settings"""
         merge_driver = cls.get_merge_driver('po')
         if merge_driver is not None:
-            cls._popen([
-                'config', '--global',
-                'merge.weblate-merge-gettext-po.name',
-                'Weblate merge driver for Gettext PO files'
-            ])
-            cls._popen([
-                'config', '--global',
-                'merge.weblate-merge-gettext-po.driver',
-                '{0} %O %A %B'.format(merge_driver),
-            ])
+            cls._popen(
+                [
+                    'config',
+                    '--global',
+                    'merge.weblate-merge-gettext-po.name',
+                    'Weblate merge driver for Gettext PO files',
+                ]
+            )
+            cls._popen(
+                [
+                    'config',
+                    '--global',
+                    'merge.weblate-merge-gettext-po.driver',
+                    '{0} %O %A %B'.format(merge_driver),
+                ]
+            )
         cls._popen(
             ['config', '--global', 'user.email', settings.DEFAULT_COMMITER_EMAIL]
         )
-        cls._popen(
-            ['config', '--global', 'user.name', settings.DEFAULT_COMMITER_NAME]
-        )
+        cls._popen(['config', '--global', 'user.name', settings.DEFAULT_COMMITER_NAME])
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
         return self.execute(
-            ['show', '{0}:{1}'.format(revision, path)],
-            needs_lock=False
+            ['show', '{0}:{1}'.format(revision, path)], needs_lock=False
         )
 
     def cleanup(self):
@@ -438,9 +404,7 @@ class SubversionRepository(GitRepository):
     @classmethod
     def get_last_repo_revision(cls, url):
         output = cls._popen(
-            ['svn', 'log', url, '--limit=1', '--xml'],
-            fullcmd=True,
-            raw=True,
+            ['svn', 'log', url, '--limit=1', '--xml'], fullcmd=True, raw=True
         )
         tree = ElementTree.fromstring(output)
         entry = tree.find('logentry')
@@ -476,9 +440,7 @@ class SubversionRepository(GitRepository):
         if existing:
             # The URL is root of the repository, while we get full path
             if not pull_url.startswith(existing):
-                raise RepositoryException(
-                    -1, 'Can not switch subversion URL', ''
-                )
+                raise RepositoryException(-1, 'Can not switch subversion URL', '')
             return
         args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
         self.execute(['svn', 'init'] + args)
@@ -517,11 +479,8 @@ class SubversionRepository(GitRepository):
     def last_remote_revision(self):
         """Return last remote revision."""
         return self.execute(
-            [
-                'log', '-n', '1', '--format=format:%H',
-                self.get_remote_branch_name()
-            ],
-            needs_lock=False
+            ['log', '-n', '1', '--format=format:%H', self.get_remote_branch_name()],
+            needs_lock=False,
         )
 
     def get_remote_branch_name(self):
@@ -577,9 +536,12 @@ class GithubRepository(GitRepository):
         cmd = [
             'pull-request',
             '-f',
-            '-h', '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
-            '-b', origin_branch,
-            '-m', settings.DEFAULT_PULL_MESSAGE,
+            '-h',
+            '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
+            '-b',
+            origin_branch,
+            '-m',
+            settings.DEFAULT_PULL_MESSAGE,
         ]
         self.execute(cmd)
 
@@ -604,8 +566,7 @@ class GithubRepository(GitRepository):
         self.fork()
         if self.component is not None:
             fork_branch = 'weblate-{0}-{1}'.format(
-                self.component.project.slug,
-                self.component.slug,
+                self.component.project.slug, self.component.slug
             )
         else:
             fork_branch = '{0}-weblate'.format(self.branch)
@@ -626,6 +587,7 @@ class GithubRepository(GitRepository):
 
 class LocalRepository(GitRepository):
     """Local filesystem driver with no upstream repo."""
+
     name = ugettext_lazy('No remote repository')
 
     @staticmethod
