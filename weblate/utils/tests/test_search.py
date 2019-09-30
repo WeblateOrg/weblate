@@ -174,3 +174,11 @@ class QueryParserTest(TestCase):
 
     def test_language(self):
         self.assert_query("language:cs", Q(translation__language__code="cs"))
+
+    def test_html(self):
+        self.assert_query(
+            "<b>bold</b>",
+            Q(source__icontains="<b>bold</b>")
+            | Q(target__icontains="<b>bold</b>")
+            | Q(context__icontains="<b>bold</b>"),
+        )

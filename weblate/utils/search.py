@@ -71,6 +71,15 @@ class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
     expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
 
 
+class GtLtPlugin(whoosh.qparser.GtLtPlugin):
+    """GtLt plugin taggin only after :"""
+
+    def match(self, parser, text, pos):
+        if pos == 0 or text[pos - 1] != ":":
+            return None
+        return super(GtLtPlugin, self).match(parser, text, pos)
+
+
 class DateParser(whoosh.qparser.dateparse.English):
     def setup(self):
         super(DateParser, self).setup()
@@ -147,7 +156,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             QuotePlugin(),
             whoosh.qparser.FieldsPlugin(),
             whoosh.qparser.RangePlugin(),
-            whoosh.qparser.GtLtPlugin(),
+            GtLtPlugin(),
             whoosh.qparser.RegexPlugin(),
             whoosh.qparser.GroupPlugin(),
             whoosh.qparser.OperatorsPlugin(),
