@@ -31,7 +31,7 @@ from django.views.decorators.http import require_POST
 from six.moves.urllib.parse import urlparse
 
 from weblate.logger import LOGGER
-from weblate.trans.models import Component
+from weblate.trans.models import Change, Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project
@@ -194,10 +194,11 @@ def vcs_service_hook(request, service):
     updates = 0
     for obj in components:
         updates += 1
-        LOGGER.info(
-            '%s notification will update %s',
-            service_long_name,
-            obj
+        LOGGER.info('%s notification will update %s', service_long_name, obj)
+        Change.objects.create(
+            component=obj,
+            action=Change.ACTION_HOOK,
+            details=service_data,
         )
         perform_update.delay('Component', obj.pk)
 

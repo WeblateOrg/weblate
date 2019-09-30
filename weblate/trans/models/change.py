@@ -213,6 +213,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_CREATE_PROJECT = 50
     ACTION_CREATE_COMPONENT = 51
     ACTION_INVITE_USER = 52
+    ACTION_HOOK = 53
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -268,6 +269,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),
         (ACTION_CREATE_COMPONENT, ugettext_lazy('Created component')),
         (ACTION_INVITE_USER, ugettext_lazy('Invited user')),
+        (ACTION_HOOK, ugettext_lazy('Received repository notification')),
     )
 
     ACTIONS_REVERTABLE = frozenset(
@@ -471,6 +473,8 @@ class Change(models.Model, UserDisplayMixin):
                 return self.details['alert']
         elif self.action == self.ACTION_PARSE_ERROR:
             return '{filename}: {error_message}'.format(**self.details)
+        elif self.action == self.ACTION_HOOK:
+            return '{service_long_name}: {repo_url}, {branch}'.format(self.details)
 
         return ''
 
