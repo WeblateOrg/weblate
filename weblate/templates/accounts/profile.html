@@ -333,9 +333,13 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 </ul>
 {% endif %}
 {% endwith %}
+</div>
+</div>
 
 {% if licenses %}
-<p>{% trans "The following translations have explicitly specified their license:" %}</p>
+<div class="tab-pane" id="licenses">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses for individual translations" %}</h4></div>
 <table class="table">
 <thead>
 <tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
@@ -356,7 +360,6 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 </tbody>
 </table>
 {% endif %}
-</div>
 </div>
 </div>
 
