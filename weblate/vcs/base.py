@@ -183,7 +183,8 @@ class Repository(object):
                 args, self.path, fullcmd=fullcmd, local=self.local
             )
         except RepositoryException as error:
-            self.log_status(error)
+            if args[0] != self._cmd_status[0]:
+                self.log_status(error)
             raise
         return self.last_output
 
