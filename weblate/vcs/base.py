@@ -175,6 +175,7 @@ class Repository(object):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeError('Repository operation without lock held!')
+        is_status = (args[0] == self._cmd_status[0])
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
@@ -183,7 +184,7 @@ class Repository(object):
                 args, self.path, fullcmd=fullcmd, local=self.local
             )
         except RepositoryException as error:
-            if args[0] != self._cmd_status[0]:
+            if not is_status:
                 self.log_status(error)
             raise
         return self.last_output
