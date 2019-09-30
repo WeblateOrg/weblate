@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-30 06:55+0000\n"
-"PO-Revision-Date: 2019-09-29 08:09+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2019-09-30 13:37+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
 "Language: it\n"
@@ -717,10 +717,8 @@ msgstr ""
 "disabilitata."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Identità utente attuale"
+msgstr "Impossibile rimuovere identità utente"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -804,6 +802,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Il repository non è aggiornato.\n"
+"Potresti non ottenere i risultati previsti fino a quando non lo aggiorni."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1184,24 +1184,18 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Imposta il termine per la rimozione dei suggerimenti."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Aggiorna file LINGUAS"
+msgstr "Aggiorna file RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
 msgstr ""
-"Aggiorna tutti i file di traduzione per farli corrispondere ai file "
-"monolingue di base. Per molti formati significa rimuovere le traduzioni che "
-"corrispondono a vecchie voci che non sono più presenti nei file di base."
+"Aggiorna tutti i file traduzione per farli corrispondere ai file singola "
+"lingua di base. \n"
+"Questo rimuoverà le chiavi stato traduzione e aggiungerà quelle nuove con le "
+"stringhe sorgenti come traduzione."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2287,16 +2281,13 @@ msgid "Font group name"
 msgstr "Nome del gruppo di caratteri"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Identificatore utilizzato nei controlli per selezionare questo gruppo di "
-"caratteri. Evita gli spazi e i caratteri speciali."
+"Identificatore usato nei controlli per selezionare questo gruppo di "
+"caratteri. \n"
+"Evita gli spazi e i caratteri speciali."
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -4947,10 +4938,8 @@ msgstr[0] "Sfoglia %(count)s progetto"
 msgstr[1] "Sfoglia tutti i %(count)s progetti"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "Configura editor"
+msgstr "Configura pannello principale"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -6217,20 +6206,20 @@ msgstr ""
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Backup"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Servizio backup: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Disabilitato"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Credenziali servizio backup"
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
 msgid "Backup repository"
@@ -6238,41 +6227,40 @@ msgstr "Repository backup"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "Password"
 
 #: weblate/templates/manage/backups.html:46
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"La password viene usata per crittografare i backup ed è necessaria per "
+"ripristinarli."
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download private key"
-msgstr "Scarica rapporti"
+msgstr "Scarica chiave privata"
 
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
 msgstr ""
+"La chiave privata è necessaria per accedere al repository del backup remoto."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
-msgstr ""
+msgstr "Disabilita"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn on"
-msgstr ""
+msgstr "Abilita"
 
 #: weblate/templates/manage/backups.html:77
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "Prestazioni"
+msgstr "Effettua backup"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
-msgstr ""
+msgstr "Aggiungi servizio backup"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6284,10 +6272,8 @@ msgid "Support status"
 msgstr "Stato assistenza"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
-msgstr "Supera i limiti"
+msgstr "Eccede i limiti del servizio"
 
 #: weblate/templates/manage/index.html:32
 msgid "Support expiry"
@@ -6361,6 +6347,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"I pacchetti di supporto includono supporto email prioritario o backup cloud "
+"dell'installazione di Weblate."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6382,7 +6370,7 @@ msgstr "Weblate attualmente usa questa chiave SSH:"
 
 #: weblate/templates/manage/ssh.html:28
 msgid "Download private key for backup"
-msgstr ""
+msgstr "Download chiave privata per backup"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
@@ -6646,8 +6634,6 @@ msgid "Number of words"
 msgstr "Numero di parole"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "Numero di caratteri"
 
@@ -6664,8 +6650,6 @@ msgid "Number of source words"
 msgstr "Numero di parole sorgente"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "Numero di caratteri sorgente"
 
@@ -6838,7 +6822,7 @@ msgstr "amministratore"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Generatore di query avanzato"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6857,82 +6841,57 @@ msgid "Location strings"
 msgstr "Stringhe posizione"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
-msgstr "Stato delle stringhe"
+msgstr "Stato stringa"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "Suggerimenti in attesa"
+msgstr "Stringa in sospeso"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "Stringhe con suggerimenti"
+msgstr "Stringa con suggerimento"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Stringhe con commenti"
+msgstr "Stringa con commento"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Stringhe con controlli non riusciti"
+msgstr "Stringhe con controlli falliti"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Gestisci lingue"
+msgstr "Lingua destinazione stringa"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "Età stringa sorgente"
+msgstr "Stringa modificata da"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Ricerca di %s"
+msgstr "Ricerca…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "Età stringa sorgente"
+msgstr "Stringa modificata dopo"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Stringhe contrassegnate per la modifica"
+msgstr "Stringa modificata prima"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "Esempio d'uso dell'API:"
+msgstr "Esempi query"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "Revisiona le traduzioni modificate da altri utenti."
+msgstr "Revisiona le traduzioni modificate da altri utenti"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -7068,10 +7027,8 @@ msgstr ""
 "modifiche manualmente o configura le azioni necessarie ad automatizzarle."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "Questo componente è collegato al repository %(target)s."
+msgstr "Questo componente non è impostato correttamente."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -7079,16 +7036,12 @@ msgid "Version control system"
 msgstr "Sistema di controllo versione"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
 "Questo può accadere dopo aver disabilitato il supporto per queste "
-"funzionalità o da dipendenze mancanti."
+"funzionalità o se ci sono dipendenze mancanti."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7954,8 +7907,6 @@ msgid "Weblate translations"
 msgstr "Traduzioni Weblate"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
 msgstr "Caratteri di controllo"
 
@@ -8207,10 +8158,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "Valutazione equazione plurale non riuscita: {}"
+msgstr "Query fallita per la stringa: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -8233,16 +8182,12 @@ msgid "Other translation components"
 msgstr "Altri componenti di traduzione"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Pper ottenere accesso ai componenti aggiuntivi, abilita la contribuzione al "
-"progetto alla memoria di traduzione condivisa sul progetto."
+"Per ottenere accesso ai componenti aggiuntivi abilita la contribuzione al "
+"progetto alla memoria di traduzione condivisa per il progetto."
 
 #: weblate/trans/forms.py:885
 msgid "Machine translation engines"
@@ -10363,8 +10308,6 @@ msgstr ""
 "Ridimensionala o ritaglia la parte pertinente!"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Evita nel nome completo l'uso di caratteri speciali."
 
@@ -10472,19 +10415,15 @@ msgstr "Assistenza estesa per installazioni personali"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "Backup effettuato"
 
 #: weblate/wladmin/models.py:183
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Elimina questo account"
+msgstr "Elimina i vecchi backup"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "Manutenzione del repository"
+msgstr "Inizializzazione repository"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
