@@ -18,7 +18,7 @@ the cloud. The backups can be controlled in the management interface on the
    migrate to PostgreSQL as that will be the only supported database in the
    4.0 release.
 
-.. image:: /images/backup.png
+.. image:: /images/backups.png
 
 .. _cloudbackup:
 
