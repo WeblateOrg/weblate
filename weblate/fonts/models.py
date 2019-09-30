@@ -108,7 +108,7 @@ class FontGroup(models.Model):
         max_length=100,
         help_text=_(
             "Identifier you will use in checks to select this font group. "
-            "Avoid whitespace or special characters."
+            "Avoid whitespaces and special characters."
         ),
     )
     font = models.ForeignKey(
