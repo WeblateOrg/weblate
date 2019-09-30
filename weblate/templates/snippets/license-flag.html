@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% if component.fsf_approved_license %}
+<i class="fa fa-thumbs-o-up text-success" aria-hidden="true" title="{% trans "Libre license according to the FSF" %}"></i>
+{% elif component.osi_approved_license %}
+<i class="fa fa-thumbs-o-up text-success" aria-hidden="true" title="{% trans "OSI approved license" %}"></i>
+{% endif %}
+
