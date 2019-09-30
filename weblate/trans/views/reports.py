@@ -37,13 +37,17 @@ RST_HEADING = ' '.join(['=' * 40] * 2 + ['=' * 24] * 20)
 HTML_HEADING = '<table>\n<tr>{0}</tr>'
 
 
-def generate_credits(start_date, end_date, **kwargs):
+def generate_credits(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
 
     result = []
 
+    base = Change.objects.content()
+    if user:
+        base = base.filter(author=user)
+
     for language in Language.objects.filter(**kwargs).distinct().iterator():
-        authors = Change.objects.filter(translation__language=language).authors_list(
+        authors = base.filter(translation__language=language).authors_list(
             (start_date, end_date),
         )
         if not authors:
@@ -69,9 +73,6 @@ def get_credits(request, project=None, component=None):
         obj = get_component(request, project, component)
         kwargs = {'translation__component': obj}
 
-    if not request.user.has_perm('reports.view', obj):
-        raise PermissionDenied()
-
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
@@ -79,6 +80,7 @@ def get_credits(request, project=None, component=None):
         return redirect_param(obj or 'home', '#reports')
 
     data = generate_credits(
+        None if request.user.has_perm('reports.view', obj) else request.user,
         form.cleaned_data['start_date'],
         form.cleaned_data['end_date'],
         **kwargs
@@ -135,7 +137,7 @@ def get_credits(request, project=None, component=None):
     )
 
 
-def generate_counts(start_date, end_date, **kwargs):
+def generate_counts(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
 
     result = {}
@@ -144,7 +146,11 @@ def generate_counts(start_date, end_date, **kwargs):
         Change.ACTION_APPROVE: 'approve',
     }
 
-    authors = Change.objects.content().filter(
+    base = Change.objects.content()
+    if user:
+        base = base.filter(author=user)
+
+    authors = base.filter(
         timestamp__range=(start_date, end_date),
         **kwargs
     ).values_list(
@@ -218,9 +224,6 @@ def get_counts(request, project=None, component=None):
         obj = get_component(request, project, component)
         kwargs = {'component': obj}
 
-    if not request.user.has_perm('reports.view', obj):
-        raise PermissionDenied()
-
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
@@ -228,6 +231,7 @@ def get_counts(request, project=None, component=None):
         return redirect_param(obj or 'home', '#reports')
 
     data = generate_counts(
+        None if request.user.has_perm('reports.view', obj) else request.user,
         form.cleaned_data['start_date'],
         form.cleaned_data['end_date'],
         **kwargs

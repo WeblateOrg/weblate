@@ -45,7 +45,7 @@
       <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug component=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug component=object.slug %}">{% trans "Activity" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
-      {% if user_can_view_reports %}
+      {% if user.is_authenticated %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
     </ul>
@@ -298,8 +298,12 @@
 </div>
 {% endif %}
 
-{% if user_can_view_reports %}
+{% if user.is_authenticated %}
 <div class="tab-pane" id="reports">
+{% if not user_can_view_reports %}
+{% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
 <div class="row">
 <div class="col-lg-6">
 <form action="{% url 'credits' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">

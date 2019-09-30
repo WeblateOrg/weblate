@@ -33,9 +33,9 @@
     <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
     <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
     <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
-    {% if user_can_view_reports %}
+    {% if user.is_authenticated %}
     <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
-    {% endif %}
+      {% endif %}
   </ul>
 </li>
 <li class="dropdown">
@@ -110,8 +110,12 @@
 
 {% include "activity-tab.html" %}
 
-{% if user_can_view_reports %}
+{% if user.is_authenticated %}
 <div class="tab-pane" id="reports">
+{% if not user_can_view_reports %}
+{% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
 <div class="row">
 <div class="col-lg-6">
 <form action="{% url 'credits' %}" method="post" enctype="multipart/form-data">

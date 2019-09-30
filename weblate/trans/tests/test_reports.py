@@ -70,6 +70,7 @@ class BaseReportsTest(ViewTestCase):
 class ReportsTest(BaseReportsTest):
     def test_credits_empty(self):
         data = generate_credits(
+            None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             translation__component=self.component,
@@ -79,6 +80,7 @@ class ReportsTest(BaseReportsTest):
     def test_credits_one(self):
         self.add_change()
         data = generate_credits(
+            None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             translation__component=self.component,
@@ -98,6 +100,7 @@ class ReportsTest(BaseReportsTest):
     def test_counts_one(self):
         self.add_change()
         data = generate_counts(
+            None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
             component=self.component,

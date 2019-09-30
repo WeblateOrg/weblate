@@ -33,6 +33,7 @@ Not yet released.
 * Added automated backups using Borg backup.
 * Split cleanup addon for RESX to avoid unwanted file updates.
 * Added advanced search capabilities.
+* Allow users to download their own reports.
 
 weblate 3.8
 -----------
