@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-30 06:55+0000\n"
-"PO-Revision-Date: 2019-09-25 10:10+0000\n"
+"PO-Revision-Date: 2019-09-30 13:36+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -257,7 +257,7 @@ msgstr "Пароль зменены."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Імя карыстальніка было зменена з {old} на {new}."
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
@@ -710,10 +710,8 @@ msgstr ""
 "Немагчыма скінуць пароль праз выключаную аўтэнтыфікацыю па электроннай пошце."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Бягучыя ідэнтыфікацыйныя даныя карыстальніка"
+msgstr "Не атрымалася выдаліць уліковыя даныя карыстальніка"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -788,12 +786,16 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Гэтае дапаўненне аўтаматычна перакладае радкі пры дапамозе машыннага "
+"перакладу ці іншых кампанентаў."
 
 #: weblate/addons/base.py:278
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Гэты рэпазіторый састарэў.  Хутчэй за ўсё вы не атрымаеце чаканых вынікаў, "
+"пакуль не абновіце яго."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1165,10 +1167,8 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Вызначыць тэрміны выдалення прапаноў."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Абнавіць LINGUAS-файл"
+msgstr "Абнавіць файлы RESX"
 
 #: weblate/addons/resx.py:33
 #, fuzzy
@@ -1383,10 +1383,8 @@ msgid "Use management interface (on the entire platform)"
 msgstr "Выкарыстоўваць інтэрфейс кіравання (на ўсёй платформе)"
 
 #: weblate/auth/data.py:99
-#, fuzzy
-#| msgid "Add users (on the entire platform)"
 msgid "Add new projects (on the entire platform)"
-msgstr "Даданне карыстальнікаў (на ўсёй платформе)"
+msgstr "Дадаць новыя праекты (на ўсёй платформе)"
 
 #: weblate/auth/data.py:101
 msgid "Add language definitions (on the entire platform)"
@@ -1651,16 +1649,12 @@ msgid "A user with that username already exists."
 msgstr "Карыстальнік з такім імем ужо існуе."
 
 #: weblate/auth/models.py:331
-#, fuzzy
-#| msgid "superuser status"
 msgid "Superuser status"
-msgstr "статус суперкарыстальніка"
+msgstr "Статус суперкарыстальніка"
 
 #: weblate/auth/models.py:333
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "Карыстальнік з правамі рэцэнзента"
+msgstr "Карыстальнік мае ўсе магчымыя дазволы."
 
 #: weblate/auth/models.py:336 weblate/billing/models.py:141
 msgid "Active"
@@ -2158,17 +2152,15 @@ msgstr "У перакладзе адсутнічае URL"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Небяспечны код HTML"
 
 #: weblate/checks/markup.py:317
-#, fuzzy
-#| msgid "The translation uses bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "У перакладзе выкарыстоўваюцца двухмоўныя файлы."
+msgstr "У перакладзе выкарыстоўваецца небяспечная разметка HTML"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "Запаўняльнікі"
 
 #: weblate/checks/placeholders.py:46
 #, fuzzy
@@ -6230,11 +6222,8 @@ msgid "Backup service credentials"
 msgstr ""
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "Доступ да рэпазіторыя"
+msgstr "Рэпазіторый рэзервовых копій"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
