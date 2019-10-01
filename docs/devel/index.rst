@@ -8,6 +8,7 @@ benefits. It's only up to you how much of that you will use.
 
     starting
     alerts
+    community
     translations
     review
     share

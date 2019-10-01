@@ -122,7 +122,7 @@ class CommunityGroup(Group):
     description = _("Building community")
 
     def get_docs_url(self):
-        return ''
+        return get_doc_url("devel/community")
 
 
 @register

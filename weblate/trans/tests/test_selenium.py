@@ -1154,6 +1154,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click('Alerts')
         self.screenshot('alerts.png')
 
+        self.click('Insights')
+        with self.wait_for_page_load():
+            self.click('Localization guide')
+        self.screenshot('guide.png')
+
     def test_fonts(self):
         self.create_component()
         self.do_login(superuser=True)
