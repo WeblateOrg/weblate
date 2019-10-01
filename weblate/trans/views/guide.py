@@ -118,11 +118,11 @@ class PushGuideline(Guideline):
 
 
 @register
-class VCSGroup(Group):
+class CommunityGroup(Group):
     description = _("Building community")
 
     def get_docs_url(self):
-        return get_doc_url("TODO")
+        return ''
 
 
 @register

@@ -33,7 +33,12 @@
 {% for guide in guidelines %}
 {% if guide.is_relevant %}
 {% if guide.group %}
-<tr><th colspan="3">{{ guide.description }} {% include "documentation-icon.html" with doc_url=guide.get_docs_url %}</th></tr>
+<tr><th colspan="3">
+    {{ guide.description }} 
+    {% if guide.get_docs_url %}
+    {% include "documentation-icon.html" with doc_url=guide.get_docs_url %}
+    {% endif %}
+</th></tr>
 {% else %}
 <tr>
     <td>
