@@ -31,8 +31,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
     verbose = _("Update RESX files")
     description = _(
         "Update all translation files to match the monolingual base file. "
-        "It removes stale translation keys and adds new ones with source "
-        "string as a translation."
+        "It removes unused strings, and adds new ones wherein the translation is "
+        "a copy of the source string."
     )
     icon = "refresh"
     compat = {"file_format": {"resx"}}
@@ -41,7 +41,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
         """Filter obsolete units in RESX storage.
 
         This removes the corresponding XML element and
-        also adds newly added units and changed ones.
+        also adds newly added, and changed units.
         """
         sindex = self.build_index(storage)
         changed = False
@@ -67,7 +67,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
     @staticmethod
     def find_changes(index, storage):
-        """Find changed units in storage"""
+        """Find changed string IDs in upstream repository"""
         result = set()
 
         for unit in storage.units:
