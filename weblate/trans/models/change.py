@@ -474,7 +474,7 @@ class Change(models.Model, UserDisplayMixin):
         elif self.action == self.ACTION_PARSE_ERROR:
             return '{filename}: {error_message}'.format(**self.details)
         elif self.action == self.ACTION_HOOK:
-            return '{service_long_name}: {repo_url}, {branch}'.format(self.details)
+            return '{service_long_name}: {repo_url}, {branch}'.format(**self.details)
 
         return ''
 
