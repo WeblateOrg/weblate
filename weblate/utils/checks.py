@@ -286,7 +286,7 @@ def check_perms(app_configs=None, **kwargs):
     """Check we can write to data dir."""
     errors = []
     uid = os.getuid()
-    message = 'Path {} is not writable, check your DATA_DIR settings.'
+    message = 'Path {} is owned by different user, check your DATA_DIR settings.'
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             path = os.path.join(dirpath, name)
@@ -302,7 +302,7 @@ def check_perms(app_configs=None, **kwargs):
                     Critical(
                         message.format(path),
                         hint=get_doc_url('admin/install', 'file-permissions'),
-                        id='weblate.E002',
+                        id='weblate.E027',
                     )
                 )
 

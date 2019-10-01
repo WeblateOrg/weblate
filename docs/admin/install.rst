@@ -240,8 +240,9 @@ clear error regardless of the fact that the key is trusted or not:
 Filesystem permissions
 ----------------------
 
-The Weblate process needs to be able to read and write to the directory where it
-keeps data - :setting:`DATA_DIR`.
+The Weblate process needs to be able to read and write to the directory where
+it keeps data - :setting:`DATA_DIR`. All files within this directory should be
+owned and writable by user running Weblate.
 
 The default configuration places them in the same tree as the Weblate sources, however
 you might prefer to move these to a better location such as:
