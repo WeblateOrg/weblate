@@ -32,7 +32,7 @@ class LangaugeConsistencyAddon(BaseAddon):
     name = 'weblate.consistency.languages'
     verbose = _('Language consistency')
     description = _(
-        'This addon ensures that all components within one project '
+        'Ensure that all components within one project '
         'have translation to same languages.'
     )
     icon = 'language'
