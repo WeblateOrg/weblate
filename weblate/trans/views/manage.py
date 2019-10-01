@@ -239,7 +239,7 @@ def whiteboard_delete(request, pk):
 @login_required
 def component_progress(request, project, component):
     obj = get_component(request, project, component)
-    return_url = 'component' if 'info' in request.get else 'guide'
+    return_url = 'component' if 'info' in request.GET else 'guide'
     if not obj.in_progress():
         return redirect(return_url, **obj.get_reverse_url_kwargs())
 
