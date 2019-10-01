@@ -336,7 +336,7 @@ def check_python(app_configs=None, **kwargs):
             'Please upgrade your installation to Python 3. '
             'Python 2 support will be dropped in Weblate 4.0 '
             'currently sheduled on April 2020.',
-            hint=get_doc_url('admin/updare', 'py3'),
+            hint=get_doc_url('admin/upgrade', 'py3'),
             id='weblate.W023',
         )
     ]
