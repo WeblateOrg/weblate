@@ -10,6 +10,7 @@
 {% endif %}
 <i class="fa fa-{{ addon.icon }}"></i> 
 {{ addon.verbose }}
+{% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 {% if addon.instance %}
 {% with form=addon.get_settings_form %}
