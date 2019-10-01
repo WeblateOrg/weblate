@@ -248,7 +248,7 @@ class CreateTest(ViewTestCase):
             },
             follow=True
         )
-        self.assertContains(response, "Download statistics")
+        self.assertContains(response, "Return to the component")
 
     @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
     def test_create_invalid_zip(self):
