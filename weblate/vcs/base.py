@@ -30,11 +30,13 @@ import sys
 from distutils.version import LooseVersion
 
 from dateutil import parser
+from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
+from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import (
     add_configuration_error,
@@ -106,6 +108,11 @@ class Repository(object):
                 self.init()
 
     @classmethod
+    def add_breadcrumb(cls, message, **data):
+        if getattr(settings, 'SENTRY_DSN', None):
+            add_breadcrumb(category='vcs', message=message, data=data, level='info')
+
+    @classmethod
     def log(cls, message):
         return LOGGER.debug('%s: %s', cls._cmd, message)
 
@@ -146,6 +153,7 @@ class Repository(object):
             raise RepositoryException(0, 'Not supported functionality', '')
         if not fullcmd:
             args = [cls._cmd] + args
+        text_cmd = ' '.join(force_text(arg, 'utf-8') for arg in args)
         process = subprocess.Popen(
             args,
             cwd=cwd,
@@ -155,21 +163,22 @@ class Repository(object):
             stdin=subprocess.PIPE,
         )
         output, output_err = process.communicate()
+        if not raw:
+            output = output.decode('utf-8')
+        output_err = output_err.decode('utf-8')
         retcode = process.poll()
-        cls.log(
-            'exec {0} [retcode={1}]'.format(
-                ' '.join([force_text(arg) for arg in args]), retcode
-            )
+        cls.add_breadcrumb(
+            text_cmd,
+            retcode=retcode,
+            output=output,
+            output_err=output_err,
         )
+        cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
-            raise RepositoryException(
-                retcode, output_err.decode('utf-8'), output.decode('utf-8')
-            )
+            raise RepositoryException(retcode, output_err, output)
         if not output and err:
-            return output_err.decode('utf-8')
-        if raw:
-            return output
-        return output.decode('utf-8')
+            return output_err
+        return output
 
     def execute(self, args, needs_lock=True, fullcmd=False):
         """Execute command and caches its output."""
