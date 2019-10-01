@@ -51,6 +51,7 @@ import weblate.trans.views.edit
 import weblate.trans.views.error
 import weblate.trans.views.files
 import weblate.trans.views.git
+import weblate.trans.views.guide
 import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.lock
@@ -165,6 +166,11 @@ real_patterns = [
         r'^projects/' + COMPONENT + '$',
         weblate.trans.views.basic.show_component,
         name='component',
+    ),
+    url(
+        r'^guide/' + COMPONENT + '$',
+        weblate.trans.views.guide.guide,
+        name='guide',
     ),
     url(
         r'^projects/' + COMPONENT + 'source/$',

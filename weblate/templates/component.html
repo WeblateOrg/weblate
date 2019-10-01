@@ -48,6 +48,7 @@
       {% if user.is_authenticated %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
+      <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Localization guide" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">

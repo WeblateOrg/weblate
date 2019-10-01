@@ -34,6 +34,7 @@ Not yet released.
 * Split cleanup addon for RESX to avoid unwanted file updates.
 * Added advanced search capabilities.
 * Allow users to download their own reports.
+* Added localization guide to help configuring components.
 
 weblate 3.8
 -----------

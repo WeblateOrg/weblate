@@ -251,6 +251,7 @@ def component_progress(request, project, component):
             'object': obj,
             'progress': progress,
             'log': '\n'.join(log),
+            'return_url': 'component' if 'info' in request.GET else 'guide'
         }
     )
 

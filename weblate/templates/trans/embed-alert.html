@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if component.in_progress %}
-<a href="{% url "component_progress" project=component.project.slug component=component.slug %}">
+<a href="{% url "component_progress" project=component.project.slug component=component.slug %}?info=1">
 <i class="fa fa-cog fa-spin text-info" aria-hidden="true" title="{% trans "Updating translation component…" %}"></i></a>
 {% endif %}
 
