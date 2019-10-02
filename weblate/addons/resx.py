@@ -30,9 +30,9 @@ class ResxUpdateAddon(BaseCleanupAddon):
     name = "weblate.resx.update"
     verbose = _("Update RESX files")
     description = _(
-        "Update all translation files to match the monolingual base file. "
-        "It removes unused strings, and adds new ones wherein the translation is "
-        "a copy of the source string."
+        "Update all translation files to match the monolingual upstream base file. "
+        "Unused strings are removed, and new ones are added as "
+        "copies of the source string."
     )
     icon = "refresh"
     compat = {"file_format": {"resx"}}
