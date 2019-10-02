@@ -35,6 +35,7 @@ from translate.storage.xliff import xlifffile
 import weblate
 from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
+from weblate.trans.util import split_plural
 from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
@@ -161,7 +162,9 @@ class BaseExporter(object):
         # Suggestions
         for suggestion in unit.suggestions:
             output.addnote(
-                'Suggested in Weblate: {}'.format(suggestion.target),
+                'Suggested in Weblate: {}'.format(
+                    ', '.join(split_plural(suggestion.target))
+                ),
                 origin='translator'
             )
 
