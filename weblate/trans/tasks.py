@@ -233,7 +233,7 @@ def cleanup_suggestions():
             is_different = False
             # Do not rely on the SQL as MySQL compares strings case insensitive
             for unit in suggestion.related_units:
-                if unit.target != suggestion.target:
+                if unit.target != suggestion.target or not unit.translated:
                     is_different = True
                     break
 
