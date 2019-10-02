@@ -172,6 +172,7 @@ class Repository(object):
             retcode=retcode,
             output=output,
             output_err=output_err,
+            cwd=cwd,
         )
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
