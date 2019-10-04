@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-30 13:43+0000\n"
-"PO-Revision-Date: 2019-09-16 12:48+0000\n"
+"PO-Revision-Date: 2019-10-05 14:15+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -261,17 +261,17 @@ msgstr "パスワードが変更されました。"
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "ユーザー名を {old} から {new} に変更しました。"
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "メールアドレスを {old} から {new} に変更しました。"
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "フルネームを {old} から {new} に変更しました。"
 
 #: weblate/accounts/models.py:102
 msgid "Password reset requested."
@@ -710,10 +710,8 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "パスワードをリセットできません。メール認証の設定が無効です。"
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "現在のユーザ認証方法"
+msgstr "ユーザー ID を削除できません"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -792,7 +790,7 @@ msgstr ""
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr ""
+msgstr "リポジトリは古く、更新するまで期待どおりの結果は得られません。"
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1157,23 +1155,14 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "提案を削除する時間枠を設定します。"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "LINGUAS ファイルの更新"
+msgstr "RESX ファイルの更新"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual base file. It removes "
 "stale translation keys and adds new ones with source string as a translation."
-msgstr ""
-"単一言語の基本ファイルに合わせてすべての翻訳ファイルを更新します。ほとんどの"
-"ファイル形式で、基本ファイルに存在しない、無効な翻訳キーを削除します。"
+msgstr "すべての変換ファイルを更新して、単一言語基本ファイルと一致させます。古い変換キーを削除し、原文を翻訳とする新しい変換キーを追加します。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -2258,16 +2247,10 @@ msgid "Font group name"
 msgstr "フォント グループ名"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special chars."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
-msgstr ""
-"このフォント グループの選択を識別するための識別子。空白や特殊文字は避けてくだ"
-"さい。"
+msgstr "このフォント グループの選択を識別するための識別子。空白や特殊文字は避けてください。"
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -3819,10 +3802,8 @@ msgid "You have agreed to the following as a contributor:"
 msgstr "貢献者として以下の内容に合意しています:"
 
 #: weblate/templates/accounts/profile.html:342
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "Licenses for individual translations"
-msgstr "単一言語の翻訳"
+msgstr "個々の翻訳のライセンス"
 
 #: weblate/templates/accounts/profile.html:345 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -4897,10 +4878,8 @@ msgid_plural "Browse all %(count)s projects"
 msgstr[0] "全 %(count)s 個のプロジェクトを参照"
 
 #: weblate/templates/dashboard/user.html:10
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configure dashboard"
-msgstr "エディタの設定"
+msgstr "ダッシュボードの設定"
 
 #: weblate/templates/dashboard/user.html:49
 msgid "Checks overview"
@@ -5180,11 +5159,10 @@ msgid_plural "Languages"
 msgstr[0] "言語"
 
 #: weblate/templates/engage.html:32 weblate/trans/widgets.py:100
-#, fuzzy, python-format
-#| msgid "Percent"
+#, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
-msgstr "パーセント"
+msgstr "%(percent)s%%"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -6157,66 +6135,59 @@ msgstr "プロジェクトのアクセス制御を変更するための権限が
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "バックアップ"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "バックアップ サービス: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "無効にする"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "バックアップ サービスの資格情報"
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "リポジトリのアクセス"
+msgstr "バックアップ リポジトリ"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "パスフレーズ"
 
 #: weblate/templates/manage/backups.html:46
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
-msgstr ""
+msgstr "パスフレーズはバックアップの暗号化に使用するだけでなく、バックアップの復元にも必要です。"
 
 #: weblate/templates/manage/backups.html:49
 #: weblate/templates/manage/ssh.html:28
-#, fuzzy
-#| msgid "Download reports"
 msgid "Download private key"
-msgstr "レポートのダウンロード"
+msgstr "秘密鍵のダウンロード"
 
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
-msgstr ""
+msgstr "秘密鍵は、リモート バックアップ リポジトリにアクセスするために必要です。"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
-msgstr ""
+msgstr "無効にする"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn on"
-msgstr ""
+msgstr "有効にする"
 
 #: weblate/templates/manage/backups.html:77
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "性能"
+msgstr "バックアップの実行"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
-msgstr ""
+msgstr "バックアップ サービスの追加"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6228,10 +6199,8 @@ msgid "Support status"
 msgstr "サポート状況"
 
 #: weblate/templates/manage/index.html:25
-#, fuzzy
-#| msgid "Exceeds limits"
 msgid "Exceeding service limits"
-msgstr "制限超過"
+msgstr "サービス制限の超過"
 
 #: weblate/templates/manage/index.html:32
 msgid "Support expiry"
@@ -6303,7 +6272,7 @@ msgstr "サポート パッケージを有効にする"
 msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
-msgstr ""
+msgstr "サポートパッケージは、優先的なメール サポート、またはインストールした Weblate のクラウドへのバックアップを含みます。"
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6580,8 +6549,6 @@ msgid "Number of words"
 msgstr "単語の数"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of chars"
 msgid "Number of characters"
 msgstr "文字数"
 
@@ -6598,8 +6565,6 @@ msgid "Number of source words"
 msgstr "原文の単語の数"
 
 #: weblate/templates/project_stats.html:34
-#, fuzzy
-#| msgid "Number of source chars"
 msgid "Number of source characters"
 msgstr "原文の文字数"
 
@@ -6776,7 +6741,7 @@ msgstr "管理者"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "詳細なクエリ ビルダー"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6795,82 +6760,57 @@ msgid "Location strings"
 msgstr "場所文字列"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
 msgstr "文字列の状態"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "採用待ちの提案"
+msgstr "採用待ちの文字列"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
 msgstr "提案がある文字列"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
 msgstr "コメントがある文字列"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "適正検査に不合格した文字列"
+msgstr "文字列は、適正検査に不合格しました"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "言語の管理"
+msgstr "翻訳対象の言語"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "原文文字列の変更"
+msgstr "変更された文字列"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "%s の検索"
+msgstr "検索…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "原文文字列の変更"
+msgstr "変更後の文字列"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "要編集マーク付きの文字列"
+msgstr "変更前の文字列"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
 msgstr "日付"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "API の使用例:"
+msgstr "クエリの例"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review translations changed by other users"
-msgstr "他のユーザによる翻訳に対して査読を行います。"
+msgstr "他のユーザの翻訳を査読します"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
@@ -7006,10 +6946,8 @@ msgstr ""
 "ださい。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "This component is set up incorrectly."
-msgstr "このコンポーネントは、%(target)s リポジトリとリンクしています。"
+msgstr "このコンポーネントは正しく設定されていません。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1627 weblate/trans/models/component.py:177
@@ -7017,16 +6955,10 @@ msgid "Version control system"
 msgstr "バージョン管理システム"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:21
-#, fuzzy
-#| msgid ""
-#| "This can happen after disabling support for these features or by missing "
-#| "dependencies."
 msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
-msgstr ""
-"この現象は、この機能のサポートを無効にした後、もしくは依存関係がないために発"
-"生する場合があります。"
+msgstr "この現象は、この機能のサポートを無効にした後、もしくは依存関係がないために発生する場合があります。"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7866,10 +7798,8 @@ msgid "Weblate translations"
 msgstr "Weblate 翻訳"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
-msgstr "文字操作"
+msgstr "制御文字"
 
 #: weblate/trans/autofixes/custom.py:49
 msgid "Apostrophes in Java MessageFormat"
@@ -8115,10 +8045,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:807
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "複数形に問題があります: {}"
+msgstr "クエリ文字列の解析に失敗しました: {}"
 
 #: weblate/trans/forms.py:831 weblate/trans/forms.py:833
 msgid "Could not find merged string."
@@ -8141,16 +8069,10 @@ msgid "Other translation components"
 msgstr "その他の翻訳コンポーネント"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Enable project contribution to shared translation memory on project to "
-#| "get access to additional components."
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
-msgstr ""
-"プロジェクトへの共有翻訳メモリの貢献を有効にして、追加のコンポーネントへアク"
-"セス可能にします。"
+msgstr "プロジェクトの共有翻訳メモリへの貢献を有効にして、追加コンポーネントにアクセスします。"
 
 #: weblate/trans/forms.py:885
 msgid "Machine translation engines"
@@ -8735,10 +8657,8 @@ msgid "Invited user"
 msgstr "招待されたユーザ"
 
 #: weblate/trans/models/change.py:272
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Received repository notification"
-msgstr "リポジトリのメンテナンス"
+msgstr "リポジトリ通知を受信しました"
 
 #: weblate/trans/models/change.py:379
 #, python-format
@@ -10203,8 +10123,6 @@ msgstr ""
 "画像が大きすぎます。縮小するか、必要な箇所を切り取ってやり直してください！"
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "フルネームには特殊な文字を使用しないでください。"
 
@@ -10314,19 +10232,15 @@ msgstr "お客様のサーバへの追加サポート"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "バックアップの実行"
 
 #: weblate/wladmin/models.py:183
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "このアカウントを削除"
+msgstr "最も古いバックアップを削除しました"
 
 #: weblate/wladmin/models.py:184
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository initialization"
-msgstr "リポジトリのメンテナンス"
+msgstr "リポジトリの初期化"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
