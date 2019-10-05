@@ -3,7 +3,7 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-{% if not was_added %}
+{% if was_added %}
 <p>
 {% blocktrans with user=user.username %}New language has been added to {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
 </p>
