@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-30 13:43+0000\n"
-"PO-Revision-Date: 2019-09-29 08:09+0000\n"
+"PO-Revision-Date: 2019-10-06 12:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -689,10 +689,8 @@ msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "אין אפשרות לאפס ססמה, אימות באמצעות דוא״ל מושבת."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Failed to remove user identity"
 msgid "Could not remove user identity"
-msgstr "הסרת זהות המשתמש נכשלה"
+msgstr "לא ניתן להסיר את זהות המשתמש"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -763,15 +761,10 @@ msgid ""
 msgstr "תוספת זו מתרגמת מחרוזות אוטומטית בעזרת תרגום מכונה או רכיבים אחרים."
 
 #: weblate/addons/base.py:278
-#, fuzzy
-#| msgid ""
-#| "The Weblate repository is outdated, you might not get expected results "
-#| "until you update it."
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr ""
-"תוקף המאגר של Weblate פג, יכול להיות שתופענה תוצאות לא הגיוניות עד לעדכון."
+msgstr "תוקף המאגר פג, יכול להיות שתופענה תוצאות לא הגיוניות עד לעדכון."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -2218,15 +2211,11 @@ msgid "Font group name"
 msgstr "שם קבוצת גופנים"
 
 #: weblate/fonts/models.py:110
-#, fuzzy
-#| msgid ""
-#| "Identifier you will use in checks to select this font group. Avoid "
-#| "whitespace or special characters."
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"מזהה שישמש אותך בבדיקות לבחירת קבוצת גופנים זו. יש להימנע מרווחים או תווים "
+"מזהה שישמש אותך בבדיקות לבחירת קבוצת גופנים זו. יש להימנע מרווחים ומתווים "
 "מיוחדים."
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
@@ -3739,10 +3728,8 @@ msgid "You have agreed to the following as a contributor:"
 msgstr "הסכמת לתנאים הבאים במסגרת התנדבותך:"
 
 #: weblate/templates/accounts/profile.html:342
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "Licenses for individual translations"
-msgstr "תרגומים חד־לשוניים"
+msgstr "רישיונות לתרגומים יחידניים"
 
 #: weblate/templates/accounts/profile.html:345 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -6072,18 +6059,16 @@ msgstr "מילת צופן"
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
-msgstr ""
+msgstr "מילת הצופן שמשמשת להצפנת הגיבויים והיא נדרשת גם לטובת שחזורם."
 
 #: weblate/templates/manage/backups.html:49
 #: weblate/templates/manage/ssh.html:28
-#, fuzzy
-#| msgid "Download private key for backup"
 msgid "Download private key"
-msgstr "הורדת מפתח פרטי לגיבוי"
+msgstr "הורדת מפתח פרטי"
 
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
-msgstr ""
+msgstr "המפתח הפרטי נחוץ לטובת גישה למאגר הגיבוי המרוחק."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
@@ -6094,10 +6079,8 @@ msgid "Turn on"
 msgstr "הפעלה"
 
 #: weblate/templates/manage/backups.html:77
-#, fuzzy
-#| msgid "Performance"
 msgid "Perform backup"
-msgstr "ביצועים"
+msgstr "ביצוע גיבוי"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
@@ -6183,16 +6166,12 @@ msgid "Activate support package"
 msgstr "הפעלת חבילת תמיכה"
 
 #: weblate/templates/manage/snippets/activation-form.html:13
-#, fuzzy
-#| msgid ""
-#| "The support packages include priority email support or cloud backups for "
-#| "your Weblate installation."
 msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
-"חבילות התמיכה כוללות תמיכה בדוא״ל עם עדיפות או גיבויים בענן להתקנת ה־Weblate "
-"שלך."
+"חבילות התמיכה כוללות תמיכה בדוא״ל עם עדיפות או גיבויים בענן של התקנת ה־"
+"Weblate שלך."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -8541,10 +8520,8 @@ msgid "Invited user"
 msgstr "משתמש הוזמן"
 
 #: weblate/trans/models/change.py:272
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Received repository notification"
-msgstr "חניכת מאגר"
+msgstr "התקבלה התראה על מאגר"
 
 #: weblate/trans/models/change.py:379
 #, python-format
@@ -10146,10 +10123,8 @@ msgid "Backup performed"
 msgstr "הגיבוי בוצע"
 
 #: weblate/wladmin/models.py:183
-#, fuzzy
-#| msgid "Pruned old backups"
 msgid "Deleted the oldest backups"
-msgstr "גיבויים ישנים סולקו"
+msgstr "הגיבויים הישנים ביותר נמחקו"
 
 #: weblate/wladmin/models.py:184
 msgid "Repository initialization"
