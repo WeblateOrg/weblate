@@ -6,13 +6,14 @@
 # G Ran Berg <jagflashardinxbox360@gmail.com>, 2019.
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
+# Mattias Münster <mattiasmun@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-09-30 13:43+0000\n"
-"PO-Revision-Date: 2019-09-22 20:22+0000\n"
-"Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
+"PO-Revision-Date: 2019-10-06 12:46+0000\n"
+"Last-Translator: Mattias Münster <mattiasmun@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
 "Language: sv\n"
@@ -389,21 +390,13 @@ msgid "Editor link"
 msgstr "Länk till editor"
 
 #: weblate/accounts/models.py:380
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Ange en egen länk till den öppna källkoden. Du kan använda {{branch}} för "
-"branch, {{filename}} och {{line}} som filnamn och radnummer. Vanligtvis är "
-"något liknande editor://open/?file={{filename}}&line={{line}} ett fungerande "
-"alternativ."
+"Ange en egen länk till källkoden. Du kan använda {{branch}} för branch, "
+"{{filename}} och {{line}} som filnamn och radnummer."
 
 #: weblate/accounts/models.py:389
 msgid "Translation editor mode"
@@ -434,19 +427,14 @@ msgid "Special characters"
 msgstr "Specialtecken"
 
 #: weblate/accounts/models.py:411
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
-"Du kan ange extra specialtecken som visas i det synliga tangentbordet under "
-"översättning. Det kan vara användbart för ofta använda tecken som är svåra "
-"att skriva på det fysiska tangentbordet."
+"Du kan ange ytterligare speciella visuella tangentbordstecken som ska visas "
+"under översättningen. Det kan vara användbart för tecken som du använder "
+"ofta, men är svåra att skriva på tangentbordet."
 
 #: weblate/accounts/models.py:423 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -496,16 +484,12 @@ msgstr ""
 "kontrollpanelen."
 
 #: weblate/accounts/models.py:589
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
-"Du kan inte skicka in några översättningar då du inte har lagt till någon e-"
-"postadress."
+"Du kan inte skicka in översättningar eftersom du inte har tilldelat någon "
+"e-postadress."
 
 #: weblate/accounts/notifications.py:49
 msgid "Do not notify"
@@ -548,10 +532,8 @@ msgid "New suggestion"
 msgstr "Nytt förslag"
 
 #: weblate/accounts/notifications.py:391
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "Kommentera skriven översättningen"
+msgstr "Kommentera egen översättning"
 
 #: weblate/accounts/notifications.py:415
 msgid "Mentioned in comment"
@@ -579,10 +561,8 @@ msgid "New whiteboard message"
 msgstr "Nytt meddelande på anslagstavlan"
 
 #: weblate/accounts/notifications.py:500 weblate/trans/models/change.py:266
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "Ny rad"
+msgstr "Ny avisering"
 
 #: weblate/accounts/notifications.py:542
 #: weblate/templates/user-activity.html:13
@@ -721,83 +701,57 @@ msgid "Password reset has been already completed!"
 msgstr "Nollställning av lösenordet har redan slutförts!"
 
 #: weblate/accounts/views.py:825
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd!"
+msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Nuvarande användaridentiteter"
+msgstr "Det gick inte att ta bort användaridentitet"
 
 #: weblate/accounts/views.py:1013
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
 msgstr ""
-"Misslyckades att verifiera din registrering! Troligtvis har ditt "
-"verifieringsbevis slutat gälla. Vänligen starta om registreringen igen."
+"Det gick inte att verifiera din registrering! Verifieringstoken har "
+"förmodligen gått ut. Försök att registrera dig igen."
 
 #: weblate/accounts/views.py:1023
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "Autentisering misslyckades p.g.a. ett otillåtet sessionstillstånd."
+msgstr "Det gick inte att autentisera på grund av ogiltigt sessionstillstånd."
 
 #: weblate/accounts/views.py:1032
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Fick ingen e-postadress från tredjepartsautentiseringstjänsten!"
+msgstr "Fick ingen e-postadress från tredjepartsautentiseringstjänsten."
 
 #: weblate/accounts/views.py:1034
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Registrera med e-postadress"
+msgstr "Vänligen registrera er med e-postadress i stället."
 
 #: weblate/accounts/views.py:1043
 msgid "Can not change authentication for demo!"
 msgstr "Kan inte ändra autentisering för demo!"
 
 #: weblate/accounts/views.py:1048
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "Nya registreringar är avstängda!"
+msgstr "Nya registreringar är avstängda."
 
 #: weblate/accounts/views.py:1076
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Autentisering har misslyckats, troligtvis p.g.a. ett utgånget token eller "
+"Det gick inte att autentisera, troligtvis p.g.a. ett utgånget token eller "
 "kommunikationsfel."
 
 #: weblate/accounts/views.py:1081
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
-msgstr "Autentisering har avbrutits."
+msgstr "Autentiseringen avbröts."
 
 #: weblate/accounts/views.py:1086
 msgid "The server does not allow authentication."
 msgstr "Servern tillåter inte autentisering."
 
 #: weblate/accounts/views.py:1090
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
@@ -806,22 +760,16 @@ msgstr ""
 "användarnamnet är redan i bruk för ett annat konto."
 
 #: weblate/accounts/views.py:1104
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "Aviseringsinställningar"
+msgstr "Aviseringsinställningarna är justerade."
 
 #: weblate/accounts/views.py:1107
-#, fuzzy
-#| msgid ""
-#| "The unsubscribe link is no longer valid, please log in to configure "
-#| "notifications."
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
-"Avregistreringslänken är inte längre giltig, logga in för att konfigurera "
-"aviseringar."
+"Länken för att ändra aviseringar är inte längre giltig, logga in för att "
+"konfigurera aviseringar."
 
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:62
 #: weblate/templates/translation.html:222 weblate/trans/models/change.py:225
@@ -833,12 +781,16 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Detta tillägg översätter automatiskt strängar med maskinöversättning eller "
+"andra komponenter."
 
 #: weblate/addons/base.py:278
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Förrådet är föråldrat, du kanske inte får förväntade resultat förrän du "
+"uppdaterar det."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -971,10 +923,6 @@ msgid "No line wrapping"
 msgstr "Ingen radbrytning"
 
 #: weblate/addons/forms.py:113
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
@@ -1023,26 +971,18 @@ msgid "Days to keep"
 msgstr "Dagar som sparas"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
-msgstr "Tröskelvärde för röster"
+msgstr "Tröskelvärde för röstning"
 
 #: weblate/addons/forms.py:171
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting "
-#| "disabled."
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
-"Tröskelvärde för röstavlägsnande. Det här fältet har ingen effekt när "
-"röstning är inaktiverad."
+"Tröskelvärde för avlägsnande. Det här fältet har ingen effekt när röstningen "
+"är avstängd."
 
 #: weblate/addons/forms.py:178
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "Reguljärt uttryck, till att matcha översättningsfiler"
+msgstr "Reguljärt uttryck för att matcha översättningsfiler mot"
 
 #: weblate/addons/forms.py:181
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
@@ -1098,10 +1038,8 @@ msgid "I confirm the above matches look correct"
 msgstr "Jag bekräftar att ovanstående matchningar ser ut att vara korrekta"
 
 #: weblate/addons/forms.py:282
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
-msgstr "Granska och bekräfta matchade komponenter."
+msgstr "Granska och bekräfta de matchade komponenterna."
 
 #: weblate/addons/forms.py:298
 msgid "Please include component markup in the template."
@@ -1135,22 +1073,16 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Uppdaterar LINGUAS-filen när en ny översättning adderas."
 
 #: weblate/addons/gettext.py:126
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Uppdatera ALL_LINGUAS-variabeln i konfigurationsfilen"
+msgstr "Uppdatera ALL_LINGUAS-variabeln i \"configure\"-filen"
 
 #: weblate/addons/gettext.py:128
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Uppdaterar ALL_LINGUAS-variabeln i filerna configure, configure.in och "
-"configure.ac, när en ny översättning adderas."
+"Uppdaterar ALL_LINGUAS-variabeln i filerna \"configure\", \"configure.in\" "
+"och \"configure.ac\", när en ny översättning adderas."
 
 #: weblate/addons/gettext.py:186
 msgid "Update PO files to match POT (msgmerge)"
@@ -1231,10 +1163,8 @@ msgid "Set timeframe for removal of suggestions."
 msgstr "Ange tidsram för borttagning av förslag."
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "Uppdatera LINGUAS-fil"
+msgstr "Uppdatera RESX-filer"
 
 #: weblate/addons/resx.py:33
 #, fuzzy
@@ -2022,7 +1952,7 @@ msgstr "Teckenavstånd"
 
 #: weblate/checks/chars.py:389
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Saknar utrymme som inte kan brytas före dubbeltecken"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -2271,7 +2201,7 @@ msgstr "Översättningen innehåller inte någon URL"
 
 #: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Osäker HTML"
 
 #: weblate/checks/markup.py:317
 #, fuzzy
@@ -2281,7 +2211,7 @@ msgstr "Översättningen använder tvåspråkiga filer."
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "Platshållare"
 
 #: weblate/checks/placeholders.py:46
 #, fuzzy
@@ -5907,12 +5837,11 @@ msgid "Plural: %(source_description)s"
 msgstr "Pluralform: %(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Dina översättningar"
-msgstr[1] "Dina översättningar"
+msgstr[0] "En översättning"
+msgstr[1] "%(count)s översättningar"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -6482,37 +6411,36 @@ msgstr ""
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:51
 msgid "Backups"
-msgstr ""
+msgstr "Säkerhetskopior"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr ""
+msgstr "Säkerhetskopieringstjänst: %(url)s"
 
 #: weblate/templates/manage/backups.html:22
 msgid "Turned off"
-msgstr ""
+msgstr "Avstängd"
 
 #: weblate/templates/manage/backups.html:33
 msgid "Backup service credentials"
-msgstr ""
+msgstr "Autentiseringsuppgifter för säkerhetskopieringstjänst"
 
 #: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "Öppna förrådet"
+msgstr "Säkerhetskopieringsförråd"
 
 #: weblate/templates/manage/backups.html:43
 msgid "Passphrase"
-msgstr ""
+msgstr "Lösenfras"
 
 #: weblate/templates/manage/backups.html:46
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"Lösenfrasen används för att kryptera säkerhetskopiorna och är nödvändig för "
+"att återställa dem."
 
 #: weblate/templates/manage/backups.html:49
 #: weblate/templates/manage/ssh.html:28
@@ -6524,14 +6452,16 @@ msgstr "Hämta rapporter"
 #: weblate/templates/manage/backups.html:50
 msgid "The private key is needed to acccess the remote backup repository."
 msgstr ""
+"Den privata nyckeln behövs för att få tillgång till "
+"fjärrsäkerhetskopieringsplatsen."
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn off"
-msgstr ""
+msgstr "Stäng av"
 
 #: weblate/templates/manage/backups.html:76
 msgid "Turn on"
-msgstr ""
+msgstr "Sätt på"
 
 #: weblate/templates/manage/backups.html:77
 #, fuzzy
@@ -6541,7 +6471,7 @@ msgstr "Prestanda"
 
 #: weblate/templates/manage/backups.html:91
 msgid "Add backup service"
-msgstr ""
+msgstr "Lägg till säkerhetskopieringstjänst"
 
 #: weblate/templates/manage/index.html:15
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -6637,6 +6567,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Supportpaketen inkluderar prioriterad e-postsupport eller "
+"molnsäkerhetskopior av din Weblate-installation."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 #, fuzzy
@@ -7142,7 +7074,7 @@ msgstr "Admin"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Avancerade frågeverktyget"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -7387,6 +7319,8 @@ msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
+"Detta kan hända efter att stöd för dessa funktioner har stängts av, eller "
+"när beroenden saknas."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7448,6 +7382,8 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
+"Skapa en ny översättningskomponent från förrådet för "
+"fjärrversionskontrollsystem."
 
 #: weblate/templates/trans/component_create.html:50
 #: weblate/templates/trans/component_create.html:63
@@ -7882,11 +7818,11 @@ msgstr "Kvalitet"
 
 #: weblate/templates/translate.html:412
 msgid "Origin"
-msgstr ""
+msgstr "Ursprung"
 
 #: weblate/templates/translate.html:413
 msgid "Similarity"
-msgstr ""
+msgstr "Likhet"
 
 #: weblate/templates/translate.html:443
 msgid "Comment on this string for fellow translators and developers to read."
@@ -8063,7 +7999,7 @@ msgstr "Procent"
 
 #: weblate/templates/translation.html:381
 msgid "Chars"
-msgstr ""
+msgstr "Tecken"
 
 #: weblate/templates/translation.html:386
 msgid "Total"
@@ -8539,6 +8475,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
+"Aktivera bidrag till delat översättningsminne för projektet för att få "
+"tillgång till ytterligare komponenter."
 
 #: weblate/trans/forms.py:885
 msgid "Machine translation engines"
@@ -10796,15 +10734,15 @@ msgstr "Webbhotell"
 
 #: weblate/wladmin/models.py:86
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "Grundläggande egenvärdsstöd"
 
 #: weblate/wladmin/models.py:87
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "Utökad egenvärdsstöd"
 
 #: weblate/wladmin/models.py:182
 msgid "Backup performed"
-msgstr ""
+msgstr "Säkerhetskopiering utförd"
 
 #: weblate/wladmin/models.py:183
 #, fuzzy
