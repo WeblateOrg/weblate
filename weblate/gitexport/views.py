@@ -27,6 +27,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.encoding import force_text
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -110,6 +111,15 @@ def git_export(request, project, component, path):
         raise PermissionDenied('No VCS permissions')
     if obj.vcs not in SUPPORTED_VCS:
         raise Http404('Not a git repository')
+    if obj.is_repo_link:
+        kwargs = obj.linked_component.get_reverse_url_kwargs()
+        kwargs['path'] = path
+        return redirect(
+            '{}?{}'.format(
+                reverse('git-export', kwargs=kwargs), request.META['QUERY_STRING']
+            ),
+            permanent=True,
+        )
 
     return run_git_http(request, obj, path)
 

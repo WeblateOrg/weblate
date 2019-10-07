@@ -28,7 +28,7 @@ from django.urls import reverse
 
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import authenticate
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
@@ -85,9 +85,11 @@ class GitExportTest(ViewTestCase):
             self.get_auth_string(self.user.auth_token.key)
         ))
 
-    def get_git_url(self, path):
+    def get_git_url(self, path, component=None):
         kwargs = {'path': path}
-        kwargs.update(self.kw_component)
+        if component is None:
+            component = self.kw_component
+        kwargs.update(component)
         return reverse('git-export', kwargs=kwargs)
 
     def test_git_root(self):
@@ -104,6 +106,27 @@ class GitExportTest(ViewTestCase):
             QUERY_STRING='?service=git-upload-pack',
             CONTENT_TYPE='application/x-git-upload-pack-advertisement',
             **kwargs
+        )
+
+    def test_redirect_link(self):
+        linked = Component.objects.create(
+            name='Test2',
+            slug='test2',
+            project=self.project,
+            repo='weblate://test/test',
+            file_format='po',
+            filemask='po-duplicates/*.po',
+            new_lang='contact',
+        )
+        response = self.client.get(
+            self.get_git_url('info/refs', component=linked.get_reverse_url_kwargs()),
+            QUERY_STRING='?service=git-upload-pack',
+            CONTENT_TYPE='application/x-git-upload-pack-advertisement',
+        )
+        self.assertRedirects(
+            response,
+            '/git/test/test/info/refs??service=git-upload-pack',
+            status_code=301,
         )
 
     def test_reject_push(self):
