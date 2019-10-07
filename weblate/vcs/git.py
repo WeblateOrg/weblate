@@ -517,25 +517,9 @@ class GitMergeRequestBase(GitRepository):
             return False
         return super(GitMergeRequestBase, cls).is_supported()
 
-    def create_pull_request(self, origin_branch, fork_branch):
-        """Create pull request to merge branch in forked repository into
-        branch of remote repository.
-        """
-        cmd = [
-            'pull-request',
-            '-f',
-            '-h',
-            '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
-            '-b',
-            origin_branch,
-            '-m',
-            settings.DEFAULT_PULL_MESSAGE,
-        ]
-        self.execute(cmd)
-
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
-        cmd_push = ['push', '--force', settings.GITHUB_USERNAME]
+        cmd_push = ['push', '--force', self._username]
         self.execute(cmd_push + ['{0}:{1}'.format(local_branch, fork_branch)])
 
     def fork(self):
@@ -598,7 +582,7 @@ class GithubRepository(GitMergeRequestBase):
         cmd = [
             'pull-request',
             '-f',
-            '-h', '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
+            '-h', '{0}:{1}'.format(self._username, fork_branch),
             '-b', origin_branch,
             '-m', settings.DEFAULT_PULL_MESSAGE,
         ]
