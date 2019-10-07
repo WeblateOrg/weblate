@@ -54,10 +54,7 @@ def authenticate(request, auth):
         if method.lower() == 'basic':
             username, code = b64decode(data).decode('iso-8859-1').split(':', 1)
             try:
-                user = User.objects.get(
-                    username=username,
-                    auth_token__key=code
-                )
+                user = User.objects.get(username=username, auth_token__key=code)
             except User.DoesNotExist:
                 return False
 
@@ -82,10 +79,7 @@ def git_export(request, project, component, path):
     # Probably browser access
     if not path:
         return redirect(
-            'component',
-            project=project,
-            component=component,
-            permanent=False
+            'component', project=project, component=component, permanent=False
         )
     # Strip possible double path separators
     path = path.lstrip('/\\')
@@ -154,9 +148,11 @@ def run_git_http(request, obj, path):
     # Log error
     if output_err:
         try:
-            raise Exception('Git http backend error: {}'.format(
-                force_text(output_err).splitlines()[0]
-            ))
+            raise Exception(
+                'Git http backend error: {}'.format(
+                    force_text(output_err).splitlines()[0]
+                )
+            )
         except Exception as error:
             report_error(error, request, prefix='Git backend failure')
 
@@ -169,13 +165,9 @@ def run_git_http(request, obj, path):
 
     # Handle status in response
     if 'status' in message:
-        return HttpResponse(
-            status=int(message['status'].split()[0])
-        )
+        return HttpResponse(status=int(message['status'].split()[0]))
 
     # Send content
-    response = HttpResponse(
-        content_type=message['content-type']
-    )
+    response = HttpResponse(content_type=message['content-type'])
     response.write(content)
     return response

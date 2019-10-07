@@ -41,9 +41,7 @@ class GitExportTest(ViewTestCase):
         self.client.logout()
 
     def get_auth_string(self, code):
-        encoded = b64encode(
-            '{0}:{1}'.format(self.user.username, code).encode('utf-8')
-        )
+        encoded = b64encode('{0}:{1}'.format(self.user.username, code).encode('utf-8'))
         return 'basic ' + encoded.decode('ascii')
 
     def test_authenticate_invalid(self):
@@ -64,26 +62,21 @@ class GitExportTest(ViewTestCase):
 
     def test_authenticate_wrong(self):
         request = HttpRequest()
-        self.assertFalse(authenticate(
-            request,
-            self.get_auth_string('invalid')
-        ))
+        self.assertFalse(authenticate(request, self.get_auth_string('invalid')))
 
     def test_authenticate_basic(self):
         request = HttpRequest()
-        self.assertTrue(authenticate(
-            request,
-            self.get_auth_string(self.user.auth_token.key)
-        ))
+        self.assertTrue(
+            authenticate(request, self.get_auth_string(self.user.auth_token.key))
+        )
 
     def test_authenticate_inactive(self):
         self.user.is_active = False
         self.user.save()
         request = HttpRequest()
-        self.assertFalse(authenticate(
-            request,
-            self.get_auth_string(self.user.auth_token.key)
-        ))
+        self.assertFalse(
+            authenticate(request, self.get_auth_string(self.user.auth_token.key))
+        )
 
     def get_git_url(self, path, component=None):
         kwargs = {'path': path}
@@ -131,8 +124,7 @@ class GitExportTest(ViewTestCase):
 
     def test_reject_push(self):
         response = self.client.get(
-            self.get_git_url('info/refs'),
-            {'service': 'git-receive-pack'}
+            self.get_git_url('info/refs'), {'service': 'git-receive-pack'}
         )
         self.assertEqual(403, response.status_code)
 
@@ -170,13 +162,13 @@ class GitExportTest(ViewTestCase):
 
     def test_get_export_url(self):
         self.assertEqual(
-            'http://example.com/git/test/test/',
-            get_export_url(self.component)
+            'http://example.com/git/test/test/', get_export_url(self.component)
         )
 
 
 class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     """Integration tests using git to clone the repo."""
+
     acl = True
 
     def setUp(self):
@@ -192,11 +184,14 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         if self.acl:
             self.component.project.add_user(self.user, '@VCS')
         try:
-            url = get_export_url(self.component).replace(
-                'http://example.com', self.live_server_url
-            ).replace(
-                'http://', 'http://{0}:{1}@'.format(
-                    self.user.username, self.user.auth_token.key
+            url = (
+                get_export_url(self.component)
+                .replace('http://example.com', self.live_server_url)
+                .replace(
+                    'http://',
+                    'http://{0}:{1}@'.format(
+                        self.user.username, self.user.auth_token.key
+                    ),
                 )
             )
             process = subprocess.Popen(
