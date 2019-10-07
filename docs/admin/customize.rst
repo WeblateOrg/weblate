@@ -26,19 +26,15 @@ If you are not familiar with Python, you might want to look into `Python For
 Beginners <https://www.python.org/about/gettingstarted/>`_ which explains the
 basics and will point you to further tutorials.
 
-We're about to write custom Python code and we need place to store it - it's
-called a module in Python.  Late we need to place somewhere where the Python
-interpreter can import it - either in system path (usually something like
-:file:`/usr/lib/python3.7/site-packages/`) or in Weblate directory, which is
-also added to the interpreter search path.
+We're about to write some custom Python code (called a module) and we need a
+place to store it - either in the system path (usually something like
+:file:`/usr/lib/python3.7/site-packages/`) or in the Weblate directory, which
+is also added to the interpreter search path.
 
 The best approach is to create a proper Python package out of your customization:
 
-1. Place your Python module with check into folder which will match your 
-   package name. We're using `weblate_customization` in following examples.
-2. Add empty :file:`__init__.py` file to the same directory. This ensures Python
-   can import this whole package.
-3. Write :file:`setup.py` in parent directory to describe your package:
+1. Create a folder for your package (we will use `weblate_customization`).
+2. Inside, create a :file:`setup.py` file to describe the package:
 
     .. code-block:: python
 
@@ -55,10 +51,13 @@ The best approach is to create a proper Python package out of your customization
             packages=['weblate_customization'],
         )
 
-4. Now you can install it using :command:`pip install -e .` 
-5. Once installed into Python path, you can use it in Weblate configuration, in
-   most cases as fully qualified path (for example
-   ``weblate_customization.checks.FooCheck``).
+3. Create a folder for the Python module (also called `weblate_customization`).
+4. To make sure Python can import the module, add an :file:`__init__.py` file
+   inside the module folder. Put the rest of the customization code in this
+   folder.
+5. Now it's possible to install this package using :command:`pip install -e .`
+6. Once installed, the module can be used in the Weblate configuration
+   (for example ``weblate_customization.checks.FooCheck``).
 
 Overall your module structure should look like:
 
