@@ -30,7 +30,7 @@ Weblate consists of several Django applications (some optional, see
     API based on `Django REST framework`_.
 
 ``auth``
-    
+
     Authentication and permissions.
 
 ``billing``
@@ -88,7 +88,7 @@ Weblate consists of several Django applications (some optional, see
 ``wladmin``
 
     Django admin interface customization.
-    
+
 
 .. _Django: https://www.djangoproject.com/
 .. _Django REST framework: https://www.django-rest-framework.org/
