@@ -369,6 +369,16 @@ Generic settings
        :ref:`github-push`,
        :ref:`hub-setup`
 
+.. envvar:: WEBLATE_GITLAB_USERNAME
+
+    Configures GitLab username for GitLab merge-requests by changing
+    :setting:`GITLAB_USERNAME`
+
+    .. seealso::
+
+       :ref:`gitlab-push`
+       :ref:`lab-setup`
+
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
@@ -575,7 +585,7 @@ instance when running Weblate in Docker.
     The Redis database number, defaults to ``1``.
 
 .. envvar:: REDIS_PASSWORD
-   
+
     The Redis server password, not used by default.
 
 .. envvar:: REDIS_TLS
@@ -774,6 +784,28 @@ The username passed for credentials must be the same as :setting:`GITHUB_USERNAM
 
     :ref:`github-push`,
     :ref:`hub-setup`
+
+
+Lab setup
+---------
+
+In order to use GitLab's merge-request feature, you must initialize ``lab``
+configuration by entering the weblate contained and executing ``lab``
+command. For example:
+
+.. code-block:: sh
+
+        docker-compose exec --user weblate weblate bash
+        cd
+        HOME=/app/data/home lab
+
+The access_token passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.
+
+.. seealso::
+
+     :ref:`gitlab-push`
+     :ref:`lab-setup`
+
 
 Select your machine - local or cloud providers
 ----------------------------------------------

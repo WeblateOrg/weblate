@@ -510,57 +510,29 @@ class SubversionRepository(GitRepository):
         self.execute(['svn', 'dcommit', self.branch])
 
 
-class GithubRepository(GitRepository):
+class GitMergeRequestBase(GitRepository):
 
-    name = 'GitHub'
-
-    _cmd = 'hub'
+    # Subclasses must override _username.
+    _username = None
 
     _is_supported = None
     _version = None
 
     @classmethod
     def is_supported(cls):
-        if not settings.GITHUB_USERNAME:
+        if cls._username is None:
             return False
-        return super(GithubRepository, cls).is_supported()
-
-    @classmethod
-    def _getenv(cls):
-        """Generate environment for process execution."""
-        env = super(GithubRepository, cls)._getenv()
-        # Add path to config if it exists
-        userconfig = os.path.expanduser('~/.config/hub')
-        if os.path.exists(userconfig):
-            env['HUB_CONFIG'] = userconfig
-
-        return env
-
-    def create_pull_request(self, origin_branch, fork_branch):
-        """Create pull request to merge branch in forked repository into
-        branch of remote repository.
-        """
-        cmd = [
-            'pull-request',
-            '-f',
-            '-h',
-            '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
-            '-b',
-            origin_branch,
-            '-m',
-            settings.DEFAULT_PULL_MESSAGE,
-        ]
-        self.execute(cmd)
+        return super(GitMergeRequestBase, cls).is_supported()
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
-        cmd_push = ['push', '--force', settings.GITHUB_USERNAME]
+        cmd_push = ['push', '--force', self._username]
         self.execute(cmd_push + ['{0}:{1}'.format(local_branch, fork_branch)])
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(['remote']).splitlines()
-        if settings.GITHUB_USERNAME not in remotes:
+        if self._username not in remotes:
             self.execute(['fork'])
 
     def push(self):
@@ -586,7 +558,42 @@ class GithubRepository(GitRepository):
 
     def configure_remote(self, pull_url, push_url, branch):
         # We don't use push URL at all
-        super(GithubRepository, self).configure_remote(pull_url, None, branch)
+        super(GitMergeRequestBase, self).configure_remote(
+            pull_url, None, branch)
+
+
+class GithubRepository(GitMergeRequestBase):
+
+    name = 'GitHub'
+    _cmd = 'hub'
+
+    @property
+    def _username(self):
+        return settings.GITHUB_USERNAME
+
+    @classmethod
+    def _getenv(cls):
+        """Generate environment for process execution."""
+        env = super(GithubRepository, cls)._getenv()
+        # Add path to config if it exists
+        userconfig = os.path.expanduser('~/.config/hub')
+        if os.path.exists(userconfig):
+            env['HUB_CONFIG'] = userconfig
+
+        return env
+
+    def create_pull_request(self, origin_branch, fork_branch):
+        """Create pull request to merge branch in forked repository into
+        branch of remote repository.
+        """
+        cmd = [
+            'pull-request',
+            '-f',
+            '-h', '{0}:{1}'.format(self._username, fork_branch),
+            '-b', origin_branch,
+            '-m', settings.DEFAULT_PULL_MESSAGE,
+        ]
+        self.execute(cmd)
 
 
 class LocalRepository(GitRepository):
@@ -672,3 +679,48 @@ class LocalRepository(GitRepository):
             repo.execute(['add', target])
             if repo.needs_commit():
                 repo.commit('Started tranlation using Weblate')
+
+
+class GitlabRepository(GitMergeRequestBase):
+
+    name = 'Gitlab'
+
+    # docs: https://zaquestion.github.io/lab/
+    _cmd = 'lab'
+
+    @property
+    def _username(self):
+        return settings.GITLAB_USERNAME
+
+    def create_pull_request(self, origin_branch, fork_branch):
+        """Create merge (a.k.a pull) request to merge branch in forked
+        repository into branch of remote repository.
+
+        :param origin_branch: Git branch in the project's repo to create pull
+            request against.
+        :param fork_branch: Git branch in the fork's repo which contains the
+            updates.
+        """
+        # Checkout the branch we want to use as the source for new MR.
+        cmd = [
+            'checkout',
+            '-B',
+            fork_branch,
+            '{}/{}'.format(self._username, fork_branch)
+        ]
+        self.execute(cmd)
+        # Create a new MR against origin/<origin_branch> from the fork.
+        cmd = [
+            'mr',
+            'create',
+            'origin',
+            origin_branch,
+            '-m', settings.DEFAULT_PULL_MESSAGE,
+        ]
+        self.execute(cmd)
+        # Return to the previous checked out branch.
+        cmd = [
+            'checkout',
+            '-'
+        ]
+        self.execute(cmd)

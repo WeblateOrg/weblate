@@ -510,6 +510,20 @@ updates.
    :ref:`github-push`,
    :ref:`hub-setup`
 
+
+.. setting:: GITLAB_USERNAME
+
+GITLAB_USERNAME
+---------------
+
+GitLab username that will be used to send merge requests for translation
+updates.
+
+.. seealso::
+
+   :ref:`gitlab-push`,
+   :ref:`lab-setup`
+
 .. setting:: GOOGLE_ANALYTICS_ID
 
 GOOGLE_ANALYTICS_ID
@@ -1128,8 +1142,8 @@ custom VCS backends using this.
       'weblate.vcs.git.GitRepository',
    )
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`vcs`
 
 .. setting:: WEBLATE_ADDONS
