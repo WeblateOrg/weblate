@@ -168,11 +168,7 @@ class Repository(object):
         output_err = output_err.decode('utf-8')
         retcode = process.poll()
         cls.add_breadcrumb(
-            text_cmd,
-            retcode=retcode,
-            output=output,
-            output_err=output_err,
-            cwd=cwd,
+            text_cmd, retcode=retcode, output=output, output_err=output_err, cwd=cwd
         )
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
@@ -185,7 +181,7 @@ class Repository(object):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeError('Repository operation without lock held!')
-        is_status = (args[0] == self._cmd_status[0])
+        is_status = args[0] == self._cmd_status[0]
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
@@ -457,9 +453,11 @@ class Repository(object):
 
     def list_upstream_changed_files(self):
         """List files missing upstream."""
-        return list(self.list_changed_files(
-            self.ref_to_remote.format(self.get_remote_branch_name())
-        ))
+        return list(
+            self.list_changed_files(
+                self.ref_to_remote.format(self.get_remote_branch_name())
+            )
+        )
 
     def get_remote_branch_name(self):
         return 'origin/{0}'.format(self.branch)
