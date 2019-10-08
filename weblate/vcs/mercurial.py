@@ -332,3 +332,9 @@ class HgRepository(Repository):
         """Update remote repository."""
         self.execute(['pull', '--branch', self.branch])
         self.clean_revision_cache()
+
+    def parse_changed_files(self, lines):
+        """Parses output with chanaged files."""
+        # Strip action prefix we do not use
+        for line in lines:
+            yield line[2:]

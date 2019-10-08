@@ -449,14 +449,17 @@ class Repository(object):
         lines = self.execute(
             self._cmd_list_changed_files + [refspec], needs_lock=False
         ).splitlines()
-        # Strip action prefix we do not use
-        return [x[2:] for x in lines]
+        return self.parse_changed_files(lines)
+
+    def parse_changed_files(self, lines):
+        """Parses output with chanaged files."""
+        raise NotImplementedError()
 
     def list_upstream_changed_files(self):
         """List files missing upstream."""
-        return self.list_changed_files(
+        return list(self.list_changed_files(
             self.ref_to_remote.format(self.get_remote_branch_name())
-        )
+        ))
 
     def get_remote_branch_name(self):
         return 'origin/{0}'.format(self.branch)

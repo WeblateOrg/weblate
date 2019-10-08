@@ -363,6 +363,13 @@ class GitRepository(Repository):
         """Push given branch to remote repository."""
         self.execute(['push', 'origin', self.branch])
 
+    def parse_changed_files(self, lines):
+        """Parses output with chanaged files."""
+        # Strip action prefix we do not use
+        for line in lines:
+            for part in line.split('\t')[1:]:
+                yield part
+
 
 class GitWithGerritRepository(GitRepository):
 
