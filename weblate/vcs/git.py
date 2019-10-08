@@ -561,6 +561,9 @@ class GitMergeRequestBase(GitRepository):
         super(GitMergeRequestBase, self).configure_remote(
             pull_url, None, branch)
 
+    def create_pull_request(self, origin_branch, fork_branch):
+        raise NotImplementedError()
+
 
 class GithubRepository(GitMergeRequestBase):
 
