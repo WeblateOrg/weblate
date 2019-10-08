@@ -35,6 +35,7 @@ Not yet released.
 * Added advanced search capabilities.
 * Allow users to download their own reports.
 * Added localization guide to help configuring components.
+* Added suport for GitLab merge requests.
 
 weblate 3.8
 -----------
