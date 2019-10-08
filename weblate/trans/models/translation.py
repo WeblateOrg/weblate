@@ -448,9 +448,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         files = self.filenames
 
         # Do actual commit
-        self.component.repository.commit(
-            msg, author, timestamp, files + self.addon_commit_files
-        )
+        if not self.repo_needs_commit():
+            self.component.repository.commit(
+                msg, author, timestamp, files + self.addon_commit_files
+            )
         self.addon_commit_files = []
 
         # Post commit hook
