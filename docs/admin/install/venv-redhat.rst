@@ -9,14 +9,14 @@ Installing on RedHat, Fedora and CentOS
 
    dnf install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel \
-      cairo-devel typelib-1_0-Pango-1_0 gobject-introspection-devel libacl-devel \
+      cairo-devel pango-devel gobject-introspection-devel libacl-devel \
       python3-pip python3-virtualenv python3-devel git
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
-    dnf install tesseract-ocr tesseract-devel leptonica-devel
+    dnf install tesseract-langpack-eng tesseract-devel leptonica-devel
 
 .. include:: steps/install-system-server.rst
 
@@ -29,7 +29,7 @@ Installing on RedHat, Fedora and CentOS
     dnf install apache2 apache2-mod_wsgi
 
     # Caching backend: Redis
-    dnf install redis-server
+    dnf install redis
 
     # Database server: PostgreSQL
     dnf install postgresql
