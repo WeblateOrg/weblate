@@ -214,7 +214,7 @@ class GitRepository(Repository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['--version']).split()[-1]
+        return cls._popen(['--version']).split()[2]
 
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
