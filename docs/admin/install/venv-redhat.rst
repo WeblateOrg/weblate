@@ -16,7 +16,7 @@ Installing on RedHat, Fedora and CentOS
 
 .. code-block:: sh
 
-    dnf install tesseract-devel leptonica-devel
+    dnf install tesseract-langpack-eng tesseract-devel leptonica-devel
 
 .. include:: steps/install-system-server.rst
 
