@@ -9,7 +9,7 @@ Installing on RedHat, Fedora and CentOS
 
    dnf install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel \
-      cairo-devel gobject-introspection-devel libacl-devel \
+      cairo-devel pango-devel gobject-introspection-devel libacl-devel \
       python3-pip python3-virtualenv python3-devel git
 
 .. include:: steps/install-system-optional.rst
