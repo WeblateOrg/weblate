@@ -490,4 +490,4 @@ class Change(models.Model, UserDisplayMixin):
         if self.dictionary:
             self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
-        notify_change.delay(self.pk)
+        notify_change.delay(self.pk, force_text(self))

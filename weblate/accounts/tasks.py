@@ -72,7 +72,7 @@ def cleanup_auditlog():
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def notify_change(change_id):
+def notify_change(change_id, change_name=''):
     from weblate.trans.models import Change
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 
