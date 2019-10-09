@@ -799,13 +799,14 @@ class SearchForm(forms.Form):
 
         # Try to parse query string
         query = self.cleaned_data.get('q')
-        try:
-            parse_query(query)
-        except Exception as error:
-            report_error(error)
-            raise ValidationError(
-                {'q': _('Failed to parse query string: {}').format(error)}
-            )
+        if query:
+            try:
+                parse_query(query)
+            except Exception as error:
+                report_error(error)
+                raise ValidationError(
+                    {'q': _('Failed to parse query string: {}').format(error)}
+                )
         return self.cleaned_data
 
 
