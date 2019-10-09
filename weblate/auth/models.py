@@ -477,8 +477,13 @@ class User(AbstractBaseUser):
     def allowed_projects(self):
         """List of allowed projects."""
         if self.is_superuser:
-            return Project.objects.order()
-        return Project.objects.filter(group__user=self).distinct().order()
+            result = Project.objects.order()
+        else:
+            result = Project.objects.filter(group__user=self).distinct().order()
+        # Force evaluating the query, we use it frequently so better to fetch it once
+        # instead doing complex joins in every place.
+        len(result)
+        return result
 
     @cached_property
     def owned_projects(self):
