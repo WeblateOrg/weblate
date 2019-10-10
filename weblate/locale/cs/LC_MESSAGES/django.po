@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-10 10:15+0000\n"
-"PO-Revision-Date: 2019-09-30 13:36+0000\n"
+"PO-Revision-Date: 2019-10-10 10:51+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -477,9 +477,6 @@ msgid ""
 msgstr "Prosím zvolte seznam součástí, který chcete zobrazit na nástěnce."
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Zvolení seznamu součástí nemá žádný efekt, pokud není zapnuto jeho zobrazení "
@@ -810,16 +807,12 @@ msgid "Language consistency"
 msgstr "Jednotnost jazyků"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Tento doplněk zajistí že všechny součásti v rámci jednoho projektu budou mít "
-"překlady do stejných jazyků."
+"Zajistí že všechny součásti v rámci jednoho projektu budou mít překlady do "
+"stejných jazyků."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1168,18 +1161,13 @@ msgid "Update RESX files"
 msgstr "Aktualizovat RESX soubory"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
 "Aktualizovat všechny soubory s překlady tak, aby odpovídaly jednojazyčnému "
-"základnímu souboru. Odstraní položky překladu, které se už nevyskytují v "
+"základnímu souboru. Odstraní řetězce překladu, které se už nevyskytují v "
 "originálu, a přidá nové se zdrojovým řetězcem jako překladem."
 
 #: weblate/addons/views.py:86
@@ -3471,12 +3459,12 @@ msgstr ""
 "stránkách, vyplňte následující formulář:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr "Je třeba, aby překládaný obsah byl vydáván pod svobodnou licencí."
+msgstr ""
+"Je třeba, aby překládaný obsah byl vydáván pod svobodnou licencí schválenou "
+"OSI nebo uznávanou jako svobodnou FSF."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -3821,10 +3809,8 @@ msgid "You have agreed to the following as a contributor:"
 msgstr "Je třeba, abyste jako přispěvatelé souhlasili s následujícím:"
 
 #: weblate/templates/accounts/profile.html:342
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "Licenses for individual translations"
-msgstr "Jednojazyčné překlady"
+msgstr "Licence pro jednotlivé překlady"
 
 #: weblate/templates/accounts/profile.html:345 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -4546,10 +4532,8 @@ msgstr "Souhrny překladů"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Umístění"
+msgstr "Průvodce lokalizací"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -4749,6 +4733,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
+"Nemáte oprávnění k prohlížení přehledů pro všechny uživatele, budou uvedeny "
+"pouze vaše příspěvky."
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5378,6 +5364,8 @@ msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
 msgstr ""
+"Zde najdete pokyny, jak učinit váš lokalizační projekt atraktivním pro "
+"komunitu."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6726,17 +6714,14 @@ msgid "Repository branch"
 msgstr "Větev repozitáře"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "Poslední zápis vzdáleného repozitáře:"
+msgstr "Poslední zápis vzdáleného repozitáře"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "Vytvořil %(author)s dne %(date)s"
+msgstr "%(author)s vytvořil %(date)s"
 
 #: weblate/templates/snippets/git-info.html:40
 msgid "Repository containing Weblate translations"
@@ -6874,8 +6859,6 @@ msgid "Query examples"
 msgstr "Příklady dotazů"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
 msgstr "Zkontrolovat překlady ostatních uživatelů"
 
@@ -8738,10 +8721,8 @@ msgid "Invited user"
 msgstr "Uživatel pozván"
 
 #: weblate/trans/models/change.py:272
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Received repository notification"
-msgstr "Inicializace úložiště"
+msgstr "Přijato upozornění o změně v repozitáři"
 
 #: weblate/trans/models/change.py:379
 #, python-format
@@ -10066,50 +10047,45 @@ msgid "All repositories have been cleaned up."
 msgstr "Všechny repozitáře byly vyčistěny."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Nastavení verzovacího systému"
+msgstr "Používání verzovacího systému"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
-msgstr ""
+msgstr "Nastavte háčky repozitáře pro automatizovaný tok změn do Weblate."
 
 #: weblate/trans/views/guide.py:108
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
+"Nastavte URL pro odesílání aby Weblate mohlo odesílat změny do repozitáře."
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
-msgstr ""
+msgstr "Budování komunity"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
-msgstr ""
+msgstr "Udejte pokyny k překladu, aby překladatelé měli návod."
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
-msgstr ""
+msgstr "Zpřístupněte své překlady pod svobodnou licencí."
 
 #: weblate/trans/views/guide.py:161
-#, fuzzy
-#| msgid "Merges comments into the translation."
 msgid "Provide context to the translators"
-msgstr "Sloučí komentáře z nahraného souboru do překladu."
+msgstr "Poskytněte překladatelům kontext"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
-msgstr ""
+msgstr "Přidejte obrázky a ukažte, kde se řetězce používají."
 
 #: weblate/trans/views/guide.py:181
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Duplicitní řetězec k překladu."
+msgstr "Pomocí příznaků označte ve svém překladu speciální řetězce."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
-msgstr ""
+msgstr "Přizpůsobení pracovního postupu"
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
