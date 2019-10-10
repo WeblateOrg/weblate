@@ -496,7 +496,7 @@ class Profile(models.Model):
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
                 and self.dashboard_component_list is not None):
             message = _(
-                "Selecting component list makes no effect when not shown on "
+                "Selecting component list has no effect when not shown on "
                 "the dashboard."
             )
             raise ValidationError({
