@@ -38,8 +38,8 @@
 {% endif %}
 {% endif %}
 
-{% if object.component_set %}
-{% else %}
+{% comment %}Only show commit information for non project{% endcomment %}
+{% if not object.source_language %}
 {% with object.get_last_remote_commit as commit %}
 <p>
 {% trans "Last remote commit:" %}
