@@ -423,6 +423,7 @@ Machine translation settings
    **Example:**
 
     .. code-block:: yaml
+
         environment:
           WEBLATE_MT_MYMEMORY_ENABLED: 1
 
@@ -431,6 +432,7 @@ Machine translation settings
     Enables :ref:`glosbe` machine translation.
 
     .. code-block:: yaml
+
         environment:
           WEBLATE_MT_GLOSBE_ENABLED: 1
 
