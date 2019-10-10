@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import time
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
@@ -31,12 +32,10 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks import CHECKS
 from weblate.trans.autofixes import fix_target
-from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
@@ -50,6 +49,7 @@ from weblate.trans.forms import (
     ZenTranslationForm,
 )
 from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit, Vote
+from weblate.trans.tasks import auto_translate
 from weblate.trans.util import join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
@@ -573,30 +573,22 @@ def auto_translation(request, project, component, lang):
         show_form_errors(request, autoform)
         return redirect(translation)
 
-    auto = AutoTranslate(
-        request.user,
-        translation,
-        autoform.cleaned_data["filter_type"],
+    args = (
+        request.user.id,
+        translation.id,
         autoform.cleaned_data["mode"],
+        autoform.cleaned_data["filter_type"],
+        autoform.cleaned_data['auto_source'],
+        autoform.cleaned_data['component'],
+        autoform.cleaned_data['engines'],
+        autoform.cleaned_data['threshold']
     )
 
-    if autoform.cleaned_data['auto_source'] == 'mt':
-        auto.process_mt(
-            autoform.cleaned_data['engines'], autoform.cleaned_data['threshold']
-        )
+    if settings.CELERY_TASK_ALWAYS_EAGER:
+        messages.success(request, auto_translate(*args))
     else:
-        auto.process_others(autoform.cleaned_data['component'])
-
-    import_message(
-        request,
-        auto.updated,
-        _('Automatic translation completed, no strings were updated.'),
-        ungettext(
-            'Automatic translation completed, %d string was updated.',
-            'Automatic translation completed, %d strings were updated.',
-            auto.updated,
-        ),
-    )
+        task = auto_translate.delay(*args)
+        messages.success(request, _('Automatic translation in progress'), 'task:{}'.format(task.id))
 
     return redirect(translation)
 

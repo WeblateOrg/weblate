@@ -30,6 +30,9 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import override
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 from filelock import Timeout
 from whoosh.index import EmptyIndexError
 
@@ -378,16 +381,30 @@ def auto_translate(
     engines,
     threshold,
 ):
-    auto = AutoTranslate(
-        User.objects.get(pk=user_id) if user_id else None,
-        Translation.objects.get(pk=translation_id),
-        filter_type,
-        mode,
-    )
-    if auto_source == 'mt':
-        auto.process_mt(engines, threshold)
+    if user_id:
+        user = User.objects.get(pk=user_id)
     else:
-        auto.process_others(component)
+        user = None
+    with override(user.profile.language if user else 'en'):
+        auto = AutoTranslate(
+            user,
+            Translation.objects.get(pk=translation_id),
+            filter_type,
+            mode,
+        )
+        if auto_source == 'mt':
+            auto.process_mt(engines, threshold)
+        else:
+            auto.process_others(component)
+
+        if auto.updated == 0:
+            return _('Automatic translation completed, no strings were updated.')
+
+        return ungettext(
+            'Automatic translation completed, %d string was updated.',
+            'Automatic translation completed, %d strings were updated.',
+            auto.updated,
+        ) % auto.updated
 
 
 @app.on_after_finalize.connect
