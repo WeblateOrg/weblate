@@ -72,6 +72,6 @@ class EnvTest(SimpleTestCase):
         os.environ['WEBLATE_REMOVE_TEST'] = 'baz,bag'
         setting = ['baz', 'bag', 'aaa']
         modify_env_list(setting, 'TEST')
-        self.assertEqual(setting, ['aaa', 'foo', 'bar'])
+        self.assertEqual(setting, ['foo', 'bar', 'aaa'])
         del os.environ['WEBLATE_ADD_TEST']
         del os.environ['WEBLATE_REMOVE_TEST']

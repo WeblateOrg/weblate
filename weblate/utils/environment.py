@@ -52,7 +52,8 @@ def get_env_bool(name, default=False):
 
 def modify_env_list(current, name):
     """Helper to modify list (eg. checks)."""
-    current.extend(get_env_list("WEBLATE_ADD_{}".format(name)))
-    for remove in get_env_list("WEBLATE_REMOVE_{}".format(name)):
-        current.remove(remove)
+    for item in reversed(get_env_list("WEBLATE_ADD_{}".format(name))):
+        current.insert(0, item)
+    for item in get_env_list("WEBLATE_REMOVE_{}".format(name)):
+        current.remove(item)
     return current
