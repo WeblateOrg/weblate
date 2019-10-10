@@ -95,8 +95,8 @@ def get_task_progress(task):
     if is_task_ready(task):
         return 100
     # In progress
-    if task.state == "PROGRESS" and result:
-        return result["progress"]
+    if task.state == "PROGRESS" and task.result:
+        return task.result["progress"]
 
     # Not yet started
     return 0

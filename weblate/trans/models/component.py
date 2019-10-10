@@ -559,7 +559,6 @@ class Component(models.Model, URLMixin, PathMixin):
         task = self.background_task
         if task is None:
             return 100, []
-        result = task.result
         progress = get_task_progress(task)
         return (progress, cache.get("task-log-{}".format(task.id), []))
 
