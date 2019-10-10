@@ -72,27 +72,25 @@
 
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository changes" %}</h4></div>
-      <div class="panel-body">
-        <table class="table">
-        {% for change in changes %}
-        <tr>
-        <td>{{ change.timestamp|naturaltime }}</td>
-        <td>{{ change.get_user_display }}</td>
-        <td>{{ change.get_action_display }}</td>
-        <td>
-        {% if change.translation %}
-            <a href="{{ change.get_translation_url }}">{{ change.translation.language }}</a>
-        {% endif %}
-        </td>
-        </tr>
-        {% if change.target %}
-        <tr>
-        <td colspan="4"><pre>{{ change.target }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-        </table>
-      </div>
+    <table class="table">
+    {% for change in changes %}
+    <tr>
+    <td>{{ change.timestamp|naturaltime }}</td>
+    <td>{{ change.get_user_display }}</td>
+    <td>{{ change.get_action_display }}</td>
+    <td>
+    {% if change.translation %}
+        <a href="{{ change.get_translation_url }}">{{ change.translation.language }}</a>
+    {% endif %}
+    </td>
+    </tr>
+    {% if change.target %}
+    <tr>
+    <td colspan="4"><pre>{{ change.target }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </table>
 </div>
 
 </div>
@@ -100,7 +98,6 @@
 <div class="col-md-4">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository tools" %}</h4></div>
-<div class="panel-body">
 
 <table class="table table-condensed">
 
@@ -216,8 +213,6 @@
 {% endif %}
 
 </table>
-
-</div>
 
 </div>
 </div>
