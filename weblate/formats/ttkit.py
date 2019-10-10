@@ -863,6 +863,15 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
     loader = ('properties', 'javafile')
     language_format = 'java'
 
+    @classmethod
+    def fixup(cls, store):
+        """Force encoding.
+
+        Translate Toolkit autodetection might fail in some cases.
+        """
+        store.encoding = 'utf-16'
+        return store
+
 
 class PropertiesFormat(PropertiesUtf8Format):
     name = _('Java Properties (ISO 8859-1)')
