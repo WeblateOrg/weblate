@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Michal Čihař <michal@cihar.com>, 2019.
+# Janar Leas <janar.leas@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-10 13:58+0000\n"
-"PO-Revision-Date: 2019-07-24 08:58+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2019-10-10 19:39+0000\n"
+"Last-Translator: Janar Leas <janar.leas@gmail.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/master/"
 "et/>\n"
 "Language: et\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -27,7 +28,8 @@ msgstr "Puudub"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "See e-posti aadress on juba kasutusel. Palun vali muu e-posti aadress."
+msgstr ""
+"See e-kirja aadress on juba kasutusel. Palun vali erinev e-kirja aadress."
 
 #: weblate/accounts/forms.py:121 weblate/auth/models.py:308
 #: weblate/utils/validators.py:171
@@ -56,16 +58,12 @@ msgstr "Täisnimi"
 #: weblate/accounts/forms.py:257 weblate/accounts/forms.py:347
 #: weblate/auth/models.py:323 weblate/templates/manage-access.html:25
 #: weblate/wladmin/forms.py:59
-#, fuzzy
-#| msgid "E-mail"
 msgid "E-mail"
-msgstr "E-post"
+msgstr "E-kiri"
 
 #: weblate/accounts/forms.py:258
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "You can add another e-mail address below."
-msgstr "Saate lisada teise e-posti aadressi Autentimise vahekaardil."
+msgstr "Allpool saad lisada teise e-kirja aadressi."
 
 #: weblate/accounts/forms.py:308
 msgid "Subject"
@@ -77,7 +75,7 @@ msgstr "Sinu nimi"
 
 #: weblate/accounts/forms.py:318 weblate/accounts/forms.py:604
 msgid "Your e-mail"
-msgstr "Sinu e-posti aadress"
+msgstr "Sinu e-kiri"
 
 #: weblate/accounts/forms.py:322 weblate/templates/mail/new_whiteboard.html:14
 #: weblate/templates/manage/performance.html:26
@@ -100,11 +98,11 @@ msgstr ""
 
 #: weblate/accounts/forms.py:348
 msgid "Activation e-mail will be sent here."
-msgstr ""
+msgstr "Aktiveerimis e-kiri saadetakse sinna."
 
 #: weblate/accounts/forms.py:386
 msgid "Too many failed registration attempts from this location!"
-msgstr ""
+msgstr "Liiga palju nurjunud registreerumis katseid sellest asukohast!"
 
 #: weblate/accounts/forms.py:393
 msgid "New password"
@@ -123,12 +121,12 @@ msgstr "Sinu parool on muudetud."
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr ""
+msgstr "%s tulemus on?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:466
 msgid "That was not correct, please try again."
-msgstr ""
+msgstr "See polnud õige, palun proovi uuesti."
 
 #: weblate/accounts/forms.py:490
 msgid "Current password"
@@ -144,7 +142,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:522
 msgid "Username or e-mail"
-msgstr "Kasutajanimi või e-post"
+msgstr "Kasutajanimi või e-kiri"
 
 #: weblate/accounts/forms.py:525 weblate/templates/accounts/profile.html:128
 msgid "Password"
@@ -162,7 +160,7 @@ msgstr "See konto pole aktiivne."
 
 #: weblate/accounts/forms.py:550
 msgid "Too many authentication attempts from this location!"
-msgstr ""
+msgstr "Liiga palju tõendamis katseid sellest asukohatst!"
 
 #: weblate/accounts/forms.py:608 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:67
@@ -275,7 +273,7 @@ msgstr ""
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "E-kirja {old} asemel on nüüd {new}."
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
@@ -314,11 +312,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:120
 msgid "Somebody has attempted to register with your e-mail."
-msgstr ""
+msgstr "Keegi on juba katsetanud sinu e-kirjaga registreeruda."
 
 #: weblate/accounts/models.py:123
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr ""
+msgstr "Keegi on üritanud registreeruda, kasutades sinu e-kirja aadressi."
 
 #: weblate/accounts/models.py:126
 #, python-brace-format
@@ -501,6 +499,8 @@ msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
+"Saa ei saa pakkuda tõlkeid kuna sa pole enesega seostanud ühtegi e-kirja "
+"aadressi."
 
 #: weblate/accounts/notifications.py:49
 msgid "Do not notify"
@@ -646,6 +646,7 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
+"Sinu e-kirja aadress ei kuulu enam tõendatud kontole, nüüdsest on see {0}."
 
 #: weblate/accounts/views.py:149 weblate/accounts/views.py:809
 #: weblate/accounts/views.py:858 weblate/templates/accounts/reset.html:7
@@ -720,7 +721,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:739 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr ""
+msgstr "Registreeri e-kiri"
 
 #: weblate/accounts/views.py:779 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:131
@@ -733,7 +734,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:825
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
+msgstr "Salasõna ei saa muuta, e-kirjaga tõendamine on välja lülitatud."
 
 #: weblate/accounts/views.py:988
 #, fuzzy
@@ -749,21 +750,19 @@ msgstr ""
 
 #: weblate/accounts/views.py:1023
 msgid "Could not authenticate due to invalid session state."
-msgstr ""
+msgstr "Tõendamine nurjus väära sessiooni oleku tõttu."
 
 #: weblate/accounts/views.py:1032
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Saate lisada teise e-posti aadressi Autentimise vahekaardil."
+msgstr "Pole ühtegi e-kirja aadressi kolmanda osapoole teenusest."
 
 #: weblate/accounts/views.py:1034
 msgid "Please register using e-mail instead."
-msgstr ""
+msgstr "Palun registreeru hoopis e-kirja abil."
 
 #: weblate/accounts/views.py:1043
 msgid "Can not change authentication for demo!"
-msgstr ""
+msgstr "Demole ei saa tõendust muuta!"
 
 #: weblate/accounts/views.py:1048
 msgid "New registrations are turned off."
@@ -773,28 +772,27 @@ msgstr ""
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
+"Tõendamine nurjus, tõenäoliselt aegunud tunnistuse või ühendus tõrke tõttu."
 
 #: weblate/accounts/views.py:1081
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authentication cancelled."
-msgstr "Autentimine"
+msgstr "Tõendamine katkestatud."
 
 #: weblate/accounts/views.py:1086
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Server ei luba tõendamist."
 
 #: weblate/accounts/views.py:1090
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
+"Registreerumist ei saa lõpetada. Pakutud tõendus, e-kiri või kasutajanimi on "
+"juba kasutusel teise konto poolt."
 
 #: weblate/accounts/views.py:1104
-#, fuzzy
-#| msgid "Translated"
 msgid "Notification settings adjusted."
-msgstr "Tõlgitud"
+msgstr "Teavituse sätted kohandatud."
 
 #: weblate/accounts/views.py:1107
 msgid ""
@@ -1197,7 +1195,7 @@ msgstr "Isiklik info"
 
 #: weblate/auth/admin.py:94
 msgid "Authentication"
-msgstr "Autentimine"
+msgstr "Tõendamine"
 
 #: weblate/auth/admin.py:99 weblate/auth/models.py:74 weblate/auth/models.py:88
 msgid "Permissions"
@@ -2878,7 +2876,7 @@ msgstr ""
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr ""
+msgstr "Tõendamis küpsised, mis on nõutud tõendatud kasutajate tuvastamiseks."
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
@@ -3441,6 +3439,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Peale selle kinnitamist, on sul võimalik end Weblate-le tõendada kasutades "
+"%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -3603,11 +3603,11 @@ msgstr ""
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "Palun võimalda salasõnaga tõendamine oma konto turvalisuse tarvis."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "Saad end jätkuvalt tõendada kasutades kolmanda osapoole teenuseid."
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
@@ -3820,12 +3820,12 @@ msgstr "Kasutajanimi"
 
 #: weblate/templates/accounts/profile.html:243
 msgid "No recent activity found!"
-msgstr ""
+msgstr "Hiljutist tegevust  ei leidunud!"
 
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/mail/account_activity.html:34
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Teavita kahtlasest tegevusest"
 
 #: weblate/templates/accounts/profile.html:259
 msgid ""
@@ -3835,23 +3835,23 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:262
 msgid "Your personal API key:"
-msgstr ""
+msgstr "Sinu isiklik API võti:"
 
 #: weblate/templates/accounts/profile.html:269
 msgid "Regenerate API key"
-msgstr ""
+msgstr "Taasloo API võti"
 
 #: weblate/templates/accounts/profile.html:273
 msgid "API root URL:"
-msgstr ""
+msgstr "API juur URL:"
 
 #: weblate/templates/accounts/profile.html:277
 msgid "API usage example:"
-msgstr ""
+msgstr "API kasutus näide:"
 
 #: weblate/templates/accounts/profile.html:289
 msgid "CLI usage example:"
-msgstr ""
+msgstr "Käsurea kasutus näide:"
 
 #: weblate/templates/accounts/profile.html:306
 #, fuzzy
@@ -3870,6 +3870,8 @@ msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
 msgstr ""
+"Palun pööra tähelepanu litsentseerimis teabele, kuna see määrab kuidas "
+"tõlkeid saab kasutada."
 
 #: weblate/templates/accounts/profile.html:323
 msgid ""
@@ -3877,16 +3879,17 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
+"Registreerumisega nõustud kasutama oma nime ja e-kirja aadressi panustes "
+"ning pakuma oma panust litsentsi alusel, mille on määranud iga "
+"lokaliseerimis projekt."
 
 #: weblate/templates/accounts/profile.html:328
 msgid "You have agreed to the following as a contributor:"
-msgstr ""
+msgstr "Panustajana oled nõustunud järgnevaga:"
 
 #: weblate/templates/accounts/profile.html:342
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Licenses for individual translations"
-msgstr "Soovitatud tõlked"
+msgstr "Litsentsid üksikutele tõlgetele"
 
 #: weblate/templates/accounts/profile.html:345 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -3895,21 +3898,20 @@ msgstr "Soovitatud tõlked"
 #: weblate/trans/forms.py:1625 weblate/trans/forms.py:2014
 #: weblate/trans/models/component.py:173 weblate/trans/models/component.py:198
 #: weblate/trans/models/project.py:153 weblate/trans/models/whiteboard.py:80
-#, fuzzy
 msgid "Project"
-msgstr "Projekti"
+msgstr "Projekt"
 
 #: weblate/templates/accounts/profile.html:345 weblate/trans/forms.py:1406
 msgid "License"
-msgstr ""
+msgstr "Litsents"
 
 #: weblate/templates/accounts/redirect.html:13
 msgid "Redirecting you to the authentication provider."
-msgstr ""
+msgstr "Sinu ümbersuunamiune tunnustamise pakkujale."
 
 #: weblate/templates/accounts/register.html:18
 msgid "Please read our Terms of Service before registering."
-msgstr ""
+msgstr "Enne registreerumist palume lugeda Teenusetingimusi."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -3920,23 +3922,23 @@ msgstr ""
 
 #: weblate/templates/accounts/register.html:37
 msgid "Register using e-mail"
-msgstr ""
+msgstr "Registreeru e-kirjaga"
 
 #: weblate/templates/accounts/register.html:59
 msgid "Third party registration"
-msgstr ""
+msgstr "Registreeru kolmanda osapoolega"
 
 #: weblate/templates/accounts/register.html:75
 msgid "Sorry, new registrations are turned off on this site."
-msgstr ""
+msgstr "Paraku on sellel lehel uued registreerumised välja lülitatud."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
-msgstr ""
+msgstr "Täpsustuste  tarvis võid meiega ühendust võtta."
 
 #: weblate/templates/accounts/removal.html:17
 msgid "Account removal"
-msgstr ""
+msgstr "Konto eemaldamine"
 
 #: weblate/templates/accounts/removal.html:21
 msgid ""
@@ -3949,14 +3951,15 @@ msgid ""
 "You will have to confirm account removal by clicking link in e-mail you will "
 "receive."
 msgstr ""
+"Pead konto eemaldamise kinnitama, klõpsates viidale e-kirjas, mille saadame."
 
 #: weblate/templates/accounts/removal.html:28
 msgid "Delete this account"
-msgstr ""
+msgstr "Kustuta see konto"
 
 #: weblate/templates/accounts/reset.html:13
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
+msgstr "Unustasid oma salasõna? Nüüd saad uue seada."
 
 #: weblate/templates/accounts/reset.html:16
 msgid ""
