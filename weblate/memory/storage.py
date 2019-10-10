@@ -108,13 +108,13 @@ class TranslationMemory(WhooshIndex):
         return self.searcher.doc_count()
 
     def close(self):
-        if 'seacher' in self.__dict__:
-            self.seacher.close()
+        if 'searcher' in self.__dict__:
+            self.searcher.close()
             del self.__dict__['searcher']
 
     def refresh(self):
-        if 'seacher' in self.__dict__:
-            self.__dict__['searcher'] = self.seacher.refresh()
+        if 'searcher' in self.__dict__:
+            self.__dict__['searcher'] = self.searcher.refresh()
 
     def writer(self):
         return self.index.writer()
