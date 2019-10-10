@@ -3,9 +3,17 @@
 {% if can_delete and whiteboard %}
     data-action="{% url 'whiteboard-delete' pk=whiteboard.pk %}"
 {% endif %}
+{% if task_id %}
+    data-task="{% url 'js_task_progress' task_id=task_id %}"
+{% endif %}
 >
 {% if can_delete %}
 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 {% endif %}
 {% block message %}{{ message }}{% endblock %}
+{% if task_id %}
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;"></div>
+</div>
+{% endif %}
 </div>

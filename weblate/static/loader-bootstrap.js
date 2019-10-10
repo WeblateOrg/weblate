@@ -1540,6 +1540,23 @@ $(function () {
         }, 1000);
     });
 
+    /* Generic messages progress */
+    $('[data-task]').each(function () {
+        var $message = $(this);
+        var $bar = $message.find('.progress-bar');
+
+        var task_interval = setInterval(function() {
+            $.get($message.data('task'), function (data) {
+                $bar.width(data.progress + '%');
+                console.log(data);
+                if (data.completed) {
+                    clearInterval(task_interval);
+                    $message.text(data.result);
+                }
+            });
+        }, 1000);
+    });
+
     /* Disable invalid file format choices */
     $('.invalid-format').each(function () {
         $(this).parent().find('input').attr('disabled', '1');

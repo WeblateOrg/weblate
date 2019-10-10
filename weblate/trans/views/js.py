@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from celery.result import AsyncResult
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -34,6 +36,7 @@ from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import CheckFlagsForm, ContextForm
 from weblate.trans.models import Change, Source, Unit
 from weblate.trans.util import sort_objects
+from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_component, get_project, get_translation
@@ -308,3 +311,13 @@ def get_detail(request, project, component, checksum):
             'check_flags': check_flags,
         }
     )
+
+
+@login_required
+def task_progress(request, task_id):
+    task = AsyncResult(task_id)
+    return JsonResponse({
+        'completed': is_task_ready(task),
+        'progress': get_task_progress(task),
+        'result': task.result,
+    })

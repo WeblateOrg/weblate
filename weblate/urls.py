@@ -95,6 +95,9 @@ WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 # Widget extension match
 EXTENSION = r'(?P<extension>(png|svg))'
 
+# UUID regexp
+UUID = r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'
+
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
 handler404 = weblate.trans.views.error.not_found
@@ -1007,6 +1010,11 @@ real_patterns = [
         r'^js/ignore-check/(?P<check_id>[0-9]+)/source/(?P<pk>[0-9]+)/$',
         weblate.trans.views.js.ignore_check_source,
         name='js-ignore-check-source',
+    ),
+    url(
+        r'^js/task/(?P<task_id>' + UUID + ')/$',
+        weblate.trans.views.js.task_progress,
+        name='js_task_progress'
     ),
     url(
         r'^js/i18n/$',

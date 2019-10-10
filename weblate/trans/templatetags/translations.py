@@ -330,8 +330,17 @@ def admin_boolean_icon(val):
 
 @register.inclusion_tag('message.html')
 def show_message(tags, message):
+    tags = tags.split()
+    final = []
+    task_id = None
+    for tag in tags:
+        if tag.startswith('task:'):
+            task_id = tag[5:]
+        else:
+            final.append(tag)
     return {
-        'tags': tags,
+        'tags': ' '.join(final),
+        'task_id': task_id,
         'message': message,
     }
 
