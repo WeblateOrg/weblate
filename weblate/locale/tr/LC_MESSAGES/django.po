@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-10 10:52+0000\n"
-"PO-Revision-Date: 2019-10-01 04:34+0000\n"
+"PO-Revision-Date: 2019-10-10 13:57+0000\n"
 "Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -481,11 +481,9 @@ msgstr ""
 "Lütfen panelde hangi bileşen listesini görüntülemek istediğinizi seçin."
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr "Bileşen listesinin seçilmesi, panelde gösterilmediğinde etkili olmaz."
+msgstr ""
+"Panelde gösterilmediğinde bileşen listesinin seçilmesinin etkisi yoktur."
 
 #: weblate/accounts/models.py:589
 msgid ""
@@ -812,16 +810,12 @@ msgid "Language consistency"
 msgstr "Dil tutarlılığı"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Bu eklenti bir projedeki tüm bileşenlerin aynı diller için çevirisi olmasını "
-"sağlar."
+"Bir proje içindeki tüm bileşenlerin aynı dillere çevirileri olduğundan emin "
+"olun."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1171,19 +1165,14 @@ msgid "Update RESX files"
 msgstr "RESX dosyalarını güncelle"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"Tek dilli temel dosyaya uyması için tüm çeviri dosyalarını güncelleştirin. "
-"Eski çeviri anahtarlarını kaldırır ve çeviri olarak kaynak satıra sahip "
-"yenilerini ekler."
+"Tek dilli yukarı akış taban dosyasıyla eşleştirmek için tüm çeviri "
+"dosyalarını güncelleyin. Kullanılmayan satırlar kaldırılır ve kaynak satırın "
+"kopyaları olarak yenileri eklenir."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3476,13 +3465,12 @@ msgstr ""
 "doldurun:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
 msgstr ""
-"Çevrilmiş içerikler, libre yazılımı lisansı kapsamında yayınlanmalıdır."
+"Çevrilmiş içerik, OSI tarafından onaylanan veya FSF tarafından serbest "
+"olarak tanınan bir lisans altında yayınlanmalıdır."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4547,10 +4535,8 @@ msgstr "Çeviri bildirimleri"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Yer"
+msgstr "Yerelleştirme kılavuzu"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -4754,6 +4740,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
+"Tüm kullanıcılar için raporları görüntüleme izniniz yok, yalnızca "
+"katkılarınız listelenecek."
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5370,6 +5358,8 @@ msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
 msgstr ""
+"Burada yerelleştirme projenizi topluluğa çekici kılmak için rehberlik "
+"bulabilirsiniz."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6723,17 +6713,14 @@ msgid "Repository branch"
 msgstr "Havuz dalı"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "Son uzaktan işleme:"
+msgstr "Son uzaktan işleme"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "%(date)s tarihinde %(author)s tarafından yazıldı"
+msgstr "%(author)s yazdı %(date)s"
 
 #: weblate/templates/snippets/git-info.html:40
 msgid "Repository containing Weblate translations"
@@ -6871,10 +6858,8 @@ msgid "Query examples"
 msgstr "Sorgu örnekleri"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
-msgstr "Diğer kullanıcılar tarafından değiştirilen çevirileri inceleyin"
+msgstr "Diğer kullanıcılar tarafından değiştirilen satırları inceleyin"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -10047,50 +10032,47 @@ msgid "All repositories have been cleaned up."
 msgstr "Tüm havuzlar temizlendi."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Sürüm kontrol ayarları"
+msgstr "Sürüm kontrolü entegrasyonu"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
+"Weblate'e yapılan güncellemelerin otomatik akışı için depo kancalarını "
+"yapılandırın."
 
 #: weblate/trans/views/guide.py:108
 msgid "Configure push URL for automated flow of translations from Weblate."
-msgstr ""
+msgstr "Weblate'ten otomatik çeviri akışı için yollama URL'yi yapılandırın."
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
-msgstr ""
+msgstr "Topluluk oluşturma"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
-msgstr ""
+msgstr "Çevirmenlere kılavuzluk etmek için çeviri talimatlarını tanımlayın."
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
-msgstr ""
+msgstr "Çevirilerinizi libre lisansı altında hazırlayın."
 
 #: weblate/trans/views/guide.py:161
-#, fuzzy
-#| msgid "Merges comments into the translation."
 msgid "Provide context to the translators"
-msgstr "Yorumları çeviri içine birleştirir."
+msgstr "Çevirmenlere içerik sağlama"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
 msgstr ""
+"Satırların nerede kullanıldığını göstermek için ekran görüntüleri ekleyin."
 
 #: weblate/trans/views/guide.py:181
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Çeviri için çoğaltılmış dize."
+msgstr "Çevirinizde özel satırları belirtmek için bayrak kullanın."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
-msgstr ""
+msgstr "İş akışı özelleştirme"
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
