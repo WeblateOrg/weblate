@@ -37,6 +37,7 @@ Not yet released.
 * Added localization guide to help configuring components.
 * Added suport for GitLab merge requests.
 * Improved display of repository status.
+* Perform automated translation in the background.
 
 weblate 3.8
 -----------
