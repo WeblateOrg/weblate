@@ -164,6 +164,8 @@ class QueryParserTest(TestCase):
         self.assert_query("state:>=20", Q(state__gte=20))
         self.assert_query("state:>=translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
+        # This should probably raise an error
+        self.assert_query("state:invalid", Q())
 
     def test_parenthesis(self):
         self.assert_query(

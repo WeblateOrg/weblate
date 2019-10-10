@@ -32,7 +32,7 @@ Fields
 ``location:TEXT``
    Location string case insensitive search.
 ``state:TEXT``
-   State search (``approved``, ``translated``, ``fuzzy``, ``empty``), supports :ref:`search-operators`.
+   State search (``approved``, ``translated``, ``needs-editing``, ``empty``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has_suggestion:BOOLEAN``

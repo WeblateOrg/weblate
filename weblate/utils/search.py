@@ -39,6 +39,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NAMES,
     STATE_TRANSLATED,
 )
 
@@ -105,15 +106,10 @@ class StateField(NUMERIC):
 
 
 def state_to_int(text):
-    if text == "translated":
-        return str(STATE_TRANSLATED)
-    if text == "approved":
-        return str(STATE_APPROVED)
-    if text == "empty":
-        return str(STATE_EMPTY)
-    if text == "fuzzy":
-        return str(STATE_FUZZY)
-    return text
+    try:
+        return STATE_NAMES[text]
+    except KeyError:
+        return text
 
 
 class QueryParser(whoosh.qparser.QueryParser):

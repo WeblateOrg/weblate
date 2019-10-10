@@ -33,3 +33,5 @@ STATE_CHOICES = (
     (STATE_TRANSLATED, _('Translated')),
     (STATE_APPROVED, _('Approved')),
 )
+
+STATE_NAMES = {name.replace(' ', '-').lower(): value for (value, name) in STATE_CHOICES}
