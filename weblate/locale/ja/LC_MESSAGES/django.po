@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-10 13:58+0000\n"
-"PO-Revision-Date: 2019-10-05 14:15+0000\n"
+"PO-Revision-Date: 2019-10-10 19:39+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -484,13 +484,8 @@ msgid ""
 msgstr "ダッシュボードに表示するコンポーネント リストを選択してください。"
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr ""
-"コンポーネント リストを選択しても、ダッシュボードに表示していない場合は効果は"
-"ありません。"
+msgstr "コンポーネント リストを選択しても、ダッシュボードに表示していない場合は効果はありません。"
 
 #: weblate/accounts/models.py:589
 msgid ""
@@ -812,16 +807,10 @@ msgid "Language consistency"
 msgstr "言語の一貫性"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
-msgstr ""
-"このアドオンは、1 つのプロジェクトのすべてのコンポーネントが、同じ言語に翻訳"
-"されていることを保証します。"
+msgstr "1 つのプロジェクト内のすべてのコンポーネントが、同じ言語に翻訳されていることを保証します。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1165,18 +1154,13 @@ msgid "Update RESX files"
 msgstr "RESX ファイルの更新"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"すべての変換ファイルを更新して、単一言語基本ファイルと一致させます。古い変換"
-"キーを削除し、原文を翻訳とする新しい変換キーを追加します。"
+"すべての変換ファイルを更新して、単一言語のアップストリーム基本ファイルと一致させます。未使用の文字列は削除し、新しい文字列は原文文字列のコピーとして追加し"
+"ます。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3471,14 +3455,10 @@ msgstr ""
 "入してください。"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr ""
-"翻訳された内容は、フリーソフトウェアのライセンスでリリースされなければなりま"
-"せん。"
+msgstr "翻訳されたコンテンツは、OSI により承認されたライセンスに基づいてリリースされるか、FSF によりリブレとして承認される必要があります。"
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4550,10 +4530,8 @@ msgstr "翻訳のレポート"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "場所"
+msgstr "翻訳ガイド"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -4752,7 +4730,7 @@ msgstr "読み込み中…"
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
-msgstr ""
+msgstr "すべてのユーザーのレポートを表示する権限がありません。投稿のみ一覧表示します。"
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5352,7 +5330,7 @@ msgstr "用語集に関連する文字列が見つかりませんでした。"
 msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
-msgstr ""
+msgstr "ここでは、翻訳プロジェクトをコミュニティにとって魅力的なものにするためのガイダンスを紹介します。"
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6707,17 +6685,14 @@ msgid "Repository branch"
 msgstr "リポジトリブランチ"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "直前のリモートコミット:"
+msgstr "最後のリモート コミット"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "%(date)s に %(author)s が記述しました"
+msgstr "%(date)s 日前に %(author)s が記述"
 
 #: weblate/templates/snippets/git-info.html:40
 msgid "Repository containing Weblate translations"
@@ -6855,10 +6830,8 @@ msgid "Query examples"
 msgstr "クエリの例"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
-msgstr "他のユーザの翻訳を査読します"
+msgstr "他のユーザが変更した翻訳を査読する"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -9930,10 +9903,8 @@ msgid "Invalid search string!"
 msgstr "無効な検索文字列です！"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "自動翻訳元"
+msgstr "自動翻訳中"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10004,26 +9975,24 @@ msgid "All repositories have been cleaned up."
 msgstr "すべてのリポジトリをクリーンアップしました。"
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "バージョンコントロールの設定"
+msgstr "統合したバージョン管理"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
-msgstr ""
+msgstr "Weblate の更新フローを自動化するためにリポジトリ フックを設定します。"
 
 #: weblate/trans/views/guide.py:108
 msgid "Configure push URL for automated flow of translations from Weblate."
-msgstr ""
+msgstr "Weblate の自動翻訳のためのプッシュ URL を設定します。"
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
-msgstr ""
+msgstr "コミュニティの構築"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
-msgstr ""
+msgstr "翻訳手順を定めて、翻訳者にガイドラインを提供します。"
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
