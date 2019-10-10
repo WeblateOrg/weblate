@@ -767,6 +767,18 @@ replace the favicon.
    The files are copied to correspoding location on container startup, so
    restart is needed after changing the volume content.
 
+Alternatively you can also include own module (see :doc:`../customize`) and add
+it as separate volume to the Docker container, for example:
+
+.. code-block:: yaml
+
+  weblate:
+    volumes:
+      - weblate-data:/app/data
+      - ./weblate_customization/weblate_customization:/app/data/python/weblate_customization
+    environment:
+      WEBLATE_ADD_APPS: weblate_customization
+
 Adding own Python modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
