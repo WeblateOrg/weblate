@@ -37,25 +37,13 @@
 <div class="alert alert-success" role="alert">{% trans "The local repository is up to date." %}</div>
 {% endif %}
 {% endif %}
-
-{% comment %}Only show commit information for non project{% endcomment %}
-{% if not object.source_language %}
-{% with object.get_last_remote_commit as commit %}
-<p>
-{% trans "Last remote commit:" %}
-{% include "git-commit-info.html" %}
-</p>
-{% endwith %}
-{% with object.get_export_url as export_url %}
-{% if export_url %}
-<p>
-{% trans "Repository containing Weblate translations:" %}
-<code class="git-repo ui-corner-all">{{ export_url }}</code>
-</p>
-{% endif %}
-{% endwith %}
-{% endif %}
 </div>
+
+{% if component %}
+<table class="table table-striped">
+{% include "snippets/git-info.html" with object=component %}
+</table>
+{% endif %}
 </div>
 
 <div class="panel panel-primary">

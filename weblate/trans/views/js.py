@@ -200,6 +200,7 @@ def git_status_project(request, project):
                 action__in=Change.ACTIONS_REPOSITORY,
             ).order()[:10],
             'statuses': statuses,
+            'component': None,
         }
     )
 
@@ -225,6 +226,7 @@ def git_status_component(request, project, component):
                 component=target,
             ).order()[:10],
             'statuses': [(None, obj.repository.status)],
+            'component': obj,
         }
     )
 
@@ -251,6 +253,7 @@ def git_status_translation(request, project, component, lang):
                 component=target,
             ).order()[:10],
             'statuses': [(None, obj.component.repository.status)],
+            'component': obj.component,
         }
     )
 

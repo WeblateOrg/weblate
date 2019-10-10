@@ -1,8 +1,6 @@
 {% load i18n %}
 {% load permissions %}
 
-{% perm 'vcs.view' object as user_can_see_git_repository %}
-
 {% with object.project as object %}
 {% include "project_info.html" %}
 {% endwith %}
@@ -62,33 +60,7 @@
 </tr>
 {% endif %}
 
-{% if user_can_see_git_repository %}
-<tr>
-<th>{% trans "Repository" %}</th>
-<td colspan="2">
-<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
-</td>
-</tr>
-
-<tr>
-<th>{% trans "Repository branch" %}</th>
-<td colspan="2">
-{{ object.get_repo_branch }}
-{% with object.get_last_remote_commit as commit %}
-{% include "git-commit-info.html" %}
-{% endwith %}
-</td>
-</tr>
-
-{% with object.get_export_url as export_url %}
-{% if export_url %}
-<tr>
-<th>{% trans "Repository containing Weblate translations" %}</th>
-<td colspan="2"><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
-</tr>
-{% endif %}
-{% endwith %}
-{% endif %}
+{% include "snippets/git-info.html" %}
 
 <tr>
 <th>{% trans "Filemask" %}</th><td><code>{{ object.filemask }}</code></td>

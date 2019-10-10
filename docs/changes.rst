@@ -36,6 +36,7 @@ Not yet released.
 * Allow users to download their own reports.
 * Added localization guide to help configuring components.
 * Added suport for GitLab merge requests.
+* Improved display of repository status.
 
 weblate 3.8
 -----------

@@ -21,7 +21,6 @@
 
 from __future__ import unicode_literals
 
-import email.utils
 import os
 import os.path
 from zipfile import ZipFile
@@ -193,10 +192,10 @@ class GitRepository(Repository):
                     value = value.strip()
                     name = name.lower()
                     result[name] = value
-                    if '@' in value:
-                        parsed = email.utils.parseaddr(value)
-                        result['{0}_name'.format(name)] = parsed[0]
-                        result['{0}_email'.format(name)] = parsed[1]
+                    if '<' in value:
+                        parsed = value.split('<', 1)
+                        result['{0}_name'.format(name)] = parsed[0].strip()
+                        result['{0}_email'.format(name)] = parsed[1].rstrip('>')
             else:
                 message.append(line.strip())
 
