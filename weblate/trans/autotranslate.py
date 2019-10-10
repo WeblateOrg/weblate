@@ -154,8 +154,8 @@ class AutoTranslate(object):
 
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
-        translations = self.fetch_mt(engines, threshold)
         self.total = self.get_units().count()
+        translations = self.fetch_mt(engines, threshold)
 
         with transaction.atomic():
             # Perform the translation
