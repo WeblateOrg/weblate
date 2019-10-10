@@ -35,13 +35,7 @@ from jellyfish._jellyfish import (
 )
 from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
-from weblate.utils.state import (
-    STATE_APPROVED,
-    STATE_EMPTY,
-    STATE_FUZZY,
-    STATE_NAMES,
-    STATE_TRANSLATED,
-)
+from weblate.utils.state import STATE_NAMES
 
 
 class Comparer(object):
