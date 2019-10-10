@@ -87,3 +87,16 @@ def is_task_ready(task):
         return task.ready()
     except TypeError:
         return True
+
+
+def get_task_progress(task):
+    """Return progress of a Celery task."""
+    # Completed task
+    if is_task_ready(task):
+        return 100
+    # In progress
+    if task.state == "PROGRESS" and result:
+        return result["progress"]
+
+    # Not yet started
+    return 0

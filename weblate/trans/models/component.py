@@ -79,7 +79,7 @@ from weblate.trans.validators import (
     validate_filemask,
 )
 from weblate.utils import messages
-from weblate.utils.celery import is_task_ready
+from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import is_fsf_approved, is_osi_approved
 from weblate.utils.render import (
@@ -560,16 +560,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if task is None:
             return 100, []
         result = task.result
-        if is_task_ready(task):
-            # Completed task
-            progress = 100
-        elif task.state == "PROGRESS" and result:
-            # In progress
-            progress = result["progress"]
-
-        else:
-            # Not yet started
-            progress = 0
+        progress = get_task_progress(task)
         return (progress, cache.get("task-log-{}".format(task.id), []))
 
     def in_progress(self):
