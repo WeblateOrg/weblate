@@ -52,8 +52,33 @@
     <label class="control-label">{% trans "Query examples" %}</label>
     <table class="table table-striped">
     <tr>
-        <th>{% trans "Review translations changed by other users" %}</th>
+        <th>{% trans "Review strings changed by other users" %}</th>
         <td><code>changed:&gt;={{ month_ago|date:"Y-m-d" }} AND NOT changed_by:{{ user.username }}</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    <tr>
+        <th>{% trans "Translated strings" %}</th>
+        <td><code>state:&gt;=translated</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    <tr>
+        <th>{% trans "Strings with comments" %}</th>
+        <td><code>has_comment:1</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    <tr>
+        <th>{% trans "Strings with failing checks" %}</th>
+        <td><code>has_failing_check:1</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    <tr>
+        <th>{% trans "Strings with suggestions" %}</th>
+        <td><code>has_suggestion:1</code></td>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
+    <tr>
+        <th>{% trans "Approved strings with suggestions" %}</th>
+        <td><code>state:approved AND has_suggestion:1</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     </table>
