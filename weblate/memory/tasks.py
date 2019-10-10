@@ -42,7 +42,8 @@ from weblate.utils.state import STATE_TRANSLATED
 
 @app.task(trail=False)
 def memory_backup(indent=2):
-    os.makedirs(data_dir('backups'))
+    if not os.path.exists(data_dir('backups')):
+        os.makedirs(data_dir('backups'))
     filename = data_dir('backups', 'memory.json')
     memory = TranslationMemory()
     with open(filename, 'w') as handle:
