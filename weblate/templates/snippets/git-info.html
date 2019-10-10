@@ -29,7 +29,7 @@
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
     <br />
 {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
-{% blocktrans with commit.author_name as author and commit.authordate|naturaltime as date %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
+{% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
 </td>
 </tr>
 {% endwith %}

@@ -38,6 +38,7 @@ from django.utils.translation import ugettext_lazy, ungettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
+from weblate.auth.models import User
 from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
@@ -822,3 +823,13 @@ def choiceval(boundfield):
     if isinstance(value, list):
         return ', '.join(choices.get(val, val) for val in value)
     return choices.get(value, value)
+
+
+@register.filter
+def format_commit_author(commit):
+    users = User.objects.filter(
+        social_auth__verifiedemail__email=commit['author_email']
+    ).distinct()
+    if len(users) == 1:
+        return get_user_display(users[0], True, True)
+    return commit['author_name']
