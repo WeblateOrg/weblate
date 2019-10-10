@@ -8,11 +8,9 @@ User=weblate
 Group=weblate
 EnvironmentFile=/etc/default/celery-weblate
 WorkingDirectory=/home/weblate
-PermissionsStartOnly=true
-ExecStartPre=/bin/mkdir -p /var/run/celery
-ExecStartPre=/bin/chown -R weblate /var/run/celery/
-ExecStartPre=/bin/mkdir -p /var/log/celery
-ExecStartPre=/bin/chown -R weblate /var/log/celery/
+RuntimeDirectory=celery
+RuntimeDirectoryPreserve=restart
+LogsDirectory=celery
 ExecStart=/bin/sh -c '${CELERY_BIN} multi start ${CELERYD_NODES} \
   -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
   --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL} ${CELERYD_OPTS}'
