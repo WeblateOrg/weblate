@@ -8,7 +8,8 @@
 <tr>
 <th>{% trans "Repository" %}</th>
 <td colspan="2">
-<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
+    <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
 </td>
 </tr>
 
@@ -23,7 +24,10 @@
 <tr>
 <th>{% trans "Last remote commit" %}</th>
 <td colspan="2">
-{{ commit.summary }} <code data-toggle="tooltip" title="{{ commit.revision }}">{{ commit.shortrevision }}</code><br />
+    {{ commit.summary }} 
+    <code data-toggle="tooltip" title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+    <br />
 {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
 {% blocktrans with commit.author_name as author and commit.authordate|naturaltime as date %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
 </td>
@@ -34,7 +38,10 @@
 {% if export_url %}
 <tr>
 <th>{% trans "Repository containing Weblate translations" %}</th>
-<td colspan="2"><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
+<td colspan="2">
+    <code class="git-repo ui-corner-all">{{ export_url }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+</td>
 </tr>
 {% endif %}
 {% endwith %}
