@@ -502,6 +502,8 @@ LANGUAGES = (
     ('or', _('Odia'), 2, 'n != 1'),
     # Translators: Language name, ISO code: os
     ('os', _('Ossetian'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: otk
+    ('otk', _('Kokturk'), 2, 'n != 1'),
     # Translators: Language name, ISO code: pa
     ('pa', _('Punjabi'), 2, 'n > 1'),
     # Translators: Language name, ISO code: pap
@@ -558,6 +560,8 @@ LANGUAGES = (
     ('sat', _('Santali'), 2, 'n != 1'),
     # Translators: Language name, ISO code: sc
     ('sc', _('Sardinian'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: scn
+    ('scn', _('Sicilian'), 2, 'n != 1'),
     # Translators: Language name, ISO code: sco
     ('sco', _('Scots'), 2, 'n != 1'),
     # Translators: Language name, ISO code: sd
