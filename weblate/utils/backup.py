@@ -49,10 +49,7 @@ def borg(cmd, env=None):
             env=get_clean_env(env),
         ).decode("utf-8")
     except EnvironmentError as error:
-        report_error(error)
-        if error.errno == errno.ENOENT:
-            raise BackupError("Could not find borg program")
-        raise BackupError(str(error))
+        raise BackupError("Could not execute borg program: {}".format(error))
     except (subprocess.CalledProcessError, OSError) as error:
         report_error(error)
         if hasattr(error, "stdout"):
