@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-10 13:58+0000\n"
+"POT-Creation-Date: 2019-10-11 12:17+0000\n"
 "PO-Revision-Date: 2019-10-01 04:35+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -3250,7 +3250,7 @@ msgid "Weblate keys"
 msgstr "Weblaten avaimet"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:48
+#: weblate/templates/manage/snippets/backup-credentials.html:13
 msgid "SSH key"
 msgstr "SSH-avain"
 
@@ -4251,7 +4251,7 @@ msgstr "Asetusvirheet"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:226
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:226
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -4337,6 +4337,8 @@ msgstr ""
 "Käytä jotain uudempaa selainta, kuten Firefox, Chrome tai Edge."
 
 #: weblate/templates/base.html:268 weblate/templates/base.html:275
+#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:86
 msgid "Close"
 msgstr "Sulje"
 
@@ -5229,6 +5231,8 @@ msgstr "Muokkaa"
 #: weblate/templates/fonts/font_detail.html:31
 #: weblate/templates/fonts/fontgroup_detail.html:38
 #: weblate/templates/language.html:33 weblate/templates/list-comments.html:23
+#: weblate/templates/manage/backups.html:64
+#: weblate/templates/manage/backups.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translate.html:319
@@ -5449,8 +5453,8 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Moottorina %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
-#: weblate/templates/manage/backups.html:41
-#: weblate/templates/manage/backups.html:45
+#: weblate/templates/manage/snippets/backup-credentials.html:6
+#: weblate/templates/manage/snippets/backup-credentials.html:10
 #: weblate/templates/snippets/git-info.html:12
 #: weblate/templates/snippets/git-info.html:29
 #: weblate/templates/snippets/git-info.html:43
@@ -6284,49 +6288,36 @@ msgstr "Pois päältä"
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "Käytä arkistoa"
-
-#: weblate/templates/manage/backups.html:43
-msgid "Passphrase"
-msgstr "Salalause"
-
-#: weblate/templates/manage/backups.html:46
-msgid ""
-"The passphrase is used to encrypt the backups and is necessary to restore "
-"them."
-msgstr ""
-"Salalausetta käytetään varmuuskopioiden salaamiseen ja sitä tarvitaan niiden "
-"palauttamiseen."
-
-#: weblate/templates/manage/backups.html:49
-#: weblate/templates/manage/ssh.html:28
-#, fuzzy
-#| msgid "Download reports"
-msgid "Download private key"
-msgstr "Lataa raportteja"
-
-#: weblate/templates/manage/backups.html:50
-msgid "The private key is needed to access the remote backup repository."
-msgstr ""
-
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:63
 msgid "Perform backup"
 msgstr "Suorita varmuuskopiointi"
 
-#: weblate/templates/manage/backups.html:91
+#: weblate/templates/manage/backups.html:78
+#: weblate/templates/trans/delete-form.html:7
+msgid "Are you absolutely sure?"
+msgstr "Oletko ehdottoman varma?"
+
+#: weblate/templates/manage/backups.html:81
+msgid ""
+"By removing the backup service, the credentials will be removed and you "
+"might lose access to the backups."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:82
+msgid ""
+"In case you want to be able to restore the backups, please record "
+"credentials below."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
 msgstr "Lisää varmuuskopiopalvelu"
 
@@ -6419,6 +6410,37 @@ msgstr ""
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
 msgstr "Aktivoi"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:4
+#: weblate/wladmin/models.py:154
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "Käytä arkistoa"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:8
+msgid "Passphrase"
+msgstr "Salalause"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:11
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+"Salalausetta käytetään varmuuskopioiden salaamiseen ja sitä tarvitaan niiden "
+"palauttamiseen."
+
+#: weblate/templates/manage/snippets/backup-credentials.html:14
+#: weblate/templates/manage/ssh.html:28
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "Lataa raportteja"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:15
+msgid "The private key is needed to access the remote backup repository."
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7285,10 +7307,6 @@ msgid ""
 "creating it."
 msgstr ""
 "Voit muokata asetuksia komponentin asetuksista komponentin luomisen jälkeen."
-
-#: weblate/templates/trans/delete-form.html:7
-msgid "Are you absolutely sure?"
-msgstr "Oletko ehdottoman varma?"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -9885,7 +9903,7 @@ msgstr "Matala"
 msgid "Very low"
 msgstr "Erittäin matala"
 
-#: weblate/trans/util.py:249
+#: weblate/trans/util.py:254
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -10529,31 +10547,37 @@ msgstr "Portti"
 msgid "The test e-mail will be sent to this address."
 msgstr "Testisähköposti lähetetään tähän osoitteeseen."
 
-#: weblate/wladmin/models.py:84
+#: weblate/wladmin/models.py:91
 msgid "Community support"
 msgstr "Yhteisötuki"
 
-#: weblate/wladmin/models.py:85
+#: weblate/wladmin/models.py:92
 msgid "Hosted service"
 msgstr "Isännöity palvelu"
 
-#: weblate/wladmin/models.py:86
+#: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
 msgstr "Itseylläpidetty perustuki"
 
-#: weblate/wladmin/models.py:87
+#: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
 msgstr "Laajennettu itseisännöity tuki"
 
-#: weblate/wladmin/models.py:182
+#: weblate/wladmin/models.py:196
 msgid "Backup performed"
 msgstr "Varmuuskopiointi suoritettu"
 
-#: weblate/wladmin/models.py:183
+#: weblate/wladmin/models.py:197
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Backup failed"
+msgstr "Varmuuskopiointi suoritettu"
+
+#: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
 msgstr "Poista vanhimmat varmuuskopiot"
 
-#: weblate/wladmin/models.py:184
+#: weblate/wladmin/models.py:199
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repository initialization"
@@ -10597,19 +10621,31 @@ msgstr "Raportit"
 msgid "Weblate status"
 msgstr "Weblaten tila"
 
-#: weblate/wladmin/views.py:93
+#: weblate/wladmin/views.py:94
 msgid "Test e-mail sent."
 msgstr "Testisähköposti lähetetty."
 
-#: weblate/wladmin/views.py:112
+#: weblate/wladmin/views.py:97
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to send test e-mail: %s"
+msgstr "Avaimen luominen epäonnistui: %s"
+
+#: weblate/wladmin/views.py:114
 msgid "Activation completed."
 msgstr "Aktivointi valmis."
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:118
 msgid "The activation failed. Please check your activation token."
 msgstr ""
 
-#: weblate/wladmin/views.py:168
+#: weblate/wladmin/views.py:156
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Backup has been triggered"
+msgstr "Käyttäjätunnuksesi on poistettu."
+
+#: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "Asetusvirheen hylkääminen epäonnistui!"
 

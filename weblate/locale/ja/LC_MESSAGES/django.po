@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-10 13:58+0000\n"
+"POT-Creation-Date: 2019-10-11 12:17+0000\n"
 "PO-Revision-Date: 2019-10-11 10:16+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -485,7 +485,9 @@ msgstr "ダッシュボードに表示するコンポーネント リストを�
 
 #: weblate/accounts/models.py:499
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr "コンポーネント リストを選択しても、ダッシュボードに表示していない場合は効果はありません。"
+msgstr ""
+"コンポーネント リストを選択しても、ダッシュボードに表示していない場合は効果は"
+"ありません。"
 
 #: weblate/accounts/models.py:589
 msgid ""
@@ -810,7 +812,9 @@ msgstr "言語の一貫性"
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
-msgstr "1 つのプロジェクト内のすべてのコンポーネントが、同じ言語に翻訳されていることを保証します。"
+msgstr ""
+"1 つのプロジェクト内のすべてのコンポーネントが、同じ言語に翻訳されていること"
+"を保証します。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1159,8 +1163,9 @@ msgid ""
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"すべての変換ファイルを更新して、単一言語のアップストリーム基本ファイルと一致させます。未使用の文字列は削除し、新しい文字列は原文文字列のコピーとして追加し"
-"ます。"
+"すべての変換ファイルを更新して、単一言語のアップストリーム基本ファイルと一致"
+"させます。未使用の文字列は削除し、新しい文字列は原文文字列のコピーとして追加"
+"します。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3154,7 +3159,7 @@ msgid "Weblate keys"
 msgstr "Weblate キー"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:48
+#: weblate/templates/manage/snippets/backup-credentials.html:13
 msgid "SSH key"
 msgstr "SSH 鍵"
 
@@ -3458,7 +3463,9 @@ msgstr ""
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr "翻訳されたコンテンツは、OSI により承認されたライセンスに基づいてリリースされるか、FSF によりリブレとして承認される必要があります。"
+msgstr ""
+"翻訳されたコンテンツは、OSI により承認されたライセンスに基づいてリリースされ"
+"るか、FSF によりリブレとして承認される必要があります。"
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4142,7 +4149,7 @@ msgstr "設定エラー"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:226
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:226
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -4228,6 +4235,8 @@ msgstr ""
 "していません。Firefox・Chome・Edge などの新しいブラウザをお使いください。"
 
 #: weblate/templates/base.html:268 weblate/templates/base.html:275
+#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:86
 msgid "Close"
 msgstr "閉じる"
 
@@ -4730,7 +4739,9 @@ msgstr "読み込み中…"
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
-msgstr "すべてのユーザーのレポートを表示する権限がありません。投稿のみ一覧表示します。"
+msgstr ""
+"すべてのユーザーのレポートを表示する権限がありません。投稿のみ一覧表示しま"
+"す。"
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5108,6 +5119,8 @@ msgstr "編集"
 #: weblate/templates/fonts/font_detail.html:31
 #: weblate/templates/fonts/fontgroup_detail.html:38
 #: weblate/templates/language.html:33 weblate/templates/list-comments.html:23
+#: weblate/templates/manage/backups.html:64
+#: weblate/templates/manage/backups.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translate.html:319
@@ -5310,8 +5323,8 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Powered by %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
-#: weblate/templates/manage/backups.html:41
-#: weblate/templates/manage/backups.html:45
+#: weblate/templates/manage/snippets/backup-credentials.html:6
+#: weblate/templates/manage/snippets/backup-credentials.html:10
 #: weblate/templates/snippets/git-info.html:12
 #: weblate/templates/snippets/git-info.html:29
 #: weblate/templates/snippets/git-info.html:43
@@ -5330,7 +5343,9 @@ msgstr "用語集に関連する文字列が見つかりませんでした。"
 msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
-msgstr "ここでは、翻訳プロジェクトをコミュニティにとって魅力的なものにするためのガイダンスを紹介します。"
+msgstr ""
+"ここでは、翻訳プロジェクトをコミュニティにとって魅力的なものにするためのガイ"
+"ダンスを紹介します。"
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6143,45 +6158,36 @@ msgstr "無効にする"
 msgid "Backup service credentials"
 msgstr "バックアップ サービスの資格情報"
 
-#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "バックアップ リポジトリ"
-
-#: weblate/templates/manage/backups.html:43
-msgid "Passphrase"
-msgstr "パスフレーズ"
-
-#: weblate/templates/manage/backups.html:46
-msgid ""
-"The passphrase is used to encrypt the backups and is necessary to restore "
-"them."
-msgstr ""
-"パスフレーズはバックアップの暗号化に使用するだけでなく、バックアップの復元に"
-"も必要です。"
-
-#: weblate/templates/manage/backups.html:49
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key"
-msgstr "秘密鍵のダウンロード"
-
-#: weblate/templates/manage/backups.html:50
-msgid "The private key is needed to access the remote backup repository."
-msgstr ""
-"秘密鍵は、リモート バックアップ リポジトリにアクセスするために必要です。"
-
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn off"
 msgstr "無効にする"
 
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn on"
 msgstr "有効にする"
 
-#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:63
 msgid "Perform backup"
 msgstr "バックアップの実行"
 
-#: weblate/templates/manage/backups.html:91
+#: weblate/templates/manage/backups.html:78
+#: weblate/templates/trans/delete-form.html:7
+msgid "Are you absolutely sure?"
+msgstr "本当によろしいですか？"
+
+#: weblate/templates/manage/backups.html:81
+msgid ""
+"By removing the backup service, the credentials will be removed and you "
+"might lose access to the backups."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:82
+msgid ""
+"In case you want to be able to restore the backups, please record "
+"credentials below."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
 msgstr "バックアップ サービスの追加"
 
@@ -6275,6 +6281,33 @@ msgstr ""
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
 msgstr "有効"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:4
+#: weblate/wladmin/models.py:154
+msgid "Backup repository"
+msgstr "バックアップ リポジトリ"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:8
+msgid "Passphrase"
+msgstr "パスフレーズ"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:11
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+"パスフレーズはバックアップの暗号化に使用するだけでなく、バックアップの復元に"
+"も必要です。"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:14
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key"
+msgstr "秘密鍵のダウンロード"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:15
+msgid "The private key is needed to access the remote backup repository."
+msgstr ""
+"秘密鍵は、リモート バックアップ リポジトリにアクセスするために必要です。"
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7119,10 +7152,6 @@ msgid ""
 msgstr ""
 "コンポーネントを作成すると、コンポーネントの設定でオプションをさらに編集でき"
 "るようになります。"
-
-#: weblate/templates/trans/delete-form.html:7
-msgid "Are you absolutely sure?"
-msgstr "本当によろしいですか？"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -9664,7 +9693,7 @@ msgstr "低"
 msgid "Very low"
 msgstr "非常に低い"
 
-#: weblate/trans/util.py:249
+#: weblate/trans/util.py:254
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -10283,31 +10312,37 @@ msgstr "ポート"
 msgid "The test e-mail will be sent to this address."
 msgstr "テスト用のメールは、このアドレスに送信されます。"
 
-#: weblate/wladmin/models.py:84
+#: weblate/wladmin/models.py:91
 msgid "Community support"
 msgstr "コミュニティによるサポート"
 
-#: weblate/wladmin/models.py:85
+#: weblate/wladmin/models.py:92
 msgid "Hosted service"
 msgstr "ホスティング サービス"
 
-#: weblate/wladmin/models.py:86
+#: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
 msgstr "お客様のサーバへの基本サポート"
 
-#: weblate/wladmin/models.py:87
+#: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
 msgstr "お客様のサーバへの追加サポート"
 
-#: weblate/wladmin/models.py:182
+#: weblate/wladmin/models.py:196
 msgid "Backup performed"
 msgstr "バックアップの実行"
 
-#: weblate/wladmin/models.py:183
+#: weblate/wladmin/models.py:197
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Backup failed"
+msgstr "バックアップの実行"
+
+#: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
 msgstr "最も古いバックアップを削除しました"
 
-#: weblate/wladmin/models.py:184
+#: weblate/wladmin/models.py:199
 msgid "Repository initialization"
 msgstr "リポジトリの初期化"
 
@@ -10350,19 +10385,31 @@ msgstr "レポート"
 msgid "Weblate status"
 msgstr "Weblate 状況"
 
-#: weblate/wladmin/views.py:93
+#: weblate/wladmin/views.py:94
 msgid "Test e-mail sent."
 msgstr "テスト メールを送信しました。"
 
-#: weblate/wladmin/views.py:112
+#: weblate/wladmin/views.py:97
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to send test e-mail: %s"
+msgstr "鍵の生成に失敗しました: %s"
+
+#: weblate/wladmin/views.py:114
 msgid "Activation completed."
 msgstr "有効化完了。"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:118
 msgid "The activation failed. Please check your activation token."
 msgstr "有効化に失敗しました。有効化トークンを確認してください。"
 
-#: weblate/wladmin/views.py:168
+#: weblate/wladmin/views.py:156
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Backup has been triggered"
+msgstr "アカウントを削除しました。"
+
+#: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "設定エラーは無視できません！"
 

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-10 13:58+0000\n"
+"POT-Creation-Date: 2019-10-11 12:17+0000\n"
 "PO-Revision-Date: 2019-10-10 19:38+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -3176,7 +3176,7 @@ msgid "Weblate keys"
 msgstr "Chaves do Weblate"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:48
+#: weblate/templates/manage/snippets/backup-credentials.html:13
 msgid "SSH key"
 msgstr "Chave SSH"
 
@@ -4169,7 +4169,7 @@ msgstr "Erros de configuração"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:226
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:226
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -4255,6 +4255,8 @@ msgstr ""
 "navegador mais recente como o Firefox, Chrome ou Edge."
 
 #: weblate/templates/base.html:268 weblate/templates/base.html:275
+#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:86
 msgid "Close"
 msgstr "Fechar"
 
@@ -5148,6 +5150,8 @@ msgstr "Editar"
 #: weblate/templates/fonts/font_detail.html:31
 #: weblate/templates/fonts/fontgroup_detail.html:38
 #: weblate/templates/language.html:33 weblate/templates/list-comments.html:23
+#: weblate/templates/manage/backups.html:64
+#: weblate/templates/manage/backups.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translate.html:319
@@ -5361,8 +5365,8 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Desenvolvido com %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
-#: weblate/templates/manage/backups.html:41
-#: weblate/templates/manage/backups.html:45
+#: weblate/templates/manage/snippets/backup-credentials.html:6
+#: weblate/templates/manage/snippets/backup-credentials.html:10
 #: weblate/templates/snippets/git-info.html:12
 #: weblate/templates/snippets/git-info.html:29
 #: weblate/templates/snippets/git-info.html:43
@@ -6189,45 +6193,36 @@ msgstr "Desativado"
 msgid "Backup service credentials"
 msgstr "Credenciais do serviço de backup"
 
-#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "Repositório backup"
-
-#: weblate/templates/manage/backups.html:43
-msgid "Passphrase"
-msgstr "Frase secreta"
-
-#: weblate/templates/manage/backups.html:46
-msgid ""
-"The passphrase is used to encrypt the backups and is necessary to restore "
-"them."
-msgstr ""
-"A frase passe é usada para criptografar os backups e é necessária para "
-"restaurá-los."
-
-#: weblate/templates/manage/backups.html:49
-#: weblate/templates/manage/ssh.html:28
-msgid "Download private key"
-msgstr "Baixar chave privada"
-
-#: weblate/templates/manage/backups.html:50
-msgid "The private key is needed to access the remote backup repository."
-msgstr ""
-"A chave privada é necessária para acessar o repositório de backup remoto."
-
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn off"
 msgstr "Desativar"
 
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn on"
 msgstr "Ativar"
 
-#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:63
 msgid "Perform backup"
 msgstr "Executar backup"
 
-#: weblate/templates/manage/backups.html:91
+#: weblate/templates/manage/backups.html:78
+#: weblate/templates/trans/delete-form.html:7
+msgid "Are you absolutely sure?"
+msgstr "Tem certeza absoluta?"
+
+#: weblate/templates/manage/backups.html:81
+msgid ""
+"By removing the backup service, the credentials will be removed and you "
+"might lose access to the backups."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:82
+msgid ""
+"In case you want to be able to restore the backups, please record "
+"credentials below."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
 msgstr "Adicionar serviço de backup"
 
@@ -6322,6 +6317,33 @@ msgstr ""
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
 msgstr "Ativar"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:4
+#: weblate/wladmin/models.py:154
+msgid "Backup repository"
+msgstr "Repositório backup"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:8
+msgid "Passphrase"
+msgstr "Frase secreta"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:11
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+"A frase passe é usada para criptografar os backups e é necessária para "
+"restaurá-los."
+
+#: weblate/templates/manage/snippets/backup-credentials.html:14
+#: weblate/templates/manage/ssh.html:28
+msgid "Download private key"
+msgstr "Baixar chave privada"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:15
+msgid "The private key is needed to access the remote backup repository."
+msgstr ""
+"A chave privada é necessária para acessar o repositório de backup remoto."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7180,10 +7202,6 @@ msgid ""
 msgstr ""
 "Você será capaz de editar mais opções nas configurações do componente após "
 "criá-lo."
-
-#: weblate/templates/trans/delete-form.html:7
-msgid "Are you absolutely sure?"
-msgstr "Tem certeza absoluta?"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -9777,7 +9795,7 @@ msgstr "Baixa"
 msgid "Very low"
 msgstr "Muito baixa"
 
-#: weblate/trans/util.py:249
+#: weblate/trans/util.py:254
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -10405,31 +10423,37 @@ msgstr "Porta"
 msgid "The test e-mail will be sent to this address."
 msgstr "O e-mail de teste será enviado para esse endereço."
 
-#: weblate/wladmin/models.py:84
+#: weblate/wladmin/models.py:91
 msgid "Community support"
 msgstr "Suporte da comunidade"
 
-#: weblate/wladmin/models.py:85
+#: weblate/wladmin/models.py:92
 msgid "Hosted service"
 msgstr "Serviço hospedado"
 
-#: weblate/wladmin/models.py:86
+#: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
 msgstr "Suporte básico para hospedagem própria"
 
-#: weblate/wladmin/models.py:87
+#: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
 msgstr "Suporte estendido para hospedagem própria"
 
-#: weblate/wladmin/models.py:182
+#: weblate/wladmin/models.py:196
 msgid "Backup performed"
 msgstr "Backup realizado"
 
-#: weblate/wladmin/models.py:183
+#: weblate/wladmin/models.py:197
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Backup failed"
+msgstr "Backup realizado"
+
+#: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
 msgstr "Excluídos os backups mais antigos"
 
-#: weblate/wladmin/models.py:184
+#: weblate/wladmin/models.py:199
 msgid "Repository initialization"
 msgstr "Inicialização do repositório"
 
@@ -10471,19 +10495,31 @@ msgstr "Relatórios"
 msgid "Weblate status"
 msgstr "Status do Weblate"
 
-#: weblate/wladmin/views.py:93
+#: weblate/wladmin/views.py:94
 msgid "Test e-mail sent."
 msgstr "E-mail de teste enviado."
 
-#: weblate/wladmin/views.py:112
+#: weblate/wladmin/views.py:97
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to send test e-mail: %s"
+msgstr "Falha ao gerar chave: %s"
+
+#: weblate/wladmin/views.py:114
 msgid "Activation completed."
 msgstr "Ativação concluída."
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:118
 msgid "The activation failed. Please check your activation token."
 msgstr "A ativação falhou. Por favor, verifique seu token de ativação."
 
-#: weblate/wladmin/views.py:168
+#: weblate/wladmin/views.py:156
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Backup has been triggered"
+msgstr "Sua conta foi removida."
+
+#: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "Não foi possível descartar o erro de configuração!"
 

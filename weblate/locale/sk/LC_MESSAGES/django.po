@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-10 13:58+0000\n"
+"POT-Creation-Date: 2019-10-11 12:17+0000\n"
 "PO-Revision-Date: 2019-09-18 19:18+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -3425,7 +3425,7 @@ msgid "Weblate keys"
 msgstr "Weblate kľúče"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:48
+#: weblate/templates/manage/snippets/backup-credentials.html:13
 msgid "SSH key"
 msgstr "SSH kľúč"
 
@@ -4481,7 +4481,7 @@ msgstr "Chyby v nastavení"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:226
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:226
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -4582,6 +4582,8 @@ msgstr ""
 "\">Firefox</a>."
 
 #: weblate/templates/base.html:268 weblate/templates/base.html:275
+#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:86
 msgid "Close"
 msgstr "Zavrieť"
 
@@ -5573,6 +5575,8 @@ msgstr "Upraviť"
 #: weblate/templates/fonts/font_detail.html:31
 #: weblate/templates/fonts/fontgroup_detail.html:38
 #: weblate/templates/language.html:33 weblate/templates/list-comments.html:23
+#: weblate/templates/manage/backups.html:64
+#: weblate/templates/manage/backups.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translate.html:319
@@ -5837,8 +5841,8 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Prevádzkované na %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
-#: weblate/templates/manage/backups.html:41
-#: weblate/templates/manage/backups.html:45
+#: weblate/templates/manage/snippets/backup-credentials.html:6
+#: weblate/templates/manage/snippets/backup-credentials.html:10
 #: weblate/templates/snippets/git-info.html:12
 #: weblate/templates/snippets/git-info.html:29
 #: weblate/templates/snippets/git-info.html:43
@@ -6775,49 +6779,38 @@ msgstr ""
 msgid "Backup service credentials"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
-msgid "Backup repository"
-msgstr "Pristúpiť k repozitáru"
-
-#: weblate/templates/manage/backups.html:43
-msgid "Passphrase"
-msgstr ""
-
-#: weblate/templates/manage/backups.html:46
-msgid ""
-"The passphrase is used to encrypt the backups and is necessary to restore "
-"them."
-msgstr ""
-
-#: weblate/templates/manage/backups.html:49
-#: weblate/templates/manage/ssh.html:28
-#, fuzzy
-#| msgid "Download reports"
-msgid "Download private key"
-msgstr "Stiahnuť reporty"
-
-#: weblate/templates/manage/backups.html:50
-msgid "The private key is needed to access the remote backup repository."
-msgstr ""
-
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn off"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn on"
 msgstr ""
 
-#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:63
 #, fuzzy
 #| msgid "Performance"
 msgid "Perform backup"
 msgstr "Výkonosť"
 
-#: weblate/templates/manage/backups.html:91
+#: weblate/templates/manage/backups.html:78
+#: weblate/templates/trans/delete-form.html:7
+msgid "Are you absolutely sure?"
+msgstr ""
+
+#: weblate/templates/manage/backups.html:81
+msgid ""
+"By removing the backup service, the credentials will be removed and you "
+"might lose access to the backups."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:82
+msgid ""
+"In case you want to be able to restore the backups, please record "
+"credentials below."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
 msgstr ""
 
@@ -6925,6 +6918,35 @@ msgstr ""
 #| msgid "Active"
 msgid "Activate"
 msgstr "Aktívny"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:4
+#: weblate/wladmin/models.py:154
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Access repository"
+msgid "Backup repository"
+msgstr "Pristúpiť k repozitáru"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:8
+msgid "Passphrase"
+msgstr ""
+
+#: weblate/templates/manage/snippets/backup-credentials.html:11
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+
+#: weblate/templates/manage/snippets/backup-credentials.html:14
+#: weblate/templates/manage/ssh.html:28
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "Stiahnuť reporty"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:15
+msgid "The private key is needed to access the remote backup repository."
+msgstr ""
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7898,10 +7920,6 @@ msgstr ""
 msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
-msgstr ""
-
-#: weblate/templates/trans/delete-form.html:7
-msgid "Are you absolutely sure?"
 msgstr ""
 
 #: weblate/templates/trans/delete-form.html:12
@@ -10951,7 +10969,7 @@ msgstr "Nízka"
 msgid "Very low"
 msgstr "Veľmi nízka"
 
-#: weblate/trans/util.py:249
+#: weblate/trans/util.py:254
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -11647,35 +11665,39 @@ msgstr "Port:"
 msgid "The test e-mail will be sent to this address."
 msgstr "Na túto adresu Vám príde aktivačný e-mail."
 
-#: weblate/wladmin/models.py:84
+#: weblate/wladmin/models.py:91
 msgid "Community support"
 msgstr ""
 
-#: weblate/wladmin/models.py:85
+#: weblate/wladmin/models.py:92
 #, fuzzy
 #| msgid "Hosting site"
 msgid "Hosted service"
 msgstr "Meno služby"
 
-#: weblate/wladmin/models.py:86
+#: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
 msgstr ""
 
-#: weblate/wladmin/models.py:87
+#: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
 msgstr ""
 
-#: weblate/wladmin/models.py:182
+#: weblate/wladmin/models.py:196
 msgid "Backup performed"
 msgstr ""
 
-#: weblate/wladmin/models.py:183
+#: weblate/wladmin/models.py:197
+msgid "Backup failed"
+msgstr ""
+
+#: weblate/wladmin/models.py:198
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Deleted the oldest backups"
 msgstr "Odstrániť tento účet"
 
-#: weblate/wladmin/models.py:184
+#: weblate/wladmin/models.py:199
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repository initialization"
@@ -11727,23 +11749,35 @@ msgstr "Správy"
 msgid "Weblate status"
 msgstr "Štatistiky Weblate"
 
-#: weblate/wladmin/views.py:93
+#: weblate/wladmin/views.py:94
 #, fuzzy
 #| msgid "Register email"
 msgid "Test e-mail sent."
 msgstr "Registrácia emailu"
 
-#: weblate/wladmin/views.py:112
+#: weblate/wladmin/views.py:97
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to send test e-mail: %s"
+msgstr "Nepodarilo sa vytvoriť kľúč: %s"
+
+#: weblate/wladmin/views.py:114
 #, fuzzy
 #| msgid "Translation completed"
 msgid "Activation completed."
 msgstr "Dokončenie prekladu"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:118
 msgid "The activation failed. Please check your activation token."
 msgstr ""
 
-#: weblate/wladmin/views.py:168
+#: weblate/wladmin/views.py:156
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Backup has been triggered"
+msgstr "Váš účet bol odstránený."
+
+#: weblate/wladmin/views.py:178
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"

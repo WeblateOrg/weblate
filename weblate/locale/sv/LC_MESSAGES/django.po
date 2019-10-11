@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-10 13:58+0000\n"
+"POT-Creation-Date: 2019-10-11 12:17+0000\n"
 "PO-Revision-Date: 2019-10-10 19:39+0000\n"
 "Last-Translator: Mattias Münster <mattiasmun@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
@@ -3035,8 +3035,8 @@ msgid ""
 "again, at-least for this site, or for 'same-origin' requests."
 msgstr ""
 "Om du har konfigurerat din webbläsare att inte spara cookies, vänligen "
-"aktivera dem igen, åtminstone för denna webbplats, eller för \"samma "
-"ursprung\" önskemål."
+"aktivera dem igen, åtminstone för denna webbplats, eller för \"samma ursprung"
+"\" önskemål."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:39
 msgid "Page Not Found"
@@ -3168,7 +3168,7 @@ msgid "Weblate keys"
 msgstr "Weblate-nycklar"
 
 #: weblate/templates/about/keys.html:18
-#: weblate/templates/manage/backups.html:48
+#: weblate/templates/manage/snippets/backup-credentials.html:13
 msgid "SSH key"
 msgstr "SSH-nyckel"
 
@@ -4167,7 +4167,7 @@ msgstr "Inställningsfel"
 #: weblate/templates/dictionary.html:100 weblate/templates/js/detail.html:45
 #: weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:73
-#: weblate/templates/manage/backups.html:98 weblate/templates/project.html:226
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:226
 #: weblate/templates/snippets/query-builder.html:28
 #: weblate/templates/snippets/query-builder.html:44
 #: weblate/templates/snippets/query-builder.html:57
@@ -4253,6 +4253,8 @@ msgstr ""
 "nyare webbläsare som t.ex. Firefox, Chrome eller Edge."
 
 #: weblate/templates/base.html:268 weblate/templates/base.html:275
+#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:86
 msgid "Close"
 msgstr "Stäng"
 
@@ -5152,6 +5154,8 @@ msgstr "Redigera"
 #: weblate/templates/fonts/font_detail.html:31
 #: weblate/templates/fonts/fontgroup_detail.html:38
 #: weblate/templates/language.html:33 weblate/templates/list-comments.html:23
+#: weblate/templates/manage/backups.html:64
+#: weblate/templates/manage/backups.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:130
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translate.html:319
@@ -5367,8 +5371,8 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Drivs av %(weblate_version_link)s"
 
 #: weblate/templates/format-translation.html:14
-#: weblate/templates/manage/backups.html:41
-#: weblate/templates/manage/backups.html:45
+#: weblate/templates/manage/snippets/backup-credentials.html:6
+#: weblate/templates/manage/snippets/backup-credentials.html:10
 #: weblate/templates/snippets/git-info.html:12
 #: weblate/templates/snippets/git-info.html:29
 #: weblate/templates/snippets/git-info.html:43
@@ -6247,50 +6251,38 @@ msgstr "Avstängd"
 msgid "Backup service credentials"
 msgstr "Autentiseringsuppgifter för säkerhetskopieringstjänst"
 
-#: weblate/templates/manage/backups.html:39 weblate/wladmin/models.py:146
-msgid "Backup repository"
-msgstr "Säkerhetskopieringsförråd"
-
-#: weblate/templates/manage/backups.html:43
-msgid "Passphrase"
-msgstr "Lösenfras"
-
-#: weblate/templates/manage/backups.html:46
-msgid ""
-"The passphrase is used to encrypt the backups and is necessary to restore "
-"them."
-msgstr ""
-"Lösenfrasen används för att kryptera säkerhetskopiorna och är nödvändig för "
-"att återställa dem."
-
-#: weblate/templates/manage/backups.html:49
-#: weblate/templates/manage/ssh.html:28
-#, fuzzy
-#| msgid "Download reports"
-msgid "Download private key"
-msgstr "Hämta rapporter"
-
-#: weblate/templates/manage/backups.html:50
-msgid "The private key is needed to access the remote backup repository."
-msgstr ""
-"Den privata nyckeln behövs för att få tillgång till "
-"fjärrsäkerhetskopieringsplatsen."
-
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn off"
 msgstr "Stäng av"
 
-#: weblate/templates/manage/backups.html:76
+#: weblate/templates/manage/backups.html:62
 msgid "Turn on"
 msgstr "Sätt på"
 
-#: weblate/templates/manage/backups.html:77
+#: weblate/templates/manage/backups.html:63
 #, fuzzy
 #| msgid "Performance"
 msgid "Perform backup"
 msgstr "Prestanda"
 
-#: weblate/templates/manage/backups.html:91
+#: weblate/templates/manage/backups.html:78
+#: weblate/templates/trans/delete-form.html:7
+msgid "Are you absolutely sure?"
+msgstr "Är du helt säker?"
+
+#: weblate/templates/manage/backups.html:81
+msgid ""
+"By removing the backup service, the credentials will be removed and you "
+"might lose access to the backups."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:82
+msgid ""
+"In case you want to be able to restore the backups, please record "
+"credentials below."
+msgstr ""
+
+#: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
 msgstr "Lägg till säkerhetskopieringstjänst"
 
@@ -6396,6 +6388,36 @@ msgstr ""
 #| msgid "Active"
 msgid "Activate"
 msgstr "Aktiv"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:4
+#: weblate/wladmin/models.py:154
+msgid "Backup repository"
+msgstr "Säkerhetskopieringsförråd"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:8
+msgid "Passphrase"
+msgstr "Lösenfras"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:11
+msgid ""
+"The passphrase is used to encrypt the backups and is necessary to restore "
+"them."
+msgstr ""
+"Lösenfrasen används för att kryptera säkerhetskopiorna och är nödvändig för "
+"att återställa dem."
+
+#: weblate/templates/manage/snippets/backup-credentials.html:14
+#: weblate/templates/manage/ssh.html:28
+#, fuzzy
+#| msgid "Download reports"
+msgid "Download private key"
+msgstr "Hämta rapporter"
+
+#: weblate/templates/manage/snippets/backup-credentials.html:15
+msgid "The private key is needed to access the remote backup repository."
+msgstr ""
+"Den privata nyckeln behövs för att få tillgång till "
+"fjärrsäkerhetskopieringsplatsen."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -7315,10 +7337,6 @@ msgid ""
 msgstr ""
 "Du kommer att kunna redigera fler alternativ i komponentinställningar när du "
 "har skapat den."
-
-#: weblate/templates/trans/delete-form.html:7
-msgid "Are you absolutely sure?"
-msgstr "Är du helt säker?"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -9974,7 +9992,7 @@ msgstr "Låg"
 msgid "Very low"
 msgstr "Mycket låg"
 
-#: weblate/trans/util.py:249
+#: weblate/trans/util.py:254
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -10625,33 +10643,39 @@ msgstr "Port:"
 msgid "The test e-mail will be sent to this address."
 msgstr "Aktiveringsmeddelande skickas hit."
 
-#: weblate/wladmin/models.py:84
+#: weblate/wladmin/models.py:91
 msgid "Community support"
 msgstr "Community-support"
 
-#: weblate/wladmin/models.py:85
+#: weblate/wladmin/models.py:92
 msgid "Hosted service"
 msgstr "Webbhotell"
 
-#: weblate/wladmin/models.py:86
+#: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
 msgstr "Grundläggande egenvärdsstöd"
 
-#: weblate/wladmin/models.py:87
+#: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
 msgstr "Utökad egenvärdsstöd"
 
-#: weblate/wladmin/models.py:182
+#: weblate/wladmin/models.py:196
 msgid "Backup performed"
 msgstr "Säkerhetskopiering utförd"
 
-#: weblate/wladmin/models.py:183
+#: weblate/wladmin/models.py:197
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Backup failed"
+msgstr "Säkerhetskopiering utförd"
+
+#: weblate/wladmin/models.py:198
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Deleted the oldest backups"
 msgstr "Ta bort detta konto"
 
-#: weblate/wladmin/models.py:184
+#: weblate/wladmin/models.py:199
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repository initialization"
@@ -10696,23 +10720,35 @@ msgstr "Rapporter"
 msgid "Weblate status"
 msgstr "Weblate statistik"
 
-#: weblate/wladmin/views.py:93
+#: weblate/wladmin/views.py:94
 #, fuzzy
 #| msgid "Register email"
 msgid "Test e-mail sent."
 msgstr "Registrera e-post"
 
-#: weblate/wladmin/views.py:112
+#: weblate/wladmin/views.py:97
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to send test e-mail: %s"
+msgstr "Misslyckades med att skapa nyckel: %s"
+
+#: weblate/wladmin/views.py:114
 #, fuzzy
 #| msgid "Translation completed"
 msgid "Activation completed."
 msgstr "Översättning klar"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:118
 msgid "The activation failed. Please check your activation token."
 msgstr "Aktiveringen misslyckades. Kontrollera ditt aktiveringstoken."
 
-#: weblate/wladmin/views.py:168
+#: weblate/wladmin/views.py:156
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Backup has been triggered"
+msgstr "Ditt konto har tagits bort."
+
+#: weblate/wladmin/views.py:178
 #, fuzzy
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
