@@ -21,6 +21,7 @@
 import os
 
 from django.conf import settings
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
@@ -152,3 +153,19 @@ class AdminTest(ViewTestCase):
         configuration_health_check(False)
         self.assertEqual(ConfigurationError.objects.count(), 1)
         configuration_health_check()
+
+    def test_send_test_email(self, expected='Test e-mail sent'):
+        response = self.client.get(reverse('manage-tools'))
+        self.assertContains(response, 'e-mail')
+        response = self.client.post(
+            reverse('manage-tools'), {'email': 'noreply@example.com'},
+            follow=True
+        )
+        self.assertContains(response, expected)
+
+    @override_settings(
+        EMAIL_HOST='nonexisting.weblate.org',
+        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    )
+    def test_send_test_email_error(self):
+        self.test_send_test_email('Failed to send test e-mail')

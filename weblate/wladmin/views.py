@@ -89,8 +89,12 @@ def tools(request):
         if 'email' in request.POST:
             emailform = TestMailForm(request.POST)
             if emailform.is_valid():
-                send_test_mail(**emailform.cleaned_data)
-                messages.success(request, _('Test e-mail sent.'))
+                try:
+                    send_test_mail(**emailform.cleaned_data)
+                    messages.success(request, _('Test e-mail sent.'))
+                except Exception as error:
+                    report_error(error, request)
+                    messages.error(request, _('Failed to send test e-mail: %s') % error)
 
     return render(
         request,
