@@ -181,6 +181,8 @@ def get_clean_env(extra=None):
     variables = (
         # Keep PATH setup
         'PATH',
+        # Keep Python search path
+        'PYTHONPATH',
         # Keep linker configuration
         'LD_LIBRARY_PATH',
         'LD_PRELOAD',
