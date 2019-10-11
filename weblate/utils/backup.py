@@ -49,12 +49,11 @@ def borg(cmd, env=None):
             env=get_clean_env(env),
         ).decode("utf-8")
     except EnvironmentError as error:
-        raise BackupError("Could not execute borg program: {}".format(error))
-    except (subprocess.CalledProcessError, OSError) as error:
         report_error(error)
-        if hasattr(error, "stdout"):
-            raise BackupError(error.stdout.decode('utf-8'))
-        raise BackupError(str(error))
+        raise BackupError("Could not execute borg program: {}".format(error))
+    except subprocess.CalledProcessError as error:
+        report_error(error)
+        raise BackupError(error.stdout.decode('utf-8'))
 
 
 def initialize(location, passphrase):
