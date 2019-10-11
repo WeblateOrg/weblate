@@ -143,12 +143,16 @@ def backups(request):
             form = BackupForm(request.POST)
             if form.is_valid():
                 form.save()
+                return redirect('manage-backups')
         elif 'toggle' in request.POST:
             service = BackupService.objects.get(pk=request.POST['service'])
             service.enabled = not service.enabled
             service.save()
+            return redirect('manage-backups')
         elif 'trigger' in request.POST:
             backup_service.delay(pk=request.POST['service'])
+            messages.success(request, _('Backup has been triggered'))
+            return redirect('manage-backups')
 
     context = {
         'services': BackupService.objects.all(),

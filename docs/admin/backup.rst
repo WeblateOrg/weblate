@@ -106,6 +106,16 @@ Manual backup
 
 Depending on what you want to save, back up the type data Weblate stores in each respective place.
 
+.. hint::
+
+   In case you are doing manual backups, you might want to silent Weblate
+   warning about lack of backups by adding ``weblate.I028`` to
+   :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py`:
+
+   .. code-block:: python
+
+      SILENCED_SYSTEM_CHECKS.append("weblate.I028")
+
 Database
 ~~~~~~~~
 

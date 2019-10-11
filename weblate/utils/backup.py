@@ -26,6 +26,7 @@ from django.conf import settings
 from six.moves.urllib.parse import urlparse
 
 from weblate.trans.util import get_clean_env
+from weblate.utils.errors import report_error
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 
@@ -47,8 +48,16 @@ def borg(cmd, env=None):
             stderr=subprocess.STDOUT,
             env=get_clean_env(env),
         ).decode("utf-8")
-    except (subprocess.CalledProcessError, OSError) as exc:
-        raise BackupError("Borg invocation failed", getattr(exc, "stdout", ""))
+    except EnvironmentError as error:
+        report_error(error)
+        if error.errno == errno.ENOENT:
+            raise BackupError("Could not find borg program")
+        raise BackupError(str(error))
+    except (subprocess.CalledProcessError, OSError) as error:
+        report_error(error)
+        if hasattr(error, "stdout"):
+            raise BackupError(error.stdout.decode('utf-8'))
+        raise BackupError(str(error))
 
 
 def initialize(location, passphrase):

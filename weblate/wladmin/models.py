@@ -32,7 +32,14 @@ from django.utils.translation import ugettext_lazy
 from weblate import USER_AGENT
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
-from weblate.utils.backup import backup, get_paper_key, initialize, make_password, prune
+from weblate.utils.backup import (
+    BackupError,
+    backup,
+    get_paper_key,
+    initialize,
+    make_password,
+    prune,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.ssh import get_key_data
@@ -165,12 +172,18 @@ class BackupService(models.Model):
             self.save()
 
     def backup(self):
-        log = backup(self.repository, self.passphrase)
-        self.backuplog_set.create(event='backup', log=log)
+        try:
+            log = backup(self.repository, self.passphrase)
+            self.backuplog_set.create(event='backup', log=log)
+        except BackupError as error:
+            self.backuplog_set.create(event='error', log=str(error))
 
     def prune(self):
-        log = prune(self.repository, self.passphrase)
-        self.backuplog_set.create(event='prune', log=log)
+        try:
+            log = prune(self.repository, self.passphrase)
+            self.backuplog_set.create(event='prune', log=log)
+        except BackupError as error:
+            self.backuplog_set.create(event='error', log=str(error))
 
 
 @python_2_unicode_compatible
@@ -181,6 +194,7 @@ class BackupLog(models.Model):
         max_length=100,
         choices=(
             ('backup', ugettext_lazy('Backup performed')),
+            ('error', ugettext_lazy('Backup failed')),
             ('prune', ugettext_lazy('Deleted the oldest backups')),
             ('init', ugettext_lazy('Repository initialization')),
         ),
