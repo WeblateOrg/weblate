@@ -110,8 +110,6 @@ def activate(request):
         support = SupportStatus(**form.cleaned_data)
         try:
             support.refresh()
-            if not support.expiry:
-                raise Exception('expired')
             support.save()
             messages.success(request, _('Activation completed.'))
         except Exception as error:

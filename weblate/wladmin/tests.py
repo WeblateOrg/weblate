@@ -18,20 +18,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 import os
 from unittest import skipIf
 
+import httpretty
 import six
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error, delete_configuration_error
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.wladmin.models import BackupService, ConfigurationError
+from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import configuration_health_check
 
 
@@ -171,3 +175,45 @@ class AdminTest(ViewTestCase):
     )
     def test_send_test_email_error(self):
         self.test_send_test_email('Failed to send test e-mail')
+
+    @httpretty.activate
+    def test_activation_community(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            settings.SUPPORT_API_URL,
+            body=json.dumps(
+                {
+                    'name': 'community',
+                    'backup_repository': '',
+                    'expiry': timezone.now(),
+                    'in_limits': True,
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+        self.client.post(reverse('manage-activate'), {'secret': '123456'})
+        status = SupportStatus.objects.get()
+        self.assertEqual(status.name, 'community')
+        self.assertFalse(BackupService.objects.exists())
+
+    @httpretty.activate
+    def test_activation_hosted(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            settings.SUPPORT_API_URL,
+            body=json.dumps(
+                {
+                    'name': 'hosted',
+                    'backup_repository': '/tmp/xxx',
+                    'expiry': timezone.now(),
+                    'in_limits': True,
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+        self.client.post(reverse('manage-activate'), {'secret': '123456'})
+        status = SupportStatus.objects.get()
+        self.assertEqual(status.name, 'hosted')
+        backup = BackupService.objects.get()
+        self.assertEqual(backup.repository, '/tmp/xxx')
+        self.assertFalse(backup.enabled)
