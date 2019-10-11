@@ -49,8 +49,11 @@ def check_backups(app_configs, **kwargs):
             )
         )
     for service in BackupService.objects.filter(enabled=True):
-        last_log = service.last_logs()[0]
-        if last_log.event == "error":
+        try:
+            last_log = service.last_logs()[0].event
+        except IndexError:
+            last_log = "error"
+        if last_log == "error":
             errors.append(
                 Critical(
                     "There was error while performing backups: {}".format(last_log.log),
