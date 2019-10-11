@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-10 19:39+0000\n"
-"Last-Translator: Kozioł Marcin <koziol.martin@gmail.com>\n"
+"PO-Revision-Date: 2019-10-12 05:01+0000\n"
+"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -485,12 +485,9 @@ msgstr ""
 "Wybierz listę komponentów, które chcesz wyświetlić na pulpicie nawigacyjnym."
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"Wybór listy składników sprawia, że nie działa, gdy nie są wyświetlane na "
+"Wybór listy komponentów nie ma żadnego efektu, jeśli nie jest wyświetlany na "
 "pulpicie nawigacyjnym."
 
 #: weblate/accounts/models.py:589
@@ -827,16 +824,12 @@ msgid "Language consistency"
 msgstr "Zgodność języka"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Ten dodatek zapewnia, że wszystkie komponenty w obrębie jednego projektu są "
-"tłumaczone na te same języki."
+"Upewnij się, że wszystkie komponenty w ramach jednego projektu mają "
+"tłumaczenie na te same języki."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1186,19 +1179,14 @@ msgid "Update RESX files"
 msgstr "Zaktualizuj pliki RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
 "Zaktualizuj wszystkie pliki tłumaczeń, aby pasowały do jednojęzycznego pliku "
-"podstawowego. Usuwa przestarzałe klucze tłumaczenia i dodaje nowe z ciągiem "
-"źródłowym jako tłumaczenie."
+"podstawowego. Nieużywane ciągi są usuwane, a nowe są dodawane jako kopie "
+"ciągu źródłowego."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3507,14 +3495,12 @@ msgstr ""
 "hostingu:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
 msgstr ""
-"Przetłumaczona treść musi być wydana na warunkach licencji wolnego "
-"oprogramowania."
+"Treść przetłumaczona musi być wydana na licencji zatwierdzonej przez OSI lub "
+"uznanej za wolną przez FSF."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4593,10 +4579,8 @@ msgstr "Raporty tłumaczenia"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Położenie"
+msgstr "Przewodnik po lokalizacji"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -6267,12 +6251,16 @@ msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
 msgstr ""
+"Usunięcie usługi tworzenia kopii zapasowych spowoduje usunięcie danych "
+"uwierzytelniających i może spowodować utratę dostępu do kopii zapasowych."
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
 msgstr ""
+"W przypadku, gdy chcesz mieć możliwość przywrócenia kopii zapasowych, "
+"prosimy o zapisanie poniżej danych uwierzytelniających."
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -6376,12 +6364,10 @@ msgid "Backup repository"
 msgstr "Repozytorium kopii zapasowych"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:8
-#, fuzzy
 msgid "Passphrase"
 msgstr "Hasło"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:11
-#, fuzzy
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
@@ -6816,17 +6802,14 @@ msgid "Repository branch"
 msgstr "Gałąź repozytorium"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "Ostatnie zdalne zatwierdzenie zmian:"
+msgstr "Ostatnie zdalne zatwierdzanie"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "Autorstwa %(author)s o %(date)s"
+msgstr "%(author)s autor %(date)s"
 
 #: weblate/templates/snippets/git-info.html:40
 msgid "Repository containing Weblate translations"
@@ -6935,17 +6918,12 @@ msgid "String has comment"
 msgstr "Teksty z komentarzami"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Teksty nie przechodzące testu"
+msgstr "Ciąg nie przeszedł testów"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Zarządzaj językami"
+msgstr "Docelowy język ciągów"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
@@ -6975,10 +6953,8 @@ msgid "Query examples"
 msgstr "Przykłady zapytań"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review strings changed by other users"
-msgstr "Weryfikacja tłumaczeń zmienionych przez innych użytkowników"
+msgstr "Przejrzyj ciągi zmienione przez innych użytkowników"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -7999,10 +7975,8 @@ msgid "Weblate translations"
 msgstr "Tłumaczenia Weblate"
 
 #: weblate/trans/autofixes/chars.py:65
-#, fuzzy
-#| msgid "Control chars"
 msgid "Control characters"
-msgstr "Znaki kontrolne"
+msgstr "Kontrola znaków"
 
 #: weblate/trans/autofixes/custom.py:49
 msgid "Apostrophes in Java MessageFormat"
@@ -8228,8 +8202,6 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:808
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
 msgstr "Nie udało się przetworzyć łańcucha zapytania: {}"
 
@@ -10122,10 +10094,8 @@ msgid "Invalid search string!"
 msgstr "Nieprawidłowy szukany ciąg!"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Automatyczne tłumaczenie źródła"
+msgstr "Automatyczne tłumaczenie w toku"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10202,10 +10172,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Wszystkie repozytoria zostały wyczyszczone."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Ustawienia kontroli wersji"
+msgstr "Integracja kontroli wersji"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -10232,20 +10200,16 @@ msgid "Make your translations available under a libre license."
 msgstr "Udostępnij swoje tłumaczenia na licencji libre."
 
 #: weblate/trans/views/guide.py:161
-#, fuzzy
-#| msgid "Merges comments into the translation."
 msgid "Provide context to the translators"
-msgstr "Łączy komentarze z tłumaczeniami."
+msgstr "Udostępnienie kontekstu tłumaczom"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
 msgstr "Dodaj zrzuty ekranu, aby pokazać, gdzie używane są ciągi."
 
 #: weblate/trans/views/guide.py:181
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Zduplikowany ciąg do tłumaczenia."
+msgstr "Użyj flag, aby wskazać specjalne ciągi w tłumaczeniu."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
@@ -10544,10 +10508,8 @@ msgid "Backup performed"
 msgstr "Wykonano kopię zapasową"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "Wykonano kopię zapasową"
+msgstr "Tworzenie kopii zapasowej nie powiodło się"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10599,10 +10561,9 @@ msgid "Test e-mail sent."
 msgstr "Wysłano testową wiadomość e-mail."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Nie udało się wygenerować klucza: %s"
+msgstr "Nie udało się wysłać testowej wiadomości e-mail: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10613,10 +10574,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "Aktywacja nie powiodła się. Proszę sprawdzić token aktywacyjny."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "Konto zostało usunięte."
+msgstr "Kopia zapasowa została uruchomiona"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
