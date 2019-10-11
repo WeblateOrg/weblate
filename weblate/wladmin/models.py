@@ -135,9 +135,10 @@ class SupportStatus(models.Model):
         self.name = payload['name']
         self.expiry = dateutil.parser.parse(payload['expiry'])
         self.in_limits = payload['in_limits']
-        BackupService.objects.get_or_create(
-            repository=payload['backup_repository'], defaults={"enabled": False}
-        )
+        if payload['backup_repository']:
+            BackupService.objects.get_or_create(
+                repository=payload['backup_repository'], defaults={"enabled": False}
+            )
 
 
 @python_2_unicode_compatible
