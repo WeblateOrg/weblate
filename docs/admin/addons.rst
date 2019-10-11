@@ -348,6 +348,42 @@ Additionally, the following environment variables are available:
 
     Previous HEAD on update (available only available when running post update hook).
 
+.. envvar:: WL_COMPONENT_SLUG
+
+   .. versionadded:: 3.9
+
+   Component slug used to contruct URL.
+
+.. envvar:: WL_PROJECT_SLUG
+
+   .. versionadded:: 3.9
+
+   Project slug used to contruct URL.
+
+.. envvar:: WL_COMPONENT_NAME
+
+   .. versionadded:: 3.9
+
+   Component name.
+
+.. envvar:: WL_PROJECT_NAME
+
+   .. versionadded:: 3.9
+
+   Project name.
+
+.. envvar:: WL_COMPONENT_URL
+
+   .. versionadded:: 3.9
+
+   Component URL
+
+.. envvar:: WL_ENGAGE_URL
+
+   .. versionadded:: 3.9
+
+   Project engage URL
+
 .. seealso::
 
     :ref:`component`
