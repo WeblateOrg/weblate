@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-01 04:35+0000\n"
+"PO-Revision-Date: 2019-10-12 05:01+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -490,13 +490,10 @@ msgid ""
 msgstr "Valitse minkä komponenttilistan haluat näyttää kojelaudalla."
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"Komponenttilistan valitsemisella ei ole vaikutusta, kun sitä ei näytetä "
-"kojelaudalla."
+"Komponenttilistan valitsemisella ei ole vaikutusta silloin, kun sitä ei "
+"näytetä kojelaudalla."
 
 #: weblate/accounts/models.py:589
 msgid ""
@@ -719,17 +716,12 @@ msgid "Password reset has been already completed!"
 msgstr "Salasanan palautus on jo tehty!"
 
 #: weblate/accounts/views.py:825
-#, fuzzy
-#| msgid "Cannot reset password, e-mail authentication is turned off."
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
-"Salasanaa ei voi palauttaa, sähköpostitunnistautuminen ei ole käytössä."
+msgstr "Salasanaa ei voi palauttaa, sähköpostitunnistautuminen ei ole käytössä."
 
 #: weblate/accounts/views.py:988
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Nykyisen käyttäjän henkilöllisyydet"
+msgstr "Käyttäjän henkilöllisyyttä ei voitu poistaa"
 
 #: weblate/accounts/views.py:1013
 msgid ""
@@ -1205,19 +1197,14 @@ msgid "Update RESX files"
 msgstr "Päivitä RESX-tiedostot"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"Päivitä kaikki käännöstiedostot vastaamaan yksikielistä pohjatiedostoa. "
-"Useimmilla tiedostomuodoilla tämä tarkoittaa, että käännösavaimet, joita ei "
-"enää ole pohjatiedostossa, poistetaan."
+"Päivitä kaikki käännöstiedostot vastaamaan yksikielistä yläjuoksun "
+"kantatiedostoa. Käyttämättömät tekstit poistetaan ja uudet lisätään "
+"lähdetekstin kopioina."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3550,12 +3537,12 @@ msgstr ""
 "ehot:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr "Käännetty sisältö pitää julkaista vapaalla ohjelmistolisenssillä."
+msgstr ""
+"Käännetty sisältö pitää julkaista OSI:n hyväksymällä tai FSF:n vapaaksi "
+"tunnustamalla lisenssillä."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4641,10 +4628,8 @@ msgstr "Käännösraportit"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Sijainti"
+msgstr "Lokalisointiopas"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -4846,6 +4831,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
+"Sinulla ei ole lupaa katsoa kaikkien käyttäjien raportteja. Vain omat "
+"tuotoksesi luetellaan."
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5474,6 +5461,8 @@ msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
 msgstr ""
+"Täältä löydät neuvoja, miten tehdä lokalisointiprojektistasi houkutteleva "
+"yhteisölle."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6861,8 +6850,7 @@ msgstr "Viimeisin commit etäarkistoon:"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "Tehnyt %(author)s %(date)s"
 
@@ -6977,11 +6965,8 @@ msgid "String has failing check"
 msgstr "Automaattitarkistuksen hylkäämät tekstit"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "Hallinnoi kieliä"
+msgstr "Tekstin kohdekieli"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
@@ -7009,10 +6994,8 @@ msgid "Query examples"
 msgstr "Kyselyesimerkkejä"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
-msgstr "Tarkista muiden muuttamat käännökset"
+msgstr "Tarkista muiden muuttamat tekstit"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -7039,9 +7022,8 @@ msgid "source strings"
 msgstr "lähdetekstit"
 
 #: weblate/templates/source-review.html:11
-#, fuzzy
 msgid "review"
-msgstr "Yhteenveto"
+msgstr "tarkista"
 
 #: weblate/templates/source-review.html:67
 msgid "No matching source strings found."
@@ -10147,10 +10129,8 @@ msgid "Invalid search string!"
 msgstr "Virheellinen hakulause!"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Automaattisen käännöksen lähde"
+msgstr "Automaattinen kääntäminen on kesken"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10224,10 +10204,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Kaikki arkistot on siivottu."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Versionhallinnan asetukset"
+msgstr "Integrointi versionhallintaan"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -10243,11 +10221,11 @@ msgstr ""
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
-msgstr ""
+msgstr "Määrittele kääntämisohjeet kääntäjille."
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
-msgstr ""
+msgstr "Julkaise käännöksesi vapaalla lisenssillä."
 
 #: weblate/trans/views/guide.py:161
 #, fuzzy
@@ -10266,7 +10244,7 @@ msgstr "Monistettu teksti kääntämiseen."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
-msgstr ""
+msgstr "Työnkulun mukauttaminen"
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
@@ -10568,10 +10546,8 @@ msgid "Backup performed"
 msgstr "Varmuuskopiointi suoritettu"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "Varmuuskopiointi suoritettu"
+msgstr "Varmuuskopiointi epäonnistui"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10626,10 +10602,9 @@ msgid "Test e-mail sent."
 msgstr "Testisähköposti lähetetty."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Avaimen luominen epäonnistui: %s"
+msgstr "Testisähköpostin lähettäminen epäonnistui: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
