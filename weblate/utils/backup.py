@@ -60,7 +60,6 @@ def initialize(location, passphrase):
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
-        print(parsed.hostname, parsed.port)
         add_host_key(None, parsed.hostname, parsed.port)
     return borg(
         ["init", "--encryption", "repokey-blake2", location],
