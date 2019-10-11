@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-10 13:58+0000\n"
-"PO-Revision-Date: 2019-10-01 09:26+0000\n"
+"PO-Revision-Date: 2019-10-11 12:16+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -486,12 +486,9 @@ msgid ""
 msgstr "Scegli l'elenco dei componenti che vuoi visualizzare nel cruscotto."
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"La selezione dell'elenco dei componenti non produce alcun effetto quando non "
+"La selezione dell'elenco dei componenti non ha alcun effetto quando non "
 "viene visualizzato nel cruscotto."
 
 #: weblate/accounts/models.py:589
@@ -826,16 +823,12 @@ msgid "Language consistency"
 msgstr "Coerenza della lingua"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Questo componente aggiuntivo garantisce che tutti i componenti di un "
-"progetto siano tradotti nelle stesse lingue."
+"Garantisce che tutti i componenti di un progetto siano tradotti nelle stesse "
+"lingue."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1194,11 +1187,6 @@ msgid "Update RESX files"
 msgstr "Aggiorna file RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
@@ -1206,8 +1194,8 @@ msgid ""
 msgstr ""
 "Aggiorna tutti i file traduzione per farli corrispondere ai file singola "
 "lingua di base. \n"
-"Questo rimuoverà le chiavi stato traduzione e aggiungerà quelle nuove con le "
-"stringhe sorgenti come traduzione."
+"Le stringhe non usate saranno rimosse e aggiungerà quelle nuove come copia "
+"delle stringhe sorgenti."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -3512,14 +3500,12 @@ msgstr ""
 "questo modulo:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
 msgstr ""
-"Il contenuto tradotto deve essere rilasciato sotto licenza di software "
-"libero."
+"Il contenuto tradotto deve essere rilasciato sotto licenza approvata da OSI "
+"o riconosciuta come libera da FSF."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4599,10 +4585,8 @@ msgstr "Rapporti traduzione"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Posizione"
+msgstr "Guida localizzazione"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -4805,6 +4789,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
+"Non sei autorizzato a visualizzare i rapporti per tutti gli utenti.\n"
+"Verranno elencati solo i tuoi contributi."
 
 #: weblate/templates/component.html:314
 #: weblate/templates/dashboard/user.html:126 weblate/templates/project.html:278
@@ -5422,6 +5408,8 @@ msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
 msgstr ""
+"Qui puoi trovare una guida per rendere il tuo progetto di localizzazione "
+"attraente per la comunità."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -6784,15 +6772,12 @@ msgid "Repository branch"
 msgstr "Ramo repository"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "Ultima modifica remota:"
+msgstr "Ultima modifica remota"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
-#, fuzzy, python-format
-#| msgid "Authored by %(author)s on %(date)s"
+#, python-format
 msgid "%(author)s authored %(date)s"
 msgstr "Pubblicato da %(author)s il %(date)s"
 
@@ -6932,10 +6917,8 @@ msgid "Query examples"
 msgstr "Esempi query"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
-msgstr "Revisiona le traduzioni modificate da altri utenti"
+msgstr "Revisiona le stringhe modificate da altri utenti"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -10092,10 +10075,8 @@ msgid "Invalid search string!"
 msgstr "Stringa di ricerca non valida!"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Sorgente della traduzione automatica"
+msgstr "Traduzione automatica in corso"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10170,50 +10151,49 @@ msgid "All repositories have been cleaned up."
 msgstr "Tutti i repository sono stati azzerati."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Impostazioni controllo di versione"
+msgstr "Integrazione controllo versione"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
+"Configura gli hook del repository per il flusso automatico aggiornamenti "
+"verso Weblate."
 
 #: weblate/trans/views/guide.py:108
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
+"Configura l'URL push per il flusso automatizzato di traduzioni da Weblate."
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
-msgstr ""
+msgstr "Costruzione comunità"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
 msgstr ""
+"Definisci le istruzioni di traduzione per fornire una linea guida ai "
+"traduttori."
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
-msgstr ""
+msgstr "Rendi le tue traduzioni disponibili con una licenza gratuita."
 
 #: weblate/trans/views/guide.py:161
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Provide context to the translators"
-msgstr "Hosting delle traduzioni"
+msgstr "Fornisci contesto ai traduttori"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
-msgstr ""
+msgstr "Aggiungi schermate per indicare dove vengono usate le stringhe."
 
 #: weblate/trans/views/guide.py:181
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Stringa duplicata per la traduzione."
+msgstr "Usa i flag per indicare stringhe speciali nella tua traduzione."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
-msgstr ""
+msgstr "Personalizza flusso lavoro"
 
 #: weblate/trans/views/lock.py:43
 msgid "Component is now locked for translation updates!"
