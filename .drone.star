@@ -9,10 +9,13 @@ default_env = {
     "CI_DB_HOST": "database",
 }
 
-basic_install = ["apt-get update && apt-get install -y libacl1-dev", "pip install Cython"]
+# Basic set of installation files, usually used to update base docker image
+basic_install = []
+# PostgreSQL library installation
 cmd_pip_postgresql = "pip install -r requirements-postgresql.txt"
 # Some tests need older binary for Django copatibility
 cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
+# PIP requirements installation
 cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
 
 
