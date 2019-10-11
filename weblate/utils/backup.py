@@ -36,8 +36,8 @@ class BackupError(Exception):
 
 def make_password(length=50):
     generator = SystemRandom()
-    chars = string.ascii_letters + string.digits + '!@#$%^&*()'
-    return ''.join(generator.choice(chars) for i in range(length))
+    chars = string.ascii_letters + string.digits + "!@#$%^&*()"
+    return "".join(generator.choice(chars) for i in range(length))
 
 
 def borg(cmd, env=None):
@@ -53,7 +53,7 @@ def borg(cmd, env=None):
         raise BackupError("Could not execute borg program: {}".format(error))
     except subprocess.CalledProcessError as error:
         report_error(error)
-        raise BackupError(error.stdout.decode('utf-8'))
+        raise BackupError(error.stdout.decode("utf-8"))
 
 
 def initialize(location, passphrase):
@@ -82,6 +82,9 @@ def backup(location, passphrase):
             "--filter",
             "AME",
             "--stats",
+            "--exclude-caches",
+            "--exclude",
+            "*/.config/borg",
             "--compression",
             "zstd",
             "{}::{{now}}".format(location),
