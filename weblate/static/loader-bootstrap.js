@@ -1460,6 +1460,12 @@ $(function () {
         localStorage.removeItem('translation_autosave');
     }
 
+    /*
+     * Disable modal enforce focus to fix compatibility
+     * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
+     */
+    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
     /* Copy to clipboard */
     var clipboard = new ClipboardJS('[data-clipboard-text]');
     clipboard.on('success', function(e) {

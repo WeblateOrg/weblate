@@ -19,7 +19,9 @@
 #
 
 import os
+from unittest import skipIf
 
+import six
 from django.conf import settings
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -29,12 +31,13 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error, delete_configuration_error
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import BackupService, ConfigurationError
 from weblate.wladmin.tasks import configuration_health_check
 
 
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
+
     def setUp(self):
         super(AdminTest, self).setUp()
         self.user.is_superuser = True
@@ -58,10 +61,7 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('manage-ssh'))
         self.assertContains(response, 'Generate SSH key')
 
-        response = self.client.post(
-            reverse('manage-ssh'),
-            {'action': 'generate'}
-        )
+        response = self.client.post(reverse('manage-ssh'), {'action': 'generate'})
         self.assertContains(response, 'Created new SSH key')
         response = self.client.get(reverse('manage-ssh-key'))
         self.assertContains(response, 'PRIVATE KEY')
@@ -71,17 +71,14 @@ class AdminTest(ViewTestCase):
         self.assertEqual(check_data_writable(), [])
         try:
             oldpath = os.environ['PATH']
-            os.environ['PATH'] = ':'.join(
-                (get_test_file(''), os.environ['PATH'])
-            )
+            os.environ['PATH'] = ':'.join((get_test_file(''), os.environ['PATH']))
             # Verify there is button for adding
             response = self.client.get(reverse('manage-ssh'))
             self.assertContains(response, 'Add host key')
 
             # Add the key
             response = self.client.post(
-                reverse('manage-ssh'),
-                {'action': 'add-host', 'host': 'github.com'}
+                reverse('manage-ssh'), {'action': 'add-host', 'host': 'github.com'}
             )
             self.assertContains(response, 'Added host key for github.com')
         finally:
@@ -91,6 +88,22 @@ class AdminTest(ViewTestCase):
         hostsfile = os.path.join(settings.DATA_DIR, 'ssh', 'known_hosts')
         with open(hostsfile) as handle:
             self.assertIn('github.com', handle.read())
+
+    @tempdir_setting("BACKUP_DIR")
+    @skipIf(six.PY2, 'borgbackup does not support Python 2')
+    def test_backup(self):
+        def do_post(**payload):
+            return self.client.post(reverse('manage-backups'), payload, follow=True)
+
+        response = do_post(repository=settings.BACKUP_DIR)
+        self.assertContains(response, settings.BACKUP_DIR)
+        service = BackupService.objects.get()
+        response = do_post(service=service.pk, trigger='1')
+        self.assertContains(response, 'triggered')
+        response = do_post(service=service.pk, toggle='1')
+        self.assertContains(response, 'Turned off')
+        response = do_post(service=service.pk, remove='1')
+        self.assertNotContains(response, settings.BACKUP_DIR)
 
     def test_performace(self):
         response = self.client.get(reverse('manage-performance'))
@@ -118,29 +131,19 @@ class AdminTest(ViewTestCase):
 
     def test_component(self):
         """Test for custom component actions."""
-        self.assert_custom_admin(
-            reverse('admin:trans_component_changelist')
-        )
+        self.assert_custom_admin(reverse('admin:trans_component_changelist'))
 
     def test_project(self):
         """Test for custom project actions."""
-        self.assert_custom_admin(
-            reverse('admin:trans_project_changelist')
-        )
+        self.assert_custom_admin(reverse('admin:trans_project_changelist'))
 
     def assert_custom_admin(self, url):
         """Test for (sub)project custom admin."""
         response = self.client.get(url)
-        self.assertContains(
-            response, 'Update VCS repository'
-        )
+        self.assertContains(response, 'Update VCS repository')
         for action in 'force_commit', 'update_checks', 'update_from_git':
             response = self.client.post(
-                url,
-                {
-                    '_selected_action': '1',
-                    'action': action,
-                }
+                url, {'_selected_action': '1', 'action': action}
             )
             self.assertRedirects(response, url)
 
@@ -158,14 +161,13 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('manage-tools'))
         self.assertContains(response, 'e-mail')
         response = self.client.post(
-            reverse('manage-tools'), {'email': 'noreply@example.com'},
-            follow=True
+            reverse('manage-tools'), {'email': 'noreply@example.com'}, follow=True
         )
         self.assertContains(response, expected)
 
     @override_settings(
         EMAIL_HOST='nonexisting.weblate.org',
-        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
     )
     def test_send_test_email_error(self):
         self.test_send_test_email('Failed to send test e-mail')
