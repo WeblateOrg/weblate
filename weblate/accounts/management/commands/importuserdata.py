@@ -23,7 +23,6 @@ import json
 
 from django.core.management.base import BaseCommand
 
-from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Project
@@ -45,9 +44,7 @@ class Command(BaseCommand):
         # Add subscriptions
         for subscription in userprofile['watched']:
             try:
-                profile.watched.add(
-                    Project.objects.get(slug=subscription)
-                )
+                profile.watched.add(Project.objects.get(slug=subscription))
             except Project.DoesNotExist:
                 continue
 
@@ -56,21 +53,15 @@ class Command(BaseCommand):
         """Update user language preferences."""
         profile.language = userprofile['language']
         for lang in userprofile['secondary_languages']:
-            profile.secondary_languages.add(
-                Language.objects.auto_get_or_create(lang)
-            )
+            profile.secondary_languages.add(Language.objects.auto_get_or_create(lang))
         for lang in userprofile['languages']:
-            profile.languages.add(
-                Language.objects.auto_get_or_create(lang)
-            )
+            profile.languages.add(Language.objects.auto_get_or_create(lang))
 
     def handle_compat(self, data):
         """Compatibility with pre 3.6 dumps."""
         if 'basic' in data:
             return
-        data['basic'] = {
-            'username': data['username'],
-        }
+        data['basic'] = {'username': data['username']}
         data['profile'] = {
             'translated': data['translated'],
             'suggested': data['suggested'],
@@ -95,16 +86,9 @@ class Command(BaseCommand):
             try:
                 user = User.objects.get(username=username)
                 update = False
-                try:
-                    profile = Profile.objects.get(user=user)
-                    if not profile.language:
-                        update = True
-                except Profile.DoesNotExist:
+                profile = user.profile
+                if not profile.language:
                     update = True
-                    profile = Profile.objects.create(user=user)
-                    self.stdout.write(
-                        'Creating profile for {0}'.format(username)
-                    )
 
                 # Merge stats
                 profile.translated += userprofile['profile']['translated']
@@ -120,6 +104,4 @@ class Command(BaseCommand):
 
                 profile.save()
             except User.DoesNotExist:
-                self.stderr.write(
-                    'User not found: {0}\n'.format(username)
-                )
+                self.stderr.write('User not found: {0}\n'.format(username))
