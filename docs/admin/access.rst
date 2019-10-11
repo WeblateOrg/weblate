@@ -268,7 +268,7 @@ want to enable this for all projects by default, please configure the
 
     By turning this on, Weblate will remove all :ref:`acl` it has created for
     this project. If you are doing this without admin permission from the instance, you
-    will instantly loose your access to manage the project.
+    will instantly lose your access to manage the project.
 
 .. _default-groups:
 
