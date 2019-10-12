@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-10 13:58+0000\n"
+"PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -6269,12 +6269,17 @@ msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
 msgstr ""
+"A biztonsági mentés szolgáltatás eltávolításával a hitelesítési adatok is el "
+"lesznek távolítva, és esetleg elveszítheti a hozzáférést a biztonsági "
+"mentésekhez."
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
 msgstr ""
+"Amennyiben vissza szeretné állítani a biztonsági mentéseket, jegyezze fel a "
+"lenti hitelesítési adatokat."
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -10100,10 +10105,8 @@ msgid "Invalid search string!"
 msgstr "Érvénytelen keresőszöveg!"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Automatikus fordítási forrás"
+msgstr "Automatikus fordítás folyamatban"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10513,10 +10516,8 @@ msgid "Backup performed"
 msgstr "Biztonsági mentés végrehajtva"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "Biztonsági mentés végrehajtva"
+msgstr "Biztonsági mentés sikertelen"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10569,10 +10570,9 @@ msgid "Test e-mail sent."
 msgstr "Teszt e-mail elküldve."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Nem sikerült előállítani a kulcsot: %s"
+msgstr "Nem sikerült elküldeni a teszt e-mailt: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10583,10 +10583,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "A aktiválás nem sikerült. Ellenőrizze az aktiválási tokent."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "A fiókja el lett távolítva."
+msgstr "A biztonsági mentés el lett indítva"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
