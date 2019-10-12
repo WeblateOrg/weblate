@@ -52,9 +52,17 @@ class WeblateTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
+        if user:
+            kwargs = {
+                'translation__component__project__in': user.allowed_projects
+            }
+        else:
+            kwargs = {
+                'translation__component__project': unit.translation.component.project
+            }
         matching_units = (
             Unit.objects.prefetch()
-            .filter(translation__component__project__in=user.allowed_projects)
+            .filter(**kwargs)
             .more_like_this(unit, 1000)
             .distinct()
         )
