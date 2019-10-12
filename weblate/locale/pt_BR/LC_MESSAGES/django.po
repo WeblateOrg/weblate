@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-10 19:38+0000\n"
+"PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -1359,7 +1359,7 @@ msgstr "Fazer commit das alterações para o repositório interno"
 
 #: weblate/auth/data.py:89
 msgid "Push change from the internal repository"
-msgstr "Levar as alterações do repositório interno"
+msgstr "Fazer push das alterações do repositório interno"
 
 #: weblate/auth/data.py:90
 msgid "Reset changes in the internal repository"
@@ -5596,7 +5596,7 @@ msgstr "Push"
 
 #: weblate/templates/js/git-status.html:129
 msgid "Push changes to the remote repository"
-msgstr "Enviar as alterações para o repositório remoto"
+msgstr "Fazer push das alterações para o repositório remoto"
 
 #: weblate/templates/js/git-status.html:139
 #: weblate/trans/models/component.py:117
@@ -6215,12 +6215,16 @@ msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
 msgstr ""
+"Ao remover o serviço de backup, as credenciais serão removidas e você pode "
+"perder acesso aos backups."
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
 msgstr ""
+"No caso de você querer habilitar para restaurar os backups, por favor, "
+"registre as credenciais abaixo."
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -7050,7 +7054,8 @@ msgstr "Nome de arquivo"
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
-"O Weblate não conseguiu levar as alterações para o repositório upstream."
+"O Weblate não conseguiu fazer o push das alterações para o repositório "
+"upstream."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -7058,7 +7063,7 @@ msgid ""
 "the changes manually or set up push to automate this."
 msgstr ""
 "O repositório VCS tem muitas alterações em comparação com o upstream. Mescle "
-"as alterações manualmente ou configure para levar automaticamente isso."
+"as alterações manualmente ou configure o push para automatizar isso."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -7252,7 +7257,7 @@ msgstr "Mesclar alterações no Weblate e resolver quaisquer conflitos."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Levar as alterações para o repositório upstream."
+msgstr "Fazer push as alterações para o repositório upstream."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
@@ -7695,9 +7700,9 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "A tradução automática utiliza as traduções existentes neste projeto e as "
-"aplica ao componente atual. Isso pode ser usado para levar as traduções para "
-"um ramo diferente, para corrigir traduções inconsistentes ou para traduzir "
-"um novo componente usando a memória de traduções."
+"aplica ao componente atual. Isso pode ser usado para fazer push das "
+"traduções para um ramo diferente, para corrigir traduções inconsistentes ou "
+"para traduzir um novo componente usando a memória de traduções."
 
 #: weblate/templates/translation.html:227
 msgid ""
@@ -8557,7 +8562,7 @@ msgstr "Não foi possível atualizar o repositório."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:166
 msgid "Could not push the repository."
-msgstr "Não foi possível levar o repositório."
+msgstr "Não foi possível o push do repositório."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:172
@@ -8693,7 +8698,7 @@ msgstr "Falha ao realocar no repositório"
 
 #: weblate/trans/models/change.py:243
 msgid "Failed push on repository"
-msgstr "Falha ao levar ao repositório"
+msgstr "Falha ao fazer push do repositório"
 
 #: weblate/trans/models/change.py:245
 msgid "Removed translation"
@@ -8856,11 +8861,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:204
 msgid "Repository push URL"
-msgstr "URL para levar ao repositório"
+msgstr "URL de push do repositório"
 
 #: weblate/trans/models/component.py:207
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr "URL para levar a um repositório, é desligado se estiver vazio."
+msgstr "URL de um repositório de push; push é desativado se estiver vazio."
 
 #: weblate/trans/models/component.py:212
 msgid "Repository browser"
@@ -9034,7 +9039,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:394
 msgid "Commit message when translating"
-msgstr "Mensagem de envio ao traduzir"
+msgstr "Mensagem de commit ao traduzir"
 
 #: weblate/trans/models/component.py:396 weblate/trans/models/component.py:405
 #: weblate/trans/models/component.py:414 weblate/trans/models/component.py:423
@@ -9048,45 +9053,47 @@ msgstr ""
 
 #: weblate/trans/models/component.py:403
 msgid "Commit message when adding translation"
-msgstr "Mensagem de envio ao adicionar tradução"
+msgstr "Mensagem de commit ao adicionar tradução"
 
 #: weblate/trans/models/component.py:412
 msgid "Commit message when removing translation"
-msgstr "Mensagem de envio ao remover tradução"
+msgstr "Mensagem de commit ao remover tradução"
 
 #: weblate/trans/models/component.py:421
 msgid "Commit message when merging translation"
-msgstr "Mensagem de envio ao mesclar tradução"
+msgstr "Mensagem de commit ao mesclar tradução"
 
 #: weblate/trans/models/component.py:430
 msgid "Commit message when addon makes a change"
-msgstr "Mensagem de envio quando a extensão faz uma alteração"
+msgstr "Mensagem de commit quando a extensão faz uma alteração"
 
 #: weblate/trans/models/component.py:439
 msgid "Committer name"
-msgstr "Nome do colaborador"
+msgstr "Nome do committer"
 
 #: weblate/trans/models/component.py:444
 msgid "Committer e-mail"
-msgstr "E-mail do colaborador"
+msgstr "E-mail do committer"
 
 #: weblate/trans/models/component.py:449
 msgid "Push on commit"
-msgstr "Levar ao enviar"
+msgstr "Push ao fazer commit"
 
 #: weblate/trans/models/component.py:452
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Define se o repositório deve ser levado ao upstream a cada envio."
+msgstr ""
+"Define se deve-se fazer push do repositório para o upstream a cada commit."
 
 #: weblate/trans/models/component.py:456
 msgid "Age of changes to commit"
-msgstr "Idade das alterações a enviar"
+msgstr "Idade das alterações para fazer commit"
 
 #: weblate/trans/models/component.py:459
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Tempo em horas após o qual qualquer alteração pendente será enviada ao VCS."
+"Tempo em horas após o qual qualquer alteração pendente será feito commit ao "
+"VCS."
 
 #: weblate/trans/models/component.py:469
 msgid ""
@@ -9126,12 +9133,12 @@ msgstr "Não foi possível obter o repositório: %s"
 #: weblate/trans/models/component.py:871
 #, python-format
 msgid "Push is turned off for %s."
-msgstr "Levar está desligado para %s."
+msgstr "Push está desativado para %s."
 
 #: weblate/trans/models/component.py:914
 #, python-format
 msgid "Could not push to remote branch on %s."
-msgstr "Não foi possível levar para o ramo remoto em %s."
+msgstr "Não foi possível fazer push para o ramo remoto em %s."
 
 #: weblate/trans/models/component.py:947
 #, python-format
@@ -10093,7 +10100,7 @@ msgstr "Falha ao bloquear o repositório, outra operação está em progresso."
 
 #: weblate/trans/views/git.py:55
 msgid "All pending translations were committed."
-msgstr "Todas as traduções pendentes foram enviadas."
+msgstr "Todas as traduções pendentes tiveram commit feito."
 
 #: weblate/trans/views/git.py:67
 msgid "All repositories were updated."
@@ -10101,7 +10108,7 @@ msgstr "Todos os repositórios foram atualizados."
 
 #: weblate/trans/views/git.py:79
 msgid "All repositories were pushed."
-msgstr "Todos os repositórios foram levados."
+msgstr "Todos os repositórios tiveram push efetuado."
 
 #: weblate/trans/views/git.py:90
 msgid "All repositories have been reset."
@@ -10444,10 +10451,8 @@ msgid "Backup performed"
 msgstr "Backup realizado"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "Backup realizado"
+msgstr "Backup falhou"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10500,10 +10505,9 @@ msgid "Test e-mail sent."
 msgstr "E-mail de teste enviado."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Falha ao gerar chave: %s"
+msgstr "Falha ao envie um e-mail de teste: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10514,10 +10518,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "A ativação falhou. Por favor, verifique seu token de ativação."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "Sua conta foi removida."
+msgstr "O backup foi acionado"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
