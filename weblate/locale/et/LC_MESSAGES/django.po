@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-12 05:01+0000\n"
+"PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: Janar Leas <janar.leas@gmail.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/master/"
 "et/>\n"
@@ -86,16 +86,12 @@ msgid "Message"
 msgstr "Sõnum"
 
 #: weblate/accounts/forms.py:325
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to understand "
-#| "your request."
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
-"Palun võtke meiega ühendust inglise keeles, muidu me võib-olla ei saa aru "
-"teie teatest."
+"Palun võtke meiega ühendust inglise keeles, muidu me ei pruugi teie palvet "
+"menetleda."
 
 #: weblate/accounts/forms.py:348
 msgid "Activation e-mail will be sent here."
@@ -135,11 +131,11 @@ msgstr "Praegune parool"
 
 #: weblate/accounts/forms.py:492
 msgid "Leave empty if you have not yet set a password."
-msgstr ""
+msgstr "Jätke tühjaks, kui te pole veel salasõna määranud."
 
 #: weblate/accounts/forms.py:506
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "Sisestasid vale salasõna."
 
 #: weblate/accounts/forms.py:522
 msgid "Username or e-mail"
@@ -176,7 +172,7 @@ msgstr "Projekti veebisait"
 #: weblate/accounts/forms.py:618 weblate/trans/forms.py:1637
 #: weblate/trans/models/component.py:189
 msgid "Source code repository"
-msgstr "Lähtekoodi hoidla"
+msgstr "Lähtekoodi varamu"
 
 #: weblate/accounts/forms.py:620
 msgid "URL of source code repository, for example Git or Mercurial."
@@ -691,7 +687,7 @@ msgstr ""
 #: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:185
 #: weblate/templates/footer.html:9
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: weblate/accounts/views.py:542 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
@@ -1462,11 +1458,9 @@ msgid "Add suggestion"
 msgstr ""
 
 #: weblate/auth/data.py:141
-#, fuzzy
-#| msgid "Source code repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Lähtekoodi hoidla"
+msgstr "Pääse varamusse"
 
 #: weblate/auth/data.py:147
 msgctxt "Access control role"
@@ -1515,11 +1509,9 @@ msgid "Review strings"
 msgstr ""
 
 #: weblate/auth/data.py:183
-#, fuzzy
-#| msgid "Source code repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "Lähtekoodi hoidla"
+msgstr "Korralda varamut"
 
 #: weblate/auth/data.py:187
 #, fuzzy
@@ -1835,7 +1827,7 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:127 weblate/trans/admin.py:97
 msgid "Source strings"
-msgstr ""
+msgstr "Lähte lausendid"
 
 #: weblate/billing/models.py:240 weblate/trans/admin.py:101
 msgid "Source words"
@@ -3153,7 +3145,7 @@ msgstr ""
 
 #: weblate/templates/404.html:11
 msgid "The page you are looking for was not found."
-msgstr ""
+msgstr "Sinu otsitav lehekülg pole leitav."
 
 #: weblate/templates/404.html:12
 msgid ""
@@ -3310,7 +3302,6 @@ msgstr ""
 #: weblate/templates/about/stats.html:20 weblate/templates/about/stats.html:42
 #: weblate/templates/about/stats.html:63
 #: weblate/templates/last-changes-content.html:9
-#, fuzzy
 msgid "User"
 msgstr "Kasutaja"
 
@@ -5624,7 +5615,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:157
 msgid "Reset all changes in the local repository"
-msgstr ""
+msgstr "Lähtesta kõik muudatused kohalikus varamu"
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -5667,12 +5658,11 @@ msgid "Plural: %(source_description)s"
 msgstr ""
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "%(count)s tõlge"
+msgstr[1] "%(count)s tõlget"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
@@ -6329,10 +6319,8 @@ msgstr "Konto tegevused"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:4
 #: weblate/wladmin/models.py:154
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Backup repository"
-msgstr "Lähtekoodi hoidla"
+msgstr "Varundus varamu"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:8
 msgid "Passphrase"
@@ -6784,10 +6772,8 @@ msgid "%(author)s authored %(date)s"
 msgstr ""
 
 #: weblate/templates/snippets/git-info.html:40
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Repository containing Weblate translations"
-msgstr "Soovitatud tõlked"
+msgstr "Varamu sisaldab Weblate tõlkeid"
 
 #: weblate/templates/snippets/legend-button.html:6
 #, fuzzy
@@ -7075,10 +7061,8 @@ msgid "Filename"
 msgstr "Täisnimi"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Lähtekoodi hoidla"
+msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -7271,17 +7255,13 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:22
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Push changes into upstream repository."
-msgstr "Lähtekoodi hoidla"
+msgstr "Panusta muudatused ülesvoo-varamusse."
 
 #: weblate/templates/trans/merge_instructions.html:26
-#, fuzzy
-#| msgid "Source code repository"
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Lähtekoodi hoidla"
+msgstr "Weblate näeb nüüd uuendatud varamut ning sa võid selle avada."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -8567,24 +8547,18 @@ msgstr "Soovitatud tõlked"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:154
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Could not merge the repository."
-msgstr "Lähtekoodi hoidla"
+msgstr "Ei saa ühitada varamuid."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:160
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Could not update the repository."
-msgstr "Lähtekoodi hoidla"
+msgstr "Ei saa uuendada varamut."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:166
-#, fuzzy
-#| msgid "Source code repository"
 msgid "Could not push the repository."
-msgstr "Lähtekoodi hoidla"
+msgstr "Ei saa panustada varamusse."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:172
@@ -8605,10 +8579,8 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:191
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Repository has changes."
-msgstr "Parool on muudetud."
+msgstr "Varamus esineb muudatusi."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
@@ -8841,10 +8813,8 @@ msgid "Invited user"
 msgstr ""
 
 #: weblate/trans/models/change.py:272
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Received repository notification"
-msgstr "Soovitatud tõlked"
+msgstr "Saabus varamu märguanne"
 
 #: weblate/trans/models/change.py:379
 #, python-format
@@ -9156,10 +9126,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:719
-#, fuzzy, python-format
-#| msgid "Source code repository"
+#, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Lähtekoodi hoidla"
+msgstr "Ei saa tõmmata varamust: %s"
 
 #: weblate/trans/models/component.py:871
 #, python-format
@@ -9179,10 +9148,9 @@ msgid "Could not reset to remote branch on %s."
 msgstr "Tõlke võti"
 
 #: weblate/trans/models/component.py:976
-#, fuzzy, python-format
-#| msgid "Source code repository"
+#, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Lähtekoodi hoidla"
+msgstr "Ei saa puhastada %s varamut."
 
 #: weblate/trans/models/component.py:1047
 #, python-format
@@ -9284,10 +9252,9 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 
 #: weblate/trans/models/component.py:1522
-#, fuzzy, python-format
-#| msgid "Source code repository"
+#, python-format
 msgid "Could not update repository: %s"
-msgstr "Lähtekoodi hoidla"
+msgstr "Varamut ei saa uuendada: %s"
 
 #: weblate/trans/models/component.py:1536
 msgid ""
@@ -10397,10 +10364,8 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr ""
 
 #: weblate/vcs/git.py:604
-#, fuzzy
-#| msgid "Source code repository"
 msgid "No remote repository"
-msgstr "Lähtekoodi hoidla"
+msgstr "kaug-varamut pole"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
@@ -10455,19 +10420,19 @@ msgstr ""
 
 #: weblate/wladmin/models.py:91
 msgid "Community support"
-msgstr ""
+msgstr "Kogukonna toetus"
 
 #: weblate/wladmin/models.py:92
 msgid "Hosted service"
-msgstr ""
+msgstr "Majutatud teenus"
 
 #: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "Üldistatud oma-majutuse tugi"
 
 #: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "Laiendatud oma-majutuse tugi"
 
 #: weblate/wladmin/models.py:196
 msgid "Backup performed"
@@ -10482,10 +10447,8 @@ msgid "Deleted the oldest backups"
 msgstr ""
 
 #: weblate/wladmin/models.py:199
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Repository initialization"
-msgstr "Soovitatud tõlked"
+msgstr "Varamu initsialiseerimine"
 
 #: weblate/wladmin/sites.py:88 weblate/wladmin/sites.py:89
 msgid "Weblate administration"
