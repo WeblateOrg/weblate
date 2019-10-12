@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-10-10 19:39+0000\n"
+"PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -6070,12 +6070,14 @@ msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
 msgstr ""
+"הסרת שירות הגיבוי יוביל להסרת פרטי הגישה וייתכן שלא תהיה לך עוד גישה "
+"לגיבויים."
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
-msgstr ""
+msgstr "כדי שיתאפשר לך לשחזר את הגיבויים עליך לשמור את פרטי הגישה שלך להלן."
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -10205,10 +10207,8 @@ msgid "Backup performed"
 msgstr "הגיבוי בוצע"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "הגיבוי בוצע"
+msgstr "הגיבוי נכשל"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10260,10 +10260,9 @@ msgid "Test e-mail sent."
 msgstr "נשלחה הודעת בדיקה בדוא״ל."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "יצירת המפתח נכשלה: %s"
+msgstr "שליחת הודעת הבדיקה בדוא״ל נכשלה: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10274,10 +10273,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "ההפעלה נכשלה. נא לבדוק את אסימון ההפעלה."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "חשבונך הוסר."
+msgstr "הגיבוי מתחיל"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
