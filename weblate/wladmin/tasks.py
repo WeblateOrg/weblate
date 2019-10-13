@@ -98,4 +98,4 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         24 * 3600, support_status_update.s(), name='support-status-update'
     )
-    sender.add_periodic_task(crontab(hour=1, minute=0), backup.s(), name='backup')
+    sender.add_periodic_task(crontab(hour=2, minute=0), backup.s(), name='backup')
