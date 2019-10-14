@@ -38,9 +38,7 @@ class GitSquashAddon(BaseAddon):
     description = _('Squash Git commits prior to pushing changes.')
     settings_form = GitSquashForm
     compat = {
-        'vcs': frozenset((
-            'git', 'gerrit', 'subversion', 'github',
-        )),
+        'vcs': {'git', 'gerrit', 'subversion', 'github', 'gitlab'},
     }
     events = (EVENT_POST_COMMIT,)
     icon = 'compress'
