@@ -175,6 +175,12 @@ STATICFILES_FINDERS = (
 # You can generate it using weblate/examples/generate-secret-key
 SECRET_KEY = 'jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6('  # noqa
 
+_TEMPLATE_LOADERS = [
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+]
+if not DEBUG:
+    _TEMPLATE_LOADERS = [('django.template.loaders.cached.Loader', _TEMPLATE_LOADERS)]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -191,12 +197,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'weblate.trans.context_processors.weblate_context',
             ],
-            'loaders': [
-                ('django.template.loaders.cached.Loader', [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]),
-            ],
+            'loaders': _TEMPLATE_LOADERS,
         },
     },
 ]

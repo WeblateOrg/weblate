@@ -5,7 +5,7 @@ NC='\033[0m'
 
 if [ ! -f ./weblate/settings.py ]
 then
-    cp ./weblate/settings_dev.py ./weblate/settings.py
+    echo 'from weblate.settings_example import *' > ./weblate/settings.py
 fi
 
 export USER_ID=$(id -u)
