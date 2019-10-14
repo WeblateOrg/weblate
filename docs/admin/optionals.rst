@@ -125,7 +125,7 @@ and you are expected to provide following templates with the documents:
 .. note::
 
     You can find legal documents for the Hosted Weblate service in separate Git repository
-    <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/templates/legal/documents>.
+    <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/legal/templates/legal/documents>.
 
     Most likely these will not be directly usable for you, but you might want
     to use them as a starting point and adjust them to match your use case.

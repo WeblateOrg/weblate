@@ -57,7 +57,7 @@ To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
 .. seealso::
 
     :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
-    `Amazon Translate Documentation <https://aws.amazon.com/documentation/translate/>`_
+    `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
 
 .. _baidu-translate:
 

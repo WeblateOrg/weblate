@@ -109,10 +109,10 @@ Automatically receiving changes from GitHub
 
 Weblate comes with native support for GitHub.
 
-If you are using Hosted Weblate, the recommended approach is to install the 
-`Hosted Weblate app <https://github.com/apps/hosted-weblate>`_, that way you
-will get the correct setup without having to set much up. It can also be used
-for pushing changes back.
+If you are using Hosted Weblate, the recommended approach is to install the
+`Weblate app <https://github.com/apps/weblate>`_, that way you will get the
+correct setup without having to set much up. It can also be used for pushing
+changes back.
 
 To receive notifications on every push to a GitHub repository,
 add the Weblate Webhook in the repository settings (:guilabel:`Webhooks`)

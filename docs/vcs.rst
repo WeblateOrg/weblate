@@ -303,8 +303,8 @@ users to have a full clone of the internal repository and commit locally.
     Weblate tries to detect Subversion repository layout automatically - it
     supports both direct URLs for branch or repositories with standard layout
     (branches/, tags/ and trunk/). See `git-svn documentation
-    <https://git-scm.com/docs/git-svn#git-svn---stdlayout>`_ for more
-    information.
+    <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_
+    for more information.
 
 .. versionchanged:: 2.19
 

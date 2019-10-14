@@ -173,7 +173,8 @@ environment simply by running:
 
 It will create development Docker image and start it. Weblate is running on
 <http://127.0.0.1:8080/> and you can login with ``admin`` user and ``admin``
-password.
+password. The new installation is empty, so you might want to continue with
+:ref:`adding-projects`.
 
 The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in
 :file:`dev-docker` directory.

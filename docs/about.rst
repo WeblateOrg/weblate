@@ -15,10 +15,9 @@ Project name
 Project website
 ---------------
 
-The landing page is <https://weblate.org/>, there is also
-a demonstration server at <https://demo.weblate.org/>, and a 
-hosted service at <https://hosted.weblate.org/>.
-This documentation can be found on <https://docs.weblate.org/>.
+The landing page is <https://weblate.org/> and a cloud hosted service at
+<https://hosted.weblate.org/>. This documentation can be found on
+<https://docs.weblate.org/>.
 
 Leadership
 ----------
