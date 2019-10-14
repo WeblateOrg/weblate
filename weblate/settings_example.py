@@ -782,7 +782,7 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com'
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = []
 
-# Example configuration for caching
+# Configuration for caching
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -793,17 +793,23 @@ CACHES = {
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'PARSER_CLASS': 'redis.connection.HiredisParser',
-        }
+            'PASSWORD': None,
+            'CONNECTION_POOL_KWARGS': {},
+        },
+        'KEY_PREFIX': 'weblate',
     },
     'avatar': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
-        'TIMEOUT': 3600,
+        'TIMEOUT': 86400,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
         },
     }
 }
+
+# Store sessions in cache
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 # REST framework settings for API
 REST_FRAMEWORK = {
@@ -889,10 +895,18 @@ CELERY_TASK_ROUTES = {
     'weblate.wladmin.tasks.backup_service': {'queue': 'backup'},
 }
 
+# Enable auto updating
+AUTO_UPDATE = False
+
+# PGP commits signing
+WEBLATE_GPG_IDENTITY = None
+
 # Third party services integration
 PIWIK_SITE_ID = None
 PIWIK_URL = None
+GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
+AKISMET_API_KEY = None
 
 # Logging slow requests
 DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)

@@ -19,8 +19,8 @@
 #
 
 from __future__ import unicode_literals
-import platform
 import os
+import platform
 from logging.handlers import SysLogHandler
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -34,7 +34,6 @@ DEBUG = get_env_bool('WEBLATE_DEBUG', True)
 
 ADMINS = (
     (os.environ['WEBLATE_ADMIN_NAME'], os.environ['WEBLATE_ADMIN_EMAIL']),
-    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -413,6 +412,7 @@ REGISTRATION_EMAIL_MATCH = os.environ.get('WEBLATE_REGISTRATION_EMAIL_MATCH', '.
 # Middleware
 MIDDLEWARE = [
     'weblate.middleware.ProxyMiddleware',
+    'dogslow.WatchdogMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -486,18 +486,6 @@ INSTALLED_APPS = [
     'weblate.gitexport',
 ]
 
-# Sentry integration
-if 'SENTRY_DSN' in os.environ:
-    RAVEN_CONFIG = {
-        'dsn': os.environ['SENTRY_DSN'],
-        'public_dsn': os.environ.get('SENTRY_PUBLIC_DSN', ''),
-        'environment': os.environ.get('SENTRY_ENVIRONMENT', 'production'),
-        'release': 'weblate-{}'.format(os.environ['VERSION']),
-        'string_max_length': 1000,
-        'list_max_length': 100,
-    }
-    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
-
 modify_env_list(INSTALLED_APPS, 'APPS')
 
 # Path to locales
@@ -566,6 +554,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
         },
+        'dogslow': {
+            'level': 'WARNING',
+            'class': 'sentry_sdk.integrations.logging.EventHandler',
+        },
         'syslog': {
             'level': 'DEBUG',
             'class': 'logging.handlers.SysLogHandler',
@@ -599,6 +591,10 @@ LOGGING = {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },
+        'dogslow': {
+            'level': 'WARNING',
+            'handlers': ['dogslow'],
+        },
         'weblate': {
             'handlers': [DEFAULT_LOG],
             'level': os.environ.get('WEBLATE_LOGLEVEL', 'DEBUG'),
@@ -806,6 +802,7 @@ CHECK_LIST = [
     'weblate.checks.chars.EndSemicolonCheck',
     'weblate.checks.chars.MaxLengthCheck',
     'weblate.checks.chars.KashidaCheck',
+    'weblate.checks.chars.PuctuationSpacingCheck',
     'weblate.checks.format.PythonFormatCheck',
     'weblate.checks.format.PythonBraceFormatCheck',
     'weblate.checks.format.PHPFormatCheck',
@@ -833,6 +830,9 @@ CHECK_LIST = [
     'weblate.checks.markup.MarkdownLinkCheck',
     'weblate.checks.markup.MarkdownSyntaxCheck',
     'weblate.checks.markup.URLCheck',
+    'weblate.checks.markup.SafeHTMLCheck',
+    'weblate.checks.placeholders.PlaceholderCheck',
+    'weblate.checks.placeholders.RegexCheck',
     'weblate.checks.source.OptionalPluralCheck',
     'weblate.checks.source.EllipsisCheck',
     'weblate.checks.source.MultipleFailingCheck',
@@ -868,6 +868,8 @@ WEBLATE_ADDONS = [
     'weblate.addons.git.GitSquashAddon',
     'weblate.addons.removal.RemoveComments',
     'weblate.addons.removal.RemoveSuggestions',
+    'weblate.addons.resx.ResxUpdateAddon',
+    'weblate.addons.autotranslate.AutoTranslateAddon',
 ]
 modify_env_list(CHECK_LIST, 'ADDONS')
 
@@ -881,41 +883,45 @@ DEFAULT_FROM_EMAIL = os.environ['WEBLATE_DEFAULT_FROM_EMAIL']
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list('WEBLATE_ALLOWED_HOSTS', ['*'])
 
-# Example configuration for caching
+# Extract redis password
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', None)
+REDIS_PROTO = 'rediss' if get_env_bool('REDIS_TLS', False) else 'redis'
+
+# Configuration for caching
 CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': '{}://{}:{}/{}'.format(
+            REDIS_PROTO,
+            os.environ.get('REDIS_HOST', 'cache'),
+            os.environ.get('REDIS_PORT', '6379'),
+            os.environ.get('REDIS_DB', '1'),
+        ),
+        # If redis is running on same host as Weblate, you might
+        # want to use unix sockets instead:
+        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PASSWORD': REDIS_PASSWORD if REDIS_PASSWORD else None,
+            'CONNECTION_POOL_KWARGS': {},
+        },
+        'KEY_PREFIX': 'weblate',
+    },
     'avatar': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
-        'TIMEOUT': 604800,
+        'TIMEOUT': 86400,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
         },
     }
 }
-
-# Extract redis password
-REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', None)
-REDIS_PROTO = 'rediss' if get_env_bool('REDIS_TLS', False) else 'redis'
-
-CACHES['default'] = {
-    'BACKEND': 'django_redis.cache.RedisCache',
-    'LOCATION': '{}://{}:{}/{}'.format(
-        REDIS_PROTO,
-        os.environ.get('REDIS_HOST', 'cache'),
-        os.environ.get('REDIS_PORT', '6379'),
-        os.environ.get('REDIS_DB', '1'),
-    ),
-    'OPTIONS': {
-        'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        'PARSER_CLASS': 'redis.connection.HiredisParser',
-        'PASSWORD': REDIS_PASSWORD if REDIS_PASSWORD else None,
-        'CONNECTION_POOL_KWARGS': {},
-    },
-    'KEY_PREFIX': 'weblate',
-}
 if not get_env_bool('REDIS_VERIFY_SSL', True):
     caches['default']['OPTIONS']['CONNECTION_POOL_KWARGS']['ssl_cert_reqs'] = None
 
+
+# Store sessions in cache
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 # REST framework settings for API
@@ -984,10 +990,6 @@ EMAIL_HOST_PASSWORD = os.environ.get(
 )
 EMAIL_PORT = int(os.environ.get('WEBLATE_EMAIL_PORT', '25'))
 
-GOOGLE_ANALYTICS_ID = os.environ.get('WEBLATE_GOOGLE_ANALYTICS_ID', '')
-
-AKISMET_API_KEY = os.environ.get('WEBLATE_AKISMET_API_KEY', None)
-
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
@@ -1020,6 +1022,11 @@ CELERY_TASK_ROUTES = {
     'weblate.memory.tasks.*': {'queue': 'memory'},
     'weblate.accounts.tasks.notify_change': {'queue': 'notify'},
     'weblate.accounts.tasks.send_mails': {'queue': 'notify'},
+    'weblate.memory.tasks.memory_backup': {'queue': 'backup'},
+    'weblate.utils.tasks.settings_backup': {'queue': 'backup'},
+    'weblate.utils.tasks.database_backup': {'queue': 'backup'},
+    'weblate.wladmin.tasks.backup': {'queue': 'backup'},
+    'weblate.wladmin.tasks.backup_service': {'queue': 'backup'},
 }
 
 # Enable auto updating
@@ -1027,6 +1034,18 @@ AUTO_UPDATE = get_env_bool('WEBLATE_AUTO_UPDATE', False)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get('WEBLATE_GPG_IDENTITY', None)
+
+# Third party services integration
+PIWIK_SITE_ID = os.environ.get('WEBLATE_PIWIK_SITE_ID', None)
+PIWIK_URL = os.environ.get('WEBLATE_PIWIK_URL', None)
+GOOGLE_ANALYTICS_ID = os.environ.get('WEBLATE_GOOGLE_ANALYTICS_ID', None)
+SENTRY_DSN = os.environ.get('SENTRY_DSN', None)
+AKISMET_API_KEY = os.environ.get('WEBLATE_AKISMET_API_KEY', None)
+
+# Logging slow requests
+DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)
+DOGSLOW_LOGGER = 'dogslow'
+DOGSLOW_TIMER = 60
 
 ADDITIONAL_CONFIG = '/app/data/settings-override.py'
 if os.path.exists(ADDITIONAL_CONFIG):
