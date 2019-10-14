@@ -19,12 +19,20 @@
 #
 
 from __future__ import unicode_literals
+
 import os
 import platform
 from logging.handlers import SysLogHandler
+
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from weblate.utils.environment import get_env_list, get_env_map, get_env_bool, modify_env_list
+
+from weblate.utils.environment import (
+    get_env_bool,
+    get_env_list,
+    get_env_map,
+    modify_env_list,
+)
 
 #
 # Django settings for Weblate project.
