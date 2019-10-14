@@ -171,9 +171,12 @@ environment simply by running:
 
    ./rundev.sh
 
-It will create development Docker image and start it. The :file:`Dockerfile`
-and :file:`docker-compose.yml` for this are located in :file:`dev-docker`
-directory.
+It will create development Docker image and start it. Weblate is running on
+<http://127.0.0.1:8080/> and you can login with ``admin`` user and ``admin``
+password.
+
+The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in
+:file:`dev-docker` directory.
 
 The script also accepts some parameters, to execute tests run it with ``test``
 parameter and then specify any :djadmin:`django:test` parameters, for example:
