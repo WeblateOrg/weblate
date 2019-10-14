@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-11 12:17+0000\n"
-"PO-Revision-Date: 2019-09-01 08:14+0000\n"
+"PO-Revision-Date: 2019-10-14 22:52+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -253,17 +253,17 @@ msgstr "비밀번호가 변경되었습니다."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "사용자 이름이 {old} 에서 {new} 로 바뀌었습니다."
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "전자 우편 주소가 {old} 에서 {new} 로 바뀌었습니다."
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "전체 이름이 {old} 에서 {new} 로 바뀌었습니다."
 
 #: weblate/accounts/models.py:102
 msgid "Password reset requested."
@@ -784,13 +784,13 @@ msgstr "자동 번역"
 msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
-msgstr ""
+msgstr "이 부가기능은 기계 번역 또는 그 외의 구성요소를 사용해 문자열을 자동으로 번역합니다."
 
 #: weblate/addons/base.py:282
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr ""
+msgstr "저장소는 오래된 것으므로 갱신될 때까지 원하는 결과를 얻을 수 없습니다."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1407,7 +1407,7 @@ msgstr "언어 정의 관리 (글로벌)"
 
 #: weblate/auth/data.py:104
 msgid "Add groups (on the entire platform)"
-msgstr ""
+msgstr "(전체 플랫폼에서) 묶음 추가"
 
 #: weblate/auth/data.py:105
 #, fuzzy
@@ -1417,11 +1417,11 @@ msgstr "그룹 관리 (글로벌)"
 
 #: weblate/auth/data.py:107
 msgid "Add users (on the entire platform)"
-msgstr ""
+msgstr "(전체 플랫폼에서) 사용자 추가"
 
 #: weblate/auth/data.py:108
 msgid "Manage users (on the entire platform)"
-msgstr ""
+msgstr "(전체 플랫폼에서) 사용자 관리"
 
 #: weblate/auth/data.py:110
 #, fuzzy
@@ -6443,11 +6443,8 @@ msgstr "활동"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:4
 #: weblate/wladmin/models.py:154
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Access repository"
 msgid "Backup repository"
-msgstr "저장소 접속"
+msgstr "저장소 백업"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:8
 msgid "Passphrase"
@@ -7710,7 +7707,7 @@ msgstr "스팸으로 표시"
 #: weblate/templates/translate.html:342
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "다음 문자열은 같은 문맥과 같은 원본 문자열을 가지고 있습니다."
+msgstr[0] "다음 문자열은 문맥과 원본 문자열이 같습니다."
 
 #: weblate/templates/translate.html:350
 msgid "Following string has different context but same source."
@@ -7833,7 +7830,7 @@ msgstr "이 번역은 이 구성요소 내부의 소스 코드 문자열에서 �
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s개의 단어"
+msgstr[0] "%(count)s 개의 단어"
 
 #: weblate/templates/translation.html:174
 msgid "Other components"
@@ -9746,7 +9743,7 @@ msgstr "자동 번역이 완료되었습니다. 아무 문자열도 변경되지
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "자동 번역이 완료되었습니다. %d 개의 문자열이 변경되었습니다."
+msgstr[0] "자동 번역이 완료되었습니다. %d 개의 문자열이 갱신되었습니다."
 
 #: weblate/trans/templatetags/translations.py:88
 msgid "Good configuration"
@@ -10136,7 +10133,7 @@ msgstr "파일에서 가져올 수 있는 단어가 없습니다."
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
-msgstr[0] "업로드된 파일로부터 %d 개의 단어를 불러오기 하였습니다."
+msgstr[0] "올려주기된 파일에서 %d 개의 단어를 가져 왔습니다."
 
 #: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:171
 #, python-format
@@ -10259,8 +10256,7 @@ msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgstr[0] ""
-"업로드 된 파일에서 {0} 문자열 처리됨 (건너뜀: {1}, 찾을 수 없음: {2}, 업데이"
-"트 됨: {3})."
+"올려주기된 파일에서 {0} 개의 문자열 처리했습니다 (건너뛴 것: {1} 개, 찾을 수 없는 것: {2} 개, 갱신된것: {3} 개)."
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -10368,7 +10364,7 @@ msgstr "검색과 재배치가 완료되었고, 문자열이 업데이트 되지
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "검색과 재배치가 완료되었고, %d 문자열이 업데이트 되었습니다."
+msgstr[0] "검색과 다시 배치가 완료되었고, %d 개의 문자열이 갱신 되었습니다."
 
 #: weblate/trans/views/search.py:218
 #, python-format
@@ -10391,7 +10387,7 @@ msgstr "일괄 상태 변화가 완료되었고, 문자열이 업데이트 되�
 #, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "일괄 상태 변화가 완료되었고, %d 문자열이 업데이트 되었습니다."
+msgstr[0] "상태의 일괄 변경이 완료되었습니다. %d 개의 문자열이 갱신 되었습니다."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
