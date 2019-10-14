@@ -107,11 +107,9 @@ You can also specify individual tests to run:
 
     DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test weblate.gitexport
 
-The tests can also be executed inside developer docker container (see :ref:`dev-docker`):
+.. hint::
 
-.. code-block:: sh
-
-   ./rundev.sh test weblate.trans
+   The tests can also be executed inside developer docker container, see :ref:`dev-docker`.
 
 .. seealso::
 
@@ -176,6 +174,21 @@ environment simply by running:
 It will create development Docker image and start it. The :file:`Dockerfile`
 and :file:`docker-compose.yml` for this are located in :file:`dev-docker`
 directory.
+
+The script also accepts some parameters, to execute tests run it with ``test``
+parameter and then specify any :djadmin:`django:test` parameters, for example:
+
+.. code-block:: sh
+
+   ./rundev.sh test --failfast weblate.trans
+
+To stop the background containers run:
+
+.. code-block:: sh
+
+   ./rundev.sh stop
+
+Running the script without args will recreate Docker container and restart it.
 
 .. note::
 
