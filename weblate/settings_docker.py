@@ -44,9 +44,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         # Database name or path to database file if using sqlite3.
         'NAME': os.environ['POSTGRES_DATABASE'],
-        # Use same database for tests (needed as Docker MySQL can
-        # not currently create second database for us)
-        'TEST': {'NAME': os.environ['POSTGRES_DATABASE']},
         # Database user, not used with sqlite3.
         'USER': os.environ['POSTGRES_USER'],
         # Database password, not used with sqlite3.
@@ -65,7 +62,7 @@ DATABASES = {
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Data directory
-DATA_DIR = '/app/data'
+DATA_DIR = os.environ.get('WEBLATE_DATA_DIR', '/app/data')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -999,7 +996,7 @@ SILENCED_SYSTEM_CHECKS = [
 SILENCED_SYSTEM_CHECKS.extend(get_env_list('WEBLATE_SILENCED_SYSTEM_CHECKS'))
 
 # Celery worker configuration for production
-CELERY_TASK_ALWAYS_EAGER = False
+CELERY_TASK_ALWAYS_EAGER = get_env_bool('WEBLATE_CELERY_EAGER', False)
 CELERY_BROKER_URL = '{}://{}{}:{}/{}'.format(
     REDIS_PROTO,
     ':{}@'.format(REDIS_PASSWORD) if REDIS_PASSWORD else '',

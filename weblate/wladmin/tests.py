@@ -111,7 +111,7 @@ class AdminTest(ViewTestCase):
 
     def test_performace(self):
         response = self.client.get(reverse('manage-performance'))
-        self.assertContains(response, 'weblate.E007')
+        self.assertContains(response, 'weblate.E005')
 
     def test_error(self):
         add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')

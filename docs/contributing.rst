@@ -107,6 +107,12 @@ You can also specify individual tests to run:
 
     DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test weblate.gitexport
 
+The tests can also be executed inside developer docker container (see :ref:`dev-docker`):
+
+.. code-block:: sh
+
+   ./rundev.sh test weblate.trans
+
 .. seealso::
 
     See :doc:`django:topics/testing/index` for more info on running and
@@ -155,12 +161,26 @@ Starting with our codebase
 If looking for some bugs to familiarize yourself with the Weblate
 codebase, look for ones labelled :guilabel:`good first issue` <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_:
 
+.. _dev-docker:
+
+Running Weblate locally in Docker
+---------------------------------
+
 If you have Docker and docker-compose installed, you can spin up the development
 environment simply by running:
 
 .. code-block:: sh
 
    ./rundev.sh
+
+It will create development Docker image and start it. The :file:`Dockerfile`
+and :file:`docker-compose.yml` for this are located in :file:`dev-docker`
+directory.
+
+.. note::
+
+   This is not suitable setup for production, it includes several hacks which
+   are insecure, but make development easier.
 
 Translating
 -----------

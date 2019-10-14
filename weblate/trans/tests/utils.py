@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
-from weblate.billing.models import Billing, Invoice, Plan
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
 from weblate.trans.search import Fulltext
@@ -469,6 +468,7 @@ class TempDirMixin(object):
 
 
 def create_billing(user):
+    from weblate.billing.models import Billing, Invoice, Plan
     plan = Plan.objects.create(
         display_limit_projects=1,
         name='Basic plan',

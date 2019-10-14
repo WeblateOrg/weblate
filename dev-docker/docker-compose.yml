@@ -1,0 +1,52 @@
+version: '3'
+
+##########
+# WARNING!
+# This docker-compose file is meant to be used in the development process
+# and WILL perform very poorly in production.
+#
+# For production-ready docker-compose file see:
+# https://github.com/WeblateOrg/docker-compose
+#########
+
+services:
+  weblate:
+    image: weblate-dev:latest
+    build:
+      context: ../
+      dockerfile: dev-docker/Dockerfile
+    ports:
+      - ${WEBLATE_HOST}:8080
+    user: $USER_ID:$GROUP_ID
+    userns_mode: "host"
+    volumes:
+      # Local data directory
+      - $PWD/data:/app/data
+      # Override Weblate with local dir
+      - $PWD/../weblate:/usr/local/lib/python3.7/dist-packages/weblate
+    restart: always
+    depends_on:
+      - database
+      - cache
+    environment:
+      DJANGO_SETTINGS_MODULE: weblate.settings_docker
+    env_file:
+      - ./environment
+  database:
+    image: postgres:11-alpine
+    env_file:
+      - ./environment
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    restart: always
+  cache:
+    image: redis:4-alpine
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+volumes:
+  weblate-data: {}
+  postgres-data: {}
+  redis-data: {}
