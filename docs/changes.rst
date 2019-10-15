@@ -4,7 +4,7 @@ Changes
 weblate 3.9
 ------------
 
-Not yet released.
+Released on October 15th 2019.
 
 * Include Weblate metadata in downloaded files.
 * Improved UI for failing checks.
