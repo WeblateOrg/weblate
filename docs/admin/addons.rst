@@ -43,10 +43,16 @@ base file.
 Language consistency
 --------------------
 
-This addon ensures that all components within one project have translation to
-same languages.
+Ensure that all components within one project have translation to same
+languages. It will create empty translations for languages which are not
+present.
 
 Unlike most others, this addon operates on whole project.
+
+.. hint::
+
+   If you want to translate the strings as well, please look into
+   :ref:`addon-weblate.autotranslate.autotranslate`.
 
 .. _addon-weblate.discovery.discovery:
 
@@ -253,9 +259,9 @@ Update RESX files
 
 .. versionadded:: 3.9
 
-Update all translation files to match the monolingual base file. It removes
-stale translation keys and adds new ones with source string as a translation.
-It also updates changed strings to new source string.
+Update all translation files to match the monolingual upstream base file.
+Unused strings are removed, and new ones are added as copies of the source
+string.
 
 .. hint::
 
