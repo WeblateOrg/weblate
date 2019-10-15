@@ -532,10 +532,10 @@ class LanguagesViewTest(FixtureTestCase):
             kwargs={'lang': 'cs'}
         ))
         self.assertEqual(response.status_code, 200)
-        response = self.client.post(reverse(
-            'show_language',
-            kwargs={'lang': 'br'}
-        ))
+        response = self.client.post(
+            reverse('show_language', kwargs={'lang': 'br'}),
+            {'delete': '1'}
+        )
         self.assertRedirects(response, reverse('languages'))
 
     def test_edit(self):
