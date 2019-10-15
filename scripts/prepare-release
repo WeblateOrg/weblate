@@ -14,5 +14,5 @@ sed -i "s/weblate-[0-9.]\\+/weblate-$version/" docs/admin/install/openshift2.rst
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
 
 if ! git diff --exit-code --quiet ; then
-    git commit -s -m "Releasing $version" -- weblate/__init__.py docs/admin/deployments.rst docs/changes.rst
+    git commit -s -m "Releasing $version" -- weblate/__init__.py docs/admin/install/openshift2.rst docs/changes.rst
 fi
