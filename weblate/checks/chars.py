@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 from django.utils.translation import ugettext_lazy as _
 from six.moves.html_parser import HTMLParser
 
@@ -136,6 +138,26 @@ class EndSpaceCheck(TargetCheck):
             replacement = ''
         return [(' *$', replacement)]
 
+class DoubleSpaceCheck(TargetCheck):
+    """Doublespace check."""
+
+    check_id = 'double_space'
+    name = _('Double space')
+    description = _('Translation contains double space')
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        # One letter things are usually decimal/thousand separators
+        if len(source) <= 1 and len(target) <= 1:
+            return False
+        if not source or not target:
+            return False
+
+        # Check if target contains double space
+        return bool(re.search(' {2,}', target))
+
+    def get_fixup(self, unit):
+        return [(' {2,}', ' ')]
 
 class EndStopCheck(TargetCheck):
     """Check for final stop."""

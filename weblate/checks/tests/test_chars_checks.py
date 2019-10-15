@@ -36,6 +36,7 @@ from weblate.checks.chars import (
     EndQuestionCheck,
     EndSemicolonCheck,
     EndSpaceCheck,
+    DoubleSpaceCheck,
     EndStopCheck,
     KashidaCheck,
     MaxLengthCheck,
@@ -89,6 +90,15 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
+class DoubleSpaceCheckTest(CheckTestCase):
+    check = DoubleSpaceCheck()
+
+    def setUp(self):
+        super(DoubleSpaceCheckTest, self).setUp()
+        self.test_good_matching = ('string  string', 'string  string', '')
+        self.test_good_ignore = ('  ', ' ', '')
+        self.test_failure_1 = ('string  string', 'stringstring', '')
+        self.test_failure_2 = ('string string', 'string  string', '')
 
 class EndStopCheckTest(CheckTestCase):
     check = EndStopCheck()
