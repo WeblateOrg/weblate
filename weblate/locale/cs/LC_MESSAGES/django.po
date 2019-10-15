@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-15 06:23+0000\n"
-"PO-Revision-Date: 2019-10-10 19:39+0000\n"
+"PO-Revision-Date: 2019-10-15 19:18+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -6198,12 +6198,16 @@ msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
 msgstr ""
+"Ostraněním zálohovací služby budou odstraněny přístupové údaje a tím můžete "
+"ztratit přístup k zálohám."
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
 msgstr ""
+"Prosím poznamenejte si níže uvedené přístupové údaje pokud chcete mít "
+"možnost obnovit data ze zálohy."
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -10397,10 +10401,8 @@ msgid "Backup performed"
 msgstr "Záloha proběhla"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "Záloha proběhla"
+msgstr "Záloha selhala"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10452,10 +10454,9 @@ msgid "Test e-mail sent."
 msgstr "Testovací e-mail odeslán."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Nepodařilo se vytvořit klíč: %s"
+msgstr "Nepodařilo se odeslat testovací e-mail: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10466,10 +10467,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "Aktivace selhala. Prosím zkontrolujte aktivační token."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "Váš účet byl odstraněn."
+msgstr "Záloha byla spuštěna"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
