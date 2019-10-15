@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     libtesseract-dev \
     libxml2-dev \
     libxmlsec1-dev \
+    libffi-dev \
     cython \
     gcc \
     g++ \
