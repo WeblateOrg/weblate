@@ -26,9 +26,7 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_UNIT_PRE_CREATE
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
-SUPPORT_FUZZY = frozenset((
-    'ts', 'po', 'po-mono',
-))
+SUPPORT_FUZZY = {'ts', 'po', 'po-mono'}
 
 
 class FlagBase(BaseAddon):
@@ -83,7 +81,10 @@ class SameEditAddon(FlagBase):
     )
 
     def unit_pre_create(self, unit):
-        if (unit.source == unit.target
-                and 'ignore-same' not in unit.all_flags
-                and unit.state >= STATE_TRANSLATED):
+        if (
+            not unit.translation.is_template
+            and unit.source == unit.target
+            and 'ignore-same' not in unit.all_flags
+            and unit.state >= STATE_TRANSLATED
+        ):
             unit.state = STATE_FUZZY
