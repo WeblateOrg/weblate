@@ -515,7 +515,7 @@ class Unit(models.Model, LoggerMixin):
         # Commit possible previous changes on this unit
         if self.pending:
             change_author = self.get_last_content_change()[0]
-            if change_author.id != author.id:
+            if change_author != author:
                 self.translation.commit_pending('pending unit', user, force=True)
 
         # Propagate to other projects
