@@ -138,6 +138,7 @@ class EndSpaceCheck(TargetCheck):
             replacement = ''
         return [(' *$', replacement)]
 
+
 class DoubleSpaceCheck(TargetCheck):
     """Doublespace check."""
 
@@ -158,6 +159,7 @@ class DoubleSpaceCheck(TargetCheck):
 
     def get_fixup(self, unit):
         return [(' {2,}', ' ')]
+
 
 class EndStopCheck(TargetCheck):
     """Check for final stop."""

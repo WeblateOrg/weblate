@@ -90,6 +90,7 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
+
 class DoubleSpaceCheckTest(CheckTestCase):
     check = DoubleSpaceCheck()
 
@@ -99,6 +100,7 @@ class DoubleSpaceCheckTest(CheckTestCase):
         self.test_good_ignore = ('  ', ' ', '')
         self.test_failure_1 = ('string  string', 'stringstring', '')
         self.test_failure_2 = ('string string', 'string  string', '')
+
 
 class EndStopCheckTest(CheckTestCase):
     check = EndStopCheck()
