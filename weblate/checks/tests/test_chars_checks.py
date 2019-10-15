@@ -29,6 +29,7 @@ from unittest import TestCase
 from weblate.checks.chars import (
     BeginNewlineCheck,
     BeginSpaceCheck,
+    DoubleSpaceCheck,
     EndColonCheck,
     EndEllipsisCheck,
     EndExclamationCheck,
@@ -36,7 +37,6 @@ from weblate.checks.chars import (
     EndQuestionCheck,
     EndSemicolonCheck,
     EndSpaceCheck,
-    DoubleSpaceCheck,
     EndStopCheck,
     KashidaCheck,
     MaxLengthCheck,
