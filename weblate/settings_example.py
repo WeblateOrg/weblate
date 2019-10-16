@@ -113,6 +113,7 @@ LANGUAGES = (
     ("ru", "Русский"),
     ("sk", "Slovenčina"),
     ("sl", "Slovenščina"),
+    ("sq", "Shqip"),
     ("sr", "Српски"),
     ("sv", "Svenska"),
     ("tr", "Türkçe"),
