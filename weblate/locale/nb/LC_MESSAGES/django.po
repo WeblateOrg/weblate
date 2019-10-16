@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-15 06:23+0000\n"
-"PO-Revision-Date: 2019-10-15 14:51+0000\n"
+"PO-Revision-Date: 2019-10-18 10:52+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -5032,8 +5032,9 @@ msgstr ""
 "har gjort, og tillate kontinuerlig oversettelse."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
+#, fuzzy
 msgid "Hook"
-msgstr "Tilknytning"
+msgstr "Tilknytningshake"
 
 #: weblate/templates/data.html:123
 msgid ""
@@ -5892,7 +5893,7 @@ msgstr "Ny kommentar i %(component)s"
 msgid ""
 "New component %(component)s has been added to %(project)s at %(site_title)s."
 msgstr ""
-"Ny komponent har blitt lagt til i %(component)s under %(project)s klokken "
+"Ny komponent har blitt lagt til i %(component)s under %(project)s på "
 "%(site_title)s."
 
 #: weblate/templates/mail/new_component.html:11
@@ -7079,7 +7080,7 @@ msgid ""
 "changes manually or set up hooks to automate this."
 msgstr ""
 "VKS-kodelageret har endringer som ikke finnes i det oppstrøms. Flett "
-"endringer manuelt, eller sett opp kroker for å automatisere dette."
+"endringer manuelt, eller sett opp haker for å automatisere dette."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
 msgid "This component is set up incorrectly."
@@ -9387,10 +9388,7 @@ msgstr "Aktiver haker"
 
 #: weblate/trans/models/project.py:135
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr ""
-"Om du vil tillate oppdatering av dette registeret av eksterne haker.\n"
-"\n"
-" kroker."
+msgstr "Om du vil tillate oppdatering av dette registeret av eksterne haker."
 
 #: weblate/trans/models/project.py:140
 msgid "Source language"
@@ -10120,11 +10118,13 @@ msgstr "Versjonskontrollsystemsinnstillinger"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
-msgstr ""
+msgstr "Sett opp kodelagerhaker for automatisert oppdateringsflyt til Weblate."
 
 #: weblate/trans/views/guide.py:108
+#, fuzzy
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
+"Sett opp dyttingsnettadresse for automatisert oppdateringsflyt fra Weblate."
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
