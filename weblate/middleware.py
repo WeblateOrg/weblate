@@ -34,7 +34,7 @@ CSP_TEMPLATE = (
 )
 
 # URLs requiring inline javascipt
-INLINE_PATHS = {'social:begin'}
+INLINE_PATHS = {"social:begin"}
 
 
 class ProxyMiddleware(object):
@@ -52,12 +52,12 @@ class ProxyMiddleware(object):
             proxy = request.META.get(settings.IP_PROXY_HEADER)
         if proxy:
             # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
-            address = proxy.split(', ')[settings.IP_PROXY_OFFSET].strip()
+            address = proxy.split(", ")[settings.IP_PROXY_OFFSET].strip()
             try:
                 validate_ipv46_address(address)
-                request.META['REMOTE_ADDR'] = address
+                request.META["REMOTE_ADDR"] = address
             except ValidationError as error:
-                report_error(error, prefix='Invalid IP address')
+                report_error(error, prefix="Invalid IP address")
 
         return self.get_response(request)
 
@@ -85,14 +85,14 @@ class SecurityMiddleware(object):
 
         # Rollbar client errors reporting
         if (
-            hasattr(settings, 'ROLLBAR')
-            and 'client_token' in settings.ROLLBAR
-            and 'environment' in settings.ROLLBAR
+            hasattr(settings, "ROLLBAR")
+            and "client_token" in settings.ROLLBAR
+            and "environment" in settings.ROLLBAR
             and response.status_code == 500
         ):
             script.add("'unsafe-inline'")
-            script.add('cdnjs.cloudflare.com')
-            connect.add('api.rollbar.com')
+            script.add("cdnjs.cloudflare.com")
+            connect.add("api.rollbar.com")
 
         # Sentry user feedback
         if settings.SENTRY_DSN and response.status_code == 500:
@@ -100,7 +100,7 @@ class SecurityMiddleware(object):
             script.add(domain)
             connect.add(domain)
             script.add("'unsafe-inline'")
-            image.add('data:')
+            image.add("data:")
 
         # Matomo (Piwik) analytics
         if settings.PIWIK_URL:
@@ -112,27 +112,27 @@ class SecurityMiddleware(object):
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
             script.add("'unsafe-inline'")
-            script.add('www.google-analytics.com')
-            image.add('www.google-analytics.com')
+            script.add("www.google-analytics.com")
+            image.add("www.google-analytics.com")
 
         # External media URL
-        if '://' in settings.MEDIA_URL:
+        if "://" in settings.MEDIA_URL:
             domain = urlparse(settings.MEDIA_URL).hostname
             image.add(domain)
 
         # External static URL
-        if '://' in settings.STATIC_URL:
+        if "://" in settings.STATIC_URL:
             domain = urlparse(settings.STATIC_URL).hostname
             script.add(domain)
             image.add(domain)
             style.add(domain)
             font.add(domain)
 
-        response['Content-Security-Policy'] = CSP_TEMPLATE.format(
-            ' '.join(style),
-            ' '.join(image),
-            ' '.join(script),
-            ' '.join(connect),
-            ' '.join(font),
+        response["Content-Security-Policy"] = CSP_TEMPLATE.format(
+            " ".join(style),
+            " ".join(image),
+            " ".join(script),
+            " ".join(connect),
+            " ".join(font),
         )
         return response
