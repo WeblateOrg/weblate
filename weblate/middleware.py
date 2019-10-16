@@ -83,6 +83,7 @@ class SecurityMiddleware(object):
         if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")
 
+        # Rollbar client errors reporting
         if (
             hasattr(settings, 'ROLLBAR')
             and 'client_token' in settings.ROLLBAR
@@ -93,6 +94,7 @@ class SecurityMiddleware(object):
             script.add('cdnjs.cloudflare.com')
             connect.add('api.rollbar.com')
 
+        # Sentry user feedback
         if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
@@ -100,21 +102,25 @@ class SecurityMiddleware(object):
             script.add("'unsafe-inline'")
             image.add('data:')
 
+        # Matomo (Piwik) analytics
         if settings.PIWIK_URL:
             script.add("'unsafe-inline'")
             script.add(settings.PIWIK_URL)
             image.add(settings.PIWIK_URL)
             connect.add(settings.PIWIK_URL)
 
+        # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
             script.add("'unsafe-inline'")
             script.add('www.google-analytics.com')
             image.add('www.google-analytics.com')
 
+        # External media URL
         if '://' in settings.MEDIA_URL:
             domain = urlparse(settings.MEDIA_URL).hostname
             image.add(domain)
 
+        # External static URL
         if '://' in settings.STATIC_URL:
             domain = urlparse(settings.STATIC_URL).hostname
             script.add(domain)
