@@ -3,6 +3,8 @@ Weblate 3.9.1
 
 Not yet released.
 
+* Remove some not needed files from backups.
+
 Weblate 3.9
 ------------
 

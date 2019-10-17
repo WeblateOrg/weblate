@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Backup automation based on borg."""
+import os
 import string
 import subprocess
 from random import SystemRandom
@@ -26,9 +27,15 @@ from django.conf import settings
 from six.moves.urllib.parse import urlparse
 
 from weblate.trans.util import get_clean_env
+from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
+CACHEDIR = """Signature: 8a477f597d28d172789f06886806bc55
+# This file is a cache directory tag created by Weblate
+# For information about cache directory tags, see:
+#	https://bford.info/cachedir/spec.html
+"""
 
 class BackupError(Exception):
     pass
@@ -38,6 +45,27 @@ def make_password(length=50):
     generator = SystemRandom()
     chars = string.ascii_letters + string.digits + "!@#$%^&*()"
     return "".join(generator.choice(chars) for i in range(length))
+
+
+def tag_cache_dirs():
+    """Create CACHEDIR.TAG in our cache dirs to exlude from backups"""
+    dirs = [
+        # Fontconfig cache
+        data_dir("cache", "fonts"),
+        # Static files (default is inside data)
+        settings.STATIC_ROOT,
+    ]
+    # Django file based caches
+    for cache in settings.CACHES.values():
+        if cache["BACKEND"] == "django.core.cache.backends.filebased.FileBasedCache":
+            dirs.append(cache["LOCATION"])
+
+    # Create CACHEDIR.TAG in each cache dir
+    for name in dirs:
+        tagfile = os.path.join(name, "CACHEDIR.TAG")
+        if os.path.exists(name) and not os.path.exists(tagfile):
+            with open(tagfile, "w") as handle:
+                handle.write(CACHEDIR)
 
 
 def borg(cmd, env=None):
@@ -74,6 +102,7 @@ def get_paper_key(location):
 
 def backup(location, passphrase):
     """Perform DATA_DIR backup."""
+    tag_cache_dirs()
     return borg(
         [
             "create",
@@ -85,10 +114,6 @@ def backup(location, passphrase):
             "--exclude-caches",
             "--exclude",
             "*/.config/borg",
-            "--exclude",
-            "*/CACHE",
-            "--exclude",
-            "*/avatar-cache",
             "--compression",
             "zstd",
             "{}::{{now}}".format(location),
