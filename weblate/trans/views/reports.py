@@ -52,7 +52,7 @@ def generate_credits(user, start_date, end_date, **kwargs):
         if not authors:
             continue
         result.append(
-            {language.name: sorted(author for author in set(authors) if authors)}
+            {language.name: sorted(author for author in set(authors) if author)}
         )
 
     return result
