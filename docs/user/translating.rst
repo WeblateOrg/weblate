@@ -118,29 +118,29 @@ The following keyboard shortcuts can be utilized during translation:
     Navigates to previous translation in current search.
 :kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Ctrl+⏎` or :kbd:`⌘+⏎` or :kbd:`Ctrl+Enter` or :kbd:`⌘+⏎`
+:kbd:`Ctrl+Enter` or :kbd:`Option+Enter`
     Saves current translation.
-:kbd:`Ctrl+Shift+⏎` or :kbd:`⌘+Shift+⏎`
+:kbd:`Ctrl+Shift+Enter` or :kbd:`Option+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
-:kbd:`Ctrl+E` or :kbd:`⌘+E`
+:kbd:`Ctrl+E` or :kbd:`Option+E`
     Focus translation editor.
-:kbd:`Ctrl+U` or :kbd:`⌘+U`
+:kbd:`Ctrl+U` or :kbd:`Option+U`
     Focus comment editor.
-:kbd:`Ctrl+M` or :kbd:`⌘+M`
+:kbd:`Ctrl+M` or :kbd:`Option+M`
     Shows machine translation tab.
-:kbd:`Ctrl+<NUMBER>` or :kbd:`⌘+<NUMBER>`
+:kbd:`Ctrl+<NUMBER>` or :kbd:`Option+<NUMBER>`
     Copies placeable of given number from source string.
-:kbd:`Ctrl+M <NUMBER>` or :kbd:`⌘+M <NUMBER>`
+:kbd:`Ctrl+M <NUMBER>` or :kbd:`Option+M <NUMBER>`
     Copy machine translation of given number to current translation.
-:kbd:`Ctrl+I <NUMBER>` or :kbd:`⌘+I <NUMBER>`
+:kbd:`Ctrl+I <NUMBER>` or :kbd:`Option+I <NUMBER>`
     Ignore failing check of given number.
-:kbd:`Ctrl+J` or :kbd:`⌘+J`
+:kbd:`Ctrl+J` or :kbd:`Option+J`
     Shows nearby strings tab.
-:kbd:`Ctrl+S` or :kbd:`⌘+S`
+:kbd:`Ctrl+S` or :kbd:`Option+S`
     Shows search tab.
-:kbd:`Ctrl+O` or :kbd:`⌘+O`
+:kbd:`Ctrl+O` or :kbd:`Option+O`
     Copies source string
-:kbd:`Ctrl+T` or :kbd:`⌘+T`
+:kbd:`Ctrl+T` or :kbd:`Option+T`
     Toggles edit needed flag.
 
 .. _visual-keyboard:
