@@ -1,5 +1,5 @@
 Searching
----------
+=========
 
 .. versionadded:: 3.9
 
