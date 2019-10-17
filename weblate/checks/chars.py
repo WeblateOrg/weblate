@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import re
-
 from django.utils.translation import ugettext_lazy as _
 from six.moves.html_parser import HTMLParser
 
