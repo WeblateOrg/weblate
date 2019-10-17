@@ -150,8 +150,12 @@ latex_elements = {
 latex_documents = [
     ("latexindex", "Weblate.tex", "The Weblate Manual", author, "manual")
 ]
+
+# Include logo on title page
 latex_logo = "../weblate/static/logo-1024.png"
+# Use xelatex engine for better unicode support
 latex_engine = 'xelatex'
+# Disable using xindy as it does not work on readthedocs.org
 latex_use_xindy = False
 
 # -- Options for manual page output ------------------------------------------
