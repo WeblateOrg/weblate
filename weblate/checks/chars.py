@@ -153,9 +153,10 @@ class DoubleSpaceCheck(TargetCheck):
             return False
         if not source or not target:
             return False
-
+        if '  ' in source:
+            return False
         # Check if target contains double space
-        return bool(re.search(' {2,}', target))
+        return '  ' in target
 
     def get_fixup(self, unit):
         return [(' {2,}', ' ')]
