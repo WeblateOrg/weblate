@@ -6,7 +6,7 @@ Not yet released.
 * Remove some not needed files from backups.
 
 Weblate 3.9
-------------
+-----------
 
 Released on October 15th 2019.
 
