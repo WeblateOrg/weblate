@@ -149,7 +149,7 @@ latex_documents = [
     ("latexindex", "Weblate.tex", "The Weblate Manual", author, "manual")
 ]
 latex_logo = "../weblate/static/logo-1024.png"
-# latex_engine = 'xelatex'
+latex_engine = 'xelatex'
 latex_use_xindy = False
 
 # -- Options for manual page output ------------------------------------------
