@@ -34,7 +34,7 @@ copyright = "2012 - 2019 Michal Čihař"
 author = "Michal Čihař"
 
 # The short X.Y version
-version = '3.9'
+version = "3.9"
 # The full version, including alpha/beta/rc tags
 release = version
 
@@ -121,6 +121,12 @@ htmlhelp_basename = "Weblatedoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
+PREAMBLE = r"""
+\pagestyle{fancy}
+\setcounter{tocdepth}{1}
+\usepackage{hyperref}
+"""
+
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
@@ -129,8 +135,8 @@ latex_elements = {
     #
     # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+    "preamble": PREAMBLE,
+    "extraclassoptions": "openany",
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -139,9 +145,11 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, "Weblate.tex", project, author, "manual")]
-
-latex_engine = 'xelatex'
+latex_documents = [
+    ("latexindex", "Weblate.tex", "The Weblate Manual", author, "manual")
+]
+latex_logo = "../weblate/static/logo-1024.png"
+# latex_engine = 'xelatex'
 latex_use_xindy = False
 
 # -- Options for manual page output ------------------------------------------

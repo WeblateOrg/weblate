@@ -14,16 +14,13 @@ sed -i "s/version=.*,/version=\"$1\",/" setup.py
 tmp=`mktemp`
 cp docs/changes.rst $tmp
 cat > docs/changes.rst <<EOT
-Changes
-=======
-
-weblate $1
+Weblate $1
 ------------
 
 Not yet released.
 
 EOT
-sed '1D;2D;3D' >> docs/changes.rst < $tmp
+cat >> docs/changes.rst < $tmp
 rm $tmp
 
 git commit -s -m "Setting version to $1" weblate/__init__.py docs/conf.py docs/changes.rst setup.py

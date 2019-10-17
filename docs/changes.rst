@@ -1,7 +1,4 @@
-Changes
-=======
-
-weblate 3.9
+Weblate 3.9
 ------------
 
 Released on October 15th 2019.
@@ -39,7 +36,7 @@ Released on October 15th 2019.
 * Improved display of repository status.
 * Perform automated translation in the background.
 
-weblate 3.8
+Weblate 3.8
 -----------
 
 Released on August 15th 2019.
@@ -73,7 +70,7 @@ Released on August 15th 2019.
 * Notify about new string on source string change on monolingual translations.
 * Added separate view for translation memory with search capability.
 
-weblate 3.7.1
+Weblate 3.7.1
 -------------
 
 Released on June 28th 2019.
@@ -86,7 +83,7 @@ Released on June 28th 2019.
 * Improved handling of unsupported but discovered translation files.
 * More verbosely report missing file format requirements.
 
-weblate 3.7
+Weblate 3.7
 -----------
 
 Released on June 21st 2019.
@@ -121,7 +118,7 @@ Released on June 21st 2019.
 * New Weblate logo and color scheme.
 * New look of bitmap badges.
 
-weblate 3.6.1
+Weblate 3.6.1
 -------------
 
 Released on April 26th 2019.
@@ -134,7 +131,7 @@ Released on April 26th 2019.
 * Indicate administered projects on project listing.
 * Allow update to recover from missing VCS repository.
 
-weblate 3.6
+Weblate 3.6
 -----------
 
 Released on April 20th 2019.
@@ -158,7 +155,7 @@ Released on April 20th 2019.
 * Notifications for administered projects can now be configured.
 * Improved handling of three letter language codes.
 
-weblate 3.5.1
+Weblate 3.5.1
 -------------
 
 Released on March 10th 2019.
@@ -174,7 +171,7 @@ Released on March 10th 2019.
 * Make Microsoft Terminology service compatible with current zeep releases.
 * Localization updates.
 
-weblate 3.5
+Weblate 3.5
 ------------
 
 Released on March 3rd 2019.
@@ -196,7 +193,7 @@ Released on March 3rd 2019.
 * Compatibility with tesseract 4.0.
 * Billing addon now removes projects for unpaid billings after 45 days.
 
-weblate 3.4
+Weblate 3.4
 -----------
 
 Released on January 22nd 2019.
@@ -216,7 +213,7 @@ Released on January 22nd 2019.
 * Improved performance of fulltext index updates.
 * Extended file upload API to support more parameters.
 
-weblate 3.3
+Weblate 3.3
 -----------
 
 Released on November 30th 2018.
@@ -229,7 +226,7 @@ Released on November 30th 2018.
 * Added check for non writable files in DATA_DIR.
 * Improved CSV export for changes.
 
-weblate 3.2.2
+Weblate 3.2.2
 -------------
 
 Released on October 20th 2018.
@@ -243,7 +240,7 @@ Released on October 20th 2018.
 * Fixed translation upload API failure in some corner cases.
 * Fixed updating Git configuration in case it was changed manually.
 
-weblate 3.2.1
+Weblate 3.2.1
 -------------
 
 Released on October 10th 2018.
@@ -258,7 +255,7 @@ Released on October 10th 2018.
 * Improved validation when creating new components.
 * Added support for cleanup of old suggestions.
 
-weblate 3.2
+Weblate 3.2
 ------------
 
 Released on October 6th 2018.
@@ -288,14 +285,14 @@ Released on October 6th 2018.
 See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/milestone/36?closed=1>`_
 for detailed list of addressed issues.
 
-weblate 3.1.1
+Weblate 3.1.1
 -------------
 
 Released on July 27th 2018.
 
 * Fix testsuite failure on some setup.
 
-weblate 3.1
+Weblate 3.1
 ------------
 
 Released on July 27th 2018.
@@ -313,7 +310,7 @@ Released on July 27th 2018.
 * Improved calculation of string similarity in translation memory matches.
 * Added support by signing Git commits by GnuPG.
 
-weblate 3.0.1
+Weblate 3.0.1
 -------------
 
 Released on June 10th 2018.
@@ -325,7 +322,7 @@ Released on June 10th 2018.
 * Fixed displaying of admin documentation.
 * Improved handling of long language names.
 
-weblate 3.0
+Weblate 3.0
 -----------
 
 Released on June 1st 2018.
@@ -343,8 +340,11 @@ Released on June 1st 2018.
 * Support for more variables in commit message templates.
 * Add support for providing additional textual context.
 
-weblate 2.20
-------------
+Weblate 2.x series
+------------------
+
+Weblate 2.20
+~~~~~~~~~~~~
 
 Released on April 4th 2018.
 
@@ -365,16 +365,16 @@ Released on April 4th 2018.
 * Machine translation results are now cached inside Weblate.
 * Added support for reordering commited changes.
 
-weblate 2.19.1
---------------
+Weblate 2.19.1
+~~~~~~~~~~~~~~
 
 Released on February 20th 2018.
 
 * Fixed migration issue on upgrade from 2.18.
 * Improved file upload API validation.
 
-weblate 2.19
-------------
+Weblate 2.19
+~~~~~~~~~~~~
 
 Released on February 15th 2018.
 
@@ -397,8 +397,8 @@ Released on February 15th 2018.
 * Added support for Subversion repositories not using stdlayout.
 * Added addons to customize translation workflows.
 
-weblate 2.18
-------------
+Weblate 2.18
+~~~~~~~~~~~~
 
 Released on December 15th 2017.
 
@@ -414,16 +414,16 @@ Released on December 15th 2017.
 * Added support for adding new strings to monolingual translations.
 * Added support for translation workflows with dedicated reviewers.
 
-weblate 2.17.1
---------------
+Weblate 2.17.1
+~~~~~~~~~~~~~~
 
 Released on October 13th 2017.
 
 * Fixed running testsuite in some specific situations.
 * Locales updates.
 
-weblate 2.17
-------------
+Weblate 2.17
+~~~~~~~~~~~~
 
 Released on October 13th 2017.
 
@@ -440,8 +440,8 @@ Released on October 13th 2017.
 * Project access control settings is now editable.
 * Added optional spam protection for suggestions using Akismet.
 
-weblate 2.16
-------------
+Weblate 2.16
+~~~~~~~~~~~~
 
 Released on August 11th 2017.
 
@@ -456,8 +456,8 @@ Released on August 11th 2017.
 * Various user interface cleanups.
 * Fixed component/project/sitewide search for translations.
 
-weblate 2.15
-------------
+Weblate 2.15
+~~~~~~~~~~~~
 
 Released on June 30th 2017.
 
@@ -472,8 +472,8 @@ Released on June 30th 2017.
 * Added support for rejecting reused passwords.
 * Extended toolbar for editing RTL languages.
 
-weblate 2.14.1
---------------
+Weblate 2.14.1
+~~~~~~~~~~~~~~
 
 Released on May 24th 2017.
 
@@ -483,8 +483,8 @@ Released on May 24th 2017.
 * The password reset no longer authenticates user.
 * Fixed possible captcha bypass on forgotten password.
 
-weblate 2.14
-------------
+Weblate 2.14
+~~~~~~~~~~~~
 
 Released on May 17th 2017.
 
@@ -507,8 +507,8 @@ Released on May 17th 2017.
 * Included source string information and screenshots in the API.
 * Allow to overwrite translations through API upload.
 
-weblate 2.13.1
---------------
+Weblate 2.13.1
+~~~~~~~~~~~~~~
 
 Released on Apr 12th 2017.
 
@@ -517,8 +517,8 @@ Released on Apr 12th 2017.
 * Fixed listing of current file format in translation download.
 * Return HTTP 404 when trying to access project where user lacks privileges.
 
-weblate 2.13
-------------
+Weblate 2.13
+~~~~~~~~~~~~
 
 Released on Apr 12th 2017.
 
@@ -536,8 +536,8 @@ Released on Apr 12th 2017.
 * Added more fine grained privileges control.
 * Various minor UI improvements.
 
-weblate 2.12
-------------
+Weblate 2.12
+~~~~~~~~~~~~
 
 Released on Mar 3rd 2017.
 
@@ -554,8 +554,8 @@ Released on Mar 3rd 2017.
 * Added support for Joomla translation format.
 * Improved reliability of import across file formats.
 
-weblate 2.11
-------------
+Weblate 2.11
+~~~~~~~~~~~~
 
 Released on Jan 31st 2017.
 
@@ -573,15 +573,15 @@ Released on Jan 31st 2017.
 * Improved error handling in import_project.
 * Various performance improvements.
 
-weblate 2.10.1
---------------
+Weblate 2.10.1
+~~~~~~~~~~~~~~
 
 Released on Jan 20th 2017.
 
 * Do not leak account existence on password reset form (CVE-2017-5537).
 
-weblate 2.10
-------------
+Weblate 2.10
+~~~~~~~~~~~~
 
 Released on Dec 15th 2016.
 
@@ -598,8 +598,8 @@ Released on Dec 15th 2016.
 * Added basic API for changes and strings.
 * Added support for Apertium APy server for machine translations.
 
-weblate 2.9
------------
+Weblate 2.9
+~~~~~~~~~~~
 
 Released on Nov 4th 2016.
 
@@ -620,8 +620,8 @@ Released on Nov 4th 2016.
 * Added search and replace feature.
 * Added support for uploading visual context (screenshots) for translations.
 
-weblate 2.8
------------
+Weblate 2.8
+~~~~~~~~~~~
 
 Released on Aug 31st 2016.
 
@@ -642,8 +642,8 @@ Released on Aug 31st 2016.
 * Improved behavior when inserting placeables.
 * Fixed auto locking issues in zen mode.
 
-weblate 2.7
------------
+Weblate 2.7
+~~~~~~~~~~~
 
 Released on Jul 10th 2016.
 
@@ -657,8 +657,8 @@ Released on Jul 10th 2016.
 * Extend API (detailed repository status, statistics, ...).
 * Testsuite no longer requires network access to test repositories.
 
-weblate 2.6
------------
+Weblate 2.6
+~~~~~~~~~~~
 
 Released on Apr 28th 2016.
 
@@ -669,8 +669,8 @@ Released on Apr 28th 2016.
 * Django 1.10 compatibility.
 * Added categories to whiteboard messages.
 
-weblate 2.5
------------
+Weblate 2.5
+~~~~~~~~~~~
 
 Released on Mar 10th 2016.
 
@@ -716,8 +716,8 @@ Released on Mar 10th 2016.
 * Added support for configurable automatic group assignments.
 * Improved adding of new translations.
 
-weblate 2.4
------------
+Weblate 2.4
+~~~~~~~~~~~
 
 Released on Sep 20th 2015.
 
@@ -752,8 +752,8 @@ Released on Sep 20th 2015.
 * Add hook after adding new translation.
 * Add option to specify multiple files to add to commit.
 
-weblate 2.3
------------
+Weblate 2.3
+~~~~~~~~~~~
 
 Released on May 22nd 2015.
 
@@ -772,8 +772,8 @@ Released on May 22nd 2015.
 * Allow to show secondary language in zen mode.
 * Support for hiding source string in favor of secondary language.
 
-weblate 2.2
------------
+Weblate 2.2
+~~~~~~~~~~~
 
 Released on Feb 19th 2015.
 
@@ -790,8 +790,8 @@ Released on Feb 19th 2015.
 * Support for editing source (template) language for monolingual translations.
 * Added basic support for Gerrit.
 
-weblate 2.1
------------
+Weblate 2.1
+~~~~~~~~~~~
 
 Released on Dec 5th 2014.
 
@@ -808,8 +808,8 @@ Released on Dec 5th 2014.
 * Customizable quality checks per source string.
 * Allow to hide completed translations from dashboard.
 
-weblate 2.0
------------
+Weblate 2.0
+~~~~~~~~~~~
 
 Released on Nov 6th 2014.
 
@@ -832,8 +832,11 @@ Released on Nov 6th 2014.
 * Added buttons for per language quotes and other special characters.
 * Support for exporting stats as JSONP.
 
-weblate 1.9
------------
+Weblate 1.x series
+------------------
+
+Weblate 1.9
+~~~~~~~~~~~
 
 Released on May 6th 2014.
 
@@ -847,8 +850,8 @@ Released on May 6th 2014.
 * Avatars are now fetched and cached server side.
 * Added support for shields.io badge.
 
-weblate 1.8
------------
+Weblate 1.8
+~~~~~~~~~~~
 
 Released on November 7th 2013.
 
@@ -864,8 +867,8 @@ Released on November 7th 2013.
 * Better tracking of source strings.
 * Captcha protection for registration.
 
-weblate 1.7
------------
+Weblate 1.7
+~~~~~~~~~~~
 
 Released on October 7th 2013.
 
@@ -883,8 +886,8 @@ Released on October 7th 2013.
 * Changes in dictionary are now logged in history.
 * Performance improvements for translating view.
 
-weblate 1.6
------------
+Weblate 1.6
+~~~~~~~~~~~
 
 Released on July 25th 2013.
 
@@ -905,8 +908,8 @@ Released on July 25th 2013.
 * Added support for voting on suggestions.
 * Cleanup of admin interface.
 
-weblate 1.5
------------
+Weblate 1.5
+~~~~~~~~~~~
 
 Released on April 16th 2013.
 
@@ -929,8 +932,8 @@ Released on April 16th 2013.
 * Extend amount of cached metadata to improve speed of various searches.
 * Now shows word counts as well.
 
-weblate 1.4
------------
+Weblate 1.4
+~~~~~~~~~~~
 
 Released on January 23rd 2013.
 
@@ -955,8 +958,8 @@ Released on January 23rd 2013.
 * Support for per project ACL.
 * Basic string tests coverage.
 
-weblate 1.3
------------
+Weblate 1.3
+~~~~~~~~~~~
 
 Released on November 16th 2012.
 
@@ -979,8 +982,8 @@ Released on November 16th 2012.
 * Changes can now be monitored using RSS.
 * Improved support for RTL languages.
 
-weblate 1.2
------------
+Weblate 1.2
+~~~~~~~~~~~
 
 Released on August 14th 2012.
 
@@ -1007,8 +1010,8 @@ Released on August 14th 2012.
 * Checking of requirements during setup.
 * Documentation improvements.
 
-weblate 1.1
------------
+Weblate 1.1
+~~~~~~~~~~~
 
 Released on July 4th 2012.
 
@@ -1018,8 +1021,8 @@ Released on July 4th 2012.
 * Do not necessary commit on every attempt to pull remote repo.
 * Added support for offloading indexing.
 
-weblate 1.0
------------
+Weblate 1.0
+~~~~~~~~~~~
 
 Released on May 10th 2012.
 
@@ -1029,8 +1032,11 @@ Released on May 10th 2012.
 * Improved installation instructions.
 * Improved navigation in dictionary.
 
-weblate 0.9
------------
+Weblate 0.x series
+------------------
+
+Weblate 0.9
+~~~~~~~~~~~
 
 Released on April 18th 2012.
 
@@ -1050,8 +1056,8 @@ Released on April 18th 2012.
 * Added list of recent changes to all translation pages.
 * Check for not translated strings ignores format string only messages.
 
-weblate 0.8
------------
+Weblate 0.8
+~~~~~~~~~~~
 
 Released on April 3rd 2012.
 
@@ -1072,8 +1078,8 @@ Released on April 3rd 2012.
 * Ability to push changes to remote repo from web interface.
 * Added review of translations done by others.
 
-weblate 0.7
------------
+Weblate 0.7
+~~~~~~~~~~~
 
 Released on February 16th 2012.
 
@@ -1083,8 +1089,8 @@ Released on February 16th 2012.
 * Displays similar strings while translating.
 * Improved searching for string.
 
-weblate 0.6
------------
+Weblate 0.6
+~~~~~~~~~~~
 
 Released on February 14th 2012.
 
@@ -1094,8 +1100,8 @@ Released on February 14th 2012.
 * Added client side sorting of tables.
 * Please check upgrading instructions in case you are upgrading.
 
-weblate 0.5
------------
+Weblate 0.5
+~~~~~~~~~~~
 
 Released on February 12th 2012.
 
@@ -1110,16 +1116,16 @@ Released on February 12th 2012.
 * Propagating works also for file upload.
 * Fixed file downloads while using FastCGI (and possibly others).
 
-weblate 0.4
------------
+Weblate 0.4
+~~~~~~~~~~~
 
 Released on February 8th 2012.
 
 * Added usage guide to documentation.
 * Fixed API hooks not to require CSRF protection.
 
-weblate 0.3
------------
+Weblate 0.3
+~~~~~~~~~~~
 
 Released on February 8th 2012.
 
@@ -1129,8 +1135,8 @@ Released on February 8th 2012.
 * Improved error page to give list of existing projects.
 * New per language stats.
 
-weblate 0.2
------------
+Weblate 0.2
+~~~~~~~~~~~
 
 Released on February 7th 2012.
 
@@ -1140,8 +1146,8 @@ Released on February 7th 2012.
 * Naming of text areas while entering plural forms.
 * Automatic expanding of translation area.
 
-weblate 0.1
------------
+Weblate 0.1
+~~~~~~~~~~~
 
 Released on February 6th 2012.
 
