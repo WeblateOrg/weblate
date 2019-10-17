@@ -98,8 +98,7 @@ class DoubleSpaceCheckTest(CheckTestCase):
         super(DoubleSpaceCheckTest, self).setUp()
         self.test_good_matching = ('string  string', 'string  string', '')
         self.test_good_ignore = ('  ', ' ', '')
-        self.test_failure_1 = ('string  string', 'string string', '')
-        self.test_failure_2 = ('string string', 'string  string', '')
+        self.test_failure_1 = ('string string', 'string  string', '')
 
 
 class EndStopCheckTest(CheckTestCase):
