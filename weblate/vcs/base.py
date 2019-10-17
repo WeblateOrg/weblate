@@ -369,8 +369,9 @@ class Repository(object):
     def get_object_hash(self, path):
         """Return hash of object in the VCS.
 
-        For files in a way compatible with Git, for dirs it behaves differently
-        as we do not need to track some attributes (eg. permissions)."""
+        For files in a way compatible with Git (equivalent to git ls-tree
+        HEAD), for dirs it behaves differently as we do not need to track some
+        attributes (eg. permissions)."""
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
         objhash = hashlib.sha1()
 
