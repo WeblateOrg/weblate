@@ -141,6 +141,8 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [(master_doc, "Weblate.tex", project, author, "manual")]
 
+latex_engine = 'xelatex'
+latex_use_xindy = False
 
 # -- Options for manual page output ------------------------------------------
 
