@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-15 06:23+0000\n"
-"PO-Revision-Date: 2019-10-11 10:16+0000\n"
+"PO-Revision-Date: 2019-10-18 19:56+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -6179,13 +6179,13 @@ msgstr "本当によろしいですか？"
 msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
-msgstr ""
+msgstr "バックアップ サービスを削除すると、資格情報が削除され、バックアップにアクセスできなくなります。"
 
 #: weblate/templates/manage/backups.html:82
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
-msgstr ""
+msgstr "バックアップを復元できるようにする場合は、以下に資格情報を登録してください。"
 
 #: weblate/templates/manage/backups.html:103
 msgid "Add backup service"
@@ -10333,10 +10333,8 @@ msgid "Backup performed"
 msgstr "バックアップの実行"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Backup failed"
-msgstr "バックアップの実行"
+msgstr "バックアップに失敗しました"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10390,10 +10388,9 @@ msgid "Test e-mail sent."
 msgstr "テスト メールを送信しました。"
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "鍵の生成に失敗しました: %s"
+msgstr "メールのテスト送信に失敗しました: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10404,10 +10401,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "有効化に失敗しました。有効化トークンを確認してください。"
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "アカウントを削除しました。"
+msgstr "バックアップがトリガーされました"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
