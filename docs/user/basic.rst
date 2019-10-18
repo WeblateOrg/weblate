@@ -4,7 +4,7 @@ Weblate basics
 Project structure
 ------------------
 
-In Weblate translations are organized into projects and component. Each project
+In Weblate translations are organized into projects and components. Each project
 can contain number of components and those contain translations into individual
 languages. The component corresponds to one translatable file (for example
 :ref:`gettext` or :ref:`aresource`). The projects are there to help you
