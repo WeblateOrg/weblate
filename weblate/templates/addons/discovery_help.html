@@ -12,7 +12,7 @@
 </thead>
 <tbody>
 <tr>
-<td><code>(?P&lt;language&gt;[^/]*)/(?P&lt;component&gt;[^/]*)\.po</code></td>
+<td><code>(?P&lt;language&gt;[^/.]*)/(?P&lt;component&gt;[^/]*)\.po</code></td>
 <td>
     <code>cs/application.po</code><br />
     <code>cs/website.po</code><br />
@@ -22,7 +22,7 @@
 <td>{% trans "One folder per language containing translation files for components." %}</td>
 </tr>
 <tr>
-<td><code>locale/(?P&lt;language&gt;[^/]*)/LC_MESSAGES/(?P&lt;component&gt;[^/]*)\.po</code></td>
+<td><code>locale/(?P&lt;language&gt;[^/.]*)/LC_MESSAGES/(?P&lt;component&gt;[^/]*)\.po</code></td>
 <td>
     <code>locale/cs/LC_MESSAGES/application.po</code><br />
     <code>locale/cs/LC_MESSAGES/website.po</code><br />
@@ -32,7 +32,7 @@
 <td>{% trans "Usual structure for storing gettext PO files." %}</td>
 </tr>
 <tr>
-<td><code>src/locale/(?P&lt;component&gt;[^/]*)\.(?P&lt;language&gt;[^.]*)\.po</code></td>
+<td><code>src/locale/(?P&lt;component&gt;[^/]*)\.(?P&lt;language&gt;[^/.]*)\.po</code></td>
 <td>
     <code>src/locale/application.cs.po</code><br />
     <code>src/locale/website.cs.po</code><br />
@@ -42,7 +42,7 @@
 <td>{% trans "Using both component and language name within filename." %}</td>
 </tr>
 <tr>
-<td><code>locale/(?P&lt;language&gt;[^/]*)/(?P&lt;component&gt;[^/]*)/(?P=language)\.po</code></td>
+<td><code>locale/(?P&lt;language&gt;[^/.]*)/(?P&lt;component&gt;[^/]*)/(?P=language)\.po</code></td>
 <td>
     <code>locale/cs/application/cs.po</code><br />
     <code>locale/cs/website/cs.po</code><br />
@@ -52,7 +52,7 @@
 <td>{% trans "Using language in both path and filename." %}</td>
 </tr>
 <tr>
-<td><code>res/values-(?P&lt;language&gt;[^/]*)/strings-(?P&lt;component&gt;[^/]*)\.xml</code></td>
+<td><code>res/values-(?P&lt;language&gt;[^/.]*)/strings-(?P&lt;component&gt;[^/]*)\.xml</code></td>
 <td>
     <code>res/values-cs/strings-about.xml</code><br />
     <code>res/values-cs/strings-help.xml</code><br />
