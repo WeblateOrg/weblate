@@ -3,9 +3,49 @@
 
   {% with billing.plan as plan %}
   <table class="table">
-  <tr><th>{% trans "Current plan" %}</th><td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td><td><a href="https://weblate.org/hosting/" class="btn btn-primary btn-xs pull-right flip">{% trans "See other plans" %}</a></td></tr>
-  <tr><th>{% trans "Monthly price" %}</th><td>{{ plan.price }} EUR</td><td></td></tr>
-  <tr><th>{% trans "Yearly price" %}</th><td>{{ plan.yearly_price }} EUR</td><td></td></tr>
+  <tr>
+    <th>{% trans "Current plan" %}</th>
+    <td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td>
+    <td>
+        {% if not hide_buttons %}
+        <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary pull-right flip">
+        {% trans "Change plan" %}
+        </a>
+        {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th>{% trans "Monthly price" %}</th>
+    <td>
+        {{ plan.price }} EUR
+    </td>
+    <td>
+        {% if offer_hosting and plan.price and not hide_buttons %}
+        <form class="form-inline" method="post" action="{% url 'create-billing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="plan" value="{{ plan.id }}" />
+        <input type="hidden" name="billing" value="{{ billing.id }}" />
+        <input type="hidden" name="period" value="m" />
+        <input type="submit" value="{% trans "Pay" %}" class="btn btn-primary pull-right flip" />
+        </form>
+        {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th>{% trans "Yearly price" %}</th>
+    <td>{{ plan.yearly_price }} EUR</td>
+    <td>
+        {% if offer_hosting and plan.yearly_price and not hide_buttons %}
+        <form class="form-inline" method="post" action="{% url 'create-billing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="plan" value="{{ plan.id }}" />
+        <input type="hidden" name="billing" value="{{ billing.id }}" />
+        <input type="hidden" name="period" value="y" />
+        <input type="submit" value="{% trans "Pay" %}" class="btn btn-primary pull-right flip" />
+        </form>
+        {% endif %}
+    </td>
+  </tr>
   <tr><th>{% trans "Strings limit" %}</th>
   {% with plan.limit_strings as max and plan.display_limit_strings as total and billing.count_strings as used %}
   {% include "billing/used.html" %}

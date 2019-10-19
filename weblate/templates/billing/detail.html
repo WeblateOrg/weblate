@@ -7,17 +7,20 @@
 <div class="col-lg-6" id="billing-{{ billing.pk }}">
 <div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-primary{% endif %}">
   <div class="panel-heading">
-  {% if billing.payment.recurring %}
-  <span class="pull-right flip badge">{% trans "Recurring payment" %}</span>
-  {% endif %}
-  {% if not billing.is_active %}
-  <span class="pull-right flip badge">{% trans "Expired" %}</span>
-  {% elif not billing.paid %}
-  <span class="pull-right flip badge">{% trans "Past due date" %}</span>
-  {% elif not billing.in_limits %}
-  <span class="pull-right flip badge">{% trans "Exceeds limits" %}</span>
-  {% endif %}
-  <h4 class="panel-title">{% trans "Billing plan" %}</h4>
+  <h4 class="panel-title">
+    <a class="pull-right" href="https://weblate.org/hosting/"><i class="fa fa-question-circle"></i></a>
+    {% trans "Billing plan" %}
+    {% if billing.payment.recurring %}
+    <span class="badge">{% trans "Recurring payment" %}</span>
+    {% endif %}
+    {% if not billing.is_active %}
+    <span class="badge">{% trans "Expired" %}</span>
+    {% elif not billing.paid %}
+    <span class="badge">{% trans "Past due date" %}</span>
+    {% elif not billing.in_limits %}
+    <span class="badge">{% trans "Exceeds limits" %}</span>
+    {% endif %}
+  </h4>
   </div>
   {% include "billing/status.html" %}
 {% if billing.is_active %}
@@ -26,11 +29,7 @@
   {% csrf_token %}
   {% if payment_enabled %}
     <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
-    {% if billing.payment.recurring %}
-    {% trans "Change payment plan" %}
-    {% else %}
-    {% trans "Perform payment" %}
-    {% endif %}
+    {% trans "Change plan" %}
     </a>
   {% endif %}
   {% if billing.payment.recurring %}
