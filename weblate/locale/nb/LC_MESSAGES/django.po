@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-10-18 10:52+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -1618,7 +1618,7 @@ msgstr "Fra komponentliste"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1715,7 +1715,7 @@ msgstr "Automatiske gruppetilknytninger"
 msgid "Owners"
 msgstr "Eiere"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Plan for fakturering"
 
@@ -1731,7 +1731,7 @@ msgstr "Fakturaeiere"
 msgid "Trial"
 msgstr "Prøveperiode"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Utløpt"
@@ -1796,7 +1796,7 @@ msgstr "Antall strenger"
 msgid "N/A"
 msgstr "I/T"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Siste faktura"
 
@@ -4188,7 +4188,7 @@ msgstr "Oppsettsfeil"
 msgid "Add"
 msgstr "Legg til"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Legg til nytt oversettelsesprosjekt"
@@ -4278,59 +4278,58 @@ msgstr ""
 "Dette kan forårsakes av manglende abonnement, eller at noen av fakturaene "
 "dine har forfalt."
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr "Gjentagende betaling"
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 msgid "Past due date"
 msgstr "Forfalt"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
 msgstr "Oversiger grensene"
 
-#: weblate/templates/billing/detail.html:30
-msgid "Change payment plan"
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
+#, fuzzy
+#| msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Endre betalingsplan"
 
-#: weblate/templates/billing/detail.html:32
-msgid "Perform payment"
-msgstr "Utfør betaling"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr "Skru av gjentagende betaling"
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "For å oppheve betaling, må du først fjerne alle prosjektene."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
 msgstr "Opphev betalingsplan"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Faktura"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Fakturaperiode"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Fakturabeløp"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Last ned faktura"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Ikke tilgjengelig"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 msgid "No invoices found."
 msgstr "Ingen fakturaer funnet."
 
@@ -4343,40 +4342,43 @@ msgstr "Fakturering"
 msgid "No subscriptions or due payments."
 msgstr "Ingen abonnementer eller utestående betalinger."
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Nåværende plan"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", utløper %(expires)s"
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Se andre planer"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Månedlig pris"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Personvern"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Årspris"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Strengebegrensning"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Grense for antall språk"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Prosjektgrense"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 msgid "No projects currently assigned!"
 msgstr "Ingen tilknyttede prosjekter!"
 
@@ -10525,6 +10527,12 @@ msgstr "Kontoen din er fjernet."
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke å avvise oppsettfeil!"
+
+#~ msgid "Perform payment"
+#~ msgstr "Utfør betaling"
+
+#~ msgid "See other plans"
+#~ msgstr "Se andre planer"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"

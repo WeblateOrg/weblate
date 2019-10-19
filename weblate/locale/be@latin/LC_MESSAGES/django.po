@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-01-31 07:04+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -1810,7 +1810,7 @@ msgstr "Sa spisu kampanientaŭ"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1910,7 +1910,7 @@ msgstr "Aŭtamatyčnyja pryznačenni hrupy"
 msgid "Owners"
 msgstr "Ulasniki"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Taryfny plan"
 
@@ -1926,7 +1926,7 @@ msgstr "Ulasniki vyplataŭ"
 msgid "Trial"
 msgstr "Vyprabavaĺny"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Skončany"
@@ -1993,7 +1993,7 @@ msgstr "Koĺkasć radkoŭ"
 msgid "N/A"
 msgstr "N/D"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Apošni rachunak"
 
@@ -4558,7 +4558,7 @@ msgstr "Niaslušnaja kanfіhuracyja"
 msgid "Add"
 msgstr "Dadać"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Dadać novy prajekt pierakladu"
@@ -4648,61 +4648,60 @@ msgstr ""
 "Heta moža być vyklikana adsutnasciu padpiski abo praterminoŭkaj niekatorych "
 "z vašych rachunkaŭ abo pieravyšeńniem abmiežavanniaŭ."
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr "Rehuliarnaja aplata"
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 msgid "Past due date"
 msgstr "Praterminovanaja data"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
 msgstr "Pieravyšaje abmiežavanni"
 
-#: weblate/templates/billing/detail.html:30
-msgid "Change payment plan"
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
+#, fuzzy
+#| msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Zmianić plan aplat"
 
-#: weblate/templates/billing/detail.html:32
-msgid "Perform payment"
-msgstr "Zdziejśnić aplatu"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr "Spynić rehuliarnuju aplatu"
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 "Kab spynić vystaŭliennie rachunkaŭ, spačatku vy pavinny vydalić usie "
 "prajekty."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
 msgstr "Spynić taryfny plan"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Rachunki"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Pieryjad rachunka"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Suma rachunkа"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Spampavać rachunak"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Nie dastupnaje"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 msgid "No invoices found."
 msgstr "Rachunkaŭ nie znojdziena."
 
@@ -4715,40 +4714,43 @@ msgstr "Aplata"
 msgid "No subscriptions or due payments."
 msgstr ""
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Biahučy taryfny plan"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", minaje %(expires)s"
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Prahliedzieć inšyja taryfnyja plany"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Cana ŭ miesiac"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Pryvatnasć"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Cana ŭ hod"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Abmiežavannie radka"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Abmiežavannie moŭ"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Abmiežavannie prajektaŭ"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 msgid "No projects currently assigned!"
 msgstr "Niama pryznačanych prajektaŭ!"
 
@@ -11452,6 +11454,12 @@ msgstr "Ulіkovy zapіs vydalieny."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nie atrymalasia adchilić pamylku kanfihuracyi!"
+
+#~ msgid "Perform payment"
+#~ msgstr "Zdziejśnić aplatu"
+
+#~ msgid "See other plans"
+#~ msgstr "Prahliedzieć inšyja taryfnyja plany"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"

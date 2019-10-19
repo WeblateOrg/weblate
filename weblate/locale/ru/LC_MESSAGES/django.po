@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-09-29 08:08+0000\n"
 "Last-Translator: Juri Grabowski <hosted-weblate@jugra.de>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1645,7 +1645,7 @@ msgstr "Из списка компонентов"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1745,7 +1745,7 @@ msgstr "Автоматические прикрепления группы"
 msgid "Owners"
 msgstr "Владельцы"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Тарифный план"
 
@@ -1761,7 +1761,7 @@ msgstr "Владельцы счетов"
 msgid "Trial"
 msgstr "Пробный"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Истекший"
@@ -1826,7 +1826,7 @@ msgstr "Количество строк"
 msgid "N/A"
 msgstr "Н/Д"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Последний инвойс"
 
@@ -4349,7 +4349,7 @@ msgstr "Ошибки конфигурации"
 msgid "Add"
 msgstr "Добавить"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Добавить новый переводческий проект"
@@ -4439,59 +4439,58 @@ msgstr ""
 "Такое может случиться, если подписка отсутствует, а также если какие-то из "
 "выставленных счетов просрочены, или превышены лимиты."
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr "Регулярный платеж"
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 msgid "Past due date"
 msgstr "Просроченная дата"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
 msgstr "Превышает лимиты"
 
-#: weblate/templates/billing/detail.html:30
-msgid "Change payment plan"
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
+#, fuzzy
+#| msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Изменить платежный план"
 
-#: weblate/templates/billing/detail.html:32
-msgid "Perform payment"
-msgstr "Произвести оплату"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr "Прекратить регулярный платеж"
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Чтобы остановить биллинг, вы должны сначала удалить все проекты."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
 msgstr "Прекратить тарифный план"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Инвойсы"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Период инвойса"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Сумма инвойса"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Скачать инвойс"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Недоступно"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 msgid "No invoices found."
 msgstr "Инвойсов не найдено."
 
@@ -4504,40 +4503,43 @@ msgstr "Биллинг"
 msgid "No subscriptions or due payments."
 msgstr "Нет подписок или платежей."
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Текущий план"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", истекает %(expires)s"
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Просмотреть другие планы"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Цена за месяц"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Конфиденциальность"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Цена за год"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Лимит строк"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Лимит языков"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Лимит проектов"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 msgid "No projects currently assigned!"
 msgstr "В настоящее время нет прикрепленных проектов!"
 
@@ -10921,6 +10923,12 @@ msgstr "Ваша учетная запись была удалена."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Скрыть ошибку конфигурации не удалось!"
+
+#~ msgid "Perform payment"
+#~ msgstr "Произвести оплату"
+
+#~ msgid "See other plans"
+#~ msgstr "Просмотреть другие планы"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"

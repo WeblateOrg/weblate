@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1620,7 +1620,7 @@ msgstr "Dall'elenco componenti"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1714,7 +1714,7 @@ msgstr "Assegnazioni automatiche dei gruppi"
 msgid "Owners"
 msgstr "Proprietari"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Piano fatturazione"
 
@@ -1730,7 +1730,7 @@ msgstr "Destinatari fatturazione"
 msgid "Trial"
 msgstr "Prova"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Scaduto"
@@ -1795,7 +1795,7 @@ msgstr "Numero di stringhe"
 msgid "N/A"
 msgstr "N/D"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Ultima fattura"
 
@@ -4211,7 +4211,7 @@ msgstr "Errori di configurazione"
 msgid "Add"
 msgstr "Aggiungi"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Aggiungi nuovo progetto di traduzione"
@@ -4301,59 +4301,58 @@ msgstr ""
 "Ciò potrebbe essere causato dalla mancata iscrizione o da alcune delle tue "
 "fatture in ritardo o scadute."
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr "Pagamento ricorrente"
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 msgid "Past due date"
 msgstr "Data di scadenza superata"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
 msgstr "Supera i limiti"
 
-#: weblate/templates/billing/detail.html:30
-msgid "Change payment plan"
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
+#, fuzzy
+#| msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Modifica piano di pagamento"
 
-#: weblate/templates/billing/detail.html:32
-msgid "Perform payment"
-msgstr "Esegui il pagamento"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr "Annulla il pagamento ricorrente"
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Per terminare la fatturazione, devi prima cancellare tutti i progetti."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
 msgstr "Elimina il piano di fatturazione"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Fatture"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Periodo di fatturazione"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Importo di fatturazione"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Scarica la fattura"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Non disponibile"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 msgid "No invoices found."
 msgstr "Nessuna fattura trovata."
 
@@ -4366,40 +4365,43 @@ msgstr "Fatturazione"
 msgid "No subscriptions or due payments."
 msgstr "Nessun abbonamento o pagamenti dovuti."
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Piano attuale"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", scade il %(expires)s"
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Vedi altri piani"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Prezzo mensile"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Privacy"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Prezzo annuale"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Limite stringhe"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Limite lingue"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Limite progetti"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 msgid "No projects currently assigned!"
 msgstr "Nessun progetto attualmente assegnato!"
 
@@ -10585,6 +10587,12 @@ msgstr "Il backup è stato attivato"
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossibile eliminare l'errore di configurazione!"
+
+#~ msgid "Perform payment"
+#~ msgstr "Esegui il pagamento"
+
+#~ msgid "See other plans"
+#~ msgstr "Vedi altri piani"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"

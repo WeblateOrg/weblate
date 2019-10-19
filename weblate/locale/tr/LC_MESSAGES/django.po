@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-10-13 06:36+0000\n"
 "Last-Translator: Oguz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -1598,7 +1598,7 @@ msgstr "Bileşen listesinden"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1692,7 +1692,7 @@ msgstr "Kendiliğinden grup atamaları"
 msgid "Owners"
 msgstr "Sahipleri"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Faturalandırma planı"
 
@@ -1708,7 +1708,7 @@ msgstr "Faturalandırma sahipleri"
 msgid "Trial"
 msgstr "Deneme"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Süresi dolmuş"
@@ -1773,7 +1773,7 @@ msgstr "Satır sayısı"
 msgid "N/A"
 msgstr "YOK"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Son fatura"
 
@@ -4162,7 +4162,7 @@ msgstr "Yapılandırma hataları"
 msgid "Add"
 msgstr "Ekle"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Yeni çeviri projesi ekle"
@@ -4252,59 +4252,58 @@ msgstr ""
 "Bu eksik abonelikten kaynaklanabilir veya faturalarınızın bir kısmı vadesi "
 "geçmiş veya üst sınırlar geçmiştir."
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr "Yinelenen ödeme"
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 msgid "Past due date"
 msgstr "Vadesi geçmiş tarih"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
 msgstr "Sınırları aşıyor"
 
-#: weblate/templates/billing/detail.html:30
-msgid "Change payment plan"
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
+#, fuzzy
+#| msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Ödeme planını değiştir"
 
-#: weblate/templates/billing/detail.html:32
-msgid "Perform payment"
-msgstr "Ödeme yapmak"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr "Yinelenen ödemeyi sonlandır"
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr "Faturalamayı sonlandırmak için önce tüm projeleri kaldırmanız gerekir."
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
 msgstr "Faturalandırma planını sonlandır"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Faturalar"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Fatura dönemi"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Fatura tutarı"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Faturayı indir"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Yok"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 msgid "No invoices found."
 msgstr "Fatura bulunmadı."
 
@@ -4317,40 +4316,43 @@ msgstr "Faturalama"
 msgid "No subscriptions or due payments."
 msgstr "Abonelik veya vadesi gelen ödemeler yok."
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Mevcut plan"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", %(expires)s sonunda bitiyor"
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Diğer planlara bakın"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Aylık fiyat"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Gizlilik"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Yıllık fiyat"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Satır sınırı"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Dillerin sınırı"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Proje sınırı"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 msgid "No projects currently assigned!"
 msgstr "Şu anda ilişkilendirilmiş proje yok!"
 
@@ -10465,6 +10467,12 @@ msgstr "Yedekleme tetiklendi"
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
 msgstr "Yapılandırma hatası iptal edilemedi!"
+
+#~ msgid "Perform payment"
+#~ msgstr "Ödeme yapmak"
+
+#~ msgid "See other plans"
+#~ msgstr "Diğer planlara bakın"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"

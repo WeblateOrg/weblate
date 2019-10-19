@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-19 11:32+0000\n"
+"POT-Creation-Date: 2019-10-19 12:12+0000\n"
 "PO-Revision-Date: 2019-09-18 19:18+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -1879,7 +1879,7 @@ msgstr "Daftar komponen"
 
 #: weblate/auth/models.py:136 weblate/billing/admin.py:74
 #: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:118 weblate/templates/billing/status.html:26
+#: weblate/templates/base.html:118 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:154 weblate/trans/views/basic.py:80
 msgid "Projects"
@@ -1988,7 +1988,7 @@ msgstr "Penetapan Grup Otomatis"
 msgid "Owners"
 msgstr "Pemilik"
 
-#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:20
+#: weblate/billing/models.py:133 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Plan penagihan"
 
@@ -2008,7 +2008,7 @@ msgstr "Plan penagihan"
 msgid "Trial"
 msgstr "Percobaan"
 
-#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:14
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:31
 msgid "Expired"
 msgstr "Kadaluarsa"
@@ -2081,7 +2081,7 @@ msgstr "Jumlah string"
 msgid "N/A"
 msgstr "Tidak Ada"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:19
+#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Tagihan terakhir"
 
@@ -4743,7 +4743,7 @@ msgstr "Kesalahan konfigurasi"
 msgid "Add"
 msgstr "Tambahkan"
 
-#: weblate/templates/base.html:175 weblate/templates/billing/status.html:34
+#: weblate/templates/base.html:175 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 #, fuzzy
 #| msgid "Add new translation string"
@@ -4838,69 +4838,64 @@ msgid ""
 "past due date or over limits."
 msgstr ""
 
-#: weblate/templates/billing/detail.html:11
+#: weblate/templates/billing/detail.html:14
 msgid "Recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:16
+#: weblate/templates/billing/detail.html:19
 #, fuzzy
 #| msgid "Start date"
 msgid "Past due date"
 msgstr "Tanggal mulai"
 
-#: weblate/templates/billing/detail.html:18
+#: weblate/templates/billing/detail.html:21
 #, fuzzy
 #| msgid "In limits"
 msgid "Exceeds limits"
 msgstr "Dalam batasan"
 
-#: weblate/templates/billing/detail.html:30
+#: weblate/templates/billing/detail.html:32
+#: weblate/templates/billing/status.html:12
 #, fuzzy
 #| msgid "Change"
-msgid "Change payment plan"
+msgid "Change plan"
 msgstr "Ubah"
 
-#: weblate/templates/billing/detail.html:32
-#, fuzzy
-#| msgid "Performance"
-msgid "Perform payment"
-msgstr "Kinerja"
-
-#: weblate/templates/billing/detail.html:37
+#: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:41
+#: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
 msgstr ""
 
-#: weblate/templates/billing/detail.html:44
+#: weblate/templates/billing/detail.html:43
 #, fuzzy
 #| msgid "Billing plan"
 msgid "Terminate billing plan"
 msgstr "Plan penagihan"
 
-#: weblate/templates/billing/detail.html:52
+#: weblate/templates/billing/detail.html:51
 msgid "Invoices"
 msgstr "Tagihan"
 
-#: weblate/templates/billing/detail.html:56
+#: weblate/templates/billing/detail.html:55
 msgid "Invoice period"
 msgstr "Periode tagihan"
 
-#: weblate/templates/billing/detail.html:57
+#: weblate/templates/billing/detail.html:56
 msgid "Invoice amount"
 msgstr "Jumlah tagihan"
 
-#: weblate/templates/billing/detail.html:58
+#: weblate/templates/billing/detail.html:57
 msgid "Download invoice"
 msgstr "Unduh tagihan"
 
-#: weblate/templates/billing/detail.html:72
+#: weblate/templates/billing/detail.html:71
 msgid "Not available"
 msgstr "Tidak tersedia"
 
-#: weblate/templates/billing/detail.html:77
+#: weblate/templates/billing/detail.html:76
 #, fuzzy
 #| msgid "No invoices found!"
 msgid "No invoices found."
@@ -4915,40 +4910,43 @@ msgstr "Penagihan"
 msgid "No subscriptions or due payments."
 msgstr ""
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:7
 msgid "Current plan"
 msgstr "Plan saat ini"
 
-#: weblate/templates/billing/status.html:6
+#: weblate/templates/billing/status.html:8
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ""
 
-#: weblate/templates/billing/status.html:6
-msgid "See other plans"
-msgstr "Lihat plan lainnya"
-
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:18
 msgid "Monthly price"
 msgstr "Biaya bulanan"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:29
+#: weblate/templates/billing/status.html:44
+#, fuzzy
+#| msgid "Privacy"
+msgid "Pay"
+msgstr "Privasi"
+
+#: weblate/templates/billing/status.html:35
 msgid "Yearly price"
 msgstr "Biaya tahunan"
 
-#: weblate/templates/billing/status.html:9
+#: weblate/templates/billing/status.html:49
 msgid "Strings limit"
 msgstr "Batasan string"
 
-#: weblate/templates/billing/status.html:14
+#: weblate/templates/billing/status.html:54
 msgid "Languages limit"
 msgstr "Batasan bahasa"
 
-#: weblate/templates/billing/status.html:21
+#: weblate/templates/billing/status.html:61
 msgid "Projects limit"
 msgstr "Batasan proyek"
 
-#: weblate/templates/billing/status.html:31
+#: weblate/templates/billing/status.html:71
 #, fuzzy
 #| msgid "No screenshot currently associated!"
 msgid "No projects currently assigned!"
@@ -11751,6 +11749,14 @@ msgstr "Akun Anda telah dihapus."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Gagal menghilangkan kesalahan konfigurasi!"
+
+#, fuzzy
+#~| msgid "Performance"
+#~ msgid "Perform payment"
+#~ msgstr "Kinerja"
+
+#~ msgid "See other plans"
+#~ msgstr "Lihat plan lainnya"
 
 #, fuzzy
 #~| msgid "Strings with any failing checks"
