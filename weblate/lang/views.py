@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import redirect, render
