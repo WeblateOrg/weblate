@@ -47,6 +47,9 @@ Ensure that all components within one project have translation to same
 languages. It will create empty translations for languages which are not
 present.
 
+Missing languages are checked once in a 24 hours and when new language is being
+added in Weblate.
+
 Unlike most others, this addon operates on whole project.
 
 .. hint::
