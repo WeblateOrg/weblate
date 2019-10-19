@@ -86,6 +86,15 @@ Checks that trailing spaces are replicated between both source and translation.
 Trailing space is usually utilized to space out neighbouring elements, so
 removing it might break layout.
 
+.. _check-double-space:
+
+Double space
+~~~~~~~~~~~~~~
+
+Checks that double space is present in translation to avoid false positives on other space-related checks.
+
+Check is false when double space is found in source meaning double space is intentional.
+
 .. _check-end-stop:
 
 Trailing stop
