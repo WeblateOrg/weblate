@@ -215,7 +215,7 @@ del {
 {% if translation %}
         <div class="box">
             <h1>
-                {% trans "Translation Information" %}
+                {% trans "Translation Info" %}
             </h1>
             <div class="line">
                 <div class="line-left">{% get_filter_name "all" %}</div>
@@ -297,16 +297,16 @@ del {
             </a>
         </div>
         <div class="row">
-			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the continuous localization system" %}</a></div>
+			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the copylefted libre continuous localization system" %}</a></div>
             <div class="footer-right">
                 <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
                 {% if unsubscribe_nonce %}
-                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Disable this notification" %}</a>
+                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
                 {% endif %}
             </div>
 		</div>
         <div class="row">
-            {% comment %}This avoids Gmail hiding footer as it finds unique content here{% endcomment %}
+            {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
             <span style="opacity: 0">Generated on {% now "DATETIME_FORMAT" %}</span>
         </div>
     </div>
