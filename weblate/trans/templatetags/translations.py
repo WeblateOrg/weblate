@@ -588,33 +588,33 @@ def get_state_flags(unit):
 
     if unit.fuzzy:
         flags.append((
-            _('Message needs edit'),
+            _('Needs editing'),
             'question-circle text-danger'
         ))
     elif not unit.translated:
         flags.append((
-            _('Message is not translated'),
+            _('Untranslated'),
             'times-circle text-danger'
         ))
     elif unit.has_failing_check:
         flags.append((
-            _('Message has failing checks'),
+            _('Fails checks'),
             'exclamation-circle text-warning'
         ))
     elif unit.approved:
         flags.append((
-            _('Message is approved'),
+            _('Approved'),
             'check-circle text-success'
         ))
     elif unit.translated:
         flags.append((
-            _('Message is translated'),
+            _('Translated'),
             'check-circle text-primary'
         ))
 
     if unit.has_comment:
         flags.append((
-            _('Message has comments'),
+            _('Commented'),
             'comment text-info'
         ))
 
