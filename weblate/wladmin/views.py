@@ -94,7 +94,7 @@ def tools(request):
                     messages.success(request, _('Test e-mail sent.'))
                 except Exception as error:
                     report_error(error, request)
-                    messages.error(request, _('Failed to send test e-mail: %s') % error)
+                    messages.error(request, _('Could not send test e-mail: %s') % error)
 
     return render(
         request,
@@ -115,7 +115,7 @@ def activate(request):
         except Exception as error:
             report_error(error, request)
             messages.error(
-                request, _('The activation failed. Please check your activation token.')
+                request, _('Could not activate your account. Please ensure your activation token is correct.')
             )
     else:
         show_form_errors(request, form)
@@ -153,7 +153,7 @@ def backups(request):
             return redirect('manage-backups')
         elif 'trigger' in request.POST:
             backup_service.delay(pk=request.POST['service'])
-            messages.success(request, _('Backup has been triggered'))
+            messages.success(request, _('Backup process triggered'))
             return redirect('manage-backups')
 
     context = {
