@@ -5,6 +5,7 @@ Not yet released.
 
 * Remove some not needed files from backups.
 * Fixed potential crash in reports.
+* Fixed cross database migration failure.
 
 Weblate 3.9
 -----------
