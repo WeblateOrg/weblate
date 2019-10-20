@@ -108,9 +108,9 @@ class Notification(object):
     def get_name(cls):
         return force_text(cls.__name__)
 
-    def filter_subscriptions(self, project, component, translation, users,
-                             lang_filter):
+    def filter_subscriptions(self, project, component, translation, users, lang_filter):
         from weblate.accounts.models import Subscription
+
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
             result = result.filter(user_id__in=users)
@@ -120,15 +120,11 @@ class Notification(object):
         if project:
             query |= Q(project=project)
         if lang_filter:
-            result = result.filter(
-                user__profile__languages=translation.language
-            )
-        return result.filter(
-            query
-        ).order_by(
-            'user', '-scope'
-        ).select_related(
-            'user__profile'
+            result = result.filter(user__profile__languages=translation.language)
+        return (
+            result.filter(query)
+            .order_by('user', '-scope')
+            .select_related('user__profile')
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
@@ -136,7 +132,7 @@ class Notification(object):
         cache_key = (
             translation.language_id if lang_filter else lang_filter,
             component.pk if component else None,
-            project.pk if project else None
+            project.pk if project else None,
         )
         if users is not None:
             users.sort()
@@ -148,12 +144,17 @@ class Notification(object):
         return self.subscription_cache[cache_key]
 
     def has_required_attrs(self, change):
-        return (
-            self.required_attr and getattr(change, self.required_attr) is None
-        )
+        return self.required_attr and getattr(change, self.required_attr) is None
 
-    def get_users(self, frequency, change=None, project=None, component=None,
-                  translation=None, users=None):
+    def get_users(
+        self,
+        frequency,
+        change=None,
+        project=None,
+        component=None,
+        translation=None,
+        users=None,
+    ):
         if self.has_required_attrs(change):
             return
         if change is not None:
@@ -169,13 +170,16 @@ class Notification(object):
             # Skip lower priority subscription and own changes
             if change is not None and user in (last_user, change.user):
                 continue
-            if (subscription.scope == SCOPE_ADMIN
-                    and not user.has_perm('project.edit', project)):
+            if subscription.scope == SCOPE_ADMIN and not user.has_perm(
+                'project.edit', project
+            ):
                 continue
-            if (subscription.scope == SCOPE_DEFAULT
-                    and not self.ignore_watched
-                    and project is not None
-                    and not user.profile.watched.filter(pk=project.id).exists()):
+            if (
+                subscription.scope == SCOPE_DEFAULT
+                and not self.ignore_watched
+                and project is not None
+                and not user.profile.watched.filter(pk=project.id).exists()
+            ):
                 continue
             last_user = user
             if frequency == FREQ_INSTANT and self.should_skip(user, change):
@@ -185,18 +189,14 @@ class Notification(object):
                 yield last_user
 
     def send(self, address, subject, body, headers):
-        self.outgoing.append({
-            'address': address,
-            'subject': subject,
-            'body': body,
-            'headers': headers,
-        })
+        self.outgoing.append(
+            {'address': address, 'subject': subject, 'body': body, 'headers': headers}
+        )
 
     def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context"""
         template_name = 'mail/{}{}'.format(
-            self.digest_template if digest else self.template_name,
-            suffix
+            self.digest_template if digest else self.template_name, suffix
         )
         return render_to_string(template_name, context).strip()
 
@@ -217,10 +217,19 @@ class Notification(object):
             result['change'] = change
             # Extract change attributes
             attribs = (
-                'unit', 'translation', 'component', 'project', 'dictionary',
-                'comment', 'suggestion', 'whiteboard', 'alert',
+                'unit',
+                'translation',
+                'component',
+                'project',
+                'dictionary',
+                'comment',
+                'suggestion',
+                'whiteboard',
+                'alert',
                 'user',
-                'target', 'old', 'details',
+                'target',
+                'old',
+                'details',
             )
             for attrib in attribs:
                 result[attrib] = getattr(change, attrib)
@@ -236,7 +245,7 @@ class Notification(object):
             'X-AutoGenerated': 'yes',
             'Precedence': 'bulk',
             'X-Mailer': 'Weblate {0}'.format(VERSION),
-            'X-Weblate-Notification': self.get_name()
+            'X-Weblate-Notification': self.get_name(),
         }
 
         # Set From header to contain user full name
@@ -254,7 +263,7 @@ class Notification(object):
                 unit.translation.component.project.slug,
                 unit.translation.component.slug,
                 unit.translation.language.code,
-                unit.id
+                unit.id,
             )
         if references is not None:
             references = '<{0}@{1}>'.format(references, get_site_domain())
@@ -262,15 +271,18 @@ class Notification(object):
             headers['References'] = references
         return headers
 
-    def send_immediate(self, language, email, change, extracontext=None,
-                       subscription=None):
+    def send_immediate(
+        self, language, email, change, extracontext=None, subscription=None
+    ):
         with override('en' if language is None else language):
             context = self.get_context(change, subscription, extracontext)
             subject = self.render_template('_subject.txt', context)
             context['subject'] = subject
             LOGGER.info(
                 'sending notification %s on %s to %s',
-                self.get_name(), context['component'], email,
+                self.get_name(),
+                context['component'],
+                email,
             )
             self.send(
                 email,
@@ -286,7 +298,9 @@ class Notification(object):
         for user in self.get_users(FREQ_INSTANT, change):
             if change.project is None or user.can_access_project(change.project):
                 self.send_immediate(
-                    user.profile.language, user.email, change,
+                    user.profile.language,
+                    user.email,
+                    change,
                     subscription=user.current_subscription,
                 )
 
@@ -294,13 +308,13 @@ class Notification(object):
         with override('en' if language is None else language):
             context = self.get_context(subscription=subscription)
             context['changes'] = changes
-            subject = self.render_template(
-                '_subject.txt', context, digest=True
-            )
+            subject = self.render_template('_subject.txt', context, digest=True)
             context['subject'] = subject
             LOGGER.info(
                 'sending digest notification %s on %d changes to %s',
-                self.get_name(), len(changes), email,
+                self.get_name(),
+                len(changes),
+                email,
             )
             self.send(
                 email,
@@ -319,14 +333,16 @@ class Notification(object):
                     users[user.pk] = user
         for user in users.values():
             self.send_digest(
-                user.profile.language, user.email, notifications[user.pk],
+                user.profile.language,
+                user.email,
+                notifications[user.pk],
                 subscription=user.current_subscription,
             )
 
     def filter_changes(self, **kwargs):
         return Change.objects.filter(
             action__in=self.actions,
-            timestamp__gte=timezone.now() - relativedelta(**kwargs)
+            timestamp__gte=timezone.now() - relativedelta(**kwargs),
         )
 
     def notify_daily(self):
@@ -397,8 +413,15 @@ class LastAuthorCommentNotificaton(Notification):
         notify = MentionCommentNotificaton([])
         return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
 
-    def get_users(self, frequency, change=None, project=None, component=None,
-                  translation=None, users=None):
+    def get_users(
+        self,
+        frequency,
+        change=None,
+        project=None,
+        component=None,
+        translation=None,
+        users=None,
+    ):
         last_author = change.unit.get_last_content_change(silent=True)[0]
         if last_author.is_anonymous:
             users = []
@@ -421,8 +444,15 @@ class MentionCommentNotificaton(Notification):
         notify = NewCommentNotificaton([])
         return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
 
-    def get_users(self, frequency, change=None, project=None, component=None,
-                  translation=None, users=None):
+    def get_users(
+        self,
+        frequency,
+        change=None,
+        project=None,
+        component=None,
+        translation=None,
+        users=None,
+    ):
         if self.has_required_attrs(change):
             return []
         users = [user.pk for user in change.comment.get_mentions()]
@@ -470,12 +500,8 @@ class NewTranslationNotificaton(Notification):
             change, subscription, extracontext
         )
         if change:
-            context['language'] = Language.objects.get(
-                code=change.details['language']
-            )
-            context['was_added'] = (
-                change.action == Change.ACTION_ADDED_LANGUAGE
-            )
+            context['language'] = Language.objects.get(code=change.details['language'])
+            context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE
         return context
 
 
@@ -532,7 +558,10 @@ class SummaryNotification(Notification):
             }
             for user in self.get_users(frequency, **context):
                 self.send_immediate(
-                    user.profile.language, user.email, None, context,
+                    user.profile.language,
+                    user.email,
+                    None,
+                    context,
                     subscription=user.current_subscription,
                 )
 
@@ -560,18 +589,11 @@ def get_notification_emails(language, email, notification, context=None, info=No
     context = context or {}
     headers = {}
 
-    LOGGER.info(
-        'sending notification %s on %s to %s',
-        notification,
-        info,
-        email
-    )
+    LOGGER.info('sending notification %s on %s to %s', notification, info, email)
 
     with override('en' if language is None else language):
         # Template name
-        context['subject_template'] = 'mail/{0}_subject.txt'.format(
-            notification
-        )
+        context['subject_template'] = 'mail/{0}_subject.txt'.format(notification)
         context['LANGUAGE_CODE'] = get_language()
         context['LANGUAGE_BIDI'] = get_language_bidi()
 
@@ -580,17 +602,11 @@ def get_notification_emails(language, email, notification, context=None, info=No
         context['site_title'] = settings.SITE_TITLE
 
         # Render subject
-        subject = render_to_string(
-            context['subject_template'],
-            context
-        ).strip()
+        subject = render_to_string(context['subject_template'], context).strip()
         context['subject'] = subject
 
         # Render body
-        body = render_to_string(
-            'mail/{0}.html'.format(notification),
-            context
-        )
+        body = render_to_string('mail/{0}.html'.format(notification), context)
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
@@ -606,20 +622,12 @@ def get_notification_emails(language, email, notification, context=None, info=No
 
         # Return the mail content
         return [
-            {
-                'subject': subject,
-                'body': body,
-                'address': email,
-                'headers': headers,
-            }
+            {'subject': subject, 'body': body, 'address': email, 'headers': headers}
             for email in emails
         ]
 
 
-def send_notification_email(language, email, notification, context=None,
-                            info=None):
+def send_notification_email(language, email, notification, context=None, info=None):
     """Render and sends notification email."""
-    emails = get_notification_emails(
-        language, email, notification, context, info
-    )
+    emails = get_notification_emails(language, email, notification, context, info)
     send_mails.delay(emails)
