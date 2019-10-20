@@ -61,11 +61,11 @@ Avoiding merge conflicts
 ++++++++++++++++++++++++
 
 The merge conflicts from Weblate arise when same file was changed both in
-Weblate and outside it. There are two appraoches how to deal with that - avoid
+Weblate and outside it. There are two approaches to deal with that - avoid
 edits outside Weblate or integrate Weblate into your updating process, so that
 it flushes changes prior to updating the files outside Weblate.
 
-The first approach is easy with monoligual files - you can add new strings
+The first approach is easy with monolingual files - you can add new strings
 within Weblate and leave whole editing of the files there. For bilingual files,
 there is usually some kind of message extraction process to generate
 translatable files from the source code. In some cases this can be split into
@@ -73,7 +73,7 @@ two parts - one for the extraction generates template (for example gettext POT
 is generated using :program:`xgettext`) and then further process merges it into
 actual translations (the gettext PO files are updated using
 :program:`msgmerge`). You can perform the second step within Weblate and it
-will make sure that all pending changes are included prior this operation.
+will make sure that all pending changes are included prior to this operation.
 
 The second approach can be achieved by using :ref:`api` to force Weblate to
 push all pending changes and lock the translation while you are doing changes
