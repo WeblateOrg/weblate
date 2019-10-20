@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-19 12:12+0000\n"
-"PO-Revision-Date: 2019-10-18 10:52+0000\n"
+"PO-Revision-Date: 2019-10-21 15:10+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -822,16 +822,12 @@ msgid "Language consistency"
 msgstr "Språkkonsistens"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Dette tillegget forsikrer at alle komponenter innen ett prosjekt har "
-"oversettelser til de samme språkene."
+"Forsikrer at alle komponenter innen ett prosjekt har oversettelser til de "
+"samme språkene."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1181,19 +1177,14 @@ msgid "Update RESX files"
 msgstr "Oppdater RESX-filer"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. It "
-#| "removes stale translation keys and adds new ones with source string as a "
-#| "translation."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
 "Oppdater alle oversettelsesfiler for å stemme overens med den "
-"enkeltspråkelige basisfila. Det fjerner ubrukte oversettelsesnøkler, og "
-"legger til nye med kildestreng som oversettelse."
+"enkeltspråkelige basisfila oppstrøms. Ubrukte strenger fjernes, og nye "
+"legges til som kopier av kildestrengen."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1664,8 +1655,6 @@ msgid "Superuser status"
 msgstr "Superbrukerstatus"
 
 #: weblate/auth/models.py:333
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
 msgstr "Bruker har alle mulige tilganger."
 
@@ -2393,10 +2382,8 @@ msgid "XLIFF translation file"
 msgstr "XLIFF-oversettelsesfil"
 
 #: weblate/formats/ttkit.py:810
-#, fuzzy
-#| msgid "XLIFF Translation File with PO extensions"
 msgid "XLIFF translation file with PO extensions"
-msgstr "XLIFF-oversettelsesfil med PO-forlengelser"
+msgstr "XLIFF-oversettelsesfil med PO-filetternavn"
 
 #: weblate/formats/ttkit.py:837
 msgid "iOS strings"
@@ -2729,7 +2716,7 @@ msgstr "Fjern alle oversettelser som bruker dette språket først."
 #, fuzzy, python-format
 #| msgid "Language overrides"
 msgid "Language %s removed."
-msgstr "Språk %s fjernet."
+msgstr "Språket %s er fjernet."
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
@@ -3489,12 +3476,12 @@ msgstr ""
 "vertstjening:"
 
 #: weblate/templates/accounts/hosting.html:22
-#, fuzzy
-#| msgid "Translated content has to be released under libre software license."
 msgid ""
 "Translated content has to be released under a license approved by OSI or "
 "recognized as libre by FSF."
-msgstr "Oversatt innhold må være sluppet under en fri programvarelisens."
+msgstr ""
+"Oversatt innhold må være sluppet under en fri programvarelisens godkjent av "
+"OSI eller anerkjent som fri av FSF."
 
 #: weblate/templates/accounts/hosting.html:23
 msgid ""
@@ -4292,10 +4279,8 @@ msgstr "Oversiger grensene"
 
 #: weblate/templates/billing/detail.html:32
 #: weblate/templates/billing/status.html:12
-#, fuzzy
-#| msgid "Change payment plan"
 msgid "Change plan"
-msgstr "Endre betalingsplan"
+msgstr "Endre plan"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
@@ -4357,10 +4342,8 @@ msgstr "Månedlig pris"
 
 #: weblate/templates/billing/status.html:29
 #: weblate/templates/billing/status.html:44
-#, fuzzy
-#| msgid "Privacy"
 msgid "Pay"
-msgstr "Personvern"
+msgstr "Betal"
 
 #: weblate/templates/billing/status.html:35
 msgid "Yearly price"
@@ -4566,10 +4549,8 @@ msgstr "Oversettelsesrapporter"
 
 #: weblate/templates/component.html:51 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:27
-#, fuzzy
-#| msgid "Location"
 msgid "Localization guide"
-msgstr "Plassering"
+msgstr "Lokaliseringsguide"
 
 #: weblate/templates/component.html:64 weblate/templates/dashboard/user.html:43
 #: weblate/templates/language-project.html:39
@@ -6037,10 +6018,10 @@ msgid "Parse error in %(component)s"
 msgstr "Analysefeil i %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:7
-#, fuzzy, python-format
+#, python-format
 msgid "There is %(count)s string with suggestion in %(component)s."
 msgid_plural "There are %(count)s strings with suggestions in %(component)s."
-msgstr[0] "Det er %(count)s streng med forslag i %(component)s."
+msgstr[0] "Det er én streng med forslag i %(component)s."
 msgstr[1] "Det er %(count)s strenger med forslag i %(component)s."
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:3
@@ -6769,17 +6750,15 @@ msgid "Repository branch"
 msgstr "Kodelagergren"
 
 #: weblate/templates/snippets/git-info.html:25
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "Siste eksterne innsendelse:"
+msgstr "Siste eksterne innsendelse"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:32
 #, fuzzy, python-format
 #| msgid "Authored by %(author)s on %(date)s"
 msgid "%(author)s authored %(date)s"
-msgstr "Forfattet av %(author)s den %(date)s"
+msgstr "%(author)s, forfatted %(date)s"
 
 #: weblate/templates/snippets/git-info.html:40
 msgid "Repository containing Weblate translations"
@@ -6877,8 +6856,6 @@ msgid "Pending string"
 msgstr "Ventende streng"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
 msgstr "Strengen har forslag"
 
@@ -6887,15 +6864,10 @@ msgid "String has comment"
 msgstr "Strengen er kommentert"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Strenger med kontroller som feiler"
+msgstr "Streng med feilende kontroller"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
 msgstr "Målspråk for streng"
 
@@ -6925,10 +6897,8 @@ msgid "Query examples"
 msgstr "Spørringseksempler"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations changed by other users"
 msgid "Review strings changed by other users"
-msgstr "Gå igjennom oversettelser endret av andre brukere"
+msgstr "Gå over strenger endret av andre brukere"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -8792,10 +8762,8 @@ msgid "Invited user"
 msgstr "Inviterte bruker"
 
 #: weblate/trans/models/change.py:272
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Received repository notification"
-msgstr "Mottok kodelagersmerknad"
+msgstr "Mottok kodelagermerknad"
 
 #: weblate/trans/models/change.py:379
 #, python-format
@@ -10036,10 +10004,8 @@ msgid "Invalid search string!"
 msgstr "Ugyldig søkestreng!"
 
 #: weblate/trans/views/edit.py:554
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation in progress"
-msgstr "Automatisk oversettelseskilde"
+msgstr "Automatisk oversettelse pågår"
 
 #: weblate/trans/views/edit.py:578
 msgid "Posted new comment"
@@ -10113,10 +10079,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Alle kodelagre har blitt tømt."
 
 #: weblate/trans/views/guide.py:81
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control integration"
-msgstr "Versjonskontrollsystemsinnstillinger"
+msgstr "Versjonskontrollintegrasjon"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -10144,7 +10108,7 @@ msgstr "Gjør oversettelsene dine tilgjengelig under en fri lisens."
 #, fuzzy
 #| msgid "Merges comments into the translation."
 msgid "Provide context to the translators"
-msgstr "Fletter kommentarene inn i oversettelsen."
+msgstr "Angi bindeleddsinfo for oversettere"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
@@ -10154,7 +10118,7 @@ msgstr "Legg til skjermavbildninger for å vise hvor strenger blir brukt."
 #, fuzzy
 #| msgid "Duplicated string for translation."
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Duplisert streng å oversette."
+msgstr "Bruk flagg for å indikere spesielle strenger i din oversettelse."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
@@ -10448,9 +10412,8 @@ msgid "Backup performed"
 msgstr "Sikkerhetskopi utført"
 
 #: weblate/wladmin/models.py:197
-#, fuzzy
 msgid "Backup failed"
-msgstr "Sikkerhetskopi utført"
+msgstr "Sikkerhetskopiering mislyktes"
 
 #: weblate/wladmin/models.py:198
 msgid "Deleted the oldest backups"
@@ -10504,10 +10467,9 @@ msgid "Test e-mail sent."
 msgstr "Test-e-post sendt."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Failed to send test e-mail: %s"
-msgstr "Kunne ikke generere nøkkel: %s"
+msgstr "Kunne ikke utføre testforsendelse per e-post: %s"
 
 #: weblate/wladmin/views.py:114
 msgid "Activation completed."
@@ -10519,10 +10481,8 @@ msgid "The activation failed. Please check your activation token."
 msgstr "Aktivering mislyktes. Sjekk ditt aktiveringssymbol."
 
 #: weblate/wladmin/views.py:156
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup has been triggered"
-msgstr "Kontoen din er fjernet."
+msgstr "Sikkerhetskopiering har blitt utløst"
 
 #: weblate/wladmin/views.py:178
 msgid "Could not dismiss the configuration error!"
