@@ -8,12 +8,17 @@ from django.db import migrations
 def create_profiles(apps, schema_editor):
     Profile = apps.get_model("accounts", "Profile")
     User = apps.get_model("weblate_auth", "User")
-    for user in User.objects.iterator():
-        Profile.objects.get_or_create(user=user)
+    db_alias = schema_editor.connection.alias
+    for user in User.objects.using(db_alias).iterator():
+        Profile.objects.using(db_alias).get_or_create(user=user)
 
 
 class Migration(migrations.Migration):
 
     dependencies = [("accounts", "0003_profile_translate_mode")]
 
-    operations = [migrations.RunPython(create_profiles, reverse_code=create_profiles)]
+    operations = [
+        migrations.RunPython(
+            create_profiles, reverse_code=create_profiles, elidable=True
+        )
+    ]

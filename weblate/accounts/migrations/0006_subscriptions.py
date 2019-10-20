@@ -21,7 +21,8 @@ MAPPING = [
 
 def migrate_subscriptions(apps, schema_editor):
     Profile = apps.get_model("accounts", "Profile")
-    profiles = Profile.objects.all().select_related("user")
+    db_alias = schema_editor.connection.alias
+    profiles = Profile.objects.using(db_alias).all().select_related("user")
     profiles = profiles.exclude(user__username=settings.ANONYMOUS_USER_NAME)
     for profile in profiles:
         user = profile.user
@@ -41,5 +42,7 @@ class Migration(migrations.Migration):
     dependencies = [("accounts", "0005_auto_20190331_2126")]
 
     operations = [
-        migrations.RunPython(migrate_subscriptions, migrations.RunPython.noop)
+        migrations.RunPython(
+            migrate_subscriptions, migrations.RunPython.noop, elidable=True
+        )
     ]

@@ -7,7 +7,8 @@ import weblate.utils.render
 
 def migrate_editor(apps, schema_editor):
     Profile = apps.get_model("accounts", "Profile")
-    for profile in Profile.objects.exclude(editor_link=""):
+    db_alias = schema_editor.connection.alias
+    for profile in Profile.objects.using(db_alias).exclude(editor_link=""):
         profile.editor_link = weblate.utils.render.migrate_repoweb(profile.editor_link)
         profile.save()
 
@@ -29,5 +30,5 @@ class Migration(migrations.Migration):
                 verbose_name="Editor link",
             ),
         ),
-        migrations.RunPython(migrate_editor, migrations.RunPython.noop),
+        migrations.RunPython(migrate_editor, migrations.RunPython.noop, elidable=True),
     ]

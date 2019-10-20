@@ -7,7 +7,8 @@ import weblate.utils.render
 
 def migrate_repoweb(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
-    for component in Component.objects.exclude(repoweb=""):
+    db_alias = schema_editor.connection.alias
+    for component in Component.objects.using(db_alias).exclude(repoweb=""):
         component.repoweb = weblate.utils.render.migrate_repoweb(component.repoweb)
         component.save()
 
@@ -27,5 +28,5 @@ class Migration(migrations.Migration):
                 verbose_name="Repository browser",
             ),
         ),
-        migrations.RunPython(migrate_repoweb, migrations.RunPython.noop),
+        migrations.RunPython(migrate_repoweb, migrations.RunPython.noop, elidable=True),
     ]

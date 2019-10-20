@@ -5,7 +5,8 @@ from django.db import migrations
 
 def migrate_alert_change(apps, schema_editor):
     Change = apps.get_model("trans", "Change")
-    for change in Change.objects.filter(action=47).exclude(target=""):
+    db_alias = schema_editor.connection.alias
+    for change in Change.objects.using(db_alias).filter(action=47).exclude(target=""):
         change.details = {"alert": change.target}
         change.target = ""
         change.save()
@@ -15,4 +16,8 @@ class Migration(migrations.Migration):
 
     dependencies = [("trans", "0025_auto_20190426_0941")]
 
-    operations = [migrations.RunPython(migrate_alert_change, migrations.RunPython.noop)]
+    operations = [
+        migrations.RunPython(
+            migrate_alert_change, migrations.RunPython.noop, elidable=True
+        )
+    ]

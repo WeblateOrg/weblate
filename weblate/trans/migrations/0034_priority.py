@@ -5,7 +5,8 @@ from django.db import migrations
 
 def migrate_priority(apps, schema_editor):
     Source = apps.get_model("trans", "Source")
-    for source in Source.objects.exclude(priority=100).iterator():
+    db_alias = schema_editor.connection.alias
+    for source in Source.objects.using(db_alias).exclude(priority=100).iterator():
         if source.check_flags:
             source.check_flags += ", "
         source.check_flags += "priority:{}".format(200 - source.priority)
@@ -17,4 +18,4 @@ class Migration(migrations.Migration):
     dependencies = [("trans", "0033_auto_20190802_1427")]
 
     operations = []
-    operations = [migrations.RunPython(migrate_priority)]
+    operations = [migrations.RunPython(migrate_priority, elidable=True)]

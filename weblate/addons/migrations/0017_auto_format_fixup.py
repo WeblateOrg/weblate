@@ -7,7 +7,10 @@ from weblate.formats.auto import detect_filename
 
 def resolve_auto_format(apps, schema_editor):
     Addon = apps.get_model("addons", "Addon")
-    for addon in Addon.objects.filter(name="weblate.discovery.discovery"):
+    db_alias = schema_editor.connection.alias
+    for addon in Addon.objects.using(db_alias).filter(
+        name="weblate.discovery.discovery"
+    ):
         if addon.configuration["file_format"] == "auto":
             detect = detect_filename(addon.configuration["match"].replace("\\.", "."))
             if detect is None:

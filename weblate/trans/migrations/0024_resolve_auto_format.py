@@ -25,7 +25,8 @@ def update_format(component, store):
 
 def resolve_auto_format(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
-    for component in Component.objects.filter(file_format="auto"):
+    db_alias = schema_editor.connection.alias
+    for component in Component.objects.using(db_alias).filter(file_format="auto"):
         path = get_path(component)
         template = None
         if component.template:
