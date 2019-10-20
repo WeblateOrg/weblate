@@ -19,6 +19,7 @@
 #
 from __future__ import unicode_literals
 
+import email.utils
 from collections import defaultdict
 from copy import copy
 
@@ -241,9 +242,8 @@ class Notification(object):
         # Set From header to contain user full name
         user = context.get('user')
         if user:
-            headers['From'] = '{} <{}>'.format(
-                context['user'].get_visible_name(),
-                settings.DEFAULT_FROM_EMAIL
+            headers['From'] = email.utils.formataddr(
+                (context['user'].get_visible_name(), settings.DEFAULT_FROM_EMAIL)
             )
 
         # References for unit events
