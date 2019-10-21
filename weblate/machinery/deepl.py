@@ -24,7 +24,7 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-DEEPL_API = 'https://api.deepl.com/v1/translate'
+DEEPL_API_BASE = 'https://api.deepl.com/v2'
 
 
 class DeepLTranslation(MachineTranslation):
@@ -42,13 +42,19 @@ class DeepLTranslation(MachineTranslation):
             raise MissingConfiguration('DeepL requires API key')
 
     def download_languages(self):
-        """List of supported languages is currently hardcoded."""
-        return ('en', 'de', 'fr', 'es', 'it', 'nl', 'pl', 'pt', 'ru')
+        """Download list of supported languages from DeepL."""
+        response = self.json_req(
+            DEEPL_API_BASE + '/languages',
+            http_post=True,
+            auth_key=settings.MT_DEEPL_KEY
+        )
+
+        return [item['language'] for item in response]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
-            DEEPL_API,
+            DEEPL_API_BASE + '/translate',
             http_post=True,
             auth_key=settings.MT_DEEPL_KEY,
             text=text,
@@ -56,12 +62,20 @@ class DeepLTranslation(MachineTranslation):
             target_lang=language,
         )
 
+        translations = {
+            trans['detected_source_language'].lower(): trans['text']
+            for trans in response.get('translations', [])
+        }
+
+        translation = translations.get(source.lower())
+        if translation is None:
+            return []
+
         return [
             {
-                'text': translation['text'],
+                'text': translation,
                 'quality': self.max_score,
                 'service': self.name,
                 'source': text,
             }
-            for translation in response['translations']
         ]

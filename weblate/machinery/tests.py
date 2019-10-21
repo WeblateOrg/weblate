@@ -679,7 +679,7 @@ class MachineTranslationTest(TestCase):
     def test_deepl(self):
         machine = self.get_machine(DeepLTranslation)
         httpretty.register_uri(
-            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+            httpretty.POST, 'https://api.deepl.com/v2/translate', body=DEEPL_RESPONSE
         )
         self.assert_translate(machine, lang='de', word='Hello')
 
@@ -688,7 +688,7 @@ class MachineTranslationTest(TestCase):
     def test_cache(self):
         machine = self.get_machine(DeepLTranslation, True)
         httpretty.register_uri(
-            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+            httpretty.POST, 'https://api.deepl.com/v2/translate', body=DEEPL_RESPONSE
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
