@@ -271,6 +271,8 @@ class GitRepository(Repository):
         self.set_config(
             'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*'.format(branch)
         )
+        # Disable fetching tags
+        self.set_config('remote.origin.tagOpt', '--no-tags')
         # Set branch to track
         self.set_config('branch.{0}.remote'.format(branch), 'origin')
         self.set_config(
