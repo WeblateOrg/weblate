@@ -8,6 +8,7 @@ Not yet released.
 * Fixed cross database migration failure.
 * Added support for force pushing Git repositories.
 * Reduced risk of registration token invalidation.
+* Fixed account removal hitting rate limiter.
 
 Weblate 3.9
 -----------

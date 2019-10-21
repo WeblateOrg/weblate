@@ -97,7 +97,11 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
+from weblate.utils.ratelimit import (
+    check_rate_limit,
+    reset_rate_limit,
+    session_ratelimit_post,
+)
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = '''
@@ -374,6 +378,7 @@ def user_remove(request):
     elif request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
+            reset_rate_limit('remove', request)
             store_userid(request, remove=True)
             request.GET = {'email': request.user.email}
             return social_complete(request, 'email')
