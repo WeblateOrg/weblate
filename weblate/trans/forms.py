@@ -50,7 +50,6 @@ from weblate.auth.models import User
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
-from weblate.langdata.languages import ALIASES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import get_filter_choice
@@ -1098,6 +1097,7 @@ class NewLanguageOwnerForm(forms.Form):
             (l.code, '{0} ({1})'.format(ugettext(l.name), l.code))
             for l in languages
         ])
+
 
 class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
