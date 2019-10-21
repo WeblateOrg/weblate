@@ -73,9 +73,9 @@ class RegistrationTestMixin(object):
             else:
                 continue
             if live_url and result.startswith(live_url):
-                return result
+                return result + '&confirm=1'
             if result.startswith('http://example.com'):
-                return result[18:]
+                return result[18:] + '&confirm=1'
 
         self.fail('Confirmation URL not found')
         return ''
