@@ -115,7 +115,11 @@ def activate(request):
         except Exception as error:
             report_error(error, request)
             messages.error(
-                request, _('Could not activate your account. Please ensure your activation token is correct.')
+                request,
+                _(
+                    'Could not activate your account. '
+                    'Please ensure your activation token is correct.'
+                ),
             )
     else:
         show_form_errors(request, form)
