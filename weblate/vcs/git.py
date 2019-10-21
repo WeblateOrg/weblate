@@ -557,8 +557,7 @@ class GitMergeRequestBase(GitRepository):
 
     def configure_remote(self, pull_url, push_url, branch):
         # We don't use push URL at all
-        super(GitMergeRequestBase, self).configure_remote(
-            pull_url, None, branch)
+        super(GitMergeRequestBase, self).configure_remote(pull_url, None, branch)
 
     def create_pull_request(self, origin_branch, fork_branch):
         raise NotImplementedError()
@@ -591,9 +590,12 @@ class GithubRepository(GitMergeRequestBase):
         cmd = [
             'pull-request',
             '-f',
-            '-h', '{0}:{1}'.format(self._username, fork_branch),
-            '-b', origin_branch,
-            '-m', settings.DEFAULT_PULL_MESSAGE,
+            '-h',
+            '{0}:{1}'.format(self._username, fork_branch),
+            '-b',
+            origin_branch,
+            '-m',
+            settings.DEFAULT_PULL_MESSAGE,
         ]
         self.execute(cmd)
 
@@ -708,7 +710,7 @@ class GitlabRepository(GitMergeRequestBase):
             'checkout',
             '-B',
             fork_branch,
-            '{}/{}'.format(self._username, fork_branch)
+            '{}/{}'.format(self._username, fork_branch),
         ]
         self.execute(cmd)
         # Create a new MR against origin/<origin_branch> from the fork.
@@ -717,14 +719,12 @@ class GitlabRepository(GitMergeRequestBase):
             'create',
             'origin',
             origin_branch,
-            '-m', settings.DEFAULT_PULL_MESSAGE,
+            '-m',
+            settings.DEFAULT_PULL_MESSAGE,
         ]
         self.execute(cmd)
         # Return to the previous checked out branch.
-        cmd = [
-            'checkout',
-            '-'
-        ]
+        cmd = ['checkout', '-']
         self.execute(cmd)
 
 

@@ -33,11 +33,11 @@ from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin, get_test_file
 from weblate.utils.files import remove_readonly
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
+    GitForcePushRepository,
     GithubRepository,
     GitlabRepository,
     GitRepository,
     GitWithGerritRepository,
-    GitForcePushRepository,
     LocalRepository,
     SubversionRepository,
 )

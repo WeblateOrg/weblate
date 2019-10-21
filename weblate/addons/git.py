@@ -38,7 +38,7 @@ class GitSquashAddon(BaseAddon):
     description = _('Squash Git commits prior to pushing changes.')
     settings_form = GitSquashForm
     compat = {
-        'vcs': {'git', 'gerrit', 'subversion', 'github', 'gitlab', 'git-force-push'},
+        'vcs': {'git', 'gerrit', 'subversion', 'github', 'gitlab', 'git-force-push'}
     }
     events = (EVENT_POST_COMMIT,)
     icon = 'compress'
@@ -47,9 +47,9 @@ class GitSquashAddon(BaseAddon):
     def squash_all(self, component, repository, base=None, author=None):
         with repository.lock:
             remote = base if base else repository.get_remote_branch_name()
-            message = repository.execute([
-                'log', '--format=%B', '{}..HEAD'.format(remote)
-            ])
+            message = repository.execute(
+                ['log', '--format=%B', '{}..HEAD'.format(remote)]
+            )
             repository.execute(['reset', '--mixed', remote])
             # Can happen for added and removed translation
             if repository.needs_commit():
@@ -76,9 +76,9 @@ class GitSquashAddon(BaseAddon):
         for code, filenames in languages.items():
             if not filenames:
                 continue
-            messages[code] = repository.execute([
-                'log', '--format=%B', '{}..HEAD'.format(remote), '--'
-            ] + filenames)
+            messages[code] = repository.execute(
+                ['log', '--format=%B', '{}..HEAD'.format(remote), '--'] + filenames
+            )
 
         repository.execute(['reset', '--mixed', remote])
 
@@ -94,10 +94,9 @@ class GitSquashAddon(BaseAddon):
         messages = {}
         for filenames in languages.values():
             for filename in filenames:
-                messages[filename] = repository.execute([
-                    'log', '--format=%B', '{}..HEAD'.format(remote),
-                    '--', filename
-                ])
+                messages[filename] = repository.execute(
+                    ['log', '--format=%B', '{}..HEAD'.format(remote), '--', filename]
+                )
 
         repository.execute(['reset', '--mixed', remote])
 
@@ -110,9 +109,12 @@ class GitSquashAddon(BaseAddon):
         remote = repository.get_remote_branch_name()
         # Get list of pending commits with authors
         commits = [
-            x.split(None, 1) for x in reversed(repository.execute([
-                'log', '--format=%H %aE', '{}..HEAD'.format(remote),
-            ]).splitlines())
+            x.split(None, 1)
+            for x in reversed(
+                repository.execute(
+                    ['log', '--format=%H %aE', '{}..HEAD'.format(remote)]
+                ).splitlines()
+            )
         ]
         gpg_sign = repository.get_gpg_sign_args()
 
@@ -136,9 +138,7 @@ class GitSquashAddon(BaseAddon):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(
-                            ['cherry-pick', other[0]] + gpg_sign
-                        )
+                        repository.execute(['cherry-pick', other[0]] + gpg_sign)
                         handled.append(i)
                     except RepositoryException:
                         # If fails, continue to another author, we will
@@ -164,8 +164,9 @@ class GitSquashAddon(BaseAddon):
 
     def post_commit(self, translation):
         component = translation.component
-        if (component.repo_needs_merge()
-                and not component.update_branch(method='rebase')):
+        if component.repo_needs_merge() and not component.update_branch(
+            method='rebase'
+        ):
             return
         squash = self.instance.configuration['squash']
         repository = component.repository
