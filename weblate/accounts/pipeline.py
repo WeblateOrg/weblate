@@ -263,7 +263,7 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
 
 
 def revoke_mail_code(strategy, details, **kwargs):
-    """Revmove old mail validation code for Python Social Auth.
+    """Remove old mail validation code for Python Social Auth.
 
     PSA keeps them around, but we really don't need them again.
     """
