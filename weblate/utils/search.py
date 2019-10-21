@@ -125,6 +125,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             context=TEXT,
             comment=TEXT,
             location=TEXT,
+            priority=NUMERIC,
             state=StateField,
             pending=BOOLEAN,
             has_suggestion=BOOLEAN,

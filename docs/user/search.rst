@@ -31,6 +31,8 @@ Fields
    Comment string case insensitive search.
 ``location:TEXT``
    Location string case insensitive search.
+``priority:NUMBER``
+   String priority.
 ``state:TEXT``
    State search (``approved``, ``translated``, ``needs-editing``, ``empty``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``

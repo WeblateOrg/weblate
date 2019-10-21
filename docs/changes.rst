@@ -9,6 +9,7 @@ Not yet released.
 * Added support for force pushing Git repositories.
 * Reduced risk of registration token invalidation.
 * Fixed account removal hitting rate limiter.
+* Added search based on priority.
 
 Weblate 3.9
 -----------
