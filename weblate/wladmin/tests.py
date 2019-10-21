@@ -174,7 +174,7 @@ class AdminTest(ViewTestCase):
         EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
     )
     def test_send_test_email_error(self):
-        self.test_send_test_email('Failed to send test e-mail')
+        self.test_send_test_email('Could not send test e-mail')
 
     @httpretty.activate
     def test_activation_community(self):
