@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load authnames %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% trans "Redirecting you to the authentication provider." as msg %}
+{% show_message "info" msg %}
+
+<a class="btn btn-link link-post link-auto" href="{% url 'social:complete' backend %}?partial_token={{ partial_token}}&amp;verification_code={{verification_code}}&amp;confirm=1">{% auth_name backend %}</a>
+
+{% endblock %}

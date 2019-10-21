@@ -964,7 +964,23 @@ def social_complete(request, backend):
 
     - Blocks access for demo user
     - Handles backend errors gracefully
+    - Intermediate page (autosubmitted by javascript) to avoid
+      confirmations by bots
     """
+    if (
+        'partial_token' in request.GET
+        and 'verification_code' in request.GET
+        and 'confirm' not in request.GET
+    ):
+        return render(
+            request,
+            'accounts/token.html',
+            {
+                'partial_token': request.GET['partial_token'],
+                'verification_code': request.GET['verification_code'],
+                'backend': backend,
+            },
+        )
     try:
         return complete(request, backend)
     except InvalidEmail:

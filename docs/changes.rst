@@ -7,6 +7,7 @@ Not yet released.
 * Fixed potential crash in reports.
 * Fixed cross database migration failure.
 * Added support for force pushing Git repositories.
+* Reduced risk of registration token invalidation.
 
 Weblate 3.9
 -----------
