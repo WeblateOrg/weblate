@@ -24,6 +24,7 @@ from django.conf import settings
 from django.utils.encoding import force_text
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate
@@ -45,21 +46,24 @@ def report_error(
     prefix='Handled exception',
     skip_sentry=False,
     print_tb=False,
+    logger=None,
 ):
     """Wrapper for error reporting
 
     This can be used for store exceptions in error reporting solutions as
     rollbar while handling error gracefully and giving user cleaner message.
     """
+    if logger is None:
+        logger = LOGGER
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(request=request, extra_data=extra_data, level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
         sentry_sdk.capture_exception()
 
-    LOGGER.error('%s: %s: %s', prefix, error.__class__.__name__, force_text(error))
+    logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_text(error))
     if print_tb:
-        LOGGER.exception(prefix)
+        logger.exception(prefix)
 
 
 def celery_base_data_hook(request, data):
@@ -74,6 +78,7 @@ def init_error_collection(celery=False):
             send_default_pii=True,
             release=weblate.GIT_REVISION or weblate.VERSION,
         )
+        ignore_logger("weblate.celery")
 
     if celery and HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.init(**settings.ROLLBAR)
