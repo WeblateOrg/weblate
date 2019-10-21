@@ -133,6 +133,18 @@ stable and tested one.
     See :ref:`vcs-repos` for information how to access different kind of
     repositories.
 
+Git with force push
++++++++++++++++++++
+
+This behaves exactly same as Git, with the only difference that it always does
+force push. This is intended only for cases where you have separate repository
+where you push your translations.
+
+.. warning::
+
+    Use with caution, using this can easily lead to losing commits in your
+    upstream repository.
+
 .. _vcs-repos-github:
 
 GitHub repositories

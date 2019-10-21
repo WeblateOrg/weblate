@@ -26,7 +26,7 @@ from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.site import get_site_url
 
-SUPPORTED_VCS = {'git', 'gerrit', 'github', 'gitlab', 'subversion', 'local'}
+SUPPORTED_VCS = {'git', 'gerrit', 'github', 'gitlab', 'subversion', 'local', 'git-force-push'}
 
 
 def get_export_url(component):

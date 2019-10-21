@@ -726,3 +726,15 @@ class GitlabRepository(GitMergeRequestBase):
             '-'
         ]
         self.execute(cmd)
+
+
+class GitForcePushRepository(GitRepository):
+    name = ugettext_lazy('Git with force push')
+
+    @staticmethod
+    def get_identifier():
+        return 'git-force-push'
+
+    def push(self):
+        """Push given branch to remote repository."""
+        self.execute(['push', '--force', 'origin', self.branch])

@@ -37,6 +37,7 @@ from weblate.vcs.git import (
     GitlabRepository,
     GitRepository,
     GitWithGerritRepository,
+    GitForcePushRepository,
     LocalRepository,
     SubversionRepository,
 )
@@ -400,6 +401,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def test_remote_branches(self):
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
+
+
+class VCSGitForcePushTest(VCSGitTest):
+    _class = GitForcePushRepository
 
 
 class VCSGerritTest(VCSGitTest):

@@ -6,6 +6,7 @@ Not yet released.
 * Remove some not needed files from backups.
 * Fixed potential crash in reports.
 * Fixed cross database migration failure.
+* Added support for force pushing Git repositories.
 
 Weblate 3.9
 -----------

@@ -1468,7 +1468,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                 template='layout/pills.html',
             )
         )
-        vcses = ('git', 'gerrit', 'github', 'gitlab', 'local')
+        vcses = ('git', 'gerrit', 'github', 'gitlab', 'local', 'git-force-push')
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs, )
         self.fields['vcs'].choices = [
