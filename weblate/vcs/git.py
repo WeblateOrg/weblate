@@ -346,6 +346,13 @@ class GitRepository(Repository):
     def cleanup(self):
         """Remove not tracked files from the repository."""
         self.execute(['clean', '-f'])
+        # Remove possible stale branches
+        for branch in self.list_branches():
+            if branch != self.branch:
+                self.execute(['branch', '--delete', '--force', branch])
+        # Remove any tags
+        for tag in self.execute(['tag', '--list']).splitlines():
+            self.execute(['tag', '--delete', tag])
 
     def list_remote_branches(self):
         return [
