@@ -134,13 +134,12 @@ NOTIFICATION_PREFIX_TEMPLATE = 'notifications__{}'
 
 class EmailSentView(TemplateView):
     """Class for rendering e-mail sent page."""
+
     template_name = 'accounts/email-sent.html'
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
-        context = super(EmailSentView, self).get_context_data(
-            **kwargs
-        )
+        context = super(EmailSentView, self).get_context_data(**kwargs)
         context['is_reset'] = False
         context['is_remove'] = False
         # This view is not visible for invitation that's
@@ -171,27 +170,17 @@ class EmailSentView(TemplateView):
         else:
             request.session.pop('registration-email-sent')
 
-        return super(EmailSentView, self).get(
-            request, *args, **kwargs
-        )
+        return super(EmailSentView, self).get(request, *args, **kwargs)
 
 
 def mail_admins_contact(request, subject, message, context, sender, to):
     """Send a message to the admins, as defined by the ADMINS setting."""
-    LOGGER.info(
-        'contact form from %s',
-        sender,
-    )
+    LOGGER.info('contact form from %s', sender)
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(
-            request,
-            _('Message could not be sent to administrator!')
-        )
-        LOGGER.error(
-            'ADMINS not configured, can not send message!'
-        )
+        messages.error(request, _('Message could not be sent to administrator!'))
+        LOGGER.error('ADMINS not configured, can not send message!')
         return
 
     mail = EmailMultiAlternatives(
@@ -203,10 +192,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail.send(fail_silently=False)
 
-    messages.success(
-        request,
-        _('Message has been sent to administrator.')
-    )
+    messages.success(request, _('Message has been sent to administrator.'))
 
 
 def redirect_profile(page=''):
@@ -223,12 +209,7 @@ def get_notification_forms(request):
             prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
             if prefix + '-scope' in request.POST:
                 yield NotificationForm(
-                    request.user,
-                    i > 0,
-                    {},
-                    i == 0,
-                    prefix=prefix,
-                    data=request.POST
+                    request.user, i > 0, {}, i == 0, prefix=prefix, data=request.POST
                 )
     else:
         subscriptions = defaultdict(dict)
@@ -238,23 +219,19 @@ def get_notification_forms(request):
         for needed in (SCOPE_DEFAULT, SCOPE_ADMIN):
             key = (needed, None, None)
             subscriptions[key] = {}
-            initials[key] = {
-                'scope': needed, 'project': None, 'component': None
-            }
+            initials[key] = {'scope': needed, 'project': None, 'component': None}
         active = (SCOPE_DEFAULT, None, None)
 
         # Include additional scopes from request
         if 'notify_project' in request.GET:
             try:
-                project = user.allowed_projects.get(
-                    pk=request.GET['notify_project']
-                )
+                project = user.allowed_projects.get(pk=request.GET['notify_project'])
                 active = key = (SCOPE_PROJECT, project.pk, None)
                 subscriptions[key] = {}
                 initials[key] = {
                     'scope': SCOPE_PROJECT,
                     'project': project,
-                    'component': None
+                    'component': None,
                 }
             except (ObjectDoesNotExist, ValueError):
                 pass
@@ -262,14 +239,14 @@ def get_notification_forms(request):
             try:
                 component = Component.objects.get(
                     project__in=user.allowed_projects,
-                    pk=request.GET['notify_component']
+                    pk=request.GET['notify_component'],
                 )
                 active = key = (SCOPE_COMPONENT, None, component.pk)
                 subscriptions[key] = {}
                 initials[key] = {
                     'scope': SCOPE_COMPONENT,
                     'project': None,
-                    'component': component
+                    'component': component,
                 }
             except (ObjectDoesNotExist, ValueError):
                 pass
@@ -345,21 +322,17 @@ def user_profile(request):
     else:
         if not request.user.has_usable_password() and 'email' in all_backends:
             messages.warning(
-                request,
-                render_to_string('accounts/password-warning.html')
+                request, render_to_string('accounts/password-warning.html')
             )
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
-    new_backends = [
-        x for x in all_backends
-        if x == 'email' or x not in social_names
-    ]
-    license_projects = Component.objects.filter(
-        project__in=request.user.allowed_projects
-    ).exclude(
-        license=''
-    ).order_project()
+    new_backends = [x for x in all_backends if x == 'email' or x not in social_names]
+    license_projects = (
+        Component.objects.filter(project__in=request.user.allowed_projects)
+        .exclude(license='')
+        .order_project()
+    )
 
     result = render(
         request,
@@ -378,12 +351,9 @@ def user_profile(request):
             'associated': social,
             'new_backends': new_backends,
             'auditlog': request.user.auditlog_set.order()[:20],
-        }
+        },
     )
-    result.set_cookie(
-        settings.LANGUAGE_COOKIE_NAME,
-        profile.language
-    )
+    result.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return result
 
 
@@ -397,10 +367,7 @@ def user_remove(request):
             remove_user(request.user, request)
             rotate_token(request)
             logout(request)
-            messages.success(
-                request,
-                _('Your account has been removed.')
-            )
+            messages.success(request, _('Your account has been removed.'))
             return redirect('home')
         confirm_form = EmptyConfirmForm(request)
 
@@ -416,10 +383,7 @@ def user_remove(request):
     return render(
         request,
         'accounts/removal.html',
-        {
-            'confirm_form': confirm_form,
-            'is_confirmation': is_confirmation,
-        }
+        {'confirm_form': confirm_form, 'is_confirmation': is_confirmation},
     )
 
 
@@ -442,16 +406,10 @@ def confirm(request):
     else:
         confirm_form = PasswordConfirmForm(request)
 
-    context = {
-        'confirm_form': confirm_form,
-    }
+    context = {'confirm_form': confirm_form}
     context.update(details)
 
-    return render(
-        request,
-        'accounts/confirm.html',
-        context
-    )
+    return render(request, 'accounts/confirm.html', context)
 
 
 def get_initial_contact(request):
@@ -466,9 +424,7 @@ def get_initial_contact(request):
 @never_cache
 def contact(request):
     captcha = None
-    show_captcha = (
-        settings.REGISTRATION_CAPTCHA and not request.user.is_authenticated
-    )
+    show_captcha = settings.REGISTRATION_CAPTCHA and not request.user.is_authenticated
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -476,8 +432,7 @@ def contact(request):
             captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit('message', request):
             messages.error(
-                request,
-                _('Too many messages sent, please try again later!')
+                request, _('Too many messages sent, please try again later!')
             )
         elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
@@ -500,11 +455,7 @@ def contact(request):
     return render(
         request,
         'accounts/contact.html',
-        {
-            'form': form,
-            'captcha_form': captcha,
-            'title': _('Contact'),
-        }
+        {'form': form, 'captcha_form': captcha, 'title': _('Contact')},
     )
 
 
@@ -535,12 +486,7 @@ def hosting(request):
         form = HostingForm(initial=initial)
 
     return render(
-        request,
-        'accounts/hosting.html',
-        {
-            'form': form,
-            'title': _('Hosting'),
-        }
+        request, 'accounts/hosting.html', {'form': form, 'title': _('Hosting')}
     )
 
 
@@ -549,17 +495,15 @@ def user_page(request, user):
     user = get_object_or_404(User, username=user)
 
     # Filter all user activity
-    all_changes = Change.objects.last_changes(request.user).filter(
-        user=user,
-    )
+    all_changes = Change.objects.last_changes(request.user).filter(user=user)
 
     # Last user activity
     last_changes = all_changes[:10]
 
     # Filter where project is active
-    user_projects_ids = set(all_changes.values_list(
-        'translation__component__project', flat=True
-    ))
+    user_projects_ids = set(
+        all_changes.values_list('translation__component__project', flat=True)
+    )
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
     return render(
@@ -569,11 +513,9 @@ def user_page(request, user):
             'page_profile': user.profile,
             'page_user': user,
             'last_changes': last_changes,
-            'last_changes_url': urlencode(
-                {'user': user.username}
-            ),
+            'last_changes_url': urlencode({'user': user.username}),
             'user_projects': user_projects,
-        }
+        },
     )
 
 
@@ -585,8 +527,7 @@ def user_avatar(request, user, size):
         return redirect(get_fallback_avatar_url(size))
 
     response = HttpResponse(
-        content_type='image/png',
-        content=get_avatar_image(request, user, size)
+        content_type='image/png', content=get_avatar_image(request, user, size)
     )
 
     patch_response_headers(response, 3600 * 24 * 7)
@@ -601,15 +542,14 @@ def redirect_single(request, backend):
 
 class WeblateLoginView(LoginView):
     """Login handler, just a wrapper around standard Django login."""
+
     form_class = LoginForm
     template_name = 'accounts/login.html'
     redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
         context = super(WeblateLoginView, self).get_context_data(**kwargs)
-        auth_backends = list(
-            load_backends(social_django.utils.BACKENDS).keys()
-        )
+        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
         context['title'] = _('Login')
@@ -626,9 +566,7 @@ class WeblateLoginView(LoginView):
             return redirect_profile()
 
         # Redirect if there is only one backend
-        auth_backends = list(
-            load_backends(social_django.utils.BACKENDS).keys()
-        )
+        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
         if len(auth_backends) == 1 and auth_backends[0] != 'email':
             return redirect_single(request, auth_backends[0])
 
@@ -640,13 +578,12 @@ class WeblateLoginView(LoginView):
 
 class WeblateLogoutView(LogoutView):
     """Logout handler, just a wrapper around standard Django logout."""
+
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        return super(WeblateLogoutView, self).dispatch(
-            request, *args, **kwargs
-        )
+        return super(WeblateLogoutView, self).dispatch(request, *args, **kwargs)
 
     def get_next_page(self):
         messages.info(self.request, _('Thank you for using Weblate.'))
@@ -671,13 +608,14 @@ def register(request):
         form = RegistrationForm(request, request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
-        if ((captcha is None or captcha.is_valid())
-                and form.is_valid() and settings.REGISTRATION_OPEN):
+        if (
+            (captcha is None or captcha.is_valid())
+            and form.is_valid()
+            and settings.REGISTRATION_OPEN
+        ):
             if form.cleaned_data['email_user']:
                 AuditLog.objects.create(
-                    form.cleaned_data['email_user'],
-                    request,
-                    'connect'
+                    form.cleaned_data['email_user'], request, 'connect'
                 )
                 return fake_email_sent(request)
             store_userid(request)
@@ -702,7 +640,7 @@ def register(request):
             'title': _('User registration'),
             'form': form,
             'captcha_form': captcha,
-        }
+        },
     )
 
 
@@ -720,9 +658,7 @@ def email_login(request):
             email_user = form.cleaned_data['email_user']
             if email_user and email_user != request.user:
                 AuditLog.objects.create(
-                    form.cleaned_data['email_user'],
-                    request,
-                    'connect'
+                    form.cleaned_data['email_user'], request, 'connect'
                 )
                 return fake_email_sent(request)
             store_userid(request)
@@ -735,11 +671,7 @@ def email_login(request):
     return render(
         request,
         'accounts/email.html',
-        {
-            'title': _('Register e-mail'),
-            'form': form,
-            'captcha_form': captcha,
-        }
+        {'title': _('Register e-mail'), 'form': form, 'captcha_form': captcha},
     )
 
 
@@ -775,11 +707,7 @@ def password(request):
     return render(
         request,
         'accounts/password.html',
-        {
-            'title': _('Change password'),
-            'change_form': change_form,
-            'form': form,
-        }
+        {'title': _('Change password'), 'change_form': change_form, 'form': form},
     )
 
 
@@ -789,10 +717,7 @@ def reset_password_set(request):
     if user.has_usable_password():
         request.session.flush()
         request.session.set_expiry(None)
-        messages.error(
-            request,
-            _('Password reset has been already completed!')
-        )
+        messages.error(request, _('Password reset has been already completed!'))
         return redirect('login')
     if request.method == 'POST':
         form = SetPasswordForm(user, request.POST)
@@ -810,7 +735,7 @@ def reset_password_set(request):
             'form': form,
             'captcha_form': None,
             'second_stage': True,
-        }
+        },
     )
 
 
@@ -821,8 +746,7 @@ def reset_password(request):
         redirect_profile()
     if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
-            request,
-            _('Cannot reset password, e-mail authentication is turned off.')
+            request, _('Cannot reset password, e-mail authentication is turned off.')
         )
         return redirect('login')
 
@@ -838,9 +762,7 @@ def reset_password(request):
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             if form.cleaned_data['email_user']:
                 audit = AuditLog.objects.create(
-                    form.cleaned_data['email_user'],
-                    request,
-                    'reset-request'
+                    form.cleaned_data['email_user'], request, 'reset-request'
                 )
                 if not audit.check_rate_limit(request):
                     store_userid(request, True)
@@ -859,7 +781,7 @@ def reset_password(request):
             'form': form,
             'captcha_form': captcha,
             'second_stage': False,
-        }
+        },
     )
 
 
@@ -871,10 +793,7 @@ def reset_api_key(request):
     # Need to delete old token as key is primary key
     with transaction.atomic():
         Token.objects.filter(user=request.user).delete()
-        Token.objects.create(
-            user=request.user,
-            key=get_random_string(40)
-        )
+        Token.objects.create(user=request.user, key=get_random_string(40))
 
     return redirect_profile('#api')
 
@@ -927,9 +846,7 @@ def mute_component(request, project, component):
     obj = get_component(request, project, component)
     mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
     return redirect(
-        '{}?notify_component={}#notifications'.format(
-            reverse('profile'), obj.pk
-        )
+        '{}?notify_component={}#notifications'.format(reverse('profile'), obj.pk)
     )
 
 
@@ -953,8 +870,7 @@ class SuggestionView(ListView):
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
         return Suggestion.objects.filter(
-            user=user,
-            project__in=self.request.user.allowed_projects
+            user=user, project__in=self.request.user.allowed_projects
         ).order()
 
     def get_context_data(self):
@@ -1013,15 +929,12 @@ def auth_redirect_token(request):
             'Could not verify your registration! '
             'The verification token has probably expired. '
             'Please try to register again.'
-        )
+        ),
     )
 
 
 def auth_redirect_state(request):
-    return auth_fail(
-        request,
-        _('Could not authenticate due to invalid session state.')
-    )
+    return auth_fail(request, _('Could not authenticate due to invalid session state.'))
 
 
 def handle_missing_parameter(request, backend, error):
@@ -1031,22 +944,16 @@ def handle_missing_parameter(request, backend, error):
             request,
             _('Got no e-mail address from third party authentication service.')
             + ' '
-            + _('Please register using e-mail instead.')
+            + _('Please register using e-mail instead.'),
         )
     if error.parameter in ('email', 'user', 'expires'):
         return auth_redirect_token(request)
     if error.parameter in ('state', 'code'):
         return auth_redirect_state(request)
     if error.parameter == 'demo':
-        return auth_fail(
-            request,
-            _('Can not change authentication for demo!')
-        )
+        return auth_fail(request, _('Can not change authentication for demo!'))
     if error.parameter == 'disabled':
-        return auth_fail(
-            request,
-            _('New registrations are turned off.')
-        )
+        return auth_fail(request, _('New registrations are turned off.'))
     return None
 
 
@@ -1072,24 +979,26 @@ def social_complete(request, backend):
         return auth_redirect_state(request)
     except AuthFailed as error:
         report_error(error, request)
-        return auth_fail(request, _(
-            'Could not authenticate, probably due to an expired token '
-            'or connection error.'
-        ))
-    except AuthCanceled:
         return auth_fail(
-            request, _('Authentication cancelled.')
+            request,
+            _(
+                'Could not authenticate, probably due to an expired token '
+                'or connection error.'
+            ),
         )
+    except AuthCanceled:
+        return auth_fail(request, _('Authentication cancelled.'))
     except AuthForbidden as error:
         report_error(error, request)
-        return auth_fail(
-            request, _('The server does not allow authentication.')
-        )
+        return auth_fail(request, _('The server does not allow authentication.'))
     except AuthAlreadyAssociated:
-        return auth_fail(request, _(
-            'Could not complete registration. The supplied authentication, '
-            'e-mail or username is already in use for another account.'
-        ))
+        return auth_fail(
+            request,
+            _(
+                'Could not complete registration. The supplied authentication, '
+                'e-mail or username is already in use for another account.'
+            ),
+        )
 
 
 def unsubscribe(request):
@@ -1103,9 +1012,12 @@ def unsubscribe(request):
             subscription.save(update_fields=['frequency'])
             messages.success(request, _('Notification settings adjusted.'))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
-            messages.error(request, _(
-                'The notification change link is no longer valid, '
-                'please log in to configure notifications.'
-            ))
+            messages.error(
+                request,
+                _(
+                    'The notification change link is no longer valid, '
+                    'please log in to configure notifications.'
+                ),
+            )
 
     return redirect_profile('#notifications')
