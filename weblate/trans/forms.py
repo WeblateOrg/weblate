@@ -1099,23 +1099,6 @@ class NewLanguageOwnerForm(forms.Form):
             for l in languages
         ])
 
-    def clean_lang(self):
-        existing = Language.objects.filter(self.get_lang_filter())
-        for code in self.cleaned_data['lang']:
-            if code not in ALIASES:
-                continue
-            if existing.filter(code=ALIASES[code]).exists():
-                raise ValidationError(
-                    _(
-                        'Similar translation '
-                        'already exists in the project ({0})!'
-                    ).format(
-                        ALIASES[code]
-                    )
-                )
-        return self.cleaned_data['lang']
-
-
 class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
     lang = forms.ChoiceField(
@@ -1131,8 +1114,8 @@ class NewLanguageForm(NewLanguageOwnerForm):
         )
 
     def clean_lang(self):
-        self.cleaned_data['lang'] = [self.cleaned_data['lang']]
-        return super(NewLanguageForm, self).clean_lang()
+        # Compatibility with NewLanguageOwnerForm
+        return [self.cleaned_data['lang']]
 
 
 def get_new_language_form(request, component):
