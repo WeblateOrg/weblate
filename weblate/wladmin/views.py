@@ -117,7 +117,7 @@ def activate(request):
             messages.error(
                 request,
                 _(
-                    'Could not activate your account. '
+                    'Could not activate your installation. '
                     'Please ensure your activation token is correct.'
                 ),
             )
