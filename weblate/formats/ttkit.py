@@ -960,6 +960,11 @@ class JSONFormat(TTKitFormat):
         """Return most common file extension for format."""
         return 'json'
 
+    def create_unit(self, key, source):
+        if not key.startswith('.'):
+            key = '.' + key
+        return super(JSONFormat, self).create_unit(key, source)
+
 
 class JSONNestedFormat(JSONFormat):
     name = _('JSON nested structure file')

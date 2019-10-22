@@ -10,6 +10,7 @@ Not yet released.
 * Reduced risk of registration token invalidation.
 * Fixed account removal hitting rate limiter.
 * Added search based on priority.
+* Fixed possible crash on adding strings to JSON file.
 
 Weblate 3.9
 -----------
