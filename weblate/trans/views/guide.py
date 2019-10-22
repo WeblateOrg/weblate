@@ -25,7 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
 
 from weblate.addons.models import ADDONS
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils.docs import get_doc_url
 from weblate.utils.views import get_component
@@ -190,6 +190,29 @@ class FlagsGuideline(Guideline):
 
     def get_docs_url(self):
         return get_doc_url("admin/checks", "custom-checks")
+
+
+@register
+class SafeHTMLGuideline(Guideline):
+    description = _("Add safe-html flag to avoid dangerous HTML from translators.")
+    url = "settings"
+    anchor = "translation"
+
+    def is_relevant(self):
+        return Unit.objects.filter(
+            translation__component=self.component, source__contains="<a "
+        ).exists()
+
+    def is_passing(self):
+        return (
+            "safe-html" in self.component.check_flags
+            or self.component.source_set.filter(
+                check_flags__contains="safe-html"
+            ).exists()
+        )
+
+    def get_docs_url(self):
+        return get_doc_url("user/checks", "check-safe-html")
 
 
 @register
