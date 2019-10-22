@@ -815,8 +815,7 @@ setuplang
 
 .. django-admin:: setuplang
 
-Setups list of languages (it has own list and all defined in
-translate-toolkit).
+Updates list of defined languages in Weblate.
 
 .. django-admin-option:: --no-update
 
