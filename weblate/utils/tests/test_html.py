@@ -20,22 +20,24 @@
 
 from __future__ import unicode_literals
 
-import bleach
-from django.utils.translation import ugettext_lazy as _
+from django.test import SimpleTestCase
 
-from weblate.trans.autofixes.base import AutoFix
 from weblate.utils.html import extract_bleach
 
 
-class BleachHTML(AutoFix):
-    """Cleanup unsafe HTML markup"""
+class HtmlTestCase(SimpleTestCase):
+    def test_noattr(self):
+        self.assertEqual(
+            extract_bleach("<b>text</b>"), {"tags": {"b"}, "attributes": {"b": set()}}
+        )
 
-    fix_id = "safe-html"
-    name = _("Unsafe HTML")
+    def test_attrs(self):
+        self.assertEqual(
+            extract_bleach('<a href="#">t</a>'),
+            {"tags": {"a"}, "attributes": {"a": {"href"}}},
+        )
 
-    def fix_single_target(self, target, source, unit):
-        if "safe-html" not in unit.all_flags:
-            return target, False
-
-        newtarget = bleach.clean(target, **extract_bleach(source))
-        return newtarget, newtarget != target
+    def test_noclose(self):
+        self.assertEqual(
+            extract_bleach("<br>"), {"tags": {"br"}, "attributes": {"br": set()}}
+        )

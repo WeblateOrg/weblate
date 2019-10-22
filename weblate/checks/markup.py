@@ -30,6 +30,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheck
+from weblate.utils.html import extract_bleach
 
 BBCODE_MATCH = re.compile(
     r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])',
@@ -323,6 +324,4 @@ class SafeHTMLCheck(TargetCheck):
         return URLValidator()
 
     def check_single(self, source, target, unit):
-        if not source:
-            return False
-        return bleach.clean(target) != target
+        return bleach.clean(target, **extract_bleach(source)) != target

@@ -20,22 +20,26 @@
 
 from __future__ import unicode_literals
 
-import bleach
-from django.utils.translation import ugettext_lazy as _
+from collections import defaultdict
 
-from weblate.trans.autofixes.base import AutoFix
-from weblate.utils.html import extract_bleach
+from six.moves import html_parser
 
 
-class BleachHTML(AutoFix):
-    """Cleanup unsafe HTML markup"""
+class MarkupExtractor(html_parser.HTMLParser):
+    def __init__(self):
+        self.found_tags = set()
+        self.found_attributes = defaultdict(set)
+        super(MarkupExtractor, self).__init__()
 
-    fix_id = "safe-html"
-    name = _("Unsafe HTML")
+    def handle_starttag(self, tag, attrs):
+        self.found_tags.add(tag)
+        found_attributes = self.found_attributes[tag]
+        for attr in attrs:
+            found_attributes.add(attr[0])
 
-    def fix_single_target(self, target, source, unit):
-        if "safe-html" not in unit.all_flags:
-            return target, False
 
-        newtarget = bleach.clean(target, **extract_bleach(source))
-        return newtarget, newtarget != target
+def extract_bleach(text):
+    """Exctract tags from text in a form suitable for bleach"""
+    extractor = MarkupExtractor()
+    extractor.feed(text)
+    return {"tags": extractor.found_tags, "attributes": extractor.found_attributes}

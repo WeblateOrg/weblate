@@ -11,6 +11,7 @@ Not yet released.
 * Fixed account removal hitting rate limiter.
 * Added search based on priority.
 * Fixed possible crash on adding strings to JSON file.
+* Safe HTML check and fixup now honor source string markup.
 
 Weblate 3.9
 -----------

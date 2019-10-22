@@ -108,7 +108,7 @@ class AutoFixTest(TestCase):
 
     def test_html(self):
         fix = BleachHTML()
-        unit = MockUnit(source='str', flags='safe-html')
+        unit = MockUnit(source='<a href="script:foo()">link</a>', flags='safe-html')
         self.assertEqual(
             fix.fix_target(['<a href="script:foo()">link</a>'], unit),
             (['<a>link</a>'], True)
