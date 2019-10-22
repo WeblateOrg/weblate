@@ -844,6 +844,7 @@ ALIASES = {
     'dk': 'da',
     'gr': 'el',
     'rs': 'sr',
+    'kz': 'kk',
     'ca_es@valencia': 'ca@valencia',
     'svk': 'sk',
     'aar': 'aa',
