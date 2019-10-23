@@ -524,7 +524,7 @@ class GitMergeRequestBase(GitRepository):
     _version = None
 
     @staticmethod
-    def get_username(clf):
+    def get_username():
         raise NotImplementedError()
 
     @classmethod
@@ -579,7 +579,7 @@ class GithubRepository(GitMergeRequestBase):
     _cmd = 'hub'
 
     @staticmethod
-    def get_username(clf):
+    def get_username():
         return settings.GITHUB_USERNAME
 
     @classmethod
