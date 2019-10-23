@@ -703,7 +703,7 @@ class GitlabRepository(GitMergeRequestBase):
     _cmd = 'lab'
 
     @staticmethod
-    def get_username(clf):
+    def get_username():
         return settings.GITLAB_USERNAME
 
     def create_pull_request(self, origin_branch, fork_branch):
