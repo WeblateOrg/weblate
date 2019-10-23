@@ -520,11 +520,12 @@ class SubversionRepository(GitRepository):
 
 class GitMergeRequestBase(GitRepository):
 
-    # Subclasses must override _username.
-    _username = None
-
     _is_supported = None
     _version = None
+
+    @property
+    def _username(self):
+        raise NotImplementedError()
 
     @classmethod
     def is_supported(cls):
