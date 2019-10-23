@@ -29,7 +29,7 @@ class MarkupExtractor(html_parser.HTMLParser):
     def __init__(self):
         self.found_tags = set()
         self.found_attributes = defaultdict(set)
-        super(MarkupExtractor, self).__init__()
+        html_parser.HTMLParser.__init__(self)
 
     def handle_starttag(self, tag, attrs):
         self.found_tags.add(tag)
