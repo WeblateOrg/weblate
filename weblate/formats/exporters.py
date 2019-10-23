@@ -112,7 +112,7 @@ class BaseExporter(object):
         )
 
     def get_storage(self):
-        raise NotImplementedError()
+        return self.storage_class()
 
     def add(self, unit, word):
         unit.target = word
@@ -211,14 +211,14 @@ class PoExporter(BaseExporter):
     content_type = 'text/x-po'
     extension = 'po'
     verbose = _('gettext PO')
-    _storage = pofile
+    storage_class = pofile
 
     def store_flags(self, output, flags):
         for flag in flags.items():
             output.settypecomment(flag)
 
     def get_storage(self):
-        store = self._storage()
+        store = super(PoExporter, self).get_storage()
         plural = self.plural
 
         # Set po file header
@@ -244,9 +244,6 @@ class XMLExporter(BaseExporter):
     def string_filter(self, text):
         return text.translate(_CHARMAP)
 
-    def get_storage(self):
-        raise NotImplementedError()
-
     def add(self, unit, word):
         unit.settarget(word, self.language.code)
 
@@ -258,9 +255,7 @@ class PoXliffExporter(XMLExporter):
     extension = 'xlf'
     set_id = True
     verbose = _('XLIFF with gettext extensions')
-
-    def get_storage(self):
-        return PoXliffFile()
+    storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
         if flags.has_value('max-length'):
@@ -276,9 +271,7 @@ class XliffExporter(PoXliffExporter):
     extension = 'xlf'
     set_id = True
     verbose = _('XLIFF 1.1')
-
-    def get_storage(self):
-        return xlifffile()
+    storage_class = xlifffile
 
 
 @register_exporter
@@ -287,9 +280,7 @@ class TBXExporter(XMLExporter):
     content_type = 'application/x-tbx'
     extension = 'tbx'
     verbose = _('TBX')
-
-    def get_storage(self):
-        return tbxfile()
+    storage_class = tbxfile
 
 
 @register_exporter
@@ -298,9 +289,7 @@ class TMXExporter(XMLExporter):
     content_type = 'application/x-tmx'
     extension = 'tmx'
     verbose = _('TMX')
-
-    def get_storage(self):
-        return tmxfile()
+    storage_class = tmxfile
 
 
 @register_exporter
@@ -309,7 +298,7 @@ class MoExporter(PoExporter):
     content_type = 'application/x-gettext-catalog'
     extension = 'mo'
     verbose = _('gettext MO')
-    _storage = mofile
+    storage_class = mofile
 
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
@@ -357,15 +346,19 @@ class MoExporter(PoExporter):
         return translation.component.file_format == 'po'
 
 
+class CVSBaseExporter(BaseExporter):
+    storage_class = csvfile
+
+    def get_storage(self):
+        return self.storage_class(fieldnames=self.fieldnames)
+
+
 @register_exporter
-class CSVExporter(BaseExporter):
+class CSVExporter(CVSBaseExporter):
     name = 'csv'
     content_type = 'text/csv'
     extension = 'csv'
     verbose = _('CSV')
-
-    def get_storage(self):
-        return csvfile(fieldnames=self.fieldnames)
 
     def string_filter(self, text):
         """Avoid Excel interpreting text as formula.
@@ -382,14 +375,11 @@ class CSVExporter(BaseExporter):
 
 
 @register_exporter
-class XlsxExporter(BaseExporter):
+class XlsxExporter(CVSBaseExporter):
     name = 'xlsx'
     content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     extension = 'xlsx'
     verbose = _('Excel Open XML')
-
-    def get_storage(self):
-        return csvfile(fieldnames=self.fieldnames)
 
     def serialize(self):
         """Return storage content"""
