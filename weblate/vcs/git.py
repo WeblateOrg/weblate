@@ -523,25 +523,25 @@ class GitMergeRequestBase(GitRepository):
     _is_supported = None
     _version = None
 
-    @property
-    def _username(self):
+    @staticmethod
+    def get_username(clf):
         raise NotImplementedError()
 
     @classmethod
     def is_supported(cls):
-        if cls._username is None:
+        if cls.get_username() is None:
             return False
         return super(GitMergeRequestBase, cls).is_supported()
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
-        cmd_push = ['push', '--force', self._username]
+        cmd_push = ['push', '--force', self.get_username()]
         self.execute(cmd_push + ['{0}:{1}'.format(local_branch, fork_branch)])
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(['remote']).splitlines()
-        if self._username not in remotes:
+        if self.get_username() not in remotes:
             self.execute(['fork'])
 
     def push(self):
@@ -578,8 +578,8 @@ class GithubRepository(GitMergeRequestBase):
     name = 'GitHub'
     _cmd = 'hub'
 
-    @property
-    def _username(self):
+    @staticmethod
+    def get_username(clf):
         return settings.GITHUB_USERNAME
 
     @classmethod
@@ -601,7 +601,7 @@ class GithubRepository(GitMergeRequestBase):
             'pull-request',
             '-f',
             '-h',
-            '{0}:{1}'.format(self._username, fork_branch),
+            '{0}:{1}'.format(self.get_username(), fork_branch),
             '-b',
             origin_branch,
             '-m',
@@ -702,8 +702,8 @@ class GitlabRepository(GitMergeRequestBase):
     # docs: https://zaquestion.github.io/lab/
     _cmd = 'lab'
 
-    @property
-    def _username(self):
+    @staticmethod
+    def get_username(clf):
         return settings.GITLAB_USERNAME
 
     def create_pull_request(self, origin_branch, fork_branch):
@@ -720,7 +720,7 @@ class GitlabRepository(GitMergeRequestBase):
             'checkout',
             '-B',
             fork_branch,
-            '{}/{}'.format(self._username, fork_branch),
+            '{}/{}'.format(self.get_username(), fork_branch),
         ]
         self.execute(cmd)
         # Create a new MR against origin/<origin_branch> from the fork.
