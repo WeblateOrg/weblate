@@ -89,7 +89,7 @@ def notify_expired():
 @app.task(trail=False)
 def schedule_removal():
     removal = timezone.now() + timedelta(days=15)
-    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
         if bill.check_payment_status(30):
             continue
         bill.removal = removal
