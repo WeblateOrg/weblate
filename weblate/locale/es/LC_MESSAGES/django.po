@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-21 15:24+0000\n"
-"PO-Revision-Date: 2019-10-20 19:19+0000\n"
+"PO-Revision-Date: 2019-10-25 05:53+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -1316,7 +1316,7 @@ msgstr "Votar sugerencia"
 
 #: weblate/auth/data.py:71
 msgid "Add language for translation"
-msgstr "Añadir idioma de traducción"
+msgstr "Añadir idioma para traducción"
 
 #: weblate/auth/data.py:72
 msgid "Perform automatic translation"
@@ -1328,7 +1328,7 @@ msgstr "Eliminar traducción existente"
 
 #: weblate/auth/data.py:74
 msgid "Add several languages for translation"
-msgstr "Añadir varios idiomas de traducción"
+msgstr "Añadir varios idiomas para traducción"
 
 #: weblate/auth/data.py:76
 msgid "Add new string"
@@ -5779,8 +5779,6 @@ msgid "Your registration on %(site_title)s"
 msgstr "Su registro en %(site_title)s"
 
 #: weblate/templates/mail/base.html:218
-#, fuzzy
-#| msgid "Translation Information"
 msgid "Translation Info"
 msgstr "Información de traducción"
 
@@ -5793,14 +5791,10 @@ msgid "Project Information"
 msgstr "Información del proyecto"
 
 #: weblate/templates/mail/base.html:300
-#, fuzzy
-#| msgid "Weblate, the continuous localization system"
 msgid "Weblate, the copylefted libre continuous localization system"
-msgstr "Weblate, el sistema de regionalización continua"
+msgstr "Weblate, el sistema libre y con «copyleft» de regionalización continua"
 
 #: weblate/templates/mail/base.html:304
-#, fuzzy
-#| msgid "Disable this notification"
 msgid "Turn off this notification"
 msgstr "Desactivar esta notificación"
 
@@ -9825,10 +9819,8 @@ msgid "Fails checks"
 msgstr "Comprobaciones fallidas"
 
 #: weblate/trans/templatetags/translations.py:617
-#, fuzzy
-#| msgid "Comment"
 msgid "Commented"
-msgstr "Comentario"
+msgstr "Con comentarios"
 
 #: weblate/trans/templatetags/translations.py:637
 #, python-format
@@ -10215,10 +10207,8 @@ msgid "Add screenshots to show where strings are being used."
 msgstr "Añada capturas de pantalla para mostrar dónde se utilizan las cadenas."
 
 #: weblate/trans/views/guide.py:181
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Notificar nuevas cadenas a traducir"
+msgstr "Utilice marcas para señalar cadenas especiales en su traducción."
 
 #: weblate/trans/views/guide.py:197
 msgid "Workflow customization"
@@ -10272,32 +10262,26 @@ msgstr "Búsqueda de %s"
 
 #: weblate/trans/views/search.py:225
 msgid "Too many search queries, please try again later."
-msgstr ""
-"Demasiadas  peticiones de búsquedas enviadas, por favor, inténtelo más tarde."
+msgstr "Se enviaron demasiadas consultas; inténtelo de nuevo más tarde."
 
 #: weblate/trans/views/search.py:228
 msgid "Invalid search query!"
-msgstr "¡Búsqueda inválida!"
+msgstr "La búsqueda no es válida."
 
 #: weblate/trans/views/search.py:277
-#, fuzzy
-#| msgid "Mass state change completed, no strings were updated."
 msgid "Bulk status change completed, no strings were updated."
-msgstr ""
-"Se completó el cambio de estado masivo, no se actualizó ninguna cadena."
+msgstr "Se completó el cambio de estado masivo; no se actualizó ninguna cadena."
 
 #: weblate/trans/views/search.py:279
-#, fuzzy, python-format
-#| msgid "Mass state change completed, %d string was updated."
-#| msgid_plural "Mass state change completed, %d strings were updated."
+#, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Cambio de estado masivo completado, %d cadena actualizada."
-msgstr[1] "Cambio de estado masivo completado, %d cadenas actualizadas."
+msgstr[0] "Se completó el cambio de estado masivo; se actualizó %d cadena."
+msgstr[1] "Se completó el cambio de estado masivo; se actualizaron %d cadenas."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
-msgstr "Ajustes guardados"
+msgstr "Se guardó la configuración"
 
 #: weblate/trans/views/settings.py:54 weblate/trans/views/settings.py:88
 msgid "Invalid settings, please check the form for errors!"
@@ -10361,14 +10345,12 @@ msgid "Failed to render template: {}"
 msgstr "Error al visualizar la plantilla: {}"
 
 #: weblate/utils/render.py:156
-#, fuzzy
-#| msgid ""
-#| "Do not change the object here, please use the Weblate interface instead."
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
-"No cambie este el objeto aquí, utilice la interfaz de Weblate para ello."
+"Ya no se admiten las cadenas de formato; en su lugar, utilice el lenguaje de "
+"plantillas."
 
 #: weblate/utils/render.py:173
 msgid "The editor link lacks URL scheme!"
@@ -10416,8 +10398,6 @@ msgstr ""
 "relevante."
 
 #: weblate/utils/validators.py:151
-#, fuzzy
-#| msgid "Please avoid using special chars in the full name."
 msgid "Please avoid using special characters in the full name."
 msgstr "Evite utilizar caracteres especiales en el nombre completo."
 
@@ -10457,7 +10437,7 @@ msgstr "No hay ningún repositorio remoto"
 
 #: weblate/vcs/git.py:732
 msgid "Git with force push"
-msgstr ""
+msgstr "Git con envío forzado"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
@@ -10509,10 +10489,8 @@ msgid "Port"
 msgstr "Puerto"
 
 #: weblate/wladmin/forms.py:60
-#, fuzzy
-#| msgid "Activation email will be sent here."
 msgid "The test e-mail will be sent to this address."
-msgstr "El correo de activación se enviará aquí."
+msgstr "Se enviará el mensaje de prueba a esta dirección."
 
 #: weblate/wladmin/models.py:91
 msgid "Community support"
@@ -10539,10 +10517,8 @@ msgid "Backup failed"
 msgstr "Falló la copia de respaldo"
 
 #: weblate/wladmin/models.py:198
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Deleted the oldest backups"
-msgstr "Eliminar esta cuenta"
+msgstr "Se eliminaron los respaldos más antiguos"
 
 #: weblate/wladmin/models.py:199
 msgid "Repository initialization"
@@ -10553,8 +10529,6 @@ msgid "Weblate administration"
 msgstr "Administración de Weblate"
 
 #: weblate/wladmin/sites.py:195
-#, fuzzy
-#| msgid "Object listing disabled"
 msgid "Object listing turned off"
 msgstr "Lista de objetos desactivada"
 
@@ -10593,8 +10567,7 @@ msgid "Test e-mail sent."
 msgstr "Se envió un mensaje de prueba."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to send test e-mail: %s"
+#, python-format
 msgid "Could not send test e-mail: %s"
 msgstr "No se pudo enviar el mensaje de prueba: %s"
 
@@ -10603,18 +10576,16 @@ msgid "Activation completed."
 msgstr "Se completó la activación."
 
 #: weblate/wladmin/views.py:120
-#, fuzzy
-#| msgid "The activation failed. Please check your activation token."
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
-msgstr "Falló la activación. Revise su ficha de activación."
+msgstr ""
+"No se pudo activar su instalación. Cerciórese de que la ficha de activación "
+"sea correcta."
 
 #: weblate/wladmin/views.py:160
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup process triggered"
-msgstr "Se ha eliminado su cuenta."
+msgstr "Se inició el proceso de respaldo"
 
 #: weblate/wladmin/views.py:182
 msgid "Could not dismiss the configuration error!"
