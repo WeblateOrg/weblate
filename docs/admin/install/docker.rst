@@ -36,8 +36,8 @@ The following examples assume you have a working Docker environment, with
               - 80:8080
             environment:
               WEBLATE_EMAIL_HOST: smtp.example.com
-              WEBLATE_EMAIL_HOST_USER: user
-              WEBLATE_EMAIL_HOST_PASSWORD: pass
+              WEBLATE_EMAIL_USER: user
+              WEBLATE_EMAIL_PASSWORD: pass
               WEBLATE_SERVER_EMAIL: weblate@example.com
               WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
               WEBLATE_ALLOWED_HOSTS: weblate.example.com,localhost
@@ -122,8 +122,8 @@ a :file:`docker-compose-https.override.yml` file with your settings:
       weblate:
         environment:
           WEBLATE_EMAIL_HOST: smtp.example.com
-          WEBLATE_EMAIL_HOST_USER: user
-          WEBLATE_EMAIL_HOST_PASSWORD: pass
+          WEBLATE_EMAIL_USER: user
+          WEBLATE_EMAIL_PASSWORD: pass
           WEBLATE_ALLOWED_HOSTS: weblate.example.com
           WEBLATE_ADMIN_PASSWORD: password for admin user
       https-portal:
@@ -629,17 +629,17 @@ To make outgoing e-mail work, you need to provide a mail server.
 
     .. seealso:: :setting:`django:EMAIL_PORT`
 
-.. envvar:: WEBLATE_EMAIL_HOST_USER
+.. envvar:: WEBLATE_EMAIL_USER
 
     Email authentication user, do NOT use quotes here.
 
-    .. seealso:: :setting:`django:EMAIL_HOST_USER`
+    .. seealso:: :setting:`django:EMAIL_USER`
 
-.. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
+.. envvar:: WEBLATE_EMAIL_PASSWORD
 
     Email authentication password, do NOT use quotes here.
 
-    .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
+    .. seealso:: :setting:`django:EMAIL_PASSWORD`
 
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
