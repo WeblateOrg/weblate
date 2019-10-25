@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-21 15:24+0000\n"
-"PO-Revision-Date: 2019-10-12 05:01+0000\n"
+"PO-Revision-Date: 2019-10-26 05:39+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -4312,10 +4312,8 @@ msgstr "Przekracza ograniczenia"
 
 #: weblate/templates/billing/detail.html:32
 #: weblate/templates/billing/status.html:12
-#, fuzzy
-#| msgid "Change payment plan"
 msgid "Change plan"
-msgstr "Zmień plan płatności"
+msgstr "Zmień plan"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
@@ -4377,10 +4375,8 @@ msgstr "Cena miesięczna"
 
 #: weblate/templates/billing/status.html:29
 #: weblate/templates/billing/status.html:44
-#, fuzzy
-#| msgid "Privacy"
 msgid "Pay"
-msgstr "Prywatność"
+msgstr "Zapłać"
 
 #: weblate/templates/billing/status.html:35
 msgid "Yearly price"
@@ -5769,8 +5765,6 @@ msgid "Your registration on %(site_title)s"
 msgstr "Rejestracja w %(site_title)s"
 
 #: weblate/templates/mail/base.html:218
-#, fuzzy
-#| msgid "Translation Information"
 msgid "Translation Info"
 msgstr "Informacje o tłumaczeniu"
 
@@ -5783,14 +5777,10 @@ msgid "Project Information"
 msgstr "Informacje o projekcie"
 
 #: weblate/templates/mail/base.html:300
-#, fuzzy
-#| msgid "Weblate, the continuous localization system"
 msgid "Weblate, the copylefted libre continuous localization system"
-msgstr "Weblate, system ciągłej lokalizacji"
+msgstr "Weblate, system ciągłego lokalizowania na zasadach licencji copyleft"
 
 #: weblate/templates/mail/base.html:304
-#, fuzzy
-#| msgid "Disable this notification"
 msgid "Turn off this notification"
 msgstr "Wyłącz to powiadomienie"
 
@@ -6919,16 +6909,12 @@ msgid "Pending string"
 msgstr "Oczekujący ciąg"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "Teksty z propozycjami"
+msgstr "Propozycje tekstów"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Teksty z komentarzami"
+msgstr "Tekst z komentarzem"
 
 #: weblate/templates/snippets/query-builder.html:21
 msgid "String has failing check"
@@ -6952,10 +6938,8 @@ msgid "String changed after"
 msgstr "Ciąg zmienił się po"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Ciąg zmienił się wcześniej"
+msgstr "Ciąg wcześniej zmieniony"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
@@ -9812,8 +9796,6 @@ msgid "Not translated"
 msgstr "Nie tłumaczone"
 
 #: weblate/trans/templatetags/translations.py:601
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Fails checks"
 msgstr "Nieudane testy"
 
@@ -10435,8 +10417,9 @@ msgid "No remote repository"
 msgstr "Brak zdalnego repozytorium"
 
 #: weblate/vcs/git.py:732
+#, fuzzy
 msgid "Git with force push"
-msgstr ""
+msgstr "Git z wymuszone push"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
@@ -10565,8 +10548,7 @@ msgid "Test e-mail sent."
 msgstr "Wysłano testową wiadomość e-mail."
 
 #: weblate/wladmin/views.py:97
-#, fuzzy, python-format
-#| msgid "Failed to send test e-mail: %s"
+#, python-format
 msgid "Could not send test e-mail: %s"
 msgstr "Nie udało się wysłać testowej wiadomości e-mail: %s"
 
@@ -10575,18 +10557,16 @@ msgid "Activation completed."
 msgstr "Aktywacja została zakończona."
 
 #: weblate/wladmin/views.py:120
-#, fuzzy
-#| msgid "The activation failed. Please check your activation token."
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
-msgstr "Aktywacja nie powiodła się. Proszę sprawdzić token aktywacyjny."
+msgstr ""
+"Nie można aktywować instalacji. Upewnij się, że token aktywacyjny jest "
+"poprawny."
 
 #: weblate/wladmin/views.py:160
-#, fuzzy
-#| msgid "Backup has been triggered"
 msgid "Backup process triggered"
-msgstr "Kopia zapasowa została uruchomiona"
+msgstr "Uruchomiono proces tworzenia kopii zapasowej"
 
 #: weblate/wladmin/views.py:182
 msgid "Could not dismiss the configuration error!"
