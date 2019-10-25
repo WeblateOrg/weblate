@@ -988,6 +988,11 @@ CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
     os.environ.get("REDIS_PORT", "6379"),
     os.environ.get("REDIS_DB", "1"),
 )
+if REDIS_PROTO == "rediss":
+    CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
+        CELERY_BROKER_URL,
+        "CERT_REQUIRED" if get_env_bool("REDIS_VERIFY_SSL", True) else "CERT_NONE",
+    )
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # Celery settings, it is not recommended to change these
