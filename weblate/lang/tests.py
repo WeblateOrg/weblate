@@ -35,7 +35,7 @@ from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.langdata import languages
 from weblate.trans.tests.test_models import BaseTestCase
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 
 LANGUAGES = (
     (
@@ -445,7 +445,7 @@ class VerifyPluralsTest(TestCase):
             )
 
 
-class LanguagesViewTest(FixtureTestCase):
+class LanguagesViewTest(ViewTestCase):
     def test_languages(self):
         response = self.client.get(reverse('languages'))
         self.assertContains(response, 'Czech')
@@ -534,7 +534,10 @@ class LanguagesViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             reverse('show_language', kwargs={'lang': 'br'}),
+            follow=True
         )
+        #print(response.status_code)
+        #print(response.content)
         self.assertRedirects(response, reverse('languages'))
 
     def test_edit(self):
