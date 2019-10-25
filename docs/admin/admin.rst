@@ -3,6 +3,11 @@
 Django admin interface
 ======================
 
+.. warning::
+
+   Using Django admin interface is discouraged - you can manage most of the
+   features directly in Weblate. The admin interface will be removed in future.
+
 Administration of Weblate is done through standard Django admin interface,
 which is available under :file:`/admin/` URL. Once logged in as user with
 proper privileges, you can access it using the wrench icon in top navigation:
