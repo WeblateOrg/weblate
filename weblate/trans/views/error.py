@@ -27,10 +27,13 @@ from django.utils.translation import ugettext as _
 from sentry_sdk import last_event_id
 
 from weblate.trans.util import render
+from weblate.utils.errors import report_error
 
 
 def bad_request(request, exception=None):
     """Error handler for bad request."""
+    if exception:
+        report_error(exception)
     return render(request, "400.html", {"title": _("Bad Request")}, status=400)
 
 
