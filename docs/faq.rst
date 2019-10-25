@@ -160,16 +160,16 @@ Once you merge changes from Weblate, you might have to merge these branches
     git merge -s ours origin/maintenance
 
 
-How to translate multi platform projetcts?
-------------------------------------------
+How to translate multi-platform projects?
+-----------------------------------------
 
-Weblate supports wide range of file formats (see :doc:`formats`) and the
-easiest approach is to use native format for each platform.
+Weblate supports the wide range of file formats (see :doc:`formats`) and the
+easiest approach is to use the native format for each platform.
 
 Once you have added all platform translation files as components in one project
 (see :ref:`adding-projects`), you can utilize the translation propagation
 feature (enabled by default, can be turned off in the :ref:`component`) to
-translate strings in all platforms at once.
+translate strings for all platforms at once.
 
 .. note::
 
