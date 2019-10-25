@@ -12,6 +12,8 @@ Not yet released.
 * Added search based on priority.
 * Fixed possible crash on adding strings to JSON file.
 * Safe HTML check and fixup now honor source string markup.
+* Avoid sending notifications to invited and deleted users.
+* Fix SSL connection to redis in Celery in Docker container.
 
 Weblate 3.9
 -----------
