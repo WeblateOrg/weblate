@@ -127,6 +127,9 @@ CACHES = {
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False
 
+# Use database backed sessions for transaction consistency in tests
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
 # Test optional apps as well
 INSTALLED_APPS += (
     'weblate.billing',
