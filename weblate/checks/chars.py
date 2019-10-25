@@ -94,7 +94,7 @@ class BeginSpaceCheck(TargetCheck):
             replacement = source[:spaces]
         else:
             replacement = ''
-        return [(' *$', replacement)]
+        return [('^ *', replacement)]
 
 
 class EndSpaceCheck(TargetCheck):
