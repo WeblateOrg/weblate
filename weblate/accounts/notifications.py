@@ -167,20 +167,29 @@ class Notification(object):
         )
         for subscription in subscriptions:
             user = subscription.user
-            # Skip lower priority subscription and own changes
-            if change is not None and user in (last_user, change.user):
-                continue
-            if subscription.scope == SCOPE_ADMIN and not user.has_perm(
-                'project.edit', project
-            ):
-                continue
+            # Skip notification in some cases
             if (
-                subscription.scope == SCOPE_DEFAULT
-                and not self.ignore_watched
-                and project is not None
-                and not user.profile.watched.filter(pk=project.id).exists()
+                # Lower priority subscription for user
+                (user == last_user)
+                # Own change
+                or (change is not None and user == change.user)
+                # Inactive users
+                or (not user.is_active)
+                # Admin for not admin projects
+                or (
+                    subscription.scope == SCOPE_ADMIN
+                    and not user.has_perm('project.edit', project)
+                )
+                # Default scope for not watched
+                or (
+                    subscription.scope == SCOPE_DEFAULT
+                    and not self.ignore_watched
+                    and project is not None
+                    and not user.profile.watched.filter(pk=project.id).exists()
+                )
             ):
                 continue
+
             last_user = user
             if frequency == FREQ_INSTANT and self.should_skip(user, change):
                 continue
