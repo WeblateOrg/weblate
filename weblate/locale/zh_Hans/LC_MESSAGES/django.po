@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-21 15:24+0000\n"
-"PO-Revision-Date: 2019-10-23 13:50+0000\n"
+"PO-Revision-Date: 2019-10-25 05:53+0000\n"
 "Last-Translator: Yuping Zuo <git@yupingzuo.me>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -788,7 +788,7 @@ msgstr "该插件能使用机器翻译或其他组件自动翻译字符串。"
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr ""
+msgstr "代码库已过期，您可能无法获得预期的结果，除非对齐进行更新。"
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -808,14 +808,10 @@ msgid "Language consistency"
 msgstr "语言一致性"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
-msgstr "这一插件确保项目中所有组件都已翻译成同一门语言。"
+msgstr "确保项目中所有组件都已翻译成同一门语言。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -976,8 +972,6 @@ msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "进行删除的投票阈值。当投票被禁用时该项无效果。"
 
 #: weblate/addons/forms.py:178
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr "用于匹配翻译文件的正则表达式"
 
@@ -1015,17 +1009,13 @@ msgid "Language filter"
 msgstr "语言筛选"
 
 #: weblate/addons/forms.py:212
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
-msgstr "正则表达式可用于在扫描文件掩码时筛选译文。"
+msgstr "扫描文件掩码时用于筛选翻译的正则表达式。"
 
 #: weblate/addons/forms.py:217
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "从主组件克隆插件到新创建的组件"
 
 #: weblate/addons/forms.py:222
 #, fuzzy
@@ -1148,46 +1138,31 @@ msgid "This addon sorts the Java properties file."
 msgstr "此插件会排序 Java properties 文件。"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "删除账户"
+msgstr "陈旧注释删除"
 
 #: weblate/addons/removal.py:51
 msgid "Set timeframe for removal of comments."
-msgstr ""
+msgstr "设置删除注释的时间。"
 
 #: weblate/addons/removal.py:62
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "建议已移除"
+msgstr "陈旧建议删除"
 
 #: weblate/addons/removal.py:63
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Set timeframe for removal of suggestions."
-msgstr "用户能否对建议投票。"
+msgstr "设置删除建议的时间。"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid "Update LINGUAS file"
 msgid "Update RESX files"
-msgstr "更新 LINGUAS 文件"
+msgstr "更新 RESX 文件"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
-msgstr ""
-"更新所有翻译文件以匹配单语种译文模版文件。对于大多数文件格式来说，这意味着移"
-"除译文模版文件中不再出现的旧翻译条目。"
+msgstr "更新所有翻译文件以匹配上游单语种译文模版文件。未使用的字符串将被删除，新字符串将复制源字符串添加。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1222,10 +1197,8 @@ msgid "Edit component settings"
 msgstr "编辑组件设置"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Lock component from translating"
 msgid "Lock component, preventing translations"
-msgstr "锁定组件的翻译"
+msgstr "锁定组件，阻止翻译"
 
 #: weblate/auth/data.py:42
 msgid "Post comment"
