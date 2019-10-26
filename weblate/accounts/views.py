@@ -558,10 +558,6 @@ class WeblateLoginView(LoginView):
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
         context['title'] = _('Login')
-        context['demo_users'] = (
-            ('demo', 'demo', _('Standard user')),
-            ('review', 'review', _('User with reviewer permissions')),
-        )
         return context
 
     @method_decorator(never_cache)
@@ -955,8 +951,6 @@ def handle_missing_parameter(request, backend, error):
         return auth_redirect_token(request)
     if error.parameter in ('state', 'code'):
         return auth_redirect_state(request)
-    if error.parameter == 'demo':
-        return auth_fail(request, _('Can not change authentication for demo!'))
     if error.parameter == 'disabled':
         return auth_fail(request, _('New registrations are turned off.'))
     return None
@@ -967,7 +961,6 @@ def handle_missing_parameter(request, backend, error):
 def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
 
-    - Blocks access for demo user
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by javascript) to avoid
       confirmations by bots
