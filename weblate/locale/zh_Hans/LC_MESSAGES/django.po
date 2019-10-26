@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2019-10-21 15:24+0000\n"
+"POT-Creation-Date: 2019-10-26 12:14+0000\n"
 "PO-Revision-Date: 2019-10-25 05:53+0000\n"
 "Last-Translator: Yuping Zuo <git@yupingzuo.me>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -505,67 +505,67 @@ msgstr "每周摘要"
 msgid "Monthly digest"
 msgstr "每月摘要"
 
-#: weblate/accounts/notifications.py:361
+#: weblate/accounts/notifications.py:370
 msgid "Merge failure"
 msgstr "合并失败"
 
-#: weblate/accounts/notifications.py:375 weblate/trans/models/change.py:244
+#: weblate/accounts/notifications.py:384 weblate/trans/models/change.py:244
 msgid "Parse error"
 msgstr "解析错误"
 
-#: weblate/accounts/notifications.py:382
+#: weblate/accounts/notifications.py:391
 msgid "New string"
 msgstr "新字符串"
 
-#: weblate/accounts/notifications.py:390 weblate/trans/models/change.py:264
+#: weblate/accounts/notifications.py:399 weblate/trans/models/change.py:264
 msgid "New contributor"
 msgstr "新贡献者"
 
-#: weblate/accounts/notifications.py:398
+#: weblate/accounts/notifications.py:407
 msgid "New suggestion"
 msgstr "新建议"
 
-#: weblate/accounts/notifications.py:407
+#: weblate/accounts/notifications.py:416
 #, fuzzy
 #| msgid "Comment on authored translation"
 msgid "Comment on own translation"
 msgstr "在所作翻译上注释"
 
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:447
 msgid "Mentioned in comment"
 msgstr "在注释中提及"
 
-#: weblate/accounts/notifications.py:467 weblate/templates/translate.html:444
+#: weblate/accounts/notifications.py:476 weblate/templates/translate.html:444
 #: weblate/trans/forms.py:997
 msgid "New comment"
 msgstr "新注释"
 
-#: weblate/accounts/notifications.py:487
+#: weblate/accounts/notifications.py:496
 msgid "Changed string"
 msgstr "已修改的字符串"
 
-#: weblate/accounts/notifications.py:495
+#: weblate/accounts/notifications.py:504
 msgid "New language"
 msgstr "新语言"
 
-#: weblate/accounts/notifications.py:511
+#: weblate/accounts/notifications.py:520
 msgid "New translation component"
 msgstr "新翻译组件"
 
-#: weblate/accounts/notifications.py:518 weblate/trans/models/change.py:265
+#: weblate/accounts/notifications.py:527 weblate/trans/models/change.py:265
 msgid "New whiteboard message"
 msgstr "新白板消息"
 
-#: weblate/accounts/notifications.py:526 weblate/trans/models/change.py:266
+#: weblate/accounts/notifications.py:535 weblate/trans/models/change.py:266
 msgid "New alert"
 msgstr "新提醒"
 
-#: weblate/accounts/notifications.py:571
+#: weblate/accounts/notifications.py:580
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "待处理的建议"
 
-#: weblate/accounts/notifications.py:580 weblate/trans/filter.py:33
+#: weblate/accounts/notifications.py:589 weblate/trans/filter.py:33
 msgid "Strings needing action"
 msgstr "需要处理的字符串"
 
@@ -677,7 +677,7 @@ msgstr "有复查权限的用户"
 msgid "Log in to use Weblate."
 msgstr "登录以使用 Weblate。"
 
-#: weblate/accounts/views.py:594 weblate/wladmin/sites.py:184
+#: weblate/accounts/views.py:594 weblate/wladmin/sites.py:185
 msgid "Thank you for using Weblate."
 msgstr "感谢您使用 Weblate。"
 
@@ -915,7 +915,9 @@ msgstr "不换行"
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
-msgstr "默认情况下 gettext 会在每行第 77 个字符处与换行符处折行。但附加 --no-wrap 参数后，它仅会在换行符处折行。"
+msgstr ""
+"默认情况下 gettext 会在每行第 77 个字符处与换行符处折行。但附加 --no-wrap 参"
+"数后，它仅会在换行符处折行。"
 
 #: weblate/addons/forms.py:121
 msgid "Keep previous msgids of translated strings"
@@ -1162,7 +1164,9 @@ msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
-msgstr "更新所有翻译文件以匹配上游单语种译文模版文件。未使用的字符串将被删除，新字符串将复制源字符串添加。"
+msgstr ""
+"更新所有翻译文件以匹配上游单语种译文模版文件。未使用的字符串将被删除，新字符"
+"串将复制源字符串添加。"
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1262,8 +1266,10 @@ msgstr "编辑截图"
 msgid "Delete screenshot"
 msgstr "删除截图"
 
-#: weblate/auth/data.py:64 weblate/templates/translate.html:196
-msgid "Edit source string"
+#: weblate/auth/data.py:64
+#, fuzzy
+#| msgid "Edit source string"
+msgid "Edit source string info"
 msgstr "编辑源字符串"
 
 #: weblate/auth/data.py:66
@@ -1627,7 +1633,7 @@ msgid "All languages"
 msgstr "所有语言"
 
 #: weblate/auth/models.py:157 weblate/billing/models.py:257
-#: weblate/lang/models.py:390 weblate/lang/views.py:53
+#: weblate/lang/models.py:387 weblate/lang/views.py:53
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:37 weblate/templates/base.html:134
 #: weblate/templates/lang/create.html:6
@@ -1983,7 +1989,7 @@ msgstr "XML 文本"
 msgid "DOS line endings"
 msgstr "DOS 行尾"
 
-#: weblate/checks/flags.py:43 weblate/checks/markup.py:296
+#: weblate/checks/flags.py:43 weblate/checks/markup.py:297
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
@@ -2116,73 +2122,73 @@ msgstr "Java MessageFormat"
 msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 格式的字符串与源文不匹配"
 
-#: weblate/checks/markup.py:77
+#: weblate/checks/markup.py:78
 #, fuzzy
 #| msgid "BB code"
 msgid "BBcode markup"
 msgstr "BB 代码"
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:79
 msgid "BBcode in translation does not match source"
 msgstr "译文中的 BBcode 和原文不一致"
 
-#: weblate/checks/markup.py:140
+#: weblate/checks/markup.py:141
 #, fuzzy
 #| msgid "XML text"
 msgid "XML syntax"
 msgstr "XML 文本"
 
-#: weblate/checks/markup.py:141
+#: weblate/checks/markup.py:142
 msgid "The translation is not valid XML"
 msgstr "该翻译不是有效的 XML"
 
-#: weblate/checks/markup.py:168
+#: weblate/checks/markup.py:169
 #, fuzzy
 #| msgid "Invalid XML markup"
 msgid "XML markup"
 msgstr "无效 XML 标记"
 
-#: weblate/checks/markup.py:169
+#: weblate/checks/markup.py:170
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:221
 #, fuzzy
 #| msgid "Markdown link references"
 msgid "Markdown references"
 msgstr "Markdown 链接引用"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:222
 #, fuzzy
 #| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Markdown 链接引用和原文不一致"
 
-#: weblate/checks/markup.py:237
+#: weblate/checks/markup.py:238
 msgid "Markdown links"
 msgstr "Markdown 链接"
 
-#: weblate/checks/markup.py:238
+#: weblate/checks/markup.py:239
 msgid "Markdown links do not match source"
 msgstr "Markdown 链接和原文不一致"
 
-#: weblate/checks/markup.py:261
+#: weblate/checks/markup.py:262
 msgid "Markdown syntax"
 msgstr "Markdown 语法"
 
-#: weblate/checks/markup.py:262
+#: weblate/checks/markup.py:263
 msgid "Markdown syntax does not match source"
 msgstr "Markdown 语法与原文不匹配"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:298
 msgid "The translation does not contain an URL"
 msgstr "翻译未包含 URL"
 
-#: weblate/checks/markup.py:316 weblate/trans/autofixes/html.py:33
+#: weblate/checks/markup.py:317 weblate/trans/autofixes/html.py:34
 msgid "Unsafe HTML"
 msgstr ""
 
-#: weblate/checks/markup.py:317
+#: weblate/checks/markup.py:318
 #, fuzzy
 #| msgid "The translation is using bilingual files."
 msgid "The translation uses unsafe HTML markup"
@@ -2344,7 +2350,7 @@ msgstr ""
 msgid "Font"
 msgstr ""
 
-#: weblate/fonts/models.py:143 weblate/lang/models.py:389
+#: weblate/fonts/models.py:143 weblate/lang/models.py:386
 #: weblate/templates/component.html:140 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:11 weblate/templates/project.html:159
@@ -2406,31 +2412,31 @@ msgstr ""
 msgid "gettext PO"
 msgstr "gettext PO"
 
-#: weblate/formats/exporters.py:260
+#: weblate/formats/exporters.py:257
 msgid "XLIFF with gettext extensions"
 msgstr "带有 gettext 扩展的 XLIFF"
 
-#: weblate/formats/exporters.py:278
+#: weblate/formats/exporters.py:273
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
-#: weblate/formats/exporters.py:289
+#: weblate/formats/exporters.py:282
 msgid "TBX"
 msgstr "TBX"
 
-#: weblate/formats/exporters.py:300
+#: weblate/formats/exporters.py:291
 msgid "TMX"
 msgstr "TMX"
 
-#: weblate/formats/exporters.py:311
+#: weblate/formats/exporters.py:300
 msgid "gettext MO"
 msgstr "gettext MO"
 
-#: weblate/formats/exporters.py:365
+#: weblate/formats/exporters.py:361
 msgid "CSV"
 msgstr "CSV"
 
-#: weblate/formats/exporters.py:389 weblate/formats/external.py:48
+#: weblate/formats/exporters.py:382 weblate/formats/external.py:48
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
@@ -2640,163 +2646,163 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "三个"
 
-#: weblate/lang/models.py:370 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:371 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/language.html:53
 msgid "Language code"
 msgstr "语言代码"
 
-#: weblate/lang/models.py:374 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:372 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "语言名称"
 
-#: weblate/lang/models.py:377 weblate/templates/language.html:62
+#: weblate/lang/models.py:374 weblate/templates/language.html:62
 msgid "Text direction"
 msgstr "文字方向"
 
-#: weblate/lang/models.py:381
+#: weblate/lang/models.py:378
 msgid "Left to right"
 msgstr "从左至右"
 
-#: weblate/lang/models.py:382
+#: weblate/lang/models.py:379
 msgid "Right to left"
 msgstr "从右至左"
 
-#: weblate/lang/models.py:450
+#: weblate/lang/models.py:441
 msgctxt "Plural type"
 msgid "None"
 msgstr "无"
 
-#: weblate/lang/models.py:454
+#: weblate/lang/models.py:444
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
 msgstr "一/其他（经典复数）"
 
-#: weblate/lang/models.py:458
+#: weblate/lang/models.py:448
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
 msgstr "一/几/其他（斯拉夫语）"
 
-#: weblate/lang/models.py:462
+#: weblate/lang/models.py:450
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "阿拉伯语"
 
-#: weblate/lang/models.py:466
+#: weblate/lang/models.py:451
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "零/一/其他"
 
-#: weblate/lang/models.py:470
+#: weblate/lang/models.py:452
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "单/双/其他"
 
-#: weblate/lang/models.py:474
+#: weblate/lang/models.py:453
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "一/其他/二"
 
-#: weblate/lang/models.py:478
+#: weblate/lang/models.py:456
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "一/二/几/其他"
 
-#: weblate/lang/models.py:482
+#: weblate/lang/models.py:460
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "其他/一/二/几"
 
-#: weblate/lang/models.py:486
+#: weblate/lang/models.py:464
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "一/二/三/其他"
 
-#: weblate/lang/models.py:490
+#: weblate/lang/models.py:466
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "一/其他/零"
 
-#: weblate/lang/models.py:494
+#: weblate/lang/models.py:469
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "一/几/多/其他"
 
-#: weblate/lang/models.py:498
+#: weblate/lang/models.py:471
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "二/其他"
 
-#: weblate/lang/models.py:502
+#: weblate/lang/models.py:474
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "一/二/几/多/其他"
 
-#: weblate/lang/models.py:506
+#: weblate/lang/models.py:476
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "未知"
 
-#: weblate/lang/models.py:510
+#: weblate/lang/models.py:479
 msgctxt "Plural type"
 msgid "Zero/one/two/three/six/other"
 msgstr "零/一/二/三/六/其他"
 
-#: weblate/lang/models.py:518
+#: weblate/lang/models.py:487
 msgid "Plural definition source"
 msgstr "复数定义源"
 
-#: weblate/lang/models.py:520
+#: weblate/lang/models.py:489
 msgid "Default plural"
 msgstr "默认复数"
 
-#: weblate/lang/models.py:521
+#: weblate/lang/models.py:490
 #, fuzzy
 #| msgid "Plural form"
 msgid "Plural gettext formula"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:522
+#: weblate/lang/models.py:491
 #, fuzzy
 #| msgid "Plural form"
 msgid "Manually entered formula"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:527 weblate/templates/language.html:77
+#: weblate/lang/models.py:495 weblate/templates/language.html:77
 msgid "Number of plurals"
 msgstr "复数数量"
 
-#: weblate/lang/models.py:534 weblate/templates/language.html:97
+#: weblate/lang/models.py:502 weblate/templates/language.html:100
 #: weblate/trans/forms.py:334
 msgid "Plural equation"
 msgstr "复数等式"
 
-#: weblate/lang/models.py:539 weblate/templates/language.html:81
+#: weblate/lang/models.py:507 weblate/templates/language.html:81
 msgid "Plural type"
 msgstr "复数类型"
 
-#: weblate/lang/models.py:547
+#: weblate/lang/models.py:515
 msgid "Plural form"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:548
+#: weblate/lang/models.py:516
 msgid "Plural forms"
 msgstr "复数形式"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:615
+#: weblate/lang/models.py:579
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "例如： {0}"
 
-#: weblate/lang/models.py:626
+#: weblate/lang/models.py:590
 msgid "Singular"
 msgstr "单数形式"
 
-#: weblate/lang/models.py:628
+#: weblate/lang/models.py:592
 msgid "Plural"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:629
+#: weblate/lang/models.py:593
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -3080,7 +3086,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
-#: weblate/trans/views/error.py:43 weblate/trans/views/error.py:51
+#: weblate/trans/views/error.py:46 weblate/trans/views/error.py:54
 msgid "Permission Denied"
 msgstr "权限被拒绝"
 
@@ -3164,7 +3170,7 @@ msgstr ""
 "如果您已经设置浏览器禁用cookies，请重新启用，至少针对这个站点，全部HTTPS请"
 "求，或者同源请求（same-origin）启用cookies。"
 
-#: weblate/templates/404.html:5 weblate/trans/views/error.py:39
+#: weblate/templates/404.html:5 weblate/trans/views/error.py:42
 msgid "Page Not Found"
 msgstr "页面未找到"
 
@@ -3177,7 +3183,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "您寻找的项目不存在或不公开可用。"
 
-#: weblate/templates/500.html:6 weblate/trans/views/error.py:66
+#: weblate/templates/500.html:6 weblate/trans/views/error.py:69
 msgid "Internal Server Error"
 msgstr "服务器内部错误"
 
@@ -4318,7 +4324,7 @@ msgstr "翻译记忆库"
 msgid "Settings"
 msgstr "设置"
 
-#: weblate/templates/base.html:218 weblate/wladmin/sites.py:190
+#: weblate/templates/base.html:218 weblate/wladmin/sites.py:191
 msgid "Logout"
 msgstr "退出"
 
@@ -5743,7 +5749,7 @@ msgid "Add language"
 msgstr "涉及语言"
 
 #: weblate/templates/language-project.html:77
-#: weblate/templates/language.html:107
+#: weblate/templates/language.html:110
 msgid "Browse all language changes"
 msgstr "查看所有语言的变更"
 
@@ -5763,7 +5769,7 @@ msgstr[0] "%(count)s 翻译"
 msgid "Plurals"
 msgstr "复数形式"
 
-#: weblate/templates/language.html:120
+#: weblate/templates/language.html:123
 msgid "There are no glossaries defined for this language."
 msgstr "此语言为定义任何概览。"
 
@@ -7615,6 +7621,10 @@ msgstr "额外上下文"
 #: weblate/templates/translate.html:187 weblate/templates/zen-units.html:16
 msgid "Context:"
 msgstr "上下文："
+
+#: weblate/templates/translate.html:196
+msgid "Edit source string"
+msgstr "编辑源字符串"
 
 #: weblate/templates/translate.html:213
 msgid "Please log in to save translations."
@@ -10347,7 +10357,7 @@ msgstr "包含此键的翻译已存在！"
 msgid "New string has been added."
 msgstr "新翻译字符串已添加。"
 
-#: weblate/trans/views/error.py:34
+#: weblate/trans/views/error.py:37
 msgid "Bad Request"
 msgstr "无效的请求"
 
@@ -10437,6 +10447,10 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "在译文中重复的字符串。"
 
 #: weblate/trans/views/guide.py:197
+msgid "Add safe-html flag to avoid dangerous HTML from translators."
+msgstr ""
+
+#: weblate/trans/views/guide.py:220
 msgid "Workflow customization"
 msgstr ""
 
@@ -10658,11 +10672,11 @@ msgstr "文件名不能是一个绝对路径。"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "参数 %(field)s 出错：%(error)s"
 
-#: weblate/vcs/git.py:606
+#: weblate/vcs/git.py:616
 msgid "No remote repository"
 msgstr "没有远程仓库"
 
-#: weblate/vcs/git.py:732
+#: weblate/vcs/git.py:742
 msgid "Git with force push"
 msgstr ""
 
@@ -10759,7 +10773,7 @@ msgstr "代码库维护"
 msgid "Weblate administration"
 msgstr "Weblate 管理"
 
-#: weblate/wladmin/sites.py:195
+#: weblate/wladmin/sites.py:196
 msgid "Object listing turned off"
 msgstr "对象列出功能已关闭"
 
@@ -11107,11 +11121,6 @@ msgstr "无法排除配置错误！"
 
 #~ msgid "More information about Weblate"
 #~ msgstr "更多有关 Weblate 的信息"
-
-#, fuzzy
-#~| msgid "Edit source string"
-#~ msgid "Edit source string info"
-#~ msgstr "编辑源字符串"
 
 #~ msgid ""
 #~ "However, the following translation projects are available on this server:"
