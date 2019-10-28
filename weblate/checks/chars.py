@@ -26,8 +26,16 @@ from six.moves.html_parser import HTMLParser
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 
 KASHIDA_CHARS = (
-    '\u0640', '\uFCF2', '\uFCF3', '\uFCF4', '\uFE71', '\uFE77', '\uFE79',
-    '\uFE7B', '\uFE7D', '\uFE7F'
+    '\u0640',
+    '\uFCF2',
+    '\uFCF3',
+    '\uFCF4',
+    '\uFE71',
+    '\uFE77',
+    '\uFE79',
+    '\uFE7B',
+    '\uFE7D',
+    '\uFE7F',
 )
 FRENCH_PUNCTUATION = {';', ':', '?', '!'}
 HTML_PARSER = HTMLParser()
@@ -139,6 +147,7 @@ class EndSpaceCheck(TargetCheck):
 
 class EndStopCheck(TargetCheck):
     """Check for final stop."""
+
     check_id = 'end_stop'
     name = _('Trailing stop')
     description = _('Source and translation do not both end with a full stop')
@@ -156,29 +165,23 @@ class EndStopCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == '…':
             return False
-        if self.is_language(unit, ('ja', )) and source[-1] in (':', ';'):
+        if self.is_language(unit, ('ja',)) and source[-1] in (':', ';'):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
+            return self.check_chars(source, target, -1, (';', ':', '：', '.', '。'))
+        if self.is_language(unit, ('hy',)):
             return self.check_chars(
-                source, target, -1, (';', ':', '：', '.', '。')
-            )
-        if self.is_language(unit, ('hy', )):
-            return self.check_chars(
-                source, target, -1,
-                (
-                    '.', '。', '।', '۔', '։', '·',
-                    '෴', '។', ':', '՝', '?', '!', '`',
-                )
+                source,
+                target,
+                -1,
+                ('.', '。', '।', '۔', '։', '·', '෴', '។', ':', '՝', '?', '!', '`'),
             )
         if self.is_language(unit, ('hi', 'bn', 'or')):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
-            return self.check_chars(
-                source, target, -1, ('.', '।', '|')
-            )
+            return self.check_chars(source, target, -1, ('.', '।', '|'))
         return self.check_chars(
-            source, target, -1,
-            ('.', '。', '।', '۔', '։', '·', '෴', '។')
+            source, target, -1, ('.', '。', '।', '۔', '։', '·', '෴', '។')
         )
 
 
@@ -187,41 +190,29 @@ class EndColonCheck(TargetCheck):
 
     check_id = 'end_colon'
     name = _('Trailing colon')
-    description = _(
-        'Source and translation do not both end with a colon'
-    )
+    description = _('Source and translation do not both end with a colon')
     severity = 'warning'
 
     def _check_hy(self, source, target):
         if source[-1] == ':':
-            return self.check_chars(
-                source,
-                target,
-                -1,
-                (':', '՝', '`')
-            )
+            return self.check_chars(source, target, -1, (':', '՝', '`'))
         return False
 
     def _check_ja(self, source, target):
         # Japanese sentence might need to end with full stop
         # in case it's used before list.
         if source[-1] in (':', ';'):
-            return self.check_chars(
-                source,
-                target,
-                -1,
-                (';', ':', '：', '.', '。')
-            )
+            return self.check_chars(source, target, -1, (';', ':', '：', '.', '。'))
         return False
 
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if self.is_language(unit, ('jbo', )):
+        if self.is_language(unit, ('jbo',)):
             return False
-        if self.is_language(unit, ('hy', )):
+        if self.is_language(unit, ('hy',)):
             return self._check_hy(source, target)
-        if self.is_language(unit, ('ja', )):
+        if self.is_language(unit, ('ja',)):
             return self._check_ja(source, target)
         return self.check_chars(source, target, -1, (':', '：', '៖'))
 
@@ -231,20 +222,13 @@ class EndQuestionCheck(TargetCheck):
 
     check_id = 'end_question'
     name = _('Trailing question')
-    description = _(
-        'Source and translation do not both end with a question mark'
-    )
+    description = _('Source and translation do not both end with a question mark')
     question_el = ('?', ';', ';')
     severity = 'warning'
 
     def _check_hy(self, source, target):
         if source[-1] == '?':
-            return self.check_chars(
-                source,
-                target,
-                -1,
-                ('?', '՞', '։')
-            )
+            return self.check_chars(source, target, -1, ('?', '՞', '։'))
         return False
 
     def _check_el(self, source, target):
@@ -255,18 +239,15 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if self.is_language(unit, ('jbo', )):
+        if self.is_language(unit, ('jbo',)):
             return False
-        if self.is_language(unit, ('hy', )):
+        if self.is_language(unit, ('hy',)):
             return self._check_hy(source, target)
-        if self.is_language(unit, ('el', )):
+        if self.is_language(unit, ('el',)):
             return self._check_el(source, target)
 
         return self.check_chars(
-            source,
-            target,
-            -1,
-            ('?', '՞', '؟', '⸮', '？', '፧', '꘏', '⳺')
+            source, target, -1, ('?', '՞', '؟', '⸮', '？', '፧', '꘏', '⳺')
         )
 
 
@@ -275,26 +256,23 @@ class EndExclamationCheck(TargetCheck):
 
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
-    description = _(
-        'Source and translation do not both end with an exclamation mark'
-    )
+    description = _('Source and translation do not both end with an exclamation mark')
 
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if (self.is_language(unit, ('eu', )) and source[-1] == '!'
-                and '¡' in target and '!' in target):
+        if (
+            self.is_language(unit, ('eu',))
+            and source[-1] == '!'
+            and '¡' in target
+            and '!' in target
+        ):
             return False
         if self.is_language(unit, ('hy', 'jbo')):
             return False
         if source.endswith('Texy!') or target.endswith('Texy!'):
             return False
-        return self.check_chars(
-            source,
-            target,
-            -1,
-            ('!', '！', '՜', '᥄', '႟', '߹')
-        )
+        return self.check_chars(source, target, -1, ('!', '！', '՜', '᥄', '႟', '߹'))
 
 
 class EndEllipsisCheck(TargetCheck):
@@ -308,12 +286,12 @@ class EndEllipsisCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not target:
             return False
-        if self.is_language(unit, ('jbo', )):
+        if self.is_language(unit, ('jbo',)):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == '…':
             return False
-        return self.check_chars(source, target, -1, ('…', ))
+        return self.check_chars(source, target, -1, ('…',))
 
 
 class NewlineCountingCheck(CountingCheck):
@@ -335,7 +313,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     severity = 'warning'
 
     def check_single(self, source, target, unit):
-        if self.is_language(unit, ('km', )):
+        if self.is_language(unit, ('km',)):
             return False
         return ('\u200b' in target) != ('\u200b' in source)
 
@@ -366,7 +344,7 @@ class EndSemicolonCheck(TargetCheck):
     severity = 'warning'
 
     def check_single(self, source, target, unit):
-        if self.is_language(unit, ('el', )) and source and source[-1] == '?':
+        if self.is_language(unit, ('el',)) and source and source[-1] == '?':
             # Complement to question mark check
             return False
         return self.check_chars(source, target, -1, [';'])
@@ -412,7 +390,15 @@ class PuctuationSpacingCheck(TargetCheck):
     def get_fixup(self, unit):
         return [
             # First fix possibly wrong whitespace
-            ('([ \u00A0\u2009])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '\u202F$2', 'gu'),
+            (
+                '([ \u00A0\u2009])([{}])'.format(''.join(FRENCH_PUNCTUATION)),
+                '\u202F$2',
+                'gu',
+            ),
             # Then add missing ones
-            ('([^\u202F])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '$1\u202F$2', 'gu'),
+            (
+                '([^\u202F])([{}])'.format(''.join(FRENCH_PUNCTUATION)),
+                '$1\u202F$2',
+                'gu',
+            ),
         ]
