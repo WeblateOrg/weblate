@@ -294,9 +294,9 @@ automatically every hour), you can configure your component push URL to a ssh
 URL of your repository (see :ref:`component`) and enjoy Weblate automatically
 pushing changes to your repository.
 
-In case you do not want direct pushes by Weblate, there is support for GitHub
-pull requests or Gerrit reviews, you can activate these by choosing `GitHub` or
-`Gerrit` as VCS in :ref:`component`.
+In case you do not want direct pushes by Weblate, there is support for GitHub,
+GitLab pull requests or Gerrit reviews, you can activate these by choosing
+`GitHub`, `GitLab` or `Gerrit` as VCS in :ref:`component`.
 
 Protected branches
 ++++++++++++++++++
