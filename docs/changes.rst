@@ -1,7 +1,7 @@
 Weblate 3.9.1
 -------------
 
-Not yet released.
+Released on October 28th 2019.
 
 * Remove some not needed files from backups.
 * Fixed potential crash in reports.
