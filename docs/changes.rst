@@ -1,3 +1,8 @@
+Weblate 3.10
+------------
+
+Not yet released.
+
 Weblate 3.9.1
 -------------
 
