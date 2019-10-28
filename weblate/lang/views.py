@@ -171,7 +171,7 @@ class CreateLanguageView(CreateView):
         plural = form[1].instance
         plural.language = self.object
         plural.type = data.PLURAL_UNKNOWN
-        plural.source = Plural.SOURCE_MANUAL
+        plural.source = Plural.SOURCE_DEFAULT
         plural.save()
         return redirect(self.object)
 
