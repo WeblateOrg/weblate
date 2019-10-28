@@ -94,7 +94,7 @@ class BeginSpaceCheck(TargetCheck):
             replacement = source[:spaces]
         else:
             replacement = ''
-        return [('^ *', replacement)]
+        return [('^ *', replacement, 'u')]
 
 
 class EndSpaceCheck(TargetCheck):
@@ -134,7 +134,7 @@ class EndSpaceCheck(TargetCheck):
             replacement = source[-spaces:]
         else:
             replacement = ''
-        return [(' *$', replacement)]
+        return [(' *$', replacement, 'u')]
 
 
 class EndStopCheck(TargetCheck):
@@ -340,7 +340,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
         return ('\u200b' in target) != ('\u200b' in source)
 
     def get_fixup(self, unit):
-        return [('\u200b', '')]
+        return [('\u200b', '', 'gu')]
 
 
 class MaxLengthCheck(TargetCheckParametrized):
@@ -382,7 +382,7 @@ class KashidaCheck(TargetCheck):
         return any((x in target for x in KASHIDA_CHARS))
 
     def get_fixup(self, unit):
-        return [('[{}]'.format(''.join(KASHIDA_CHARS)), '')]
+        return [('[{}]'.format(''.join(KASHIDA_CHARS)), '', 'gu')]
 
 
 class PuctuationSpacingCheck(TargetCheck):
@@ -412,7 +412,7 @@ class PuctuationSpacingCheck(TargetCheck):
     def get_fixup(self, unit):
         return [
             # First fix possibly wrong whitespace
-            ('([ \u00A0\u2009])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '\u202F$2'),
+            ('([ \u00A0\u2009])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '\u202F$2', 'gu'),
             # Then add missing ones
-            ('([^\u202F])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '$1\u202F$2'),
+            ('([^\u202F])([{}])'.format(''.join(FRENCH_PUNCTUATION)), '$1\u202F$2', 'gu'),
         ]
