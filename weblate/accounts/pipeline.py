@@ -345,15 +345,17 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
 
 def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified e-mail."""
-    verified, created = VerifiedEmail.objects.get_or_create(
-        social=social,
-        defaults={
-            'email': details['email']
-        }
-    )
-    if not created and verified.email != details['email']:
-        verified.email = details['email']
-        verified.save()
+    # The email can be empty for some services
+    if details.get('email'):
+        verified, created = VerifiedEmail.objects.get_or_create(
+            social=social,
+            defaults={
+                'email': details['email']
+            }
+        )
+        if not created and verified.email != details['email']:
+            verified.email = details['email']
+            verified.save()
 
 
 def notify_connect(strategy, backend, user, social, new_association=False,
