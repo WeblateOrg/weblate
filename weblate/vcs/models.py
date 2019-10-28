@@ -49,7 +49,7 @@ class VCSConf(AppConf):
         'weblate.vcs.git.GitWithGerritRepository',
         'weblate.vcs.git.SubversionRepository',
         'weblate.vcs.git.GithubRepository',
-        'weblate.vcs.git.GitlabRepository',
+        'weblate.vcs.git.GitLabRepository',
         'weblate.vcs.git.LocalRepository',
         'weblate.vcs.git.GitForcePushRepository',
         'weblate.vcs.mercurial.HgRepository',

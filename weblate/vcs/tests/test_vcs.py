@@ -35,7 +35,7 @@ from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
     GitForcePushRepository,
     GithubRepository,
-    GitlabRepository,
+    GitLabRepository,
     GitRepository,
     GitWithGerritRepository,
     LocalRepository,
@@ -50,7 +50,7 @@ class GithubFakeRepository(GithubRepository):
     _cmd = get_test_file('hub')
 
 
-class GitlabFakeRepository(GitlabRepository):
+class GitLabFakeRepository(GitLabRepository):
     _is_supported = None
     _version = None
     _cmd = get_test_file('lab')
@@ -436,8 +436,8 @@ class VCSGithubTest(VCSGitTest):
 
 
 @override_settings(GITLAB_USERNAME="test")
-class VCSGitlabTest(VCSGitTest):
-    _class = GitlabFakeRepository
+class VCSGitLabTest(VCSGitTest):
+    _class = GitLabFakeRepository
     _vcs = 'git'
     _sets_push = False
 

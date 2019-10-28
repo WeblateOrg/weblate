@@ -695,9 +695,9 @@ class LocalRepository(GitRepository):
                 repo.commit('Started tranlation using Weblate')
 
 
-class GitlabRepository(GitMergeRequestBase):
+class GitLabRepository(GitMergeRequestBase):
 
-    name = 'Gitlab'
+    name = 'GitLab'
 
     # docs: https://zaquestion.github.io/lab/
     _cmd = 'lab'
