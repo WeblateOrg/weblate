@@ -71,6 +71,7 @@ def tag_cache_dirs():
 
 def borg(cmd, env=None):
     """Wrapper to execute borgbackup."""
+    SSH_WRAPPER.create()
     try:
         return subprocess.check_output(
             ["borg", "--rsh", SSH_WRAPPER.filename] + cmd,
