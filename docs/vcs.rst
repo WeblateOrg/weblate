@@ -164,6 +164,10 @@ For a bigger setup, it is usually better to create dedicated user for Weblate,
 assign him the SSH key generated in Weblate and grant him access to all
 repositories you want.
 
+On Hosted Weblate, adding ``weblate`` user is enough to grant the service
+access to the repository. Once you invite the bot, it accepts the invitation
+within five minutes. This is same as described in :ref:`hosted-push`.
+
 Customizing Git configuration
 +++++++++++++++++++++++++++++
 
