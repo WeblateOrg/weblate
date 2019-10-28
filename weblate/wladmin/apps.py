@@ -50,13 +50,16 @@ def check_backups(app_configs, **kwargs):
         )
     for service in BackupService.objects.filter(enabled=True):
         try:
-            last_log = service.last_logs()[0].event
+            last_obj = service.last_logs()[0]
+            last_event = last_obj.event
+            last_log = last_obj.log
         except IndexError:
-            last_log = "error"
-        if last_log == "error":
+            last_event = "error"
+            last_log = "missing"
+        if last_event == "error":
             errors.append(
                 Critical(
-                    "There was error while performing backups: {}".format(last_log.log),
+                    "There was error while performing backups: {}".format(last_log),
                     hint=get_doc_url("admin/backup"),
                     id="weblate.C029",
                 )
