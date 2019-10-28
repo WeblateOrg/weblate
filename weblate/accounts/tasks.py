@@ -113,14 +113,14 @@ def notify_monthly():
 
 
 @app.task(trail=False, autoretry_for=(ObjectDoesNotExist,))
-def notify_auditlog(log_id):
+def notify_auditlog(log_id, email):
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email
 
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
         audit.user.profile.language,
-        audit.user.email,
+        email,
         'account_activity',
         context={
             'message': audit.get_message,

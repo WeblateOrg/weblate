@@ -303,7 +303,7 @@ class AuditLog(models.Model):
     def save(self, *args, **kwargs):
         super(AuditLog, self).save(*args, **kwargs)
         if self.should_notify():
-            notify_auditlog.delay(self.pk)
+            notify_auditlog.delay(self.pk, self.user.email)
 
 
 @python_2_unicode_compatible
