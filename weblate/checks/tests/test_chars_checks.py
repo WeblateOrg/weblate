@@ -29,6 +29,7 @@ from unittest import TestCase
 from weblate.checks.chars import (
     BeginNewlineCheck,
     BeginSpaceCheck,
+    DoubleSpaceCheck,
     EndColonCheck,
     EndEllipsisCheck,
     EndExclamationCheck,
@@ -88,6 +89,16 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_good_none = (' The ', '  ', '')
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
+
+
+class DoubleSpaceCheckTest(CheckTestCase):
+    check = DoubleSpaceCheck()
+
+    def setUp(self):
+        super(DoubleSpaceCheckTest, self).setUp()
+        self.test_good_matching = ('string  string', 'string  string', '')
+        self.test_good_ignore = ('  ', ' ', '')
+        self.test_failure_1 = ('string string', 'string  string', '')
 
 
 class EndStopCheckTest(CheckTestCase):

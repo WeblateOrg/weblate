@@ -42,6 +42,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.chars.EndNewlineCheck',
         'weblate.checks.chars.BeginSpaceCheck',
         'weblate.checks.chars.EndSpaceCheck',
+        'weblate.checks.chars.DoubleSpaceCheck',
         'weblate.checks.chars.EndStopCheck',
         'weblate.checks.chars.EndColonCheck',
         'weblate.checks.chars.EndQuestionCheck',

@@ -145,6 +145,29 @@ class EndSpaceCheck(TargetCheck):
         return [(' *$', replacement, 'u')]
 
 
+class DoubleSpaceCheck(TargetCheck):
+    """Doublespace check."""
+
+    check_id = 'double_space'
+    name = _('Double space')
+    description = _('Translation contains double space')
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        # One letter things are usually decimal/thousand separators
+        if len(source) <= 1 and len(target) <= 1:
+            return False
+        if not source or not target:
+            return False
+        if '  ' in source:
+            return False
+        # Check if target contains double space
+        return '  ' in target
+
+    def get_fixup(self, unit):
+        return [(' {2,}', ' ')]
+
+
 class EndStopCheck(TargetCheck):
     """Check for final stop."""
 
