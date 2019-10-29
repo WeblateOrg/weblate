@@ -220,6 +220,12 @@ class Project(models.Model, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
+        # Reload components after source language change
+        if self.id and old.source_language != self.source_language:
+            from weblate.trans.tasks import perform_load
+            for component in self.component_set.iterator():
+                perform_load.delay(component.pk)
+
     @cached_property
     def languages(self):
         """Return list of all languages used in project."""
