@@ -284,6 +284,8 @@ class PluralTextarea(forms.Textarea):
         attrs['dir'] = lang.direction
         attrs['rows'] = 3
         attrs['maxlength'] = unit.get_max_length()
+        if unit.readonly:
+            attrs['readonly'] = 1
 
         # Okay we have more strings
         ret = []
