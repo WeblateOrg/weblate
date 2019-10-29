@@ -270,6 +270,7 @@ class Unit(models.Model, LoggerMixin):
     state = models.IntegerField(
         default=STATE_EMPTY, db_index=True, choices=STATE_CHOICES
     )
+    original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
 
     position = models.IntegerField()
 
@@ -333,7 +334,9 @@ class Unit(models.Model, LoggerMixin):
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status"""
-        if unit.is_readonly() or 'read-only' in self.get_all_flags(flags):
+        if unit.is_readonly() or (
+            flags is not None and 'read-only' in self.get_all_flags(flags)
+        ):
             return STATE_READONLY
 
         # We need to keep approved/fuzzy state for formats which do not
@@ -364,6 +367,7 @@ class Unit(models.Model, LoggerMixin):
             context = unit.context
             comment = unit.comments
             state = self.get_unit_state(unit, flags)
+            self.original_state = self.get_unit_state(unit)
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
@@ -547,6 +551,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = STATE_EMPTY
         elif self.state == STATE_EMPTY and translation:
             self.state = STATE_TRANSLATED
+        self.original_state = self.state
 
         # Save updated unit to database
         self.save()
@@ -595,6 +600,7 @@ class Unit(models.Model, LoggerMixin):
                 # Set fuzzy on changed
                 unit.state = STATE_FUZZY
                 unit.previous_source = previous_source
+            unit.original_state = unit.state
 
             # Update source index and stats
             unit.update_has_comment()
@@ -868,6 +874,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = new_state
         else:
             self.state = STATE_EMPTY
+        self.original_state = self.state
         saved = self.save_backend(
             user, change_action=change_action, propagate=propagate
         )
