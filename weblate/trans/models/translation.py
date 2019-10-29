@@ -685,7 +685,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 not_found += 1
                 continue
 
-            if (unit.translated and not overwrite) or (
+            if (unit.translated and not overwrite) or unit.readonly or (
                 not request.user.has_perm('unit.edit', unit)
             ):
                 skipped += 1
@@ -735,7 +735,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             # Add suggestion
-            if dbunit.target != unit.target:
+            if dbunit.target != unit.target and not dbunit.readonly:
                 if Suggestion.objects.add(dbunit, unit.target, request):
                     accepted += 1
                 else:
