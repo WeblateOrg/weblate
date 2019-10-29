@@ -121,13 +121,12 @@ class TTKitUnit(TranslationUnit):
         """Check whether unit is marked as obsolete in backend."""
         return self.mainunit.isobsolete()
 
-    def is_translatable(self):
-        """Check whether unit is translatable.
+    def has_content(self):
+        """Check whether unit has content."""
+        return not self.mainunit.isheader() and not self.mainunit.isblank() and not self.mainunit.isobsolete()
 
-        For some reason, blank string does not mean non translatable
-        unit in some formats (XLIFF), so lets skip those as well.
-        """
-        return self.mainunit.istranslatable() and not self.mainunit.isblank()
+    def is_readonly(self):
+        return not self.mainunit.istranslatable()
 
     def set_target(self, target):
         """Set translation unit target."""
@@ -538,15 +537,16 @@ class XliffUnit(TTKitUnit):
         if self.xliff_state:
             self.xliff_node.set('state', 'final' if value else 'translated')
 
-    def is_translatable(self):
-        """Check whether unit is translatable.
+    def has_content(self):
+        """Check whether unit has content.
 
         For some reason, blank string does not mean non translatable
-        unit in some formats (XLIFF), so lets skip those as well.
+        unit in XLIFF, so lets skip those as well.
         """
         return (
-            self.mainunit.istranslatable()
+            not self.mainunit.isheader()
             and bool(rich_to_xliff_string(self.mainunit.rich_source))
+            and not self.mainunit.isobsolete()
         )
 
 
@@ -622,8 +622,11 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
             return self.mainunit.getid().lstrip('.')
         return get_string(self.template.target)
 
-    def is_translatable(self):
+    def has_content(self):
         return True
+
+    def is_readonly(self):
+        return False
 
 
 class WebExtensionJSONUnit(MonolingualSimpleUnit):

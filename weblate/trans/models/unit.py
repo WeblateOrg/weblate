@@ -56,6 +56,7 @@ from weblate.utils.state import (
     STATE_CHOICES,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 
@@ -330,19 +331,23 @@ class Unit(models.Model, LoggerMixin):
             self.translation.get_translate_url(), self.checksum
         )
 
-    def get_unit_state(self, unit):
+    def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status"""
-        translated = unit.is_translated()
+        if unit.is_readonly() or 'read-only' in self.get_all_flags(flags):
+            return STATE_READONLY
+
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
-        fuzzy = unit.is_fuzzy(self.fuzzy)
-        approved = unit.is_approved(self.approved)
-
-        if fuzzy:
+        if unit.is_fuzzy(self.fuzzy):
             return STATE_FUZZY
-        if not translated:
+
+        if not unit.is_translated():
             return STATE_EMPTY
-        if approved and self.translation.component.project.enable_review:
+
+        if (
+            unit.is_approved(self.approved)
+            and self.translation.component.project.enable_review
+        ):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
@@ -358,7 +363,7 @@ class Unit(models.Model, LoggerMixin):
             source = unit.source
             context = unit.context
             comment = unit.comments
-            state = self.get_unit_state(unit)
+            state = self.get_unit_state(unit, flags)
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
@@ -876,14 +881,17 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    @cached_property
-    def all_flags(self):
+    def get_all_flags(self, override=None):
         """Return union of own and component flags."""
         return Flags(
             self.translation.component.all_flags,
             self.source_info.check_flags,
-            self.flags,
+            override or self.flags,
         )
+
+    @cached_property
+    def all_flags(self):
+        return self.get_all_flags()
 
     @cached_property
     def source_info(self):

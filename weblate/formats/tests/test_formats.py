@@ -293,7 +293,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def test_flags(self):
         """Check flags on first translatable unit."""
         storage = self.parse_file(self.FILE)
-        for unit in storage.translatable_units:
+        for unit in storage.content_units:
             self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
             break
 
@@ -511,11 +511,16 @@ class XliffIdFormatTest(XliffFormatTest):
         unit.set_target('Opicka ma <x id="c" equiv-text="{{count}}"/> banan.\n')
 
         self.assertEqual(len(translation.all_units), 5)
-        self.assertTrue(translation.all_units[0].is_translatable())
-        self.assertTrue(translation.all_units[1].is_translatable())
-        self.assertTrue(translation.all_units[2].is_translatable())
-        self.assertTrue(translation.all_units[3].is_translatable())
-        self.assertFalse(translation.all_units[4].is_translatable())
+        self.assertTrue(translation.all_units[0].has_content())
+        self.assertFalse(translation.all_units[0].is_readonly())
+        self.assertTrue(translation.all_units[1].has_content())
+        self.assertFalse(translation.all_units[1].is_readonly())
+        self.assertTrue(translation.all_units[2].has_content())
+        self.assertFalse(translation.all_units[2].is_readonly())
+        self.assertTrue(translation.all_units[3].has_content())
+        self.assertFalse(translation.all_units[3].is_readonly())
+        self.assertFalse(translation.all_units[4].has_content())
+        self.assertFalse(translation.all_units[4].is_readonly())
 
         translation.save()
 

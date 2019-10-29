@@ -148,9 +148,13 @@ class TranslationUnit(object):
         """Check whether unit is marked as obsolete in backend."""
         return False
 
-    def is_translatable(self):
-        """Check whether unit is translatable."""
+    def has_content(self):
+        """Check whether unit has content."""
         return True
+
+    def is_readonly(self):
+        """Check whether unit is read only."""
+        return False
 
     def set_target(self, target):
         """Set translation unit target."""
@@ -332,9 +336,9 @@ class TranslationFormat(object):
         ]
 
     @property
-    def translatable_units(self):
+    def content_units(self):
         for unit in self.all_units:
-            if not unit.is_translatable():
+            if not unit.has_content():
                 continue
             yield unit
 
@@ -425,7 +429,7 @@ class TranslationFormat(object):
 
         Note: This can change fuzzy state of units!
         """
-        for unit in self.translatable_units:
+        for unit in self.content_units:
             # Skip fuzzy (if asked for that)
             if unit.is_fuzzy():
                 if not fuzzy:
