@@ -24,7 +24,7 @@
 {% block content %}
 
 {% perm 'unit.edit' unit as user_can_translate %}
-{% perm 'suggestion.add' unit.translation as user_can_suggest %}
+{% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
 {% perm 'machinery.view' unit.translation as user_can_use_mt %}

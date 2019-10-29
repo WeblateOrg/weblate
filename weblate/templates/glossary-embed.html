@@ -3,7 +3,7 @@
 {% load translations %}
 
 {% perm 'unit.edit' unit as user_can_translate %}
-{% perm 'suggestion.add' unit.translation as user_can_suggest %}
+{% perm 'suggestion.add' unit as user_can_suggest %}
 
 {% for item in glossary %}
     <tr class="glossary-embed" title="{% trans "Copy word into translation" %}">
