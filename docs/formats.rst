@@ -1099,3 +1099,15 @@ Java style
 
    Weblate recognizes any of these when parsing translation files, the above
    settings only influences how new files are created.
+
+.. _read-only-strings:
+
+Read only strings
+-----------------
+
+.. versionadded:: 3.10
+
+Weblate will also include read only strings from the translation files, but
+will not allow editing them. This feature is natively supported by few formats
+(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding
+``read-only`` flag, see :ref:`custom-checks`.

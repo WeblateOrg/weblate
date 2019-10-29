@@ -43,6 +43,8 @@ Here is a list of flags currently accepted:
     The string should consist of URL only.
 ``safe-html``
     The string should be HTML safe, see :ref:`check-safe-html`.
+``read-only``
+    The string is read only and should not be edited in Weblate, see :ref:`read-only-strings`.
 ``priority:N``
     Priority of the string. Higher priority strings are presented first to translate. 
     The default priority is 100, the higher priority string has, the earlier is 
