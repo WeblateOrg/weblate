@@ -124,7 +124,7 @@
     </tbody>
     </table>
   </div></i>
-  </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Editing source string" %}{% else %}{% trans "Translate" %}{% endif %}</h4></div>
+  </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Source string" %}{% else %}{% trans "Translation" %}{% endif %} {% if unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
