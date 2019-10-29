@@ -203,6 +203,7 @@ class Project(models.Model, URLMixin, PathMixin):
     def save(self, *args, **kwargs):
 
         # Renaming detection
+        old = None
         if self.id:
             old = Project.objects.get(pk=self.id)
             # Detect slug changes and rename directory
@@ -221,7 +222,7 @@ class Project(models.Model, URLMixin, PathMixin):
         super(Project, self).save(*args, **kwargs)
 
         # Reload components after source language change
-        if self.id and old.source_language != self.source_language:
+        if old is not None and old.source_language != self.source_language:
             from weblate.trans.tasks import perform_load
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
