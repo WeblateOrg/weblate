@@ -26,12 +26,14 @@ STATE_EMPTY = 0
 STATE_FUZZY = 10
 STATE_TRANSLATED = 20
 STATE_APPROVED = 30
+STATE_READONLY = 100
 
 STATE_CHOICES = (
     (STATE_EMPTY, _('Empty')),
     (STATE_FUZZY, _('Needs editing')),
     (STATE_TRANSLATED, _('Translated')),
     (STATE_APPROVED, _('Approved')),
+    (STATE_READONLY, _('Read only')),
 )
 
 STATE_NAMES = {name.replace(' ', '-').lower(): value for (value, name) in STATE_CHOICES}
