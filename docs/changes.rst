@@ -6,6 +6,7 @@ Not yet released.
 * Added doublespace check.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted emails.
+* Added support for read only strings.
 
 Weblate 3.9.1
 -------------
