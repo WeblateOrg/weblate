@@ -44,6 +44,7 @@ PLAIN_FLAGS["url"] = ugettext_lazy("URL")
 PLAIN_FLAGS["auto-java-messageformat"] = ugettext_lazy(
     "Automatically detect Java MessageFormat"
 )
+PLAIN_FLAGS["read-only"] = ugettext_lazy("Read only")
 
 TYPED_FLAGS["font-family"] = ugettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = six.text_type
