@@ -53,15 +53,14 @@ from weblate.utils.errors import report_error
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 SUPPORTS_FUZZY = (pounit, tsunit)
+XLIFF_FUZZY_STATES = {'new', 'needs-translation', 'needs-adaptation', 'needs-l10n'}
 
 
 class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ', '.join(
-            [x for x in self.mainunit.getlocations() if x is not None]
-        )
+        return ', '.join([x for x in self.mainunit.getlocations() if x is not None])
 
     @cached_property
     def source(self):
@@ -123,7 +122,11 @@ class TTKitUnit(TranslationUnit):
 
     def has_content(self):
         """Check whether unit has content."""
-        return not self.mainunit.isheader() and not self.mainunit.isblank() and not self.mainunit.isobsolete()
+        return (
+            not self.mainunit.isheader()
+            and not self.mainunit.isblank()
+            and not self.mainunit.isobsolete()
+        )
 
     def is_readonly(self):
         return not self.mainunit.istranslatable()
@@ -209,17 +212,15 @@ class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
     loader = ('', '')
 
-    def __init__(self, storefile, template_store=None, language_code=None,
-                 is_template=False):
+    def __init__(
+        self, storefile, template_store=None, language_code=None, is_template=False
+    ):
         super(TTKitFormat, self).__init__(
             storefile, template_store, language_code, is_template
         )
         # Set language (needed for some which do not include this)
-        if (language_code is not None
-                and self.store.gettargetlanguage() is None):
-            self.store.settargetlanguage(
-                self.get_language_code(language_code)
-            )
+        if language_code is not None and self.store.gettargetlanguage() is None:
+            self.store.settargetlanguage(self.get_language_code(language_code))
 
     @staticmethod
     def serialize(store):
@@ -314,9 +315,7 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from Translate Toolkit store."""
-        store.settargetlanguage(
-            cls.get_language_code(language.code)
-        )
+        store.settargetlanguage(cls.get_language_code(language.code))
         plural = language.plural
 
         for unit in store.units:
@@ -360,6 +359,7 @@ class TTKitFormat(TranslationFormat):
 
 class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties based units."""
+
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
@@ -368,9 +368,7 @@ class PropertiesUnit(KeyValueUnit):
     @cached_property
     def source(self):
         # Need to decode property encoded string
-        return quote.propertiesdecode(
-            super(PropertiesUnit, self).source
-        )
+        return quote.propertiesdecode(super(PropertiesUnit, self).source)
 
     @cached_property
     def target(self):
@@ -388,6 +386,7 @@ class PropertiesUnit(KeyValueUnit):
 
 class PoUnit(TTKitUnit):
     """Wrapper for gettext PO unit."""
+
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
         super(PoUnit, self).mark_fuzzy(fuzzy)
@@ -426,9 +425,6 @@ class XliffUnit(TTKitUnit):
     XLIFF is special in Translate Toolkit - it uses locations for what
     is context in other formats.
     """
-    FUZZY_STATES = frozenset((
-        'new', 'needs-translation', 'needs-adaptation', 'needs-l10n'
-    ))
 
     @cached_property
     def source(self):
@@ -513,7 +509,7 @@ class XliffUnit(TTKitUnit):
 
         That's why we handle it on our own.
         """
-        return self.target and self.xliff_state in self.FUZZY_STATES
+        return self.target and self.xliff_state in XLIFF_FUZZY_STATES
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit.
@@ -577,10 +573,7 @@ class TSUnit(MonolingualIDUnit):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             source = self.unit.source
-            return join_plural([
-                source,
-                source.replace('(s)', 's'),
-            ])
+            return join_plural([source, source.replace('(s)', 's')])
         return super(TSUnit, self).source
 
     @cached_property
@@ -719,6 +712,7 @@ class PoFormat(TTKitFormat):
     def get_plural(self, language):
         """Return matching plural object."""
         from weblate.lang.models import Plural
+
         header = self.store.parseheader()
         try:
             number, equation = Plural.parse_formula(header['Plural-Forms'])
@@ -756,9 +750,11 @@ class PoFormat(TTKitFormat):
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()
-        if ('Content-Type' not in header
-                or 'charset=CHARSET' in header['Content-Type']
-                or 'charset=ASCII' in header['Content-Type']):
+        if (
+            'Content-Type' not in header
+            or 'charset=CHARSET' in header['Content-Type']
+            or 'charset=ASCII' in header['Content-Type']
+        ):
             kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
 
         self.store.updateheader(**kwargs)
@@ -938,9 +934,7 @@ class AndroidFormat(TTKitFormat):
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
     unit_class = MonolingualIDUnit
-    new_translation = (
-        '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
-    )
+    new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     autoload = ('strings*.xml', 'values*.xml')
     language_format = 'android'
 
@@ -995,15 +989,17 @@ class CSVFormat(TTKitFormat):
     autoload = ('*.csv',)
     encoding = 'auto'
 
-    def __init__(self, storefile, template_store=None, language_code=None,
-                 is_template=False):
+    def __init__(
+        self, storefile, template_store=None, language_code=None, is_template=False
+    ):
         super(CSVFormat, self).__init__(
             storefile, template_store, language_code, is_template
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
-        if ('source' in self.store.fieldnames
-                and not isinstance(template_store, CSVFormat)):
+        if 'source' in self.store.fieldnames and not isinstance(
+            template_store, CSVFormat
+        ):
             self.template_store = None
 
     @staticmethod
@@ -1054,17 +1050,10 @@ class CSVFormat(TTKitFormat):
     @classmethod
     def parse_simple_csv(cls, content, storefile):
         storeclass = cls.get_class()
-        result = storeclass(
-            fieldnames=['source', 'target'],
-            encoding=cls.encoding,
-        )
+        result = storeclass(fieldnames=['source', 'target'], encoding=cls.encoding)
         result.parse(content)
         result.fileobj = storefile
-        filename = getattr(
-            storefile,
-            "name",
-            getattr(storefile, "filename", None)
-        )
+        filename = getattr(storefile, "name", getattr(storefile, "filename", None))
         if filename:
             result.filename = filename
         return result
@@ -1173,12 +1162,8 @@ class WindowsRCFormat(TTKitFormat):
     def get_class(cls):
         """Return class for handling this module."""
         if six.PY3:
-            raise ImportError(
-                'Windows RC file format unsupported on Python 3'
-            )
-        return importlib.import_module(
-            'translate.storage.rc'
-        ).rcfile
+            raise ImportError('Windows RC file format unsupported on Python 3')
+        return importlib.import_module('translate.storage.rc').rcfile
 
 
 class SubtitleUnit(MonolingualIDUnit):
@@ -1239,6 +1224,4 @@ class FlatXMLFormat(TTKitFormat):
     loader = ('flatxml', 'FlatXMLFile')
     monolingual = True
     unit_class = FlatXMLUnit
-    new_translation = (
-        '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
-    )
+    new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
