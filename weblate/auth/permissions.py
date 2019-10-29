@@ -211,10 +211,15 @@ def check_suggestion_vote(user, permission, obj):
 
 @register_perm('suggestion.add')
 @cache_perm
-def check_suggestion_add(user, permission, translation):
-    if not translation.component.enable_suggestions:
+def check_suggestion_add(user, permission, obj):
+    if isinstance(obj, Unit):
+        unit = obj
+        if unit.state == STATE_READONLY:
+            return False
+        obj = unit.translation
+    if not obj.component.enable_suggestions:
         return False
-    return check_permission(user, permission, translation)
+    return check_permission(user, permission, obj)
 
 
 @register_perm('upload.perform')
