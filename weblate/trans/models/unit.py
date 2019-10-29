@@ -313,6 +313,10 @@ class Unit(models.Model, LoggerMixin):
         return self.state >= STATE_TRANSLATED
 
     @property
+    def readonly(self):
+        return self.state == STATE_READONLY
+
+    @property
     def fuzzy(self):
         return self.state == STATE_FUZZY
 
@@ -366,12 +370,18 @@ class Unit(models.Model, LoggerMixin):
             source = unit.source
             context = unit.context
             comment = unit.comments
-            state = self.get_unit_state(unit, flags)
-            self.original_state = self.get_unit_state(unit)
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
             self.translation.component.handle_parse_error(error, self.translation)
+
+        # Ensure we track source string
+        source_info, source_created = component.get_source(self.id_hash)
+        self.__dict__['source_info'] = source_info
+
+        # Calculate state
+        state = self.get_unit_state(unit, flags)
+        self.original_state = self.get_unit_state(unit, None)
 
         # Monolingual files handling (without target change)
         if not created and unit.template is not None and target == self.target:
@@ -411,11 +421,6 @@ class Unit(models.Model, LoggerMixin):
         ):
             return
 
-        # Ensure we track source string
-        source_info, source_created = component.get_source(self.id_hash)
-
-        self.__dict__['source_info'] = source_info
-
         # Store updated values
         self.position = pos
         self.location = location
@@ -450,6 +455,16 @@ class Unit(models.Model, LoggerMixin):
         # Track updated sources for source checks
         if source_created or not same_source:
             component.updated_sources[self.id_hash] = self
+
+    def update_state(self):
+        """Update state based on flags."""
+        if 'read-only' in self.all_flags:
+            if not self.readonly:
+                self.state = STATE_READONLY
+                self.save(same_content=True, same_state=True, update_fields=['state'])
+        elif self.readonly:
+            self.state = self.original_state
+            self.save(same_content=True, same_state=True, update_fields=['state'])
 
     def update_priority(self, save=True):
         if self.all_flags.has_value('priority'):

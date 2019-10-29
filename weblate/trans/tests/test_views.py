@@ -780,6 +780,34 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.priority, 60)
 
+    def test_edit_readonly(self):
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit = self.get_unit()
+        old_state = unit.state
+        source = unit.source_info
+        response = self.client.post(
+            reverse('edit_check_flags', kwargs={'pk': source.pk}),
+            {'flags': 'read-only'}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertTrue(unit.readonly)
+        self.assertNotEqual(unit.state, old_state)
+
+        response = self.client.post(
+            reverse('edit_check_flags', kwargs={'pk': source.pk}),
+            {'flags': ''}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertFalse(unit.readonly)
+        self.assertEqual(unit.state, old_state)
+
     def test_edit_context(self):
         # Need extra power
         self.user.is_superuser = True

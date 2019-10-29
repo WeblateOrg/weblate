@@ -556,7 +556,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
-            state = unit.get_unit_state(pounit)
+            state = unit.get_unit_state(pounit, '')
             flags = pounit.flags
             if state != unit.state or flags != unit.flags:
                 unit.state = state
