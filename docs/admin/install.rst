@@ -270,7 +270,8 @@ SQLite backend is really only suitable for testing purposes.
 .. seealso::
 
    :ref:`production-database`,
-   :doc:`django:ref/databases`
+   :doc:`django:ref/databases`,
+   :ref:`database-migration`
 
 PostgreSQL
 ++++++++++
@@ -321,108 +322,6 @@ The :file:`settings.py` snippet for PostgreSQL:
             'PORT': '',
         }
     }
-
-.. _database-migration:
-
-Migrating from other databases
-++++++++++++++++++++++++++++++
-
-If you are running Weblate on other dabatase than PostgreSQL, you should
-migrate to PostgreSQL as that will be the only supported database backend in
-the 4.0 release. The following steps will guide you in migrating your data
-between the databases. Please remember to stop both web and Celery servers
-prior to the migration, otherwise you might end up with inconsistent data.
-
-Creating a database in PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-It is usually a good idea to run Weblate in a separate database, and separate user account:
-
-.. code-block:: sh
-
-    # If PostgreSQL was not installed before, set the master password
-    sudo -u postgres psql postgres -c "\password postgres"
-
-    # Create a database user called "weblate"
-    sudo -u postgres createuser -D -P weblate
-
-    # Create the database "weblate" owned by "weblate"
-    sudo -u postgres createdb -O weblate weblate
-
-Configuring Weblate to use PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Add PostgeSQL as additional database connection to the :file:`settings.py`:
-
-.. code-block:: python
-
-    DATABASES = {
-        'default': {
-            # Database engine
-            'ENGINE': 'django.db.backends.mysql',
-            # Database name
-            'NAME': 'weblate',
-            # Database user
-            'USER': 'weblate',
-            # Database password
-            'PASSWORD': 'password',
-            # Set to empty string for localhost
-            'HOST': 'database.example.com',
-            # Set to empty string for default
-            'PORT': '',
-            # Additional database options
-            'OPTIONS': {
-                # In case of using an older MySQL server, which has MyISAM as a default storage
-                # 'init_command': 'SET storage_engine=INNODB',
-                # Uncomment for MySQL older than 5.7:
-                # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                # If your server supports it, see the Unicode issues above
-               'charset': 'utf8mb4',
-               # Change connection timeout in case you get MySQL gone away error:
-               'connect_timeout': 28800,
-            }
-        },
-        'postgresql': {
-            # Database engine
-            'ENGINE': 'django.db.backends.postgresql',
-            # Database name
-            'NAME': 'weblate',
-            # Database user
-            'USER': 'weblate',
-            # Database password
-            'PASSWORD': 'password',
-            # Set to empty string for localhost
-            'HOST': 'database.example.com',
-            # Set to empty string for default
-            'PORT': '',
-        }
-    }
-
-Create empty tables in the PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Run migrations and drop any data inserted into the tables:
-
-.. code-block:: sh
-
-   python manage.py migrate --database=postgresql
-   python manage.py sqlflush --database=postgresql | psql
-
-Dump legacy database and import to PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: sh
-
-   python manage.py dumpdata --all --output weblate.json
-   python manage.py loaddata weblate.json --database=postgresql
-
-Adjust configuration
-~~~~~~~~~~~~~~~~~~~~
-
-Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
-remove legacy connection.
-
-Weblate should be now ready to run from the PostgreSQL database.
 
 Other configurations
 --------------------
