@@ -108,6 +108,7 @@ def update_source(sender, instance, **kwargs):
         for unit in instance.units:
             unit.translation.invalidate_cache()
             unit.update_priority()
+            # TODO: handle read-only flag
 
 
 @receiver(post_delete, sender=Comment)
