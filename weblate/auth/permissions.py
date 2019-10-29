@@ -30,6 +30,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.utils.state import STATE_READONLY
 
 SPECIALS = {}
 
@@ -181,6 +182,8 @@ def check_unit_review(user, permission, obj):
 def check_edit_approved(user, permission, obj):
     if isinstance(obj, Unit):
         unit = obj
+        if unit.state == STATE_READONLY:
+            return False
         obj = unit.translation
         if unit.approved \
                 and not check_unit_review(user, 'unit.review', obj):
