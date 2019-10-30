@@ -7,6 +7,7 @@ Not yet released.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted emails.
 * Added support for read only strings.
+* Added support for markdown in comments.
 
 Weblate 3.9.1
 -------------

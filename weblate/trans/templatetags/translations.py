@@ -31,7 +31,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_text
-from django.utils.html import escape, linebreaks, urlize
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy, ungettext
@@ -55,6 +55,7 @@ from weblate.trans.models import (
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.utils.docs import get_doc_url
+from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats
 
 register = template.Library()
@@ -803,16 +804,9 @@ def replace_english(value, language):
     return value.replace('English', force_text(language))
 
 
-@register.simple_tag
-def render_comment(comment):
-    mentioned = comment.get_mentions()
-    result = linebreaks(urlize(comment.comment, autoescape=True))
-    for user in mentioned:
-        result = result.replace(
-            '@{}'.format(user.username),
-            get_user_display(user, icon=False, link=True, prefix='@'),
-        )
-    return mark_safe(result)
+@register.filter
+def markdown(text):
+    return render_markdown(text)
 
 
 @register.filter

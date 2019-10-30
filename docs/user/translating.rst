@@ -59,6 +59,9 @@ the one which matches topic you want to discuss. The source string comments are
 good for prividing feedback on the original string, for example that it should
 be rephrased or is confusing.
 
+You can use Markdown syntax in the comments and mention other users using
+``@mention``.
+
 Translating
 -----------
 

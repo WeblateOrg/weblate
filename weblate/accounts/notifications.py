@@ -39,6 +39,7 @@ from weblate.accounts.tasks import send_mails
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
+from weblate.utils.markdown import get_mentions
 from weblate.utils.site import get_site_domain, get_site_url
 
 FREQ_NONE = 0
@@ -468,7 +469,7 @@ class MentionCommentNotificaton(Notification):
     ):
         if self.has_required_attrs(change):
             return []
-        users = [user.pk for user in change.comment.get_mentions()]
+        users = [user.pk for user in get_mentions(change.comment.comment)]
         return super(MentionCommentNotificaton, self).get_users(
             frequency, change, project, component, translation, users
         )
