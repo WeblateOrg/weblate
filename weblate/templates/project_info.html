@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load permissions %}
+{% load translations %}
 <tr>
 <th>{% trans "Project website" %}</th>
 <td colspan="2"><a href="{{ object.web }}">{{ object.web }}</a></td>
@@ -15,7 +16,7 @@
 {% if object.instructions %}
 <tr>
 <th>{% trans "Instructions for translators" %}</th>
-<td colspan="2"><a href="{{ object.instructions }}">{{ object.instructions }}</a></td>
+<td colspan="2">{{ object.instructions|markdown }}</td>
 </tr>
 {% endif %}
 

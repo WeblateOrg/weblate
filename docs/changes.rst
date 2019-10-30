@@ -8,6 +8,7 @@ Not yet released.
 * Avoid sending auditlog notifications to deleted emails.
 * Added support for read only strings.
 * Added support for markdown in comments.
+* Allow to place translation instructions text into project info.
 
 Weblate 3.9.1
 -------------

@@ -85,10 +85,10 @@ class Project(models.Model, URLMixin, PathMixin):
         max_length=254,
         help_text=ugettext_lazy('Mailing list for translators.'),
     )
-    instructions = models.URLField(
+    instructions = models.TextField(
         verbose_name=ugettext_lazy('Translation instructions'),
         blank=True,
-        help_text=ugettext_lazy('URL with instructions for translators.'),
+        help_text=_('You can use Markdown and mention users by @username.'),
     )
 
     set_language_team = models.BooleanField(
