@@ -502,13 +502,9 @@ class User(AbstractBaseUser):
         return Project.objects.filter(group__in=groups).distinct().order()
 
     def get_visible_name(self):
-        # Get full name from database
-        full_name = self.full_name.replace('<', '').replace('>', '')
-
-        # Use username if full name is empty
-        if full_name == '':
-            full_name = self.username.replace('<', '').replace('>', '')
-        return full_name
+        # Get full name from database or username
+        result = self.full_name or self.username
+        return result.replace("<", "").replace(">", "").replace('"', "")
 
     def get_author_name(self, email=True):
         """Return formatted author name with e-mail."""
@@ -520,7 +516,7 @@ class User(AbstractBaseUser):
         # Add e-mail if we are asked for it
         if not email:
             return full_name
-        return '{0} <{1}>'.format(full_name, self.email)
+        return "{0} <{1}>".format(full_name, self.email)
 
 
 @python_2_unicode_compatible
