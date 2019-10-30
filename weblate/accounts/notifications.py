@@ -25,6 +25,7 @@ from copy import copy
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -144,7 +145,10 @@ class Notification(object):
         return self.subscription_cache[cache_key]
 
     def has_required_attrs(self, change):
-        return self.required_attr and getattr(change, self.required_attr) is None
+        try:
+            return self.required_attr and getattr(change, self.required_attr) is None
+        except ObjectDoesNotExist:
+            return False
 
     def get_users(
         self,
