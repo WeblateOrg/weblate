@@ -107,8 +107,7 @@ class WeblateAdminSite(AdminSite):
         self.register(VerifiedEmail, VerifiedEmailAdmin)
 
         # Languages
-        if settings.DEBUG:
-            self.register(Language, LanguageAdmin)
+        self.register(Language, LanguageAdmin)
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
