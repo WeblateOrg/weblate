@@ -148,7 +148,7 @@ class WeblateAdminSite(AdminSite):
                 self.register(Invoice, InvoiceAdmin)
 
             # Hosted
-            if 'wlhosted' in settings.INSTALLED_APPS:
+            if 'wlhosted.integrations' in settings.INSTALLED_APPS:
                 # pylint: disable=wrong-import-position
                 from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
                 from wlhosted.payments.models import Customer, Payment
