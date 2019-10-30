@@ -30,6 +30,7 @@ from django.db import models
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.dispatch import receiver
 from django.http import Http404
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
@@ -363,6 +364,9 @@ class User(AbstractBaseUser):
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)
         super(User, self).__init__(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('user_page', kwargs={'user': self.username})
 
     def clear_cache(self):
         self.perm_cache = {}

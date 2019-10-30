@@ -155,7 +155,7 @@ def get_user_display(user, icon=True, link=False, prefix=''):
             '<a href="{link}" title="{name}">{username}</a>'.format(
                 name=full_name,
                 username=username,
-                link=reverse('user_page', kwargs={'user': user.username}),
+                link=user.get_absolute_url(),
             )
         )
     return mark_safe('<span title="{name}">{username}</span>'.format(

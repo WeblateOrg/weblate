@@ -207,9 +207,7 @@ class ViewTest(TestCase):
         self.client.login(username=user.username, password='testpassword')
 
         # Get public profile
-        response = self.client.get(
-            reverse('user_page', kwargs={'user': user.username})
-        )
+        response = self.client.get(user.get_absolute_url())
         self.assertContains(response, '="/activity/')
 
     def test_suggestions(self):

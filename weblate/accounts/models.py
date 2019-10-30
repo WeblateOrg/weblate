@@ -470,7 +470,7 @@ class Profile(models.Model):
         return get_user_display(self.user, False)
 
     def get_absolute_url(self):
-        return reverse('user_page', kwargs={'user': self.user.username})
+        return self.user.get_absolute_url()
 
     @property
     def full_name(self):
