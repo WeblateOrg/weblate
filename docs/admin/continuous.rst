@@ -50,7 +50,7 @@ source.
 * Use :ref:`hooks` to integrate with most of common code hosting services
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 * Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
-* Exectute :djadmin:`updategit` (with selection of project or `--all` to update all)
+* Execute :djadmin:`updategit` (with selection of project or `--all` to update all)
 
 Whenever Weblate updates the repository, the post update addons will be
 triggered, see :ref:`addons`.
