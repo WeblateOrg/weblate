@@ -68,7 +68,7 @@ def update_memory(user, unit):
     categories = [CATEGORY_PRIVATE_OFFSET + project.pk]
     if user:
         categories.append(CATEGORY_USER_OFFSET + user.id)
-    if unit.translation.component.project.use_shared_tm:
+    if unit.translation.component.project.contribute_shared_tm:
         categories.append(CATEGORY_SHARED)
 
     for category in categories:
