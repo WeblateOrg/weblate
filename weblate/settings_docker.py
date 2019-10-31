@@ -654,7 +654,7 @@ if MT_DEEPL_KEY:
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
 
-if "WEBLATE_MT_MICROSOFT_COGNITIVE_KEY" in os.environ:
+if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
 
 # MyMemory identification email, see
@@ -671,10 +671,15 @@ if "WEBLATE_MT_MYMEMORY_ENABLED" in os.environ:
 if "WEBLATE_MT_GLOSBE_ENABLED" in os.environ:
     MT_SERVICES += ("weblate.machinery.glosbe.GlosbeTranslation",)
 
+if "WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED" in os.environ:
+    MT_SERVICES += (
+        "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    )
+
 # Google API key for Google Translate API
 MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY", None)
 
-if "WEBLATE_MT_GOOGLE_KEY" in os.environ:
+if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
 
 # Baidu app key and secret
@@ -696,11 +701,13 @@ MT_YANDEX_KEY = None
 MT_TMSERVER = None
 
 # SAP Translation Hub
-MT_SAP_BASE_URL = None
-MT_SAP_SANDBOX_APIKEY = None
-MT_SAP_USERNAME = None
-MT_SAP_PASSWORD = None
-MT_SAP_USE_MT = True
+MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL", None)
+MT_SAP_SANDBOX_APIKEY = os.environ.get("WEBLATE_MT_SAP_SANDBOX_APIKEY", None)
+MT_SAP_USERNAME = os.environ.get("WEBLATE_MT_SAP_USERNAME", None)
+MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD", None)
+MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
+if MT_SAP_BASE_URL:
+    MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
 
 # Title of site to use
 SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")

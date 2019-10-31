@@ -436,6 +436,31 @@ Machine translation settings
         environment:
           WEBLATE_MT_GLOSBE_ENABLED: 1
 
+.. envvar:: WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED
+
+    Enables :ref:`ms-terminology` machine translation.
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED: 1
+
+.. envvar:: WEBLATE_MT_SAP_BASE_URL
+.. envvar:: WEBLATE_MT_SAP_SANDBOX_APIKEY
+.. envvar:: WEBLATE_MT_SAP_USERNAME
+.. envvar:: WEBLATE_MT_SAP_PASSWORD
+.. envvar:: WEBLATE_MT_SAP_USE_MT
+
+    Configures :ref:`saptranslationhub` machine translation.
+
+    .. code-block:: yaml
+
+        environment:
+            WEBLATE_MT_SAP_BASE_URL: "https://example.hana.ondemand.com/translationhub/api/v1/"
+            WEBLATE_MT_SAP_USERNAME: "user"
+            WEBLATE_MT_SAP_PASSWORD: "password"
+            WEBLATE_MT_SAP_USE_MT: 1
+
 
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
