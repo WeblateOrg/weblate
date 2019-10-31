@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-26 12:14+0000\n"
-"PO-Revision-Date: 2019-10-27 21:53+0000\n"
-"Last-Translator: Andrés S <andres.segovia.dev@gmail.com>\n"
+"PO-Revision-Date: 2019-10-31 18:32+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -842,8 +842,8 @@ msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
-"Este complemento añade o borra automáticamente componentes al proyecto, en "
-"función de los cambios de fichero en el sistema de control de versiones."
+"Este complemento añade o quita automáticamente componentes en el proyecto en "
+"función de los cambios de los archivos en el sistema de control de versiones."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -855,7 +855,7 @@ msgstr "Este complemento no hace nada, es sólo un ejemplo."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr "Ejecutar script antes de enviar"
+msgstr "Ejecutar secuencia de órdenes antes de consignar"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
@@ -900,11 +900,10 @@ msgid ""
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"Cada vez que se importa una nueva cadena traducible desde el sistema VCS y "
-"corresponde a cadenas origen, se marca como necesaria la edición en Weblate. "
-"De esta manera especialmente funcional para los formatos de fichero que "
-"incluyen todas las cadenas incluso si se pueden filtrar y editar las "
-"traducciones creadas por los desarrolladores que no son traducidas."
+"Cada vez que se importa una cadena traducible nueva desde el sistema VCS y "
+"corresponde a cadenas de origen, se marca como «necesita edición» en "
+"Weblate. Esto es útil sobre todo para los formatos de archivo que incluyen "
+"todas las cadenas, incluso las no traducidas."
 
 #: weblate/addons/forms.py:52
 msgid "Path of generated MO file"
@@ -1296,10 +1295,8 @@ msgid "Delete screenshot"
 msgstr "Eliminar captura de pantalla"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source string info"
-msgstr "Editar la información de la cadena fuente"
+msgstr "Editar información de cadena de origen"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
@@ -2947,24 +2944,24 @@ msgstr "¡Archivo incompatible!"
 
 #: weblate/memory/storage.py:159
 msgid "No valid entries found in the uploaded file!"
-msgstr "No se encontraron entradas válidas en el fichero que se ha subido!"
+msgstr "No se encontró ninguna entrada válida en el archivo cargado."
 
 #: weblate/memory/storage.py:171 weblate/memory/storage.py:181
 #: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
-msgstr "!No se pudieron procesar %d matchedJSON archivos!"
+msgstr "No se pudo procesar el archivo JSON."
 
 #: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
-msgstr "!No se pudo procesar el fichero TMX!"
+msgstr "No se pudo procesar el archivo TMX."
 
 #: weblate/memory/views.py:82
 msgid "Entries deleted."
-msgstr "Entradas borradas."
+msgstr "Entradas eliminadas."
 
 #: weblate/memory/views.py:97
 msgid "Import of strings scheduled."
-msgstr "Importar como cadenas programadas."
+msgstr "Se programó la importación de cadenas."
 
 #: weblate/memory/views.py:114
 msgid "File processed, the entries will appear shortly."
@@ -2993,7 +2990,7 @@ msgstr ""
 #: weblate/screenshots/views.py:112
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
-"Subida de la captura de pantalla fallida, corrige los siguientes errores."
+"Falló la carga de la captura de pantalla; corrija los errores siguientes."
 
 #: weblate/screenshots/views.py:168
 #, python-format
@@ -3285,7 +3282,7 @@ msgstr "Los usuarios más activos que suben capturas de pantallas"
 #: weblate/templates/about/stats.html:64
 #: weblate/templates/user-activity.html:20
 msgid "Screenshots uploaded"
-msgstr "Capturas de pantalla subidas"
+msgstr "Capturas de pantalla cargadas"
 
 #: weblate/templates/about/stats.html:88
 msgid "Translatable strings"
@@ -4124,7 +4121,7 @@ msgstr "Componente"
 
 #: weblate/templates/addons/discovery_preview.html:5
 msgid "Matched files"
-msgstr "Ficheros emparejados"
+msgstr "Archivos coincidentes"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
@@ -8702,7 +8699,7 @@ msgstr "Traducción cargada"
 
 #: weblate/trans/models/change.py:229
 msgid "Glossary added"
-msgstr "Glosario agregado"
+msgstr "Adición al glosario"
 
 #: weblate/trans/models/change.py:230
 msgid "Glossary updated"
@@ -8710,7 +8707,7 @@ msgstr "Glosario actualizado"
 
 #: weblate/trans/models/change.py:231
 msgid "Glossary uploaded"
-msgstr "Glosario subido"
+msgstr "Glosario cargado"
 
 #: weblate/trans/models/change.py:232
 msgid "New source string"
@@ -8985,14 +8982,12 @@ msgid "Edit base file"
 msgstr "Editar archivo de base"
 
 #: weblate/trans/models/component.py:268
-#, fuzzy
-#| msgid ""
-#| "Whether users will be able to edit base file for monolingual translations."
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr ""
-"Si los usuarios podrán editar el archivo base para traducciones monolingües."
+"Define si los usuarios podrán editar el archivo de base para traducciones "
+"monolingües."
 
 #: weblate/trans/models/component.py:273
 msgid "Template for new translations"
@@ -9820,10 +9815,8 @@ msgid "Not translated"
 msgstr "No traducido"
 
 #: weblate/trans/templatetags/translations.py:601
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Fails checks"
-msgstr "Comprobaciones fallidas"
+msgstr "Falla comprobaciones"
 
 #: weblate/trans/templatetags/translations.py:617
 msgid "Commented"
@@ -10022,8 +10015,8 @@ msgstr "No se encontraron palabras para importar en el archivo."
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
-msgstr[0] "Se importó %d palabra del archivo subido."
-msgstr[1] "Se importaron %d palabras del archivo subido."
+msgstr[0] "Se importó %d palabra del archivo cargado."
+msgstr[1] "Se importaron %d palabras del archivo cargado."
 
 #: weblate/trans/views/dictionary.py:191 weblate/trans/views/files.py:171
 #, python-format
@@ -10134,7 +10127,7 @@ msgstr "Acceso denegado."
 
 #: weblate/trans/views/files.py:157
 msgid "No strings were imported from the uploaded file."
-msgstr "No se importaron cadenas del archivo subido."
+msgstr "No se importó ninguna cadena del archivo cargado."
 
 #: weblate/trans/views/files.py:160
 #, python-brace-format
@@ -10145,10 +10138,10 @@ msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgstr[0] ""
-"Se procesó {0} palabra del archivo subido (omitidas: {1}, no encontradas: "
+"Se procesó {0} palabra del archivo cargado (omitidas: {1}, no encontradas: "
 "{2}, actualizadas: {3})."
 msgstr[1] ""
-"Se procesaron {0} palabras de los archivos subidos. (omitidas: {1}, no "
+"Se procesaron {0} palabras de los archivos cargados. (omitidas: {1}, no "
 "encontradas: {2}, actualizadas: {3})."
 
 #: weblate/trans/views/git.py:43
@@ -10220,6 +10213,8 @@ msgstr "Utilice marcas para señalar cadenas especiales en su traducción."
 #: weblate/trans/views/guide.py:197
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
+"Añada la marca «safe-html» para evitar HTML peligroso por parte de los "
+"traductores."
 
 #: weblate/trans/views/guide.py:220
 msgid "Workflow customization"
