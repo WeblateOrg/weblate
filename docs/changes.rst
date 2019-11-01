@@ -9,6 +9,7 @@ Not yet released.
 * Added support for read only strings.
 * Added support for markdown in comments.
 * Allow to place translation instructions text into project info.
+* Add copy to clipboard for secondary languages.
 
 Weblate 3.9.1
 -------------
