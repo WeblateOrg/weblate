@@ -1,5 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Pending suggestions in {{ component }}{% endblocktrans %}
+{% if changes|length == 1 %}
+{% blocktrans with component=changes.0.component %}Pending suggestions in {{ component }}{% endblocktrans %}
+{% else %}
+{% blocktrans %}Pending suggestions{% endblocktrans %}
+{% endif %}
 {% endautoescape %}
-

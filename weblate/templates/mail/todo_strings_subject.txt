@@ -1,4 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Strings needing action in {{ component }}{% endblocktrans %}
+{% if changes|length == 1 %}
+{% blocktrans with component=changes.0.component %}Strings needing action in {{ component }}{% endblocktrans %}
+{% else %}
+{% blocktrans %}Strings needing action{% endblocktrans %}
+{% endif %}
 {% endautoescape %}

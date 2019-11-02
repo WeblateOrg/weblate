@@ -562,6 +562,8 @@ class SummaryNotification(Notification):
         return False
 
     def notify_summary(self, frequency):
+        users = {}
+        notifications = defaultdict(list)
         for translation in Translation.objects.prefetch().iterator():
             if not self.should_notify(translation):
                 continue
@@ -571,19 +573,22 @@ class SummaryNotification(Notification):
                 'translation': translation,
             }
             for user in self.get_users(frequency, **context):
-                self.send_immediate(
-                    user.profile.language,
-                    user.email,
-                    None,
-                    context,
-                    subscription=user.current_subscription,
-                )
+                users[user.pk] = user
+                notifications[user.pk].append(context)
+        for userid, changes in notifications.items():
+            user = users[userid]
+            self.send_digest(
+                user.profile.language,
+                user.email,
+                changes,
+                subscription=user.current_subscription,
+            )
 
 
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
     verbose = _('Pending suggestions')
-    template_name = 'pending_suggestions'
+    digest_template = 'pending_suggestions'
 
     def should_notify(self, translation):
         return translation.stats.suggestions > 0
@@ -592,7 +597,7 @@ class PendingSuggestionsNotification(SummaryNotification):
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
     verbose = _('Strings needing action')
-    template_name = 'todo_strings'
+    digest_template = 'todo_strings'
 
     def should_notify(self, translation):
         return translation.stats.todo > 0
