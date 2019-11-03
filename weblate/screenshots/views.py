@@ -31,7 +31,7 @@ from PIL import Image
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Source
+from weblate.trans.models import Unit
 from weblate.utils import messages
 from weblate.utils.locale import c_locale
 from weblate.utils.search import parse_query
@@ -50,17 +50,13 @@ def try_add_source(request, obj):
         return False
 
     try:
-        source = Source.objects.get(
+        source = obj.component.source_translation.unit_set.get(
             pk=int(request.POST['source']),
-            component=obj.component
         )
-    except (Source.DoesNotExist, ValueError):
+    except (Unit.DoesNotExist, ValueError):
         return False
 
-    if obj.component_id != source.component_id:
-        return False
-
-    obj.sources.add(source)
+    obj.units.add(source)
     return True
 
 
@@ -183,7 +179,7 @@ def get_screenshot(request, pk):
 def remove_source(request, pk):
     obj = get_screenshot(request, pk)
 
-    obj.sources.remove(request.POST['source'])
+    obj.units.remove(request.POST['source'])
 
     messages.success(request, _('Source has been removed.'))
 
@@ -195,13 +191,13 @@ def search_results(code, obj, units=None):
         units = []
     else:
         units = units.exclude(
-            id_hash__in=obj.sources.values_list('id_hash', flat=True)
+            id_hash__in=obj.units.values_list('id_hash', flat=True)
         )
 
     results = [
         {
             'text': unit.get_source_plurals()[0],
-            'pk': unit.source_info.pk,
+            'pk': unit.pk,
             'context': unit.context,
             'location': unit.location
         }
@@ -217,10 +213,7 @@ def search_results(code, obj, units=None):
 @require_POST
 def search_source(request, pk):
     obj = get_screenshot(request, pk)
-    try:
-        translation = obj.component.translation_set.all()[0]
-    except IndexError:
-        return search_results(500, obj)
+    translation = obj.component.source_translation
 
     units = translation.unit_set.filter(parse_query(request.POST.get('q', '')))
 
@@ -248,10 +241,7 @@ def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
     if not HAS_OCR:
         return search_results(500, obj)
-    try:
-        translation = obj.component.translation_set.all()[0]
-    except IndexError:
-        return search_results(500, obj)
+    translation = obj.component.source_translation
 
     # Load image
     original_image = Image.open(obj.image.path)
@@ -297,5 +287,5 @@ def get_sources(request, pk):
     obj = get_screenshot(request, pk)
     return render(
         request, 'screenshots/screenshot_sources_body.html',
-        {'sources': obj.sources.all(), 'object': obj}
+        {'sources': obj.units.all(), 'object': obj}
     )

@@ -65,13 +65,13 @@ class ViewTest(FixtureTestCase):
 
     def test_upload_source(self):
         self.make_manager()
-        source = self.component.source_set.all()[0]
+        source = self.component.source_translation.unit_set.all()[0]
         response = self.do_upload(source=source.pk)
         self.assertContains(response, 'Obrazek')
         self.assertEqual(Screenshot.objects.count(), 1)
         screenshot = Screenshot.objects.all()[0]
         self.assertEqual(screenshot.name, 'Obrazek')
-        self.assertEqual(screenshot.sources.count(), 1)
+        self.assertEqual(screenshot.units.count(), 1)
 
     def test_upload_source_invalid(self):
         self.make_manager()
@@ -123,7 +123,7 @@ class ViewTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data['responseCode'], 200)
         self.assertEqual(data['status'], True)
-        self.assertEqual(screenshot.sources.count(), 1)
+        self.assertEqual(screenshot.units.count(), 1)
 
         # Updated listing
         response = self.client.get(
@@ -136,7 +136,7 @@ class ViewTest(FixtureTestCase):
             reverse('screenshot-remove-source', kwargs={'pk': screenshot.pk}),
             {'source': source_pk},
         )
-        self.assertEqual(screenshot.sources.count(), 0)
+        self.assertEqual(screenshot.units.count(), 0)
 
     def test_ocr(self):
         if not weblate.screenshots.views.HAS_OCR:

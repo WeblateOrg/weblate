@@ -28,7 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models import Component, Source
+from weblate.trans.models import Component, Source, Unit
 
 
 class ScreenshotQuerySet(models.QuerySet):
@@ -53,6 +53,11 @@ class Screenshot(models.Model, UserDisplayMixin):
     )
     sources = models.ManyToManyField(
         Source,
+        blank=True,
+        related_name='screenshots',
+    )
+    units = models.ManyToManyField(
+        Unit,
         blank=True,
         related_name='screenshots',
     )

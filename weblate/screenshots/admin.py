@@ -28,4 +28,4 @@ class ScreenshotAdmin(WeblateModelAdmin):
     list_filter = [
         ('component', admin.RelatedOnlyFieldListFilter)
     ]
-    raw_id_fields = ('sources',)
+    raw_id_fields = ('units',)
