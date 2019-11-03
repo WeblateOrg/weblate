@@ -52,6 +52,7 @@ from weblate.trans.models.unit import (
 )
 from weblate.trans.signals import store_post_load, vcs_post_commit, vcs_pre_commit
 from weblate.trans.util import split_plural
+from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
@@ -95,6 +96,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     filename = models.CharField(max_length=FILENAME_LENGTH)
 
     language_code = models.CharField(max_length=20, default='', blank=True)
+
+    check_flags = models.TextField(
+        verbose_name="Translation flags",
+        default="",
+        validators=[validate_check_flags],
+        blank=True,
+    )
 
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 

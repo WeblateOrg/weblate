@@ -907,6 +907,7 @@ class Unit(models.Model, LoggerMixin):
         """Return union of own and component flags."""
         return Flags(
             self.translation.component.all_flags,
+            self.translation.check_flags,
             self.source_info.check_flags,
             override or self.flags,
         )
