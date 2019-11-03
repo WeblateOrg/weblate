@@ -214,6 +214,15 @@ function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
 
+    /* Minimal height for editor */
+    $('.zen .translation-editor').each(function () {
+        var $this = $(this);
+        var td_height = $this.parents('td').height();
+        var editor_height = $this.height();
+        var content_height = $this.parent().height();
+        this.style.minHeight = (td_height - (content_height - editor_height)) + 'px';
+    });
+
     /* Count characters */
     $(".translation-editor").keyup(function() {
         var $this = $(this);
