@@ -30,7 +30,7 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component, Project, Suggestion, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
 
 class ComponentTest(RepoTestCase):
@@ -784,3 +784,15 @@ class ComponentEditMonoTest(ComponentEditTest):
         self.assertTrue(
             unit.translate(self.user, ['Empty'], STATE_TRANSLATED)
         )
+
+    def test_readonly(self):
+        source = self.component.translation_set.get(language_code='en')
+
+        # The source string is always translated
+        self.assertEqual(source.unit_set.all()[0].state, STATE_TRANSLATED)
+
+        self.component.edit_template = False
+        self.component.save()
+
+        # It should be now read only
+        self.assertEqual(source.unit_set.all()[0].state, STATE_READONLY)

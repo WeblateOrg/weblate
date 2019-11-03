@@ -402,7 +402,7 @@ class Unit(models.Model, LoggerMixin):
                     if previous_source == '':
                         previous_source = self.source
                     state = STATE_FUZZY
-            else:
+            elif self.state in (STATE_FUZZY, STATE_APPROVED):
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source

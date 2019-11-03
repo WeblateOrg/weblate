@@ -1160,8 +1160,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.has_template():
             # We want to list template among translations as well
             matches.discard(self.template)
-            if self.edit_template:
-                return [self.template] + sorted(matches)
+            return [self.template] + sorted(matches)
         return sorted(matches)
 
     def update_source_checks(self):
