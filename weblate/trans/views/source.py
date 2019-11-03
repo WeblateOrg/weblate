@@ -30,7 +30,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import CheckFlagsForm, ContextForm, MatrixLanguageForm
-from weblate.trans.models import Source, Translation, Unit
+from weblate.trans.models import Translation, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.hash import checksum_to_hash
@@ -116,15 +116,15 @@ def show_source(request, project, component):
 @login_required
 def edit_context(request, pk):
     """Change source string context."""
-    source = get_object_or_404(Source, pk=pk)
+    source = get_object_or_404(Unit, pk=pk)
 
     if not request.user.has_perm('source.edit', source.component):
         raise PermissionDenied()
 
     form = ContextForm(request.POST)
     if form.is_valid():
-        source.context = form.cleaned_data['context']
-        source.save()
+        source.extra_context = form.cleaned_data['context']
+        source.save(update_fields=['extra_context'], same_content=True, same_state=True)
     else:
         messages.error(request, _('Failed to change a context!'))
         show_form_errors(request, form)
@@ -135,15 +135,15 @@ def edit_context(request, pk):
 @login_required
 def edit_check_flags(request, pk):
     """Change source string flags."""
-    source = get_object_or_404(Source, pk=pk)
+    source = get_object_or_404(Unit, pk=pk)
 
     if not request.user.has_perm('source.edit', source.component):
         raise PermissionDenied()
 
     form = CheckFlagsForm(request.POST)
     if form.is_valid():
-        source.check_flags = form.cleaned_data['flags']
-        source.save()
+        source.extra_flags = form.cleaned_data['flags']
+        source.save(update_fields=['extra_flags'], same_content=True, same_state=True)
     else:
         messages.error(request, _('Failed to change translation flags!'))
         show_form_errors(request, form)

@@ -36,7 +36,6 @@ from weblate.trans.models import (
     Component,
     Dictionary,
     Project,
-    Source,
     Suggestion,
     Translation,
     Unit,
@@ -89,8 +88,6 @@ class PoExporterTest(BaseTestCase):
         self.check_dict(Dictionary(source='bar\x1e\x1efoo', target='br\x1eff'))
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
-        if source_info is None:
-            source_info = {}
         if nplurals == 3:
             equation = 'n==0 ? 0 : n==1 ? 1 : 2'
         else:
@@ -121,8 +118,9 @@ class PoExporterTest(BaseTestCase):
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(BytesIOMode('', b''))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
-        unit.__dict__['source_info'] = Source(**source_info)
         if source_info:
+            for key, value in source_info.items():
+                setattr(unit, key, value)
             unit.get_comments = fake_get_comments
             unit.__dict__['suggestions'] = [
                 Suggestion(target='Weblate translator suggestion')
@@ -180,8 +178,8 @@ class PoExporterTest(BaseTestCase):
             context='context',
             state=STATE_TRANSLATED,
             source_info={
-                'check_flags': 'max-length:200',
-                'context': 'Context in Weblate',
+                'extra_flags': 'max-length:200',
+                'extra_context': 'Context in Weblate',
             },
         )
         if self._has_context:

@@ -60,6 +60,7 @@ class MockTranslation(object):
         self.language = MockLanguage(code)
         self.component = MockComponent()
         self.is_template = False
+        self.is_source = False
 
 
 class MockUnit(object):

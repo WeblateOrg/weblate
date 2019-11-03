@@ -97,17 +97,27 @@ def component_post_delete(sender, instance, **kwargs):
         delete_object_dir(instance)
 
 
-@receiver(post_save, sender=Source)
+@receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
-    if instance.check_flags_modified:
-        for unit in instance.units:
-            unit.run_checks()
-        instance.run_checks()
-        for unit in instance.units:
-            unit.update_priority()
+    if not instance.translation.is_source:
+        return
+    units = Unit.objects.filter(
+        translation__component=instance.translation.component,
+        id_hash=instance.id_hash,
+    )
+    # Propagate attributes
+    units.update(
+        extra_flags=instance.extra_flags,
+        extra_context=instance.extra_context,
+    )
+    # Run checks, update state and priority if flags changed
+    if instance.old_unit.extra_flags != instance.extra_flags:
+        for unit in units:
             unit.update_state()
+            unit.update_priority()
+            unit.run_checks()
             unit.translation.invalidate_cache()
 
 
@@ -193,7 +203,5 @@ def update_checks(pk):
     for translation in component.translation_set.iterator():
         for unit in translation.unit_set.iterator():
             unit.run_checks()
-    for source in component.source_set.iterator():
-        source.run_checks()
     for translation in component.translation_set.iterator():
         translation.invalidate_cache()

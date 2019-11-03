@@ -57,6 +57,8 @@ class GitSquashAddon(BaseAddon):
         for origin in [component] + list(component.linked_childs):
             for translation in origin.translation_set.iterator():
                 code = translation.language.code
+                if not translation.filename:
+                    continue
                 languages[code].extend(translation.filenames)
         return languages
 

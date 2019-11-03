@@ -303,13 +303,13 @@ class PluralTextarea(forms.Textarea):
             )
             # Label for plural
             if len(values) == 1:
-                if unit.translation.is_template:
+                if unit.translation.is_source:
                     label = ugettext('Source')
                 else:
                     label = ugettext('Translation')
             else:
                 label = plural.get_plural_label(idx)
-            if not unit.translation.is_template and get_language() != lang.code:
+            if not unit.translation.is_source and get_language() != lang.code:
                 label += ' <span class="badge">{}</span>'.format(lang)
             ret.append(
                 EDITOR_TEMPLATE.format(

@@ -538,23 +538,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         source = Unit.objects.get(
             source=text, translation__language=language,
         ).source_info
-        source.context = 'Help text for automatic translation tool'
+        source.extra_context = 'Help text for automatic translation tool'
         source.save()
         Dictionary.objects.create(
             user=None,
-            project=source.component.project,
+            project=source.translation.component.project,
             language=language,
             source='machine translation',
             target='strojový překlad',
         )
         Dictionary.objects.create(
             user=None,
-            project=source.component.project,
+            project=source.translation.component.project,
             language=language,
             source='project',
             target='projekt',
         )
-        source.component.alert_set.all().delete()
+        source.translation.component.alert_set.all().delete()
 
         def capture_unit(name, tab):
             unit = Unit.objects.get(

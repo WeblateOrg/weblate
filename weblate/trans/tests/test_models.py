@@ -294,7 +294,7 @@ class SourceTest(ModelTestCase):
         unit = Unit.objects.all()[0]
         self.assertEqual(unit.priority, 100)
         source = unit.source_info
-        source.check_flags = 'priority:200'
+        source.extra_flags = 'priority:200'
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit2.priority, 200)
@@ -306,7 +306,7 @@ class SourceTest(ModelTestCase):
         unit = check.related_units[0]
         self.assertEqual(self.component.stats.allchecks, 2)
         source = unit.source_info
-        source.check_flags = 'ignore-{0}'.format(check.check)
+        source.extra_flags = 'ignore-{0}'.format(check.check)
         source.save()
         self.assertEqual(Check.objects.count(), 0)
         self.assertEqual(

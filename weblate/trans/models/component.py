@@ -502,7 +502,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.alerts_trigger = {}
         self.updated_sources = {}
         self.old_component = copy(self)
-        self._sources = None
+        self._sources = {}
         self.checks_cache = None
         self.logs = []
         self.translations_count = None
@@ -578,16 +578,39 @@ class Component(models.Model, URLMixin, PathMixin):
                 % {"target": self.linked_component},
             )
 
-    def get_source(self, id_hash):
+    @cached_property
+    def source_translation(self):
+        language = self.project.source_language
+        return self.translation_set.get_or_create(
+            language_code=language.code,
+            defaults={
+                "check_flags": "read-only",
+                "filename": self.template,
+                "plural": language.plural,
+                "language": language,
+            },
+        )[0]
+
+    def preload_sources(self):
+        """Preload source objects to improve performance on load"""
+        self._sources = {
+            source.id_hash: source for source in self.source_translation.unit_set.all()
+        }
+
+    def get_source(self, id_hash, **kwargs):
         """Cached access to source info."""
-        if not self._sources:
-            self._sources = {source.id_hash: source for source in self.source_set.all()}
         try:
-            return self._sources[id_hash], False
+            return self._sources[id_hash]
         except KeyError:
-            source = self.source_set.create(id_hash=id_hash)
+            source, created = self.source_translation.unit_set.get_or_create(
+                id_hash=id_hash,
+                translation=self.source_translation,
+                defaults=kwargs,
+            )
+            if created:
+                Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
             self._sources[id_hash] = source
-            return source, True
+            return source
 
     @property
     def filemask_re(self):
@@ -1164,6 +1187,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return sorted(matches)
 
     def update_source_checks(self):
+        # TODO: rewrite to unit
         self.log_debug("running source checks")
         for unit in self.updated_sources.values():
             unit.source_info.run_checks(unit, self.project, batch=True)
@@ -1241,6 +1265,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 (c.translation_set.count() for c in self.linked_childs)
             )
         for pos, path in enumerate(matches):
+            if path != self.template:
+                self.preload_sources()
             with transaction.atomic():
                 code = self.get_lang_code(path)
                 if langs is not None and code not in langs:
@@ -1280,7 +1306,11 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in=translations.keys())
+            todelete = self.translation_set.exclude(
+                id__in=translations.keys()
+            ).exclude(
+                language=self.project.source_language
+            )
             if todelete.exists():
                 self.needs_cleanup = True
                 with transaction.atomic():
@@ -1308,6 +1338,7 @@ class Component(models.Model, URLMixin, PathMixin):
             projects[component.project_id] = component.project
 
         # Run source checks on updated source strings
+        # TODO: rewrite to unit
         if self.updated_sources:
             self.update_source_checks()
 
@@ -1333,8 +1364,11 @@ class Component(models.Model, URLMixin, PathMixin):
         self.log_info("updating completed")
         return was_change
 
-    def get_lang_code(self, path):
+    def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
+        # Directly return source language code unless validating
+        if not validate and path == self.template:
+            return self.project.source_language.code
         # Parse filename
         matches = self.filemask_re.match(path)
 
@@ -1519,7 +1553,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 msg = _("Could not parse translation base file: %s") % str(exc)
                 raise ValidationError({"template": msg})
 
-            code = self.get_lang_code(self.template)
+            code = self.get_lang_code(self.template, validate=True)
             if code:
                 lang = Language.objects.auto_get_or_create(code=code).base_code
                 if lang != self.project.source_language.base_code:

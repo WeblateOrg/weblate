@@ -102,7 +102,7 @@
 <div class="col-sm-9">
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_template %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-primary{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
   <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
@@ -124,7 +124,7 @@
     </tbody>
     </table>
   </div></i>
-  </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Source string" %}{% else %}{% trans "Translation" %}{% endif %} {% if unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}</h4></div>
+  </span><h4 class="panel-title">{% if unit.translation.is_source %}{% trans "Source string" %}{% else %}{% trans "Translation" %}{% endif %} {% if unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
@@ -167,11 +167,11 @@
     </div>
     {% endif %}
 
-    {% if unit.source_info.context %}
+    {% if unit.extra_context %}
     <!-- source string context  -->
     <div class="form-group help-block">
     <label>{% trans "Additional context" %}</label>
-    {% format_translation unit.source_info.context unit.translation.component.project.source_language %}
+    {% format_translation unit.extra_context unit.translation.component.project.source_language %}
     </div>
     {% endif %}
 
@@ -258,13 +258,13 @@
 <div class="tab-pane active" id="nearby">
 <table class="table table-condensed">
 <thead>
-<tr><th></th><th>{% if unit.translation.is_template %}{% trans "Context" %}{% else %}{% trans "Source" %}{% endif %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
+<tr><th></th><th>{% if unit.translation.is_source %}{% trans "Context" %}{% else %}{% trans "Source" %}{% endif %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
 </thead>
 <tbody>
 {% for item in nearby %}
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-{% if unit.translation.is_template %}
+{% if unit.translation.is_source %}
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a></td>
 {% else %}
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
@@ -564,21 +564,21 @@
     </tr>
     {% endif %} 
     {% endwith %}
-    {% if unit.context or unit.source_info.context or user_can_edit_source %}
+    {% if unit.context or unit.extra_context or user_can_edit_source %}
     <tr>
     <th>
     {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Context" %}
     </th>
     </tr>
-    {% if user_can_edit_source and not unit.source_info.context and not unit.context %}
+    {% if user_can_edit_source and not unit.extra_context and not unit.context %}
     <tr>
     <td>{% trans "No context currently associated!" %}</td>
     </tr>
     {% endif %}
-    {% if unit.source_info.context %}
+    {% if unit.extra_context %}
     <tr>
-    <td>{{ unit.source_info.context }}</td>
+    <td>{{ unit.extra_context }}</td>
     </tr>
     {% endif %}
     {% if unit.context %}

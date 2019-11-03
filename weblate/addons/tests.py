@@ -640,11 +640,11 @@ class LanguageConsistencyTest(ViewTestCase):
             new_base='ts/cs.ts',
             project=self.component.project,
         )
-        self.assertEqual(Translation.objects.count(), 4)
+        self.assertEqual(Translation.objects.count(), 6)
 
         # Installation should make languages consistent
         addon = LangaugeConsistencyAddon.create(self.component)
-        self.assertEqual(Translation.objects.count(), 6)
+        self.assertEqual(Translation.objects.count(), 8)
 
         # Add one language
         language = Language.objects.get(code='af')
@@ -658,7 +658,7 @@ class LanguageConsistencyTest(ViewTestCase):
 
         # Trigger post update signal, should do nothing
         addon.post_update(self.component, '')
-        self.assertEqual(Translation.objects.count(), 8)
+        self.assertEqual(Translation.objects.count(), 10)
 
 
 class GitSquashAddonTest(ViewTestCase):

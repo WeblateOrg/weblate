@@ -13,6 +13,8 @@ Not yet released.
 * Improved support for Mercurial.
 * Improved performance in fetching Git repositories.
 * Add search lookup for age of string.
+* Add support for read only strings.
+* Show source language for all translations.
 
 Weblate 3.9.1
 -------------

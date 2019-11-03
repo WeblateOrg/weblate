@@ -69,7 +69,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create(self):
         component = self.create_component()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         self.assertTrue(os.path.exists(component.full_path))
 
     def test_create_dot(self):
@@ -77,30 +77,39 @@ class ComponentTest(RepoTestCase):
             'po',
             './po/*.po',
         )
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         self.assertTrue(os.path.exists(component.full_path))
         self.assertEqual('po/*.po', component.filemask)
 
     def test_create_iphone(self):
         component = self.create_iphone()
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_ts(self):
         component = self.create_ts('-translated')
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
-        unit = Unit.objects.get(source__startswith='Orangutan')
+        unit = Unit.objects.get(
+            source__startswith='Orangutan',
+            translation__language_code='cs'
+        )
         self.assertTrue(unit.is_plural())
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
-        unit = Unit.objects.get(source__startswith='Hello')
+        unit = Unit.objects.get(
+            source__startswith='Hello',
+            translation__language_code='cs'
+        )
         self.assertFalse(unit.is_plural())
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Hello, world!\n')
 
-        unit = Unit.objects.get(source__startswith='Thank ')
+        unit = Unit.objects.get(
+            source__startswith='Thank ',
+            translation__language_code='cs'
+        )
         self.assertFalse(unit.is_plural())
         self.assertFalse(unit.translated)
         self.assertTrue(unit.fuzzy)
@@ -122,7 +131,7 @@ class ComponentTest(RepoTestCase):
             'po/*.po',
             new_base='po/project.pot'
         )
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_filtered(self):
         component = self._create_component(
@@ -130,7 +139,7 @@ class ComponentTest(RepoTestCase):
             'po/*.po',
             language_regex='^cs$',
         )
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_auto_pot(self):
         component = self._create_component(
@@ -138,11 +147,11 @@ class ComponentTest(RepoTestCase):
             'po/*.po',
             new_base='po/project.pot'
         )
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po(self):
         component = self.create_po()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_srt(self):
         component = self.create_srt()
@@ -150,23 +159,23 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_mercurial(self):
         component = self.create_po_mercurial()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po_branch(self):
         component = self.create_po_branch()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po_mercurial_branch(self):
         component = self.create_po_mercurial_branch()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po_push(self):
         component = self.create_po_push()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po_svn(self):
         component = self.create_po_svn()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_create_po_empty(self):
         component = self.create_po_empty()
@@ -174,7 +183,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_link(self):
         component = self.create_po_link()
-        self.verify_component(component, 4, 'cs', 4)
+        self.verify_component(component, 5, 'cs', 4)
 
     def test_create_po_mono(self):
         component = self.create_po_mono()
@@ -190,7 +199,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_json(self):
         component = self.create_json()
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_json_mono(self):
         component = self.create_json_mono()
@@ -213,18 +222,18 @@ class ComponentTest(RepoTestCase):
             'csv-simple',
             'tsv/*.txt',
         )
-        self.verify_component(component, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(component, 2, 'cs', 4, 'Hello, world!')
 
     def test_create_tsv_simple_iso(self):
         component = self._create_component(
             'csv-simple-iso',
             'tsv/*.txt',
         )
-        self.verify_component(component, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(component, 2, 'cs', 4, 'Hello, world!')
 
     def test_create_csv(self):
         component = self.create_csv()
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_csv_mono(self):
         component = self.create_csv_mono()
@@ -236,7 +245,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_tsv(self):
         component = self.create_tsv()
-        self.verify_component(component, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(component, 2, 'cs', 4, 'Hello, world!')
 
     def test_create_java(self):
         component = self.create_java()
@@ -244,11 +253,11 @@ class ComponentTest(RepoTestCase):
 
     def test_create_xliff(self):
         component = self.create_xliff()
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_xliff_complex(self):
         component = self.create_xliff('complex')
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_xliff_mono(self):
         component = self.create_xliff_mono()
@@ -268,7 +277,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_xliff_only_resname(self):
         component = self.create_xliff('only-resname')
-        self.verify_component(component, 1, 'cs', 4)
+        self.verify_component(component, 2, 'cs', 4)
 
     def test_create_resx(self):
         component = self.create_resx()
@@ -288,7 +297,7 @@ class ComponentTest(RepoTestCase):
 
     def test_link(self):
         component = self.create_link()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_flags(self):
         """Translation flags validation."""
@@ -327,34 +336,34 @@ class ComponentTest(RepoTestCase):
     def test_switch_branch(self):
         component = self.create_po()
         # Switch to translation branch
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         component.branch = 'translations'
         component.filemask = 'translations/*.po'
         component.clean()
         component.save()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         # Switch back to master branch
         component.branch = 'master'
         component.filemask = 'po/*.po'
         component.clean()
         component.save()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_switch_branch_mercurial(self):
         component = self.create_po_mercurial()
         # Switch to translation branch
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         component.branch = 'translations'
         component.filemask = 'translations/*.po'
         component.clean()
         component.save()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
         # Switch back to master branch
         component.branch = 'default'
         component.filemask = 'po/*.po'
         component.clean()
         component.save()
-        self.verify_component(component, 3, 'cs', 4)
+        self.verify_component(component, 4, 'cs', 4)
 
     def test_update_checks(self):
         """Setting of check_flags changes checks for related units."""
@@ -725,7 +734,8 @@ class LinkedEditTest(ViewTestCase):
 
         # Translate all units
         for unit in Unit.objects.iterator():
-            unit.translate(self.user, 'test', STATE_TRANSLATED)
+            if not unit.translation.is_source:
+                unit.translate(self.user, 'test', STATE_TRANSLATED)
 
         # No commit now
         self.assertEqual(start_rev, self.component.repository.last_revision)

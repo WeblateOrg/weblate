@@ -189,14 +189,14 @@ class ProjectAPITest(APIBaseTest):
             'api:project-statistics',
             self.project_kwargs,
         )
-        self.assertEqual(request.data['total'], 12)
+        self.assertEqual(request.data['total'], 16)
 
     def test_languages(self):
         request = self.do_request(
             'api:project-languages',
             self.project_kwargs,
         )
-        self.assertEqual(len(request.data), 3)
+        self.assertEqual(len(request.data), 4)
 
     def test_delete(self):
         self.do_request(
@@ -356,9 +356,7 @@ class ComponentAPITest(APIBaseTest):
         self.do_request(
             'api:component-statistics',
             self.component_kwargs,
-            data={
-                'count': 3,
-            },
+            data={'count': 4},
             skip=('results', 'previous', 'next'),
         )
 
@@ -399,7 +397,7 @@ class ComponentAPITest(APIBaseTest):
             'api:component-translations',
             self.component_kwargs,
         )
-        self.assertEqual(request.data['count'], 3)
+        self.assertEqual(request.data['count'], 4)
 
     def test_changes(self):
         request = self.do_request(
@@ -430,7 +428,7 @@ class LanguageAPITest(APIBaseTest):
         response = self.client.get(
             reverse('api:language-list')
         )
-        self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 4)
 
     def test_get_language(self):
         response = self.client.get(
@@ -444,19 +442,19 @@ class TranslationAPITest(APIBaseTest):
         response = self.client.get(
             reverse('api:translation-list')
         )
-        self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 4)
 
     def test_list_translations_acl(self):
         self.create_acl()
         response = self.client.get(
             reverse('api:translation-list')
         )
-        self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 4)
         self.authenticate(True)
         response = self.client.get(
             reverse('api:translation-list')
         )
-        self.assertEqual(response.data['count'], 7)
+        self.assertEqual(response.data['count'], 8)
 
     def test_get_translation(self):
         response = self.client.get(
@@ -690,7 +688,7 @@ class TranslationAPITest(APIBaseTest):
             'api:translation-changes',
             self.translation_kwargs,
         )
-        self.assertEqual(request.data['count'], 6)
+        self.assertEqual(request.data['count'], 2)
 
     def test_units(self):
         request = self.do_request(
@@ -700,7 +698,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(request.data['count'], 4)
 
     def test_delete(self):
-        self.assertEqual(Translation.objects.count(), 3)
+        self.assertEqual(Translation.objects.count(), 4)
         self.do_request(
             'api:translation-detail',
             self.translation_kwargs,
@@ -714,7 +712,7 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             code=204
         )
-        self.assertEqual(Translation.objects.count(), 2)
+        self.assertEqual(Translation.objects.count(), 3)
 
 
 class UnitAPITest(APIBaseTest):
@@ -722,7 +720,7 @@ class UnitAPITest(APIBaseTest):
         response = self.client.get(
             reverse('api:unit-list')
         )
-        self.assertEqual(response.data['count'], 12)
+        self.assertEqual(response.data['count'], 16)
 
     def test_get_unit(self):
         response = self.client.get(

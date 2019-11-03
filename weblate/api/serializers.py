@@ -215,6 +215,9 @@ class TranslationSerializer(RemovableSerializer):
     is_template = serializers.BooleanField(
         read_only=True
     )
+    is_source = serializers.BooleanField(
+        read_only=True
+    )
     total = serializers.IntegerField(
         source='stats.all', read_only=True,
     )
@@ -309,7 +312,7 @@ class TranslationSerializer(RemovableSerializer):
             'language', 'component',
             'language_code', 'filename', 'revision',
             'web_url', 'share_url', 'translate_url', 'url',
-            'is_template',
+            'is_template', 'is_source',
             'total', 'total_words',
             'translated', 'translated_words', 'translated_percent',
             'fuzzy', 'fuzzy_words', 'fuzzy_percent',
@@ -405,11 +408,6 @@ class UnitSerializer(RemovableSerializer):
         ),
         strip_parts=1,
     )
-    source_info = serializers.HyperlinkedRelatedField(
-        read_only=True,
-        source='source_info.pk',
-        view_name='api:source-detail'
-    )
 
     class Meta(object):
         model = Unit
@@ -418,7 +416,7 @@ class UnitSerializer(RemovableSerializer):
             'content_hash', 'location', 'context', 'comment', 'flags', 'fuzzy',
             'translated', 'position', 'has_suggestion', 'has_comment',
             'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
-            'url', 'source_info',
+            'url',
         )
         extra_kwargs = {
             'url': {

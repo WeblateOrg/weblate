@@ -47,7 +47,6 @@ from weblate.trans.models import (
     Comment,
     Component,
     Project,
-    Source,
     Suggestion,
     Translation,
     Unit,
@@ -163,18 +162,19 @@ def optimize_fulltext():
 
 
 def cleanup_sources(project):
-    """Remove stale Source objects."""
-    for pk in project.component_set.values_list('id', flat=True):
+    """Remove stale source Unit objects."""
+    for component in project.component_set.iterator():
         with transaction.atomic():
+            translation = component.source_translation
+
             source_ids = (
-                Unit.objects.filter(translation__component_id=pk)
+                Unit.objects.filter(translation__component=component)
+                .exclude(translation=translation)
                 .values('id_hash')
                 .distinct()
             )
 
-            Source.objects.filter(component_id=pk).exclude(
-                id_hash__in=source_ids
-            ).delete()
+            translation.unit_set.exclude(id_hash__in=source_ids).delete()
 
 
 def cleanup_source_data(project):

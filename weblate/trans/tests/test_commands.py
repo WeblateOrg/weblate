@@ -125,7 +125,7 @@ class ImportProjectTest(RepoTestCase):
         )
         self.assertEqual(project.component_set.count(), 4)
         for component in project.component_set.iterator():
-            self.assertEqual(component.translation_set.count(), 1)
+            self.assertEqual(component.translation_set.count(), 2)
 
     def test_import_re(self):
         project = self.create_project()
@@ -351,7 +351,7 @@ class CleanupCommandTest(RepoTestCase):
         try:
             component = self.create_component()
             index = fulltext.get_source_index()
-            self.assertEqual(len(list(index.reader().all_stored_fields())), 12)
+            self.assertEqual(len(list(index.reader().all_stored_fields())), 16)
             # Create dangling suggestion
             Suggestion.objects.create(
                 project=component.project,
@@ -612,12 +612,9 @@ class ImportCommandTest(RepoTestCase):
             self.component.project.component_set.count(),
             3
         )
-        self.assertEqual(
-            Translation.objects.count(),
-            8
-        )
+        self.assertEqual(Translation.objects.count(), 10)
         self.assertIn(
-            'Imported Test/Gettext PO with 3 translations',
+            'Imported Test/Gettext PO with 4 translations',
             output.getvalue()
         )
 
@@ -654,7 +651,7 @@ class ImportCommandTest(RepoTestCase):
             stdout=output
         )
         self.assertIn(
-            'Imported Test/Gettext PO with 3 translations',
+            'Imported Test/Gettext PO with 4 translations',
             output.getvalue()
         )
         output.truncate()

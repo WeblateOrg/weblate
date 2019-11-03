@@ -38,7 +38,6 @@ from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
-from weblate.trans.models.source import Source
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
@@ -382,9 +381,20 @@ class Unit(models.Model, LoggerMixin):
         except Exception as error:
             self.translation.component.handle_parse_error(error, self.translation)
 
-        # Ensure we track source string
-        source_info, source_created = component.get_source(self.id_hash)
-        self.__dict__['source_info'] = source_info
+        # Ensure we track source string for bilingual
+        if not self.translation.is_source:
+            source_unit = component.get_source(
+                self.id_hash,
+                source=source,
+                target=source,
+                context=context,
+                content_hash=content_hash,
+                position=pos,
+                location=location,
+                flags=flags,
+            )
+            self.extra_context = source_unit.extra_context
+            self.extra_flags = source_unit.extra_flags
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
@@ -454,14 +464,6 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             same_state=same_state,
         )
-
-        # Create change object for new source string
-        if source_created:
-            Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=self)
-
-        # Track updated sources for source checks
-        if source_created or not same_source:
-            component.updated_sources[self.id_hash] = self
 
     def update_state(self):
         """Update state based on flags."""
@@ -577,9 +579,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Save updated unit to database
         self.save()
-
-        # Run source checks
-        self.source_info.run_checks(unit=self)
 
         # Generate Change object for this change
         self.generate_change(user or author, author, change_action)
@@ -766,26 +765,33 @@ class Unit(models.Model, LoggerMixin):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
-
-        if self.translation.is_source:
-            checks_to_run = {}
-        else:
-            checks_to_run = CHECKS.data
+        is_source = self.translation.is_source
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         content_hash = self.content_hash
         project = self.translation.component.project
-        language = self.translation.language
-        old_checks = set(self.checks(True))
+        if is_source:
+            language = None
+            old_checks = set(self.source_checks().values_list('check', flat=True))
+        else:
+            language = self.translation.language
+            old_checks = set(self.checks(True))
         create = []
 
-        # Run all target checks
-        for check, check_obj in checks_to_run.items():
+        # Run all checks
+        for check, check_obj in CHECKS.items():
+            # Do not remove batch checks in batch processing
             if self.is_batch_update and check_obj.batch_update:
                 old_checks.discard(check)
                 continue
-            if check_obj.check_target(src, tgt, self):
+
+            # Does the check fire?
+            if (
+                not is_source
+                and check_obj.target
+                and check_obj.check_target(src, tgt, self)
+            ) or (is_source and check_obj.source and check_obj.check_source(src, self)):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
@@ -915,7 +921,7 @@ class Unit(models.Model, LoggerMixin):
         return Flags(
             self.translation.component.all_flags,
             self.translation.check_flags,
-            self.source_info.check_flags,
+            self.extra_flags,
             override or self.flags,
         )
 
@@ -926,9 +932,7 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def source_info(self):
         """Return related source string object."""
-        return Source.objects.get(
-            id_hash=self.id_hash, component=self.translation.component
-        )
+        return self.translation.component.get_source(self.id_hash)
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""

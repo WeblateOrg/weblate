@@ -54,10 +54,6 @@ class Check(object):
         if self.ignore_string in unit.all_flags:
             return True
 
-        # Ignore target checks on templates
-        if unit.translation.is_template:
-            return True
-
         return False
 
     def check_target(self, sources, targets, unit):

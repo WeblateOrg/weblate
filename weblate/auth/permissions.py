@@ -194,7 +194,7 @@ def check_edit_approved(user, permission, obj):
 @register_perm('unit.add')
 @cache_perm
 def check_unit_add(user, permission, translation):
-    if not translation.is_template:
+    if not translation.is_source:
         return False
     if not translation.component.file_format_cls.can_add_unit:
         return False

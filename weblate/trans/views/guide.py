@@ -185,7 +185,9 @@ class FlagsGuideline(Guideline):
     def is_passing(self):
         return (
             bool(self.component.check_flags)
-            or self.component.source_set.exclude(check_flags="").exists()
+            or self.component.source_translation.unit_set.exclude(
+                extra_flags=""
+            ).exists()
         )
 
     def get_docs_url(self):
@@ -206,8 +208,8 @@ class SafeHTMLGuideline(Guideline):
     def is_passing(self):
         return (
             "safe-html" in self.component.check_flags
-            or self.component.source_set.filter(
-                check_flags__contains="safe-html"
+            or self.component.source_translation.unit_set.filter(
+                extra_flags__contains="safe-html"
             ).exists()
         )
 

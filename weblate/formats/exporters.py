@@ -153,7 +153,7 @@ class BaseExporter(object):
         if note:
             output.addnote(note, origin='developer')
         # In Weblate context
-        note = self.string_filter(unit.source_info.context)
+        note = self.string_filter(unit.extra_context)
         if context:
             output.addnote(note, origin='developer')
         # Comments
