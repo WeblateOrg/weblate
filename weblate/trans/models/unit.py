@@ -48,6 +48,7 @@ from weblate.trans.util import (
     join_plural,
     split_plural,
 )
+from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
@@ -283,6 +284,12 @@ class Unit(models.Model, LoggerMixin):
     priority = models.IntegerField(default=100)
 
     pending = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    extra_flags = models.TextField(
+        default='', validators=[validate_check_flags], blank=True
+    )
+    extra_context = models.TextField(default='', blank=True)
 
     objects = UnitQuerySet.as_manager()
 
