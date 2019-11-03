@@ -561,7 +561,7 @@ class Unit(models.Model, LoggerMixin):
         if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
-        if self.translation.is_template:
+        if self.translation.is_source:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
 
@@ -767,7 +767,7 @@ class Unit(models.Model, LoggerMixin):
         was_change = False
         has_checks = None
 
-        if self.translation.is_template:
+        if self.translation.is_source:
             checks_to_run = {}
         else:
             checks_to_run = CHECKS.data

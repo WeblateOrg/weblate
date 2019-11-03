@@ -129,7 +129,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.reason = ''
 
     def get_badges(self):
-        if self.is_template:
+        if self.is_source:
             yield (_('source'), _('This translation is used for source strings.'))
 
     @cached_property
@@ -148,6 +148,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         This means that translations should be propagated as sources to others.
         """
         return self.filename == self.component.template
+
+    @cached_property
+    def is_source(self):
+        """Check whether this is source strings.
+
+        This means that translations should be propagated as sources to others.
+        """
+        return self.language == self.component.project.source_language
 
     def clean(self):
         """Validate that filename exists and can be opened using

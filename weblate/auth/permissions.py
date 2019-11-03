@@ -239,7 +239,7 @@ def check_contribute(user, permission, translation):
 def check_machinery(user, permission, obj):
     if not MACHINE_TRANSLATION_SERVICES.exists():
         return False
-    if isinstance(obj, Translation) and obj.is_template:
+    if isinstance(obj, Translation) and obj.is_source:
         return False
     return check_contribute(user, permission, obj)
 
