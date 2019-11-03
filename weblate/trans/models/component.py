@@ -1151,19 +1151,17 @@ class Component(models.Model, URLMixin, PathMixin):
             else:
                 self.log_info("skipping language %s [%s]", code, path)
 
-        # We want to list template among translations as well
-        if self.has_template():
-            if self.edit_template:
-                matches.add(self.template)
-            else:
-                matches.discard(self.template)
-
         # Remove symlinked translations
         for filename in list(matches):
             resolved = self.repository.resolve_symlinks(filename)
             if resolved != filename and resolved in matches:
                 matches.discard(filename)
 
+        if self.has_template():
+            # We want to list template among translations as well
+            matches.discard(self.template)
+            if self.edit_template:
+                return [self.template] + sorted(matches)
         return sorted(matches)
 
     def update_source_checks(self):
