@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load permissions %}
 
 {% for item in unitdata %}
 <tbody class="zen-unit">
@@ -48,7 +49,13 @@
 {% if item.secondary %}
 {% for unit in item.secondary %}
 <div class="form-group">
-<label>{{ unit.translation.language }}</label>
+<label>
+    {{ unit.translation.language }}
+    {% perm 'unit.edit' unit as user_can_edit_secondary %}
+    {% if user_can_edit_secondary %}
+    <a title="{% trans "Edit string" %}"href="{{ unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
+    {% endif %}
+</label>
 {% format_translation unit.target unit.translation.language unit.translation.plural %}
 </div>
 {% endfor %}
@@ -63,7 +70,17 @@
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
-<label>{% trans "Source" %}</label>
+<label>
+    {% trans "Source" %}
+    {% with item.unit.translation.component.get_editable_template as edit_template %}
+    {% if edit_template %}
+    {% perm 'unit.edit' edit_template as user_can_edit_template %}
+    {% if user_can_edit_template %}
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
+    {% endif %}
+    {% endif %}
+    {% endwith %}
+</label>
 {% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 </div>
 {% endif %}
