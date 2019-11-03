@@ -59,7 +59,10 @@
 {% endif %}
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
+<div class="form-group">
+<label>{% trans "Source" %}</label>
 {% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
+</div>
 {% endif %}
 
 </td>
