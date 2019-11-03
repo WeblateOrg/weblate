@@ -33,6 +33,8 @@ Fields
    Location string case insensitive search.
 ``priority:NUMBER``
    String priority.
+``added:DATETIME``
+   Timestamp when string was added to Weblate.
 ``state:TEXT``
    State search (``approved``, ``translated``, ``needs-editing``, ``empty``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``

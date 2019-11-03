@@ -12,6 +12,7 @@ Not yet released.
 * Add copy to clipboard for secondary languages.
 * Improved support for Mercurial.
 * Improved performance in fetching Git repositories.
+* Add search lookup for age of string.
 
 Weblate 3.9.1
 -------------

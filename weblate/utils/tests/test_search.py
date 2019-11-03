@@ -156,6 +156,10 @@ class QueryParserTest(TestCase):
             )
             & action_change,
         )
+        self.assert_query(
+            "added:>2019-03-01",
+            Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc)),
+        )
 
     def test_bool(self):
         self.assert_query("pending:true", Q(pending=True))

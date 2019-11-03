@@ -126,6 +126,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             comment=TEXT,
             location=TEXT,
             priority=NUMERIC,
+            added=DATETIME,
             state=StateField,
             pending=BOOLEAN,
             has_suggestion=BOOLEAN,
@@ -138,7 +139,6 @@ class QueryParser(whoosh.qparser.QueryParser):
             changed_by=TEXT,
         )
         # Features to implement and corresponding blockers
-        # - created timestamp, https://github.com/WeblateOrg/weblate/issues/2831
         # - unitdata lookups, https://github.com/WeblateOrg/weblate/issues/3007
 
         # List of plugins
@@ -177,6 +177,8 @@ def field_name(field, suffix="icontains"):
         return "change__author__username"
     if field == "language":
         return "translation__language__code"
+    if field == "added":
+        return "timestamp"
     if field in ("source", "target", "context", "comment", "location"):
         return "{}__{}".format(field, suffix)
     return field
