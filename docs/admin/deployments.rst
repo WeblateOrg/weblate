@@ -7,7 +7,6 @@ Weblate can be easily installed in your cloud. Please find detailed guide for yo
 
 * :ref:`quick-docker`
 * :ref:`quick-openshift`
-* :ref:`quick-openshift2`
 
 Bitnami Weblate stack
 ---------------------

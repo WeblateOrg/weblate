@@ -12,7 +12,6 @@ Installation instructions
     install/venv-redhat
     install/source
     install/openshift
-    install/openshift2
 
 Depending on your setup and experience, choose appropriate installation method:
 
@@ -27,5 +26,3 @@ Depending on your setup and experience, choose appropriate installation method:
 * :ref:`quick-source`, recommended for development.
 
 * :ref:`quick-openshift`.
-
-* :ref:`quick-openshift2`.

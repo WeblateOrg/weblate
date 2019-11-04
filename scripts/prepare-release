@@ -10,9 +10,8 @@ version=$(DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import webl
 today=$(DJANGO_SETTINGS_MODULE=weblate.settings_example ./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format(datetime.date.today(), "F dS Y"))')
 
 sed -i "s/^VERSION =.*/VERSION = '$version'/" weblate/__init__.py
-sed -i "s/weblate-[0-9.]\\+/weblate-$version/" docs/admin/install/openshift2.rst
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
 
 if ! git diff --exit-code --quiet ; then
-    git commit -s -m "Releasing $version" -- weblate/__init__.py docs/admin/install/openshift2.rst docs/changes.rst
+    git commit -s -m "Releasing $version" -- weblate/__init__.py docs/changes.rst
 fi
