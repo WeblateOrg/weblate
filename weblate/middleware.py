@@ -128,6 +128,11 @@ class SecurityMiddleware(object):
             style.add(domain)
             font.add(domain)
 
+        # When using external image for Auth0 provider, add it here
+        if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
+            domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
+            image.add(domain)
+
         response["Content-Security-Policy"] = CSP_TEMPLATE.format(
             " ".join(style),
             " ".join(image),
