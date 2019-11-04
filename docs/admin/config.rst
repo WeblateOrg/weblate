@@ -1035,6 +1035,13 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is currently permitted. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
+.. note::
+
+   This setting has effect on built in authentication by email or through
+   Python Social Auth. In case of using third party authentication methods such
+   as :ref:`ldap-auth` it just hides the registration form, but new users might
+   be still able to log in and create account.
+
 .. setting:: SENTRY_DSN
 
 SENTRY_DSN

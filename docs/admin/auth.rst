@@ -322,6 +322,10 @@ Once you have the package installed, you can hook it into the Django authenticat
         'email': 'mail',
     }
 
+    # Hide the registration form
+    REGISTRATION_OPEN = False
+
+
 If you can not use direct bind for authentication, you will need to use search,
 and provide a user to bind for the search. For example:
 
