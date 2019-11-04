@@ -278,7 +278,7 @@
 </tr>
 <tr>
 <td colspan="2">
-<pre>
+<pre dir="ltr">
 curl \
     -H "Authorization: Token {{ user.auth_token.key }}" \
     {{ site_url }}{% url 'api:api-root' %}
@@ -290,7 +290,7 @@ curl \
 </tr>
 <tr>
 <td colspan="2">
-<pre>
+<pre dir="ltr">
 wlc \
     --key {{ user.auth_token.key }} \
     --url {{ site_url }}{% url 'api:api-root' %} \
@@ -306,7 +306,7 @@ wlc \
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% trans "Accessing Git repositories" %}</h4></div>
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
-    <pre>
+    <pre dir="ltr">
 git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
