@@ -59,7 +59,6 @@ from weblate.trans.admin import (
     ContributorAgreementAdmin,
     DictionaryAdmin,
     ProjectAdmin,
-    SourceAdmin,
     SuggestionAdmin,
     TranslationAdmin,
     UnitAdmin,
@@ -73,7 +72,6 @@ from weblate.trans.models import (
     ContributorAgreement,
     Dictionary,
     Project,
-    Source,
     Suggestion,
     Translation,
     Unit,
@@ -132,7 +130,6 @@ class WeblateAdminSite(AdminSite):
             self.register(Check, CheckAdmin)
             self.register(Dictionary, DictionaryAdmin)
             self.register(Change, ChangeAdmin)
-            self.register(Source, SourceAdmin)
 
         if settings.BILLING_ADMIN:
             # Billing

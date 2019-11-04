@@ -26,7 +26,7 @@ from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group, User
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Source, Translation, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -731,26 +731,6 @@ class UnitAPITest(APIBaseTest):
         )
         self.assertIn(
             'translation',
-            response.data,
-        )
-
-
-class SourceAPITest(APIBaseTest):
-    def test_list_sources(self):
-        response = self.client.get(
-            reverse('api:source-list')
-        )
-        self.assertEqual(response.data['count'], 4)
-
-    def test_get_source(self):
-        response = self.client.get(
-            reverse(
-                'api:source-detail',
-                kwargs={'pk': Source.objects.all()[0].pk}
-            )
-        )
-        self.assertIn(
-            'component',
             response.data,
         )
 

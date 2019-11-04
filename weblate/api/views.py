@@ -49,7 +49,6 @@ from weblate.api.serializers import (
     RepoRequestSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
-    SourceSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
@@ -64,7 +63,6 @@ from weblate.trans.models import (
     Change,
     Component,
     Project,
-    Source,
     Suggestion,
     Translation,
     Unit,
@@ -649,18 +647,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         allowed_projects = self.request.user.allowed_projects
         return Unit.objects.filter(
             translation__component__project__in=allowed_projects
-        ).order_by('id')
-
-
-class SourceViewSet(viewsets.ReadOnlyModelViewSet):
-    """Sources API"""
-
-    queryset = Source.objects.none()
-    serializer_class = SourceSerializer
-
-    def get_queryset(self):
-        return Source.objects.filter(
-            component__project__in=self.request.user.allowed_projects
         ).order_by('id')
 
 

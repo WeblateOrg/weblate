@@ -23,7 +23,7 @@ from rest_framework import serializers
 
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Source, Translation, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
@@ -425,36 +425,6 @@ class UnitSerializer(RemovableSerializer):
         }
 
 
-class SourceSerializer(RemovableSerializer):
-    component = MultiFieldHyperlinkedIdentityField(
-        view_name='api:component-detail',
-        lookup_field=('component__project__slug', 'component__slug'),
-        strip_parts=1,
-    )
-    units = serializers.HyperlinkedRelatedField(
-        read_only=True,
-        many=True,
-        view_name='api:unit-detail'
-    )
-    screenshots = serializers.HyperlinkedRelatedField(
-        read_only=True,
-        many=True,
-        view_name='api:screenshot-detail'
-    )
-
-    class Meta(object):
-        model = Source
-        fields = (
-            'id_hash', 'component', 'timestamp', 'check_flags',
-            'url', 'units', 'screenshots',
-        )
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:source-detail',
-            },
-        }
-
-
 class ScreenshotSerializer(RemovableSerializer):
     component = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-detail',
@@ -466,16 +436,16 @@ class ScreenshotSerializer(RemovableSerializer):
         source='pk',
         view_name='api:screenshot-file'
     )
-    sources = serializers.HyperlinkedRelatedField(
+    units = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name='api:source-detail'
+        view_name='api:unit-detail'
     )
 
     class Meta(object):
         model = Screenshot
         fields = (
-            'name', 'component', 'file_url', 'sources', 'url',
+            'name', 'component', 'file_url', 'units', 'url',
         )
         extra_kwargs = {
             'url': {

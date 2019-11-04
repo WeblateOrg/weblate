@@ -30,7 +30,7 @@ from six import StringIO
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
-from weblate.trans.models import Component, Source, Suggestion, Translation
+from weblate.trans.models import Component, Suggestion, Translation
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -362,7 +362,6 @@ class CleanupCommandTest(RepoTestCase):
             Translation.objects.all().delete()
             call_command('cleanuptrans')
             self.assertEqual(Suggestion.objects.count(), 0)
-            self.assertEqual(Source.objects.count(), 0)
             self.assertEqual(len(list(index.reader().all_stored_fields())), 0)
         finally:
             Fulltext.FAKE = orig_fake

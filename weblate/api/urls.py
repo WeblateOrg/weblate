@@ -30,7 +30,6 @@ from weblate.api.views import (
     Metrics,
     ProjectViewSet,
     ScreenshotViewSet,
-    SourceViewSet,
     TranslationViewSet,
     UnitViewSet,
 )
@@ -61,10 +60,6 @@ router.register(
 router.register(
     r'units',
     UnitViewSet
-)
-router.register(
-    r'sources',
-    SourceViewSet
 )
 router.register(
     r'screenshots',

@@ -37,7 +37,6 @@ from weblate.trans.models import (
     Component,
     ComponentList,
     Project,
-    Source,
     Unit,
     WhiteboardMessage,
 )
@@ -281,11 +280,8 @@ class ModelTestCase(RepoTestCase):
         self.component = self.create_component()
 
 
-class SourceTest(ModelTestCase):
-    """Source objects testing."""
-    def test_exists(self):
-        self.assertTrue(Source.objects.exists())
-
+class SourceUnitTest(ModelTestCase):
+    """Source Unit objects testing."""
     def test_source_info(self):
         unit = Unit.objects.all()[0]
         self.assertIsNotNone(unit.source_info)
