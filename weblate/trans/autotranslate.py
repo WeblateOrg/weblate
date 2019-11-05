@@ -47,7 +47,7 @@ class AutoTranslate(object):
         return units
 
     def set_progress(self, current):
-        if current_task and current_task.request.id:
+        if current_task and current_task.request.id and self.total:
             current_task.update_state(
                 state="PROGRESS", meta={"progress": 100 * current // self.total}
             )
