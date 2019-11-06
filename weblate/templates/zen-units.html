@@ -76,7 +76,7 @@
     {% if edit_template %}
     {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ item.unit.checksum }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% endif %}
     {% endwith %}
