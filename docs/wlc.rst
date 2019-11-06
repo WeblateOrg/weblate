@@ -178,7 +178,7 @@ Currently the following subcommands are available:
 
     .. option:: --convert
 
-        Convert file format, if not specified not conversion happens on server
+        Convert file format, if not specified no conversion happens on server
         and file is downloaded as is in the repository.
 
     .. option:: --output
