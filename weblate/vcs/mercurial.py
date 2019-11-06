@@ -51,7 +51,7 @@ class HgRepository(Repository):
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
-    ref_to_remote = 'heads(branch(.)) - .'
+    ref_to_remote = 'head() and branch(.) and not closed() - .'
     ref_from_remote = 'outgoing()'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
@@ -312,7 +312,7 @@ class HgRepository(Repository):
     def push(self):
         """Push given branch to remote repository."""
         try:
-            self.execute(['push', '-r', '.'])
+            self.execute(['push', '-b', self.branch])
         except RepositoryException as error:
             if error.retcode == 1:
                 # No changes found
