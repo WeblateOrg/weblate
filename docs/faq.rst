@@ -231,7 +231,7 @@ Please consult the `git submodule`_ documentation for more details.
 .. _`git submodule`: https://git-scm.com/docs/git-submodule
 
 How can I check whether my Weblate is set up properly?
------------------------------------------------------
+------------------------------------------------------
 
 Weblate includes a set of configuration checks which you can see in the admin
 interface, just follow the :guilabel:`Performance report` link in the admin interface, or
@@ -372,8 +372,8 @@ addon :ref:`addon-weblate.gettext.msgmerge`.
 Troubleshooting
 +++++++++++++++
 
-Requests sometimes fail with too many "Open files errors"
-------------------------------------------------------
+Requests sometimes fail with "too many open files" error
+--------------------------------------------------------
 
 This happens sometimes when your Git repository grows too much and you have
 many of them. Compressing the Git repositories will improve this situation.
@@ -435,7 +435,7 @@ setups, it is recommended to use Celery to perform updates in the background.
 .. _faq-ft-space:
 
 Rebuilding the index has failed with "No space left on device"
-----------------------------------------------------------
+--------------------------------------------------------------
 
 Whoosh uses a temporary directory to build indices. In case you have a small /tmp
 (e.g. using ramdisk), this might fail. Change the temporary directory by passing it
@@ -464,7 +464,7 @@ capable database, see :ref:`production-database` for more info.
 
 
 When accessing the site I get a "Bad Request (400)" error
------------------------------------------------------
+---------------------------------------------------------
 
 This is most likely caused by an improperly configured :setting:`ALLOWED_HOSTS`.
 It needs to contain all hostnames you want to access on your Weblate. For example:
@@ -483,7 +483,7 @@ Features
 .. _faq-vcs:
 
 Does Weblate support other VCSes than Git and Mercurial?
-------------------------------------------------------
+--------------------------------------------------------
 
 Weblate currently does not have native support for anything other than
 :ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit`
