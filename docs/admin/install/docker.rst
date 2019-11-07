@@ -4,7 +4,7 @@ Installing using Docker
 =======================
 
 With dockerized Weblate deployment you can get your personal Weblate instance
-up an running in seconds. All of Weblate's dependencies are already included.
+up and running in seconds. All of Weblate's dependencies are already included.
 PostgreSQL is set up as the default database.
 
 .. include:: steps/hw.rst
@@ -51,7 +51,9 @@ The following examples assume you have a working Docker environment, with
         
         Append ',localhost' to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to access locally for testing.
         
-        You may also need to edit the *docker-compose.yml* file and change the default port from 80 if you already have a web server running on your local machine
+        You may also need to edit the *docker-compose.yml* file and change the
+        default port from 80 if you already have a web server running on your
+        local machine.
 
 3. Start Weblate containers:
 
@@ -64,13 +66,13 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 .. versionchanged:: 2.15-2
 
     The setup has changed recently, priorly there was separate web server
-    container, since 2.15-2 the web server is embedded in the Weblate container.
+    container, since 2.15-2 the web server is embedded in the Weblate
+    container.
 
 .. versionchanged:: 3.7.1-6
 
    In July 2019 (starting with the 3.7.1-6 tag), the containers is not running
-   as root. As a consequence this has lead to changed exposed port from 80 to
-   8080.
+   as a root user. This has lead to changed exposed port from 80 to 8080.
 
 .. seealso:: :ref:`invoke-manage`
 
@@ -93,8 +95,8 @@ into the Weblate data volume (see :ref:`docker-volume`):
 * :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
 * :file:`ssl/privkey.pem` containing the private key
 
-Additionally Weblate container will now accept SSL connections on port 4443,
-you will want include the port forwarding for HTTPS in docker compose override:
+Additionally, Weblate container will now accept SSL connections on port 4443,
+you will want to include the port forwarding for HTTPS in docker compose override:
 
 .. code-block:: yaml
 
@@ -163,6 +165,10 @@ should be no need for additional manual actions.
     and want to upgrade to 3.x, first upgrade to the latest 3.0.1-x (at time of
     writing this it is the ``3.0.1-7``) image, which will do the migration and then
     continue upgrading to newer versions.
+
+You might also want to update the ``docker-compose`` repository, though it's
+not needed in most case. Please beware of PostgreSQL version changes in this
+case as it's not straightforward to upgrade the database, see `GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ for more info.
 
 .. _docker-environment:
 
@@ -687,7 +693,7 @@ To make outgoing e-mail work, you need to provide a mail server.
 Error reporting
 ~~~~~~~~~~~~~~~
 
-It is recommended to collect errors from the installation in a systematic way,
+It is recommended to collect errors from the installation systematically,
 see :ref:`collecting-errors`.
 
 To enable support for Rollbar, set the following:
@@ -747,7 +753,7 @@ Docker container volumes
 
 There is single data volume exported by the Weblate container. The other
 service containers (PostgreSQL or Redis) have their data volumes as well, but
-those are not covered by this docs.
+those are not covered by this document.
 
 The data volume is used to store Weblate persistent data such as cloned
 repositories or to customize Weblate installation.
@@ -849,7 +855,7 @@ command. For example:
         cd
         HOME=/app/data/home lab
 
-The access_token passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.
+The ``access_token`` passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.
 
 .. seealso::
 
