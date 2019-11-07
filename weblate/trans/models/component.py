@@ -767,10 +767,10 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def needs_commit_upstream(self):
         def check_single(changed, component):
-            if self.template and self.template in changed:
+            if component.template and component.template in changed:
                 return True
             for path in changed:
-                if self.filemask_re.match(path):
+                if component.filemask_re.match(path):
                     return True
             return False
 
