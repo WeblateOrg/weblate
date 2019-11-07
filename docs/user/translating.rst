@@ -177,12 +177,12 @@ Screenshots
 Nearby messages
     Displays neighbouring messages from the translation file. These
     are usually also used in a similar context and prove useful in keeping the translation consistent.
-Similar messages
-    Messages found to be similar the current source string, which helps in providing a consistent translation.
-All locations
+Other occurences
     In case a message appears in multiple places (e.g. multiple components),
     this tab shows all of them if found to be inconsistent (see
     :ref:`check-inconsistent`), you can choose which one to use.
+Translation memory
+    Look at similar strings translated in past, see :ref:`memory`.
 Glossary
     Displays terms from the project glossary used in the current message.
 Recent edits
