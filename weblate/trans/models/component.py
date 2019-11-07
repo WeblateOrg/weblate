@@ -765,20 +765,22 @@ class Component(models.Model, URLMixin, PathMixin):
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
-    def needs_commit_upstream(self):
-        def check_single(changed, component):
-            if component.template and component.template in changed:
+    def uses_changed_files(self, changed):
+        """Detect whether list of changed files matches configuration."""
+        if self.template and self.template in changed:
+            return True
+        for path in changed:
+            if self.filemask_re.match(path):
                 return True
-            for path in changed:
-                if component.filemask_re.match(path):
-                    return True
-            return False
+        return False
 
+    def needs_commit_upstream(self):
+        """Detect whether commit is needed for upstream changes."""
         changed = self.repository.list_upstream_changed_files()
-        if check_single(changed, self):
+        if self.uses_changed_files(changed):
             return True
         for component in self.linked_childs:
-            if check_single(changed, component):
+            if component.uses_changed_files(changed):
                 return True
         return False
 
