@@ -1017,7 +1017,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
         report_error(error, prefix="Parse error")
-        error_message = force_text(error)
+        error_message = getattr(error, 'strerror', '')
+        if not error_message:
+            error_message = force_text(error)
         if translation is None:
             filename = self.template
         else:
