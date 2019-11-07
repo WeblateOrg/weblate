@@ -201,11 +201,11 @@ def pre_commit(sender, translation, author, **kwargs):
 
 
 @receiver(vcs_post_commit)
-def post_commit(sender, translation, **kwargs):
-    addons = Addon.objects.filter_event(translation.component, EVENT_POST_COMMIT)
+def post_commit(sender, component, translation=None, **kwargs):
+    addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
-        translation.log_debug('running post_commit addon: %s', addon.name)
-        addon.addon.post_commit(translation)
+        component.log_debug('running post_commit addon: %s', addon.name)
+        addon.addon.post_commit(component, translation)
 
 
 @receiver(translation_post_add)

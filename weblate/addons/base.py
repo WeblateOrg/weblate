@@ -146,8 +146,7 @@ class BaseAddon(object):
             components = [self.instance.component]
         if EVENT_POST_COMMIT in self.events:
             for component in components:
-                for translation in component.translation_set.iterator():
-                    self.post_commit(translation)
+                self.post_commit(component)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
                 self.post_update(component, '')
@@ -182,7 +181,7 @@ class BaseAddon(object):
     def post_update(self, component, previous_head):
         return
 
-    def post_commit(self, translation):
+    def post_commit(self, component, translation=None):
         return
 
     def pre_commit(self, translation, author):

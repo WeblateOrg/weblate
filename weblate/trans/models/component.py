@@ -61,6 +61,7 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
 from weblate.trans.signals import (
     translation_post_add,
+    vcs_post_commit,
     vcs_post_push,
     vcs_post_update,
     vcs_pre_push,
@@ -1008,6 +1009,7 @@ class Component(models.Model, URLMixin, PathMixin):
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
         )
+        components = {}
 
         # Commit pending changes
         for translation in translations.iterator():
@@ -1015,8 +1017,12 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation.component = self
             if translation.component.linked_component_id == self.id:
                 translation.component.linked_component = self
-            translation.commit_pending(reason, user, skip_push=True, force=True)
+            translation.commit_pending(reason, user, skip_push=True, force=True, signals=False)
+            components[translation.component.pk] = translation.component
 
+        # Fire postponed post commit signals
+        for component in components.values():
+            vcs_post_commit.send(sender=self.__class__, component=component)
         # Push if enabled
         if not skip_push:
             self.push_if_needed()

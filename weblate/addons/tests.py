@@ -683,7 +683,7 @@ class GitSquashAddonTest(ViewTestCase):
         repo = self.component.repository
         self.assertEqual(repo.count_outgoing(), 0)
         # Test no-op behavior
-        addon.post_commit(self.get_translation())
+        addon.post_commit(self.component)
         # Make some changes
         self.edit()
         self.assertEqual(repo.count_outgoing(), expected)

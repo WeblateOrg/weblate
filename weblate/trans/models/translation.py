@@ -387,7 +387,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
-    def commit_pending(self, reason, user, skip_push=False, force=False):
+    def commit_pending(self, reason, user, skip_push=False, force=False, signals=True):
         """Commit any pending changes."""
         if not force and not self.needs_commit():
             return False
@@ -415,7 +415,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.update_units(author_name, author.id)
 
                 # Commit changes
-                self.git_commit(user, author_name, timestamp, skip_push=skip_push)
+                self.git_commit(user, author_name, timestamp, skip_push=skip_push, signals=signals)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -435,7 +435,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return render_template(template, translation=self, author=author)
 
-    def __git_commit(self, author, timestamp):
+    def __git_commit(self, author, timestamp, signals=True):
         """Commit translation to git."""
 
         # Format commit message
@@ -455,7 +455,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.addon_commit_files = []
 
         # Post commit hook
-        vcs_post_commit.send(sender=self.__class__, translation=self)
+        if signals:
+            vcs_post_commit.send(
+                sender=self.__class__, component=self.component, translation=self
+            )
 
         # Store updated hash
         self.store_hash()
@@ -479,7 +482,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_commit(self):
         return self.component.repository.needs_commit(*self.filenames)
 
-    def git_commit(self, user, author, timestamp, skip_push=False):
+    def git_commit(self, user, author, timestamp, skip_push=False, signals=True):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
         with repository.lock:
@@ -494,7 +497,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 translation=self,
                 user=user,
             )
-            self.__git_commit(author, timestamp)
+            self.__git_commit(author, timestamp, signals=signals)
 
             # Push if we should
             if not skip_push:
