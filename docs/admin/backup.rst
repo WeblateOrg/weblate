@@ -63,7 +63,7 @@ be able to restore the backup. The passphrase is generated when adding new
 backup service and you should copy it and keep it in a secure place.
 
 In case you are using :ref:`cloudbackup`, please backup your private SSH key as
-well - it is used to access your backups.
+well — it is used to access your backups.
 
 .. seealso::
 
@@ -119,7 +119,7 @@ Depending on what you want to save, back up the type data Weblate stores in each
 Database
 ~~~~~~~~
 
-Where this is located depends on your database setup.
+The actual storage location depends on your database setup.
 
 The database is the most important storage. Set up regular
 backups of your database, without it all your translation setup will be gone.
@@ -176,7 +176,7 @@ Stored in :setting:`DATA_DIR` ``/backups``.
 
 Weblate dumps various data here, and you can include these files for more complete
 backups. The files are updated daily (requires a running Celery beats server, see
-:ref:`celery`).  Currently this includes:
+:ref:`celery`). Currently, this includes:
 
 * Translation memory dump, in JSON format.
 * Weblate settings as :file:`settings.py`.
