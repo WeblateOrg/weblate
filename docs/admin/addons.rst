@@ -27,7 +27,8 @@ components.
 
 .. seealso:: 
    
-   :ref:`auto-translation`
+   :ref:`auto-translation`,
+   :ref:`translation-consistency`
 
 .. _addon-weblate.cleanup.generic:
 

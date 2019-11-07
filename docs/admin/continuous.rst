@@ -375,3 +375,38 @@ The way to customize how Weblate interacts with the repository is
 :ref:`addons`. Consult :ref:`addon-script` for info on how to execute
 external scripts through addons.
 
+.. _translation-consistency:
+
+Keeping translations same across components
+-------------------------------------------
+
+Once you have multiple translation components, you might want to ensure that
+the same strings have same translation. This can be achieved at several levels.
+
+Translation propagation
++++++++++++++++++++++++
+
+With translation propagation enabled (what is the default, see
+:ref:`component`), all new translations are automatically done in all
+components with matching strings. Such translations are properly credited to
+currently translating user in all components.
+
+.. note::
+
+   The translation propagation requires the key to be match for monolingual
+   translation formats, so keep that in mind when creating translation keys.
+
+Consistency check
++++++++++++++++++
+
+The :ref:`check-inconsistent` check fires whenever the strings are different.
+You can utilize this to review such differences manually and choose the right
+translation.
+
+Automatic translation
++++++++++++++++++++++
+
+Automatic translation based on different components can be way to synchronize
+the translations across components. You can either trigger it manually (see
+:ref:`auto-translation`) or make it run automatically on repository update
+using addon (see :ref:`addon-weblate.autotranslate.autotranslate`).

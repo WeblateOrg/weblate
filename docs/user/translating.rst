@@ -280,6 +280,10 @@ between different components (for example website and application) or when
 bootstrapping translation for a new component using existing translations
 (translation memory).
 
+.. seealso::
+
+    :ref:`translation-consistency`
+
 .. _user-rate:
 
 Rate limiting
