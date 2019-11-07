@@ -727,9 +727,16 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             with self.repository.lock:
                 start = time.time()
+                previous = self.repository.last_remote_revision
                 self.repository.update_remote()
                 timediff = time.time() - start
-                self.log_info("update took %.2f seconds", timediff)
+                self.log_info(
+                    "update took %.2f seconds, updated %s..%s, local %s",
+                    timediff,
+                    previous,
+                    self.repository.last_remote_revision,
+                    self.repository.last_revision,
+                )
                 for line in self.repository.last_output.splitlines():
                     self.log_debug("update: %s", line)
                 if self.id:
