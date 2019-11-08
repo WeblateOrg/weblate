@@ -774,7 +774,7 @@ def get_unique_row_id(context, obj):
 
 @register.simple_tag
 def get_filter_name(name):
-    names = dict(get_filter_choice(True))
+    names = dict(get_filter_choice())
     return names[name]
 
 

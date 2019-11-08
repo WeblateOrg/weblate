@@ -25,7 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.checks import CHECKS
 
 
-def get_filter_choice(include_source=False):
+def get_filter_choice():
     """Return all filtering choices"""
     result = [
         ('all', _('All strings')),
@@ -43,14 +43,11 @@ def get_filter_choice(include_source=False):
             _('Approved strings with suggestions')
         ),
         ('unapproved', _('Strings waiting for review')),
+        ('sourcechecks', _('Strings with any failing source checks')),
+        ('sourcecomments', _('Strings with source comments')),
     ]
-    result.extend([
+    result.extend(
         (CHECKS[check].url_id, _('Failed check: %s') % CHECKS[check].name)
-        for check in CHECKS if include_source or CHECKS[check].target
-    ])
-    if include_source:
-        result.extend([
-            ('sourcechecks', _('Strings with any failing source checks')),
-            ('sourcecomments', _('Strings with source comments')),
-        ])
+        for check in CHECKS
+    )
     return result

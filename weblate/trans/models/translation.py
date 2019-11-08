@@ -636,7 +636,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def get_source_checks(self):
         """Return list of failing source checks on current component."""
         result = TranslationChecklist()
-        choices = dict(get_filter_choice(True))
+        choices = dict(get_filter_choice())
         result.add(self.stats, choices, 'all', 'success')
 
         # All checks
@@ -657,6 +657,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     @cached_property
     def list_translation_checks(self):
         """Return list of failing checks on current translation."""
+        if self.is_source:
+            return self.get_source_checks()
+
         result = TranslationChecklist()
         choices = dict(get_filter_choice())
 
