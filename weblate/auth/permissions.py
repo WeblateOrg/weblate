@@ -188,15 +188,25 @@ def check_edit_approved(user, permission, obj):
         if unit.approved \
                 and not check_unit_review(user, 'unit.review', obj):
             return False
+    if isinstance(obj, Translation) and obj.is_readonly:
+        return False
     return check_can_edit(user, permission, obj)
 
 
 @register_perm('unit.add')
 @cache_perm
 def check_unit_add(user, permission, translation):
-    if not translation.is_source:
+    if not translation.is_source or translation.is_readonly:
         return False
     if not translation.component.file_format_cls.can_add_unit:
+        return False
+    return check_can_edit(user, permission, translation)
+
+
+@register_perm('translation.auto')
+@cache_perm
+def check_autotranslate(user, permission, translation):
+    if translation.is_source or translation.is_readonly:
         return False
     return check_can_edit(user, permission, translation)
 
