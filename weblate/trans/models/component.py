@@ -1761,7 +1761,12 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def repo_needs_push(self):
         """Check for something to push to remote repository."""
-        return self.repository.needs_push()
+        try:
+            return self.repository.needs_push()
+        except RepositoryException as error:
+            report_error(error, prefix="Could check push needed")
+            self.add_alert("PushFailure", childs=True, error=self.error_text(error))
+            return False
 
     @property
     def file_format_name(self):
