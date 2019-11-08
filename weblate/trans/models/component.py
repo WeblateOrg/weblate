@@ -609,6 +609,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             if created:
                 Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
+                self.updated_sources[id_hash] = source
             self._sources[id_hash] = source
             return source
 
@@ -1187,10 +1188,10 @@ class Component(models.Model, URLMixin, PathMixin):
         return sorted(matches)
 
     def update_source_checks(self):
-        # TODO: rewrite to unit
         self.log_debug("running source checks")
         for unit in self.updated_sources.values():
-            unit.source_info.run_checks(unit, self.project, batch=True)
+            unit.is_batch_update = True
+            unit.run_checks()
         self.updated_sources = {}
 
     def trigger_alert(self, name, **kwargs):
@@ -1338,7 +1339,6 @@ class Component(models.Model, URLMixin, PathMixin):
             projects[component.project_id] = component.project
 
         # Run source checks on updated source strings
-        # TODO: rewrite to unit
         if self.updated_sources:
             self.update_source_checks()
 

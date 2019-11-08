@@ -476,6 +476,9 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             same_state=same_state,
         )
+        # Track updated sources for source checks
+        if self.translation.is_template:
+            component.updated_sources[self.id_hash] = self
 
     def update_state(self):
         """Update state based on flags."""

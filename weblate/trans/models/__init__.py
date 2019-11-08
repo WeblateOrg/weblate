@@ -102,14 +102,10 @@ def update_source(sender, instance, **kwargs):
     if not instance.translation.is_source:
         return
     units = Unit.objects.filter(
-        translation__component=instance.translation.component,
-        id_hash=instance.id_hash,
+        translation__component=instance.translation.component, id_hash=instance.id_hash
     )
     # Propagate attributes
-    units.update(
-        extra_flags=instance.extra_flags,
-        extra_context=instance.extra_context,
-    )
+    units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
     # Run checks, update state and priority if flags changed
     if instance.old_unit.extra_flags != instance.extra_flags:
         for unit in units:
@@ -198,8 +194,12 @@ def post_save_update_checks(sender, instance, **kwargs):
 @app.task(trail=False)
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
-    for translation in component.translation_set.iterator():
+    for translation in component.translation_set.exclude(
+        pk=component.source_translation.pk
+    ).iterator():
         for unit in translation.unit_set.iterator():
             unit.run_checks()
+    for unit in component.source_translation.unit_set.iterator():
+        unit.run_checks()
     for translation in component.translation_set.iterator():
         translation.invalidate_cache()
