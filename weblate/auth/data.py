@@ -61,7 +61,7 @@ PERMISSIONS = (
     ('screenshot.edit', _('Edit screenshot')),
     ('screenshot.delete', _('Delete screenshot')),
 
-    ('source.edit', _('Edit source string info')),
+    ('source.edit', _('Edit additional string info')),
 
     ('suggestion.accept', _('Accept suggestion')),
     ('suggestion.add', _('Add suggestion')),

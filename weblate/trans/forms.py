@@ -63,7 +63,6 @@ from weblate.trans.models import (
 )
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
-from weblate.trans.validators import validate_check_flags
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
@@ -1066,26 +1065,10 @@ def get_new_language_form(request, component):
     return NewLanguageForm
 
 
-class ContextForm(forms.Form):
-    context = forms.CharField(label=_('Additional context'), required=False)
-
-
-class CheckFlagsForm(forms.Form):
-    flags = forms.CharField(label=_('Translation flags'), required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(CheckFlagsForm, self).__init__(*args, **kwargs)
-        self.fields['flags'].help_text = ugettext(
-            'Please enter a comma separated list of translation flags, '
-            'see <a href="{url}">documentation</a> for more details.'
-        ).format(url=get_doc_url('admin/checks', 'custom-checks'))
-
-    def clean_flags(self):
-        """Be a little bit more tolerant on whitespaces."""
-        flags = [x.strip() for x in self.cleaned_data['flags'].strip().split(',')]
-        flags = ','.join([x for x in flags if x])
-        validate_check_flags(flags)
-        return flags
+class ContextForm(forms.ModelForm):
+    class Meta(object):
+        model = Unit
+        fields = ('extra_flags', 'extra_context')
 
 
 class UserManageForm(forms.Form):

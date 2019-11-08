@@ -21,19 +21,17 @@ easier to translate. All types failing source checks are displayed on the :guila
 tab of every component.
 
 Translation string checks
------------------------------
+-------------------------
 
 Erroneous failing translation string checks indicate the problem is with
 the source string. Translators sometimes fix mistakes in the translation
 instead of reporting it - a typical example is a missing full stop at the end of
 a sentence.
 
-Reviewing all failing checks of your translation, for every language, can 
-provide valuable feedback to improve its source strings.
-
-:guilabel:`Source strings review` is in the :guilabel:`Tools`
-menu of any given translation component. A similar view is presented when opening
-a translation, with slightly different checks displayed:
+Reviewing all failing checks can provide valuable feedback to improve its
+source strings. To make source strings review easier, Weblate automatically
+creates translation for the source language and shows you source level checks
+there:
 
 .. image:: /images/source-review.png
 

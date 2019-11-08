@@ -42,17 +42,6 @@ class JSViewsTest(FixtureTestCase):
         service = load_class(name, 'TEST')()
         weblate.machinery.MACHINE_TRANSLATION_SERVICES[service.mtid] = service
 
-    def test_get_detail(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('js-detail', kwargs={
-                'checksum': unit.checksum,
-                'component': unit.translation.component.slug,
-                'project': unit.translation.component.project.slug,
-            }),
-        )
-        self.assertContains(response, 'Czech')
-
     def test_translate(self):
         self.ensure_dummy_mt()
         unit = self.get_unit()

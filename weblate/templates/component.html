@@ -74,7 +74,6 @@
       <li><a href="{% url 'checks' %}?project={{ object.project.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
       <li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "Matrix view" %}</a></li>
-      <li><a href="{% url 'show_source' project=object.project.slug component=object.slug %}">{% trans "Source strings review" %}</a></li>
       {% if object.can_add_language and user_can_add_translation %}
       <li><a href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a></li>
       {% endif %}

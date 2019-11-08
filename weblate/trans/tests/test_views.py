@@ -772,8 +772,8 @@ class SourceStringsTest(ViewTestCase):
 
         source = self.get_unit().source_info
         response = self.client.post(
-            reverse('edit_check_flags', kwargs={'pk': source.pk}),
-            {'flags': 'priority:60'}
+            reverse('edit_context', kwargs={'pk': source.pk}),
+            {'extra_flags': 'priority:60'}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
@@ -789,8 +789,8 @@ class SourceStringsTest(ViewTestCase):
         old_state = unit.state
         source = unit.source_info
         response = self.client.post(
-            reverse('edit_check_flags', kwargs={'pk': source.pk}),
-            {'flags': 'read-only'}
+            reverse('edit_context', kwargs={'pk': source.pk}),
+            {'extra_flags': 'read-only'}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
@@ -799,8 +799,8 @@ class SourceStringsTest(ViewTestCase):
         self.assertNotEqual(unit.state, old_state)
 
         response = self.client.post(
-            reverse('edit_check_flags', kwargs={'pk': source.pk}),
-            {'flags': ''}
+            reverse('edit_context', kwargs={'pk': source.pk}),
+            {'extra_flags': ''}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
@@ -816,13 +816,13 @@ class SourceStringsTest(ViewTestCase):
         source = self.get_unit().source_info
         response = self.client.post(
             reverse('edit_context', kwargs={'pk': source.pk}),
-            {'context': 'Extra context'}
+            {'extra_context': 'Extra context'}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
         self.assertEqual(unit.context, '')
-        self.assertEqual(unit.source_info.context, 'Extra context')
+        self.assertEqual(unit.extra_context, 'Extra context')
 
     def test_edit_check_flags(self):
         # Need extra power
@@ -831,32 +831,18 @@ class SourceStringsTest(ViewTestCase):
 
         source = self.get_unit().source_info
         response = self.client.post(
-            reverse('edit_check_flags', kwargs={'pk': source.pk}),
-            {'flags': 'ignore-same'}
+            reverse('edit_context', kwargs={'pk': source.pk}),
+            {'extra_flags': 'ignore-same'}
         )
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
-        self.assertEqual(unit.source_info.check_flags, 'ignore-same')
-
-    def test_review_source(self):
-        response = self.client.get(
-            reverse('review_source', kwargs=self.kw_component)
-        )
-        self.assertContains(response, 'Test/Test')
-
-    def test_review_source_expand(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('review_source', kwargs=self.kw_component),
-            {'checksum': unit.checksum}
-        )
-        self.assertContains(response, unit.checksum)
+        self.assertEqual(unit.extra_flags, 'ignore-same')
 
     def test_view_source(self):
-        response = self.client.get(
-            reverse('show_source', kwargs=self.kw_component)
-        )
+        kwargs = {'lang': 'en'}
+        kwargs.update(self.kw_component)
+        response = self.client.get(reverse('translation', kwargs=kwargs))
         self.assertContains(response, 'Test/Test')
 
     def test_matrix(self):

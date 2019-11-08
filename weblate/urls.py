@@ -176,16 +176,6 @@ real_patterns = [
         name='guide',
     ),
     url(
-        r'^projects/' + COMPONENT + 'source/$',
-        weblate.trans.views.source.show_source,
-        name='show_source',
-    ),
-    url(
-        r'^projects/' + COMPONENT + 'source/review/$',
-        weblate.trans.views.source.review_source,
-        name='review_source',
-    ),
-    url(
         r'^matrix/' + COMPONENT + '$',
         weblate.trans.views.source.matrix,
         name='matrix',
@@ -199,11 +189,6 @@ real_patterns = [
         r'^source/(?P<pk>[0-9]+)/context/$',
         weblate.trans.views.source.edit_context,
         name='edit_context'
-    ),
-    url(
-        r'^source/(?P<pk>[0-9]+)/check_flags/$',
-        weblate.trans.views.source.edit_check_flags,
-        name='edit_check_flags'
     ),
 
     # Translation pages
@@ -1051,11 +1036,6 @@ real_patterns = [
         r'^js/translations/(?P<unit_id>[0-9]+)/$',
         weblate.trans.views.js.get_unit_translations,
         name='js-unit-translations',
-    ),
-    url(
-        r'^js/detail/' + COMPONENT + '(?P<checksum>[^/]+)/$',
-        weblate.trans.views.js.get_detail,
-        name='js-detail',
     ),
     url(
         r'^js/git/' + PROJECT + '$',

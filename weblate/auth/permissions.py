@@ -206,7 +206,7 @@ def check_unit_add(user, permission, translation):
 @register_perm('translation.auto')
 @cache_perm
 def check_autotranslate(user, permission, translation):
-    if translation.is_source or translation.is_readonly:
+    if isinstance(translation, Translation) and (translation.is_source or translation.is_readonly):
         return False
     return check_can_edit(user, permission, translation)
 

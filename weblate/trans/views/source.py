@@ -23,131 +23,36 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import force_text
-from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.forms import CheckFlagsForm, ContextForm, MatrixLanguageForm
-from weblate.trans.models import Translation, Unit
+from weblate.trans.forms import ContextForm, MatrixLanguageForm
+from weblate.trans.models import Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
-from weblate.utils.hash import checksum_to_hash
-from weblate.utils.views import get_component, get_paginator, show_form_errors
-
-
-def get_source(request, project, component):
-    """
-    Returns first translation in component
-    (this assumes all have same source strings).
-    """
-    obj = get_component(request, project, component)
-    try:
-        return obj, obj.translation_set.all()[0]
-    except (Translation.DoesNotExist, IndexError):
-        raise Http404('No translation exists in this component.')
-
-
-def review_source(request, project, component):
-    """Listing of source strings to review."""
-    obj, source = get_source(request, project, component)
-
-    # Grab search type and page number
-    rqtype = request.GET.get('type', 'all')
-    try:
-        id_hash = checksum_to_hash(request.GET.get('checksum', ''))
-    except ValueError:
-        id_hash = None
-    ignored = 'ignored' in request.GET
-    expand = False
-    query_string = {'type': rqtype}
-    if ignored:
-        query_string['ignored'] = 'true'
-
-    # Filter units:
-    if id_hash:
-        sources = source.unit_set.filter(id_hash=id_hash)
-        expand = True
-    else:
-        sources = source.unit_set.filter_type(
-            rqtype,
-            source.component.project,
-            source.language,
-            ignored
-        )
-
-    sources = get_paginator(request, sources.order())
-
-    return render(
-        request,
-        'source-review.html',
-        {
-            'object': obj,
-            'project': obj.project,
-            'source': source,
-            'page_obj': sources,
-            'query_string': urlencode(query_string),
-            'ignored': ignored,
-            'expand': expand,
-            'title': _('Review source strings in %s') % force_text(obj),
-        }
-    )
-
-
-def show_source(request, project, component):
-    """Show source strings summary and checks."""
-    obj, source = get_source(request, project, component)
-    source.stats.ensure_all()
-
-    return render(
-        request,
-        'source.html',
-        {
-            'object': obj,
-            'project': obj.project,
-            'source': source,
-            'title': _('Source strings in %s') % force_text(obj),
-        }
-    )
+from weblate.utils.views import get_component, show_form_errors
 
 
 @require_POST
 @login_required
 def edit_context(request, pk):
-    """Change source string context."""
-    source = get_object_or_404(Unit, pk=pk)
+    unit = get_object_or_404(Unit, pk=pk)
+    if not unit.translation.is_source:
+        raise Http404('Non source unit!')
 
-    if not request.user.has_perm('source.edit', source.component):
+    if not request.user.has_perm('source.edit', unit.translation.component):
         raise PermissionDenied()
 
-    form = ContextForm(request.POST)
+    form = ContextForm(request.POST, instance=unit)
+
     if form.is_valid():
-        source.extra_context = form.cleaned_data['context']
-        source.save(update_fields=['extra_context'], same_content=True, same_state=True)
+        form.save()
     else:
         messages.error(request, _('Failed to change a context!'))
         show_form_errors(request, form)
-    return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
-
-@require_POST
-@login_required
-def edit_check_flags(request, pk):
-    """Change source string flags."""
-    source = get_object_or_404(Unit, pk=pk)
-
-    if not request.user.has_perm('source.edit', source.component):
-        raise PermissionDenied()
-
-    form = CheckFlagsForm(request.POST)
-    if form.is_valid():
-        source.extra_flags = form.cleaned_data['flags']
-        source.save(update_fields=['extra_flags'], same_content=True, same_state=True)
-    else:
-        messages.error(request, _('Failed to change translation flags!'))
-        show_form_errors(request, form)
-    return redirect_next(request.POST.get('next'), source.get_absolute_url())
+    return redirect_next(request.POST.get('next'), unit.get_absolute_url())
 
 
 @login_required

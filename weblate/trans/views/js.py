@@ -27,18 +27,14 @@ from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.views.decorators.http import require_POST
 
-from weblate.checks import CHECKS
-from weblate.checks.flags import PLAIN_FLAGS, TYPED_FLAGS
+from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
-from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.forms import CheckFlagsForm, ContextForm
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import sort_objects
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
-from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_component, get_project, get_translation
 
 
@@ -170,11 +166,10 @@ def ignore_check_source(request, check_id, pk):
 
     # Mark check for ignoring
     ignore = obj.check_obj.ignore_string
-    if ignore not in source.extra_flags:
-        if source.extra_flags:
-            source.extra_flags += ', {}'.format(ignore)
-        else:
-            source.extra_flags = ignore
+    flags = Flags(source.extra_flags)
+    if ignore not in flags:
+        flags.merge(ignore)
+        source.extra_flags = flags.format()
         source.save()
 
     # response for AJAX
@@ -269,47 +264,6 @@ def mt_services(request):
     return JsonResponse(
         data=machine_services,
         safe=False,
-    )
-
-
-def get_detail(request, project, component, checksum):
-    """Return source translation detail in all languages."""
-    component = get_component(request, project, component)
-    try:
-        units = Unit.objects.filter(
-            id_hash=checksum_to_hash(checksum),
-            translation__component=component
-        )
-    except ValueError:
-        raise Http404('Non existing unit!')
-    try:
-        source = units[0].source_info
-    except IndexError:
-        raise Http404('Non existing unit!')
-
-    check_flags = [
-        (CHECKS[x].ignore_string, CHECKS[x].name) for x in CHECKS
-    ]
-    return render(
-        request,
-        'js/detail.html',
-        {
-            'units': units,
-            'source': source,
-            'project': component.project,
-            'next': request.GET.get('next', ''),
-            'context_form': ContextForm(
-                initial={'context': source.extra_context}
-            ),
-
-            'check_flags_form': CheckFlagsForm(
-                initial={'flags': source.extra_flags}
-            ),
-            'screenshot_form': ScreenshotForm(),
-            'extra_flags': PLAIN_FLAGS.items(),
-            'param_flags': TYPED_FLAGS.items(),
-            'check_flags': check_flags,
-        }
     )
 
 

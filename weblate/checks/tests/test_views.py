@@ -24,10 +24,10 @@ from __future__ import unicode_literals
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 
 
-class ChecksViewTest(FixtureTestCase):
+class ChecksViewTest(ViewTestCase):
     """Testing of check views."""
     def test_browse(self):
         response = self.client.get(reverse('checks'))
@@ -138,9 +138,10 @@ class ChecksViewTest(FixtureTestCase):
         self.assertRedirects(
             response,
             '{0}?type=check%3Aellipsis'.format(
-                reverse('review_source', kwargs={
+                reverse('translation', kwargs={
                     'project': self.project.slug,
                     'component': self.component.slug,
+                    'lang': self.project.source_language.code,
                 })
             )
         )

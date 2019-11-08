@@ -30,6 +30,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
@@ -286,9 +287,20 @@ class Unit(models.Model, LoggerMixin):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     extra_flags = models.TextField(
-        default='', validators=[validate_check_flags], blank=True
+        verbose_name=ugettext_lazy("Translation flags"),
+        default="",
+        help_text=ugettext_lazy(
+            "Additional comma-separated flags to influence quality checks. "
+            "Possible values can be found in the documentation."
+        ),
+        validators=[validate_check_flags],
+        blank=True,
     )
-    extra_context = models.TextField(default='', blank=True)
+    extra_context = models.TextField(
+        verbose_name=ugettext_lazy("Additional context"),
+        default="",
+        blank=True,
+    )
 
     objects = UnitQuerySet.as_manager()
 

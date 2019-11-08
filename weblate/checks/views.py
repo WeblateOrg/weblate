@@ -241,10 +241,11 @@ def show_check_component(request, name, project, component):
     if check.source:
         url_params['type'] = check.url_id
         return redirect_param(
-            'review_source',
+            'translation',
             encode_optional(url_params),
             project=subprj.project.slug,
             component=subprj.slug,
+            lang=subprj.project.source_language.code,
         )
 
     if request.GET.get('language') and '/' not in request.GET['language']:
