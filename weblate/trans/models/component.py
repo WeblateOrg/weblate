@@ -1040,7 +1040,7 @@ class Component(models.Model, URLMixin, PathMixin):
         report_error(error, prefix="Parse error")
         error_message = getattr(error, 'strerror', '')
         if not error_message:
-            error_message = force_text(error)
+            error_message = force_text(error).replace(self.full_path, '')
         if translation is None:
             filename = self.template
         else:
