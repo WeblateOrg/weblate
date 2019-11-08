@@ -54,12 +54,11 @@ class RepositoryException(Exception):
     def __init__(self, retcode, message):
         super(RepositoryException, self).__init__(message)
         self.retcode = retcode
-        self.message = message.strip()
 
     def get_message(self):
         if self.retcode != 0:
-            return '{0} ({1})'.format(self.message, self.retcode)
-        return self.message
+            return '{0} ({1})'.format(self.args[0], self.retcode)
+        return self.args[0]
 
     def __str__(self):
         return self.get_message()

@@ -148,7 +148,7 @@ class HgRepository(Repository):
                     # Mercurial 3.8 changed error code and output
                     if (
                         error.retcode in (1, 255)
-                        and 'nothing to rebase' in error.message
+                        and 'nothing to rebase' in error.args[0]
                     ):
                         self.execute(['update', '--clean', 'remote(.)'])
                         return
