@@ -10,6 +10,7 @@ Not yet released.
 * Added support for markdown in comments.
 * Allow to place translation instructions text into project info.
 * Add copy to clipboard for secondary languages.
+* Improved support for Mercurial.
 
 Weblate 3.9.1
 -------------
