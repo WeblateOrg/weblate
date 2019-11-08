@@ -731,7 +731,7 @@ class MachineTranslationTest(TestCase):
 class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation()
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
@@ -741,7 +741,7 @@ class WeblateTranslationTest(FixtureTestCase):
         self.assertEqual(results, [])
 
     def test_exists(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         # Create fake fulltext entry
         other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
         other.source = unit.source

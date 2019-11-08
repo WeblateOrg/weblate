@@ -431,7 +431,7 @@ class ComponentChangeTest(RepoTestCase):
         component = self.create_component()
 
         # Create and verify suggestion
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         Suggestion.objects.create(
             project=component.project,
             content_hash=unit.content_hash,

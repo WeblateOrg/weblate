@@ -283,11 +283,11 @@ class ModelTestCase(RepoTestCase):
 class SourceUnitTest(ModelTestCase):
     """Source Unit objects testing."""
     def test_source_info(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertIsNotNone(unit.source_info)
 
     def test_priority(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertEqual(unit.priority, 100)
         source = unit.source_info
         source.extra_flags = 'priority:200'
@@ -313,16 +313,16 @@ class SourceUnitTest(ModelTestCase):
 
 class UnitTest(ModelTestCase):
     def test_more_like(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 
     def test_newlines(self):
         user = create_test_user()
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.translate(user, 'new\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'new\nstring')
         # New object to clear all_flags cache
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.get(pk=unit.pk)
         unit.flags = 'dos-eol'
         unit.translate(user, 'new\nstring', STATE_TRANSLATED)
         self.assertEqual(unit.target, 'new\r\nstring')
@@ -330,37 +330,37 @@ class UnitTest(ModelTestCase):
         self.assertEqual(unit.target, 'other\r\nstring')
 
     def test_flags(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.flags = 'no-wrap, ignore-same'
         self.assertEqual(unit.all_flags.items(), {'no-wrap', 'ignore-same'})
 
     def test_get_max_length_no_pk(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = False
         self.assertEqual(unit.get_max_length(), 10000)
 
     def test_get_max_length_empty_source_default_fallback(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = ''
         self.assertEqual(unit.get_max_length(), 100)
 
     def test_get_max_length_default_fallback(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = 'My test source'
         self.assertEqual(unit.get_max_length(), 140)
 
     @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
     def test_get_max_length_empty_source_disabled_default_fallback(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = ''
         self.assertEqual(unit.get_max_length(), 10000)
 
     @override_settings(LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH=False)
     def test_get_max_length_disabled_default_fallback(self):
-        unit = Unit.objects.all()[0]
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = True
         unit.source = 'My test source'
         self.assertEqual(unit.get_max_length(), 10000)

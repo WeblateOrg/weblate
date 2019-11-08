@@ -717,22 +717,13 @@ class TranslationAPITest(APIBaseTest):
 
 class UnitAPITest(APIBaseTest):
     def test_list_units(self):
-        response = self.client.get(
-            reverse('api:unit-list')
-        )
+        response = self.client.get(reverse('api:unit-list'))
         self.assertEqual(response.data['count'], 16)
 
     def test_get_unit(self):
-        response = self.client.get(
-            reverse(
-                'api:unit-detail',
-                kwargs={'pk': Unit.objects.all()[0].pk}
-            )
-        )
-        self.assertIn(
-            'translation',
-            response.data,
-        )
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        response = self.client.get(reverse('api:unit-detail', kwargs={'pk': unit.pk}))
+        self.assertIn('translation', response.data)
 
 
 class ScreenshotAPITest(APIBaseTest):
