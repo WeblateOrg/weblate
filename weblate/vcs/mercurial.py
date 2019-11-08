@@ -145,9 +145,8 @@ class HgRepository(Repository):
                 try:
                     self.execute(['rebase', '-d', 'remote(.)'])
                 except RepositoryException as error:
-                    message = error.stdout if error.stdout else error.stderr
                     # Mercurial 3.8 changed error code and output
-                    if error.retcode in (1, 255) and 'nothing to rebase' in message:
+                    if error.retcode in (1, 255) and 'nothing to rebase' in error.message:
                         self.execute(['update', '--clean', 'remote(.)'])
                         return
                     raise
