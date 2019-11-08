@@ -40,6 +40,7 @@ def register_perm(*perms):
         for perm in perms:
             SPECIALS[perm] = function
         return function
+
     return wrap_perm
 
 
@@ -51,7 +52,7 @@ def cache_perm(func):
             func.__name__,
             obj.__class__.__name__,
             obj.pk if obj is not None else '',
-            permission
+            permission,
         )
 
         # Calculate if not in cache
@@ -67,9 +68,7 @@ def check_global_permission(user, permission, obj):
     """Generic permission check for base classes"""
     if user.is_superuser:
         return True
-    return user.groups.filter(
-        roles__permissions__codename=permission
-    ).exists()
+    return user.groups.filter(roles__permissions__codename=permission).exists()
 
 
 @cache_perm
@@ -79,25 +78,23 @@ def check_permission(user, permission, obj):
         return True
     query = user.groups.filter(roles__permissions__codename=permission)
     if isinstance(obj, Project):
-        return query.filter(
-            projects=obj,
-        ).exists()
+        return query.filter(projects=obj).exists()
     if isinstance(obj, Component):
         return query.filter(
             (Q(projects=obj.project) & Q(componentlist=None))
             | Q(componentlist__components=obj)
         ).exists()
     if isinstance(obj, Translation):
-        return query.filter(
-            (Q(projects=obj.component.project) & Q(componentlist=None))
-            | Q(componentlist__components=obj.component)
-        ).filter(
-            languages=obj.language
-        ).exists()
-    raise ValueError(
-        'Not supported type for permission check: {}'.format(
-            obj.__class__.__name__
+        return (
+            query.filter(
+                (Q(projects=obj.component.project) & Q(componentlist=None))
+                | Q(componentlist__components=obj.component)
+            )
+            .filter(languages=obj.language)
+            .exists()
         )
+    raise ValueError(
+        'Not supported type for permission check: {}'.format(obj.__class__.__name__)
     )
 
 
@@ -135,8 +132,9 @@ def check_can_edit(user, permission, obj, is_vote=False):
             return False
 
         # Check contributor agreement
-        if (component.agreement
-                and not ContributorAgreement.objects.has_agreed(user, component)):
+        if component.agreement and not ContributorAgreement.objects.has_agreed(
+            user, component
+        ):
             return False
 
     # Perform usual permission check
@@ -144,17 +142,23 @@ def check_can_edit(user, permission, obj, is_vote=False):
         return False
 
     # Special check for source strings (templates)
-    if translation and translation.is_template \
-            and not check_permission(user, 'unit.template', obj):
+    if (
+        translation
+        and translation.is_template
+        and not check_permission(user, 'unit.template', obj)
+    ):
         return False
 
     # Special checks for voting
     if is_vote and component and not component.suggestion_voting:
         return False
-    if (not is_vote and translation
-            and component.suggestion_voting
-            and component.suggestion_autoaccept > 0
-            and not check_permission(user, 'unit.override', obj)):
+    if (
+        not is_vote
+        and translation
+        and component.suggestion_voting
+        and component.suggestion_autoaccept > 0
+        and not check_permission(user, 'unit.override', obj)
+    ):
         return False
 
     # Billing limits
@@ -185,8 +189,7 @@ def check_edit_approved(user, permission, obj):
         if unit.state == STATE_READONLY:
             return False
         obj = unit.translation
-        if unit.approved \
-                and not check_unit_review(user, 'unit.review', obj):
+        if unit.approved and not check_unit_review(user, 'unit.review', obj):
             return False
     if isinstance(obj, Translation) and obj.is_readonly:
         return False
@@ -206,7 +209,9 @@ def check_unit_add(user, permission, translation):
 @register_perm('translation.auto')
 @cache_perm
 def check_autotranslate(user, permission, translation):
-    if isinstance(translation, Translation) and (translation.is_source or translation.is_readonly):
+    if isinstance(translation, Translation) and (
+        translation.is_source or translation.is_readonly
+    ):
         return False
     return check_can_edit(user, permission, translation)
 
@@ -235,12 +240,9 @@ def check_suggestion_add(user, permission, obj):
 @register_perm('upload.perform')
 @cache_perm
 def check_contribute(user, permission, translation):
-    return (
-        check_can_edit(user, permission, translation)
-        and (
-            check_edit_approved(user, 'unit.edit', translation)
-            or check_suggestion_add(user, 'suggestion.add', translation)
-        )
+    return check_can_edit(user, permission, translation) and (
+        check_edit_approved(user, 'unit.edit', translation)
+        or check_suggestion_add(user, 'suggestion.add', translation)
     )
 
 
