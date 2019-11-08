@@ -33,6 +33,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
+from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
 from weblate.formats.base import UnitNotFound
 from weblate.formats.helpers import BytesIOMode
@@ -156,6 +157,15 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         This means that translations should be propagated as sources to others.
         """
         return self.language == self.component.project.source_language
+
+    @cached_property
+    def all_flags(self):
+        """Return parsed list of flags."""
+        return Flags(self.component.all_flags, self.check_flags)
+
+    @cached_property
+    def is_readonly(self):
+        return 'read-only' in self.all_flags
 
     def clean(self):
         """Validate that filename exists and can be opened using

@@ -919,8 +919,7 @@ class Unit(models.Model, LoggerMixin):
     def get_all_flags(self, override=None):
         """Return union of own and component flags."""
         return Flags(
-            self.translation.component.all_flags,
-            self.translation.check_flags,
+            self.translation.all_flags,
             self.extra_flags,
             override or self.flags,
         )
