@@ -146,7 +146,7 @@ class Repository(object):
         if args is None:
             raise RepositoryException(0, 'Not supported functionality')
         if not fullcmd:
-            args = [cls._cmd] + args
+            args = [cls._cmd] + list(args)
         text_cmd = ' '.join(args)
         if six.PY2:
             args = [arg.encode('utf-8') for arg in args]
