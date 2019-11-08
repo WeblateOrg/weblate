@@ -415,7 +415,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.update_units(author_name, author.id)
 
                 # Commit changes
-                self.git_commit(user, author_name, timestamp, skip_push=skip_push, signals=signals)
+                self.git_commit(
+                    user, author_name, timestamp, skip_push=skip_push, signals=signals
+                )
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -493,9 +495,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Do actual commit with git lock
             self.log_info('committing %s as %s', self.filenames, author)
             Change.objects.create(
-                action=Change.ACTION_COMMIT,
-                translation=self,
-                user=user,
+                action=Change.ACTION_COMMIT, translation=self, user=user
             )
             self.__git_commit(author, timestamp, signals=signals)
 
@@ -688,8 +688,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 not_found += 1
                 continue
 
-            if (unit.translated and not overwrite) or unit.readonly or (
-                not request.user.has_perm('unit.edit', unit)
+            if (
+                (unit.translated and not overwrite)
+                or unit.readonly
+                or (not request.user.has_perm('unit.edit', unit))
             ):
                 skipped += 1
                 continue

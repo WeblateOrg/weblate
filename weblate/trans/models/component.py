@@ -1020,7 +1020,9 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation.component = self
             if translation.component.linked_component_id == self.id:
                 translation.component.linked_component = self
-            translation.commit_pending(reason, user, skip_push=True, force=True, signals=False)
+            translation.commit_pending(
+                reason, user, skip_push=True, force=True, signals=False
+            )
             components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals
@@ -1911,6 +1913,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def post_create(self, user):
         from weblate.trans.models import Change
+
         Change.objects.create(
             action=Change.ACTION_CREATE_COMPONENT,
             component=self,
