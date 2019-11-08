@@ -1016,14 +1016,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Source review
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('edit-screenshot')
-            )
-        self.screenshot('source-review-detail.png')
-        self.screenshot('source-review-edit.png')
+            self.click('Django')
         with self.wait_for_page_load():
-            self.click('source strings')
+            self.click('English')
         self.screenshot('source-review.png')
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_partial_link_text('All strings'))
+        self.screenshot('source-review-detail.png')
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('edit-context')
+            )
+        self.screenshot('source-review-edit.png')
+        # Close modal dialog
+        self.driver.find_element_by_id('id_extra_context').send_keys(Keys.ESCAPE)
 
         # Profile
         self.click(self.driver.find_element_by_id('user-dropdown'))

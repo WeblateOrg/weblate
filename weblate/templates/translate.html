@@ -569,7 +569,7 @@
     {% if unit.context or unit.extra_context or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" id="edit-context" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Context" %}
     </th>
     </tr>
