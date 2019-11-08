@@ -992,7 +992,6 @@ class CommentForm(forms.Form):
                 _('Translation comment, discussions with other translators'),
             ),
         ),
-        initial='translation',
     )
     comment = forms.CharField(
         widget=forms.Textarea(attrs={'dir': 'auto'}),

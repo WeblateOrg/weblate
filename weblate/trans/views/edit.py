@@ -511,7 +511,11 @@ def translate(request, project, component, lang):
             'filter_pos': offset,
             'form': form,
             'antispam': antispam,
-            'comment_form': CommentForm(),
+            'comment_form': CommentForm(
+                initial={
+                    'scope': 'global' if unit.translation.is_source else 'translation'
+                }
+            ),
             'context_form': ContextForm(instance=unit.source_info),
             'search_form': search_result['form'].reset_offset(),
             'secondary': secondary,
