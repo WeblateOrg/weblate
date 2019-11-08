@@ -3,8 +3,10 @@
 
 {% perm 'upload.perform' object as user_can_upload_translation %}
 
+{% if object.filename %}
 <li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" title="{% trans "Download for offline translation." %}">{% blocktrans with object.component.file_format_name as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
 <li role="separator" class="divider"></li>
+{% endif %}
 {% for exporter in exporters %}
 <li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}" title="{% trans "Download for offline translation." %}">{% blocktrans with exporter.verbose as format %}Download translation file as {{ format }}{% endblocktrans %}</a></li>
 {% endfor %}

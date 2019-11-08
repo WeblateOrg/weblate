@@ -198,7 +198,11 @@
     {% include "translation-download.html" %}
   </ul>
 </div>
+{% if object.filename %}
 <code>{{ object.filename }}</code>
+{% else %}
+{% trans "Not available" %}
+{% endif %}
 </td>
 </tr>
 </table>
