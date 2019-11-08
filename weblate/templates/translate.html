@@ -551,7 +551,7 @@
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" id="edit-screenshot" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
