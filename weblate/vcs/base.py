@@ -51,20 +51,15 @@ LOGGER = logging.getLogger('weblate.vcs')
 class RepositoryException(Exception):
     """Error while working with a repository."""
 
-    def __init__(self, retcode, stderr, stdout):
-        super(RepositoryException, self).__init__(stderr or stdout)
+    def __init__(self, retcode, message):
+        super(RepositoryException, self).__init__(message)
         self.retcode = retcode
-        self.stderr = stderr.strip()
-        self.stdout = stdout.strip()
+        self.message = message.strip()
 
     def get_message(self):
-        if self.stderr:
-            message = self.stderr
-        else:
-            message = self.stdout
         if self.retcode != 0:
-            return '{0} ({1})'.format(message, self.retcode)
-        return message
+            return '{0} ({1})'.format(self.message, self.retcode)
+        return self.message
 
     def __str__(self):
         return self.get_message()
@@ -149,7 +144,7 @@ class Repository(object):
     def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
         """Execute the command using popen."""
         if args is None:
-            raise RepositoryException(0, 'Not supported functionality', '')
+            raise RepositoryException(0, 'Not supported functionality')
         if not fullcmd:
             args = [cls._cmd] + args
         text_cmd = ' '.join(args)
@@ -160,22 +155,17 @@ class Repository(object):
             cwd=cwd,
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             stdin=subprocess.PIPE,
         )
-        output, output_err = process.communicate()
+        output = process.communicate()[0]
         if not raw:
             output = output.decode('utf-8')
-        output_err = output_err.decode('utf-8')
         retcode = process.poll()
-        cls.add_breadcrumb(
-            text_cmd, retcode=retcode, output=output, output_err=output_err, cwd=cwd
-        )
+        cls.add_breadcrumb(text_cmd, retcode=retcode, output=output, cwd=cwd)
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
-            raise RepositoryException(retcode, output_err, output)
-        if not output and err:
-            return output_err
+            raise RepositoryException(retcode, output)
         return output
 
     def execute(self, args, needs_lock=True, fullcmd=False):
