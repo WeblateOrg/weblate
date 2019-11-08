@@ -26,13 +26,12 @@ import logging
 import os
 import os.path
 import subprocess
-import sys
 from distutils.version import LooseVersion
 
+import six
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
@@ -153,7 +152,9 @@ class Repository(object):
             raise RepositoryException(0, 'Not supported functionality', '')
         if not fullcmd:
             args = [cls._cmd] + args
-        text_cmd = ' '.join(force_text(arg, 'utf-8') for arg in args)
+        text_cmd = ' '.join(args)
+        if six.PY2:
+            args = [arg.encode('utf-8') for arg in args]
         process = subprocess.Popen(
             args,
             cwd=cwd,
@@ -182,9 +183,6 @@ class Repository(object):
         if needs_lock and not self.lock.is_locked:
             raise RuntimeError('Repository operation without lock held!')
         is_status = args[0] == self._cmd_status[0]
-        # On Windows we pass Unicode object, on others UTF-8 encoded bytes
-        if sys.platform != "win32":
-            args = [arg.encode('utf-8') for arg in args]
         try:
             self.last_output = self._popen(
                 args, self.path, fullcmd=fullcmd, local=self.local
