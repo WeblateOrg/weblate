@@ -455,7 +455,7 @@ class SubversionRepository(GitRepository):
         if existing:
             # The URL is root of the repository, while we get full path
             if not pull_url.startswith(existing):
-                raise RepositoryException(-1, 'Can not switch subversion URL', '')
+                raise RepositoryException(-1, 'Can not switch subversion URL')
             return
         args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
         self.execute(['svn', 'init'] + args)
