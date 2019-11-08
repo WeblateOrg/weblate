@@ -15,6 +15,7 @@ Not yet released.
 * Add search lookup for age of string.
 * Add support for read only strings.
 * Show source language for all translations.
+* Show context for nearby strings.
 
 Weblate 3.9.1
 -------------
