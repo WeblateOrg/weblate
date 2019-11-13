@@ -140,7 +140,9 @@ class Repository(object):
         )
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
+    def _popen(
+        cls, args, cwd=None, merge_err=True, fullcmd=False, raw=False, local=False
+    ):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality')
@@ -154,27 +156,31 @@ class Repository(object):
             cwd=cwd,
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             stdin=subprocess.PIPE,
         )
-        output = process.communicate()[0]
+        output, stderr = process.communicate()
         if not raw:
             output = output.decode('utf-8')
         retcode = process.poll()
-        cls.add_breadcrumb(text_cmd, retcode=retcode, output=output, cwd=cwd)
+        cls.add_breadcrumb(
+            text_cmd, retcode=retcode, output=output, stderr=stderr, cwd=cwd
+        )
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
+            if stderr:
+                output += stderr
             raise RepositoryException(retcode, output)
         return output
 
-    def execute(self, args, needs_lock=True, fullcmd=False):
+    def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeError('Repository operation without lock held!')
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
-                args, self.path, fullcmd=fullcmd, local=self.local
+                args, self.path, fullcmd=fullcmd, local=self.local, merge_err=merge_err
             )
         except RepositoryException as error:
             if not is_status:
@@ -201,12 +207,14 @@ class Repository(object):
         return self.get_last_revision()
 
     def get_last_revision(self):
-        return self.execute(self._cmd_last_revision, needs_lock=False)
+        return self.execute(self._cmd_last_revision, needs_lock=False, merge_err=False)
 
     @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
-        return self.execute(self._cmd_last_remote_revision, needs_lock=False)
+        return self.execute(
+            self._cmd_last_remote_revision, needs_lock=False, merge_err=False
+        )
 
     @classmethod
     def _clone(cls, source, target, branch=None):
@@ -431,7 +439,7 @@ class Repository(object):
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            self._cmd_list_changed_files + [refspec], needs_lock=False
+            self._cmd_list_changed_files + [refspec], needs_lock=False, merge_err=False
         ).splitlines()
         return self.parse_changed_files(lines)
 

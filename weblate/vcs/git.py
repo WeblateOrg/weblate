@@ -70,7 +70,7 @@ class GitRepository(Repository):
 
     def get_config(self, path):
         """Read entry from configuration."""
-        return self.execute(['config', path], needs_lock=False).strip()
+        return self.execute(['config', path], needs_lock=False, merge_err=False).strip()
 
     def set_config(self, path, value):
         """Set entry in local configuration."""
@@ -151,7 +151,7 @@ class GitRepository(Repository):
         """Check whether repository needs commit."""
         cmd = ('status', '--porcelain', '--') + filenames
         with self.lock:
-            status = self.execute(cmd)
+            status = self.execute(cmd, merge_err=False)
         return status != ''
 
     def show(self, revision):
@@ -159,7 +159,7 @@ class GitRepository(Repository):
 
         Used in tests.
         """
-        return self.execute(['show', revision], needs_lock=False)
+        return self.execute(['show', revision], needs_lock=False, merge_err=False)
 
     @staticmethod
     def get_gpg_sign_args():
@@ -173,6 +173,7 @@ class GitRepository(Repository):
         text = self.execute(
             ['log', '-1', '--format=fuller', '--date=rfc', '--abbrev-commit', revision],
             needs_lock=False,
+            merge_err=False,
         )
 
         result = {'revision': revision}
@@ -207,7 +208,9 @@ class GitRepository(Repository):
     def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--format=format:%H', refspec, '--'], needs_lock=False
+            ['log', '--format=format:%H', refspec, '--'],
+            needs_lock=False,
+            merge_err=False,
         ).splitlines()
 
     @classmethod
@@ -246,7 +249,7 @@ class GitRepository(Repository):
         old_pull = None
         old_push = None
         # Parse existing remotes
-        for remote in self.execute(['remote', '-v']).splitlines():
+        for remote in self.execute(['remote', '-v'], merge_err=False).splitlines():
             name, url = remote.split('\t')
             if name != 'origin':
                 continue
@@ -287,7 +290,7 @@ class GitRepository(Repository):
         # (we get additional * there indicating current branch)
         return [
             x.lstrip('*').strip()
-            for x in self.execute(cmd, needs_lock=False).splitlines()
+            for x in self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
         ]
 
     def has_branch(self, branch):
@@ -309,7 +312,9 @@ class GitRepository(Repository):
 
     def describe(self):
         """Verbosely describes current revision."""
-        return self.execute(['describe', '--always'], needs_lock=False).strip()
+        return self.execute(
+            ['describe', '--always'], needs_lock=False, merge_err=False
+        ).strip()
 
     @classmethod
     def global_setup(cls):
@@ -340,7 +345,9 @@ class GitRepository(Repository):
     def get_file(self, path, revision):
         """Return content of file at given revision."""
         return self.execute(
-            ['show', '{0}:{1}'.format(revision, path)], needs_lock=False
+            ['show', '{0}:{1}'.format(revision, path)],
+            needs_lock=False,
+            merge_err=False,
         )
 
     def cleanup(self):
@@ -351,7 +358,7 @@ class GitRepository(Repository):
             if branch != self.branch:
                 self.execute(['branch', '--delete', '--force', branch])
         # Remove any tags
-        for tag in self.execute(['tag', '--list']).splitlines():
+        for tag in self.execute(['tag', '--list'], merge_err=False).splitlines():
             self.execute(['tag', '--delete', tag])
 
     def list_remote_branches(self):
@@ -389,7 +396,7 @@ class GitWithGerritRepository(GitRepository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['review', '--version'], err=True).split()[-1]
+        return cls._popen(['review', '--version']).split()[-1]
 
     def push(self):
         if self.needs_push():
@@ -419,7 +426,10 @@ class SubversionRepository(GitRepository):
     @classmethod
     def get_last_repo_revision(cls, url):
         output = cls._popen(
-            ['svn', 'log', url, '--limit=1', '--xml'], fullcmd=True, raw=True
+            ['svn', 'log', url, '--limit=1', '--xml'],
+            fullcmd=True,
+            raw=True,
+            merge_err=False,
         )
         tree = ElementTree.fromstring(output)
         entry = tree.find('logentry')
@@ -496,6 +506,7 @@ class SubversionRepository(GitRepository):
         return self.execute(
             ['log', '-n', '1', '--format=format:%H', self.get_remote_branch_name()],
             needs_lock=False,
+            merge_err=False,
         )
 
     def get_remote_branch_name(self):

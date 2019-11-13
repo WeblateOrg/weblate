@@ -197,6 +197,7 @@ class HgRepository(Repository):
         text = self.execute(
             ['log', '--limit', '1', '--template', template, '--rev', revision],
             needs_lock=False,
+            merge_err=False,
         )
 
         result = {'revision': revision}
@@ -227,7 +228,9 @@ class HgRepository(Repository):
     def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--template', '{node}\n', '--rev', refspec], needs_lock=False
+            ['log', '--template', '{node}\n', '--rev', refspec],
+            needs_lock=False,
+            merge_err=False,
         ).splitlines()
 
     def needs_ff(self):
@@ -290,7 +293,7 @@ class HgRepository(Repository):
         self.branch = branch
 
     def on_branch(self, branch):
-        return branch == self.execute(['branch']).strip()
+        return branch == self.execute(['branch'], merge_err=False).strip()
 
     def configure_branch(self, branch):
         """Configure repository branch."""
@@ -309,6 +312,7 @@ class HgRepository(Repository):
                 '{latesttag}-{latesttagdistance}-{node|short}',
             ],
             needs_lock=False,
+            merge_err=False,
         ).strip()
 
     def push(self):
@@ -323,7 +327,9 @@ class HgRepository(Repository):
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
-        return self.execute(['cat', '--rev', revision, path], needs_lock=False)
+        return self.execute(
+            ['cat', '--rev', revision, path], needs_lock=False, merge_err=False
+        )
 
     def cleanup(self):
         """Remove not tracked files from the repository."""
