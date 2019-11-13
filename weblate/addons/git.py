@@ -161,13 +161,13 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
     def post_commit(self, component, translation=None):
+        repository = component.repository
         with repository.lock:
             if component.repo_needs_merge() and not component.update_branch(
                 method='rebase'
             ):
                 return
             squash = self.instance.configuration['squash']
-            repository = component.repository
             if not repository.needs_push():
                 return
             method = getattr(self, 'squash_{}'.format(squash))
