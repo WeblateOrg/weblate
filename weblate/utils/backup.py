@@ -117,7 +117,7 @@ def backup(location, passphrase):
             "--exclude",
             "*/.config/borg",
             "--compression",
-            "zstd",
+            "auto,zstd",
             "{}::{{now}}".format(location),
             settings.DATA_DIR,
         ],
