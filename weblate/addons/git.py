@@ -45,15 +45,12 @@ class GitSquashAddon(BaseAddon):
     repo_scope = True
 
     def squash_all(self, component, repository, base=None, author=None):
-        with repository.lock:
-            remote = base if base else repository.get_remote_branch_name()
-            message = repository.execute(
-                ['log', '--format=%B', '{}..HEAD'.format(remote)]
-            )
-            repository.execute(['reset', '--mixed', remote])
-            # Can happen for added and removed translation
-            if repository.needs_commit():
-                repository.commit(message, author)
+        remote = base if base else repository.get_remote_branch_name()
+        message = repository.execute(['log', '--format=%B', '{}..HEAD'.format(remote)])
+        repository.execute(['reset', '--mixed', remote])
+        # Can happen for added and removed translation
+        if repository.needs_commit():
+            repository.commit(message, author)
 
     def get_filenames(self, component):
         languages = defaultdict(list)
@@ -164,16 +161,16 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
     def post_commit(self, component, translation=None):
-        if component.repo_needs_merge() and not component.update_branch(
-            method='rebase'
-        ):
-            return
-        squash = self.instance.configuration['squash']
-        repository = component.repository
-        if not repository.needs_push():
-            return
-        method = getattr(self, 'squash_{}'.format(squash))
         with repository.lock:
+            if component.repo_needs_merge() and not component.update_branch(
+                method='rebase'
+            ):
+                return
+            squash = self.instance.configuration['squash']
+            repository = component.repository
+            if not repository.needs_push():
+                return
+            method = getattr(self, 'squash_{}'.format(squash))
             method(component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
