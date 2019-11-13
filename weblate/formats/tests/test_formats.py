@@ -624,7 +624,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     BASE = TEST_TS
     MIME = 'application/x-linguist'
     EXT = 'ts'
-    COUNT = 5
+    COUNT = 4
     MASK = 'ts/*.ts'
     EXPECTED_PATH = 'ts/cs_CZ.ts'
     MATCH = '<TS version="2.0" language="cs">'
