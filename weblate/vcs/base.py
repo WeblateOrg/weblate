@@ -169,7 +169,7 @@ class Repository(object):
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
             if stderr:
-                output += stderr
+                output += stderr.decode('utf-8')
             raise RepositoryException(retcode, output)
         return output
 
