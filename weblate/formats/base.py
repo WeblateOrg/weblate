@@ -144,10 +144,6 @@ class TranslationUnit(object):
         """Check whether unit needs edit."""
         return fallback
 
-    def is_obsolete(self):
-        """Check whether unit is marked as obsolete in backend."""
-        return False
-
     def has_content(self):
         """Check whether unit has content."""
         return True
@@ -319,15 +315,20 @@ class TranslationFormat(object):
         """Save underlaying store to disk."""
         raise NotImplementedError()
 
+    @property
+    def all_store_units(self):
+        """Wrapper for all store units for possible filtering."""
+        return self.store.units
+
     @cached_property
     def mono_units(self):
-        return [self.unit_class(self, None, unit) for unit in self.store.units]
+        return [self.unit_class(self, None, unit) for unit in self.all_store_units]
 
     @cached_property
     def all_units(self):
         """List of all units."""
         if not self.has_template:
-            return [self.unit_class(self, unit) for unit in self.store.units]
+            return [self.unit_class(self, unit) for unit in self.all_store_units]
         return [
             self.unit_class(
                 self, self.find_unit_mono(unit.context), unit.template

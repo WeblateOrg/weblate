@@ -116,10 +116,6 @@ class TTKitUnit(TranslationUnit):
             return self.unit.isfuzzy()
         return fallback
 
-    def is_obsolete(self):
-        """Check whether unit is marked as obsolete in backend."""
-        return self.mainunit.isobsolete()
-
     def has_content(self):
         """Check whether unit has content."""
         return (
@@ -355,6 +351,11 @@ class TTKitFormat(TranslationFormat):
         except Exception as error:
             report_error(error, prefix='File parse error')
             return False
+
+    @property
+    def all_store_units(self):
+        """Wrapper for all store unit filtering out obsolete."""
+        return (unit for unit in self.store.units if not unit.isobsolete())
 
 
 class PropertiesUnit(KeyValueUnit):
