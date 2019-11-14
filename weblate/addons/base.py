@@ -36,6 +36,7 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
 )
 from weblate.addons.forms import BaseAddonForm
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -324,7 +325,11 @@ class UpdateBaseAddon(BaseAddon):
 
     def post_update(self, component, previous_head):
         component.commit_pending('addon', None, skip_push=True)
-        self.update_translations(component, previous_head)
+        try:
+            self.update_translations(component, previous_head)
+        except FileParseError:
+            # Ignore file parse error, it will be properly tracked as an alert
+            pass
         self.commit_and_push(component)
 
 
