@@ -226,7 +226,7 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def fixup(cls, store):
         """Perform optional fixups on store."""
-        return store
+        return
 
     @classmethod
     def load(cls, storefile):
@@ -258,6 +258,9 @@ class TTKitFormat(TranslationFormat):
         """Parse the store."""
         store = cls.get_class()()
 
+        # Apply possible fixups
+        cls.fixup(store)
+
         # Read the content
         if isinstance(storefile, six.string_types):
             with open(storefile, 'rb') as handle:
@@ -268,8 +271,7 @@ class TTKitFormat(TranslationFormat):
         # Parse the content
         store.parse(content)
 
-        # Apply possible fixups and return
-        return cls.fixup(store)
+        return store
 
     def add_unit(self, ttkit_unit):
         """Add new unit to underlaying store."""
@@ -877,7 +879,6 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
         Translate Toolkit autodetection might fail in some cases.
         """
         store.encoding = 'utf-16'
-        return store
 
 
 class PropertiesFormat(PropertiesUtf8Format):
@@ -895,7 +896,6 @@ class PropertiesFormat(PropertiesUtf8Format):
         Translate Toolkit converts them to UTF-8.
         """
         store.encoding = 'iso-8859-1'
-        return store
 
 
 class JoomlaFormat(PropertiesBaseFormat):
