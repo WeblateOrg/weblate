@@ -1139,12 +1139,10 @@ class DTDFormat(TTKitFormat):
         """Return most common file extension for format."""
         return 'dtd'
 
-    @classmethod
-    def fixup(cls, store):
-        """Perform optional fixups on store."""
-        # Filter out null units (those IMHO should not be exposed by ttkit)
-        store.units = [u for u in store.units if not u.isnull()]
-        return store
+    @property
+    def all_store_units(self):
+        """Wrapper for all store unit filtering out null."""
+        return (unit for unit in self.store.units if not unit.isnull())
 
 
 class WindowsRCFormat(TTKitFormat):
