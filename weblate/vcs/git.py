@@ -29,6 +29,7 @@ from defusedxml import ElementTree
 from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy
+from git import GitConfigParser
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
@@ -58,10 +59,16 @@ class GitRepository(Repository):
         """Initialize the repository."""
         self._popen(['init', self.path])
 
+    def config_update(self, *updates):
+        filename = os.path.join(self.path, '.git', 'config')
+        with GitConfigParser(file_or_files=filename, read_only=False) as config:
+            for section, key, value in updates:
+                if config.get_value(section, key, -1) != value:
+                    config.set_value(section, key, value)
+
     def check_config(self):
         """Check VCS configuration."""
-        # We directly set config as it takes same time as reading it
-        self.set_config('push.default', 'current')
+        self.config_update(('push', 'default', 'current'))
 
     @classmethod
     def _clone(cls, source, target, branch=None):
@@ -72,14 +79,12 @@ class GitRepository(Repository):
         """Read entry from configuration."""
         return self.execute(['config', path], needs_lock=False, merge_err=False).strip()
 
-    def set_config(self, path, value):
-        """Set entry in local configuration."""
-        self.execute(['config', '--replace-all', path, value])
-
     def set_committer(self, name, mail):
         """Configure commiter name."""
-        self.set_config('user.name', name)
-        self.set_config('user.email', mail)
+        self.config_update(
+            ('user', 'name', name),
+            ('user', 'email', mail),
+        )
 
     def reset(self):
         """Reset working copy to match remote branch."""
@@ -246,42 +251,19 @@ class GitRepository(Repository):
 
     def configure_remote(self, pull_url, push_url, branch):
         """Configure remote repository."""
-        old_pull = None
-        old_push = None
-        # Parse existing remotes
-        for remote in self.execute(['remote', '-v'], merge_err=False).splitlines():
-            name, url = remote.split('\t')
-            if name != 'origin':
-                continue
-            if ' ' in url:
-                url, kind = url.rsplit(' ', 1)
-                if kind == '(fetch)':
-                    old_pull = url
-                elif kind == '(push)':
-                    old_push = url
-
-        if old_pull is None:
-            # No origin existing
-            self.execute(['remote', 'add', 'origin', pull_url])
-        elif old_pull != pull_url:
-            # URL changed?
-            self.execute(['remote', 'set-url', 'origin', pull_url])
-
-        if push_url is not None and old_push != push_url:
-            self.execute(['remote', 'set-url', '--push', 'origin', push_url])
-
-        # Fetch all branches (needed for clone branch)
-        self.set_config(
-            'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*'.format(branch)
+        self.config_update(
+            # Pull url
+            ('remote "origin"', 'url', pull_url),
+            # Push url
+            ('remote "origin"', 'pushurl', push_url),
+            # Fetch all branches (needed for clone branch)
+            ('remote "origin"', 'fetch', '+refs/heads/*:refs/remotes/origin/*'.format(branch)),
+            # Disable fetching tags
+            ('remote "origin"', 'tagOpt', '--no-tags'),
+            # Set branch to track
+            ('branch "{0}"'.format(branch), 'remote', 'origin'),
+            ('branch "{0}"'.format(branch), 'merge', 'refs/heads/{0}'.format(branch)),
         )
-        # Disable fetching tags
-        self.set_config('remote.origin.tagOpt', '--no-tags')
-        # Set branch to track
-        self.set_config('branch.{0}.remote'.format(branch), 'origin')
-        self.set_config(
-            'branch.{0}.merge'.format(branch), 'refs/heads/{0}'.format(branch)
-        )
-
         self.branch = branch
 
     def list_branches(self, *args):
@@ -304,7 +286,7 @@ class GitRepository(Repository):
             self.execute(['checkout', '-b', branch, 'origin/{0}'.format(branch)])
         else:
             # Ensure it tracks correct upstream
-            self.set_config('branch.{0}.remote'.format(branch), 'origin')
+            self.config_update(('branch "{0}"'.format(branch), 'remote', 'origin'))
 
         # Checkout
         self.execute(['checkout', branch])

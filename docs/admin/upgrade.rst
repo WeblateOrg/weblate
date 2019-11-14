@@ -222,7 +222,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * The database migration can take long on bigger installations.
-* There is new dependency on the ``misaka`` module.
+* There is new dependency on the ``misaka`` and ``GitPython`` modules.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

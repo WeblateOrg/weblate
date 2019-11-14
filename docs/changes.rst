@@ -11,6 +11,7 @@ Not yet released.
 * Allow to place translation instructions text into project info.
 * Add copy to clipboard for secondary languages.
 * Improved support for Mercurial.
+* Improved performance in fetching Git repositories.
 
 Weblate 3.9.1
 -------------
