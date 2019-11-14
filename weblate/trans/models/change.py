@@ -110,10 +110,11 @@ class ChangeQuerySet(models.QuerySet):
         """Fetch related fields in a big chungs to avoid loading them
         individually.
         """
-        return self.prefetch_related(
+        return self.select_related(
             'user',
             'translation',
             'component',
+            'project',
             'unit',
             'dictionary',
             'translation__language',
@@ -121,6 +122,7 @@ class ChangeQuerySet(models.QuerySet):
             'translation__component__project',
             'unit__translation',
             'unit__translation__language',
+            'unit__translation__plural',
             'unit__translation__component',
             'unit__translation__component__project',
             'component__project',
