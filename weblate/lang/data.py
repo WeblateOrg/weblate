@@ -67,7 +67,6 @@ DEFAULT_LANGS = (
     'hu_hu',
     'hy_am',
     'id_id',
-    'in_id',
     'is_is',
     'it_it',
     'iu_ca',

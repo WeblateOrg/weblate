@@ -172,6 +172,8 @@ LANGUAGES = (
     ('de_AT', _('German (Austria)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: de_CH
     ('de_CH', _('German (Swiss High)'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: de_LU
+    ('de_LU', _('German (Luxembourg)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: doi
     ('doi', _('Dogri'), 2, 'n != 1'),
     # Translators: Language name, ISO code: dsb
@@ -212,6 +214,8 @@ LANGUAGES = (
     ('es_419', _('Spanish (Latin America)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_AR
     ('es_AR', _('Spanish (Argentina)'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: es_BO
+    ('es_BO', _('Spanish (Bolivia)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_CL
     ('es_CL', _('Spanish (Chile)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_DO
@@ -226,6 +230,8 @@ LANGUAGES = (
     ('es_PR', _('Spanish (Puerto Rico)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: es_US
     ('es_US', _('Spanish (American)'), 2, 'n != 1'),
+    # Translators: Language name, ISO code: es_VE
+    ('es_VE', _('Spanish (Venezuela)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: et
     ('et', _('Estonian'), 2, 'n != 1'),
     # Translators: Language name, ISO code: eu
@@ -254,6 +260,8 @@ LANGUAGES = (
     ('fr_CA', _('French (Canada)'), 2, 'n > 1'),
     # Translators: Language name, ISO code: fr_CH
     ('fr_CH', _('French (Switzerland)'), 2, 'n > 1'),
+    # Translators: Language name, ISO code: fr_LU
+    ('fr_LU', _('French (Luxembourg)'), 2, 'n > 1'),
     # Translators: Language name, ISO code: frp
     ('frp', _('Franco-Provençal'), 2, 'n > 1'),
     # Translators: Language name, ISO code: fur
@@ -274,6 +282,8 @@ LANGUAGES = (
     ('gsw', _('German (Swiss)'), 2, 'n != 1'),
     # Translators: Language name, ISO code: gu
     ('gu', _('Gujarati'), 2, 'n > 1'),
+    # Translators: Language name, ISO code: gu_IN
+    ('gu_IN', _('Gujarati (India)'), 2, 'n > 1'),
     # Translators: Language name, ISO code: gun
     ('gun', _('Gun'), 2, 'n > 1'),
     # Translators: Language name, ISO code: guw
@@ -286,6 +296,8 @@ LANGUAGES = (
     ('haw', _('Hawaiian'), 2, 'n != 1'),
     # Translators: Language name, ISO code: he
     ('he', _('Hebrew'), 4, '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'),
+    # Translators: Language name, ISO code: he_IL
+    ('he_IL', _('Hebrew (Israel)'), 4, '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'),
     # Translators: Language name, ISO code: hi
     ('hi', _('Hindi'), 2, 'n > 1'),
     # Translators: Language name, ISO code: hil
@@ -809,8 +821,11 @@ ALIASES = {
     'ua': 'uk',
     'en_en': 'en',
     'cn': 'zh_Hans',
+    'sl_sl': 'sl',
     'in': 'id',
     'iw': 'he',
+    'iw_il': 'he',
+    'in_id': 'id',
     'ji': 'yi',
     'jw': 'jv',
     'mo': 'ro_MD',
