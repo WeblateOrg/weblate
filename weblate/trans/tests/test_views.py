@@ -261,7 +261,7 @@ class ViewTestCase(RepoTestCase):
         )
 
     def log_as_jane(self):
-        self.client.login(username='jane', password='anotherpassword')
+        self.client.login(username='jane', password='testpassword')
 
 
 class FixtureTestCase(ViewTestCase):

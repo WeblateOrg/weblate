@@ -29,6 +29,7 @@ from unittest import SkipTest
 from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -48,6 +49,8 @@ TEST_DATA = os.path.join(
 REPOWEB_URL = \
     'https://github.com/WeblateOrg/test/blob/master/{{filename}}#L{{line}}'
 
+TESTPASSWORD = make_password('testpassword')
+
 
 def wait_for_celery(timeout=10):
     with allow_join_result():
@@ -60,19 +63,19 @@ def get_test_file(name):
 
 
 def create_test_user():
-    return User.objects.create_user(
-        'testuser',
-        'weblate@example.org',
-        'testpassword',
+    return User.objects.create(
+        username='testuser',
+        email='weblate@example.org',
+        password=TESTPASSWORD,
         full_name='Weblate Test',
     )
 
 
 def create_another_user():
     return User.objects.create_user(
-        'jane',
-        'jane.doe@example.org',
-        'anotherpassword',
+        username='jane',
+        email='jane.doe@example.org',
+        password=TESTPASSWORD,
         full_name='Jane Doe',
     )
 

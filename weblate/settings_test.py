@@ -130,6 +130,10 @@ SESSION_COOKIE_HTTPONLY = False
 # Use database backed sessions for transaction consistency in tests
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
+# Use weak password hasher in tests, there is no point in spending CPU time
+# in hashing test passwords
+PASSWORD_HASHERS = ['django.contrib.auth.hashers.CryptPasswordHasher']
+
 # Test optional apps as well
 INSTALLED_APPS += (
     'weblate.billing',
