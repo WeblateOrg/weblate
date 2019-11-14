@@ -29,7 +29,7 @@ from defusedxml import ElementTree
 from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy
-from git import GitConfigParser
+from git.config import GitConfigParser
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
