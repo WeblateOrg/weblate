@@ -857,16 +857,17 @@ class AutoForm(forms.Form):
 
     def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
-        components = obj.project.component_set.exclude(id=obj.id).order_project()
-
         # Add components from other projects with enabled shared TM
-        components |= (
-            Component.objects.filter(project__contribute_shared_tm=True)
-            .exclude(project=obj.project)
-            .order_project()
+        components = obj.project.component_set.exclude(
+            id=obj.id
+        ) | Component.objects.filter(project__contribute_shared_tm=True).exclude(
+            project=obj.project
         )
 
-        choices = [(s.id, force_text(s)) for s in components]
+        choices = [
+            (s.id, force_text(s))
+            for s in components.order_project().select_related("project")
+        ]
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
