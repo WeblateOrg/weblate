@@ -72,7 +72,7 @@ def create_test_user():
 
 
 def create_another_user():
-    return User.objects.create_user(
+    return User.objects.create(
         username='jane',
         email='jane.doe@example.org',
         password=TESTPASSWORD,
