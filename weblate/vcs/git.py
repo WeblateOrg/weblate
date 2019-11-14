@@ -252,7 +252,7 @@ class GitRepository(Repository):
             # Pull url
             ('remote "origin"', 'url', pull_url),
             # Push url
-            ('remote "origin"', 'pushurl', push_url),
+            ('remote "origin"', 'pushurl', push_url or ''),
             # Fetch all branches (needed for clone branch)
             (
                 'remote "origin"',
