@@ -915,7 +915,7 @@ CACHES = {
         "OPTIONS": {"MAX_ENTRIES": 1000},
     },
 }
-if not get_env_bool("REDIS_VERIFY_SSL", True):
+if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
     CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = None
 
 
