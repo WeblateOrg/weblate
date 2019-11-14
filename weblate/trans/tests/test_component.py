@@ -740,15 +740,15 @@ class ComponentEditTest(ViewTestCase):
     """Test for error handling"""
     @staticmethod
     def remove_units(store):
-        store.units = []
+        store.store.units = []
         store.save()
 
     def test_unit_disappear(self):
         translation = self.component.translation_set.get(language_code='cs')
 
         if self.component.has_template():
-            self.remove_units(self.component.template_store.store)
-        self.remove_units(translation.store.store)
+            self.remove_units(self.component.template_store)
+        self.remove_units(translation.store)
 
         # Clean class cache
         self.component.drop_template_store_cache()
@@ -768,13 +768,13 @@ class ComponentEditMonoTest(ComponentEditTest):
 
     @staticmethod
     def remove_units(store):
-        store.parse(store.XMLskeleton.replace("\n", "").encode('utf-8'))
+        store.store.parse(store.store.XMLskeleton.replace("\n", "").encode('utf-8'))
         store.save()
 
     def test_unit_add(self):
         translation = self.component.translation_set.get(language_code='cs')
 
-        self.remove_units(translation.store.store)
+        self.remove_units(translation.store)
 
         # Clean class cache
         translation.drop_store_cache()

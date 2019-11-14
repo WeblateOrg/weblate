@@ -73,9 +73,9 @@ class CleanupAddon(BaseCleanupAddon):
 
         This does simple filtering of units list.
         """
-        for unit in storage.units:
+        for unit in storage.store.units:
             if unit.getid() not in index:
-                filename = storage.get_filename(unit.filename)
+                filename = storage.store.get_filename(unit.filename)
                 self.extra_files.append(filename)
                 os.unlink(filename)
 
@@ -84,12 +84,12 @@ class CleanupAddon(BaseCleanupAddon):
 
         This does simple filtering of units list.
         """
-        startlen = len(storage.units)
+        startlen = len(storage.store.units)
 
         # Remove extra units
-        storage.units = [u for u in storage.units if u.getid() in index]
+        storage.store.units = [u for u in storage.store.units if u.getid() in index]
 
-        if startlen != len(storage.units):
+        if startlen != len(storage.store.units):
             storage.save()
 
     def update_lisa(self, index, translation, storage):
@@ -100,9 +100,9 @@ class CleanupAddon(BaseCleanupAddon):
         changed = False
 
         # Remove extra units
-        for unit in storage.units:
+        for unit in storage.store.units:
             if unit.getid() not in index:
-                storage.body.remove(unit.xmlelement)
+                storage.store.body.remove(unit.xmlelement)
                 changed = True
 
         if changed:
@@ -113,12 +113,10 @@ class CleanupAddon(BaseCleanupAddon):
 
         if isinstance(self.template_store, AppStoreParser):
             for translation in self.iterate_translations(component):
-                self.update_appstore(
-                    index, translation, translation.store.store
-                )
+                self.update_appstore(index, translation, translation.store)
         elif isinstance(self.template_store, LISAfile):
             for translation in self.iterate_translations(component):
-                self.update_lisa(index, translation, translation.store.store)
+                self.update_lisa(index, translation, translation.store)
         else:
             for translation in self.iterate_translations(component):
-                self.update_units(index, translation, translation.store.store)
+                self.update_units(index, translation, translation.store)

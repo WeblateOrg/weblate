@@ -43,20 +43,20 @@ class ResxUpdateAddon(BaseCleanupAddon):
         This removes the corresponding XML element and
         also adds newly added, and changed units.
         """
-        sindex = self.build_index(storage)
+        sindex = self.build_index(storage.store)
         changed = False
 
         # Add missing units
         for unit in self.template_store.units:
             if unit.getid() not in sindex:
-                storage.addunit(unit, True)
+                storage.store.addunit(unit, True)
                 changed = True
 
         # Remove extra units and apply target changes
-        for unit in storage.units:
+        for unit in storage.store.units:
             unitid = unit.getid()
             if unitid not in index:
-                storage.body.remove(unit.xmlelement)
+                storage.store.body.remove(unit.xmlelement)
                 changed = True
             if unitid in changes:
                 unit.target = index[unitid].target
@@ -88,4 +88,4 @@ class ResxUpdateAddon(BaseCleanupAddon):
             # No previous revision, probably first commit
             changes = set()
         for translation in self.iterate_translations(component):
-            self.update_resx(index, translation, translation.store.store, changes)
+            self.update_resx(index, translation, translation.store, changes)
