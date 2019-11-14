@@ -256,10 +256,17 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def parse_store(cls, storefile):
         """Parse the store."""
-        storeclass = cls.get_class()
+        store = cls.get_class()()
 
-        # Parse file
-        store = storeclass.parsefile(storefile)
+        # Read the content
+        if isinstance(storefile, six.string_types):
+            with open(storefile, 'rb') as handle:
+                content = handle.read()
+        else:
+            content = storefile.read()
+
+        # Parse the content
+        store.parse(content)
 
         # Apply possible fixups and return
         return cls.fixup(store)
