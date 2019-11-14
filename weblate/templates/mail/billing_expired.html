@@ -9,10 +9,13 @@
 <a href="{{ billing_url }}">{{ billing_url }}</a>
 </p>
 
+{% with projects=billing.projects.all %}
+
+{% if projects %}
 <p>{% trans "This billing plan covers following projects:" %}</p>
 
 <ul>
-{% for project in billing.projects.all %}
+{% for project in projects %}
 <li><a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project }}</a></li>
 {% endfor %}
 </ul>
@@ -21,6 +24,8 @@
 <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
 {% elif billing.removal %}
 <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+{% endif %}
+
 {% endif %}
 
 {% endblock %}
