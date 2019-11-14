@@ -81,10 +81,7 @@ class GitRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure commiter name."""
-        self.config_update(
-            ('user', 'name', name),
-            ('user', 'email', mail),
-        )
+        self.config_update(('user', 'name', name), ('user', 'email', mail))
 
     def reset(self):
         """Reset working copy to match remote branch."""
@@ -257,7 +254,11 @@ class GitRepository(Repository):
             # Push url
             ('remote "origin"', 'pushurl', push_url),
             # Fetch all branches (needed for clone branch)
-            ('remote "origin"', 'fetch', '+refs/heads/*:refs/remotes/origin/*'.format(branch)),
+            (
+                'remote "origin"',
+                'fetch',
+                '+refs/heads/*:refs/remotes/origin/*'.format(branch),
+            ),
             # Disable fetching tags
             ('remote "origin"', 'tagOpt', '--no-tags'),
             # Set branch to track
