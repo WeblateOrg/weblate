@@ -28,7 +28,7 @@
 </tr>
 </thead>
 <tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-{% with object.sources.all as sources %}
+{% with object.units.all as sources %}
 {% include "screenshots/screenshot_sources_body.html" %}
 {% endwith %}
 </tbody>
