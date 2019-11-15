@@ -52,18 +52,18 @@ def migrate_source_strings(apps, schema_editor):
             "state": STATE_READONLY,
             "content_hash": language_unit.content_hash,
         }
-        unit, created = Unit.objects.using(db_alias).get_or_create(
+        Unit.objects.using(db_alias).get_or_create(
             translation=translation, id_hash=source.id_hash, defaults=kwargs
         )
-        if not created:
-            unit.extra_flags = source.check_flags
-            unit.extra_context = source.context
-            unit.save(update_fields=["extra_flags", "extra_context"])
 
-        # Set timestamp on all units
+        # Set timestamp and extra flags and context on all units
         Unit.objects.using(db_alias).filter(
             translation__component=component, id_hash=source.id_hash
-        ).update(timestamp=source.timestamp)
+        ).update(
+            timestamp=source.timestamp,
+            extra_flags=source.check_flags,
+            extra_context=source.context,
+        )
 
 
 class Migration(migrations.Migration):
