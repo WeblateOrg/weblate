@@ -371,9 +371,13 @@ class Notification(object):
 
 @register_notification
 class MergeFailureNotification(Notification):
-    actions = (Change.ACTION_FAILED_MERGE, Change.ACTION_FAILED_REBASE)
-    verbose = _('Merge failure')
-    template_name = 'merge_failure'
+    actions = (
+        Change.ACTION_FAILED_MERGE,
+        Change.ACTION_FAILED_REBASE,
+        Change.ACTION_FAILED_PUSH,
+    )
+    verbose = _('Repository failure')
+    template_name = 'repository_error'
 
     def should_skip(self, user, change):
         fake = copy(change)
@@ -381,6 +385,19 @@ class MergeFailureNotification(Notification):
         fake.alert = Alert()
         notify = NewAlertNotificaton(None)
         return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, fake)}
+
+
+@register_notification
+class RepositoryNotification(Notification):
+    actions = (
+        Change.ACTION_COMMIT,
+        Change.ACTION_PUSH,
+        Change.ACTION_RESET,
+        Change.ACTION_REBASE,
+        Change.ACTION_MERGE,
+    )
+    verbose = _('Repository operation')
+    template_name = 'repository_operation'
 
 
 @register_notification

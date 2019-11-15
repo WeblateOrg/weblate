@@ -73,6 +73,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         profile.save()
         notifications = (
             'MergeFailureNotification',
+            'RepositoryNotification',
             'ParseErrorNotification',
             'NewStringNotificaton',
             'NewContributorNotificaton',
@@ -95,9 +96,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     @staticmethod
     def second_user():
         return User.objects.create_user(
-            'seconduser',
-            'noreply+second@example.org',
-            'testpassword'
+            'seconduser', 'noreply+second@example.org', 'testpassword'
         )
 
     def validate_notifications(self, count, subject):
@@ -112,10 +111,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_merge_failure(self):
         change = Change.objects.create(
             component=self.component,
-            details={
-                'error': 'Failed merge',
-                'status': 'Error\nstatus',
-            },
+            details={'error': 'Failed merge', 'status': 'Error\nstatus'},
             action=Change.ACTION_FAILED_MERGE,
         )
 
@@ -127,15 +123,27 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(2, '[Weblate] Merge failure in Test/Test')
+        self.validate_notifications(2, '[Weblate] Repository failure in Test/Test')
+
+    def test_notify_repository(self):
+        change = Change.objects.create(
+            component=self.component, action=Change.ACTION_MERGE
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+
+        # Add project owner
+        self.component.project.add_user(self.second_user(), '@Administration')
+        notify_change(change.pk)
+
+        # Check mail
+        self.validate_notifications(2, '[Weblate] Repository operation in Test/Test')
 
     def test_notify_parse_error(self):
         change = Change.objects.create(
             translation=self.get_translation(),
-            details={
-                'error_message': 'Failed merge',
-                'filename': 'test/file.po',
-            },
+            details={'error_message': 'Failed merge', 'filename': 'test/file.po'},
             action=Change.ACTION_PARSE_ERROR,
         )
 
@@ -151,14 +159,12 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_string(self):
         Change.objects.create(
-            translation=self.get_translation(),
-            action=Change.ACTION_NEW_STRING,
+            translation=self.get_translation(), action=Change.ACTION_NEW_STRING
         )
 
         # Check mail
         self.validate_notifications(
-            1,
-            '[Weblate] New string to translate in Test/Test - Czech'
+            1, '[Weblate] New string to translate in Test/Test - Czech'
         )
 
     def test_notify_new_translation(self):
@@ -170,10 +176,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(
-            1,
-            '[Weblate] New translation in Test/Test - Czech'
-        )
+        self.validate_notifications(1, '[Weblate] New translation in Test/Test - Czech')
 
     def test_notify_new_language(self):
         second_user = self.second_user()
@@ -192,10 +195,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(
-            2,
-            '[Weblate] New language request in Test/Test'
-        )
+        self.validate_notifications(2, '[Weblate] New language request in Test/Test')
 
     def test_notify_new_contributor(self):
         Change.objects.create(
@@ -205,10 +205,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(
-            1,
-            '[Weblate] New contributor in Test/Test - Czech'
-        )
+        self.validate_notifications(1, '[Weblate] New contributor in Test/Test - Czech')
 
     def test_notify_new_suggestion(self):
         unit = self.get_unit()
@@ -218,17 +215,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 content_hash=unit.content_hash,
                 project=unit.translation.component.project,
                 language=unit.translation.language,
-                target='Foo'
+                target='Foo',
             ),
             user=self.second_user(),
             action=Change.ACTION_SUGGESTION,
         )
 
         # Check mail
-        self.validate_notifications(
-            1,
-            '[Weblate] New suggestion in Test/Test - Czech'
-        )
+        self.validate_notifications(1, '[Weblate] New suggestion in Test/Test - Czech')
 
     def test_notify_new_comment(self, expected=1, comment='Foo'):
         unit = self.get_unit()
@@ -244,9 +238,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(
-            expected, '[Weblate] New comment in Test/Test'
-        )
+        self.validate_notifications(expected, '[Weblate] New comment in Test/Test')
 
     def test_notify_new_comment_report(self):
         self.component.report_source_bugs = 'noreply@weblate.org'
@@ -255,8 +247,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_comment_mention(self):
         self.test_notify_new_comment(
-            2,
-            'Hello @{} and @invalid'.format(self.anotheruser.username)
+            2, 'Hello @{} and @invalid'.format(self.anotheruser.username)
         )
 
     def test_notify_new_comment_author(self):
@@ -270,39 +261,25 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_component(self):
         Change.objects.create(
-            component=self.component,
-            action=Change.ACTION_CREATE_COMPONENT
+            component=self.component, action=Change.ACTION_CREATE_COMPONENT
         )
-        self.validate_notifications(
-            1, '[Weblate] New translation component Test/Test'
-        )
+        self.validate_notifications(1, '[Weblate] New translation component Test/Test')
 
     def test_notify_new_whiteboard(self):
-        WhiteboardMessage.objects.create(
-            component=self.component,
-            message='Hello word',
-        )
-        self.validate_notifications(
-            1, '[Weblate] New whiteboard message on Test'
-        )
+        WhiteboardMessage.objects.create(component=self.component, message='Hello word')
+        self.validate_notifications(1, '[Weblate] New whiteboard message on Test')
         mail.outbox = []
-        WhiteboardMessage.objects.create(
-            message='Hello global word',
-        )
-        self.validate_notifications(
-            2, '[Weblate] New whiteboard message at Weblate'
-        )
+        WhiteboardMessage.objects.create(message='Hello global word')
+        self.validate_notifications(2, '[Weblate] New whiteboard message at Weblate')
 
     def test_notify_alert(self):
         self.component.project.add_user(self.user, '@Administration')
         Alert.objects.create(
             component=self.component,
             name='PushFailure',
-            details={'error': 'Some error'}
+            details={'error': 'Some error'},
         )
-        self.validate_notifications(
-            1, '[Weblate] New alert on Test/Test'
-        )
+        self.validate_notifications(1, '[Weblate] New alert on Test/Test')
 
     def test_notify_account(self):
         request = self.get_request()
@@ -321,16 +298,17 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertIn('lang="cs"', content)
         self.assertIn('změněno', content)
 
-    def test_digest(self, frequency=FREQ_DAILY, notify=notify_daily,
-                    change=Change.ACTION_FAILED_MERGE, subj='Merge failure'):
+    def test_digest(
+        self,
+        frequency=FREQ_DAILY,
+        notify=notify_daily,
+        change=Change.ACTION_FAILED_MERGE,
+        subj='Repository failure',
+    ):
         Subscription.objects.filter(
             frequency=FREQ_INSTANT,
-            notification__in=(
-                'MergeFailureNotification', 'NewTranslationNotificaton'
-            ),
-        ).update(
-            frequency=frequency
-        )
+            notification__in=('MergeFailureNotification', 'NewTranslationNotificaton'),
+        ).update(frequency=frequency)
         Change.objects.create(
             component=self.component,
             details={
@@ -355,18 +333,17 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self):
-        self.test_digest(
-            change=Change.ACTION_REQUESTED_LANGUAGE,
-            subj='New language'
-        )
+        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj='New language')
 
-    def test_reminder(self, frequency=FREQ_DAILY, notify=notify_daily,
-                      notification='ToDoStringsNotification',
-                      subj='Strings needing action in Test/Test'):
+    def test_reminder(
+        self,
+        frequency=FREQ_DAILY,
+        notify=notify_daily,
+        notification='ToDoStringsNotification',
+        subj='Strings needing action in Test/Test',
+    ):
         self.user.subscription_set.create(
-            scope=SCOPE_DEFAULT,
-            notification=notification,
-            frequency=frequency
+            scope=SCOPE_DEFAULT, notification=notification, frequency=frequency
         )
         # Check mail
         self.assertEqual(len(mail.outbox), 0)
@@ -387,11 +364,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             content_hash=unit.content_hash,
             project=unit.translation.component.project,
             language=unit.translation.language,
-            target='Foo'
+            target='Foo',
         )
         self.test_reminder(
             notification='PendingSuggestionsNotification',
-            subj='Pending suggestions in Test/Test'
+            subj='Pending suggestions in Test/Test',
         )
 
 
@@ -400,8 +377,7 @@ class SubscriptionTest(ViewTestCase):
 
     def get_users(self, frequency):
         change = Change.objects.create(
-            action=Change.ACTION_FAILED_MERGE,
-            component=self.component
+            action=Change.ACTION_FAILED_MERGE, component=self.component
         )
         notification = self.notification(None)
         return list(notification.get_users(frequency, change))
@@ -418,7 +394,7 @@ class SubscriptionTest(ViewTestCase):
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT,
             notification=self.notification.get_name(),
-            frequency=FREQ_MONTHLY
+            frequency=FREQ_MONTHLY,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
@@ -428,7 +404,7 @@ class SubscriptionTest(ViewTestCase):
         self.user.subscription_set.create(
             scope=SCOPE_ADMIN,
             notification=self.notification.get_name(),
-            frequency=FREQ_WEEKLY
+            frequency=FREQ_WEEKLY,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
@@ -445,7 +421,7 @@ class SubscriptionTest(ViewTestCase):
             scope=SCOPE_PROJECT,
             project=self.project,
             notification=self.notification.get_name(),
-            frequency=FREQ_DAILY
+            frequency=FREQ_DAILY,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 1)
@@ -456,7 +432,7 @@ class SubscriptionTest(ViewTestCase):
             scope=SCOPE_COMPONENT,
             project=self.project,
             notification=self.notification.get_name(),
-            frequency=FREQ_INSTANT
+            frequency=FREQ_INSTANT,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
@@ -479,14 +455,14 @@ class SubscriptionTest(ViewTestCase):
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT,
             notification=self.notification.get_name(),
-            frequency=FREQ_INSTANT
+            frequency=FREQ_INSTANT,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
         # Subscribe to parent event
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT,
             notification='NewAlertNotificaton',
-            frequency=FREQ_INSTANT
+            frequency=FREQ_INSTANT,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
 
@@ -494,7 +470,7 @@ class SubscriptionTest(ViewTestCase):
 class SendMailsTest(SimpleTestCase):
     @override_settings(
         EMAIL_HOST='nonexisting.weblate.org',
-        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
     )
     def test_error_handling(self):
         send_mails([{}])

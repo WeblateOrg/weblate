@@ -16,6 +16,7 @@ Not yet released.
 * Add support for read only strings.
 * Show source language for all translations.
 * Show context for nearby strings.
+* Added support for notifications on repository operations.
 
 Weblate 3.9.1
 -------------
