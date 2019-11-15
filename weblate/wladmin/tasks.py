@@ -60,6 +60,7 @@ def configuration_health_check(include_deployment_checks=True):
         'weblate.E018',
         'weblate.E019',
         'weblate.C029',
+        'weblate.C030',
     }
     for check_id in criticals:
         if check_id in checks:

@@ -22,9 +22,11 @@ from __future__ import absolute_import, unicode_literals
 
 import os
 import subprocess
+import time
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
 from weblate.celery import app
@@ -35,6 +37,11 @@ from weblate.utils.data import data_dir
 @app.task(trail=False)
 def ping():
     return None
+
+
+@app.task(trail=False)
+def heartbeat():
+    cache.set('celery_heartbeat', time.time())
 
 
 def ensure_backup_dir():
@@ -87,3 +94,4 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
     )
+    sender.add_periodic_task(60, heartbeat.s(), name="heartbeat")

@@ -22,11 +22,13 @@ from __future__ import absolute_import, unicode_literals
 
 import errno
 import os
+import time
 from itertools import chain
 
 import six
 from celery.exceptions import TimeoutError
 from django.conf import settings
+from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 
@@ -115,6 +117,16 @@ def check_celery(app_configs, **kwargs):
                     id='weblate.E020',
                 )
             )
+    heartbeat = cache.get('celery_heartbeat')
+    if not heartbeat or time.time() - heartbeat > 600:
+        errors.append(
+            Critical(
+                'The Celery beats scheduler is not executing periodic tasks '
+                'in a timely manner.',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.C030',
+            )
+        )
 
     return errors
 

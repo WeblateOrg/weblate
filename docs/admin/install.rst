@@ -1001,7 +1001,7 @@ Additionally, you will have to adjust :file:`weblate/settings.py`:
 .. _celery:
 
 Background tasks using Celery
-+++++++++++++++++++++++++++++
+-----------------------------
 
 .. versionadded:: 3.2
 
@@ -1026,6 +1026,10 @@ useful when debugging or developing):
    ./weblate/examples/celery start
    ./weblate/examples/celery stop
 
+
+Running Celery as system service
+++++++++++++++++++++++++++++++++
+
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`. For the most common Linux setup using
 systemd, you can use the example files shipped in the :file:`examples` folder
@@ -1049,18 +1053,28 @@ Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
     :language: text
     :encoding: utf-8
 
-Weblate comes with built-in setup for scheduled tasks. You can however define
-additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
-
-You can use :djadmin:`celery_queues` to see current length of Celery task
-queues. In case the queue will get too long, you will also get configuration
-error in the admin interface.
-
 .. note::
 
    The Celery process has to be executed under the same user as Weblate and the WSGI
    process, otherwise files in the :setting:`DATA_DIR` will be stored with
    mixed ownership, leading to runtime issues.
+
+Periodic tasks using Celery beat
+++++++++++++++++++++++++++++++++
+
+Weblate comes with built-in setup for scheduled tasks. You can however define
+additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
+
+The tasks are supposed to be executed by Celery beats deamon. In case it it not
+working properly, it might be not running or it's database was corrupted. Check
+the Celery startup logs in such case to figure out root cause.
+
+Monitoring Celery status
+++++++++++++++++++++++++
+
+You can use :djadmin:`celery_queues` to see current length of Celery task
+queues. In case the queue will get too long, you will also get configuration
+error in the admin interface.
 
 .. warning::
 
