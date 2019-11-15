@@ -170,10 +170,10 @@ punctuation sign is a typographic rule.
 Trailing ellipsis
 ~~~~~~~~~~~~~~~~~
 
-Checks that trailing ellipsises are replicated between both source and translation.
+Checks that trailing ellipses are replicated between both source and translation.
 This only checks for real ellipsis (``…``) not for three dots (``...``).
 
-An ellipsis is usually rendered nicer than three dots in print, and sound better with text-to-speech.
+An ellipsis is usually rendered nicer than three dots in print, and sounds better with text-to-speech.
 
 .. seealso::
 
@@ -194,7 +194,7 @@ This can be useful to keep formatting of entries such as desktop files.
 
 .. _check-max-length:
 
-Maximum Length
+Maximum length
 ~~~~~~~~~~~~~~
 
 Checks that translations are of acceptable length to fit available space.
@@ -221,7 +221,7 @@ Formatted strings
 ~~~~~~~~~~~~~~~~~
 
 Checks that formatting in strings are replicated between both source and translation.
-Omitting format strings in translation usually cause severe problems, so the formatting in strings
+Omitting format strings in translation usually causes severe problems, so the formatting in strings
 should usually match the source.
 
 Weblate supports checking format strings in several languages. The check is not
@@ -447,7 +447,7 @@ Regular expression
 
 .. versionadded:: 3.9
    
-Translation does not match regular expression. The expression iseither extracted from the
+Translation does not match regular expression. The expression is either extracted from the
 translation file or defined manually using ``regex`` flag:
 
 .. code-block:: text
@@ -464,14 +464,14 @@ Checks that all plural forms of a source string have been translated.
 Specifics on how each plural form is used can be found in the string definition.
 
 Failing to fill in plural forms will in some cases lead to displaying nothing when
-the plural tense is in use.
+the plural form is in use.
 
 .. _check-same-plurals:
 
 Same plurals
 ~~~~~~~~~~~~
 
-Check that fails if some plural forms duplicated in the translation.
+Check that fails if some plural forms are duplicated in the translation.
 In most languages they have to be different.
 
 .. _check-inconsistent:
@@ -526,7 +526,7 @@ This check ensures they are also found in translation.
 Zero-width space
 ~~~~~~~~~~~~~~~~
 
-Zero-width space (<U+200B>) character are used to truncate messages within words.
+Zero-width space (<U+200B>) characters are used to break messages within words (word wrapping).
 
 As they are usually inserted by mistake, this check is triggered once they are present
 in translation. Some programs might have problems when this character is used.
@@ -551,7 +551,7 @@ XML markup
 ~~~~~~~~~~
 
 This usually means the resulting output will look different. In most cases this is
-not desired result from changing the translation, but occasionally it is.
+not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
@@ -656,7 +656,7 @@ This check needs one or two parameters - maximal width and maximal number of
 lines. In case the number of lines is not provided, one line text is
 considered.
 
-You can also configured used font by ``font-*`` directives (see
+You can also configure used font by ``font-*`` directives (see
 :ref:`custom-checks`), for example following translation flags say that the
 text rendered with ubuntu font size 22 should fit into two lines and 500
 pixels:
@@ -667,7 +667,7 @@ pixels:
 
 .. hint::
 
-   You might want to set ``font-*`` directives in :ref:`component` to have same
+   You might want to set ``font-*`` directives in :ref:`component` to have the same
    font configured for all strings within a component. You can override those
    values per string in case you need to customize it per string.
 
@@ -717,7 +717,7 @@ Multiple failing checks
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Numerous translations of this string have failing quality checks. This is
-usually an indication that something could be done to improving the source
+usually an indication that something could be done to improve the source
 string.
 
 This check failing can quite often be caused by a missing full stop at the end of
