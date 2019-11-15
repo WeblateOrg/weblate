@@ -113,7 +113,7 @@ translations are consistent and in a good quality.
 * *Any user* can edit non approved translations.
 * *Reviewer* can approve / unapproved strings.
 * *Reviewer* can edit all translations (including approved ones).
-* Suggestions are now also way to suggest changes for approved strings.
+* Suggestions are now also a way to suggest changes for approved strings.
 
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
@@ -137,7 +137,7 @@ Enabling reviews
 
 The reviews can be enabled on project configuration, you can find the setting
 on bottom of :guilabel:`Manage users` page (to be found in the
-:guilabel:`Manage/Users` menu):
+:guilabel:`Manage` > `Users` menu):
 
 .. image:: images/project-access.png
 
