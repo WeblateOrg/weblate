@@ -17,7 +17,10 @@ Options for translation project visibility:
 * Publicly visible and anybody can contribute
 * Visible only to a certain group of translators
 
-Please see :ref:`privileges` for more information on access control.
+.. seealso::
+
+   :ref:`privileges`,
+   :ref:`workflows`
 
 Translation projects
 --------------------
