@@ -4,7 +4,7 @@ Registration and user profile
 Registration
 ------------
 
-While everybody can browse projects, view translations or suggest them, only
+While by default everybody can browse projects, view translations or suggest them, only
 registered users are allowed to actually save changes and are credited for
 every translation made.
 
