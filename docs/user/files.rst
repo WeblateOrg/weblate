@@ -12,9 +12,9 @@ This works even if it has been changed in the meantime.
 Downloading translations
 ------------------------
 
-Translatable files can be downloaded using the :guilabel:`Download source file`
+From the project or component dashboard, translatable files can be downloaded using the :guilabel:`Download source file`
 in the :guilabel:`Files` menu, producing a copy of the file as it is stored
-in upstream version control system.
+in the upstream Version Control System.
 
 You can either download the original file as is or converted into one of widely
 used localization formats. The converted files will be enriched with data
@@ -22,7 +22,7 @@ provided in Weblate such as additional context, comments or flags.
 
 Several file formats are available, including a compiled file
 to use in your choice of application (for example ``.mo`` files for GNU Gettext) using
-the :guilabel:`Files`.
+the :guilabel:`Files` menu.
 
 Uploading translations
 ----------------------
@@ -30,8 +30,8 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
-Any of supported file formats can be uploaded, but it is still
-recommended to use the same file format as is used for translation, otherwise some
+Any file in a supported file format can be uploaded, but it is still
+recommended to use the same file format as the one used for translation, otherwise some
 features might not be translated properly.
 
 .. seealso:: 
@@ -50,13 +50,13 @@ Add as translation
     Imported translations are added as translations. This is the most common usecase, and
     the default behavior.
 Add as suggestion
-    Imported translations are added as suggestions, do this when you want your
+    Imported translations are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
-Add as needing review
-    Imported translations are added as translations needing review. This can be useful
+Add as translation needing edit
+    Imported translations are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
 
-There is also an option for how to handle strings needing review in the imported
-file.
+There is also an option for how to handle strings needing edit in the imported
+file. Such strings can be handle in one of the three following ways: "Do not import", "Import as string needing edit", or "Import as translated".
 
 .. image:: /images/export-import.png
