@@ -4,7 +4,7 @@ Searching
 .. versionadded:: 3.9
 
 Weblate supports advanced queries where you can lookup strings you need. It
-supports boolean operations, parenthesis or field specific lookups.
+supports boolean operations, parentheses or field specific lookups.
 
 When not defining any field, the lookup happens on :guilabel:`Source`,
 :guilabel:`Target` and :guilabel:`Context` fields.
@@ -14,8 +14,8 @@ When not defining any field, the lookup happens on :guilabel:`Source`,
 Simple search
 -------------
 
-When you type phrase into search box, it is split into words and it looks for
-all strings containing all the words. To lookup exact phrase, put it into
+When you type a phrase into the search box, it is split into words and it looks for
+all strings containing all the words. To look for an exact phrase, put it into
 quotes (both single and double quotes will work).
 
 Fields
@@ -55,8 +55,8 @@ Fields
 Boolean operators
 -----------------
 
-You can combine the lookups using ``AND``, ``OR``, ``NOT`` and parenthesis to
-form complex queries. For exmaple: ``state:translated AND (source:hello OR source:bar)``
+You can combine the lookups using ``AND``, ``OR``, ``NOT`` and parentheses to
+form complex queries. For example: ``state:translated AND (source:hello OR source:bar)``
 
 .. _search-operators:
 
@@ -76,4 +76,5 @@ You can specify operators, ranges or partial lookups for date or numeric searche
 Regular expressions
 -------------------
 
-Anywhere text is accepted you can also specify regular expression as ``r"regexp"``.
+Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``. For instance, to search for all source strings which contain any digit between 2 and 5, use:
+``source:r"[2-5]"``
