@@ -1204,9 +1204,9 @@ class HookBackendTestCase(SimpleTestCase):
         handler = HOOK_HANDLERS[self.hook]
         result = handler(json.loads(payload))
         if result:
-            result['repos'] = list(sorted(result['repos']))
+            result['repos'] = sorted(result['repos'])
         if expected:
-            expected['repos'] = list(sorted(expected['repos']))
+            expected['repos'] = sorted(expected['repos'])
         self.assertEqual(expected, result)
 
 
