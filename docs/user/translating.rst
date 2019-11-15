@@ -1,21 +1,23 @@
 Translating using Weblate
 =========================
 
-Thank you for interest in translating using Weblate. Projects can be either be
-set up for direct translation, or by way of accepting suggestions on behalf of
+Thank you for interest in translating using Weblate. Projects can either be
+set up for direct translation, or by way of accepting suggestions made by
 users without accounts.
 
-Overall, there are the modes of translation:
+Overall, there are two modes of translation:
 
-* Projects accepts direct translations
-* Projects accepts only suggestions, which are accepted once given a defined number of votes
+* The project accepts direct translations
+* The project accepts only suggestions, which are automatically validated once a defined number of votes is reached
+
+Please see :ref:`workflows` for more information on translation workflow.
 
 Options for translation project visibility:
 
 * Publicly visible and anybody can contribute
 * Visible only to a certain group of translators
 
-Please see :ref:`workflows` for more info on translation workflow.
+Please see :ref:`privileges` for more information on access control.
 
 Translation projects
 --------------------
@@ -48,16 +50,16 @@ Anonymous users can only (if permitted) forward suggestions.  Doing so is still
 available to logged in users, in cases where uncertainty about the translation
 arises, which will prompt another translator to review it.
 
-The suggestions are dialy scanned to remove duplicate ones or the one where
-suggestion matches current translation.
+The suggestions are scanned on a daily basis to remove duplicate ones or
+suggestions that match the current translation.
 
 Comments
 --------
 
 The comments can be posted in two scopes - source string or translation. Choose
-the one which matches topic you want to discuss. The source string comments are
+the one which matches the topic you want to discuss. The source string comments are
 good for prividing feedback on the original string, for example that it should
-be rephrased or is confusing.
+be rephrased or it is confusing.
 
 You can use Markdown syntax in the comments and mention other users using
 ``@mention``.
@@ -65,20 +67,20 @@ You can use Markdown syntax in the comments and mention other users using
 Translating
 -----------
 
-On the translation page, the source string and an edit area for translating it is shown.
+On the translation page, the source string and an edit area for translating are shown.
 Should the translation be plural, multiple source strings and edit areas are
-shown, each described and label in plural form.
+shown, each described and labeled in plural form.
 
-Any special whitespace characters you will find underlined in red and indicated with grey
+All special whitespace characters are underlined in red and indicated with grey
 symbols. More than one subsequent space is also underlined in red to alert the translator to
-its formatting.
+a potential formatting issue.
 
-Various bits of extra info can be shown on this page, most which comes from the project source code
+Various bits of extra information can be shown on this page, most of which coming from the project source code
 (like context, comments or where the message is being used). When you choose secondary languages in your
-preferences, translation to these languages will be shown (see :ref:`secondary-languages`).
+preferences, translation to these languages will be shown (see :ref:`secondary-languages`) above the source string.
 
-Below the translation, any suggestions made by others will be shown, which you
-can in turn accept, accept and make changes, or delete.
+Below the translation, any suggestion made by others will be shown, which you
+can in turn accept, accept with changes, or delete.
 
 .. _plurals:
 
@@ -96,7 +98,7 @@ different.
 Weblate has full support for each of these forms, in each respective language
 by translating every plural separately.  The number of fields and how it is
 used in the translated application depends on the configured plural equation.
-Weblate shows the basic info, but you can find a more detailed description in
+Weblate shows the basic information, but you can find a more detailed description in
 the `Language Plural Rules`_ by the Unicode Consortium.
 
 .. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
@@ -142,16 +144,16 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+S` or :kbd:`Option+S`
     Shows search tab.
 :kbd:`Ctrl+O` or :kbd:`Option+O`
-    Copies source string
+    Copies source string.
 :kbd:`Ctrl+T` or :kbd:`Option+T`
-    Toggles edit needed flag.
+    Toggles "Needs editing" flag.
 
 .. _visual-keyboard:
 
 Visual keyboard
 +++++++++++++++
 
-A small visual keyboard is shown when translating. This can be useful for
+A small visual keyboard is shown just above the translation field. This can be useful for
 typing characters not usually found or otherwise hard to type.
 
 The shown symbols factor into three categories:
@@ -167,20 +169,20 @@ The shown symbols factor into three categories:
 Translation context
 +++++++++++++++++++
 
-This contextual description provides related info about the current string.
+This contextual description provides related information about the current string.
 
 String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
 Screenshots
-    Can be uploaded to Weblate to better inform translators
+    Screenshots can be uploaded to Weblate to better inform translators
     of where and how the string is used, see :ref:`screenshots`.
-Nearby messages
+Nearby strings
     Displays neighbouring messages from the translation file. These
     are usually also used in a similar context and prove useful in keeping the translation consistent.
 Other occurences
     In case a message appears in multiple places (e.g. multiple components),
-    this tab shows all of them if found to be inconsistent (see
-    :ref:`check-inconsistent`), you can choose which one to use.
+    this tab shows all of them if they are found to be inconsistent (see
+    :ref:`check-inconsistent`). You can choose which one to use.
 Translation memory
     Look at similar strings translated in past, see :ref:`memory`.
 Glossary
@@ -188,7 +190,7 @@ Glossary
 Recent edits
     List of people whom have changed this message recently using Weblate.
 Project
-    Project info like instructions for translators, or info about
+    Project information like instructions for translators, or information about
     its version control system repository.
 
 If the translation format supports it, you can also follow supplied links to respective 
@@ -205,7 +207,7 @@ Translated string length
 ++++++++++++++++++++++++
 
 Weblate can limit length of translation in several ways to ensure the
-translated string is not too long.
+translated string is not too long:
 
 * The default limitation for translation is ten times longer than source
   string. This can be turned of by
@@ -227,15 +229,16 @@ Terms from the currently translated string can be displayed in the bottom tabs.
 Managing glossaries
 +++++++++++++++++++
 
-On the :guilabel:`Glossaries` tab of each project page, you can find a link that reads
-:guilabel:`Manage all glossaries`, wherein you can start new glossaries or edit
-existing ones. Once a glossary exists, it will also show up in this tab.
+On the :guilabel:`Glossaries` tab of each project page, you can edit
+existing glossaries. An empty glossary for a given project is automatically created when a language is added to a component (to do this, select a component, its :guilabel:`Translation` tab and click :guilabel:`Start new translation`). Once a glossary exists, it will also show up in this list.
 
 .. image:: /images/project-glossaries.png
 
-On the next page, you can choose which glossary to manage (all languages used in
-the current project are shown). Following this language link will lead you to a page
-which can be used to edit, import or export the glossary:
+Glossaries are shared among all components of the same project.
+
+On this list, you can choose which glossary to manage (all languages used in
+the current project are shown). Following one of the language links will lead you to a page
+which can be used to edit, import or export the selected glossary, or view the edit history:
 
 .. image:: /images/glossary-edit.png
 
@@ -250,7 +253,7 @@ are available in a single tab of each translation page.
 
 .. seealso::
 
-   You can find list of supported tools in :ref:`machine-translation-setup`.
+   You can find the list of supported tools in :ref:`machine-translation-setup`.
 
 .. _auto-translation:
 
@@ -258,7 +261,7 @@ Automatic translation
 ---------------------
 
 You can use automatic translation to bootstrap translation based on external sources.
-This tool is called :guilabel:`Automatic translation` accessible in the :guilabel:`Tools` menu:
+This tool is called :guilabel:`Automatic translation` accessible in the :guilabel:`Tools` menu, once you have selected a component and a language:
 
 .. image:: /images/automatic-translation.png
 
@@ -291,7 +294,7 @@ Rate limiting
 
 To avoid abuse of the interface, there is rate limiting applied to several
 operations like searching, sending contact form or translating. In case you are
-are hit by this, you are blocked for certain period until you can perform the
+are hit by this, you are blocked for a certain period until you can perform the
 operation again.
 
 The default limits are described in the administrative manual in
