@@ -25,12 +25,12 @@ import os
 import os.path
 from zipfile import ZipFile
 
-from defusedxml import ElementTree
 from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -414,7 +414,7 @@ class SubversionRepository(GitRepository):
             raw=True,
             merge_err=False,
         )
-        tree = ElementTree.fromstring(output)
+        tree = parse_xml(output)
         entry = tree.find('logentry')
         if entry is not None:
             return entry.get('revision')

@@ -188,12 +188,6 @@ def get_versions():
         '2.7',
     ))
 
-    result.append(get_single(
-        'defusedxml',
-        'https://github.com/tiran/defusedxml',
-        '0.4',
-    ))
-
     try:
         result.append((
             'Git',

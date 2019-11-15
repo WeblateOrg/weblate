@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import re
 
 import bleach
-from defusedxml import ElementTree
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
@@ -31,6 +30,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 from weblate.utils.html import extract_bleach
+from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
     r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])',
@@ -122,7 +122,7 @@ class BaseXMLCheck(TargetCheck):
         if wrap:
             text = '<weblate>{}</weblate>'.format(text)
 
-        return ElementTree.fromstring(text.encode('utf-8'))
+        return parse_xml(text.encode('utf-8') if 'encoding' in text else text)
 
     def is_source_xml(self, flags, source):
         """Quick check if source looks like XML."""
