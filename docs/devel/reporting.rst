@@ -70,7 +70,7 @@ All stats are available in three variants:
 `New`
    Newly translated strings which didn't have translation before.
 `Approved`
-   Count for string approavals in review workflow (see :ref:`reviews`).
+   Count for string approvals in review workflow (see :ref:`reviews`).
 `Edited`
    Edited strings which had translation before.
 
