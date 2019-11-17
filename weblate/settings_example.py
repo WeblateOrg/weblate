@@ -323,7 +323,6 @@ REGISTRATION_OPEN = True
 # Middleware
 MIDDLEWARE = [
     "weblate.middleware.ProxyMiddleware",
-    "dogslow.WatchdogMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -438,10 +437,6 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "django.server",
         },
-        "dogslow": {
-            "level": "WARNING",
-            "class": "sentry_sdk.integrations.logging.EventHandler",
-        },
         "syslog": {
             "level": "DEBUG",
             "class": "logging.handlers.SysLogHandler",
@@ -475,7 +470,6 @@ LOGGING = {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },
-        "dogslow": {"level": "WARNING", "handlers": ["dogslow"]},
         "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG"},
         # Logging search operations
         "weblate.search": {"handlers": [DEFAULT_LOG], "level": "INFO"},
@@ -855,8 +849,3 @@ PIWIK_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 AKISMET_API_KEY = None
-
-# Logging slow requests
-DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)
-DOGSLOW_LOGGER = "dogslow"
-DOGSLOW_TIMER = 60

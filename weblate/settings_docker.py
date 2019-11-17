@@ -428,7 +428,6 @@ REGISTRATION_EMAIL_MATCH = os.environ.get("WEBLATE_REGISTRATION_EMAIL_MATCH", ".
 # Middleware
 MIDDLEWARE = [
     "weblate.middleware.ProxyMiddleware",
-    "dogslow.WatchdogMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -555,10 +554,6 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "django.server",
         },
-        "dogslow": {
-            "level": "WARNING",
-            "class": "sentry_sdk.integrations.logging.EventHandler",
-        },
         "syslog": {
             "level": "DEBUG",
             "class": "logging.handlers.SysLogHandler",
@@ -592,7 +587,6 @@ LOGGING = {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },
-        "dogslow": {"level": "WARNING", "handlers": ["dogslow"]},
         "weblate": {
             "handlers": [DEFAULT_LOG],
             "level": os.environ.get("WEBLATE_LOGLEVEL", "DEBUG"),
@@ -1033,11 +1027,6 @@ PIWIK_URL = os.environ.get("WEBLATE_PIWIK_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
-
-# Logging slow requests
-DOGSLOW_LOG_TO_SENTRY = bool(SENTRY_DSN)
-DOGSLOW_LOGGER = "dogslow"
-DOGSLOW_TIMER = 60
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):
