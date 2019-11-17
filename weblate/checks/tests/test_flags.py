@@ -31,6 +31,9 @@ class FlagTest(SimpleTestCase):
     def test_parse_blank(self):
         self.assertEqual(Flags("foo, bar, ").items(), {"foo", "bar"})
 
+    def test_iter(self):
+        self.assertEqual(sorted(Flags("foo, bar")), ["bar", "foo"])
+
     def test_parse_empty(self):
         self.assertEqual(Flags("").items(), set())
 

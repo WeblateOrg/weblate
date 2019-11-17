@@ -123,6 +123,9 @@ class Flags(object):
     def items(self):
         return set(self._items.values())
 
+    def __iter__(self):
+        return self._items.__iter__()
+
     def __contains__(self, key):
         return key in self._items
 
