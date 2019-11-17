@@ -91,9 +91,9 @@ great support in Weblate (see :ref:`gettext` file format description).
     If you are about to use it in proprietary software, please consult
     licensing first, it might not be suitable for you.
 
-GNU Gettext can be used from variety of languages (C, Python, PHP, Ruby,
-JavaScript and much more) and usually the UI frameworks already come with some
-support for it. The standard usage is though the `gettext()` function call,
+GNU Gettext can be used from a variety of languages (C, Python, PHP, Ruby,
+JavaScript and many more) and usually the UI frameworks already come with some
+support for it. The standard usage is through the `gettext()` function call,
 which is often aliased to `_()` to make the code simpler and easier to read.
 
 Additionally it provides `pgettext()` call to provide additional context to
@@ -293,7 +293,7 @@ Translating documentation using Sphinx
 
 `Sphinx`_ is a tool for creating beautiful documentation. It uses simple
 reStructuredText syntax and can generate output in many formats. If you're
-looking for an example, this documentation is also build using it. The very
+looking for an example, this documentation is also built using it. The very
 useful companion for using Sphinx is the `Read the Docs`_ service, which will
 build and publish your documentation for free.
 
@@ -324,7 +324,7 @@ Depending on exact setup, importing of the translation might look like:
         'docs/locale/*/LC_MESSAGES/**.po'
 
 If you have more complex document structure, importing different folders is not
-directly supported, you currently have to list them separately:
+directly supported; you currently have to list them separately:
 
 .. code-block:: console
 
@@ -364,12 +364,12 @@ configure :guilabel:`Push URL` in the :ref:`component`.
 Pushing string changes to Weblate
 +++++++++++++++++++++++++++++++++
 
-To push newly updated strings to Weblate, just let it to pull from the upstream
-repo. This can be achieved in the user interface (in the :guilabel:`Repository
+To push newly updated strings to Weblate, just let it pull from the upstream
+repository. This can be achieved in the user interface (in the :guilabel:`Repository
 maintenance`) or from command line using :ref:`wlc`.
 
 This can be automated by installing a webhook on your repository to trigger
-Weblate whenever there is new commit, see :ref:`update-vcs` for more details.
+Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.
 
 .. seealso::
 
