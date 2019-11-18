@@ -5,9 +5,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
-{% indicate_alerts object %}
-</li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 <li><a href="{% url 'component_progress' project=object.project.slug component=object.slug %}">{% trans "Progress" %}</a></li>
 {% endblock %}
 

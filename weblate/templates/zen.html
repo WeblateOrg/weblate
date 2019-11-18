@@ -10,9 +10,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
-<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
-{% indicate_alerts object %}
-</li>
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
 <li><a href="{% url 'zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "zen" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
