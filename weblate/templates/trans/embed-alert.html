@@ -1,21 +1,9 @@
-{% load i18n %}
+{% load static %}
 
-{% if component.locked %}
-<i class="fa fa-lock text-warning" aria-hidden="true" title="{% trans "This translation is locked." %}"></i>
-{% endif %}
-
-{% if component.in_progress %}
-<a href="{% url "component_progress" project=component.project.slug component=component.slug %}?info=1">
-<i class="fa fa-cog fa-spin text-info" aria-hidden="true" title="{% trans "Updating translation component…" %}"></i></a>
-{% endif %}
-
-{% if alerts %}
-{% if component %}
-<a href="{{ component.get_absolute_url }}#alerts">
-<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "Fix this component to clear its alerts." %}"></i></a>
-{% else %}
-<i class="fa fa-exclamation-triangle text-warning" aria-hidden="true" title="{% trans "Some of the components within this project have alerts." %}"></i>
-{% endif %}
-{% endif %}
+{% for icon, text, url in icons %}
+{% if url %}<a href="{{ url }}">{% endif %}
+<img src="{% static icon %}" title="{{ text }}" alt="{{ text }}" class="state-icon" />
+{% if url %}</a>{% endif %}
+{% endfor %}
 
 {% include "snippets/license-flag.html" %}

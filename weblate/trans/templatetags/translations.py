@@ -778,25 +778,84 @@ def get_filter_name(name):
     return names[name]
 
 
-@register.inclusion_tag('trans/embed-alert.html')
-def indicate_alerts(obj):
-    alerts = False
+@register.inclusion_tag('trans/embed-alert.html', takes_context=True)
+def indicate_alerts(context, obj):
+    result = []
+
+    translation = None
     component = None
     project = None
 
     if isinstance(obj, Translation):
+        translation = obj
         component = obj.component
+        project = component.project
     elif isinstance(obj, Component):
         component = obj
+        project = component.project
     elif isinstance(obj, Project):
-        alerts = Alert.objects.filter(component__project=obj).exists()
         project = obj
 
+    if context['user'].has_perm('project.edit', project):
+        result.append(('state/admin.svg', _('You administrate this project.'), None))
+
+    if translation:
+        if translation.is_source:
+            result.append(
+                (
+                    'state/source.svg',
+                    _('This translation is used for source strings.'),
+                    None,
+                )
+            )
+
     if component:
-        alerts = component.alert_set.exists()
         project = component.project
 
-    return {'alerts': alerts, 'component': component, 'project': project}
+        if component.is_repo_link:
+            result.append(
+                (
+                    'state/link.svg',
+                    _("This component is linked to the %(target)s repository.")
+                    % {"target": component.linked_component},
+                    None,
+                )
+            )
+
+        if component.alert_set.exists():
+            result.append(
+                (
+                    'state/alert.svg',
+                    _("Fix this component to clear its alerts."),
+                    component.get_absolute_url() + "#alerts",
+                )
+            )
+
+        if component.locked:
+            result.append(('state/lock.svg', _("This translation is locked."), None))
+
+        if component.in_progress():
+            result.append(
+                (
+                    'state/update.svg',
+                    _("Updating translation component…"),
+                    reverse(
+                        "component_progress", kwargs=component.get_reverse_url_kwargs()
+                    )
+                    + "?info=1",
+                )
+            )
+    else:
+        if Alert.objects.filter(component__project=project).exists():
+            result.append(
+                (
+                    'state/alert.svg',
+                    _("Some of the components within this project have alerts."),
+                    None,
+                )
+            )
+
+    return {'icons': result, 'component': component, 'project': project}
 
 
 @register.filter

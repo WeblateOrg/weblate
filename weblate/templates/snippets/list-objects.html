@@ -61,16 +61,7 @@
 <tr id="{{ row_id }}">
 <th>
 {% include name_template %}
-{% if not hide_alerts %}
 {% indicate_alerts object %}
-{% endif %}
-{% for badge, description in object.get_badges %}
-<span class="badge pull-right flip tooltip-control" title="{{ description }}">{{ badge }}</span>
-{% endfor %}
-{% if show_admin_badge %}
-{% perm 'project.edit' object as user_can_edit_project %}
-{% if user_can_edit_project %}<span class="badge pull-right flip tooltip-control" title="{% trans "You administrate this project." %}">{% trans "admin" %}</span>{% endif %}
-{% endif %}
 </th>
 <td class="percent" title="{{ stats.translated }}">{{ stats.translated_percent }}%</td>
 {% if global_base %}

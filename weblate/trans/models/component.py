@@ -570,14 +570,6 @@ class Component(models.Model, URLMixin, PathMixin):
             and not is_task_ready(self.background_task)
         )
 
-    def get_badges(self):
-        if self.is_repo_link:
-            yield (
-                _("linked"),
-                _("This component is linked to the %(target)s repository.")
-                % {"target": self.linked_component},
-            )
-
     @cached_property
     def source_translation(self):
         language = self.project.source_language

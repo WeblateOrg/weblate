@@ -183,7 +183,6 @@ def show_component(request, project, component):
         {
             'allow_index': True,
             'object': obj,
-            'hide_alerts': True,
             'project': obj.project,
             'translations': sort_objects(
                 prefetch_stats(obj.translation_set.prefetch())
