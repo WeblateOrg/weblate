@@ -182,6 +182,30 @@ var _rollbarConfig = {
         </li>
         {% endif %}
 
+        {# Profile and logout for authenticated #}
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
+            {% if enable_avatars %}
+            <img class="avatar" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            {% else %}
+            {{ user.profile.get_user_name }}
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans %}Logged in as {{ user }}{% endblocktrans %}</a></li>
+            <li role="separator" class="divider"></li>
+            {% if has_billing %}
+            <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
+            {% endif %}
+            <li><a id="memory-button" href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
+            <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
         {# Support menu #}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><img class="hover-color" src="{% static "dots.svg" %}" alt="help" /></a>
@@ -198,31 +222,6 @@ var _rollbarConfig = {
             {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
           </ul>
         </li>
-
-        {# Profile and logout for authenticated #}
-        {% if user.is_authenticated %}
-        <li class="dropdown">
-          <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
-            {% if enable_avatars %}
-            <img class="avatar" src="{% url 'user_avatar' user=user.username size=32 %}" />
-            {% else %}
-            {{ user.profile.get_user_name }}
-            {% endif %}
-            <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans %}Logged in as {{ user }}{% endblocktrans %}</a></li>
-            <li role="separator" class="divider"></li>
-            {% if has_billing %}
-            <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
-            {% endif %}
-            <li><a id="memory-button" href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
-            <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
-          </ul>
-        </li>
-        {% endif %}
       </ul>
     </div>
   </div>
