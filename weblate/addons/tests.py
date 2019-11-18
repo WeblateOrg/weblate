@@ -264,6 +264,9 @@ class ResxAddonTest(ViewTestCase):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
+        # Unshallow the local repo
+        with self.component.repository.lock:
+            self.component.repository.execute(['fetch', '--unshallow', 'origin'])
         addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -273,6 +276,9 @@ class ResxAddonTest(ViewTestCase):
         self.assertTrue(ResxUpdateAddon.can_install(self.component, None))
         addon = ResxUpdateAddon.create(self.component)
         rev = self.component.repository.last_revision
+        # Unshallow the local repo
+        with self.component.repository.lock:
+            self.component.repository.execute(['fetch', '--unshallow', 'origin'])
         addon.post_update(self.component, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
