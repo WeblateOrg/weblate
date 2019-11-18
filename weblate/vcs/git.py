@@ -354,7 +354,12 @@ class GitRepository(Repository):
     def update_remote(self):
         """Update remote repository."""
         self.execute(['remote', 'prune', 'origin'])
-        self.execute(['fetch', 'origin'])
+        if self.list_remote_branches():
+            # Updating existing fork
+            self.execute(['fetch', 'origin'])
+        else:
+            # Doing initial fetch
+            self.execute(['fetch', 'origin', '--depth', '1'])
         self.clean_revision_cache()
 
     def push(self):
