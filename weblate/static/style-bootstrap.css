@@ -551,8 +551,12 @@ td.number, th.number {
 .table-autowidth {
     width: auto;
 }
-.full-cell {
+.table-autowidth tr td, .table-autowidth tr th {
+    white-space: nowrap;
+}
+.table-autowidth tr .full-cell {
     width: 100%;
+    white-space: normal;
 }
 .buttons-cell {
     vertical-align: middle !important;
