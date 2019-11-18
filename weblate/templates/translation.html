@@ -165,11 +165,22 @@
 {% trans "Strings status" %}
 </h4>
 </div>
-<div class="list-group">
+<table class="table table-autowidth">
 {% for c in object.list_translation_checks %}
-<a class="list-group-item list-group-item-{{ c.3 }}" href="{{ translate_url }}?type={{ c.0 }}">{% if c.4 %}<span class="badge">{% blocktrans count c.4 as count %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}</span>{% endif %}<span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
-{% endfor %}
+<tr data-href="{{ translate_url }}?type={{ c.0 }}" class="clickable-row">
+<th class="number">{{ c.2|intcomma }}</th>
+<td class="legend">
+<div class="progress">
+  <div class="progress-bar progress-bar-{{ c.3 }}" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
 </div>
+</td>
+<td class="full-cell">
+<a href="{{ translate_url }}?type={{ c.0 }}">
+{{ c.1 }} — {% blocktrans with count=c.4|intcomma count cnt=c.4 %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
+</a>
+</td>
+{% endfor %}
+</table>
 </div>
 
 {% if other_translations %}

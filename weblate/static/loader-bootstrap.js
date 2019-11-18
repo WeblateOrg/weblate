@@ -1609,6 +1609,11 @@ $(function () {
         $('#id_q').insertAtCaret(' ' + $(this).parents('tr').find('code').text() + ' ');
     });
 
+    /* Clickable rows */
+    $('tr[data-href]').click(function () {
+        window.location = $(this).data('href');
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "
