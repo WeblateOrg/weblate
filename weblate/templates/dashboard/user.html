@@ -56,7 +56,7 @@
 <div {% active_tab "your-subscriptions" %}>
 {% if watched_projects %}
     {% if usersubscriptions %}
-        {% include "snippets/list-objects.html" with objects=usersubscriptions name_template="snippets/list-component-name-language.html" label=_("Component") hide_completed=user.profile.hide_completed %}
+        {% include "snippets/list-objects.html" with objects=usersubscriptions name_template="snippets/list-object-name.html" label=_("Component") hide_completed=user.profile.hide_completed %}
 
         {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
     {% else %}
@@ -82,7 +82,7 @@
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>
 {% if suggestions %}
-{% include "snippets/list-objects.html" with objects=suggestions name_template="snippets/list-component-name-language.html" label=_("Component") %}
+{% include "snippets/list-objects.html" with objects=suggestions name_template="snippets/list-object-name.html" label=_("Component") %}
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
 {% endif %}
@@ -96,7 +96,7 @@
 
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
-    {% include "snippets/list-objects.html" with objects=componentlist.translations name_template="snippets/list-component-name-language.html" label=_("Component") %}
+    {% include "snippets/list-objects.html" with objects=componentlist.translations name_template="snippets/list-object-name.html" label=_("Component") %}
     <p><a class="btn btn-primary" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}
 

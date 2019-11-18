@@ -28,7 +28,7 @@ from django.db import models, transaction
 from django.db.models.aggregates import Max
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
@@ -234,7 +234,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return reverse('translate', kwargs=self.get_reverse_url_kwargs())
 
     def __str__(self):
-        return '{0} - {1}'.format(force_text(self.component), force_text(self.language))
+        return '{0} — {1}'.format(self.component, self.language)
 
     def get_filename(self):
         """Return absolute filename."""
