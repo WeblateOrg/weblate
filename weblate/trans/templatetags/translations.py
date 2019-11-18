@@ -26,6 +26,7 @@ from uuid import uuid4
 
 import six
 from django import template
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
@@ -34,7 +35,7 @@ from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy, ungettext
+from django.utils.translation import ugettext_lazy, ungettext, pgettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
@@ -825,3 +826,10 @@ def format_commit_author(commit):
     if len(users) == 1:
         return get_user_display(users[0], True, True)
     return commit["author_name"]
+
+
+@register.filter
+def percent_format(number):
+    return pgettext("Translated percents", "%(percent)s%%") % {
+        "percent": intcomma(int(number))
+    }

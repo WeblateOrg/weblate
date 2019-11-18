@@ -223,19 +223,19 @@ del {
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ translation.stats.translated }} ({{ translation.stats.translated_percent }}%)</div>
+                <div class="line-right">{{ translation.stats.translated }} ({{ translation.stats.translated_percent |percent_format }})</div>
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "nottranslated" %}</div>
-                <div class="line-right">{{ translation.stats.nottranslated }} ({{ translation.stats.nottranslated_percent }}%)</div>
+                <div class="line-right">{{ translation.stats.nottranslated }} ({{ translation.stats.nottranslated_percent |percent_format }})</div>
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "todo" %}</div>
-                <div class="line-right">{{ translation.stats.todo }} ({{ translation.stats.todo_percent }}%)</div>
+                <div class="line-right">{{ translation.stats.todo }} ({{ translation.stats.todo_percent |percent_format }})</div>
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "fuzzy" %}</div>
-                <div class="line-right">{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</div>
+                <div class="line-right">{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent |percent_format }})</div>
             </div>
             <div class="line buttons">
                 <a class="button" href="{{ translation_url }}">{% trans "View" %}</a>
@@ -256,7 +256,7 @@ del {
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ component.stats.translated }} ({{ component.stats.translated_percent }}%)</div>
+                <div class="line-right">{{ component.stats.translated }} ({{ component.stats.translated_percent |percent_format }})</div>
             </div>
             <div class="line buttons">
                 <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url  }}">{% trans "View" %}</a>
@@ -281,7 +281,7 @@ del {
             </div>
             <div class="line">
                 <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ project.stats.translated }} ({{ project.stats.translated_percent }}%)</div>
+                <div class="line-right">{{ project.stats.translated }} ({{ project.stats.translated_percent |percent_format }})</div>
             </div>
             <div class="line buttons">
                 <a class="button" href="{{ current_site_url }}{{ project.get_absolute_url  }}">{% trans "View" %}</a>

@@ -63,49 +63,49 @@
 {% include name_template %}
 {% indicate_alerts object %}
 </th>
-<td class="percent" title="{{ stats.translated }}">{{ stats.translated_percent }}%</td>
+<td class="percent" title="{{ stats.translated }}">{{ stats.translated_percent |percent_format }}</td>
 {% if global_base %}
-<td class="col-strings-total percent" title="{{ global_stats.translated }}">{{ global_stats.translated_percent }}%</td>
+<td class="col-strings-total percent" title="{{ global_stats.translated }}">{{ global_stats.translated_percent |percent_format }}</td>
 {% endif %}
-<td class="percent col-todo" style="display: none" title="{{ stats.todo }}">{{ stats.todo_percent }}%</td>
-<td class="percent col-words" title="{{ stats.translated_words }}" >{{ stats.translated_words_percent }}%</td>
+<td class="percent col-todo" style="display: none" title="{{ stats.todo }}">{{ stats.todo_percent |percent_format }}</td>
+<td class="percent col-words" title="{{ stats.translated_words }}" >{{ stats.translated_words_percent |percent_format }}</td>
 {% if global_base %}
-<td class="col-words-total percent" title="{{ global_stats.translated_words }}">{{ global_stats.translated_words_percent }}%</td>
+<td class="col-words-total percent" title="{{ global_stats.translated_words }}">{{ global_stats.translated_words_percent |percent_format }}</td>
 {% endif %}
 <td class="percent col-fuzzy" title="{{ stats.fuzzy }}">
 {% if stats.fuzzy_percent > 0 and translate_url %}
 <a href="{{ translate_url }}?type=fuzzy">
-{{ stats.fuzzy_percent }}%
+{{ stats.fuzzy_percent |percent_format }}
 </a>
 {% else %}
-{{ stats.fuzzy_percent }}%
+{{ stats.fuzzy_percent |percent_format }}
 {% endif %}
 </td>
 <td class="number col-checks" title="{{ stats.allchecks }}">
 {% if stats.allchecks > 0 and translate_url %}
 <a href="{{ translate_url }}?type=allchecks">
-{{ stats.allchecks_percent }}%
+{{ stats.allchecks_percent |percent_format }}
 </a>
 {% else %}
-{{ stats.allchecks_percent }}%
+{{ stats.allchecks_percent |percent_format }}
 {% endif %}
 </td>
 <td class="number col-suggestions" title="{{ stats.suggestions }}">
 {% if stats.suggestions > 0 and translate_url %}
 <a href="{{ translate_url }}?type=suggestions">
-{{ stats.suggestions_percent }}%
+{{ stats.suggestions_percent |percent_format }}
 </a>
 {% else %}
-{{ stats.suggestions_percent }}%
+{{ stats.suggestions_percent |percent_format }}
 {% endif %}
 </td>
 <td class="number col-comments" title="{{ stats.comments }}">
 {% if stats.comments > 0 and translate_url %}
 <a href="{{ translate_url }}?type=comments">
-{{ stats.comments_percent }}%
+{{ stats.comments_percent |percent_format }}
 </a>
 {% else %}
-{{ stats.comments_percent }}%
+{{ stats.comments_percent |percent_format }}
 {% endif %}
 </td>
 <td class="actions buttons-cell" rowspan="2">

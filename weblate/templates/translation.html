@@ -134,7 +134,7 @@
 <th class="number">{{ object.stats.all|intcomma }}</th>
 <td>{% trans "Strings" %}</td>
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
-<td class="percent">{{ object.stats.translated_percent }}%</td>
+<td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
 <a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
@@ -144,7 +144,7 @@
 <th class="number">{{ object.stats.all_words|intcomma }}</th>
 <td>{% trans "Words" %}</td>
 <td class="progress-cell hidden-xs">{% words_progress object %}</td>
-<td class="percent">{{ object.stats.translated_words_percent }}%</td>
+<td class="percent">{{ object.stats.translated_words_percent|percent_format }}</td>
 </tr>
 </table>
 
@@ -407,14 +407,14 @@
 </tr>
 <tr>
 <th>{% trans "Translated" %}</th>
-<td class="percent">{{ object.stats.translated_percent }}%</td>
+<td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td class="number">{{ object.stats.translated|intcomma }}</td>
 <td class="number">{{ object.stats.translated_words|intcomma }}</td>
 <td class="number">{{ object.stats.translated_chars|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Needs editing" %}</th>
-<td class="percent">{{ object.stats.fuzzy_percent }}%</td>
+<td class="percent">{{ object.stats.fuzzy_percent|percent_format }}</td>
 <td class="number">{{ object.stats.fuzzy|intcomma }}</td>
 <td class="number">{{ object.stats.fuzzy_words|intcomma }}</td>
 <td class="number">{{ object.stats.fuzzy_chars|intcomma }}</td>
@@ -422,7 +422,7 @@
 </tr>
 <tr>
 <th>{% trans "Failing check" %}</th>
-<td class="percent">{{ object.stats.allchecks_percent }}%</td>
+<td class="percent">{{ object.stats.allchecks_percent|percent_format }}</td>
 <td class="number">{{ object.stats.allchecks|intcomma }}</td>
 <td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
 <td class="number">{{ object.stats.allchecks_chars|intcomma }}</td>
