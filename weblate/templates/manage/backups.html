@@ -39,7 +39,7 @@
     </div>
   </div>
   {% for log in service.last_logs %}
-  <div class="panel panel-{% if log.event == "error" %}danger{% else %}default{% endif %}">
+  <div class="panel {% if log.event == "error" %}panel-danger{% else %}panel-default{% endif %}">
     <div class="panel-heading" role="tab">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-{{ service.pk }}" href="#collapse-{{ service.pk }}-{{ log.pk }}" aria-expanded="false" aria-controls="collapse-{{ service.pk }}-{{ log.pk }}">
