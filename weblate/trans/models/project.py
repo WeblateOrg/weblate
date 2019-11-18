@@ -419,3 +419,10 @@ class Project(models.Model, URLMixin, PathMixin):
         Change.objects.create(
             action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user,
         )
+
+    @cached_property
+    def all_alerts(self):
+        from weblate.trans.models import Alert
+        result = Alert.objects.filter(component__project=self)
+        list(result)
+        return result

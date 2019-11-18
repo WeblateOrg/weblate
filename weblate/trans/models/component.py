@@ -136,7 +136,7 @@ class ComponentQuerySet(models.QuerySet):
     def prefetch(self):
         return self.select_related(
             "project", "linked_component", "linked_component__project"
-        ).prefetch_related("alert_set")
+        )
 
     def get_linked(self, val):
         """Return component for linked repo."""
@@ -1185,6 +1185,12 @@ class Component(models.Model, URLMixin, PathMixin):
             unit.is_batch_update = True
             unit.run_checks()
         self.updated_sources = {}
+
+    @cached_property
+    def all_alerts(self):
+        result = self.alert_set.order_by('name')
+        list(result)
+        return result
 
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:

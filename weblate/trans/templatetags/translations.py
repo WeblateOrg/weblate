@@ -43,7 +43,6 @@ from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
-    Alert,
     Component,
     ContributorAgreement,
     Dictionary,
@@ -753,7 +752,7 @@ def indicate_alerts(context, obj):
                 )
             )
 
-        if component.alert_set.exists():
+        if component.all_alerts.exists():
             result.append(
                 (
                     "state/alert.svg",
@@ -776,8 +775,8 @@ def indicate_alerts(context, obj):
                     + "?info=1",
                 )
             )
-    else:
-        if Alert.objects.filter(component__project=project).exists():
+    elif project:
+        if project.all_alerts.exists():
             result.append(
                 (
                     "state/alert.svg",
