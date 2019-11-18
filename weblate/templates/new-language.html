@@ -18,7 +18,7 @@
 
 <form action="{% url 'new-language' project=object.project.slug component=object.slug %}" method="post">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' and not can_add %}

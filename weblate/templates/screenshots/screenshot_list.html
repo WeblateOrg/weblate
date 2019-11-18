@@ -17,7 +17,7 @@
 {% if add_form %}
 <form action="{% url 'screenshots' project=object.project.slug component=object.slug %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
   <div class="panel-body">
   {{ add_form|crispy }}

@@ -11,7 +11,7 @@
 
 {% block content %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% trans "Django admin interface" %}
@@ -27,7 +27,7 @@
 
 <form  method="POST">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Send test e-mail" %}</h4></div>
   <div class="panel-body">
   {{ email_form|crispy }}

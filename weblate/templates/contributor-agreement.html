@@ -12,7 +12,7 @@
 {% block content %}
 <form action="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Please review the contributor agreement" %}</h4></div>
   <div class="panel-body">
   <p>{% trans "Please read following contributor agreement:" %}</p>

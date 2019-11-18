@@ -23,7 +23,7 @@
 {% endif %}
 
 <form action="{% url 'password_reset' %}" method="post" accept-charset="utf-8" role="form">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Password reset" %}</h4></div>
   <div class="panel-body">
 {% csrf_token %}

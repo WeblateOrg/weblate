@@ -5,7 +5,7 @@
 <div class="row">
 
 <div class="col-lg-6" id="billing-{{ billing.pk }}">
-<div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-default{% endif %}">
   <div class="panel-heading">
   <h4 class="panel-title">
     <a class="pull-right" href="https://weblate.org/hosting/"><i class="fa fa-question-circle"></i></a>
@@ -47,7 +47,7 @@
 </div>
 
 <div class="col-lg-6">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
 <table class="table table-striped">
 <thead>

@@ -16,7 +16,7 @@
 {% if user_can_change_dictionary %}
 
 <form method="POST">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Change word" %}</h4></div>
   <div class="panel-body">
 {% csrf_token %}
@@ -29,7 +29,7 @@
 </form>
 {% endif %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
 <h4 class="panel-title">
 {% trans "History" %}

@@ -15,7 +15,7 @@
 
 {% perm 'component.edit' object as user_can_edit_component %}
 
-<div class="panel panel-primary" data-progress-url="{% url 'component_progress_js' project=object.project.slug component=object.slug %}">
+<div class="panel panel-default" data-progress-url="{% url 'component_progress_js' project=object.project.slug component=object.slug %}">
 <div class="panel-heading">{% trans "Component is being updated…" %}</div>
 <div class="panel-body">
 

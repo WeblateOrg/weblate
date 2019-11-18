@@ -13,7 +13,7 @@
 {% for service in services %}
     <form method="post">
     {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'admin/backup' right=True %}
@@ -96,7 +96,7 @@
 {% include "manage/snippets/activation-form.html" %}
 
     <form method="post">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'admin/backup' right=True %}

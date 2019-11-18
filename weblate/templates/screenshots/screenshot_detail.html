@@ -17,7 +17,7 @@
 {% perm 'screenshot.edit' object.component as user_can_change_screenshot %}
 
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
 
 <table class="table table-striped">
@@ -44,7 +44,7 @@
 {% csrf_token %}
 <input type="hidden" name="source" id="add-source" />
 </form>
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Assign source strings" %}</h4></div>
   <div class="search-results">
   <table class="table table-striped">
@@ -82,7 +82,7 @@
 </div>
 {% endif %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
   <div class="panel-body">
 
@@ -96,7 +96,7 @@
 {% if user_can_change_screenshot %}
 <form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Edit screenshot" %}</h4></div>
   <div class="panel-body">
   {{ edit_form|crispy }}
@@ -108,7 +108,7 @@
 </form>
 
 {% endif %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Screenshot details" %}</h4></div>
  
 <table class="table table-condensed table-striped">

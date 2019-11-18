@@ -12,7 +12,7 @@
 
 {% block content %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Font group" %}</h4></div>
 <table class="table table-striped">
 <tr><th>{% trans "Name" %}</th><td colspan="2">{{ object.name }}</td></tr>
@@ -43,7 +43,7 @@
 {% if can_edit %}
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add language override" %}</h4></div>
 <div class="panel-body">
 {{ override_form|crispy }}
@@ -56,7 +56,7 @@
 
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Edit font group" %}</h4></div>
 <div class="panel-body">
 {{ form|crispy }}

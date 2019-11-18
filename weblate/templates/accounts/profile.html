@@ -33,7 +33,7 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="languages">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% trans "Languages" %}</h4></div>
   <div class="panel-body">
     {% crispy languagesform %}
@@ -48,7 +48,7 @@
 </div>
 
 <div class="tab-pane" id="preferences">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'preferences' right=True %}{% trans "Preferences" %}</h4></div>
   <div class="panel-body">
     {{ usersettingsform|crispy }}
@@ -62,7 +62,7 @@
 
 <div class="tab-pane" id="notifications">
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Watched projects" %}</h4></div>
   <div class="panel-body">
 {% crispy subscriptionform %}
@@ -73,7 +73,7 @@
   </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Notification settings" %}</h4></div>
   <div class="panel-body">
 
@@ -103,7 +103,7 @@
 </div>
 
 <div class="tab-pane" id="account">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {% crispy userform %}
@@ -114,7 +114,7 @@
   </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}</h4></div>
 <table class="table">
 <thead>
@@ -148,7 +148,7 @@
 </div>
 
 {% if new_backends %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
   <div class="panel-body">
 {% for name in new_backends %}
@@ -169,7 +169,7 @@
    </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "User data" %}</h4></div>
   <div class="panel-body">
 
@@ -183,7 +183,7 @@
 </div>
 
 <div class="tab-pane" id="profile">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
 <table class="table">
 {% with request.user as user %}
@@ -201,7 +201,7 @@
 </div>
 
 {% if enable_avatars %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
 <p class="border"><img src="{% url 'user_avatar' user=request.user.username size=128 %}" /></p>
@@ -213,14 +213,14 @@
 </div>
 
 <div class="tab-pane" id="audit">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
     <p>{% blocktrans %}Contact us immediately if you see anything suspicious in the audit log.{% endblocktrans %}</p>
   </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Audit log" %}</h4></div>
 <table class="table">
 <thead>
@@ -252,7 +252,7 @@
 </div>
 
 <div class="tab-pane" id="api">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'api' right=True %}{% trans "API access" %}</h4></div>
 <table class="table">
 <tr><td colspan="2">
@@ -303,7 +303,7 @@ wlc \
 </div>
 
 {% if has_gitexport %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% trans "Accessing Git repositories" %}</h4></div>
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
@@ -316,7 +316,7 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 </div>
 
 <div class="tab-pane" id="licenses">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses" %}</h4></div>
   <div class="panel-body">
     <p>{% trans "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
@@ -339,7 +339,7 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 
 {% if licenses %}
 <div class="tab-pane" id="licenses">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses for individual translations" %}</h4></div>
 <table class="table">
 <thead>

@@ -4,7 +4,7 @@
 
 <form action="{% url 'manage-activate' %}" method="POST">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">
     {% documentation_icon 'admin/support' right=True %}
     {% trans "Activate support package" %}

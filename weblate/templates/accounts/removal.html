@@ -13,7 +13,7 @@
 {% show_message 'danger' msg %}
 
 <form method="post" action="{% url 'remove' %}">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Account removal" %}</h4></div>
   <div class="panel-body">
 {{ confirm_form|crispy }}

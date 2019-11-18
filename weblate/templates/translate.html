@@ -102,7 +102,7 @@
 <div class="col-sm-9">
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-default{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
   <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
@@ -445,7 +445,7 @@
 <form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
   <div class="panel-body">
   <p class="help-block">{% trans "Comment on this string for fellow translators and developers to read." %}</p>
@@ -470,7 +470,7 @@
 
 {% with unit.active_checks as checks %}
 {% if checks or unit.suggestions %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body panel-checks">
 
@@ -506,7 +506,7 @@
 {% csrf_token %}
 {{ addword_form.words }}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
     <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
@@ -546,7 +546,7 @@
 </div>
 </form>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'user/translating' 'source-context' right=True %}

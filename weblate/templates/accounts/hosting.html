@@ -12,7 +12,7 @@
 {% trans "Please check in advance whether your project is eligible for project hosting on this site." as msg %}
 {% show_message 'info' msg %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for gratis hosting" %}</h4></div>
   <div class="panel-body">
 <p>{% trans "Please fill in this form if your project meets the conditions for free of charge hosting:" %}</p>
@@ -38,7 +38,7 @@
 
 <form method="post" action="{% url 'hosting' %}">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Ask for project hosting" %}</h4></div>
   <div class="panel-body">
 {{ form|crispy }}

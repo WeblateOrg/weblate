@@ -119,7 +119,7 @@
 <div class="tab-content">
 <div class="tab-pane active" id="overview">
 
-<div class="panel {% if object.is_source %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if object.is_source %}panel-warning{% else %}panel-default{% endif %}">
   <div class="panel-heading">
   <h4 class="panel-title">
 {% include "snippets/legend-button.html" with button_css="btn-primary" group_css="pull-right flip" %}
@@ -155,7 +155,7 @@
 
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
 <h4 class="panel-title">
 {% documentation_icon 'user/translating' 'strings-to-check' right=True %}
@@ -170,7 +170,7 @@
 </div>
 
 {% if other_translations %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
 {% include "snippets/list-objects.html" with objects=other_translations name_template="snippets/list-only-component-name.html" label=_("Component") %}
 </div>
@@ -179,7 +179,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translation Information" %}</h4></div>
 
 <table class="table">
@@ -219,7 +219,7 @@
 {% if autoform %}
 <div class="tab-pane" id="auto">
 <form action="{% url 'auto_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="auto-translation">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
 <h4 class="panel-title">
 {% documentation_icon 'user/translating' 'auto-translation' right=True %}
@@ -243,7 +243,7 @@
 <div class="tab-pane" id="replace">
 
 <form action="{% url 'replace' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
@@ -261,7 +261,7 @@
 {% if bulk_state_form %}
 <div class="tab-pane" id="bulk-state">
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching given type at once." %}</p>
@@ -279,7 +279,7 @@
 {% if user_can_add_unit %}
 <div class="tab-pane" id="new">
 <form action="{% url 'new-unit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
@@ -296,7 +296,7 @@
 
 <div class="tab-pane" id="download">
 <form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
 <div class="panel-body">
 {% csrf_token %}
@@ -312,7 +312,7 @@
 {% if user_can_upload_translation %}
 <div class="tab-pane" id="upload">
 <form action="{% url 'upload_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="upload-translation">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
 {% if user_can_overwrite_translation %}
@@ -335,7 +335,7 @@
 {% if whiteboard_form %}
 <div class="tab-pane" id="whiteboard">
 <form action="{% url 'whiteboard_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add a translation message" %}</h4></div>
 <div class="panel-body">
 {% csrf_token %}
@@ -373,7 +373,7 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
 <table class="table">
 <thead>
@@ -425,7 +425,7 @@
 
 
 <div class="col-lg-6">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
 <table class="table">
 <tbody>

@@ -11,7 +11,7 @@
 {% block content %}
 
     {% if public_key %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'vcs' 'ssh-repos' right=True %}
@@ -32,7 +32,7 @@
 
     {% elif can_generate %}
     <form method="post">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'vcs' 'ssh-repos' right=True %}
@@ -53,7 +53,7 @@
     {% endif %}
 
     {% if host_keys %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'vcs' 'verify-ssh' right=True %}
@@ -79,7 +79,7 @@
     {% endif %}
 
     <form method="post" class="form-inline">
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'vcs' 'verify-ssh' right=True %}

@@ -47,7 +47,7 @@
 {% if can_edit %}
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add font group" %}</h4></div>
 <div class="panel-body">
 {{ group_form|crispy }}
@@ -88,7 +88,7 @@
 {% if can_edit %}
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add font" %}</h4></div>
 <div class="panel-body">
 {{ font_form|crispy }}

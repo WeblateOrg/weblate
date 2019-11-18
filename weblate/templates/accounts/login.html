@@ -20,7 +20,7 @@
 <div class="col-lg-6">
 
 <form method="post" action="{% url 'login' %}">
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Password login" %}</h4></div>
   <div class="panel-body">
 
@@ -49,7 +49,7 @@
 
 {% if login_backends %}
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Third party login" %}</h4></div>
   <div class="panel-body">
 
@@ -62,7 +62,7 @@
 {% endif %}
 
 {% if registration_open %}
-<div class="panel panel-primary">
+<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Registration" %}</h4></div>
   <div class="panel-body">
 
