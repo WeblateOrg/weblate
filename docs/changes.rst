@@ -3,6 +3,7 @@ Weblate 3.10
 
 Not yet released.
 
+* Improved application user interface.
 * Added doublespace check.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted emails.
