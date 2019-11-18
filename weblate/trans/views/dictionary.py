@@ -45,7 +45,7 @@ from weblate.utils.views import get_paginator, get_project, import_message
 
 def dict_title(prj, lang):
     """Return dictionary title."""
-    return _('%(language)s dictionary for %(project)s') % {
+    return _('%(language)s glossary for %(project)s') % {
         'language': lang,
         'project': prj
     }
@@ -58,7 +58,7 @@ def show_dictionaries(request, project):
         request,
         'dictionaries.html',
         {
-            'title': _('Dictionaries'),
+            'title': _('Glossaries'),
             'dicts': sort_objects(
                 Language.objects.filter(translation__component__project=obj).distinct()
             ),
