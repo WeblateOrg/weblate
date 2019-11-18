@@ -446,14 +446,22 @@ function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+function extractText(cell) {
+    var value = $(cell).data('value');
+    if (typeof value !== 'undefined') {
+        return value;
+    }
+    return $.text(cell);
+}
+
 function compareCells(a, b) {
     if (a.indexOf('%') !== -1 && b.indexOf('%') !== -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
     } else if (isNumber(a) && isNumber(b)) {
-        a  = parseFloat(a);
-        b  = parseFloat(b);
-    } else {
+        a = parseFloat(a.replace(',', '.'));
+        b = parseFloat(b.replace(',', '.'));
+    } else if (typeof a === 'string' && typeof b === 'string') {
         a = a.toLowerCase();
         b = b.toLowerCase();
     }
@@ -501,8 +509,8 @@ function loadTableSorting() {
                             $b = tbody.find('#' + b_parent);
                         }
                         return inverse * compareCells(
-                            $.text($a.find('td,th')[myIndex]),
-                            $.text($b.find('td,th')[myIndex])
+                            extractText($a.find('td,th')[myIndex]),
+                            extractText($b.find('td,th')[myIndex])
                         );
                     }).appendTo(tbody);
                     thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
@@ -1057,7 +1065,6 @@ $(function () {
             var $this = $(this), checked = $this.prop('checked');
 
             columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle(checked);
-            console.log(checked);
             columnsPanel.find('.progress-row').each(function () {
                 var $row = $(this);
                 var colspan = parseInt($row.attr('colspan'), 10);
@@ -1574,7 +1581,6 @@ $(function () {
         var task_interval = setInterval(function() {
             $.get($message.data('task'), function (data) {
                 $bar.width(data.progress + '%');
-                console.log(data);
                 if (data.completed) {
                     clearInterval(task_interval);
                     $message.text(data.result);

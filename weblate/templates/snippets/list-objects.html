@@ -63,16 +63,16 @@
 {% include name_template %}
 {% indicate_alerts object %}
 </th>
-<td class="percent" title="{{ stats.translated }}">{{ stats.translated_percent |percent_format }}</td>
+<td class="number" data-value="{{ stats.translated_percent|stringformat:"f" }}" title="{{ stats.translated }}">{% if stats.translated == stats.all %}<span class="text-muted">{% trans "Done" context "Completed translation" %}</span>{% else %}{{ stats.translated_percent |percent_format }}{% endif %}</td>
 {% if global_base %}
-<td class="col-strings-total percent" title="{{ global_stats.translated }}">{{ global_stats.translated_percent |percent_format }}</td>
+<td class="col-strings-total number" title="{{ global_stats.translated }}">{{ global_stats.translated_percent |percent_format }}</td>
 {% endif %}
-<td class="percent col-todo" style="display: none" title="{{ stats.todo }}">{{ stats.todo_percent |percent_format }}</td>
-<td class="percent col-words" title="{{ stats.translated_words }}" >{{ stats.translated_words_percent |percent_format }}</td>
+<td class="number col-todo" style="display: none" title="{{ stats.todo }}">{{ stats.todo_percent |percent_format }}</td>
+<td class="number col-words" title="{{ stats.translated_words }}" >{{ stats.translated_words_percent |percent_format }}</td>
 {% if global_base %}
-<td class="col-words-total percent" title="{{ global_stats.translated_words }}">{{ global_stats.translated_words_percent |percent_format }}</td>
+<td class="col-words-total number" title="{{ global_stats.translated_words }}">{{ global_stats.translated_words_percent |percent_format }}</td>
 {% endif %}
-<td class="percent col-fuzzy" title="{{ stats.fuzzy }}">
+<td class="number col-fuzzy" title="{{ stats.fuzzy }}">
 {% if stats.fuzzy_percent > 0 and translate_url %}
 <a href="{{ translate_url }}?type=fuzzy">
 {{ stats.fuzzy_percent |percent_format }}
