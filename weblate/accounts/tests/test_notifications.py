@@ -164,7 +164,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(
-            1, '[Weblate] New string to translate in Test/Test - Czech'
+            1, '[Weblate] New string to translate in Test/Test — Czech'
         )
 
     def test_notify_new_translation(self):
@@ -176,7 +176,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New translation in Test/Test - Czech')
+        self.validate_notifications(1, '[Weblate] New translation in Test/Test — Czech')
 
     def test_notify_new_language(self):
         second_user = self.second_user()
@@ -205,7 +205,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New contributor in Test/Test - Czech')
+        self.validate_notifications(1, '[Weblate] New contributor in Test/Test — Czech')
 
     def test_notify_new_suggestion(self):
         unit = self.get_unit()
@@ -222,7 +222,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New suggestion in Test/Test - Czech')
+        self.validate_notifications(1, '[Weblate] New suggestion in Test/Test — Czech')
 
     def test_notify_new_comment(self, expected=1, comment='Foo'):
         unit = self.get_unit()
