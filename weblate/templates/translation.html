@@ -3,6 +3,7 @@
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
@@ -130,19 +131,21 @@
   {% endif %}
   </h4></div>
 
-<table class="table">
+<table class="table table-autowidth">
 <tr>
-<th>{% trans "Strings" %}<span class="badge pull-right flip">{{ object.stats.all }}</span></th>
-<td class="progress-cell">{% translation_progress object %}</td>
+<th class="number">{{ object.stats.all|intcomma }}</th>
+<td>{% trans "Strings" %}</td>
+<td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent }}%</td>
-<td rowspan="2">
+<td rowspan="2" class="buttons-cell">
 <a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
 </tr>
 
 <tr>
-<th>{% trans "Words" %}<span class="badge pull-right flip">{{ object.stats.all_words }}</span></th>
-<td class="progress-cell">{% words_progress object %}</td>
+<th class="number">{{ object.stats.all_words|intcomma }}</th>
+<td>{% trans "Words" %}</td>
+<td class="progress-cell hidden-xs">{% words_progress object %}</td>
 <td class="percent">{{ object.stats.translated_words_percent }}%</td>
 </tr>
 </table>

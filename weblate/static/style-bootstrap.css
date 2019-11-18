@@ -23,7 +23,7 @@ h1 {
 .actions {
     text-align: right;
 }
-.progress-cell {
+.progress-cell .progress {
     width: 200px;
 }
 .progress {
@@ -539,4 +539,17 @@ input[type="datetime-local"].form-control, input[type="month"].form-control {
 .dir-rtl .pull-right > .dropdown-menu {
   left: 0;
   right: auto;
+}
+td.number, th.number {
+    text-align: right;
+}
+.dir-rtl td.number, .dir-rtl th.number {
+    text-align: left;
+}
+.table-autowidth {
+    width: auto;
+}
+.buttons-cell {
+    width: 100%;
+    vertical-align: middle !important;
 }
