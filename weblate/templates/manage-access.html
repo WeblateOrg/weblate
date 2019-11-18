@@ -60,11 +60,13 @@
 {% csrf_token %}
 </form>
 
+<div class="row">
+<div class="col-sm-6">
 <form action="{% url "add-user" project=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
-  {% trans "Add new user" %}
+  {% trans "Add an user" %}
   </h4></div>
   <div class="panel-body">
     {{ add_user_form|crispy }}
@@ -74,6 +76,8 @@
   </div>
 </div>
 </form>
+</div>
+<div class="col-sm-6">
 <form action="{% url "invite-user" project=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-default">
@@ -88,6 +92,8 @@
   </div>
 </div>
 </form>
+</div>
+</div>
 {% else %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
