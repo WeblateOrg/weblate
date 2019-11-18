@@ -51,6 +51,7 @@
 
 </th>
 </tr>
+</thead>
 <tbody>
 {% for object in objects %}
 {% get_stats object stats_attr as stats %}
@@ -116,16 +117,16 @@
 {{ stats.comments_percent }}%
 {% endif %}
 </td>
-<td class="actions">
+<td class="actions buttons-cell" rowspan="2">
 {% if translate_url %}
-<a href="{{ translate_url }}?type={% if stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary btn-xs">
+<a href="{{ translate_url }}?type={% if stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary">
 <i class="fa fa-pencil"></i> {% trans "Translate" %}
 </a>
 {% endif %}
 </td>
 </tr>
 <tr data-parent="{{ row_id }}">
-<td colspan="{% if global_base %}11{% else %}9{% endif %}" class="progress-row">{% translation_progress stats %}</td>
+<td colspan="{% if global_base %}9{% else %}7{% endif %}" class="progress-row">{% translation_progress stats %}</td>
 </tr>
 {% endfor %}
 </tbody>

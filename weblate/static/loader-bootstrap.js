@@ -1054,9 +1054,20 @@ $(function () {
             e.stopPropagation();
         });
         columnsMenu.find('input').on('click', function(e) {
-            var $this = $(this);
+            var $this = $(this), checked = $this.prop('checked');
 
-            columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
+            columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle(checked);
+            console.log(checked);
+            columnsPanel.find('.progress-row').each(function () {
+                var $row = $(this);
+                var colspan = parseInt($row.attr('colspan'), 10);
+                if (checked) {
+                    colspan += 1;
+                } else {
+                    colspan -= 1;
+                }
+                $row.attr('colspan', colspan)
+            });
             e.stopPropagation();
         });
         columnsMenu.find('a').on('click', function(e) {
