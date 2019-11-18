@@ -193,7 +193,7 @@ var _rollbarConfig = {
             {% endif %}
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-header"><b>{{ user }}</b><br />@{{ user.username }}</li>
+            <li class="dropdown-header" id="profile-name"><b>{{ user }}</b><br />@{{ user.username }}</li>
             <li role="separator" class="divider"></li>
             <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% trans "Profile" %}</a></li>
             {% if has_billing %}

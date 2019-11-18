@@ -398,7 +398,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(self.driver.find_element_by_id('user-dropdown'))
         self.assertTrue(
             'Test Example' in
-            self.driver.find_element_by_id('profile-button').text
+            self.driver.find_element_by_id('profile-name').text
         )
 
     def test_register_nocookie(self):
