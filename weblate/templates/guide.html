@@ -42,7 +42,7 @@
         {% endif %}
     </td>
     <td>{{ guide.description }} {% include "documentation-icon.html" with doc_url=guide.get_docs_url %}</td>
-    <td>
+    <td class="buttons-cell">
         {% if user_can_edit_component %}
         <a class="btn btn-primary" href="{{ guide.get_url }}">{% trans "Configure" %}</a>
         {% endif %}
