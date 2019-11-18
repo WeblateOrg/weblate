@@ -90,8 +90,13 @@ class TranslationManager(models.Manager):
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
         return self.select_related(
-            'component', 'component__project', 'language'
-        ).prefetch_related('language__plural_set')
+            'component',
+            'component__project',
+            'language',
+            'component__project__source_language',
+            'component__linked_component',
+            'component__linked_component__project',
+        ).prefetch_related('language__plural_set', 'component__alert_set')
 
 
 @python_2_unicode_compatible

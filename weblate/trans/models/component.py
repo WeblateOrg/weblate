@@ -1188,7 +1188,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @cached_property
     def all_alerts(self):
-        result = self.alert_set.order_by('name')
+        result = self.alert_set.all()
         list(result)
         return result
 
