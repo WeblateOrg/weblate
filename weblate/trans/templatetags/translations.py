@@ -34,8 +34,7 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy, ungettext, pgettext
+from django.utils.translation import pgettext, ugettext, ugettext_lazy, ungettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
@@ -112,7 +111,7 @@ def fmt_whitespace(value):
     value = WHITESPACE_RE.sub(replace_whitespace, value)
 
     # Highlight tabs
-    value = value.replace("\t", SPACE_TAB.format(_("Tab character")))
+    value = value.replace("\t", SPACE_TAB.format(ugettext("Tab character")))
 
     return value
 
@@ -136,7 +135,7 @@ def fmt_highlights(raw_value, value, unit):
         find_highlight = value.find(htext, start_search)
         if find_highlight >= 0:
             newpart = HL_CHECK.format(htext)
-            next_part = value[(find_highlight + len(htext)) :]
+            next_part = value[(find_highlight + len(htext)):]
             value = value[:find_highlight] + newpart + next_part
             start_search = find_highlight + len(newpart)
     return value
@@ -186,7 +185,7 @@ def format_translation(
         plurals = plurals[-1:]
 
     # Newline concatenator
-    newline = SPACE_NL.format(_("New line"))
+    newline = SPACE_NL.format(ugettext("New line"))
 
     # Split diff plurals
     if diff is not None:
@@ -334,14 +333,14 @@ def naturaltime_past(value, now):
     if delta.days >= 365:
         count = delta.days // 365
         if count == 1:
-            return _("a year ago")
+            return ugettext("a year ago")
         return ungettext("%(count)s year ago", "%(count)s years ago", count) % {
             "count": count
         }
     if delta.days >= 30:
         count = delta.days // 30
         if count == 1:
-            return _("a month ago")
+            return ugettext("a month ago")
         return ungettext("%(count)s month ago", "%(count)s months ago", count) % {
             "count": count
         }
@@ -352,30 +351,30 @@ def naturaltime_past(value, now):
         }
     if delta.days > 0:
         if delta.days == 7:
-            return _("a week ago")
+            return ugettext("a week ago")
         if delta.days == 1:
-            return _("yesterday")
+            return ugettext("yesterday")
         return ungettext("%(count)s day ago", "%(count)s days ago", delta.days) % {
             "count": delta.days
         }
     if delta.seconds == 0:
-        return _("now")
+        return ugettext("now")
     if delta.seconds < 60:
         if delta.seconds == 1:
-            return _("a second ago")
+            return ugettext("a second ago")
         return ungettext(
             "%(count)s second ago", "%(count)s seconds ago", delta.seconds
         ) % {"count": delta.seconds}
     if delta.seconds // 60 < 60:
         count = delta.seconds // 60
         if count == 1:
-            return _("a minute ago")
+            return ugettext("a minute ago")
         return ungettext("%(count)s minute ago", "%(count)s minutes ago", count) % {
             "count": count
         }
     count = delta.seconds // 60 // 60
     if count == 1:
-        return _("an hour ago")
+        return ugettext("an hour ago")
     return ungettext("%(count)s hour ago", "%(count)s hours ago", count) % {
         "count": count
     }
@@ -392,14 +391,14 @@ def naturaltime_future(value, now):
     if delta.days >= 365:
         count = delta.days // 365
         if count == 1:
-            return _("a year from now")
+            return ugettext("a year from now")
         return ungettext(
             "%(count)s year from now", "%(count)s years from now", count
         ) % {"count": count}
     if delta.days >= 30:
         count = delta.days // 30
         if count == 1:
-            return _("a month from now")
+            return ugettext("a month from now")
         return ungettext(
             "%(count)s month from now", "%(count)s months from now", count
         ) % {"count": count}
@@ -410,30 +409,30 @@ def naturaltime_future(value, now):
         ) % {"count": count}
     if delta.days > 0:
         if delta.days == 1:
-            return _("tomorrow")
+            return ugettext("tomorrow")
         if delta.days == 7:
-            return _("a week from now")
+            return ugettext("a week from now")
         return ungettext(
             "%(count)s day from now", "%(count)s days from now", delta.days
         ) % {"count": delta.days}
     if delta.seconds == 0:
-        return _("now")
+        return ugettext("now")
     if delta.seconds < 60:
         if delta.seconds == 1:
-            return _("a second from now")
+            return ugettext("a second from now")
         return ungettext(
             "%(count)s second from now", "%(count)s seconds from now", delta.seconds
         ) % {"count": delta.seconds}
     if delta.seconds // 60 < 60:
         count = delta.seconds // 60
         if count == 1:
-            return _("a minute from now")
+            return ugettext("a minute from now")
         return ungettext(
             "%(count)s minute from now", "%(count)s minutes from now", count
         ) % {"count": count}
     count = delta.seconds // 60 // 60
     if count == 1:
-        return _("an hour from now")
+        return ugettext("an hour from now")
     return ungettext("%(count)s hour from now", "%(count)s hours from now", count) % {
         "count": count
     }
@@ -528,13 +527,13 @@ def get_state_badge(unit):
     flag = None
 
     if unit.fuzzy:
-        flag = (_("Needs editing"), "text-danger")
+        flag = (ugettext("Needs editing"), "text-danger")
     elif not unit.translated:
-        flag = (_("Not translated"), "text-danger")
+        flag = (ugettext("Not translated"), "text-danger")
     elif unit.approved:
-        flag = (_("Approved"), "text-success")
+        flag = (ugettext("Approved"), "text-success")
     elif unit.translated:
-        flag = (_("Translated"), "text-primary")
+        flag = (ugettext("Translated"), "text-primary")
 
     if flag is None:
         return ""
@@ -548,18 +547,18 @@ def get_state_flags(unit):
     flags = []
 
     if unit.fuzzy:
-        flags.append((_("Needs editing"), "question-circle text-danger"))
+        flags.append((ugettext("Needs editing"), "question-circle text-danger"))
     elif not unit.translated:
-        flags.append((_("Untranslated"), "times-circle text-danger"))
+        flags.append((ugettext("Untranslated"), "times-circle text-danger"))
     elif unit.has_failing_check:
-        flags.append((_("Fails checks"), "exclamation-circle text-warning"))
+        flags.append((ugettext("Fails checks"), "exclamation-circle text-warning"))
     elif unit.approved:
-        flags.append((_("Approved"), "check-circle text-success"))
+        flags.append((ugettext("Approved"), "check-circle text-success"))
     elif unit.translated:
-        flags.append((_("Translated"), "check-circle text-primary"))
+        flags.append((ugettext("Translated"), "check-circle text-primary"))
 
     if unit.has_comment:
-        flags.append((_("Commented"), "comment text-info"))
+        flags.append((ugettext("Commented"), "comment text-info"))
 
     return mark_safe("\n".join([FLAG_TEMPLATE.format(*flag) for flag in flags]))
 
@@ -575,7 +574,7 @@ def get_location_links(profile, unit):
 
     # Is it just an ID?
     if unit.location.isdigit():
-        return _("string ID %s") % unit.location
+        return ugettext("string ID %s") % unit.location
 
     # Go through all locations separated by comma
     for location in unit.location.split(","):
@@ -728,14 +727,16 @@ def indicate_alerts(context, obj):
         project = obj
 
     if context["user"].has_perm("project.edit", project):
-        result.append(("state/admin.svg", _("You administrate this project."), None))
+        result.append(
+            ("state/admin.svg", ugettext("You administrate this project."), None)
+        )
 
     if translation:
         if translation.is_source:
             result.append(
                 (
                     "state/source.svg",
-                    _("This translation is used for source strings."),
+                    ugettext("This translation is used for source strings."),
                     None,
                 )
             )
@@ -747,7 +748,7 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/link.svg",
-                    _("This component is linked to the %(target)s repository.")
+                    ugettext("This component is linked to the %(target)s repository.")
                     % {"target": component.linked_component},
                     None,
                 )
@@ -757,19 +758,21 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/alert.svg",
-                    _("Fix this component to clear its alerts."),
+                    ugettext("Fix this component to clear its alerts."),
                     component.get_absolute_url() + "#alerts",
                 )
             )
 
         if component.locked:
-            result.append(("state/lock.svg", _("This translation is locked."), None))
+            result.append(
+                ("state/lock.svg", ugettext("This translation is locked."), None)
+            )
 
         if component.in_progress():
             result.append(
                 (
                     "state/update.svg",
-                    _("Updating translation component…"),
+                    ugettext("Updating translation component…"),
                     reverse(
                         "component_progress", kwargs=component.get_reverse_url_kwargs()
                     )
@@ -781,7 +784,7 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/alert.svg",
-                    _("Some of the components within this project have alerts."),
+                    ugettext("Some of the components within this project have alerts."),
                     None,
                 )
             )
@@ -812,7 +815,7 @@ def choiceval(boundfield):
         return ""
     choices = dict(boundfield.field.choices)
     if value is True:
-        return _("enabled")
+        return ugettext("enabled")
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)
