@@ -137,7 +137,7 @@
 <td>{% trans "Strings" %}</td>
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent }}%</td>
-<td rowspan="2" class="buttons-cell">
+<td rowspan="2" class="buttons-cell full-cell">
 <a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
 </tr>
