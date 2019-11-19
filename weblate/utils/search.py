@@ -35,6 +35,7 @@ from jellyfish._jellyfish import (
 )
 from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
+from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import STATE_NAMES
 
 
@@ -129,6 +130,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             added=DATETIME,
             state=StateField,
             pending=BOOLEAN,
+            has=TEXT,
             has_suggestion=BOOLEAN,
             has_comment=BOOLEAN,
             has_failing_check=BOOLEAN,
@@ -205,6 +207,12 @@ def range_sql(field, start, end, conv=int):
     return Q(**range_lookup(field, "lte", end))
 
 
+def has_sql(text):
+    if text == "plural":
+        return Q(source__contains=PLURAL_SEPARATOR)
+    raise ValueError("Unsupported has lookup: {}".format(text))
+
+
 def query_sql(obj):
     if isinstance(obj, whoosh.query.And):
         return reduce(
@@ -219,6 +227,8 @@ def query_sql(obj):
     if isinstance(obj, whoosh.query.Not):
         return ~query_sql(obj.query)
     if isinstance(obj, whoosh.query.Term):
+        if obj.fieldname == "has":
+            return has_sql(obj.text)
         return Q(**{field_name(obj.fieldname): obj.text})
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(

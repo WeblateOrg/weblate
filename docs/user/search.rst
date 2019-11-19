@@ -39,6 +39,8 @@ Fields
    State search (``approved``, ``translated``, ``needs-editing``, ``empty``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
+``has:TEXT``
+   Search for string having attributes (``plural``).
 ``has_suggestion:BOOLEAN``
    String has suggestion.
 ``has_comment:BOOLEAN``

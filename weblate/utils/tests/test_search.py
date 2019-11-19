@@ -29,6 +29,7 @@ from django.test import SimpleTestCase, TestCase
 from pytz import utc
 
 from weblate.trans.models import Change, Unit
+from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import Comparer, parse_query
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -188,3 +189,6 @@ class QueryParserTest(TestCase):
             | Q(target__icontains="<b>bold</b>")
             | Q(context__icontains="<b>bold</b>"),
         )
+
+    def test_has(self):
+        self.assert_query("has:plural", Q(source__contains=PLURAL_SEPARATOR))

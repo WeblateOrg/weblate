@@ -19,6 +19,7 @@ Not yet released.
 * Show context for nearby strings.
 * Added support for notifications on repository operations.
 * Improved translation listings.
+* Extended search capabilities.
 
 Weblate 3.9.1
 -------------
