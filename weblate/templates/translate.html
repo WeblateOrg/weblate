@@ -33,10 +33,10 @@
 
 <div class="btn-group pull-right flip" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-primary"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
-<a href="{% url 'profile' %}#preferences" class="btn btn-primary" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
+<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}"><i class="fa fa-sliders"></i></a>
 </div>
 
 {% include "show-component-state.html" with object=unit.translation.component %}
