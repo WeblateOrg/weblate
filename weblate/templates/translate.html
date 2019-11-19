@@ -260,9 +260,9 @@
     <th></th>
     <th>{% trans "Context" %}</th>
     {% if not unit.translation.is_source %}
-    <th>{% trans "Source" %}</th>
+    <th>{{ unit.translation.component.project.source_language }}</th>
     {% endif %}
-    <th>{% trans "Translation" %}</th>
+    <th>{{ unit.translation.language }}</th>
     <th>{% trans "State" %}</th>
 </tr>
 </thead>
@@ -513,8 +513,8 @@
     <table class="table table-condensed table-striped">
         <thead>
         <tr>
-        <th>{% trans "Source" %}</th>
-        <th>{% trans "Translation" %}</th>
+        <th>{{ unit.translation.component.project.source_language }}</th>
+        <th>{{ unit.translation.language }}</th>
         </tr>
         </thead>
         <tbody>
