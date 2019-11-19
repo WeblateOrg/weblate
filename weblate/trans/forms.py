@@ -301,15 +301,9 @@ class PluralTextarea(forms.Textarea):
                 fieldname, val, attrs, renderer, **kwargs
             )
             # Label for plural
-            if len(values) == 1:
-                if unit.translation.is_source:
-                    label = ugettext('Source')
-                else:
-                    label = ugettext('Translation')
-            else:
-                label = plural.get_plural_label(idx)
-            if not unit.translation.is_source and get_language() != lang.code:
-                label += ' <span class="badge">{}</span>'.format(lang)
+            label = force_text(unit.translation.language)
+            if len(values) != 1:
+                label = '{}, {}'.format(label, plural.get_plural_label(idx))
             ret.append(
                 EDITOR_TEMPLATE.format(
                     self.get_toolbar(lang, fieldid, unit, idx),

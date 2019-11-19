@@ -182,7 +182,7 @@
     {{ unit.context }}
     </div>
     {% endif %}
-    <label>{% trans "Source" %}</label>
+    <label>{{ unit.translation.component.project.source_language }}</label>
     {% with unit.translation.component.get_editable_template as edit_template %}
     {% if edit_template %}
     {% perm 'unit.edit' edit_template as user_can_edit_template %}
