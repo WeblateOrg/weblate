@@ -495,7 +495,7 @@ function loadTableSorting() {
                 // Store index copy
                 let myIndex = thIndex;
                 // Add icon, title and class
-                th.attr('title', gettext('Sort this column')).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
+                th.attr('title', gettext('Sort this column')).addClass('sort-cell').append('<span class="sort-icon" />');
 
                 // Click handler
                 th.click(function () {
@@ -514,11 +514,11 @@ function loadTableSorting() {
                             extractText($b.find('td,th')[myIndex])
                         );
                     }).appendTo(tbody);
-                    thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
+                    thead.find('.sort-icon').removeClass('sort-down sort-up');
                     if (inverse === 1) {
-                        $(this).find('i.sort-button').addClass('fa-chevron-down').removeClass('fa-chevron-up sort-none');
+                        $(this).find('.sort-icon').addClass('sort-down');
                     } else {
-                        $(this).find('i.sort-button').addClass('fa-chevron-up').removeClass('fa-chevron-down sort-none');
+                        $(this).find('.sort-icon').addClass('sort-up');
                     }
 
                     inverse = inverse * -1;
