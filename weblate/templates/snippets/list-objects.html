@@ -1,57 +1,28 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load humanize %}
 
 {% init_unique_row_id %}
 
-<table class="sort table progress-table">
+<table class="sort table progress-table autocolspan">
 <thead>
 <tr>
 <th>{{ label|default:_("Project") }}</th>
-<th>{% trans "Strings" %}</th>
+<th class="number">{% trans "Translated" %}</th>
 {% if global_base %}
-<th class="col-strings-total">{% trans "Strings of total" %}</th>
+<th class="number zero-width-1000">{% trans "Strings of total" %}</th><!-- TODO: Rename? -->
 {% endif %}
-<th class="col-todo" style="display: none">{% trans "Untranslated" %}</th>
-<th class="col-words">{% trans "Words" %}</th>
-{% if global_base %}
-<th class="col-words-total">{% trans "Words of total" %}</th>
-{% endif %}
-<th class="col-fuzzy">{% trans "Needs editing" %}</th>
-<th class="col-checks">{% trans "Checks" %}</th>
-<th class="col-suggestions">{% trans "Suggestions" %}</th>
-<th class="col-comments">{% trans "Comments" %}</th>
-<th class="sort-skip actions">
-
-<div class="btn-group">
-
-  <button type="button" class="btn btn-link columns-dropdown">
-{% include "snippets/legend-button.html" %}
-  </button>
-
-  <button type="button" class="btn btn-link columns-dropdown dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
-    <i class="fa fa-columns"></i>
-  </button>
-  <ul class="dropdown-menu dropdown-menu-right columns-menu" role="menu">
-{% if global_base %}
-    <li><a><label><input type="checkbox" id="toggle-strings-total" checked="true"> {% trans "Strings of total" %}</label></a></li>
-{% endif %}
-    <li><a><label><input type="checkbox" id="toggle-todo"> {% trans "Untranslated" %}</label></a></li>
-    <li><a><label><input type="checkbox" id="toggle-words" checked="true"> {% trans "Words" %}</label></a></li>
-{% if global_base %}
-    <li><a><label><input type="checkbox" id="toggle-words-total" checked="true"> {% trans "Words of total" %}</label></a></li>
-{% endif %}
-    <li><a><label><input type="checkbox" id="toggle-fuzzy" checked="true"> {% trans "Needs editing" %}</label></a></li>
-    <li><a><label><input type="checkbox" id="toggle-checks" checked="true"> {% trans "Checks" %}</label></a></li>
-    <li><a><label><input type="checkbox" id="toggle-suggestions" checked="true"> {% trans "Suggestions" %}</label></a></li>
-    <li><a><label><input type="checkbox" id="toggle-comments" checked="true"> {% trans "Comments" %} </label></a></li>
-  </ul>
-</div>
-</div>
-
-</th>
+<th class="number zero-width-640">{% trans "Untranslated" %}</th>
+<th class="number zero-width-720">{% trans "Untranslated words" %}</th>
+<th class="number zero-width-768">{% trans "Checks" %}</th>
+<th class="number zero-width-900">{% trans "Suggestions" %}</th>
+<th class="number zero-width-1000">{% trans "Comments" %}</th>
+<th class="sort-skip"></th>
 </tr>
 </thead>
+
+
 <tbody>
 {% for object in objects %}
 {% get_stats object stats_attr as stats %}
@@ -63,51 +34,15 @@
 {% include name_template %}
 {% indicate_alerts object %}
 </th>
-<td class="number" data-value="{{ stats.translated_percent|stringformat:"f" }}" title="{{ stats.translated }}">{% if stats.translated == stats.all %}<span class="text-muted">{% trans "Done" context "Completed translation" %}</span>{% else %}{{ stats.translated_percent |percent_format }}{% endif %}</td>
+{% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
 {% if global_base %}
-<td class="col-strings-total number" title="{{ global_stats.translated }}">{{ global_stats.translated_percent |percent_format }}</td>
+{% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
 {% endif %}
-<td class="number col-todo" style="display: none" title="{{ stats.todo }}">{{ stats.todo_percent |percent_format }}</td>
-<td class="number col-words" title="{{ stats.translated_words }}" >{{ stats.translated_words_percent |percent_format }}</td>
-{% if global_base %}
-<td class="col-words-total number" title="{{ global_stats.translated_words }}">{{ global_stats.translated_words_percent |percent_format }}</td>
-{% endif %}
-<td class="number col-fuzzy" title="{{ stats.fuzzy }}">
-{% if stats.fuzzy_percent > 0 and translate_url %}
-<a href="{{ translate_url }}?type=fuzzy">
-{{ stats.fuzzy_percent |percent_format }}
-</a>
-{% else %}
-{{ stats.fuzzy_percent |percent_format }}
-{% endif %}
-</td>
-<td class="number col-checks" title="{{ stats.allchecks }}">
-{% if stats.allchecks > 0 and translate_url %}
-<a href="{{ translate_url }}?type=allchecks">
-{{ stats.allchecks_percent |percent_format }}
-</a>
-{% else %}
-{{ stats.allchecks_percent |percent_format }}
-{% endif %}
-</td>
-<td class="number col-suggestions" title="{{ stats.suggestions }}">
-{% if stats.suggestions > 0 and translate_url %}
-<a href="{{ translate_url }}?type=suggestions">
-{{ stats.suggestions_percent |percent_format }}
-</a>
-{% else %}
-{{ stats.suggestions_percent |percent_format }}
-{% endif %}
-</td>
-<td class="number col-comments" title="{{ stats.comments }}">
-{% if stats.comments > 0 and translate_url %}
-<a href="{{ translate_url }}?type=comments">
-{{ stats.comments_percent |percent_format }}
-</a>
-{% else %}
-{{ stats.comments_percent |percent_format }}
-{% endif %}
-</td>
+{% include "snippets/list-objects-number.html" with value=stats.todo query="type=todo" class="zero-width-640" %}
+{% include "snippets/list-objects-number.html" with value=stats.todo_words query="type=todo" class="zero-width-720" %}
+{% include "snippets/list-objects-number.html" with value=stats.allchecks query="type=allchecks" class="zero-width-768" %}
+{% include "snippets/list-objects-number.html" with value=stats.suggestions query="type=suggestions" class="zero-width-900" %}
+{% include "snippets/list-objects-number.html" with value=stats.comments query="type=comments" class="zero-width-1000" %}
 <td class="actions buttons-cell" rowspan="2">
 {% if translate_url %}
 <a href="{{ translate_url }}?type={% if stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary">
@@ -117,7 +52,7 @@
 </td>
 </tr>
 <tr data-parent="{{ row_id }}">
-<td colspan="{% if global_base %}9{% else %}7{% endif %}" class="progress-row">{% translation_progress stats %}</td>
+<td colspan="{% if global_base %}8{% else %}7{% endif %}" class="progress-row autocolspan">{% translation_progress stats %}</td>
 </tr>
 {% endfor %}
 </tbody>

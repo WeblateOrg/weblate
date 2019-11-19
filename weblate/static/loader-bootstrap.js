@@ -455,7 +455,8 @@ function extractText(cell) {
 }
 
 function compareCells(a, b) {
-    if (a.indexOf('%') !== -1 && b.indexOf('%') !== -1) {
+    if (typeof a === 'number' && typeof b === 'number') {
+    } else if (a.indexOf('%') !== -1 && b.indexOf('%') !== -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
     } else if (isNumber(a) && isNumber(b)) {
@@ -642,8 +643,21 @@ function load_matrix() {
     );
 }
 
+function adjustColspan() {
+    $('table.autocolspan').each(function () {
+        var $this = $(this);
+        var numOfVisibleCols = $this.find('thead th:visible').length;
+        $this.find('td.autocolspan').attr('colspan', numOfVisibleCols - 1);
+    });
+
+}
+
 $(function () {
     var $window = $(window), $document = $(document);
+
+    adjustColspan();
+    $window.resize(adjustColspan);
+
     /* AJAX loading of tabs/pills */
     $document.on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
         var $target = $(e.target);
@@ -1048,60 +1062,6 @@ $(function () {
 
     /* Table sorting */
     loadTableSorting();
-
-    /* Table column changing */
-    $('.columns-menu').each(function () {
-        var columnsMenu = $(this);
-        var columnsPanel = columnsMenu.closest('div.tab-pane');
-        if (columnsPanel.length === 0) {
-            columnsPanel = columnsMenu.closest('div.content');
-        }
-        var width = columnsPanel.width();
-
-        columnsMenu.on('click', function(e) {
-            e.stopPropagation();
-        });
-        columnsMenu.find('input').on('click', function(e) {
-            var $this = $(this), checked = $this.prop('checked');
-
-            columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle(checked);
-            columnsPanel.find('.progress-row').each(function () {
-                var $row = $(this);
-                var colspan = parseInt($row.attr('colspan'), 10);
-                if (checked) {
-                    colspan += 1;
-                } else {
-                    colspan -= 1;
-                }
-                $row.attr('colspan', colspan)
-            });
-            e.stopPropagation();
-        });
-        columnsMenu.find('a').on('click', function(e) {
-            $(this).find('input').click();
-            e.stopPropagation();
-            e.preventDefault();
-        });
-        if (width < 800) {
-            columnsMenu.find('#toggle-comments').click();
-        }
-        if (width < 700) {
-            columnsMenu.find('#toggle-suggestions').click();
-        }
-        if (width < 600) {
-            columnsMenu.find('#toggle-checks').click();
-        }
-        if (width < 500) {
-            columnsMenu.find('#toggle-fuzzy').click();
-        }
-        if (width < 500) {
-            columnsMenu.find('#toggle-words-total').click();
-            columnsMenu.find('#toggle-strings-total').click();
-        }
-        if (width < 300) {
-            columnsMenu.find('#toggle-words').click();
-        }
-    });
 
     /* Matrix mode handling */
     if ($('.matrix').length > 0) {

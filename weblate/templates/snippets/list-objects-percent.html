@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load translations %}
+
+<td class="number {{ class }}" data-value="{{ percent|stringformat:"f" }}" title="{% blocktrans %}{{ value }} of {{ all }}{% endblocktrans %}">
+    {% if value == all %}
+        <span class="text-muted">{% trans "Done" context "Completed translation" %}</span>
+    {% else %}
+        {{ percent|percent_format }}
+    {% endif %}
+</td>

@@ -18,6 +18,7 @@ Not yet released.
 * Show source language for all translations.
 * Show context for nearby strings.
 * Added support for notifications on repository operations.
+* Improved translation listings.
 
 Weblate 3.9.1
 -------------

@@ -109,30 +109,11 @@ def prefetch_stats(queryset):
 
 class ParentStats(object):
     def __init__(self, stats, parent):
-        self.approved_percent = stats.calculate_percents(
-            "approved_percent", parent.source_strings
-        )
         self.translated_percent = stats.calculate_percents(
             "translated_percent", parent.source_strings
         )
-        self.fuzzy_percent = stats.calculate_percents(
-            "fuzzy_percent", parent.source_strings
-        )
-        self.allchecks_percent = stats.calculate_percents(
-            "allchecks_percent", parent.source_strings
-        )
-        self.approved_words_percent = stats.calculate_percents(
-            "approved_words_percent", parent.source_words
-        )
-        self.translated_words_percent = stats.calculate_percents(
-            "translated_words_percent", parent.source_words
-        )
-        self.fuzzy_words_percent = stats.calculate_percents(
-            "fuzzy_words_percent", parent.source_words
-        )
-        self.allchecks_words_percent = stats.calculate_percents(
-            "allchecks_words_percent", parent.source_words
-        )
+        self.all = parent.source_strings
+        self.translated = parent.translated
 
 
 class BaseStats(object):
