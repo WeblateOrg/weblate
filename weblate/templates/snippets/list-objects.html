@@ -28,10 +28,23 @@
 {% get_stats object stats_attr as stats %}
 {% global_stats object stats global_base as global_stats %}
 {% get_translate_url object as translate_url %}
+{% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
 <tr id="{{ row_id }}">
 <th>
-{% include name_template %}
+<a href="{{ browse_url }}">
+{% if name_source == "language" %}
+    {{ object.language }}
+{% elif name_source == "component_name" %}
+    {{ object.component.name }}
+{% elif name_source == "name" %}
+    {{ object.name }}
+{% elif name_source == "language" %}
+    {{ object.language }}
+{% else %}
+    {{ object }}
+{% endif %}
+</a>
 {% indicate_alerts object %}
 </th>
 {% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
@@ -47,6 +60,10 @@
 {% if translate_url %}
 <a href="{{ translate_url }}?type={% if stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary">
 <i class="fa fa-pencil"></i> {% trans "Translate" %}
+</a>
+{% else %}
+<a href="{{ browse_url }}" class="btn btn-primary">
+{% trans "Browse" %}
 </a>
 {% endif %}
 </td>

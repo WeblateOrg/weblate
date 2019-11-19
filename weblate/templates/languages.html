@@ -8,7 +8,7 @@
 
 {% block content %}
 
-{% include "snippets/list-objects.html" with objects=languages name_template="snippets/list-object-name.html" label=_("Language") project=object global_base=global_stats %}
+{% include "snippets/list-objects.html" with objects=languages label=_("Language") project=object global_base=global_stats %}
 
 {% perm 'language.add' as user_can_add_language %}
 {% if user_can_add_language %}

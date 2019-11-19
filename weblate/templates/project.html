@@ -123,7 +123,7 @@
 <div class="tab-pane active" id="components">
 
 
-{% include "snippets/list-objects.html" with objects=components name_template="snippets/list-object-only-name.html" label=_("Component") skip_table_end=True %}
+{% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") skip_table_end=True %}
 
 {% if user_can_edit_project %}
 <tfoot>
@@ -156,7 +156,7 @@
 </div>
 <div class="tab-pane" id="languages">
 
-{% include "snippets/list-objects.html" with objects=language_stats name_template="snippets/list-language-stats-name.html" label=_("Language") project=object global_base=object.stats %}
+{% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats %}
 
 </div>
 

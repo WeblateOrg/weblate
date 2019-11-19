@@ -131,6 +131,10 @@ class BaseStats(object):
         return self._object.pk
 
     @property
+    def obj(self):
+        return self._object
+
+    @property
     def stats(self):
         return self
 

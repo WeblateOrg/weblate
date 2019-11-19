@@ -55,7 +55,7 @@ from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.markdown import render_markdown
-from weblate.utils.stats import BaseStats
+from weblate.utils.stats import BaseStats, ProjectLanguageStats
 
 register = template.Library()
 
@@ -688,6 +688,27 @@ def get_translate_url(context, obj):
     else:
         name = "translate"
     return reverse(name, kwargs=obj.get_reverse_url_kwargs())
+
+
+@register.simple_tag(takes_context=True)
+def get_browse_url(context, obj):
+    """Get translate URL based on user preference."""
+
+    # Project listing on language page
+    if "language" in context and isinstance(obj, Project):
+        return reverse(
+            "project-language",
+            kwargs={"lang": context["language"].code, "project": obj.slug},
+        )
+
+    # Language listing on porject page
+    if isinstance(obj, ProjectLanguageStats):
+        return reverse(
+            "project-language",
+            kwargs={"lang": obj.language.code, "project": obj.obj.slug},
+        )
+
+    return obj.get_absolute_url()
 
 
 @register.simple_tag(takes_context=True)
