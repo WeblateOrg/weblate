@@ -184,7 +184,7 @@
 {% if other_translations %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
-{% include "snippets/list-objects.html" with objects=other_translations name_template="snippets/list-only-component-name.html" label=_("Component") %}
+{% include "snippets/list-objects.html" with objects=other_translations name_template="snippets/list-only-component-name.html" label=_("Component") in_panel=True %}
 </div>
 {% endif %}
 
