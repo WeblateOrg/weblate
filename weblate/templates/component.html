@@ -134,22 +134,15 @@
 <div class="tab-content">
 <div class="tab-pane active" id="translations">
 
-{% include "snippets/list-objects.html" with skip_table_end=1 objects=translations name_source="language" label=_("Language") %}
+{% include "snippets/list-objects.html" with objects=translations name_source="language" label=_("Language") %}
 
 {% if object.can_add_language %}
-<tfoot>
-<tr>
-<td colspan="9">
 {% if user_can_add_translation %}
 <a class="btn btn-primary" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
 {% else %}
 <button disabled="disabled" class="btn btn-primary text-tooltip" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please log in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>
 {% endif %}
-</td>
-</tr>
-</tfoot>
 {% endif %}
-</table>
 
 </div>
 

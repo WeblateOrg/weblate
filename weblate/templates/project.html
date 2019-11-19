@@ -123,16 +123,11 @@
 <div class="tab-pane active" id="components">
 
 
-{% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") skip_table_end=True %}
+{% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") %}
 
 {% if user_can_edit_project %}
-<tfoot>
-<tr><td colspan="9">
   <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
-</td></tr>
-</tbody>
 {% endif %}
-</table>
 
 {% with components as page_obj %}
 {% include "paginator.html" %}

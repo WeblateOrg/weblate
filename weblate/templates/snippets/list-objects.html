@@ -5,6 +5,7 @@
 
 {% init_unique_row_id %}
 
+{% if objects %}
 <table class="sort table progress-table autocolspan {% if not in_panel %}table-border{% endif %}">
 <thead>
 <tr>
@@ -73,6 +74,7 @@
 </tr>
 {% endfor %}
 </tbody>
-{% if not skip_table_end %}
 </table>
+{% else %}
+<p class="text-muted">{% trans "Nothing to list here." %}</p>
 {% endif %}
