@@ -6,13 +6,14 @@
 # byStarTW <pan93412@gmail.com>, 2019.
 # Jeff Huang <s8321414@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
+# Wei-cheng Kung <wck317@pchome.com.tw>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.9.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-10-26 12:14+0000\n"
-"PO-Revision-Date: 2019-08-08 06:25+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2019-11-20 15:17+0000\n"
+"Last-Translator: Wei-cheng Kung <wck317@pchome.com.tw>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -239,35 +240,29 @@ msgid "Component: {}"
 msgstr "組件：{}"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password changed."
 msgstr "密碼已更動。"
 
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "使用者名稱由 {old} 改成 {new}。"
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "E-mail 由 {old} 改成 {new}。"
 
 #: weblate/accounts/models.py:100
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "完整名稱由 {old} 改成 {new}。"
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset requested."
 msgstr "已請求重設密碼。"
 
 #: weblate/accounts/models.py:105
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
 msgstr "已確認密碼重設，密碼已停用。"
 
@@ -292,16 +287,12 @@ msgid "Logged on using {method} ({name}) from a new device."
 msgstr "已在新裝置使用 {method} 登入 {name}。"
 
 #: weblate/accounts/models.py:120
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody has attempted to register with your e-mail."
-msgstr "有人嘗試註冊您的電子郵件。"
+msgstr "有人嘗試用您的電子郵件註冊。"
 
 #: weblate/accounts/models.py:123
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr "有人嘗試使用您的電子郵件位址註冊。"
+msgstr "有人嘗試用您的電子郵件地址註冊。"
 
 #: weblate/accounts/models.py:126
 #, python-brace-format
@@ -313,10 +304,8 @@ msgid "Account locked due to many failed logins."
 msgstr "因登入失敗過多次導致帳號被鎖定。"
 
 #: weblate/accounts/models.py:132
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
-msgstr "帳號與所有隱私資料皆已移除。"
+msgstr "帳號與所有私人資料皆已移除。"
 
 #: weblate/accounts/models.py:135
 #, python-brace-format
@@ -356,15 +345,10 @@ msgid "Translated languages"
 msgstr "想翻譯成哪些語言"
 
 #: weblate/accounts/models.py:344
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
-msgstr ""
-"請選擇您翻譯時的偏好語言。這些語言將會顯示在控制面板以方便您存取選擇的翻譯。"
+msgstr "請選擇您能翻譯過去的語言。這些語言會顯示在控制面板，以便您選作譯文。"
 
 #: weblate/accounts/models.py:351
 msgid "Secondary languages"
@@ -385,30 +369,20 @@ msgid "Show secondary translations in zen mode"
 msgstr "在禪心模式中顯示第二語言翻譯"
 
 #: weblate/accounts/models.py:372
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary translation exists"
-msgstr "若有第二語言時隱藏來源語言"
+msgstr "若有第二譯文，可隱藏源文"
 
 #: weblate/accounts/models.py:378
 msgid "Editor link"
 msgstr "編輯器連結"
 
 #: weblate/accounts/models.py:380
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"請輸入開源程式碼的自訂 URL 連結。您可以使用 {{branch}} 作為分支名，而 "
-"{{filename}} 和 {line}} 作為檔案名和列號定位處。通常像 editor://open/?"
-"file={{filename}}&line={{line}} 這樣是不錯的選擇。"
+"請輸入程式碼的自訂 URL 連結。可用 {{branch}} 作為分支名， {{filename}} 和 {line}} 分別作為檔名和列號的存放處。"
 
 #: weblate/accounts/models.py:389
 msgid "Translation editor mode"
@@ -439,18 +413,11 @@ msgid "Special characters"
 msgstr "特殊字元"
 
 #: weblate/accounts/models.py:411
-#, fuzzy
-#| msgid ""
-#| "You can specify additional special characters to be shown in the visual "
-#| "keyboard while translating. It can be useful for chars you use frequently "
-#| "but are hard to type on your keyboard."
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
-msgstr ""
-"您可以指定翻譯時視覺畫面鍵盤中要顯示的附加特殊字元。對於您經常使用卻又很難用"
-"鍵盤輸入的字元來說很好用。"
+msgstr "您可指定翻譯時螢幕鍵盤要附加顯示的特殊字元。可用來輸入常用卻又難以鍵盤輸入的字元。"
 
 #: weblate/accounts/models.py:423 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -491,21 +458,14 @@ msgid ""
 msgstr "請選擇您想在控制面板上顯示的組件列表。"
 
 #: weblate/accounts/models.py:499
-#, fuzzy
-#| msgid ""
-#| "Selecting component list makes no effect when not shown on the dashboard."
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr "如果控制面板上不顯示組件列表的話，則選取組件列表不會產生效果。"
+msgstr "如果控制面板上沒顯示組件清單，則選取組件清單不會有作用。"
 
 #: weblate/accounts/models.py:589
-#, fuzzy
-#| msgid ""
-#| "You can not submit translations as you do not have assigned any e-mail "
-#| "address."
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
-msgstr "由於您尚未登記任何電子郵件位址所以不能提交翻譯。"
+msgstr "由於您尚未登記任何電子郵件位址，所以不能提交翻譯。"
 
 #: weblate/accounts/notifications.py:50
 msgid "Do not notify"
@@ -548,10 +508,8 @@ msgid "New suggestion"
 msgstr "新建議"
 
 #: weblate/accounts/notifications.py:416
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "著作翻譯上評註"
+msgstr "於自己的譯文加評註"
 
 #: weblate/accounts/notifications.py:447
 msgid "Mentioned in comment"
@@ -717,38 +675,26 @@ msgid "Password reset has been already completed!"
 msgstr "密碼重設已經完成！"
 
 #: weblate/accounts/views.py:754
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "無法重設密碼，電子郵件身份核對功能已停用！"
+msgstr "無法重設密碼，電子郵件身份核對功能已停用。"
 
 #: weblate/accounts/views.py:909
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "目前的使用者身份"
+msgstr "無法移除使用者身份"
 
 #: weblate/accounts/views.py:934
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Could not verify your registration! The verification token has probably "
 "expired. Please try to register again."
-msgstr "無法驗證您的註冊！可能驗證用代符已經過期。請再重新註冊一次。"
+msgstr "無法驗證您的註冊！驗證用的網址很可能已過期。請再重新註冊一次。"
 
 #: weblate/accounts/views.py:942
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "作業階段狀態無效導致身份核對失敗。"
+msgstr "無效的作業階段狀態導致無法核對身份。"
 
 #: weblate/accounts/views.py:950
-#, fuzzy
-#| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
-msgstr "無法從第三方身份核對服務取得電子郵件位址！"
+msgstr "無法從第三方身份核對服務取得電子郵件地址。"
 
 #: weblate/accounts/views.py:952
 msgid "Please register using e-mail instead."
@@ -759,53 +705,37 @@ msgid "Can not change authentication for demo!"
 msgstr "無法更動 Demo 的身份核對！"
 
 #: weblate/accounts/views.py:961
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "已停用新註冊！"
+msgstr "已停用新註冊。"
 
 #: weblate/accounts/views.py:1006
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
-msgstr "身份核對失敗，可能是因為代符過期或是連線錯誤。"
+msgstr "無法核對身份，很可能是因為網址過期或是連線錯誤。"
 
 #: weblate/accounts/views.py:1011
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
-msgstr "已經取消核對身份。"
+msgstr "已取消身份核對。"
 
 #: weblate/accounts/views.py:1014
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "伺服器不允許核對身份。"
 
 #: weblate/accounts/views.py:1019
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
-msgstr ""
-"無法完成註冊。您所提供的身份核對資訊、電子郵件、使用者名稱等，皆已有其他帳號"
-"使用中。"
+msgstr "無法完成註冊。您所提供的身份核對資訊、電子郵件或使用者名稱，有其他帳號使用。"
 
 #: weblate/accounts/views.py:1034
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "通知設定"
+msgstr "通知設定已調整。"
 
 #: weblate/accounts/views.py:1039
 msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
-msgstr ""
+msgstr "通知更改的連結不再有效，請登入、設定通知。"
 
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:62
 #: weblate/templates/translation.html:222 weblate/trans/models/change.py:225
@@ -816,13 +746,13 @@ msgstr "自動翻譯"
 msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
-msgstr ""
+msgstr "此附加元件使用機器翻譯或其他元件自動翻譯字串。"
 
 #: weblate/addons/base.py:282
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
-msgstr ""
+msgstr "儲存庫已過期，若未更新，可能無法得到預期結果。"
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -842,14 +772,10 @@ msgid "Language consistency"
 msgstr "語言的一致性"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
-msgstr "此附加元件可以確保同個專案下的所有組件之翻譯皆採用相同的詞語。"
+msgstr "此附加元件可以確保同一個專案下的所有組件之翻譯皆採用相同的詞語。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -951,16 +877,10 @@ msgid "No line wrapping"
 msgstr "不要換列"
 
 #: weblate/addons/forms.py:113
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
-msgstr ""
-"預設情況下，gettext 會在第 77 個字元處和新列處換列；若加上 --no-wrap 參數，則"
-"僅在新列處換列。"
+msgstr "預設情況下，gettext 會在第 77 個字元和新列字元處換列；加上 --no-wrap 參數後，則僅在新列字元處換列。"
 
 #: weblate/addons/forms.py:121
 msgid "Keep previous msgids of translated strings"
@@ -1003,24 +923,16 @@ msgid "Days to keep"
 msgstr "保留的天數"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Votes threshold"
 msgid "Voting threshold"
-msgstr "票數閾值"
+msgstr "最低投票數"
 
 #: weblate/addons/forms.py:171
-#, fuzzy
-#| msgid ""
-#| "Votes threshold for removal. This field has no effect with voting "
-#| "disabled."
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr "移除的票數。當停用投票時，這個欄位不會有效果。"
+msgstr "移除之最低票數。當停用投票時，這個欄位不會有效果。"
 
 #: weblate/addons/forms.py:178
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "用來比對翻譯檔的正則表達式"
+msgstr "用來比對出翻譯檔的正則表達式"
 
 #: weblate/addons/forms.py:181
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
@@ -3323,7 +3235,7 @@ msgstr "若沒有這些專案 Weblate 就無法存在。"
 #: weblate/templates/about/keys.html:7 weblate/templates/base.html:187
 #: weblate/trans/views/about.py:112
 msgid "Weblate keys"
-msgstr "Weblate 按鍵"
+msgstr "Weblate 金鑰"
 
 #: weblate/templates/about/keys.html:18
 #: weblate/templates/manage/snippets/backup-credentials.html:13
@@ -5458,7 +5370,7 @@ msgstr "編輯字型群組"
 #: weblate/templates/footer.html:5
 #, python-format
 msgid "Powered by %(weblate_version_link)s"
-msgstr "威力本源 %(weblate_version_link)s"
+msgstr "由 %(weblate_version_link)s 所驅動"
 
 #: weblate/templates/format-translation.html:14
 #: weblate/templates/manage/snippets/backup-credentials.html:6
@@ -5501,11 +5413,11 @@ msgstr "加入另一、兩個單字。以不常見的單字為佳。"
 
 #: weblate/templates/i18n.html:23
 msgid "Straight rows of keys are easy to guess."
-msgstr "直接按一整排按鍵很容易破解。"
+msgstr "按一直排鍵很容易被猜到。"
 
 #: weblate/templates/i18n.html:24
 msgid "Short keyboard patterns are easy to guess."
-msgstr "短的鍵盤重複樣式很容易破解。"
+msgstr "短的鍵盤重複樣式很容易被猜到。"
 
 #: weblate/templates/i18n.html:25
 msgid "Use a longer keyboard pattern with more turns."
@@ -5607,7 +5519,7 @@ msgstr "忽略：%(check)s"
 
 #: weblate/templates/js/detail.html:81 weblate/templates/translate.html:557
 msgid "Screenshot context"
-msgstr "畫面快照情境"
+msgstr "畫面快照脈絡"
 
 #: weblate/templates/js/detail.html:88 weblate/templates/translate.html:565
 msgid "No screenshot currently associated!"
@@ -6185,7 +6097,7 @@ msgstr "來源字串"
 #: weblate/templates/source-review.html:26 weblate/templates/translate.html:161
 #: weblate/templates/translate.html:265 weblate/templates/translate.html:575
 msgid "Context"
-msgstr "情境"
+msgstr "脈絡"
 
 #: weblate/templates/mail/todo_strings.html:7
 #, fuzzy, python-format
@@ -6775,7 +6687,7 @@ msgstr "動作"
 #: weblate/templates/screenshots/screenshot_detail.html:37
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
-msgstr "顯示畫面快照來為所有列出的來源字串補充視覺畫面情境。"
+msgstr "顯示畫面快照來為所有列出的來源字串補充見到的脈絡。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:48
 msgid "Assign source strings"
@@ -6949,7 +6861,7 @@ msgstr "目標字串"
 
 #: weblate/templates/snippets/query-builder.html:14
 msgid "Context strings"
-msgstr "情境字串"
+msgstr "脈絡字串"
 
 #: weblate/templates/snippets/query-builder.html:15
 msgid "Comment strings"
@@ -7532,11 +7444,11 @@ msgstr "來源更動"
 
 #: weblate/templates/translate.html:177 weblate/trans/forms.py:1069
 msgid "Additional context"
-msgstr "附加的情境"
+msgstr "附加的脈絡"
 
 #: weblate/templates/translate.html:187 weblate/templates/zen-units.html:16
 msgid "Context:"
-msgstr "情境："
+msgstr "脈絡："
 
 #: weblate/templates/translate.html:196
 msgid "Edit source string"
@@ -7658,17 +7570,17 @@ msgstr "標記為垃圾"
 #: weblate/templates/translate.html:345
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "下列字串情境相同且來源相同。"
+msgstr[0] "下列字串的脈絡與來源都相同。"
 
 #: weblate/templates/translate.html:353
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "下列字串情境不同但來源相同。"
+msgstr[0] "下列字串的脈絡不同，但來源相同。"
 
 #: weblate/templates/translate.html:361
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "下列字串來源不同但情境相同。"
+msgstr[0] "下列字串的來源不同，但脈絡相同。"
 
 #: weblate/templates/translate.html:387
 msgid "Service"
@@ -7724,7 +7636,7 @@ msgstr "來源資訊"
 
 #: weblate/templates/translate.html:580
 msgid "No context currently associated!"
-msgstr "目前沒有相關的情境！"
+msgstr "目前沒有相連的脈絡！"
 
 #: weblate/templates/translate.html:598
 msgid "Flags"
@@ -10292,7 +10204,7 @@ msgstr "%s 的來源字串"
 
 #: weblate/trans/views/source.py:129
 msgid "Failed to change a context!"
-msgstr "情境更動失敗！"
+msgstr "無法改變脈絡！"
 
 #: weblate/trans/views/source.py:148
 msgid "Failed to change translation flags!"
@@ -10491,8 +10403,9 @@ msgid "The test e-mail will be sent to this address."
 msgstr "帳號啟用信將寄到這裡。"
 
 #: weblate/wladmin/models.py:91
+#, fuzzy
 msgid "Community support"
-msgstr ""
+msgstr "社群支援"
 
 #: weblate/wladmin/models.py:92
 msgid "Hosted service"
@@ -10500,11 +10413,11 @@ msgstr "託管服務"
 
 #: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "自行架設的基本支援"
 
 #: weblate/wladmin/models.py:94
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "自行架設的延伸支援"
 
 #: weblate/wladmin/models.py:196
 msgid "Backup performed"
