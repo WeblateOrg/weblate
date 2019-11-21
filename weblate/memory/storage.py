@@ -271,8 +271,8 @@ class TranslationMemory(WhooshIndex):
             category_filter.append(query.Term('category', CATEGORY_SHARED))
         return query.Or(category_filter)
 
-    def list_documents(self, user=None, project=None, use_file=False):
-        catfilter = self.get_filter(user, project, False, use_file)
+    def list_documents(self, user=None, project=None, use_shared=False, use_file=False):
+        catfilter = self.get_filter(user, project, use_shared, use_file)
         return self.searcher.search(catfilter, limit=None)
 
     def lookup(self, source_language, target_language, text, user,

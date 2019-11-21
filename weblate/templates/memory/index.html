@@ -55,6 +55,12 @@
   </th>
   <td>{{ num_entries }}</td>
   </tr>
+  {% if shared_entries %}
+  <tr>
+  <th>{% trans "Number of shared entries" %}</th>
+  <td>{{ shared_entries }}</td>
+  </tr>
+  {% endif %}
   <tr>
   <th>{% trans "Total number of entries" %}</th>
   <td>{{ total_entries }}</td>

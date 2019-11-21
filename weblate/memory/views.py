@@ -150,6 +150,10 @@ class MemoryView(TemplateView):
         if 'use_file' in self.objects:
             context['menu_items'] = MENU
             context['menu_page'] = 'memory'
+        if 'use_file' in self.objects or (
+            'project' in self.objects and self.objects['project'].use_shared_tm
+        ):
+            context['shared_entries'] = len(memory.list_documents(use_shared=True))
         return context
 
 
