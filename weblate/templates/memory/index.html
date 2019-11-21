@@ -3,6 +3,7 @@
 {% load translations %}
 {% load permissions %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -53,17 +54,17 @@
       {% trans "Number of your entries" %}
     {% endif %}
   </th>
-  <td>{{ num_entries }}</td>
+  <td class="number">{{ num_entries|intcomma }}</td>
   </tr>
   {% if shared_entries %}
   <tr>
   <th>{% trans "Number of shared entries" %}</th>
-  <td>{{ shared_entries }}</td>
+  <td class="number">{{ shared_entries|intcomma }}</td>
   </tr>
   {% endif %}
   <tr>
   <th>{% trans "Total number of entries" %}</th>
-  <td>{{ total_entries }}</td>
+  <td class="number">{{ total_entries|intcomma }}</td>
   </tr>
   </table>
   <div class="panel-footer">
