@@ -91,7 +91,7 @@
 {% if import_form %}
 <form action="{{ import_url }}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-warning">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Import existing translations" %}</h4></div>
   <div class="panel-body">
   <p class="help-block">{% trans "Schedules import of all existing translations within this project into translation memory. This can be useful after wiping memory or after initial setup." %}</p>
