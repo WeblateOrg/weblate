@@ -108,9 +108,6 @@ def parse_hook_payload(request):
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
-    # Bitbucket ping event
-    if request.META.get('HTTP_X_EVENT_KEY') == 'diagnostics:ping':
-        return {'diagnostics': 'ping'}
     if 'application/json' in request.META['CONTENT_TYPE'].lower():
         return json.loads(request.body.decode('utf-8'))
     return json.loads(request.POST['payload'])
@@ -143,7 +140,7 @@ def vcs_service_hook(request, service):
 
     # Send the request data to the service handler.
     try:
-        service_data = hook_helper(data)
+        service_data = hook_helper(data, request)
     except Exception as error:
         LOGGER.error('failed to parse service %s data', service)
         report_error(error, request)
@@ -260,9 +257,10 @@ def bitbucket_extract_repo_url(data, repository):
 
 
 @register_hook
-def bitbucket_hook_helper(data):
+def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
-    if 'diagnostics' in data:
+    # Bitbucket ping event
+    if request and request.META.get('HTTP_X_EVENT_KEY') != 'repo:push':
         return None
 
     repository = data['repository']
@@ -302,13 +300,10 @@ def bitbucket_hook_helper(data):
 
 
 @register_hook
-def github_hook_helper(data):
+def github_hook_helper(data, request):
     """API to handle commit hooks from GitHub."""
-    # Ignore ping on Webhook install
-    if 'ref' not in data and 'zen' in data:
-        return None
-    # Ignore GitHub application manipulations
-    if data.get('action') not in {'push', None}:
+    # Ignore non push events
+    if request and request.META.get('HTTP_X_GITHUB_EVENT') != 'push':
         return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
@@ -340,7 +335,7 @@ def github_hook_helper(data):
 
 
 @register_hook
-def gitea_hook_helper(data):
+def gitea_hook_helper(data, request):
     return {
         'service_long_name': 'Gitea',
         'repo_url': data['repository']['html_url'],
@@ -355,7 +350,7 @@ def gitea_hook_helper(data):
 
 
 @register_hook
-def gitee_hook_helper(data):
+def gitee_hook_helper(data, request):
     return {
         'service_long_name': 'Gitee',
         'repo_url': data['repository']['html_url'],
@@ -372,7 +367,7 @@ def gitee_hook_helper(data):
 
 
 @register_hook
-def gitlab_hook_helper(data):
+def gitlab_hook_helper(data, request):
     """API to handle commit hooks from GitLab."""
     # Ignore non known events
     if 'ref' not in data:
@@ -400,7 +395,7 @@ def gitlab_hook_helper(data):
 
 
 @register_hook
-def pagure_hook_helper(data):
+def pagure_hook_helper(data, request):
     """API to handle commit hooks from Pagure."""
     # Ignore non known events
     if 'msg' not in data or data.get('topic') != 'git.receive':
@@ -424,7 +419,7 @@ def pagure_hook_helper(data):
 
 
 @register_hook
-def azure_hook_helper(data):
+def azure_hook_helper(data, request):
     if data.get("eventType") != "git.push":
         return None
     http_url = data["resource"]["repository"]["remoteUrl"]

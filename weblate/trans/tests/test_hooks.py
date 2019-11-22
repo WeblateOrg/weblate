@@ -914,7 +914,8 @@ class HooksViewTest(ViewTestCase):
         self.component.save()
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': GITHUB_PAYLOAD}
+            {'payload': GITHUB_PAYLOAD},
+            HTTP_X_GITHUB_EVENT='push',
         )
         self.assertContains(response, 'Update triggered')
 
@@ -925,7 +926,8 @@ class HooksViewTest(ViewTestCase):
         self.component.save()
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': GITHUB_NEW_PAYLOAD}
+            {'payload': GITHUB_NEW_PAYLOAD},
+            HTTP_X_GITHUB_EVENT='push',
         )
         self.assertContains(response, 'Update triggered')
 
@@ -955,7 +957,7 @@ class HooksViewTest(ViewTestCase):
     def test_hook_github_ping(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': '{"zen": "Approachable is better than simple."}'}
+            {'payload': '{"zen": "Approachable is better than simple."}'},
         )
         self.assertContains(response, 'Hook working')
 
@@ -966,7 +968,8 @@ class HooksViewTest(ViewTestCase):
         self.component.save()
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': GITHUB_PAYLOAD}
+            {'payload': GITHUB_PAYLOAD},
+            HTTP_X_GITHUB_EVENT='push',
         )
         self.assertContains(response, 'Update triggered')
 
@@ -979,7 +982,8 @@ class HooksViewTest(ViewTestCase):
         self.project.save()
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': GITHUB_PAYLOAD}
+            {'payload': GITHUB_PAYLOAD},
+            HTTP_X_GITHUB_EVENT='push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -987,7 +991,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_github(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'github'}),
-            {'payload': GITHUB_PAYLOAD}
+            {'payload': GITHUB_PAYLOAD},
+            HTTP_X_GITHUB_EVENT='push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1003,6 +1008,7 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_ping(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
+            {'payload': '{"foo": "bar"}'},
             HTTP_X_EVENT_KEY='diagnostics:ping',
         )
         self.assertContains(response, 'Hook working')
@@ -1011,7 +1017,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_git(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_GIT}
+            {'payload': BITBUCKET_PAYLOAD_GIT},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1019,7 +1026,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_hg(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_HG}
+            {'payload': BITBUCKET_PAYLOAD_HG},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1027,7 +1035,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_hg_no_commit(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
+            {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1035,7 +1044,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_webhook(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
+            {'payload': BITBUCKET_PAYLOAD_WEBHOOK},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1043,7 +1053,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_hosted(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_HOSTED}
+            {'payload': BITBUCKET_PAYLOAD_HOSTED},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1051,7 +1062,8 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_webhook_closed(self):
         response = self.client.post(
             reverse('webhook', kwargs={'service': 'bitbucket'}),
-            {'payload': BITBUCKET_PAYLOAD_WEBHOOK_CLOSED}
+            {'payload': BITBUCKET_PAYLOAD_WEBHOOK_CLOSED},
+            HTTP_X_EVENT_KEY='repo:push',
         )
         self.assertContains(response, 'No matching repositories found!')
 
@@ -1202,7 +1214,7 @@ class HookBackendTestCase(SimpleTestCase):
 
     def assert_hook(self, payload, expected):
         handler = HOOK_HANDLERS[self.hook]
-        result = handler(json.loads(payload))
+        result = handler(json.loads(payload), None)
         if result:
             result['repos'] = sorted(result['repos'])
         if expected:
@@ -1212,9 +1224,6 @@ class HookBackendTestCase(SimpleTestCase):
 
 class BitbucketBackendTest(HookBackendTestCase):
     hook = 'bitbucket'
-
-    def test_ping(self):
-        self.assert_hook('{"diagnostics": "ping"}', None)
 
     def test_git(self):
         self.assert_hook(
