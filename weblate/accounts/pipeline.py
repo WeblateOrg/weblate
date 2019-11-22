@@ -82,7 +82,7 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action,
     if user and not social and user.has_usable_password():
         session['reauthenticate'] = {
             'backend': backend.name,
-            'backend_verbose': get_auth_name(backend.name),
+            'backend_verbose': force_text(get_auth_name(backend.name)),
             'uid': uid,
             'user_pk': user.pk,
         }
@@ -164,7 +164,7 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
             user,
             strategy.request,
             'reset',
-            method=get_auth_name(backend.name),
+            method=force_text(get_auth_name(backend.name)),
             name=social.uid,
             password=user.password
         )
@@ -370,7 +370,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
             user,
             strategy.request,
             action,
-            method=get_auth_name(backend.name),
+            method=force_text(get_auth_name(backend.name)),
             name=social.uid
         )
 
