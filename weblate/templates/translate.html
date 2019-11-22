@@ -132,7 +132,7 @@
     <label>{{ secondary_unit.translation.language }}</label>
     {% perm 'unit.edit' secondary_unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
-    <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
+    <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}" class="btn btn-link btn-xs"><img src="{% static "icons/pencil.svg" %}" /></a>
     {% endif %}
     {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=secondary_unit %}
     </div>
@@ -187,7 +187,7 @@
     {% if edit_template %}
     {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}" class="btn btn-link btn-xs"><img src="{% static "icons/pencil.svg" %}" /></a>
     {% endif %}
     {% endif %}
     {% endwith %}
@@ -505,7 +505,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><img src="{% static "icons/pencil.svg" %}" /></a>
     <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
@@ -554,7 +554,7 @@
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}"><img src="{% static "icons/pencil.svg" %}" /></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
@@ -572,7 +572,7 @@
     {% if unit.context or unit.extra_context or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form"><img src="{% static "icons/pencil.svg" %}" /></a>{% endif %}
     {% trans "Context" %}
     </th>
     </tr>
@@ -595,7 +595,7 @@
     {% if unit.all_flags or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form"><img src="{% static "icons/pencil.svg" %}" /></a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>
