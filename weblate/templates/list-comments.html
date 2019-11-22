@@ -1,30 +1,38 @@
 {% load translations %}
 {% load i18n %}
 {% load permissions %}
+{% load static %}
 
-
+<div class="container-fluid">
 {% for comment in comments %}
-<div>
-<strong>{{ comment.get_user_display }}</strong>
-{{ comment.timestamp|naturaltime }}
-<span class="pull-right flip badge">
-{% if comment.language %}
-{% trans "Translation comment" %}
-{% else %}
-{% trans "Source string comment" %}
-{% endif %}
-</span>
-</div>
-{% perm 'comment.delete' comment object as user_can_delete_comment %}
-{% if user_can_delete_comment %}
-<form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation">
-{% csrf_token %}
-<input type="hidden" name="next" value="{{ next_url }}" />
-<button class="btn btn-danger btn-xs pull-right flip"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
-</form>
-<div class="clearfix"></div>
-{% endif %}
-<div class="list-group">
-<div class="list-group-item{% if not comment.language %} list-group-item-warning{% endif %}" dir="auto">{{ comment.comment|markdown }}</div>
+<div class="row history-row">
+    <div class="col-xs-2 history-event">
+        <strong>{{ comment.get_user_display }}</strong>
+        <p class="text-muted">
+        {% if comment.language %}
+        {% trans "Translation comment" %}
+        {% else %}
+        {% trans "Source string comment" %}
+        {% endif %}
+        </p>
+    </div>
+    <div class="col-xs-10 history-data">
+        {% perm 'comment.delete' comment object as user_can_delete_comment %}
+        {% if user_can_delete_comment %}
+        <div class="btn-float pull-right flip">
+            <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next_url }}" />
+            <button class="btn btn-link" title="{% trans "Delete" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            </form>
+        </div>
+        {% endif %}
+        <div class="comment-content{% if not comment.language %} comment-source{% endif %}">
+            {{ comment.comment|markdown }}
+            <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
 </div>
 {% endfor %}
+</div>
