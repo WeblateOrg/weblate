@@ -64,7 +64,7 @@
 <td>
 {% if user_can_change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code pk=word.id %}" method="get" class="inlineform">
-<button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
+<button type="submit" class="btn btn-xs btn-primary">{% trans "Edit" %}</button>
 </form>
 {% endif %}
 {% if user_can_delete_dictionary %}
@@ -73,7 +73,7 @@
 <input type="hidden" name="letter" value="{{ letter }}" />
 <input type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" />
 <input type="hidden" name="page" value="{{ page_obj.number }}" />
-<button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+<button type="submit" class="btn btn-xs btn-danger">{% trans "Delete" %}</button>
 </form>
 {% endif %}
 </td>

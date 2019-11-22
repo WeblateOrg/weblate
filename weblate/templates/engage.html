@@ -55,10 +55,10 @@
 
 <p class="buttons">
 {% if not user.is_authenticated %}
-<a href="{% url 'register' %}" class="btn btn-primary btn-lg"><i class="fa fa-sign-in"></i> {% trans "Register" %}</a>
+<a href="{% url 'register' %}" class="btn btn-primary btn-lg">{% trans "Register" %}</a>
 {% endif %}
-<a id="engage-project" href="{{ object.get_absolute_url }}" class="btn btn-primary btn-lg"><i class="fa fa-edit"></i> {% trans "Translate" %}</a>
-<a href="{{ object.get_absolute_url }}#languages" class="btn btn-primary btn-lg"><i class="fa fa-language"></i> {% trans "View project languages" %}</a>
+<a id="engage-project" href="{{ object.get_absolute_url }}" class="btn btn-primary btn-lg">{% trans "Translate" %}</a>
+<a href="{{ object.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
 </p>
 
 </div>

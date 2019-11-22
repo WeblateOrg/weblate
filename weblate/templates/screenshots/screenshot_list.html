@@ -48,14 +48,14 @@
 <td>{{ screenshot.sources.count }}</td>
 <td>
 {% if user_can_change_screenshot %}
-<a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a>
 {% endif %}
 </td>
 <td>
 {% if user_can_delete_screenshot %}
 <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="POST">
 {% csrf_token %}
-<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
 </form>
 {% endif %}
 </td>

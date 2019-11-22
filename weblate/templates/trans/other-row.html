@@ -14,7 +14,7 @@
 </td>
 <td{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}  rowspan="2"{% endif %}>
 {% if user_can_translate and item.translated %}
-<a class="mergebutton btn btn-primary" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
+<a class="mergebutton btn btn-primary" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
 {% endif %}
 </td>
 </tr>

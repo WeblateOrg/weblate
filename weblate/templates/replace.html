@@ -36,7 +36,7 @@
 <input type="checkbox" name="units" checked="1" value="{{ unit.pk }}" id="confirm_{{ unit.pk }}" />
 </td>
 <td>
-<a href="{{ unit.get_absolute_url }}" class="btn btn-primary btn-sm pull-right flip"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<a href="{{ unit.get_absolute_url }}" title="{% trans "Edit" %}"><img src="{% static "icons/pencil.svg" %}" /></a>
 <label for="confirm_{{ unit.pk }}">{{ unit.translation }}: {{ unit.position }}{% if unit.context %}({{ unit.context }}){% endif %}</label>
 </td>
 </tr>

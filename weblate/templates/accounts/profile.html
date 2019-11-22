@@ -165,7 +165,7 @@
     <p>{% trans "Account removal deletes all your private data." %}</p>
    </div>
    <div class="panel-footer">
-    <a class="btn btn-danger" href="{% url 'remove' %}"><i class="fa fa-trash"></i> {% trans "Remove my account" %}</a>
+    <a class="btn btn-danger" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
    </div>
 </div>
 
@@ -176,7 +176,7 @@
     <p>{% trans "You can download all your private data." %}</p>
    </div>
    <div class="panel-footer">
-    <a class="btn btn-primary link-post" href="{% url 'userdata' %}"><i class="fa fa-save"></i> {% trans "Download user data" %}</a>
+    <a class="btn btn-primary link-post" href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
    </div>
 </div>
 

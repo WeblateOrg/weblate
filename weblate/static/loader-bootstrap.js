@@ -184,7 +184,7 @@ function screenshotResultSet(results) {
             '<tr><td class="text"></td>' +
             '<td class="context"></td>' +
             '<td class="location"></td>' +
-            '<td><a class="add-string btn btn-primary"><i class="fa fa-plus"></i> ' +
+            '<td><a class="add-string btn btn-primary"> ' +
             gettext('Add to screenshot') +
             '</a><i class="fa fa-spinner fa-spin"></i></tr>'
         );
@@ -326,15 +326,13 @@ function processMachineTranslation(data, scope) {
             /* Translators: Verb for copy operation */
             newRow.append($(
                 '<td>' +
-                '<a class="copymt btn btn-xs btn-default">' +
-                '<i class="fa fa-clipboard"></i> ' +
+                '<a class="copymt btn btn-warning">' +
                 gettext('Copy') +
                 '<span class="mt-number text-info"></span>' +
                 '</a>' +
                 '</td>' +
                 '<td>' +
-                '<a class="copymt-save btn btn-xs btn-primary">' +
-                '<i class="fa fa-save"></i> ' +
+                '<a class="copymt-save btn btn-primary">' +
                 gettext('Copy and save') +
                 '</a>' +
                 '</td>'

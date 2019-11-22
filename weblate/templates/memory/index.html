@@ -4,6 +4,7 @@
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load humanize %}
+{% load static %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -40,7 +41,7 @@
     {% trans "off" %}
   {% endif %}
   {% perm 'project.edit' project as user_can_edit_project %}
-  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-xs btn-primary"><i class="fa fa-wrench"></i> {% trans "Set up" %}</a>{% endif %}
+  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" title="{% trans "Edit" %}"><img src="{% static "icons/pencil.svg" %}" /></a>{% endif %}
   </td>
   </tr>
   {% endif %}

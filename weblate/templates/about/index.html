@@ -19,7 +19,7 @@
 
 </div>
 <div class="panel-footer">
-<a class="btn btn-primary" href="https://weblate.org/donate/"><i class="fa fa-money"></i> {% trans "Donate to Weblate" %}</a>
+<a class="btn btn-primary" href="https://weblate.org/donate/">{% trans "Donate to Weblate" %}</a>
 </div>
 </div>
 
@@ -38,11 +38,11 @@
 </div>
   <div class="panel-footer">
   <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
-  <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+  <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
 {% if payment_enabled %}
-  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary btn-spaced">{% trans "Purchase new hosting plan" %}</a>
 {% else %}
-  <a class="btn btn-primary" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
+  <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
 {% endif %}
   </div>
 </div>
