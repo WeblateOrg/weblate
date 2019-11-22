@@ -288,43 +288,51 @@
     {% csrf_token %}
 <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
 
+<div class="container-fluid">
 {% for suggestion in unit.suggestions %}
-<h5>
-<span class="pull-right flip">{{ suggestion.timestamp|naturaltime }}</span>
-<strong>
-{% if suggestion.user %}
-{% blocktrans with suggestion.get_user_display as user %}{{ user }} has suggested{% endblocktrans %}
-{% else %}
-{% trans "Anonymous user has suggested" %}
-{% endif %}
-</strong></h5>
-{% format_translation suggestion.target unit.translation.language unit.translation.plural %}
-<p class="help-block">{% trans "Suggested change:" %}</p>
-{% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
-{% if user_can_vote_suggestion %}
-<p class="help-block">
-{% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
-</p>
-{% endif %}
-<div class="pull-right flip">
-{% if user.is_authenticated and user_can_vote_suggestion %}
-<button type="submit" class="btn btn-primary" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
-<button type="submit" class="btn btn-danger" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
-{% endif %}
-{% if user_can_accept_suggestion %}
-<button type="submit" class="btn btn-primary" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
-<button type="submit" class="btn btn-warning" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
-{% endif %}
-{% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
-{% if user_can_delete_suggestion %}
-{% if has_antispam and suggestion.user != user %}
-<button type="submit" class="btn btn-danger" name="spam" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Mark as spam" %}</button>
-{% endif %}
-<button type="submit" class="btn btn-danger" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
-{% endif %}
+<div class="row history-row">
+    <div class="col-xs-2 history-event">
+        <strong>{{ suggestion.get_user_display }}</strong>
+        <p class="text-muted">
+        {% trans "Suggestion added" %}
+        </p>
+        {% if user_can_vote_suggestion %}
+        <p class="help-block">
+        {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
+        </p>
+        {% endif %}
+    </div>
+    <div class="col-xs-10 history-data">
+        {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
+        <div class="btn-float pull-right flip">
+            {% if user_can_vote_suggestion %}
+            <button type="submit" class="btn btn-link" name="upvote" value="{{ suggestion.id }}" title="{% trans "Vote for" %}"><img src="{% static "icons/thumb-up.svg" %}" /></button>
+            <button type="submit" class="btn btn-link" name="downvote" value="{{ suggestion.id }}" title="{% trans "Vote against" %}"><img src="{% static "icons/thumb-down.svg" %}" /></button>
+            {% endif %}
+            {% if user_can_accept_suggestion %}
+            <button type="submit" class="btn btn-link" name="accept" value="{{ suggestion.id }}" title="{% trans "Accept" %}"><img src="{% static "icons/accept.svg" %}" /></button>
+            <button type="submit" class="btn btn-link" name="accept_edit" value="{{ suggestion.id }}" title="{% trans "Accept and edit" %}"><img src="{% static "icons/pencil.svg" %}" /></button>
+            {% endif %}
+            {% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
+            {% if user_can_delete_suggestion %}
+            {% if has_antispam and suggestion.user != user %}
+            <button type="submit" class="btn btn-link" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            {% endif %}
+            <button type="submit" class="btn btn-link" name="delete" value="{{ suggestion.id }}" title="{% trans "Delete" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="comment-content">
+            {% format_translation suggestion.target unit.translation.language unit.translation.plural %}
+            <p class="help-block">{% trans "Suggested change:" %}</p>
+            {% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
+            <span class="pull-right flip text-muted">{{ suggestion.timestamp|naturaltime }}</span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
 </div>
-<div class="clearfix"></div>
 {% endfor %}
+</div>
 </form>
 </div>
 {% endif %}
