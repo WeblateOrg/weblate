@@ -24,7 +24,7 @@ from django.db import transaction
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import Change, Component, Suggestion, Unit
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate(object):
@@ -35,6 +35,7 @@ class AutoTranslate(object):
         self.mode = mode
         self.updated = 0
         self.total = 0
+        self.target_state = STATE_FUZZY if mode == 'fuzzy' else STATE_TRANSLATED
 
     def get_units(self):
         units = self.translation.unit_set.filter_type(
@@ -162,7 +163,7 @@ class AutoTranslate(object):
             for pos, unit in enumerate(self.get_units().select_for_update().iterator()):
                 # Copy translation
                 try:
-                    self.update(unit, STATE_TRANSLATED, translations[unit.pk])
+                    self.update(unit, self.target_state, translations[unit.pk])
                 except KeyError:
                     # Probably new unit, ignore it for now
                     continue

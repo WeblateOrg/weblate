@@ -820,6 +820,7 @@ class AutoForm(forms.Form):
         choices=[
             ('translate', _('Add as translation')),
             ('suggest', _('Add as suggestion')),
+            ('fuzzy', _('Add as needing edit')),
         ],
         initial='translate',
     )

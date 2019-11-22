@@ -20,6 +20,7 @@ Not yet released.
 * Added support for notifications on repository operations.
 * Improved translation listings.
 * Extended search capabilities.
+* Added support for automatic translation strings marked for edit.
 
 Weblate 3.9.1
 -------------
