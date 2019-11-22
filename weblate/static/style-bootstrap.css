@@ -577,9 +577,11 @@ td.number, th.number {
 .clickable-row:hover {
     background-color: #E9EAEC;
 }
+.nav-pills > li > a, .btn-default {
+    color: #1FA385;
+}
 .nav-pills > li > a {
     font-weight: 600;
-    color: #1FA385;
 }
 .nav-pills > li > a {
     border: 1px solid transparent;
@@ -593,7 +595,15 @@ td.number, th.number {
 .nav-pills .open > a:hover,
 .nav-pills .open > a:focus {
     border: 1px solid #E9EAEC;
+}
+.btn-default:hover,
+.nav-pills > li > a:hover,
+.nav-pills > li > a:focus,
+.nav-pills .open > a,
+.nav-pills .open > a:hover,
+.nav-pills .open > a:focus {
     color: #144D3F;
+    background: none;
 }
 .breadcrumb {
     border-bottom: 1px solid #E9EAEC;
@@ -616,6 +626,37 @@ thead th {
 }
 .table > thead > tr > th {
     border-bottom: 1px solid #bfc3c7;
+}
+.btn {
+	transition: all 300ms linear;
+	-webkit-transition: all 300ms linear;
+}
+.btn-spaced {
+    margin-left: 10px;
+}
+.dir-rtl .btn-spaced {
+    margin-left: 0;
+    margin-right: 10px;
+}
+.btn-primary, .btn-warning, .btn-danger {
+    height: 40px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    padding: 7px 24px;
+}
+.btn-primary {
+    background-color: #2A3744;
+}
+.btn-warning {
+    background-color: #2ECCAA;
+}
+.btn-warning:hover {
+    background-color: #2A3744;
+}
+.btn-primary:hover {
+    background-color: #2ECCAA;
 }
 @media (max-width: 768px) {
     .zero-width-768 {
