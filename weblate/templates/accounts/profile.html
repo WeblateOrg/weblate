@@ -125,7 +125,7 @@
 </tr>
 <tbody>
 <tr>
-<th><i class="fa fa-lg fa-wl-social fa-key" aria-hidden="true"></i> {% trans "Password" %}</th>
+<th>{% auth_name 'password' ' ' %}</th>
 <td>{{ request.user.username }}</td>
 <td>
 <a href="{% url 'password' %}" class="btn btn-primary">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
@@ -133,11 +133,11 @@
 </tr>
 {% for assoc in associated %}
 <tr>
-<th>{% auth_name assoc.provider '' ' ' %}</th>
+<th>{% auth_name assoc.provider ' ' %}</th>
 <td>{{ assoc.uid }}</td>
 <td>
 {% if associated.count > 1 %}
-<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account" class="disconnect btn btn-danger"><i class="fa fa-trash"></i> {% trans "Disconnect" %}</a>
+<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account" class="disconnect btn btn-danger">{% trans "Disconnect" %}</a>
 {% endif %}
 </td>
 

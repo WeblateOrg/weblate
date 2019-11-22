@@ -630,7 +630,7 @@ class WeblateAccountsConf(AppConf):
     AUDITLOG_EXPIRY = 180
 
     # Auth0 provider default image & title on login page
-    SOCIAL_AUTH_AUTH0_IMAGE = 'btn_auth0_badge.png'
+    SOCIAL_AUTH_AUTH0_IMAGE = 'auth0.svg'
     SOCIAL_AUTH_AUTH0_TITLE = 'Auth0'
 
     class Meta(object):
