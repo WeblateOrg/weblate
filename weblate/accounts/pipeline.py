@@ -249,15 +249,15 @@ def store_params(strategy, user, **kwargs):
     }
 
 
-def verify_username(strategy, backend, details, user=None, **kwargs):
+def verify_username(strategy, backend, details, username, user=None, **kwargs):
     """Verified whether username is still free.
 
     It can happen that user has registered several times or other user has
     taken the username meanwhile.
     """
-    if user or 'username' not in details:
+    if user or not username:
         return
-    if User.objects.filter(username__iexact=details['username']).exists():
+    if User.objects.filter(username__iexact=username).exists():
         raise AuthAlreadyAssociated(backend, 'Username exists')
     return
 
@@ -375,7 +375,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
         )
 
 
-def user_full_name(strategy, details, user=None, **kwargs):
+def user_full_name(strategy, details, username, user=None, **kwargs):
     """Update user full name using data from provider."""
     if user and not user.full_name:
         full_name = details.get('fullname', '').strip()
@@ -391,8 +391,8 @@ def user_full_name(strategy, details, user=None, **kwargs):
             else:
                 full_name = last_name
 
-        if not full_name and 'username' in details:
-            full_name = details['username']
+        if not full_name and username:
+            full_name = username
 
         if not full_name and user.username:
             full_name = user.username
