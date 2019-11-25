@@ -457,6 +457,17 @@ class RepoTestMixin(object):
             new_lang='contact',
         )
 
+    def create_link_existing(self):
+        return Component.objects.create(
+            name='Test2',
+            slug='test2',
+            project=self.project,
+            repo='weblate://test/test',
+            file_format='po',
+            filemask='po-duplicates/*.po',
+            new_lang='contact',
+        )
+
 
 class TempDirMixin(object):
     tempdir = None

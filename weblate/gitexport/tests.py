@@ -102,15 +102,7 @@ class GitExportTest(ViewTestCase):
         )
 
     def test_redirect_link(self):
-        linked = Component.objects.create(
-            name='Test2',
-            slug='test2',
-            project=self.project,
-            repo='weblate://test/test',
-            file_format='po',
-            filemask='po-duplicates/*.po',
-            new_lang='contact',
-        )
+        linked = self.create_link_existing()
         response = self.client.get(
             self.get_git_url('info/refs', component=linked.get_reverse_url_kwargs()),
             QUERY_STRING='?service=git-upload-pack',

@@ -53,7 +53,7 @@ from weblate.accounts.tasks import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Alert, Change, Comment, Suggestion, WhiteboardMessage
+from weblate.trans.models import Change, Comment, Suggestion, WhiteboardMessage
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
@@ -274,11 +274,15 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_alert(self):
         self.component.project.add_user(self.user, '@Administration')
-        Alert.objects.create(
-            component=self.component,
-            name='PushFailure',
-            details={'error': 'Some error'},
-        )
+        self.component.add_alert("PushFailure", error="Some error")
+        self.validate_notifications(1, '[Weblate] New alert on Test/Test')
+
+    def test_notify_alert_ignore(self):
+        self.component.project.add_user(self.user, '@Administration')
+        # Create linked component, this triggers missing license alert
+        self.create_link_existing()
+        mail.outbox = []
+        self.component.add_alert("PushFailure", error="Some error")
         self.validate_notifications(1, '[Weblate] New alert on Test/Test')
 
     def test_notify_account(self):

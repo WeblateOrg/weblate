@@ -319,13 +319,13 @@ def repository_alerts(threshold=10):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         if component.repository.count_missing() > 10:
-            component.add_alert('RepositoryOutdated', childs=True)
+            component.add_alert('RepositoryOutdated')
         else:
-            component.delete_alert('RepositoryOutdated', childs=True)
+            component.delete_alert('RepositoryOutdated')
         if component.repository.count_outgoing() > 10:
-            component.add_alert('RepositoryChanges', childs=True)
+            component.add_alert('RepositoryChanges')
         else:
-            component.delete_alert('RepositoryChanges', childs=True)
+            component.delete_alert('RepositoryChanges')
 
 
 @app.task(trail=False)

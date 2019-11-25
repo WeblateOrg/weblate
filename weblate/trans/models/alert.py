@@ -78,6 +78,7 @@ class Alert(models.Model):
 class BaseAlert(object):
     verbose = ''
     on_import = False
+    link_wide = False
 
     def __init__(self, instance):
         self.instance = instance
@@ -152,18 +153,21 @@ class DuplicateLanguage(MultiAlert):
 class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _('Could not merge the repository.')
+    link_wide = True
 
 
 @register
 class UpdateFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _('Could not update the repository.')
+    link_wide = True
 
 
 @register
 class PushFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _('Could not push the repository.')
+    link_wide = True
 
 
 @register
@@ -183,12 +187,14 @@ class BillingLimit(BaseAlert):
 class RepositoryOutdated(BaseAlert):
     # Translators: Name of an alert
     verbose = _('Repository outdated.')
+    link_wide = True
 
 
 @register
 class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
     verbose = _('Repository has changes.')
+    link_wide = True
 
 
 @register

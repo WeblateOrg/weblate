@@ -56,7 +56,7 @@ from weblate.trans.defines import (
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
-from weblate.trans.models.alert import ALERTS_IMPORT
+from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
 from weblate.trans.signals import (
@@ -761,7 +761,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 for line in self.repository.last_output.splitlines():
                     self.log_debug("update: %s", line)
                 if self.id:
-                    self.delete_alert("UpdateFailure", childs=True)
+                    self.delete_alert("UpdateFailure")
             return True
         except RepositoryException as error:
             report_error(error, prefix="Could not update the repository")
@@ -770,7 +770,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False)
             if self.id:
-                self.add_alert("UpdateFailure", childs=True, error=error_text)
+                self.add_alert("UpdateFailure", error=error_text)
             return False
 
     def configure_repo(self, validate=False, pull=True):
@@ -838,7 +838,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 needs_merge = True
 
             if not needs_merge and method != "rebase":
-                self.delete_alert("MergeFailure", childs=True)
+                self.delete_alert("MergeFailure")
                 return True
 
             # commit possible pending changes if needed
@@ -860,7 +860,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if ret:
             self.push_if_needed(do_update=False)
         if not self.repo_needs_push():
-            self.delete_alert("RepositoryChanges", childs=True)
+            self.delete_alert("RepositoryChanges")
 
         self.progress_step(100)
         self.translations_count = None
@@ -930,7 +930,7 @@ class Component(models.Model, URLMixin, PathMixin):
             with self.repository.lock:
                 self.repository.push()
                 if self.id:
-                    self.delete_alert("PushFailure", childs=True)
+                    self.delete_alert("PushFailure")
         except RepositoryException as error:
             report_error(error, prefix="Could not to push the repo")
             error_text = self.error_text(error)
@@ -944,7 +944,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 request, _("Could not push to remote branch on %s.") % force_text(self)
             )
             if self.id:
-                self.add_alert("PushFailure", childs=True, error=error_text)
+                self.add_alert("PushFailure", error=error_text)
             return False
 
         Change.objects.create(
@@ -956,7 +956,7 @@ class Component(models.Model, URLMixin, PathMixin):
         vcs_post_push.send(sender=self.__class__, component=self)
         for component in self.linked_childs:
             vcs_post_push.send(sender=component.__class__, component=component)
-        self.delete_alert("RepositoryChanges", childs=True)
+        self.delete_alert("RepositoryChanges")
 
         return True
 
@@ -983,8 +983,8 @@ class Component(models.Model, URLMixin, PathMixin):
             component=self,
             user=request.user if request else None,
         )
-        self.delete_alert("MergeFailure", childs=True)
-        self.delete_alert("RepositoryOutdated", childs=True)
+        self.delete_alert("MergeFailure")
+        self.delete_alert("RepositoryOutdated")
 
         # create translation objects for all files
         try:
@@ -1122,7 +1122,7 @@ class Component(models.Model, URLMixin, PathMixin):
                         user=request.user if request else None,
                         details={"error": error, "status": status},
                     )
-                    self.add_alert("MergeFailure", childs=True, error=error)
+                    self.add_alert("MergeFailure", error=error)
 
                 # Reset repo back
                 method_func(abort=True)
@@ -1144,8 +1144,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 vcs_post_update.send(
                     sender=self.__class__, component=self, previous_head=previous_head
                 )
-                self.delete_alert("MergeFailure", childs=True)
-                self.delete_alert("RepositoryOutdated", childs=True)
+                self.delete_alert("MergeFailure")
+                self.delete_alert("RepositoryOutdated")
                 for component in self.linked_childs:
                     vcs_post_update.send(
                         sender=component.__class__,
@@ -1198,20 +1198,20 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.alerts_trigger[name] = [kwargs]
 
-    def delete_alert(self, alert, childs=False):
+    def delete_alert(self, alert):
         self.alert_set.filter(name=alert).delete()
-        if childs:
+        if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
-    def add_alert(self, alert, childs=False, **details):
+    def add_alert(self, alert, **details):
         obj, created = self.alert_set.get_or_create(
             name=alert, defaults={"details": details}
         )
         if not created:
             obj.details = details
-            obj.save()
-        if childs:
+            obj.save(update_fields=['details'])
+        if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.add_alert(alert, **details)
 
@@ -1767,7 +1767,7 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert("MonolingualTranslation")
         if not self.can_push():
-            self.delete_alert("PushFailure", childs=True)
+            self.delete_alert("PushFailure")
 
         if self.vcs not in VCS_REGISTRY or self.file_format not in FILE_FORMATS:
             self.add_alert(
@@ -1794,7 +1794,7 @@ class Component(models.Model, URLMixin, PathMixin):
             return self.repository.needs_push()
         except RepositoryException as error:
             report_error(error, prefix="Could check push needed")
-            self.add_alert("PushFailure", childs=True, error=self.error_text(error))
+            self.add_alert("PushFailure", error=self.error_text(error))
             return False
 
     @property

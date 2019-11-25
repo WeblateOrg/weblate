@@ -21,6 +21,7 @@ Not yet released.
 * Improved translation listings.
 * Extended search capabilities.
 * Added support for automatic translation strings marked for edit.
+* Avoid sending duplicate notifications for linked component alerts.
 
 Weblate 3.9.1
 -------------

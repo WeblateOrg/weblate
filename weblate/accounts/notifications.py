@@ -558,6 +558,14 @@ class NewAlertNotificaton(Notification):
     template_name = 'new_alert'
     required_attr = 'alert'
 
+    def should_skip(self, user, change):
+        if not change.component.linked_component or not change.alert.obj.link_wide:
+            return False
+        fake = copy(change)
+        fake.component = change.component.linked_component
+        fake.project = fake.component.project
+        return user.id in {user.id for user in self.get_users(FREQ_INSTANT, fake)}
+
 
 class SummaryNotification(Notification):
     filter_languages = True
