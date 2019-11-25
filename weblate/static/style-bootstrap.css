@@ -363,9 +363,11 @@ th:hover .sort-icon.sort-up {
     position: relative;
     top: -5px;
     z-index: 10;
+    padding: 0 2px;
 }
 .btn-float .btn {
-    padding: 2px 5px;
+    padding: 2px 2px;
+    line-height: 0;
 }
 kbd {
     border: 1px solid #BFC3C7;
@@ -643,11 +645,23 @@ thead th {
     border: none;
     line-height: 10px;
 }
-.btn-link img.icon {
-    filter: invert(23%) sepia(87%) saturate(364%) hue-rotate(115deg) brightness(83%) contrast(92%);
+.btn-link path {
+    fill: #2A3744;
 }
-.btn-link:hover img.icon {
-    filter: none;
+.btn-link:hover path {
+    fill: #1fa385;
+}
+.btn-link.green path {
+    fill: #1fa385;
+}
+.btn-link.green:hover path {
+    fill: #2A3744;
+}
+.btn-link.red path {
+    fill: #F6664C;
+}
+.btn-link.red:hover path {
+    fill: #faac9e;
 }
 .btn-lg {
     height: 50px;

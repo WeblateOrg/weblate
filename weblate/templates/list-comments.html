@@ -1,7 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% load permissions %}
-{% load static %}
+{% load icons %}
 
 <div class="container-fluid">
 {% for comment in comments %}
@@ -23,7 +23,7 @@
             <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next_url }}" />
-            <button class="btn btn-link" title="{% trans "Delete" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            <button class="btn btn-link red" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
             </form>
         </div>
         {% endif %}

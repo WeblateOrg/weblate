@@ -4,7 +4,7 @@
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load humanize %}
-{% load static %}
+{% load icons %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -41,7 +41,7 @@
     {% trans "off" %}
   {% endif %}
   {% perm 'project.edit' project as user_can_edit_project %}
-  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-link btn-xs" title="{% trans "Edit" %}"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>{% endif %}
+  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">{% icon "pencil.svg" %}</a>{% endif %}
   </td>
   </tr>
   {% endif %}

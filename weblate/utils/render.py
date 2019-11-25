@@ -49,7 +49,7 @@ class InvalidString(str):
 class RestrictedEngine(Engine):
     default_builtins = [
         'django.template.defaultfilters',
-        'weblate.utils.template_tags',
+        'weblate.utils.templatetags.safe_render',
     ]
 
     def __init__(self, *args, **kwargs):

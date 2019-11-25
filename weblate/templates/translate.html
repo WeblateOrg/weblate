@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load static %}
+{% load icons %}
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load permissions %}
@@ -33,10 +33,10 @@
 
 <div class="btn-group pull-right flip" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link"><img src="{% static "icons/flash.svg" %}" /> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 {% endif %}
 
-<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}"><img src="{% static "icons/settings.svg" %}" /></a>
+<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
 {% include "show-component-state.html" with object=unit.translation.component %}
@@ -132,7 +132,7 @@
     <label>{{ secondary_unit.translation.language }}</label>
     {% perm 'unit.edit' secondary_unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
-    <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}" class="btn btn-link btn-xs"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>
+    <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     {% endif %}
     {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=secondary_unit %}
     </div>
@@ -187,7 +187,7 @@
     {% if edit_template %}
     {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}" class="btn btn-link btn-xs"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     {% endif %}
     {% endif %}
     {% endwith %}
@@ -306,19 +306,19 @@
         {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
         <div class="btn-float pull-right flip">
             {% if user_can_vote_suggestion %}
-            <button type="submit" class="btn btn-link" name="upvote" value="{{ suggestion.id }}" title="{% trans "Vote for" %}"><img src="{% static "icons/thumb-up.svg" %}" /></button>
-            <button type="submit" class="btn btn-link" name="downvote" value="{{ suggestion.id }}" title="{% trans "Vote against" %}"><img src="{% static "icons/thumb-down.svg" %}" /></button>
+            <button type="submit" class="btn btn-link green" name="upvote" value="{{ suggestion.id }}" title="{% trans "Vote for" %}">{% icon "thumb-up.svg" %}</button>
+            <button type="submit" class="btn btn-link red" name="downvote" value="{{ suggestion.id }}" title="{% trans "Vote against" %}">{% icon "thumb-down.svg" %}</button>
             {% endif %}
             {% if user_can_accept_suggestion %}
-            <button type="submit" class="btn btn-link" name="accept" value="{{ suggestion.id }}" title="{% trans "Accept" %}"><img src="{% static "icons/accept.svg" %}" /></button>
-            <button type="submit" class="btn btn-link" name="accept_edit" value="{{ suggestion.id }}" title="{% trans "Accept and edit" %}"><img src="{% static "icons/pencil.svg" %}" /></button>
+            <button type="submit" class="btn btn-link green" name="accept" value="{{ suggestion.id }}" title="{% trans "Accept" %}">{% icon "accept.svg" %}</button>
+            <button type="submit" class="btn btn-link green" name="accept_edit" value="{{ suggestion.id }}" title="{% trans "Accept and edit" %}">{% icon "pencil.svg" %}</button>
             {% endif %}
             {% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
             {% if user_can_delete_suggestion %}
             {% if has_antispam and suggestion.user != user %}
-            <button type="submit" class="btn btn-link" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            <button type="submit" class="btn btn-link red" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}">{% icon "delete.svg" %}</button>
             {% endif %}
-            <button type="submit" class="btn btn-link" name="delete" value="{{ suggestion.id }}" title="{% trans "Delete" %}"><img src="{% static "icons/delete.svg" %}" /></button>
+            <button type="submit" class="btn btn-link red" name="delete" value="{{ suggestion.id }}" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
             {% endif %}
         </div>
         {% endif %}
@@ -513,7 +513,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>
+    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
     <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
@@ -562,7 +562,7 @@
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
@@ -580,7 +580,7 @@
     {% if unit.context or unit.extra_context or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Context" %}
     </th>
     </tr>
@@ -603,7 +603,7 @@
     {% if unit.all_flags or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form"><img src="{% static "icons/pencil.svg" %}" class="icon" /></a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>

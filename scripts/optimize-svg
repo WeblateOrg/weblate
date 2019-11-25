@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for icon in weblate/static/icons/*.svg ; do 
+    cp $icon $icon.orig
+    sed '/!DOCTYPE/d' < $icon.orig | scour --strip-xml-prolog --remove-metadata --no-line-breaks --enable-id-stripping --enable-comment-stripping --indent=none --remove-descriptive-elements > $icon
+    rm $icon.orig
+done
