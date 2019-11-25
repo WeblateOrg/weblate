@@ -12,6 +12,12 @@
 </p>
 
 <div class="line buttons">
+{% if action == "reset" %}
+<a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
+{% elif action == "remove" %}
+<a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
+{% else %}
 <a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
+{% endif %}
 <a class="button" href="{% url 'contact' %}?t=reg">{% trans "Report an issue with registration" %}</a>
 </p>
