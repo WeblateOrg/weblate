@@ -42,7 +42,7 @@ from weblate.utils.backup import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import generate_ssh_key, get_key_data
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -131,6 +131,9 @@ class SupportStatus(models.Model):
             'source_strings': stats.source_strings,
         }
         ssh_key = get_key_data()
+        if not ssh_key:
+            generate_ssh_key()
+            ssh_key = get_key_data()
         if ssh_key:
             data['ssh_key'] = ssh_key['key']
         headers = {'User-Agent': USER_AGENT}
