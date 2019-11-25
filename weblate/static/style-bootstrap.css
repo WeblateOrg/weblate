@@ -9,15 +9,12 @@
 .navbar-brand {
     font-weight: 600;
 }
-.navbar-brand > img {
+.navbar-brand > svg {
     display: inline-block;
-    padding: 0 10px 0 0;
+    margin: 0 10px 0 0;
 }
-.navbar a:hover > .hover-color, .navbar a:active > .hover-color, .navbar a:focus > .hover-color {
-    filter: invert(62%) sepia(92%) saturate(225%) hue-rotate(117deg) brightness(120%) contrast(141%);
-}
-.dir-rtl .navbar-brand > img {
-    padding: 0 0 0 10px;
+.dir-rtl .navbar-brand > svg {
+    margin: 0 0 0 10px;
 }
 h1 {
     font-size: 24px;
@@ -645,6 +642,15 @@ thead th {
     border: none;
     line-height: 10px;
 }
+.navbar a path {
+    fill: #BFC3C7;
+}
+.navbar .navbar-brand:focus path, .navbar .navbar-brand:active path, .navbar a:hover path {
+    fill: #2eccaa;
+}
+.navbar .open a path, .navbar .open a:hover path {
+    fill: #fff;
+}
 .btn-link path {
     fill: #2A3744;
 }
@@ -657,10 +663,10 @@ thead th {
 .btn-link.green:hover path {
     fill: #2A3744;
 }
-.btn-link.red path {
+.btn-link.red path, .navbar .red path {
     fill: #F6664C;
 }
-.btn-link.red:hover path {
+.btn-link.red:hover path, .navbar .red:hover path {
     fill: #faac9e;
 }
 .btn-lg {

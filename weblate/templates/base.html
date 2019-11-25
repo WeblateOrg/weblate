@@ -2,6 +2,7 @@
 {% load static %}
 {% load translations %}
 {% load compress %}
+{% load icons %}
 
 {% if not request.is_ajax %}
 <!DOCTYPE html>
@@ -153,9 +154,9 @@ var _rollbarConfig = {
         
         {# Superuser link to admin #}
         {% if user.is_superuser %}
-        <li><a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
+        <li><a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}">{% icon "wrench.svg" %}</a></li>
         {% if configuration_errors.exists %}
-        <li><a class="button" id="errors-button" href="{% url 'manage-performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>
+        <li><a class="button red" id="errors-button" href="{% url 'manage-performance' %}" title="{% trans "Configuration errors" %}">{% icon "alert.svg" %}</a></li>
         {% endif %}
         {% endif %}
 
@@ -170,7 +171,7 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Add" %}"><i class="fa fa-plus"></i><b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} {% trans "Add" %}</a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
@@ -209,7 +210,7 @@ var _rollbarConfig = {
 
         {# Support menu #}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><img class="hover-color" src="{% static "dots.svg" %}" alt="help" /></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}">{% icon "dots.svg" %}</a>
           <ul class="dropdown-menu">
             <li><a href="https://weblate.org/support/">{% trans "Support" %}</a></li>
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
