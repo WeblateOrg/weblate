@@ -7,11 +7,11 @@
 
 {% block content %}
 
+{% whiteboard_messages %}
+
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure dashboard" %}">{% icon "settings.svg" %}</a>
 </div>
-
-{% whiteboard_messages %}
 
 {% perm 'reports.view' None as user_can_view_reports %}
 

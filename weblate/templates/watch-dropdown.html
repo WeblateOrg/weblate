@@ -1,9 +1,12 @@
 {% load i18n %}
+{% load icons %}
+
 {% if user.is_authenticated %}
-  {% if project in watched_projects %}
-  <li class="dropdown pull-right flip">
-      <a class="dropdown-toggle" type="button" id="watch_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">
-        <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watching" %}
+<div class="btn-group pull-right flip btn-group-settings" role="group">
+
+    {% if project in watched_projects %}
+      <a class="btn btn-link dropdown-toggle" type="button" id="watch_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">
+        {% icon "eye.svg" %} {% trans "Watching" %}
         <span class="caret"></span>
       </a>
       <ul class="dropdown-menu dropdown-menu-right flip" aria-labelledby="watch_menu">
@@ -16,12 +19,9 @@
         <li><a href="{% url 'mute' project=project.slug %}" class="link-post">{% blocktrans with object=project %}Mute notifications for {{ object }}{% endblocktrans %}</a></li>
         {% endif %}
       </ul>
-  </li>
-  {% else %}
-  <li class="pull-right flip">
-    <a class="link-post text-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">
-      <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watch" %}
-    </a>
-  </li>
+    {% else %}
+    <a href="{% url 'watch' project=project.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% icon "eye.svg" %} {% trans "Watch" %}</a>
   {% endif %}
+
+</div>
 {% endif %}

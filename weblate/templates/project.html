@@ -16,6 +16,8 @@
 
 {% whiteboard_messages project=object %}
 
+{% include "watch-dropdown.html" with project=object %}
+
 {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
 {% perm 'vcs.commit' object as user_can_commit_translation %}
 {% perm 'project.permissions' object as user_can_manage_acl %}
@@ -114,9 +116,6 @@
     </ul>
   </li>
 {% endif %}
-{% with project=object %}
-{% include "watch-dropdown.html" %}
-{% endwith %}
 </ul>
 
 <div class="tab-content">
