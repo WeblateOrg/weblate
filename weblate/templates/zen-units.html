@@ -1,8 +1,8 @@
 {% load translations %}
 {% load i18n %}
-{% load static %}
 {% load crispy_forms_tags %}
 {% load permissions %}
+{% load icons %}
 
 {% for item in unitdata %}
 <tbody class="zen-unit">
@@ -14,7 +14,7 @@
 {% if item.unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}
 </td>
 <td colspan="2">
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip" title="{% trans "Open in full editor" %}"><img src="{% icon "pencil.svg" %}" class="icon" /></a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip" title="{% trans "Open in full editor" %}">{% icon "pencil.svg" %}</a>
 {% if item.unit.context %}
 <div class="pull-right flip zen-context">
 <label>{% trans "Context:" %}</label>
@@ -53,7 +53,7 @@
     {{ unit.translation.language }}
     {% perm 'unit.edit' unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
-    <a title="{% trans "Edit string" %}"href="{{ unit.get_absolute_url }}" class="btn btn-link btn-xs"><img src="{% icon "pencil.svg" %}" class="icon" /></a>
+    <a title="{% trans "Edit string" %}"href="{{ unit.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     {% endif %}
 </label>
 {% format_translation unit.target unit.translation.language unit.translation.plural %}
@@ -76,7 +76,7 @@
     {% if edit_template %}
     {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ item.unit.checksum }}" class="btn btn-link btn-xs"><img src="{% icon "pencil.svg" %}" class="icon" /></a>
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ item.unit.checksum }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     {% endif %}
     {% endif %}
     {% endwith %}

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load static %}
 {% load crispy_forms_tags %}
 {% load translations %}
+{% load icons %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
@@ -24,9 +24,9 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link"><img src="{% icon "pencil.svg" %}" class="icon" /> {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link">{% icon "pencil.svg" %} {% trans "Exit Zen" %}</a>
 
-<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}"><img src="{% icon "settings.svg" %}" /></a>
+<a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
 <div class="btn-group">
