@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load permissions %}
 {% load translations %}
+{% load icons %}
 
 {% perm 'vcs.view' object as user_can_see_git_repository %}
 
@@ -9,7 +10,7 @@
 <th>{% trans "Repository" %}</th>
 <td colspan="2">
     <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 
@@ -26,7 +27,7 @@
 <td colspan="2">
     {{ commit.summary }} 
     <code data-toggle="tooltip" title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <br />
 {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
 {% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
@@ -40,7 +41,7 @@
 <th>{% trans "Repository containing Weblate translations" %}</th>
 <td colspan="2">
     <code class="git-repo ui-corner-all">{{ export_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 {% endif %}

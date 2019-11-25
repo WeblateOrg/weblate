@@ -3,6 +3,7 @@
 {% load translations %}
 {% load authnames %}
 {% load crispy_forms_tags %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -262,7 +263,7 @@
 <th>{% trans "Your personal API key:" %}</th>
 <td>
     {{ user.auth_token.key }} 
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 <tr>

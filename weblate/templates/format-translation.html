@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load icons %}
 
 {% if simple %}
 <span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
@@ -11,7 +12,7 @@
     {% endif %}
     <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">
       {% if unit %}
-      <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}"><i class="fa fa-copy"></i></button>
+      <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
       {% endif %}
       {{ item.content }}</div>
   </div>
