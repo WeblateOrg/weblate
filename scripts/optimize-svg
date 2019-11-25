@@ -1,8 +1,8 @@
 #!/bin/sh
 
-for icon in weblate/static/icons/*.svg ; do 
+for icon in weblate/static/icons/*.svg weblate/static/auth/*.svg weblate/static/state/*.svg weblate/static/sort/*.svg ; do
     # SVG optimization
-    scour --strip-xml-prolog --remove-metadata --no-line-breaks --enable-id-stripping --enable-comment-stripping --indent=none --remove-descriptive-elements $icon $icon.tmp
+    scour --strip-xml-space --strip-xml-prolog --remove-metadata --no-line-breaks --enable-id-stripping --enable-comment-stripping --indent=none --remove-descriptive-elements $icon $icon.tmp
     # Remove possible doctype
     sed '/!DOCTYPE/d' < $icon.tmp  > $icon
     # Remove trailing newline (imgbot does this and we want to avoid fighting with it)
