@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load permissions %}
 {% load translations %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -36,9 +37,9 @@
 <tr>
     <td>
         {% if guide.passed %}
-        <i class="fa fa-check text-success"></i>
+        <span class="green">{% icon "check.svg" %}</span>
         {% else %}
-        <i class="fa fa-times text-danger"></i>
+        <span class="red">{% icon "alert.svg" %}</span>
         {% endif %}
     </td>
     <td>{{ guide.description }} {% include "documentation-icon.html" with doc_url=guide.get_docs_url %}</td>
