@@ -24,7 +24,7 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link">{% icon "pencil.svg" %} {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link">{% icon "close.svg" %} {% trans "Exit Zen" %}</a>
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
