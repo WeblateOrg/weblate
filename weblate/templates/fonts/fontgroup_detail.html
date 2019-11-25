@@ -26,7 +26,7 @@
 <form method="POST">
 {% csrf_token %}
 <input type="hidden" name="override" value="{{ override.pk }}" />
-<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Remove" %}</button>
+<button type="submit" class="btn btn-danger">{% trans "Remove" %}</button>
 </form>
 {% endif %}
 </td>
@@ -35,7 +35,7 @@
 </table>
 <div class="panel-footer">
 {% if can_edit %}
-<a class="btn btn-danger link-post" href="{{ object.get_absolute_url }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</a>
+<a class="btn btn-danger link-post" href="{{ object.get_absolute_url }}">{% trans "Delete" %}</a>
 {% endif %}
 </div>
 </div>
