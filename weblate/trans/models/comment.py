@@ -47,6 +47,7 @@ class CommentManager(models.Manager):
             action=Change.ACTION_COMMENT,
             user=user,
             author=user,
+            details={'comment': text},
         )
 
     def copy(self, project):

@@ -443,6 +443,7 @@ class Change(models.Model, UserDisplayMixin):
         )
 
     def get_details_display(self):
+        from weblate.utils.markdown import render_markdown
         if not self.details:
             return ''
         user_actions = {
@@ -477,6 +478,8 @@ class Change(models.Model, UserDisplayMixin):
             return '{filename}: {error_message}'.format(**self.details)
         elif self.action == self.ACTION_HOOK:
             return '{service_long_name}: {repo_url}, {branch}'.format(**self.details)
+        elif self.action == self.ACTION_COMMENT and 'comment' in self.details:
+            return render_markdown(self.details['comment'])
 
         return ''
 
