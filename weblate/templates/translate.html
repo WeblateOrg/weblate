@@ -45,11 +45,11 @@
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
-<li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-forward{% else %}fa-step-backward{% endif %}"></i></a></li>
-<li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-forward{% else %}fa-backward{% endif %}"></i></a></li>
+<li><a id="button-first" class="green" href="{{ first_unit_url }}" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
+<li><a id="button-prev" class="green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
 <li>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
-<i class="fa fa-search" aria-hidden="true"></i>
+<a class="dropdown-toggle green" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
+{% icon "magnify.svg" %}
 {{ filter_name }}
 <span class="caret"></span>
 </a>
@@ -89,8 +89,8 @@
 
 </div>
 </li>
-<li><a id="button-next" href="{{ next_unit_url }}" title="{% trans "Next" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i></a></li>
-<li><a id="button-end" href="{{ last_unit_url }}" title="{% trans "Last" %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-backward{% else %}fa-step-forward{% endif %}"></i></a></li>
+<li><a id="button-next" class="green" href="{{ next_unit_url }}" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
+<li><a id="button-end" class="green" href="{{ last_unit_url }}" title="{% trans "Last" %}">{% if not LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
 </ul>
 </div>
 

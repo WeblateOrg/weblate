@@ -1,11 +1,12 @@
 {% load i18n %}
+{% load icons %}
 
 {% if page_obj.paginator.num_pages > 1 %}
 <ul class="pagination">
-<li {% if page_obj.number == 1 %}class="disabled"{% endif %}><a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-forward{% else %}fa-step-backward{% endif %}"></i></a></li>
-<li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %}><i class="fa {% if LANGUAGE_BIDI %}fa-forward{% else %}fa-backward{% endif %}"></i></a></li>
+<li {% if page_obj.number == 1 %}class="disabled"{% endif %}><a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}" class="green">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
+<li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %} class="green">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
 <li><a>{% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a></li>
-<li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %}><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i></a></li>
-<li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}><a href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"><i class="fa {% if LANGUAGE_BIDI %}fa-step-backward{% else %}fa-step-forward{% endif %}"></i></a></li>
+<li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"{% endif %} class="green">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
+<li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}><a href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator.per_page }}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}" class="green">{% if not LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
 </ul>
 {% endif %}
