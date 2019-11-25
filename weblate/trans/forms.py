@@ -63,7 +63,6 @@ from weblate.trans.models import (
 )
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
-from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
@@ -105,14 +104,6 @@ EDITOR_TEMPLATE = '''
 <span data-max="{4}" class="length-indicator">{5}</span>/{4}
 </span>
 </div>
-'''
-PLURALS_TEMPLATE = '''
-<p class="help-block">
-{2}
-<a href="{0}" title="{1}">
-<i class="fa fa-question-circle" aria-hidden="true"></i>
-</a>
-</p>
 '''
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
@@ -318,18 +309,7 @@ class PluralTextarea(forms.Textarea):
         # Show plural equation for more strings
         if len(values) > 1:
             ret.append(
-                PLURALS_TEMPLATE.format(
-                    get_doc_url('user/translating', 'plurals'),
-                    ugettext('Documentation for plurals.'),
-                    '<abbr title="{0}">{1}</abbr>: {2}'.format(
-                        ugettext(
-                            'This equation identifies which plural form '
-                            'will be used based on given count (n).'
-                        ),
-                        ugettext('Plural equation'),
-                        plural.equation,
-                    ),
-                )
+                render_to_string("snippets/plural-equation.html", {'plural': plural})
             )
 
         # Join output

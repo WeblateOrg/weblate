@@ -1,0 +1,6 @@
+{% load translations %}
+{% load i18n %}
+<p class="help-block">
+    <abbr title="{% trans "This equation identifies which plural form will be used based on given count (n)." %}">{% trans "Plural equation" %}</abbr>: {{ plural.equation }}
+    {% documentation_icon "user/translating" "plurals" %}
+</p>
