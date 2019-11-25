@@ -12,7 +12,7 @@
 <td>{{ summary.translation }}</td>
 <td>{{ summary.translation.stats.suggestions }}</td>
 <td>
-    <a class="button" href="{{ current_site_url }}{{ summary.translation.get_absolute_url }}?type=suggestions">{% trans "View" %}</a>
+    <a class="button" href="{{ summary.translation.get_absolute_url }}?type=suggestions">{% trans "View" %}</a>
 </td>
 </tr>
 {% endfor %}

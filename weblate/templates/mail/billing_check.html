@@ -18,7 +18,7 @@
 
 <ul>
 {% for bill in due %}
-<li><a href="{{ current_site_url }}{{ bill.get_absolute_url }}">{{ bill }}</a></li>
+<li><a href="{{ bill.get_absolute_url }}">{{ bill }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

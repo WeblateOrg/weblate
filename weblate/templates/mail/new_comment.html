@@ -17,9 +17,9 @@
 
 <div class="line buttons">
 {% if comment.language %}
-    <a class="button" href="{{ current_site_url }}{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
+    <a class="button" href="{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
 {% else %}
-    <a class="button" href="{{ current_site_url }}{{ unit.source_info.get_absolute_url }}">{% trans "Edit this string" %}</a>
+    <a class="button" href="{{ unit.source_info.get_absolute_url }}">{% trans "Edit this string" %}</a>
 {% endif %}
 </div>
 

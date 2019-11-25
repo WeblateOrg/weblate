@@ -12,7 +12,7 @@
 </p>
 
 <p>
-<a href="{{ current_site_url }}{{ url }}">{{ current_site_url }}{{ url }}</a>
+<a href="{{ url }}">{{ current_site_url }}{{ url }}</a>
 </p>
 
 <p>
@@ -20,7 +20,7 @@
 </p>
 
 <p>
-<a href="{{ current_site_url }}{% url 'contact' %}?t=reg">{{ current_site_url }}{% url 'contact' %}?t=reg</a>
+<a href="{% url 'contact' %}?t=reg">{{ current_site_url }}{% url 'contact' %}?t=reg</a>
 </p>
 
 {% endblock %}

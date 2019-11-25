@@ -12,6 +12,6 @@
 </p>
 
 <div class="line buttons">
-<a class="button" href="{{ current_site_url }}{{ url }}">{% trans "Confirm registration" %}</a>
-<a class="button" href="{{ current_site_url }}{% url 'contact' %}?t=reg">{% trans "Report an issue with registration" %}</a>
+<a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
+<a class="button" href="{% url 'contact' %}?t=reg">{% trans "Report an issue with registration" %}</a>
 </p>

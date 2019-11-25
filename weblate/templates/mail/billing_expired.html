@@ -16,7 +16,7 @@
 
 <ul>
 {% for project in projects %}
-<li><a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 {% endfor %}
 </ul>
 

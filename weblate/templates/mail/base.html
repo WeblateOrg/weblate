@@ -6,6 +6,7 @@
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="{{ current_site_url }}" />
   <title>{{ subject }}</title>
   <style>
 button,hr,input{overflow:visible}audio,canvas,progress,video{display:inline-block}progress,sub,sup{vertical-align:baseline}[type=checkbox],[type=radio],legend{box-sizing:border-box;padding:0}html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:ButtonText dotted 1px}fieldset{padding:.35em .75em .625em}legend{color:inherit;display:table;max-width:100%;white-space:normal}textarea{overflow:auto}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}[hidden],template{display:none}
@@ -200,9 +201,9 @@ del {
             {% if change %}
             <h1>{{ change.get_action_display }}</h1>
             <div class="nav">
-                {% if project %}<a href="{{ current_site_url }}{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
-                {% if component %}/ <a href="{{ current_site_url }}{{ component.get_absolute_url }}">{{ component.name }}</a>{% endif %}
-                {% if translation %}/ <a href="{{ current_site_url }}{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
+                {% if project %}<a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
+                {% if component %}/ <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>{% endif %}
+                {% if translation %}/ <a href="{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
             </div>
             {% else %}
             <h1>{{ subject }}</h1>
@@ -259,7 +260,7 @@ del {
                 <div class="line-right">{{ component.stats.translated }} ({{ component.stats.translated_percent |percent_format }})</div>
             </div>
             <div class="line buttons">
-                <a class="button" href="{{ current_site_url }}{{ component.get_absolute_url  }}">{% trans "View" %}</a>
+                <a class="button" href="{{ component.get_absolute_url  }}">{% trans "View" %}</a>
             </div>
         </div>
 {% elif project %}
@@ -284,7 +285,7 @@ del {
                 <div class="line-right">{{ project.stats.translated }} ({{ project.stats.translated_percent |percent_format }})</div>
             </div>
             <div class="line buttons">
-                <a class="button" href="{{ current_site_url }}{{ project.get_absolute_url  }}">{% trans "View" %}</a>
+                <a class="button" href="{{ project.get_absolute_url  }}">{% trans "View" %}</a>
             </div>
         </div>
 {% endif %}
@@ -293,15 +294,15 @@ del {
     <div class="footer">
     	<div class="row">
             <a class="f-logo" href="https://weblate.org/">
-                <img src="{% if request %}{{ current_site_url }}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
             </a>
         </div>
         <div class="row">
 			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the copylefted libre continuous localization system" %}</a></div>
             <div class="footer-right">
-                <a href="{{ current_site_url }}{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
+                <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
                 {% if unsubscribe_nonce %}
-                <a href="{{ current_site_url }}{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
+                <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
                 {% endif %}
             </div>
 		</div>
