@@ -12,8 +12,8 @@
         <p><a href="{{ change.get_translation_url }}">{{ change.get_translation_display }}</a></p>
     </div>
     <div class="col-xs-10 history-data">
-        {% perm 'unit.edit' change.unit as user_can_translate %}
         {% if not hide_links %}
+        {% perm 'unit.edit' change.unit as user_can_translate %}
         <div class="btn-float pull-right flip">
             <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "eye.svg" %}</a>
             {% if debug %}
