@@ -132,7 +132,7 @@ class SupportStatus(models.Model):
         }
         ssh_key = get_key_data()
         if not ssh_key:
-            generate_ssh_key()
+            generate_ssh_key(None)
             ssh_key = get_key_data()
         if ssh_key:
             data['ssh_key'] = ssh_key['key']
