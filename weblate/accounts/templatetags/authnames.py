@@ -47,6 +47,7 @@ SOCIALS = {
     'bitbucket': {'name': 'Bitbucket', 'image': 'bitbucket.svg'},
     'bitbucket-oauth2': {'name': 'Bitbucket', 'image': 'bitbucket.svg'},
     'azuread-oauth2': {'name': 'Azure', 'image': 'azure.svg'},
+    'azuread-tenant-oauth2': {'name': 'Azure', 'image': 'azure.svg'},
     'gitlab': {'name': 'GitLab', 'image': 'gitlab.svg'},
     'amazon': {'name': 'Amazon', 'image': 'amazon.svg'},
     'twitter': {'name': 'Twitter', 'image': 'twitter.svg'},
