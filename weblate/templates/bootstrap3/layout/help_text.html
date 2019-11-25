@@ -1,6 +1,7 @@
+{% load icons %}
 {% if field.help_text %}
     {% if field.field.help_as_icon %}
-        <i class="fa fa-question-circle text-primary" title="{{ field.help_text }}"></i>
+        <span title="{{ field.help_text }}">{% icon "info.svg" %}</span>
     {% elif help_text_inline %}
         <span id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</span>
     {% else %}

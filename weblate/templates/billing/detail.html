@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 {% with projects=billing.projects.all %}
 <div class="row">
 
@@ -7,7 +8,7 @@
 <div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid %}panel-danger{% elif not billing.in_limits %}panel-warning{% else %}panel-default{% endif %}">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right" href="https://weblate.org/hosting/"><i class="fa fa-question-circle"></i></a>
+    <a class="pull-right flip doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
     {% trans "Billing plan" %}
     {% if billing.payment.recurring %}
     <span class="badge">{% trans "Recurring payment" %}</span>
