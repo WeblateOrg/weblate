@@ -1,57 +1,51 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load icons %}
 
-<table class="table table-condensed history">
-<thead>
-<tr>
-<th>{% trans "When" %}</th>
-<th>{% trans "User" %}</th>
-<th>{% trans "Action" %}</th>
-<th>{% trans "Detail" %}</th>
-<th>{% trans "Object" %}</th>
-<th></th>
-</tr>
-<tbody>
-{% for c in last_changes %}
-<tr class="{% cycle 'stripe-odd' 'stripe-even' as rowcolors %}">
-<td> {{ c.timestamp|naturaltime }}</td>
-<td>{% if hide_links %}{{ c.get_user_text_display }}{% else %}{{ c.get_user_display }}{% endif %}</td>
-<td><a href="{{ current_site_url }}{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
-<td>{{ c.get_details_display }}</td>
-<td><a href="{{ current_site_url }}{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
-<td>{% if c.can_revert %}
-<tr class="{{ rowcolors }}">
-<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural diff=c.old %}</td>
-<td>
-{% if not hide_links %}
-{% perm 'unit.edit' c.unit as user_can_translate %}
-{% if user_can_translate %}
-<a class="btn btn-xs btn-primary" href="{{ current_site_url }}{{ c.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
-{% endif %}
-{% endif %}
-{% elif c.show_content %}
-<tr class="{{ rowcolors }}">
-<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
-<td>
-{% elif c.show_source %}
-<tr class="{{ rowcolors }}">
-<td colspan="5">{% format_translation c.target c.component.project.source_language diff=c.old %}</td>
-<td>
-{% elif c.target %}
-<tr class="{{ rowcolors }}">
-<td colspan="5"><pre>{{ c.target }}</pre></td>
-<td>
-{% endif %}
-{% if debug %}
-<a class="btn btn-xs btn-primary" href="{{ current_site_url }}{% url 'show_change' pk=c.pk %}">{% trans "View notification" %}</a>
-{% endif %}
-</td>
-</tr>
+<div class="container-fluid">
+{% for change in last_changes %}
+<div class="row history-row">
+    <div class="col-xs-2 history-event">
+        <strong>{{ change.get_user_display }}</strong>
+        <p class="text-muted">{{ change.get_action_display }}</p>
+        <p><a href="{{ change.get_translation_url }}">{{ change.get_translation_display }}</a></p>
+    </div>
+    <div class="col-xs-10 history-data">
+        {% perm 'unit.edit' change.unit as user_can_translate %}
+        {% if not hide_links %}
+        <div class="btn-float pull-right flip">
+            <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "eye.svg" %}</a>
+            {% if debug %}
+            <a class="btn btn-link" href="{% url 'show_change' pk=change.pk %}" title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
+            {% endif %}
+            {% if change.can_revert and user_can_translate %}
+            <a class="btn btn-link" href="{{ cchange.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="comment-content">
+            {% with details=change.get_details_display %}
+            {% if details %}
+                {{ details }}
+            {% elif change.can_revert %}
+                {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
+            {% elif change.show_content %}
+                {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
+            {% elif change.show_source %}
+                {% format_translation change.target change.component.project.source_language diff=change.old %}
+            {% elif change.target %}
+                <pre>{{ change.target }}</pre>
+            {% else %}
+                {{ change.get_action_display }}
+            {% endif %}
+            {% endwith %}
+            <span class="pull-right flip text-muted">{{ change.timestamp|naturaltime }}</span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 {% empty %}
-<tr><td colspan="5" class="tablenotice">
-{% trans "No matching activity found." %}
-</td></tr>
+<p>{% trans "No matching activity found." %}</p>
 {% endfor %}
-</tbody>
-</table>
+</div>
