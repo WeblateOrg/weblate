@@ -282,6 +282,7 @@ class Change(models.Model, UserDisplayMixin):
             ACTION_UPLOAD,
             ACTION_NEW,
             ACTION_REPLACE,
+            ACTION_AUTO,
         )
     )
 
