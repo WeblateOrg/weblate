@@ -66,16 +66,12 @@ class RegistrationTestMixin(object):
         for line in mail.outbox[0].body.splitlines():
             if 'verification_code' not in line:
                 continue
-            if '(' in line and ')' in line:
-                result = line[line.index('(') + 1:line.index(')')]
-            elif '<' in line and '>' in line:
-                result = line[line.index('<') + 1:line.index('>')]
-            else:
+            if '(' in line or ')' in line or  '<' in line or '>' in line:
                 continue
-            if live_url and result.startswith(live_url):
-                return result + '&confirm=1'
-            if result.startswith('http://example.com'):
-                return result[18:] + '&confirm=1'
+            if live_url and line.startswith(live_url):
+                return line + '&confirm=1'
+            if line.startswith('http://example.com'):
+                return line[18:] + '&confirm=1'
 
         self.fail('Confirmation URL not found')
         return ''
