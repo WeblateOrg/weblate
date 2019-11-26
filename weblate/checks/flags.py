@@ -56,6 +56,8 @@ TYPED_FLAGS["font-spacing"] = ugettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = int
 TYPED_FLAGS["priority"] = ugettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = int
+TYPED_FLAGS["max-length"] = ugettext_lazy("Maximum length of translation")
+TYPED_FLAGS_ARGS["max-length"] = int
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
