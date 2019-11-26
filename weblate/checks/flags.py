@@ -72,7 +72,7 @@ class Flags(object):
     def merge(self, flags):
         if isinstance(flags, six.string_types):
             flags = self.parse(flags)
-        elif hasattr(flags, 'tag'):
+        elif hasattr(flags, "tag"):
             flags = self.parse_xml(flags)
         elif isinstance(flags, Flags):
             flags = flags.items()
@@ -106,7 +106,7 @@ class Flags(object):
         font = flags.get("font")
         if font:
             font = font.split(";")
-            yield "font-family:{}".format(font[0].strip().replace(' ', '_'))
+            yield "font-family:{}".format(font[0].strip().replace(" ", "_"))
             if len(font) > 1:
                 yield "font-size:{}".format(font[1].strip())
             if len(font) > 2:
