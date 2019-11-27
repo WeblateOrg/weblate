@@ -65,10 +65,7 @@ class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = '__all__'
-        field_classes = {
-            'username': UsernameField,
-            'full_name': FullNameField,
-        }
+        field_classes = {'username': UsernameField, 'full_name': FullNameField}
 
     def __init__(self, *args, **kwargs):
         super(WeblateUserChangeForm, self).__init__(*args, **kwargs)
@@ -82,10 +79,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta(object):
         model = User
         fields = ('username', 'email', 'full_name')
-        field_classes = {
-            'username': UsernameField,
-            'full_name': FullNameField,
-        }
+        field_classes = {'username': UsernameField, 'full_name': FullNameField}
 
     def __init__(self, *args, **kwargs):
         super(WeblateUserCreationForm, self).__init__(*args, **kwargs)
@@ -97,8 +91,13 @@ class WeblateUserAdmin(UserAdmin):
 
     Used to add listing of group membership and whether user is active.
     """
+
     list_display = (
-        'username', 'email', 'full_name', 'user_groups', 'is_active',
+        'username',
+        'email',
+        'full_name',
+        'user_groups',
+        'is_active',
         'is_superuser',
     )
     search_fields = ('username', 'full_name', 'email')
@@ -112,10 +111,7 @@ class WeblateUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'email')}),
-        (_('Permissions'), {'fields': (
-            'is_active', 'is_superuser',
-            'groups',
-        )}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'groups')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     list_filter = ('is_superuser', 'is_active', 'groups')
@@ -129,6 +125,7 @@ class WeblateUserAdmin(UserAdmin):
         if obj.is_anonymous:
             return ''
         return super(WeblateUserAdmin, self).action_checkbox(obj)
+
     action_checkbox.short_description = mark_safe(
         '<input type="checkbox" id="action-toggle" />'
     )
@@ -136,9 +133,7 @@ class WeblateUserAdmin(UserAdmin):
     def has_delete_permission(self, request, obj=None):
         if obj and obj.is_anonymous:
             return False
-        return super(WeblateUserAdmin, self).has_delete_permission(
-            request, obj
-        )
+        return super(WeblateUserAdmin, self).has_delete_permission(request, obj)
 
     def delete_model(self, request, obj):
         """
@@ -167,6 +162,7 @@ class WeblateGroupAdmin(WeblateModelAdmin):
         if obj.internal:
             return ''
         return super(WeblateGroupAdmin, self).action_checkbox(obj)
+
     action_checkbox.short_description = mark_safe(
         '<input type="checkbox" id="action-toggle" />'
     )
@@ -174,9 +170,7 @@ class WeblateGroupAdmin(WeblateModelAdmin):
     def has_delete_permission(self, request, obj=None):
         if obj and obj.internal:
             return False
-        return super(WeblateGroupAdmin, self).has_delete_permission(
-            request, obj
-        )
+        return super(WeblateGroupAdmin, self).has_delete_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
         if block_group_edit(obj):
@@ -198,7 +192,5 @@ class WeblateGroupAdmin(WeblateModelAdmin):
         automation and adjusts project/language selection according to
         the chosen value.
         """
-        super(WeblateGroupAdmin, self).save_related(
-            request, form, formsets, change
-        )
+        super(WeblateGroupAdmin, self).save_related(request, form, formsets, change)
         self.new_obj.save()

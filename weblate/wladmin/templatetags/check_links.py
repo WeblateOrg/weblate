@@ -55,7 +55,5 @@ def check_link(check):
     elif check.id in DOC_LINKS:
         url = get_doc_url(*DOC_LINKS[check.id])
     if url:
-        return mark_safe(
-            '<a href="{}">{}</a>'.format(url, _('Documentation'))
-        )
+        return mark_safe('<a href="{}">{}</a>'.format(url, _('Documentation')))
     return ''

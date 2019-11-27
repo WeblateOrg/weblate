@@ -129,10 +129,9 @@ class WeblateAdminSite(AdminSite):
             # Billing
             if 'weblate.billing' in settings.INSTALLED_APPS:
                 # pylint: disable=wrong-import-position
-                from weblate.billing.admin import (
-                    PlanAdmin, BillingAdmin, InvoiceAdmin,
-                )
+                from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
                 from weblate.billing.models import Plan, Billing, Invoice
+
                 self.register(Plan, PlanAdmin)
                 self.register(Billing, BillingAdmin)
                 self.register(Invoice, InvoiceAdmin)
@@ -142,6 +141,7 @@ class WeblateAdminSite(AdminSite):
                 # pylint: disable=wrong-import-position
                 from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
                 from wlhosted.payments.models import Customer, Payment
+
                 self.register(Customer, CustomerAdmin)
                 self.register(Payment, PaymentAdmin)
 
@@ -150,6 +150,7 @@ class WeblateAdminSite(AdminSite):
             # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
+
             self.register(Agreement, AgreementAdmin)
 
         # Python Social Auth
@@ -167,6 +168,7 @@ class WeblateAdminSite(AdminSite):
         if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
             from simple_sso.sso_server.server import ConsumerAdmin
             from simple_sso.sso_server.models import Consumer
+
             self.register(Consumer, ConsumerAdmin)
 
     @never_cache
@@ -174,9 +176,7 @@ class WeblateAdminSite(AdminSite):
         if request.method == 'POST':
             messages.info(request, _('Thank you for using Weblate.'))
             request.current_app = self.name
-            return LogoutView.as_view(
-                next_page=reverse('admin:login')
-            )(request)
+            return LogoutView.as_view(next_page=reverse('admin:login'))(request)
         context = self.each_context(request)
         context['title'] = _('Logout')
         return render(request, 'admin/logout-confirm.html', context)

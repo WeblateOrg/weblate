@@ -38,9 +38,7 @@ class LanguageAdmin(WeblateModelAdmin):
     ordering = ['name']
 
     def save_related(self, request, form, formsets, change):
-        super(LanguageAdmin, self).save_related(
-            request, form, formsets, change
-        )
+        super(LanguageAdmin, self).save_related(request, form, formsets, change)
         lang = form.instance
 
         if lang.plural_set.exists():
@@ -57,7 +55,5 @@ class LanguageAdmin(WeblateModelAdmin):
             )
         except (Language.DoesNotExist, IndexError):
             lang.plural_set.create(
-                source=Plural.SOURCE_DEFAULT,
-                number=2,
-                equation='n != 1',
+                source=Plural.SOURCE_DEFAULT, number=2, equation='n != 1'
             )
