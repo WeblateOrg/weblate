@@ -36,12 +36,7 @@ from social_django.models import Association, Nonce, UserSocialAuth
 from weblate.accounts.admin import AuditLogAdmin, ProfileAdmin, VerifiedEmailAdmin
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
-from weblate.auth.admin import (
-    AutoGroupAdmin,
-    RoleAdmin,
-    WeblateGroupAdmin,
-    WeblateUserAdmin,
-)
+from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
@@ -100,7 +95,6 @@ class WeblateAdminSite(AdminSite):
         self.register(Role, RoleAdmin)
         self.register(Group, WeblateGroupAdmin)
         self.register(AuditLog, AuditLogAdmin)
-        self.register(AutoGroup, AutoGroupAdmin)
         self.register(Profile, ProfileAdmin)
         self.register(VerifiedEmail, VerifiedEmailAdmin)
 

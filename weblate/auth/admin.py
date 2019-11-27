@@ -31,13 +31,29 @@ from weblate.auth.models import AutoGroup, Group, User
 from weblate.wladmin.models import WeblateModelAdmin
 
 
-class AutoGroupAdmin(WeblateModelAdmin):
-    list_display = ('group', 'match')
+def block_group_edit(obj):
+    """Whether to allo user editing of an group."""
+    return obj and obj.internal and '@' in obj.name
 
 
 class InlineAutoGroupAdmin(admin.TabularInline):
     model = AutoGroup
     extra = 0
+
+    def has_add_permission(self, request, obj):
+        if block_group_edit(obj):
+            return False
+        return super(InlineAutoGroupAdmin, self).has_add_permission(request, obj)
+
+    def has_change_permission(self, request, obj=None):
+        if block_group_edit(obj):
+            return False
+        return super(InlineAutoGroupAdmin, self).has_change_permission(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if block_group_edit(obj):
+            return False
+        return super(InlineAutoGroupAdmin, self).has_delete_permission(request, obj)
 
 
 class RoleAdmin(WeblateModelAdmin):
@@ -162,6 +178,11 @@ class WeblateGroupAdmin(WeblateModelAdmin):
             request, obj
         )
 
+    def has_change_permission(self, request, obj=None):
+        if block_group_edit(obj):
+            return False
+        return super(WeblateGroupAdmin, self).has_change_permission(request, obj)
+
     def save_model(self, request, obj, form, change):
         """Fix saving of automatic language/project selection, part 1
 
@@ -181,8 +202,3 @@ class WeblateGroupAdmin(WeblateModelAdmin):
             request, form, formsets, change
         )
         self.new_obj.save()
-
-
-# This is pointless for Weblate, but necessary to silent admin.E039
-# check when using custom admin site
-admin.site.register(User, WeblateUserAdmin)

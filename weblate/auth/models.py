@@ -667,7 +667,7 @@ def setup_project_groups(sender, instance, **kwargs):
             group = instance.group_set.get(
                 internal=True, name__endswith='@{}'.format(group_name)
             )
-            # Update exiting group (to hanle rename)
+            # Update exiting group (to handle rename)
             if group.name != name:
                 group.name = name
                 group.save()
