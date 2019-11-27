@@ -37,7 +37,7 @@ from weblate.accounts.admin import AuditLogAdmin, ProfileAdmin, VerifiedEmailAdm
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
 from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
-from weblate.auth.models import AutoGroup, Group, Role, User
+from weblate.auth.models import Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
 from weblate.fonts.admin import FontAdmin, FontGroupAdmin
