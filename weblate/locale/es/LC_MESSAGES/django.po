@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-11-27 10:45+0000\n"
-"PO-Revision-Date: 2019-10-31 18:32+0000\n"
+"PO-Revision-Date: 2019-11-28 09:57+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -517,16 +517,12 @@ msgid "Monthly digest"
 msgstr "Resumen mensual"
 
 #: weblate/accounts/notifications.py:379
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository failure"
-msgstr "Detalles del repositorio"
+msgstr "Fallo en el repositorio"
 
 #: weblate/accounts/notifications.py:399
-#, fuzzy
-#| msgid "Repository branch"
 msgid "Repository operation"
-msgstr "Rama del repositorio"
+msgstr "Operación en el repositorio"
 
 #: weblate/accounts/notifications.py:406 weblate/trans/models/change.py:246
 msgid "Parse error"
@@ -1295,10 +1291,8 @@ msgid "Delete screenshot"
 msgstr "Eliminar captura de pantalla"
 
 #: weblate/auth/data.py:64 weblate/templates/translate.html:653
-#, fuzzy
-#| msgid "Edit source string info"
 msgid "Edit additional string info"
-msgstr "Editar información de cadena de origen"
+msgstr "Editar información adicional de cadena"
 
 #: weblate/auth/data.py:66
 msgid "Accept suggestion"
@@ -1851,16 +1845,12 @@ msgid "Source and translation do not both end with a space"
 msgstr "Sólo uno de original y traducción termina con un espacio"
 
 #: weblate/checks/chars.py:152
-#, fuzzy
-#| msgid "Double danda"
 msgid "Double space"
-msgstr "Doble danda"
+msgstr "Espacio doble"
 
 #: weblate/checks/chars.py:153
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translation contains double space"
-msgstr "Comentario de traducción eliminado."
+msgstr "La traducción contiene un espacio doble"
 
 #: weblate/checks/chars.py:175
 msgid "Trailing stop"
@@ -2012,10 +2002,8 @@ msgstr "Automáticamente detecta Java MessageFormat"
 
 #: weblate/checks/flags.py:47 weblate/templates/translate.html:123
 #: weblate/templates/zen-units.html:14 weblate/utils/state.py:36
-#, fuzzy
-#| msgid "Created on"
 msgid "Read only"
-msgstr "Creado el"
+msgstr "Solo lectura"
 
 #: weblate/checks/flags.py:49 weblate/fonts/models.py:43
 #: weblate/templates/fonts/font_detail.html:18
@@ -4293,10 +4281,8 @@ msgid "Help"
 msgstr "Ayuda"
 
 #: weblate/templates/base.html:215
-#, fuzzy
-#| msgid "Support status"
 msgid "Support"
-msgstr "Estado de asistencia"
+msgstr "Asistencia"
 
 #: weblate/templates/base.html:219 weblate/templates/check.html:42
 #: weblate/templates/check_component.html:44
@@ -4314,10 +4300,8 @@ msgid "Documentation"
 msgstr "Documentación"
 
 #: weblate/templates/base.html:220
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Contribute to Weblate"
-msgstr "Donar a Weblate"
+msgstr "Colaborar con Weblate"
 
 #: weblate/templates/base.html:241
 msgid ""
@@ -4360,10 +4344,8 @@ msgid "Exceeds limits"
 msgstr "Límites excedidos"
 
 #: weblate/templates/billing/detail.html:32
-#, fuzzy
-#| msgid "Changes in last month"
 msgid "Change plan or payment method"
-msgstr "Cambios en el último mes"
+msgstr "Cambiar plan o método de pago"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
@@ -4431,10 +4413,8 @@ msgstr "Precio mensual"
 
 #: weblate/templates/billing/status.html:29
 #: weblate/templates/billing/status.html:44
-#, fuzzy
-#| msgid "New comment"
 msgid "New payment"
-msgstr "Comentario nuevo"
+msgstr "Pago nuevo"
 
 #: weblate/templates/billing/status.html:35
 msgid "Yearly price"
@@ -5702,10 +5682,8 @@ msgid "There are no glossaries defined for this language."
 msgstr "No existen glosarios definidos para este idioma."
 
 #: weblate/templates/last-changes-content.html:18
-#, fuzzy
-#| msgid "Check details"
 msgid "View details"
-msgstr "Detalles de comprobaciones"
+msgstr "Ver detalles"
 
 #: weblate/templates/last-changes-content.html:20
 msgid "View notification"
@@ -6063,32 +6041,30 @@ msgstr ""
 #: weblate/templates/mail/remove_subject.txt:4
 #, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Eliminar cuenta en %(site_title)s"
+msgstr "Eliminación de cuenta en %(site_title)s"
 
 #: weblate/templates/mail/repository_error.html:7
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(component)s at %(site_title)s."
+#, python-format
 msgid "There has been a repository failure on %(component)s at %(site_title)s."
-msgstr "Hubo un error en la fusión de %(component)s en %(site_title)s."
+msgstr ""
+"Hubo un fallo de fusión de repositorio en %(component)s en %(site_title)s."
 
 #: weblate/templates/mail/repository_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(component)s"
+#, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Fallo de fusión en %(component)s"
+msgstr "Fallo de repositorio en %(component)s"
 
 #: weblate/templates/mail/repository_operation.html:7
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(component)s at %(site_title)s."
+#, python-format
 msgid ""
 "There has been a repository operation on %(component)s at %(site_title)s."
-msgstr "Hubo un error de análisis de %(component)s en %(site_title)s."
+msgstr ""
+"Hubo una operación en el repositorio de %(component)s en %(site_title)s."
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Sugerencias pendientes en %(component)s"
+msgstr "Operación en repositorio de %(component)s"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6117,16 +6093,12 @@ msgid "If there is a problem with your registration, please contact us."
 msgstr "Si hay algún problema con su proceso de registro, contáctenos."
 
 #: weblate/templates/mail/shared-registration.html:16
-#, fuzzy
-#| msgid "Password reset"
 msgid "Confirm password reset"
-msgstr "Reinicializar contraseña"
+msgstr "Confirmar restablecimiento de contraseña"
 
 #: weblate/templates/mail/shared-registration.html:18
-#, fuzzy
-#| msgid "Account removal"
 msgid "Confirm account removal"
-msgstr "Eliminación de cuenta"
+msgstr "Confirmar eliminación de cuenta"
 
 #: weblate/templates/mail/shared-registration.html:20
 msgid "Confirm registration"
@@ -6173,10 +6145,8 @@ msgstr ""
 "del usuario."
 
 #: weblate/templates/manage-access.html:69
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add an user"
-msgstr "Añadir usuario nuevo"
+msgstr "Añadir usuario"
 
 #: weblate/templates/manage-access.html:85
 msgid "Invite new user"
@@ -6500,10 +6470,8 @@ msgid "Number of your entries"
 msgstr "Cantidad de aportaciones suyas"
 
 #: weblate/templates/memory/index.html:62
-#, fuzzy
-#| msgid "Number of your entries"
 msgid "Number of shared entries"
-msgstr "Cantidad de aportaciones suyas"
+msgstr "Cantidad de entradas compartidas"
 
 #: weblate/templates/memory/index.html:67
 msgid "Total number of entries"
@@ -6831,23 +6799,19 @@ msgid "Dismiss for all languages"
 msgstr "Descartar para todos los idiomas"
 
 #: weblate/templates/snippets/list-objects-number.html:6
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "None strings to review"
 msgid "None"
 msgstr "Ninguno"
 
 #: weblate/templates/snippets/list-objects-percent.html:4
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "%(value)s of %(all)s"
-msgstr "Utilizado %(used)s de %(total)s"
+msgstr "%(value)s de %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:6
 msgctxt "Completed translation"
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -6859,10 +6823,8 @@ msgid "Untranslated"
 msgstr "Sin traducir"
 
 #: weblate/templates/snippets/list-objects.html:18
-#, fuzzy
-#| msgid "Untranslated"
 msgid "Untranslated words"
-msgstr "Sin traducir"
+msgstr "Palabras no traducidas"
 
 #: weblate/templates/snippets/list-objects.html:20
 #: weblate/templates/trans/suggestion_list.html:7
@@ -6879,7 +6841,7 @@ msgstr "Comentarios"
 
 #: weblate/templates/snippets/list-objects.html:79
 msgid "Nothing to list here."
-msgstr ""
+msgstr "No hay nada que mostrar."
 
 #: weblate/templates/snippets/plural-equation.html:4
 msgid ""
@@ -8195,10 +8157,8 @@ msgid "Automatic translation mode"
 msgstr "Modo de traducción automatizada"
 
 #: weblate/trans/forms.py:803
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as needing edit"
-msgstr "Añadir como traducción que requiere edición"
+msgstr "Añadir como pendiente de edición"
 
 #: weblate/trans/forms.py:809
 msgid "Automatic translation source"
@@ -8283,12 +8243,9 @@ msgid "Translation comment, discussions with other translators"
 msgstr "Comentario de la traducción, discusiones con otros traductores"
 
 #: weblate/trans/forms.py:974 weblate/trans/models/project.py:91
-#, fuzzy
-#| msgid "You can include external links or mention other users by @username."
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
-"Puede incluir enlaces externos o mencionar a otros usuarios por "
-"@nombredeusuario."
+"Puede utilizar Markdown y mencionar a otros usuarios por @nombredeusuario."
 
 #: weblate/trans/forms.py:983
 msgid "All components"
@@ -9962,10 +9919,9 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "Configure su nombre completo y correo electrónico en su perfil."
 
 #: weblate/trans/views/dictionary.py:48
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "%(language)s glossary for %(project)s"
-msgstr "diccionario %(language)s para %(project)s"
+msgstr "Glosario en %(language)s para %(project)s"
 
 #: weblate/trans/views/dictionary.py:181
 msgid "No words to import found in file."
