@@ -50,6 +50,7 @@ def get_user(request):
 
 class AuthenticationMiddleware(object):
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
+
     def __init__(self, get_response=None):
         self.get_response = get_response
 
@@ -107,6 +108,7 @@ class RequireLoginMiddleware(object):
         if 'weblate.gitexport' in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             import weblate.gitexport.views
+
             if request.path.startswith('/git/'):
                 if request.META.get('HTTP_AUTHORIZATION'):
                     return None
@@ -121,11 +123,7 @@ class RequireLoginMiddleware(object):
         # wrapped with the login_required decorator
         for url in self.required:
             if url.match(request.path):
-                return login_required(view_func)(
-                    request,
-                    *view_args,
-                    **view_kwargs
-                )
+                return login_required(view_func)(request, *view_args, **view_kwargs)
 
         # Explicitly return None for all non-matching requests
         return None

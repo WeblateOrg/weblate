@@ -53,86 +53,48 @@ from weblate.utils.request import get_ip_address, get_user_agent
 
 @python_2_unicode_compatible
 class Subscription(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.deletion.CASCADE,
-    )
+    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
-        choices=[n.get_choice() for n in NOTIFICATIONS],
-        max_length=100,
+        choices=[n.get_choice() for n in NOTIFICATIONS], max_length=100
     )
-    scope = models.IntegerField(
-        choices=SCOPE_CHOICES,
-    )
-    frequency = models.IntegerField(
-        choices=FREQ_CHOICES,
-    )
+    scope = models.IntegerField(choices=SCOPE_CHOICES)
+    frequency = models.IntegerField(choices=FREQ_CHOICES)
     project = models.ForeignKey(
-        'trans.Project',
-        on_delete=models.deletion.CASCADE,
-        null=True,
+        'trans.Project', on_delete=models.deletion.CASCADE, null=True
     )
     component = models.ForeignKey(
-        'trans.Component',
-        on_delete=models.deletion.CASCADE,
-        null=True,
+        'trans.Component', on_delete=models.deletion.CASCADE, null=True
     )
 
     class Meta(object):
-        unique_together = [
-            ('notification', 'scope', 'project', 'component', 'user')
-        ]
+        unique_together = [('notification', 'scope', 'project', 'component', 'user')]
 
     def __str__(self):
         return '{}:{} ({},{})'.format(
-            self.user.username, self.get_notification_display(),
-            self.project, self.component
+            self.user.username,
+            self.get_notification_display(),
+            self.project,
+            self.component,
         )
 
 
 ACCOUNT_ACTIVITY = {
-    'password': _(
-        'Password changed.'
-    ),
+    'password': _('Password changed.'),
     'username': _('Username changed from {old} to {new}.'),
     'email': _('E-mail changed from {old} to {new}.'),
     'full_name': _('Full name changed from {old} to {new}.'),
-    'reset-request': _(
-        'Password reset requested.'
-    ),
-    'reset': _(
-        'Password reset confirmed, password turned off.'
-    ),
-    'auth-connect': _(
-        'You can now log in using {method} ({name}).'
-    ),
-    'auth-disconnect': _(
-        'You can no longer log in using {method} ({name}).'
-    ),
-    'login': _(
-        'Logged on using {method} ({name}).'
-    ),
-    'login-new': _(
-        'Logged on using {method} ({name}) from a new device.'
-    ),
-    'register': _(
-        'Somebody has attempted to register with your e-mail.'
-    ),
-    'connect': _(
-        'Somebody has attempted to register using your e-mail address.'
-    ),
-    'failed-auth': _(
-        'Could not log in using {method} ({name}).'
-    ),
-    'locked': _(
-        'Account locked due to many failed logins.'
-    ),
-    'removed': _(
-        'Account and all private data removed.'
-    ),
-    'tos': _(
-        'Agreement with Terms of Service {date}.'
-    ),
+    'reset-request': _('Password reset requested.'),
+    'reset': _('Password reset confirmed, password turned off.'),
+    'auth-connect': _('You can now log in using {method} ({name}).'),
+    'auth-disconnect': _('You can no longer log in using {method} ({name}).'),
+    'login': _('Logged on using {method} ({name}).'),
+    'login-new': _('Logged on using {method} ({name}) from a new device.'),
+    'register': _('Somebody has attempted to register with your e-mail.'),
+    'connect': _('Somebody has attempted to register using your e-mail address.'),
+    'failed-auth': _('Could not log in using {method} ({name}).'),
+    'locked': _('Account locked due to many failed logins.'),
+    'removed': _('Account and all private data removed.'),
+    'tos': _('Agreement with Terms of Service {date}.'),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -145,12 +107,10 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
-    'locked': _(
-        'To restore access to your account, please reset your password.'
-    ),
+    'locked': _('To restore access to your account, please reset your password.')
 }
 
-NOTIFY_ACTIVITY = frozenset((
+NOTIFY_ACTIVITY = {
     'password',
     'reset',
     'auth-connect',
@@ -163,7 +123,7 @@ NOTIFY_ACTIVITY = frozenset((
     'email',
     'username',
     'full_name',
-))
+}
 
 
 class AuditLogManager(models.Manager):
@@ -178,9 +138,7 @@ class AuditLogManager(models.Manager):
         if not logins.exists():
             return False
 
-        return not logins.filter(
-            Q(address=address) | Q(user_agent=user_agent)
-        ).exists()
+        return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
     def create(self, user, request, activity, **params):
         address = get_ip_address(request)
@@ -212,13 +170,9 @@ class AuditLogQuerySet(models.QuerySet):
 
     def get_password(self, user):
         """Get user activities with password change."""
-        start = timezone.now() - datetime.timedelta(
-            days=settings.AUTH_PASSWORD_DAYS
-        )
+        start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
-            user=user,
-            activity__in=('reset', 'password'),
-            timestamp__gt=start,
+            user=user, activity__in=('reset', 'password'), timestamp__gt=start
         )
 
     def order(self):
@@ -229,10 +183,7 @@ class AuditLogQuerySet(models.QuerySet):
 class AuditLog(models.Model):
     """User audit log storage."""
 
-    user = models.ForeignKey(
-        User,
-        on_delete=models.deletion.CASCADE,
-    )
+    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     activity = models.CharField(
         max_length=20,
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
@@ -260,13 +211,12 @@ class AuditLog(models.Model):
         else:
             message = ACCOUNT_ACTIVITY[activity]
         return message.format(**self.get_params())
+
     get_message.short_description = _('Account activity')
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:
-            return EXTRA_MESSAGES[self.activity].format(
-                **self.params
-            )
+            return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None
 
     def should_notify(self):
@@ -274,9 +224,7 @@ class AuditLog(models.Model):
 
     def __str__(self):
         return '{0} for {1} from {2}'.format(
-            self.activity,
-            self.user.username,
-            self.address
+            self.activity, self.user.username, self.address
         )
 
     def check_rate_limit(self, request):
@@ -292,7 +240,7 @@ class AuditLog(models.Model):
         elif self.activity == 'reset-request':
             failures = AuditLog.objects.filter(
                 timestamp__gte=timezone.now() - datetime.timedelta(days=1),
-                activity='reset-request'
+                activity='reset-request',
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 return True
@@ -309,17 +257,11 @@ class AuditLog(models.Model):
 class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
-    social = models.ForeignKey(
-        UserSocialAuth,
-        on_delete=models.deletion.CASCADE,
-    )
+    social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
     email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return '{0} - {1}'.format(
-            self.social.user.username,
-            self.email
-        )
+        return '{0} - {1}'.format(self.social.user.username, self.email)
 
 
 @python_2_unicode_compatible
@@ -333,7 +275,7 @@ class Profile(models.Model):
         verbose_name=_('Interface Language'),
         max_length=10,
         blank=True,
-        choices=settings.LANGUAGES
+        choices=settings.LANGUAGES,
     )
     languages = models.ManyToManyField(
         Language,
@@ -343,7 +285,7 @@ class Profile(models.Model):
             'Choose the languages you can translate to. '
             'These will be offered to you on the dashboard '
             'for easier access to your chosen translations.'
-        )
+        ),
     )
     secondary_languages = models.ManyToManyField(
         Language,
@@ -360,19 +302,17 @@ class Profile(models.Model):
     uploaded = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
-        verbose_name=_('Hide completed translations on the dashboard'),
-        default=False
+        verbose_name=_('Hide completed translations on the dashboard'), default=False
     )
     secondary_in_zen = models.BooleanField(
-        verbose_name=_('Show secondary translations in zen mode'),
-        default=True
+        verbose_name=_('Show secondary translations in zen mode'), default=True
     )
     hide_source_secondary = models.BooleanField(
-        verbose_name=_('Hide source if a secondary translation exists'),
-        default=False
+        verbose_name=_('Hide source if a secondary translation exists'), default=False
     )
     editor_link = models.CharField(
-        default='', blank=True,
+        default='',
+        blank=True,
         max_length=200,
         verbose_name=_('Editor link'),
         help_text=_(
@@ -386,10 +326,7 @@ class Profile(models.Model):
     TRANSLATE_ZEN = 1
     translate_mode = models.IntegerField(
         verbose_name=_('Translation editor mode'),
-        choices=(
-            (TRANSLATE_FULL, _('Full editor')),
-            (TRANSLATE_ZEN, _('Zen mode')),
-        ),
+        choices=((TRANSLATE_FULL, _('Full editor')), (TRANSLATE_ZEN, _('Zen mode'))),
         default=TRANSLATE_FULL,
     )
     ZEN_VERTICAL = 0
@@ -403,14 +340,15 @@ class Profile(models.Model):
         default=ZEN_VERTICAL,
     )
     special_chars = models.CharField(
-        default='', blank=True,
+        default='',
+        blank=True,
         max_length=30,
         verbose_name=_('Special characters'),
         help_text=_(
             'You can specify additional special visual keyboard characters '
             'to be shown while translating. It can be useful for '
             'characters you use frequently, but are hard to type on your keyboard.'
-        )
+        ),
     )
 
     DASHBOARD_WATCHED = 1
@@ -429,7 +367,7 @@ class Profile(models.Model):
         DASHBOARD_WATCHED: 'your-subscriptions',
         DASHBOARD_COMPONENT_LIST: 'list',
         DASHBOARD_SUGGESTIONS: 'suggestions',
-        DASHBOARD_COMPONENT_LISTS: 'componentlists'
+        DASHBOARD_COMPONENT_LISTS: 'componentlists',
     }
 
     dashboard_view = models.IntegerField(
@@ -482,26 +420,28 @@ class Profile(models.Model):
         # will not contain all fields
         if not hasattr(self, 'dashboard_component_list'):
             return
-        if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
-                and self.dashboard_component_list is None):
+        if (
+            self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+            and self.dashboard_component_list is None
+        ):
             message = _(
                 "Please choose which component list you want to display on "
                 "the dashboard."
             )
-            raise ValidationError({
-                'dashboard_component_list': message,
-                'dashboard_view': message,
-            })
-        if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
-                and self.dashboard_component_list is not None):
+            raise ValidationError(
+                {'dashboard_component_list': message, 'dashboard_view': message}
+            )
+        if (
+            self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
+            and self.dashboard_component_list is not None
+        ):
             message = _(
                 "Selecting component list has no effect when not shown on "
                 "the dashboard."
             )
-            raise ValidationError({
-                'dashboard_component_list': message,
-                'dashboard_view': message,
-            })
+            raise ValidationError(
+                {'dashboard_component_list': message, 'dashboard_view': message}
+            )
 
     def dump_data(self):
         def dump_object(obj, *attrs):
@@ -509,21 +449,28 @@ class Profile(models.Model):
 
         result = {
             'basic': dump_object(
-                self.user,
-                'username', 'full_name', 'email', 'date_joined'
+                self.user, 'username', 'full_name', 'email', 'date_joined'
             ),
             'profile': dump_object(
                 self,
                 'language',
-                'suggested', 'translated', 'uploaded',
-                'hide_completed', 'secondary_in_zen', 'hide_source_secondary',
-                'editor_link', 'translate_mode', 'zen_mode', 'special_chars',
-                'dashboard_view', 'dashboard_component_list',
+                'suggested',
+                'translated',
+                'uploaded',
+                'hide_completed',
+                'secondary_in_zen',
+                'hide_source_secondary',
+                'editor_link',
+                'translate_mode',
+                'zen_mode',
+                'special_chars',
+                'dashboard_view',
+                'dashboard_component_list',
             ),
             'auditlog': [
                 dump_object(log, 'address', 'user_agent', 'timestamp', 'activity')
                 for log in self.user.auditlog_set.iterator()
-            ]
+            ],
         }
         result['profile']['languages'] = [
             lang.code for lang in self.languages.iterator()
@@ -550,9 +497,8 @@ def post_login_handler(sender, request, user, **kwargs):
     It sets user language and migrates profile if needed.
     """
     backend_name = getattr(user, 'backend', '')
-    is_email_auth = (
-        backend_name.endswith('.EmailAuth')
-        or backend_name.endswith('.WeblateUserBackend')
+    is_email_auth = backend_name.endswith('.EmailAuth') or backend_name.endswith(
+        '.WeblateUserBackend'
     )
 
     # Warning about setting password
@@ -561,16 +507,14 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP
-    if (is_email_auth and user.has_usable_password() and user.email
-            and not user.social_auth.filter(provider='email').exists()):
-        social = user.social_auth.create(
-            provider='email',
-            uid=user.email,
-        )
-        VerifiedEmail.objects.create(
-            social=social,
-            email=user.email,
-        )
+    if (
+        is_email_auth
+        and user.has_usable_password()
+        and user.email
+        and not user.social_auth.filter(provider='email').exists()
+    ):
+        social = user.social_auth.create(provider='email', uid=user.email)
+        VerifiedEmail.objects.create(social=social, email=user.email)
 
     # Set language for session based on preferences
     set_lang(request, user.profile)
@@ -587,7 +531,7 @@ def post_login_handler(sender, request, user, **kwargs):
             _(
                 'You can not submit translations as '
                 'you do not have assigned any e-mail address.'
-            )
+            ),
         )
 
 
@@ -607,6 +551,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
 
 class WeblateAccountsConf(AppConf):
     """Accounts settings."""
+
     # Disable avatars
     ENABLE_AVATARS = True
 
