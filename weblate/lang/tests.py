@@ -39,30 +39,9 @@ from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 
 LANGUAGES = (
-    (
-        'cs_CZ',
-        'cs',
-        'ltr',
-        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-        'Czech',
-        False,
-    ),
-    (
-        'cs (2)',
-        'cs',
-        'ltr',
-        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-        'Czech',
-        False,
-    ),
-    (
-        'czech',
-        'cs',
-        'ltr',
-        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-        'Czech',
-        False,
-    ),
+    ('cs_CZ', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
+    ('cs (2)', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
+    ('czech', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
     (
         'cs_CZ@hantec',
         'cs_CZ@hantec',
@@ -71,46 +50,11 @@ LANGUAGES = (
         'Czech (cs_CZ@hantec)',
         True,
     ),
-    (
-        'de-DE',
-        'de',
-        'ltr',
-        'n != 1',
-        'German',
-        False,
-    ),
-    (
-        'de_AT',
-        'de_AT',
-        'ltr',
-        'n != 1',
-        'German (Austria)',
-        False,
-    ),
-    (
-        'de_CZ',
-        'de_CZ',
-        'ltr',
-        'n != 1',
-        'German (de_CZ)',
-        True,
-    ),
-    (
-        'portuguese_portugal',
-        'pt_PT',
-        'ltr',
-        'n > 1',
-        'Portuguese (Portugal)',
-        False,
-    ),
-    (
-        'pt-rBR',
-        'pt_BR',
-        'ltr',
-        'n > 1',
-        'Portuguese (Brazil)',
-        False,
-    ),
+    ('de-DE', 'de', 'ltr', 'n != 1', 'German', False),
+    ('de_AT', 'de_AT', 'ltr', 'n != 1', 'German (Austria)', False),
+    ('de_CZ', 'de_CZ', 'ltr', 'n != 1', 'German (de_CZ)', True),
+    ('portuguese_portugal', 'pt_PT', 'ltr', 'n > 1', 'Portuguese (Portugal)', False),
+    ('pt-rBR', 'pt_BR', 'ltr', 'n > 1', 'Portuguese (Brazil)', False),
     (
         'sr+latn',
         'sr_Latn',
@@ -155,78 +99,15 @@ LANGUAGES = (
         'English (Canada) (en_CA@myvariant)',
         True,
     ),
-    (
-        'en_CZ',
-        'en_CZ',
-        'ltr',
-        'n != 1',
-        'English (en_CZ)',
-        True,
-    ),
-    (
-        'zh_CN',
-        'zh_Hans',
-        'ltr',
-        '0',
-        'Chinese (Simplified)',
-        False,
-    ),
-    (
-        'zh-CN',
-        'zh_Hans',
-        'ltr',
-        '0',
-        'Chinese (Simplified)',
-        False,
-    ),
-    (
-        'zh_HANT',
-        'zh_Hant',
-        'ltr',
-        '0',
-        'Chinese (Traditional)',
-        False,
-    ),
-    (
-        'zh-HANT',
-        'zh_Hant',
-        'ltr',
-        '0',
-        'Chinese (Traditional)',
-        False,
-    ),
-    (
-        'zh-CN@test',
-        'zh_CN@test',
-        'ltr',
-        '0',
-        'Chinese (Simplified) (zh_CN@test)',
-        True,
-    ),
-    (
-        'zh-rCN',
-        'zh_Hans',
-        'ltr',
-        '0',
-        'Chinese (Simplified)',
-        False,
-    ),
-    (
-        'zh_rCN',
-        'zh_Hans',
-        'ltr',
-        '0',
-        'Chinese (Simplified)',
-        False,
-    ),
-    (
-        'zh_HK',
-        'zh_Hant_HK',
-        'ltr',
-        '0',
-        'Chinese (Traditional, Hong Kong)',
-        False,
-    ),
+    ('en_CZ', 'en_CZ', 'ltr', 'n != 1', 'English (en_CZ)', True),
+    ('zh_CN', 'zh_Hans', 'ltr', '0', 'Chinese (Simplified)', False),
+    ('zh-CN', 'zh_Hans', 'ltr', '0', 'Chinese (Simplified)', False),
+    ('zh_HANT', 'zh_Hant', 'ltr', '0', 'Chinese (Traditional)', False),
+    ('zh-HANT', 'zh_Hant', 'ltr', '0', 'Chinese (Traditional)', False),
+    ('zh-CN@test', 'zh_CN@test', 'ltr', '0', 'Chinese (Simplified) (zh_CN@test)', True),
+    ('zh-rCN', 'zh_Hans', 'ltr', '0', 'Chinese (Simplified)', False),
+    ('zh_rCN', 'zh_Hans', 'ltr', '0', 'Chinese (Simplified)', False),
+    ('zh_HK', 'zh_Hant_HK', 'ltr', '0', 'Chinese (Traditional, Hong Kong)', False),
     (
         'zh_Hant-rHK',
         'zh_Hant_HK',
@@ -262,49 +143,19 @@ LANGUAGES = (
         'Arabic (ar_XX)',
         True,
     ),
-    (
-        'xx',
-        'xx',
-        'ltr',
-        'n != 1',
-        'xx (generated) (xx)',
-        True,
-    ),
-    (
-        'nb_NO',
-        'nb_NO',
-        'ltr',
-        'n != 1',
-        'Norwegian Bokmål',
-        False,
-    ),
-    (
-        'nb-NO',
-        'nb_NO',
-        'ltr',
-        'n != 1',
-        'Norwegian Bokmål',
-        False,
-    ),
-    (
-        'nb',
-        'nb_NO',
-        'ltr',
-        'n != 1',
-        'Norwegian Bokmål',
-        False,
-    ),
+    ('xx', 'xx', 'ltr', 'n != 1', 'xx (generated) (xx)', True),
+    ('nb_NO', 'nb_NO', 'ltr', 'n != 1', 'Norwegian Bokmål', False),
+    ('nb-NO', 'nb_NO', 'ltr', 'n != 1', 'Norwegian Bokmål', False),
+    ('nb', 'nb_NO', 'ltr', 'n != 1', 'Norwegian Bokmål', False),
 )
 
 
 class TestSequenceMeta(type):
     def __new__(mcs, name, bases, dict):  # noqa: N804
-
         def gen_test(original, expected, direction, plural, name, create):
             def test(self):
-                self.run_create(
-                    original, expected, direction, plural, name, create
-                )
+                self.run_create(original, expected, direction, plural, name, create)
+
             return test
 
         for params in LANGUAGES:
@@ -326,23 +177,17 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
         self.assertEqual(
             create,
             not bool(lang.pk),
-            'Failed to assert creation for {}: {}'.format(
-                original, create
-            )
+            'Failed to assert creation for {}: {}'.format(original, create),
         )
         # Create language
         lang = Language.objects.auto_get_or_create(original)
         # Check language code
         self.assertEqual(
-            lang.code,
-            expected,
-            'Invalid code for {0}: {1}'.format(original, lang.code)
+            lang.code, expected, 'Invalid code for {0}: {1}'.format(original, lang.code)
         )
         # Check direction
         self.assertEqual(
-            lang.direction,
-            direction,
-            'Invalid direction for {0}'.format(original)
+            lang.direction, direction, 'Invalid direction for {0}'.format(original)
         )
         # Check plurals
         plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
@@ -350,8 +195,8 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
             plural_obj.equation,
             plural,
             'Invalid plural for {0} (expected {1}, got {2})'.format(
-                original, plural, plural_obj.equation,
-            )
+                original, plural, plural_obj.equation
+            ),
         )
         # Check whether html contains both language code and direction
         self.assertIn(direction, lang.get_html())
@@ -372,6 +217,7 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
 
 class CommandTest(BaseTestCase):
     """Test for management commands."""
+
     def test_setuplang(self):
         call_command('setuplang')
         self.assertTrue(Language.objects.exists())
@@ -382,11 +228,7 @@ class CommandTest(BaseTestCase):
 
     def check_list(self, **kwargs):
         output = StringIO()
-        call_command(
-            'list_languages', 'cs',
-            stdout=output,
-            **kwargs
-        )
+        call_command('list_languages', 'cs', stdout=output, **kwargs)
         if PY2:
             self.assertIn(b'Czech', output.getvalue())
         else:
@@ -405,6 +247,7 @@ class CommandTest(BaseTestCase):
 
 class VerifyPluralsTest(TestCase):
     """In database plural form verification."""
+
     @staticmethod
     def all_data():
         return chain(LANGUAGES, EXTRAPLURALS)
@@ -413,14 +256,9 @@ class VerifyPluralsTest(TestCase):
         """Validate that we can name all plural equations"""
         for code, _unused, _unused, pluraleq in self.all_data():
             self.assertNotEqual(
-                get_plural_type(
-                    code.replace('_', '-').split('-')[0],
-                    pluraleq
-                ),
+                get_plural_type(code.replace('_', '-').split('-')[0], pluraleq),
                 data.PLURAL_UNKNOWN,
-                'Can not guess plural type for {0} ({1})'.format(
-                    code, pluraleq
-                )
+                'Can not guess plural type for {0} ({1})'.format(code, pluraleq),
             )
 
     def test_equation(self):
@@ -438,11 +276,8 @@ class VerifyPluralsTest(TestCase):
                 calculated,
                 nplurals,
                 'Invalid nplurals for {0}: {1} ({2}, {3})'.format(
-                    code,
-                    calculated,
-                    nplurals,
-                    pluraleq,
-                )
+                    code, calculated, nplurals, pluraleq
+                ),
             )
 
 
@@ -452,48 +287,31 @@ class LanguagesViewTest(FixtureTestCase):
         self.assertContains(response, 'Czech')
 
     def test_language(self):
-        response = self.client.get(reverse(
-            'show_language',
-            kwargs={'lang': 'cs'}
-        ))
+        response = self.client.get(reverse('show_language', kwargs={'lang': 'cs'}))
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
 
     def test_language_br(self):
-        response = self.client.get(reverse(
-            'show_language',
-            kwargs={'lang': 'br'}
-        ))
+        response = self.client.get(reverse('show_language', kwargs={'lang': 'br'}))
         self.assertContains(response, 'Breton')
         # Example is listed
         self.assertContains(response, '1000000')
 
     def test_project_language(self):
-        response = self.client.get(reverse(
-            'project-language',
-            kwargs={'lang': 'cs', 'project': 'test'}
-        ))
+        response = self.client.get(
+            reverse('project-language', kwargs={'lang': 'cs', 'project': 'test'})
+        )
         self.assertContains(response, 'Czech')
         self.assertContains(response, '/projects/test/test/cs/')
 
     def test_language_redirect(self):
-        response = self.client.get(reverse(
-            'show_language',
-            kwargs={'lang': 'cs_CZ'}
-        ))
-        self.assertRedirects(
-            response,
-            reverse(
-                'show_language',
-                kwargs={'lang': 'cs'}
-            )
-        )
+        response = self.client.get(reverse('show_language', kwargs={'lang': 'cs_CZ'}))
+        self.assertRedirects(response, reverse('show_language', kwargs={'lang': 'cs'}))
 
     def test_language_nonexisting(self):
-        response = self.client.get(reverse(
-            'show_language',
-            kwargs={'lang': 'nonexisting'}
-        ))
+        response = self.client.get(
+            reverse('show_language', kwargs={'lang': 'nonexisting'})
+        )
         self.assertEqual(response.status_code, 404)
 
     def test_add(self):
@@ -503,10 +321,7 @@ class LanguagesViewTest(FixtureTestCase):
         self.user.save()
         response = self.client.get(reverse('create-language'))
         self.assertEqual(response.status_code, 200)
-        response = self.client.post(
-            reverse('create-language'),
-            {'code': 'x'}
-        )
+        response = self.client.post(reverse('create-language'), {'code': 'x'})
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             reverse('create-language'),
@@ -516,26 +331,18 @@ class LanguagesViewTest(FixtureTestCase):
                 'direction': 'ltr',
                 'number': '2',
                 'equation': 'n != 1',
-            }
+            },
         )
         self.assertRedirects(response, reverse('show_language', kwargs={'lang': 'xx'}))
 
     def test_delete(self):
-        response = self.client.post(reverse(
-            'show_language',
-            kwargs={'lang': 'br'}
-        ))
+        response = self.client.post(reverse('show_language', kwargs={'lang': 'br'}))
         self.assertEqual(response.status_code, 200)
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(reverse(
-            'show_language',
-            kwargs={'lang': 'cs'}
-        ))
+        response = self.client.post(reverse('show_language', kwargs={'lang': 'cs'}))
         self.assertEqual(response.status_code, 200)
-        response = self.client.post(
-            reverse('show_language', kwargs={'lang': 'br'}),
-        )
+        response = self.client.post(reverse('show_language', kwargs={'lang': 'br'}))
         self.assertRedirects(response, reverse('languages'))
 
     def test_edit(self):
@@ -563,47 +370,30 @@ class LanguagesViewTest(FixtureTestCase):
 
 class PluralsCompareTest(TestCase):
     def test_match(self):
-        plural = Plural.objects.get(
-            language__code='cs', source=Plural.SOURCE_DEFAULT
-        )
-        self.assertTrue(
-            plural.same_plural(plural.number, plural.equation)
-        )
+        plural = Plural.objects.get(language__code='cs', source=Plural.SOURCE_DEFAULT)
+        self.assertTrue(plural.same_plural(plural.number, plural.equation))
 
     def test_formula(self):
-        plural = Plural.objects.get(
-            language__code='pt', source=Plural.SOURCE_DEFAULT
-        )
-        self.assertFalse(
-            plural.same_plural(2, '(n != 1)')
-        )
+        plural = Plural.objects.get(language__code='pt', source=Plural.SOURCE_DEFAULT)
+        self.assertFalse(plural.same_plural(2, '(n != 1)'))
 
     def test_different_formula(self):
-        plural = Plural.objects.get(
-            language__code='pt', source=Plural.SOURCE_DEFAULT
-        )
-        self.assertTrue(
-            plural.same_plural(2, '(n > 1)')
-        )
+        plural = Plural.objects.get(language__code='pt', source=Plural.SOURCE_DEFAULT)
+        self.assertTrue(plural.same_plural(2, '(n > 1)'))
 
     def test_different_count(self):
-        plural = Plural.objects.get(
-            language__code='lt', source=Plural.SOURCE_DEFAULT
-        )
+        plural = Plural.objects.get(language__code='lt', source=Plural.SOURCE_DEFAULT)
         self.assertFalse(
             plural.same_plural(
-                4, '(n%10==1 ? 0 : n%10==1 && n%100!=11 ?'
-                ' 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)'
+                4,
+                '(n%10==1 ? 0 : n%10==1 && n%100!=11 ?'
+                ' 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)',
             )
         )
 
     def test_invalid(self):
-        plural = Plural.objects.get(
-            language__code='lt', source=Plural.SOURCE_DEFAULT
-        )
-        self.assertFalse(
-            plural.same_plural(1, 'bogus')
-        )
+        plural = Plural.objects.get(language__code='lt', source=Plural.SOURCE_DEFAULT)
+        self.assertFalse(plural.same_plural(1, 'bogus'))
 
 
 class PluralTest(BaseTestCase):
@@ -611,7 +401,7 @@ class PluralTest(BaseTestCase):
         plural = Plural(number=2, equation='n!=1')
         self.assertEqual(
             plural.examples,
-            {0: ['1'], 1: ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
+            {0: ['1'], 1: ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']},
         )
 
     def test_plurals(self):
@@ -619,7 +409,7 @@ class PluralTest(BaseTestCase):
         plural = Plural.objects.get(language__code='cs')
         self.assertEqual(
             plural.plural_form,
-            'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'
+            'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;',
         )
 
     def test_plural_names(self):

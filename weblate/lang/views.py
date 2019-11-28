@@ -52,7 +52,7 @@ def show_languages(request):
             'languages': prefetch_stats(sort_objects(languages)),
             'title': _('Languages'),
             'global_stats': GlobalStats(),
-        }
+        },
     )
 
 
@@ -79,12 +79,8 @@ def show_language(request, lang):
         translation__language=obj
     )[:10]
     projects = request.user.allowed_projects
-    dicts = projects.filter(
-        dictionary__language=obj
-    ).distinct()
-    projects = projects.filter(
-        component__translation__language=obj
-    ).distinct()
+    dicts = projects.filter(dictionary__language=obj).distinct()
+    projects = projects.filter(component__translation__language=obj).distinct()
 
     for project in projects:
         project.language_stats = project.stats.get_single_language_stats(obj)
@@ -99,7 +95,7 @@ def show_language(request, lang):
             'last_changes_url': urlencode({'lang': obj.code}),
             'dicts': dicts,
             'projects': projects,
-        }
+        },
     )
 
 
@@ -115,15 +111,14 @@ def show_project(request, lang, project):
     pobj = get_project(request, project)
 
     last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj,
-        component__project=pobj
+        translation__language=obj, component__project=pobj
     )[:10]
 
     # Paginate translations.
-    translation_list = obj.translation_set.prefetch().filter(
-        component__project=pobj
-    ).order_by(
-        'component__name'
+    translation_list = (
+        obj.translation_set.prefetch()
+        .filter(component__project=pobj)
+        .order_by('component__name')
     )
     translations = get_paginator(request, translation_list)
 
@@ -135,14 +130,12 @@ def show_project(request, lang, project):
             'language': obj,
             'project': pobj,
             'last_changes': last_changes,
-            'last_changes_url': urlencode(
-                {'lang': obj.code, 'project': pobj.slug}
-            ),
+            'last_changes_url': urlencode({'lang': obj.code, 'project': pobj.slug}),
             'translations': translations,
             'title': '{0} - {1}'.format(pobj, obj),
             'search_form': SearchForm(request.user),
             'licenses': ', '.join(sorted(pobj.get_licenses())),
-        }
+        },
     )
 
 
@@ -152,10 +145,7 @@ class CreateLanguageView(CreateView):
 
     def get_form(self, form_class=None):
         kwargs = self.get_form_kwargs()
-        return (
-            LanguageForm(**kwargs),
-            PluralForm(**kwargs),
-        )
+        return (LanguageForm(**kwargs), PluralForm(**kwargs))
 
     def post(self, request, *args, **kwargs):
         self.object = None

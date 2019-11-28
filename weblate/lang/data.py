@@ -28,20 +28,7 @@ from weblate.langdata import languages
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
 # List of RTL languages
-RTL_LANGS = {
-    'ar',
-    'arc',
-    'ckb',
-    'dv',
-    'fa',
-    'ha',
-    'he',
-    'ks',
-    'ps',
-    'ug',
-    'ur',
-    'yi',
-}
+RTL_LANGS = {'ar', 'arc', 'ckb', 'dv', 'fa', 'ha', 'he', 'ks', 'ps', 'ug', 'ur', 'yi'}
 
 # Following variables are used to map Gettext plural equations
 # to one/few/may/other like rules
@@ -54,14 +41,11 @@ ONE_OTHER_PLURALS = (
     '(n > 1)',
     'n >= 2 && (n < 11 || n > 99)',
     'n % 10 != 1 || n % 100 == 11',
-    'n != 1 && n != 2 && n != 3 && '
-    '(n % 10 == 4 || n % 10 == 6 || n % 10 == 9)',
+    'n != 1 && n != 2 && n != 3 && ' '(n % 10 == 4 || n % 10 == 6 || n % 10 == 9)',
     '(n==0 || n==1)',
 )
 
-TWO_OTHER_PLURALS = (
-    '(n==2) ? 1 : 0',
-)
+TWO_OTHER_PLURALS = ('(n==2) ? 1 : 0',)
 
 ONE_FEW_OTHER_PLURALS = (
     'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
@@ -70,8 +54,7 @@ ONE_FEW_OTHER_PLURALS = (
     'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
     'n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2',
     'n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2',
-    '(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? '
-    '1 : 2)',
+    '(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? ' '1 : 2)',
     '(n == 0 || n == 1) ? 0 : ((n >= 2 && n <= 10) ? 1 : 2)',
     '(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : '
     '((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)',
@@ -85,18 +68,11 @@ ZERO_ONE_OTHER_PLURALS = (
     '((n % 10 == 1 && n % 100 != 11) ? 1 : 2)',
 )
 
-ONE_TWO_OTHER_PLURALS = (
-    'n==1 ? 0 : n==2 ? 1 : 2',
-    '(n == 1) ? 0 : ((n == 2) ? 1 : 2)',
-)
+ONE_TWO_OTHER_PLURALS = ('n==1 ? 0 : n==2 ? 1 : 2', '(n == 1) ? 0 : ((n == 2) ? 1 : 2)')
 
-ONE_OTHER_TWO_PLURALS = (
-    'n==1 ? 0 : n==2 ? 2 : 1',
-)
+ONE_OTHER_TWO_PLURALS = ('n==1 ? 0 : n==2 ? 2 : 1',)
 
-ONE_TWO_THREE_OTHER_PLURALS = (
-    '(n==1) ? 0 : (n==2) ? 1 : (n == 3) ? 2 : 3',
-)
+ONE_TWO_THREE_OTHER_PLURALS = ('(n==1) ? 0 : (n==2) ? 1 : (n == 3) ? 2 : 3',)
 
 ONE_TWO_FEW_OTHER_PLURALS = (
     '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3',
@@ -132,9 +108,7 @@ ONE_FEW_MANY_OTHER_PLURALS = (
     'n%10==0 || (n%100>10 && n%100<20) ? 2 : 3',
 )
 
-ONE_OTHER_ZERO_PLURALS = (
-    'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2',
-)
+ONE_OTHER_ZERO_PLURALS = ('n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2',)
 
 ZERO_ONE_TWO_THREE_SIX_OTHER = (
     '(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',

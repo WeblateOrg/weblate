@@ -30,4 +30,5 @@ class LangConfig(AppConfig):
 
     def ready(self):
         from weblate.lang.models import setup_lang
+
         post_migrate.connect(setup_lang, sender=self)
