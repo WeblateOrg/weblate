@@ -84,7 +84,7 @@ class RequireLoginMiddleware(object):
     def __init__(self, get_response=None):
         self.get_response = get_response
         self.required = self.get_setting_re(settings.LOGIN_REQUIRED_URLS)
-        self.exceptions = self.get_setting_re(setttings.LOGIN_REQUIRED_URLS_EXCEPTIONS)
+        self.exceptions = self.get_setting_re(settings.LOGIN_REQUIRED_URLS_EXCEPTIONS)
 
     def get_setting_re(self, setting):
         """Grab regexp list from settings and compiles them"""
