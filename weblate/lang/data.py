@@ -72,6 +72,7 @@ DEFAULT_LANGS = (
     'iu_ca',
     'ja_jp',
     'ka_ge',
+    'kk_kz',
     'kl_gl',
     'km_kh',
     'kn_in',
