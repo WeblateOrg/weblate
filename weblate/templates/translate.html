@@ -518,7 +518,7 @@
     {% trans "Glossary" %}
   </h4>
   </div>
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed table-simple">
         <thead>
         <tr>
         <th>{{ unit.translation.component.project.source_language }}</th>
@@ -526,7 +526,16 @@
         </tr>
         </thead>
         <tbody>
-        {% include "glossary-embed.html" %}
+            {% for item in glossary %}
+                <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
+                <td>{{ item.source }}</td>
+                <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                <td colspan="2">{% trans "No related strings found in the glossary." %}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% if user_can_add_dictionary %}
